@@ -33,6 +33,23 @@
       "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "537d72ff_21a7c53d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/js/jquery-ui.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:29:17Z",
+      "side": 1,
+      "message": "why is the jQuery file committed here?  If you use bower, that fetches the file at build time, right?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
