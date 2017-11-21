@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "9cb77e44_3f06374a",
+        "filename": "acumos-nexus-client/src/main/java/org/acumos/nexus/client/MvnRepo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:33:12Z",
+      "side": 1,
+      "message": "Was this code copied from some other project?  Like \"pp\" and \"mvnrepoadao\"?  If so, we must not assert our own license, but instead must preserve the original license.",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00c71e11_618f1a5e",
+        "filename": "acumos-platon/CONTRIBUTING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:33:12Z",
+      "side": 1,
+      "message": "Is this file for contributing to Acumos, or was it copied from another project?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ecf831e_4c7484f0",
+        "filename": "acumos-platon/mvnw.cmd",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:33:12Z",
+      "side": 1,
+      "message": "Why commit a DOS cmd script?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8499fde1_bc09ff00",
+        "filename": "acumos-platon/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:33:12Z",
+      "side": 1,
+      "message": "Who is de.vorb ?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28a01f29_a1017dfc",
         "filename": "acumos-portal-fe/src/main/webapp/app/bootstrap-star-rating/LICENSE.md",
         "patchSetId": 1
