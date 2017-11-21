@@ -291,6 +291,57 @@
     },
     {
       "key": {
+        "uuid": "42a8f899_2a04590f",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/common/RestPageRequestBETest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:48:44Z",
+      "side": 1,
+      "message": "this test does not do any comparisons!  It makes no assertions!  It is not a test because it can never, ever fail.",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aa18efd_c335c2db",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/common/RestPageResponseBETest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:48:44Z",
+      "side": 1,
+      "message": "remove this empty test?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ee9775e_03c052df",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/common/package-info.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:48:44Z",
+      "side": 1,
+      "message": "remove this useless file",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28a01f29_a1017dfc",
         "filename": "acumos-portal-fe/src/main/webapp/app/bootstrap-star-rating/LICENSE.md",
         "patchSetId": 1
