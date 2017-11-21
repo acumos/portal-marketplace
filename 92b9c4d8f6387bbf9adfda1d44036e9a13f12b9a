@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28a01f29_a1017dfc",
+        "filename": "acumos-portal-fe/src/main/webapp/app/bootstrap-star-rating/LICENSE.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:27:34Z",
+      "side": 1,
+      "message": "What is this license?  Did the Legal department review this?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37375a61_8165fc8d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/bootstrap-star-rating/bower.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:27:34Z",
+      "side": 1,
+      "message": "What\u0027s the license on this?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
