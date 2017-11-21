@@ -1,0 +1,77 @@
+<div class="posrel">
+      <alert-message msg="msg" icon="icon" styleclass="styleclass"
+            ng-show="showReadAlertMessage"></alert-message>
+</div>
+<div class="page-content">
+					<section class="pageheadsection">						
+						<div class="mdl-grid mdl-grid--no-spacing">
+							<div class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+								<span class="headline mob-disblock">Manage Notifications</span>
+								<ul class="c-breadcrumb">
+									<li><a class="#" ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+									<li>Manage Notifications</li>
+								</ul>
+							</div>
+							<!-- <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--4-col-phone text-right lg-v-self-center">
+								<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored hide-xs">add new model</button>
+								<button class="mdl-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect mob-add-button hide-sm hide-md hide-lg hide-xl"><i class="material-icons">add</i></button>
+							</div> -->
+						</div>						
+					</section>
+					<div class="page-wrapper2">
+						<!-- copy from here (start) -->
+						<div class="notification-btn-container">
+							<button class="mdl-button mdl-js-button btn-secondary" ng-click="refreshNotification()">Refresh</button>
+							<button class="mdl-button mdl-js-button btn-secondary" ng-click="markRead()">Mark as read</button>							
+							<button class="mdl-button mdl-js-button btn-secondary" ng-click="trashNotification()">Move to trash</button>
+							<div class="mdl-textfield mdl-js-textfield">
+									<input class="mdl-textfield__input notification-search" type="text" placeholder="Filter" ng-model = "search">
+									<!-- <label class="mdl-textfield__label" for="module-search"></label> -->
+								</div>
+							<!-- <div class="note-btn-container">
+										<button id="demo-menu-lower-right3" class="mdl-button mdl-js-button btn-sort bdr">
+											<span class="hide-xs">Sort By ID: All</span>
+											<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort</i></span>
+										  <i class="material-icons">keyboard_arrow_down</i>
+										</button>
+										<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist2" for="demo-menu-lower-right3">
+											<li class="mdl-menu__item">2147584</li>
+											<li class="mdl-menu__item">2147583</li>
+											<li class="mdl-menu__item">2147582</li>
+											<li class="mdl-menu__item">2147581</li> 
+										</ul>
+									</div> -->
+						
+						</div>
+						<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
+						  <thead>
+							<tr>
+							  <th>
+								<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1" id="checkbox-label">
+								  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model = "selectAll" ng-click = "setSelectAll()">
+								  <span class="mdl-checkbox__label"></span>
+								</label></th>
+							  <th>Sender Name</th>
+							  <th>Subject</th>
+							  <th>Date</th>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr ng-repeat="notification in notificationManageObj | filter:{message : search}">
+							<td>
+								<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" >
+								  <input type="checkbox" id="checkBox_{{$index}}" class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected">
+								  <span class="mdl-checkbox__label"></span>
+								</label>
+							</td>
+							  <td class="mdl-data-table__cell--non-numeric">Administrator<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
+							  <td>{{notification.message}}</td>
+							  <td>{{notification.start | date:"MM/dd/yyyy"}}</td>
+							</tr>
+						  </tbody>
+						</table>
+						<!-- copy up to here (end) -->					
+					</div>
+				</div>
+
+				

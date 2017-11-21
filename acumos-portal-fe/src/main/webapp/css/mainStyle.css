@@ -1,0 +1,47 @@
+.inline-block {display:inline-block;}
+.hidden {visibility:hidden;}
+.rowcontainer {clear:both; margin-bottom: 20px;}
+
+.display-block {display: block;}
+.valign_top {vertical-align:top;}
+.display-none {display: none;}
+.valign_middle {vertical-align:middle;}
+.valign_bottom {vertical-align:bottom;}
+
+.txtunderline {text-decoration: underline;}
+
+.posrel {position: relative;}
+.posabs {position: absolute;}
+
+.form-group { margin-bottom: 10px;}
+label.normallbl {font-weight: normal;}
+.btn-signin { min-width: 185px; height: 45px;}
+.btn-fullwidth { display: block; width: 100%; text-align:center;}
+.btn-fullwidth2 { display: block; width: 100%;height: 45px; text-align:center;}
+
+
+.btngray {background: rgb(228,228,228)}
+.btngray:hover {background: rgb(214,214,214)}
+
+.validationmsg {color: #ff0000; font-size: 12px;}
+.normalmsg {color: #999; font-size: 12px; line-height: 13px;}
+
+.socbtn {background: rgb(228,228,228);display: block; width: 100%;height: 45px;text-align:left; margin-bottom: 8px; padding-left:0  }
+.socbtn:hover {background: rgb(214,214,214)}
+
+.socbtn .socbtnicon {display: inline-block; width:45px; text-align:center; border-right: 2px solid rgb(201,201,201); line-height:40px; margin-right: 10px; position:relative; top: -7px; float:left;}
+.socbtn span i{font-size: 18px !important; line-height:45px;}
+.soctext{ display:inline-block; line-height:34px;}
+.box1 {padding: 0 15px; }
+
+.signintext, .signintext a {font-size: 13px;}
+.signinseperator {position: absolute; height: 78%; border-right:1px solid #ccc; left:-30px;}
+.signupseperator {position: absolute; height: 100%; border-right:1px solid #ccc; right:-30px;}
+.or_span {display: inline-block; background: #fff; padding: 15px; position:absolute;left:-22px; top: 45%; font-size:16px; }
+
+.modal-signin {width: 700px;}
+.modal-header {border-bottom: none;}
+.modal-footer {border-top: none; text-align:left; padding-top:0;}
+.modal-title {padding-top: 10px;}
+
+hr.hr1 {border: none; border-top: 1px dashed #ccc; margin:0 0 10px 0;}

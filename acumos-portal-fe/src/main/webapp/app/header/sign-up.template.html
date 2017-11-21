@@ -1,0 +1,146 @@
+<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-sign_up">
+								  
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Sign up to continue</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="handleDismiss()">
+										  <i class="material-icons btn-close-dialog">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									
+									  <div class="md-dialog-content">
+										<div class="mdl-grid mdl-grid--no-spacing">
+										  <div class="mdl-cell mdl-cell--6-col">
+										  <form name = "signupForm" ng-cloak novalidate>
+										  <div class="md-block">
+										  		 <md-input-container class="mdl-cell--6-col">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>First Name</label>												      
+												      <input type="text" name="firstName" ng-model="firstName" valid-username required>
+												      <div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!signupForm.firstName.$valid}">
+														<span ng-show="!!signupForm.firstName.$error.isBlank">First
+															Name Required.</span> <span
+															ng-show="!!signupForm.firstName.$error.invalidChars">First
+															name must contain letters &amp; special characters not allowed.</span> <span
+															ng-show="!!signupForm.firstName.$error.invalidLen">First
+															name must be 2-20 characters.</span>
+													</div>
+												 </md-input-container>
+												 <md-input-container class="mdl-cell--6-col pull-right">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Last Name</label>												      
+												      <input type="text" name="lastName" ng-model="lastName" valid-username required>
+												     
+												      <div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!signupForm.lastName.$valid}">
+														<span ng-show="!!signupForm.lastName.$error.isBlank">Last
+															Name Required.</span> <span
+															ng-show="!!signupForm.lastName.$error.invalidChars">Last
+															name must contain letters &amp; special characters not allowed.</span> <span
+															ng-show="!!signupForm.lastName.$error.invalidLen">First
+															name must be 2-20 characters.</span>
+													</div>
+												 </md-input-container>
+												 <span class="signupmsg">We're big on real names around here, so people know who's who</span>
+										</div>
+												 
+												 <md-input-container class="md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>User Name</label>												      
+												      <input name="username" ng-model="username" type="text" valid-username required>
+												      <span class="normalmsg"><span class="normalmsg"><!-- Your Acumos URL: https://acumos.com/ USERNAME --></span></span>
+												 	  <div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!signupForm.username.$valid}">
+														<span ng-show="!!signupForm.username.$error.isBlank">Username
+															Required.</span> <span
+															ng-show="!!signupForm.username.$error.invalidChars">Username
+															must contain letters &amp; special characters not allowed.</span> <span
+															ng-show="!!signupForm.username.$error.invalidLen">Username
+															must be 2-20 characters.</span>
+															<span ng-show="userExists">Username
+															already exists.</span>
+										</div>	
+												 </md-input-container>
+												  <md-input-container class="md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Email ID</label>												      
+												      <input name="uemail" ng-model="uemail" type="text" 
+												      ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
+												      <div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!signupForm.uemail.$valid}">
+														<span
+															ng-show="!!(signupForm.uemail.$dirty && signupForm.uemail.$error.required)">Email
+															ID Required.</span> <span
+															ng-show="!!(signupForm.uemail.$dirty && signupForm.uemail.$error.pattern)">
+															Please Enter Valid Email</span>
+													</div>
+												 </md-input-container>
+												 <md-input-container class="md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Password</label>												     
+												      <input name="pwd" class="ok-password" ng-model="pwd" type="password" valid-password required  maxlength="20">
+												      <div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!signupForm.pwd.$valid}">
+														<span ng-show="!!signupForm.pwd.$error.isBlank">Password
+															Required.</span> <span
+															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isWeak)">Must
+															contain one upper &amp; lower case letter and a non-letter
+															(number & symbol.)</span> <span
+															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.invalidLen)">Must
+															be 8-20 characters.</span>
+													</div>
+												 </md-input-container>
+
+												<div class="strength-meter" ng-if="!signupForm.pwd.$valid">
+													<div class="strength-meter-fill" ng-init="passwordStrength=null" data-strength="{{passwordStrength}}"></div>
+						                        </div>
+						                        <div class="strength-meter" ng-if="signupForm.pwd.$valid">
+													<div class="strength-meter-fill" data-strength="{{passwordStrength}}"></div>
+						                        </div>
+						                        						 
+												 <md-input-container class="md-block confirm-control">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Confirm Password</label>												     
+												      <input name="cpwd" ng-model="cpwd" type="password" valid-password-c required maxlength="20">
+												      <div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
+														<span ng-show="!!signupForm.cpwd.$error.isBlank">Confirm Password
+															Required.</span> <span
+															ng-show="!!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
+															don't match.</span>
+													</div>
+												 </md-input-container>
+												 												
+												<div>
+													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="signupForm.$invalid" ng-click="signUp()">Sign up</button>
+												</div>
+												<div>
+													<label>Already have an {{$root.siteInstanceName}} ID?</label> <a ng-click=" openlogin()">Sign In</a>
+												</div>
+										  </div>
+										  </form>
+										  <div class="mdl-cell mdl-cell--1-col posrel">
+										  		<div class="signinseperator"><span class="or_span">or</span></div>
+										  </div>
+										  <div class="mdl-cell mdl-cell--5-col">
+										  	<div class="socbtncontainer">
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn"  ng-click = "signupAuthenticate('google')"><span class="socbtnicon"><span class="att-icon"></span></span><span class="soctext">Sign In with Global UID</span></md-button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('github')"><span class="socbtnicon"><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn"><span class="socbtnicon"><span class="facebook-icon"></span></span><span class="soctext">Sign In with Facebook</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('google')"><span class="socbtnicon"><span class="google-icon"></span></span><span class="soctext">Sign In with Google</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn"><span class="socbtnicon"><span class="linkedin-icon"></span></span><span class="soctext">Sign In with LinkedIn</span></button>
+										  	</div>
+										  	<p class="signintext">
+												By signing up, you agree to our <a ui-sref="termsCondition" ng-click="handleDismiss()">Terms and Conditions and Privacy Policy.</a>
+											</p>
+										  </div>
+										</div>																	
+									  </div>
+									</md-dialog-content>
+									
+								  
+								</md-dialog>

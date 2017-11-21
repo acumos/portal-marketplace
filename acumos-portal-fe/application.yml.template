@@ -1,0 +1,28 @@
+##########################################################################
+########Property Files controlled by External docker-compose file#########
+app:
+  name: Acumos_Portal
+
+server:
+  port: 8085
+
+zuul:
+  routes:
+    api:
+      path: /api/**
+      sensitiveHeaders:
+      url: http://10.1.0.6:8083
+    site:
+      path: /site/**
+      sensitiveHeaders:
+      url: http://localhost:8080
+      stripPrefix: false
+    cmnt:
+      path: /cmnt/**
+      sensitiveHeaders:
+      url: http://localhost:8087
+spring:
+  http:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB

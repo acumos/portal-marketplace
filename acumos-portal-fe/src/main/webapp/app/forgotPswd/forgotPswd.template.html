@@ -1,0 +1,22 @@
+<section class="description_box" id="breadcrumb-box">
+  <h4>Home</h4>
+  <ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#"></a></li>
+  </ol>
+  </section> 
+<div class="col-md-12">
+	
+<section class="modal-dialog password">
+	<h4 class="modal-header" ng-if="forgotPassword">Forgot Password</h4>
+	<h4 class="modal-header" ng-if="expiredPassword">Your {{$root.siteInstanceName}} password has expired.</h4>
+	<form class="modal-body" name="forgotPswd">		
+		 <div class="form-group">
+			<label for="exampleInputPassword1">User Email Id</label>
+			<input type="email" class="form-control" id="uemail" name="uemail" ng-model="uemail" placeholder="Email ID" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
+		</div>
+		  <button type="submit" ng-click="forgotPasswd()" class="btn btn-default replybtn">Submit</button>
+	</form>
+</section>
+
+</div> 

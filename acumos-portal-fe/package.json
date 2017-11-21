@@ -1,0 +1,24 @@
+{
+  "name": "acumos",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "cacheDirectories": [
+    "node_modules",
+    "src/main/webapp/bower_components"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  	"bower": "1.7.9",
+    "browser-sync": "2.17.0",
+    "angular-socialshare": "^2.3.11",
+    "bootstrap-star-rating": "^4.0.2"
+  },
+  "engines": {
+    "node": "^4.3"
+  }
+}

@@ -1,0 +1,403 @@
+<!-- description_box start -->
+<section class="description_box container-fluid">
+	<div class="description-content">
+		<div class="description-content-left">
+			<h4 class="inline-block text-bold">Peer Configuration</h4>
+			<span>({{peers.length}} peers)</span>
+		</div>
+		<div class="description-content-right addpeer">
+			<button class="btn btn-default pull-right" ng-click="open()"><i class="fa fa-plus-circle" aria-hidden="true"></i>Add Peer</button>	
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<div>
+		<ol class="breadcrumb col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<li><a href="#">Home</a></li> 
+			<li><a ui-sref="adminConfig">Admin dashboard</a></li>
+			<li>Peer configuration</li>
+		</ol>
+	</div>
+	<div class="clearfix"></div>
+</section>
+<section class="container-fluid">
+<!-- description_box end -->
+	<section class="peer-container ">
+	<div>
+		<span class="error" ng-show="ribbonShow" class="">{{ribbonMsg}}</span>
+	</div>
+	<div class="peer-filter">
+		<div class="form-inline pull-left">
+			<label>Filter</label>
+			<div class="input-group stylish-input-group">
+				<input class="form-control" placeholder="Search" type="text">
+				<span class="input-group-addon">
+					<button type="submit">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>  
+				</span>
+			</div>
+		</div>
+		<div class="pull-right">
+			<div class="dropdown">
+			  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Sort By: All
+				<span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" aria-labelledby="dLabel">
+				<li><a href="#">peer 1</a></li>
+				<li><a href="#">peer 2</a></li>
+				<li><a href="#">peer 3</a></li>				
+			  </ul>
+			</div>
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table class="table ">
+		  <thead>
+			<tr>
+			  <th>Name</th>
+			  <th>Subscription</th>
+			  <th>API and Web URL</th>
+			  <th>Contact</th>
+			  <th>Status</th>
+			  <th>Action</th>
+			</tr>
+		  </thead>
+		  <tbody>
+		  <div infinite-scroll='loadMore()' infinite-scroll-disabled='busy' infinite-scroll-distance='1'>
+			<tr ng-repeat="peer in peers" >
+	            <td>{{peer.name}}</td>
+	            <td>{{peer.description}}</td>
+	            <td>
+                    <span><a href="#" alt="" title="">{{peer.apiUrl}}</a></span>
+                    <span><a href="#" alt="" title="">{{peer.webUrl}}</a></span>
+                </td>
+	            <td>
+                    <span>{{peer.contact1UserId}}</span>
+                    <span>{{peer.contact2UserId}}</span>
+                </td>
+	            <td>
+                    <div ng-switch="peer.active">
+                         <span ng-switch-when="true" class="text-left green">Active</span>
+                         <span ng-switch-default class="text-left gray">Deactivate</span>
+                    </div>
+                    <span>on {{peer.created}}</span>
+                </td>
+	            <td>
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    <i class="fa fa-pencil" aria-hidden="true" ng-click="updatePeer(peer.peerId, $index)"></i>
+                    <i class="fa fa-trash" aria-hidden="true"  ng-click="deletePeer(peer.peerId, $index)"></i>
+                </td>
+	        </tr>
+	        </div>
+		  </tbody>
+		</table>
+		</div>	
+		
+		<script type="text/ng-template" id="addEditPeerModal.html">
+
+        <div class="modal-header">
+				<button type="button" class="close"  aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Peers</h4>
+		</div>
+        <div class="modal-body" id="modal-body">
+			<div class="peer-statusbar row mobhide">
+					<div class="peer-details arrow_box">
+						<img src="images/peerdetail.jpg" alt="" title="">
+					</div>
+					<div class="peer-details-text">
+						Add Peer Details
+					</div>
+					<div class="peer-details-navigation">
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+					</div>
+					<div class="peer-details">
+						<img src="images/subscription.jpg" alt="" title="">
+					</div>				
+					<div class="peer-details-text gray">
+						Configure Subscription
+					</div>
+				</div>
+				<form class="row" name="addPeer" id="addPeer">
+					<div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Peer Name</label>
+							<input type="text" name="name" ng-model="editPeer.name" class="form-control"  placeholder="" required>
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Peer Subject Name</label>
+							<input type="text" name="subjectName" ng-model="editPeer.subjectName" class="form-control"  placeholder="" required>
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Peer Description</label>
+							<textarea class="form-control" name="description" ng-model="editPeer.description" rows="4"></textarea>
+						</div>						
+					</div>
+					<div class="peerform">
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>API URL</label>
+							<input type="text" class="form-control" name="apiUrl" ng-model="editPeer.apiUrl" placeholder="" required>
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Web URL</label>
+							<input type="text" class="form-control" name="webUrl" ng-model="editPeer.webUrl" placeholder="" required>
+						</div>
+					</div>
+					<div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Contact User 1</label>
+							<select class="form-control" name="contact1UserId" id="contact1UserId" ng-model="editPeer.contact1UserId" required>
+								<option ng-repeat="user in userDetails" value={{user.userId}}>{{user.emailId}}</option>
+							</select> 
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Contact User 2</label>
+							<select class="form-control" name="contact2UserId" id="contact2UserId" ng-model="editPeer.contact2UserId" required>
+								<option ng-repeat="user in userDetails" value={{user.userId}}>{{user.emailId}}</option>
+							</select> 
+						</div>
+					</div>
+				</form>
+				<div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default btn-left" type="button" ng-click="cancel()">Cancel</button>
+            <button type="submit" class="btn btn-default pull-right" ng-click="edPeer(editPeer.peerId)" ng-disabled="addPeer.$invalid">Next</button>
+        </div>
+
+    </script>
+    
+    
+    <script type="text/ng-template" id="deletePeerModal.html">
+
+        <div class="modal-header">
+				<button type="button" class="close"  aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Delete Peer</h4>
+		</div>
+        <div class="modal-body" id="modal-body">
+			
+				<div>
+					<h4 >Are you sure you want to delete peer from peer configuration?</h4>
+				</div>
+				<div>
+					<p>After clicking on confirmation button you are agree to delete peer from you peer configuration list. All the modles for this peer can deacativate from your cataloge.</p>
+				</div>
+				<div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default btn-left" type="button" ng-click="cancel()">Cancel</button>
+            <button type="submit" class="btn btn-default pull-right" ng-click="confirmDelete(peerId, idx)">Confirm</button>
+        </div>
+</script>
+    
+
+		<!-- popups -->
+		<!-- <div class="modal fade peerpopup " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Peers</h4>
+			  </div>
+			  <div class="modal-body">
+				<div class="peer-statusbar row mobhide">
+					<div class="peer-details arrow_box">
+						<img src="images/peerdetail.jpg" alt="" title="">
+					</div>
+					<div class="peer-details-text">
+						Add Peer Details
+					</div>
+					<div class="peer-details-navigation">
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+					</div>
+					<div class="peer-details">
+						<img src="images/subscription.jpg" alt="" title="">
+					</div>				
+					<div class="peer-details-text gray">
+						Configure Subscription
+					</div>
+				</div>
+				<form class="row" name="addPeer" id="addPeer">
+					<div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Peer Name</label>
+							<input type="text" name="name" ng-model="editPeer.name" class="form-control"  placeholder="">
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Peer Subject Name</label>
+							<input type="text" name="subjectName" ng-model="editPeer.subjectName" class="form-control"  placeholder="">
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Peer Description</label>
+							<textarea class="form-control" name="description" ng-model="editPeer.description" rows="4"></textarea>
+						</div>						
+					</div>
+					<div class="peerform">
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>API URL</label>
+							<input type="text" class="form-control" name="apiUrl" ng-model="editPeer.apiUrl" placeholder="">
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Web URL</label>
+							<input type="text" class="form-control" name="webUrl" ng-model="editPeer.webUrl" placeholder="">
+						</div>
+					</div>
+					<div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Contact User 1</label>
+							<input type="text" class="form-control" name="contact1UserId" ng-model="editPeer.contact1UserId" placeholder="">
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+							<label>Contact User 2</label>
+							<input type="text" class="form-control" name="contact2UserId" ng-model="editPeer.contact2UserId" placeholder="">
+						</div>
+					</div>
+				</form>
+				<div class="clearfix"></div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default btn-left" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-default pull-right" ng-click="addPeer(editPeer.peerId)">Next</button>
+			  </div>
+			</div>
+		  </div>
+		</div> -->
+	<!-- popups 2 -->
+	<script type="text/ng-template" id="addEditSubscriptionModal.html"> 
+		<!--<div class="modal fade peerpopup " id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+			  <div class="modal-header">
+				<button type="button" class="close" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Peers</h4>
+			  </div>
+			  <div class="modal-body">
+				<div class="peer-statusbar row mobhide">
+					<div class="peer-details">
+						<i class="fa fa-check green" aria-hidden="true"></i>
+					</div>
+					<div class="peer-details-text green">
+						Add Peer Details
+					</div>
+					<div class="peer-details-navigation">
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-circle" aria-hidden="true"></i>
+						<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+					</div>
+					<div class="peer-details arrow_box">
+						<img src="images/subscription-active.jpg" alt="" title="">
+					</div>				
+					<div class="peer-details-text">
+						Configure Subscription
+					</div>
+				</div>
+				<div>
+					<ul>
+						<li>Select Categories (27)</li>
+						<li> | </li>
+						<li class="filterbox">
+							<div class="form-inline pull-left">
+								<label>Filter</label>
+								<div class="input-group stylish-input-group">
+									<input class="form-control" placeholder="Search" type="text">
+									<span class="input-group-addon">
+										<button type="submit">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>  
+									</span>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="peertable">
+						<table class="table table-bordered">
+							<!-- <tr>
+								<td>
+									<div class="checkbox">
+										<label>
+										  <input type="checkbox"> Classification
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="checkbox">
+										<label>
+										  <input type="checkbox"> Regression
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="checkbox">
+										<label>
+										  <input type="checkbox"> Prediction
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="checkbox">
+										<label>
+										  <input type="checkbox"> Category 4
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="checkbox">
+										<label>
+										  <input type="checkbox"> Category 5
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="checkbox">
+										<label>
+										  <input type="checkbox"> Category 6
+										</label>
+									</div>
+								</td>
+							</tr> -->
+							<tr ng-repeat="category in categoryList">
+								<td>
+									<div class="checkbox">
+										<label>
+										  <input type="checkbox" value="{{category.typeCode}}"/> {{category.typeName}}
+										</label>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+				<form class="row" name="addSubscription" id="addSubscription">
+					
+					
+					
+				</form>
+				<div class="clearfix"></div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default btn-left" ng-click="previous(peerCategory)">Previous</button>
+				<button type="button" class="btn btn-default btn-left" ng-click="cancel()">Cancel</button>
+				<button type="button" class="btn btn-default pull-right" ng-click="cancel()">Done</button>
+			  </div>
+		<!--</div> -->
+</script>
+	</section>
+<!-- product section -->
+<!-- product section end-->
+</section>

@@ -1,0 +1,72 @@
+##########################################################################
+########Property Files controlled by External docker-compose file#########
+
+# REST endpoint configuration; i.e., where this server listens
+server.port=8083
+server.contextPath=/
+
+#security.user.name=portal_client
+#security.user.password = ENC(CTQD7Xk5bOIuC4MaqRZtzjW1K4ArjCjr)
+#security.user.password=portal_pass
+management.security.roles=SUPERUSER
+
+
+#JWT Token secret key
+jwt.auth.secret.key=secret
+
+
+# CDmS REST endpoints are protected by HTTP Basic Authentication
+#Common Data Source Configuration
+cdms.client.url=http://10.1.0.6:8002/ccds
+cdms.client.username=ccds_client
+cdms.client.password=ccds_client
+
+#Email Configuration
+#spring.mail.host=
+#spring.mail.port=
+#spring.mail.username=
+#spring.mail.password=
+spring.mail.smtp.starttls.enable=true
+spring.mail.smtp.auth=true
+spring.mail.debug=true
+spring.mail.transport.protocol=smtp
+spring.mail.template.folder.path=/fmtemplates/
+
+# Max file size.
+spring.http.multipart.max-file-size=-1
+# Max request size.
+spring.http.multipart.max-request-size=-1
+
+#Nexus Configuration
+nexus.url=http://mvnrepo.com:8081/repository/repo_acumos_model_maven/
+nexus.username=acumos_model_rw
+nexus.password=not4you
+nexus.groupId=com.artifact
+#nexus.proxy=http://one.proxy.att.com:8080
+
+#Validation API Configuration
+portal.submitValidation.api=http://localhost:9602/status/v1.0/tasks
+portal.getValidation.api=http://localhost:9000/status
+
+#FeatureController
+portal.feature.email=false
+portal.feature.validateModel=false
+
+#model upload storage folder path
+model.storage.folder.path=./temp
+###################################################################
+###########################################################################
+#Dev
+docker.host=acumos-dev1-vm01-core
+docker.port=4243
+docker.config=/docker_host/.docker
+docker.registry.url=http://acumos-nexus01:8001/
+docker.registry.username=acumos_model_rw
+docker.registry.password=not4you
+docker.registry.email=admin@acumos.org
+docker.tls.verify=false
+docker.api.version=1.23
+docker.imagetag.prefix=acumos-nexus01:8001
+docker.max_total_connections=1
+docker.max_per_route_connections=1
+###########################################################################

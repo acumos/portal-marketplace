@@ -1,0 +1,6 @@
+market-footer, sidebar-nav, header-nav{
+    display:none !important
+}
+.mdl-layout--fixed-drawer>.mdl-layout__content {
+    margin-left: 0;
+}

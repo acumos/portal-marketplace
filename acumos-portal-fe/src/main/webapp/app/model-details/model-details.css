@@ -1,0 +1,24 @@
+.tumb-arrow{
+  line-height: 6;
+  display: inline-block;
+  float: left;
+}
+
+.thumbnail-container {
+  margin-top: 10px;
+ margin-left: 10px;
+  padding: 15px;
+}
+
+.sol-download{
+  margin-bottom: 10px;
+}
+.description_box{
+    margin-bottom: 10px;
+    padding: 10px;
+
+}
+
+.dropdown {
+  display: inline-block;
+}

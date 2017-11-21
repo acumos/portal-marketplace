@@ -1,0 +1,12 @@
+<form class="platon-form" v-on:submit.prevent="postComment()">
+    <textarea class="platon-form-text" v-model="markdown" v-show="!showPreview"
+              placeholder="Comment text"></textarea>
+    <div class="platon-form-preview" v-if="showPreview" v-html="comment.text" v-bind:style="previewStyle"></div>
+    <a href=""
+       v-on:click.prevent="togglePreview">{{ showPreview ? 'Hide Preview' : 'Preview' }}</a><br>
+    <label><input type="text" class="platon-form-author" v-model="comment.author"> Author</label><br>
+    <label><input type="text" class="platon-form-email" v-model="comment.email"> Email</label><br>
+    <label><input type="text" class="platon-form-url" v-model="comment.url"> Website</label><br>
+    <label><input type="checkbox" v-model="rememberUser"> Remember me</label><br>
+    <input type="submit" value="Submit">
+</form>
