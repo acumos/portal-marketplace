@@ -70,6 +70,227 @@
     },
     {
       "key": {
+        "uuid": "1790f32b_0804a73c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Please remove names like this",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdee0625_0f94c473",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/Application.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Please remove name",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15209b8c_c8320280",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/SwaggerConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "We should be mentioning Apache 2.0 here",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24cd8592_88857911",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/exception/AcumosPortalExceptionCode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Please remove author name",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc134ecb_20594abc",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/exception/AcumosPortalExceptionCode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Exception classes should have constructor that accepts String - the error message",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "531426a9_991d24b0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/exception/package-info.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Remove this empty package-info file",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16af5707_6f359f27",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/DockerClientConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Ideally Logback will NOT be imported directly into code.  Can a Level from slf4j be used here?",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1fd0cf8_d0c85432",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/package-info.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "remove this empty package-info file",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30fb4cdc_4aa66e9a",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AbstractController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "remove this name",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83b126f9_543db95d",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Do these @CrossOrigin annotations make the methods forever vulnerable to CSRF attacks?  CSRF can be turned on/off at the Spring configuration level, instead of on every controller method.",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8f496aa_3bc4c104",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AuthServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Remove code, don\u0027t comment it out",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50ab6d7c_59b696d0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Remove name",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "033160e8_7750ae39",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-21T23:46:54Z",
+      "side": 1,
+      "message": "Remove code, don\u0027t comment it out",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28a01f29_a1017dfc",
         "filename": "acumos-portal-fe/src/main/webapp/app/bootstrap-star-rating/LICENSE.md",
         "patchSetId": 1
