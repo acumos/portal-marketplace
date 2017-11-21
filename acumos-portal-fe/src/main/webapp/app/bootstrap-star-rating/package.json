@@ -1,0 +1,95 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "bootstrap-star-rating@^4.0.2",
+        "scope": null,
+        "escapedName": "bootstrap-star-rating",
+        "name": "bootstrap-star-rating",
+        "rawSpec": "^4.0.2",
+        "spec": ">=4.0.2 <5.0.0",
+        "type": "range"
+      },
+      "D:\\scfsdk\\v8\\acumos_dev\\portal-marketplace\\acumos-portal-fe"
+    ]
+  ],
+  "_from": "bootstrap-star-rating@>=4.0.2 <5.0.0",
+  "_id": "bootstrap-star-rating@4.0.2",
+  "_inCache": true,
+  "_location": "/bootstrap-star-rating",
+  "_nodeVersion": "4.4.5",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/bootstrap-star-rating-4.0.2.tgz_1467672963344_0.017104598926380277"
+  },
+  "_npmUser": {
+    "name": "bruce-mitchell",
+    "email": "bruce@codescience.co.za"
+  },
+  "_npmVersion": "3.9.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "bootstrap-star-rating@^4.0.2",
+    "scope": null,
+    "escapedName": "bootstrap-star-rating",
+    "name": "bootstrap-star-rating",
+    "rawSpec": "^4.0.2",
+    "spec": ">=4.0.2 <5.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/bootstrap-star-rating/-/bootstrap-star-rating-4.0.2.tgz",
+  "_shasum": "6405e26202500d0cebb38e243d5c7bc4b40b75b8",
+  "_shrinkwrap": null,
+  "_spec": "bootstrap-star-rating@^4.0.2",
+  "_where": "D:\\scfsdk\\v8\\acumos_dev\\portal-marketplace\\acumos-portal-fe",
+  "author": {
+    "name": "Kartik Visweswaran",
+    "email": "kartikv2@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/kartik-v/bootstrap-star-rating/issues"
+  },
+  "dependencies": {},
+  "description": "A simple yet powerful JQuery star rating plugin for Bootstrap.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "6405e26202500d0cebb38e243d5c7bc4b40b75b8",
+    "tarball": "https://registry.npmjs.org/bootstrap-star-rating/-/bootstrap-star-rating-4.0.2.tgz"
+  },
+  "gitHead": "87d0ba3f9256aaa2e11386ef6f3cc47824860911",
+  "homepage": "https://github.com/kartik-v/bootstrap-star-rating",
+  "keywords": [
+    "bootstrap",
+    "star",
+    "rating",
+    "font",
+    "awesome",
+    "glyphicon",
+    "svg"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "js/star-rating.min.js",
+  "maintainers": [
+    {
+      "name": "bruce-mitchell",
+      "email": "bruce@codescience.co.za"
+    }
+  ],
+  "name": "bootstrap-star-rating",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "jquery": ">= 1.9.0",
+    "bootstrap": "~3"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kartik-v/bootstrap-star-rating.git"
+  },
+  "scripts": {},
+  "version": "4.0.2"
+}

@@ -1,0 +1,87 @@
+.platon-comments {
+    max-width: 40rem;
+}
+
+.platon-comment {
+    clear: left;
+    min-height: 48px;
+}
+
+.platon-comment > * {
+    margin-left: 58px;
+}
+
+.platon-comment > .platon-comment {
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+.platon-comment > .platon-avatar {
+    float: left;
+    margin: 0 10px 10px 0;
+    width: 48px;
+}
+
+.platon-avatar img {
+    width: 48px;
+    height: 48px;
+}
+
+.platon-comment + .platon-comment, .platon-actions + .platon-comment, .platon-actions + .platon-form {
+    margin-top: 1rem;
+}
+
+.platon-author {
+    font-weight: bold;
+}
+
+.platon-text p {
+    margin: 0.5rem 0;
+}
+
+.platon-meta, .platon-actions {
+    font-size: 0.8rem;
+}
+
+.platon-meta {
+    margin-bottom: 0.5rem;
+}
+
+.platon-actions {
+    margin-top: 0.5rem;
+}
+
+.platon-form {
+    clear: left;
+}
+
+.platon-form input {
+    margin-bottom: 0.5rem;
+}
+
+.platon-form-text {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-height: 7.5rem;
+    line-height: 1.5;
+}
+
+.platon-form-preview {
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.platon-comment > div.platon-text {
+    padding-right: -1px;
+}
+
+.platon-form-preview > * {
+    margin-top: 0;
+}
+
+.platon-form-preview > *:last-child {
+    margin-bottom: 0;
+}

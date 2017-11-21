@@ -1,0 +1,50 @@
+<section class="description_box" id="breadcrumb-box">
+  <h4>Home</h4>
+  <ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#"></a></li>
+  </ol>
+  </section> 
+<div class="col-md-12">
+	
+<section class="modal-dialog password">
+	<h4 class="modal-header">Change Password ?</h4>
+	<span class="error" ng-show="ribbonShow" class="">{{ribbonMsg}}</span>
+	<form class="modal-body" name="resetPswd">		
+		 <div class="form-group">
+			<label for="exampleInputPassword1">Old Password</label>
+			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" ng-model="oldPswd" required>
+		  </div>
+		  <!-- <div class="form-group">
+			<label for="exampleInputPassword2">New Password</label>
+			<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+		  </div>
+		  <div class="form-group">
+			<label for="exampleInputPassword3">Confirm New Password</label>
+			<input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+		  </div> -->
+		  
+		  <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="Password" class="form-control signincontrol" id="pwd" name="pwd" ng-model="newPswd" placeholder="Password" valid-password>
+               <div class="help-inline" ng-class="{validationmsg:!resetPswd.pwd.$valid}">
+        <span ng-show="!!resetPswd.pwd.$error.isBlank">Password Required.</span>
+        <span ng-show="!! (resetPswd.pwd.$dirty && resetPswd.pwd.$error.isWeak)">Must contain one upper &amp; lower case letter and a non-letter (number or symbol.)</span>
+        <span ng-show="!! (resetPswd.pwd.$dirty && resetPswd.pwd.$error.invalidLen)">Must be 8-20 characters.</span>
+        </div>
+                </div>
+                <div class="form-group">
+                <label for="exampleInputPassword1">Confirm Password</label>
+                <input type="Password" class="form-control signincontrol" id="cpwd" name="cpwd" ng-model="cpwd" placeholder="Password" valid-pswd-c>
+                 <div class="help-inline" ng-class="{validationmsg:!resetPswd.cpwd.$valid}">
+          <span ng-show="!!resetPswd.cpwd.$error.isBlank">Confirmation Required.</span>
+          <span ng-show="!!(resetPswd.cpwd.$dirty && resetPswd.cpwd.$error.noMatch)">Passwords don't match.</span>
+        </div>
+                </div>
+		  
+		  
+		  <button type="submit" ng-click="changePswd()" class="btn btn-default replybtn">Submit</button>
+	</form>
+</section>
+
+</div> 

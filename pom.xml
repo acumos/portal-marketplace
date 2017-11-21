@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.acumos</groupId>
+	<artifactId>portal-marketplace</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Acumos MarketPlace Portal Parent Project</name>
+	<description>Acumos MarketPlace Portal Parent Project</description>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<!-- All acumos.nexus.* are overridden by Jenkins settings -->
+		<acumos.nexus.url>http://cognita-nexus01.eastus.cloudapp.azure.com:8081</acumos.nexus.url>
+		<acumos.nexus.snapshot.path>repository/repo_cognita_platform_maven_snapshots</acumos.nexus.snapshot.path>
+		<acumos.nexus.release.path>repository/repo_cognita_platform_maven</acumos.nexus.release.path>
+	</properties>
+	
+	<modules>
+		<module>acumos-platon</module>
+		<module>acumos-nexus-client</module>
+		<module>acumos-portal-be</module>
+		<module>acumos-portal-fe</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<!-- Skip the deployment step, this makes jenkins config easy -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<!-- Spring sets the <version>2.8</version> -->
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

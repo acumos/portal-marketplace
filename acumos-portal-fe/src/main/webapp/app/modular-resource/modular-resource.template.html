@@ -1,0 +1,861 @@
+<!--  <main class="mdl-layout__content initialVal hasClass"> -->
+<div class="page-content">
+	<section class="pageheadsection gray-bg">
+		<div layout="row" layout-xs="column" layout-fill
+			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
+			<div
+				class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
+				<div>
+					<span class="headline mob-disblock">On-Boarding Model</span>
+				</div>
+				<ul class="c-breadcrumb">
+					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>					
+					<li><span>On-Boarding Model</span></li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<div class="page-wrapper2">
+		<div class="mdl-grid mdl-grid--no-spacing">
+			<div class="mdl-cell mdl-cell--12-col posrel onboarding">
+				<div id="mdl-table">
+					<div
+						class="mdl-textfield peerpopup onboardpeer mdl-js-textfield mdl-textfield--expandable is-upgraded is-focused mdl-cell--12-col">
+						<div  data-ng-init="getonboardingOverview()" ng-bind-html="onboard_overview"></div>
+						<!-- Some information can be display related to this On-Boarding, such
+						as how to complete this task what are data required.  --></div>
+					<div class="posrel">
+						<md-tabs md-dynamic-height md-border-bottom> <md-tab
+							label="On-Boarding By Command Line"> <md-content
+							class="md-padding"> <!-- On-Boarding By Command Line section -->
+						<div
+							class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+							<div class="mdl-grid mdl-grid--no-spacing">
+								<div class="mdl-cell workflow-left">
+									<!-- <div class="mdl-tabs__tab-bar"> -->
+									<div>
+										<ul class="tabs-left">
+											<!-- <li><a href="#onboard" class="mdl-tabs__tab"> div class="managelefticon"> <i><img src="images/status-sml.png" alt="" title=""></i> </div
+													<div class="managelefttext">
+														<article>RCloud</article>
+														ul class="green">
+                                      <li>5 Completed on 05/27/2017</li>
+                                    </ul
+													</div>
+											</a></li> -->
+											<li><a href="#share" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/share1.png" alt="" title=""></i> </div-->
+													<div class="managelefttext">
+														<article>H2O</article>
+														<!--ul class="">
+                                      <li>Share with 6 co-workers</li>
+                                    </ul-->
+													</div>
+											</a></li>
+											<li><a href="#company" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/Publish1.png" alt="" title=""></i> </div-->
+													<div class="managelefttext">
+														<article>TensorFlow</article>
+														<!--ul class="red">
+                                      <li>Not Started</li>
+                                    </ul-->
+													</div>
+											</a></li>
+											<li><a href="#catalog" class="mdl-tabs__tab is-active">
+													<!--div class="managelefticon"> <i><img src="images/publish-to-onap3.png" alt="" title=""></i> </div-->
+													<div class="managelefttext">
+														<article>Scikit Learn</article>
+														<!--ul class="gray">
+                                      <li>You must be publish to company marketplace first</li>
+                                    </ul-->
+													</div>
+											</a></li>
+											<li><a href="#public" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/publish-to-public1.png" alt="" title=""></i> </div-->
+													<div class="managelefttext">
+														<article>R</article>
+														<!--ul class="red">
+                                      <li>Not started</li>
+                                    </ul-->
+													</div>
+											</a></li>
+											<li><a href="#cloud" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/export1.png" alt="" title=""></i> </div-->
+													<div class="managelefttext">
+														<article>Java</article>
+														<!--ul class="red">
+                                      <li>Not started</li>
+                                    </ul-->
+													</div>
+											</a></li>
+											<!--li> <a href="#viewdownload" class="mdl-tabs__tab">
+                                  <div class="managelefticon-single"> <i><img src="images/view-download-1.png" alt="" title=""></i> </div>
+                                  <div class="managelefttext">
+                                    <article>View Download</article>
+                                  </div>
+                                  </a> </li>
+                                <li> <a href="#comments" class="mdl-tabs__tab">
+                                  <div class="managelefticon-single"> <i><img src="images/reply-1.png" alt="" title=""></i> </div>
+                                  <div class="managelefttext">
+                                    <article>Reply to Comments</article>
+                                  </div>
+                                  </a> </li>
+                                <li> <a href="#delete" class="mdl-tabs__tab">
+                                  <div class="managelefticon-single"> <i><img src="images/Delete1.png" alt="" title=""></i> </div>
+                                  <div class="managelefttext">
+                                    <article>Delete Model</article>
+                                  </div>
+                                  </a> </li-->
+										</ul>
+									</div>
+								</div>
+								<div class="mdl-cell workflow-right">
+									<div class="mdl-tabs__panel timeline"  data-ng-init="getRCloudContent('rcloud')" ng-bind-html="RCloud" id="onboard">
+										<!-- timeline start -->
+										<!--div class="timeline">
+                                <div>
+                                  <div class="timeline-centered">
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon bg-success"> <span class="entypo-feather fa fa-check"></span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Client Library selected and downloaded | <span class="green">Completed on 05/27/2017</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data required.</p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon bg-success"> <span class="entypo-feather fa fa-check"></span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Instrospection | <span class="green">Completed on 05/27/2017</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data required.</p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon bg-success"> <span class="entypo-feather fa fa-check"></span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Model and artifacts uploaded | <span class="green">Completed on 05/27/2017</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data required.</p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon bg-success"> <span class="entypo-feather fa fa-check"></span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Tosca model generated | <span class="green">Completed on 05/27/2017</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data required.</p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon bg-success"> <span class="entypo-feather fa fa-check"></span> </div>
+                                        <div class="timeline-label last">
+                                          <h2>Model available in private catalog | <span class="green">Completed on 05/27/2017</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data required.</p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                  </div>
+                                </div>
+                              </div-->
+										<!-- timeline end -->
+									</div>
+									<!-- share start -->
+									<div class="mdl-tabs__panel timeline"  data-ng-init="getH2OContent('h2o')" ng-bind-html="h2o" id="share" >
+										<!--p> Sharing a model gives co-authorship to that person. They will be able to edit, share and publish, just as a model owner can. </p>
+                              <div class="share-members">
+                                <p> <span class="purple">This Model shared with below team members | </span><span class="green">(7 members)</span> </p>
+                                <div> <span class="team-user"> <i> <img id="owner11" src="images/owner1.png" alt="" title=""> <span class="team-user-close"> <i class="fa fa-times-circle-o" aria-hidden="true"></i> </span>
+                                  <div class="mdl-tooltip" data-mdl-for="owner11"> owner </div>
+                                  </i> <i> <img id="owner12" src="images/owner2.png" alt="" title=""> <span class="team-user-close"> <i class="fa fa-times-circle-o" aria-hidden="true"></i> </span>
+                                  <div class="mdl-tooltip" data-mdl-for="owner12"> owner </div>
+                                  </i> <i> <img src="images/owner3.png" alt="" title=""> <span class="team-user-close"> <i class="fa fa-times-circle-o" aria-hidden="true"></i> </span> </i> <i><img src="images/owner4.png" alt="" title=""></i> <i><img src="images/owner1.png" alt="" title=""></i> <i><img src="images/owner2.png" alt="" title=""></i> <i><img src="images/owner3.png" alt="" title=""></i> <i><img src="images/owner4.png" alt="" title=""></i> </span> </div>
+                              </div>
+                              <div>
+                                <ul class="ulinline-dash">
+                                  <li class="purple">Sharing "Name of ML solution</li>
+                                  <li>|</li>
+                                  <li>version-2.0</li>
+                                  <li>|</li>
+                                  <li>Model ID-234831</li>
+                                </ul>
+                              </div>
+                              <form>
+                                <div>
+                                  <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" id="sample3">
+                                    <label class="mdl-textfield__label" for="Link">Link to Model</label>
+                                  </div>
+                                  <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" id="sample3">
+                                    <label class="mdl-textfield__label" for="Share"><span class="error">*</span>Share with</label>
+                                  </div>
+                                  <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
+                                    <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ></textarea>
+                                    <label class="mdl-textfield__label" for="Message">Message (optional)</label>
+                                  </div>
+                                  <div class="mdl-cell pull-right text-right">
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary "> Share </button>
+                                  </div>
+                                </div>
+                              </form-->
+									</div>
+									<!-- share end -->
+									<!-- company start -->
+									<div class="mdl-tabs__panel company-market timeline" data-ng-init="getTensorflowContent('tensor-flow')" ng-bind-html="tensorflow"
+										id="company">
+										<h6>Tensorflow</h6>
+										<p>Your Text Goes Here...</p>
+										<!-- Sign in Modal box end -->
+									</div>
+									<!-- company end -->
+									<!-- catalog start -->
+									<div class="mdl-tabs__panel is-active timeline cont" data-ng-init="getscikitLearnContent('scikit-learn')" ng-bind-html="scikitlearn"
+										id="catalog">
+									</div>
+									
+									<!-- catalog end -->
+									<!-- public start -->
+									<div class="mdl-tabs__panel timeline company-market" data-ng-init="getRContent('r')" ng-bind-html="R"
+										id="public">
+										<!--div>
+                                <ul>
+                                  <li>
+                                    <div class="imageplace active"> <span class="imagecontent"> <img src="images/submit-to-publication.png" alt="" title=""> </span> </div>
+                                    <div class="text"> Submit to Publication </div>
+                                  </li>
+                                  <li class="progress-status green"> </li>
+                                  <li>
+                                    <div class="imageplace"> <span class="imagecontent"> <img src="images/security-scan.png" alt="" title=""> </span> </div>
+                                    <div class="text"> Security scan </div>
+                                  </li>
+                                  <li class="progress-status"> </li>
+                                  <li>
+                                    <div class="imageplace"> <span class="imagecontent"> <img src="images/verify-model.png" alt="" title=""> </span> </div>
+                                    <div class="text"> Verify Model </div>
+                                  </li>
+                                  <li class="progress-status"> </li>
+                                  <li>
+                                    <div class="imageplace"> <span class="imagecontent"> <img src="images/license-check.png" alt="" title=""> </span> </div>
+                                    <div class="text"> License Check </div>
+                                  </li>
+                                  <li class="progress-status"> </li>
+                                  <li>
+                                    <div class="imageplace"> <span class="imagecontent"> <img src="images/text-check.png" alt="" title=""> </span> </div>
+                                    <div class="text"> Text Check </div>
+                                  </li>
+                                  <li class="progress-status"> </li>
+                                  <li>
+                                    <div>
+                                      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary "> Publish </button>
+                                    </div>
+                                    <div class="text"> Publish to Public Marketplace </div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" style="width:6%;"></div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="timeline">
+                                <h6>Step To Submit Publication <span>( 5/10 Completed )</span>
+                                  <div class="pull-right">
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button>
+                                  </div>
+                                </h6>
+                                <div class="">
+                                  <div class="timeline-centered">
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon"> <span class="entypo-suitcase">1</span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Model Name | <span class="red">Not Started</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                          <p>
+                                          <div class="checkbox">
+                                            <label>
+                                              <input type="checkbox">
+                                              Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                          </div>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon"> <span class="entypo-suitcase">2</span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Model Description | <span class="red">Not Started</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                          <p>
+                                          <div class="checkbox">
+                                            <label>
+                                              <input type="checkbox">
+                                              Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                          </div>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon"> <span class="entypo-suitcase">3</span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Model Category | <span class="red">Not Started</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                          <p>
+                                          <div class="checkbox">
+                                            <label>
+                                              <input type="checkbox">
+                                              Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                          </div>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon"> <span class="entypo-suitcase">4</span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Model Documents | <span class="red">Not Started</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                          <p>
+                                          <div class="checkbox">
+                                            <label>
+                                              <input type="checkbox">
+                                              Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                          </div>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon"> <span class="entypo-suitcase">5</span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Model Tags | <span class="red">Not Started</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                          <p>
+                                          <div class="checkbox">
+                                            <label>
+                                              <input type="checkbox">
+                                              Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                          </div>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon"> <span class="entypo-suitcase">6</span> </div>
+                                        <div class="timeline-label">
+                                          <h2>Edit Signatures | <span class="red">Not Started</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                          <p>
+                                          <div class="checkbox">
+                                            <label>
+                                              <input type="checkbox">
+                                              Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                          </div>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                    <article class="timeline-entry">
+                                      <div class="timeline-entry-inner">
+                                        <div class="timeline-icon"> <span class="entypo-suitcase">7</span> </div>
+                                        <div class="timeline-label last">
+                                          <h2>Upload Image for Model | <span class="red">Not Started</span></h2>
+                                          <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                          <p>
+                                          <div class="checkbox">
+                                            <label>
+                                              <input type="checkbox">
+                                              Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                          </div>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </article>
+                                  </div>
+                                  <div class="pull-right">
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button>
+                                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary "> Submit to Publication </button>
+                                  </div>
+                                  <div class="clearfix"></div>
+                                </div>
+                              </div-->
+									</div>
+									<!-- public end -->
+									<!-- cloud start -->
+									<div class="mdl-tabs__panel timeline" id="cloud"  data-ng-init="getJavaContent('java')" ng-bind-html="java">
+										<!-- tab panel -->
+									</div>
+									<!-- cloud end -->
+									<!-- delete start -->
+									<div class="mdl-tabs__panel" id="delete">delete</div>
+									<!-- delete end -->
+								</div>
+							</div>
+						</div>
+						<!-- On-Boarding By Command Line Section --> </md-content> </md-tab>
+						 <md-tab label="On-Boarding By Web"> 
+						 <div class="mdl-tabs__panel ">
+						 <md-content class="md-padding company-market " ng-show="!userLoggedIn">Please
+						<a ng-click="$root.showAdvancedLogin()">login</a> to upload the
+						model using the Web Experience</md-content> <md-content
+							class="md-padding company-market onboardingwebContent" ng-show="userLoggedIn">
+						<div>
+							<ul class="onboarding-web">
+								<li>
+									<div class="imageplace active">
+										<span class="imagecontent"> <img
+											src="images/submit-to-publication.png" alt="" title="">
+										</span>
+									</div>
+									<div class="text">Create Micro-service</div>
+								</li>
+								<li class="progress-status green"></li>
+								<li>
+									<div class="imageplace">
+										<span class="imagecontent"> <img
+											src="images/security-scan.png" alt="" title="">
+										</span>
+									</div>
+									<div class="text">Package</div>
+								</li>
+								<li class="progress-status"></li>
+								<li>
+									<div class="imageplace">
+										<span class="imagecontent"> <img
+											src="images/verify-model.png" alt="" title="">
+										</span>
+									</div>
+									<div class="text">Dockerize</div>
+								</li>
+								<li class="progress-status"></li>
+								<li>
+									<div class="imageplace">
+										<span class="imagecontent"> <img
+											src="images/license-check.png" alt="" title="">
+										</span>
+									</div>
+									<div class="text">Create TOSCA</div>
+								</li>
+								<li class="progress-status"></li>
+								<li>
+									<div class="imageplace">
+										<span class="imagecontent"> <img
+											src="images/text-check.png" alt="" title="">
+										</span>
+									</div>
+									<div class="text">Add to Repository</div>
+								</li>
+								<li class="progress-status"></li>
+								<li>
+									<div>
+										<button
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
+											View Model</button>
+									</div>
+									<div class="text">Model is onboarded and available in
+										Private catalog</div>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="progress">
+							<div class="progress-bar" style="width: 6%;"></div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="timeline">
+							<h6>
+								Step To On-Board Your Model <span>( {{statusCount}}/4 Completed )</span>
+								<!--div class="pull-right">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button>
+                          </div-->
+							</h6>
+							<div class="">
+								<div class="timeline-centered">
+									<article class="timeline-entry">
+										<div class="timeline-entry-inner">
+											<!-- <div class="timeline-icon"> <span class="entypo-suitcase">1</span> </div> -->
+											<div class="timeline-icon"
+												ng-if="toolkitNameValue.length<1 || toolkitNameValue=='' 
+										|| toolkitNameValue==null">
+												<span class="entypo-suitcase">1</span>
+											</div>
+											<div class="timeline-icon bg-success"
+												ng-if="toolkitNameValue.length>1">
+												<span class="entypo-feather fa fa-check"></span>
+											</div>
+											<div class="timeline-label">
+												<h2>
+													 <span ng-click="selToolKitT = !selToolKitT;" class="link-heading">Choose Toolkit</span> | 
+													 <span class="green" class="green"
+																ng-if="toolkitNameValue">Completed</span>
+													 <span class="red" ng-if="!toolkitNameValue">Not Started</span>
+
+												</h2>
+												<p ng-show="toolkitNameValue">
+													<strong> Toolkit Type: </strong> 
+													{{toolkitNameValue}}
+												</p>
+												<p ng-show="!toolkitNameValue">
+													<strong>Select a toolkit type.</strong> 
+												</p>
+												<!-- update model name -->
+												<div class="popovers cont model-description"
+													id="chooseToolKit" ng-show="selToolKitT">
+													<md-toolbar>
+													<div class="md-toolbar-tools">
+														<h2>Select Toolkit</h2>
+														<span flex></span>
+														<md-button class="md-icon-button"
+															ng-click="selToolKitT = !selToolKitT"> <i
+															class="material-icons">close</i> </md-button>
+													</div>
+													</md-toolbar>
+													<md-dialog-content> 
+	                                                    <div class="md-dialog-content">
+		                                                    <div class="mdl-grid mdl-grid--no-spacing">
+			                                                    <md-radio-group ng-click="selToolKitT = !selToolKitT;"
+			                                                        ng-model="toolkitNameValue" ng-change="changeModel();"> 
+			                                                        <md-radio-button
+			                                                        ng-repeat="val in alltoolkitType" 
+			                                                        ng-if = "val.toolkitCode != 'DS' && val.toolkitCode != 'CP'"
+			                                                        value="{{val.toolkitName}}"
+			                                                        ><span ng-if = "val.toolkitCode != 'RC'">{{val.toolkitName}}</span>
+			                                                         <span ng-if = "val.toolkitCode == 'RC'">R</span>
+			                                                        </md-radio-button>
+			                                                    </md-radio-group>
+		                                                    </div>
+		                                                 </div>
+		                                            </md-dialog-content>
+												</div>
+												
+											</div>
+										</div>
+									</article>
+									<article class="timeline-entry">
+										<div class="timeline-entry-inner">
+											<div class="timeline-icon" ng-if="!install">
+												<span class="entypo-suitcase">2</span>
+											</div>
+											<div class="timeline-icon bg-success" 
+												ng-if="install">
+												<span class="entypo-feather fa fa-check"></span>
+											</div>
+											<div class="timeline-label">
+												<h2>
+													Download Client Library from Command
+														Line | <span class="red" ng-if="!install">Not Started</span><span class="green" class="green"
+																ng-if="install">Completed</span>
+												</h2>
+												<p>Use command line steps to run a simplified version.</p>
+												
+												<input type="checkbox" ng-model="install" ng-disabled = "!toolkitNameValue"> Installation of the toolkit library is completed
+												<a data-target id="expCont" ng-click="expCont()"
+													class="mrgTop dispBlck"><span class="expCollCont" style="cursor: pointer">Expand
+														to view Steps to follow</span> <i class="material-icons">&#xE5C5;</i></a>
+												<div class="timeline-label-cont timelineCont mrgTop"
+													id="expContTxt" style="display: none;">
+													<a data-target id="collCont" ng-click="expCont()"><span
+														class="expCollCont">Collapse All</span> <i
+														class="material-icons">&#xE5C7;</i></a>
+													<h3>Steps to follow for: {{toolkitNameValue}}</h3>
+													
+													<div ng-show="toolkitNameValue=='H2O'" class="mdl-tabs__panel timeline" data-ng-init="getCmsH2OWebContents()" ng-bind-html="webh2o"></div>
+													<div ng-show="toolkitNameValue=='RCloud'" class="mdl-tabs__panel timeline" data-ng-init="getCmsRWebContents()" ng-bind-html="webr"></div>
+													<div ng-show="toolkitNameValue=='Scikit-Learn'" class="mdl-tabs__panel timeline" data-ng-init="getCmsScikitLearnWebContents()" ng-bind-html="webscikitlearn"></div>
+													<div ng-show="toolkitNameValue=='TensorFlow'" class="mdl-tabs__panel timeline" data-ng-init="getCmsTensorflowWebContents()" ng-bind-html="webtensorflow"></div>
+													<div ng-show="toolkitNameValue=='Java'" class="mdl-tabs__panel timeline" data-ng-init="getCmsJavaWebContents()" ng-bind-html="webjava"></div>
+													
+													<p>
+														Once your model is successfully on-boarded, it resides in
+														your private catalog. From there you can create the
+														documentation, description and tags and other information
+														that will describe your model in the <a data-target>{{$root.siteInstanceName}}
+															Marketplace</a>. When you are ready, your model can be
+														published either to your local instance or the PUBLIC
+														catalog.
+													</p>
+													<a data-target id="collCont" ng-click="expCont()">Collapse
+														All</a>
+												</div>
+											</div>
+										</div>
+									</article>
+									<article class="timeline-entry">
+										<div class="timeline-entry-inner">
+											<div ng-if="!file || !fileSubmit" class="timeline-icon">
+												<span class="entypo-suitcase">3</span>
+											</div>
+											<div class="timeline-icon bg-success"
+												ng-if="file&&fileSubmit">
+												<span class="entypo-feather fa fa-check"></span>
+											</div>
+											<div class="timeline-label">
+												<h2><span ng-click="uploadModel = !uploadModel;openDrop(false)" class="link-heading">
+													 Upload Model Bundle  </span>| 
+													 <span class="green" class="green"
+																ng-if="file&&fileSubmit">Completed</span>
+													 <span class="red" ng-if="!file || !fileSubmit">Not Started</span>
+												</h2>
+												
+												<p ng-show="!file">Upload your model bundle.</p>
+												<p ng-show="file" >Uploaded file: {{file.name}}</p>	
+												<!-- update model name -->
+												<div class="popovers cont add-document" id="uploadModel"
+													ng-show="uploadModel">
+													<md-toolbar>
+													<div class="md-toolbar-tools">
+														<h2>Upload Model</h2>
+														<span flex></span>
+														<md-button class="md-icon-button"
+															ng-click="uploadModel = !uploadModel; openDrop(true)"> <i
+															class="material-icons">close</i> </md-button>
+													</div>
+													</md-toolbar>
+													<md-dialog-content>
+													<div class="md-dialog-content">
+														<div class="popCont">Drag and Drop your file here</div>
+														<div class="text-center">OR</div>
+														<div class="clear"></div>
+														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+															Drag and Drop your file here
+															<form>
+																<div
+																	class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+																	<!-- <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile" readonly/> -->
+																	<input type="file" upload-image-model="file"
+																		class="mdl-textfield__input userprofiletxtbox"
+																		id="file">
+																	<div
+																		class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+																		<i class="material-icons">attach_file</i><input
+																			type="file" id="uploadBtn">
+																	</div>
+																</div>
+															</form>
+														</div>
+														<div layout="row" class="popovers-cloud-modalfooter">
+															<md-button
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																ng-click="closePoup(); openDrop(true);"
+																>
+															Cancel </md-button>
+															<md-button ng-click="fileUpload();openDrop(true);"
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+															Done </md-button>
+														</div>
+													</div>
+													</md-dialog-content>
+												</div>
+												<!-- update model name end -->
+
+											</div>
+										</div>
+									</article>
+									<article class="timeline-entry">
+										<div class="timeline-entry-inner">
+											<div ng-if="!user.name || !popupAddSubmit" class="timeline-icon">
+												<span class="entypo-suitcase">4</span>
+											</div>
+											<div class="timeline-icon bg-success"
+												ng-if="user.name&&popupAddSubmit">
+												<span class="entypo-feather fa fa-check"></span>
+											</div>
+											<div class="timeline-label">
+												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;user='';openDrop(false)" class="link-heading">
+													 Add Model Information </span>| 
+													 <span class="green" class="green"
+																ng-if="user.name&&popupAddSubmit">Completed</span>
+													 <span class="red" ng-if="!user.name || !popupAddSubmit">Not Started</span>
+												</h2>
+												<!-- update model name -->
+												<div class="popovers cont" id="addModel" ng-show="addModel">
+													<md-toolbar>
+													<div class="md-toolbar-tools">
+														<h2>Add Model Information</h2>
+														<span flex></span>
+														<md-button class="md-icon-button"
+															ng-click="addModel = !addModel;openDrop(true)"> <i
+															class="material-icons">close</i> </md-button>
+													</div>
+													</md-toolbar>
+													<md-dialog-content>
+													<div class="md-dialog-content">
+														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+															<div class="mdl-cell mdl-cell--11-col">
+																<md-input-container class="md-icon-float md-block">
+																<!-- Use floating label instead of placeholder --> <label>Model
+																	Name</label> <input ng-model="user.name" type="text"> </md-input-container>
+																<!-- <md-input-container class="md-icon-float md-block">
+																Use floating label instead of placeholder <label>Model
+																	ID</label> <input ng-model="user.pass" type="text"> </md-input-container> -->
+															</div>
+
+															<div class="mdl-cell mdl-cell--6-col">
+																<!-- <md-input-container class="md-icon-float md-block">
+																<label>Model Version</label> <input ng-model="user.pass"
+																	type="text"> </md-input-container> -->
+																	<!-- <md-input-container class="md-icon-float md-block">
+																	<label>Model
+																	ID</label> <input ng-model="user.pass" type="text"> </md-input-container> -->
+															</div>
+														</div>
+														<div layout="row" class="popovers-cloud-modalfooter">
+															<md-button ng-click="addModel = !addModel; user.pass= '';user.name='';openDrop(true);"
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+															Cancel </md-button>
+															<md-button ng-click="addModel = !addModel;popupAddSubmit = true; openDrop(true);"
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+															Done </md-button>
+														</div>
+													</div>
+													</md-dialog-content>
+												</div>
+												<!-- update model name end -->
+
+												<p ng-if='!user.pass || !user.name'>Some information can be display related to this
+													perticular task, such as how to complete this task what are
+													data requried.</p>
+												<p ng-if='user.pass && user.name'>Model Name: {{user.name}}</p>
+												<p ng-if='user.pass && user.name'>Model Version: {{user.pass}}</p>
+												<p ng-if='user.pass && user.name'>Model ID: {{user.pass}}</p>
+												<!--p>
+                                  <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox">
+                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                  </div>
+                                  </p-->
+											</div>
+										</div>
+									</article>
+									<!--article class="timeline-entry">
+                              <div class="timeline-entry-inner">
+                                <div class="timeline-icon"> <span class="entypo-suitcase">5</span> </div>
+                                <div class="timeline-label">
+                                  <h2>Model Tags | <span class="red">Not Started</span></h2>
+                                  <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                  <p>
+                                  <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox">
+                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                  </div>
+                                  </p>
+                                </div>
+                              </div>
+                            </article>
+                            <article class="timeline-entry">
+                              <div class="timeline-entry-inner">
+                                <div class="timeline-icon"> <span class="entypo-suitcase">6</span> </div>
+                                <div class="timeline-label">
+                                  <h2>Edit Signatures | <span class="red">Not Started</span></h2>
+                                  <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                  <p>
+                                  <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox">
+                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                  </div>
+                                  </p>
+                                </div>
+                              </div>
+                            </article>
+                            <article class="timeline-entry">
+                              <div class="timeline-entry-inner">
+                                <div class="timeline-icon"> <span class="entypo-suitcase">7</span> </div>
+                                <div class="timeline-label last">
+                                  <h2>Upload Image for Model | <span class="red">Not Started</span></h2>
+                                  <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
+                                  <p>
+                                  <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox">
+                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
+                                  </div>
+                                  </p>
+                                </div>
+                              </div>
+                            </article-->
+								</div>
+								<div>
+									<!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button-->
+									<button ng-click="addToCatalog()"
+										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
+										Add to Catalog</button>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+						</div>
+						<!-- timeline end --> <!-- Sign in Modal box start -->
+						<div class="md-dialog-container" id="myDialog" style="height: 0;">
+							<md-dialog aria-label="Mango (Fruit)"
+								class="cg-dialog-Deploy-to-cloud">
+							<form ng-cloak>
+								<md-toolbar>
+								<div class="md-toolbar-tools">
+									<h2>Deploying to Microsoft Azure</h2>
+									<span flex></span>
+									<md-button class="md-icon-button" ng-click="cancel()">
+									<i class="material-icons">close</i> </md-button>
+								</div>
+								</md-toolbar>
+								<md-dialog-content>
+								<div class="md-dialog-content">
+									<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+										<div class="mdl-cell mdl-cell--6-col">
+											<md-input-container class="md-icon-float md-block">
+											<!-- Use floating label instead of placeholder --> <label>Application
+												Id</label> <input ng-model="user.name" type="text"> </md-input-container>
+											<md-input-container class="md-icon-float md-block">
+											<!-- Use floating label instead of placeholder --> <label>Secret
+												key</label> <input ng-model="user.pass" type="text"> </md-input-container>
+											<md-input-container class="md-icon-float md-block">
+											<!-- Use floating label instead of placeholder --> <label>Resource
+												Group</label> <input ng-model="user.pass" type="text"> </md-input-container>
+										</div>
+										<div class="mdl-cell mdl-cell--6-col">
+											<md-input-container class="md-icon-float md-block">
+											<label>Tenant Id</label> <input ng-model="user.pass"
+												type="text"> </md-input-container>
+											<md-input-container class="md-icon-float md-block">
+											<label>Subscription Key</label> <input ng-model="user.pass"
+												type="text"> </md-input-container>
+											<md-input-container class="md-icon-float md-block">
+											<label>Acr Name</label> <input ng-model="user.pass"
+												type="text"> </md-input-container>
+										</div>
+									</div>
+									<hr />
+									<div layout="row" class="deploy-cloud-modalfooter">
+										<md-button
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+										Cancel </md-button>
+										<md-button
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+										Deploy </md-button>
+									</div>
+								</div>
+								</md-dialog-content>
+							</form>
+							</md-dialog>
+						</div>
+						</md-content> </md-tab> </md-tabs>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- </main> -->
+
+<style>
+@import url('css/onBoardingCSS.css');
+</style>

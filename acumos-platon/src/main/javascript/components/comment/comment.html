@@ -1,0 +1,50 @@
+<div class="platon-comment" v-bind:id="permalinkId">
+
+    <div class="platon-avatar">
+        <img v-bind:src="'https://www.gravatar.com/avatar/' + comment.emailHash + '?size=48&default=identicon'">
+    </div>
+
+    <div v-if="comment.status !== 'DELETED'" class="platon-meta">
+        <a v-if="comment.url" class="platon-author" v-bind:href="comment.url">{{ comment.author || 'Anonymous' }}</a>
+        <span v-else class="platon-author">{{ comment.author || 'Anonymous' }}</span>
+        ~
+        <span class="platon-creation-date" v-bind:title="longCreationDate">{{ creationDate }}</span>
+        <span v-if="comment.lastModificationDate !== comment.creationDate" class="platon-modification-date"
+              v-bind:title="longModificationDate">(Edited)</span>
+    </div>
+    <div v-else class="platon-meta">
+        <span class="platon-author">[deleted]</span>
+        ~
+        <span class="platon-creation-date" v-bind:title="longCreationDate">{{ creationDate }}</span>
+    </div>
+
+    <div v-if="comment.status !== 'DELETED'" class="platon-text" v-show="!showEditForm" v-html="comment.text"></div>
+    <div v-if="comment.status !== 'DELETED'" class="platon-text" v-show="showEditForm">
+        <textarea class="platon-form-text" v-model="markdown" v-show="!showPreview"></textarea>
+        <div class="platon-form-preview" v-if="showPreview" v-html="editedComment.text"></div>
+    </div>
+    <div v-else class="platon-text">
+        <p>[deleted]</p>
+    </div>
+
+    <div v-if="comment.status !== 'DELETED'" class="platon-actions" v-show="!showEditForm">
+        <a v-bind:href="'#' + permalinkId" class="platon-permalink">Permalink</a>
+        <a href="" v-on:click.prevent="showReplyForm = !showReplyForm">{{ showReplyForm ? 'Close' : 'Reply' }}</a>
+        <a href="" v-if="canEdit" v-on:click.prevent="updateMarkdown(); showEditForm = true">Edit</a>
+        <a href="" v-if="canDelete" v-on:click.prevent="deleteComment">Delete</a>
+    </div>
+    <div v-if="comment.status !== 'DELETED'" class="platon-actions" v-show="showEditForm">
+        <button v-on:click="saveEdit">Save</button>
+        <a href="" v-on:click.prevent="toggleEditPreview">{{ showPreview ? 'Hide Preview' : 'Preview' }}</a>
+        <a href="" v-on:click.prevent="showPreview = false; showEditForm = false">Cancel</a>
+    </div>
+
+    <platon-comment-form v-if="showReplyForm"
+                         v-bind:parent-id="comment.id"
+                         v-on:posted="replyPosted"></platon-comment-form>
+
+    <platon-comment v-for="reply in comment.replies"
+                    v-bind:comment="reply"
+                    v-on:edited="replyEdited"
+                    v-on:deleted="replyDeleted"></platon-comment>
+</div>

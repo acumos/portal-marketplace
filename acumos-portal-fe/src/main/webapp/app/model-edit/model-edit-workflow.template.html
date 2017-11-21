@@ -1,0 +1,1990 @@
+<link rel="stylesheet" type="text/css" href="/css/model-workflow.css" /> 
+<section class="description_box container-fluid">
+	<div class="description-content">
+		<div class="description-content-left">
+			<h4 class="inline-block text-bold">Manage {{solution.name}}</h4>
+			<span>| Version - {{artifactVersion}}|</span>
+			<!-- <span>Model ID-  |</span>  -->
+			<span>Owners - </span> <span> <i class="fa fa-user user-icon"
+				aria-hidden="true"></i> <i class="fa fa-ellipsis-h"
+				aria-hidden="true"></i>
+			</span>
+		</div>
+		<div class="description-content-right status">
+			Status: On-boarded<span>on {{solution.created |
+				date:'MM/dd/yyyy' }}</span>
+		</div>
+		<div class="clearfix"></div>
+		<div>
+			<ol class="breadcrumb col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<li><a data-target="#">Home</a></li>
+				<li>Manage My Model</li>
+				<li>{{solution.name}}</li>
+			</ol>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</section>
+
+<section class="container-fluid model-workflow">
+	<section class="model-detail">
+
+		<div class="tab-panel">
+			<div role="tabpanel" class="tab-pane active" id="workflow">
+				<div class="workflow">
+					<div class="workflow-header">
+						<div class="workflow-leftheader">Management Options</div>
+						<div class="workflow-right-header">{{workflowTitle}}</div>
+					</div>
+					<div class="workflow-left">
+						<!-- required for floating -->
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs tabs-left">
+							<li class="active"><a data-target="#onboard"
+								data-toggle="tab" aria-expanded="false"
+								ng-init="workflowTitle = 'On-Boarding'"
+								ng-click="workflowTitle = 'On-Boarding'"> <!-- <i class="fa fa-upload" aria-hidden="true"></i> -->
+									<i class="fa fa-check-circle-o green" aria-hidden="true"></i>On-Boarding
+									<ul>
+										<li class="green">1 Complete</li>
+										<li class="blue">2 Pending</li>
+									</ul>
+							</a></li>
+							<li class=""><a data-target="#share" data-toggle="tab"
+								ng-click="workflowTitle = 'Share With Team'"
+								aria-expanded="false"> <i class="fa fa-share-alt"
+									aria-hidden="true"></i>Share With Team
+									<ul>
+										<li>shared with {{sharedWith.length}} co-workers</li>
+									</ul>
+							</a></li>
+							<li class=""><a data-target="#company" data-toggle="tab"
+								ng-click="workflowTitle = 'Publish to Company Marketplace'"
+								aria-expanded="true"> <i class="fa fa-upload"
+									aria-hidden="true"></i>Publish to Company Marketplace
+									<ul>
+										<li class="orange">Not started</li>
+									</ul>
+							</a></li>
+							<!-- <li><a data-target="#catalog" data-toggle="tab"> <i
+									class="fa fa-upload" aria-hidden="true"></i>Publish to ONAP
+									Catalog
+									<ul>
+										<li class="orange">You must be publish to company
+											marketplace first</li>
+									</ul>
+							</a></li> -->
+							<li><a data-target="#public" data-toggle="tab"
+								ng-click="workflowTitle = 'Publish to Public Marketplace'">
+									<i class="fa fa-upload" aria-hidden="true"></i>Publish to
+									Public Marketplace
+									<ul>
+										<li class="orange">Not started</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#cloud" data-toggle="tab"
+								ng-click="workflowTitle = 'Export/Deploy to Cloud'"> <i
+									class="fa fa-cloud-upload" aria-hidden="true"></i>Export/Deploy
+									to Cloud
+									<ul>
+										<li class="orange">Not started</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#delete" data-toggle="tab"
+								ng-click="workflowTitle = 'Delete Model'"><i
+									class="fa fa-trash" aria-hidden="true"></i>Delete Model</a></li>
+						</ul>
+					</div>
+					<div class="workflow-right">
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div class="tab-pane active" id="onboard">
+								<!-- timeline start -->
+								<div class="timeline">
+									<div class="">
+										<div class="timeline-centered">
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon bg-success">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Client Library Selected and Installed &lt;SciKit
+															Learn&gt; toolkit. | <span class="green">Completed
+																on {{solution.created | date:'MM/dd/yyyy' }}</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+													</div>
+												</div>
+											</article>
+
+
+											<article class="timeline-entry">
+
+												<div class="timeline-entry-inner">
+
+													<!-- <div class="timeline-icon">
+														<span class="entypo-suitcase">2</span>
+													</div> -->
+													<div class="timeline-icon bg-success">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															Introspection and Model Packaging is Complete Metadata
+															created including libraries used, versions &amp;
+															signatures. |
+															<!-- <span class="blue">In
+																progress</span> -->
+															<span class="green">Completed on
+																{{solution.created | date:'MM/dd/yyyy' }}</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+													</div>
+												</div>
+
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<!-- <div class="timeline-icon">
+														<span class="entypo-location">3</span>
+													</div> -->
+													<div class="timeline-icon bg-success">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															Model and Metadata Uploaded Stored in &lt;this
+															{{$root.siteInstanceName}}&gt; repository. |
+															<!-- <span class="orange">Not
+																started</span> -->
+															<span class="green">Completed on
+																{{solution.created | date:'MM/dd/yyyy' }}</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+													</div>
+												</div>
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<!-- <div class="timeline-icon">
+														<span class="entypo-location">4</span>
+													</div> -->
+													<div class="timeline-icon bg-success">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															Model Converted to Microservice and Dockerized Your model
+															is now a full (REST or pub/sub) service with input/output
+															capability. |
+															<!-- <span class="orange">Not
+																started</span> -->
+															<span class="green">Completed on
+																{{solution.created | date:'MM/dd/yyyy' }}</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+													</div>
+												</div>
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<!-- <div class="timeline-icon">
+														<span class="entypo-location">5</span>
+													</div> -->
+													<div class="timeline-icon bg-success">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															Tosca Model Generated (not required) A tosca model is
+															required to use your model in the Design Studio (to
+															interact with other microservices). It is also required
+															for use in ONAP. |
+															<!-- <span class="orange">Not
+																started</span> -->
+															<span class="green">Completed on
+																{{solution.created | date:'MM/dd/yyyy' }}</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+													</div>
+												</div>
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<!-- <div class="timeline-icon">
+														<span class="entypo-location">5</span>
+													</div> -->
+													<div class="timeline-icon bg-success">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															Model Available in Private Catalog. |
+															<!-- <span class="orange">Not
+																started</span> -->
+															<span class="green">Completed on
+																{{solution.created | date:'MM/dd/yyyy' }}</span>
+														</h2>
+														<p>
+															<a data-target="#">Private Model Name</a>
+														</p>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+													</div>
+												</div>
+											</article>
+
+										</div>
+
+
+									</div>
+								</div>
+								<!-- timeline end -->
+							</div>
+							<div class="tab-pane" id="share">
+								<p>Sharing a model gives co-authorship to that person. They
+									will be able to edit, share and publish, just as a model owner
+									can.</p>
+								<p>
+									<b>This Model shared with below team members</b> (
+									{{sharedWith.length}} members )
+								</p>
+								<p>
+									<span> 
+									<span data-toggle="tooltip"
+										data-placement="bottom" title="{{sharedmember.username}}"
+										ng-repeat="sharedmember in sharedWith"> <i
+											class="fa fa-user user-icon shared-with-icon"
+											aria-hidden="true" style="margin: 3px"
+											ng-class="{'fa-times':hovering}"
+											ng-mouseenter="hovering=true" ng-mouseleave="hovering=false" ng-click="removeSharedUser(sharedmember.firstName)">
+												{{sharedmember.firstName}} {{sharedmember.lastName}} </i>
+
+									</span>
+									</span> <input type="hidden" ng-model="sharedWith.length" />
+								</p>
+								<br>
+								<p>
+									<b>Sharing "{{solution.name}} | version-
+										{{artifactVersion}}</b>
+								</p>
+								<form>
+									<div class="form-group">
+										<label for="linktomodel">Link to Model</label> <input
+											type="text" class="form-control" id=""
+											placeholder="{{shareWithUrl}}" disabled>
+									</div>
+									<div class="form-group">
+										<label for=""><span class="error">*</span>Share with <i
+											class="fa fa-question-circle" aria-hidden="true"></i></label> <input
+											type="text" ng-model="asyncSelected"
+											placeholder="Enter a Users Name"
+											uib-typeahead="usersNames for usersNames in getAllUsersList($viewValue)"
+											typeahead-loading="loadingLocations"
+											typeahead-no-results="noResults" class="form-control">
+										<i ng-show="loadingLocations"
+											class="glyphicon glyphicon-refresh"></i>
+										<div ng-show="noResults">
+											<i class="glyphicon glyphicon-remove"></i> No Results Found
+										</div>
+
+
+									</div>
+									<div class="form-group">
+										<label for="">Message (optional) </label>
+										<textarea class="form-control" rows="3"></textarea>
+									</div>
+									<button type="submit" class="btn btn-default"
+										ng-click="shareWithTeam(asyncSelected)" ng-disabled="!asyncSelected">Share</button>
+								</form>
+							</div>
+							<!-- Publish to Company -->
+							<div class="tab-pane company-market" id="company">
+								<div>
+									<ul>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/publication.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Submit to Publication</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/security-scan.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Security scan</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/verify-model.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Verify Model</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/licence-check.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">License Check</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/text-check.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Text Check</div>
+										</li>
+										<li>
+											<div>
+												<button type="button" class="btn btn-default">
+													<i class="fa fa-cloud-upload" aria-hidden="true"></i>
+													PUBLISH
+												</button>
+											</div>
+											<div class="text">Publish to Company Marketplace</div>
+										</li>
+									</ul>
+								</div>
+								<div class="blue">
+									<a data-toggle="modal" data-target="#previewModal">Preview
+										Model </a>
+								</div>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="5"
+										aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
+										<span class="sr-only">10% Complete</span>
+									</div>
+								</div>
+								<!-- timeline start -->
+								<div class="timeline">
+									<h5>Step To Submit Publication</h5>
+									<div class="">
+										<div class="timeline-centered">
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon" ng-if="solution.name.length < 0">
+														<span class="entypo-suitcase">1</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="solution.name.length>=1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details"> Model Name | </span> <span
+																class="green" ng-if="solution.name.length>=1">
+																Completed on {{solution.modified | date }} </span> <span
+																class="orange" ng-if="solution.name.length < 0">
+																Not Started</span>
+
+														</h2>
+
+														<div
+															ng-show="solution.name.length<1 || solution.name=='' 
+															|| solution.name==null">
+															<p class="editable-desc" ng-hide="showSolName"
+																ng-click="showSolName = !showSolName">Model Name not
+																added. Add a name to the Model.</p>
+														</div>
+
+														<p class="editable-desc" ng-hide="showSolName"
+															ng-click="showSolName = !showSolName">{{solution.name}}</p>
+
+														<div ng-show="showSolName">
+															<form class="edit-form">
+																<div class="title">
+																	<h2>Update Model Name</h2>
+																</div>
+																<div class="col-md-6">
+																	<div class="rowcontainer">
+																		<label>Model Name</label> <input type="text"
+																			class="form-control" id="" ng-model="solution.name" />
+																	</div>
+																	<div class="rowcontainer">
+																		<label>Model ID</label> <input type="text"
+																			class="form-control" id="" disabled
+																			ng-model="solution.solutionId" />
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<div class="rowcontainer">
+																		<label>Model Version</label> <input type="text"
+																			class="form-control" id="" disabled
+																			ng-model="solution.revisions.version" />
+																	</div>
+																</div>
+																<div class="clearfix"></div>
+																<div class="col-md-6 col-lg-6">
+																	<button type="button"
+																		class="btn btn-default btn-cancel"
+																		ng-click="showSolName = !showSolName">Cancel</button>
+																</div>
+																<div class="col-md-6 col-lg-6 text-right">
+																	<button type="button" class="btn btn-default btn-save"
+																		ng-click="updateSolution(); showSolName = !showSolName">Done</button>
+																</div>
+																<div class="clearfix"></div>
+															</form>
+
+														</div>
+
+														<!-- <div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Name you have in Public Marketplace. <a data-target="#">View
+																	Name &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon"
+														ng-if="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' ||
+														 solutionCompanyDesc==null">
+														<span class="entypo-suitcase">2</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="solutionCompanyDesc.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Model Description | </span> <span
+																class="green" ng-if="solutionCompanyDesc.length>1">
+																Completed on {{solution.modified | date }} </span> <span
+																ng-if="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' ||
+														 	solutionCompanyDesc==null"
+																class="orange">Not Started</span>
+														</h2>
+														<div
+															ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
+															|| solutionCompanyDesc==null">
+															<p class="editable-desc" ng-hide="showCKEditor"
+																ng-click="showCKEditor = !showCKEditor">Description
+																not added. Add a description</p>
+														</div>
+
+														<p class="editable-desc" ng-hide="showCKEditor"
+															ng-click="showCKEditor = !showCKEditor"
+															ng-bind-html="solutionCompanyDesc"></p>
+
+														<div ng-show="showCKEditor">
+														<!-- TODO setting the default vaule for quill editor -->
+															<ng-quill-editor ng-model="solutionCompanyDesc"> </ng-quill-editor>
+															<!-- <textarea ng-model="solution.description" ckeditor></textarea> -->
+															<div class="clearfix action-btns">
+																<button class="pull-left btn btn-default btn-cancel"
+																	ng-click="showCKEditor = !showCKEditor">Cancel</button>
+																<button class="pull-right btn btn-default btn-save"
+																	ng-click="updateCompanyDescription(); showCKEditor = !showCKEditor">Save</button>
+															</div>
+
+														</div>
+														<p></p>
+														<div class="checkbox">
+															<label> <input type="checkbox" ng-click="copyPublicToCompany()"> Use the
+																Description you have in Public Marketplace. <a
+																data-target="#">View Description &gt;&gt; </a>
+															</label>
+														</div>
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon"
+														ng-if="categoryname.length<1 || categoryname=='' 
+															|| categoryname==null">
+														<span class="entypo-suitcase">3</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="categoryname.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Model Category | </span> <span
+																class="green" ng-if="categoryname.length>1">
+																Completed on {{solution.modified | date }} </span> <span
+																class="orange"
+																ng-if="categoryname.length<1 || categoryname=='' 
+															|| categoryname==null">Not
+																Started</span>
+														</h2>
+
+														<div
+															ng-show="categoryname.length<1 || categoryname=='' 
+															|| categoryname==null">
+															<p class="editable-desc" ng-hide="showSolCat"
+																ng-click="showSolCat = !showSolCat">Category not
+																added. Add a Category.</p>
+														</div>
+
+														<p class="editable-desc" ng-hide="showSolCat"
+															ng-click="showSolCat = !showSolCat">
+
+															<label><strong>Model Category: </strong></label>
+															{{solution.modelTypeName}} <label
+																style="margin: 0px 5px;"><strong>
+																	Toolkit Type: </strong></label> {{solution.tookitTypeName}}
+														</p>
+
+
+
+														<div class="" ng-show="showSolCat">
+															<form class="edit-form">
+																<div class="title">
+																	<h2>Update Model Name</h2>
+																</div>
+																<div class="col-md-6">
+																	<div class="rowcontainer">
+																		<label for="sel1">Select Category</label> <select
+																			ng-model="categoryname" class="form-control"
+																			id="model-category">
+																			<option ng-repeat="category in allCategory"
+																				value={{category.typeCode}}>{{category.typeName}}</option>
+																		</select>
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<div class="rowcontainer">
+																		<label for="sel1">Select Toolkit Type</label> <select
+																			ng-model="toolkitname" class="form-control"
+																			id="model-toolkit">
+																			<option ng-repeat="toolkitType in alltoolkitType"
+																				value="{{toolkitType.toolkitCode}}">{{toolkitType.toolkitName}}</option>
+																		</select>
+																	</div>
+																</div>
+
+																<div class="clearfix"></div>
+																<div class="col-md-6 col-lg-6">
+																	<button type="button"
+																		class="btn btn-default btn-cancel"
+																		ng-click="showSolCat = !showSolCat">Cancel</button>
+																</div>
+																<div class="col-md-6 col-lg-6 text-right">
+																	<button type="button" class="btn btn-default btn-save"
+																		ng-click="updateSolution(); showSolCat = !showSolCat">Done</button>
+																</div>
+																<div class="clearfix"></div>
+															</form>
+														</div>
+
+														<!-- <div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Category you have in Public Marketplace. <a
+																data-target="#">View Category &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">4</span>
+													</div>
+													<!-- <div class="timeline-icon bg-success" ng-if="docume.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div> -->
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Add Documents | </span>
+															<!-- <span class="green" ng-if="categoryname.length>1"> 
+																Completed on {{solution.modified | date }}
+															</span> -->
+															<span class="orange">Not Started</span>
+														</h2>
+														<p class="editable-desc"
+															ng-click="showSolDocs = !showSolDocs"
+															ng-hide="showSolDocs">Documents Name.</p>
+
+														<div ng-show="showSolDocs">
+															<form class="edit-form">
+																<div class="title">
+																	<h2>Add Documents</h2>
+																</div>
+																<div class="col-md-12">
+																	<div class="rowcontainer">
+																		<div class="file-upload">
+																			<div class="row">
+																				<div class="col-md-12">
+																					<div ng-show="uploader.isHTML5">
+																						<!-- 3. nv-file-over uploader="link" over-class="className" -->
+																						<!-- <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+												                            Base drop zone
+												                        </div>-->
+
+																						<!-- Example: nv-file-drop="" uploader="{Object}" options="{Object}" filters="{String}" -->
+																						<div class="text-center" nv-file-drop=""
+																							uploader="uploader" options="{ url: '/foo' }">
+																							<div nv-file-over="" uploader="uploader"
+																								over-class="another-file-over-class"
+																								class="well my-drop-zone">
+																								<h2>Drag and Drop Files</h2>
+																								<label>Max size 200MB</label>
+																							</div>
+																						</div>
+																					</div>
+
+																					<!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+																					<div>
+																						<h2>Browse Files</h2>
+																						<label><input type="file"
+																							nv-file-select="" uploader="uploader" multiple /><br /></label>
+
+																					</div>
+
+
+																					<!-- Single
+											                    <input type="file" nv-file-select="" uploader="uploader" />-->
+																				</div>
+
+																				<div class="col-md-12">
+
+																					<h2>Files Name &amp; Status</h2>
+																					<label><strong>Queue length:</strong> {{
+																						uploader.queue.length }}</label>
+
+																					<table class="table">
+																						<thead>
+																							<tr>
+																								<th width="50%">Name</th>
+																								<th ng-show="uploader.isHTML5">Size</th>
+																								<!-- <th ng-show="uploader.isHTML5">Progress</th>
+																							<th>Status</th> -->
+																								<th>Actions</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr ng-repeat="item in uploader.queue">
+																								<td><strong>{{ item.file.name }}</strong></td>
+																								<td ng-show="uploader.isHTML5" nowrap>{{
+																									item.file.size/1024/1024|number:2 }} MB</td>
+																								<!-- <td ng-show="uploader.isHTML5">
+																								<div class="progress" style="margin-bottom: 0;">
+																									<div class="progress-bar" role="progressbar"
+																										ng-style="{ 'width': item.progress + '%' }"></div>
+																								</div>
+																							</td> -->
+																								<!-- <td class="text-center"><span
+																								ng-show="item.isSuccess"><i
+																									class="glyphicon glyphicon-ok"></i></span> <span
+																								ng-show="item.isCancel"><i
+																									class="glyphicon glyphicon-ban-circle"></i></span> <span
+																								ng-show="item.isError"><i
+																									class="glyphicon glyphicon-remove"></i></span></td> -->
+																								<td nowrap>
+																									<!-- <button type="button"
+																									class="btn btn-success btn-xs"
+																									ng-click="item.upload()"
+																									ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+																									<span class="glyphicon glyphicon-upload"></span>
+																									Upload
+																								</button> --> <!--<button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                    </button>-->
+																									<button type="button"
+																										class="btn btn-danger btn-xs"
+																										ng-click="item.remove()">
+																										<span class="glyphicon glyphicon-trash"></span>
+																										Remove
+																									</button>
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+
+																					<div>
+																						<div>
+																							Queue progress:
+																							<div class="progress" style="">
+																								<div class="progress-bar" role="progressbar"
+																									ng-style="{ 'width': uploader.progress + '%' }"></div>
+																							</div>
+																						</div>
+																						<!-- <button type="button" class="btn btn-success btn-s"
+																			ng-click="uploader.uploadAll()"
+																			ng-disabled="!uploader.getNotUploadedItems().length">
+																			<span class="glyphicon glyphicon-upload"></span>
+																			Upload all
+																		</button> -->
+																						<!--  <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                        </button>-->
+																						<!-- 	<button type="button" class="btn btn-danger btn-s"
+																						ng-click="uploader.clearQueue()"
+																						ng-disabled="!uploader.queue.length">
+																						<span class="glyphicon glyphicon-trash"></span>
+																						Remove all
+																					</button> -->
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+
+
+																	</div>
+																</div>
+																<div class="clearfix"></div>
+																<div class="col-md-6 col-lg-6">
+																	<button type="button"
+																		class="btn btn-default btn-cancel"
+																		ng-click="uploader.clearQueue(); showSolDocs = !showSolDocs">Cancel</button>
+																</div>
+																<div class="col-md-6 col-lg-6 text-right">
+																	<button type="button" class="btn btn-default btn-save"
+																		ng-click="uploader.uploadAll()"
+																		ng-disabled="!uploader.getNotUploadedItems().length">Done</button>
+																</div>
+																<div class="clearfix"></div>
+															</form>
+														</div>
+														<div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Documents you have in Public Marketplace. <a
+																data-target="#">View Documents &gt;&gt; </a>
+															</label>
+														</div>
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon" ng-if="tags.length<1">
+														<span class="entypo-suitcase">5</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="!tags.length<1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Add Tags | </span> <span
+																class="green" ng-if="!tags.length<1"> Completed
+																on {{solution.modified | date }} </span> <span
+																ng-if="tags.length<1" class="ornage">Not Started</span>
+														</h2>
+														<p class="editable-desc"
+															ng-click="showSolTags = !showSolTags"></p>
+
+														<div class="">
+															<!-- showSolTags ng-enter="updateTag(tags)" -->
+															<tags-input ng-model="tags"
+																replace-spaces-with-dashes="false"
+																on-tag-added="tagAdded($tag)"
+																on-tag-removed="tagRemoved($tag)"> <auto-complete
+																source="loadAllTags($query)" min-length="0"
+																max-results-to-show="10" load-on-focus="true"
+																load-on-empty="true"></auto-complete> </tags-input>
+														</div>
+														<!-- 	{{tags}} -->
+														<!-- <div class="">
+															<label> <input type="checkbox"> Use the
+																Tags you have in Public Marketplace. <a data-target="#">View
+																	Tags &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">6</span>
+													</div>
+
+													<!-- <div class="timeline-icon bg-success" ng-if="tags.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div> -->
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">View Signatures | </span>
+															<!-- <span class="green" ng-if="!tags.length<1"> 
+																Completed on {{solution.modified | date }}
+															</span> -->
+															<span class="orange">Not Started</span>
+														</h2>
+														<!-- <div ng-show="solution.description.length<1 || solution.description=='' 
+															|| solution.description==null">
+															<p class="editable-desc" ng-hide="showCKEditor"
+																ng-click="showCKEditor = !showCKEditor">Description
+																not added. Add a description</p>
+														</div> -->
+
+														<p class="editable-desc">No Signatures</p>
+
+														<!-- <div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Signatures you have in Public Marketplace. <a
+																data-target="#">View Signatures &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">7</span>
+													</div>
+													<!-- <div class="timeline-icon bg-success" ng-if="tags.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div> -->
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Upload Image for Model
+																| </span>
+															<!-- <span class="green" ng-if="!tags.length<1"> 
+																Completed on {{solution.modified | date }}
+															</span> -->
+															<span class="orange">Not Started</span>
+														</h2>
+
+														<p class="editable-desc"
+															ng-click="showImages = !showImages" ng-hide="showImages">No
+															Images</p>
+
+														<div class="" ng-show="showImages">
+															<form class="edit-form">
+																<div class="title">
+																	<h2>Upload icon for your model</h2>
+																</div>
+																<div class="col-md-12">
+																	<div class="rowcontainer">
+																		<div>
+																			<label for="inputImage2">Image 2</label>
+																			<!-- <input
+																				id="inputImage2" type="file" accept="image/*"
+																				image="image2" resize-max-height="300"
+																				resize-max-width="250" resize-quality="0.7" /> -->
+
+																			<p>Image</p>
+																			<!-- <img ng-show="image2"
+																				ng-src="{{image2.resized.dataURL}}" /> -->
+																		</div>
+
+																	</div>
+																</div>
+																<div class="clearfix"></div>
+																<div class="col-md-6 col-lg-6">
+																	<button type="button"
+																		class="btn btn-default btn-cancel"
+																		ng-click="showImages = !showImages">Cancel</button>
+																</div>
+																<div class="col-md-6 col-lg-6 text-right">
+																	<button type="button" class="btn btn-default btn-save"
+																		ng-click="updateSolImage(); showImages = !showImages">Done</button>
+																</div>
+																<div class="clearfix"></div>
+															</form>
+														</div>
+
+
+														<div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Image you have in Public Marketplace. <a data-target="#">View
+																	Image &gt;&gt; </a>
+															</label>
+														</div>
+														<p></p>
+													</div>
+												</div>
+											</article>
+										</div>
+										<div class="pull-left">
+											<button type="button" class="btn btn-default"
+												ng-click="publishtoMarket('OR')">Submit to
+												Publication</button>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+								<!-- timeline end -->
+
+							</div>
+							<div class="tab-pane" id="catalog">catalog</div>
+
+							<!-- Publish to Public Marketplace -->
+							<div class="tab-pane company-market" id="public">
+
+								<div>
+									<ul>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/publication.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Submit to Publication</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/security-scan.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Security scan</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/verify-model.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Verify Model</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/licence-check.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">License Check</div>
+										</li>
+										<li>
+											<div class="imageplace">
+												<span class="imagecontent"> <img
+													src="images/text-check.jpg" alt="" title="">
+												</span>
+											</div>
+											<div class="text">Text Check</div>
+										</li>
+										<li>
+											<div>
+												<button type="button" class="btn btn-default">
+													<i class="fa fa-cloud-upload" aria-hidden="true"></i>
+													PUBLISH
+												</button>
+											</div>
+											<div class="text">Publish to Public Marketplace</div>
+										</li>
+									</ul>
+								</div>
+								<div class="blue">
+									<a data-toggle="modal" data-target="#previewModal">Preview
+										Model</a>
+								</div>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="5"
+										aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
+										<span class="sr-only">10% Complete</span>
+									</div>
+								</div>
+
+								<div class="timeline">
+									<h5>Step To Submit Publication</h5>
+									<div class="">
+										<div class="timeline-centered">
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon" ng-if="solution.name.length<1">
+														<span class="entypo-suitcase">1</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="solution.name.length>=1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details"> Model Name | </span> <span
+																class="green" ng-if="solution.name.length>=1">
+																Completed on {{solution.modified | date }}</span> <span
+																class="orange" ng-if="solution.name.length<1">
+																Not Started</span>
+														</h2>
+														<p class="editable-desc" ng-hide="showPBSolName"
+															ng-click="showPBSolName = !showPBSolName">{{solution.name}}</p>
+
+														<div ng-show="showPBSolName">
+															<form class="edit-form">
+																<div class="title">
+																	<h2>Update Model Name</h2>
+																</div>
+																<div class="col-md-6">
+																	<div class="rowcontainer">
+																		<label>Model Name</label> <input type="text"
+																			class="form-control" id="" ng-model="solution.name" />
+																	</div>
+																	<div class="rowcontainer">
+																		<label>Model ID</label> <input type="text"
+																			class="form-control" id="" disabled
+																			ng-model="solution.solutionId" />
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<div class="rowcontainer">
+																		<label>Model Version</label> <input type="text"
+																			class="form-control" id="" disabled
+																			ng-model="solution.revisions.version" />
+																	</div>
+																</div>
+																<div class="clearfix"></div>
+																<div class="col-md-6 col-lg-6">
+																	<button type="button"
+																		class="btn btn-default btn-cancel"
+																		ng-click="showPBSolName = !showPBSolName">Cancel</button>
+																</div>
+																<div class="col-md-6 col-lg-6 text-right">
+																	<button type="button" class="btn btn-default btn-save"
+																		ng-click="updateSolution(); showPBSolName = !showPBSolName">Done</button>
+																</div>
+																<div class="clearfix"></div>
+															</form>
+
+														</div>
+
+														<!-- <div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Name you have in Company Marketplace. <a data-target="#">View
+																	Name &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon"
+														ng-if="solutionPublicDesc.length<1">
+														<span class="entypo-suitcase">2</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="solutionPublicDesc.length>1 || solutionPublicDesc==null || solutionPublicDesc==''">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Model Description | </span> <span
+																class="green" ng-if="solutionPublicDesc.length>1">
+																Completed on {{solution.modified | date }}</span> <span
+																class="orange" ng-if="solutionPublicDesc.length<1 || solutionPublicDesc==null || solutionPublicDesc==''">Not
+																Started</span>
+														</h2>
+														<div
+															ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
+															|| solutionPublicDesc==null">
+															<p class="editable-desc" ng-hide="showPBCKEditor"
+																ng-click="showPBCKEditor = !showPBCKEditor">Description
+																not added. Add a description</p>
+														</div>
+														<p class="editable-desc" ng-hide="showPBCKEditor"
+															ng-click="showPBCKEditor = !showPBCKEditor"
+															ng-bind-html="solutionPublicDesc"></p>
+														<div ng-show="showPBCKEditor">
+														<ng-quill-editor ng-model="solutionPublicDesc"> </ng-quill-editor>
+															<!-- <textarea ng-model="solution.description" ckeditor></textarea> -->
+															<div class="clearfix action-btns">
+																<button class="pull-left btn btn-default btn-cancel"
+																	ng-click="showPBCKEditor = !showPBCKEditor">Cancel</button>
+																<button class="pull-right btn btn-default btn-save"
+																	ng-click="updatePublicDescription(); showPBCKEditor = !showPBCKEditor">Save</button>
+															</div>
+
+														</div>
+														<p></p>
+														<div class="checkbox">
+															<label> <input type="checkbox" ng-click="copyCompanyToPublic()"> Use the
+																Description you have in Company Marketplace. <a
+																data-target="#">View Description &gt;&gt; </a>
+															</label>
+														</div>
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon" ng-if="categoryname.length<1">
+														<span class="entypo-suitcase">3</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="categoryname.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Model Category | </span> <span
+																class="green" ng-if="categoryname.length>1">
+																Completed on {{solution.modified | date }}</span> <span
+																class="orange" ng-if="categoryname.length<1">Not
+																Started</span>
+														</h2>
+														<!-- <p class="editable-desc" ng-hide="showPBSolCat"
+															ng-click="showPBSolCat = !showPBSolCat">{{categoryname}}</p>
+															 -->
+															<p class="editable-desc" ng-hide="showSolCat"
+															ng-click="showSolCat = !showSolCat">
+
+															<label><strong>Model Category: </strong></label>
+															{{solution.modelTypeName}} <label
+																style="margin: 0px 5px;"><strong>
+																	Toolkit Type: </strong></label> {{solution.tookitTypeName}}
+														</p>
+															
+
+														<div class="" ng-show="showPBSolCat">
+															<form class="edit-form">
+																<div class="title">
+																	<h2>Update Model Name</h2>
+																</div>
+																<div class="col-md-6">
+																	<div class="rowcontainer">
+																		<label for="sel1">Select Category</label> <select
+																			class="form-control" id="model-category">
+																			<option ng-repeat="category in allCategory"
+																				ng-model="categoryname">{{category.typeName}}</option>
+																		</select>
+																	</div>
+																</div>
+																<div class="clearfix"></div>
+																<div class="col-md-6 col-lg-6">
+																	<button type="button"
+																		class="btn btn-default btn-cancel"
+																		ng-click="showPBSolCat = !showPBSolCat">Cancel</button>
+																</div>
+																<div class="col-md-6 col-lg-6 text-right">
+																	<button type="button" class="btn btn-default btn-save"
+																		ng-click="updateSolution(); showPBSolCat = !showPBSolCat">Done</button>
+																</div>
+																<div class="clearfix"></div>
+															</form>
+														</div>
+
+														<!-- <div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Category you have in Company Marketplace. <a
+																data-target="#">View Category &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">4</span>
+													</div>
+													<!-- <div class="timeline-icon bg-success" ng-if="docume.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div> -->
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Add Documents | </span> <span
+																class="orange">Not Started</span>
+														</h2>
+														<p class="editable-desc"
+															ng-click="showPBSolDocs = !showPBSolDocs"
+															ng-hide="showPBSolDocs">Documents Name.</p>
+
+														<div ng-show="showPBSolDocs">
+															<form class="edit-form">
+																<div class="title">
+																	<h2>Add Documents</h2>
+																</div>
+																<div class="col-md-12">
+																	<div class="rowcontainer">
+																		<div class="file-upload">
+																			<div class="row">
+																				<div class="col-md-12">
+																					<div ng-show="uploader.isHTML5">
+																						<!-- 3. nv-file-over uploader="link" over-class="className" -->
+																						<!-- <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+												                            Base drop zone
+												                        </div>-->
+
+																						<!-- Example: nv-file-drop="" uploader="{Object}" options="{Object}" filters="{String}" -->
+																						<div class="text-center" nv-file-drop=""
+																							uploader="uploader" options="{ url: '/foo' }">
+																							<div nv-file-over="" uploader="uploader"
+																								over-class="another-file-over-class"
+																								class="well my-drop-zone">
+																								<h2>Drag and Drop Files</h2>
+																								<label>Max size 200MB</label>
+																							</div>
+																						</div>
+																					</div>
+
+																					<!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+																					<div>
+																						<h2>Browse Files</h2>
+																						<label><input type="file"
+																							nv-file-select="" uploader="uploader" multiple /><br /></label>
+
+																					</div>
+
+
+																					<!-- Single
+											                    <input type="file" nv-file-select="" uploader="uploader" />-->
+																				</div>
+
+																				<div class="col-md-12">
+
+																					<h2>Files Name &amp; Status</h2>
+																					<label><strong>Queue length:</strong> {{
+																						uploader.queue.length }}</label>
+
+																					<table class="table">
+																						<thead>
+																							<tr>
+																								<th width="50%">Name</th>
+																								<th ng-show="uploader.isHTML5">Size</th>
+																								<!-- <th ng-show="uploader.isHTML5">Progress</th>
+																							<th>Status</th> -->
+																								<th>Actions</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr ng-repeat="item in uploader.queue">
+																								<td><strong>{{ item.file.name }}</strong></td>
+																								<td ng-show="uploader.isHTML5" nowrap>{{
+																									item.file.size/1024/1024|number:2 }} MB</td>
+																								<!-- <td ng-show="uploader.isHTML5">
+																								<div class="progress" style="margin-bottom: 0;">
+																									<div class="progress-bar" role="progressbar"
+																										ng-style="{ 'width': item.progress + '%' }"></div>
+																								</div>
+																							</td> -->
+																								<!-- <td class="text-center"><span
+																								ng-show="item.isSuccess"><i
+																									class="glyphicon glyphicon-ok"></i></span> <span
+																								ng-show="item.isCancel"><i
+																									class="glyphicon glyphicon-ban-circle"></i></span> <span
+																								ng-show="item.isError"><i
+																									class="glyphicon glyphicon-remove"></i></span></td> -->
+																								<td nowrap>
+																									<!-- <button type="button"
+																									class="btn btn-success btn-xs"
+																									ng-click="item.upload()"
+																									ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+																									<span class="glyphicon glyphicon-upload"></span>
+																									Upload
+																								</button> --> <!--<button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                    </button>-->
+																									<button type="button"
+																										class="btn btn-danger btn-xs"
+																										ng-click="item.remove()">
+																										<span class="glyphicon glyphicon-trash"></span>
+																										Remove
+																									</button>
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+
+																					<div>
+																						<div>
+																							Queue progress:
+																							<div class="progress" style="">
+																								<div class="progress-bar" role="progressbar"
+																									ng-style="{ 'width': uploader.progress + '%' }"></div>
+																							</div>
+																						</div>
+																						<!-- <button type="button" class="btn btn-success btn-s"
+																			ng-click="uploader.uploadAll()"
+																			ng-disabled="!uploader.getNotUploadedItems().length">
+																			<span class="glyphicon glyphicon-upload"></span>
+																			Upload all
+																		</button> -->
+																						<!--  <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                        </button>-->
+																						<!-- 	<button type="button" class="btn btn-danger btn-s"
+																						ng-click="uploader.clearQueue()"
+																						ng-disabled="!uploader.queue.length">
+																						<span class="glyphicon glyphicon-trash"></span>
+																						Remove all
+																					</button> -->
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+
+
+																	</div>
+																</div>
+																<div class="clearfix"></div>
+																<div class="col-md-6 col-lg-6">
+																	<button type="button"
+																		class="btn btn-default btn-cancel"
+																		ng-click="uploader.clearQueue(); showPBSolDocs = !showPBSolDocs">Cancel</button>
+																</div>
+																<div class="col-md-6 col-lg-6 text-right">
+																	<button type="button" class="btn btn-default btn-save"
+																		ng-click="uploader.uploadAll()"
+																		ng-disabled="!uploader.getNotUploadedItems().length">Done</button>
+																</div>
+																<div class="clearfix"></div>
+															</form>
+														</div>
+														<div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Documents you have in Company Marketplace. <a
+																data-target="#">View Documents &gt;&gt; </a>
+															</label>
+														</div>
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon" ng-if="tags.length<1">
+														<span class="entypo-suitcase">5</span>
+													</div>
+													<div class="timeline-icon bg-success"
+														ng-if="!tags.length<1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Add Tags | </span> <span
+																class="green" ng-if="!tags.length<1"> Completed
+																on {{solution.modified | date }}</span> <span class="ornage"
+																ng-if="tags.length<1">Not Started</span>
+														</h2>
+														<p class="editable-desc"
+															ng-click="showSolTags = !showSolTags"></p>
+
+														<div class="">
+															<!-- showSolTags -->
+															<tags-input ng-model="tags"
+																replace-spaces-with-dashes="false"
+																on-tag-added="tagAdded($tag)"
+																on-tag-removed="tagRemoved($tag)"> <auto-complete
+																source="loadAllTags($query)" min-length="0"
+																debounce-delay="0" max-results-to-show="10"
+																load-on-focus="true" load-on-empty="true"></auto-complete>
+															</tags-input>
+														</div>
+
+														<!-- <div class="">
+															<label> <input type="checkbox"> Use the
+																Tags you have in Company Marketplace. <a data-target="#">View
+																	Tags &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">6</span>
+													</div>
+
+													<!-- <div class="timeline-icon bg-success" ng-if="tags.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div> -->
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">View Signatures | </span> <span
+																class="orange">Not Started</span>
+														</h2>
+														<p class="editable-desc">No Signatures</p>
+														<!-- <div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Signatures you have in Company Marketplace. <a
+																data-target="#">View Signatures &gt;&gt; </a>
+															</label>
+														</div> -->
+														<p></p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">7</span>
+													</div>
+													<!-- <div class="timeline-icon bg-success" ng-if="tags.length>1">
+														<span class="entypo-feather fa fa-check"></span>
+													</div> -->
+
+													<div class="timeline-label">
+														<h2>
+															<span class="blue details">Upload Image for Model
+																| </span> <span class="orange">Not Started</span>
+														</h2>
+														<p class="editable-desc">No Images</p>
+														<div class="checkbox">
+															<label> <input type="checkbox"> Use the
+																Images you have in Company Marketplace. <a
+																data-target="#">View Image &gt;&gt; </a>
+															</label>
+														</div>
+														<p></p>
+													</div>
+												</div>
+											</article>
+										</div>
+										<div class="pull-left">
+											<button type="button" class="btn btn-default"
+												ng-click="publishtoMarket('PB')">Submit to
+												Publication</button>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="tab-pane" id="cloud">
+								<div style="margin: 10px 0px">
+									<a data-target="#exportCloud"
+										class="btn btn-default btn-cancel" data-toggle="tab"
+										aria-expanded="true"
+										ng-click="showExpCloud = !showExpCloud; showExpLocal = false"
+										ng-init="showExpCloud = true"> Export to Cloud </a> <a
+										data-target="#exportLocal" class="btn btn-default btn-cancel"
+										data-toggle="tab" aria-expanded="true"
+										ng-click="showExpLocal = !showExpLocal; showExpCloud = false"
+										ng-init=""> Export to Local </a>
+
+								</div>
+
+
+								<!-- Export To Cloud -->
+								<div ng-show="showExpCloud">
+									<div class="mdl-grid cloud-radio">
+                                                                                                                                                                                                                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone active">
+                                                                                                                                                                                                                                <label class = "mdl-radio mdl-js-radio mdl-js-ripple-effect" for = "option1" >
+                                                                                                                                                                                                                                  <input type = "radio" id = "option1" name="icons" class = "mdl-radio__button cloud-radio-btn" checked>
+                                                                                                                                                                                                                                  <span class = "mdl-radio__label"><img src="images/microsoft_azure_logo.png" alt=""></span>
+                                                                                                                                                                                                                                </label>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                                                                                                                                                                                                                <label class = "mdl-radio mdl-js-radio mdl-js-ripple-effect"  for = "option2">
+                                                                                                                                                                                                                                                <input type = "radio" id = "option2" name="icons" class = "mdl-radio__button cloud-radio-btn" >
+                                                                                                                                                                                                                                                <span class = "mdl-radio__label"><img src="images/google_platform_logo.png" alt=""/></span>
+                                                                                                                                                                                                                                </label>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                                                                                                                                                                                                                <label class = "mdl-radio mdl-js-radio mdl-js-ripple-effect" for = "option3">
+                                                                                                                                                                                                                                  <input type = "radio" id = "option3" name="icons" class = "mdl-radio__button cloud-radio-btn" >
+                                                                                                                                                                                                                                  <span class = "mdl-radio__label"><img src="images/rackspace_logo.png" alt=""/></span>
+                                                                                                                                                                                                                                </label>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                                                                                                                                                                                                                <label class = "mdl-radio mdl-js-radio mdl-js-ripple-effect"  for = "option4">
+                                                                                                                                                                                                                                                <input type = "radio" id = "option4" name="icons"  
+                                                                                                                                                                                                                                                                 class = "mdl-radio__button cloud-radio-btn" >
+                                                                                                                                                                                                                                                <span class = "mdl-radio__label"><img src="images/amazon_web_services_logo.png" alt=""/></span>
+                                                                                                                                                                                                                                </label>
+                                                                                                                                                                                                                </div>                                                                                                                                                                                   
+                                                                                                                                                                                                </div>
+
+
+									<div class="tab-content">
+										 <div class="md-dialog-content">
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+										  <div class="mdl-cell mdl-cell--6-col">
+										  		 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Application Id</label>												      
+												      <input ng-model="applicationId" type="text">
+												 </md-input-container>
+												 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Secret key</label>												      
+												      <input ng-model="secretKey" type="text">
+												 </md-input-container>
+												 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Resource Group</label>												      
+												      <input ng-model="resourceGroup" type="text">
+												 </md-input-container>												
+										  </div>
+										 
+										  <div class="mdl-cell mdl-cell--6-col">
+											<md-input-container class="md-icon-float md-block">
+												<label>Tenant Id</label>												
+												 <input ng-model="tenantId" type="text">
+											</md-input-container>
+											<md-input-container class="md-icon-float md-block">
+												<label>Subscription Key</label>												
+												 <input ng-model="subscriptionKey" type="text">
+											</md-input-container>
+											<md-input-container class="md-icon-float md-block">
+												<label>Acr Name</label>												
+												 <input ng-model="acrName" type="text">
+											</md-input-container>
+										  </div>
+										</div>
+										<hr />
+										 <div layout="row" class="pull-right">
+											<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="authenticateAnddeployToAzure();">
+									        Deploy
+									      </md-button>
+									    </div>								
+									  </div>
+										<!-- <div class="tab-pane active" id="prices">
+											<p class="pull-right">
+												<button type="button" class="btn btn-default" ng-click="$root.showPrerenderedDialog($event)">Deploy</button>
+											</p>
+										</div>
+										<div class="tab-pane" id="features">Features Content</div>
+										<div class="tab-pane" id="requests">Requests Content</div>
+										<div class="tab-pane" id="contact">Contact Content</div> -->
+									</div>
+								</div>
+
+
+								<!-- Download -->
+								<div class="" ng-show="showExpLocal">
+									<table class="table table-bordered table-download">
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Type</th>
+												<th>Version</th>
+												<th></th>
+											</tr>
+										</thead>
+										<!-- <tbody>
+											<tr class="bluestrip">
+												<th><i class="fa fa-chevron-down" aria-hidden="true"></i>{{artifactName}}</th>
+												<td>{{artifactType}}</td>
+												<td>{{artifactVersion}}</td>
+												<td class="text-center" ng-click="exportToLocal(artifactId)"><i
+													class="fa fa-download" aria-hidden="true"></i></td>
+											</tr>
+											<tr>
+												<th colspan="4">
+													<div>
+														<label>Label:</label> Label Name
+													</div>
+													<div>
+														<label>UUID</label>
+													</div>
+													<div>
+														<label>Description:</label> {{artifactDesc}}
+													</div>
+												</th>
+											</tr> -->
+											
+											<tbody ng-repeat="value in artifactDownload">
+												<tr class="bluestrip">
+													<th><i class="fa fa-chevron-down" aria-hidden="true"></i>{{value.name}}</th>
+													<td>{{value.artifactTypeCode}}</td>
+													<td>{{value.version}}</td>
+													<td class="text-center" ng-click="exportToLocal(value.artifactId)"><i
+														class="fa fa-download" aria-hidden="true"></i></td>
+												</tr>
+												<tr>
+													<th colspan="4">
+														<div>
+															<label>Label:</label> {{value.name}}
+														</div>
+														<div>
+															<label>Description:</label> {{value.description}}
+														</div>
+													</th>
+												</tr>
+					
+											<!-- 		<tr class="bluestrip">
+												<th><i class="fa fa-chevron-down" aria-hidden="true"></i>Tosca
+													Model</th>
+												<td>TOSCA_CSAR</td>
+												<td>0</td>
+												<td class="text-center"><i class="fa fa-download"
+													aria-hidden="true"></i></td>
+											</tr>
+											<tr>
+												<th colspan="4">
+													<div>
+														<label>Label:</label> assettoscatemplate
+													</div>
+													<div>
+														<label>UUID</label>
+													</div>
+													<div>
+														<label>Description:</label> TOSCA representation of the
+														asset
+													</div>
+												</th>
+											</tr> -->
+										</tbody>
+									</table>
+								</div>
+
+
+
+							</div>
+							<div class="tab-pane" id="delete">
+								<div class="col-md-12">
+									<h2 style="font-size: 14px; font-weight: bold" ng-if="solution.active == true">Are you
+										sure you want to delete this model?</h2>
+								</div>
+								<div class="col-md-12" ng-if="solution.active == false">
+									<h2 style="font-size: 14px; font-weight: bold">This model is already deleted.</h2>
+								</div>
+								
+								<div class="clearfix"></div>
+								<!-- <div class="col-md-4 col-lg-4">
+									<button type="button" class="btn btn-default btn-cancel"
+										tabindex="0">No</button>
+								</div> -->
+								<div class="col-md-4 col-lg-4 ">
+									<button type="button" class="btn btn-default btn-save"
+										tabindex="0" ng-show="solution.active == true"
+										ng-click="activeFalse = false; updateSolution(); ">Yes</button>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<!-- vertical tab panel end-->
+		</div>
+	</section>
+</section>
+
+
+<!-- <form class="edit-form">
+	<div class="title">
+		<h2>Update Model Name</h2>
+	</div>
+	<div class="col-md-6">
+		<div class="rowcontainer">
+			<label>Model Name</label> <input type="text" class="form-control"
+				id="" ng-model="solution.name" />
+		</div>
+		<div class="rowcontainer">
+			<label>Model ID</label> <input type="text" class="form-control" id=""
+				disabled ng-model="solution.solutionId" />
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="rowcontainer">
+			<label>Model Version</label> <input type="text" class="form-control"
+				id="" disabled ng-model="solution.revisions.version" />
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<div class="col-md-6 col-lg-6">
+		<button type="button" class="btn btn-default btn-cancel"
+			ng-click="showSolName = !showSolName">Cancel</button>
+	</div>
+	<div class="col-md-6 col-lg-6 text-right">
+		<button type="button" class="btn btn-default btn-save"
+			ng-click="updateSolution(); showSolName = !showSolName">Done</button>
+	</div>
+	<div class="clearfix"></div>
+</form> -->
+
+<div class="alert alert-warning notifications-top" ng-if="handleError">
+	<strong>Warning!</strong> {{status}}
+</div>
+
+<div class="alert alert-success notifications-top" ng-if="handleSuccess">
+	<strong>Success!</strong> {{status}}
+</div>
+
+
+<!-- Preview Modal -->
+<div id="previewModal" class="modal fade public-preview" role="dialog">
+	<div class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">{{solution.name}}</h4>
+			</div>
+			<div class="modal-body">
+				<section class="">
+					<section class="model-detail row">
+
+						<div class="tab-panel col-md-12">
+							<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active"><a
+									data-target="#home" aria-controls="home" role="tab"
+									data-toggle="tab" aria-expanded="true"><span
+										class="onlymob"><img src="images/Description.png"
+											alt="" title=""></span>Description</a></li>
+								<li role="presentation" class=""><a data-target="#profile"
+									aria-controls="profile" role="tab" data-toggle="tab"
+									aria-expanded="false"><span class="onlymob"><img
+											src="images/Signature.png" alt="" title=""></span>Signatures</a></li>
+								<li role="presentation" class=""><a data-target="#messages"
+									aria-controls="messages" role="tab" data-toggle="tab"
+									aria-expanded="false"><span class="onlymob"><img
+											src="images/Documents.png" alt="" title=""></span>Documents</a></li>
+								<li role="presentation" class=""><a data-target="#settings"
+									aria-controls="settings" role="tab" data-toggle="tab"
+									aria-expanded="false"><span class="onlymob"><img
+											src="images/Version_History.png" alt="" title=""></span>Version
+										history</a></li>
+							</ul>
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="home">
+									<div class="detailsummary">
+										<p class="headings">Introduction about Model</p>
+										<p ng-bind-html="solution.description">
+											<!-- {{solution.description}} -->
+										</p>
+
+									</div>
+									<div class="detailsummary">
+										<p class="headings">Images and Videos</p>
+										<div class="imagegallery">
+											<!-- <img src="images/imagegallery.jpg" alt="" title=""> -->
+											<div class="row">
+												<div class="col-md-4">
+													<div class="thumbnail">
+														<a data-target=""> <img src="images/imagegallery.jpg"
+															alt="Lights" style="width: 100%"> <!-- <div class="caption">
+																<p>Lorem ipsum...</p>
+															</div> -->
+														</a>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="thumbnail">
+														<a> <img src="images/imagegallery.jpg" alt="Nature"
+															style="width: 100%"> <!-- <div class="caption">
+																<p>Lorem ipsum...</p>
+															</div> -->
+														</a>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="thumbnail">
+														<a> <img src="images/imagegallery.jpg" alt="Fjords"
+															style="width: 100%"> <!-- <div class="caption">
+																<p>Lorem ipsum...</p>
+															</div> -->
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="detailsummary">
+										<p class="headings">Example</p>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="profile">
+									<div class="detailsummary">
+										<p class="headings">Input</p>
+										<p>*(Required) Image Data API Url, Web(http/https) Url,
+											binary images, base64 encoded image or an array of data API
+											URLs / web URLs.</p>
+										<p>.**(Optional) **Output image Location, if input is an
+											array, output loaction should be an array of equal size.</p>
+									</div>
+									<div class="detailsummary">
+										<p class="headings">Output</p>
+										<p>Output image location</p>
+										<p>Note: The first call to this algorithm will take a bit
+											longer than sequential calls to due algorithm initialization.
+											All following calls will be significantly faster.</p>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="messages">
+									<div class="detailsummary">
+										<p class="headings">
+											Supporting Documents
+											<button class="btn replybtn pull-right">Add New</button>
+											<span class="clearfix"></span>
+										</p>
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr>
+														<th></th>
+														<th>Folder/Documents</th>
+														<th>Version</th>
+														<th>Modified on</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th scope="row"><i class="fa fa-file-word-o"
+															aria-hidden="true"></i></th>
+														<td><a data-target>Document Name 01</a></td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i></td>
+													</tr>
+													<tr>
+														<th scope="row"><i class="fa fa-file-pdf-o"
+															aria-hidden="true"></i></th>
+														<td><a data-target>Document Name 02</a></td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i></td>
+													</tr>
+													<tr>
+														<th scope="row"><i class="fa fa-file-word-o"
+															aria-hidden="true"></i></th>
+														<td><a data-target>Document Name 03</a></td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i></td>
+													</tr>
+													<tr>
+														<th scope="row"><i class="fa fa-file-word-o"
+															aria-hidden="true"></i></th>
+														<td><a data-target>Document Name 04</a></td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i></td>
+													</tr>
+													<tr>
+														<th scope="row"><i class="fa fa-folder"
+															aria-hidden="true"></i></th>
+														<td><a data-target>Folder Name 01</a></td>
+														<td>---</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i></td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="settings">
+									<div class="detailsummary">
+										<p class="headings">
+											Version History of Solution
+											<button class="btn replybtn pull-right">Add New</button>
+											<span class="clearfix"></span>
+										</p>
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>Version Name</th>
+														<th>Version</th>
+														<th>Modified on</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><a data-target="#">Version Name 01</a> | latest</td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i>
+															<a data-target="#">View Details</a></td>
+													</tr>
+													<tr>
+														<td><a data-target="#">Version Name 02</a></td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i>
+															<a data-target="#">View Details</a></td>
+													</tr>
+													<tr>
+														<td><a data-target="#">Version Name 03</a></td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i>
+															<a data-target="#">View Details</a></td>
+													</tr>
+													<tr>
+														<td><a data-target="#">Version Name 04</a></td>
+														<td>v1.0</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i>
+															<a data-target="#">View Details</a></td>
+													</tr>
+													<tr>
+														<td><a data-target="#">Version Name 05</a></td>
+														<td>---</td>
+														<td>05/21/2017</td>
+														<td><i class="fa fa-download" aria-hidden="true"></i>
+															<a data-target="#">View Details</a></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</section>
+				</section>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
