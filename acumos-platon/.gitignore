@@ -1,0 +1,12 @@
+/target/
+/.idea/
+/*.iml
+
+*.log
+
+/node/
+/node_modules/
+
+/src/main/webapp/js/
+
+/application.properties

@@ -1,0 +1,51 @@
+#! /bin/bash
+
+# maps identifier (index or branch name) into a branch
+declare -A idToBranch
+index=1
+
+# if it exists, remove the Gerrit hook that creates the 'Change-Id':
+rm -f .git/hooks/commit-msg
+
+# generate list of 'feature' and 'bugfix' branches
+git fetch origin >/dev/null 2>&1
+git remote prune origin >/dev/null 2>&1
+for branch in $(git branch -r | sed -n -e 's@^  origin/@@p' | \
+#	egrep '^feature/|^bugfix/' | sort -V) ; do
+egrep '*' | sort -V) ; do 
+ idToBranch[${index}]="${branch}"
+  idToBranch["${branch}"]="${branch}"
+  ((index += 1))
+done
+
+if [[ "$1" != "" ]] ; then
+	# branch name or index specified as an argument
+	id="$1"
+else
+	if (( index == 1 )) ; then
+		echo "No feature or bugfix branches available" >&2
+		exit 1
+	fi
+
+	# display list of branches
+	echo -e "Select branch:\n"
+	for (( id = 1 ; id < index ; id += 1 )) ; do
+		echo "${id}) ${idToBranch[${id}]}"
+	done
+
+	# prompt for branch and read response
+	echo -ne "\nEnter a number from 1 through $((index - 1)):  "
+	read id
+fi
+
+# remove leading and trailing spaces (actually all spaces)
+id="${id// /}"
+
+if [[ "${id}" != "" ]] ; then
+	branch=${idToBranch[${id}]}
+	if [[ "${branch}" == "" ]] ; then
+		echo -e "${id}:  Illegal entry\n"
+	else
+		git checkout ${branch}
+	fi
+fi

@@ -1,0 +1,325 @@
+<!-- 
+	style for demo remove afterwards - images according to the name of the solution 
+-->
+<style>
+	.explore .mdl-card__title img {
+    width: 100%;
+    max-height: 150px;
+    min-height: 150px;
+}
+</style>
+
+<!-- <section class="description_box" id="breadcrumb-box">
+	<h4>Home</h4>
+	<ol class="breadcrumb">
+		<li><a href="#">Home</a></li>
+		<li><a href="#"></a></li>
+	</ol>
+</section>
+ -->
+ <section>
+ <div class="homemain-carousel">
+<ui-carousel 
+  					slides="banner.slides"
+  					autoplay="false"
+  					slides-to-show="1"
+  				    slides-to-scroll="1"
+  				   	dots="true"
+  				   	active="false"
+  				   	autoplay-speed="8000"
+  				   	on-before-change="onCarouselBeforeChange()">
+  				   	<carousel-item>
+ 					<div  ng-bind-html = "item | to_trusted" compile = "item" ></div>
+ 					</carousel-item>
+ 					<carousel-prev>
+    
+   <span>
+    	<i class="material-icons">chevron_left</i>
+    </span>
+   
+  </carousel-prev>
+ 
+  <carousel-next>
+   
+    <span>
+    	<i class="material-icons">chevron_right</i>
+    </span>
+    
+  </carousel-next>
+ 					</ui-carousel> 
+ </div>
+ 
+	<!-- <div class="home-screen slide-content">
+				<div class="slide-text">
+					<h4>Powering Data-driven Solutions</h4>
+					<h6>the marketplace, the eco-system and the design studio</h6>
+					<p>{{$root.siteInstanceName}} is the marketplace and collaboration space for AI. <a href="#">Learn More >></a></p>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-click = "go('modularResource')"> 
+					  ADD YOUR MODEL NOW
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+					  <a ui-sref="marketPlace" style="color:#FFF" ng-click = "go('marketPlace')">EXPLORE MARKETPLACE</a>
+					</button>
+				</div>
+				<div class="image-container">
+					<img src="images/banner_ml_graphics.png" alt="" title=""/>
+				</div>
+			</div> -->
+			
+			
+			<!-- explore -->
+			<div class="explore">
+				<h3>Explore the {{$root.siteInstanceName}} Marketplace</h3>
+				<h6>it's easy to <b>discover, download & deploy</b></h6>
+				<div class="mdl-grid">
+					<ui-carousel 
+  					slides="mlsolution.slides"
+  					autoplay="false"
+  					slides-to-show="noOfSolutiontile"
+  				    slides-to-scroll="1"
+  				   	dots="true">
+  					<!-- <carousel-item>
+          placed your item content here
+          
+          <img src="images/ml_solution_01.png" alt="Image" />
+          end
+        </carousel-item> -->
+  				   <carousel-item>
+					<!-- <div class=""> -->
+						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title">
+							<figure>
+							<img src="{{item.image}}" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId)" class="img-rounded" width="204" height="156">
+													        
+									</figure>
+						  </div>
+						  <div class="mdl-card__supporting-text">
+							{{item.name}}
+							<div>
+							<span class="rating header-stat-lg">
+								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating == null || item.solutionRating < 1}" aria-hidden="true"></i></span>
+								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 2}" aria-hidden="true"></i></span>
+								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 3}" aria-hidden="true"></i></span>
+								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 4}" aria-hidden="true"></i></span>
+								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 5}" aria-hidden="true"></i></span>
+							</span>
+							</div> 
+							
+						  </div>
+						</div>
+					<!-- </div> -->
+					</carousel-item>
+					<!-- <carousel-item>
+					<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+					<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+					  <div class="mdl-card__title">
+						<img src="images/ml_solution_02.png" class="center" alt="" title=""/>						
+					  </div>
+					  <div class="mdl-card__supporting-text">
+						Name of ML Solution	
+						<div class="icons">
+							<i class="fa fa-star brown" aria-hidden="true"></i>
+							<i class="fa fa-star brown" aria-hidden="true"></i>
+							<i class="fa fa-star brown" aria-hidden="true"></i>
+							<i class="fa fa-star gray" aria-hidden="true"></i>
+							<i class="fa fa-star gray" aria-hidden="true"></i>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				  </carousel-item>
+				  <carousel-item>
+					<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title">
+							<img src="images/ml_solution_03.png" alt="" title=""/>
+						  </div>
+						  <div class="mdl-card__supporting-text">
+							Name of ML Solution	
+							<div class="icons">
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+							</div>
+						  </div>
+						</div>
+					</div>
+					</carousel-item>
+					<carousel-item>
+					<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone last-child">
+						<div class="demo-card-wide mdl-card mdl-shadow--2dp ">
+						  <div class="mdl-card__title">
+							<img src="images/ml_solution_04.png" alt="" title=""/>
+						  </div>
+						  <div class="mdl-card__supporting-text">
+							Name of ML Solution	
+							<div class="icons">
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+							</div>
+						  </div>
+						</div>
+				  </div>   
+				  </carousel-item>
+				  <carousel-item>
+					<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone first-child">
+						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title">
+							<img src="images/ml_solution_01.png" alt="" title=""/>
+						  </div>
+						  <div class="mdl-card__supporting-text">
+							Name of ML Solution	
+							<div class="icons">
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+							</div>
+						  </div>
+						</div>
+					</div>
+					</carousel-item>
+					<carousel-item>
+					<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone first-child">
+						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+						  <div class="mdl-card__title">
+							<img src="images/ml_solution_01.png" alt="" title=""/>
+						  </div>
+						  <div class="mdl-card__supporting-text">
+							Name of ML Solution	
+							<div class="icons">
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star brown" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+								<i class="fa fa-star gray" aria-hidden="true"></i>
+							</div>
+						  </div>
+						</div>
+					</div>
+					</carousel-item> -->
+				  <carousel-prev>
+    <!-- placed your previous button here -->
+     <span>
+    	<i class="material-icons">chevron_left</i>
+    </span>
+    <!-- end -->
+  </carousel-prev>
+ 
+  <carousel-next>
+    <!-- placed your next button here -->
+     <span>
+    	<i class="material-icons">chevron_right</i>
+    </span>
+    <!-- end -->
+  </carousel-next>
+				</ui-carousel>
+				</div>
+			</div>
+			
+			<!-- discover -->
+			<div class="discover">
+				<h3>Discover {{$root.siteInstanceName}}</h3>
+				<div class="marketplace">
+				<a ui-sref="marketPlace">
+					<div class="discover-icon">
+						<img src="images/discover_marketplace_icon.png" alt="" title=""/>
+					</div>
+					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentMarketPlace('marketplace')" ng-bind-html="marketplace">
+						<!-- <h5>Marketplace</h5>
+						<p>
+							{{$root.siteInstanceName}} is the go-to site for data-powered decision making. With an intuitive easy-to-search, easy-to-use catalog, Acumos brings Al to the mainstream.
+						</p> -->
+					</div>
+					<a ui-sref="marketPlace">
+				</div>
+				<div class="desingstudio">
+				    <a ui-sref="designStudio">
+					<div class="discover-icon">
+						<img src="images/discover_design_studio_icon.png" alt="" title=""/>
+					</div>
+					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentDesignStudio('design-studio')" ng-bind-html="designstudion">
+						<!-- <h5>Design Studio</h5> 
+						<p>Models-as-microservices allow components to be chained to handle sophisticated problems.</p> -->
+					</div>
+					</a>
+				</div>
+				<div class="sdn">
+					<div class="discover-icon">
+						<img src="images/discover_design_sdn.png" alt="" title=""/>
+					</div>
+					<div class="discover-description" data-ng-init="getCmsHomeScreenDiscoverContentSDNONAP('sdn--onap')" ng-bind-html="sdnonap">
+						<!-- <h5>SDN & ONAP</h5> 
+						<p>Many Marketplace solutions originated in the ONAP SDN community and are configured to be directly deployed to SDC.</p> -->
+					</div>
+				</div>
+				<div class="community text-right">
+					<div class="discover-icon">
+						<img src="images/discover_community_icon.png" alt="" title=""/>
+					</div>
+					<div class="discover-description" data-ng-init="getCmsHomeScreenDiscoverContentTeamUP('team-up')" ng-bind-html="teamup">
+						<!-- <h5>Team Up!</h5>
+						<p>Share, download & collaborate in an open source ecosystem of people, solutions and ideas.</p> -->
+						
+					</div>
+					
+				</div>
+				<div class="onboard text-right">
+				<a ui-sref="modularResource">
+					<div class="discover-icon">
+						<img src="images/discover_onboarding_icon.png" alt="" title="" />
+					</div>
+					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentOnboard('onboarding-with-toolkit')" ng-bind-html="onboard">
+						<!-- <h5>Onboard with your Preferred Toolkit</h5>
+						<p>With a focus on interoperability, Acumos supports diverse Al toolkits. Onboarding tools are available for TensorFlow, SciKitLearn, RCloud,  H2O and generic java.</p> -->
+					</div>
+				</a>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			
+			
+			<!-- hackathon -->
+			<div class="hackathon">
+				<div class="hackathon-container">
+					<div class="hackathon-image">
+					 <img src="images/hacathon_graphics.png" alt="" title=""/>			
+					</div>
+					<div class="hackathon-text" data-ng-init="getCmsHomeScreenHackathon()" ng-bind-html="hackathon">
+						<!-- <h3>Hackathon</h3>
+						<p>An {{$root.siteInstanceName}} Hackathon is coming soon!  Meet new colleagues and expand your {{$root.siteInstanceName}} skills.</p> -->						
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!-- sucess -->
+			<div class="success">
+				<h3>Success stories</h3>
+				
+				<div class="mdl-grid">
+					<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit">
+						<div class="success-icon">
+							<img src="images/Success_badge.png" alt="" title=""/>
+						</div>
+						<div class="success-description" data-ng-init="getCmsHomeScreenSuccessStoriesexec()" ng-bind-html="successStoryattexec">
+							
+						</div>
+					</div>
+					
+					<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit">
+						<div class="success-icon">
+							<img src="images/Success_badge.png" alt="" title=""/>
+						</div>
+						<div class="success-description" data-ng-init="getCmsHomeScreenSuccessStoriesSitemanager()" ng-bind-html="successStorysitemgr">
+							
+						</div>
+					</div>				 			  
+				</div>
+			</div>
+		</section>

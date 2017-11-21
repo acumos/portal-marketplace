@@ -1,0 +1,48 @@
+					<div class="col-md-6">
+						<form name="userForm">
+							<div class="form-group rowcontainer">
+								<label for="exampleInputEmail1">Email address</label> <input
+									type="text" class="form-control signincontrol" id="userName"
+									name="userName" ng-model="$ctrl.modalData.name"
+									placeholder="Username or Email Id" required>
+								<div class="help-inline"
+									ng-class="{validationmsg:!userForm.userName.$valid}">
+									<span
+										ng-show="!!(userForm.userName.$dirty && userForm.userName.$error.required)">Please
+										enter valid Username or Email ID</span>
+								</div>
+							</div>
+							<div class="form-group rowcontainer">
+								<label for="exampleInputPassword1">Password</label> <input
+									type="password" class="form-control signincontrol"
+									id="userPass" placeholder="Password" id="userPass"
+									name="userPass" ng-model="$ctrl.modalData.value" required />
+								<div class="help-inline"
+									ng-class="{validationmsg:!userForm.userPass.$valid}">
+									<span
+										ng-show="!!(userForm.userPass.$dirty && userForm.userPass.$error.required)">Please
+										enter password</span>
+
+								</div>
+							</div>
+							<div class="checkbox">
+								<label> <input type="checkbox"> Remember me
+								</label>
+							</div>
+							<div class="help-inline">
+								<span ng-show="$ctrl.enterLoginCredentials"
+									style="color: #ff0000">User name and Password does not
+									match. </span>
+							</div>
+							<div class="help-inline">
+								<span ng-show="$ctrl.userPassInvalid" style="color: #ff0000;">Username
+									and Password does not match</span>
+							</div>
+							<button type="submit" class="btn btngray btn-fullwidth2"
+								ng-click="$ctrl.ok()">OK</button>
+							<button type="submit"
+								class="btn btn-link btn-fullwidth text-center">Forgot
+								Password?</button>
+						</form>
+					</div>
+					

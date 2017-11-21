@@ -1,0 +1,74 @@
+{
+  "components": [
+    {
+      "name": "A",
+      "category": "H20",
+      "url": "catalog/A.json"
+    },
+    {
+      "name": "B",
+      "category": "TensorFlow",
+      "url": "catalog/B.json"
+    },
+    {
+      "name": "C",
+      "category": "RCloud",
+      "url": "catalog/C.json"
+    },
+    {
+      "name": "D",
+      "category": "Transformation",
+      "url": "catalog/D.json"
+    },
+    {
+      "name": "E",
+      "category": "TensorFlow",
+      "url": "catalog/E.json"
+    },
+    {
+      "name": "F",
+      "category": "TensorFlow",
+      "url": "catalog/F.json"
+    },
+    {
+      "name": "G",
+      "category": "SciKit",
+      "url": "catalog/G.json"
+    },
+    {
+      "name": "H",
+      "category": "SciKit",
+      "url": "catalog/H.json"
+    },
+    {
+      "name": "I",
+      "category": "SciKit",
+      "url": "catalog/I.json"
+    },
+    {
+      "name": "J",
+      "category": "RCloud",
+      "url": "catalog/J.json"
+    },
+    {
+      "name": "K",
+      "category": "Transformation",
+      "url": "catalog/K.json"
+    },
+    {
+      "name": "L",
+      "category": "H20",
+      "url": "catalog/L.json"
+    }
+  ],
+  "solutions": [
+    {
+      "name": "Better",
+      "url": "catalog/Better.json"
+    },
+    {
+      "name": "Best",
+      "url": "catalog/Best.json"
+    }
+  ]
+}

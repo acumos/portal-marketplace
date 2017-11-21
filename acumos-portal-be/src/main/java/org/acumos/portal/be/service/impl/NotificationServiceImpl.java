@@ -1,0 +1,133 @@
+/*-
+ * ===============LICENSE_START=======================================================
+ * Acumos
+ * ===================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+ * ===================================================================================
+ * This Acumos software file is distributed by AT&T and Tech Mahindra
+ * under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *  
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *  
+ * This file is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===============LICENSE_END=========================================================
+ */
+
+package org.acumos.portal.be.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.acumos.portal.be.service.NotificationService;
+import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+import org.acumos.cds.client.CommonDataServiceRestClientImpl;
+import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPUserNotification;
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
+
+@Service
+public class NotificationServiceImpl implements NotificationService {
+
+	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(NotificationServiceImpl.class);
+ 
+	@Autowired
+	private Environment env;
+
+	private ICommonDataServiceRestClient getClient() {
+		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
+				env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
+		return client;
+	}
+
+	/*
+	 * No
+	 */
+	public NotificationServiceImpl() {
+
+	}
+
+	@Override
+	public MLNotification createNotification(MLPNotification mlpNotification) {
+		log.debug(EELFLoggerDelegate.debugLogger, "createNotification`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLNotification mlNotification = PortalUtils.convertToMLNotification(dataServiceRestClient.createNotification(mlpNotification));
+		return mlNotification;
+	}
+
+	@Override
+	public List<MLNotification> getNotifications() {
+		log.debug(EELFLoggerDelegate.debugLogger, "getNotifications`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient(); 
+		RestPageResponse<MLPNotification> mlpSolutionsPaged = null;
+		RestPageRequest pageRequest = new RestPageRequest();
+		pageRequest.setPage(0);
+		pageRequest.setSize(0);
+		mlpSolutionsPaged = dataServiceRestClient.getNotifications(pageRequest);
+		List<MLPNotification> mlpNotificationList = mlpSolutionsPaged.getContent();
+		List<MLNotification> mlNotificationList = new ArrayList<>();
+		if (mlpNotificationList != null) {
+			for (MLPNotification mlpNotification : mlpNotificationList) {
+				MLNotification mlNotification = PortalUtils.convertToMLNotification(mlpNotification);
+				mlNotificationList.add(mlNotification);
+			}
+		}
+		return mlNotificationList;
+	}
+
+	@Override
+	public List<MLPUserNotification> getUserNotifications(String userId, RestPageRequest restPageRequest) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getUserNotifications`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient(); 
+		RestPageResponse<MLPUserNotification> mlpNotificationList = dataServiceRestClient.getUserNotifications(userId,restPageRequest);	
+		return mlpNotificationList.getContent();
+	}
+
+	@Override
+	public void addNotificationUser(String notificationId, String userId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "addNotificationUser`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.addUserToNotification(notificationId,userId);
+	}
+
+	@Override 
+	public void dropNotificationUser(String notificationId, String userId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "dropNotificationUser`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.dropUserFromNotification(notificationId,userId);
+		dataServiceRestClient.deleteNotification(notificationId);
+	}
+
+	@Override 
+	public void setNotificationUserViewed(String notificationId, String userId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "dropNotificationUser`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.setUserViewedNotification(notificationId,userId);
+	}
+	
+	@Override
+	public void deleteNotification(String notificationId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deleteNotification`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.deleteNotification(notificationId);
+	}
+
+	@Override
+	public int getNotificationCount() {
+		log.debug(EELFLoggerDelegate.debugLogger, "getNotificationCount");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		Long count = dataServiceRestClient.getNotificationCount();
+		return count.intValue();
+	}
+}

@@ -1,0 +1,631 @@
+
+<section class="description_box">
+	<div class="">
+		<div class="description-content">
+			<div class="description-content-left">
+				<h4 class="inline-block text-bold">{{solution.name}}</h4>
+				<!-- <h4 class="inline-block text-bold">{{name}}</h4> -->
+				<span>| Version-2.0 </span> <span> | <a ui-sref="modelEdit"
+					ng-show="isUser">Edit</a></span>
+				<!-- ng-show="isUser" -->
+			</div>
+			<div class="description-content-right">
+				<span> <i class="fa fa-star"
+					ng-class="{'fa-star-o': solution.solutionRating == null || solution.solutionRating < 1}"
+					aria-hidden="true"></i> <i class="fa fa-star"
+					ng-class="{'fa-star-o': solution.solutionRating < 2}"
+					aria-hidden="true"></i> <i class="fa fa-star"
+					ng-class="{'fa-star-o': solution.solutionRating < 3}"
+					aria-hidden="true"></i> <i class="fa fa-star"
+					ng-class="{'fa-star-o': solution.solutionRating < 4}"
+					aria-hidden="true"></i> <i class="fa fa-star-o"
+					ng-class="{'fa-star-o': solution.solutionRating < 5}"
+					aria-hidden="true"></i>
+				</span> <span><i class="fa fa-comment" aria-hidden="true"></i><a
+					data-target="#">10 Comments</a></span> <span> <a data-target="#">Write
+						comments</a></span> <span><i class="fa fa-eye" aria-hidden="true"></i>176
+					Viewed</span> <span><i class="fa fa-download" aria-hidden="true"></i>{{solution.downloadCount
+					=== null ? 0 : solution.downloadCount}} Downloaded</span>
+			</div>
+			<div class="clearfix"></div>
+			<div>
+				<ol class="breadcrumb col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<li><a data-target="#">Home</a></li>
+					<li>{{solution.name}}</li>
+				</ol>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</section>
+<section class="">
+	<section class="model-detail row">
+
+		<div class="tab-panel col-xs-12 col-sm-12 col-md-9 col-lg-9">
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a data-target="#home"
+					aria-controls="home" role="tab" data-toggle="tab"
+					aria-expanded="true"><span class="onlymob"><img
+							src="images/Description.png" alt="" title=""></span>Description</a></li>
+				<li role="presentation" class=""><a data-target="#profile"
+					aria-controls="profile" role="tab" data-toggle="tab"
+					aria-expanded="false"><span class="onlymob"><img
+							src="images/Signature.png" alt="" title=""></span>Signatures</a></li>
+				<li role="presentation" class=""><a data-target="#messages"
+					aria-controls="messages" role="tab" data-toggle="tab"
+					aria-expanded="false"><span class="onlymob"><img
+							src="images/Documents.png" alt="" title=""></span>Documents</a></li>
+				<li role="presentation" class=""><a data-target="#settings"
+					aria-controls="settings" role="tab" data-toggle="tab"
+					aria-expanded="false"><span class="onlymob"><img
+							src="images/Version_History.png" alt="" title=""></span>Version
+						history</a></li>
+				<!-- <li class="statcontainer" ng-hide="!solution.active"><span>
+						<span class="number">3.6</span> <span class="text">MB</span> <br>
+						<span class="text">Size</span>
+				</span> <span> <span class="number">96</span><br> <span
+						class="text">Lines</span>
+				</span> <span> <span class="number">4</span><br> <span
+						class="text">Inputs</span>
+				</span> <span> <span class="number">2</span><br> <span
+						class="text">Outputs</span>
+				</span></li> -->
+			</ul>
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="home">
+					<div class="detailsummary">
+						<p class="headings">Introduction about Model</p>
+						<p ng-bind-html="solution.description">
+							<!-- {{solution.description}} -->
+						</p>
+
+					</div>
+					<div class="detailsummary">
+						<p class="headings">Images and Videos</p>
+						<div class="imagegallery">
+							<img src="images/imagegallery.jpg" alt="" title="">
+						</div>
+					</div>
+					<div class="detailsummary">
+						<p class="headings">Example</p>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="profile">
+					<div class="detailsummary">
+						<p class="headings">Input</p>
+						<p>*(Required) Image Data API Url, Web(http/https) Url, binary
+							images, base64 encoded image or an array of data API URLs / web
+							URLs.</p>
+						<p>.**(Optional) **Output image Location, if input is an
+							array, output loaction should be an array of equal size.</p>
+					</div>
+					<div class="detailsummary">
+						<p class="headings">Output</p>
+						<p>Output image location</p>
+						<p>Note: The first call to this algorithm will take a bit
+							longer than sequential calls to due algorithm initialization. All
+							following calls will be significantly faster.</p>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="messages">
+					<div class="detailsummary">
+						<p class="headings">
+							Supporting Documents
+							<button class="btn replybtn pull-right">Add New</button>
+							<span class="clearfix"></span>
+						</p>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Folder/Documents</th>
+										<th>Version</th>
+										<th>Modified on</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- <tr>
+										<th scope="row"><i class="fa fa-file-word-o"
+											aria-hidden="true"></i></th>
+										<td><a data-target>Document Name 01</a></td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i></td>
+									</tr>
+									<tr>
+										<th scope="row"><i class="fa fa-file-pdf-o"
+											aria-hidden="true"></i></th>
+										<td><a data-target>Document Name 02</a></td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i></td>
+									</tr>
+									<tr>
+										<th scope="row"><i class="fa fa-file-word-o"
+											aria-hidden="true"></i></th>
+										<td><a data-target>Document Name 03</a></td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i></td>
+									</tr>
+									<tr>
+										<th scope="row"><i class="fa fa-file-word-o"
+											aria-hidden="true"></i></th>
+										<td><a data-target>Document Name 04</a></td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i></td>
+									</tr>
+									<tr>
+										<th scope="row"><i class="fa fa-folder"
+											aria-hidden="true"></i></th>
+										<td><a data-target>Folder Name 01</a></td>
+										<td>---</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i></td>
+									</tr> -->
+									<tr ng-repeat="supportingDoc in supportingDocs">
+										<th scope="row"><i class="fa fa-file-word-o"></i></th>
+											<td><a data-target>{{supportingDoc.index}}</a></td>
+										<td></td>
+										<td></td>
+										<td><!-- <i class="fa fa-download" aria-hidden="true" href="/site/binaries/content/assets/solutiondocs/solution/org/{{solution.solutionId}}/{{val}}"></i> --></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="settings">
+					<div class="detailsummary">
+						<p class="headings">
+							Version History of Solution
+							<button class="btn replybtn pull-right">Add New</button>
+							<span class="clearfix"></span>
+						</p>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Version Name</th>
+										<th>Version</th>
+										<th>Modified on</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a data-target="#">Version Name 01</a> | latest</td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i> <a
+											data-target="#">View Details</a></td>
+									</tr>
+									<tr>
+										<td><a data-target="#">Version Name 02</a></td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i> <a
+											data-target="#">View Details</a></td>
+									</tr>
+									<tr>
+										<td><a data-target="#">Version Name 03</a></td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i> <a
+											data-target="#">View Details</a></td>
+									</tr>
+									<tr>
+										<td><a data-target="#">Version Name 04</a></td>
+										<td>v1.0</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i> <a
+											data-target="#">View Details</a></td>
+									</tr>
+									<tr>
+										<td><a data-target="#">Version Name 05</a></td>
+										<td>---</td>
+										<td>05/21/2017</td>
+										<td><i class="fa fa-download" aria-hidden="true"></i> <a
+											data-target="#">View Details</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ratemodel">
+				<div>
+					<p class="nameml">Rate this: {{solution.name}}</p>
+					<div class="socialicon" ng-hide="!solution.active">
+						<span>Share with</span>
+						<ul>
+							<li><i class="fa fa-facebook" aria-hidden="true"></i></li>
+							<li><i class="fa fa-linkedin" aria-hidden="true"></i></li>
+							<li><i class="fa fa-google" aria-hidden="true"></i></li>
+							<li><i class="fa fa-github" aria-hidden="true"></i></li>
+						</ul>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="rating">
+					<div>
+						<h3 class="pull-left">
+							<b>21</b>
+						</h3>
+						<!-- <i class="fa fa-star" aria-hidden="true"></i> <i
+								class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
+								aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i>
+							<i class="fa fa-star-o" aria-hidden="true"></i> -->
+						<angular-star-rating max="maxValue" value='ratingValue'
+							active='solution.active' hover='changeOnHover'
+							is-readonly='isReadonly'></angular-star-rating>
+					</div>
+					<div class="clearfix"></div>
+					<div class="starratings">
+						<span>5 star</span><span class="avarge"></span><span class="badge">42</span>
+					</div>
+					<div class="starratings">
+						<span>4 star</span><span class="avarge"></span><span class="badge">12</span>
+					</div>
+					<div class="starratings">
+						<span>3 star</span><span class="avarge"></span><span class="badge">2</span>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<hr>
+				<div class="discussion">
+
+					<p class="pull-left">Discussion (10)</p>
+					<ul>
+						<li><a data-target="#" class="active">Newest</a></li>
+						<li><a data-target="#">Older</a></li>
+						<li><a data-target="#">Linked</a></li>
+					</ul>
+					<div class="clearfix"></div>
+					<div class="imageholder">
+						<img src="images/profile-icon-01-48X48.png" alt="" title="user">
+					</div>
+					<div class="chatwindow">
+						<b>Mike Smith</b> | Today 4:21pm - 12.05.2017
+						<p>Lorem Ipsum is simply dummy text of the printing and
+							typesetting industry.</p>
+						<button class="btn replybtn" ng-hide="!solution.active">Reply</button>
+					</div>
+					<div class="chatreply">
+						<div class="imageholder">
+							<img src="images/profile-icon-01-48X48.png" alt="" title="user">
+						</div>
+						<div class="chatwindow">
+							<b>John Smith</b> | Today 4:21pm - 12.05.2017
+							<p>Lorem Ipsum is simply dummy text of the printing and
+								typesetting industry. Lorem Ipsum is simply dummy text of the
+								printing and typesetting industry.</p>
+						</div>
+					</div>
+					<div class="post" ng-hide="!solution.active">
+						<form class="form-inline">
+							<div class="form-group">
+								<input type="text" class="form-control" id="text1"
+									placeholder="Type your post">
+							</div>
+							<button type="submit" class="btn btn-post">Post</button>
+						</form>
+					</div>
+					<hr>
+					<div class="imageholder">
+						<img src="images/profile-icon-01-48X48.png" alt="" title="user">
+					</div>
+					<div class="chatwindow">
+						<b>John Smith</b> | Today 4:21pm - 12.05.2017
+						<p>Lorem Ipsum is simply dummy text of the printing and
+							typesetting industry.</p>
+						<button class="btn replybtn" type="submit"
+							ng-hide="!solution.active">Reply</button>
+					</div>
+					<div class="add-comment" ng-hide="!solution.active">
+						<form>
+							<div class="form-group">
+								<label for="comment">Add Comment</label> <input type="text"
+									class="form-control" id="exampleInputtext"
+									placeholder="Add your comments">
+							</div>
+							<button type="submit" class="btn btn-comment">Post
+								Comments</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+			<div class="leftsection">
+				<div class="leftcontent">
+					<div class="imageholder">
+						<img src="images/profile-icon-01-48X48.png" alt="" title="user">
+					</div>
+					<div class="chatwindow">
+						<p>
+							<b>Created by {{solution.ownerName}}</b>
+						</p>
+						<p>Created on {{solution.created | date:'MM/dd/yyyy' }}</p>
+
+						<p>Published on {{solution.modified | date:'MM/dd/yyyy' }}</p>
+					</div>
+				</div>
+				<hr class="hr2">
+				<div class="boxinner2">
+					<!-- <label>Description</label>
+						<hr class="hr2">
+						<p ng-bind-html="solution.description">
+						{{solution.description}}
+						</p>
+						 
+						<br> -->
+					<div class="text-center">
+						<!-- <a ng-href="Download.txt" download="Download.txt" type="button" class="btn btn-default btn-long">Download</a> -->
+						<a data-toggle="modal" data-target="#myModal" type="button"
+							class="btn btn-default btn-long" ng-disabled="!solution.active">Download</a>
+						<div>
+							<label class="normallbl ">Version {{versionId}} | 6
+								Downloaded</label>
+						</div>
+					</div>
+					<br>
+					<div class="deploy">
+						<div class="btn-group">
+							<button type="button"
+								class="btn btn-default btn-deploy"
+								ng-click="$root.showPrerenderedDialog($event)"
+								aria-haspopup="true"
+								aria-expanded="false" ng-disabled="!solution.active">
+								Deploy to Cloud 
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#"><img src="images/mazure.png" alt=""
+										title=""></a></li>
+								<li><a href="#"><img src="images/cloud.png" alt=""
+										title=""></a></li>
+								<li><a href="#"><img src="images/rackspace.png" alt=""
+										title=""></a></li>
+								<li><a href="#"><img src="images/amazoncloud.png"
+										alt="" title=""></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="tagsection boxinner2">
+					<label>Tags</label>
+					<hr class="hr2">
+					<div class="tagscontainer" ng-repeat="tag in tags">
+						<span class="tagspan">{{tag.tag}}</span>
+						<!-- <span
+								class="tagspan">colorization</span> <span class="tagspan">computer
+								vision</span> <span class="tagspan">black and white</span> <span
+								class="tagspan">colorization</span> <span class="tagspan">computer
+								vision</span> <span class="tagspan">black and white</span> <span
+								class="tagspan">colorization</span> <span class="tagspan">computer
+								vision</span> -->
+					</div>
+				</div>
+			</div>
+			<div class="solution leftsection">
+				<div>
+					<div class="boxinner2">
+						<label>Related ML Solutions</label>
+					</div>
+					<hr class="hr2">
+					<div class="leftcontent">
+						<div class="imageholder">
+							<img src="images/solution1.jpg" alt="" title="solution">
+						</div>
+						<div class="chatwindow">
+							<p>Name of ML Solution</p>
+							<div class="rating">
+								<span><i class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star-half-o" aria-hidden="true"></i></span>
+							</div>
+							<label class="normallbl display-block"> <span
+								class="iconspan1"><i class="fa fa-comment"
+									aria-hidden="true"></i> 12</span> <span class="iconspan1"><i
+									class="fa fa-eye" aria-hidden="true"></i> 176</span> <span
+								class="iconspan1"><i class="fa fa-download"
+									aria-hidden="true"></i> 6</span>
+							</label>
+						</div>
+					</div>
+					<div class="leftcontent">
+						<div class="imageholder">
+							<img src="images/solution1.jpg" alt="" title="solution">
+						</div>
+						<div class="chatwindow">
+							<p>Name of ML Solution</p>
+							<div class="rating">
+								<span><i class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star-half-o" aria-hidden="true"></i></span>
+							</div>
+							<label class="normallbl display-block"> <span
+								class="iconspan1"><i class="fa fa-comment"
+									aria-hidden="true"></i> 12</span> <span class="iconspan1"><i
+									class="fa fa-eye" aria-hidden="true"></i> 176</span> <span
+								class="iconspan1"><i class="fa fa-download"
+									aria-hidden="true"></i> 6</span>
+							</label>
+						</div>
+					</div>
+					<div class="leftcontent">
+						<div class="imageholder">
+							<img src="images/solution1.jpg" alt="" title="solution">
+						</div>
+						<div class="chatwindow">
+							<p>Name of ML Solution</p>
+							<div class="rating">
+								<span><i class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star-half-o" aria-hidden="true"></i></span>
+							</div>
+							<label class="normallbl display-block"> <span
+								class="iconspan1"><i class="fa fa-comment"
+									aria-hidden="true"></i> 12</span> <span class="iconspan1"><i
+									class="fa fa-eye" aria-hidden="true"></i> 176</span> <span
+								class="iconspan1"><i class="fa fa-download"
+									aria-hidden="true"></i> 6</span>
+							</label>
+						</div>
+					</div>
+					<div class="leftcontent">
+						<div class="imageholder">
+							<img src="images/solution1.jpg" alt="" title="solution">
+						</div>
+						<div class="chatwindow">
+							<p>Name of ML Solution</p>
+							<div class="rating">
+								<span><i class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star" aria-hidden="true"></i></span> <span><i
+									class="fa fa-star-half-o" aria-hidden="true"></i></span>
+							</div>
+							<label class="normallbl display-block"> <span
+								class="iconspan1"><i class="fa fa-comment"
+									aria-hidden="true"></i> 12</span> <span class="iconspan1"><i
+									class="fa fa-eye" aria-hidden="true"></i> 176</span> <span
+								class="iconspan1"><i class="fa fa-download"
+									aria-hidden="true"></i> 6</span>
+							</label>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+</section>
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Download Artifacts</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-body">
+					<table class="table table-bordered table-download">
+						<thead>
+							<tr>
+								<th>Name<i class="fa fa-chevron-up" aria-hidden="true"></i></th>
+								<th>Type</th>
+								<th>Version</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody ng-repeat="value in downloadData">
+							<tr class="bluestrip">
+								<th><i class="fa fa-chevron-down" aria-hidden="true"></i>{{value.name}}</th>
+								<td>{{value.artifactTypeCode}}</td>
+								<td>{{value.version}}</td>
+								<td class="text-center" ng-click="download(value.artifactId)"><i
+									class="fa fa-download" aria-hidden="true"></i></td>
+							</tr>
+							<tr>
+								<th colspan="4">
+									<div>
+										<label>Label:</label> {{value.name}}
+									</div>
+									<div>
+										<label>Description:</label> {{value.description}}
+									</div>
+								</th>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--Deploy To Cloud Modal -->
+<div class="md-dialog-container" id="myDialog" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Deploying to Microsoft Azure</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="cancel()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+										  <div class="mdl-cell mdl-cell--6-col">
+										  		 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Application Id</label>												      
+												      <input ng-model="user.name" type="text">
+												 </md-input-container>
+												 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Secret key</label>												      
+												      <input ng-model="user.pass" type="text">
+												 </md-input-container>
+												 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Resource Group</label>												      
+												      <input ng-model="user.pass" type="text">
+												 </md-input-container>												
+										  </div>
+										 
+										  <div class="mdl-cell mdl-cell--6-col">
+											<md-input-container class="md-icon-float md-block">
+												<label>Tenant Id</label>												
+												 <input ng-model="user.pass" type="text">
+											</md-input-container>
+											<md-input-container class="md-icon-float md-block">
+												<label>Subscription Key</label>												
+												 <input ng-model="user.pass" type="text">
+											</md-input-container>
+											<md-input-container class="md-icon-float md-block">
+												<label>Acr Name</label>												
+												 <input ng-model="user.pass" type="text">
+											</md-input-container>
+										  </div>
+										</div>
+										<hr />
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Cancel
+									      </md-button>
+										  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Deploy
+									      </md-button>
+									    </div>								
+									  </div>
+									</md-dialog-content>
+									
+								  </form>
+								</md-dialog>
+							</div>
