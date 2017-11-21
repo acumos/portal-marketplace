@@ -1,0 +1,10 @@
+{
+  "name": "acumos-portal-fe",
+  "version": "1.0.0-SNAPSHOT",
+  "appPath": "src/main/webapp/",
+  "ignore": [
+    "**/.*",
+    "test",
+    "tests"
+  ]
+}

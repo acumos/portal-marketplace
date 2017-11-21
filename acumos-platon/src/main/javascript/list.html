@@ -1,0 +1,13 @@
+<div class="platon-comments">
+
+    <div v-if="loading" class="platon-loading">Loading...</div>
+    <h3 v-else>{{ (totalCommentCount || 0) + (totalCommentCount == 1 ? ' Comment' : ' Comments') }}</h3>
+
+    <platon-comment-form v-if="!loading" v-on:posted="commentPosted"></platon-comment-form>
+
+    <platon-comment v-if="!loading"
+                    v-for="comment in comments"
+                    v-bind:comment="comment"
+                    v-on:edited="commentEdited"
+                    v-on:deleted="commentDeleted"></platon-comment>
+</div>

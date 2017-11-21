@@ -1,0 +1,992 @@
+<style>
+label {
+	font-weight: normal;
+	font-size: 12px;
+}
+</style>
+<section class="description_box">
+	<div class="">
+		<div class="description-content">
+			<div class="description-content-left">
+				<h4 class="inline-block text-bold">{{solution.name}}</h4>
+				<!-- <h4 class="inline-block text-bold">{{name}}</h4> -->
+				<span>| Version-2.0 </span>  <span> | <a ui-sref="modelEdit"
+					ng-show="isUser">Edit</a></span>
+			</div>
+			<div class="description-content-right">
+				<span> <i class="fa fa-star" aria-hidden="true"></i> <i
+					class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star"
+					aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i>
+					<i class="fa fa-star-o" aria-hidden="true"></i>
+				</span> <span><i class="fa fa-comment" aria-hidden="true"></i><a
+					data-target="#">10 Comments</a></span> <span> <a data-target="#">Write
+						comments</a></span> <span><i class="fa fa-eye" aria-hidden="true"></i>176
+					Viewed</span> <span><i class="fa fa-download" aria-hidden="true"></i>6
+					Downloaded</span>
+			</div>
+			<div class="clearfix"></div>
+			<div>
+				<ol class="breadcrumb col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<li><a data-target="#">Home</a></li>
+					<li>{{solution.name}}</li>
+				</ol>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</section>
+
+<section class="">
+
+	<div class="tab-panel">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a
+				data-target="#workflow" aria-controls="home" role="tab"
+				data-toggle="tab"><span class="onlymob"><img
+						src="images/Description.png" alt="" title="" /></span>Workflow</a></li>
+			<li role="presentation"><a data-target="#description"
+				aria-controls="home" role="tab" data-toggle="tab"><span
+					class="onlymob"><img src="images/Description.png" alt=""
+						title="" /></span>Description</a></li>
+			<li role="presentation"><a data-target="#profile"
+				aria-controls="profile" role="tab" data-toggle="tab"><span
+					class="onlymob"><img src="images/Signature.png" alt=""
+						title="" /></span>Signatures</a></li>
+			<li role="presentation"><a data-target="#messages"
+				aria-controls="messages" role="tab" data-toggle="tab"><span
+					class="onlymob"><img src="images/Documents.png" alt=""
+						title="" /></span>Documents</a></li>
+			<li role="presentation"><a data-target="#settings"
+				aria-controls="settings" role="tab" data-toggle="tab"><span
+					class="onlymob"><img src="images/Version_History.png" alt=""
+						title="" /></span>Version history</a></li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<!-- vertical tab panel -->
+			<div role="tabpanel" class="tab-pane active" id="workflow">
+				<div class="workflow">
+					<div class="workflow-left">
+						<!-- required for floating -->
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs tabs-left">
+
+							<!-- <li	ng-repeat="item in workflowJSON">
+							<a data-target="#{{item.workID}}"
+								data-toggle="tab"> 
+								<i class="fa fa-upload" aria-hidden="true"></i>
+								<i class="fa fa-check-circle-o green" aria-hidden="true"></i>
+								<i ng-show="{{item.completedStatus[0].isCompleted == true}}" class="fa fa-check-circle-o green"></i>
+								<i ng-show="{{item.completedStatus[0].isCompleted == false}}" class="fa fa-upload"></i>
+								{{item.workName}}
+								<ul ng-show="{{item.completedStatus[0].taskCompleted && item.completedStatus[0].taskPending != null}}">
+									<li class="green">{{item.completedStatus[0].taskCompleted}}</li>
+									<li class="blue">{{item.completedStatus[0].taskPending}}</li>
+								</ul>
+								<ul ng-show="{{item.completedStatus[0].otherTask != null}}">
+									<li class="orange">{{item.completedStatus[0].otherTask}}</li>
+								</ul>
+								
+							</a>
+						</li> -->
+
+							<li class="active"><a data-target="#onboard"
+								data-toggle="tab"> <i class="fa fa-upload"
+									aria-hidden="true"></i> <i class="fa fa-check-circle-o green"
+									aria-hidden="true"></i>On-Boarding
+									<ul>
+										<li class="green">3 Completed</li>
+										<li class="blue">0 Pending</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#share" data-toggle="tab"> <i
+									class="fa fa-share-alt" aria-hidden="true"></i>Share With Team
+									<ul>
+										<li>shared with 6 co-workers</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#company" data-toggle="tab"> <i
+									class="fa fa-upload" aria-hidden="true"></i>Publish to Company
+									Marketplace
+									<ul>
+										
+										<li class="green" ng-if="descUpdated && tagUpdated">2 Completed</li>
+										<li class="green" ng-if="descUpdated && !tagUpdated">1 Completed</li>
+										<li class="green" ng-if="!descUpdated && tagUpdated">1 Completed</li>
+										
+										<li class="green" ng-if="!descUpdated && !tagUpdated">0 Completed</li>
+										<li class="blue"  ng-if="!descUpdated && !tagUpdated"> 8 Pending</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#catalog" data-toggle="tab"> <i
+									class="fa fa-upload" aria-hidden="true"></i>Publish to ONAP
+									Catalog
+									<ul>
+										<li class="orange">You must be publish to company
+											marketplace first</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#public" data-toggle="tab"> <i
+									class="fa fa-upload" aria-hidden="true"></i>Publish to Public
+									Marketplace
+									<ul>
+										<li class="orange">Not started</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#cloud" data-toggle="tab"> <i
+									class="fa fa-cloud-upload" aria-hidden="true"></i>Export/Deploy
+									to Cloud
+									<ul>
+										<li class="orange">Not started</li>
+									</ul>
+							</a></li>
+							<li><a data-target="#delete" data-toggle="tab"><i
+									class="fa fa-trash" aria-hidden="true"></i>Delete Model</a></li>
+						</ul>
+					</div>
+					<div class="workflow-right">
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<!--  id="{{wItem.workID}}" ng-repeat="wItem in workflowJSON" -->
+							<div class="tab-pane active " id="onboard">
+								<!-- timeline start -->
+								<div class="timeline">
+									<div class="timeline-centered">
+										<!-- <article class="timeline-entry" ng-repeat="item in workflowJSON">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon bg-success" ng-show="{{item.taskDetails[0].status == 'completed'}}">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													<div class="timeline-icon" ng-show="{{item.taskDetails[0].status == 'In progress'}}">
+														<span class="entypo-suitcase">{{item.taskDetails[0].id}}</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															{{item.taskDetails[0].taskName}}
+															| <span class="green">Completed on 
+															{{item.taskDetails[0].completedDate}}</span>
+														</h2>
+														<p> {{item.taskDetails[0].description}}</p>
+													</div>
+												</div>
+											</article>
+										 -->
+
+
+										<article class="timeline-entry">
+											<div class="timeline-entry-inner">
+												<div class="timeline-icon bg-success">
+													<span class="entypo-feather fa fa-check"></span>
+												</div>
+												<div class="timeline-label">
+													<h2>
+														On-Boarding | <span class="green">Completed on
+															{{solution.created | date:'MM/dd/yyyy' }}</span>
+													</h2>
+													<p>Some information can be display related to this
+														perticular task, such as how to complete this task what
+														are data required.</p>
+												</div>
+											</div>
+										</article>
+
+										<article class="timeline-entry">
+											<div class="timeline-entry-inner">
+												<div class="timeline-icon bg-success">
+													<span class="entypo-feather fa fa-check"></span>
+												</div>
+												<div class="timeline-label">
+													<h2>
+														Artifacts Uploaded | <span class="green">Completed
+															on 05/27/2017</span>
+													</h2>
+													<p>Some information can be display related to this
+														perticular task, such as how to complete this task what
+														are data required.</p>
+												</div>
+											</div>
+										</article>
+										<article class="timeline-entry">
+											<div class="timeline-entry-inner">
+												<div class="timeline-icon bg-success">
+													<span class="entypo-feather fa fa-check"></span>
+												</div>
+												<div class="timeline-label">
+													<h2>
+														TOSCA Model generated | <span class="green">Completed
+															on {{solution.created | date:'MM/dd/yyyy' }}</span>
+													</h2>
+													<p>Some information can be display related to this
+														perticular task, such as how to complete this task what
+														are data required.</p>
+												</div>
+											</div>
+										</article>
+									</div>
+								</div>
+								<!-- timeline end -->
+							</div>
+
+							<div class="tab-pane" id="share">Share</div>
+
+							<div class="tab-pane" id="company">
+								<div>
+									<div class="timeline">
+										<div class="timeline-centered">
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+												
+													<div class="timeline-icon bg-success" ng-if="descUpdated">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>  
+													
+													<div class="timeline-icon" ng-if="!descUpdated">
+														<span class="entypo-suitcase">1</span>
+													</div>
+													
+													<div class="timeline-label" data-toggle="modal"
+														data-target="#editDesc">
+														<h2>
+															Model Description | 
+															<span class="green" ng-if="descUpdated"> Completed on {{solution.modified | date }}</span>
+															<span class="orange" ng-if="!descUpdated"> In Progress</span>
+															
+														</h2>
+														<p>{{solution.description}}</p>
+													</div>
+
+													<!-- Modal -->
+													<div class="modal fade" id="editDesc" role="dialog">
+														<div class="modal-dialog">
+															<!-- Modal content-->
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close"
+																		data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Edit Details</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal" role="form">
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Title</label>
+																			<div class="col-sm-10">
+																				<input type="text" class="form-control"
+																					value="Model Description" disabled="disabled" />
+																			</div>
+																		</div>
+																		<br />
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Description</label>
+																			<div class="col-sm-10">
+																				<textarea class="col-sm-10"
+																					ng-model="solution.description">{{solution.description}}
+																				</textarea>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default"
+																		data-dismiss="modal" ng-click="updateSolution();">Save</button>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">2</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Documents| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Documents
+															you have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+												
+													<div class="timeline-icon bg-success" ng-if="tagUpdated">
+														<span class="entypo-feather fa fa-check"></span>
+													</div> 
+													
+													<div class="timeline-icon" ng-if="!tagUpdated">
+														<span class="entypo-suitcase">3</span>
+													</div>
+													<div class="timeline-label" data-target="#editTag"
+														data-toggle="modal">
+														<h2>
+															Add Tags| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Tags you
+															have in Company Market Place</label>
+													</div>
+													<div class="modal fade" id="editTag" role="dialog">
+														<div class="modal-dialog">
+															<!-- Modal content-->
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close"
+																		data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Edit Tags</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal" role="form">
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Title</label>
+																			<div class="col-sm-10">
+																				<input type="text" class="form-control"
+																					value="Edit Tags" disabled="disabled" />
+
+																			</div>
+																		</div>
+																		<br />
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Category</label>
+																			<div class="col-sm-10">
+																				<div class="radio">
+																					<label><input type="radio" name="optradio"
+																						ng-model="categoryname" value="CL">
+																						Classification</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="optradio"
+																						ng-model="categoryname" value="PR">
+																						Prediction</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="optradio"
+																						ng-model="categoryname" value="RG">Regression</label>
+																				</div>
+																			</div>
+																		</div>
+<br />
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Toolkit Type</label>
+																			<div class="col-sm-10">
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="CP">
+																						Composite Solution</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="H2">
+																						H2O</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="RC">RCloud</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="SK">Scikit-Learn</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="TF">TensorFlow</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="TK">Toolkit Type</label>
+																				</div>
+																				
+																			</div>
+																		</div>
+
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Tags</label>
+																			<div class="col-sm-10">
+																				<tags-input ng-model="tags"></tags-input>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default"
+																		data-dismiss="modal" ng-click="saveTags()">Save Tags</button>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+
+
+											</article>
+
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">4</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Signatures| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															particular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Signature
+															you have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">5</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Document| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															particular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Documents
+															you have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">6</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Version History| <span class="orange">In
+																Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Versions you
+															have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">7</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Start Security Scan| <span class="orange">In
+																Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Security you
+															have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">8</span>
+													</div>
+													<div class="timeline-label">
+														<h2>Publish code to Company Marketplace</h2>
+														<button ng-click="publishtoMarket('OR')">Submit
+															for Publication</button>
+													</div>
+												</div>
+											</article>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="tab-pane" id="catalog">ONAP</div>
+
+							<!-- Publish to public market place -->
+							<div class="tab-pane" id="public">
+								<div class="timeline">
+										<div class="timeline-centered">
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon bg-success" ng-if="descUpdated">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													
+													<div class="timeline-icon" ng-if="!descUpdated">
+														<span class="entypo-suitcase">1</span>
+													</div>
+													
+													<div class="timeline-label" data-toggle="modal"
+														data-target="#editDesc">
+														<h2>
+															Model Description | <span class="green"> Completed
+																on {{solution.modified | date }}</span>
+														</h2>
+														<p>{{solution.description}}</p>
+													</div>
+
+													<!-- Modal -->
+													<div class="modal fade" id="editDesc" role="dialog">
+														<div class="modal-dialog">
+															<!-- Modal content-->
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close"
+																		data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Edit Details</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal" role="form">
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Title</label>
+																			<div class="col-sm-10">
+																				<input type="text" class="form-control"
+																					value="Model Description" disabled="disabled" />
+																			</div>
+																		</div>
+																		<br />
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Description</label>
+																			<div class="col-sm-10">
+																				<textarea class="col-sm-10"
+																					ng-model="solution.description">{{solution.description}}
+																				</textarea>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default"
+																		data-dismiss="modal" ng-click="updateSolution();">Save</button>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">2</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Documents| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Documents
+															you have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon" ng-if="!tagUpdated">
+														<span class="entypo-suitcase">3</span>
+													</div>
+													<div class="timeline-icon bg-success" ng-if="tagUpdated">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													
+													<div class="timeline-label" data-target="#editTag"
+														data-toggle="modal">
+														<h2>
+															Add Tags| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Tags you
+															have in Company Market Place</label>
+													</div>
+													<div class="modal fade" id="editTag" role="dialog">
+														<div class="modal-dialog">
+															<!-- Modal content-->
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close"
+																		data-dismiss="modal">&times;</button>
+																	<h4 class="modal-title">Edit Tags</h4>
+																</div>
+																<div class="modal-body">
+																	<form class="form-horizontal" role="form">
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Title</label>
+																			<div class="col-sm-10">
+																				<input type="text" class="form-control"
+																					value="Edit Tags" disabled="disabled" />
+
+																			</div>
+																		</div>
+																		<br />
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Category</label>
+																			<div class="col-sm-10">
+																				<div class="radio">
+																					<label><input type="radio" name="optradio"
+																						ng-model="categoryname" value="CL">
+																						Classification</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="optradio"
+																						ng-model="categoryname" value="PR">
+																						Prediction</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="optradio"
+																						ng-model="categoryname" value="RG">Regression</label>
+																				</div>
+																			</div>
+																		</div>
+<br />
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Toolkit Type</label>
+																			<div class="col-sm-10">
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="CP">
+																						Composite Solution</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="H2">
+																						H2O</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="RC">RCloud</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="SK">Scikit-Learn</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="TF">TensorFlow</label>
+																				</div>
+																				<div class="radio">
+																					<label><input type="radio" name="toolkitradio"
+																						ng-model="toolkitname" value="TK">Toolkit Type</label>
+																				</div>
+																				
+																			</div>
+																		</div>
+
+																		<div class="form-group">
+																			<label class="col-sm-2 control-label"
+																				for="inputEmail3">Tags</label>
+																			<div class="col-sm-10">
+																				<tags-input ng-model="tags"></tags-input>
+																			</div>
+																		</div>
+																	</form>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default"
+																		data-dismiss="modal" ng-click="saveTags()">Save Tags</button>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+
+
+											</article>
+
+
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">4</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Signatures| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															particular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Signature
+															you have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">5</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Document| <span class="orange">In Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															particular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Documents
+															you have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">6</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Add Version History| <span class="orange">In
+																Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Versions you
+															have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">7</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Start Security Scan| <span class="orange">In
+																Progress</span>
+														</h2>
+														<p>Some information can be display related to this
+															perticular task, such as how to complete this task what
+															are data required.</p>
+														<input type="checkbox" /> <label>Use Security you
+															have in Company Market Place</label>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon">
+														<span class="entypo-suitcase">8</span>
+													</div>
+													<div class="timeline-label">
+														<h2>Publish code to Company Marketplace</h2>
+														<button ng-click="publishtoMarket('PB')">Submit
+															for Publication</button>
+													</div>
+												</div>
+											</article>
+										</div>
+									</div>
+							
+							</div>
+							<div class="tab-pane" id="cloud">public</div>
+							<div class="tab-pane" id="delete">public</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<!-- vertical tab panel end-->
+
+			<div role="tabpanel" class="tab-pane" id="description">
+				<div class="detailsummary">
+					<p class="headings">Introduction about Model</p>
+					<p>{{solution.description}}</p>
+					<p>Lorem Ipsum is simply dummy text of the printing and
+						typesetting industry. Lorem Ipsum has been the industry's standard
+						dummy text ever since the 1500s, when an unknown printer took a
+						galley of type and scrambled it to make a type specimen book.</p>
+				</div>
+				<div class="detailsummary">
+					<p class="headings">Images and Videos</p>
+					<div class="imagegallery">
+						<img src="images/imagegallery.jpg" alt="" title="" />
+					</div>
+				</div>
+				<div class="detailsummary">
+					<p class="headings">Example</p>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				<div class="detailsummary">
+					<p class="headings">Input</p>
+					<p>*(Required) Image Data API Url, Web(http/https) Url, binary
+						images, base64 encoded image or an array of data API URLs / web
+						URLs.</p>
+					<p>.**(Optional) **Output image Location, if input is an array,
+						output loaction should be an array of equal size.</p>
+				</div>
+				<div class="detailsummary">
+					<p class="headings">Output</p>
+					<p>Output image location</p>
+					<p>Note: The first call to this algorithm will take a bit
+						longer than sequential calls to due algorithm initialization. All
+						following calls will be significantly faster.</p>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="messages">
+				<div class="detailsummary">
+					<p class="headings">
+						Supporting Documents
+						<button class="btn replybtn pull-right">Add New</button>
+						<span class="clearfix"></span>
+					</p>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Folder/Documents</th>
+									<th>Version</th>
+									<th>Modified on</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row"><i class="fa fa-file-word-o"
+										aria-hidden="true"></i></th>
+									<td><a data-target="#">Document Name 01</a></td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i></td>
+								</tr>
+								<tr>
+									<th scope="row"><i class="fa fa-file-pdf-o"
+										aria-hidden="true"></i></th>
+									<td><a data-target="#">Document Name 02</a></td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i></td>
+								</tr>
+								<tr>
+									<th scope="row"><i class="fa fa-file-word-o"
+										aria-hidden="true"></i></th>
+									<td><a data-target="#">Document Name 03</a></td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i></td>
+								</tr>
+								<tr>
+									<th scope="row"><i class="fa fa-file-word-o"
+										aria-hidden="true"></i></th>
+									<td><a data-target="#">Document Name 04</a></td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i></td>
+								</tr>
+								<tr>
+									<th scope="row"><i class="fa fa-folder" aria-hidden="true"></i></th>
+									<td><a data-target="#">Folder Name 01</a></td>
+									<td>---</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="settings">
+				<div class="detailsummary">
+					<p class="headings">
+						Version History of Solution
+						<button class="btn replybtn pull-right">Add New</button>
+						<span class="clearfix"></span>
+					</p>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Version Name</th>
+									<th>Version</th>
+									<th>Modified on</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a data-target="#">Version Name 01</a> | latest</td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i> <a
+										data-target="#">View Details</a></td>
+								</tr>
+								<tr>
+									<td><a data-target="#">Version Name 02</a></td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i> <a
+										data-target="#">View Details</a></td>
+								</tr>
+								<tr>
+									<td><a data-target="#">Version Name 03</a></td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i> <a
+										data-target="#">View Details</a></td>
+								</tr>
+								<tr>
+									<td><a data-target="#">Version Name 04</a></td>
+									<td>v1.0</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i> <a
+										data-target="#">View Details</a></td>
+								</tr>
+								<tr>
+									<td><a data-target="#">Version Name 05</a></td>
+									<td>---</td>
+									<td>05/21/2017</td>
+									<td><i class="fa fa-download" aria-hidden="true"></i> <a
+										data-target="#">View Details</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+

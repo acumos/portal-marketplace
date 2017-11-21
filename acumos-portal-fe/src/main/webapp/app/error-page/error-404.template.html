@@ -1,0 +1,24 @@
+<link rel="stylesheet" type="text/css" href="/css/error-page.css" />
+<div class="page-content">
+	<div class="error-wrapper">
+		<div class="error-wrapper-inner text-center">
+			<div class="error-acumos-logo"></div>
+			<div class="error-acumos-img1"></div>
+			<p class="error-para1">Oops! Page Not Found</p>
+			<p class="error-para2">You may have mistyped the address or the page may have moved</p>
+			<hr class="error-seperator" />
+			<p class="error-para3">Here's a little sitemap that might help you get back on track</p>
+			<div class="error-link-container">
+				<a ui-sref="home">Home</a>
+				<span class="error-hor-seperator"></span>	
+				<a ui-sref="marketPlace">Marketplace</a>
+				<span class="error-hor-seperator"></span>
+				<a ui-sref="modularResource">On Boarding Model</a>
+				<span class="error-hor-seperator" ng-if="$root.sidebarHeader == true"></span>				
+				<a ui-sref="designStudio" ng-if="$root.sidebarHeader == true">Design Studio</a>
+				
+			</div>
+			 <div class="error-wrapper-inner-bottom"></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,179 @@
+:after,
+:before,
+tags-input * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+tags-input .host {
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+
+tags-input .host:active {
+    outline: 0
+}
+
+tags-input .tags {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    padding: 1px;
+    overflow: hidden;
+    word-wrap: break-word;
+    cursor: text;
+    background-color: #fff;
+/*     border: 1px solid #a9a9a9; */
+    box-shadow:0 1px rgba(0,0,0,0.12)
+}
+
+tags-input .tags.focused {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    padding: 1px;
+    overflow: hidden;
+    word-wrap: break-word;
+    cursor: text;
+    background-color: #fff;
+/*     border: 1px solid #a9a9a9; */
+    box-shadow: 0 2px rgb(16,108,200)
+}
+
+tags-input .tags .tag-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display:inline;
+}
+
+tags-input .tags .tag-item {
+   margin: 2px 2px 6px 2px;
+    padding: 2px 5px;
+    display: inline-block;
+    float: left;
+    border-radius: 3px;
+    background: #f2f2f2;
+    border: 1px solid #ddd;
+    color: #333;
+    /* border-radius: 16px; */
+    width: auto !important;
+    /* background: -webkit-linear-gradient(top, #f0f9ff 0, #cbebff 47%, #a1dbff 100%);
+    background: linear-gradient(to bottom, #f0f9ff 0, #cbebff 47%, #a1dbff 100%) */
+}
+.company-market ul.tag-list li:last-child{margin: 2px 2px 6px 2px;}
+.tag-item > span{
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 0 0 13px;
+}
+
+tags-input .tags .tag-item.selected {
+    background: -webkit-linear-gradient(top, #febbbb 0, #fe9090 45%, #ff5c5c 100%);
+    background: linear-gradient(to bottom, #febbbb 0, #fe9090 45%, #ff5c5c 100%)
+}
+
+tags-input .tags .tag-item .remove-button {
+    margin: -2px 0 0px 7px;
+    padding: 1px 5px 0 3px;
+    border: none;
+    background: 0 0;
+    cursor: pointer;
+    vertical-align: middle;
+    /* font: 700 16px Arial, sans-serif; */
+    color: #585858;
+    float: right;
+    font-size: 22px;
+    font-weight: lighter;
+}
+
+.remove-button:hover {
+	text-decoration:none;
+	color: red
+}
+
+tags-input .tags .tag-item .remove-button:active {
+    color: red
+}
+
+tags-input .tags .input {
+    border: 0;
+    outline: 0;
+    margin: 2px;
+    padding: 0;
+    padding-left: 5px;
+    float: left;
+    height: 26px;
+    font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+tags-input .tags .input.invalid-tag {
+    color: red
+}
+
+tags-input .tags .input::-ms-clear {
+    display: none
+}
+
+tags-input.ng-invalid .tags {
+    -webkit-box-shadow: 0 0 3px 1px rgba(255, 0, 0, .6);
+    -moz-box-shadow: 0 0 3px 1px rgba(255, 0, 0, .6);
+    box-shadow: 0 0 3px 1px rgba(255, 0, 0, .6)
+}
+
+tags-input .autocomplete {
+    margin-top: 5px;
+    position: absolute;
+    padding: 5px 0;
+    z-index: 999;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2)
+}
+
+tags-input .autocomplete .suggestion-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: block;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+tags-input .autocomplete .suggestion-item {
+    padding: 5px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font: 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #000;
+    background-color: #fff;
+    width: 100% !important;
+    margin:3px 7px;
+}
+
+tags-input .autocomplete .suggestion-item.selected,
+tags-input .autocomplete .suggestion-item.selected em {
+    color: #fff;
+    background-color: #0097cf
+}
+
+tags-input .autocomplete .suggestion-item em {
+    font: normal bold 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #000;
+    background-color: #fff
+}
+
+
+md-toast.md-success-toast-theme .md-toast-content {
+    background-color: rgb(113, 39, 167); /* or #3CC26E for green */
+}
+
+md-toast.md-error-toast-theme .md-toast-content {
+    background-color: #CD6765;
+}

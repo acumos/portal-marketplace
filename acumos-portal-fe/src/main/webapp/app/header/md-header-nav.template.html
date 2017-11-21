@@ -1,0 +1,190 @@
+<!-- Header HTML if user not logged in -->
+<header ng-if="$root.sidebarHeader === false">
+	<div class="mdl-layout__header-row">
+		<!-- Title -->
+		<a ui-sref="home"><span	class="acumos-logo" style = 'background: url(../images/{{$root.headerImage.name}}) no-repeat 0px 10px'></span></a>
+		<!-- Navigation -->
+		<nav class="mdl-navigation top-menu">
+			<a class="mdl-navigation__link" ui-sref="home"
+				ui-sref-active="active">HOME</a> <a class="mdl-navigation__link"
+				ui-sref="marketPlace" ui-sref-active="active">MARKETPLACE</a> <a
+				class="mdl-navigation__link" ui-sref="modularResource"
+				ui-sref-active="active">MODELER RESOURCES</a>
+			<!--  <a class="mdl-navigation__link" ui-sref="designStudio" ui-sref-active="active">DESIGN
+				STUDIO</a> -->
+		</nav>
+		<!-- Add spacer, to align navigation to the right -->
+		<div class="mdl-layout-spacer"></div>
+		<nav class="mdl-navigation">
+			<div
+				class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+				<label
+					class="mdl-button mdl-js-button mdl-button--icon search-button"
+					for="fixed-header-drawer-exp" ng-click="globalSearch(search)"> <i
+					class="material-icons search-icon">search</i>
+				</label>
+				<div class="mdl-textfield__expandable-holder">
+					<input class="mdl-textfield__input header-search2" type="text" name="sample"
+					ng-model="search"
+							id="fixed-header-drawer-exp" placeholder="Search for anything you need">
+				</div>
+			</div>
+			<div class="text-right signupnav hide-xs">
+				<ul ng-show="successfulLoginSigninSignup">
+					<li style="cursor: pointer"><signin-content></signin-content></li>
+					<li style="cursor: pointer"><sign-up></sign-up></li>
+				</ul>
+			</div>
+
+			<nav
+				class="mdl-navigation header-controls hide-sm hide-md hide-lg hide-xl mobheader-icons header-right2">
+				<!-- Right aligned menu below button -->
+				<button id="demo-menu-lower-right5"
+					class="mdl-button mdl-js-button mdl-button--icon">
+					<i class="material-icons headerlist-icon">more_vert</i>
+				</button>
+				<ul
+					class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+					for="demo-menu-lower-right5">
+					<li class="mdl-menu__item"><signin-content></signin-content></li>
+					<li class="mdl-menu__item"><sign-up></sign-up></li>
+				</ul>
+			</nav>
+		</nav>
+	</div>
+</header>
+
+
+<!-- HTML if user logged in -->
+<header ng-if="$root.sidebarHeader === true">
+	<div class="mdl-layout__header-row">
+		<div class="mdl-grid mdl-grid--no-spacing header-grid">
+			<div
+				class="mdl-cell mdl-cell--6-col mdl-cell--3-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing mdl-cell--middle">
+				<button id="btn_header"
+					ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
+					class="mdl-button mdl-js-button mdl-button--icon hide-sm hide-xs">
+					<i class="material-icons">menu</i>
+				</button>
+				<a ui-sref="home"><span
+					class="cog-header-logo-mob hide-lg hide-xl">{{$root.siteInstanceName}}</span></a>
+					<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+								  mdl-textfield--floating-label mdl-textfield--align-right header-search-control">
+						<label class="mdl-button mdl-js-button mdl-button--icon"
+							for="fixed-header-drawer-exp1" ng-click="globalSearch(searchText)"> <i class="material-icons">search</i>
+						</label>
+						<div class="mdl-textfield__expandable-holder">
+							<input class="mdl-textfield__input header-search-txtbox" type="search" 
+								id="fixed-header-drawer-exp1" placeholder="Search Models" ng-model="searchText">
+						</div>
+					</div>
+			</div>
+			<div
+				class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing text-right">
+				<div layout="row" layout-fill layout-align="end center"
+					layout-align-lg="end center">					
+					<nav
+						class="mdl-navigation header-controls text-right hide-sm hide-xs header-right1">
+						<button id="demo-menu-lower-right10"
+							class="mdl-button header-ddl mdl-js-button cg-acitve">
+							<div class="material-icons mdl-badge mdl-badge--overlap"
+								ng-if="$root.notificationCount < 1">notifications_none</div>
+							<div class="material-icons mdl-badge mdl-badge--overlap"
+								data-badge="{{$root.notificationCount}}" ng-if="$root.notificationCount > 0">notifications_none</div>
+
+						</button>
+						<div>
+							<ul
+								class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect mdl-list notification-list"
+								for="demo-menu-lower-right10" ng-hide="$root.notificationCount < 1">
+								<li
+									ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
+									<span class="notification-text"
+									ng-click="viewNotification(notification.notificationId)">{{notification.message}}</span>
+									<button class="mdl-button mdl-js-button mdl-button--icon"
+										ng-click="deleteNotification(notification.notificationId)">
+										<i class="fa fa-times" aria-hidden="true"></i>
+									</button>
+								</li>
+								<li ng-if="$root.notificationCount > 5">
+									<button ng-click="showNotification()"
+										class="mdl-button mdl-js-button btn-secondary btn-readall-msg">Read
+										all Messages</button>
+
+								</li>
+							</ul>
+						</div>
+						<!-- Right aligned menu below button -->
+						<button id="account-info"
+							class="mdl-button header-ddl mdl-js-button">
+							<span>
+							<!-- default image -->
+							<img class="userimg" ng-show="showAltImage"
+								ng-src="images/userprofile/user-profile.png"
+								title="{{userfirstname}}" />
+							<!-- user uploaded image -->	
+							<img class="userimg" ng-show="!showAltImage"
+								ng-src="data:image/PNG;base64,{{userImage}}"
+								title="{{userfirstname}}" /> {{userDetails.userName}}</span> <i
+								class="material-icons">arrow_drop_down</i>
+						</button>
+
+						<ul
+							class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect header-user-list"
+							for="account-info">
+							<li class="mdl-menu__item"><a ui-sref="userDetail">Account
+									Setting </a></li>
+							<!-- <li class="mdl-menu__item"><a ui-sref="">Notification Settings</a></li> -->
+							<!-- <li class="mdl-menu__item"><a ui-sref="">Reset Password -
+								{{$root.successfulAdmin}}</a></li> -->
+							<!-- <li class="mdl-menu__item" ng-show="$root.successfulAdmin"><a ui-sref="adminConfig">Admin
+									Configurations</a></li> -->
+							<li class="mdl-menu__item" ng-show="provider == 'globaluid'"><a
+								ui-sref="resetPswd">Change Password</a></li>
+						</ul>
+
+						<a class="mdl-navigation__link" ng-click="logout()"
+							style="cursor: pointer"><i class="material-icons">power_settings_new</i></a>
+					</nav>
+					<nav
+						class="mdl-navigation header-controls hide-md hide-lg hide-xl mobheader-icons header-right2">
+						<!-- Right aligned menu below button -->
+						<button id="demo-menu-lower-right5"
+							class="mdl-button mdl-js-button mdl-button--icon">
+							<i class="material-icons headerlist-icon">more_vert</i>
+						</button>
+
+						<ul
+							class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+							for="demo-menu-lower-right5">
+							<li class="mdl-menu__item"><span><img class="userimg"
+									ng-src="data:image/PNG;base64,{{userImage}}" />
+									{{userDetails.userName}}</span></li>
+							<!-- <li class="mdl-menu__item">Notifications</li> -->
+							<li class="mdl-menu__item" ui-sref="userDetail">Account
+								Setting</li>
+							<li class="mdl-menu__item">Notification Settings</li>
+							<li class="mdl-menu__item" ui-sref="adminConfig">Admin
+								Configurations</li>
+							<li class="mdl-menu__item">Logout</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<!-- <div class="mdl-layout__drawer initialVal hasClass" aria-hidden="true" ng-if="sidebarHeader">
+	<span class="header-title"><span class="cog-header-logo">ACUMOS</span></span>
+	<nav class="mdl-navigation">
+		<a class="mdl-navigation__link" href="home.html"><i
+			class="material-icons">home</i><span class="headertxtspan">Home</span></a>
+		<a class="mdl-navigation__link" href="index.html"><i
+			class="material-icons">shopping_cart</i><span class="headertxtspan">Marketplace</span></a>
+		<a class="mdl-navigation__link" href="Model-Details.html"><i
+			class="material-icons">build</i><span class="headertxtspan">Manage
+				My Models</span></a> <a class="mdl-navigation__link" href="Design-studio.html">DS</a>
+		<a class="mdl-navigation__link" href=""><i class="material-icons">assistant</i><span
+			class="headertxtspan">Modeler Resources</span></a>
+	</nav>
+</div> -->

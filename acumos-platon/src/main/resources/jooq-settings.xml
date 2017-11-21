@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://www.jooq.org/xsd/jooq-runtime-3.8.0.xsd">
+    <renderSchema>false</renderSchema>
+    <renderNameStyle>LOWER</renderNameStyle>
+    <renderKeywordStyle>UPPER</renderKeywordStyle>
+</settings>

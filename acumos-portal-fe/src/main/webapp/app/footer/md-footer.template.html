@@ -1,0 +1,73 @@
+<footer>
+		 <div class="home-footer">
+			<section>
+				<div>
+					<div class="heading">
+						<span class="footer-logo" style = 'background-image: url("../images/{{$root.footerImage.name}}")'></span>
+					</div>
+					<ul>
+						<li ng-init="showmore=false">{{$root.siteInstanceName}} is an open source platform for the development, training, sharing and deployment of AI models. It empowers data scientists to move to an AI-centric process for producing software. The heart of {{$root.siteInstanceName}} is the AI collaboration ecosystem, where models are trained <a class="gray text-bold" ng-show="showmore==false" href="" ng-click='showmore=true' >More..</a><span ng-show="showmore">and graded on their ability to successfully analyze datasets that they are fed and select the best model for the job.</span></li>
+						<li ng-show="showmore">{{$root.siteInstanceName}} is modeling language, toolkit and run-time infrastructure or cloud service agnostic. It is a complete system to package, share, license and deploy AI models in the form of portable, containerized microservices. {{$root.siteInstanceName}} Design Studio can be used to chain together multiple models, along with data translation tools, filters and output adapters into a full end-to-end solution which can then be saved as a composite solution. The {{$root.siteInstanceName}} Marketplace catalog contains information on the licensing and execution requirements of both reusable AI models and fully integrated solutions and this can be easily searched to make model selection a simple process.</li>
+						<li ng-show="showmore">The source code of the {{$root.siteInstanceName}} platform, itself, is available under an OSI-approved open source license so that any aspect can be readily adapted to new development toolkits, private data source and datastreams and custom run-time environments.
+						<a class="gray text-bold" href="" ng-click='showmore=false;'>Show less</a></li>
+					</ul>
+				</div>
+				<div>
+					<div class="heading">
+						<span>Quick links</span>
+					</div>
+					<ul class="quicklinks">
+						<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+						<li><a ui-sref="marketPlace">Marketplace</a></li>
+						<!-- <li><a ui-sref="manageModule">Manage my models </a></li> -->
+						<li><a ui-sref="modularResource">Modeler Resources</a></li>
+						<!-- <li><a ui-sref="designStudio">Design Studio</a></li> -->
+						<li><a ui-sref="termsCondition">Terms And Conditions</a></li>
+						<li><a href="https://cognita.atlassian.net/wiki/spaces/AD/overview" target="_blank">Documentation</a></li>
+					</ul>
+				</div>
+				<div>
+					<div class="heading">
+						<span>Follow us</span>
+					</div>
+					<ul>
+						Coming soon					
+					</ul>
+					<ul class="social-icons">
+						<li>
+							<i class="fa fa-facebook" aria-hidden="true"></i>
+						</li>
+						<li>
+							<i class="fa fa-linkedin" aria-hidden="true"></i>
+						</li>
+						<li>
+							<i class="fa fa-google-plus" aria-hidden="true"></i>
+						</li>
+						<li>
+							<i class="fa fa-github" aria-hidden="true"></i>
+						</li>
+						<li>
+							<i class="fa fa-twitter" aria-hidden="true"></i>
+						</li>
+					</ul>
+				</div>
+				<div>
+					<div class="heading">
+						<span>Contact Information</span>
+					</div>
+					<ul class="contact-info">
+						 1 Letterman Drive, Building D, Suite D4700, San Francisco,&nbsp; CA 94129</span></span>
+						<div class="clearfix"></div>
+						<li><i class="material-icons">phone</i>+1 415 723 9709</li>
+					</ul>				
+				</div>
+			</section>
+			<div class="clearfix"></div>
+			<div class="copy-right">
+				<ul>
+					<li>Copyright &copy; 2017 The Linux Foundation &reg;. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks.<br> For a list of trademarks of The Linux Foundation, please see our Trademark Usage page. Linux is a registered trademark of Linus Torvalds. <a ui-sref="termsCondition">Privacy Policy and Terms of Use</a> </li>
+				</ul>
+			</div>
+		</div>
+		
+		</footer>

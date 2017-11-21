@@ -1,0 +1,677 @@
+<div class="ds-page-wrapper">
+		<section class="pageheadsection">						
+						<div class="mdl-grid mdl-grid--no-spacing">
+							<div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+								<span class="headline mob-disblock">Design Studio</span>
+								<ul class="c-breadcrumb">
+									<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+									<li>Design Studio</li>
+								</ul>
+							</div>							
+						</div>						
+					</section>
+		<div class="ds-outer-container">					
+			<div flex="20" class="bdr-right posrel ds-left-section" ng-class="left?'ds-left-width':''">
+			<div id="content-left">					
+				<div class="ds-section" id="top-content-left">
+					<div class="ds-section-heading">
+						<label>Marketplace</label>
+						<!-- <button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1">
+  							<i class="fa fa-times" aria-hidden="true"></i>
+						</button> -->
+					</div>
+					<div class="ds-section-heading-container">					
+						
+					</div>
+					<div class="ds-contentsection-tab">
+							<md-tabs md-dynamic-height md-border-bottom class="ds-tab1" md-selected="1"> 
+							<md-tab label="Solutions"> 
+							<div class="ds-contentsection1">
+										<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="myFilter" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search"></span>
+									</button></md-icon> </md-input-container>
+										<button class="mdl-button mdl-js-button btn-ds-arrow">
+											<span class="ds-icon icon-up-arrow"></span>
+										</button>
+										<button class="mdl-button mdl-js-button btn-ds-arrow">
+											<span class="ds-icon icon-down-arrow"></span>
+										</button>
+									</div>
+								<md-content class="md-padding">
+								
+									<!-- <p>Tab 2</p> -->
+									<ul class="ds-list3" ng-repeat="val in publicCS">
+									<li ng-click="loadSolution(val)"><label>{{val.solutionName}}</label></li>
+									</ul>
+									<!-- <div class="form-group"><label for="usr">Name:</label><input type="text" class="form-control" id="usr" ng-model="solutionName"></div>
+									<div class="form-group"><label for="usr">Description:</label><input ng-model="solutionDescription" type="text" class="form-control" id="usr" ng-model="solutionName"></div>
+									<div class="form-group"><label for="usr">Version:</label><input type="text" ng-model="solutionVersion" class="form-control" id="usr" ng-model="solutionName"></div> -->
+								</md-content> 
+							</md-tab>
+							<md-tab label="Models"> 
+								<md-content>
+									<!-- <div class="ds-contentsection1">
+										<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="myFilter" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search"></span>
+									</button></md-icon> </md-input-container>
+										<button class="mdl-button mdl-js-button btn-ds-arrow">
+											<span class="ds-icon icon-up-arrow"></span>
+										</button>
+										<button class="mdl-button mdl-js-button btn-ds-arrow">
+											<span class="ds-icon icon-down-arrow"></span>
+										</button>
+									</div> -->
+									<div class="ds-contentsection2">
+									
+									<div ng-repeat="category in categoryNames">
+									<div class="ds-treelist">
+										<!-- <div data-toggle="collapse" class="fa fa-folder-open question ui-link" ng-click="setActionLeft($index)" ng-show="$index==selectedIndexLeft && initIndexLeft"><span>{{category.typeName}}</span></div> -->
+										<!-- <div data-toggle="collapse" class="fa fa-folder question ui-link" ng-click="setActionLeft($index)" ng-show="$index!==selectedIndexLeft"><span>{{category.typeName}}</span></div> -->
+										<div ng-if="category.typeCode!=='DT' && category.typeCode!=='DS'">
+										<div class="fa fa-folder question ui-link" ng-click="expanded = !expanded" expand ng-class="expanded ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">{{category.typeName}}</span></div> 
+						                     <div ng-show="expanded">
+							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
+							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+							                      	</div>
+							                    </div>
+						                    </div>
+						             </div> 
+						             </div>     
+						            </div>
+						            <div>
+									<div class="ds-treelist">
+										<!-- <div data-toggle="collapse" class="fa fa-folder-open question ui-link" ng-click="setActionLeft($index)" ng-show="($index==selectedIndexLeft && initIndexLeft)"><span class="dslist1">Other</span></div>
+										<div data-toggle="collapse" class="fa fa-folder question ui-link"ng-click="setActionLeft($index)" ng-show="($index!==selectedIndexLeft) || showOther"><span class="dslist1">Other</span></div> -->
+										<div class="fa fa-folder question ui-link" ng-click="test = !test" expand ng-class="test ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">Other</span></div>
+						                     <div ng-show="test">
+							                      <div ng-repeat="cat in palette.categories">
+							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+							                      	</div>
+							                    </div>
+						                    </div>
+						             </div>      
+						            </div>
+								</div>
+									
+								</md-content> 
+							</md-tab> 
+							
+						</md-tabs>
+						</div>
+					<div class="ds-section-content">
+						
+						
+					</div>
+					
+				</div>
+				<div class="ds-hor-seperator" id="content-resizer-left" 
+	  			resizer="horizontal" 
+	  			resizer-height="6" 
+	  			resizer-top="#top-content-left" 
+	  			resizer-bottom="#bottom-content-left"></div>
+				<div class="ds-section" id="bottom-content-left">
+							<div class="ds-section-heading">
+								<label>Data Transform Tools</label>
+								<span>
+									
+								</span>
+							</div>
+							<div class="ds-section-data">
+							<div class="ds-section-data-inner bdr-bottom">	
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="filterDT" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search"></span>
+									</button></md-icon> </md-input-container>						
+								
+							</div>
+							
+							<div class="ds-section-data-inner2">							
+								<div class="ds-list1">
+									
+							                      <div ng-repeat="cat in palette.categories">
+							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+							                      	</div>
+							                    </div>
+						                    
+								
+							</div>							
+							</div>
+							</div>
+							<div class="ds-hor-seperator"></div>
+						</div>
+				<div class="ds-section">
+							<div class="ds-section-heading">
+								<label>Data Sources</label>
+								<span>
+									
+								</span>
+							</div>
+							<div class="ds-section-data">
+							<div class="ds-section-data-inner bdr-bottom">							
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="filterDS" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search"></span>
+									</button></md-icon> </md-input-container>	
+							</div>
+							<div class="ds-section-data-inner2">
+								<div class="ds-list1">
+									<div ng-repeat="cat in palette.categories">
+							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
+								        	<div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+							            </div>
+							        </div>
+							     </div>
+						      
+							</div>							
+							</div>							
+						</div>
+				<div class="left-drawer-handle" ng-click="left = !left"><span class="left-handle"><i class="material-icons">keyboard_arrow_left</i></span></div>
+				</div>
+			</div>
+			<div flex class="">
+				<div class="ds-container1">
+					<span>
+					<label class="ds-label-title" ng-if="!solutionName"> Untitled
+						<button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1"  ng-click="closeComSol()" ng-disabled="saveState.noSaves">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+					</label>
+					<label class="ds-label-title" ng-if="solutionName"><span ng-bind="solutionName"></span>
+						<button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1"  ng-click="closeComSol()">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+					</label>
+					<button ng-click='newSolution("new");canvas=true' class="mdl-button mdl-js-button ds-btnnew">
+							<span class="addnew"></span> New
+						</button>
+					</span>
+					<div class="ds-btn-container">
+						<button ng-click='showDeleteNodeLink()' id="deleteHide" class="mdl-button mdl-js-button text-small font-semi-bold btn-delete-toggle normaltext-transform bdr-right ds-btn1 btn-delete"><i class="ds-icon icon-delete-toggle" aria-hidden="true"></i>Delete</button>
+						<!-- <span class="btn-divider"> | </span> -->
+						<button ng-click='clearSolution()' class="mdl-button mdl-js-button text-small font-semi-bold bdr-right btn-clear-canvas normaltext-transform" ng-disabled="cleardis"><span class="ds-icon icon-clear-canvas"></span>Clear</button>
+						<button id="validateActive" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-validate" ng-disabled="validationState" ng-click="validateCompSolu()"><span class="ds-icon icon-validate"></span>Validate</button>
+						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-save" ng-disabled='saveState.noSaves'  ng-click="showPrerenderedDialog($event)"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+						<div class="">						 
+							<button id="demo-menu-lower-right4"
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ds-btn1 btn-deploy">
+								<span class="ds-icon icon-deploy"></span> Deploy <i class="material-icons">keyboard_arrow_down</i>
+							</button>
+							<ul
+								class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
+								for="demo-menu-lower-right4">
+								<li class="mdl-menu__item dc-microsoft-azure"></li>
+								<li class="mdl-menu__item dc-google-cloud"></li>
+								<li class="mdl-menu__item dc-rackspace"></li>
+								<li class="mdl-menu__item dc-amazon-cloud"></li>
+								<li class="mdl-menu__item dc-att-cloud"></li>
+							</ul>
+						</div>
+						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-download"><span class="ds-icon icon-download"></span>Download</button>						
+						<!-- <button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-run" disabled><span class="ds-icon icon-run-disabled"></span>Run</button> -->						
+						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist"><span class="ds-icon icon-expand-drawer"></span></button>
+						<button ng-click="closeDrawer()" class="mdl-button mdl-js-button ds-btn1 btn-fullscreen"><span class="ds-icon icon-fullscreen"></span></button>
+					</div>
+				</div>
+				<div class="ds-outer-container2">
+					<div flex id="dsgridbg" class="ds-grid-bg">
+						<section droppable="true">
+      						<div id="canvas"></div>
+    					</section>
+						<div class="canvas-outer-container" ng-hide="canvas">
+							<div class="canvas-box">
+								<div class="canvas-image"></div>
+								<div class="canvas-text text-center">
+									
+									<h5>Drag & Drop your model into canvas to Create or Modify Model</h5>
+<!-- 									<p class="canvas-para">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> -->
+								</div>
+							
+							</div>
+						</div>
+						<div class="console-outer-container" ng-class="down?'console-container-hide':''">
+							<div class="bottom-drawer-handle" ng-init="down='true'" ng-click="down = !down"><span class="bottom-handle"><i class="material-icons">keyboard_arrow_up</i></span></div>
+								<div class="ds-section" ng-hide="down">
+									<div class="ds-section-heading">
+										<label>Validation Console</label>
+										<span>									
+											<button
+												class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1" ng-click="down = !down">
+												<i class="fa fa-times" aria-hidden="true"></i>
+											</button>
+										</span>
+									</div>
+									<div class="console-section-data">
+										<div class="console-section-data-inner">
+										<span id="consoleMsg">{{console}}</span>
+											<!-- <span class="console-errormsg">Uncaught type error: Cannot read property</span>
+											<span class="console-successmsg">Success message content displayed here</span>
+											<span class="console-errormsg">Uncaught type error: Cannot read property</span>
+											<span class="console-successmsg">Success message content displayed here</span>
+											<span class="console-errormsg">Uncaught type error: Cannot read property</span>
+											<span class="console-successmsg">Success message content displayed here</span>
+											<span class="console-errormsg">Uncaught type error: Cannot read property</span>
+											<span class="console-successmsg">Success message content displayed here</span> -->										
+										</div>
+									</div>									
+								</div>
+							</div>	
+						
+					</div>
+					<div flex="25" class="ds-right-section bdr-left bdr-bottom posrel" ng-class="right?'ds-right-width':''">
+					<div id="content">
+						<div class="ds-section" id="top-content">
+						
+					<div class="ds-section-heading-container">					
+						
+					</div> 
+						<div class="ds-contentsection-tab">
+							<md-tabs md-dynamic-height md-border-bottom class="ds-tab1" md-selected="tabChange"> 
+							<md-tab label="Properties"> 
+								<md-content class="md-padding">
+							<div class="ds-section-data ds-section-properties">							
+							<div class="ds-section-data-inner3" ng-show="solutionDetails" >
+							<!-- ng-show="solutionDetails" -->							
+								<ul class="ds-list2 properties-list">
+									
+									<li>
+										<label class="disblock ds-label1">Node Name:</label>
+										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
+										<!-- <label class="text-semi-bold ds-label2" ng-hide="showInput">{{solutionDetails.solutionName}} <button class="mdl-button mdl-js-button" ng-click="toggleShowInput()">
+											 <i class="material-icons">mode_edit</i>
+										</button></label>-->
+									</li>
+									<li>
+										<label class="disblock ds-label1">Node Type:</label>
+										<label class="disblock text-semi-bold">{{solutionDetails.solutionName}}</label>
+									</li>
+									<!-- <li>
+										<label class="disblock ds-label1">Model Package Nam:</label>
+										<label class="disblock text-semi-bold">{{packageName}}</label>
+									</li> -->
+									<li>
+										<label class="disblock ds-label1">Model Owner:</label>
+										<label class="disblock text-semi-bold">{{solutionDetails.ownerId}}</label>
+									</li>
+									<li>
+										<label class="disblock ds-label1">Model Provider:</label>
+										<label class="disblock text-semi-bold">ATT</label>
+									</li>
+									<li>
+										<div ng-switch on="solutionDetails.toolKit">
+											<div class="twoCases" ng-switch-when="null">
+												<label class="disblock ds-label1">Toolkit Type:</label>
+												<label class="disblock text-semi-bold">{{solutionDetails.toolKit}}</label>
+											</div>
+											<div class="twoCases" ng-switch-default>
+												<div ng-repeat="toolkitDet in toolKitTypes">
+            										<div ng-if="solutionDetails.toolKit==toolkitDet.toolkitCode">
+              											<label class="disblock ds-label1">Toolkit Type:</label>
+														<label class="disblock text-semi-bold">{{toolkitDet.toolkitName}}</label>
+              										</div>
+            									</div>
+            								</div>
+            							</div>
+										<!-- <label class="disblock ds-label1">Toolkit Type Name:</label>
+										<label class="disblock text-semi-bold">null</label> -->
+									</li>
+									<!-- <li>
+										<div class="disblock text-semi-bold" ng-show="showProperties">
+											{{messageDet}} {
+											<div ng-repeat="msg in messageUI" style="padding-left:3em">
+												{{msg}}
+											</div>
+											}
+										</div>		
+									</li> -->
+								</ul>
+							</div>
+							<div  class="disblock text-semi-bold" style="padding-left:1em;color:black" ng-show="showProperties">
+											message {{messageDet}} {
+											<div ng-repeat="msg in messageUI" style="padding-left:3em">
+												{{msg}};
+											</div>
+											}
+										</div>
+							<div class="ds-section-data-inner3" ng-show="showLink" >
+							<!-- ng-show="solutionDetails" -->							
+								<ul class="ds-list2 properties-list">
+									
+									<li>
+										<label class="disblock ds-label1">Link Name:</label>
+										<label class="text-semi-bold ds-label2">{{linkDetails.orig.value.linkName || 'empty'}}</label>
+										<!-- <a href="#" editable-text="solutionDetails.solutionName">{{linkDetails.value.linkName || 'empty'}}</a> -->
+									</li>
+									<li>
+										<label class="disblock ds-label1">Source Node Name:</label>
+										<label class="disblock text-semi-bold">{{linkDetails.source.orig.value.name}}</label>
+									</li>
+									<li>
+										<label class="disblock ds-label1">Target Node Name:</label>
+										<label class="disblock text-semi-bold">{{linkDetails.target.orig.value.name}}</label>
+									</li>
+									
+								</ul>
+							</div>	
+							<div class="ds-section-data-inner3" ng-show="showDataMapper" style="position: relative; padding: 0; margin-left: -16px; margin-right: -16px">
+                                                                          <div id="data-mapper"></div>
+                                                                        </div>					
+							</div>
+							</md-content> 
+							</md-tab>
+
+							<md-tab label="Matching Models"> 
+								<md-content class="md-padding" ng-if="clicked" style="padding:0px">
+								<div class="ds-section-data-inner bdr-bottom">	
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="filterMM" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search"></span>
+									</button></md-icon> </md-input-container>						
+								<!-- <md-input-container md-no-float class="md-block ds-search-input">
+										<input type="text"> </md-input-container> -->
+							</div>
+									<div class="ds-section-data-inner2">
+								<div class="ds-treelist">
+										<!-- <div data-toggle="collapse" class="fa fa-folder-open question ui-link" ng-click="setActionLeft($index)" ng-show="$index==selectedIndexLeft && initIndexLeft"><span>{{category.typeName}}</span></div> -->
+										<!-- <div data-toggle="collapse" class="fa fa-folder question ui-link" ng-click="setActionLeft($index)" ng-show="$index!==selectedIndexLeft"><span>{{category.typeName}}</span></div> -->
+										
+							                        <div class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in matchModels track by $index" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+							                      	</div>
+							                    </div>
+						                        </div>
+								</md-content>
+								</md-tab>
+
+								</md-tabs>							
+							</div>
+							<div class="ds-hor-seperator" id="content-resizer" 
+					  			resizer="horizontal" 
+					  			resizer-height="6" 
+					  			resizer-top="#top-content" 
+					  			resizer-bottom="#bottom-content"></div>
+						
+						<div class="ds-section" id="bottom-content">
+							<div class="ds-section-heading">
+								<label>My Solutions</label>
+								<span>
+									
+								</span>
+							</div>
+							<div class="ds-section-data">
+							<div class="ds-section-data-inner bdr-bottom">							
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input type="text" ng-model="searchSol.solutionName"> 
+										<md-icon style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search"></span>
+									</button></md-icon></md-input-container>
+							</div>
+							
+						                     
+							     <!--                  
+							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+							                      	</div>
+							                    </div>
+						                    </div>
+						             </div>  -->
+							<div class="ds-section-data-inner4">							
+								<ul class="ds-list3" ng-repeat="val in privateCS | filter:searchSol | orderBy:'solutionName'">
+									<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span><button ng-click="showdeletePopup($event,val)" class="mdl-button mdl-js-button"><span class="ds-delete-icon"></span></button> </li>
+								</ul>
+							</div>							
+							</div>
+							
+						</div>
+						</div>
+						<div class="right-drawer-handle" ng-click="right = !right"><span class="right-handle"><i class="material-icons">keyboard_arrow_right</i></span></div>
+					</div>
+				</div>				
+			</div>			
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	
+<style>
+@import url('css/designStudio.css'); 
+</style>
+<!-- popup message -->
+<div class="md-dialog-container" id="myDialogPopup" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2 ng-bind="titlemsg"></h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p ng-bind="msg"></p>
+										<div layout="row" class="deploy-cloud-modalfooter">
+										 <span></span>
+										 	<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Ok
+									      </md-button>	
+									      </div>						
+									  </div>
+									</md-dialog-content>
+									
+								  </form>
+								</md-dialog>
+							</div>
+ <!-- material popup start-->
+							<div class="md-dialog-container" id="myDialog" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak name ="signupSolution">
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Save Solution</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+										  <div class="mdl-cell mdl-cell--6-col">
+										  		 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Solution Name</label>												      
+												      <input ng-model="solutionName" type="text" required="" maxlength="16">
+												 </md-input-container>
+												
+										  </div>
+										 
+										  <div class="mdl-cell mdl-cell--6-col">
+											<md-input-container class="md-icon-float md-block">
+												<label>Version</label>												
+												 <input ng-model="solutionVersion" type="text" required="" maxlength="16">
+											</md-input-container>
+											
+										  </div>
+										</div>
+										<div><md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Description</label>												      
+												      
+												       <textarea ng-model="solutionDescription" class="mdl-textfield__input" type="text" rows="1" id="address" required="" maxlength="256"></textarea>
+												 </md-input-container></div>
+										<hr />
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button ng-click="closeSavePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Close
+									      </md-button>
+										  <md-button ng-disabled="signupSolution.$invalid" ng-click='saveSolution()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Save
+									      </md-button>
+									    </div>								
+									  </div>
+									</md-dialog-content>
+									
+								  </form>
+								</md-dialog>
+							</div>
+<!-- material popup end -->	
+<!-- delete confirmation Modal box start -->
+							<div class="md-dialog-container" id="myDialogdelete" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Delete Confirmation</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p>Are you sure you want to delete the {{solutionToDelete.solutionName}}({{solutionVersion}}) solution?</p>
+										<hr />
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="deleteSolution(solutionToDelete)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Confirm
+									      </md-button>
+									    </div>								
+									  </div>
+									</md-dialog-content>
+									
+								  </form>
+								</md-dialog>
+							</div>
+<!-- delete confirmation Modal box end -->
+
+<!-- delete confirmation Node or link box start -->
+							<div class="md-dialog-container" id="myDialogNodeLink" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Delete Selected</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p>Are you sure you want to delete the node/link?</p>
+										<hr />
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="deleteNodeEdge()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Confirm
+									      </md-button>
+									    </div>								
+									  </div>
+									</md-dialog-content>
+									
+								  </form>
+								</md-dialog>
+							</div>
+<!-- delete confirmation Node or Link box end -->
+<!-- save confirmation Modal box start -->
+							<div class="md-dialog-container" id="myDialogSave" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Save Solution</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p>Would you like to save current solution?</p>
+										<hr />
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Cancel
+									      </md-button>
+									      <span>
+									      <md-button ng-click="SaveSolutionFirst('no')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        No
+									      </md-button>
+										  <md-button ng-click="SaveSolutionFirst('yes')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Yes
+									      </md-button>
+									      </span>
+									    </div>								
+									  </div>
+									</md-dialog-content>
+									
+								  </form>
+								</md-dialog>
+							</div>
+<!-- save confirmation Modal box end -->
+
+<!-- Saving old version popup confirmation Modal box start -->
+							<div class="md-dialog-container" id="myDialogOldSave" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2></h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									<form ng-cloak>
+									  <div class="md-dialog-content">
+										<p>Do you want to update a previous version of this solution ?</p>
+										<hr />
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="updateMySolution()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Confirm
+									      </md-button>
+									    </div>								
+									  </div>
+									  </form>
+									</md-dialog-content>
+								</md-dialog>
+							</div>
+<!-- Saving old version popup confirmation Modal box end -->
+</div>
