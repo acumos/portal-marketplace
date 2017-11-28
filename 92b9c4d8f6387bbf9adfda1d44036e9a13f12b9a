@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5034b77a_4bb51449",
+        "filename": "LICENSE.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-11-28T21:00:29Z",
+      "side": 1,
+      "message": "Please correct this content, should use the wiki page version, this file omits Tech Mahindra :)",
+      "revId": "92b9c4d8f6387bbf9adfda1d44036e9a13f12b9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cb77e44_3f06374a",
         "filename": "acumos-nexus-client/src/main/java/org/acumos/nexus/client/MvnRepo.java",
         "patchSetId": 1
