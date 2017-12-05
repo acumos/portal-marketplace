@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1745e0e_a1d7c248",
+        "filename": "LICENSE.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-05T12:34:10Z",
+      "side": 1,
+      "message": "this is the wrong license, it omits Tech Mahindra name",
+      "revId": "8519a964e96982fd7f0f547f0c49824d627e4eff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb6472c_03513f72",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-05T12:34:10Z",
+      "side": 1,
+      "message": "Please change the first line to a proper title with valid markdown, the project name is not \"Please Read Carefully\" and you don\u0027t need the hash marks at the end",
+      "revId": "8519a964e96982fd7f0f547f0c49824d627e4eff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da6d3684_15b9de5f",
+        "filename": "docs/release-notes.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-05T12:34:10Z",
+      "side": 1,
+      "message": "please put in at least \"Version 1.0 December 2017\"",
+      "revId": "8519a964e96982fd7f0f547f0c49824d627e4eff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104f9386_0e47be2e",
+        "filename": "docs/tutorials/index.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-05T12:34:10Z",
+      "side": 1,
+      "message": "Please remove lesson1/2/3 bcos you have no such files",
+      "revId": "8519a964e96982fd7f0f547f0c49824d627e4eff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2b5e66e_99418e95",
+        "filename": "platon.mv.db",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-05T12:34:10Z",
+      "side": 1,
+      "message": "can this binary file be removed?",
+      "revId": "8519a964e96982fd7f0f547f0c49824d627e4eff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf193d9e_50ab070d",
+        "filename": "switchGitBranch",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-05T12:34:10Z",
+      "side": 1,
+      "message": "Does this need to be in the project?",
+      "revId": "8519a964e96982fd7f0f547f0c49824d627e4eff",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
