@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ad6ffab_bf4abc6d",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-06T20:28:56Z",
+      "side": 1,
+      "message": "May I suggest using the following lines so that developers can compile locally:\n\n                \u003c!-- All acumos.nexus.* are overridden by Jenkins settings --\u003e\n                \u003cacumos.nexus.url\u003ehttp://cognita-nexus01.eastus.cloudapp.azure.com:8081\u003c/acumos.nexus.url\u003e\n                \u003cacumos.nexus.snapshot.path\u003erepository/repo_cognita_platform_maven_snapshots\u003c/acumos.nexus.snapshot.path\u003e\n                \u003cacumos.nexus.release.path\u003erepository/repo_cognita_platform_maven\u003c/acumos.nexus.release.path\u003e",
+      "revId": "b11c107267ff19f420cc25d448c39aaae8f58c7d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
