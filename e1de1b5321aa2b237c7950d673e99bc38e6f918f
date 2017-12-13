@@ -53,6 +53,74 @@
     },
     {
       "key": {
+        "uuid": "1bea825e_006c83c1",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/docker/cmd/TagImageCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:19:16Z",
+      "side": 1,
+      "message": "Please remove @author annotations",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29c2d7ac_74096def",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLRole.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:19:16Z",
+      "side": 1,
+      "message": "Please remove @author",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df7c1c44_84eaf964",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:19:16Z",
+      "side": 1,
+      "message": "This does not use EELF-compatible logger, why  not?",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "381bbee1_b3251bd7",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AuthServiceControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:19:16Z",
+      "side": 1,
+      "message": "Remove this empty test?",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2548582f_6d700865",
         "filename": "pom.xml",
         "patchSetId": 1
