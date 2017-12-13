@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80c80b58_d748252d",
+        "filename": "LICENSE.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:15:39Z",
+      "side": 1,
+      "message": "This is the wrong license -- why change?",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1cb9e72_bc93a236",
+        "filename": "acumos-platon/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:15:39Z",
+      "side": 1,
+      "message": "Why remove this fix?",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7609ad84_de8d08cc",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:15:39Z",
+      "side": 1,
+      "message": "Why remove these fixes?",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2548582f_6d700865",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-13T11:15:39Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s wise to remove the Azure Nexus repository URL.  This change makes it impossible for developers to build and test locally.",
+      "revId": "e1de1b5321aa2b237c7950d673e99bc38e6f918f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
