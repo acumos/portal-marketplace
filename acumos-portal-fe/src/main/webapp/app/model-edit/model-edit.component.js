@@ -33,7 +33,7 @@ angular
 					controller : function($scope, $location, $http,
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
-							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast) {
+							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state) {
 
 
 						$scope.status;
@@ -46,6 +46,11 @@ angular
 						componentHandler.upgradeAllRegistered();
 						$scope.solutionCompanyDescStatus = false;
 						$scope.solutionPublicDescStatus = false;
+						$scope.icon = false;
+						$scope.iconImages = ["CLI","curl", "dotnet","javascript", "java", "go",
+											"scala","ruby", "rust", 'REST API',"nodejs", "swift", 
+											"python", "R"];
+						$scope.previewImage = "images/Edit_model_default_icon.jpg";
 
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
@@ -394,6 +399,9 @@ angular
 												$timeout(
 														function() {
 															$scope.showAlertMessage = false;
+															if($scope.solution.active == false){
+																$state.go('manageModule');
+															}
 														}, 3500);
 												/* } */
 
@@ -983,12 +991,14 @@ angular
 											function successCallback(response) {
 												$scope.artifactDownload = response.data.response_body;
 												for (var x = 0; x < response.data.response_body.length; x++) {
-													$scope.artifactId = response.data.response_body[x].artifactId;
-													$scope.artifactType = response.data.response_body[x].artifactTypeCode;
-													$scope.artifactDesc = response.data.response_body[x].description;
-													$scope.artifactName = response.data.response_body[x].name;
-													$scope.artifactVersion = response.data.response_body[x].version;
-													$scope.artifactUri = response.data.response_body[x].uri;
+													if(response.data.response_body[x].artifactTypeCode == "DI"){
+														$scope.artifactId = response.data.response_body[x].artifactId;
+														$scope.artifactType = response.data.response_body[x].artifactTypeCode;
+														$scope.artifactDesc = response.data.response_body[x].description;
+														$scope.artifactName = response.data.response_body[x].name;
+														$scope.artifactVersion = response.data.response_body[x].version;
+														$scope.artifactUri = response.data.response_body[x].uri;
+													}
 												}
 
 											},
@@ -1729,7 +1739,42 @@ angular
 						
 						
 					}
-					 
+					
+					//Drag Drop for image icon
+					
+					$scope.dropCallback = function(event, ui) {
+						$scope.previewImage = $scope.draggedTitle;
+						$scope.icon = true;
+						/*srcToFile($scope.draggedTitle, 'new.png', 'image/png')
+						.then(function(file){
+						    var fd = new FormData();
+						    fd.append('file1', file);
+						    $scope.solImage = file;
+						});*/
+					    //console.log('hey, you dumped me :-(' , $scope.iconFile);
+					  };
+					  
+					$scope.startCallback = function(event, iconImage) {
+						    console.log('You started draggin: ' + event.currentTarget.src);
+						    $scope.draggedTitle = event.currentTarget.src;
+						    $scope.icon = false;
+						    srcToFile($scope.draggedTitle, $scope.draggedTitle.split('/').pop(), 'image/png')
+							.then(function(file){
+							    var fd = new FormData();
+							    fd.append('file1', file);
+							    $scope.solImage = file;
+							});
+					};  
+					
+					//load src and convert to a File instance object
+					function srcToFile(src, fileName, mimeType){
+					    return (fetch(src)
+					        .then(function(res){return res.arrayBuffer();})
+					        .then(function(buf){return new File([buf], fileName, {type:mimeType});})
+					    );
+					}
+					
+					
 					$scope.$watch('solution.name', function() {chkCount();});
 					$scope.$watch('solutionCompanyDesc', function() {chkCount();});
 					$scope.$watch('solutionPublicDes', function() {chkCount();});

@@ -40,7 +40,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class FilterServiceControllerTest {
 
@@ -84,7 +88,7 @@ public class FilterServiceControllerTest {
 			logger.info("Filter Category Types : " + modelTypeRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 

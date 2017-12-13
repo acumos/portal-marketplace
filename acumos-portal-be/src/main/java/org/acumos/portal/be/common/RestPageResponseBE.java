@@ -47,6 +47,10 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 	private List<String> tags;	
 	private Set<String> filteredTagSet;
 	private List<User> userList;
+	private int PrivateModelCount;
+    private int PublicModelCount;
+    private int CompanyModelCount;
+    private int DeletedModelCount; 
 
 	public RestPageResponseBE(List<T> content) {
 		super(content);
@@ -120,5 +124,37 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 
 	public void setAsync(Future<String> async) {
 		this.async = async;
+	}
+
+	public int getPrivateModelCount() {
+		return PrivateModelCount;
+	}
+
+	public void setPrivateModelCount(int privateModelCount) {
+		PrivateModelCount = privateModelCount;
+	}
+
+	public int getPublicModelCount() {
+		return PublicModelCount;
+	}
+
+	public void setPublicModelCount(int publicModelCount) {
+		PublicModelCount = publicModelCount;
+	}
+
+	public int getCompanyModelCount() {
+		return CompanyModelCount;
+	}
+
+	public void setCompanyModelCount(int companyModelCount) {
+		CompanyModelCount = companyModelCount;
+	}
+
+	public int getDeletedModelCount() {
+		return DeletedModelCount;
+	}
+
+	public void setDeletedModelCount(int deletedModelCount) {
+		DeletedModelCount = deletedModelCount;
 	}
 }

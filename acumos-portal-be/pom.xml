@@ -11,8 +11,6 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.4.RELEASE</version>
-		<!-- silence warning about parent relative path -->
-		<relativePath />
 	</parent>
 
 	<properties>
@@ -24,11 +22,6 @@
 		<eelf.version>1.0.0</eelf.version>
 		<!-- tests require database to be running -->
 <!-- 		<skipTests>true</skipTests> -->
-		<!-- All acumos.nexus.* are overridden by Jenkins settings -->
-		<!-- These properties are NOT inherited from local parent pom -->
-		<acumos.nexus.url>http://cognita-nexus01.eastus.cloudapp.azure.com:8081</acumos.nexus.url>
-		<acumos.nexus.snapshot.path>repository/repo_cognita_platform_maven_snapshots</acumos.nexus.snapshot.path>
-		<acumos.nexus.release.path>repository/repo_cognita_platform_maven</acumos.nexus.release.path>
 		<!-- Docker daemon; overridden by Jenkins settings -->
 		<docker.host.url>unix:/var/run/docker.sock</docker.host.url>
 		<!-- Docker image registry; all overriden by Jenkins settings -->
@@ -36,29 +29,6 @@
 		<docker.registry.login>set by Jenkins</docker.registry.login>
 		<docker.registry.password>set by Jenkins</docker.registry.password>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>acumos-snapshots</id>
-			<name>acumos-repository-snapshots</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.snapshot.path}</url>
-		</repository>
-		<repository>
-			<id>acumos-releases</id>
-			<name>acumos-repository-releases</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.release.path}</url>
-		</repository>
-		<repository>
-			<id>onap-snapshots</id>
-			<name>ONAP Snapshot Repository</name>
-			<url>${onap.nexus.url}/${onap.nexus.snapshot.path}</url>
-		</repository>
-		<repository>
-			<id>onap-releases</id>
-			<name>ONAP Release Repository</name>
-			<url>${onap.nexus.url}/${onap.nexus.release.path}</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -104,7 +74,7 @@
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>1.9.0-SNAPSHOT</version>
+			<version>1.10.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -302,6 +272,26 @@
 						</image>
 					</images>
 				</configuration>
+			</plugin>
+						<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.6.201602180812</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

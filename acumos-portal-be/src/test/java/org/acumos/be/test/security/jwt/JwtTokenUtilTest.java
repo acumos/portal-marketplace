@@ -18,6 +18,10 @@
  * ===============LICENSE_END=========================================================
  */
 
+/**
+ * 
+ * 
+ */
 package org.acumos.be.test.security.jwt;
 
 import java.util.Date;
@@ -57,7 +61,7 @@ public class JwtTokenUtilTest {
 			userDetails.setLastName("Poll");
 			userDetails.setLoginName("john");
 			userDetails.setLoginHash("!Acumos@73825");
-			userDetails.setEmail("john@acumos.org");
+			userDetails.setEmail("john@techmahindra.com");
 			userDetails.setUserId("9d1f8220-3aba-4371-8c1a-abc229930652");
 			userDetails.setActive(true);
 			userDetails.setCreated(new Date());

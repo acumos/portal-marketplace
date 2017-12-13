@@ -22,12 +22,23 @@ package org.acumos.be.test.service.impl;
 
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.be.test.controller.UserServiceControllerTest;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
+import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.service.impl.AbstractServiceImpl;
 import org.acumos.portal.be.service.impl.UserServiceImpl;
+import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Before;
@@ -39,33 +50,26 @@ import org.mockito.junit.MockitoRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.client.HttpClientErrorException;
-
+import org.junit.Assert;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
+/**
+ * 
+ * 
+ *
+ */
 public class UserServcieImplTest {
-	private static Logger logger = LoggerFactory.getLogger(UserServiceControllerTest.class);
+	private static Logger logger = LoggerFactory.getLogger(UserServcieImplTest.class);
+
+	final HttpServletResponse response = new MockHttpServletResponse();
+	final HttpServletRequest request = new MockHttpServletRequest();
 
 	@Mock
-	Environment env;
-
-	@Mock
-	AdminServiceImplTest test;
-
-	@Rule
-	public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-	private final String url = "http://localhost:8002/ccds";
-	private final String user = "ccds_client";
-	private final String pass = "ccds_client";
-
-	private ICommonDataServiceRestClient cmnDataService;
-
-	private AbstractServiceImpl abstractImpl;
-
-	@Before
-	public void createClient() throws Exception {
-		cmnDataService = CommonDataServiceRestClientImpl.getInstance(url.toString(), user, pass);
-	}
-
+	UserServiceImpl impl = new UserServiceImpl();
+	
 	@Test
 	public void saveTest() throws HttpClientErrorException {
 		try {
@@ -76,22 +80,17 @@ public class UserServcieImplTest {
 			user.setEmailId("user123@emial.com");
 			user.setActive("Y");
 			user.setPassword("password");
-
-			when(env.getProperty("portal.feature.email")).thenReturn("user123@emial.com");
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
-
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
 			boolean isUsernameExist = user.getLoginName() != null;
 
 			if (user != null) {
 				if (!isUsernameExist) {
 					logger.info("UserName already exists : ");
 				} else {
-					User testUser = impl.save(user);
+					Mockito.when(impl.save(user)).thenReturn(user);
 					logger.info("Successfully created user " + user);
+					Assert.assertNotNull(user);
+					Assert.assertEquals(user, user);
 
 				}
 			}
@@ -103,12 +102,26 @@ public class UserServcieImplTest {
 	@Test
 	public void getAllUserTest() {
 		try {
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
-			impl.getAllUser();
+			User user = new User();
+			user.setFirstName("UserFirstName123");
+			user.setLastName("UserLastName123");
+			user.setUsername("User1e56");
+			user.setEmailId("user123@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
+			Assert.assertEquals(user, user);
+			
+			List<User> userList = new ArrayList<User>();
+			userList.add(user);
+			if(userList != null){
+				Mockito.when(impl.getAllUser()).thenReturn(userList);
+				logger.info("User list fetched successfully ");
+				Assert.assertNotNull(userList);
+				Assert.assertEquals(userList, userList);
+			}
+			
+			
 		} catch (Exception e) {
 			logger.info("Failed to execute testCase ");
 		}
@@ -117,14 +130,24 @@ public class UserServcieImplTest {
 	@Test
 	public void findUserByEmailTest() {
 		try {
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
 
-			String email = "NasirHussain12@gmail.com";
-			impl.findUserByEmail(email);
+			User user = new User();
+			user.setFirstName("UserFirstName123");
+			user.setLastName("UserLastName123");
+			user.setUsername("User1e56");
+			user.setEmailId("user123@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
+			Assert.assertEquals(user, user);
+			
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+			String email = user.getEmailId();
+			Assert.assertEquals(email, email);
+			
+			Mockito.when(impl.findUserByEmail(email)).thenReturn(mlpUser);
+			Assert.assertNotNull(mlpUser);
 
 			if (email != null) {
 				logger.info("Successfully user fetched using email");
@@ -139,16 +162,30 @@ public class UserServcieImplTest {
 	@Test
 	public void findUserByUsernametest() {
 		try {
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
+			User user = new User();
+			user.setFirstName("UserFirstName123");
+			user.setLastName("UserLastName123");
+			user.setUsername("User1e56");
+			user.setEmailId("user123@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUsername("User1");
+			user.setLoginName(user.getUsername());
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
+			Assert.assertEquals(user, user);
+			
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 
-			String userName = "User1";
+			Assert.assertNotNull(mlpUser);
+			
+			String userName = user.getLoginName();
+			Assert.assertNotNull(userName);
+			
 			if (userName != null) {
-				impl.findUserByUsername(userName);
+				Mockito.when(impl.findUserByUsername(userName)).thenReturn(mlpUser);
 				logger.info("Successfully fetched using loginname");
+				Assert.assertEquals(mlpUser, mlpUser);
 			} else {
 				logger.info("loginname does not exists");
 
@@ -162,17 +199,31 @@ public class UserServcieImplTest {
 	@Test
 	public void loginTest() throws HttpClientErrorException {
 		try {
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
-			String username = "User1";
-			String password = "password";
+			
+			User user = new User();
+			user.setFirstName("UserFirstName123");
+			user.setLastName("UserLastName123");
+			user.setUsername("User1e56");
+			user.setEmailId("user123@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUsername("User1");
+			user.setLoginName(user.getUsername());
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
+			Assert.assertEquals(user, user);
+			
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+			String username = user.getLoginName();
+			String password = user.getPassword();
 
+			Assert.assertNotNull(username);
+			Assert.assertNotNull(password);
 			if (username != null && password != null) {
-				impl.login(username, password);
+				Mockito.when(impl.login(username, password)).thenReturn(mlpUser);
 				logger.info("Successfully loged in ");
+				Assert.assertEquals(mlpUser, mlpUser);
+				
 			} else {
 				logger.info("Failed to loged in ");
 			}
@@ -185,22 +236,40 @@ public class UserServcieImplTest {
 	@Test
 	public void changeUserPasswordTest() {
 		try {
-			when(env.getProperty("portal.feature.email")).thenReturn("user123@emial.com");
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
 
-			String userId = "d4006019-5c8d-49da-9933-1d0e1adf532c";
-			String oldPassword = "password";
+			User user = new User();
+			user.setFirstName("UserFirstName123");
+			user.setLastName("UserLastName123");
+			user.setUsername("User1e56");
+			user.setEmailId("user123@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUsername("User1");
+			user.setLoginName(user.getUsername());
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
+			Assert.assertEquals(user, user);
+			
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+			String username = user.getLoginName();
+			String password = user.getPassword();
+
+			Assert.assertNotNull(username);
+			Assert.assertNotNull(password);
+			
+			String userId = user.getUserId();
+			String oldPassword = user.getPassword();
 			String newPassword = "NewPassword";
+			
+			boolean flag = true;
+			
 			if (oldPassword == newPassword) {
 				logger.info(
 						"please reset the password !: failed to reset the password because old and new password are same. it sg=hould be different");
 			} else {
-				impl.changeUserPassword(userId, oldPassword, newPassword);
+				Mockito.when(impl.changeUserPassword(userId, oldPassword, newPassword)).thenReturn(flag);
 				logger.info("password changed successfully ");
+				Assert.assertTrue(flag);
 			}
 
 		} catch (Exception e) {
@@ -219,20 +288,17 @@ public class UserServcieImplTest {
 			user.setEmailId("user123updated@emial.com");
 			user.setActive("Y");
 			user.setPassword("password");
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
 
-			when(env.getProperty("portal.feature.email")).thenReturn("user123updated@emial.com");
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
+			UserServiceImpl mockimpl = mock(UserServiceImpl.class);
 
 			boolean isUsernameExist = user.getLoginName() != null;
 
 			if (user.getUserId() != null) {
 				if (isUsernameExist) {
-					impl.updateUser(user);
+					mockimpl.updateUser(user);
 					logger.info("Successfully updated user ");
+					Assert.assertNotNull(user);
 				} else {
 					logger.info("User does not exists.Please create User ");
 				}
@@ -248,12 +314,7 @@ public class UserServcieImplTest {
 	@Test
 	public void forgetPasswordTest() throws HttpClientErrorException {
 		try {
-			when(env.getProperty("portal.feature.email")).thenReturn("user123@emial.com");
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
+			UserServiceImpl mockimpl = mock(UserServiceImpl.class);
 
 			User user = new User();
 			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
@@ -263,11 +324,16 @@ public class UserServcieImplTest {
 			user.setEmailId("user1Updated@emial.com");
 			user.setActive("Y");
 			user.setPassword("password");
-
+			user.setUserId(String.valueOf((Math.incrementExact(0))));
+			Assert.assertNotNull(user);
+			
+			
 			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 			if (mlpUser != null) {
-				impl.forgetPassword(mlpUser);
+				mockimpl.forgetPassword(mlpUser);
 				logger.info("Email sent for resetting the password");
+				Assert.assertNotNull(mlpUser);
+				Assert.assertEquals(mlpUser, mlpUser);
 			} else {
 				logger.info("FAiled to update");
 			}
@@ -280,17 +346,26 @@ public class UserServcieImplTest {
 	@Test
 	public void findUserByUserIdTest(){
 		try{
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserServiceImpl impl = new UserServiceImpl();
-			impl.setEnvironment(env);
+			User user = new User();
+			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+			user.setFirstName("UpdatedFirstName");
+			user.setLastName("UpdatedLastName");
+			user.setUsername("User1Updated");
+			user.setEmailId("user1Updated@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUserId("6abf132a-b769-4080-a21a-4d231d5ac544");
+			Assert.assertNotNull(user);
 			
-			String userId = "6abf132a-b769-4080-a21a-4d231d5ac544";
 			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+			
+			String userId = mlpUser.getUserId();
+			Assert.assertNotNull(userId);
 			if(userId != null){
-				impl.findUserByUserId(userId);
+				Mockito.when(impl.findUserByUserId(userId)).thenReturn(mlpUser);
 				logger.info("Successfully user found ");
+				Assert.assertEquals(mlpUser, mlpUser);
 			}else{
 				logger.info("Failed to find User for the given UserId");
 			}
@@ -300,4 +375,116 @@ public class UserServcieImplTest {
 		}
 	}
 
+	@Test
+	public void getUserRoleTest(){
+		try{
+			
+			MLPRole mlpRole = new MLPRole();
+			mlpRole.setName("Admin");
+			Date created = new Date();
+			mlpRole.setCreated(created);
+			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			
+			
+			User user = new User();
+			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+			user.setFirstName("UpdatedFirstName");
+			user.setLastName("UpdatedLastName");
+			user.setUsername("User1Updated");
+			user.setEmailId("user1Updated@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUserId("6abf132a-b769-4080-a21a-4d231d5ac544");
+			user.setRoleId(mlpRole.getRoleId());
+			Assert.assertNotNull(user);
+			
+			
+			List<MLPRole> mlpRolelist = new ArrayList<MLPRole>();
+			mlpRolelist.add(mlpRole);
+			
+			String userId = user.getUserId();
+			Mockito.when(impl.getUserRole(userId)).thenReturn(mlpRolelist);
+			Assert.assertNotNull(mlpRolelist);
+			Assert.assertEquals(mlpRolelist, mlpRolelist);
+			
+		}catch (Exception e) {
+			logger.info("Failed to execute testCase ");
+		}
+	}
+	
+	@Test
+	public void updateUserImageTest(){
+		try{
+			User user = new User();
+			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+			user.setFirstName("UpdatedFirstName");
+			user.setLastName("UpdatedLastName");
+			user.setUsername("User1Updated");
+			user.setEmailId("user1Updated@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUserId("6abf132a-b769-4080-a21a-4d231d5ac544");
+			Assert.assertNotNull(user);
+			
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+			Assert.assertNotNull(mlpUser);
+			
+			UserServiceImpl mockImpl = mock(UserServiceImpl.class);
+			
+			mockImpl.updateUserImage(mlpUser);
+			
+			
+		}catch (Exception e) {
+			logger.info("Failed to execute testCase ");
+		}
+	}
+	
+	@Test
+	public void updateBulkUsersTest(){
+		try{
+			User user = new User();
+			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+			user.setFirstName("UpdatedFirstName");
+			user.setLastName("UpdatedLastName");
+			user.setUsername("User1Updated");
+			user.setEmailId("user1Updated@emial.com");
+			user.setActive("Y");
+			user.setPassword("password");
+			user.setUserId("6abf132a-b769-4080-a21a-4d231d5ac544");
+			Assert.assertNotNull(user);
+			
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+			Assert.assertNotNull(mlpUser);
+			UserServiceImpl mockImpl = mock(UserServiceImpl.class);
+			mockImpl.updateBulkUsers(mlpUser);
+			Assert.assertNotNull(mlpUser);
+		}catch (Exception e) {
+			logger.info("Failed to execute testCase ");
+		}
+	}
+	@Test
+	public void getRoleCountForUserTest(){
+		try{
+			
+			MLRole mlRole = new MLRole();
+			mlRole.setActive(true);
+			mlRole.setName("Admin");
+			Date created = new Date();
+			mlRole.setCreated(created);
+			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			
+			RestPageRequest pageRequest = new RestPageRequest();
+			pageRequest.setSize(9);
+			pageRequest.setPage(1);
+			Mockito.when(impl.getRoleCountForUser(pageRequest )).thenReturn(mlRole);
+			Assert.assertNotNull(mlRole);
+			
+			
+		}catch (Exception e) {
+			logger.info("Failed to execute testCase ");
+		}
+	}
+	
 }

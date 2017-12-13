@@ -61,7 +61,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceControllerTest {
 
@@ -98,7 +102,7 @@ public class UserServiceControllerTest {
 			Mockito.when(userServiceController.createUser(request, userReq, response)).thenReturn(value);
 			logger.info("successfully  created user ");
 		} catch (Exception | UserServiceException e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while creating user profile ", e);
 		}
 	}
@@ -129,7 +133,7 @@ public class UserServiceControllerTest {
 			logger.info("successfully  updated  user details");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while updating user profile ", e);
 		}
 	}
@@ -160,7 +164,7 @@ public class UserServiceControllerTest {
 			logger.info("forgetPasswordTest");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while changing the password ", e);
 		}
 	}
@@ -197,7 +201,7 @@ public class UserServiceControllerTest {
 			logger.info("Successfully changed user profile password");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while changeUserPasswordTest ", e);
 		}
 	}
@@ -231,7 +235,7 @@ public class UserServiceControllerTest {
 			logger.info("Successfully fectched user details ");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while getUserAccountDetailsTest : ", e);
 		}
 	}
@@ -261,7 +265,7 @@ public class UserServiceControllerTest {
 			logger.info("Successfully fectched list of user details ");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while getAllUsersTest : ", e);
 		}
 
@@ -301,7 +305,7 @@ public class UserServiceControllerTest {
 			logger.info("Successfully fectched list of user details according user roles : ",
 					responseBody.getResponseBody().toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while getUserRoleTest : ", e);
 		}
 	}

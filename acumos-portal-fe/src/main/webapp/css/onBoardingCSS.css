@@ -414,7 +414,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
     content: "" !important;
     background: url("../images/dashboard/stepper_progress_completed.png") no-repeat left center;
     display:inline-block;
-    width:45px;
+    width:47px;
     height:11px;
     transform:scale(0.8);    
 }
@@ -465,3 +465,4 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 	.workflow-left ul.tabs-left>li a.mdl-tabs__tab.is-active div.managelefttext{background-color:#FFF;}
 	.onboarding .mdl-tabs__panel md-content{overflow: initial;}
 }
+.company-market ul li .imageplace.active .imagecontent.completed{border:3px solid #009911; background-color:#FFF;}

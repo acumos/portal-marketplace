@@ -22,7 +22,7 @@
 				<ul class="c-breadcrumb">
 					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
 					<li>
-						<!-- Manage  -->My Model
+						<!-- Manage  -->My Models
 					</li>
 				</ul>
 			</div>
@@ -58,15 +58,6 @@
 						ng-change="filterChange('searchBox','searchFilter')"
 						ng-model="searchBox" placeholder="Search here">
 				</div>
-				<div class="sidebar-checkbox-container">
-					<label class="disblock margin-b md-subhead">Privacy/Visibility</label>
-					<div class="checkbox" ng-repeat="checkbox in privacyCheckBox">
-						<md-checkbox aria-label="Checkbox 1" class="text-medium"
-							ng-true-value="'yup'" ng-false-value="'nope'"
-							value="{{checkbox.accessCode}}"
-							ng-click="filterChange(checkbox.accessCode,'privacy')">{{checkbox.accessName}}</md-checkbox>
-					</div>
-				</div>
 				<hr class="sidebar-seperator">
 				<div class="sidebar-checkbox-container autoheightfilter">
 					<label class="disblock margin-b md-subhead">Filter By
@@ -75,11 +66,7 @@
 					<div class="checkbox" ng-repeat="cat in category">
 						<md-checkbox aria-label="Checkbox 1" class="text-medium"
 							ng-true-value="'yup'" ng-false-value="'nope'" value="{{cat}}"
-							ng-click="filterChange(cat.typeCode,'caegory')">{{cat.typeName}}
-
-
-
-						
+							ng-click="filterChange(cat.typeCode,'caegory')">{{cat.typeName}}	
 					</div>
 					<div class="checkbox">
 						<md-checkbox aria-label="Checkbox 1" class="text-medium"
@@ -114,9 +101,16 @@
 					<div
 						class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--1-col-phone mdl-cell--middle">
 						<span class="hide-xs hide-sm showing-text">Showing - <span
-							class="text-colorgray1"> <!-- {{modelCount}} -->{{filtered.length}}
+							class="text-colorgray1"> <!-- {{modelCount}} -->
 								Models
 						</span></span>
+ 						
+ 						<md-chips ng-model="filterOptions" name="filterOptions" readonly="true"  md-removable="true"  ng-click='removeFilter()'>
+					        <md-chip-template>
+					          <strong>{{$chip}}</strong>
+					        </md-chip-template>
+					     </md-chips>
+					      
 						<button
 							class="mdl-button mdl-js-button mdl-button--primary hide-lg hide-md hide-xl btn-sort btn-browseby"
 							ng-click="showfilter = !showfilter">Browse By</button>
@@ -183,33 +177,33 @@
 
 				<div class="grid-outer-wrapper">
 					<!-- Private Models -->
-					<div class="grid-container">
+					<div class="grid-container" ng-if="hidePrivate">
 						<h4 class="gridlistheading">
-							My Unpublished Models <span class="pull-right"> <span
-								class="mp-grid-head-buttons-container"> <a href="#"
+							My Unpublished Models ({{mlSolutionPrivateCount}}/{{solutionsCount.privateModelCount}})<span class="pull-right"> <span
+								class="mp-grid-head-buttons-container"> <a 
 									class="btnseeall removetop"
+									ng-click="privateNav('SeeAll')"
 									ng-class="{ removetop: !(pageNumPublic < 1 || mlSolutionPublic.length < 4)}">See
 										All</a> <a href="" ng-click="privateNav('Pre')"
 									class="seeall-icons" ng-hide="pageNumPrivate < 1"> <i
 										class="material-icons">navigate_before</i>
 								</a> <a href="" ng-click="privateNav('Next')" class="seeall-icons"
-									ng-hide="privateSolution.length < 4"> <i
+									ng-hide="mlSolutionPrivateCount == solutionsCount.privateModelCount"> <i
 										class="material-icons">navigate_next</i>
 								</a>
 							</span>
 							</span>
 						</h4>
 						<div class="posrel" ng-if="mlSolutions.length < 1">
-							<alert-message-private msg="msg" class="c-alert-inline-container"
+							<!-- <alert-message-private msg="msg" class="c-alert-inline-container"
 								icon="icon" styleclass="styleclass"
-								ng-show="privateAlertMessage"></alert-message-private>
+								ng-show="privateAlertMessage"></alert-message-private> -->
 						</div>
 						<!-- <div infinite-scroll='onLoad()' infinite-scroll-distance="2"> -->
 
 						<div class="mp-grid" ng-show="Viewtile">
 
-							<div class="alert c-info" ng-if="mlsolutions.length < 1">
-								<!-- commented to fix 1599 jira issue || (allDeletedData && !searchResults) -->
+							<div class="alert c-info" ng-if="mlSolutionPrivate.length < 1">
 								<strong>No Result found</strong>
 							</div>
 
@@ -239,37 +233,13 @@
 
 									</div>
 									<div class="clear_both">
-										<div class="rating">
-											<span> <i class="fa fa-star"
-												ng-class="{'fa-star1': privateSolution.solutionRating == null || privateSolution.solutionRating < 1}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': privateSolution.solutionRating < 2}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': privateSolution.solutionRating < 3}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': privateSolution.solutionRating < 4}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': privateSolution.solutionRating < 5}"
-												aria-hidden="true"></i> </span>
-
+ 										<div>
 											<button
-												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored pull-right"
 												ng-click="privateSolution.selectFav = !privateSolution.selectFav; updateFavorite(privateSolution.solutionId, $index)">
 												<i class="material-icons"
 													ng-class="{'unselected-fav':!privateSolution.selectFav ,'selected-fav':privateSolution.selectFav}">favorite_border</i>
 											</button>
-										</div>
-										<div class="md-icons-tiles">
-											<span><span class="statistics-icons icon-chat"></span>
-												0</span> <span><span class="statistics-icons icon-view"></span>
-												{{privateSolution.viewCount == null ? 0 :
-												privateSolution.viewCount}}</span> <span><span
-												class="statistics-icons icon-download"></span>
-												{{privateSolution.downloadCount == null ? 0 :
-												privateSolution.downloadCount}}</span> <span><span
-												class="statistics-icons icon-attachment"></span>
-												{{privateSolution.solutionTag == null ? 0 :
-												privateSolution.solutionTag}}</span>
 										</div>
 									</div>
 								</div>
@@ -353,23 +323,16 @@
 									<div>
 										<div class="rating">
 											<span><i class="fa fa-star"
-												ng-class="{'fa-star-o': privateSolution.solutionRating == null || privateSolution.solutionRating < 1}"
+												ng-class="{'fa-star1': privateSolution.solutionRating == null || privateSolution.solutionRating < 1}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': privateSolution.solutionRating < 2}"
+												ng-class="{'fa-star1': privateSolution.solutionRating < 2}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': privateSolution.solutionRating < 3}"
+												ng-class="{'fa-star1': privateSolution.solutionRating < 3}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': privateSolution.solutionRating < 4}"
+												ng-class="{'fa-star1': privateSolution.solutionRating < 4}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': privateSolution.solutionRating < 5}"
+												ng-class="{'fa-star1': privateSolution.solutionRating < 5}"
 												aria-hidden="true"></i></span>
-
-											<button
-												class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button"
-												ng-click="selectFav = !selectFav">
-												<i class="material-icons"
-													ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-											</button>
 										</div>
 
 									</div>
@@ -394,36 +357,40 @@
 								</div>
 							</div>
 						</div>
-						<div class="text-center">
-							<button
-								class="mdl-button mdl-js-button mdl-button--raised btn-primary"
-								ng-click="loadMore()" ng-if='MlSoltionCount'
-								ng-hide="(privateSolution.length < 1)">
-								{{viewNoMLsolution}}</button>
+						<div class="text-center">									
+							<button class="mdl-button mdl-js-button mdl-button--raised btn-primary" ng-click="privateNav('SeeAll')" ng-hide="(mlSolutionPrivate.length < 1) || viewNoMLsolution=='No More ML Solutions'">
+							  {{viewNoMLsolution}}
+							</button>
 						</div>
 					</div>
+
 					<!-- PUBLISHED TO COMPANY MARKETPLACE -->
-					<div class="grid-container">
+					<div class="grid-container" ng-if="hideCompany">
 						<h4 class="gridlistheading">
-							My Models: Published to Company Marketplace <span
+							My Models: Published to Company Marketplace ({{mlSolutionCompanyCount}}/{{solutionsCount.companyModelCount}})<span
 								class="pull-right"><span
 								class="mp-grid-head-buttons-container"><a href=""
 									class="btnseeall removetop"
+									ng-click="CompanyNav('SeeAll')"
 									ng-class="{ removetop: !(pageNumPublic < 1 || mlSolutionPublic.length < 4)}">See
 										All</a> <a href="" ng-click="CompanyNav('Pre')"
 									class="seeall-icons" ng-hide="pageNumCompany < 1"><i
 										class="material-icons">navigate_before</i></a><a href=""
 									ng-click="CompanyNav('Next')" class="seeall-icons"
-									ng-hide="mlSolutionCompany.length < 4"><i
+									ng-hide="mlSolutionCompanyCount == solutionsCount.companyModelCount"><i
 										class="material-icons">navigate_next</i></a> </span></span>
 						</h4>
 						<div class="posrel" ng-if="mlSolutionCompany.length < 1">
-							<alert-message-Company msg="msg" class="c-alert-inline-container"
+							<!-- <alert-message-Company msg="msg" class="c-alert-inline-container"
 								icon="icon" styleclass="styleclass"
-								ng-show="companyAlertMessage"></alert-message-Company>
+								ng-show="companyAlertMessage"></alert-message-Company> -->
 						</div>
 						<!-- <div infinite-scroll='onLoad()' infinite-scroll-distance="2"> -->
 						<div class="mp-grid" ng-show="Viewtile">
+							<div class="alert c-info" ng-if="mlSolutionCompany.length < 1">
+								<strong>No Result found</strong>
+							</div>
+							
 							<div class="grid-item"
 								ng-repeat="companySolution in mlSolutionCompany track by companySolution.solutionId">
 								<!-- | filter: {accessType:'OR'} | filter: {active:true} -->
@@ -456,23 +423,16 @@
 									<div>
 										<div class="rating">
 											<span><i class="fa fa-star"
-												ng-class="{'fa-star-o': companySolution.solutionRating == null || companySolution.solutionRating < 1}"
+												ng-class="{'fa-star1': companySolution.solutionRating == null || companySolution.solutionRating < 1}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': companySolution.solutionRating < 2}"
+												ng-class="{'fa-star1': companySolution.solutionRating < 2}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': companySolution.solutionRating < 3}"
+												ng-class="{'fa-star1': companySolution.solutionRating < 3}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': companySolution.solutionRating < 4}"
+												ng-class="{'fa-star1': companySolution.solutionRating < 4}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star-o': companySolution.solutionRating < 5}"
+												ng-class="{'fa-star1': companySolution.solutionRating < 5}"
 												aria-hidden="true"></i></span>
-
-											<button
-												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-												ng-click="selectFav = !selectFav">
-												<i class="material-icons"
-													ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-											</button>
 										</div>
 
 										<div class="md-icons-tiles">
@@ -482,10 +442,12 @@
 												companySolution.viewCount}}</span> <span><span
 												class="statistics-icons icon-download"></span>
 												{{companySolution.downloadCount == null ? 0 :
-												companySolution.downloadCount}}</span> <span><span
-												class="statistics-icons icon-attachment"></span>
-												{{companySolution.solutionTag == null ? 0 :
-												companySolution.solutionTag}}</span>
+												companySolution.downloadCount}}</span>
+												<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+												ng-click="selectFav = !selectFav">
+												<i class="material-icons"
+													ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
+												</button>
 										</div>
 									</div>
 
@@ -541,15 +503,15 @@
 										<div>
 											<div class="rating">
 												<span><i class="fa fa-star"
-													ng-class="{'fa-star-o': companySolution.solutionRating == null || companySolution.solutionRating < 1}"
+													ng-class="{'fa-star1': companySolution.solutionRating == null || companySolution.solutionRating < 1}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': companySolution.solutionRating < 2}"
+													ng-class="{'fa-star1': companySolution.solutionRating < 2}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': companySolution.solutionRating < 3}"
+													ng-class="{'fa-star1': companySolution.solutionRating < 3}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': companySolution.solutionRating < 4}"
+													ng-class="{'fa-star1': companySolution.solutionRating < 4}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': companySolution.solutionRating < 5}"
+													ng-class="{'fa-star1': companySolution.solutionRating < 5}"
 													aria-hidden="true"></i></span>
 
 												<button
@@ -592,28 +554,33 @@
 						</div>
 					</div>
 
-					<div class="grid-container">
+					<div class="grid-container" ng-if="hidePublic">
 						<h4 class="gridlistheading">
-							My Models: Published to Public Marketplace <span
+							My Models: Published to Public Marketplace ({{mlSolutionPublicCount}}/{{solutionsCount.publicModelCount}})<span
 								class="pull-right"><span
-								class="mp-grid-head-buttons-container"><a href="#"
+								class="mp-grid-head-buttons-container"><a
 									class="btnseeall"
+									ng-click="publicNav('SeeAll')"
 									ng-class="{ removetop: !(pageNumPublic < 1 || publicSolution.length < 4)}">See
 										All</a> <a ng-click="publicNav('Pre')" class="seeall-icons"
 									href="" ng-hide="pageNumPublic < 1"><i
 										class="material-icons">navigate_before</i></a><a
 									ng-click="publicNav('Next')" class="seeall-icons" href=""
-									ng-hide="publicSolution.length < 4"><i
+									ng-hide="mlSolutionPublicCount == solutionsCount.publicModelCount"><i
 										class="material-icons">navigate_next</i></a> </span></span>
 						</h4>
 						<div class="posrel" ng-if="publicSolution.length < 1">
-							<alert-message-public msg="msg" class="c-alert-inline-container"
-								icon="icon" styleclass="styleclass" ng-show="publicAlertMessage"></alert-message-public>
+							<!-- <alert-message-public msg="msg" class="c-alert-inline-container"
+								icon="icon" styleclass="styleclass" ng-show="publicAlertMessage"></alert-message-public> -->
 						</div>
 						<div>
 							<!-- infinite-scroll='onLoad()' infinite-scroll-distance="2" -->
 							<!-- PUBLISH TO PUBLIC MARKETPLACE -->
 							<div class="mp-grid" ng-show="Viewtile">
+							<div class="alert c-info" ng-if="mlSolutionPublic.length < 1">
+								<strong>No Result found</strong>
+							</div>
+							
 								<div class="grid-item"
 									ng-repeat="publicSolution in mlSolutionPublic track by publicSolution.solutionId"> <!--  | filter: {accessType:'PB'} | filter: {active:true}  -->
 									<div class="grid-top-section">
@@ -671,23 +638,16 @@
 										<div>
 											<div class="rating">
 												<span><i class="fa fa-star"
-													ng-class="{'fa-star-o': publicSolution.solutionRating == null || publicSolution.solutionRating < 1}"
+													ng-class="{'fa-star1': publicSolution.solutionRating == null || publicSolution.solutionRating < 1}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': publicSolution.solutionRating < 2}"
+													ng-class="{'fa-star1': publicSolution.solutionRating < 2}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': publicSolution.solutionRating < 3}"
+													ng-class="{'fa-star1': publicSolution.solutionRating < 3}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': publicSolution.solutionRating < 4}"
+													ng-class="{'fa-star1': publicSolution.solutionRating < 4}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star-o': publicSolution.solutionRating < 5}"
+													ng-class="{'fa-star1': publicSolution.solutionRating < 5}"
 													aria-hidden="true"></i></span>
-
-												<button
-													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-													ng-click="selectFav = !selectFav">
-													<i class="material-icons"
-														ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-												</button>
 											</div>
 
 											<!-- 						<div class="md-icons">
@@ -706,14 +666,13 @@
 													{{publicSolution.viewCount == null ? 0 : publicSolution.viewCount}}</span>
 												<span><span class="statistics-icons icon-download"></span>
 													{{publicSolution.downloadCount == null ? 0 :
-													publicSolution.downloadCount}}</span> <span><span
-													class="statistics-icons icon-attachment"></span>
-													{{publicSolution.solutionTag == null ? 0 :
-													publicSolution.solutionTag}}</span>
-												<!-- <i class="material-icons">chat_bubble</i>0</span>
-															<span class="iconspan1"><i class="material-icons">visibility</i>
-															</span> <span class="iconspan1"><i class="material-icons">file_download</i></span>
-															<span class="iconspan1"><i class="material-icons">attach_file</i></span> -->
+													publicSolution.downloadCount}}</span>
+												<button
+													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+													ng-click="selectFav = !selectFav">
+													<i class="material-icons"
+														ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
+												</button>	
 											</div>
 
 										</div>
@@ -767,15 +726,15 @@
 											<div>
 												<div class="rating">
 													<span><i class="fa fa-star"
-														ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
+														ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
 														aria-hidden="true"></i></span> <span><i class="fa fa-star"
-														ng-class="{'fa-star-o': mlsolution.solutionRating < 2}"
+														ng-class="{'fa-star1': mlsolution.solutionRating < 2}"
 														aria-hidden="true"></i></span> <span><i class="fa fa-star"
-														ng-class="{'fa-star-o': mlsolution.solutionRating < 3}"
+														ng-class="{'fa-star1': mlsolution.solutionRating < 3}"
 														aria-hidden="true"></i></span> <span><i class="fa fa-star"
-														ng-class="{'fa-star-o': mlsolution.solutionRating < 4}"
+														ng-class="{'fa-star1': mlsolution.solutionRating < 4}"
 														aria-hidden="true"></i></span> <span><i class="fa fa-star"
-														ng-class="{'fa-star-o': mlsolution.solutionRating < 5}"
+														ng-class="{'fa-star1': mlsolution.solutionRating < 5}"
 														aria-hidden="true"></i></span>
 
 													<button
@@ -816,22 +775,35 @@
 									</div>
 								</div>
 							</div>
-							<div class="grid-container">
+							
+							<div class="grid-container" ng-if="hideDelete">
 								<h4 class="gridlistheading">
-									My Deleted Models <span class="pull-right"><span
-										class="mp-grid-head-buttons-container"><a href=""
-											class="btnseeall removetop"
-											ng-class="{ removetop: !(pageNumDelete < 1 || mlSolutionDelete.length < 4)}">See
-												All</a> <a href="" ng-click="deleteNav('Pre')"
-											class="seeall-icons" ng-hide="pageNumDelete < 1"><i
-												class="material-icons">navigate_before</i></a><a href=""
-											ng-click="deleteNav('Next')" class="seeall-icons"
-											ng-hide="mlSolutionDelete.length < 4"><i
-												class="material-icons">navigate_next</i></a></span> </span>
+									My Deleted Models ({{mlSolutionDeletedCount}}/{{solutionsCount.deletedModelCount}})<span class="pull-right">
+									<span
+								class="mp-grid-head-buttons-container"><a
+									class="btnseeall "
+									ng-click="deleteNav('SeeAll')"
+									ng-class="{ removetop: !(pageNumDelete < 1 || mlSolutionDelete.length < 4)}">See
+										All</a> <a ng-click="deleteNav('Pre')" class="seeall-icons"
+									href="" ng-hide="pageNumDelete < 1"><i
+										class="material-icons">navigate_before</i></a><a
+									ng-click="deleteNav('Next')" class="seeall-icons" href=""
+									ng-hide="mlSolutionDeletedCount == solutionsCount.deletedModelCount"><i
+										class="material-icons">navigate_next</i></a> </span>
+									</span>
 								</h4>
+								<div class="posrel" ng-if="publicSolution.length < 1">
+							<!-- <alert-message-public msg="msg" class="c-alert-inline-container"
+								icon="icon" styleclass="styleclass" ng-show="publicAlertMessage"></alert-message-public> -->
+						</div>
+						<div>
+
 								<div>
 									<!-- infinite-scroll='onLoad()' infinite-scroll-distance="2"> -->
 									<div class="mp-grid" ng-show="Viewtile">
+										<div class="alert c-info" ng-if="mlSolutionDelete.length < 1">
+											<strong>No Result found</strong>
+										</div>
 										<!-- <div class="grid-item"
 													ng-repeat="mlsolution in mlSolutionDelete | filter: {active:false} ">
 													<div class="grid-top-section">
@@ -861,19 +833,19 @@
 															<div>
 																<div class="rating">
 																	<span><i class="fa fa-star"
-																		ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
+																		ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
 																		aria-hidden="true"></i></span> <span><i
 																		class="fa fa-star"
-																		ng-class="{'fa-star-o': mlsolution.solutionRating < 2}"
+																		ng-class="{'fa-star1': mlsolution.solutionRating < 2}"
 																		aria-hidden="true"></i></span> <span><i
 																		class="fa fa-star"
-																		ng-class="{'fa-star-o': mlsolution.solutionRating < 3}"
+																		ng-class="{'fa-star1': mlsolution.solutionRating < 3}"
 																		aria-hidden="true"></i></span> <span><i
 																		class="fa fa-star"
-																		ng-class="{'fa-star-o': mlsolution.solutionRating < 4}"
+																		ng-class="{'fa-star1': mlsolution.solutionRating < 4}"
 																		aria-hidden="true"></i></span> <span><i
 																		class="fa fa-star"
-																		ng-class="{'fa-star-o': mlsolution.solutionRating < 5}"
+																		ng-class="{'fa-star1': mlsolution.solutionRating < 5}"
 																		aria-hidden="true"></i></span>
 
 																	<button
@@ -918,7 +890,7 @@
 												</div> -->
 
 										<div class="grid-item"
-											ng-repeat="deletedSolution in mlSolutionDelete | filter: {active:false}  track by privateSolution.solutionId">
+											ng-repeat="deletedSolution in mlSolutionDelete | filter: {active:false}  track by deletedSolution.solutionId">
 											<!--  | filter:(!searchResults || '') && {active:''} as filtered -->
 											<div class="grid-top-section">
 												<div class="product-image">
@@ -960,13 +932,6 @@
 															class="fa fa-star"
 															ng-class="{'fa-star1': deletedSolution.solutionRating < 5}"
 															aria-hidden="true"></i> </span>
-
-														<button
-															class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-															ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index)">
-															<i class="material-icons"
-																ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
-														</button>
 													</div>
 													<div class="md-icons-tiles">
 														<span><span class="statistics-icons icon-chat"></span>
@@ -975,10 +940,13 @@
 															deletedSolution.viewCount}}</span> <span><span
 															class="statistics-icons icon-download"></span>
 															{{deletedSolution.downloadCount == null ? 0 :
-															deletedSolution.downloadCount}}</span> <span><span
-															class="statistics-icons icon-attachment"></span>
-															{{deletedSolution.solutionTag == null ? 0 :
-															deletedSolution.solutionTag}}</span>
+															deletedSolution.downloadCount}}</span>
+															<button
+																class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+																ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index)">
+																<i class="material-icons"
+																	ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
+															</button>
 													</div>
 												</div>
 											</div>
@@ -1016,19 +984,19 @@
 													<div>
 														<div class="rating">
 															<span><i class="fa fa-star"
-																ng-class="{'fa-star-o': deletedSolution.solutionRating == null || deletedSolution.solutionRating < 1}"
+																ng-class="{'fa-star1': deletedSolution.solutionRating == null || deletedSolution.solutionRating < 1}"
 																aria-hidden="true"></i></span> <span><i
 																class="fa fa-star"
-																ng-class="{'fa-star-o': deletedSolution.solutionRating < 2}"
+																ng-class="{'fa-star1': deletedSolution.solutionRating < 2}"
 																aria-hidden="true"></i></span> <span><i
 																class="fa fa-star"
-																ng-class="{'fa-star-o': deletedSolution.solutionRating < 3}"
+																ng-class="{'fa-star1': deletedSolution.solutionRating < 3}"
 																aria-hidden="true"></i></span> <span><i
 																class="fa fa-star"
-																ng-class="{'fa-star-o': deletedSolution.solutionRating < 4}"
+																ng-class="{'fa-star1': deletedSolution.solutionRating < 4}"
 																aria-hidden="true"></i></span> <span><i
 																class="fa fa-star"
-																ng-class="{'fa-star-o': deletedSolution.solutionRating < 5}"
+																ng-class="{'fa-star1': deletedSolution.solutionRating < 5}"
 																aria-hidden="true"></i></span>
 
 															<button
@@ -1083,7 +1051,7 @@
 						</div>
 					</div>
 				</div>
-
+				
 
 				<!-- </div>  -->
 
@@ -1255,11 +1223,11 @@
 									</ul>
 								</div>
 								<div class="rating">
-									<span><i class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
+									<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
 										
 								</div>
 								<ul class="socialblog">
@@ -1327,11 +1295,11 @@
 									</ul>
 								</div>
 								<div class="rating">
-									<span><i class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
+									<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
 								</div>
 								<ul class="socialblog">
 									<li class="comment">0</li>
@@ -1400,11 +1368,11 @@
 									</ul>
 								</div>
 								<div class="rating">
-									<span><i class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
+									<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
 								</div>
 								<ul class="socialblog">
 									<li class="comment">0</li>
@@ -1472,11 +1440,11 @@
 									</ul>
 								</div>
 								<div class="rating">
-									<span><i class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
-										class="fa fa-star" ng-class="{'fa-star-o': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
+									<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
+										class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
 								</div>
 								<ul class="socialblog">
 									<li class="comment">0</li>

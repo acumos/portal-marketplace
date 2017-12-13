@@ -45,7 +45,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-
+/**
+ * 
+ * 
+ *
+ */
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserRoleControllerTest {
@@ -81,7 +85,7 @@ public class UserRoleControllerTest {
 			logger.info("Get Role List fetched successfully : ", mlRoleList);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching getRolesListTest ", e);
 		}
 
@@ -106,7 +110,7 @@ public class UserRoleControllerTest {
 			logger.info("Get Role List fetched successfully : ", mlRole);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching getRoleDetailsTest ", e);
 		}
 	}
@@ -138,7 +142,7 @@ public class UserRoleControllerTest {
 			logger.info("Successfully created Role: ", mlRole);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching postRoleTest ", e);
 		}
 	}
@@ -169,7 +173,7 @@ public class UserRoleControllerTest {
 			logger.info("Successfully updated Role: ", role);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching updateRoleTest ", e);
 		}
 	}
@@ -200,7 +204,7 @@ public class UserRoleControllerTest {
 			logger.info("Successfully deleted Role: ", role);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching deleteRoleTest ", e);
 		}
 	}
@@ -237,7 +241,7 @@ public class UserRoleControllerTest {
 			logger.info("Successfully fetched all the role function details ");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching getRoleFunctionTest ", e);
 		}
 
@@ -274,7 +278,7 @@ public class UserRoleControllerTest {
 			logger.info("Successfully created the role function details ");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching createRoleFunctionTest ", e);
 		}
 	}
@@ -309,7 +313,7 @@ public class UserRoleControllerTest {
 			logger.info("Successfully updated the role function details ");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching updateRoleFunctionTest ", e);
 		}
 	}
@@ -340,7 +344,7 @@ public class UserRoleControllerTest {
 			logger.info("Successfully deleted the role function details ");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching deleteRoleFunction ", e);
 		}
 
@@ -376,7 +380,7 @@ public class UserRoleControllerTest {
 			Mockito.when(userRoleController.addUserRole(request, userreq, response)).thenReturn(value);
 			logger.info("Successfully added user role");
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.info("Eception while fetching addUserRoleTest ", e);
 		}
 	}

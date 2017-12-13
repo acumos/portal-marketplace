@@ -42,7 +42,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.client.RestTemplate;
-
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ValidationStatusControllerTest {
 
@@ -80,7 +84,7 @@ public class ValidationStatusControllerTest {
 			logger.info("successfully updated validationTaskStatus");
 			logger.equals(value.getResponseBody());
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.error("Error while updating validation status", e);
 		}
 	}
@@ -119,7 +123,7 @@ public class ValidationStatusControllerTest {
 			logger.equals(value.getResponseBody());
 			logger.info("successfully fetched getValidationTaskStatus ");
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.error("Error while updating validation status", e);
 		}
 

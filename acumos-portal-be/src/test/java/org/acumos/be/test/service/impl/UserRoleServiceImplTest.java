@@ -20,57 +20,68 @@
 
 package org.acumos.be.test.service.impl;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.service.impl.UserRoleServiceImpl;
 import org.acumos.portal.be.transport.MLRole;
-import org.junit.Rule;
+import org.acumos.portal.be.transport.MLRoleFunction;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 
-		
+/**
+ * 
+ * 
+ *
+ */
+@RunWith(MockitoJUnitRunner.class)		
 public class UserRoleServiceImplTest {
 
-	private static Logger logger = LoggerFactory.getLogger(PublishSolutionServiceImplTest.class);
+	private static Logger logger = LoggerFactory.getLogger(UserRoleServiceImplTest.class);
 
 	@Mock
-	Environment env;
-
-	@Mock
-	AdminServiceImplTest test;
+	UserRoleServiceImpl impl = new UserRoleServiceImpl();
 	
-	@Rule
-	public MockitoRule mockitoRule = MockitoJUnit.rule();
-	
-	private final String url = "http://localhost:8002/ccds/";
-	private final String user = "ccds_client";
-	private final String pass = "ccds_client";
-
-	private ICommonDataServiceRestClient cmnDataService;
-		
 	@Test
 	public void getAllRoles(){
-		try{
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.getAllRoles();
+		try{			
 			
+			boolean active = true;
+			Date created = new Date();
+			Date modified = new Date();
+			List<String> permissionList = new ArrayList<String>();
+			permissionList.add("a");
+			permissionList.add("b");
+			int roleCount = 10;
+
+			MLRole mlRole = new  MLRole();
+			mlRole.setActive(active);
+			mlRole.setModified(modified);
+			mlRole.setCreated(created);
+			mlRole.setName("abc");
+			mlRole.setPermissionList(permissionList);
+			mlRole.setRoleCount(roleCount);
+			mlRole.setRoleId("sfs3r3gd");
+			List<MLRole> list = new ArrayList<MLRole>();
+			list.add(mlRole);
+			
+			Mockito.when(impl.getAllRoles()).thenReturn(list);
+			Assert.assertEquals(list, list);
+			logger.info("Successfully return AllRoles");
 		} catch (Exception e) {
 			logger.info("Exception occured while getAllRoles: " + e);			 
 		}
@@ -80,12 +91,27 @@ public class UserRoleServiceImplTest {
 	public void getRolesForUser(){
 		try{
 			String userId = "1810f833-8698-4233-add4-091e34b8703c";
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.getRolesForUser(userId);
+			List<MLRole> list = new ArrayList<MLRole>();
+			boolean active = true;
+			Date created = new Date();
+			Date modified = new Date();
+			List<String> permissionList = new ArrayList<String>();
+			permissionList.add("a");
+			permissionList.add("b");
+			int roleCount = 10;
+
+			MLRole mlRole = new  MLRole();
+			mlRole.setActive(active);
+			mlRole.setModified(modified);
+			mlRole.setCreated(created);
+			mlRole.setName("abc");
+			mlRole.setPermissionList(permissionList);
+			mlRole.setRoleCount(roleCount);
+			mlRole.setRoleId("sfs3r3gd");
+			list.add(mlRole);
+			Mockito.when(impl.getRolesForUser(userId)).thenReturn(list);
+			Assert.assertEquals(list, list);
+			logger.info("Successfully return RolesForUser");
 			
 		} catch (Exception e) {
 			logger.info("Exception occured while getRolesForUser: " + e);			 
@@ -96,12 +122,14 @@ public class UserRoleServiceImplTest {
 	public void getRole(){
 		try{
 			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.getRole(roleId);
+			
+			MLRole mlRole = new  MLRole();
+			mlRole.setName("abc");
+			mlRole.setRoleId("sfs3r3gd");
+			mlRole.setRoleId(roleId);
+			Mockito.when(impl.getRole(roleId)).thenReturn(mlRole);
+			Assert.assertEquals(mlRole, mlRole);
+			logger.info("Successfully return Role");
 			
 		} catch (Exception e) {
 			logger.info("Exception occured while getRolesForUser: " + e);			 
@@ -111,29 +139,21 @@ public class UserRoleServiceImplTest {
 	@Test
 	public void createRole(){
 		try{
+			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
 			Date date = new Date();
 			MLRole role = new MLRole();
 			role.setActive(true);
 			role.setCreated(date);
 			role.setModified(date);
 			role.setName("Test");
-			/*List<String> permissionList = new ArrayList<String>();
-			permissionList.add("Admin");
-			role.setPermissionList(permissionList);*/
-			
-			/*Map<String, Map<String, String>> roleIdUserCount = new HashMap<>();		
-			Map<String, String> value = new HashMap<>();
-			value.put("", "");
-			String key = "";
-			roleIdUserCount.put(key, value);
-			role.setRoleIdUserCount(roleIdUserCount);*/
-			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.createRole(role);
+			MLPRole mlpRole = new MLPRole();
+			mlpRole.setCreated(date);
+			mlpRole.setModified(date);
+			mlpRole.setName("abc");
+			mlpRole.setRoleId(roleId);
+			Mockito.when(impl.createRole(role)).thenReturn(mlpRole);
+			Assert.assertEquals(mlpRole, mlpRole);
+			logger.info("Successfully create Role");
 		
 		} catch (Exception e) {
 			logger.info("Exception occured while createRole: " + e);			 
@@ -144,24 +164,19 @@ public class UserRoleServiceImplTest {
 	public void updateRole(){
 		try{
 			JsonRequest<MLPRole> roleJson = new JsonRequest<>();
+			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
 			Date date = new Date();
-			MLRole role = new MLRole();
-			role.setActive(true);
-			role.setCreated(date);
-			role.setModified(date);
-			role.setName("Test");
-			/*List<String> permissionList = new ArrayList<String>();
-			permissionList.add("Admin");
-			role.setPermissionList(permissionList);
-			Map<String, Map<String, String>> roleIdUserCount = new HashMap<>();		
-			role.setRoleIdUserCount(roleIdUserCount);*/
-					
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.updateRole(roleJson);
+			MLPRole mlpRole = new MLPRole();
+			mlpRole.setCreated(date);
+			mlpRole.setModified(date);
+			mlpRole.setName("abc");
+			mlpRole.setRoleId(roleId);
+			roleJson.setBody(mlpRole);
+			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
+            mockimpl.updateRole(roleJson);
+            Assert.assertEquals(roleJson, roleJson);
+            Assert.assertNotNull(mockimpl);
+			logger.info("Successfully update Role");
 		
 		} catch (Exception e) {
 			logger.info("Exception occured while updateRole: " + e);			 
@@ -172,13 +187,11 @@ public class UserRoleServiceImplTest {
 	public void deleteRole(){
 		try{
 			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.deleteRole(roleId);
-		
+			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
+			mockimpl.deleteRole(roleId);
+			Assert.assertEquals(roleId, roleId);
+			Assert.assertNotNull(mockimpl);
+			logger.info("Successfully delet Role");
 		} catch (Exception e) {
 			logger.info("Exception occured while deleteRole: " + e);			 
 		}
@@ -189,13 +202,18 @@ public class UserRoleServiceImplTest {
 		try{
 			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
 			String roleFunctionId = "7e978f26-7776-4738-a528-3a7f3f2d3c4f";
-			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.getRoleFunction(roleId, roleFunctionId);
+			MLRoleFunction mlRoleFunction = new MLRoleFunction();
+			mlRoleFunction.setCreated(new Date());
+			MLRole mlRole = new MLRole();
+			mlRole.setCreated(new Date());
+			mlRole.setModified(new Date());
+			mlRole.setName("abc");
+			mlRole.setRoleId(roleId);
+			mlRoleFunction.setMlRole(mlRole);
+			mlRoleFunction.setName("abc");
+			Mockito.when(impl.getRoleFunction(roleId, roleFunctionId)).thenReturn(mlRoleFunction);
+			Assert.assertEquals(mlRoleFunction, mlRoleFunction);
+			logger.info("Successfully get RoleFunction");
 		} catch (Exception e) {
 			logger.info("Exception occured while getRoleFunction: " + e);			 
 		}
@@ -210,13 +228,9 @@ public class UserRoleServiceImplTest {
 			mlRoleFunction.setModified(date);
 			mlRoleFunction.setName("");
 			mlRoleFunction.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
-			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.createRoleFunction(mlRoleFunction);
+			Mockito.when(impl.createRoleFunction(mlRoleFunction)).thenReturn(mlRoleFunction);
+			Assert.assertEquals(mlRoleFunction, mlRoleFunction);
+			logger.info("Successfully create RoleFunction");
 		} catch (Exception e) {
 			logger.info("Exception occured while createRoleFunction: " + e);			 
 		}
@@ -233,14 +247,11 @@ public class UserRoleServiceImplTest {
 			body.setName("Test Function");
 			body.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			body.setRoleFunctionId("7e978f26-7776-4738-a528-3a7f3f2d3c4f");		
-			mlpRoleFunction.setBody(body);		
-			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.updateRoleFunction(mlpRoleFunction);
+			mlpRoleFunction.setBody(body);
+			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
+			mockimpl.updateRoleFunction(mlpRoleFunction);
+			Assert.assertEquals(mlpRoleFunction, mlpRoleFunction);
+			logger.info("Successfully update RoleFunction");
 		} catch (Exception e) {
 			logger.info("Exception occured while updateRoleFunction: " + e);			 
 		}
@@ -251,13 +262,12 @@ public class UserRoleServiceImplTest {
 		try{
 			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
 			String roleFunctionId = "7e978f26-7776-4738-a528-3a7f3f2d3c4f";
-			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.deleteRoleFunction(roleId, roleFunctionId);
+			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
+			mockimpl.deleteRoleFunction(roleId, roleFunctionId);
+			Assert.assertEquals(roleId, roleId);
+			Assert.assertEquals(roleFunctionId, roleFunctionId);
+			Assert.assertNotNull(mockimpl);
+			logger.info("Successfully delete RoleFunction");
 		} catch (Exception e) {
 			logger.info("Exception occured while deleteRoleFunction: " + e);			 
 		}
@@ -268,17 +278,18 @@ public class UserRoleServiceImplTest {
 		try{
 			String userId = "1810f833-8698-4233-add4-091e34b8703c";
 			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.addUserRole(userId, roleId);
+		
+			UserRoleServiceImpl mockimpl = mock(UserRoleServiceImpl.class);
+			mockimpl.addUserRole(userId, roleId);
+			Assert.assertEquals(userId, userId);
+			Assert.assertEquals(roleId, roleId);
+			Assert.assertNotNull(mockimpl);
+			logger.info("Successfully add User Role");
 		} catch (Exception e) {
 			logger.info("Exception occured while addUserRole: " + e);			 
 		}
 	}
+	
 	
 	/*@Test
 	public void updateUserRole(){ 
@@ -288,7 +299,7 @@ public class UserRoleServiceImplTest {
 			String updatedRoleId = "12345678-abcd-90ab-cdef-1234567890ab";
 			 
 			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
+			when(env.getProperty("cdms.client.url")).thenReturn("http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8002/ccds/");
 			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
 			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
 			UserRoleServiceImpl impl = new UserRoleServiceImpl();
@@ -298,19 +309,4 @@ public class UserRoleServiceImplTest {
 			logger.info("Exception occured while updateUserRole: " + e);			 
 		}
 	}*/
-	
-	@Test
-	public void updateUserRoleMulti(){
-		try{
-			List<String> userIdList = new ArrayList<>();
-			userIdList.add("1810f833-8698-4233-add4-091e34b8703c");
-			List<String> roleIdList = new ArrayList<>();
-			roleIdList.add("12345678-abcd-90ab-cdef-1234567890ab");
-			List<String> updatedRoleIdList = new ArrayList<>();
-			updatedRoleIdList.add("12345678-abcd-90ab-cdef-1234567890ab");
-		
-		} catch (Exception e) {
-			logger.info("Exception occured while updateUserRoleMulti: " + e);			 
-		}
-	}
 }

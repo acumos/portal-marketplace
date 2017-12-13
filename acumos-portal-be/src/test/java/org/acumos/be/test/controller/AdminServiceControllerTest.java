@@ -44,10 +44,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AdminServiceControllerTest {
-	private static Logger logger = LoggerFactory.getLogger(FilterServiceControllerTest.class);
+	private static Logger logger = LoggerFactory.getLogger(AdminServiceController.class);
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
@@ -104,7 +108,7 @@ public class AdminServiceControllerTest {
 			logger.info("get Peer list  : " + peerList);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -133,7 +137,7 @@ public class AdminServiceControllerTest {
 			logger.info("get Peer list  : " + peerRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -163,7 +167,7 @@ public class AdminServiceControllerTest {
 			logger.info("Create peer  : " + peerRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -195,7 +199,7 @@ public class AdminServiceControllerTest {
 			logger.info("Update peer  : " + peerRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}
@@ -228,7 +232,7 @@ public class AdminServiceControllerTest {
 			logger.info("Successfully removed the peer: " + peerRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -264,7 +268,7 @@ public class AdminServiceControllerTest {
 			logger.info("Subscription List : " + subscriptionRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -301,7 +305,7 @@ public class AdminServiceControllerTest {
 			logger.info("Peer Subscription Details  : " + subscriptionRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -335,7 +339,7 @@ public class AdminServiceControllerTest {
 			logger.info("Successfully created peer subcrition  : " + subscriptionRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}
@@ -371,7 +375,7 @@ public class AdminServiceControllerTest {
 			logger.info("Successfully updated peer subscription  : " + subscriptionRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -408,7 +412,7 @@ public class AdminServiceControllerTest {
 			logger.info("Successfully deleted peer subscription  : " + subscriptionRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}
@@ -434,7 +438,7 @@ public class AdminServiceControllerTest {
 			logger.info("Site Configuration Details :" + configRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -462,7 +466,7 @@ public class AdminServiceControllerTest {
 			logger.info("created Configuration Details :" + configRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -491,7 +495,7 @@ public class AdminServiceControllerTest {
 			logger.info("Updated  Configuration Details :" + configRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}
@@ -521,7 +525,7 @@ public class AdminServiceControllerTest {
 			logger.info("Deleted Configuration Details :" + configRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}

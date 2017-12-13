@@ -21,6 +21,7 @@
 package org.acumos.be.test.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPSolutionFavorite;
+import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.transport.RestPageRequest;
@@ -38,6 +41,7 @@ import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +55,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import springfox.documentation.spring.web.json.Json;
 
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MarketPlaceServiceControllerTest {
 
@@ -94,7 +103,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Solution List : " + value.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -120,7 +129,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Solution Details : " + value.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -157,7 +166,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Manage my solutions : " + value.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -196,7 +205,7 @@ public class MarketPlaceServiceControllerTest {
 					.thenReturn(value);
 			logger.info("Solutions are fetched according to search term  : " + value.getResponseBody());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -234,7 +243,7 @@ public class MarketPlaceServiceControllerTest {
 			Mockito.when(marketPlaceController.getPaginatedList(mlSolutionReq)).thenReturn(value);
 			logger.info("Solutions are paginated : " + value.getResponseBody());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 
 	}
@@ -265,7 +274,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Succseefully updated solution details : " + solutionres.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -302,7 +311,7 @@ public class MarketPlaceServiceControllerTest {
 					.thenReturn(revisionRes);
 			logger.info("RevisionList " + revisionRes.getResponseBody());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -355,7 +364,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Artifact List : " + artifactRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -393,7 +402,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Successfully added tags : " + solRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -432,7 +441,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Successfully dropped  tags : " + solRes.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 
 	}
@@ -482,7 +491,7 @@ public class MarketPlaceServiceControllerTest {
 			Mockito.when(marketPlaceController.getTagsList(restPageReq)).thenReturn(value);
 			logger.info("Get Tag List : " + value.getResponseBody());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
 
@@ -537,8 +546,240 @@ public class MarketPlaceServiceControllerTest {
 			Mockito.when(marketPlaceController.getTagsSolutions(tag, restPageReq)).thenReturn(value);
 			logger.info("Tag for solution  " + value.getResponseBody());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("Failed to execute the testcase");
 		}
 	}
-	
+
+	@Test
+	public void dropSolutionUserAccessTest() {
+		try {
+			MLSolution mlsolution = new MLSolution();
+			mlsolution.setSolutionId("Solution1");
+			mlsolution.setName("Test_Solution data");
+			mlsolution.setDescription("Test data");
+			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
+			mlsolution.setAccessType("PB");
+			mlsolution.setActive(true);
+			mlsolution.setModelType("CL");
+			mlsolution.setTookitType("DS");
+
+			String solutionId = mlsolution.getSolutionId();
+			String userId = mlsolution.getOwnerId();
+			JsonResponse<User> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response))
+					.thenReturn(value);
+
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void incrementSolutionViewCountTest() {
+		try {
+			MLSolution mlsolution = new MLSolution();
+			mlsolution.setSolutionId("Solution1");
+			mlsolution.setName("Test_Solution data");
+			mlsolution.setDescription("Test data");
+			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
+			mlsolution.setAccessType("PB");
+			mlsolution.setActive(true);
+			mlsolution.setModelType("CL");
+			mlsolution.setTookitType("DS");
+
+			String solutionId = mlsolution.getSolutionId();
+			JsonResponse<MLSolution> value = new JsonResponse<>();
+			value.setResponseBody(mlsolution);
+			Mockito.when(marketPlaceController.incrementSolutionViewCount(request, solutionId, response))
+					.thenReturn(value);
+
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void createRatingTest() {
+		try {
+			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
+			Date created = new Date();
+			mlpSolutionRating.setCreated(created);
+			Date modified = new Date();
+			mlpSolutionRating.setModified(modified);
+			mlpSolutionRating.setRating(2);
+			mlpSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+			mlpSolutionRating.setTextReview("ratings");
+			mlpSolutionRating.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+
+			JsonRequest<MLPSolutionRating> mlpSolutionRatingREs = new JsonRequest<>();
+			mlpSolutionRatingREs.setBody(mlpSolutionRating);
+			JsonResponse<MLSolution> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.createSolutionRating(request, mlpSolutionRatingREs, response))
+					.thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+
+	}
+
+	@Test
+	public void updateRatingTest() {
+		try {
+			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
+			Date created = new Date();
+			mlpSolutionRating.setCreated(created);
+			Date modified = new Date();
+			mlpSolutionRating.setModified(modified);
+			mlpSolutionRating.setRating(2);
+			mlpSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+			mlpSolutionRating.setTextReview("ratings");
+			mlpSolutionRating.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+
+			JsonRequest<MLPSolutionRating> mlpSolutionRatingREs = new JsonRequest<>();
+			mlpSolutionRatingREs.setBody(mlpSolutionRating);
+			JsonResponse<MLSolution> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs, response))
+					.thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+
+	}
+
+	@Test
+	public void getsSolutionRatingsTest() {
+		try {
+			MLSolution mlsolution = new MLSolution();
+			mlsolution.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+			mlsolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+
+			String solutionId = mlsolution.getSolutionId();
+			RestPageRequest pageRequest = new RestPageRequest();
+			pageRequest.setPage(0);
+			pageRequest.setSize(9);
+			JsonRequest<RestPageRequest> rest = new JsonRequest<>();
+			rest.setBody(pageRequest);
+
+			JsonResponse<RestPageResponse<MLPSolutionRating>> value = new JsonResponse<>();
+
+			Mockito.when(marketPlaceController.getSolutionRatings(solutionId, rest)).thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void getMysharedModelsTest() {
+		try {
+			String userId = "1810f833-8698-4233-add4-091e34b8703c";
+			JsonResponse<List<MLSolution>> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.getMySharedModels(request, userId, response)).thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void createSolutionFavoriteTest() {
+		try {
+			MLPSolutionFavorite mlpSolutionFavorite = new MLPSolutionFavorite();
+			mlpSolutionFavorite.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+			mlpSolutionFavorite.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+
+			JsonRequest<MLPSolutionFavorite> mlpSolutionFavoriteRes = new JsonRequest<>();
+			mlpSolutionFavoriteRes.setBody(mlpSolutionFavorite);
+
+			JsonResponse<MLSolution> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.createSolutionFavorite(request, mlpSolutionFavoriteRes, response))
+					.thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void deleteSolutionFavoriteTest() {
+		try {
+			MLPSolutionFavorite mlpSolutionFavorite = new MLPSolutionFavorite();
+			mlpSolutionFavorite.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+			mlpSolutionFavorite.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+
+			JsonRequest<MLPSolutionFavorite> mlpSolutionFavoriteRes = new JsonRequest<>();
+			mlpSolutionFavoriteRes.setBody(mlpSolutionFavorite);
+
+			JsonResponse<MLSolution> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.deleteSolutionFavorite(request, mlpSolutionFavoriteRes, response))
+					.thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void getFavoriteSolutionsTest() {
+		try {
+			MLPSolutionFavorite mlpSolutionFavorite = new MLPSolutionFavorite();
+			mlpSolutionFavorite.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+			mlpSolutionFavorite.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+			String userId = mlpSolutionFavorite.getUserId();
+
+			JsonResponse<List<MLSolution>> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.getFavoriteSolutions(request, userId, response)).thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void getRelatedMySolutionsTest() {
+		try {
+			JsonRequest<RestPageRequestBE> restPageReqBe = new JsonRequest<>();
+			RestPageRequestBE body = new RestPageRequestBE();
+			body.setPage(0);
+			body.setSize(9);
+			restPageReqBe.setBody(body);
+			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
+			Mockito.when(marketPlaceController.getRelatedMySolutions(restPageReqBe)).thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void readArtifactSolutionsTest() {
+		try {
+			String artifactId = "4cbf491b-c687-459f-9d81-e150d1a0b972";
+			String value = null;
+			Mockito.when(marketPlaceController.readArtifactSolutions(artifactId, request, response)).thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+
+	@Test
+	public void createTagTest() {
+		try {
+			MLPTag mlpTag = new MLPTag();
+			mlpTag.setTag("JAVA");
+			JsonRequest<MLPTag> mlpTagRes = new JsonRequest<>();
+			mlpTagRes.setBody(mlpTag);
+			JsonResponse<MLPTag> value = new JsonResponse<>();
+			value.setResponseBody(mlpTag);
+			Mockito.when(marketPlaceController.createTag(request, mlpTagRes, response)).thenReturn(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
 }

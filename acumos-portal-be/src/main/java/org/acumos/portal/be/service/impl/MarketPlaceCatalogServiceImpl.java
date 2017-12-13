@@ -43,6 +43,9 @@ import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.cds.domain.MLPUser;
+import org.acumos.cds.query.SearchCriteria;
+import org.acumos.cds.query.SearchCriterion;
+import org.acumos.cds.query.SearchOperation;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
@@ -101,7 +104,8 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 																					// is
 																					// public
 			queryParameters.put("validationStatusCode", ValidationStatusCode.PS.toString());
-			List<MLPSolution> mlpSolutions = dataServiceRestClient.searchSolutions(queryParameters, false);
+			List<MLPSolution> mlpSolutions = new ArrayList<MLPSolution>();
+			//dataServiceRestClient.searchSolutions(queryParameters, false);
 			///////////////////////////////////////
 			Map<String, String> sortingOrderMap = null;
 
@@ -156,7 +160,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			// TODO Lets keep it simple by using List for now. Need to modify
 			// this to use Pagination by providing page number and result fetch
 			// size
-			List<MLPSolution> mlpSolutions = dataServiceRestClient.searchSolutions(queryParameters, false);
+			List<MLPSolution> mlpSolutions = new ArrayList<MLPSolution>();//dataServiceRestClient.searchSolutions(queryParameters, false);
 			if (!PortalUtils.isEmptyList(mlpSolutions)) {
 				mlSolutions = new ArrayList<>();
 				for (MLPSolution mlpSolution : mlpSolutions) {
@@ -296,7 +300,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			queryParameters.put("description", mlpSolution.getDescription());
 			queryParameters.put("accessTypeCode", mlpSolution.getAccessTypeCode());
 			if (search.equals(queryParameters)) {
-				List<MLPSolution> mlpSolutions = dataServiceRestClient.searchSolutions(queryParameters, false);
+				List<MLPSolution> mlpSolutions = new ArrayList<MLPSolution>();//dataServiceRestClient.searchSolutions(queryParameters, false);
 				if (!PortalUtils.isEmptyList(mlpSolutions)) {
 					mlSolutions = new ArrayList<>();
 					MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
@@ -311,9 +315,204 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		}
 		return mlSolutions;
 	}
-		
+	
 	@Override
 	public RestPageResponseBE<MLSolution> getSearchSolution(JsonRequest<RestPageRequestBE> restPageReqBe)
+			throws AcumosServiceException {
+		
+		RestPageResponse<MLPSolution> mlpSolutionsRest = new RestPageResponse<MLPSolution>();
+		List<MLSolution> content = new ArrayList<>();
+		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		
+		List<MLPSolution> filteredMLPSolutions = new ArrayList<>();
+		List<MLPSolution> filteredMLPSolutionsTemp = new ArrayList<>();
+		List<MLPSolution> originalSolutionsList = new ArrayList<MLPSolution>();
+		Set<String> tagSetForSolutions = new HashSet<>();
+		
+		try {
+			if (restPageReqBe != null && restPageReqBe.getBody() != null) {
+				RestPageRequest pageRequest = new RestPageRequest();
+				
+				int pageSize = 0;
+				int index = 0;
+				if (restPageReqBe.getBody().getPage() != null) {
+					pageRequest.setPage(pageSize);
+				} else {
+					// default to 0
+					pageRequest.setPage(0);
+				}
+				
+				if (restPageReqBe.getBody().getSize() != null && restPageReqBe.getBody().getSize() > 0) {
+					pageRequest.setSize(restPageReqBe.getBody().getSize());
+				}
+				
+				/*SearchCriterion validationCriteria1 = new SearchCriterion("validationStatusCode", SearchOperation.NOT_EQUALS, ValidationStatusCode.FA);
+				SearchCriterion validationCriteria2 = new SearchCriterion("validationStatusCode", SearchOperation.NOT_EQUALS, ValidationStatusCode.IP);
+				SearchCriterion validationCriteria3 = new SearchCriterion("validationStatusCode", SearchOperation.NOT_EQUALS, ValidationStatusCode.NV);
+				SearchCriterion validationCriteria4 = new SearchCriterion("validationStatusCode", SearchOperation.NOT_EQUALS, ValidationStatusCode.SB);
+				//SearchCriterion validationCriteria4 = new SearchCriterion("validationStatusCode", SearchOperation.EQUALS, ValidationStatusCode.PS);
+				//SearchCriterion validationCriteria2 = new SearchCriterion("validationStatusCode", SearchOperation.EQUALS, null);
+				SearchCriteria searchCriteria = new SearchCriteria(validationCriteria1).or(validationCriteria2).or(validationCriteria3).or(validationCriteria4);*/
+				//SearchCriteria searchCriteria = new SearchCriteria(validationCriteria4);
+				
+				SearchCriterion accessCodeCriteria1 = new SearchCriterion("accessTypeCode", SearchOperation.EQUALS, AccessTypeCode.PB.toString());
+				SearchCriterion accessCodeCriteria2 = new SearchCriterion("accessTypeCode", SearchOperation.EQUALS, AccessTypeCode.OR.toString());
+//				searchCriteria.and(accessCodeCriteria1).or(accessCodeCriteria2);
+				SearchCriteria searchCriteria = new SearchCriteria(accessCodeCriteria1).or(accessCodeCriteria2);
+				
+				if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getModelToolkitType())) {
+					SearchCriterion toolKitTypeCriteria2 = new SearchCriterion("toolkitTypeCode", SearchOperation.EQUALS, restPageReqBe.getBody().getModelToolkitType());
+					//SearchCriterion toolKitTypeCriteria3 = new SearchCriterion("toolkitTypeCode", SearchOperation.EQUALS, null);
+					searchCriteria.and(toolKitTypeCriteria2);
+				}
+				
+				if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getModelType())) {
+					String modelTypeListString = restPageReqBe.getBody().getModelType();
+					String[] modelTypeList = modelTypeListString.split(",");
+					for(String modleType : modelTypeList) {
+						searchCriteria.and(new SearchCriterion("modelTypeCode", SearchOperation.EQUALS, modleType));
+					}
+					//SearchCriterion modelTypeCriteria1 = new SearchCriterion("modelTypeCode", SearchOperation.EQUALS, restPageReqBe.getBody().getModelType());
+					//SearchCriterion ModelTypeCriteria2 = new SearchCriterion("modelTypeCode", SearchOperation.EQUALS, null);
+					//searchCriteria.and(modelTypeCriteria1);
+				}
+				
+				String isActive = "true";
+				if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getActiveType())) {
+					if(!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getActiveType()) && "N".equalsIgnoreCase(restPageReqBe.getBody().getActiveType()))
+						isActive = "false";
+					SearchCriterion activeCriteria1 = new SearchCriterion("active", SearchOperation.EQUALS, isActive);
+					searchCriteria.and(activeCriteria1);
+				}
+				
+				if(!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getSearchTerm())) {
+					SearchCriterion searchTermCriteria1 = new SearchCriterion("name", SearchOperation.LIKE, restPageReqBe.getBody().getSearchTerm());
+					searchCriteria.and(searchTermCriteria1);
+				}
+				
+				/*if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getSearchTerm())) {
+					log.debug(EELFLoggerDelegate.debugLogger,
+							"getSearchedSolutions: searching Solutions with searcTerm:",
+							restPageReqBe.getBody().getSearchTerm());
+					mlpSolutionsRest = dataServiceRestClient
+							.findSolutionsBySearchTerm(restPageReqBe.getBody().getSearchTerm(), pageRequest);
+				} else {
+					// 2. If searchTerm does not exists, get all the
+					// Solutions
+					//mlpSolutionsRest = dataServiceRestClient.getSolutions(pageRequest);
+					mlpSolutionsRest = dataServiceRestClient.searchSolutions(searchCriteria, pageRequest);
+				}*/
+				
+				mlpSolutionsRest = dataServiceRestClient.searchSolutions(searchCriteria, pageRequest);
+				
+				originalSolutionsList = mlpSolutionsRest.getContent();
+				filteredMLPSolutions = originalSolutionsList;
+				
+				
+				String userFirstName = "";
+				String userLastName = "";
+				String userName = "";
+
+				if (!PortalUtils.isEmptyList(originalSolutionsList)) {
+					int i = 0;
+					for (MLPSolution mlpSol : filteredMLPSolutions) {
+
+						MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
+						// Identify the OwnerName for each solution
+						Map<String, Object> queryParams = new HashMap<>();
+						queryParams.put("userId", mlpSol.getOwnerId());
+						List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
+						for (MLPUser user : mlpUsers) {
+							if (user != null) {
+								// Lets loop through other solutions
+								userFirstName = user.getFirstName();
+								userLastName = user.getLastName();
+								if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
+									userName = userFirstName;
+									if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
+										userName = userName + " " + user.getLastName();
+									}
+								}
+								mlSolution.setOwnerName(userName);
+								
+								break;
+							}
+						}
+						List<MLPTag> tagList = dataServiceRestClient
+								.getSolutionTags(filteredMLPSolutions.get(i).getSolutionId());
+						if (tagList.size() > 0) {
+							for (MLPTag tag : tagList) {
+								tagSetForSolutions.add(tag.getTag());
+							}
+						}
+						try {
+							MLPSolutionWeb solutionStats = dataServiceRestClient
+									.getSolutionWebMetadata(mlSolution.getSolutionId());
+							mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
+							mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
+							mlSolution.setViewCount(solutionStats.getViewCount().intValue());
+							mlSolution.setSolutionRating(solutionStats.getRatingAverageTenths().intValue() / 10);
+
+						} catch (Exception e) {
+							log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
+									mlSolution.getSolutionId());
+						}
+						content.add(mlSolution);
+						i++;
+					}
+					if (restPageReqBe.getBody().getSortBy() != null) {
+						if (restPageReqBe.getBody().getSortBy().equalsIgnoreCase("MD")) {
+							Collections.sort(content, new Comparator<MLSolution>() {
+								public int compare(MLSolution ms1, MLSolution ms2) {
+									return (int) (ms2.getDownloadCount() - ms1.getDownloadCount());
+								}
+							});
+						} else if (restPageReqBe.getBody().getSortBy().equalsIgnoreCase("LD")) {
+							Collections.sort(content, new Comparator<MLSolution>() {
+								public int compare(MLSolution ms1, MLSolution ms2) {
+									return (int) (ms1.getDownloadCount() - ms2.getDownloadCount());
+								}
+							});
+						} else if (restPageReqBe.getBody().getSortBy().equalsIgnoreCase("HR")) {
+							Collections.sort(content, new Comparator<MLSolution>() {
+								public int compare(MLSolution ms1, MLSolution ms2) {
+									return (int) (ms2.getViewCount() - ms1.getViewCount());
+								}
+							});
+						} else if (restPageReqBe.getBody().getSortBy().equalsIgnoreCase("ML")) {
+							Collections.sort(content, new Comparator<MLSolution>() {
+								public int compare(MLSolution ms1, MLSolution ms2) {
+									return (int) (ms2.getSolutionRating() - ms1.getSolutionRating());
+								}
+							});
+						} else if (restPageReqBe.getBody().getSortBy().equalsIgnoreCase("FL")) {
+							Collections.sort(content, new Comparator<MLSolution>() {
+								public int compare(MLSolution ms1, MLSolution ms2) {
+									return (int) (ms1.getSolutionRating() - ms2.getSolutionRating());
+								}
+							});
+						}
+						
+					}
+
+					mlSolutionsRest.setAllTagsSet(tagSetForSolutions);
+					mlSolutionsRest.setContent(content);
+				}
+				mlpSolutionsRest.setNumberOfElements(filteredMLPSolutions.size());
+			}
+			
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		
+		return mlSolutionsRest;
+	}
+		
+	//@Override
+	public RestPageResponseBE<MLSolution> getFilteredSearchSolution(JsonRequest<RestPageRequestBE> restPageReqBe)
 			throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSearchedSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -504,48 +703,6 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 									}
 								}
 								mlSolution.setOwnerName(userName);
-								/*
-								 * CountTransport t = null; try{ t=
-								 * dataServiceRestClient.
-								 * getSolutionDownloadCount(filteredMLPSolutions
-								 * .get(i).getSolutionId()); }catch(Exception
-								 * e){
-								 * 
-								 * }
-								 */
-
-								/*
-								 * if(t!=null){ int downloadCount =
-								 * (int)t.getCount();
-								 * mlSolution.setDownloadCount(downloadCount); }
-								 */
-								/*
-								 * try { RestPageResponse<MLPSolutionRating>
-								 * ratingListPaged =
-								 * dataServiceRestClient.getSolutionRatings(
-								 * filteredMLPSolutions.get(i).getSolutionId(),
-								 * null); List<MLPSolutionRating> ratingList =
-								 * null; if(ratingListPaged != null &&
-								 * !PortalUtils.isEmptyList(ratingListPaged.
-								 * getContent())) { ratingList =
-								 * ratingListPaged.getContent();
-								 * if(ratingList.size()>0){ int solutionRating =
-								 * ratingList.get(0).getRating();
-								 * mlSolution.setSolutionRating(solutionRating);
-								 * } } } catch (Exception e) {
-								 * log.error(EELFLoggerDelegate.errorLogger,
-								 * "No ratings found for SolutionId={}",
-								 * filteredMLPSolutions.get(i).getSolutionId());
-								 * }
-								 */
-								/*
-								 * List<MLPSolutionTag> tagList =
-								 * dataServiceRestClient.getSolutionTags(
-								 * filteredMLPSolutions.get(i).getSolutionId());
-								 * if (tagList.size() > 0) { for (MLPSolutionTag
-								 * tag : tagList) {
-								 * tagSetForSolutions.add(tag.getTag()); } }
-								 */
 								break;
 							}
 						}
@@ -642,6 +799,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		Map<String, String> queryParameters = new HashMap<>();;
 		RestPageResponse<MLPSolution> mlpSolutionsRest = null;
+		RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
 		try {
@@ -707,7 +865,14 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							.filter(mlpSolution -> (!PortalUtils.isEmptyOrNullString(mlpSolution.getOwnerId())
 									&& userId.equalsIgnoreCase(mlpSolution.getOwnerId())))
 							.collect(Collectors.toList());
-
+					
+					mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(userId, pageRequest);
+					if(mlpSolutionsShareRest != null){
+						for(MLPSolution mlpSolution:mlpSolutionsShareRest){
+							filteredMLPSolutionsTemp.add(mlpSolution);
+						}
+					}
+					
 					if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getAccessType())) {
 						filteredMLPSolutionsTemp = filteredMLPSolutionsTemp.stream().filter(mlpSolution -> (PortalUtils
 								.isEmptyOrNullString(mlpSolution.getAccessTypeCode())
@@ -1605,5 +1770,45 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		return mlpTag;
 	}
 
+	@Override
+    public RestPageResponseBE<MLSolution> getSolutionCount(String userId) {
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        Map<String, String> queryParameters = new HashMap<>();
+        queryParameters.put("created", "DESC");
+        RestPageResponse<MLPSolution> mlpSolutionsRest = null;
+        List<MLPSolution> originalSolutionsList = new ArrayList<MLPSolution>();
+        List<MLSolution> content = new ArrayList<>();
+        RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
+        
+        mlpSolutionsRest = dataServiceRestClient.getSolutions(
+                new RestPageRequest(0, 0, queryParameters));
+        
+        originalSolutionsList = mlpSolutionsRest.getContent().stream()
+                .filter(mlpSolution -> (!PortalUtils.isEmptyOrNullString(mlpSolution.getOwnerId())
+                        && userId.equalsIgnoreCase(mlpSolution.getOwnerId())))
+                .collect(Collectors.toList());                    
+        
+        if (originalSolutionsList != null) {
+            int prModelCnt = 0;
+            int pbModelCnt = 0;
+            int orModelCnt = 0;
+            int deletedModelCnt = 0;
+            for (MLPSolution mlpsol : originalSolutionsList) {
+                if (mlpsol.getAccessTypeCode().equals("PR") && mlpsol.isActive())
+                    prModelCnt++;
+                if (mlpsol.getAccessTypeCode().equals("PB") && mlpsol.isActive())
+                    pbModelCnt++;
+                if (mlpsol.getAccessTypeCode().equals("OR") && mlpsol.isActive())
+                    orModelCnt++;
+                if (!mlpsol.isActive())
+                    deletedModelCnt++;
+            }
+            mlSolutionsRest.setPrivateModelCount(prModelCnt);
+            mlSolutionsRest.setPublicModelCount(pbModelCnt);
+            mlSolutionsRest.setCompanyModelCount(orModelCnt);
+            mlSolutionsRest.setDeletedModelCount(deletedModelCnt);
+        }
+        return mlSolutionsRest; 
+    }
 }
 	

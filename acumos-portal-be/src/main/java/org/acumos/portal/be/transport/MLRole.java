@@ -30,6 +30,7 @@ import org.acumos.portal.be.common.JSONTags;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * @author
  *	MLRole Class to hold user roles Information
  */
 public class MLRole {

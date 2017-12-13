@@ -36,8 +36,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-
-@Ignore
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class PublishSolutionServiceControllerTest {
 
@@ -73,7 +76,6 @@ public class PublishSolutionServiceControllerTest {
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while publishSolutionTest", e);
 		}
 	}
@@ -98,11 +100,10 @@ public class PublishSolutionServiceControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			Mockito.when(publishController.unpublishSolution(request, solutionId, visibility,
-					userId, response));
+					userId, response)).thenReturn(value);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while unpublishSolutionTest", e);
 		}
 	}

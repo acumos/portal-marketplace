@@ -27,6 +27,7 @@ import com.github.dockerjava.api.exception.NotFoundException;
 /**
  * This command removes specified Docker image.
  *
+ * @author draoullig
  * @see https://docs.docker.com/reference/api/docker_remote_api_v1.19/#tag-an-image-into-a-repository
  */
 public class TagImageCommand extends DockerCommand

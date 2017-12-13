@@ -7,7 +7,7 @@
 		<div layout="row" layout-xs="column" layout-fill
 			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
 			<div
-				class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
+				class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
 				<div class="md-container1">
 					<span class="md-headline mob-disblock"><img
 						class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}</span>
@@ -25,6 +25,14 @@
 								ng-class="{selected: v.version == versionId}">Version-{{v.version}}</li>
 						</ul>
 					</div>
+					<div class="statusbar-btn">
+					<button type="button" ng-if="solution.accessType != 'PR'"
+								class="mdl-button mdl-js-button mdl-js-ripple-effect"
+								ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company Marketplace</button>
+							<button type="button" ng-if="solution.accessType != 'PR'"
+								class="mdl-button mdl-js-button mdl-js-ripple-effect"
+								ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public Marketplace</button>
+					</div>
 				</div>
 				<ul class="c-breadcrumb">
 					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
@@ -36,7 +44,7 @@
 				</ul>
 			</div>
 			<div
-				class="mdl-cell mdl-cell--7-col mdl-cell--4-col-phone mdl-cell--3-col-tablet text-right">
+				class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone mdl-cell--3-col-tablet text-right">
 				<div class="c-md-container">
 					<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
@@ -239,15 +247,7 @@
 				<div class="mdl-cell md-right-container model-details-tabwrapper">
 					<div class="mdl-tabs__panel is-active" id="tab1-panel">
 						<div class="md-intro-container">
-							<h6 class="sectiontitle9">INTRODUCTION</h6>
-							<button type="button"
-								class="mdl-button mdl-js-button mdl-js-ripple-effect"
-								ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company
-								Marketplace</button>
-							<button type="button"
-								class="mdl-button mdl-js-button mdl-js-ripple-effect"
-								ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public
-								Marketplace</button>
+							<h6 class="sectiontitle9">INTRODUCTION</h6>							
 						</div>
 
 						<div class="description-img-container">

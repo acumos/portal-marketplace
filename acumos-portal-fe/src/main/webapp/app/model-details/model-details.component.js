@@ -24,6 +24,8 @@ angular
 						
 						$scope.showAlertMessage = false;
 						
+						$scope.revisionId;
+						
 						$scope.onItemRating = function(rating){
 							
 							var dataObjRating = {
@@ -324,6 +326,8 @@ angular
 												);
 												
 												$scope.versionId = $scope.versionList[0].version;
+												$scope.revisionId = $scope.versionList[0].revisionId;
+												$scope.getArtifacts();
 												
 											}
 
@@ -895,6 +899,7 @@ angular
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
 							$scope.getPublicSolutionDocuments();
+							$scope.getArtifacts();
 						}
 						
 						// Value for Download Popup
@@ -958,7 +963,47 @@ angular
 						}
 
 						/** ****** Export/Deploy to Azure starts *** */
+						
+						$scope.getArtifacts = function() {
+
+							$http(
+									{
+										method : 'GET',
+										url : '/api/solutions/'
+												+ $scope.solutionId
+												+ '/revisions/'
+												+ $scope.revisionId
+									})
+									.then(
+											function successCallback(response) {
+												$scope.artifactDownload = response.data.response_body;
+												for (var x = 0; x < response.data.response_body.length; x++) {
+													if(response.data.response_body[x].artifactTypeCode == "DI"){
+														$scope.artifactId = response.data.response_body[x].artifactId;
+														$scope.artifactType = response.data.response_body[x].artifactTypeCode;
+														$scope.artifactDesc = response.data.response_body[x].description;
+														$scope.artifactName = response.data.response_body[x].name;
+														$scope.artifactVersion = response.data.response_body[x].version;
+														$scope.artifactUri = response.data.response_body[x].uri;
+													}
+												}
+
+											},
+											function errorCallback(response) {
+												alert("Error: "
+														+ response.status
+														+ "Detail: "
+														+ response.data.response_detail);
+											});
+
+						}
+						
 						$scope.authenticateAnddeployToAzure = function() {
+							
+							var imageTagUri = '';
+							if ($scope.artifactType != null && $scope.artifactType == 'DI') {
+								imageTagUri = $scope.artifactUri;
+							}
 
 							var authDeployObject = {
 								'client' : $scope.applicationId,
@@ -969,7 +1014,7 @@ angular
 								'acrName' : $scope.acrName,
 								'storageAccount' : $scope.storageAccount,
 								'solutionId' : $scope.solutionId,
-								'imagetag' : ""
+								'imagetag' : imageTagUri
 
 							};
 

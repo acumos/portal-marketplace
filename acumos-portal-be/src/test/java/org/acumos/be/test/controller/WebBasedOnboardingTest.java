@@ -43,7 +43,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class WebBasedOnboardingTest {
 	
@@ -97,7 +101,6 @@ public class WebBasedOnboardingTest {
 			logger.equals(value);
 			logger.info("successfully added the toolkit to catalog ");
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while adding to catalog ", e);
 			
 		}

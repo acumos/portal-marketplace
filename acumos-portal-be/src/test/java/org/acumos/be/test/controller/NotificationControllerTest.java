@@ -45,7 +45,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class NotificationControllerTest {
 
@@ -82,7 +86,7 @@ public class NotificationControllerTest {
 			// notificationReq, response);
 			logger.info("Notification Response : " + notificationres.getResponseBody());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}
@@ -107,7 +111,7 @@ public class NotificationControllerTest {
 			logger.info("Get Notifications : " + notificationres.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -148,7 +152,7 @@ public class NotificationControllerTest {
 			logger.info("User notifications  : " + notifires.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -180,7 +184,7 @@ public class NotificationControllerTest {
 			logger.info("Successfully  added notifiaction for particular user : " + notificationres.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -212,7 +216,7 @@ public class NotificationControllerTest {
 			logger.info("Successfully  droped notifiaction for particular user : " + notificationres.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 	}
 
@@ -245,7 +249,7 @@ public class NotificationControllerTest {
 			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}
@@ -279,7 +283,7 @@ public class NotificationControllerTest {
 			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	}
@@ -301,7 +305,7 @@ public class NotificationControllerTest {
 			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("failed tot execute the above test case");
 		}
 
 	

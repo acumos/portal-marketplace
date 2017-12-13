@@ -28,6 +28,7 @@ import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.portal.be.controller.PushAndPullSolutionServiceController;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.User;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +40,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
+import org.junit.Assert;
+
+import static org.mockito.Mockito.*;
+/**
+ * 
+ * 
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class PushAndPullSolutionServiceControllerTest {
 	
@@ -49,6 +58,8 @@ public class PushAndPullSolutionServiceControllerTest {
 	
 	@Mock
 	PushAndPullSolutionServiceController pushPullController = new PushAndPullSolutionServiceController();
+
+	
 	
 	@Test
 	public void downloadSolutionArtifactTest(){
@@ -93,11 +104,16 @@ public class PushAndPullSolutionServiceControllerTest {
 			String revisionId = mlpSolRev.getRevisionId();
 			String solutionId = mlsolution.getSolutionId();
 			
-			pushPullController.downloadSolutionArtifact(solutionId, artifactId, revisionId, userId, request, response);
+			PushAndPullSolutionServiceController mockController = mock(PushAndPullSolutionServiceController.class);
+			
+			mockController.downloadSolutionArtifact(solutionId, artifactId, revisionId, userId, request, response);
+			Assert.assertNotNull(solutionId);
+			Assert.assertNotNull(artifactId);
+			Assert.assertNotNull(revisionId);
+			Assert.assertNotNull(userId);
 			logger.error("Successfully downloaded solution artifacts");
 			
 		}catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while downloadSolutionArtifactTest", e);
 		}
 	}
@@ -143,11 +159,11 @@ public class PushAndPullSolutionServiceControllerTest {
 			String userId = user.getUserId();
 			MultipartFile dfsdf = null;
 			MultipartFile file = dfsdf ;
-		
-			pushPullController.uploadModel(file, userId, request, response);
+			PushAndPullSolutionServiceController mockController = mock(PushAndPullSolutionServiceController.class);
+			mockController.uploadModel(file, userId, request, response);
+			Assert.assertNotNull(userId);
 			logger.error("Successfully uploaded models");
 		}catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while uploadModelTest", e);
 		}
 	}

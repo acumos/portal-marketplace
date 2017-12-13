@@ -88,7 +88,7 @@ public class APINames {
     public static final String USER_FAVORITE_SOLUTIONS = "solution/getFavoriteSolutions/{userId}";
     public static final String GET_SOLUTION_RATING = "solution/getRating";
     public static final String CREATE_TAG = "tags/create";      
-    public static final String SOLUTIONS_COUNT = "/solutions/count";
+    public static final String SOLUTIONS_COUNT = "/solutions/count/{userId}";
     
     //Tags APIs for MarketPlace Catalog
     public static final String TAGS = "/tags";
@@ -169,6 +169,6 @@ public class APINames {
     public static final String DROP_USER_NOTIFICATIONS= "/notifications/drop/{notificationId}/user/{userId}";
 
 	public static final String RELATED_MY_SOLUTIONS = "/getRelatedMySolutions";
-	public static final String READ_SIGNATURE_TAB = "/readArtifactSolutions/{artifactId}";
+	public static final String READ_SIGNATURE_TAB = "/readArtifactSolutions/{artifactId}"; 
 	
 }

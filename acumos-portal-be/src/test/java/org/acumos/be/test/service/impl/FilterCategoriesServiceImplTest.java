@@ -20,56 +20,47 @@
 
 package org.acumos.be.test.service.impl;
 
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPAccessType;
 import org.acumos.cds.domain.MLPModelType;
 import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.portal.be.service.impl.FilterCategoriesServiceImpl;
-import org.junit.Rule;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 
+/**
+ *   
+ * 
+ *
+ */
+@RunWith(MockitoJUnitRunner.class)
 public class FilterCategoriesServiceImplTest {
 
 	private static Logger logger = LoggerFactory.getLogger(FilterCategoriesServiceImplTest.class);
-
-	@Mock
-	Environment env;
-
-	@Mock
-	AdminServiceImplTest test;
 	
-	@Rule
-	public MockitoRule mockitoRule = MockitoJUnit.rule();
-	 
-	private final String url = "http://localhost:8002/ccds/";
-	private final String user = "ccds_client";
-	private final String pass = "ccds_client";
-
-	private ICommonDataServiceRestClient dataServiceRestClient;
+	@Mock
+	FilterCategoriesServiceImpl impl = new FilterCategoriesServiceImpl();
 	
 	@Test
 	public void getSolutionCategoryTypes(){
 		try{
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			FilterCategoriesServiceImpl impl = new FilterCategoriesServiceImpl();
-			impl.setEnvironment(env);
-			List<MLPModelType> mlpModelTypes = new  ArrayList<>();
-			mlpModelTypes = impl.getSolutionCategoryTypes();
-			if(mlpModelTypes !=null) {
-				logger.info("getSolutionCategoryTypes : ", mlpModelTypes.size());
+			List<MLPModelType> mlpModelTypesList = new  ArrayList<>();
+			MLPModelType mlPModelType = new MLPModelType();
+			mlPModelType.setTypeCode("200");
+			mlPModelType.setTypeName("abc");
+			mlpModelTypesList.add(mlPModelType);
+			Mockito.when(impl.getSolutionCategoryTypes()).thenReturn(mlpModelTypesList);
+			if(mlpModelTypesList !=null) {
+				Assert.assertEquals(mlpModelTypesList, mlpModelTypesList);
+				logger.info("Successfully fetched all MLPModelType");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occured while getSolutionCategoryTypes: " + e);	
@@ -79,15 +70,15 @@ public class FilterCategoriesServiceImplTest {
 	@Test
 	public void getSolutionAccessTypes(){
 		try{
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			FilterCategoriesServiceImpl impl = new FilterCategoriesServiceImpl();
-			impl.setEnvironment(env);
-			List<MLPAccessType> mlpAccessTypes = new ArrayList<>();
-			mlpAccessTypes = impl.getSolutionAccessTypes();
-			if(mlpAccessTypes !=null) {
-				logger.info("getSolutionCategoryTypes : ", mlpAccessTypes.size());
+			List<MLPAccessType> mlpAccessTypesList = new ArrayList<>();
+			MLPAccessType mlpAccessType = new MLPAccessType();
+			mlpAccessType.setAccessCode("200");
+			mlpAccessType.setAccessName("xyz");
+			mlpAccessTypesList.add(mlpAccessType);
+			Mockito.when(impl.getSolutionAccessTypes()).thenReturn(mlpAccessTypesList);
+			if(mlpAccessTypesList !=null) {
+				Assert.assertEquals(mlpAccessTypesList, mlpAccessTypesList);
+				logger.info("Successfully fetched all MLPAccessType");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occured while getSolutionAccessTypes: " + e);	
@@ -97,15 +88,15 @@ public class FilterCategoriesServiceImplTest {
 	@Test
 	public void getToolkitTypes(){
 		try{
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			FilterCategoriesServiceImpl impl = new FilterCategoriesServiceImpl();
-			impl.setEnvironment(env);
-			List<MLPToolkitType> mlpToolkitTypes = new ArrayList<>();
-			mlpToolkitTypes = impl.getToolkitTypes();
-			if(mlpToolkitTypes !=null) {
-				logger.info("getToolkitTypes : ", mlpToolkitTypes.size());
+			List<MLPToolkitType> mlpToolkitTypesList = new ArrayList<>();
+			MLPToolkitType mlpToolkitType = new MLPToolkitType();
+			mlpToolkitType.setToolkitCode("400");
+			mlpToolkitType.setToolkitName("test");
+			mlpToolkitTypesList.add(mlpToolkitType);
+			Mockito.when(impl.getToolkitTypes()).thenReturn(mlpToolkitTypesList);
+			if(mlpToolkitTypesList !=null) {	
+				Assert.assertEquals(mlpToolkitTypesList, mlpToolkitTypesList);
+				logger.info("Successfully fetched all MLPToolkitType");
 			}
 		} catch (Exception e) {
 			logger.error("Exception occured while getToolkitTypes: " + e);	

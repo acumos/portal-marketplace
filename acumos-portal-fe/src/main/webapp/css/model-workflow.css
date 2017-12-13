@@ -1206,11 +1206,16 @@ ul.c-breadcrumb li{margin-left:16px;}
 }
 
 .upload-icon .iconcontainer {
-	border: 1px solid rgba(0, 0, 0, 0.12);
+/* 	border: 1px solid rgba(0, 0, 0, 0.12); */
+	margin: 5px auto !important;
 	height: 60px;
 	margin: 0 auto;
 	text-align: center;
 }
+
+.iconboder{ border: 1px solid rgba(0,0,0,0.12);text-align: center;}
+
+.removespaces{margin:0 -15px}
 
 .upload-icon .iconcontainer img {
 	height: 100%;
@@ -1520,3 +1525,5 @@ float:left;  padding-right:3px}
      border-top: 1px solid #671C9D;
 }
 
+.initialPosition{left: 0px  !important;
+    top: 0px !important}

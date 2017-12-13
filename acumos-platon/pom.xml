@@ -18,12 +18,11 @@
         </license>
     </licenses>
 
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.4.RELEASE</version>
-        <!-- silence warning about parent relative path -->
-        <relativePath />
     </parent>
 
     <properties>

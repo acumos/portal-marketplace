@@ -134,7 +134,7 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 
 .right-handle { background: #aaa; line-height:80px; height: 80px;position:absolute; top: 50%; margin-top: -40px;width:8px;}
 .right-handle i { font-size: 16px; position:relative; margin-left: -3px;}
-.right-drawer-handle {z-index:600;background:#C2C2C2; width:8px; position:absolute; top: 0; height:100%; left:0; cursor:col-resize;}
+.right-drawer-handle {z-index:1;background:#C2C2C2; width:8px; position:absolute; top: 0; height:100%; left:0; cursor:col-resize;}
 
 .ds-hor-seperator {z-index:50;height: 5px; position:relative; z-index:500; background: #6E6E6E url("../images/ds-icons/panel_dragger_icon.png") no-repeat center center; cursor:row-resize;}
 
