@@ -17,10 +17,10 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.common;
 
 import org.acumos.portal.be.common.JsonResponse;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class JsonResponseTest {
@@ -43,6 +43,7 @@ public class JsonResponseTest {
 			jsonReq.setResponseDetail(responseDetail);
 			jsonReq.setStatus(status);
 			jsonReq.setStatusCode(statusCode);
+			Assert.assertNotNull(jsonReq);
 		}catch(Exception e){
 			
 		}

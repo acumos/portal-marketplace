@@ -17,13 +17,14 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
+ 
 package org.acumos.be.test.security.jwt;
 
 import java.util.Date;
 
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -37,9 +38,6 @@ public class JwtTokenUtilTest {
 
 	private static Logger logger = LoggerFactory.getLogger(JwtTokenUtilTest.class);
 
-	@Mock
-	private Environment env;
-	
 	@Mock
 	JwtTokenUtilTest test;
 
@@ -57,7 +55,7 @@ public class JwtTokenUtilTest {
 			userDetails.setLastName("Poll");
 			userDetails.setLoginName("john");
 			userDetails.setLoginHash("!Acumos@73825");
-			userDetails.setEmail("john@acumos.org");
+			userDetails.setEmail("john@techmahindra.com");
 			userDetails.setUserId("9d1f8220-3aba-4371-8c1a-abc229930652");
 			userDetails.setActive(true);
 			userDetails.setCreated(new Date());
@@ -74,6 +72,12 @@ public class JwtTokenUtilTest {
 
 			String userName = jwtTokenUtil.getUsernameFromToken(jwtToken);
 			logger.info("userName from token :    " + userName);
+			
+			Assert.assertNotNull(userName);
+			Assert.assertNotNull(jwtToken);
+			Assert.assertNotNull(isTolenVallid);
+			Assert.assertNotNull(isTokenExpired);
+			
 
 		} catch (Exception e) {
 			logger.info("Exception occured while execute testCase  :generateToken " + e);

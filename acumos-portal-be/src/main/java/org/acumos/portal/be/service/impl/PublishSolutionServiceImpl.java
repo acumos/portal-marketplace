@@ -55,7 +55,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	}
 	
 	@Override
-	public boolean publishSolution(String solutionId, String accessType, String userId) {
+	public boolean publishSolution(String solutionId, String accessType, String userId, String revisionId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "publishModelBySolution ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		PortalRestClienttImpl portalRestClienttImpl = null;
@@ -74,10 +74,8 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			if(mlpSolution2 != null && mlpSolution2.getOwnerId().equalsIgnoreCase(userId)) {
 				//Invoke the Validation API if the validation with Backend is enabled.
 				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.validateModel")) && env.getProperty("portal.feature.validateModel").equalsIgnoreCase("true")) {
-					List<MLPSolutionRevision> mlpSolutionRevisions = dataServiceRestClient.getSolutionRevisions(solutionId);
-					if(!PortalUtils.isEmptyList(mlpSolutionRevisions)) {
-						//Get first element as versioning is still need to be handled.
-						MLPSolutionRevision mlpSolutionRevision = mlpSolutionRevisions.get(0);
+					MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+					if(mlpSolutionRevision != null) {
 						List<MLPArtifact> artifacts = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, mlpSolutionRevision.getRevisionId());
 						List<MLArtifactValidation> artifactValidations = null;
 						if(!PortalUtils.isEmptyList(artifacts)) {
@@ -109,13 +107,13 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 									log.info(EELFLoggerDelegate.debugLogger, "Validation API Response: ", validationResponse);
 								}
 							}
+						} else {
+							updateSolution(mlpSolution2, accessType);
+							isPublished = true;
 						}
 					}
 				} else {
-					portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-					mlpSolution2.setAccessTypeCode(accessType);
-					mlpSolution2.setValidationStatusCode(ValidationStatusCode.PS.name());		
-					portalRestClienttImpl.updateSolution(mlpSolution2);
+					updateSolution(mlpSolution2, accessType);
 					isPublished = true;
 				}
 			}
@@ -124,6 +122,13 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Publishing Solution ={}", e);
 		}
 		return isPublished;
+	}
+
+	private void updateSolution(MLPSolution mlpSolution, String accessType) {
+		PortalRestClienttImpl portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
+		mlpSolution.setAccessTypeCode(accessType);
+		mlpSolution.setValidationStatusCode(ValidationStatusCode.PS.name());		
+		portalRestClienttImpl.updateSolution(mlpSolution);
 	}
 	
 	@Override

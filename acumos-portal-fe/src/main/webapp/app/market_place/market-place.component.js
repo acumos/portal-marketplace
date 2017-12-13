@@ -247,7 +247,10 @@ angular
 												if(response.data.response_body.content[key].active){$scope.modelCount = $scope.modelCount+1;}
 											});
 												$scope.isBusy = false;$scope.MlSoltionCount = true;
-												if($scope.pageNumber==0){$scope.mlsolutions = response.data.response_body.content}
+												debugger
+												if($scope.pageNumber==0){
+													$scope.mlsolutions = response.data.response_body.content
+													}
 												if(response.data.response_body.content.length==9){$scope.viewNoMLsolution = 'View More ML Solutions';}
 												else {$scope.viewNoMLsolution = 'No More ML Solutions';}
 												$scope.tags = response.data.response_body.allTagsSet;

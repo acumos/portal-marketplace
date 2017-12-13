@@ -1,3 +1,4 @@
+*{box-sizing: border-box;}
 body{background-color:#FFF; font-size:14px;}
 body, h1, h2, h3, h4, h5, h6, p, .mdl-button{font-family: 'Open Sans', sans-serif;}
 .hide{display:none;}
@@ -121,7 +122,7 @@ min-height: 553px;
 .explore .mdl-card__title {padding:10px; width: auto;}
 .explore .mdl-card__title img{width:100%; min-height:95px;}
 .explore .mdl-card__title img.center{width: auto; margin: 0px auto;}
-.explore .mdl-card__supporting-text{padding:0px 10px 7px; width: auto; font-size: 16px; color:#252e37;}
+.explore .mdl-card__supporting-text{padding:0px 10px 7px; width: auto; font-size: 16px; color:#252e37; word-wrap: break-word;}
 .explore .mdl-card__supporting-text .icons{font-size: 14px; padding: 3px 0;}
 .explore .mdl-grid .mdl-cell.last-child{margin-right:-22px;}
 .explore .mdl-grid .mdl-cell.first-child{margin-left:8px;}

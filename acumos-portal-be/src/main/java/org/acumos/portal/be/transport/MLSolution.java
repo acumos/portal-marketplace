@@ -55,6 +55,7 @@ public class MLSolution {
 	private String modelTypeName;
 	private int downloadCount;
 	private int solutionRating;
+	private int solutionRatingAvg;
 	private String solutionTag;
 	private List<MLPTag> solutionTagList;
 	private int viewCount;
@@ -418,5 +419,13 @@ public class MLSolution {
 
 	public void setDeletedModelCount(int deletedModelCount) {
 		DeletedModelCount = deletedModelCount;
+	}
+
+	public int getSolutionRatingAvg() {
+		return solutionRatingAvg;
+	}
+
+	public void setSolutionRatingAvg(int solutionRatingAvg) {
+		this.solutionRatingAvg = solutionRatingAvg;
 	}
 }

@@ -226,6 +226,9 @@ position:relative;
 .homemain-carousel .ui-carousel .carousel-next span{border-bottom-left-radius: 3px; border-top-left-radius: 3px}   
 
 .homemain-carousel .slide-content .mdl-button{padding: 18px 20px;} 
+.ui-carousel figure{margin:0; }
+.img-rounded { border-radius: 6px;}
+.ui-carousel .carousel-prev, .ui-carousel .carousel-next{cursor:pointer;}
 
 /* .carousel-item  */  
 @media(max-width:768px){

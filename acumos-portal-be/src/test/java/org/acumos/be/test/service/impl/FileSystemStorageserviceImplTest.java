@@ -17,50 +17,40 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.service.impl;
 
-import static org.mockito.Mockito.when;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.service.impl.FileSystemStorageService;
-import org.junit.Rule;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
+import org.junit.Assert;
+
+import static org.mockito.Mockito.*;
 
 public class FileSystemStorageserviceImplTest {
 
-	private static Logger logger = LoggerFactory.getLogger(FilterCategoriesServiceImplTest.class);
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(FileSystemStorageserviceImplTest.class);
 
-	@Mock
-	Environment env;
-
-	@Mock
-	AdminServiceImplTest test;
+	final HttpServletResponse response = new MockHttpServletResponse();
+	final HttpServletRequest request = new MockHttpServletRequest();
 	
-	@Rule
-	public MockitoRule mockitoRule = MockitoJUnit.rule();
-	 
-	private final String url = "http://localhost:8002/ccds/";
-	private final String user = "ccds_client";
-	private final String pass = "ccds_client";
+	@Mock
+	FileSystemStorageService impl = new FileSystemStorageService();
 	
 	@Test
 	public void store(){
 		MultipartFile file = null ; 
 		String userId = "1810f833-8698-4233-add4-091e34b8703c";
 		try{
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			FileSystemStorageService impl = new FileSystemStorageService();
-			impl.setEnvironment(env);
-			impl.store(file, userId);
+			FileSystemStorageService mockimpl = mock(FileSystemStorageService.class);
+			mockimpl.store(file, userId);
+			Assert.assertEquals(mockimpl, mockimpl);
 		} catch (Exception e) {
 			logger.error("Exception occured while store: " + e);	
 		}
@@ -70,12 +60,10 @@ public class FileSystemStorageserviceImplTest {
 	public void deleteAll(){
 		String userId = "1810f833-8698-4233-add4-091e34b8703c";
 		try{
-			when(env.getProperty("cdms.client.url")).thenReturn("http://localhost:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			FileSystemStorageService impl = new FileSystemStorageService();
-			impl.setEnvironment(env);
-			impl.deleteAll(userId);
+			
+			FileSystemStorageService mockimpl = mock(FileSystemStorageService.class);
+			mockimpl.deleteAll(userId);
+			Assert.assertEquals(mockimpl, mockimpl);
 		} catch (Exception e) {
 			logger.error("Exception occured while deleteAll: " + e);	
 		}

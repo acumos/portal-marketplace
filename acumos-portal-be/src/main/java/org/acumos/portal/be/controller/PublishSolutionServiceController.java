@@ -77,13 +77,13 @@ public class PublishSolutionServiceController extends AbstractController {
     @RequestMapping(value = {APINames.PUBLISH},method = RequestMethod.PUT, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<Object> publishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
-			@RequestParam("userId") String userId, HttpServletResponse response) {
+			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "publishSolution={}", solutionId, visibility);
 		JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			// TODO As of now it does not check if User Account already exists.
 			// Need to first check if the account exists in DB
-			publishSolutionService.publishSolution(solutionId, visibility, userId);
+			publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
 			// code to create notification
 			MLSolution solutionDetail = catalogService.getSolution(solutionId);
 			String notification = null;

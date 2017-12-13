@@ -17,7 +17,6 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.controller;
 
 import java.util.ArrayList;
@@ -33,29 +32,28 @@ import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.controller.WebBasedOnboardingController;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.UploadSolution;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebBasedOnboardingTest {
 	
 	
-	private static Logger logger = LoggerFactory.getLogger(WebBasedOnboardingTest.class);
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(WebBasedOnboardingTest.class);
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 	
 	@Mock
 	WebBasedOnboardingController webBasedController = new WebBasedOnboardingController();
-
+	
 	@Test
 	public void testAddToCatalog() {
 
@@ -76,11 +74,13 @@ public class WebBasedOnboardingTest {
 			mlSolution.setName("Solution name");
 			mlSolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
 			mlSolution.setRatingCount((int) Math.round(3.2));
-
+			Assert.assertNotNull(mlSolution);
+			
 			UploadSolution uploadSolution = new UploadSolution();
 			uploadSolution.setName(mlSolution.getName());
 			uploadSolution.setVersion("1.0.0v");
-
+			Assert.assertNotNull(uploadSolution);
+			
 			JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 			List<MLSolution> content = new ArrayList<MLSolution>();
 			content.add(mlSolution);
@@ -91,13 +91,14 @@ public class WebBasedOnboardingTest {
 			restPageReq.setBody(uploadSolution);
 			restPageReq.getBody();
 			String userId = "601f8aa5-5978-44e2-996e-2dbfc321ee73";
+			Assert.assertEquals(mlSolution.getOwnerId(), userId);
 			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<RestPageResponseBE<MLSolution>>();
 			value.setResponseBody(responseBody);
 			Mockito.when(webBasedController.addToCatalog(null, null, restPageReq, userId)).thenReturn(value);
 			logger.equals(value);
 			logger.info("successfully added the toolkit to catalog ");
+			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while adding to catalog ", e);
 			
 		}

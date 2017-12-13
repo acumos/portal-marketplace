@@ -43,33 +43,35 @@
 									</div> -->
 						
 						</div>
-						<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
-						  <thead>
-							<tr>
-							  <th>
-								<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1" id="checkbox-label">
-								  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model = "selectAll" ng-click = "setSelectAll()">
-								  <span class="mdl-checkbox__label"></span>
-								</label></th>
-							  <th>Sender Name</th>
-							  <th>Subject</th>
-							  <th>Date</th>
-							</tr>
-						  </thead>
-						  <tbody>
-							<tr ng-repeat="notification in notificationManageObj | filter:{message : search}">
-							<td>
-								<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" >
-								  <input type="checkbox" id="checkBox_{{$index}}" class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected">
-								  <span class="mdl-checkbox__label"></span>
-								</label>
-							</td>
-							  <td class="mdl-data-table__cell--non-numeric">Administrator<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
-							  <td>{{notification.message}}</td>
-							  <td>{{notification.start | date:"MM/dd/yyyy"}}</td>
-							</tr>
-						  </tbody>
-						</table>
+						<div class="tbl-notification-container">
+							<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
+							  <thead>
+								<tr>
+								  <th>
+									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1" id="checkbox-label">
+									  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model = "selectAll" ng-click = "setSelectAll()">
+									  <span class="mdl-checkbox__label"></span>
+									</label></th>
+								  <th>Sender Name</th>
+								  <th>Subject</th>
+								  <th>Date</th>
+								</tr>
+							  </thead>
+							  <tbody>
+								<tr ng-repeat="notification in notificationManageObj | filter:{message : search}">
+								<td>
+									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" >
+									  <input type="checkbox" id="checkBox_{{$index}}" class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected">
+									  <span class="mdl-checkbox__label"></span>
+									</label>
+								</td>
+								  <td class="mdl-data-table__cell--non-numeric">Administrator<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
+								  <td>{{notification.message}}</td>
+								  <td>{{notification.start | date:"MM/dd/yyyy"}}</td>
+								</tr>
+							  </tbody>
+							</table>
+						</div>
 						<!-- copy up to here (end) -->					
 					</div>
 				</div>

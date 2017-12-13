@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 
+import org.acumos.cds.domain.MLPComment;
+import org.acumos.cds.domain.MLPThread;
 import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.User;
@@ -47,6 +49,12 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 	private List<String> tags;	
 	private Set<String> filteredTagSet;
 	private List<User> userList;
+	private int PrivateModelCount;
+    private int PublicModelCount;
+    private int CompanyModelCount;
+    private int DeletedModelCount; 
+    private List<MLPThread> threads;
+    private List<MLPComment> commentsList;
 
 	public RestPageResponseBE(List<T> content) {
 		super(content);
@@ -121,4 +129,54 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 	public void setAsync(Future<String> async) {
 		this.async = async;
 	}
+
+	public int getPrivateModelCount() {
+		return PrivateModelCount;
+	}
+
+	public void setPrivateModelCount(int privateModelCount) {
+		PrivateModelCount = privateModelCount;
+	}
+
+	public int getPublicModelCount() {
+		return PublicModelCount;
+	}
+
+	public void setPublicModelCount(int publicModelCount) {
+		PublicModelCount = publicModelCount;
+	}
+
+	public int getCompanyModelCount() {
+		return CompanyModelCount;
+	}
+
+	public void setCompanyModelCount(int companyModelCount) {
+		CompanyModelCount = companyModelCount;
+	}
+
+	public int getDeletedModelCount() {
+		return DeletedModelCount;
+	}
+
+	public void setDeletedModelCount(int deletedModelCount) {
+		DeletedModelCount = deletedModelCount;
+	}
+
+	public List<MLPThread> getThreads() {
+		return threads;
+	}
+
+	public void setThreads(List<MLPThread> threads) {
+		this.threads = threads;
+	}
+
+	public List<MLPComment> getCommentsList() {
+		return commentsList;
+	}
+
+	public void setCommentsList(List<MLPComment> commentsList) {
+		this.commentsList = commentsList;
+	}
+
+	
 }

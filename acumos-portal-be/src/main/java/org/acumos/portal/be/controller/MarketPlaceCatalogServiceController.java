@@ -901,47 +901,49 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
      *            HttpServletResponse
      * @return List of Paginated ML Solutions in JSON format.
      */
-     @ApiOperation(value = "Gets solution count.", response = MLSolution.class, responseContainer = "List")
-     @RequestMapping(value = { APINames.SOLUTIONS_COUNT }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-     @ResponseBody
-     public JsonResponse<MLSolution> getSolutionCount() {
-            RestPageResponse<MLPSolution> paginatedSolution = null;
-            MLSolution solution = new MLSolution();
-            JsonResponse<MLSolution> data = new JsonResponse<>();
-            try {
-                   Integer page = 0;
-                   Integer size = 0;
-                   paginatedSolution = catalogService.getAllPaginatedSolutions(page, size, null);
-                   if (paginatedSolution.getContent() != null) {
-                         int prModelCnt = 0;
-                         int pbModelCnt = 0;
-                         int orModelCnt = 0;
-                         int deletedModelCnt = 0;
-                         for (MLPSolution mlpsol : paginatedSolution.getContent()) {
-                                if (mlpsol.getAccessTypeCode().equals("PR") && mlpsol.isActive())
-                                       prModelCnt++;
-                                if (mlpsol.getAccessTypeCode().equals("PB") && mlpsol.isActive())
-                                       pbModelCnt++;
-                                if (mlpsol.getAccessTypeCode().equals("OR") && mlpsol.isActive())
-                                       orModelCnt++;
-                                if (!mlpsol.isActive())
-                                       deletedModelCnt++;
-                         }
-                         solution.setPrivateModelCount(prModelCnt);
-                         solution.setPublicModelCount(pbModelCnt);
-                         solution.setCompanyModelCount(orModelCnt);
-                         solution.setDeletedModelCount(deletedModelCnt);
-                         data.setResponseBody(solution);
-                         data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                         data.setResponseDetail("Solutions count fetched Successfully");
-                         log.debug(EELFLoggerDelegate.debugLogger, "getSolutionCount: size is {} ", paginatedSolution.getSize());
-                   }
-            } catch (AcumosServiceException e) {
-                   data.setErrorCode(e.getErrorCode());
-                   data.setResponseDetail(e.getMessage());
-                   log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions count", e);
-            }
-            return data;
-     }
+    @ApiOperation(value = "Gets solution count.", response = MLSolution.class, responseContainer = "List")
+    @RequestMapping(value = { APINames.SOLUTIONS_COUNT }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public RestPageResponseBE<MLSolution> getSolutionCount(HttpServletRequest request,
+           @PathVariable("userId") String userId, HttpServletResponse response) {
 
+       JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+       RestPageResponseBE<MLSolution> mlSolutions = null;
+       try {
+           mlSolutions = catalogService.getSolutionCount(userId);
+           data.setResponseBody(mlSolutions);
+           data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+           data.setResponseDetail("count fetched Successfully");
+           log.debug(EELFLoggerDelegate.debugLogger, "count fetched Successfully :  ");
+       } catch (Exception e) {
+           data.setErrorCode(e.getLocalizedMessage());
+           data.setResponseDetail(e.getMessage());
+           log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions count", e);
+       }
+       return mlSolutions; 
+   }
+    
+    @ApiOperation(value = "Get ratings for a solution by user", response = MLSolution.class, responseContainer = "List")
+   	@RequestMapping(value = { APINames.GET_SOLUTION_RATING_USER }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+   	@ResponseBody
+   	public JsonResponse<MLPSolutionRating> getUserRatings(HttpServletRequest request,
+   			@PathVariable("solutionId") String solutionId ,@PathVariable("userId") String userId, HttpServletResponse response) {
+   		JsonResponse<MLPSolutionRating> data = new JsonResponse<>();
+   		try {
+   			MLPSolutionRating	mlSolutionRating = catalogService.getUserRatings(solutionId, userId);
+   			if (mlSolutionRating != null) {
+   				data.setResponseBody(mlSolutionRating);
+   				data.setStatusCode(200);
+   				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+   				data.setResponseDetail("Ratings fetched Successfully");
+   				log.debug(EELFLoggerDelegate.debugLogger, "getUserRatings:  {} ", mlSolutionRating);
+   			}
+   		} catch (Exception e) {
+   			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+   			data.setResponseDetail("Exception Occurred Fetching Ratings for Solutions");
+   			log.error(EELFLoggerDelegate.errorLogger,
+   					"Exception Occurred Fetching Ratings for Solutions", e);
+   		}
+   		return data; 
+   	} 
 } 
