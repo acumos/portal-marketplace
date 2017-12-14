@@ -66,6 +66,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }
     };
 
+    $scope.$on("$destroy", function() {
+        d3.selectAll('.d3-tip').remove();
+    });
+
     $scope.handleDragStart = function(e){
         this.style.opacity = '0.4';
         e.dataTransfer.setData('text/plain', this.innerHTML);
