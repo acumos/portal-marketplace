@@ -442,9 +442,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }
     };
     $scope.storesolutionName ='';
+    var duplicateSol = false;
     $scope.saveSolution = function() {
-        if(!_dirty)
+        if(!_dirty && duplicateSol == false)
             return;
+	        duplicateSol = false;
         if(!$scope.solutionName) {
             // alert("Please fill all mandatory fields");
             set_focus('input-name');
@@ -884,7 +886,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             return $http.post(url).success(function(result) {
                 // result.duplicate = 'duplicate';
                 if(result.errorCode){alert("Solution not saved");}
-                else if(result.duplicate){alert(result.duplicate)}
+                else if(result.duplicate){alert(result.duplicate); duplicateSol = true;}
                 else if(result.alert){
                     set_dirty(false, 'saved at ' + d3.time.format('%X')(new Date()));
                     /*
@@ -945,6 +947,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     };
     function maybe_save_solution() {
+    	if(_dirty){$scope.showsaveConfirmationPopup();$scope.CloseOrNew = 'new';return}
         var deferred = $q.defer();
         if(!_dirty || !confirm('Current solution is unsaved - save it now?')) {
             deferred.resolve(undefined);

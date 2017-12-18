@@ -227,7 +227,8 @@
 														</tr>
 													  </thead>
 													  <tbody>
-														<tr ng-repeat="val in userDetails | filter: searchUserDetails as filtered">
+														<tr ng-repeat="val in userDetails | filter: searchUserDetails.firstName as filtered">
+										
 															<td>
 																<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox{{$index}}">
 																  <input type="checkbox" id="checkbox{{$index}}" class="mdl-checkbox__input" ng-click='roleCheckbox(selectBox[$index],val)' ng-model='selectBox[$index]' ng-true-value="true" ng-false-value="false" >
@@ -485,7 +486,7 @@
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr ng-repeat='val in peer  | filter: searchPeerDetails as filtered'>															
+																<tr ng-repeat='val in peer  | filter: searchPeerDetails.name as filtered'>															
 																	<td><span>{{val.name}}</span></td>
 																	<td>
 																		<label>{{val.description}}</label>
@@ -511,7 +512,7 @@
 																		<div class="admin-action-container">
 																			<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"><i class="material-icons">done</i></button>
 																			<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"><i class="material-icons">mode_edit</i></button>
-																			<button ng-click='showDeletePopup(event,val.peerId)' class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"><i class="material-icons">delete</i></button>
+																			<button ng-click='confirmDelete(val.peerId)' class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"><i class="material-icons">delete</i></button>
 																		</div>
 																	</td>
 																</tr>
@@ -961,35 +962,3 @@
                             </div>
 <!-- Saving old version popup confirmation Modal box end -->
 <!-- Confirmation Popup End -->
-<!-- Delete Confirmation Popup start -->
-                            <div class="md-dialog-container" id="deleteConfirmPopup" style="height:0;">
-                              <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
-                                  	<md-toolbar>
-                                      <div class="md-toolbar-tools">
-                                        <h2>Delete</h2>
-                                        <span flex></span>
-                                        <md-button class="md-icon-button" ng-click="closePoup()">
-                                          <i class="material-icons">close</i>
-                                        </md-button>
-                                      </div>
-                                    </md-toolbar>
-                                    <md-dialog-content>
-                                    <form ng-cloak>
-                                      <div class="md-dialog-content">
-                                        <p>Are you sure you want to delete this peer?</p>
-                                        <hr />
-                                         <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-                                            Cancel
-                                          </md-button>
-                                          <md-button ng-click="ok()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-                                            Confirm
-                                          </md-button>
-                                        </div>                                
-                                      </div>
-                                      </form>
-                                    </md-dialog-content>
-                                </md-dialog>
-                            </div>
-
-<!-- Delete Confirmation Popup End -->

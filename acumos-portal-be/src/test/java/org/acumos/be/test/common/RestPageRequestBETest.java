@@ -17,10 +17,10 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.common;
 
 import org.acumos.portal.be.common.RestPageRequestBE;
+import org.junit.Assert;
 import org.junit.Test; 
 
 public class RestPageRequestBETest {
@@ -55,5 +55,7 @@ public class RestPageRequestBETest {
 		restReq.setSortById(sortById);
 		restReq.setSortingOrder(sortingOrder);
 		restReq.setSearchTerm(searchTerm);
+		
+		Assert.assertNotNull(restReq);
 	}
 }

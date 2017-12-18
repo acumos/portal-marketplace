@@ -17,11 +17,13 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.common;
 
 import org.acumos.portal.be.common.JsonRequest;
+import org.junit.Assert;
 import org.junit.Test;
+
+
 
 public class JsonRequestTest {
   
@@ -36,5 +38,7 @@ public class JsonRequestTest {
 		jsonReq.setBody(body);
 		jsonReq.setRequestFrom(requestFrom);		
 		jsonReq.setRequestId(requestId);
+		
+		Assert.assertNotNull(jsonReq);
 	}
 }

@@ -17,7 +17,6 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,23 +24,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.PublishSolutionServiceController;
 import org.acumos.portal.be.transport.MLSolution;
-import org.junit.Ignore;
-import org.junit.Ignore;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class PublishSolutionServiceControllerTest {
 
-	private static Logger logger = LoggerFactory.getLogger(PublishSolutionServiceControllerTest.class);
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(PublishSolutionServiceControllerTest.class);
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
@@ -62,18 +58,20 @@ public class PublishSolutionServiceControllerTest {
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
-			
+			Assert.assertNotNull(mlsolution);
 			String userId = "12121";
 			String solutionId = mlsolution.getSolutionId();
+			String revisionId = "30107769-d6b1-4758-821c-08023fe82f8f";
 			String visibility = "2";
-			
+			Assert.assertNotNull(userId);
+			Assert.assertNotNull(solutionId);
+			Assert.assertNotNull(visibility);
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
-			Mockito.when(publishController.publishSolution(request, solutionId, visibility, userId,response)).thenReturn(value );
+			Mockito.when(publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response)).thenReturn(value );
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
-
+			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while publishSolutionTest", e);
 		}
 	}
@@ -90,19 +88,20 @@ public class PublishSolutionServiceControllerTest {
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
-			
+			Assert.assertNotNull(mlsolution);
 			String userId = "12121";
 			String solutionId = mlsolution.getSolutionId();
 			String visibility = "2";
-			
+			Assert.assertNotNull(userId);
+			Assert.assertNotNull(solutionId);
+			Assert.assertNotNull(visibility);
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			Mockito.when(publishController.unpublishSolution(request, solutionId, visibility,
-					userId, response));
+					userId, response)).thenReturn(value);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
-
+			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while unpublishSolutionTest", e);
 		}
 	}

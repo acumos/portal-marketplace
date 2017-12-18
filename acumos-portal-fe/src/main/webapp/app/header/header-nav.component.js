@@ -316,9 +316,8 @@ app.component('headerNav',{
 			}
 			angular.element('#fixed-header-drawer-exp1').val('');
 			
-			var urlPathMarketPlace = document.URL.slice(-11);
-			var urlPathManageModule = document.URL.slice(-12);
-			if(urlPathMarketPlace != 'marketPlace' && urlPathManageModule != 'manageModule')$window.location.href = '/index.html#/marketPlace';
+			var stateName = $state.$current.name;
+			if(stateName != 'marketPlace' && stateName != 'manageModule')$window.location.href = '/index.html#/marketPlace';
 		}
 		//Notification functionlity
 		$scope.notification = null;

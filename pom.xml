@@ -11,15 +11,14 @@
 	<name>Acumos MarketPlace Portal Parent Project</name>
 	<description>Acumos MarketPlace Portal Parent Project</description>
 	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<!-- All acumos.nexus.* are overridden by Jenkins settings -->
-		<acumos.nexus.url>http://cognita-nexus01.eastus.cloudapp.azure.com:8081</acumos.nexus.url>
-		<acumos.nexus.snapshot.path>repository/repo_cognita_platform_maven_snapshots</acumos.nexus.snapshot.path>
-		<acumos.nexus.release.path>repository/repo_cognita_platform_maven</acumos.nexus.release.path>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <acumos.nexus.url>Set by Jenkins</acumos.nexus.url>
+		<acumos.nexus.snapshot.path>Set by Jenkins</acumos.nexus.snapshot.path>
+		<acumos.nexus.release.path>Set by Jenkins</acumos.nexus.release.path>
+     </properties>
 	
 	<modules>
 		<module>acumos-platon</module>
@@ -27,7 +26,6 @@
 		<module>acumos-portal-be</module>
 		<module>acumos-portal-fe</module>
 	</modules>
-
 	<build>
 		<plugins>
 			<!-- Skip the deployment step, this makes jenkins config easy -->

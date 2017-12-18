@@ -24,6 +24,8 @@ angular
 						
 						$scope.showAlertMessage = false;
 						
+						$scope.revisionId;
+						
 						$scope.onItemRating = function(rating){
 							
 							var dataObjRating = {
@@ -48,7 +50,7 @@ angular
 									});*/
 							
 							
-							if( $scope.mlSolutionGetRating == null || $scope.mlSolutionGetRating.content[0].rating == 0)
+							if(!$scope.mlSolutionGetRating.content || $scope.mlSolutionGetRating.content[0].rating == 0)
 								{
 								//create a new rating for the model. User rates the solution first time.
 									apiService
@@ -129,7 +131,9 @@ angular
 			               }
 						
 						$scope.getSolutionratings=function(){
-							var url = '/api/solution/getRating'+'?solutionId='+$stateParams.solutionId
+							
+							if(user){
+								var url = '/api/solutions/ratings/'+$stateParams.solutionId+'/user/'+user[1];
 							var dataObj = {
 									"request_body": {
 										    "fieldToDirectionMap": {},
@@ -145,6 +149,7 @@ angular
 								url : url,
 								data : dataObj
 							}).success(function(data, status, headers,config) {
+								debugger
 									$scope.mlSolutionGetRating = data.response_body;
 									$scope.ratingCount1 = 0;
 									$scope.ratingCount2 = 0;
@@ -186,6 +191,7 @@ angular
 										alert("Error: "+status);
 										console.log(status);
 									});
+							}
 						}; 
 						$scope.getSolutionratings();
 						
@@ -288,6 +294,7 @@ angular
 						})
 								.success(
 										function(data, status, headers, config) {
+											debugger
 											if( !user || data.response_body.ownerId == user[1] ){$scope.cantRate = true;}else $scope.cantRate = false;
 											$scope.tags = data.response_body.solutionTagList;
 											$scope.modelOwnerId = data.response_body.ownerId;
@@ -324,6 +331,8 @@ angular
 												);
 												
 												$scope.versionId = $scope.versionList[0].version;
+												$scope.revisionId = $scope.versionList[0].revisionId;
+												$scope.getArtifacts();
 												
 											}
 
@@ -683,7 +692,7 @@ angular
 								$scope.totalCommentCount = data.totalCommentCount;
 								$scope.commentList = data.comments;
 							})
-						}
+						};
 						$scope.getComment();
 						
 						$scope.editComment = function(comment) {
@@ -702,7 +711,7 @@ angular
 							}).success(function(data, status, headers,config) {
 								console.log(data);
 							})
-						}
+						};
 						
 						$scope.deleteComment = function(commentId) {
 						    var url = "/cmnt/api/comments/"+ commentId;
@@ -895,6 +904,7 @@ angular
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
 							$scope.getPublicSolutionDocuments();
+							$scope.getArtifacts();
 						}
 						
 						// Value for Download Popup
@@ -958,7 +968,47 @@ angular
 						}
 
 						/** ****** Export/Deploy to Azure starts *** */
+						
+						$scope.getArtifacts = function() {
+
+							$http(
+									{
+										method : 'GET',
+										url : '/api/solutions/'
+												+ $scope.solutionId
+												+ '/revisions/'
+												+ $scope.revisionId
+									})
+									.then(
+											function successCallback(response) {
+												$scope.artifactDownload = response.data.response_body;
+												for (var x = 0; x < response.data.response_body.length; x++) {
+													if(response.data.response_body[x].artifactTypeCode == "DI"){
+														$scope.artifactId = response.data.response_body[x].artifactId;
+														$scope.artifactType = response.data.response_body[x].artifactTypeCode;
+														$scope.artifactDesc = response.data.response_body[x].description;
+														$scope.artifactName = response.data.response_body[x].name;
+														$scope.artifactVersion = response.data.response_body[x].version;
+														$scope.artifactUri = response.data.response_body[x].uri;
+													}
+												}
+
+											},
+											function errorCallback(response) {
+												alert("Error: "
+														+ response.status
+														+ "Detail: "
+														+ response.data.response_detail);
+											});
+
+						}
+						
 						$scope.authenticateAnddeployToAzure = function() {
+							
+							var imageTagUri = '';
+							if ($scope.artifactType != null && $scope.artifactType == 'DI') {
+								imageTagUri = $scope.artifactUri;
+							}
 
 							var authDeployObject = {
 								'client' : $scope.applicationId,
@@ -969,7 +1019,7 @@ angular
 								'acrName' : $scope.acrName,
 								'storageAccount' : $scope.storageAccount,
 								'solutionId' : $scope.solutionId,
-								'imagetag' : ""
+								'imagetag' : imageTagUri
 
 							};
 

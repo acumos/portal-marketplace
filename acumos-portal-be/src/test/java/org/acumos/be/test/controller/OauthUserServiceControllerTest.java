@@ -17,7 +17,6 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.controller;
 
 import java.util.Date;
@@ -27,25 +26,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.controller.OauthUserServiceController;
 import org.acumos.portal.be.transport.AbstractResponseObject;
-import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OauthUserServiceControllerTest {
 
-	private static Logger logger = LoggerFactory.getLogger(OauthUserServiceControllerTest.class);
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(OauthUserServiceControllerTest.class);
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
@@ -73,8 +69,8 @@ public class OauthUserServiceControllerTest {
 			Mockito.when(oauthServiceController.createUser(request, userMasterObject, response))
 					.thenReturn(userMasterObject);
 			logger.debug("Successfully created user ", userMasterObject);
+			Assert.assertNotNull(userMasterObject);
 		} catch (Exception e) {
-			ResponseVO responseVO = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Failed");
 			logger.debug("Exception Occurred while createUser()", e);
 		}
 	}
@@ -93,15 +89,16 @@ public class OauthUserServiceControllerTest {
 			user.setJwtToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlSWQiOiIxIiwibmFtZSI6IlVzZXIiLCJhY3RpdmUiOmZhbHNlLCJjcmVhdGVkIjoxNTEwMjIwMDQzMDAwLCJtb2RpZmllZCI6MTUxMDIyMDA0MzAwMH1dLCJjcmVhdGVkIjoxNTEwNzUzMjgzMDUyLCJleHAiOjE1MTEzNTgwODMsIm1scHVzZXIiOnsiY3JlYXRlZCI6MTUwODIzNDY5NjAwMCwibW9kaWZpZWQiOjE1MTAyMjkyMzkwMDAsInVzZXJJZCI6IjQxMDU4MTA1LTY3ZjQtNDQ2MS1hMTkyLWY0Y2I3ZmRhZmQzNCIsImZpcnN0TmFtZSI6InNkZnNkZiIsIm1pZGRsZU5hbWUiOiJzZGZzZGYiLCJsYXN0TmFtZSI6ImRmc2RmIiwib3JnTmFtZSI6InNkZnNkZiIsImVtYWlsIjoiZGZzZGYiLCJsb2dpbk5hbWUiOiJNYW5pbW96aGlUMSIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjpudWxsLCJwaWN0dXJlIjpudWxsfX0.8LuG8jsQvDDhhS037R6I1AwGOFkq3jTMxg2mLYbtEsKqzJcrS7fa0iwOGpvAMejx0GKoEZAhfWLgR6YVaSwK1w");
 			
 			String jwtToken = user.getJwtToken();
-			
+			Assert.assertNotNull(jwtToken);
+			Assert.assertEquals(jwtToken, user.getJwtToken());
 			AbstractResponseObject value = new AbstractResponseObject();
 			
 			value.setJwtToken(jwtToken);
 			
 			Mockito.when(oauthServiceController.login(request, user, response)).thenReturn(value);
 			logger.info("Successfully loged in");
+			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			ResponseVO responseVO = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Failed");
 			logger.error("Exception Occurred while loginTest()", e);
 		}
 	}

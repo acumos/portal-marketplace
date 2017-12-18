@@ -17,7 +17,6 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.controller;
 
 import org.acumos.cds.domain.MLPRole;
@@ -26,36 +25,20 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.controller.UserServiceController;
-import org.acumos.portal.be.transport.MLModelValidationStatus;
-import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
-import org.apache.commons.lang.ArrayUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -65,9 +48,8 @@ import javax.servlet.http.HttpServletResponse;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceControllerTest {
 
-	private static Logger logger = LoggerFactory.getLogger(UserServiceControllerTest.class);
-
-	final HttpServletResponse response = new MockHttpServletResponse();
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(UserServiceControllerTest.class);
+    final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 
 
@@ -97,8 +79,9 @@ public class UserServiceControllerTest {
 
 			Mockito.when(userServiceController.createUser(request, userReq, response)).thenReturn(value);
 			logger.info("successfully  created user ");
+			Assert.assertNotNull(value);
 		} catch (Exception | UserServiceException e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while creating user profile ", e);
 		}
 	}
@@ -119,17 +102,14 @@ public class UserServiceControllerTest {
 			userReq.setBody(user);
 			userReq.getBody();
 
-			HttpServletRequest request = null;
-			HttpServletResponse response = null;
-
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(userReq);
 
 			Mockito.when(userServiceController.updateUser(request, userReq, response)).thenReturn(value);
 			logger.info("successfully  updated  user details");
-
+			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while updating user profile ", e);
 		}
 	}
@@ -145,22 +125,19 @@ public class UserServiceControllerTest {
 			user.setEmailId("user1Updated@emial.com");
 			user.setActive("Y");
 			user.setPassword("password");
-
+			Assert.assertNotNull(user);
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
 			userReq.getBody();
-
-			HttpServletRequest request = null;
-			HttpServletResponse response = null;
+			Assert.assertNotNull(userReq);
 
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(userReq);
-
 			Mockito.when(userServiceController.forgetPassword(request, userReq, response)).thenReturn(value);
 			logger.info("forgetPasswordTest");
-
+			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while changing the password ", e);
 		}
 	}
@@ -180,10 +157,7 @@ public class UserServiceControllerTest {
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
 			userReq.getBody();
-
-			HttpServletRequest request = null;
-			HttpServletResponse response = null;
-
+			Assert.assertNotNull(userReq);
 			PasswordDTO passwordDTO = new PasswordDTO();
 			passwordDTO.setNewPassword("newPassword");
 			passwordDTO.setOldPassword("oldpassword");
@@ -192,12 +166,11 @@ public class UserServiceControllerTest {
 			JsonResponse<Object> valuepass = new JsonResponse<>();
 			valuepass.setResponseBody(passwordDTO);
 
-			Mockito.when(userServiceController.changeUserPassword(request, passwordDTO, response))
-					.thenReturn(valuepass);
+			Mockito.when(userServiceController.changeUserPassword(request, passwordDTO, response)).thenReturn(valuepass);
 			logger.info("Successfully changed user profile password");
-
+			Assert.assertNotNull(valuepass);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while changeUserPasswordTest ", e);
 		}
 	}
@@ -214,24 +187,22 @@ public class UserServiceControllerTest {
 			user.setEmailId("user1@emial.com");
 			user.setActive("Y");
 			user.setPassword("oldpassword");
-
+			Assert.assertNotNull(user);
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
 			userReq.getBody();
-
+			Assert.assertNotNull(userReq);
+			
 			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
-
-			HttpServletRequest request = null;
-			HttpServletResponse response = null;
-
+			Assert.assertNotNull(mlpUser);
 			JsonResponse<MLPUser> value = new JsonResponse<>();
 			value.setResponseBody(mlpUser);
 
 			Mockito.when(userServiceController.getUserAccountDetails(userReq)).thenReturn(value);
 			logger.info("Successfully fectched user details ");
-
+			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.debug("Error while getUserAccountDetailsTest : ", e);
 		}
 	}
@@ -247,21 +218,17 @@ public class UserServiceControllerTest {
 			user.setEmailId("user1@emial.com");
 			user.setActive("Y");
 			user.setPassword("oldpassword");
-
+			Assert.assertNotNull(user);
 			JsonResponse<List<User>> userList = new JsonResponse<List<User>>();
 			List<User> responseBody = new ArrayList<User>();
 			responseBody.add(user);
 			userList.setResponseBody(responseBody);
 			userList.getResponseBody();
-
-			HttpServletRequest request = null;
-			HttpServletResponse response = null;
+			Assert.assertNotNull(userList);
 			Mockito.when(userServiceController.getAllUsers(request, response)).thenReturn(userList);
-
 			logger.info("Successfully fectched list of user details ");
-
+			Assert.assertNotNull(responseBody);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.debug("Error while getAllUsersTest : ", e);
 		}
 
@@ -275,7 +242,8 @@ public class UserServiceControllerTest {
 			Date created = new Date();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
-
+			Assert.assertNotNull(mlRole);
+			
 			User user = new User();
 			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 			user.setFirstName("FirstName");
@@ -288,20 +256,19 @@ public class UserServiceControllerTest {
 			user.setRoleId(mlRole.getRoleId());
 
 			String userId = user.getUserId();
-
+			
+			Assert.assertEquals(userId, user.getUserId());
+			
 			List<MLPRole> mlprolelist = new ArrayList<MLPRole>();
 			mlprolelist.add(mlRole);
-
+			Assert.assertNotNull(mlprolelist);
 			JsonResponse<List<MLPRole>> responseBody = new JsonResponse<>();
 			responseBody.setResponseBody(mlprolelist);
-
-			HttpServletRequest request = null;
-			HttpServletResponse response = null;
 			Mockito.when(userServiceController.getUserRole(userId, request, response)).thenReturn(responseBody);
 			logger.info("Successfully fectched list of user details according user roles : ",
 					responseBody.getResponseBody().toString());
+			Assert.assertNotNull(responseBody);
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.debug("Error while getUserRoleTest : ", e);
 		}
 	}

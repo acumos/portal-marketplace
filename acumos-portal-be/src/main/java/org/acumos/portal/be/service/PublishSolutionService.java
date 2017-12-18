@@ -22,7 +22,7 @@ package org.acumos.portal.be.service;
 
 public interface PublishSolutionService {
 	
-	boolean publishSolution(String solutionId, String accessType, String userId);
+	boolean publishSolution(String solutionId, String accessType, String userId, String revisionId);
 	
 	boolean unpublishSolution(String solutionId, String accessType, String userId);
 }

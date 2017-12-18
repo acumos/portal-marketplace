@@ -17,7 +17,6 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.security.jwt;
 
 import org.acumos.portal.be.security.jwt.JwtSettings;

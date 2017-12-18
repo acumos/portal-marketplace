@@ -414,7 +414,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
     content: "" !important;
     background: url("../images/dashboard/stepper_progress_completed.png") no-repeat left center;
     display:inline-block;
-    width:45px;
+    width:47px;
     height:11px;
     transform:scale(0.8);    
 }
@@ -430,7 +430,10 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
   -moz-font-feature-settings: 'liga' 1;
   font-feature-settings: 'liga' 1;  float:left; padding-right:3px}
 .timeline button.btn-secondary {margin-right: 4px;}
+#expCont, #collCont{display:block; margin-top:5px;}
+.company-market ul li .imageplace.active .imagecontent.completed{border:3px solid #009911; background-color:#FFF;}
 
+/* media query start */
 @media(max-width:767px){
 	.vertical-mdl-tabs .mdl-tabs__tab-bar{padding-bottom:0;}
 	.mdl-cell.workflow-left{overflow-y: scroll; width: 100%; background-color: transparent;}

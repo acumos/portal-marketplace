@@ -88,7 +88,8 @@ public class APINames {
     public static final String USER_FAVORITE_SOLUTIONS = "solution/getFavoriteSolutions/{userId}";
     public static final String GET_SOLUTION_RATING = "solution/getRating";
     public static final String CREATE_TAG = "tags/create";      
-    public static final String SOLUTIONS_COUNT = "/solutions/count";
+    public static final String SOLUTIONS_COUNT = "/solutions/count/{userId}";
+    public static final String GET_SOLUTION_RATING_USER = "/solutions/ratings/{solutionId}/user/{userId}";
     
     //Tags APIs for MarketPlace Catalog
     public static final String TAGS = "/tags";
@@ -169,6 +170,19 @@ public class APINames {
     public static final String DROP_USER_NOTIFICATIONS= "/notifications/drop/{notificationId}/user/{userId}";
 
 	public static final String RELATED_MY_SOLUTIONS = "/getRelatedMySolutions";
-	public static final String READ_SIGNATURE_TAB = "/readArtifactSolutions/{artifactId}";
+	public static final String READ_SIGNATURE_TAB = "/readArtifactSolutions/{artifactId}"; 
 	
+	//Comments
+	   public static final String CREATE_COMMENT = "comments/create";
+	   public static final String UPDATE_COMMENT = "comments/update";
+	   public static final String DELETE_COMMENT = "comments/delete/{threadId}/{commentId}";
+	   public static final String GET_COMMENT = "comments/{threadId}/{commentId}";
+	//Thread
+	   public static final String CREATE_THREAD = "thread/create";
+	   public static final String UPDATE_THREAD = "thread/update";
+	   public static final String DELETE_THREAD = "thread/delete/{threadId}";
+	   public static final String GET_THREAD = "thread/{threadId}";
+	   public static final String GET_THREADS = "thread";
+	   public static final String GET_THREAD_COMMENTS = "thread/{threadId}/comment";
+	   
 }

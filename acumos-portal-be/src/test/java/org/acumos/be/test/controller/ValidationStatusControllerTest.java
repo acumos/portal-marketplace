@@ -17,7 +17,6 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
 package org.acumos.be.test.controller;
 
 import java.util.ArrayList;
@@ -32,21 +31,22 @@ import org.acumos.portal.be.transport.MLArtifactValidationStatus;
 import org.acumos.portal.be.transport.MLModelValidationCheck;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLModelValidationStepStatus;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.client.RestTemplate;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class ValidationStatusControllerTest {
 
-	private static Logger logger = LoggerFactory.getLogger(ValidationStatusControllerTest.class);
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(ValidationStatusControllerTest.class);
+
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
@@ -61,26 +61,24 @@ public class ValidationStatusControllerTest {
 			MLModelValidationStatus mlModelvalidationStatus = new MLModelValidationStatus();
 			mlModelvalidationStatus.setStatus("Passed");
 			mlModelvalidationStatus.setTaskId("fakeTask-Id");
+			Assert.assertNotNull(mlModelvalidationStatus); 
 			List<MLArtifactValidationStatus> artifactValidationStatus = new ArrayList<>();
 			MLArtifactValidationStatus mlArtifactValidationStatus = new MLArtifactValidationStatus();
 			mlArtifactValidationStatus.setArtifactId("4cbf491b-c687-459f-9d81-e150d1a0b972");
 			artifactValidationStatus.add(0, mlArtifactValidationStatus);
 			mlModelvalidationStatus.setArtifactValidationStatus(artifactValidationStatus);
-
-			
+			Assert.assertNotNull(mlArtifactValidationStatus); 
 			String taskId = mlModelvalidationStatus.getTaskId();
-			
+			Assert.assertEquals(taskId, mlModelvalidationStatus.getTaskId());
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlArtifactValidationStatus);
 			value.getResponseBody();
-	
-			JsonResponse<Object> value1 = validationController.updateValidationTaskStatus(request, taskId, mlModelvalidationStatus, response);
-
-
+			validationController.updateValidationTaskStatus(request, taskId, mlModelvalidationStatus, response);
 			logger.info("successfully updated validationTaskStatus");
 			logger.equals(value.getResponseBody());
+			Assert.assertNotNull(value);
+			
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error("Error while updating validation status", e);
 		}
 	}
@@ -92,18 +90,18 @@ public class ValidationStatusControllerTest {
 			MLModelValidationStatus mlModelvalidationStatus = new MLModelValidationStatus();
 			mlModelvalidationStatus.setStatus("Passed");
 			mlModelvalidationStatus.setTaskId("fakeTask-Id");
+			Assert.assertNotNull(mlModelvalidationStatus); 
 			List<MLArtifactValidationStatus> artifactValidationStatus = new ArrayList<>();
 			MLArtifactValidationStatus mlArtifactValidationStatus = new MLArtifactValidationStatus();
 			mlArtifactValidationStatus.setArtifactId("4cbf491b-c687-459f-9d81-e150d1a0b972");
 			artifactValidationStatus.add(0, mlArtifactValidationStatus);
 			mlModelvalidationStatus.setArtifactValidationStatus(artifactValidationStatus);
-
+			Assert.assertNotNull(mlArtifactValidationStatus); 
 			MLModelValidationStepStatus mlModelValidationStepStatus = new MLModelValidationStepStatus();
 			mlModelValidationStepStatus.setValidationStatus("Passed");
 			mlModelValidationStepStatus.setValidationStatusDesc("testValidationStatusDesc");
 			mlModelValidationStepStatus.setValidationType("Passed");
-
-			
+			Assert.assertNotNull(mlModelValidationStepStatus); 
 			String solutionId = "6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4";
 			String revisionId = "601f8aa5-5978-44e2-996e-2dbfc321ee73";
 
@@ -118,8 +116,10 @@ public class ValidationStatusControllerTest {
 					.thenReturn(value);
 			logger.equals(value.getResponseBody());
 			logger.info("successfully fetched getValidationTaskStatus ");
+			Assert.assertNotNull(value);
+			Assert.assertNotNull(responseBody);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			logger.error("Error while updating validation status", e);
 		}
 
