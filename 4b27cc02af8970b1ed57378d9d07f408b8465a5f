@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61c89c2e_40da49ae",
+        "filename": "acumos-platon/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T11:15:43Z",
+      "side": 1,
+      "message": "You might want to avoid whitespace-only changes.",
+      "revId": "4b27cc02af8970b1ed57378d9d07f408b8465a5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e8adeb8_8ea5228f",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T11:15:43Z",
+      "side": 1,
+      "message": "suggest removing this unused code, not commenting out.  Git saves history.",
+      "revId": "4b27cc02af8970b1ed57378d9d07f408b8465a5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb114195_c41a3171",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MockCommonDataServiceRestClientImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T11:15:43Z",
+      "side": 1,
+      "message": "Please use the enum class instead of duplicating the codes and strings here",
+      "revId": "4b27cc02af8970b1ed57378d9d07f408b8465a5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b2bcd3b_daeaf44e",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MockCommonDataServiceRestClientImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T11:15:43Z",
+      "side": 1,
+      "message": "Please use the enum class instead of duplicating the codes and strings here",
+      "revId": "4b27cc02af8970b1ed57378d9d07f408b8465a5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae39fbb3_7091bad0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MockCommonDataServiceRestClientImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T11:15:43Z",
+      "side": 1,
+      "message": "Please use the enum class instead of duplicating the codes and strings here",
+      "revId": "4b27cc02af8970b1ed57378d9d07f408b8465a5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f5f10eb_e6111d03",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/ThreadServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T11:15:43Z",
+      "side": 1,
+      "message": "When throwing exceptions, suggest preserving the original exception (and its stack trace etc.) instead of just keeping the message.  Do this:\n\n   throw new MyException(\"my exception arg\", e);  // yes\n\nAvoid this:\n\n   throw new MyException(\"my exception arg\", e.getMessage());  //NO",
+      "revId": "4b27cc02af8970b1ed57378d9d07f408b8465a5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9ca94b_9b818432",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLSolution.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2017-12-18T11:15:43Z",
+      "side": 1,
+      "message": "The new MLPSolution brings along solution web stats like this",
+      "revId": "4b27cc02af8970b1ed57378d9d07f408b8465a5f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
