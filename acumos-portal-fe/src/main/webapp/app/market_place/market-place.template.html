@@ -224,11 +224,11 @@
 													<div class="rating clear_both">
 														
 															<span>
-															 <i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i>
+															 <i class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount == null || mlsolution.ratingCount < 1}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 2}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 3}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 4}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 5}" aria-hidden="true"></i>
 															 </span>
 															
 															<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-disabled = "!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
@@ -332,11 +332,11 @@
 															</div>
 												    <div>
 												    	<div class="rating clear_both">
-															<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 2}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 3}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 4}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRating < 5}" aria-hidden="true"></i></span>
+															<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount == null || mlsolution.ratingCount < 1}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 2}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 3}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 4}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.ratingCount < 5}" aria-hidden="true"></i></span>
 																
 																<button class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button" ng-click="selectFav = !selectFav">
 																	<i class="material-icons" ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>

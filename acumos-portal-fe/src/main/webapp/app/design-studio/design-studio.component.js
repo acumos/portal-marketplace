@@ -66,10 +66,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }
     };
 
-    $scope.$on("$destroy", function() {
-        d3.selectAll('.d3-tip').remove();
-    });
-
     $scope.handleDragStart = function(e){
         this.style.opacity = '0.4';
         e.dataTransfer.setData('text/plain', this.innerHTML);
@@ -1462,9 +1458,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .edgeStroke('#777')
             .nodeShape(function(n){
-                var lastChar = n.key.slice(-1);
+               /*var lastChar = n.key.slice(-1);
+            	//var res = n.key.split("(");
                 var res = n.key.split(lastChar);
-                var nodeDet=_components.get(res[0]);
+            	//console.log(res[0]);
+            	
+*/       
+            	
+            	var res = n.key.slice(0, -1);
+            	var nodeDet=_components.get(res);
+                console.log(nodeDet);
                 if(/DataMapper/.test(nodeDet.solutionName))
                     return {shape: 'rounded-rect', rx: 0, ry: 0};
                 else{
@@ -1476,9 +1479,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .nodeContent('text-with-icon')
             .nodeIcon(function(d) {
-                var lastChar = d.key.slice(-1);
-                var res = d.key.split(lastChar);
-                var nodeDet=_components.get(res[0]);
+                /*var lastChar = d.key.slice(-1);
+                var res = d.key.split(lastChar);*/
+            	var res = d.key.slice(0, -1);
+            	var nodeDet=_components.get(res);
+               // var nodeDet=_components.get(res[0]);
                 //var nodeDet = _components.get(d.value.type.name);
                 var nodeName = nodeDet.solutionName;
 

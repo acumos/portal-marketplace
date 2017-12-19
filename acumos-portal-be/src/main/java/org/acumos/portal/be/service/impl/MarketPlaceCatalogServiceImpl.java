@@ -47,6 +47,7 @@ import org.acumos.cds.query.SearchCriteria;
 import org.acumos.cds.query.SearchCriterion;
 import org.acumos.cds.query.SearchOperation;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageRequestBE;
@@ -2133,6 +2134,14 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRating rating = dataServiceRestClient.getSolutionRating(solutionId, userId);
 		return rating;
+	}
+	
+	@Override
+	public RestPageResponse<MLPSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal, RestPageRequest pageReq) {
+		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(pageReqPortal.getNameKeyword(),pageReqPortal.getDescriptionKeyword(),pageReqPortal.getAuthorKeyword(),pageReqPortal.isActive(),pageReqPortal.getAccessTypeCodes(),pageReqPortal.getModelTypeCodes(),pageReqPortal.getValidationStatusCodes(),pageReqPortal.getTags() , pageReq);
+		return response;
 	}
 }
 	

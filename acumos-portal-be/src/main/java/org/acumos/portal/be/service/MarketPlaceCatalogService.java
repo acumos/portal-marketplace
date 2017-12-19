@@ -38,6 +38,7 @@ import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.cds.transport.RestPageResponse;
 
 /**
@@ -122,4 +123,6 @@ public interface MarketPlaceCatalogService {
 	RestPageResponseBE<MLSolution> getSolutionCount(String userId);
 
 	MLPSolutionRating getUserRatings(String solutionId, String userId); 
+	
+	RestPageResponse<MLPSolution> findPortalSolutions(RestPageRequestPortal body, RestPageRequest body2); 
 }

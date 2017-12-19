@@ -4,82 +4,73 @@
 </div>
 <div class="page-content">
 	<section class="pageheadsection gray-bg" id="md-model-detail-template">
-		<div layout="row" layout-xs="column" layout-fill
-			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
-			<div
-				class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
-				<div class="md-container1">
-					<span class="md-headline mob-disblock"><img
-						class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}</span>
-					<span class="hide-xs hide-sm md-vertical-seperator"> | </span>
-					<!-- <span>Version-2.0</span> | <span>Model ID - {{solutionId}}</span> -->
+		<div class="md-head-container1">
+			<div class="md-head-containerinner1">
+				<span class="md-headline2 mob-disblock">
+					<img class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}</span>				
+				<div class="md-head-container3">
+					<div class="md-head-containerinner-seperator"></div>
 					<div class="version-container">
-						<button id="demo-menu-lower-right"
-							class="mdl-button mdl-js-button"
-							ng-click="showVersion();$event.stopPropagation();">
-							<span>Version-{{versionId}} <i class="material-icons">keyboard_arrow_down</i></span>
+						<button id="demo-menu-lower-right" class="mdl-button mdl-js-button"
+								ng-click="showVersion();$event.stopPropagation();">
+								<span>Version - {{versionId}} <i class="material-icons">keyboard_arrow_down</i></span>
 						</button>
 						<ul class="md-version-ddl1">
 							<li ng-repeat="v in versionList"
-								ng-click="loadVersionDetails(solution.solutionId, v.revisionId, v.version)"
-								ng-class="{selected: v.version == versionId}">Version-{{v.version}}</li>
+									ng-click="loadVersionDetails(solution.solutionId, v.revisionId, v.version)"
+									ng-class="{selected: v.version == versionId}">Version - {{v.version}}</li>
 						</ul>
 					</div>
-					<div class="statusbar-btn">
 					<button type="button" ng-if="solution.accessType != 'PR'"
-								class="mdl-button mdl-js-button mdl-js-ripple-effect"
-								ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company Marketplace</button>
-							<button type="button" ng-if="solution.accessType != 'PR'"
-								class="mdl-button mdl-js-button mdl-js-ripple-effect"
-								ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public Marketplace</button>
-					</div>
-				</div>
-				<ul class="c-breadcrumb">
-					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
-					<li><a ui-sref="marketPlace"
-						ng-if="$root.parentActive == 'marketplace'">Marketplace</a> <a
-						ui-sref="manageModule" ng-if="$root.parentActive == 'mymodel'">My
-							Model</a></li>
-					<li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
-				</ul>
+							class="mdl-button mdl-js-button mdl-js-ripple-effect btn-company"
+							ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company</button>
+					<button type="button" ng-if="solution.accessType != 'PR'"
+							class="mdl-button mdl-js-button mdl-js-ripple-effect"
+							ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public</button>								
 			</div>
-			<div
-				class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone mdl-cell--3-col-tablet text-right">
-				<div class="c-md-container">
-					<button type="button"
+			</div>
+			
+			<div class="md-head-container2">				
+				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
 						ng-show="loginUserID">Download</button>
-					<button type="button"
+				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
 						ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID">Sign
 						In To Download</button>
-					<div class="">
-						<button id="demo-menu-lower-right4"
+				<button id="demo-menu-lower-right4"
 							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 							<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
-						</button>
-						<ul
-							class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
+				</button>
+				<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
 							for="demo-menu-lower-right4">
-							<li class="mdl-menu__item dc-microsoft-azure"
+					<li class="mdl-menu__item dc-microsoft-azure"
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-							<li class="mdl-menu__item dc-google-cloud" disabled
+					<li class="mdl-menu__item dc-google-cloud" disabled
 								style="cursor: not-allowed; background-color: #F1F1F1;"
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-							<li class="mdl-menu__item dc-rackspace" disabled
+					<li class="mdl-menu__item dc-rackspace" disabled
 								style="cursor: not-allowed; background-color: #F1F1F1;"
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-							<li class="mdl-menu__item dc-amazon-cloud" disabled
+					<li class="mdl-menu__item dc-amazon-cloud" disabled
 								style="cursor: not-allowed; background-color: #F1F1F1;"
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-						</ul>
-					</div>
-				</div>
+				</ul>
+			</div>
+		</div>
+		<div class="md-head-container2">
+			<ul class="c-breadcrumb">
+				<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+				<li><a ui-sref="marketPlace"
+						ng-if="$root.parentActive == 'marketplace'">Marketplace</a> <a
+						ui-sref="manageModule" ng-if="$root.parentActive == 'mymodel'">My
+							Model</a></li>
+				<li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
+			</ul>
 				<span class="md-lbl1">Version {{versionId}} |
 					{{solution.downloadCount === null ? 0 : solution.downloadCount}}
-					Downloaded</span>
-			</div>
+					Downloaded</span>		
 		</div>
 	</section>
 	<div class="md-container-head1 md-header3">
@@ -219,15 +210,15 @@
 									<li><label class="rel-title">{{val.name}}</label> <span
 										class="rating"> <span><i
 												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRating == null || val.solutionRating < 1}"></i></span>
+												ng-class="{'fa-star1': val.ratingCount == null || val.ratingCount < 1}"></i></span>
 											<span><i class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRating < 2}"></i></span> <span><i
+												ng-class="{'fa-star1': val.ratingCount < 2}"></i></span> <span><i
 												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRating < 3}"></i></span> <span><i
+												ng-class="{'fa-star1': val.ratingCount < 3}"></i></span> <span><i
 												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRating < 4}"></i></span> <span><i
+												ng-class="{'fa-star1': val.ratingCount < 4}"></i></span> <span><i
 												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRating < 5}"></i></span>
+												ng-class="{'fa-star1': val.ratingCount < 5}"></i></span>
 									</span> <label class="iconcontainer"> <span class="iconspan1"><span
 												class="statistics-icons icon-chat"></span> 0</span> <span
 											class="iconspan1"><span
@@ -558,11 +549,13 @@
 								<div class="mdl-cell mdl-cell--5-col"></div>
 							</div>
 							<hr class="md-hr-rule1" />
-							<div class="md-discussion-container">
-								<span class="md-discussion-title">DISCUSSION
-									({{totalCommentCount}})</span>
-								<div class="md-discussion-links-container">
-									<a>Newest</a> <span>|</span> <a>Older</a> <span>|</span> <a>Liked</a>
+							<div class="discussion-outer-container" ng-hide="solution.active == false">
+								<div class="md-discussion-container">
+									<span class="md-discussion-title">DISCUSSION
+										({{totalCommentCount}})</span>
+									<div class="md-discussion-links-container">
+										<a>Newest</a> <span>|</span> <a>Older</a> <span>|</span> <a>Liked</a>
+									</div>
 								</div>
 							</div>
 							<div class="discussion-outer-container">

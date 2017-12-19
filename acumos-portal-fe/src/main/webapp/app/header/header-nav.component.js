@@ -307,17 +307,18 @@ app.component('headerNav',{
 		});
 		
 		$scope.globalSearch = function(val) {
-			$rootScope.valueToSearch = $scope.searchText;
+			$rootScope.valueToSearch = val;
+			
+			angular.element('#fixed-header-drawer-exp1').val('');
+			
+			var stateName = $state.$current.name;
+			if(stateName != 'marketPlace' && stateName != 'manageModule')$window.location.href = '/index.html#/marketPlace';
 			
 			if(val){
 				$rootScope.$broadcast('scanner-started', {
 					searchValue : val
 				});
 			}
-			angular.element('#fixed-header-drawer-exp1').val('');
-			
-			var stateName = $state.$current.name;
-			if(stateName != 'marketPlace' && stateName != 'manageModule')$window.location.href = '/index.html#/marketPlace';
 		}
 		//Notification functionlity
 		$scope.notification = null;

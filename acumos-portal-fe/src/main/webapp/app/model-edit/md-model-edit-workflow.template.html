@@ -655,11 +655,11 @@
 										<div class="timeline-centered">
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="solution.name.length <= 0">
+													<div class="timeline-icon" ng-if="solution.name.length <= 0 && !company.step1">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.name.length>=1">
+														ng-if="solution.name.length>=1 || company.step1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -676,7 +676,7 @@
 														<p ng-hide="showSolName">{{solution.name}}</p>
 														<div class="checkbox" ng-if="solution.name.length <= 0">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step1"> Skip
                                                            </label>
                                                          </div>
 
@@ -742,11 +742,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionCompanyDescStatus">
+														ng-if="!solutionCompanyDescStatus && !company.step2">
 														<span class="entypo-suitcase">2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionCompanyDescStatus">
+														ng-if="solutionCompanyDescStatus || company.step2">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -823,7 +823,7 @@
 														</p>
 														<div class="checkbox" ng-if="solutionCompanyDescStatus">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step2"> Skip
                                                            </label>
                                                          </div>
 													</div>
@@ -832,11 +832,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solution.modelTypeName || !solution.tookitTypeName">
+														ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !company.step3">
 														<span class="entypo-suitcase">3</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.modelTypeName || solution.tookitTypeName">
+														ng-if="( solution.modelTypeName && solution.tookitTypeName ) || company.step3">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -862,7 +862,7 @@
 														</p>
 														<div class="checkbox" ng-if="!solution.modelTypeName || !solution.tookitTypeName">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox"  ng-model="$parent.company.step3"> Skip
                                                            </label>
                                                          </div>
 														<div class="popovers category-popover"
@@ -929,11 +929,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon">
-														<div class="timeline-icon" ng-if="!showSolutionDocs">
+														<div class="timeline-icon" ng-if="!showSolutionDocs && !company.step4">
 															<span class="entypo-suitcase">4</span>
 														</div>
 														<div class="timeline-icon bg-success"
-															ng-if="showSolutionDocs">
+															ng-if="showSolutionDocs  || company.step4">
 															<span class="entypo-feather fa fa-check"></span>
 														</div>
 													</div>
@@ -968,7 +968,7 @@
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step4"> Skip
                                                            </label>
                                                          </div>
 														<div class="popovers add-document"
@@ -1043,11 +1043,11 @@
 											</article>
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="tags.length<1">
+													<div class="timeline-icon" ng-if="tags.length<1 && !company.step5">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="!tags.length<1">
+														ng-if="!tags.length<1 || company.step5">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
@@ -1079,7 +1079,7 @@
 														</p>
 														<div class="checkbox" ng-if="tags.length<1">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step5"> Skip
                                                            </label>
                                                         </div>
 														<div class="popovers add-document" ng-show="showSolTags">
@@ -1181,11 +1181,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon">
-														<div class="timeline-icon" ng-if="!showSolutionImage">
+														<div class="timeline-icon" ng-if="!showSolutionImage && !company.step6">
 															<span class="entypo-suitcase">6</span>
 														</div>
 														<div class="timeline-icon bg-success"
-															ng-if="showSolutionImage">
+															ng-if="showSolutionImage || company.step6">
 															<span class="entypo-feather fa fa-check"></span>
 														</div>
 													</div>
@@ -1203,7 +1203,7 @@
 															with maximum size of 1MB.</p>
 															<div class="checkbox" ng-if="!showSolutionImage">
 	                                                          <label>
-	                                                               <input type="checkbox"> Skip
+	                                                               <input type="checkbox" ng-model="$parent.company.step6"> Skip
 	                                                           </label>
 	                                                         </div>
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
@@ -2192,11 +2192,11 @@
 										<div class="timeline-centered">
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="solution.name.length <= 0">
+													<div class="timeline-icon" ng-if="solution.name.length <= 0 && !public.step1">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.name.length>=1">
+														ng-if="solution.name.length>=1 || public.step1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
@@ -2214,7 +2214,7 @@
 														<p ng-hide="showSolName">{{solution.name}}</p>
 														<div class="checkbox" ng-if="solution.name.length <= 0">
                                                             <label>
-                                                              <input type="checkbox"> Skip
+                                                              <input type="checkbox" ng-model="$parent.public.step1"> Skip
                                                             </label>
                                                          </div>
 														<div ng-show="showSolName">
@@ -2279,11 +2279,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionPublicDescStatus">
+														ng-if="!solutionPublicDescStatus && !public.step2">
 														<span class="entypo-suitcase">2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionPublicDescStatus">
+														ng-if="solutionPublicDescStatus || public.step2">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -2361,7 +2361,7 @@
 														</p>
 														<div class="checkbox" ng-if="!solutionPublicDescStatus">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step2"> Skip
                                                            </label>
                                                          </div>    
 													</div>
@@ -2370,11 +2370,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solution.modelTypeName || !solution.tookitTypeName">
+														ng-if="(!solution.modelTypeName || !solution.tookitTypeName ) && !public.step3">
 														<span class="entypo-suitcase">3</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.modelTypeName || solution.tookitTypeName">
+														ng-if="(solution.modelTypeName && solution.tookitTypeName) || public.step3">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -2458,7 +2458,7 @@
 														</p> -->
 														<div class="checkbox" ng-if="!solution.modelTypeName || !solution.tookitTypeName">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step3"> Skip
                                                            </label>
                                                          </div>    
 													</div>
@@ -2466,11 +2466,11 @@
 											</article>
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="!showPublicSolutionDocs">
+													<div class="timeline-icon" ng-if="!showPublicSolutionDocs && !public.step4">
 														<span class="entypo-suitcase">4</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="showPublicSolutionDocs">
+														ng-if="showPublicSolutionDocs || public.step4">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -2565,7 +2565,7 @@
 														</div>
 														<div class="checkbox" ng-if="!showPublicSolutionDocs">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step4"> Skip
                                                            </label>
                                                          </div>    
 														<!-- <p>
@@ -2580,11 +2580,11 @@
 											</article>
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="tags.length<1">
+													<div class="timeline-icon" ng-if="tags.length<1 && !public.step5"">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="!tags.length<1">
+														ng-if="!tags.length<1 || public.step5">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
@@ -2621,7 +2621,7 @@
 														</p> -->
 														<div class="checkbox" ng-if="tags.length<1">
                                                           <label>
-                                                               <input type="checkbox"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step5"> Skip
                                                            </label>
                                                          </div>    
 													</div>
@@ -2651,11 +2651,11 @@
 											</article> -->
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="!showSolutionImage">
+													<div class="timeline-icon" ng-if="!showSolutionImage && !public.step6">
 														<span class="entypo-suitcase">6</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="showSolutionImage">
+														ng-if="showSolutionImage || public.step6">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label last">
@@ -2672,7 +2672,7 @@
 															with maximum size of 1MB.</p>
 															<div class="checkbox"  ng-if="!showSolutionImage">
 	                                                          <label>
-	                                                               <input type="checkbox"> Skip
+	                                                               <input type="checkbox" ng-model="$parent.public.step6"> Skip
 	                                                           </label>
 	                                                         </div>
 														<div class="uploaded-img-des" ng-show="showSolutionImage">

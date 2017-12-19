@@ -273,6 +273,11 @@ app
                                                         window.location = 'index.html#/forgotPswd';
                                                         return;
                                                   }
+                                                  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
+                                            		  if(value.name == 'Admin' || value.name == 'admin'){
+                                            			  localStorage.setItem('userRole', 'Admin');
+                                            		  }
+                                            		});
                                                   localStorage.setItem('loginPassExpire', '');
                                                   console.log("Success: ", response);
                                                   $timeout(function() {

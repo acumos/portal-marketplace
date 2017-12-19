@@ -90,6 +90,7 @@ public class APINames {
     public static final String CREATE_TAG = "tags/create";      
     public static final String SOLUTIONS_COUNT = "/solutions/count/{userId}";
     public static final String GET_SOLUTION_RATING_USER = "/solutions/ratings/{solutionId}/user/{userId}";
+    public static final String PORTAL_SOLUTIONS = "/portal/solutions";
     
     //Tags APIs for MarketPlace Catalog
     public static final String TAGS = "/tags";

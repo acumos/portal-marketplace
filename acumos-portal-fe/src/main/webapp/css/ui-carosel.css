@@ -247,7 +247,7 @@ position:relative;
 }
 @media(max-width:480px) {
 	
-	.homemain-carousel .slide-content .mdl-button{padding: 18px 5px; font-size:14px;}
+	.homemain-carousel .slide-content .mdl-button{padding: 18px 5px; font-size:14px; margin-right:5px;}
 	
 }
 

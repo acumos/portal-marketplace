@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 angular
 		.module('manageModule', [ 'infinite-scroll' ])
 		.component(

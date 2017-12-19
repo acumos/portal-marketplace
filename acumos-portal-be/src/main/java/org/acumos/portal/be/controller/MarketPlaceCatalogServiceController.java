@@ -69,6 +69,7 @@ import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.cds.transport.RestPageResponse;
 
 import io.swagger.annotations.ApiOperation;
@@ -946,4 +947,28 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
    		}
    		return data; 
    	} 
+    
+    @ApiOperation(value = "findPortalSolutions", response = MLSolution.class, responseContainer = "List")
+	@RequestMapping(value = { APINames.PORTAL_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponse<MLPSolution>> findPortalSolutions(HttpServletRequest request, @RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal,
+			 HttpServletResponse response) {		
+    	RestPageResponse<MLPSolution> mlSolutions = null;
+    	JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<>();
+		try {
+			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody(), restPageReqPortal.getBody().getPageRequest());
+			if (mlSolutions != null) {
+				data.setResponseBody(mlSolutions);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Solutions fetched Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions: size is {} ", mlSolutions.getSize());
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Exception Occurred Fetching Solutions", e);
+		}
+		return data; 
+	}
 } 

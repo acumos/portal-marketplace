@@ -1306,7 +1306,8 @@ border: 1px solid rgba(0, 0, 0, 0.12);
 .uploaded-file i{margin:10px -3px 5px 5px; float:right; cursor:pointer; font-size:14px}
 .force-disable{	cursor: not-allowed !important} 
 .version-container button{ top:0;}
-.version-container{height: 30px; margin-top: 2px; float:left;}
+.version-container{height: 28px; margin-top: 3px; float:left;}
+.md-vertical-seperator ~ .version-container{margin-left:10px; margin-right: 2px;}
 .md-container1.block-container{display:block;}
 .md-vertical-seperator{float:left;}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 a:hover{color:#050009;} 
@@ -1339,6 +1340,7 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 .statusbar-btn button{padding: 0 5px;margin: 6px 0 0 6px;font-size: 12px;height: 24px;line-height: 20px !important;}
  .progress-status.completed:after { content: "" !important; background: url("../images/dashboard/stepper_progress_completed.png") no-repeat left center;
     display:inline-block; width:47px; height:11px; transform:scale(0.8); }
+.headline{height:25px; max-width:350px;}
 
 /*---- media query start ----------*/
 @media(max-width:2560px){
@@ -1355,6 +1357,12 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 .hasClass .company-market ul li.progress-status{width: 16%;} */
 .initialVal.hasClass .company-market ul li.progress-status{width:12.4%;}
 .hasClass .company-market ul li.progress-status{width: 11.5%;}
+}
+@media(max-width:1680px){
+/* .initialVal.hasClass .company-market ul li.progress-status{width:14.8%;}
+.hasClass .company-market ul li.progress-status{width: 13%;} */
+.initialVal.hasClass .company-market ul li.progress-status{width:11%;}
+.hasClass .company-market ul li.progress-status{width: 9.6%;}
 }
 @media(max-width:1600px){
 /* .initialVal.hasClass .company-market ul li.progress-status{width:14.8%;}
@@ -1373,16 +1381,16 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 /*.hasClass .company-market ul li.progress-status{width: 9%;}
 .initialVal.hasClass .company-market ul li.progress-status{width:12%;}*/
 
-.hasClass .company-market ul li.progress-status{width: 5.2%;}
-.initialVal.hasClass .company-market ul li.progress-status{width:7.9%;}
+.hasClass .company-market ul li.progress-status{width: 4.9%;}
+.initialVal.hasClass .company-market ul li.progress-status{width:7.74%;}
 }
 
 @media ( max-width :1280px) {
 	.initialVal.hasClass .company-market ul li {width: 80px;}
 /* 	.initialVal.hasClass .company-market ul li.progress-status {width: 10.9%;	}
 	.hasClass .company-market ul li.progress-status {width: 7.3%;} */	
-	.initialVal.hasClass .company-market ul li.progress-status {width: 6.8%;}
-	.hasClass .company-market ul li.progress-status {width: 3.5%;}
+	.initialVal.hasClass .company-market ul li.progress-status {width: 6.7%;}
+	.hasClass .company-market ul li.progress-status {width: 3.4%;}
 	.company-market ul li .imagecontent {/* width: 60px ;height: 60px; border-radius: 60px; */	}
 	.initialVal.hasClass .company-market ul li, .company-market ul li .text	{ /*  width: 66px; */}
 	.initialVal.hasClass .company-market ul li.progress-status {/* width: 3%; */}

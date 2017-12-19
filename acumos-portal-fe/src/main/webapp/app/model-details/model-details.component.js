@@ -294,7 +294,6 @@ angular
 						})
 								.success(
 										function(data, status, headers, config) {
-											debugger
 											if( !user || data.response_body.ownerId == user[1] ){$scope.cantRate = true;}else $scope.cantRate = false;
 											$scope.tags = data.response_body.solutionTagList;
 											$scope.modelOwnerId = data.response_body.ownerId;

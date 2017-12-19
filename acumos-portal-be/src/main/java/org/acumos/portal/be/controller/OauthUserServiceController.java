@@ -23,6 +23,9 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,8 +34,10 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.OauthUserService;
+import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.AbstractResponseObject;
+import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.OauthUser;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.ResponseVO;
@@ -47,7 +52,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
 
@@ -65,6 +70,8 @@ public class OauthUserServiceController extends AbstractController {
 	private UserService userService;
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private UserRoleService userRoleService;
 
 	public OauthUserServiceController() {
 		// TODO Auto-generated constructor stub
@@ -105,6 +112,29 @@ public class OauthUserServiceController extends AbstractController {
 				User user=PortalUtils.convertUserMasterIntoMLPUser(userMasterObject);
 				user=userService.save(user);
 				
+				// Add default role for user
+				Boolean defaultRoleCreated = false;
+				String defaultRoleId=null;
+				List<MLRole> userRoles = userRoleService.getAllRoles();
+				for(MLRole role : userRoles)
+				{
+					if(role.getName().equals("MLP System User")){
+						defaultRoleCreated=true;
+						defaultRoleId=role.getRoleId();
+					}
+				}
+				//If default role is not created, then create
+				if(!defaultRoleCreated){
+				MLRole role = new MLRole();
+				role.setName("MLP System User");
+				MLPRole mlpRole = userRoleService.createRole(role);
+				defaultRoleId=mlpRole.getRoleId();
+				}
+				//Assign default role to user
+				if (user.getUserId() != null && defaultRoleId != null) {
+					userRoleService.addUserRole(user.getUserId(), defaultRoleId);
+				}
+				
 				/*
 				 *  If the user does not exist in c_USER, add it in c_USER and also add it in c_USER_LOGIN_PROVIDER
 				 */
@@ -120,7 +150,11 @@ public class OauthUserServiceController extends AbstractController {
 			}
 			
 		} 
-		
+		catch (UserServiceException e) {
+			responseVO = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Failed");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createUser()", e);
+		}
 		catch (Exception e) {
 			responseVO = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -135,6 +169,7 @@ public class OauthUserServiceController extends AbstractController {
 	public AbstractResponseObject login(HttpServletRequest request, @RequestBody User user, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "login={}", user);
 		AbstractResponseObject responseObject = null;
+		List<MLPRole> userAssignedRolesList = new ArrayList<>();
 		User validUser = null;
 		String jwtToken = null;
 		//Check if the UserName or emailId is null or not.
@@ -152,6 +187,7 @@ public class OauthUserServiceController extends AbstractController {
 				}
 				
 				if(isValid) {
+					userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 					//TODO Check Account Status and respond with appropriate error if Account is inactive
 					validUser = PortalUtils.convertToMLPuser(mlpUser);
 					responseObject = new User(validUser);
@@ -225,7 +261,7 @@ public class OauthUserServiceController extends AbstractController {
 				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
 			}
 		}
-		
+		responseObject.setUserAssignedRolesList(userAssignedRolesList);
 		return responseObject;
 	}
 	
