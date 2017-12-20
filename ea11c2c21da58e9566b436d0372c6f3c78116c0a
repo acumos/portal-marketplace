@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76431064_51404809",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2017-12-20T21:53:49Z",
+      "side": 1,
+      "message": "Need to have logic in future to pass the value dynamically from dashboard.",
+      "range": {
+        "startLine": 98,
+        "startChar": 72,
+        "endLine": 98,
+        "endChar": 173
+      },
+      "revId": "ea11c2c21da58e9566b436d0372c6f3c78116c0a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3448b68e_dc5772dc",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2017-12-20T21:53:49Z",
+      "side": 1,
+      "message": "Please remove the console",
+      "range": {
+        "startLine": 1470,
+        "startChar": 17,
+        "endLine": 1470,
+        "endChar": 36
+      },
+      "revId": "ea11c2c21da58e9566b436d0372c6f3c78116c0a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
