@@ -57,6 +57,13 @@ angular.module('ui.carousel.controllers').controller('CarouselController', ['$sc
 	    }, 100);
 	  
   });
+  
+  $scope.$on('oreientationChange', function(event, data) {
+	  $timeout(function () {
+		  _this.$onInit();
+	    }, 100);
+	  
+  });
    
   /**
    * Init option based on directive config
