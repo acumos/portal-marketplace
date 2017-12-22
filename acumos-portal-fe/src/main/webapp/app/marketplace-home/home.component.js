@@ -17,7 +17,7 @@ angular
 							  $scope.imgURLDT = "images/anomaly.png";
 							  $scope.imgURLPR = "images/topology.png";
 							  $scope.imgURLnull = "images/vmpredict2.png";
-							  var innerWidth = $window.innerWidth;
+							  
 							  
 							  /*changes for demo - images shown according to the solution name*/
 								$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
@@ -82,15 +82,22 @@ angular
 								  //console.log("onCarouselBeforeChange()");
 								  //console.log($scope.active);
 							  }
+							  angular.element($window).bind('orientationchange', function () {
+								  getNoOfSolutionTile();
+								  $rootScope.$broadcast('oreientationChange');
+							  });
 							  
-							  if(innerWidth < 480){
-								  $scope.noOfSolutiontile = 1;
-							  }else if(innerWidth > 480 && innerWidth < 767){
-								  $scope.noOfSolutiontile = 2;
-							  }else{
-								  $scope.noOfSolutiontile = 4;
+							  function getNoOfSolutionTile(){
+								  var innerWidth = $window.innerWidth;
+								  if(innerWidth < 480){
+									  $scope.noOfSolutiontile = 1;
+								  }else if(innerWidth > 480 && innerWidth < 767){
+									  $scope.noOfSolutiontile = 2;
+								  }else{
+									  $scope.noOfSolutiontile = 4;
+								  }
 							  }
-							  
+							  getNoOfSolutionTile();						  
 							  if(sessionStorage.getItem("provider") == "globaluid" ){
 									 apiService.postGlobalUserDetails()
 									 .then(function successCallback(response) {
