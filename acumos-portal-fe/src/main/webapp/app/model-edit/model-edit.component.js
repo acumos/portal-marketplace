@@ -63,7 +63,7 @@ angular
 						}
 
 						$scope.solutionId = localStorage.getItem('solutionId');
-
+						$scope.currentDate = new Date();
 						$scope.showPrerenderedDialog = function(ev) {
 							componentHandler.upgradeAllRegistered();
 							$mdDialog.show({

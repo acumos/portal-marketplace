@@ -1047,7 +1047,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .response .mdl-data-table th {
-	padding: 0 15px 12px 15px;
+	padding: 11px 15px 12px 15px;
 }
 
 .response i {
@@ -1305,8 +1305,9 @@ border: 1px solid rgba(0, 0, 0, 0.12);
 .uploaded-file span:before{content:"|"; font-size: 14px; padding: 0 5px;}
 .uploaded-file i{margin:10px -3px 5px 5px; float:right; cursor:pointer; font-size:14px}
 .force-disable{	cursor: not-allowed !important} 
-.version-container button{ top:0;}
+.version-container button{ top:0; position: relative;  font-size: 12px;  height: 26px;  padding-left: 8px;  padding-right: 8px;  line-height: 24px;}
 .version-container{height: 28px; margin-top: 3px; float:left;}
+.version-container button i{font-size:20px;}
 .md-vertical-seperator ~ .version-container{margin-left:10px; margin-right: 2px;}
 .md-container1.block-container{display:block;}
 .md-vertical-seperator{float:left;}
@@ -1551,6 +1552,3 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 	.deploy-grid > div:last-child, .deploy-grid > div:first-child{padding-right: 5px;  padding-left: 5px;}
 	
 }
-
-
- 

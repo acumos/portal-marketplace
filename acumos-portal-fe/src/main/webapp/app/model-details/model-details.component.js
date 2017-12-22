@@ -24,6 +24,48 @@ angular
 						
 						$scope.showAlertMessage = false;
 						
+						$scope.getAllRatings = function(){
+							var dataObjRating = {
+							  "request_body": {
+								    "page": 0,
+								    "size": 0
+									}
+							};
+
+							var req = {
+								    method: 'POST',
+								    url: 'api/solution/getRating/'+ $stateParams.solutionId,
+								    data : dataObjRating
+								};
+							$http(req)
+							.success(function(data, status, headers,config) {
+								$scope.allUserRatings = data.response_body.content;
+								$scope.ratingCount1 = 0;
+								$scope.ratingCount2 = 0;
+								$scope.ratingCount3 = 0;
+								$scope.ratingCount4 = 0;
+								$scope.ratingCount5 = 0;
+								
+								angular.forEach($scope.allUserRatings, function(value, key) {									
+                    				if(value.rating == 1){
+                    					$scope.ratingCount1 = $scope.ratingCount1+1
+                    				}else if(value.rating == 2){
+                    					$scope.ratingCount2 = $scope.ratingCount2+1
+                    				} else if(value.rating == 3){
+                    					$scope.ratingCount3 = $scope.ratingCount3+1
+                    				}else if(value.rating == 4){
+                    					$scope.ratingCount4 = $scope.ratingCount4+1
+                    				}else if(value.rating == 5){
+                    					$scope.ratingCount5 = $scope.ratingCount5+1
+                    				}
+                    			});
+							}).error(function(data, status, headers, config) {
+								
+							});
+						}
+													
+						$scope.getAllRatings();
+						
 						$scope.revisionId;
 						
 						$scope.onItemRating = function(rating){
@@ -82,7 +124,7 @@ angular
 														$scope.showAlertMessage = false;
 													}, 2500);
 												}
-												
+												$scope.getAllRatings();
 											},
 											function(error) {
 												console.log(error);
@@ -151,41 +193,6 @@ angular
 							}).success(function(data, status, headers,config) {
 								debugger
 									$scope.mlSolutionGetRating = data.response_body;
-									$scope.ratingCount1 = 0;
-									$scope.ratingCount2 = 0;
-									$scope.ratingCount3 = 0;
-									$scope.ratingCount4 = 0;
-									$scope.ratingCount5 = 0;
-									
-									
-									angular.forEach($scope.mlSolutionGetRating.content, function(value, key) {
-                        				/*messageJson=[];
-                        				if(value1.inputMessageName === value2.messageName){
-	                            			angular.forEach(value2.messageargumentList, function(value3, key3) {  
-	                            				messageJson.push(value3.rule+' '+value3.type+' '+value3.name+' = '+value3.tag); 
-	                            			});
-	                            			messages[value2.messageName]= messageJson;
-	                            			
-                        				} */
-										
-                        				if(value.rating == 1){
-                        					$scope.ratingCount1 = $scope.ratingCount1+1
-                        				}else if(value.rating == 2){
-                        					$scope.ratingCount2 = $scope.ratingCount2+1
-                        				} else if(value.rating == 3){
-                        					$scope.ratingCount3 = $scope.ratingCount3+1
-                        				}else if(value.rating == 4){
-                        					$scope.ratingCount4 = $scope.ratingCount4+1
-                        				}else if(value.rating == 5){
-                        					$scope.ratingCount5 = $scope.ratingCount5+1
-                        				}
-                        				
-                        				
-                        				
-                        			});
-									
-									
-									
 								}).error(
 									function(data, status, headers,config) {
 										alert("Error: "+status);
