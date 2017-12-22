@@ -86,7 +86,7 @@ public class APINames {
     public static final String CREATE_FAVORITE = "solution/createFavorite";
     public static final String DELETE_FAVORITE = "solution/deleteFavorite";
     public static final String USER_FAVORITE_SOLUTIONS = "solution/getFavoriteSolutions/{userId}";
-    public static final String GET_SOLUTION_RATING = "solution/getRating";
+    public static final String GET_SOLUTION_RATING = "solution/getRating/{solutionId}";
     public static final String CREATE_TAG = "tags/create";      
     public static final String SOLUTIONS_COUNT = "/solutions/count/{userId}";
     public static final String GET_SOLUTION_RATING_USER = "/solutions/ratings/{solutionId}/user/{userId}";
