@@ -5,7 +5,7 @@
 
 	<groupId>org.acumos</groupId>
 	<artifactId>portal-marketplace</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.12.7-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Acumos MarketPlace Portal Parent Project</name>
