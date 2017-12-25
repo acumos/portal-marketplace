@@ -666,10 +666,12 @@
 														<h2>
 															<a ng-click="showSolName = !showSolName">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
-
-															<span class="green" ng-if="solution.name.length>=1">
+														
+															<span class="green" ng-if="solution.name.length>=1 && !company.step1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span class="red" ng-if="solution.name.length <= 0">
+															</span>
+															<span class="green" ng-if="company.step1">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+															<span class="red" ng-if="solution.name.length <= 0 && !company.step1">
 																Not Started</span>
 
 														</h2>
@@ -754,11 +756,11 @@
 															<a ng-click="showDCKEditor = !showDCKEditor">Model
 																Description</a> |
 															<!-- <span class="red">Not Started</span> -->
-															<span class="green" ng-if="solutionCompanyDescStatus">
+															<span class="green" ng-if="solutionCompanyDescStatus && !company.step2">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="!solutionCompanyDescStatus" class="red">Not
+															</span> <span ng-if="!solutionCompanyDescStatus && !company.step2" class="red">Not
 																Started</span>
-
+															<span class="green" ng-if="company.step2">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<div
 															ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
@@ -843,11 +845,12 @@
 														<h2>
 															<a ng-click="showSolCat = !showSolCat">Model Category</a>
 															| <span class="green"
-																ng-if="solution.modelTypeName || solution.tookitTypeName">
+																ng-if="(solution.modelTypeName || solution.tookitTypeName ) && !company.step3">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
-																ng-if="!solution.modelTypeName || !solution.tookitTypeName">Not
+																ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !company.step3">Not
 																Started</span>
+															<span class="green" ng-if="company.step3">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 
 														</h2>
 														<!-- <p>Some information can be display related to this
@@ -941,10 +944,11 @@
 														<h2>
 															<a ng-click="showFileUpload = !showFileUpload">Model
 																Documents</a> | <span class="green"
-																ng-show="showSolutionDocs"> Completed on
+																ng-show="showSolutionDocs && !company.step4"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showSolutionDocs" class="red">Not
+																ng-show="!showSolutionDocs && !company.step4" class="red">Not
 																Started</span>
+																<span class="green" ng-if="company.step4">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p ng-hide="showFileUpload">Add documents (such as a
 															README file) to give more details and show how to use
@@ -1054,9 +1058,10 @@
 													<div class="timeline-label">
 														<h2>
 															<a>Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1"> Completed on
+																ng-if="!tags.length<1 && !company.step5"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-if="tags.length<1" class="red">Not Started</span>
+																ng-if="tags.length<1 && !company.step5" class="red">Not Started</span>
+																<span class="green" ng-if="company.step5">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 
 														</h2>
 														<p>Choose tags to help describe your model. Add new
@@ -1193,10 +1198,11 @@
 														<h2>
 															<a ng-click="showImageUpload = !showImageUpload">Upload
 																Image for Model</a> | <span class="green"
-																ng-show="showSolutionImage"> Completed on
+																ng-show="showSolutionImage && !company.step6"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showSolutionImage" class="red">Not
+																ng-show="!showSolutionImage && !company.step6" class="red">Not
 																Started</span>
+																<span class="green" ng-if="company.step6">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file
@@ -2205,10 +2211,11 @@
 															<a ng-click="showSolName = !showSolName">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
 
-															<span class="green" ng-if="solution.name.length>=1">
+															<span class="green" ng-if="solution.name.length>=1 && !public.step1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span class="red" ng-if="solution.name.length < 0">
+															</span> <span class="red" ng-if="solution.name.length < 0 && !public.step1">
 																Not Started</span>
+															<span class="green" ng-if="public.step1">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 
 														</h2>
 														<p ng-hide="showSolName">{{solution.name}}</p>
@@ -2291,11 +2298,11 @@
 															<a ng-click="showCKEditor = !showCKEditor">Model
 																Description</a> |
 															<!-- <span class="red">Not Started</span> -->
-															<span class="green" ng-if="solutionPublicDescStatus">
+															<span class="green" ng-if="solutionPublicDescStatus && !public.step2">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="!solutionPublicDescStatus" class="red">Not
+															</span> <span ng-if="!solutionPublicDescStatus && !public.step2" class="red">Not
 																Started</span>
-
+															<span class="green" ng-if="public.step2">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<div
 															ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
@@ -2381,12 +2388,12 @@
 														<h2>
 															<a ng-click="showSolCat = !showSolCat">Model Category</a>
 															| <span class="green"
-																ng-if="solution.modelTypeName || solution.tookitTypeName">
+																ng-if="(solution.modelTypeName || solution.tookitTypeName) && !public.step3">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
-																ng-if="!solution.modelTypeName || !solution.tookitTypeName">Not
+																ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !public.step3">Not
 																Started</span>
-
+															<span class="green" ng-if="public.step3">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<!-- <p>Some information can be display related to this
 															perticular task, such as how to complete this task what
@@ -2477,10 +2484,11 @@
 														<h2>
 															<a ng-click="showFileUpload = !showFileUpload">Model
 																Documents</a> | <span class="green"
-																ng-show="showPublicSolutionDocs"> Completed on
+																ng-show="showPublicSolutionDocs && !public.step4"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showPublicSolutionDocs" class="red">Not
+																ng-show="!showPublicSolutionDocs && !public.step4" class="red">Not
 																Started</span>
+																<span class="green" ng-if="public.step4">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Add documents (such as a README file) to give more
 															details and show how to use your model.</p>
@@ -2591,10 +2599,10 @@
 													<div class="timeline-label">
 														<h2>
 															<a>Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1"> Completed on
+																ng-if="!tags.length<1 && !public.step5"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-if="tags.length<1" class="red">Not Started</span>
-
+																ng-if="tags.length<1 && !public.step5" class="red">Not Started</span>
+																<span class="green" ng-if="public.step5">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Choose tags to help describe your model. Add new
 															tags if needed.</p>
@@ -2662,10 +2670,11 @@
 														<h2>
 															<a ng-click="showImageUpload = !showImageUpload">Upload
 																Image for Model</a> | <span class="green"
-																ng-show="showSolutionImage"> Completed on
+																ng-show="showSolutionImage && !public.step6"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showSolutionImage" class="red">Not
+																ng-show="!showSolutionImage && !public.step6" class="red">Not
 																Started</span>
+																<span class="green" ng-if="public.step6">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file

@@ -852,7 +852,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
     @ApiOperation(value = "Get ratings for a solution Id", response = MLSolution.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.GET_SOLUTION_RATING }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponse<MLPSolutionRating>> getSolutionRatings( @RequestParam String solutionId,
+	public JsonResponse<RestPageResponse<MLPSolutionRating>> getSolutionRatings( @PathVariable String solutionId,
 			@RequestBody JsonRequest<RestPageRequest> pageRequest) {
 		RestPageResponse<MLPSolutionRating> mlSolutionRating = null;
 		JsonResponse<RestPageResponse<MLPSolutionRating>> data = new JsonResponse<>();

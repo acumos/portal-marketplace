@@ -154,7 +154,7 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2, .timeline-label-cont h2, .timeline-label-cont h3,.timeline-label-steps h3 {font-size: 14px;margin-bottom: 8px;font-weight:bold;color:#424043;}
 .timeline-label-cont h3,.timeline-label-steps h3 {border-bottom: 1px solid #ccc;padding-bottom: 10px;color: #681b9d;}
 .timeline-label-cont h2,.timeline-label-cont h3,.timeline-label-steps h3 {margin-top: 25px;text-transform: uppercase;}
-.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 .link-heading, .timeline-label-cont h2 .link-heading, .timeline-label-cont h3 .link-heading {font-size: 14px;margin-bottom: 10px;font-weight:bold;color:#671C9D;}
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 .link-heading, .timeline-label-cont h2 .link-heading, .timeline-label-cont h3 .link-heading {font-size: 14px;margin-bottom: 10px;font-weight:bold;color:#671C9D; cursor:pointer;}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 a, .timeline-label-cont h2 a {	color: #303641;}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 span, .timeline-label-cont h2 span {	-ms-filter: alpha(opacity=60);filter: alpha(opacity=60);font-size:12px;	font-weight:normal;}				
 .timeline-label-cont a {color: #0566d9;}
@@ -333,7 +333,7 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolb
 }
 .popovers.cont {position: absolute;z-index: 800;}
 .popCont {text-align:center;font-weight: bold;margin-bottom: 20px;font-size: 16px;}
-.expCollCont {float: left; padding-top: 5px;}
+.expCollCont {float: left; padding-top: 1px;}
 .hdrTxt {background-color: #e8e5ec;}
 .hdrTxt article {padding-left: 20px;}
 /* .mdl-textfield {
@@ -432,6 +432,8 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .timeline button.btn-secondary {margin-right: 4px;}
 #expCont, #collCont{display:block; margin-top:5px;}
 .company-market ul li .imageplace.active .imagecontent.completed{border:3px solid #009911; background-color:#FFF;}
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label input{margin-top:4px; float:left; margin-right:10px; margin-left:0}
+.checkbox{font-size: 13px;margin-top: 7px;margin-bottom:0px;color: #777;}
 
 /* media query start */
 @media(max-width:767px){

@@ -57,7 +57,9 @@ angular.module('AcumosApp')
         /*var urldeleteUser = '/api/users/user/updateUser';*////user/deleteUser
         var urldeleteUser = '/api/users/user/deleteUser';
         var rolesCount = '/api/roles/count';
-        var urlSolutionsCount = "api/solutions/count"
+        var urlSolutionsCount = "api/solutions/count";
+        var urlSearchSolution = "api/searchSolutions";
+        
         /**************** ALL GET ******************/
         
         this.getRoleCount = function () {
@@ -352,5 +354,9 @@ angular.module('AcumosApp')
         
         this.deleteUser = function(reqObj){
         	return $http.post(urldeleteUser, reqObj);
+        };
+        
+        this.getSearchSolution = function(search){
+            return $http.get(urlSearchSolution + '?search=' + search);
         };
     }]);
