@@ -34,12 +34,14 @@
 				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
+						ng-hide="solution.accessType =='PR'"
 						ng-show="loginUserID">Download</button>
 				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
 						ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID">Sign
 						In To Download</button>
-				<button id="demo-menu-lower-right4"
+				<button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
+							ng-hide="solution.accessType =='PR'"
 							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 							<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
 				</button>
@@ -68,7 +70,7 @@
 							Model</a></li>
 				<li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
 			</ul>
-				<span class="md-lbl1">Version {{versionId}} |
+				<span class="md-lbl1" >Version {{versionId}} |
 					{{solution.downloadCount === null ? 0 : solution.downloadCount}}
 					Downloaded</span>		
 		</div>
@@ -95,7 +97,7 @@
 					<button
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
 						ui-sref="modelEdit({solutionId:'{{solutionId}}'})"
-						ng-disabled="solution.ownerId != loginUserID">
+						ng-disabled="solution.ownerId != loginUserID || solution.active == false">
 						<i class="material-icons">mode_edit</i> Manage My Model
 					</button>
 				</div>
@@ -667,7 +669,7 @@
 								</div>
 
 								<br />
-								<div class="discussion-add-comment">
+								<div class="discussion-add-comment" ng-hide="solution.active == false">
 									<label class="md-lbl2">Add Comments</label>
 									<div class="flex1">
 										<div
