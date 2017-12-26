@@ -311,6 +311,8 @@ angular
 											console.log($scope.solution);
 											$scope.getUserImage($scope.modelOwnerId);
 											relatedSoltion();
+											$scope.getSolPublicDesc($scope.solution.accessType);
+											
 											if (data.response_body.revisions) {
 												var length = data.response_body.revisions.length;
 												
@@ -727,15 +729,16 @@ angular
 							}).success(function(data, status, headers,config) {
 								console.log(data);
 							})
-							
-						
 						}
 						
-						
-						$scope.getSolPublicDesc = function(){
+						$scope.getSolPublicDesc = function(type){
+							var accessType = 'public';
+							if( type == 'OR' ){
+								accessType = 'org';
+							}
 							var req = {
 									method : 'GET',
-									url : '/site/api-manual/Solution/description/public/' + $scope.solutionId,
+									url : '/site/api-manual/Solution/description/' + accessType + '/' + $scope.solutionId + '/' + $scope.revisionId,
 							};
 							$http(req)
 							.success(
@@ -747,7 +750,7 @@ angular
 													config) {
 											});
 						}
-						$scope.getSolPublicDesc();
+						
 
 						var session = sessionStorage.getItem("SessionName")
 						if (session) {
