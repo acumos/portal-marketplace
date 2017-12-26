@@ -31,9 +31,9 @@ angular.module('modelResource')
 		//template:"<div class=''>{{ content }}</div>",
 		//template:"<button ng-click='authenticate(google)'>Sign in with Google</button>",
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
-		controller:function($scope,$location,apiService,$http, modelUploadService, $interval){
+		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state){
 			//alert(localStorage.getItem("userDetail"));
-		
+			$scope.activeViewModel = false;
 			if(localStorage.getItem("userDetail")){
 				$scope.userLoggedIn = true;
 			}else $scope.userLoggedIn = false;
@@ -317,7 +317,8 @@ angular.module('modelResource')
 						function(response) {
 							alert("Onboarding process started. It may take some time to onboard your solution. \nPlease check notification to know the status of your solution.")
 							$scope.catalogResponse = response.data;
-							
+							$location.hash('page-top');
+							 $anchorScroll();
 							var counter = 1;
 							$interval(function() {
 								angular.element(angular.element('.onboarding-web li div')[counter-3]).removeClass('active');				
@@ -325,7 +326,13 @@ angular.module('modelResource')
 								angular.element(angular.element('.onboarding-web li')[counter]).addClass('progress-status green')
 								angular.element(angular.element('.onboarding-web li')[counter-2]).addClass('completed');
 								counter = counter + 2;
+								if(counter > 12){
+									$scope.activeViewModel = true;
+								}
+								
 							}, 5000, 6);
+							
+							
 						},
 						function(error) {
 							$scope.catalorError = error.data;
@@ -342,6 +349,9 @@ angular.module('modelResource')
 						});*/
 				
 			}
+			$scope.viewModel = function(){
+				$state.go('manageModule');
+			}
 			//cHECK FOR the count of success
 			$scope.statusCount = 0;
 			function chkCount(){
@@ -351,6 +361,9 @@ angular.module('modelResource')
 				if($scope.file && $scope.fileSubmit)count++;
 				if($scope.user){if(/*$scope.user.pass && $scope.user.name &&*/ $scope.popupAddSubmit)count++;}
 				$scope.statusCount = count;
+				/*if(count === 4){
+					$scope.activeViewModel = true;
+				}*/
 			}
 			 
 			$scope.$watch('toolkitNameValue', function() {$scope.file=null; chkCount();});

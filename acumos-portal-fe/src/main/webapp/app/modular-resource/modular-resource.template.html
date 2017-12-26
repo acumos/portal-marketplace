@@ -1,5 +1,5 @@
 <!--  <main class="mdl-layout__content initialVal hasClass"> -->
-<div class="page-content">
+<div class="page-content" id="page-top">
 	<section class="pageheadsection gray-bg">
 		<div layout="row" layout-xs="column" layout-fill
 			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
@@ -455,7 +455,8 @@
 								<li class="progress-status"></li>
 								<li>
 									<div>
-										<button
+										<button ng-disabled="activeViewModel == false"
+										ng-click="viewModel()"
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
 											View Model</button>
 									</div>

@@ -191,7 +191,6 @@ angular
 								url : url,
 								data : dataObj
 							}).success(function(data, status, headers,config) {
-								debugger
 									$scope.mlSolutionGetRating = data.response_body;
 								}).error(
 									function(data, status, headers,config) {
