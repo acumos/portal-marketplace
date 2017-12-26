@@ -24,7 +24,7 @@
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Username or Email Id</label>
 												      <md-icon class="name"><span class="icon-user"></span></md-icon>
-												      <input name="userName" ng-model="modalData.name" type="text" required>
+												      <input class="signin-control" name="userName" ng-model="modalData.name" type="text" required>
 												      <div class="help-inline validation-msgs"
 															ng-class="{validationmsg:!userForm.userName.$valid}">
 															<span
@@ -36,7 +36,7 @@
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Password</label>
 												      <md-icon class="name"><span class="icon-password"></span></md-icon>
-												      <input name="userPass" ng-model="modalData.value" type="password" required>
+												      <input class="signin-control" name="userPass" ng-model="modalData.value" type="password" required>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!userForm.userPass.$valid}">
 													    <span
@@ -66,7 +66,8 @@
 												</div>
 												<div>
 													<button class="mdl-button mdl-js-button mdl-button--primary btn-fullwidth2"
-													ui-sref="forgotPswd" ng-click="$ctrl.handleDismiss()">Forgot Password</button>
+                                                    data-target ng-click="forgotPassword($event)">Forgot Password</button>
+                                                    <!-- ui-sref="forgotPswd" ng-click="$ctrl.handleDismiss()">Forgot Password</button> -->
 												</div>
 										  </div>
 										  <div class="mdl-cell mdl-cell--1-col posrel">

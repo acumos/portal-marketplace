@@ -1,8 +1,10 @@
 <!-- Header HTML if user not logged in -->
-<header ng-if="$root.sidebarHeader === false">
+<header
+	ng-if="$root.sidebarHeader === false || $root.sidebarHeader == undefined">
 	<div class="mdl-layout__header-row">
 		<!-- Title -->
-		<a ui-sref="home"><span	class="acumos-logo" style = 'background: url(../images/{{$root.headerImage.name}}) no-repeat 0px 10px'></span></a>
+		<a ui-sref="home"><span class="acumos-logo"
+			style='background: url(../images/{{$root.headerImage.name}}) no-repeat 0px 10px'></span></a>
 		<!-- Navigation -->
 		<nav class="mdl-navigation top-menu">
 			<a class="mdl-navigation__link" ui-sref="home"
@@ -20,13 +22,13 @@
 				class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right is-focused">
 				<label
 					class="mdl-button mdl-js-button mdl-button--icon search-button"
-					for="fixed-header-drawer-exp" ng-click="globalSearch(search)"> <i
-					class="material-icons search-icon">search</i>
+					for="fixed-header-drawer-exp" ng-click="globalSearch(search)">
+					<i class="material-icons search-icon">search</i>
 				</label>
 				<div class="mdl-textfield__expandable-holder">
-					<input class="mdl-textfield__input header-search2" type="text" name="search"
-					ng-model="search"
-							id="fixed-header-drawer-exp" placeholder="Search for anything you need">
+					<input class="mdl-textfield__input header-search2" type="text"
+						name="search" ng-model="search" id="fixed-header-drawer-exp"
+						placeholder="Search for anything you need">
 				</div>
 			</div>
 			<div class="text-right signupnav hide-xs">
@@ -68,21 +70,24 @@
 				</button>
 				<a ui-sref="home"><span
 					class="cog-header-logo-mob hide-lg hide-xl">{{$root.siteInstanceName}}</span></a>
-					<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+				<div
+					class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
 								  mdl-textfield--floating-label mdl-textfield--align-right header-search-control is-focused">
-						<label class="mdl-button mdl-js-button mdl-button--icon"
-							for="fixed-header-drawer-exp1" ng-click="globalSearch(searchText)"> <i class="material-icons">search</i>
-						</label>
-						<div class="mdl-textfield__expandable-holder">
-							<input class="mdl-textfield__input header-search-txtbox" type="search" 
-								id="fixed-header-drawer-exp1" placeholder="Search Models" ng-model="searchText">
-						</div>
+					<label class="mdl-button mdl-js-button mdl-button--icon"
+						for="fixed-header-drawer-exp1" ng-click="globalSearch(searchText)">
+						<i class="material-icons">search</i>
+					</label>
+					<div class="mdl-textfield__expandable-holder">
+						<input class="mdl-textfield__input header-search-txtbox"
+							type="search" id="fixed-header-drawer-exp1"
+							placeholder="Search Models" ng-model="searchText">
 					</div>
+				</div>
 			</div>
 			<div
 				class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing text-right">
 				<div layout="row" layout-fill layout-align="end center"
-					layout-align-lg="end center">					
+					layout-align-lg="end center">
 					<nav
 						class="mdl-navigation header-controls text-right hide-sm hide-xs header-right1">
 						<button id="demo-menu-lower-right10"
@@ -90,13 +95,15 @@
 							<div class="material-icons mdl-badge mdl-badge--overlap"
 								ng-if="$root.notificationCount < 1">notifications_none</div>
 							<div class="material-icons mdl-badge mdl-badge--overlap"
-								data-badge="{{$root.notificationCount}}" ng-if="$root.notificationCount > 0">notifications_none</div>
+								data-badge="{{$root.notificationCount}}"
+								ng-if="$root.notificationCount > 0">notifications_none</div>
 
 						</button>
 						<div>
 							<ul
 								class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect mdl-list notification-list"
-								for="demo-menu-lower-right10" ng-hide="$root.notificationCount < 1">
+								for="demo-menu-lower-right10"
+								ng-hide="$root.notificationCount < 1">
 								<li
 									ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
 									<span class="notification-text"
@@ -117,16 +124,14 @@
 						<!-- Right aligned menu below button -->
 						<button id="account-info"
 							class="mdl-button header-ddl mdl-js-button">
-							<span>
-							<!-- default image -->
-							<img class="userimg" ng-show="showAltImage"
+							<span> <!-- default image --> <img class="userimg"
+								ng-show="showAltImage"
 								ng-src="images/userprofile/user-profile.png"
-								title="{{userfirstname}}" />
-							<!-- user uploaded image -->	
-							<img class="userimg" ng-show="!showAltImage"
+								title="{{userfirstname}}" /> <!-- user uploaded image --> <img
+								class="userimg" ng-show="!showAltImage"
 								ng-src="data:image/PNG;base64,{{userImage}}"
-								title="{{userfirstname}}" /> {{userDetails.userName}}</span> <i
-								class="material-icons">arrow_drop_down</i>
+								title="{{userfirstname}}" /> {{userDetails.userName}}
+							</span> <i class="material-icons">arrow_drop_down</i>
 						</button>
 
 						<ul
@@ -188,3 +193,38 @@
 			class="headertxtspan">Modeler Resources</span></a>
 	</nav>
 </div> -->
+
+<!-- Modal box start -->
+<div class="md-dialog-container" id="myDialogForgtpswd"
+	style="height: 0;">
+	<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-forgot">
+	<form name='forgot' ng-cloak>
+		<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Forgot password</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="cancel()"> <i
+				class="material-icons btn-close-dialog">close</i> </md-button>
+		</div>
+		</md-toolbar>
+		<md-dialog-content>
+		<div class="md-dialog-content">
+			<p>Please enter your email address and we will send you a new
+				password reset link.</p>
+
+			<div>
+				<md-input-container class="md-block"> <input
+					type="email" name='forgotpaswd' ng-model='emailAddress' required />
+				</md-input-container>
+			</div>
+
+			<div class="dialog-btn-container">
+				<button ng-click='forgotPaswd()' ng-disabled="forgot.$invalid"
+					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Send</button>
+			</div>
+		</div>
+		</md-dialog-content>
+	</form>
+	</md-dialog>
+</div>
+<!-- Modal box end -->

@@ -170,6 +170,14 @@ app
                                               }
                                                 $('#myModal').modal('hide');
                                               };
+                                              
+                                              
+                                              $scope.forgotPassword = function(ev){
+                                                  $mdDialog.cancel();
+                                                  $rootScope.$broadcast('forgotPassword',ev);
+                                              }
+                                              
+                                              
                                           $scope.login = function(){
                                         	  /* apiService.insertSignIn($scope.userData).then(function successCallback(response) {
                                               console.log(response);
@@ -455,6 +463,9 @@ app
                                                 console.info("close");
                                           });
                                     };*/
+                                      
+                                      
+                                     
                               }
                         });
 
