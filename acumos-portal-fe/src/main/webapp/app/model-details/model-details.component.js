@@ -310,7 +310,6 @@ angular
 											console.log($scope.solution);
 											$scope.getUserImage($scope.modelOwnerId);
 											relatedSoltion();
-											$scope.getSolPublicDesc($scope.solution.accessType);
 											
 											if (data.response_body.revisions) {
 												var length = data.response_body.revisions.length;
@@ -340,7 +339,8 @@ angular
 												$scope.versionId = $scope.versionList[0].version;
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												$scope.getArtifacts();
-												
+												$scope.getSolPublicDesc($scope.solution.accessType);
+												$scope.getPublicSolutionDocuments($scope.solution.accessType);
 											}
 
 											if (JSON.parse(localStorage
@@ -911,7 +911,8 @@ angular
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
-							$scope.getPublicSolutionDocuments();
+							$scope.getSolPublicDesc($scope.solution.accessType);
+							$scope.getPublicSolutionDocuments($scope.solution.accessType);
 							$scope.getArtifacts();
 						}
 						
@@ -1131,23 +1132,27 @@ angular
 							}
 							$scope.getSolutionImages();
 						
-							$scope.getPublicSolutionDocuments = function(){
+							$scope.getPublicSolutionDocuments = function(type){
+								var accessType = 'public';
+								if( type == 'OR' ){
+									accessType = 'org';
+								}
 								
 		                       	 var getSolutionDocumentsReq = {
 											method : 'GET',
-											url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path=public"
+											url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
 									};
 		                       	 $http(getSolutionDocumentsReq)
 										.success(
 												function(data, status, headers,
 														config) {
-													$scope.supportingPulicDocs = [];
+													$scope.supportingDocs = [];
 													console.log(" Get Asset File name : " + data.response_body);
 													$scope.supportingDocs = data.response_body;
-													//$scope.docURLdefault = "/site/binaries/content/assets/solutiondocs/solution/org/"+$scope.solutionId+"/"+data[0];
 												}).error(
 														function(data, status, headers,
 																config) {
+															$scope.supportingDocs = [];
 															return "No Contents Available"
 														});
 								}

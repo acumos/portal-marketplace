@@ -360,8 +360,11 @@
 										class="link-blue">{{supportingDoc}}</a></td>
 									<td>{{value.version}}</td>
 									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
-									<td><a
-										href="/site/binaries/content/assets/solutiondocs/solution/public/{{solution.solutionId}}/{{supportingDoc}}">
+									<td><a ng-if="solution.accessType ==='OR' " 
+										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}">
+										<i class="fa fa-download" aria-hidden="true"></i> </a>
+										<a ng-if="solution.accessType !=='OR' " 
+										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}">
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
