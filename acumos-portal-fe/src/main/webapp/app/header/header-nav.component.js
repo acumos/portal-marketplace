@@ -371,6 +371,42 @@ app.component('headerNav',{
 					componentHandler.upgradeAllRegistered();
 			}
 		  });
+		  
+		//ForgotPassword
+          $scope.$on('forgotPassword', function(event, data) {
+              $mdDialog.show({
+                    contentElement: '#myDialogForgtpswd',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true
+                });
+          });
+          
+          $scope.forgotPaswd = function(){debugger;
+              if($scope.forgot.$valid){
+                    var dataObj = {"request_body": {"emailId" : $scope.emailAddress}}
+                    $http({ method : 'PUT',
+                           url : '/api/users/forgetPassword',
+                           data : dataObj
+                     }).success(function(data, status, headers,config) {
+                         $mdDialog.hide();
+                         if(data.error_code === "100"){
+                             alert("Temporary Passpword is send on your email id");
+                                window.location = 'index.html#/home'; 
+                         }
+                         else if(data.error_code === "500"){
+                             alert("Email id not exist");
+                                //window.location = 'index.html#/home'; 
+                         }
+                         else alert("Email id not registered");
+                     }).error(function(data, status, headers, config) {
+                         
+                     });
+                }
+            
+          }
+
+
 	},
 
 });
