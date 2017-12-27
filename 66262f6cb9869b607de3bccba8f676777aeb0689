@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7922037_733a4084",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app.config.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2017-12-27T17:04:48Z",
+      "side": 1,
+      "message": "Please remove console.log",
+      "range": {
+        "startLine": 160,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 40
+      },
+      "revId": "66262f6cb9869b607de3bccba8f676777aeb0689",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28101cd2_60f0b4ff",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/header-nav.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2017-12-27T17:04:48Z",
+      "side": 1,
+      "message": "Please remove console.log in future",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "66262f6cb9869b607de3bccba8f676777aeb0689",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
