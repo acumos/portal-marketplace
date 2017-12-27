@@ -1,4 +1,7 @@
 <!-- Header HTML if user not logged in -->
+-root sidebar: {{$root.sidebarHeader}}
+-root sidebar is false: {{$root.sidebarHeader === false}}
+-root sidebar is true: {{$root.sidebarHeader === true}}
 <header
 	ng-if="$root.sidebarHeader === false">
 	<div class="mdl-layout__header-row">

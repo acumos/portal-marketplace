@@ -6,6 +6,10 @@ app.component('headerNav',{
 	
 	//templateUrl : '/app/header/header-nav.template.html',
 	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService) {
+		console.log('=================================================');
+		console.log('header-nav.component.js-> inside controller')
+		console.log('$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader);
+		
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
 		$scope.notificationObj = [];
