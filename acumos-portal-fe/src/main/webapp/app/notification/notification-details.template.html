@@ -44,7 +44,7 @@
 						
 						</div>
 						<div class="tbl-notification-container">
-							<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
+							<table ng-if='notificationManageObj.length' class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
 							  <thead>
 								<tr>
 								  <th>
@@ -71,6 +71,9 @@
 								</tr>
 							  </tbody>
 							</table>
+							<div class="alert c-info" ng-if="!notificationManageObj.length">
+                                        <strong>No Result found</strong>
+                                </div>
 						</div>
 						<!-- copy up to here (end) -->					
 					</div>

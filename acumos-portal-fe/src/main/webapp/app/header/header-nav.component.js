@@ -6,6 +6,7 @@ app.component('headerNav',{
 	
 	//templateUrl : '/app/header/header-nav.template.html',
 	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService) {
+		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
 		$scope.notificationObj = [];
 		$scope.notificationManageObj = [];
@@ -13,6 +14,7 @@ app.component('headerNav',{
 		$scope.loginUserID='';
 		$scope.page = 0;
 		$scope.moreNotif = false;
+		
 	// Hardcode Priva
 		/*$scope.getTemplateUrl = function() {
 			 if(localStorage.getItem("HeaderNameVar")=="manageModule"){

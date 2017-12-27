@@ -37,7 +37,8 @@ angular
 
 
 						$scope.status;
-						
+						$scope.activePublishBtn = false;
+						$scope.activePublishBtnPB = false;
 						$scope.showSolutionImage = false;
 						$scope.showSolutionDocs = false;
 						$scope.showPublicSolutionDocs = false;
@@ -1747,28 +1748,6 @@ angular
 					};
 					//$scope.getModelValidation();	
 						
-					
-					//check the count of success
-					$scope.statusCount = 0;
-					function chkCount(){
-						var count = 0, Pbcount = 0, Orcount = 0;
-						if($scope.solution){
-							if($scope.solution.name)count++;
-							if($scope.solution.modelTypeName && $scope.solution.tookitTypeName)count++;
-						}
-						if($scope.supportingDocs.length > 0)count++;
-						if($scope.tags.length > 0)count++;
-						if($scope.solImage)count++;
-						
-						if($scope.solutionCompanyDesc)Orcount++;
-						if($scope.solutionPublicDesc)Pbcount++;
-						
-						$scope.statusCount = count + Orcount;
-						$scope.pbstatusCount = count + Pbcount;
-						
-						
-					}
-					
 					//Drag Drop for image icon
 					
 					$scope.dropCallback = function(event, ui) {
@@ -1803,6 +1782,48 @@ angular
 					    );
 					}
 					
+
+					//check the count of success
+					$scope.statusCount = 0;
+					function chkCount(){
+						var count = 0, Pbcount = 0, Orcount = 0;
+						if($scope.solution){
+							if($scope.solution.name)count++;
+							if($scope.solution.modelTypeName && $scope.solution.tookitTypeName)count++;
+						}
+						if($scope.supportingDocs.length > 0)count++;
+						if($scope.tags.length > 0)count++;
+						if($scope.solImage)count++;
+						if($scope.company){
+							angular.forEach($scope.company, function(value, key) {
+								if(value == true){
+									Orcount++
+								}
+								
+							});
+						}
+						
+						if($scope.public){
+							angular.forEach($scope.public, function(value, key) {
+								if(value == true){
+									Pbcount++
+								}
+								
+							});
+						}
+						
+						if($scope.solutionCompanyDesc)Orcount++;
+						if($scope.solutionPublicDesc)Pbcount++;
+						
+						$scope.statusCount = count + Orcount;
+						$scope.pbstatusCount = count + Pbcount;
+						if($scope.statusCount > 5){
+							$scope.activePublishBtn = true;
+						}	
+						if($scope.pbstatusCount > 5){
+							$scope.activePublishBtnPB = true;
+						}
+					}
 					
 					$scope.$watch('solution.name', function() {chkCount();});
 					$scope.$watch('solutionCompanyDesc', function() {chkCount();});
@@ -1816,6 +1837,12 @@ angular
 					$scope.$watch('file', function() {chkCount();});
 					$scope.$watch('user', function() {chkCount();});
 					$scope.$watch('popupAddSubmit', function() {chkCount();});
+					
+					$scope.skipStep = function(){
+						if($scope.company || $scope.public){
+							chkCount();
+						}
+					}
 					
 					$scope.loadData();
 					
