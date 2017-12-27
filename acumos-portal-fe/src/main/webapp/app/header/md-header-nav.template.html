@@ -1,7 +1,7 @@
 <!-- Header HTML if user not logged in -->
--root sidebar: {{$root.sidebarHeader}}
+<!-- -root sidebar: {{$root.sidebarHeader}}
 -root sidebar is false: {{$root.sidebarHeader === false}}
--root sidebar is true: {{$root.sidebarHeader === true}}
+-root sidebar is true: {{$root.sidebarHeader === true}} -->
 <header
 	ng-if="$root.sidebarHeader === false">
 	<div class="mdl-layout__header-row">
@@ -206,8 +206,9 @@
 		<div class="md-toolbar-tools">
 			<h2>Forgot password</h2>
 			<span flex></span>
-			<md-button class="md-icon-button" ng-click="cancel()"> <i
-				class="material-icons btn-close-dialog">close</i> </md-button>
+			<md-button class="md-icon-button" ng-click="closePoup()">
+				<md-icon class="material-icons btn-close-dialog">close</md-icon>
+			</md-button>
 		</div>
 		</md-toolbar>
 		<md-dialog-content>
