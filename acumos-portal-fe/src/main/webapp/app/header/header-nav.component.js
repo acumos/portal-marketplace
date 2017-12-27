@@ -347,6 +347,7 @@ app.component('headerNav',{
 		}  
 		
 		//get siteInstanceName
+		$rootScope.enableOnBoarding = true;
 		apiService
 		.getSiteConfig("site_config")
 		.then(
