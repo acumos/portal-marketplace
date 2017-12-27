@@ -295,16 +295,17 @@ md-dialog .md-actions, md-dialog md-dialog-actions {background:#f1f1f1; padding:
 .mp-grid-list {display: block; clear:both;}
 .mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 20px 0; border-bottom: 1px dashed #EFEFEF;}
 .mp-grid-list-row:last-child { border-bottom: none; padding-top:10px;}
-.mp-grid-list-image-cell { width: 200px;position:relative; margin-right: 30px;}
+.mp-grid-list-image-cell { width: 200px;position:relative; margin-right: 30px;max-height: 200px;}
 .mp-grid-list-details-cell {}
 .mp-grid-list-details-cell .detail-content span { margin-right: 8px; margin-left: 9px;}
 .mp-grid-list-details-cell .detail-content span:first-child { margin-left:0;}
 .detail-content {margin-bottom: 8px; clear:both;}
 
 .mpimgcontainer {width: 94%; height: 100px; display: block; clear:both; position: relative;}
-.mpimage1 {width: 100%; height: 100%; background: #eaeaea; display: block;}
+.mpimage1 {width: 100%; height: 100%; display: block;}
 .mpimage1 figure {padding:0; margin:0;display:flex;}
 .mpimage1 img {max-height: 100%; max-width: 100%;}
+.mpimage1 img:hover {cursor: pointer;}
 .mpbtncontainer {display:none; width: 100%; height: 100%; border: 1px solid #ccc; background: #9b9b9b; position:absolute; text-align:center;}
 .mpbtncontainer .md-button {background: #ccc;}
 .mpbtncontainer .md-button:hover {background: #ddd; }
@@ -384,7 +385,7 @@ transition: box-shadow 0.3s ease-in-out;
 .rating-container1 div {justify-content: flex-end;}
 .newrating-container {display:flex; justify-content: space-between;}
 
-.mp-grid-list figure {position: relative; height: 100%;text-align: center;}
+.mp-grid-list figure {position: relative; height: 100%;text-align: center;display:grid;}
 .mp-grid-list figure img { margin: auto; }
 /*********** Grids style end  ************/
 
@@ -513,10 +514,10 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);clip: auto !important;	}
 .md-intro-container h6 {margin-right: 30px;}
 .md-intro-container button {margin-right: 10px;}
 
-.md-version-ddl1 {list-style-type: none; margin:0; border:1px solid #e5e5e5; position:absolute; z-index:5;width: 132px;top: 13px;-webkit-box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
+.md-version-ddl1 {list-style-type: none; margin:0; border:1px solid #e5e5e5; position:absolute; z-index:5;width: 150px;top: 27px;-webkit-box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
 -moz-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1);
 box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1); background: #fff; padding:0;}
-.md-version-ddl1 li {border-bottom: 1px solid #d5d5d5; padding: 5px 5px 5px 15px; margin:0;background: #fff;}
+.md-version-ddl1 li {border-bottom: 1px solid #d5d5d5; padding: 5px 5px 5px 10px; margin:0;background: #fff;}
 .md-version-ddl1 li:last-child {border-bottom: none;}
 .md-version-ddl1 li.selected {background: url("../images/ds-icons/validate_icon.png") no-repeat 95% center; background-color: #fff;}
 
@@ -1235,8 +1236,7 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 	.profile-container1-left {width: 100%;}
 	.profile-container1-right {width: 100%;}
 	.profile-container-inner {display: flex; flex-wrap: wrap; justify-content: flex-start; flex-direction: column;}
-	.profile-container-inner > div {width: 100%;}
-	.profile-txtarea {width: calc(100% - 18px);}
+	.profile-container-inner > div {width: 100%;}	
 	.profile-img-container {text-align: center;}
 	.user-email md-input-container.md-block { width:85%;}
 	
@@ -1271,12 +1271,11 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 	.headerdiv {position:absolute; right: 0; top:0;}	
 	.cg-grid-layout {}
 	.cg-grid-left-container {width:240px !important;}
-	.cg-grid-right-container {width: calc(100% - 240px) !important}
-	
+	.cg-grid-right-container {width: calc(100% - 240px) !important}	
 	.header-search-control.mdl-textfield.is-focused .mdl-textfield__input {width:300px;}
 	.user-email { width:43%;}
 	.user-email > md-input-container:first-child {width: calc(100% - 115px);}
-	.profile-txtarea {width: calc(100% - 18px);}
+	
 }
 
 
@@ -1292,6 +1291,7 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
   .admin-container-row1-inner3 > div {display: flex;flex-wrap:nowrap;align-items:center;}
   .sidebar-search-container .searchicon {width: calc(100% - 10px);}
   .cg-dialog-sign_up {overflow:hidden;}
+  .mpimage1 figure {display:flex;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
 

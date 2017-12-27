@@ -147,7 +147,7 @@
 														</span>
 													</div>
 													<div class="admin-container-row2">
-														<span><a ng-click='userFilter("all");select("0")' ng-class="{'admin-selected-link': 0 == selected}">All ({{userDetails.length}})</a></span>
+														<span><a ng-click='userFilter("all");select("0")' ng-class="{'admin-selected-link': 0 == selected}">All ({{alluserDetails.length}})</a></span>
 														<span class="admin-container-row1-inner" ng-repeat='role in roles'>
 															<span> | </span>
 															<span><a class="role-link" data-target ng-click='userFilter(role);select($index+1)' ng-class="{'admin-selected-link': $index+1 == selected}">{{role.name}} ({{role.roleCount}})</a> </span>
@@ -701,7 +701,7 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Password</label> 
-													<input ng-model='value.password'  valid-password required type="password" class="form-control ok-password" ng-class="(joinTeamForm.password.$dirty && joinTeamForm.password.$invalid) ? 'error' : ''" id="password" name="pwd" placeholder="Enter Password" ng-required="true">
+													<input ng-model='value.password'  valid-password required type="password" class="form-control ok-password" ng-class="(joinTeamForm.password.$dirty && joinTeamForm.password.$invalid) ? 'error' : ''" id="password" name="pwd" placeholder="Enter Password" ng-required="true" maxlength="20">
 												</md-input-container>
 												<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.pwd.$valid}">
@@ -718,7 +718,7 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Confirm Password</label> 
-													<input type="password" ng-model='value.cpassword' name="cpwd" valid-password-c required/>
+													<input type="password" ng-model='value.cpassword' name="cpwd" valid-password required maxlength="20"/>
 												</md-input-container>
 												<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
@@ -728,12 +728,18 @@
 															don't match.</span>
 													</div>
 												</div>
-											</div>											
+											</div>									
 										<div class="admin-row admin-row2">
 											<div>
-												<div class="strength-meter">
+												<div class="strength-meter" ng-if="!signupForm.pwd.$valid && signupForm.pwd.$dirty && value.password">
+													<div class="strength-meter-fill" ng-init="passwordStrength=0" data-strength="{{passwordStrength}}"></div>
+						                        </div>
+						                        <div class="strength-meter" ng-if="!signupForm.pwd.$dirty || !value.password">
+													<div class="strength-meter-fill" ng-init="passwordStrength=null" data-strength="{{passwordStrength}}"></div>
+						                        </div>
+						                        <div class="strength-meter" ng-if="signupForm.pwd.$valid">
 													<div class="strength-meter-fill" data-strength="{{passwordStrength}}"></div>
-												</div>													 
+						                        </div>												 
 												<p class="text-center font600">Strength indicator</p>
 											</div>
 											<div>

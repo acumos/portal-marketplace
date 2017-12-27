@@ -95,12 +95,15 @@
 													</div>
 												 </md-input-container>
 
-												<div class="strength-meter" ng-if="!signupForm.pwd.$valid">
+												<div class="strength-meter" ng-if="!signupForm.pwd.$valid && signupForm.pwd.$dirty && pwd">
+													<div class="strength-meter-fill" ng-init="passwordStrength=0" data-strength="{{passwordStrength}}"></div>
+						                        </div>
+						                        <div class="strength-meter" ng-if="!signupForm.pwd.$dirty || !pwd">
 													<div class="strength-meter-fill" ng-init="passwordStrength=null" data-strength="{{passwordStrength}}"></div>
 						                        </div>
 						                        <div class="strength-meter" ng-if="signupForm.pwd.$valid">
 													<div class="strength-meter-fill" data-strength="{{passwordStrength}}"></div>
-						                        </div>
+						                        </div>	
 						                        						 
 												 <md-input-container class="md-block confirm-control">
 												      <!-- Use floating label instead of placeholder -->
