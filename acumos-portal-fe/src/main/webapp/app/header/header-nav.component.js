@@ -395,6 +395,9 @@ app.component('headerNav',{
                 });
           });
           
+          $scope.closePoup = function(){
+        	  $mdDialog.hide();
+          };
           $scope.forgotPaswd = function(){debugger;
               if($scope.forgot.$valid){
                     var dataObj = {"request_body": {"emailId" : $scope.emailAddress}}
