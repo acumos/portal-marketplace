@@ -39,6 +39,7 @@ angular.module('admin')
 					function(response) {
 						$scope.user = response.data.response_body.length;
 						$scope.userDetails = response.data.response_body;
+						$scope.alluserDetails = response.data.response_body;
 						detailsUser = $scope.userDetails;
 					},
 					function(error) {console.log(error);});
@@ -548,26 +549,28 @@ angular.module('admin')
                                           };
                                           //Filter on bases on role
                                           var detailsUser = '';
-                                          $scope.userFilter = function(role){
-                                        	  if(role == 'all'){$scope.userDetails =detailsUser ;return;}
-                                          var temp=[];
                                           
-                                          angular
-                                          .forEach(
-                                        		  detailsUser,
-                                                  function( value, key) {
-                                        			  var roleList = value.userAssignedRolesList;
-                                        			  if(roleList.length){
-                                        				  angular.forEach(
-                                                    		  roleList,
-                                                              function( roleAssigned, key) {
-                                                                  if(roleAssigned.roleId == role.roleId){
-                                                                	  temp.push(value) ;
-                                                                  }
-                                                    		  })
-                                        			  }
-                                                  });
-                                          $scope.userDetails = temp;
+                                          $scope.userFilter = function(role){
+                                        	  debugger;
+                                        	  if(role == 'all'){ $scope.userDetails = $scope.alluserDetails; return;}
+                                        	  var temp=[];
+                                          
+	                                          angular
+	                                          .forEach(
+	                                        		  detailsUser,
+	                                                  function( value, key) {
+	                                        			  var roleList = value.userAssignedRolesList;
+	                                        			  if(roleList.length){
+	                                        				  angular.forEach(
+	                                                    		  roleList,
+	                                                              function( roleAssigned, key) {
+	                                                                  if(roleAssigned.roleId == role.roleId){
+	                                                                	  temp.push(value) ;
+	                                                                  }
+	                                                    		  })
+	                                        			  }
+	                                                  });
+	                                          $scope.userDetails = temp;
                                           }
                                           //Add Class
                                           $scope.selected = 0;
@@ -576,7 +579,7 @@ angular.module('admin')
                                           };
                                           
                                           $scope.$watch( 'filtered', function ( val ) {
-                                        	 if(val && val.length == 0 && ( $scope.searchUserDetails.firstName || $scope.searchPeerDetails.name )){
+                                        	 if(val && val.length == 0 && ($scope.searchUserDetails || $scope.searchPeerDetails) && ( $scope.searchUserDetails.firstName || $scope.searchPeerDetails.name )){
                                          		 	$scope.hideLabel = true;
                                          	 }else {
                                          		 	$scope.hideLabel = false;

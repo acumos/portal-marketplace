@@ -17,7 +17,7 @@
 									</md-toolbar>
 									<md-dialog-content>
 									  <div class="md-dialog-content">										
-										<label class="sign-in-lbl1">Already have an Account</label>
+										<label class="sign-in-lbl1 disblock">Already have an Account</label>
 										<div class="mdl-grid mdl-grid--no-spacing">
 										  <div class="mdl-cell mdl-cell--6-col">
 										  		 <md-input-container class="md-icon-float md-block">
@@ -65,7 +65,7 @@
 													<md-button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="userForm.userName.$invalid || userForm.userPass.$invalid" ng-click = "signin()">Sign in</md-button>
 												</div>
 												<div>
-													<button class="mdl-button mdl-js-button mdl-button--primary btn-fullwidth2"
+													<button class="mdl-button mdl-js-button btn-fullwidth2 btn-forgotpass"
                                                     data-target ng-click="forgotPassword($event)">Forgot Password</button>
                                                     <!-- ui-sref="forgotPswd" ng-click="$ctrl.handleDismiss()">Forgot Password</button> -->
 												</div>
