@@ -23,13 +23,17 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.transport.MLSolutionDownload;
@@ -48,7 +52,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPSiteConfig;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -65,6 +74,9 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 
 	@Autowired
 	private PushAndPullSolutionService pushAndPullSolutionService;
+	
+	@Autowired
+    AdminService adminService;
 	/**
 	 * 
 	 */
@@ -140,6 +152,41 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "uploadModel for user " + userId);
 		
+		//Check if the Onboarding is enabled in the site configuration
+		MLPSiteConfig mlpSiteConfig = adminService.getSiteConfig("site_config");
+		if(mlpSiteConfig != null) {
+			String configJson = mlpSiteConfig.getConfigValue();
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				Map<String, Object> configObj = mapper.readValue(configJson, Map.class);
+				if(configObj != null) {
+					List<Map<String, Object>> fields = (List<Map<String, Object>>) configObj.get("fields");
+					for(Map<String, Object> items : fields) {
+						if("enableOnBoarding".equalsIgnoreCase((String) items.get("name"))) {
+							Map<String, String> dataVal = (Map<String, String>)items.get("data");
+							if(dataVal != null) {
+								String val = dataVal.get("name");
+								if("Disabled".equalsIgnoreCase(val)) {
+									log.info("Uploading the model is Disabled from Admin");
+									response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+									return;
+								}
+							}
+						}
+						
+					}
+				}
+			} catch (JsonParseException e) {
+				log.error("Exception Occured while parsing site configuration.", e.getMessage());
+				log.info("Exception Occured while parsing site configuration. Do Nothing");
+			} catch (JsonMappingException e) {
+				log.error("Exception Occured while parsing site configuration.", e.getMessage());
+				log.info("Exception Occured while parsing site configuration. Do Nothing");
+			} catch (IOException e) {
+				log.error("Exception Occured while parsing site configuration.", e.getMessage());
+				log.info("Exception Occured while parsing site configuration. Do Nothing");
+			}
+		}
 		if (StringUtils.isEmpty(userId)) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.info("User Id Required to uplpoad the model");

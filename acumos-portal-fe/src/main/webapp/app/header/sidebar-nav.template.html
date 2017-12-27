@@ -17,7 +17,7 @@
 			</a>
 				
 				
-		    <a class="mdl-navigation__link" ng-class="{ active: isActive('/modelerResource') }" ui-sref="modularResource" title="Modeler Resources"  ng-click="$root.parentActive = ''">
+		    <a ng-if="$root.enableOnBoarding" class="mdl-navigation__link" ng-class="{ active: isActive('/modelerResource') }" ui-sref="modularResource" title="Modeler Resources"  ng-click="$root.parentActive = ''">
 		    	<span class="icon-header icon-onboarding-model"></span>
 		    	<span class="headertxtspan">ON-BOARDING MODEL</span>
 		    </a> 

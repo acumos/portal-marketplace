@@ -20,7 +20,7 @@
 						<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
 						<li><a ui-sref="marketPlace">Marketplace</a></li>
 						<!-- <li><a ui-sref="manageModule">Manage my models </a></li> -->
-						<li><a ui-sref="modularResource">Modeler Resources</a></li>
+						<li ng-if="$root.enableOnBoarding"><a ui-sref="modularResource">Modeler Resources</a></li>
 						<!-- <li><a ui-sref="designStudio">Design Studio</a></li> -->
 						<li><a ui-sref="termsCondition">Terms And Conditions</a></li>
 						<li><a href="https://cognita.atlassian.net/wiki/spaces/AD/overview" target="_blank">Documentation</a></li>

@@ -160,5 +160,4 @@ app.component('sidebarNav',{
 		if(localStorage.getItem("userRole") == 'Admin')$scope.userRoleAdmin = true;
 		else $scope.userRoleAdmin = false;
 	}
-
 });

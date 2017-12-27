@@ -362,6 +362,12 @@ app.component('headerNav',{
                                     $rootScope.headerImage = $scope.siteConfig.fields[key].data;
                                 }if($scope.siteConfig.fields[key].name == 'footerLogo'){
                                     $rootScope.footerImage = $scope.siteConfig.fields[key].data;
+                                }if($scope.siteConfig.fields[key].label == 'EnableOnboarding'){
+                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
+                                    	$rootScope.enableOnBoarding = true;
+                                    } else {
+                                    	$rootScope.enableOnBoarding = false;
+                                    }
                                 }
                                 
                             });
