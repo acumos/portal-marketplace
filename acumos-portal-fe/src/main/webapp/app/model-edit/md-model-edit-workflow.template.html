@@ -678,7 +678,7 @@
 														<p ng-hide="showSolName">{{solution.name}}</p>
 														<div class="checkbox" ng-if="solution.name.length <= 0">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step1"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step1" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>
 
@@ -825,7 +825,7 @@
 														</p>
 														<div class="checkbox" ng-if="solutionCompanyDescStatus">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step2"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step2" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>
 													</div>
@@ -865,7 +865,7 @@
 														</p>
 														<div class="checkbox" ng-if="!solution.modelTypeName || !solution.tookitTypeName">
                                                           <label>
-                                                               <input type="checkbox"  ng-model="$parent.company.step3"> Skip
+                                                               <input type="checkbox"  ng-model="$parent.company.step3" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>
 														<div class="popovers category-popover"
@@ -972,7 +972,7 @@
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step4"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step4" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>
 														<div class="popovers add-document"
@@ -1084,7 +1084,7 @@
 														</p>
 														<div class="checkbox" ng-if="tags.length<1">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step5"> Skip
+                                                               <input type="checkbox" ng-model="$parent.company.step5" ng-click="skipStep()"> Skip
                                                            </label>
                                                         </div>
 														<div class="popovers add-document" ng-show="showSolTags">
@@ -1209,7 +1209,7 @@
 															with maximum size of 1MB.</p>
 															<div class="checkbox" ng-if="!showSolutionImage">
 	                                                          <label>
-	                                                               <input type="checkbox" ng-model="$parent.company.step6"> Skip
+	                                                               <input type="checkbox" ng-model="$parent.company.step6" ng-click="skipStep()"> Skip
 	                                                           </label>
 	                                                         </div>
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
@@ -1409,6 +1409,7 @@
 
 										<div class="">
 											<button ng-click="publishtoMarket('OR')"
+											ng-disabled="activePublishBtn == false"
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
 												Submit to Publication</button>
 											<button
@@ -2073,9 +2074,9 @@
 															<md-button ng-click="closeDialog()"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 															Cancel </md-button>
-															<md-button ng-click="publishtoMarket('OR')"
+															<!-- <md-button ng-click="publishtoMarket('OR')"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-															Submit to Publication </md-button>
+															Submit to Publication </md-button> -->
 														</div>
 													</div>
 													</md-dialog-content>
@@ -2221,7 +2222,7 @@
 														<p ng-hide="showSolName">{{solution.name}}</p>
 														<div class="checkbox" ng-if="solution.name.length <= 0">
                                                             <label>
-                                                              <input type="checkbox" ng-model="$parent.public.step1"> Skip
+                                                              <input type="checkbox" ng-model="$parent.public.step1" ng-click="skipStep()"> Skip
                                                             </label>
                                                          </div>
 														<div ng-show="showSolName">
@@ -2368,7 +2369,7 @@
 														</p>
 														<div class="checkbox" ng-if="!solutionPublicDescStatus">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step2"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step2" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>    
 													</div>
@@ -2465,7 +2466,7 @@
 														</p> -->
 														<div class="checkbox" ng-if="!solution.modelTypeName || !solution.tookitTypeName">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step3"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step3" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>    
 													</div>
@@ -2573,7 +2574,7 @@
 														</div>
 														<div class="checkbox" ng-if="!showPublicSolutionDocs">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step4"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step4" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>    
 														<!-- <p>
@@ -2629,7 +2630,7 @@
 														</p> -->
 														<div class="checkbox" ng-if="tags.length<1">
                                                           <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step5"> Skip
+                                                               <input type="checkbox" ng-model="$parent.public.step5" ng-click="skipStep()"> Skip
                                                            </label>
                                                          </div>    
 													</div>
@@ -2681,7 +2682,7 @@
 															with maximum size of 1MB.</p>
 															<div class="checkbox"  ng-if="!showSolutionImage">
 	                                                          <label>
-	                                                               <input type="checkbox" ng-model="$parent.public.step6"> Skip
+	                                                               <input type="checkbox" ng-model="$parent.public.step6" ng-click="skipStep()"> Skip
 	                                                           </label>
 	                                                         </div>
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
@@ -2874,6 +2875,7 @@
 										</div>
 										<div class="">
 											<button ng-click="publishtoMarket('PB')"
+												ng-disabled="activePublishBtnPB == false"
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
 												Submit to Publication</button>
 											<button
