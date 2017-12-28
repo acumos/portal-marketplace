@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.acumos</groupId>
+	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-be</artifactId>
 	<version>1.12.7-SNAPSHOT</version>
-	<name>acumos-portal-be</name>
+	<name>Acumos Portal backend server</name>
 	<description>Acumos Portal Backend APIs</description>
 
 	<parent>
