@@ -646,6 +646,7 @@ public class UserServiceController extends AbstractController {
 			}
 			
 		}catch(Exception e){
+			e.printStackTrace();
 			log.debug(EELFLoggerDelegate.errorLogger, "Exception occured while deleteBulkUsers");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			responseObj.setResponseDetail("Exception occured while deleteBulkUsers");
