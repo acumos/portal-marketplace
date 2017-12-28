@@ -256,7 +256,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
 					mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
 					mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-					mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue());
+					mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue()/10);
 				} catch (Exception e) {
 					log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
 							mlSolution.getSolutionId());
@@ -763,7 +763,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
 							mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
 							mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue());
+							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue()/10);
 
 						} catch (Exception e) {
 							log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
@@ -1035,7 +1035,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
 							mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
 							mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue());
+							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue()/10);
 
 						} catch (Exception e) {
 							log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
@@ -1358,7 +1358,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
 							mlSolution.setViewCount(solutionStats.getViewCount().intValue());
 							mlSolution.setSolutionRating(solutionStats.getRatingCount().intValue());
-							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue());
+							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue()/10);
 						} catch (Exception e) {
 							log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
 									mlSolution.getSolutionId());
@@ -2027,7 +2027,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
 							mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
 							mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue());;
+							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue()/10);
 						} catch (Exception e) {
 							log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
 									mlSolution.getSolutionId());
