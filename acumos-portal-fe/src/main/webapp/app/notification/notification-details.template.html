@@ -58,7 +58,7 @@
 								</tr>
 							  </thead>
 							  <tbody>
-								<tr ng-repeat="notification in notificationManageObj | filter:{message : search}">
+								<tr ng-repeat="notification in ($parent.filtertedNotification = (notificationManageObj | filter:{message : search}))">
 								<td>
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" >
 									  <input type="checkbox" id="checkBox_{{$index}}" class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected">
@@ -71,12 +71,10 @@
 								</tr>
 							  </tbody>
 							</table>
-							<div class="alert c-info" ng-if="!notificationManageObj.length">
+							<div class="alert c-info" ng-if="!filtertedNotification.length">
                                         <strong>No Result found</strong>
                                 </div>
 						</div>
 						<!-- copy up to here (end) -->					
 					</div>
 				</div>
-
-				

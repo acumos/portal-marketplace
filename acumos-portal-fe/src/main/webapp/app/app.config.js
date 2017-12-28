@@ -156,7 +156,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
         	$rootScope.toggleSideNavBar = false;
         } else {
         	$rootScope.toggleSideNavBar = true;
-        }*/
+        }*/	
+    		/*This is added for resolving mdl search related issues */
+    		componentHandler.upgradeAllRegistered();
+    		
     		console.log('app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
     	 	$rootScope.sidebarHeader = false;
     	 	angular.element('#fixed-header-drawer-exp1').val('');
