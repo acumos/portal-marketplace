@@ -768,7 +768,7 @@
 										
 										<div class="dialog-btn-container">
 											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" >Add</button>
+											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" >Add</button>
 										</div>
 									  </div>
 									  </form>
