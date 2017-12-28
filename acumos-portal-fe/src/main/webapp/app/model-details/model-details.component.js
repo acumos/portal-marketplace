@@ -1190,6 +1190,7 @@ angular
 								$scope.showAll = function(){
 									$state.go('marketPlace');
 									$rootScope.relatedModelType = modelType;
+									$rootScope.parentActive = 'marketplace'
 								};
 
 						
