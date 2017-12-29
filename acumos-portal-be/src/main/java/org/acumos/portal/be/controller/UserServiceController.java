@@ -632,9 +632,11 @@ public class UserServiceController extends AbstractController {
 				for(String userId : user.getBody().getUserIdList())
 				{
 					MLPUser mlpUser = userService.findUserByUserId(userId);
-					if(mlpUser != null){
-					  mlpUser.setActive(false);
-					  userService.deleteBulkUsers(userId);
+					if (mlpUser != null) {
+						User userObj = PortalUtils.convertToMLPuser(mlpUser);
+						userObj.setActive("N");
+						// userService.deleteBulkUsers(userId);
+						userService.updateUser(userObj);
 					}
 				}
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);

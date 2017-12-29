@@ -49,6 +49,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 
 import io.swagger.annotations.ApiOperation;
@@ -399,20 +400,41 @@ public class UserRoleController extends AbstractController {
 		JsonResponse<MLPRole> data = new JsonResponse<>();
 		User newUser = null;
 		try {
-			if(user.getBody() != null){
-				newUser = userService.save(user.getBody());
-			}
-			if (newUser.getUserId() != null && user.getBody().getUserNewRoleList() != null) {
-				for(String roleId : user.getBody().getUserNewRoleList())
-				{
-				userRoleService.addUserRole(newUser.getUserId(), roleId);
+			if (user.getBody() != null) {
+				boolean isUserExists = false;
+
+				MLPUser mlpUser = userService.findUserByEmail(user.getBody().getEmailId());
+				if (mlpUser != null) {
+					isUserExists = true;
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_RESET_EMAILID);
+					data.setResponseDetail("Reset_EmailId");
 				}
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Role created Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "addUserRole :  ");
-			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("Error Occurred while addUserRole()");
+				if (mlpUser == null) {
+					mlpUser = userService.findUserByUsername(user.getBody().getUsername());
+					if (mlpUser != null) {
+						isUserExists = true;
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE_RESET_USERNAME);
+						data.setResponseDetail("Reset_UserName");
+					}
+				}
+				if (!isUserExists) {
+					newUser = userService.save(user.getBody());
+
+					if (newUser.getUserId() != null && user.getBody().getUserNewRoleList() != null) {
+						for (String roleId : user.getBody().getUserNewRoleList()) {
+							userRoleService.addUserRole(newUser.getUserId(), roleId);
+						}
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+						data.setResponseDetail("Role created Successfully");
+						log.debug(EELFLoggerDelegate.debugLogger, "addUserRole :  ");
+					} else {
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+						data.setResponseDetail("Error Occurred while addUserRole()");
+					}
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					data.setResponseDetail("User already exist");
+				}
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -421,6 +443,7 @@ public class UserRoleController extends AbstractController {
 		}
 		return data;
 	}
+	
 	@ApiOperation(value = "Update role for user", response = MLPRole.class)
 	@RequestMapping(value = { APINames.UPDATE_ROLES_USER }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
