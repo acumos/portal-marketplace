@@ -1586,7 +1586,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                                         "name" : argument.name,
                                         "type" : argument.type});
                                 });
-                                });
                                 map_json.push({
                                     message_name: message.messageName,
                                     output_fields: input_flds
