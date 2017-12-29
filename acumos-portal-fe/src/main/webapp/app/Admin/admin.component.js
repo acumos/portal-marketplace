@@ -6,9 +6,9 @@ angular.module('admin')
 		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state){
 			componentHandler.upgradeAllRegistered();
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
-			$scope.userDetails = JSON.parse(localStorage
+			$scope.userDetail = JSON.parse(localStorage
 					.getItem("userDetail"));
-			var userName = $scope.userDetails[0],userId = $scope.userDetails[1];
+			var userName = $scope.userDetail[0],userId = $scope.userDetail[1];
 		
 			$scope.checkAdmin = function(){
 				if(localStorage.getItem("userRole") == 'Admin' || localStorage.getItem("userRole") == 'admin'){
