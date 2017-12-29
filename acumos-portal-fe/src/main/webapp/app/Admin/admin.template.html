@@ -227,7 +227,7 @@
 														</tr>
 													  </thead>
 													  <tbody>
-														<tr ng-repeat="val in userDetails | filter: searchUserDetails.firstName as filtered">
+														<tr ng-repeat="val in userDetails | filter: searchUserDetails.firstName && {active:true} as filtered">
 										
 															<td>
 																<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox{{$index}}">

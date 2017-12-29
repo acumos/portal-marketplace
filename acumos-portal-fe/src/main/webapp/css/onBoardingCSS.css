@@ -435,6 +435,10 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label input{margin-top:4px; float:left; margin-right:10px; margin-left:0}
 .checkbox{font-size: 13px;margin-top: 7px;margin-bottom:0px;color: #777;}
 
+/* command line page*/
+.onboarding .workflow-right h3{font-size: 17px; line-height: 32px; margin: 24px 0 16px;}
+.onboarding .workflow-right h2, .onboarding. workflow-right h4{font-size: 20px;}
+
 /* media query start */
 @media(max-width:767px){
 	.vertical-mdl-tabs .mdl-tabs__tab-bar{padding-bottom:0;}
