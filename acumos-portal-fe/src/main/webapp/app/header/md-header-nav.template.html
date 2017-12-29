@@ -1,5 +1,5 @@
 <!-- Header HTML if user not logged in -->
-
+<h5 style="color:black">{{$root.sidebarHeader}}</h5>
 <header
 	ng-if="$root.sidebarHeader === false">
 	<div class="mdl-layout__header-row">
@@ -199,7 +199,7 @@
 <div class="md-dialog-container" id="myDialogForgtpswd"
 	style="height: 0;">
 	<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-forgot">
-	<form name='forgot' ng-cloak>
+	<form name='forgot' ng-cloak novalidate>
 		<md-toolbar>
 		<div class="md-toolbar-tools">
 			<h2>Forgot password</h2>

@@ -1580,7 +1580,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                             capability.target.name.forEach(function(message) {
                                 var input_flds = [];
                                 message.messageargumentList.forEach(function(argument) {
-                                    input_flds.push(argument);
+                                    input_flds.push({
+                                        "tag" : argument.tag,
+                                        "role" : argument.rule,
+                                        "name" : argument.name,
+                                        "type" : argument.type});
+                                });
                                 });
                                 map_json.push({
                                     message_name: message.messageName,
