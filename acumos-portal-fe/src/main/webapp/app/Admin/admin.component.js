@@ -125,8 +125,13 @@ angular.module('admin')
             				    "userNewRoleList":$scope.roleValue
             				  }
             				};
+            	debugger;
             	    apiService.addUser( obj/*, $scope.roleValue*/ )
             	    .then(function(response) {
+            	    	if(response.data.error_code == 500){
+            	    		alert("User already exist");
+            	    		return;
+            	    	}
             	    	userDetailsFetch();
             	    	getRole();
             	    	$scope.value = null;$scope.roleValue = '';

@@ -112,6 +112,7 @@ angular
 										"activeType" : 'Y',
 										"page" : $scope.pageNumPrivate,
 										"searchTerm" : toBeSearch,
+										"sortBy" : $scope.sortBy,
 										"size" : $scope.defaultSize
 									}
 								}
@@ -180,6 +181,7 @@ angular
 										"activeType" : 'Y',
 										"page" : $scope.pageNumCompany,
 										"searchTerm" : toBeSearch,
+										"sortBy" : $scope.sortBy,
 										"size" : $scope.defaultSize
 									}
 								}
@@ -245,7 +247,7 @@ angular
 										"activeType" : 'Y',
 										"page" : $scope.pageNumPublic,
 										"searchTerm" : toBeSearch,
-										// "sortingOrder" : "ASC",
+										"sortBy" : $scope.sortBy,
 										"size" : $scope.defaultSize
 									}
 								}
@@ -306,6 +308,7 @@ angular
 										"accessType" : $scope.privacyFilter,
 										"page" : $scope.pageNumDelete,
 										"searchTerm" : toBeSearch,
+										"sortBy" : $scope.sortBy,
 										"size" : $scope.defaultSize
 									}
 								}
@@ -547,6 +550,7 @@ angular
 									"activeType" : $scope.searchActiveType,
 									"page" : $scope.pageNumber,
 									"searchTerm" : toBeSearch,
+									"sortBy":$scope.sortBy,
 									// "sortingOrder" : "ASC",
 									"size" : 9
 								},
@@ -752,6 +756,10 @@ angular
 						var searchUrl = '';
 						var privacyUrl = ''
 						$scope.filterChange = function(checkbox, type) {
+							$scope.mlSolutionPrivateCount = 0;
+							$scope.mlSolutionPublicCount = 0;
+							$scope.mlSolutionCompanyCount = 0;
+							$scope.mlSolutionDeletedCount = 0;
 							if(checkbox == 'yes'){
 								$scope.activeType = 'N';
 							}else if(checkbox == 'no' )$scope.activeType = 'Y';
@@ -956,6 +964,7 @@ angular
 									"modelType" : $scope.categoryFilter,
 									"accessType" : $scope.privacyFilter,
 									"page" : $scope.pageNumber,
+									"sortBy":$scope.sortBy,
 									"searchTerm" : toBeSearch,
 									"size" : 9,
 									"activeType": $scope.activeType,
