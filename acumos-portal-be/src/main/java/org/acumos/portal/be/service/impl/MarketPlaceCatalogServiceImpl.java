@@ -769,6 +769,24 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
 									mlSolution.getSolutionId());
 						}
+						
+						//get shared users for model
+						try {
+							List<User> users = null;
+							List<MLPUser> mlpUsersList = dataServiceRestClient.getSolutionAccessUsers(mlSolution.getSolutionId());
+							if (!PortalUtils.isEmptyList(mlpUsersList)) {
+								users = new ArrayList<>();
+								for (MLPUser mlpusers : mlpUsersList) {
+									User user = PortalUtils.convertToMLPuser(mlpusers);
+									users.add(user);
+								}
+							}
+							mlSolution.setOwnerListForSol(users);
+						} catch (Exception e) {
+							log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
+									mlSolution.getSolutionId());
+						}
+						
 						content.add(mlSolution);
 						i++;
 					}
@@ -1371,6 +1389,24 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							}
 							mlSolution.setSolutionTagList(tagList);
 						}
+						
+						//get shared users for model
+						try {
+							List<User> users = null;
+							List<MLPUser> mlpUsersList = dataServiceRestClient.getSolutionAccessUsers(mlSolution.getSolutionId());
+							if (!PortalUtils.isEmptyList(mlpUsersList)) {
+								users = new ArrayList<>();
+								for (MLPUser mlpusers : mlpUsersList) {
+									User user = PortalUtils.convertToMLPuser(mlpusers);
+									users.add(user);
+								}
+							}
+							mlSolution.setOwnerListForSol(users);
+						} catch (Exception e) {
+							log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
+									mlSolution.getSolutionId());
+						}
+						
 						content.add(mlSolution);
 						i++;
 					}

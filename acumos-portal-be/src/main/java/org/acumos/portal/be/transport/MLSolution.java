@@ -65,7 +65,7 @@ public class MLSolution {
 	private int PublicModelCount;
 	private int CompanyModelCount;
 	private int DeletedModelCount;
-	
+	private List<User> ownerListForSol;
 	
 	public String getLoginName() {
 		return loginName;
@@ -428,4 +428,12 @@ public class MLSolution {
 	public void setSolutionRatingAvg(int solutionRatingAvg) {
 		this.solutionRatingAvg = solutionRatingAvg;
 	}
+
+	public List<User> getOwnerListForSol() {
+		return ownerListForSol;
+	}
+
+	public void setOwnerListForSol(List<User> ownerListForSol) {
+		this.ownerListForSol = ownerListForSol;
+	}	
 }
