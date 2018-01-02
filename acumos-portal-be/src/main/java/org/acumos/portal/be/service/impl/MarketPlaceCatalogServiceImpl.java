@@ -2134,7 +2134,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
         RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
         
         mlpSolutionsRest = dataServiceRestClient.getSolutions(
-                new RestPageRequest(0, 0, queryParameters));
+                new RestPageRequest(0, 2000, queryParameters));
         
         originalSolutionsList = mlpSolutionsRest.getContent().stream()
                 .filter(mlpSolution -> (!PortalUtils.isEmptyOrNullString(mlpSolution.getOwnerId())
