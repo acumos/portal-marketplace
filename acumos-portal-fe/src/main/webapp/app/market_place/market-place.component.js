@@ -239,13 +239,13 @@ angular
 							 * dataObj, // params: //
 							 * {"category":caegoryArr,"sortby":$scope.sortedby,"sortbyid":$scope.sortedbyid}, })
 							 */
-							if($scope.sortBy != null){
+/*							if($scope.sortBy != null){
 								apiService.getSearchSolution($scope.sortBy)
 								.then(function(response){
 									console.log(response);
 									getSolution(response);
 								});
-							}else{
+							}else{*/
 
 							apiService
 									.insertSolutionDetail(dataObj)
@@ -258,7 +258,7 @@ angular
 														+ error.data.error;
 												console.log($scope.status);
 											});
-							}
+							//}
 							count += 9;
 							// console.clear()
 						}
