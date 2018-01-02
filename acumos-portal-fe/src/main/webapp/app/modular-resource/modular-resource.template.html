@@ -647,7 +647,7 @@
 																ng-click="closePoup(); openDrop(true);"
 																>
 															Cancel </md-button>
-															<md-button ng-click="fileUpload();openDrop(true);"
+															<md-button ng-disabled="!file" ng-click="fileUpload();openDrop(true);"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 															Done </md-button>
 														</div>
@@ -712,7 +712,7 @@
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 															Cancel </md-button>
 															<md-button ng-click="addModel = !addModel;popupAddSubmit = true; openDrop(true);"
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																ng-disabled="!user.name || user.name.length <= 0" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 															Done </md-button>
 														</div>
 													</div>

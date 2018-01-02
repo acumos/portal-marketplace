@@ -687,7 +687,7 @@
       border: 3px solid #009901;
       background-color: #FFF;
 }
-.company-market ul li .imageplace.completed ~ .text{color: #009901; font-size:11px;}
+/* .company-market ul li .imageplace.completed ~ .text{color: #009901; font-size:11px;} */
 .company-market ul li:last-child .publshbutton {min-width: 92px;}
 .btn-publish{margin: 4px 0;
     float: inherit;
@@ -1370,6 +1370,20 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 .progress-status.completed:after { content: "" !important; background: url("../images/dashboard/stepper_progress_completed.png") no-repeat left center;
     display:inline-block; width:47px; height:11px; transform:scale(0.8); }
 .headline{height:25px; max-width:350px;}
+/* icons*/
+.model-documentation{background-image: url(../images/ico_model_documentation.png); background-repeat: no-repeat; background-position: center;}
+.security-scan{background-image: url(../images/security-scan.png); background-repeat: no-repeat; background-position: center;}
+.license-check{background-image: url(../images/license-check.png); background-repeat: no-repeat; background-position: center;}
+.text-check{background-image: url(../images/text-check.png); background-repeat: no-repeat; background-position: center;}
+.yet-not-publish{background-image: url(../images/icon-yet-not-publish.png); background-repeat: no-repeat; background-position: center;}
+.completed .model-documentation{background-image: url(../images/ico-model-documentation-green.png); background-repeat: no-repeat; background-position: center;}
+.completed .security-scan{background-image: url(../images/ico-security-scan-green.png); background-repeat: no-repeat; background-position: center;}
+.completed .license-check{background-image: url(../images/ico-license-check-green.png); background-repeat: no-repeat; background-position: center;}
+.completed .text-check{background-image: url(../images/ico-txtcheck-green.png); background-repeat: no-repeat; background-position: center;}
+.completed .yet-not-publish{background-image: url(../images/ico-checkmark.png); background-repeat: no-repeat; background-position: center;}
+.company-market ul li .completed ~ .publshbutton ~ .text{color: #009901; font-size: 11px;}
+.company-market ul li .completed ~ .publshbutton.hide{display:block !important;}   
+
 
 /*---- media query start ----------*/
 @media(max-width:2560px){
