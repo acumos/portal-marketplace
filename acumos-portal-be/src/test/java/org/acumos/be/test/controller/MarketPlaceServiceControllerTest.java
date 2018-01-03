@@ -40,6 +40,7 @@ import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
@@ -784,18 +785,175 @@ public class MarketPlaceServiceControllerTest {
 	}
 
 	@Test
+	public void getSolutionUserAccessTest() {
+		try {
+			
+			MLSolution mlsolution = new MLSolution();
+			mlsolution.setSolutionId("Solution1");
+			mlsolution.setName("Test_Solution data");
+			mlsolution.setDescription("Test data");
+			mlsolution.setOwnerId("1213505-67f4-4461-a192-f4cb7fdafd34");
+			mlsolution.setAccessType("PB");
+			mlsolution.setActive(true);
+			mlsolution.setModelType("CL");
+			mlsolution.setTookitType("DS");
+			
+			User user = new User();
+			user.setActive("Y");
+			user.setFirstName("Surya");
+			user.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+			user.setEmailId("surya@techm.com");
+		
+			Assert.assertNotNull(user);
+			
+			User user2 = new User();
+			user2.setActive("Y");
+			user2.setFirstName("nitin");
+			user2.setUserId("1213505-67f4-4461-a192-f4cb7fdafd34");
+			user2.setEmailId("nitin@techm.com");
+		
+			Assert.assertNotNull(user2);
+			
+			String solutionId = mlsolution.getSolutionId();
+			Assert.assertNotNull(solutionId);
+			
+			List<User> userList = new ArrayList<User>();
+			userList.add(user);
+			userList.add(user2);
+			Assert.assertNotNull(userList);	
+			JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
+			List test = new ArrayList<>();
+			RestPageResponseBE responseBody = new RestPageResponseBE<>(test);
+			responseBody.setUserList(userList);
+			data.setResponseBody(responseBody);
+			Mockito.when(marketPlaceController.getSolutionUserAccess(request, solutionId, response ))
+					.thenReturn(data);
+			logger.info("RevisionList " + data.getResponseBody());
+			Assert.assertNotNull(data);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+		}
+	}
+	
+	@Test
+	public void addSolutionUserAccessTest() {
+		try {
+			
+			MLSolution mlsolution = new MLSolution();
+			mlsolution.setSolutionId("Solution1");
+			mlsolution.setName("Test_Solution data");
+			mlsolution.setDescription("Test data");
+			mlsolution.setOwnerId("1213505-67f4-4461-a192-f4cb7fdafd34");
+			mlsolution.setAccessType("PB");
+			mlsolution.setActive(true);
+			mlsolution.setModelType("CL");
+			mlsolution.setTookitType("DS");
+			
+			User user = new User();
+			user.setActive("Y");
+			user.setFirstName("Surya");
+			user.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+			user.setEmailId("surya@techm.com");
+		
+			Assert.assertNotNull(user);
+			
+			User user2 = new User();
+			user2.setActive("Y");
+			user2.setFirstName("nitin");
+			user2.setUserId("1213505-67f4-4461-a192-f4cb7fdafd34");
+			user2.setEmailId("nitin@techm.com");
+		
+			Assert.assertNotNull(user2);
+			
+			String solutionId = mlsolution.getSolutionId();
+			Assert.assertNotNull(solutionId);
+			
+			List<String> userList = new ArrayList<String>();
+			userList.add("1213505-67f4-4461-a192-f4cb7fdafd34");
+			userList.add("41058105-67f4-4461-a192-f4cb7fdafd34");
+			Assert.assertNotNull(userList);	
+			
+			JsonRequest<List<String>> userIdList = new JsonRequest<List<String>>();
+			userIdList.setBody(userList);
+			JsonResponse<User> data = new JsonResponse<>();
+			data.setResponseDetail("Users access for solution added Successfully");
+			Mockito.when(marketPlaceController.addSolutionUserAccess(request, solutionId,userIdList,response ))
+					.thenReturn(data);
+			//logger.info("RevisionList " + data.getResponseBody());
+			//Assert.assertNotNull(data);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+		}
+	}
+	
+	@Test
 	public void createTagTest() {
 		try {
 			MLPTag mlpTag = new MLPTag();
-			mlpTag.setTag("JAVA");
-			Assert.assertNotNull(mlpTag);
-			JsonRequest<MLPTag> mlpTagRes = new JsonRequest<>();
-			mlpTagRes.setBody(mlpTag);
-			Assert.assertNotNull(mlpTagRes);
-			JsonResponse<MLPTag> value = new JsonResponse<>();
-			value.setResponseBody(mlpTag);
-			Mockito.when(marketPlaceController.createTag(request, mlpTagRes, response)).thenReturn(value);
-			Assert.assertNotNull(value);
+			mlpTag.setTag("abc");
+			JsonRequest<MLPTag> tags = new  JsonRequest<MLPTag>();
+			tags.setBody(mlpTag);
+			JsonResponse<MLPTag> data = new JsonResponse<MLPTag>();	
+			data.setResponseDetail("Tags created Successfully");
+			Mockito.when(marketPlaceController.createTag(request, tags, response))
+					.thenReturn(data);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+	
+	@Test
+	public void getSolutionCountTest() {
+		try {
+			List test = new ArrayList<>();
+			RestPageResponseBE<MLSolution> data = new RestPageResponseBE<MLSolution>(test);	
+			data.setPrivateModelCount(12);
+			data.setPublicModelCount(34);
+			data.setCompanyModelCount(45);
+			data.setDeletedModelCount(32);
+			JsonResponse<RestPageResponseBE<MLSolution>> mlSolutions = new JsonResponse<>();
+			String userId = "1213505-67f4-4461-a192-f4cb7fdafd34";
+			mlSolutions.setResponseDetail("count fetched Successfully");
+			Mockito.when(marketPlaceController.getSolutionCount(request, userId, response))
+					.thenReturn(data);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+	
+	@Test
+	public void getUserRatingsTest() {
+		try {
+			JsonResponse<MLPSolutionRating> data = new JsonResponse<>();
+			MLPSolutionRating mlSolutionRating = new MLPSolutionRating();
+			mlSolutionRating.setRating(4);
+			mlSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+			mlSolutionRating.setUserId("1213505-67f4-4461-a192-f4cb7fdafd34");
+			String solutionId ="6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4";
+			String userId = "1213505-67f4-4461-a192-f4cb7fdafd34";
+			data.setResponseDetail("Ratings fetched Successfully");
+			Mockito.when(marketPlaceController.getUserRatings(request,solutionId, userId, response))
+					.thenReturn(data);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+
+		}
+	}
+	
+	@Test
+	public void findPortalSolutionsTest() {
+		try {
+			JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<RestPageResponse<MLPSolution>>();
+			JsonRequest<RestPageRequestPortal> restPageReqPortal = new JsonRequest<RestPageRequestPortal>();
+			RestPageRequestPortal restPageRequestPortal = new RestPageRequestPortal();
+			restPageRequestPortal.setActive(true);
+			restPageRequestPortal.setDescriptionKeyword("test");			
+			restPageReqPortal.setBody(restPageRequestPortal);
+			data.setResponseDetail("Solutions fetched Successfully");
+			Mockito.when(marketPlaceController.findPortalSolutions(request,restPageReqPortal, response))
+					.thenReturn(data);
 		} catch (Exception e) {
 			logger.info("Failed to execute the testcase");
 

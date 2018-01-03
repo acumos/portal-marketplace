@@ -100,8 +100,7 @@ public class AdminServiceController extends AbstractController {
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
                 data.setResponseDetail("Peers fetched Successfully");
             }
-        } catch (Exception e) {
-            
+        } catch (Exception e) {            
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching Peer for Admin Configuration");
             log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Peer for Admin Configuration", e);
@@ -118,30 +117,32 @@ public class AdminServiceController extends AbstractController {
         JsonResponse<Object> data = new JsonResponse<>();
         MLPPeer newPeer = null;
         try {
-            if (peer == null) {
+            if (peer != null) {
+                
+            	//First check if the Peer urls exists
+	            boolean isPeerExists = false;
+	            try {
+	                MLPPeer mlpPeer = adminService.findPeerByApiAndWebUrl(peer.getBody().getApiUrl(), peer.getBody().getWebUrl());
+	                if (mlpPeer != null) {
+	                    isPeerExists = true;
+	                }
+	            } catch (Exception e) {
+	                isPeerExists = false;
+	            }
+	            if (!isPeerExists) {
+	                newPeer = adminService.savePeer(peer.getBody());
+	                data.setResponseBody(newPeer);
+	                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+	                data.setResponseDetail("Success");
+	            } else {
+	                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+	                data.setResponseDetail("Reset_Content");
+	            } 
+            } else {
                 log.debug(EELFLoggerDelegate.errorLogger, "createPeer: Invalid Parameters");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                 data.setResponseDetail("Create Peer Failed");
-            }
-            //First check if the Peer urls exists
-            boolean isPeerExists = false;
-            try {
-                MLPPeer mlpPeer = adminService.findPeerByApiAndWebUrl(peer.getBody().getApiUrl(), peer.getBody().getWebUrl());
-                if (mlpPeer != null) {
-                    isPeerExists = true;
-                }
-            } catch (Exception e) {
-                isPeerExists = false;
-            }
-            if (!isPeerExists) {
-                newPeer = adminService.savePeer(peer.getBody());
-                data.setResponseBody(newPeer);
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                data.setResponseDetail("Success");
-            } else {
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                data.setResponseDetail("Reset_Content");
-            }
+            } 
 
         }
         catch (Exception e) {
@@ -160,15 +161,15 @@ public class AdminServiceController extends AbstractController {
         log.debug(EELFLoggerDelegate.debugLogger, "updatePeer={}", peer);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
-            if (peer.getBody() == null) {
-                log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-                data.setResponseDetail("Update Peer Failed");
-            } else {
-                adminService.updatePeer(peer.getBody());
-                data.setStatus(true);
-                data.setResponseDetail("Success");
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+            if (peer != null && peer.getBody() != null) {
+        	   adminService.updatePeer(peer.getBody());
+               data.setStatus(true);
+               data.setResponseDetail("Success");
+               data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+            } else {  
+               log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
+               data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+               data.setResponseDetail("Update Peer Failed");
             }
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -261,16 +262,16 @@ public class AdminServiceController extends AbstractController {
 		JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
 		MLPPeerSubscription peerSubscription = null;
 		try {
-			if (peerSub == null) {
+			if (peerSub != null) {
+				peerSubscription = adminService.createPeerSubscription(peerSub.getBody());
+				data.setResponseBody(peerSubscription);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Success");
+			} else {
 				log.debug(EELFLoggerDelegate.errorLogger, "createPeerSubscription: Invalid Parameters");
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Create PeerSubscription Failed");
 			}
-
-			peerSubscription = adminService.createPeerSubscription(peerSub.getBody());
-			data.setResponseBody(peerSubscription);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Success");
 
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -287,15 +288,15 @@ public class AdminServiceController extends AbstractController {
         log.debug(EELFLoggerDelegate.debugLogger, "updatePeerSubscription={}", peerSub);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
-            if (peerSub.getBody() == null) {
-                log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-                data.setResponseDetail("Update Peer subscription Failed");
-            } else {
-                adminService.updatePeerSubscription(peerSub.getBody());
+            if (peerSub!= null && peerSub.getBody() != null) {
+            	adminService.updatePeerSubscription(peerSub.getBody());
                 data.setStatus(true);
                 data.setResponseDetail("Success");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+            } else {
+            	log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                data.setResponseDetail("Update Peer subscription Failed");
             }
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -366,10 +367,14 @@ public class AdminServiceController extends AbstractController {
 		MLPSiteConfig siteConfiguration = null;
 		try {
 			data = new JsonResponse<>();
-			adminService.createSiteConfig(mlpSiteConfig.getBody());
-			data.setResponseBody(siteConfiguration);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Successfully create siteconfig");
+			if(mlpSiteConfig != null) {
+				adminService.createSiteConfig(mlpSiteConfig.getBody());
+				data.setResponseBody(siteConfiguration);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Successfully create siteconfig");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			}
 			log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig :  ");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -388,12 +393,16 @@ public class AdminServiceController extends AbstractController {
 		JsonResponse<MLPSiteConfig> data = null;
 		try {
 			data = new JsonResponse<>();
-			adminService.updateSiteConfig(mlpSiteConfig.getBody());
-			//adminService.createSiteConfig(mlpSiteConfig.getBody());
-			//data.setResponseBody(adminService.updateSiteConfig(mlpSiteConfig.getBody()));
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Successfully updated siteconfig");
-			log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig :  ");
+			if(mlpSiteConfig != null){
+				adminService.updateSiteConfig(mlpSiteConfig.getBody());
+				//adminService.createSiteConfig(mlpSiteConfig.getBody());
+				//data.setResponseBody(adminService.updateSiteConfig(mlpSiteConfig.getBody()));
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Successfully updated siteconfig");
+				log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig :  ");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
