@@ -529,6 +529,13 @@ box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1); background: #fff; padding:0;}
 .md-head-containerinner1 {display:flex; justify-content: space-between; align-content: center;flex-wrap: nowrap;}
 .md-head-containerinner-seperator {border-right: 1px solid #5A5A5A; margin-right: 10px; height: 24px;position:relative; top:1px;}
 .btn-company {margin-left: 5px !important;}
+
+.md-share-with-me {display:inline-block; width: 16px; height: 14px; background: url("../images/general-icons/ico_other_peoples_model_share_with_me.png") no-repeat center center;}
+.md-share-with-others {display:inline-block; width: 16px; height: 14px; background: url("../images/general-icons/ico_my_model_share_with_others.png") no-repeat center center;}
+
+.tilecontainer1 {display: flex; flex-wrap: nowrap; justify-content: space-between; align-content: center;}
+
+
 /************MODEL DETAILS PAGE STYLE END**************/
 
 /******TAB STYLE start*********/
@@ -1294,4 +1301,6 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
   .mpimage1 figure {display:flex;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
+
+
 

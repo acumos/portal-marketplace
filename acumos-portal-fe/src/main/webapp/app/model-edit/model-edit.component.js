@@ -48,6 +48,7 @@ angular
 						$scope.solutionCompanyDescStatus = false;
 						$scope.solutionPublicDescStatus = false;
 						$scope.icon = false;
+						$scope.modelDocumentation = false;
 						$scope.iconImages = ["CLI","curl", "dotnet","javascript", "java", "go",
 											"scala","ruby", "rust", 'REST API',"nodejs", "swift", 
 											"python", "R"];
@@ -790,6 +791,8 @@ angular
 																function() {
 																	$scope.showAlertMessage = false;
 																}, 2500);
+														
+														$scope.modelDocumentation = true;
 
 													},
 													function(error) {

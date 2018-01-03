@@ -10,7 +10,16 @@
 .team-user i img {
 	height: 30px;
 }
-.mdl-button--icon.active{background-color:#ECECEC;}
+
+.mdl-button--icon.active {
+	background-color: #ECECEC;
+}
+
+.disabled-title{
+	cursor: not-allowed;
+	color:red;
+	pointer-events: none;
+}
 </style>
 
 <div class="posrel">
@@ -42,10 +51,11 @@
 					</div>
 					<!-- |
 					<span>Model ID - 234831</span> -->
-					 <button id="demo-menu-lower-left11" class="mdl-button mdl-js-button mdl-button--icon">
-	                     <i class="material-icons">more_horiz</i>
-	                  </button>                                       
-					
+					<button id="demo-menu-lower-left11"
+						class="mdl-button mdl-js-button mdl-button--icon">
+						<i class="material-icons">more_horiz</i>
+					</button>
+
 					<span class="hide-xs hide-sm md-vertical-seperator"> | </span> <span
 						class="md-vertical-seperator">Owners - </span> <span
 						class="user_icon md-vertical-seperator"> <i> <!-- default image -->
@@ -57,29 +67,27 @@
 							title="{{solution.ownerName}}" />
 
 					</i> <!-- Shared with -->
-					
-                      <div class="mdl-menu mdl-js-menu" for="demo-menu-lower-left11">
-                          <div class="mdl-menu__item" data-ng-repeat="sharedmember in sharedWith">
-                               <span class="user_icon">
-                                      	<img
-										ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
-										id="T{{$index}}"
-										ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
-										alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-										title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
-			
-										<img
-										ng-show="sharedmember.picture == null || sharedmember.picture == ''"
-										id="T{{$index}}" src="images/userprofile/user-profile-black.png"
-										alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-										title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
-                                     
-                               </span>
-  								{{sharedmember.firstName}} {{sharedmember.lastName}}
-                          </div>
-                        </div>
-					 
-						<!-- <i ng-repeat="sharedmember in sharedWith">
+
+						<div class="mdl-menu mdl-js-menu" for="demo-menu-lower-left11">
+							<div class="mdl-menu__item"
+								data-ng-repeat="sharedmember in sharedWith">
+								<span class="user_icon"> <img
+									ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
+									id="T{{$index}}"
+									ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
+									alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+									title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+
+									<img
+									ng-show="sharedmember.picture == null || sharedmember.picture == ''"
+									id="T{{$index}}"
+									src="images/userprofile/user-profile-black.png"
+									alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+									title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+
+								</span> {{sharedmember.firstName}} {{sharedmember.lastName}}
+							</div>
+						</div> <!-- <i ng-repeat="sharedmember in sharedWith">
 							<img
 							ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
 							id="T{{$index}}"
@@ -559,7 +567,7 @@
 									<ul>
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
+												ng-class="{'green': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
 												<span class="imagecontent model-documentation"> <!-- <img
 													src="images/ico_model_documentation.png" alt="" title=""> -->
 												</span>
@@ -624,12 +632,13 @@
 										<li>
 											<div class="imageplace"
 												ng-class="{'active': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
-												<span class="imagecontent yet-not-publish"><!--  <img
+												<span class="imagecontent yet-not-publish">
+													<!--  <img
 													src="images/icon-yet-not-publish.png" alt="" title=""> -->
 												</span>
 											</div>
 											<div class="publshbutton hide">
-											<button
+												<button
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
 													View Model</button>
 											</div>
@@ -670,7 +679,8 @@
 										<div class="timeline-centered">
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="solution.name.length <= 0 && !company.step1">
+													<div class="timeline-icon"
+														ng-if="solution.name.length <= 0 && !company.step1">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
@@ -679,23 +689,25 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolName = !showSolName">Model Name</a> |
+															<a ng-click="showSolName = !showSolName" ng-class="{disabled-title: company.step1}">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
-														
-															<span class="green" ng-if="solution.name.length>=1 && !company.step1">
+
+															<span class="green"
+																ng-if="solution.name.length>=1 && !company.step1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span>
-															<span class="green" ng-if="company.step1">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
-															<span class="red" ng-if="solution.name.length <= 0 && !company.step1">
+															</span> <span class="green" ng-if="company.step1">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span> <span class="red"
+																ng-if="solution.name.length <= 0 && !company.step1">
 																Not Started</span>
 
 														</h2>
 														<p ng-hide="showSolName">{{solution.name}}</p>
 														<div class="checkbox" ng-if="solution.name.length <= 0">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step1" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>
+															<label> <input type="checkbox"
+																ng-model="$parent.company.step1" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 
 														<div ng-show="showSolName">
 															<div class="popovers">
@@ -711,7 +723,8 @@
 																<md-dialog-content>
 																<div class="md-dialog-content">
 																	<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																	<p>If you are uploading new version of previous model then use the same model name.</p>
+																		<p>If you are uploading new version of previous
+																			model then use the same model name.</p>
 																		<div
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																			<md-input-container class="md-icon-float md-block">
@@ -727,8 +740,9 @@
 																		<div
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																			<md-input-container class="md-icon-float md-block">
-																			<label>Model Version</label> <input disabled class="force-disable"
-																				ng-model="versionId" type="text"> </md-input-container>
+																			<label>Model Version</label> <input disabled
+																				class="force-disable" ng-model="versionId"
+																				type="text"> </md-input-container>
 																		</div>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter ">
@@ -768,14 +782,17 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showDCKEditor = !showDCKEditor">Model
-																Description</a> |
+															<a ng-click="showDCKEditor = !showDCKEditor" ng-class="{'disabled-title': company.step2}">Model
+																Description </a> |
 															<!-- <span class="red">Not Started</span> -->
-															<span class="green" ng-if="solutionCompanyDescStatus && !company.step2">
+															<span class="green"
+																ng-if="solutionCompanyDescStatus && !company.step2">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="!solutionCompanyDescStatus && !company.step2" class="red">Not
-																Started</span>
-															<span class="green" ng-if="company.step2">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+															</span> <span
+																ng-if="!solutionCompanyDescStatus && !company.step2"
+																class="red">Not Started</span> <span class="green"
+																ng-if="company.step2">Completed on {{currentDate
+																| date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<div
 															ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
@@ -838,11 +855,13 @@
 															Copy </md-button>
 														</div>
 														</p>
-														<div class="checkbox" ng-if="solutionCompanyDescStatus">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step2" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>
+														<div class="checkbox" ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
+															|| solutionCompanyDesc==null" > <!-- ng-if="solutionCompanyDescStatus" -->
+															<label> <input type="checkbox"
+																ng-model="company.step2" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 													</div>
 												</div>
 											</article>
@@ -858,14 +877,14 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolCat = !showSolCat">Model Category</a>
+															<a ng-click="showSolCat = !showSolCat" ng-class="{'disabled-title': company.step3}">Model Category</a>
 															| <span class="green"
 																ng-if="(solution.modelTypeName || solution.tookitTypeName ) && !company.step3">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
 																ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !company.step3">Not
-																Started</span>
-															<span class="green" ng-if="company.step3">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																Started</span> <span class="green" ng-if="company.step3">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span>
 
 														</h2>
 														<!-- <p>Some information can be display related to this
@@ -878,11 +897,13 @@
 																style="margin: 0px 5px;"><strong>
 																	Toolkit Type: </strong></label> {{solution.tookitTypeName}}
 														</p>
-														<div class="checkbox" ng-if="!solution.modelTypeName || !solution.tookitTypeName">
-                                                          <label>
-                                                               <input type="checkbox"  ng-model="$parent.company.step3" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>
+														<div class="checkbox"
+															ng-if="!solution.modelTypeName || !solution.tookitTypeName">
+															<label> <input type="checkbox"
+																ng-model="$parent.company.step3" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 														<div class="popovers category-popover"
 															ng-show="showSolCat">
 															<md-toolbar>
@@ -947,7 +968,8 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon">
-														<div class="timeline-icon" ng-if="!showSolutionDocs && !company.step4">
+														<div class="timeline-icon"
+															ng-if="!showSolutionDocs && !company.step4">
 															<span class="entypo-suitcase">4</span>
 														</div>
 														<div class="timeline-icon bg-success"
@@ -957,13 +979,14 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload">Model
+															<a ng-click="showFileUpload = !showFileUpload" ng-class="{'disabled-title': company.step4}">Model
 																Documents</a> | <span class="green"
-																ng-show="showSolutionDocs && !company.step4"> Completed on
-																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showSolutionDocs && !company.step4" class="red">Not
-																Started</span>
-																<span class="green" ng-if="company.step4">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																ng-show="showSolutionDocs && !company.step4">
+																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
+															</span> <span ng-show="!showSolutionDocs && !company.step4"
+																class="red">Not Started</span> <span class="green"
+																ng-if="company.step4">Completed on {{currentDate
+																| date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p ng-hide="showFileUpload">Add documents (such as a
 															README file) to give more details and show how to use
@@ -986,10 +1009,11 @@
 															Copy </md-button>
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step4" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>
+															<label> <input type="checkbox"
+																ng-model="$parent.company.step4" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 														<div class="popovers add-document"
 															ng-show="showFileUpload">
 															<md-toolbar class="_md _md-toolbar-transitions">
@@ -1062,7 +1086,8 @@
 											</article>
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="tags.length<1 && !company.step5">
+													<div class="timeline-icon"
+														ng-if="tags.length<1 && !company.step5">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
@@ -1072,11 +1097,13 @@
 
 													<div class="timeline-label">
 														<h2>
-															<a>Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1 && !company.step5"> Completed on
-																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-if="tags.length<1 && !company.step5" class="red">Not Started</span>
-																<span class="green" ng-if="company.step5">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+															<a ng-class="{'disabled-title': company.step5}">Model Tags</a> | <span class="green"
+																ng-if="!tags.length<1 && !company.step5">
+																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
+															</span> <span ng-if="tags.length<1 && !company.step5"
+																class="red">Not Started</span> <span class="green"
+																ng-if="company.step5">Completed on {{currentDate
+																| date:'MM/dd/yyyy'}}</span>
 
 														</h2>
 														<p>Choose tags to help describe your model. Add new
@@ -1098,10 +1125,11 @@
 															load-on-empty="true"></auto-complete> </tags-input>
 														</p>
 														<div class="checkbox" ng-if="tags.length<1">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.company.step5" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                        </div>
+															<label> <input type="checkbox"
+																ng-model="$parent.company.step5" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 														<div class="popovers add-document" ng-show="showSolTags">
 															<md-toolbar class="_md _md-toolbar-transitions">
 															<div class="md-toolbar-tools">
@@ -1201,7 +1229,8 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon">
-														<div class="timeline-icon" ng-if="!showSolutionImage && !company.step6">
+														<div class="timeline-icon"
+															ng-if="!showSolutionImage && !company.step6">
 															<span class="entypo-suitcase">6</span>
 														</div>
 														<div class="timeline-icon bg-success"
@@ -1211,22 +1240,24 @@
 													</div>
 													<div class="timeline-label last">
 														<h2>
-															<a ng-click="showImageUpload = !showImageUpload">Upload
+															<a ng-click="showImageUpload = !showImageUpload" ng-class="{'disabled-title': company.step6}">Upload
 																Image for Model</a> | <span class="green"
-																ng-show="showSolutionImage && !company.step6"> Completed on
-																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showSolutionImage && !company.step6" class="red">Not
-																Started</span>
-																<span class="green" ng-if="company.step6">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																ng-show="showSolutionImage && !company.step6">
+																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
+															</span> <span ng-show="!showSolutionImage && !company.step6"
+																class="red">Not Started</span> <span class="green"
+																ng-if="company.step6">Completed on {{currentDate
+																| date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file
 															with maximum size of 1MB.</p>
-															<div class="checkbox" ng-if="!showSolutionImage">
-	                                                          <label>
-	                                                               <input type="checkbox" ng-model="$parent.company.step6" ng-click="skipStep()"> Skip
-	                                                           </label>
-	                                                         </div>
+														<div class="checkbox" ng-if="!showSolutionImage">
+															<label> <input type="checkbox"
+																ng-model="$parent.company.step6" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
 															<div class="imagecontainer">
 																<img ng-src="{{imgURLdefault}}" alt="" title="" />
@@ -1238,41 +1269,49 @@
 															</div>
 															<div class="clearfix"></div>
 														</div>
-														<div class="popovers upload-icon" ng-show="showImageUpload">
+														<div class="popovers upload-icon"
+															ng-show="showImageUpload">
 															<md-toolbar>
-															  <div class="md-toolbar-tools">
+															<div class="md-toolbar-tools">
 																<h2>Upload Icon for Your Model</h2>
 																<span flex></span>
-																<md-button class="md-icon-button" ng-click="showImageUpload = !showImageUpload">
-																  <i class="material-icons">close</i>
-																</md-button>
-															  </div>
+																<md-button class="md-icon-button"
+																	ng-click="showImageUpload = !showImageUpload">
+																<i class="material-icons">close</i> </md-button>
+															</div>
 															</md-toolbar>
 															<md-dialog-content>
-															  <div class="md-dialog-content">
+															<div class="md-dialog-content">
 																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																	<form>	
+																	<form>
 																		<div class="mdl-grid imageuploader">
 																			<div class="mdl-cell mdl-cell--3-col">
 																				<div class="iconcontainer">
-																					<img ng-src="{{previewImage}}" alt="" title=""/>
+																					<img ng-src="{{previewImage}}" alt="" title="" />
 																				</div>
 																			</div>
 																			<div class="mdl-cell mdl-cell--9-col">
-																				<div class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth" data-drop="true"
+																				<div
+																					class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
+																					data-drop="true"
 																					jqyoui-droppable="{onDrop:'dropCallback'}"
 																					data-jqyoui-options="{revert: {{!icon}}}">
-																					<input class="mdl-textfield__input" placeholder="Upload Image" type="file" 
-																					fileinput="file" filepreview="previewImage" 
-																					data-drop="true"id="solImage"
-																					jqyoui-droppable="{onDrop:'dropCallback'}"
-																					data-jqyoui-options="{revert: {{!icon}}}"
-																					upload-image-model="solImage" readonly ng-show = "!icon"/>
-																					<input class="mdl-textfield__input" placeholder="Upload Image" type="text" 
-																					ng-model="solImage.name" ng-show = "icon" readonly/>
-																					<div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file" 
-																					ng-click = "icon = false">
-																					  <i class="material-icons">attach_file</i><input type="file" id="uploadBtn">
+																					<input class="mdl-textfield__input"
+																						placeholder="Upload Image" type="file"
+																						fileinput="file" filepreview="previewImage"
+																						data-drop="true" id="solImage"
+																						jqyoui-droppable="{onDrop:'dropCallback'}"
+																						data-jqyoui-options="{revert: {{!icon}}}"
+																						upload-image-model="solImage" readonly
+																						ng-show="!icon" /> <input
+																						class="mdl-textfield__input"
+																						placeholder="Upload Image" type="text"
+																						ng-model="solImage.name" ng-show="icon" readonly />
+																					<div
+																						class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
+																						ng-click="icon = false">
+																						<i class="material-icons">attach_file</i><input
+																							type="file" id="uploadBtn">
 																					</div>
 																				</div>
 																				<div>
@@ -1280,20 +1319,24 @@
 																				</div>
 																			</div>
 																		</div>
-																	    										
-																		<p>Set Default from below icons provided by Cognita</p>
+
+																		<p>Set Default from below icons provided by
+																			Cognita</p>
 																		<div class="mdl-grid">
-																		  <div class="mdl-cell mdl-cell--3-col iconboder" ng-repeat = "iconSrc in iconImages">
-																			<div class="iconcontainer">
-																				<img ng-src="images/solutions/{{iconSrc}}.png" ng-model = "iconImage" 
-																				
-																				data-drag="true" data-jqyoui-options="{revert: {{!icon}}}" 
-																				jqyoui-draggable = "{onStart:'startCallback(iconImage, $index)'}" alt="" title=""/>
-																				
+																			<div class="mdl-cell mdl-cell--3-col iconboder"
+																				ng-repeat="iconSrc in iconImages">
+																				<div class="iconcontainer">
+																					<img ng-src="images/solutions/{{iconSrc}}.png"
+																						ng-model="iconImage" data-drag="true"
+																						data-jqyoui-options="{revert: {{!icon}}}"
+																						jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
+																						alt="" title="" />
+
+																				</div>
+																				<div>{{iconSrc}}</div>
+																				<div class="clearfix"></div>
 																			</div>
-																			<div>{{iconSrc}}</div><div class="clearfix"></div>
-																		  </div>
-																		 <!--  <div class="mdl-cell mdl-cell--3-col">
+																			<!--  <div class="mdl-cell mdl-cell--3-col">
 																			<div class="iconcontainer">
 																				<img src="images/product.jpg"  alt="" title=""/>
 																			</div>
@@ -1329,23 +1372,21 @@
 																			</div>
 																		  </div>
 																		</div> -->
-																		
-																								
-																 
-																</form>
-																</div>																									
-															  </div>
-															  <div layout="row" class="popovers-cloud-modalfooter fullwidth layout-row">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" 
-																		ng-click="showImageUpload = !showImageUpload">
-																	Cancel
-																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" 
-																  	ng-click="updateSolImage(); showImageUpload = !showImageUpload">
-																	Done
-																  </md-button>
+																	</form>
 																</div>
-															</md-dialog-content>						
+															</div>
+															<div layout="row"
+																class="popovers-cloud-modalfooter fullwidth layout-row">
+																<md-button
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																	ng-click="showImageUpload = !showImageUpload">
+																Cancel </md-button>
+																<md-button
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	ng-click="updateSolImage(); showImageUpload = !showImageUpload">
+																Done </md-button>
+															</div>
+															</md-dialog-content>
 														</div>
 														<!-- <div class="popovers add-document"
 															ng-show="showImageUpload">
@@ -1424,7 +1465,7 @@
 
 										<div class="">
 											<button ng-click="publishtoMarket('OR')"
-											ng-disabled="activePublishBtn == false"
+												ng-disabled="activePublishBtn == false"
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
 												Submit to Publication</button>
 											<button
@@ -1433,143 +1474,142 @@
 												Model</button>
 
 											<!-- preview in Modal box start -->
-											
-											
+
+
 										</div>
-										
+
 										<div class="md-dialog-container " id="myDialog"
-												style="height: 0;">
-												<md-dialog aria-label="MarketPlace"
-													class="preview fullwidth">
-												<form ng-cloak>
-													<md-toolbar>
-													<div class="md-toolbar-tools">
-														<h2>Preview</h2>
-														<span flex></span>
-														<md-button class="md-icon-button" ng-click="closeDialog()">
-														<i class="material-icons">close</i> </md-button>
-													</div>
-													</md-toolbar>
-													<md-dialog-content>
-													<div class="md-dialog-content">
-														<div class="mdl-grid mdl-grid--no-spacing">
-															<div class="mdl-cell mdl-cell--12-col ">
-																<div class="posrel">
-																	<md-tabs md-dynamic-height md-border-bottom>
-																	<md-tab label="Marketplace View"> <md-content
-																		class="md-padding"><!-- MarketPlace Preview -->
-																	<div class="mp-grid">
-																		<div class="alert alert-info"
-																			ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
-																			<strong>No Result found</strong>
-																		</div>
-																		<!-- the current model along with two items from marketplace -->
-																		<div class="grid-item">
-																			<div class="grid-top-section">
-																				<div class="product-image">
-																					<figure>
-																						<!-- For Demo images according to model-name -->
-																						<img
-																							ng-if="solution.name.indexOf('Predictor') < 0 
+											style="height: 0;">
+											<md-dialog aria-label="MarketPlace" class="preview fullwidth">
+											<form ng-cloak>
+												<md-toolbar>
+												<div class="md-toolbar-tools">
+													<h2>Preview</h2>
+													<span flex></span>
+													<md-button class="md-icon-button" ng-click="closeDialog()">
+													<i class="material-icons">close</i> </md-button>
+												</div>
+												</md-toolbar>
+												<md-dialog-content>
+												<div class="md-dialog-content">
+													<div class="mdl-grid mdl-grid--no-spacing">
+														<div class="mdl-cell mdl-cell--12-col ">
+															<div class="posrel">
+																<md-tabs md-dynamic-height md-border-bottom> <md-tab
+																	label="Marketplace View"> <md-content
+																	class="md-padding"><!-- MarketPlace Preview -->
+																<div class="mp-grid">
+																	<div class="alert alert-info"
+																		ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
+																		<strong>No Result found</strong>
+																	</div>
+																	<!-- the current model along with two items from marketplace -->
+																	<div class="grid-item">
+																		<div class="grid-top-section">
+																			<div class="product-image">
+																				<figure>
+																					<!-- For Demo images according to model-name -->
+																					<img
+																						ng-if="solution.name.indexOf('Predictor') < 0 
 																							&& solution.name.indexOf('Threat') < 0 
 																							&& solution.name.indexOf('Emotion') < 0
 																							&& solution.name.indexOf('Face') < 0
 																							&& solution.name.indexOf('Video') < 0
 																							&& solution.name.indexOf('Chat') < 0
 																							&& solution.name.indexOf('Sentiment') < 0"
-																							ng-src="{{imgURLdefault}}" class="img-rounded"
-																							width="204" height="156">
+																						ng-src="{{imgURLdefault}}" class="img-rounded"
+																						width="204" height="156">
 
-																						<img
-																							ng-if="solution.name.indexOf('Predictor') > -1"
-																							ng-src="{{imgURLnull}}" class="img-rounded"
-																							width="204" height="156">
+																					<img
+																						ng-if="solution.name.indexOf('Predictor') > -1"
+																						ng-src="{{imgURLnull}}" class="img-rounded"
+																						width="204" height="156">
 
-																						<img ng-if="solution.name.indexOf('Threat') > -1"
-																							ng-src="{{imgURLthreat}}" class="img-rounded"
-																							width="204" height="156">
+																					<img ng-if="solution.name.indexOf('Threat') > -1"
+																						ng-src="{{imgURLthreat}}" class="img-rounded"
+																						width="204" height="156">
 
-																						<img ng-if="solution.name.indexOf('Emotion') > -1"
-																							ng-src="{{imgURLemotion}}" class="img-rounded"
-																							width="204" height="156">
+																					<img ng-if="solution.name.indexOf('Emotion') > -1"
+																						ng-src="{{imgURLemotion}}" class="img-rounded"
+																						width="204" height="156">
 
-																						<img ng-if="solution.name.indexOf('Face') > -1"
-																							ng-src="{{imgURLcommercial}}" class="img-rounded"
-																							width="204" height="156">
+																					<img ng-if="solution.name.indexOf('Face') > -1"
+																						ng-src="{{imgURLcommercial}}" class="img-rounded"
+																						width="204" height="156">
 
-																						<img ng-if="solution.name.indexOf('Video') > -1"
-																							ng-src="{{imgURLvideo}}" class="img-rounded"
-																							width="204" height="156">
+																					<img ng-if="solution.name.indexOf('Video') > -1"
+																						ng-src="{{imgURLvideo}}" class="img-rounded"
+																						width="204" height="156">
 
-																						<img ng-if="solution.name.indexOf('Chat') > -1"
-																							ng-src="{{imgURLChat}}" class="img-rounded"
-																							width="204" height="156">
+																					<img ng-if="solution.name.indexOf('Chat') > -1"
+																						ng-src="{{imgURLChat}}" class="img-rounded"
+																						width="204" height="156">
 
-																						<img
-																							ng-if="solution.name.indexOf('Sentiment') > -1"
-																							ng-src="{{imgURLSensitive}}" class="img-rounded"
-																							width="204" height="156">
-																					</figure>
-																				</div>
-																				<div class="mpdetailscontainer">
-																					<label class="griditem-title">{{solution.name}}
-																						<!-- <span class="text-xsmall link-orange">In Process</span> -->
-																					</label> <label class="grid-item-text-container"><span
-																						class="griditem-text2 grid-item-lbl">by
-																							{{solution.ownerName}}</span> | <span
-																						class="griditem-text2">on
-																							{{solution.created | date:'MM/dd/yyyy' }}</span> | <span
-																						class="text-xsmall link-orange"
-																						ng-if="mlsolution.active != ''">New</span></label>
-																					<p class="disblock mp-para"
-																						ng-bind-html="solutionPublicDesc">{{solutionPublicDesc}}</p>
-																					<!--  <p class="disblock mp-para">**** {{mlsolution.modelType}} ****</p>	 -->
-																				</div>
-																				<div class="rating clear_both">
+																					<img
+																						ng-if="solution.name.indexOf('Sentiment') > -1"
+																						ng-src="{{imgURLSensitive}}" class="img-rounded"
+																						width="204" height="156">
+																				</figure>
+																			</div>
+																			<div class="mpdetailscontainer">
+																				<label class="griditem-title">{{solution.name}}
+																					<!-- <span class="text-xsmall link-orange">In Process</span> -->
+																				</label> <label class="grid-item-text-container"><span
+																					class="griditem-text2 grid-item-lbl">by
+																						{{solution.ownerName}}</span> | <span
+																					class="griditem-text2">on {{solution.created
+																						| date:'MM/dd/yyyy' }}</span> | <span
+																					class="text-xsmall link-orange"
+																					ng-if="mlsolution.active != ''">New</span></label>
+																				<p class="disblock mp-para"
+																					ng-bind-html="solutionPublicDesc">{{solutionPublicDesc}}</p>
+																				<!--  <p class="disblock mp-para">**** {{mlsolution.modelType}} ****</p>	 -->
+																			</div>
+																			<div class="rating clear_both">
 
-																					<span> <i class="fa fa-star"
-																						ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
-																						aria-hidden="true"></i></span> <span><i
-																						class="fa fa-star"
-																						ng-class="{'fa-star1': mlsolution.solutionRating < 2}"
-																						aria-hidden="true"></i></span> <span><i
-																						class="fa fa-star"
-																						ng-class="{'fa-star1': mlsolution.solutionRating < 3}"
-																						aria-hidden="true"></i></span> <span><i
-																						class="fa fa-star"
-																						ng-class="{'fa-star1': mlsolution.solutionRating < 4}"
-																						aria-hidden="true"></i></span> <span><i
-																						class="fa fa-star"
-																						ng-class="{'fa-star1': mlsolution.solutionRating < 5}"
-																						aria-hidden="true"></i> </span>
+																				<span> <i class="fa fa-star"
+																					ng-class="{'fa-star1': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
+																					aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star"
+																					ng-class="{'fa-star1': mlsolution.solutionRating < 2}"
+																					aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star"
+																					ng-class="{'fa-star1': mlsolution.solutionRating < 3}"
+																					aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star"
+																					ng-class="{'fa-star1': mlsolution.solutionRating < 4}"
+																					aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star"
+																					ng-class="{'fa-star1': mlsolution.solutionRating < 5}"
+																					aria-hidden="true"></i> </span>
 
-																					<button
-																						class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-																						ng-disabled="!loginUserID"
-																						ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
-																						<i class="material-icons"
-																							ng-class="{'unselected-fav':!mlsolution.selectFav ,'selected-fav':mlsolution.selectFav}">favorite_border</i>
-																					</button>
-																				</div>
-																				<div class="md-icons md-icons-tiles">
-																					<span><span
-																						class="statistics-icons icon-chat"></span> 0</span> <span><span
-																						class="statistics-icons icon-view"></span>
-																						{{mlsolution.viewCount == null ? 0 :
-																						mlsolution.viewCount}}</span> <span><span
-																						class="statistics-icons icon-download"></span>
-																						{{mlsolution.downloadCount == null ? 0 :
-																						mlsolution.downloadCount}}</span> <span><span
-																						class="statistics-icons icon-attachment"></span>
-																						{{mlsolution.solutionTag == null ? 0 :
-																						mlsolution.solutionTag}}</span>
+																				<button
+																					class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+																					ng-disabled="!loginUserID"
+																					ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
+																					<i class="material-icons"
+																						ng-class="{'unselected-fav':!mlsolution.selectFav ,'selected-fav':mlsolution.selectFav}">favorite_border</i>
+																				</button>
+																			</div>
+																			<div class="md-icons md-icons-tiles">
+																				<span><span
+																					class="statistics-icons icon-chat"></span> 0</span> <span><span
+																					class="statistics-icons icon-view"></span>
+																					{{mlsolution.viewCount == null ? 0 :
+																					mlsolution.viewCount}}</span> <span><span
+																					class="statistics-icons icon-download"></span>
+																					{{mlsolution.downloadCount == null ? 0 :
+																					mlsolution.downloadCount}}</span> <span><span
+																					class="statistics-icons icon-attachment"></span>
+																					{{mlsolution.solutionTag == null ? 0 :
+																					mlsolution.solutionTag}}</span>
 
-																				</div>
 																			</div>
 																		</div>
+																	</div>
 
-																		<!-- two items from market place -->
-																		<!-- <div class="grid-item"
+																	<!-- two items from market place -->
+																	<!-- <div class="grid-item"
 																			ng-repeat="mlsolution in mlsolutions | limitTo: -2  | filter:(!searchResults || '') && {active:true} as filtered ">
 																			<div class="grid-top-section">
 																				<div class="product-image">
@@ -1683,214 +1723,212 @@
 																				</div>
 																			</div>
 																		</div> -->
-																		<!-- Grid item End -->
-																	</div>
+																	<!-- Grid item End -->
+																</div>
 
-																	</md-content> </md-tab> <md-tab label="Model Details"> <md-content
-																		class="md-padding"> <!-- Model Detail Preview -->
-																	<div class="page-wrapper3">
-																		<div
-																			class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-																			<div class="mdl-grid mdl-grid--no-spacing">
-																				<div class="mdl-cell md-left-container">
-																					<div class="mdl-tabs__tab-bar">
-																						<a href="#tab1-panel"
-																							class="mdl-tabs__tab is-active"> <span
-																							class="tab-box"> <span
-																								class="tab-icons tab-description"></span> <span>Description</span>
-																						</span>
-																						</a> <a href="#tab2-panel" class="mdl-tabs__tab">
-																							<span class="tab-box"> <span
-																								class="tab-icons tab-signatures"></span> <span>Signatures</span>
-																						</span>
-																						</a> <a href="#tab3-panel" class="mdl-tabs__tab">
-																							<span class="tab-box"> <span
-																								class="tab-icons tab-documents"></span> <span>Documents</span>
-																						</span>
+																</md-content> </md-tab> <md-tab label="Model Details"> <md-content
+																	class="md-padding"> <!-- Model Detail Preview -->
+																<div class="page-wrapper3">
+																	<div
+																		class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+																		<div class="mdl-grid mdl-grid--no-spacing">
+																			<div class="mdl-cell md-left-container">
+																				<div class="mdl-tabs__tab-bar">
+																					<a href="#tab1-panel"
+																						class="mdl-tabs__tab is-active"> <span
+																						class="tab-box"> <span
+																							class="tab-icons tab-description"></span> <span>Description</span>
+																					</span>
+																					</a> <a href="#tab2-panel" class="mdl-tabs__tab"> <span
+																						class="tab-box"> <span
+																							class="tab-icons tab-signatures"></span> <span>Signatures</span>
+																					</span>
+																					</a> <a href="#tab3-panel" class="mdl-tabs__tab"> <span
+																						class="tab-box"> <span
+																							class="tab-icons tab-documents"></span> <span>Documents</span>
+																					</span>
 
-																						</a>
-																						<button href="#tab4-panel" class="mdl-tabs__tab force-disable"
-																							ng-disabled='true'>
-																							<span class="tab-box"> <span
-																								class="tab-icons tab-versionhistory"></span> <span>Version
-																									History</span>
-																							</span>
-																						</button>
-																						<a href="#tab5-panel" class="mdl-tabs__tab"> </a>
-																					</div>
-																					<div>
-																						<h6 class="sectiontitle4">
-																							Tags <span class="title-icons icon-tags"></span>
-																						</h6>
-																						<div class="box-inner2 rowcontainer">
-																							<md-chips  ng-repeat="tag in solution.solutionTagList"> <md-chip>{{tag.tag}}</md-chip>
-																							</md-chips>
-																						</div>
-																					</div>
-																					<hr class="hor-seperator" />
+																					</a>
+																					<button href="#tab4-panel"
+																						class="mdl-tabs__tab force-disable"
+																						ng-disabled='true'>
+																						<span class="tab-box"> <span
+																							class="tab-icons tab-versionhistory"></span> <span>Version
+																								History</span>
+																						</span>
+																					</button>
+																					<a href="#tab5-panel" class="mdl-tabs__tab"> </a>
 																				</div>
-																				<div
-																					class="mdl-cell md-right-container model-details-tabwrapper">
-																					<div class="mdl-tabs__panel is-active"
-																						id="tab1-panel">
-																						<div class="md-intro-container">
-																							<h6 class="sectiontitle9">INTRODUCTION</h6>
-																							<button type="button"
-																								class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary">Company
-																								Marketplace</button>
-																							<button type="button"
-																								class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Public
-																								Marketplace</button>
-																						</div>
+																				<div>
+																					<h6 class="sectiontitle4">
+																						Tags <span class="title-icons icon-tags"></span>
+																					</h6>
+																					<div class="box-inner2 rowcontainer">
+																						<md-chips
+																							ng-repeat="tag in solution.solutionTagList">
+																						<md-chip>{{tag.tag}}</md-chip> </md-chips>
+																					</div>
+																				</div>
+																				<hr class="hor-seperator" />
+																			</div>
+																			<div
+																				class="mdl-cell md-right-container model-details-tabwrapper">
+																				<div class="mdl-tabs__panel is-active"
+																					id="tab1-panel">
+																					<div class="md-intro-container">
+																						<h6 class="sectiontitle9">INTRODUCTION</h6>
+																						<button type="button"
+																							class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary">Company
+																							Marketplace</button>
+																						<button type="button"
+																							class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Public
+																							Marketplace</button>
+																					</div>
 
-																						<div class="description-img-container">
-																							<!-- <img class="modelimg1" src="images/imagegallery2.jpg" /> -->
+																					<div class="description-img-container">
+																						<!-- <img class="modelimg1" src="images/imagegallery2.jpg" /> -->
 
-																							<!-- images changed for demo  -->
-																							<img
-																								ng-if="solution.name.indexOf('Predictor') < 0 
+																						<!-- images changed for demo  -->
+																						<img
+																							ng-if="solution.name.indexOf('Predictor') < 0 
 																									&& solution.name.indexOf('Threat') < 0 
 																									&& solution.name.indexOf('Emotion') < 0
 																									&& solution.name.indexOf('Face') < 0
 																									&& solution.name.indexOf('Video') < 0
 																									&& solution.name.indexOf('Chat') < 0
 																									&& solution.name.indexOf('Sentiment') < 0"
-																								ng-src="{{imgURLdefault}}" class="modelimg1"
-																								style="max-width: 400px; margin: 0 auto; display: block;">
+																							ng-src="{{imgURLdefault}}" class="modelimg1"
+																							style="max-width: 400px; margin: 0 auto; display: block;">
 
-																							<img
-																								ng-if="solution.name.indexOf('Predictor') > -1"
-																								ng-src="{{imgURLnull}}" class="modelimg1"
-																								style="max-width: 500px; margin: 0 auto; display: block;">
+																						<img
+																							ng-if="solution.name.indexOf('Predictor') > -1"
+																							ng-src="{{imgURLnull}}" class="modelimg1"
+																							style="max-width: 500px; margin: 0 auto; display: block;">
 
-																							<img ng-if="solution.name.indexOf('Threat') > -1"
-																								ng-src="{{imgURLthreat}}" class="modelimg1"
-																								style="max-width: 500px; margin: 0 auto; display: block;">
+																						<img ng-if="solution.name.indexOf('Threat') > -1"
+																							ng-src="{{imgURLthreat}}" class="modelimg1"
+																							style="max-width: 500px; margin: 0 auto; display: block;">
 
-																							<img
-																								ng-if="solution.name.indexOf('Emotion') > -1"
-																								ng-src="{{imgURLemotion}}" class="modelimg1"
-																								style="max-width: 500px; margin: 0 auto; display: block;">
+																						<img ng-if="solution.name.indexOf('Emotion') > -1"
+																							ng-src="{{imgURLemotion}}" class="modelimg1"
+																							style="max-width: 500px; margin: 0 auto; display: block;">
 
-																							<img ng-if="solution.name.indexOf('Face') > -1"
-																								ng-src="{{imgURLcommercial}}" class="modelimg1"
-																								style="max-width: 300px; margin: 0 auto; display: block;">
+																						<img ng-if="solution.name.indexOf('Face') > -1"
+																							ng-src="{{imgURLcommercial}}" class="modelimg1"
+																							style="max-width: 300px; margin: 0 auto; display: block;">
 
-																							<img ng-if="solution.name.indexOf('Video') > -1"
-																								ng-src="{{imgURLvideo}}" class="modelimg1"
-																								style="max-width: 500px; margin: 0 auto; display: block;">
+																						<img ng-if="solution.name.indexOf('Video') > -1"
+																							ng-src="{{imgURLvideo}}" class="modelimg1"
+																							style="max-width: 500px; margin: 0 auto; display: block;">
 
-																							<img ng-if="solution.name.indexOf('Chat') > -1"
-																								ng-src="{{imgURLChat}}" class="modelimg1"
-																								style="max-width: 500px; margin: 0 auto; display: block;">
+																						<img ng-if="solution.name.indexOf('Chat') > -1"
+																							ng-src="{{imgURLChat}}" class="modelimg1"
+																							style="max-width: 500px; margin: 0 auto; display: block;">
 
-																							<img
-																								ng-if="solution.name.indexOf('Sentiment') > -1"
-																								ng-src="{{imgURLSensitive}}" class="modelimg1"
-																								style="max-width: 500px; margin: 0 auto; display: block;">
+																						<img
+																							ng-if="solution.name.indexOf('Sentiment') > -1"
+																							ng-src="{{imgURLSensitive}}" class="modelimg1"
+																							style="max-width: 500px; margin: 0 auto; display: block;">
 
-																						</div>
-																						<div ng-bind-html="solutionPublicDesc"></div>
 																					</div>
-																					<div class="mdl-tabs__panel" id="tab2-panel">
-																						<h6 class="sectiontitle6">SIGNATURE</h6>
-																						<div ng-show="modelName">
-																							<div class="message"
-																								ng-repeat="(key,val) in messageDisplay">
-																								message {{key}} {
-																								<div
-																									ng-repeat="(key1,val1) in val track by $index">
-																									{{val1}};</div>
-																								}
-
-																							</div>
-																							service {{modelName}}{
-																							<div class="operation"
-																								ng-repeat="(key,val) in operationDisplay">
-																								{{key}} ({{val.input}}) returns {{val.output}};
-
-																							</div>
+																					<div ng-bind-html="solutionPublicDesc"></div>
+																				</div>
+																				<div class="mdl-tabs__panel" id="tab2-panel">
+																					<h6 class="sectiontitle6">SIGNATURE</h6>
+																					<div ng-show="modelName">
+																						<div class="message"
+																							ng-repeat="(key,val) in messageDisplay">
+																							message {{key}} {
+																							<div
+																								ng-repeat="(key1,val1) in val track by $index">
+																								{{val1}};</div>
 																							}
-																						</div>
-																					</div>
-																					<div class="mdl-tabs__panel" id="tab3-panel">
-																						<h6 class="sectiontitle6">SUPPORTING
-																							DOCUMENTS</h6>
-																						<table
-																							class="mdl-data-table mdl-js-data-table md-tbl1">
-																							<colgroup>
-																								<col />
-																								<col />
-																								<col />
-																								<col width="10%" />
-																							</colgroup>
-																							<thead>
-																								<tr>
-																									<th>Folder/Documents</th>
-																									<th>Version</th>
-																									<th>Modified on</th>
-																									<th>action</th>
-																								</tr>
-																							</thead>
-																							<tbody>
-																								<!-- ng-repeat = "value in downloadData" -->
-																								<tr ng-repeat="supportingDoc in supportingDocs">
-																									<td><span class="file-type"><i
-																											class="fa fa-file-word-o" aria-hidden="true"></i></span><a
-																										class="link-blue">{{supportingDoc}}</a></td>
-																									<td>{{value.version}}</td>
-																									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
-																									<td><a
-																										href="/site/binaries/content/assets/solutiondocs/solution/public/{{solution.solutionId}}/{{supportingDoc}}">
-																											<i class="fa fa-download" aria-hidden="true"></i>
-																									</a></td>
-																								</tr>
-																							</tbody>
-																						</table>
-																					</div>
-																					<div class="mdl-tabs__panel" id="tab4-panel">
-																						<h6 class="sectiontitle6">VERSION HISTORY OF
-																							SOLUTION</h6>
-																						<table
-																							class="mdl-data-table mdl-js-data-table md-tbl1">
-																							<colgroup>
-																								<col />
-																								<col />
-																								<col />
-																								<col width="15%" />
-																							</colgroup>
-																							<thead>
-																								<tr>
-																									<th>Version Name</th>
-																									<th>Version</th>
-																									<th>Modified on</th>
-																									<th>Action</th>
-																								</tr>
-																							</thead>
-																							<tbody>
-																								<tr>
-																									<td>
-																										<!-- <a class="link-blue" href="#"> -->Version
-																										name {{value.name}}<!-- </a> --> <span
-																										class="font600">| Latest</span>
-																									</td>
-																									<td>{{value.version}}</td>
-																									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
-																									<td>
-																										<button
-																											class="mdl-button mdl-js-button btn-grid-action"
-																											ng-click="$root.showPrerenderedDialog($event, '#downloadConfirm')">
-																											<i class="fa fa-download" aria-hidden="true"></i>
-																										</button>
 
-																									</td>
-																								</tr>
-																							</tbody>
-																						</table>
+																						</div>
+																						service {{modelName}}{
+																						<div class="operation"
+																							ng-repeat="(key,val) in operationDisplay">
+																							{{key}} ({{val.input}}) returns {{val.output}};</div>
+																						}
 																					</div>
-																					<div class="mdl-tabs__panel" id="tab5-panel">Content
-																						5</div>
-																					<!-- <div class="md-lower-container1">
+																				</div>
+																				<div class="mdl-tabs__panel" id="tab3-panel">
+																					<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
+																					<table
+																						class="mdl-data-table mdl-js-data-table md-tbl1">
+																						<colgroup>
+																							<col />
+																							<col />
+																							<col />
+																							<col width="10%" />
+																						</colgroup>
+																						<thead>
+																							<tr>
+																								<th>Folder/Documents</th>
+																								<th>Version</th>
+																								<th>Modified on</th>
+																								<th>action</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<!-- ng-repeat = "value in downloadData" -->
+																							<tr ng-repeat="supportingDoc in supportingDocs">
+																								<td><span class="file-type"><i
+																										class="fa fa-file-word-o" aria-hidden="true"></i></span><a
+																									class="link-blue">{{supportingDoc}}</a></td>
+																								<td>{{value.version}}</td>
+																								<td>{{value.created | date:'MM/dd/yyyy'}}</td>
+																								<td><a
+																									href="/site/binaries/content/assets/solutiondocs/solution/public/{{solution.solutionId}}/{{supportingDoc}}">
+																										<i class="fa fa-download" aria-hidden="true"></i>
+																								</a></td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</div>
+																				<div class="mdl-tabs__panel" id="tab4-panel">
+																					<h6 class="sectiontitle6">VERSION HISTORY OF
+																						SOLUTION</h6>
+																					<table
+																						class="mdl-data-table mdl-js-data-table md-tbl1">
+																						<colgroup>
+																							<col />
+																							<col />
+																							<col />
+																							<col width="15%" />
+																						</colgroup>
+																						<thead>
+																							<tr>
+																								<th>Version Name</th>
+																								<th>Version</th>
+																								<th>Modified on</th>
+																								<th>Action</th>
+																							</tr>
+																						</thead>
+																						<tbody>
+																							<tr>
+																								<td>
+																									<!-- <a class="link-blue" href="#"> -->Version
+																									name {{value.name}}<!-- </a> --> <span
+																									class="font600">| Latest</span>
+																								</td>
+																								<td>{{value.version}}</td>
+																								<td>{{value.created | date:'MM/dd/yyyy'}}</td>
+																								<td>
+																									<button
+																										class="mdl-button mdl-js-button btn-grid-action"
+																										ng-click="$root.showPrerenderedDialog($event, '#downloadConfirm')">
+																										<i class="fa fa-download" aria-hidden="true"></i>
+																									</button>
+
+																								</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																				</div>
+																				<div class="mdl-tabs__panel" id="tab5-panel">Content
+																					5</div>
+																				<!-- <div class="md-lower-container1">
 																						<div
 																							class="mdl-grid mdl-grid--no-spacing bdr-bottom">
 																							<div
@@ -2076,30 +2114,30 @@
 																							</div>
 																						</div>
 																					</div> -->
-																				</div>
 																			</div>
 																		</div>
 																	</div>
-																	</md-content> </md-tab> </md-tabs>
 																</div>
+																</md-content> </md-tab> </md-tabs>
 															</div>
 														</div>
-														<hr />
-														<div layout="row" class="deploy-cloud-modalfooter">
-															<md-button ng-click="closeDialog()"
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-															Cancel </md-button>
-															<!-- <md-button ng-click="publishtoMarket('OR')"
+													</div>
+													
+													<div layout="row" class="deploy-cloud-modalfooter">
+														<!-- <md-button ng-click="closeDialog()"
+															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+														Cancel </md-button> -->
+														<!-- <md-button ng-click="publishtoMarket('OR')"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 															Submit to Publication </md-button> -->
-														</div>
 													</div>
-													</md-dialog-content>
+												</div>
+												</md-dialog-content>
 
-												</form>
-												</md-dialog>
-											</div>
-											<!-- preview in Modal box end -->
+											</form>
+											</md-dialog>
+										</div>
+										<!-- preview in Modal box end -->
 
 										<div class="clearfix"></div>
 									</div>
@@ -2128,7 +2166,7 @@
 										</li>
 										<li class="progress-status"
 											ng-class="{'green': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
-										</li>										
+										</li>
 										<li>
 											<div class="imageplace"
 												ng-class="{'active': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
@@ -2179,7 +2217,7 @@
 												</span>
 											</div>
 											<div class="publshbutton hide">
-											<button
+												<button
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
 													View Model</button>
 											</div>
@@ -2219,7 +2257,8 @@
 										<div class="timeline-centered">
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="solution.name.length <= 0 && !public.step1">
+													<div class="timeline-icon"
+														ng-if="solution.name.length <= 0 && !public.step1">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
@@ -2229,22 +2268,25 @@
 
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolName = !showSolName">Model Name</a> |
+															<a ng-click="showSolName = !showSolName" ng-class="{'disabled-title': public.step1}">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
 
-															<span class="green" ng-if="solution.name.length>=1 && !public.step1">
+															<span class="green"
+																ng-if="solution.name.length>=1 && !public.step1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span class="red" ng-if="solution.name.length < 0 && !public.step1">
-																Not Started</span>
-															<span class="green" ng-if="public.step1">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+															</span> <span class="red"
+																ng-if="solution.name.length < 0 && !public.step1">
+																Not Started</span> <span class="green" ng-if="public.step1">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span>
 
 														</h2>
 														<p ng-hide="showSolName">{{solution.name}}</p>
 														<div class="checkbox" ng-if="solution.name.length <= 0">
-                                                            <label>
-                                                              <input type="checkbox" ng-model="$parent.public.step1" ng-click="skipStep()"> Skip
-                                                            </label>
-                                                         </div>
+															<label> <input type="checkbox"
+																ng-model="$parent.public.step1" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 														<div ng-show="showSolName">
 															<div class="popovers">
 																<md-toolbar>
@@ -2259,7 +2301,8 @@
 																<md-dialog-content>
 																<div class="md-dialog-content">
 																	<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																	<p>If you are uploading new version of previous model then use the same model name.</p>
+																		<p>If you are uploading new version of previous
+																			model then use the same model name.</p>
 																		<div
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																			<md-input-container class="md-icon-float md-block">
@@ -2316,14 +2359,16 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showCKEditor = !showCKEditor">Model
+															<a ng-click="showCKEditor = !showCKEditor" ng-class="{'disabled-title': public.step2}">Model
 																Description</a> |
 															<!-- <span class="red">Not Started</span> -->
-															<span class="green" ng-if="solutionPublicDescStatus && !public.step2">
+															<span class="green"
+																ng-if="solutionPublicDescStatus && !public.step2">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="!solutionPublicDescStatus && !public.step2" class="red">Not
-																Started</span>
-															<span class="green" ng-if="public.step2">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+															</span> <span ng-if="!solutionPublicDescStatus && !public.step2"
+																class="red">Not Started</span> <span class="green"
+																ng-if="public.step2">Completed on {{currentDate |
+																date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<div
 															ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
@@ -2387,11 +2432,13 @@
 															Copy </md-button>
 														</div>
 														</p>
-														<div class="checkbox" ng-if="!solutionPublicDescStatus">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step2" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>    
+														<div class="checkbox" ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
+															|| solutionPublicDesc==null"> <!--ng-if="!solutionPublicDescStatus"-->
+															<label> <input type="checkbox"
+																ng-model="public.step2" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 													</div>
 												</div>
 											</article>
@@ -2407,14 +2454,14 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolCat = !showSolCat">Model Category</a>
+															<a ng-click="showSolCat = !showSolCat" ng-class="{'disabled-title': public.step3}">Model Category</a>
 															| <span class="green"
 																ng-if="(solution.modelTypeName || solution.tookitTypeName) && !public.step3">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
 																ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !public.step3">Not
-																Started</span>
-															<span class="green" ng-if="public.step3">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																Started</span> <span class="green" ng-if="public.step3">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<!-- <p>Some information can be display related to this
 															perticular task, such as how to complete this task what
@@ -2484,17 +2531,20 @@
 															</label>
 														</div>
 														</p> -->
-														<div class="checkbox" ng-if="!solution.modelTypeName || !solution.tookitTypeName">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step3" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>    
+														<div class="checkbox"
+															ng-if="!solution.modelTypeName || !solution.tookitTypeName">
+															<label> <input type="checkbox"
+																ng-model="$parent.public.step3" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 													</div>
 												</div>
 											</article>
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="!showPublicSolutionDocs && !public.step4">
+													<div class="timeline-icon"
+														ng-if="!showPublicSolutionDocs && !public.step4">
 														<span class="entypo-suitcase">4</span>
 													</div>
 													<div class="timeline-icon bg-success"
@@ -2503,13 +2553,14 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload">Model
+															<a ng-click="showFileUpload = !showFileUpload" ng-class="{'disabled-title': public.step4}">Model
 																Documents</a> | <span class="green"
-																ng-show="showPublicSolutionDocs && !public.step4"> Completed on
-																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showPublicSolutionDocs && !public.step4" class="red">Not
-																Started</span>
-																<span class="green" ng-if="public.step4">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																ng-show="showPublicSolutionDocs && !public.step4">
+																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
+															</span> <span ng-show="!showPublicSolutionDocs && !public.step4"
+																class="red">Not Started</span> <span class="green"
+																ng-if="public.step4">Completed on {{currentDate |
+																date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Add documents (such as a README file) to give more
 															details and show how to use your model.</p>
@@ -2593,10 +2644,11 @@
 															</md-dialog-content>
 														</div>
 														<div class="checkbox" ng-if="!showPublicSolutionDocs">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step4" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>    
+															<label> <input type="checkbox"
+																ng-model="$parent.public.step4" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 														<!-- <p>
 														<div class="checkbox">
 															<label> <input type="checkbox"> Use the
@@ -2609,7 +2661,8 @@
 											</article>
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="tags.length<1 && !public.step5"">
+													<div class="timeline-icon"
+														ng-if="tags.length<1 && !public.step5"">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
@@ -2619,11 +2672,12 @@
 
 													<div class="timeline-label">
 														<h2>
-															<a>Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1 && !public.step5"> Completed on
-																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-if="tags.length<1 && !public.step5" class="red">Not Started</span>
-																<span class="green" ng-if="public.step5">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+															<a ng-class="{'disabled-title': public.step5}">Model Tags</a> | <span class="green"
+																ng-if="!tags.length<1 && !public.step5">
+																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
+															</span> <span ng-if="tags.length<1 && !public.step5" class="red">Not
+																Started</span> <span class="green" ng-if="public.step5">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Choose tags to help describe your model. Add new
 															tags if needed.</p>
@@ -2649,10 +2703,11 @@
 														</div>
 														</p> -->
 														<div class="checkbox" ng-if="tags.length<1">
-                                                          <label>
-                                                               <input type="checkbox" ng-model="$parent.public.step5" ng-click="skipStep()"> Skip
-                                                           </label>
-                                                         </div>    
+															<label> <input type="checkbox"
+																ng-model="$parent.public.step5" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 													</div>
 												</div>
 											</article>
@@ -2680,7 +2735,8 @@
 											</article> -->
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="!showSolutionImage && !public.step6">
+													<div class="timeline-icon"
+														ng-if="!showSolutionImage && !public.step6">
 														<span class="entypo-suitcase">6</span>
 													</div>
 													<div class="timeline-icon bg-success"
@@ -2689,22 +2745,24 @@
 													</div>
 													<div class="timeline-label last">
 														<h2>
-															<a ng-click="showImageUpload = !showImageUpload">Upload
+															<a ng-click="showImageUpload = !showImageUpload" ng-class="{'disabled-title': public.step6}">Upload
 																Image for Model</a> | <span class="green"
-																ng-show="showSolutionImage && !public.step6"> Completed on
-																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
-																ng-show="!showSolutionImage && !public.step6" class="red">Not
-																Started</span>
-																<span class="green" ng-if="public.step6">Completed on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																ng-show="showSolutionImage && !public.step6">
+																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
+															</span> <span ng-show="!showSolutionImage && !public.step6"
+																class="red">Not Started</span> <span class="green"
+																ng-if="public.step6">Completed on {{currentDate |
+																date:'MM/dd/yyyy'}}</span>
 														</h2>
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file
 															with maximum size of 1MB.</p>
-															<div class="checkbox"  ng-if="!showSolutionImage">
-	                                                          <label>
-	                                                               <input type="checkbox" ng-model="$parent.public.step6" ng-click="skipStep()"> Skip
-	                                                           </label>
-	                                                         </div>
+														<div class="checkbox" ng-if="!showSolutionImage">
+															<label> <input type="checkbox"
+																ng-model="$parent.public.step6" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
 															<div class="imagecontainer">
 																<img ng-src="{{imgURLdefault}}" alt="" title="" />
@@ -2716,37 +2774,44 @@
 															</div>
 															<div class="clearfix"></div>
 														</div>
-														<div class="popovers upload-icon" ng-show="showImageUpload">
+														<div class="popovers upload-icon"
+															ng-show="showImageUpload">
 															<md-toolbar>
-															  <div class="md-toolbar-tools">
+															<div class="md-toolbar-tools">
 																<h2>Upload Icon for Your Model</h2>
 																<span flex></span>
-																<md-button class="md-icon-button" ng-click="showImageUpload = !showImageUpload">
-																  <i class="material-icons">close</i>
-																</md-button>
-															  </div>
+																<md-button class="md-icon-button"
+																	ng-click="showImageUpload = !showImageUpload">
+																<i class="material-icons">close</i> </md-button>
+															</div>
 															</md-toolbar>
 															<md-dialog-content>
-															  <div class="md-dialog-content">
+															<div class="md-dialog-content">
 																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																	<form>	
+																	<form>
 																		<div class="mdl-grid imageuploader">
 																			<div class="mdl-cell mdl-cell--3-col">
 																				<div class="iconcontainer">
-																					<img ng-src="{{previewImage}}" alt="" title=""/>
+																					<img ng-src="{{previewImage}}" alt="" title="" />
 																				</div>
 																			</div>
 																			<div class="mdl-cell mdl-cell--9-col">
-																				<div class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth" >
-																					<input class="mdl-textfield__input" placeholder="Upload Image" type="file" 
-																					fileinput="file" filepreview="previewImage" 
-																					data-drop="true"id="solImage"
-																					jqyoui-droppable="{onDrop:'dropCallback'}"
-																					upload-image-model="solImage" readonly ng-show = "!icon"/>
-																					<input class="mdl-textfield__input" placeholder="Upload Image" type="text" 
-																					ng-model="solImage.name" ng-show = "icon" readonly/>
-																					<div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
-																					  <i class="material-icons">attach_file</i><input type="file" id="uploadBtn">
+																				<div
+																					class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth">
+																					<input class="mdl-textfield__input"
+																						placeholder="Upload Image" type="file"
+																						fileinput="file" filepreview="previewImage"
+																						data-drop="true" id="solImage"
+																						jqyoui-droppable="{onDrop:'dropCallback'}"
+																						upload-image-model="solImage" readonly
+																						ng-show="!icon" /> <input
+																						class="mdl-textfield__input"
+																						placeholder="Upload Image" type="text"
+																						ng-model="solImage.name" ng-show="icon" readonly />
+																					<div
+																						class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+																						<i class="material-icons">attach_file</i><input
+																							type="file" id="uploadBtn">
 																					</div>
 																				</div>
 																				<div>
@@ -2754,20 +2819,26 @@
 																				</div>
 																			</div>
 																		</div>
-																	    										
-																		<p>Set Default from below icons provided by Cognita</p>
+
+																		<p>Set Default from below icons provided by
+																			Cognita</p>
 																		<div class="mdl-grid">
-																		  <div class="mdl-cell mdl-cell--3-col iconboder" ng-repeat = "iconSrc in iconImages">
-																			<div class="iconcontainer">
-																				<img ng-src="images/solutions/{{iconSrc}}.png" ng-model = "iconImage" 
-																				ng-class = "{'initialPosition' : icon}"
-																				data-drag="true" data-jqyoui-options="{revert: 'invalid'}" 
-																				jqyoui-draggable = "{onStart:'startCallback(iconImage, $index)'}" alt="" title=""/>
-																				
+																			<div class="mdl-cell mdl-cell--3-col iconboder"
+																				ng-repeat="iconSrc in iconImages">
+																				<div class="iconcontainer">
+																					<img ng-src="images/solutions/{{iconSrc}}.png"
+																						ng-model="iconImage"
+																						ng-class="{'initialPosition' : icon}"
+																						data-drag="true"
+																						data-jqyoui-options="{revert: 'invalid'}"
+																						jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
+																						alt="" title="" />
+
+																				</div>
+																				<div>{{iconSrc}}</div>
+																				<div class="clearfix"></div>
 																			</div>
-																			<div>{{iconSrc}}</div><div class="clearfix"></div>
-																		  </div>
-																		 <!--  <div class="mdl-cell mdl-cell--3-col">
+																			<!--  <div class="mdl-cell mdl-cell--3-col">
 																			<div class="iconcontainer">
 																				<img src="images/product.jpg"  alt="" title=""/>
 																			</div>
@@ -2803,22 +2874,22 @@
 																			</div>
 																		  </div>
 																		</div> -->
-																		
 																	</form>
-																</div>								
-																 							
-															  </div>
-															  <div layout="row" class="popovers-cloud-modalfooter fullwidth layout-row ">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" 
-																		ng-click="showImageUpload = !showImageUpload">
-																	Cancel
-																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" 
-																  	ng-click="updateSolImage(); showImageUpload = !showImageUpload">
-																	Done
-																  </md-button>
-																</div>	
-															</md-dialog-content>						
+																</div>
+
+															</div>
+															<div layout="row"
+																class="popovers-cloud-modalfooter fullwidth layout-row ">
+																<md-button
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																	ng-click="showImageUpload = !showImageUpload">
+																Cancel </md-button>
+																<md-button
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	ng-click="updateSolImage(); showImageUpload = !showImageUpload">
+																Done </md-button>
+															</div>
+															</md-dialog-content>
 														</div>
 														<!-- <div class="popovers add-document"
 															ng-show="showImageUpload">
@@ -2901,7 +2972,7 @@
 											<button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
 												ng-click="showPrerenderedDialog($event)">Preview
-												Model</button>											
+												Model</button>
 										</div>
 										<div class="clearfix"></div>
 									</div>
@@ -3158,8 +3229,7 @@
 									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 									Delete</button>
 
-								<p ng-show="!isModelActive">Solution is
-									deleted/inactive</p>
+								<p ng-show="!isModelActive">Solution is deleted/inactive</p>
 
 							</div>
 							<!-- delete end -->

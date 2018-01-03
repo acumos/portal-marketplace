@@ -437,7 +437,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 
 /* command line page*/
 .onboarding .workflow-right h3{font-size: 17px; line-height: 32px; margin: 24px 0 16px;}
-.onboarding .workflow-right h2, .onboarding. workflow-right h4{font-size: 20px;}
+.onboarding .workflow-right h2, .onboarding .workflow-right h4{font-size: 20px;}
 
 /* media query start */
 @media(max-width:767px){
