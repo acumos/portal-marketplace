@@ -436,7 +436,7 @@ angular
 								categoryUrl = categoryUrl.slice(0, -1);
 							}
 							$scope.categoryFilter = categoryUrl;
-							if(type == 'sortBy'){$scope.sortBy = checkbox.value;}else if(type == 'sortById')$scope.sortById = checkbox.value;
+							if(type == 'sortBy'){$scope.sortBy = checkbox.value; $scope.selectedAction = checkbox.name; }else if(type == 'sortById')$scope.sortById = checkbox.value;
 							/*
 							 * else if(type == 'sortBy'){ sortByUrl='';url='';
 							 * $scope.sortedby = checkbox; $scope.sortBy =

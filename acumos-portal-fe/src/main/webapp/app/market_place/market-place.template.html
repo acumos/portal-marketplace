@@ -79,13 +79,13 @@
 									<div class="marketplace-btn-container">								  
 										<button id="demo-menu-lower-right2"
 												class="mdl-button mdl-js-button btn-sort bdr">
-											<span class="hide-xs"><span class="txtspan1">Sort By</span> - All</span>	
+											<span class="hide-xs"><span class="txtspan1">Sort By</span> - <span ng-if="!sortBy">All</span> <span ng-if="sortBy">{{selectedAction}}</span></span>	
 											<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort_by_alpha</i></span>	
 										  <i class="material-icons">keyboard_arrow_down</i>
 										</button>
 										<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist1"
 											for="demo-menu-lower-right2">
-											<li class="mdl-menu__item" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy')">{{action.name}}</li>
+											<li class="mdl-menu__item" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</li>
 										  </ul>
 									
 									 </div>
