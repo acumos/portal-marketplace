@@ -202,7 +202,7 @@
 														<div>
 															<span class="admin-search-lbl">Search User</span>
 															<div class="mdl-textfield mdl-js-textfield user-mgmt-search-container">
-																	<input class="mdl-textfield__input adminsearchicon" type="text" ng-model='searchUserDetails.firstName'>
+																	<input class="mdl-textfield__input adminsearchicon" type="text" ng-model='searchUserDetails.username'>
 																	<!-- <label class="mdl-textfield__label" for="module-search">Search User</label> -->
 															</div>
 														</div>
@@ -226,8 +226,8 @@
 														  <th>Role</th>
 														</tr>
 													  </thead>
-													  <tbody>
-														<tr ng-repeat="val in userDetails | filter: searchUserDetails.firstName && {active:true} as filtered">
+													  <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))">
+														<tr ng-show = "{{val.active}}">
 										
 															<td>
 																<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox{{$index}}">
@@ -235,7 +235,7 @@
 																  <span class="mdl-checkbox__label"></span>
 																</label>
 															</td>
-															  <td class="mdl-data-table__cell--non-numeric">{{val.username}}</td>
+															  <td class="mdl-data-table__cell--non-numeric">{{val.username}} </td>
 															  <td>{{val.emailId}}</td>
 															  <!-- <td>Administrator</td> -->
 															  <td>
@@ -253,7 +253,8 @@
 														
 													  </tbody>
 													</table>
-													<div class="alert c-info text-center" ng-if="filtered.length == 0">
+													
+													<div class="alert c-info text-center" ng-show="$parent.filtertedUser.length == 0">
 							                   			<strong>No Result Found</strong> 
 						                   			</div>
 												</div>
