@@ -2132,6 +2132,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
         List<MLPSolution> originalSolutionsList = new ArrayList<MLPSolution>();
         List<MLSolution> content = new ArrayList<>();
         RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
+        RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
         
         mlpSolutionsRest = dataServiceRestClient.getSolutions(
                 new RestPageRequest(0, 2000, queryParameters));
@@ -2139,7 +2140,15 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
         originalSolutionsList = mlpSolutionsRest.getContent().stream()
                 .filter(mlpSolution -> (!PortalUtils.isEmptyOrNullString(mlpSolution.getOwnerId())
                         && userId.equalsIgnoreCase(mlpSolution.getOwnerId())))
-                .collect(Collectors.toList());                    
+                .collect(Collectors.toList());   
+        
+        //shared models for user added
+        mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(userId, new RestPageRequest(0, 1000, queryParameters));
+		if(mlpSolutionsShareRest != null){
+			for(MLPSolution mlpSolution:mlpSolutionsShareRest){
+				originalSolutionsList.add(mlpSolution);
+			}
+		}
         
         if (originalSolutionsList != null) {
             int prModelCnt = 0;
