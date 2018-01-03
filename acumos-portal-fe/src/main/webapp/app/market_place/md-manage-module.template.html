@@ -8,7 +8,7 @@
 			<div
 				class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
 				<span class="headline mob-disblock"> <!-- Manage  -->My
-					Models
+					Models 
 				</span>
 				<ul class="c-breadcrumb">
 					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
@@ -215,8 +215,13 @@
 										<!-- <span class="img-ctag"><i class="material-icons">copyright</i> </span> -->
 									</div>
 									<div class="mpdetailscontainer">
-										<label class="griditem-title">{{privateSolution.name}}
-										</label> <label class="grid-item-text-container"><span
+										<div class="tilecontainer1">
+											<label class="griditem-title">{{privateSolution.name}}</label>
+											<!-- Shared icon. Commented now, Uncomment and work -->
+											<!-- .md-share-with-me and .md-share-with-others classes for icons-->
+											<!-- <span class="md-share-with-others"></span> -->
+										</div>  
+										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
 												{{privateSolution.ownerName}}</span> | <span class="griditem-text2">on
 												{{privateSolution.modified || privateSolution.created |
@@ -336,9 +341,14 @@
 											</div> -->
 									</div>
 									<div class="mpdetailscontainer">
+										<div class="tilecontainer1"> 
 										<label class="griditem-title">{{companySolution.name}}
 											<span class="text-xsmall link-orange">In Process</span>
-										</label> <label class="grid-item-text-container"><span
+										</label> 
+										<!-- Shared Icon commented for now. Uncomment and work -->
+										<!-- <span class="md-share-with-me"></span> -->
+										</div>
+										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
 												{{companySolution.ownerName}}</span> | <span class="griditem-text2">on
 												{{companySolution.modified || companySolution.created |
