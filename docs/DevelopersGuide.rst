@@ -1,5 +1,5 @@
 =========================================
-Acumos Portal MarketPlace Document
+Acumos Portal MarketPlace Developer’s Guide
 =========================================
 
 1.	Introduction
