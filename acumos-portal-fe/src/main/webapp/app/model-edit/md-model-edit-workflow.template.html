@@ -567,7 +567,7 @@
 									<ul>
 										<li>
 											<div class="imageplace"
-												ng-class="{'green': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
+												ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
 												<span class="imagecontent model-documentation"> <!-- <img
 													src="images/ico_model_documentation.png" alt="" title=""> -->
 												</span>
@@ -575,21 +575,11 @@
 											<div class="text">Model Documentation</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
+											ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
 										</li>
-										<!-- <li>
-											<div class="imageplace"
-												ng-class="{'active': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
-												<span class="imagecontent"> <img
-													src="images/submit-to-publication.png" alt="" title="">
-												</span>
-											</div>
-											<div class="text">Submit to Publication</div>
-										</li>
-										-->
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
+												ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}">
 												<span class="imagecontent security-scan"> <!-- <img
 													src="images/security-scan.png" alt="" title=""> -->
 												</span>
@@ -597,10 +587,10 @@
 											<div class="text">Security scan</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}"></li>
+											ng-class="{'completed': ssValidationStatus.validationStatus == 'PS'&& ssValidationStatus.validationType == 'SS'}"></li>
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}">
+												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}">
 												<span class="imagecontent license-check"> <!-- <img
 													src="images/license-check.png" alt="" title=""> -->
 												</span>
@@ -608,7 +598,7 @@
 											<div class="text">License Check</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}"></li>
+											ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' }"></li>
 										<!-- 	<li>
 											<div class="imageplace" ng-class="{'active': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}">
 												<span class="imagecontent"> <img
@@ -620,7 +610,7 @@
 										<li class="progress-status"  ng-class="{'green': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}"></li> -->
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}">
+												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
 												<span class="imagecontent text-check"> <!-- <img
 													src="images/text-check.png" alt="" title=""> -->
 												</span>
@@ -628,17 +618,17 @@
 											<div class="text">Text Check</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}"></li>
+											ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}"></li>
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
+												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
 												<span class="imagecontent yet-not-publish">
 													<!--  <img
 													src="images/icon-yet-not-publish.png" alt="" title=""> -->
 												</span>
 											</div>
 											<div class="publshbutton hide">
-												<button
+												<button ng-click="viewModel()"
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
 													View Model</button>
 											</div>
@@ -680,11 +670,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="solution.name.length <= 0 && !company.step1">
+														ng-if="solution.name.length <= 0 && !company.step1 || showSolName">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.name.length>=1 || company.step1">
+														ng-if="solution.name.length>=1 && !showSolName || company.step1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -773,11 +763,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionCompanyDescStatus && !company.step2">
+														ng-if="!solutionCompanyDescStatus && !company.step2 || showDCKEditor">
 														<span class="entypo-suitcase">2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionCompanyDescStatus || company.step2">
+														ng-if="solutionCompanyDescStatus && !showDCKEditor || company.step2">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -868,11 +858,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !company.step3">
+														ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !company.step3 || showSolCat">
 														<span class="entypo-suitcase">3</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="( solution.modelTypeName && solution.tookitTypeName ) || company.step3">
+														ng-if="( solution.modelTypeName && solution.tookitTypeName ) && !showSolCat || company.step3">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -969,11 +959,11 @@
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon">
 														<div class="timeline-icon"
-															ng-if="!showSolutionDocs && !company.step4">
+															ng-if="!showSolutionDocs && !company.step4 || showFileUpload">
 															<span class="entypo-suitcase">4</span>
 														</div>
 														<div class="timeline-icon bg-success"
-															ng-if="showSolutionDocs  || company.step4">
+															ng-if="showSolutionDocs && !showFileUpload  || company.step4">
 															<span class="entypo-feather fa fa-check"></span>
 														</div>
 													</div>
@@ -1230,11 +1220,11 @@
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon">
 														<div class="timeline-icon"
-															ng-if="!showSolutionImage && !company.step6">
+															ng-if="!showSolutionImage && !company.step6 || showImageUpload">
 															<span class="entypo-suitcase">6</span>
 														</div>
 														<div class="timeline-icon bg-success"
-															ng-if="showSolutionImage || company.step6">
+															ng-if="showSolutionImage && !showImageUpload || company.step6">
 															<span class="entypo-feather fa fa-check"></span>
 														</div>
 													</div>
@@ -2157,7 +2147,7 @@
 									<ul>
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
+												ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
 												<span class="imagecontent model-documentation"> <!-- <img
 													src="images/ico_model_documentation.png" alt="" title=""> -->
 												</span>
@@ -2165,11 +2155,11 @@
 											<div class="text">Model Documentation</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
+											ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
 										</li>
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}">
+												ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}">
 												<span class="imagecontent security-scan"> <!-- <img
 													src="images/security-scan.png" alt="" title=""> -->
 												</span>
@@ -2177,10 +2167,10 @@
 											<div class="text">Security scan</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': spValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'SP'}"></li>
+											ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}"></li>
 										<li>
 											<div class="imageplace "
-												ng-class="{'active': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}">
+												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}">
 												<span class="imagecontent license-check"> <!-- <img
 													src="images/license-check.png" alt="" title=""> -->
 												</span>
@@ -2188,7 +2178,7 @@
 											<div class="text">License Check</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}"></li>
+											ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'LC'}"></li>
 										<!-- <li>
 											<div class="imageplace" ng-class="{'active': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}">
 												<span class="imagecontent"> <img
@@ -2200,7 +2190,7 @@
 										<li class="progress-status" ng-class="{'green': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}"></li> -->
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}">
+												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
 												<span class="imagecontent text-check"> <!-- <img
 													src="images/text-check.png" alt="" title=""> -->
 												</span>
@@ -2208,16 +2198,16 @@
 											<div class="text">Text Check</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'green': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}"></li>
+											ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}"></li>
 										<li>
 											<div class="imageplace"
-												ng-class="{'active': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
+												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
 												<span class="imagecontent yet-not-publish"> <!-- <img
 													src="images/icon-yet-not-publish.png" alt="" title=""> -->
 												</span>
 											</div>
 											<div class="publshbutton hide">
-												<button
+												<button ng-click="viewModel()"
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
 													View Model</button>
 											</div>
@@ -2258,11 +2248,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="solution.name.length <= 0 && !public.step1">
+														ng-if="solution.name.length <= 0 && !public.step1 || showSolName">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.name.length>=1 || public.step1">
+														ng-if="solution.name.length>=1 && !showSolName || public.step1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
@@ -2350,11 +2340,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionPublicDescStatus && !public.step2">
+														ng-if="!solutionPublicDescStatus && !public.step2 || showCKEditor">
 														<span class="entypo-suitcase">2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionPublicDescStatus || public.step2">
+														ng-if="solutionPublicDescStatus && !showCKEditor || public.step2">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -2445,11 +2435,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="(!solution.modelTypeName || !solution.tookitTypeName ) && !public.step3">
+														ng-if="(!solution.modelTypeName || !solution.tookitTypeName ) && !public.step3 || showSolCat">
 														<span class="entypo-suitcase">3</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="(solution.modelTypeName && solution.tookitTypeName) || public.step3">
+														ng-if="(solution.modelTypeName && solution.tookitTypeName) && !showSolCat || public.step3">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -2544,11 +2534,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!showPublicSolutionDocs && !public.step4">
+														ng-if="!showPublicSolutionDocs && !public.step4 || showFileUpload">
 														<span class="entypo-suitcase">4</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="showPublicSolutionDocs || public.step4">
+														ng-if="showPublicSolutionDocs && !showFileUpload || public.step4">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
@@ -2736,11 +2726,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!showSolutionImage && !public.step6">
+														ng-if="!showSolutionImage && !public.step6 || showImageUpload">
 														<span class="entypo-suitcase">6</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="showSolutionImage || public.step6">
+														ng-if="showSolutionImage && !showImageUpload || public.step6">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label last">

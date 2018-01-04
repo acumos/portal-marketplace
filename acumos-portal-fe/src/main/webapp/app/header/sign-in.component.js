@@ -250,8 +250,8 @@ app
                                                },function errorCallback(response) {
                                                    console.log("Error: ", response);
                                                    $scope.userPassInvalid = true;
-                                                   if(response.data.message == "Login Inactive"){
-                                                         location.reload(true);
+                                                   if(response.data.message == "Inactive user"){
+                                                	   	 $mdDialog.hide();
                                                          alert("User Id is disabled");
                                                    }
                                              });

@@ -1750,6 +1750,11 @@ angular
 						
 					};
 					//$scope.getModelValidation();	
+					
+					//redirect to manage model page after all validation is completed and redirect using View Model button.
+					$scope.viewModel = function(){
+						$state.go('manageModule');
+					}
 						
 					//Drag Drop for image icon
 					

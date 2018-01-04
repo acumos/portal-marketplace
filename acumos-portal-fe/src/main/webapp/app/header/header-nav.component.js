@@ -9,11 +9,11 @@ app.component('headerNav',{
 		console.log('=================================================');
 		console.log('header-nav.component.js-> inside controller')
 		console.log('$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader);
-		if(localStorage.getItem("pageLoad") == true)
+		/*if(localStorage.getItem("pageLoad") == true)
 		{
 			localStorage.setItem("pageLoad", false);
 			$state.go("home");
-		}
+		}*/
 		
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
@@ -300,9 +300,9 @@ app.component('headerNav',{
 			$rootScope.sidebarHeader = false;
 			$scope.sidebarHeader = false;
 			$scope.loginUserID = "";
-			//$state.go("home");
-			localStorage.setItem("pageLoad", true);
-            location.reload();
+			$state.go("home");
+			//localStorage.setItem("pageLoad", true);
+            //location.reload();
 			
 		}
 		//Emit value from deactivate user
