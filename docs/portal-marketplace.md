@@ -11,7 +11,7 @@ Portal Market Backend onthe Acumos platform.
 The first version listens only on localhost (127.0.0.1) & port 8080.
 
 Tools required: 
-===============
+---------------
 * JDK 1.8
 * Spring STS 3.8.x (https://spring.io/tools/sts/all)
 * Git Shell (https://git-for-windows.github.io/) or SourceTree (https://www.sourcetreeapp.com/) for Cloning & pushing the code changes.

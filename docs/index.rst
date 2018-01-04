@@ -6,4 +6,7 @@ portal-marketplace
     
        portal-marketplace
        release-notes
-       tutorials/index                  
+       tutorials/index   
+	   DevelopersGuide
+       UserGuide
+
