@@ -232,6 +232,9 @@ public class AuthServiceController extends AbstractController {
 
 				if (!mlpUser.isActive()) {
 					isValid = false;
+                    responseObject = new ResponseVO(HttpServletResponse.SC_PRECONDITION_FAILED, "Inactive user");
+                    response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+                    return responseObject;
 				}
 
 				if (isValid) {
