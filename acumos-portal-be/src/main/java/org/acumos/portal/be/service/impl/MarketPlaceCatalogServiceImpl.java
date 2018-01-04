@@ -2188,5 +2188,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(pageReqPortal.getNameKeyword(),pageReqPortal.getDescriptionKeyword(),pageReqPortal.getAuthorKeyword(),pageReqPortal.isActive(),pageReqPortal.getAccessTypeCodes(),pageReqPortal.getModelTypeCodes(),pageReqPortal.getValidationStatusCodes(),pageReqPortal.getTags() , pageReq);
 		return response;
 	}
+	
+	@Override
+	public RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest) {
+		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageResponse<MLPSolution> mlSolutions = dataServiceRestClient.getUserAccessSolutions(userId, pageRequest);
+		return mlSolutions;
+	}
 }
 	

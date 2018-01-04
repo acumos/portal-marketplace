@@ -971,4 +971,27 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return data; 
 	}
+    
+    @ApiOperation(value = "Get solutions shared for userId", response = User.class)
+    @RequestMapping(value = { APINames.USER_ACCESS_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<RestPageResponse<MLPSolution>> getUserAccessSolutions(@PathVariable("userId") String userId, @RequestBody JsonRequest<RestPageRequest> pageRequest){
+    	RestPageResponse<MLPSolution> mlSolutions = null;
+    	JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<>();
+    	if(userId != null && pageRequest != null){
+    	mlSolutions = catalogService.getUserAccessSolutions(userId,pageRequest.getBody());
+    	}
+    	if (mlSolutions != null) {
+    		data.setResponseBody(mlSolutions);
+    		data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("solution for user fetched Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "getUserAccessSolutions :  ", mlSolutions);
+    	}else{
+    		data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+			data.setResponseDetail("Error occured while fetching solutions for user");
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Error Occurred Fetching solutions for user :" + userId);
+    	}
+    	return data;
+    }
 } 
