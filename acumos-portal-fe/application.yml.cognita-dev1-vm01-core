@@ -4,6 +4,9 @@ app:
 server:
   port: 8085
 
+ports:
+  80:8085
+
 zuul:
   routes:
     api:
