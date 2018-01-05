@@ -408,62 +408,75 @@
 							class="md-padding company-market onboardingwebContent" ng-show="userLoggedIn">
 						<div>
 							<ul class="onboarding-web">
-								<li>
-									<div class="imageplace active">
-										<span class="imagecontent"> <img
-											src="images/submit-to-publication.png" alt="" title="">
-										</span>
-									</div>
-									<div class="text">Create Micro-service</div>
-								</li>
-								<li class="progress-status green"></li>
-								<li>
-									<div class="imageplace">
-										<span class="imagecontent"> <img
-											src="images/security-scan.png" alt="" title="">
-										</span>
-									</div>
-									<div class="text">Package</div>
-								</li>
-								<li class="progress-status"></li>
-								<li>
-									<div class="imageplace">
-										<span class="imagecontent"> <img
-											src="images/verify-model.png" alt="" title="">
-										</span>
-									</div>
-									<div class="text">Dockerize</div>
-								</li>
-								<li class="progress-status"></li>
-								<li>
-									<div class="imageplace">
-										<span class="imagecontent"> <img
-											src="images/license-check.png" alt="" title="">
-										</span>
-									</div>
-									<div class="text">Create TOSCA</div>
-								</li>
-								<li class="progress-status"></li>
-								<li>
-									<div class="imageplace">
-										<span class="imagecontent"> <img
-											src="images/text-check.png" alt="" title="">
-										</span>
-									</div>
-									<div class="text">Add to Repository</div>
-								</li>
-								<li class="progress-status"></li>
-								<li>
-									<div>
-										<button ng-disabled="activeViewModel == false"
-										ng-click="viewModel()"
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
-											View Model</button>
-									</div>
-									<div class="text">Model is onboarded and available in
-										Private catalog</div>
-								</li>
-							</ul>
+                                                       <li>
+                                                              <div class="imageplace completed">
+                                                                     <span class="imagecontent micro-service"> <!-- <img
+                                                                           src="images/submit-to-publication.png" alt="" title=""> -->
+                                                                     </span>
+                                                              </div>
+                                                              <div class="text">Create Micro-service</div>
+                                                       </li>
+                                                       <li class="progress-status completed"></li>
+                                                       <li>
+                                                              <div class="imageplace completed">
+                                                                     <span class="imagecontent package"> <!-- <img
+                                                                           src="images/security-scan.png" alt="" title=""> -->
+                                                                     </span>
+                                                              </div>
+                                                              <div class="text">Package</div>
+                                                       </li>
+                                                       <li class="progress-status completed"></li>
+                                                       <li>
+                                                              <div class="imageplace completed">
+                                                                     <span class="imagecontent dockerize"><!--  <img
+                                                                           src="images/verify-model.png" alt="" title=""> -->
+                                                                     </span>
+                                                              </div>
+                                                              <div class="text">Dockerize</div>
+                                                       </li>
+                                                       <li class="progress-status"></li>
+                                                       <li>
+                                                              <div class="imageplace completed">
+                                                                     <span class="imagecontent create-tosca"> <!-- <img
+                                                                           src="images/license-check.png" alt="" title=""> -->
+                                                                     </span>
+                                                              </div>
+                                                              <div class="text">Create TOSCA</div>
+                                                       </li>
+                                                       <li class="progress-status"></li>
+                                                       <li>
+                                                              <div class="imageplace completed">
+                                                                     <span class="imagecontent add-repository"> <!-- <img
+                                                                           src="images/text-check.png" alt="" title=""> -->
+                                                                     </span>
+                                                              </div>
+                                                              <div class="text">Add to Repository</div>
+                                                       </li>
+                                                       <li class="progress-status"></li>
+                                                       <li>
+                                                              <div class="imageplace completed">
+                                                                     <span class="imagecontent not-yet-onboarded"> <!-- <img
+                                                                           src="images/text-check.png" alt="" title=""> -->
+                                                                     </span>
+                                                              </div>
+                                                              <div class="publshbutton hide">
+                                                                     <button   
+                                                                     ng-click="viewModel()"
+                                                                           class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
+                                                                           View Model</button>
+                                                                     <!-- <button  ng-disabled="activeViewModel == false" 
+                                                                     ng-click="viewModel()"
+                                                                           class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
+                                                                           View Model</button> -->
+                                                              </div>                                                       
+                                                              <div class="text"><!-- Model is onboarded and available in
+                                                                     Private catalog --> Not yet onboarded</div>
+                                                              <div class="text-completed">
+                                                              Model is onboarded and available in Private catalog
+                                                              </div>
+                                                       </li>                                                       
+                                                </ul>
+
 						</div>
 						
 						<div class="progress">
