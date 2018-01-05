@@ -55,6 +55,8 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
     private int DeletedModelCount; 
     private List<MLPThread> threads;
     private List<MLPComment> commentsList;
+    private long commentsCount;
+    private long threadCount;
 
 	public RestPageResponseBE(List<T> content) {
 		super(content);
@@ -176,6 +178,22 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 
 	public void setCommentsList(List<MLPComment> commentsList) {
 		this.commentsList = commentsList;
+	}
+
+	public long getCommentsCount() {
+		return commentsCount;
+	}
+
+	public void setCommentsCount(long commentsCount) {
+		this.commentsCount = commentsCount;
+	}
+
+	public long getThreadCount() {
+		return threadCount;
+	}
+
+	public void setThreadCount(long threadCount) {
+		this.threadCount = threadCount;
 	}
 
 	

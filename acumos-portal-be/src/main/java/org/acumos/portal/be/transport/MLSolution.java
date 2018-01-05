@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
+import org.acumos.cds.domain.MLPThread;
   
 /**
  *	MLSolution Class to hold the Machine Learning Solution Information
@@ -66,6 +67,9 @@ public class MLSolution {
 	private int CompanyModelCount;
 	private int DeletedModelCount;
 	private List<User> ownerListForSol;
+	private String threadId;
+	private String commentId;
+	private List<MLPThread> threadList ;
 	
 	public String getLoginName() {
 		return loginName;
@@ -435,5 +439,29 @@ public class MLSolution {
 
 	public void setOwnerListForSol(List<User> ownerListForSol) {
 		this.ownerListForSol = ownerListForSol;
+	}
+
+	public String getThreadId() {
+		return threadId;
+	}
+
+	public void setThreadId(String threadId) {
+		this.threadId = threadId;
+	}
+
+	public String getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(String commentId) {
+		this.commentId = commentId;
+	}
+
+	public List<MLPThread> getThreadList() {
+		return threadList;
+	}
+
+	public void setThreadList(List<MLPThread> threadList) {
+		this.threadList = threadList;
 	}	
 }

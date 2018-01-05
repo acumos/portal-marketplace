@@ -25,10 +25,12 @@ import java.util.List;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPComment;
+import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
+import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -207,13 +209,13 @@ public class ThreadServiceImpl implements ThreadService{
 	}
 	
 	@Override
-	public List<String> getThreadComments(String threadId,JsonRequest<RestPageRequest> pageRequest) throws AcumosServiceException{
+	public List<String> getThreadComments(String threadId,RestPageRequest pageRequest) throws AcumosServiceException{
 		List<String> comments = new ArrayList<>();
 		List<MLPComment> mlpCommentList = new ArrayList<MLPComment>();
 	    try {
-	    	log.debug(EELFLoggerDelegate.debugLogger, "getThreads");
+	    	log.debug(EELFLoggerDelegate.debugLogger, "getThreadComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-			RestPageResponse<MLPComment> commentList  = dataServiceRestClient.getThreadComments(null,null);
+			RestPageResponse<MLPComment> commentList  = dataServiceRestClient.getThreadComments(threadId,pageRequest);
 			
 			if (commentList != null && !PortalUtils.isEmptyList(commentList.getContent())) {
 				mlpCommentList = commentList.getContent();
@@ -227,6 +229,79 @@ public class ThreadServiceImpl implements ThreadService{
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return comments;
+		
+	}
+	
+	@Override
+	public long getThreadCount() throws AcumosServiceException{
+		long count;
+		try{
+			log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			count = dataServiceRestClient.getThreadCount();
+		}catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return count;
+	}
+	
+	
+	@Override
+	public long getThreadCommentsCount(String threadId) throws AcumosServiceException{
+		long count;
+		try{
+			log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			count = dataServiceRestClient.getThreadCommentCount(threadId);
+		}catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return count;
+	}
+
+
+	public RestPageResponseBE<MLPThread> getSolutionRevisionThreads(String solutionId, String revisionId, RestPageRequest pageRequest) throws AcumosServiceException{
+		List<MLPThread> threadList = new ArrayList<MLPThread>();
+		RestPageResponseBE<MLPThread> threadResponse = new RestPageResponseBE<>(threadList);
+		try {
+			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreads");
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			RestPageResponse<MLPThread> pageResponse = new RestPageResponse<>();
+			pageResponse = dataServiceRestClient.getSolutionRevisionThreads(solutionId, revisionId, pageRequest);
+			for (MLPThread mlpThread : pageResponse.getContent()) {
+				threadResponse.getContent().add(mlpThread);
+			}
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		
+		return threadResponse;
+		
+	}
+	
+	public  RestPageResponseBE<MLPComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException{
+		List<MLPComment> commentList = new ArrayList<MLPComment>();
+		RestPageResponseBE<MLPComment> commentResponse = new RestPageResponseBE<>(commentList);
+		try {
+			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
+			pageResponse = dataServiceRestClient.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
+			for (MLPComment mlpComment : pageResponse.getContent()) {
+				commentResponse.getContent().add(mlpComment);
+			}
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+			return commentResponse;
 		
 	}
 
