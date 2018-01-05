@@ -179,12 +179,16 @@ public class APINames {
 	   public static final String UPDATE_COMMENT = "comments/update";
 	   public static final String DELETE_COMMENT = "comments/delete/{threadId}/{commentId}";
 	   public static final String GET_COMMENT = "comments/{threadId}/{commentId}";
+	   public static final String GET_COMMENT_SOLUTIONREVISION = "thread/{solutionId}/{revisionId}/comments";
 	//Thread
 	   public static final String CREATE_THREAD = "thread/create";
 	   public static final String UPDATE_THREAD = "thread/update";
 	   public static final String DELETE_THREAD = "thread/delete/{threadId}";
 	   public static final String GET_THREAD = "thread/{threadId}";
 	   public static final String GET_THREADS = "thread";
+	   public static final String GET_THREAD_SOLUTIONREVISION = "thread/{solutionId}/{revisionId}";
 	   public static final String GET_THREAD_COMMENTS = "thread/{threadId}/comment";
+	   public static final String GET_THREADCOUNT = "thread/count";
+	   public static final String GET_THREADCOMMENTSCOUNT = "thread/{threadId}/comments/count";
 	   
 }

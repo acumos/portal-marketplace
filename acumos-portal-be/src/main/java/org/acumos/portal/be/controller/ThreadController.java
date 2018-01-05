@@ -28,13 +28,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
+import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -244,7 +247,7 @@ public class ThreadController extends AbstractController {
 	}
 
 	
-	/*@ApiOperation(value = "Gets a list of Threads ", response = RestPageResponseBE.class)
+	@ApiOperation(value = "Gets a list of Threads ", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.GET_THREAD_COMMENTS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getThreadComments(@PathVariable String threadId,@RequestBody JsonRequest<RestPageRequest> restPageReq) {
@@ -252,12 +255,15 @@ public class ThreadController extends AbstractController {
 		List<String> commentsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
-			commentsList = threadService.getThreadComments(threadId, restPageReq);
+			commentsList = threadService.getThreadComments(threadId, restPageReq.getBody());
 			if (commentsList != null) {
 				List test = new ArrayList<>();
-				RestPageResponseBE responseBody = new RestPageResponseBE<>(test);
-				responseBody.setThreads(commentsList);
+				RestPageResponseBE responseBody = new RestPageResponseBE(test);
+				responseBody.setCommentsList(commentsList);
 				data.setResponseBody(responseBody);
+				data.setStatus(true);
+				data.setStatusCode(100);
+				data.setResponseCode("Success");
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Comments fetched Successfully for particular thread");
 			} else {
@@ -271,5 +277,113 @@ public class ThreadController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread", e);
 		}
 		return data;
-	}*/
+	}
+	
+	
+	@ApiOperation(value = "Get the count of Threads ", response = MLPThread.class)
+	@RequestMapping(value = { APINames.GET_THREADCOUNT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE> getThreadCount(){
+		log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+		long threadCount;
+		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
+		List content = new ArrayList<>();
+		RestPageResponseBE responseBody = new RestPageResponseBE<>(content);
+		try {
+			threadCount = threadService.getThreadCount();
+			responseBody.setThreadCount(threadCount);
+			data.setResponseBody(responseBody);
+			data.setStatus(true);
+			data.setStatusCode(100);
+			data.setResponseCode("Success");
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Thread count fetched successfully");
+		} catch (AcumosServiceException e) {
+			data.setErrorCode(e.getErrorCode());
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread", e);
+		}
+		
+		return data;
+		
+	}
+	
+	
+	@ApiOperation(value = "Get the count of Threads ", response = MLPThread.class)
+	@RequestMapping(value = { APINames.GET_THREADCOMMENTSCOUNT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE> getThreadCommentsCount(@PathVariable String threadId){
+		log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+		long threadCommentCount;
+		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
+		List content = new ArrayList<>();
+		RestPageResponseBE responseBody = new RestPageResponseBE<>(content);
+		try {
+			threadCommentCount = threadService.getThreadCommentsCount(threadId);
+			responseBody.setCommentsCount(threadCommentCount);
+			data.setResponseBody(responseBody);
+			data.setStatus(true);
+			data.setStatusCode(100);
+			data.setResponseCode("Success");
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("ThreadComments count fetched successfully");
+		} catch (AcumosServiceException e) {
+			data.setErrorCode(e.getErrorCode());
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching threadCommentsCount", e);
+		}
+		
+		return data;
+		
+	}
+	
+	@ApiOperation(value = "Gets a list of Threads according to solution and revision id's", response = RestPageResponseBE.class)
+	@RequestMapping(value = { APINames.GET_THREAD_SOLUTIONREVISION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE<MLPThread>> getSolutionRevisionThreads(@PathVariable String solutionId,@PathVariable String revisionId, @RequestBody JsonRequest<RestPageRequest> restPageReq) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreads");
+		RestPageResponseBE<MLPThread> mlpThread = null;
+		JsonResponse<RestPageResponseBE<MLPThread>> data = new JsonResponse<>();
+		try {
+			    mlpThread = threadService.getSolutionRevisionThreads(solutionId, revisionId, restPageReq.getBody());
+			    if(mlpThread != null){
+			    	data.setResponseBody(mlpThread);
+			    	data.setStatusCode(100);
+			    	data.setStatus(true);
+			    	data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Threads fetched Successfully for solution and revision Id's");
+			    }
+		} catch (AcumosServiceException e) {
+			data.setStatus(false);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred Fetching thread for solution and revision Id's");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread for solution and revision Id's", e);
+		}
+		return data;
+	}
+	
+	@ApiOperation(value = "Gets a list of comments according to solution and revision id's", response = RestPageResponseBE.class)
+	@RequestMapping(value = { APINames.GET_COMMENT_SOLUTIONREVISION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE<MLPComment>> getSolutionRevisionComments(@PathVariable String solutionId,@PathVariable String revisionId, @RequestBody JsonRequest<RestPageRequest> restPageReq) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
+		RestPageResponseBE<MLPComment> mlpComment = null;
+		JsonResponse<RestPageResponseBE<MLPComment>> data = new JsonResponse<>();
+		try {
+			mlpComment = threadService.getSolutionRevisionComments(solutionId, revisionId, restPageReq.getBody());
+			    if(mlpComment != null){
+			    	data.setResponseBody(mlpComment);
+			    	data.setStatusCode(100);
+			    	data.setStatus(true);
+			    	data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Comments fetched Successfully for solution and revision Id's");
+			    }
+		} catch (AcumosServiceException e) {
+			data.setStatus(false);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred Fetching comments for solution and revision Id's");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching comments for solution and revision Id's", e);
+		}
+		return data;
+	}
 }
