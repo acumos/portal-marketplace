@@ -1381,8 +1381,11 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 .completed .license-check{background-image: url(../images/ico-license-check-green.png); background-repeat: no-repeat; background-position: center;}
 .completed .text-check{background-image: url(../images/ico-txtcheck-green.png); background-repeat: no-repeat; background-position: center;}
 .completed .yet-not-publish{background-image: url(../images/ico-checkmark.png); background-repeat: no-repeat; background-position: center;}
-.company-market ul li .completed ~ .publshbutton ~ .text{color: #009901; font-size: 11px;}
-.company-market ul li .completed ~ .publshbutton.hide{display:block !important;}   
+/* .company-market ul li .completed ~ .publshbutton ~ .text{color: #009901; font-size: 11px;} */
+.company-market ul li .completed ~ .publshbutton.hide{display:block !important;} 
+.imageplace.completed ~ .hide ~ .text, .imageplace ~ .hide ~ .text-completed{display:none;}
+.imageplace.completed ~ .hide ~ .text-completed{color: #009901; font-size: 11px; line-height: 13px;  padding-top: 3px; display:block;}
+  
 
 
 /*---- media query start ----------*/
