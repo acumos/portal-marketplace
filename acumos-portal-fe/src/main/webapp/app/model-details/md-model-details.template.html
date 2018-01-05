@@ -30,12 +30,12 @@
 			</div>
 			</div>
 			
-			<div class="md-head-container2">				
+			<div class="md-head-container2">	
 				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
-						ng-hide="solution.accessType =='PR'"
-						ng-show="loginUserID">Download</button>
+						ng-hide="solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null "
+						ng-show="loginUserID">Download </button>
 				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
 						ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID">Sign

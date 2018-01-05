@@ -215,8 +215,8 @@
 				password reset link.</p>
 
 			<div>
-				<md-input-container class="md-block"> <input
-					type="email" name='forgotpaswd' ng-model='emailAddress' required />
+				<md-input-container class="md-block"> <input ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"
+					type="text" name='forgotpaswd' ng-model='emailAddress' required />
 				</md-input-container>
 			</div>
 
