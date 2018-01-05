@@ -106,7 +106,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         ver = '('+ver+')';
         type = type.replace(ver,'');
         console.log(type);
-
+        var typeModel = type+'+'+getver[0];
 
         _drawGraphs.nodeCrossfilter().all().forEach(function(n) {
             var nodeType = n.type.name;
@@ -143,6 +143,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         // $scope.nodeNameUI=$scope.nodeName;
         var nodeId = '',nodeVersion = '';
         $http.get(_catalog.fModelUrl(_components.get(type))).success(function(tgif) {
+        	
             console.log("tgif :");
             console.log(tgif);
 
@@ -165,6 +166,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
             $http.get(url).success(function(proto){
                 console.log(proto);
+               
                 $scope.protoNode=proto;
                 var protoJson=proto;
                 // console.log($scope.protoNode);
@@ -225,7 +227,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }
             });
 
-            // console.log("capabiluity"+angular.toJson(capabilityJson));
+             console.log("capabiluity"+angular.toJson(capabilityJson));
             var def = {
                 "id": tgif.self.name,
                 "name": tgif.self.name,
@@ -250,7 +252,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 url = build_url(options.addNode, {
                     userId: get_userId(),
                     solutionId :  _solutionId,
-                    version : $scope.solutionVersion
+                    version : nodeVersion
                     /*
                      * name: data.name, nodeId: data.id, nodeSolutionId :
                      * '', nodeVersion : '', nodeSolutionId : nodeId,
@@ -568,7 +570,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         return msgType.map(function(msg) {
             return msg.messageargumentList ? msg.messageargumentList.map(function(arg) {
                 return {
-                    rule: arg.rule,
+                    role: arg.role,
                     tag: arg.tag,
                     type: arg.type
                 };
@@ -606,6 +608,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             },
             fModelName: function(model) {
                 return model.solutionName;
+            },
+            fModelKey: function(model) {
+            	return model.solutionName+'+'+model.version;
             },
             fModelCategory: function(model) {
                 return model.category === 'null' ? "others" : model.category;
@@ -1053,7 +1058,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         if(lport.fullType && lport.fullType[0].messageName !== 'ANY') {
             // take nodes from type in first message
             lnodes = lport.fullType[0].messageargumentList.map(function(type, i) {
-                var typeparts = type.rule ? [type.rule, type.type] : [type.type];
+                var typeparts = type.role ? [type.role, type.type] : [type.type];
                 return {
                     id: 'source' + (i+1),
                     label: [i+1, type.name, typeparts.join(' ')],
@@ -1063,7 +1068,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }
         if(rport.type && rport.fullType[0].messageName !== 'ANY') {
             rnodes = rport.fullType[0].messageargumentList.map(function(type, i) {
-                var typeparts = type.rule ? [type.rule, type.type] : [type.type];
+                var typeparts = type.role ? [type.role, type.type] : [type.type];
                 return {
                     id: 'dest' + (i+1),
                     label: [i+1, type.name, typeparts.join(' ')],
@@ -1582,7 +1587,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                                 message.messageargumentList.forEach(function(argument) {
                                     input_flds.push({
                                         "tag" : argument.tag,
-                                        "role" : argument.rule,
+                                        "role" : argument.role,
                                         "name" : argument.name,
                                         "type" : argument.type});
                                 });
@@ -1613,7 +1618,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                                 message.messageargumentList.forEach(function(argument){
                                     input_flds.push({
                                         "tag" : argument.tag,
-                                        "role" : argument.rule,
+                                        "role" : argument.role,
                                         "name" : argument.name,
                                         "type" : argument.type,
                                         "mapped_to_message" : "",
@@ -1853,6 +1858,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             if(edges.length != 1 && deleteShow==0){$('#deleteHide').hide();}
             else {$('#deleteHide').show();}
         });
+      
+        
         select_ports_group.on('set_changed.show-info', function(ports) {
             var portType, port_info;
             if(ports.length>0) {
@@ -1870,9 +1877,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }
 
                 var selectedNodeId = ports[0].node;
-                var lastChar = selectedNodeId.slice(-1);
-                var res = selectedNodeId.split(lastChar);
-                var type = res[0];
+                var res = selectedNodeId.slice(0,-1);
+              //  var res = selectedNodeId.split(lastChar);
+                var type = res;
                 var comps = _catalog.models().filter(function(comp) {
                     return _catalog.fModelName(comp) === type;
                 });
@@ -1891,10 +1898,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 // console.log(port_info);
                 // display matching models for port here
                 /*var url = '';*/
+                console.log($scope.solutionVersion);
+/*                console.log(nodeVersion);*/
                 var url = build_url(options.getMatchingModels, {
                     userid: get_userId(),
                     solutionid: $scope.nodeSolutionDetails.solutionId,
-                    version : $scope.solutionVersion,
+                    version : $scope.nodeSolutionDetails.version,
                     portType: portType,
                     protobufJsonString: port_info
                 });
@@ -2063,8 +2072,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 angular.forEach(jsonProto.protobuf_json.service.listOfOperations, function(value, key) {
                     // console.log(d.orig.value.shortname);
                     // console.log(value.operatioName);
-                    if(d.orig.value.shortname === value.operatioName){
-                        operations = value.operatioName;
+                    if(d.orig.value.shortname === value.operationName){
+                        operations = value.operationName;
                         angular.forEach(value.listOfInputMessages,function(value1,key1){
                             // console.log(value1);
                             messages[i++] = [value1.inputMessageName];
@@ -2096,8 +2105,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 //console.log(jsonProto);
 
                 angular.forEach(jsonProto.protobuf_json.service.listOfOperations, function(value, key) {
-                    if(d.orig.value.shortname === value.operatioName){
-                        operations = value.operatioName;
+                    if(d.orig.value.shortname === value.operationName){
+                        operations = value.operationName;
                         angular.forEach(value.listOfOutputMessages,function(value1,key1){
                             messages[i++] = [value1.outPutMessageName];
                         });
@@ -2163,38 +2172,110 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .linkCallback(function(id) {
                 var messageJson=[];
-                var i=0;
+                var i=0;var complexProto=[];var j=0;$scope.complexProtoMap = new Map();var complexArray =0;
+                var complexMapArray=[];
                 if(jsonProtoMap){
                     for(var l=0;l<jsonProtoMap.length;l++){
                         if(operations+'_'+jsonProtoMap[l].messageName === id){
                             $scope.messageDet = jsonProtoMap[l].messageName;
                             angular.forEach(jsonProtoMap[l].messageargumentList, function(value, key){
-                                messageJson[i++]=value.rule+' '+value.type+' '+value.name+' = '+value.tag;
+                                messageJson[i++]=value.role+' '+value.type+' '+value.name+' = '+value.tag;
                             });
                         }
                     }
 
                 } else{
+
+            		var i = 0;
                     angular.forEach(jsonProto.protobuf_json.listOfMessages, function(value, key) {
                         if(operations+'_'+value.messageName === id){
                             // console.log(id);
                             $scope.messageDet=value.messageName;
+                            
                             // console.log(jsonProto);
                             // console.log(value.messageargumentList);
                             angular.forEach(value.messageargumentList, function(value1, key1) {
-                                messageJson[i++]=value1.rule+' '+value1.type+' '+value1.name+' = '+value1.tag;
-
+                            	//debugger;
+                            	var c=0;var complexJson =[]; var m=0; var s=0;var complexMessage = [];var complexMessageSignature = [];
+                            	if(value1.complexType){
+                            		complexArray++;
+                            		$scope.complexMessageDet = value1.complexType.messageName;
+                            		
+                            		angular.forEach(value1.complexType.messageargumentList, function(value2, key2) {
+                            			
+                            			var a=0;var complexSubJson=[];
+                            			if(value2.complexType){
+                            				angular.forEach(value2.complexType.messageargumentList, function(value3, key3) {
+                            					var temp = value3.tag.split(".");
+                            					value3.tag=temp[temp.length-1];
+                            					complexSubJson[a++] = value3.role+' '+value3.type+' '+value3.name+' = '+value3.tag;
+                            				});
+                            				complexMapArray.push({
+                            					"messageName" : value2.complexType.messageName,
+                            					"message" : complexSubJson
+                            				});
+                            				$scope.complexProtoMap.set(value2.complexType.messageName,complexSubJson);
+                            				/*complexProtoMap.push(value2.complexType.messageName); 
+                            				angular.forEach(complexProtoMap,function(val,ky){
+                            					
+                            				});*/
+                            			}
+                            			var temp = value2.tag.split(".");
+                    					value2.tag=temp[temp.length-1];
+                            			complexJson[c++] = value2.role+' '+value2.type+' '+value2.name+' = '+value2.tag;
+                            		});
+                            		complexMapArray.push({
+                    					"messageName" : value1.complexType.messageName,
+                    					"message" : complexJson
+                    				});
+                            		$scope.complexProtoMap.set($scope.complexMessageDet,complexJson);
+//                            		complexProtoMap[i++]= [
+//                            			$scope.complexMessageDet.push(complexJson)
+//                            		];
+//                            		console.log('complexProtoMap - '+angular.toJson(complexProtoMap));
+                            		}
+                            	
+                            	
+                                messageJson[i++]=value1.role+' '+value1.type+' '+value1.name+' = '+value1.tag;
+                                
                             });
+                            
 
                         }
                     });
                 }
+                $scope.complexProtoJson = [];
+                $scope.complexProtoJson = $scope.complexProtoMap;
+                console.log(complexMapArray);
+                $scope.complexMapArrayUI=complexMapArray;
+                /*angular.forEach(data.items, function(value, key) {});*/
+               /* var typeName = '',valueType = '';
+                angular.forEach(jsonProto.protobuf_json.listOfMessages[0].messageargumentList, function(value, key) {
+                	typeName = value.messageName;
+                	angular.forEach(value, function(value, key) {
+                    	typeName = value.messageName;
+                    	
+                    });
+                	
+                });
+                */
+               // $scope.getComplexProtoJson = angular.toJson($scope.complexProtoJson[0]);
+               /* for(var key in $scope.getComplexProtoJson) {
+                    alert("Key: " + key + " value: " + $scope.getComplexProtoJson[key]);
+                  }*/
+                /*for(i=0; i<= $scope.complexProtoJson.length; i++){
+                	console.log(complexProtoMap[i]);
+                }*/
                 $scope.messageUI=messageJson;
                 $scope.showDataMapper = null;
                 if($scope.messageUI){
                     $scope.showProperties=true;
                 }else
                     $scope.showProperties=false;
+                if($scope.complexProtoJson.size!=0){
+                	$scope.complexType =true;
+                }else
+                	$scope.complexType = false;
                 $scope.solutionDetails=null;
                 $scope.showLink=null;
                 $scope.tabChange = 0;
@@ -2287,6 +2368,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     data.items[key].description = $(data.items[key].description).text();
                 });
                 _catalog = catalog_readers[options.catformat](data);
+                
                 _components = d3.map(_catalog.models(), _catalog.fModelName);
 
                 // PALETTE
@@ -2301,9 +2383,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     return _catalog.fModelCategory(model) &&
                         _catalog.fModelName(model) !== 'iris';
                 });
+                console.log(models);
                 // unique by name
                 // models = d3.map(models,
-                // _catalog.fModelName).values();
+                // _catalog.fModelName).values(
 
                 $scope.palette.categories = d3.nest().key(_catalog.fModelCategory)
                     .sortKeys(d3.ascending)

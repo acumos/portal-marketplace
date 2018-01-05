@@ -344,10 +344,24 @@
 							</div>
 							<div  class="disblock text-semi-bold" style="padding-left:1em;color:black" ng-show="showProperties">
 											message {{messageDet}} {
+											
 											<div ng-repeat="msg in messageUI" style="padding-left:3em">
 												{{msg}};
 											</div>
 											}
+											
+											
+								<div ng-show="complexType" >
+											
+											<div ng-repeat="cmplx in complexMapArrayUI">
+												message {{cmplx.messageName}} {
+												<div ng-repeat = "cmplxmsg in cmplx.message" style="padding-left:3em">
+												{{cmplxmsg}};
+												</div>
+												}
+											</div>
+											
+										</div>
 										</div>
 							<div class="ds-section-data-inner3" ng-show="showLink" >
 							<!-- ng-show="solutionDetails" -->							
