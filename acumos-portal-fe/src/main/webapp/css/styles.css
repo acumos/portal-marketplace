@@ -1304,3 +1304,8 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 
 
 
+
+.ddl-column md-select-menu md-content {  -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;column-gap: 20px;}
+

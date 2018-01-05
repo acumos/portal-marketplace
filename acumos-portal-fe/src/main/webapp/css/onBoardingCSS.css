@@ -175,13 +175,13 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 .company-market ul li .imagecontent{width:74px; height:74px; border-radius:74px; border:3px solid #FFF; background-color:#EBEBEB; /*float:left;*/ display: inline-block; position:relative; text-align: center; line-height: 68px;}
 .company-market ul li .imageplace.active .imagecontent{border:3px solid #671c9d; background-color:#FFF;}
 .company-market ul li .text{/*width: 68px;*/ text-align: center; margin: 0 auto;}
-.company-market ul li:last-child .text{/*width:142px;*/}
+.company-market ul li:last-child .text{/*width:142px;*/ color: #aaa;}
  /* adjustment */
  .company-market ul li.progress-status{color:#ebebeb;}
 .progress-status:after{ content: "\2022 \2022"; font-size: 30px; /* color: #EBEBEB; */ line-height: 80px;} 
 .initialVal.hasClass .company-market ul li.progress-status {text-align:center; /*width:6.5%;*/width:3.5%;}
-.hasClass .company-market ul li.progress-status{text-align:center; width: 4.3%;}
-.hasClass .company-market ul li{/*width:80px;*/width:12%;}
+.hasClass .company-market ul li.progress-status{text-align:center; width: 4.3%;  line-height: 80px;}
+.hasClass .company-market ul li{/*width:80px;*/width:12%;} 
 
 a:focus, a:hover {text-decoration: none;}
 
@@ -419,10 +419,10 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
     transform:scale(0.8);    
 }
 
-.company-market ul {display:flex; align-items: baseline;justify-content: space-between;}
+.company-market ul {display:flex; align-items: inherit; justify-content: space-between;}
 .company-market ul li:first-child {width: 88px;}
 .company-market ul li.progress-status{}
-.company-market ul li:last-child {width: 230px; text-align: center;}
+.company-market ul li:last-child {/* width: 230px; */ text-align: center;}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 .link-heading:hover{color:#050009 ;} 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 .link-heading:before{font-family: 'Material Icons';
     content: "edit";
@@ -439,6 +439,30 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .onboarding .workflow-right h3{font-size: 17px; line-height: 32px; margin: 24px 0 16px;}
 .onboarding .workflow-right h2, .onboarding .workflow-right h4{font-size: 20px;}
 
+/* icons*/
+.micro-service{background-image: url(../images/ico_create_micro_service.png); background-repeat: no-repeat; background-position: center;}
+.package{background-image: url(../images/ico_package.png); background-repeat: no-repeat; background-position: center;}
+.dockerize{background-image: url(../images/ico_dockerize.png); background-repeat: no-repeat; background-position: center;}
+.create-tosca{background-image: url(../images/ico_create_tosca.png); background-repeat: no-repeat; background-position: center;}
+.add-repository{background-image: url(../images/ico_add_to_repository.png); background-repeat: no-repeat; background-position: center;}
+.not-yet-onboarded{background-image: url(../images/ico_not_yet_onboarded.png); background-repeat: no-repeat; background-position: center;}
+
+.completed .micro-service{background-image: url(../images/ico_create_micro_service_green.png); background-repeat: no-repeat; background-position: center;}
+.completed .package{background-image: url(../images/ico_package_green.png); background-repeat: no-repeat; background-position: center;}
+.completed .dockerize{background-image: url(../images/ico_dockerize_green.png); background-repeat: no-repeat; background-position: center;}
+.completed .create-tosca{background-image: url(../images/ico_create_tosca_green.png); background-repeat: no-repeat; background-position: center;}
+.completed .add-repository{background-image: url(../images/ico_add_to_repository_green.png); background-repeat: no-repeat; background-position: center;}
+.completed .not-yet-onboarded{background-image: url(../images/ico-checkmark.png); background-repeat: no-repeat; background-position: center;}
+.company-market ul li .completed ~ .publshbutton ~ .text{color: #009901; font-size: 11px;}
+.company-market ul li .completed ~ .publshbutton.hide{display:block !important;} 
+.imageplace.completed ~ .hide ~ .text, .imageplace ~ .hide ~ .text-completed{display:none;}
+.imageplace.completed ~ .hide ~ .text-completed{color: #009901; font-size: 11px; line-height: 13px;  padding-top: 3px; display:block;}
+/* completed section*/
+.company-market ul li .imageplace.completed .imagecontent {border: 3px solid #009901; background-color: #FFF;}
+.btn-publish{margin: 4px 0; float: inherit; padding: 0 10px; height: 24px; font-size: 12px; line-height: 17px; min-height: 24px;
+    background-color: #FFF; color: #671C9D;  border:1px solid #671C9D; text-align:center;}
+.skiptext{display:inline-block; line-height: 23px;}
+.skiptext:before{content:url(../images/ico_alert_information.png); background-repeat:no-repeat; float:left; margin-right:5px; line-height: 8px;}
 /* media query start */
 @media(max-width:767px){
 	.vertical-mdl-tabs .mdl-tabs__tab-bar{padding-bottom:0;}
