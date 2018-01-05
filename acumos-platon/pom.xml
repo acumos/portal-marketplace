@@ -2,12 +2,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.acumos</groupId>
+    <groupId>org.acumos.portal-marketplace</groupId>
     <artifactId>acumos-platon</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Acumos Platon</name>
+    <name>Acumos Platon comment service</name>
     <description>A service for hosting comments</description>
 
     <licenses>
