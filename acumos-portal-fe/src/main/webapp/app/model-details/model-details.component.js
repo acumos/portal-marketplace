@@ -21,6 +21,7 @@ angular
 						 */
 						//API for rating the model start
 						var user= JSON.parse(localStorage.getItem("userDetail"));
+						$scope.userDetailsLogged = user;
 						
 						$scope.showAlertMessage = false;
 						
