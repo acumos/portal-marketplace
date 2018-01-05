@@ -61,7 +61,9 @@ import org.acumos.cds.query.SearchCriteria;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.cds.transport.SuccessTransport;
+import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.transport.MLNotification;
+import org.junit.Assert;
 
 public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRestClient{
 
@@ -605,8 +607,31 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 
 	@Override
 	public RestPageResponse<MLPPeer> getPeers(RestPageRequest pageRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		MLPPeer mlpPeer = new MLPPeer();
+		mlpPeer.setActive(true);
+		mlpPeer.setApiUrl("http://peer-api");
+		mlpPeer.setContact1("Contact1");
+		mlpPeer.setContact2("Contact2");
+		Date created = new Date();
+		mlpPeer.setCreated(created);
+		mlpPeer.setDescription("Peer description");
+		mlpPeer.setName("Peer-1509357629935");
+		mlpPeer.setPeerId(String.valueOf(Math.incrementExact(0)));
+		mlpPeer.setSelf(false);
+		mlpPeer.setSubjectName("peer Subject name");
+		mlpPeer.setWebUrl("https://web-url");
+		Assert.assertNotNull(mlpPeer);
+		JsonResponse<RestPageResponse<MLPPeer>> peerRes = new JsonResponse<>();
+		RestPageResponse<MLPPeer> responseBody = new RestPageResponse<>();
+		peerRes.setResponseBody(responseBody);
+		RestPageRequest restPageReq = new RestPageRequest();
+		restPageReq.setPage(0);
+		restPageReq.setSize(2);
+		List<MLPPeer> peerList = new ArrayList<>();
+		if (restPageReq.getPage() != null && restPageReq.getSize() != null) {
+			peerList.add(mlpPeer);
+		}
+		return responseBody;
 	}
 
 	@Override
@@ -617,14 +642,39 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 
 	@Override
 	public MLPPeer getPeer(String peerId) {
-		// TODO Auto-generated method stub
-		return null;
+		MLPPeer mlpPeer = new MLPPeer();
+		mlpPeer.setActive(true);
+		mlpPeer.setApiUrl("http://peer-api");
+		mlpPeer.setContact1("Contact1");
+		mlpPeer.setContact2("Contact2");
+		Date created = new Date();
+		mlpPeer.setCreated(created);
+		mlpPeer.setDescription("Peer description");
+		mlpPeer.setName("Peer-1509357629935");
+		mlpPeer.setPeerId("62e46a5a-2c26-4dee-b320-b4e48303d24d");
+		mlpPeer.setSelf(false);
+		mlpPeer.setSubjectName("peer Subject name");
+		mlpPeer.setWebUrl("https://web-url");
+		return mlpPeer;
 	}
 
 	@Override
 	public MLPPeer createPeer(MLPPeer peer) {
-		// TODO Auto-generated method stub
-		return null;
+		MLPPeer mlpPeer = new MLPPeer();
+		mlpPeer.setActive(true);
+		mlpPeer.setApiUrl("http://peer-api");
+		mlpPeer.setContact1("Contact1");
+		mlpPeer.setContact2("Contact2");
+		Date created = new Date();
+		mlpPeer.setCreated(created);
+		mlpPeer.setDescription("Peer description");
+		mlpPeer.setName("Peer-1509357629935");
+		mlpPeer.setPeerId("c17c0562-c6df-4a0c-9702-ba8175eb23fd");
+		mlpPeer.setSelf(false);
+		mlpPeer.setSubjectName("peer Subject name");
+		mlpPeer.setWebUrl("https://web-url");
+		Assert.assertNotNull(mlpPeer);
+		return mlpPeer;
 	}
 
 	@Override
