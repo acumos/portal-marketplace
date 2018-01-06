@@ -63,7 +63,7 @@ import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.cds.transport.SuccessTransport;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.transport.MLNotification;
-import org.junit.Assert;
+
 
 public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRestClient{
 
@@ -620,7 +620,6 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		mlpPeer.setSelf(false);
 		mlpPeer.setSubjectName("peer Subject name");
 		mlpPeer.setWebUrl("https://web-url");
-		Assert.assertNotNull(mlpPeer);
 		JsonResponse<RestPageResponse<MLPPeer>> peerRes = new JsonResponse<>();
 		RestPageResponse<MLPPeer> responseBody = new RestPageResponse<>();
 		peerRes.setResponseBody(responseBody);
@@ -673,7 +672,6 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		mlpPeer.setSelf(false);
 		mlpPeer.setSubjectName("peer Subject name");
 		mlpPeer.setWebUrl("https://web-url");
-		Assert.assertNotNull(mlpPeer);
 		return mlpPeer;
 	}
 
