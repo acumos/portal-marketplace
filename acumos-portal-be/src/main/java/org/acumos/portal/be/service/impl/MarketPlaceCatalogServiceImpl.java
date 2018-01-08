@@ -2182,11 +2182,56 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	}
 	
 	@Override
-	public RestPageResponse<MLPSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal, RestPageRequest pageReq) {
+	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal,
+			RestPageRequest pageReq) {
 		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(pageReqPortal.getNameKeyword(),pageReqPortal.getDescriptionKeyword(),pageReqPortal.getAuthorKeyword(),pageReqPortal.isActive(),pageReqPortal.getAccessTypeCodes(),pageReqPortal.getModelTypeCodes(),pageReqPortal.getValidationStatusCodes(),pageReqPortal.getTags() , pageReq);
-		return response;
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
+				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.getAuthorKeyword(),
+				pageReqPortal.isActive(), pageReqPortal.getAccessTypeCodes(), pageReqPortal.getModelTypeCodes(),
+				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReq);
+
+		List<MLSolution> content = new ArrayList<>();
+		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
+		Set<String> filteredTagSet = new HashSet<>();
+
+		if (response.getContent() != null) {
+			List<MLPSolution> mlpSolList = response.getContent();
+			for (MLPSolution mlpSol : mlpSolList) {
+				MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
+
+				// set rating, view, download count for model
+				try {
+					MLPSolutionWeb solutionStats = dataServiceRestClient
+							.getSolutionWebMetadata(mlSolution.getSolutionId());
+					mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
+					mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
+					mlSolution.setViewCount(solutionStats.getViewCount().intValue());
+					mlSolution.setSolutionRating(solutionStats.getRatingCount().intValue());
+					mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue() / 10);
+				} catch (Exception e) {
+					log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
+							mlSolution.getSolutionId());
+				}
+
+				// add tags for models
+				List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(mlSolution.getSolutionId());
+				if (tagList.size() > 0) {
+					for (MLPTag tag : tagList) {
+						filteredTagSet.add(tag.getTag());
+					}
+					mlSolution.setSolutionTagList(tagList);
+				}
+
+				content.add(mlSolution);
+			}
+
+			mlSolutionsRest.setContent(content);
+			mlSolutionsRest.setFilteredTagSet(filteredTagSet);
+			mlSolutionsRest.setTotalElements(content.size());
+		}
+
+		return mlSolutionsRest;
 	}
 	
 	@Override

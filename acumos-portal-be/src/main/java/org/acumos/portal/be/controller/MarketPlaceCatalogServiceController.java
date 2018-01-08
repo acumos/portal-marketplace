@@ -951,10 +951,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
     @ApiOperation(value = "findPortalSolutions", response = MLSolution.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.PORTAL_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponse<MLPSolution>> findPortalSolutions(HttpServletRequest request, @RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal,
+	public JsonResponse<RestPageResponseBE<MLSolution>> findPortalSolutions(HttpServletRequest request, @RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal,
 			 HttpServletResponse response) {		
-    	RestPageResponse<MLPSolution> mlSolutions = null;
-    	JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<>();
+    	
+    	JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+    	RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
 			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody(), restPageReqPortal.getBody().getPageRequest());
 			if (mlSolutions != null) {

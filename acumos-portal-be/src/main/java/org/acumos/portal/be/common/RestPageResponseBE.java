@@ -57,6 +57,7 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
     private List<MLPComment> commentsList;
     private long commentsCount;
     private long threadCount;
+    private int totalElements;
 
 	public RestPageResponseBE(List<T> content) {
 		super(content);
@@ -196,5 +197,11 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 		this.threadCount = threadCount;
 	}
 
-	
+	public long getTotalElements() {
+		return totalElements;
+	}
+
+	public void setTotalElements(int totalElements) {
+		this.totalElements = totalElements;
+	}	
 }
