@@ -699,6 +699,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model name -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model name step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model name end -->	
 
 														<div ng-show="showSolName">
 															<div class="popovers">
@@ -853,6 +881,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model description -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model description step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model description end -->
 													</div>
 												</div>
 											</article>
@@ -895,6 +951,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model category -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model category step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model category end -->
 														<div class="popovers category-popover"
 															ng-show="showSolCat">
 															<md-toolbar>
@@ -982,29 +1066,7 @@
 														<p ng-hide="showFileUpload">Add documents (such as a
 															README file) to give more details and show how to use
 															your model.</p>
-														<div class="uploaded-file" ng-show="showSolutionDocs">
-															<md-chips ng-model="supportingDocs"
-																md-on-remove="removeDoc($chip, 'org')"> <md-chip-template>
-															<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
-														</div>
-														<div>
-															<label> Use the Documents you have in Company
-																Marketplace for Other Revisions.</label>
-															<!--  <a>View more</a> -->
-															<select ng-model="sourceRevisionId"
-																ng-options="v.version for v in versionList">
-																<option value="">-- Version --</option>
-															</select>
-															<md-button ng-click="copyDocsFromOtherRevision('org'); "
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-															Copy </md-button>
-														</div>
-														<div class="checkbox" ng-if="!showSolutionDocs">
-															<label> <input type="checkbox"
-																ng-model="$parent.company.step4" ng-click="skipStep()">
-																Skip
-															</label>
-														</div>
+														<!-- add cocument popover  -->
 														<div class="popovers add-document"
 															ng-show="showFileUpload">
 															<md-toolbar class="_md _md-toolbar-transitions">
@@ -1064,6 +1126,58 @@
 															</div>
 															</md-dialog-content>
 														</div>
+														<!-- add cocument popover end -->
+														<div class="uploaded-file" ng-show="showSolutionDocs">
+															<md-chips ng-model="supportingDocs"
+																md-on-remove="removeDoc($chip, 'org')"> <md-chip-template>
+															<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
+														</div>
+														<div>
+															<label> Use the Documents you have in Company
+																Marketplace for Other Revisions.</label>
+															<!--  <a>View more</a> -->
+															<select ng-model="sourceRevisionId"
+																ng-options="v.version for v in versionList">
+																<option value="">-- Version --</option>
+															</select>
+															<md-button ng-click="copyDocsFromOtherRevision('org'); "
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+															Copy </md-button>
+														</div>
+														<div class="checkbox" ng-if="!showSolutionDocs">
+															<label> <input type="checkbox"
+																ng-model="$parent.company.step4" ng-click="skipStep()">
+																Skip
+															</label>
+														</div>
+														<!-- update model documents -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model documents step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model tags end -->														
 														<p></p>
 														<!-- <p>
 														<div class="checkbox">
@@ -1121,6 +1235,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model tags -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model tags step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model tags end -->
 														<div class="popovers add-document" ng-show="showSolTags">
 															<md-toolbar class="_md _md-toolbar-transitions">
 															<div class="md-toolbar-tools">
@@ -1240,6 +1382,94 @@
 																ng-if="company.step6">Completed on {{currentDate
 																| date:'MM/dd/yyyy'}}</span>
 														</h2>
+														<!-- image popover -->	
+														<div class="popovers upload-icon"
+														   ng-show="showImageUpload">
+														   <md-toolbar>
+														      <div class="md-toolbar-tools">
+														         <h2>Upload Icon for Your Model</h2>
+														         <span flex></span>
+														         <md-button class="md-icon-button"
+														            ng-click="showImageUpload = !showImageUpload">
+														            <i class="material-icons">close</i> 
+														         </md-button>
+														      </div>
+														   </md-toolbar>
+														   <md-dialog-content>
+														      <div class="md-dialog-content">
+														         <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+														            <form>
+														               <div class="mdl-grid imageuploader">
+														                  <div class="mdl-cell mdl-cell--3-col">
+														                     <div class="iconcontainer">
+														                        <img ng-src="{{previewImage}}" alt="" title="" />
+														                     </div>
+														                  </div>
+														                  <div class="mdl-cell mdl-cell--9-col">
+														                     <div
+														                        class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
+														                        data-drop="true"
+														                        jqyoui-droppable="{onDrop:'dropCallback'}"
+														                        data-jqyoui-options="{revert: {{!icon}}}">
+														                        <input class="mdl-textfield__input"
+														                           placeholder="Upload Image" type="file"
+														                           fileinput="file" filepreview="previewImage"
+														                           data-drop="true" id="solImage"
+														                           jqyoui-droppable="{onDrop:'dropCallback'}"
+														                           data-jqyoui-options="{revert: {{!icon}}}"
+														                           upload-image-model="solImage" readonly
+														                           ng-show="!icon" /> <input
+														                           class="mdl-textfield__input"
+														                           placeholder="Upload Image" type="text"
+														                           ng-model="solImage.name" ng-show="icon" readonly />
+														                        <div
+														                           class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
+														                           ng-click="icon = false">
+														                           <i class="material-icons">attach_file</i><input
+														                              type="file" id="uploadBtn">
+														                        </div>
+														                     </div>
+														                     <div>
+														                        <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
+														                     </div>
+														                  </div>
+														               </div>
+														               <p>Set Default from below icons provided by
+														                  Cognita
+														               </p>
+														               <div class="mdl-grid">
+														                  <div class="mdl-cell mdl-cell--3-col iconboder"
+														                     ng-repeat="iconSrc in iconImages">
+														                     <div class="iconcontainer">
+														                        <img ng-src="images/solutions/{{iconSrc}}.png"
+														                           ng-model="iconImage" data-drag="true"
+														                           data-jqyoui-options="{revert: {{!icon}}}"
+														                           jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
+														                           alt="" title="" />
+														                     </div>
+														                     <div>{{iconSrc}}</div>
+														                     <div class="clearfix"></div>
+														                  </div>
+														            </form>
+														            </div>
+														         </div>
+														         <div layout="row"
+														            class="popovers-cloud-modalfooter fullwidth layout-row">
+														            <md-button
+														               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+														               ng-click="showImageUpload = !showImageUpload">
+														               Cancel 
+														            </md-button>
+														            <md-button
+														               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+														               ng-click="updateSolImage(); showImageUpload = !showImageUpload">
+														               Done 
+														            </md-button>
+														         </div>
+														   </md-dialog-content>
+														   </div>						
+														</div>
+														<!--  images popover end -->
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file
 															with maximum size of 1MB.</p>
@@ -1249,6 +1479,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update upload image for model -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping upload image for model  step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- updateupload image for model end -->
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
 															<div class="imagecontainer">
 																<img ng-src="{{imgURLdefault}}" alt="" title="" />
@@ -1259,126 +1517,7 @@
 																<!-- <span>Size 800K</span> -->
 															</div>
 															<div class="clearfix"></div>
-														</div>
-														<div class="popovers upload-icon"
-															ng-show="showImageUpload">
-															<md-toolbar>
-															<div class="md-toolbar-tools">
-																<h2>Upload Icon for Your Model</h2>
-																<span flex></span>
-																<md-button class="md-icon-button"
-																	ng-click="showImageUpload = !showImageUpload">
-																<i class="material-icons">close</i> </md-button>
-															</div>
-															</md-toolbar>
-															<md-dialog-content>
-															<div class="md-dialog-content">
-																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																	<form>
-																		<div class="mdl-grid imageuploader">
-																			<div class="mdl-cell mdl-cell--3-col">
-																				<div class="iconcontainer">
-																					<img ng-src="{{previewImage}}" alt="" title="" />
-																				</div>
-																			</div>
-																			<div class="mdl-cell mdl-cell--9-col">
-																				<div
-																					class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
-																					data-drop="true"
-																					jqyoui-droppable="{onDrop:'dropCallback'}"
-																					data-jqyoui-options="{revert: {{!icon}}}">
-																					<input class="mdl-textfield__input"
-																						placeholder="Upload Image" type="file"
-																						fileinput="file" filepreview="previewImage"
-																						data-drop="true" id="solImage"
-																						jqyoui-droppable="{onDrop:'dropCallback'}"
-																						data-jqyoui-options="{revert: {{!icon}}}"
-																						upload-image-model="solImage" readonly
-																						ng-show="!icon" /> <input
-																						class="mdl-textfield__input"
-																						placeholder="Upload Image" type="text"
-																						ng-model="solImage.name" ng-show="icon" readonly />
-																					<div
-																						class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
-																						ng-click="icon = false">
-																						<i class="material-icons">attach_file</i><input
-																							type="file" id="uploadBtn">
-																					</div>
-																				</div>
-																				<div>
-																					<p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
-																				</div>
-																			</div>
-																		</div>
-
-																		<p>Set Default from below icons provided by
-																			Cognita</p>
-																		<div class="mdl-grid">
-																			<div class="mdl-cell mdl-cell--3-col iconboder"
-																				ng-repeat="iconSrc in iconImages">
-																				<div class="iconcontainer">
-																					<img ng-src="images/solutions/{{iconSrc}}.png"
-																						ng-model="iconImage" data-drag="true"
-																						data-jqyoui-options="{revert: {{!icon}}}"
-																						jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
-																						alt="" title="" />
-
-																				</div>
-																				<div>{{iconSrc}}</div>
-																				<div class="clearfix"></div>
-																			</div>
-																			<!--  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg"  alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		 <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		 <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		</div> -->
-																	</form>
-																</div>
-															</div>
-															<div layout="row"
-																class="popovers-cloud-modalfooter fullwidth layout-row">
-																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																	ng-click="showImageUpload = !showImageUpload">
-																Cancel </md-button>
-																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-																	ng-click="updateSolImage(); showImageUpload = !showImageUpload">
-																Done </md-button>
-															</div>
-															</md-dialog-content>
-														</div>
+														</div>														
 														<!-- <div class="popovers add-document"
 															ng-show="showImageUpload">
 															<md-toolbar class="_md _md-toolbar-transitions">
@@ -2271,6 +2410,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model name popover-->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model name step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model name popover end -->	
 														<div ng-show="showSolName">
 															<div class="popovers">
 																<md-toolbar>
@@ -2423,6 +2590,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model description popover-->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model description step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model description popover end -->
 													</div>
 												</div>
 											</article>
@@ -2522,6 +2717,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model category popover-->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model category step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model category popover end -->
 													</div>
 												</div>
 											</article>
@@ -2546,28 +2769,6 @@
 																ng-if="public.step4">Completed on {{currentDate |
 																date:'MM/dd/yyyy'}}</span>
 														</h2>
-														<p>Add documents (such as a README file) to give more
-															details and show how to use your model.</p>
-														<div class="uploaded-file"
-															ng-show="showPublicSolutionDocs">
-															<md-chips ng-model="supportingPublicDocs"
-																md-on-remove="removeDoc($chip, 'public')"> <md-chip-template>
-															<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
-														</div>
-														<div>
-															<label> Use the Documents you have in Public
-																Marketplace for Other Revisions.</label>
-															<!--  <a>View more</a> -->
-															<select ng-model="sourceRevisionId"
-																ng-options="v.version for v in versionList">
-																<option value="">-- Version --</option>
-															</select>
-															<md-button
-																ng-click="copyDocsFromOtherRevision('public'); "
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-															Copy </md-button>
-														</div>
-
 														<div class="popovers add-document"
 															ng-show="showFileUpload">
 															<md-toolbar class="_md _md-toolbar-transitions">
@@ -2627,12 +2828,61 @@
 															</div>
 															</md-dialog-content>
 														</div>
+														<p>Add documents (such as a README file) to give more
+															details and show how to use your model.</p>														
+														<div class="uploaded-file"
+															ng-show="showPublicSolutionDocs">
+															<md-chips ng-model="supportingPublicDocs"
+																md-on-remove="removeDoc($chip, 'public')"> <md-chip-template>
+															<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
+														</div>
+														<div>
+															<label> Use the Documents you have in Public
+																Marketplace for Other Revisions.</label>
+															<!--  <a>View more</a> -->
+															<select ng-model="sourceRevisionId"
+																ng-options="v.version for v in versionList">
+																<option value="">-- Version --</option>
+															</select>
+															<md-button
+																ng-click="copyDocsFromOtherRevision('public'); "
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+															Copy </md-button>
+														</div>														
 														<div class="checkbox" ng-if="!showPublicSolutionDocs">
 															<label> <input type="checkbox"
 																ng-model="$parent.public.step4" ng-click="skipStep()">
 																Skip
 															</label>
 														</div>
+														<!-- update model documents popover-->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+																<div class="md-toolbar-tools">
+																	<h2>Skip this step</h2>
+																	<span flex></span>
+																	<md-button class="md-icon-button" ng-click="cancel()">
+																	  <i class="material-icons">close</i>
+																	</md-button>
+																</div>
+																</md-toolbar>
+																<md-dialog-content>
+																  <div class="md-dialog-content">
+																	<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																		You are skipping model documents step. Are you sure you want to skip this step?
+																	</div>								
+																	 <div layout="row" class="popovers-cloud-modalfooter">
+																		<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																		Cancel
+																	  </md-button>
+																	  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																		Done
+																	  </md-button>
+																	</div>								
+																  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model documents popover end -->
 														<!-- <p>
 														<div class="checkbox">
 															<label> <input type="checkbox"> Use the
@@ -2692,6 +2942,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update model tags popover -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping model tags step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- update model tags popover end -->
 													</div>
 												</div>
 											</article>
@@ -2738,6 +3016,90 @@
 																ng-if="public.step6">Completed on {{currentDate |
 																date:'MM/dd/yyyy'}}</span>
 														</h2>
+														<!--  image popover -->
+<div class="popovers upload-icon"	ng-show="showImageUpload">
+	<md-toolbar>
+	   <div class="md-toolbar-tools">
+		  <h2>Upload Icon for Your Model</h2>
+		  <span flex></span>
+		  <md-button class="md-icon-button"
+			 ng-click="showImageUpload = !showImageUpload">
+			 <i class="material-icons">close</i> 
+		  </md-button>
+	   </div>
+	</md-toolbar>
+	<md-dialog-content>
+	   <div class="md-dialog-content">
+		  <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+			 <form>
+				<div class="mdl-grid imageuploader">
+				   <div class="mdl-cell mdl-cell--3-col">
+					  <div class="iconcontainer">
+						 <img ng-src="{{previewImage}}" alt="" title="" />
+					  </div>
+				   </div>
+				   <div class="mdl-cell mdl-cell--9-col">
+					  <div
+						 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth">
+						 <input class="mdl-textfield__input"
+							placeholder="Upload Image" type="file"
+							fileinput="file" filepreview="previewImage"
+							data-drop="true" id="solImage"
+							jqyoui-droppable="{onDrop:'dropCallback'}"
+							upload-image-model="solImage" readonly
+							ng-show="!icon" /> <input
+							class="mdl-textfield__input"
+							placeholder="Upload Image" type="text"
+							ng-model="solImage.name" ng-show="icon" readonly />
+						 <div
+							class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+							<i class="material-icons">attach_file</i><input
+							   type="file" id="uploadBtn">
+						 </div>
+					  </div>
+					  <div>
+						 <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
+					  </div>
+				   </div>
+				</div>
+				<p>Set Default from below icons provided by
+				   Cognita
+				</p>
+				<div class="mdl-grid">
+				   <div class="mdl-cell mdl-cell--3-col iconboder"
+					  ng-repeat="iconSrc in iconImages">
+					  <div class="iconcontainer">
+						 <img ng-src="images/solutions/{{iconSrc}}.png"
+							ng-model="iconImage"
+							ng-class="{'initialPosition' : icon}"
+							data-drag="true"
+							data-jqyoui-options="{revert: 'invalid'}"
+							jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
+							alt="" title="" />
+					  </div>
+					  <div>{{iconSrc}}</div>
+					  <div class="clearfix"></div>
+				   </div>
+			 </form>
+			 </div>
+		  </div>
+		  <div layout="row"
+			 class="popovers-cloud-modalfooter fullwidth layout-row ">
+			 <md-button
+				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+				ng-click="showImageUpload = !showImageUpload">
+				Cancel 
+			 </md-button>
+			 <md-button
+				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+				ng-click="updateSolImage(); showImageUpload = !showImageUpload">
+				Done 
+			 </md-button>
+		  </div>
+		</div>
+	</md-dialog-content>
+</div>
+<!--  image popover end -->
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file
 															with maximum size of 1MB.</p>
@@ -2747,6 +3109,34 @@
 																Skip
 															</label>
 														</div>
+														<!-- update upload image for model popover -->
+														<div class="popovers skippopover hide" >
+															<md-toolbar>
+															  <div class="md-toolbar-tools">
+																<h2>Skip this step</h2>
+																<span flex></span>
+																<md-button class="md-icon-button" ng-click="cancel()">
+																  <i class="material-icons">close</i>
+																</md-button>
+															  </div>
+															</md-toolbar>
+															<md-dialog-content>
+															  <div class="md-dialog-content">
+																<div class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent skiptext">
+																	You are skipping upload image for model  step. Are you sure you want to skip this step?
+																</div>								
+																 <div layout="row" class="popovers-cloud-modalfooter">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Cancel
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	Done
+																  </md-button>
+																</div>								
+															  </div>
+															</md-dialog-content>						
+														</div>
+														<!-- updateupload image for model popover end -->
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
 															<div class="imagecontainer">
 																<img ng-src="{{imgURLdefault}}" alt="" title="" />
@@ -2758,123 +3148,7 @@
 															</div>
 															<div class="clearfix"></div>
 														</div>
-														<div class="popovers upload-icon"
-															ng-show="showImageUpload">
-															<md-toolbar>
-															<div class="md-toolbar-tools">
-																<h2>Upload Icon for Your Model</h2>
-																<span flex></span>
-																<md-button class="md-icon-button"
-																	ng-click="showImageUpload = !showImageUpload">
-																<i class="material-icons">close</i> </md-button>
-															</div>
-															</md-toolbar>
-															<md-dialog-content>
-															<div class="md-dialog-content">
-																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																	<form>
-																		<div class="mdl-grid imageuploader">
-																			<div class="mdl-cell mdl-cell--3-col">
-																				<div class="iconcontainer">
-																					<img ng-src="{{previewImage}}" alt="" title="" />
-																				</div>
-																			</div>
-																			<div class="mdl-cell mdl-cell--9-col">
-																				<div
-																					class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth">
-																					<input class="mdl-textfield__input"
-																						placeholder="Upload Image" type="file"
-																						fileinput="file" filepreview="previewImage"
-																						data-drop="true" id="solImage"
-																						jqyoui-droppable="{onDrop:'dropCallback'}"
-																						upload-image-model="solImage" readonly
-																						ng-show="!icon" /> <input
-																						class="mdl-textfield__input"
-																						placeholder="Upload Image" type="text"
-																						ng-model="solImage.name" ng-show="icon" readonly />
-																					<div
-																						class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
-																						<i class="material-icons">attach_file</i><input
-																							type="file" id="uploadBtn">
-																					</div>
-																				</div>
-																				<div>
-																					<p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
-																				</div>
-																			</div>
-																		</div>
-
-																		<p>Set Default from below icons provided by
-																			Cognita</p>
-																		<div class="mdl-grid">
-																			<div class="mdl-cell mdl-cell--3-col iconboder"
-																				ng-repeat="iconSrc in iconImages">
-																				<div class="iconcontainer">
-																					<img ng-src="images/solutions/{{iconSrc}}.png"
-																						ng-model="iconImage"
-																						ng-class="{'initialPosition' : icon}"
-																						data-drag="true"
-																						data-jqyoui-options="{revert: 'invalid'}"
-																						jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
-																						alt="" title="" />
-
-																				</div>
-																				<div>{{iconSrc}}</div>
-																				<div class="clearfix"></div>
-																			</div>
-																			<!--  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg"  alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		 <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		  <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		 <div class="mdl-cell mdl-cell--3-col">
-																			<div class="iconcontainer">
-																				<img src="images/product.jpg" alt="" title=""/>
-																			</div>
-																		  </div>
-																		</div> -->
-																	</form>
-																</div>
-
-															</div>
-															<div layout="row"
-																class="popovers-cloud-modalfooter fullwidth layout-row ">
-																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																	ng-click="showImageUpload = !showImageUpload">
-																Cancel </md-button>
-																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-																	ng-click="updateSolImage(); showImageUpload = !showImageUpload">
-																Done </md-button>
-															</div>
-															</md-dialog-content>
-														</div>
+														
 														<!-- <div class="popovers add-document"
 															ng-show="showImageUpload">
 															<md-toolbar class="_md _md-toolbar-transitions">

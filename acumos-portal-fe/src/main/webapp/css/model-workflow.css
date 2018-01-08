@@ -1385,7 +1385,11 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 .company-market ul li .completed ~ .publshbutton.hide{display:block !important;} 
 .imageplace.completed ~ .hide ~ .text, .imageplace ~ .hide ~ .text-completed{display:none;}
 .imageplace.completed ~ .hide ~ .text-completed{color: #009901; font-size: 11px; line-height: 13px;  padding-top: 3px; display:block;}
-  
+ /* skip popover */
+ .popovers.skippopover{margin-top:10px;}
+ .skiptext{display:inline-block; line-height: 23px;}
+.skiptext:before{content:url(../images/ico_alert_information.png); background-repeat:no-repeat; float:left; margin-right:5px; line-height: 8px;}
+  /* skip popover end*/ 
 
 
 /*---- media query start ----------*/
