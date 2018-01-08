@@ -2285,10 +2285,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('port-tips', port_tips);
 
         function nodeTypeOnHover(d){
-            var nodeTypeDisp = d.orig.key;
-            var lastChar = nodeTypeDisp.slice(-1);
-            nodeTypeDisp = nodeTypeDisp.split(lastChar);
-            return nodeTypeDisp[0];
+        	var nodeTypeDisp = d.orig.key;
+            /* var lastChar = nodeTypeDisp.slice(-1);
+             nodeTypeDisp = nodeTypeDisp.split(lastChar);*/
+             var rest = nodeTypeDisp.slice(0,-1)
+             console.log('node==========='+ rest);
+            return rest;
+
         }
 
         var node_tips = dc_graph.tip({namespace: 'node-tips'})
