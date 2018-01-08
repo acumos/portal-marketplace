@@ -90,7 +90,7 @@
 									
 									 </div>
 									 
-									 <div class="marketplace-btn-container">
+									<!--  <div class="marketplace-btn-container">
 										<button id="demo-menu-lower-right3"
 												class="mdl-button mdl-js-button btn-sort bdr">
 											<span class="hide-xs"><span class="txtspan1">Sort By ID</span> - All</span>
@@ -99,10 +99,24 @@
 										</button>
 										<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist2"
 											for="demo-menu-lower-right3">
-										  <li class="mdl-menu__item" ng-repeat="filterid in filterids"
-									              ng-click="filterChange(filterid,'sortById')">{{filterid.name}}</li>
+										  <li class="mdl-menu__item" ng-repeat="solution in mlsolutions"
+									              ng-click="filterChange(filterid,'sortById')">{{solution.solution}}</li>
 										</ul>
-									</div>
+									</div> -->
+									
+									<md-input-container class="btn-sort bdr mdl-button">
+							          <md-select ng-model="selectedSolutionId" placeholder="Sort By Id - All">
+							             <md-select-header class="demo-select-header">
+								            <input ng-model="searchTerm" type="search" >
+								        </md-select-header> 
+							            <md-option ng-repeat="solution in mlsolutions | filter : searchTerm" ng-value="solution.solutionId" ng-click="searchChange(solution.solutionId)">
+							              {{solution.solutionId}}
+							            </md-option>
+							             <md-select-header class="demo-select-header">
+								           <a ng-click="viewAllSolutions()" > View All </a>
+								        </md-select-header>
+							          </md-select>
+							        </md-input-container>
 									
 								<!-- 	<button ng-disabled="Viewtile" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true">
                                             <i class="fa fa-th-large" aria-hidden="true"></i>
@@ -211,17 +225,17 @@
 													<div class="mpdetailscontainer">
 													    <label class="griditem-title">{{mlsolution.name}} <!-- <span class="text-xsmall link-orange">In Process</span> --></label>
 													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl">by {{mlsolution.ownerName}}</span> | <span class="griditem-text2">on {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>
-													     <p class="disblock mp-para" ng-bind-html="mlsolution.description">{{mlsolution.description}}</p>											      														      		
+													     <!-- <p class="disblock mp-para" ng-bind-html="mlsolution.description">{{mlsolution.description}}</p>		 -->									      														      		
 													   	<!--  <p class="disblock mp-para">**** {{mlsolution.modelType}} ****</p>	 -->										  			
 													</div>
 													<div class="rating clear_both">
 														
 															<span>
 															 <i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i>
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i>
 															 </span>
 															
 															<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-disabled = "!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
@@ -321,19 +335,19 @@
 																<span class="griditem-text2">by {{mlsolution.ownerName}}</span> | 
 																<span class="griditem-text2">on {{mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | 
 																<span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span> |
-																<span class="text-small" ng-bind-html="mlsolution.description">{{mlsolution.description}}</span>
+																<!-- <span class="text-small" ng-bind-html="mlsolution.description">{{mlsolution.description}}</span> -->
 															</div>
 												    <div>
 												    	<div class="rating clear_both">
 															<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i></span>
-																
-																<button class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button" ng-click="selectFav = !selectFav">
-																	<i class="material-icons" ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-																</button>	
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
+																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i></span>
+
+																<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-disabled = "!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
+																	<i class="material-icons" ng-class="{'unselected-fav':!mlsolution.selectFav ,'selected-fav':mlsolution.selectFav}">favorite_border</i>
+														 		</button>	
 																
 														</div>
 												    	 

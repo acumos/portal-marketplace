@@ -208,6 +208,70 @@ angular
 															$scope.solution.created = $scope.versionList[0].modified;
 															$scope.solution.modified = $scope.versionList[0].modified;
 														}
+														
+														var pathArray = location.href.split( '/' );
+														var protocol = pathArray[0];
+														var host = pathArray[2];
+														var baseURL = protocol + '//' + host;
+														
+														var qs = querystring.parse();
+														var urlBase = baseURL + '/dsce/';
+										                var options = Object.assign({
+										                	base:"dsce/dsce/",
+										                    //base: urlBase,
+										                	//base: 'http://localhost:8088/dsce/',
+										                    protobuf: 'artifact/fetchProtoBufJSON'
+										                }, qs);
+										                
+										               var url= build_url(options.protobuf, {
+										                    userId: $scope.solution.ownerId,
+										                    solutionId :  $scope.solution.solutionId,
+										                    version : $scope.versionId
+										                });
+										                $http.get(url).success(function(proto){
+										                	console.log(proto);
+										                	
+										                	var i=0; var j=0; var messageJson = [];
+										                	var operations = new Object(); var messages = new Object();var operationName = null; var messagesName = [];
+										                	$scope.protoDisplay = proto;
+										                	
+										                	angular.forEach(proto.protobuf_json.service.listOfOperations, function(value, key) {
+										                		messagesName= [];
+										                		angular.forEach(value.listOfInputMessages,function(value1,key1){
+										                			messagesName["input"]=value1.inputMessageName;
+										                			angular.forEach(proto.protobuf_json.listOfMessages, function(value2, key2) {
+										                				messageJson=[];
+										                				if(value1.inputMessageName === value2.messageName){
+										                        			angular.forEach(value2.messageargumentList, function(value3, key3) {  
+										                        				messageJson.push(value3.rule+' '+value3.type+' '+value3.name+' = '+value3.tag); 
+										                        			});
+										                        			messages[value2.messageName]= messageJson;
+										                        			
+										                				} 
+										                			});
+										                		});
+										                		
+										                    	angular.forEach(value.listOfOutputMessages,function(value1,key1){
+										                    		messagesName["output"]= value1.outPutMessageName;
+										                    		angular.forEach(proto.protobuf_json.listOfMessages, function(value2, key2) {
+										                    			messageJson=[];
+										                            	if(value1.outPutMessageName === value2.messageName){
+										                            		angular.forEach(value2.messageargumentList, function(value3, key3) {   
+										                            			messageJson.push(value3.rule+' '+value3.type+' '+value3.name+' = '+value3.tag); 
+										                            		});
+										                            		messages[value2.messageName] = messageJson;
+										                            	}
+										                            });
+										                    	});
+									                        	operationName = value.operationType+" "+value.operatioName;	
+						                                        operations[operationName] = messagesName;
+						                                    });
+								                        	
+								                        	$scope.modelName = proto.protobuf_json.service.name;
+								                        	$scope.operationDisplay = operations;
+								                        	$scope.messageDisplay = messages;
+								                        	
+										                });
 													}
 													$scope.solutionEditorCompanyDesc = $scope.solution.description;
 													$scope.isModelActive = $scope.solution.active;
@@ -287,6 +351,7 @@ angular
 						//$scope.getSolCompanyDesc();
 
 						$scope.getSolPublicDesc = function() {
+						
 							var req = {
 								method : 'GET',
 								url : '/site/api-manual/Solution/description/public/'
@@ -1854,6 +1919,19 @@ angular
 					
 					$scope.loadData();
 					
+	                function build_url(verb, params) {
+		                var options = Object.assign({
+		                	base:"dsce/dsce/",
+		                    //base: urlBase,
+		                	//base: 'http://localhost:8088/dsce/',
+		                    protobuf: 'artifact/fetchProtoBufJSON'
+		                }, querystring.parse());
+		                
+	                    return options.base + verb + '?' + Object.keys(params).map(function(k) {
+	                        return k + '=' + encodeURIComponent(params[k]);
+	                    }).join('&');
+	                }
+	                	
 					/***** pre populated images for demo purpose according to the name of solution*****/
 					$scope.imgURLCL = "images/alarm.png";
 					$scope.imgURLRG = "images/image-classifier.png";

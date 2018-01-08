@@ -945,7 +945,7 @@ public class MarketPlaceServiceControllerTest {
 	@Test
 	public void findPortalSolutionsTest() {
 		try {
-			JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<RestPageResponse<MLPSolution>>();
+			JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 			JsonRequest<RestPageRequestPortal> restPageReqPortal = new JsonRequest<RestPageRequestPortal>();
 			RestPageRequestPortal restPageRequestPortal = new RestPageRequestPortal();
 			restPageRequestPortal.setActive(true);

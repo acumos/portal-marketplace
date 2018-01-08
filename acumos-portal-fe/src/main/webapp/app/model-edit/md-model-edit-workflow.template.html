@@ -1552,8 +1552,7 @@
 																						| date:'MM/dd/yyyy' }}</span> | <span
 																					class="text-xsmall link-orange"
 																					ng-if="mlsolution.active != ''">New</span></label>
-																				<p class="disblock mp-para"
-																					ng-bind-html="solutionPublicDesc">{{solutionPublicDesc}}</p>
+																				
 																				<!--  <p class="disblock mp-para">**** {{mlsolution.modelType}} ****</p>	 -->
 																			</div>
 																			<div class="rating clear_both">
@@ -1730,16 +1729,13 @@
 																						class="tab-box"> <span
 																							class="tab-icons tab-documents"></span> <span>Documents</span>
 																					</span>
-
 																					</a>
-																					<button href="#tab4-panel"
-																						class="mdl-tabs__tab force-disable"
-																						ng-disabled='true'>
-																						<span class="tab-box"> <span
-																							class="tab-icons tab-versionhistory"></span> <span>Version
-																								History</span>
-																						</span>
-																					</button>
+																					<a href="#tab4-panel" class="mdl-tabs__tab"> <span
+																						class="tab-box"> <span
+																							class="tab-icons tab-versionhistory"></span> <span>Version History</span>
+																					</span>
+																					</a>
+		
 																					<a href="#tab5-panel" class="mdl-tabs__tab"> </a>
 																				</div>
 																				<div>
@@ -1814,7 +1810,11 @@
 																							style="max-width: 500px; margin: 0 auto; display: block;">
 
 																					</div>
-																					<div ng-bind-html="solutionPublicDesc"></div>
+																					<div ng-if="solution.accessType != 'OR'"
+																					ng-bind-html="solutionPublicDesc"></div>
+																					<div ng-if="solution.accessType == 'OR'"
+																					ng-bind-html="solutionCompanyDesc"></div>
+
 																				</div>
 																				<div class="mdl-tabs__panel" id="tab2-panel">
 																					<h6 class="sectiontitle6">SIGNATURE</h6>
@@ -1889,11 +1889,11 @@
 																							</tr>
 																						</thead>
 																						<tbody>
-																							<tr>
+																							<tr ng-repeat="value in artifactDownload">
 																								<td>
 																									<!-- <a class="link-blue" href="#"> -->Version
 																									name {{value.name}}<!-- </a> --> <span
-																									class="font600">| Latest</span>
+																									class="font600"></span>
 																								</td>
 																								<td>{{value.version}}</td>
 																								<td>{{value.created | date:'MM/dd/yyyy'}}</td>

@@ -421,11 +421,10 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								<tr ng-repeat="value in downloadData">
 									<td>
 										<!-- <a class="link-blue" href="#"> -->Version name
-										{{value.name}}<!-- </a> --> <span class="font600">|
-											Latest</span>
+										{{value.name}}<!-- </a> --> <span class="font600"></span>
 									</td>
 									<td>{{value.version}}</td>
 									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
