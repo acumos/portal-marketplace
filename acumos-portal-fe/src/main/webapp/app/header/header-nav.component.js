@@ -377,7 +377,7 @@ app.component('headerNav',{
                                     	$rootScope.enableOnBoarding = false;
                                     }
                                 }
-                                
+                                $window.document.title = $rootScope.siteInstanceName;
                             });
 				},
 				function(error) {console.log(error);
