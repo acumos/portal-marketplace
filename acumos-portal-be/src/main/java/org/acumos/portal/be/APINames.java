@@ -191,4 +191,8 @@ public class APINames {
 	   public static final String GET_THREADCOUNT = "thread/count";
 	   public static final String GET_THREADCOMMENTSCOUNT = "thread/{threadId}/comments/count";
 	   
+	//HealthCheck
+	   
+	   public static final String GET_VERSION = "/version";
+	   
 }

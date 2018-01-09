@@ -21,10 +21,12 @@
 package org.acumos.portal.be.controller;
 
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.Application;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -434,4 +436,14 @@ public class AdminServiceController extends AbstractController {
         return data;
     }
     
+    @ApiOperation(value = "Gets the value of the MANIFEST.MF property Implementation-Version as written by maven.", response = TransportData.class)
+    @RequestMapping(value = { APINames.GET_VERSION}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public TransportData getVersion() {
+         String className = this.getClass().getSimpleName() + ".class";
+         String classPath = this.getClass().getResource(className).toString();
+         String version = classPath.startsWith("jar") ? Application.class.getPackage().getImplementationVersion()
+                 : "no version, classpath is not jar";
+         return new TransportData(200, version);
+     }
 }
