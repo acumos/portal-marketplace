@@ -243,7 +243,8 @@ public class AdminServiceControllerTest {
 			
 			RequestBuilder requestBuilder = MockMvcRequestBuilders
 					.put("/admin/peers/c17c0562-c6df-4a0c-9702-ba8175eb23fd").accept(MediaType.APPLICATION_JSON)
-					.content("{\"status\": true,\"status_code\":0,\"response_detail\": \"Success\",\"response_body\": null,\"error_code\": \"100\"}")
+					.content(
+							"{\"response_detail\": \"Success\",\"response_body\": {\"peerId\": \"c17c0562-c6df-4a0c-9702-ba8175eb23fd\",\"name\": \"PeerName\",\"subjectName\": \"peerSubjectName\",\"description\": \"peer description\",\"apiUrl\": \"http://apipeer.url\",\"webUrl\": \"http://weburl.api\",\"contact1\": \"contact1\",\"contact2\": \"contact2\",\"active\": true,\"self\": true},\"error_code\": \"100\"}")
 					.contentType(MediaType.APPLICATION_JSON);
 
 			MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk())
