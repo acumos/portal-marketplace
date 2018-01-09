@@ -197,7 +197,7 @@ app
                                               $scope.signinservice = response.data;
                                               productService.setData($scope.signinservice);
                                               var test = productService.test;*/
-                                              
+                                        	  $scope.userDeactivated = false;
                                               apiService.getJwtAuth($scope.userData).then(function successCallback(response) {
                                             	  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
                                             		  if(value.name == 'Admin' || value.name == 'admin'){
@@ -251,8 +251,10 @@ app
                                                    console.log("Error: ", response);
                                                    $scope.userPassInvalid = true;
                                                    if(response.data.message == "Inactive user"){
-                                                	   	 $mdDialog.hide();
-                                                         alert("User Id is disabled");
+                                                	   $scope.userPassInvalid = false;
+                                                	   $scope.userDeactivated = true;
+                                                	   	 //$mdDialog.hide();
+                                                         //alert("User Id is disabled");
                                                    }
                                              });
                                               //console.log("test"+test);
