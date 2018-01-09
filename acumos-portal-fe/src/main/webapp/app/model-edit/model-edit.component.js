@@ -857,7 +857,6 @@ angular
 																	$scope.showAlertMessage = false;
 																}, 2500);
 														
-														$scope.modelDocumentation = true;
 
 													},
 													function(error) {
@@ -1867,23 +1866,39 @@ angular
 						if($scope.supportingDocs.length > 0)count++;
 						if($scope.tags.length > 0)count++;
 						if($scope.solImage)count++;
-						if($scope.company){
+						/*if($scope.company){
+							debugger
 							angular.forEach($scope.company, function(value, key) {
 								if(value == true){
 									Orcount++
 								}
 								
 							});
+						}*/
+						if($scope.company){
+							if($scope.company.skipStep == true){
+								debugger;
+								Orcount++
+							}
 						}
 						
-						if($scope.public){
+						
+						/*if($scope.public){
+							debugger
 							angular.forEach($scope.public, function(value, key) {
 								if(value == true){
 									Pbcount++
 								}
 								
 							});
+						}*/
+						if($scope.public){
+							if($scope.public.skipStep == true){
+								debugger;
+								Pbcount++
+							}
 						}
+						
 						
 						if($scope.solutionCompanyDesc)Orcount++;
 						if($scope.solutionPublicDesc)Pbcount++;
@@ -1892,9 +1907,11 @@ angular
 						$scope.pbstatusCount = count + Pbcount;
 						if($scope.statusCount > 5){
 							$scope.activePublishBtn = true;
+							$scope.modelDocumentation = true;
 						}	
 						if($scope.pbstatusCount > 5){
 							$scope.activePublishBtnPB = true;
+							$scope.modelDocumentation = true;
 						}
 					}
 					
@@ -1912,8 +1929,21 @@ angular
 					$scope.$watch('popupAddSubmit', function() {chkCount();});
 					
 					$scope.skipStep = function(){
-						if($scope.company || $scope.public){
-							chkCount();
+						debugger;
+						if($scope.company){
+							if($scope.company.skipStep == true){
+								debugger;
+								$scope.company.step4 = true
+								chkCount();
+							}
+						}
+						else if($scope.public){
+							if($scope.public.skipStep == true){
+								debugger;
+								$scope.public.step4 = true
+								chkCount();
+							}
+							
 						}
 					}
 					

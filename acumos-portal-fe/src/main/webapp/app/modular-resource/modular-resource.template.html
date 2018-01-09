@@ -683,7 +683,7 @@
 											</div>
 											<div class="timeline-label">
 												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;user='';openDrop(false)" class="link-heading">
-													 Add Model Information </span>| 
+													 <!-- Add Model Information  --> Model Name</span>| 
 													 <span class="green" class="green"
 																ng-if="user.name&&popupAddSubmit">Completed</span>
 													 <span class="red" ng-if="!user.name || !popupAddSubmit">Not Started</span>
@@ -692,7 +692,7 @@
 												<div class="popovers cont" id="addModel" ng-show="addModel">
 													<md-toolbar>
 													<div class="md-toolbar-tools">
-														<h2>Add Model Information</h2>
+														<h2><!-- Add Model Information --> Model Name</h2>
 														<span flex></span>
 														<md-button class="md-icon-button"
 															ng-click="addModel = !addModel;openDrop(true)"> <i
@@ -704,8 +704,8 @@
 														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 															<div class="mdl-cell mdl-cell--11-col">
 																<md-input-container class="md-icon-float md-block">
-																<!-- Use floating label instead of placeholder --> <label>Model
-																	Name</label> <input ng-model="user.name" type="text"> </md-input-container>
+																<!-- Use floating label instead of placeholder --> <label>Add your Model's Name</label> 
+																<input ng-model="user.name" type="text"> </md-input-container>
 																<!-- <md-input-container class="md-icon-float md-block">
 																Use floating label instead of placeholder <label>Model
 																	ID</label> <input ng-model="user.pass" type="text"> </md-input-container> -->

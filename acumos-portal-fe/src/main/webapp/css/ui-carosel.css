@@ -211,7 +211,7 @@ min-height: 553px;
 position:relative;
 }
 .home-screen3 .slide-content{float:right;}
-.hasClass.initialVal .home-screen3 .slide-content .slide-text, .home-screen3 .slide-content .slide-text{float:right; width: 58%;}
+.hasClass.initialVal .home-screen3 .slide-content .slide-text, .home-screen3 .slide-content .slide-text{float:right;}
 .hasClass.initialVal .home-screen3 .slide-content .slide-text{float:right; width: 65%;}
 
 
@@ -225,7 +225,7 @@ position:relative;
 .homemain-carousel .ui-carousel .carousel-prev span{border-bottom-right-radius: 3px; border-top-right-radius: 3px}
 .homemain-carousel .ui-carousel .carousel-next span{border-bottom-left-radius: 3px; border-top-left-radius: 3px}   
 
-.homemain-carousel .slide-content .mdl-button{padding: 18px 20px;} 
+.homemain-carousel .slide-content .mdl-button{padding: 18px;} 
 .ui-carousel figure{margin:0; }
 .img-rounded { border-radius: 6px;}
 .ui-carousel .carousel-prev, .ui-carousel .carousel-next{cursor:pointer;}

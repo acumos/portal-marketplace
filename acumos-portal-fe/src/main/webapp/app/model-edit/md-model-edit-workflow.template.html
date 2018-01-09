@@ -648,9 +648,31 @@
 									</ul>
 								</div>
 								<div class="progress">
+								<!--  
+									Model documentation - 	8% 
+									Security Scan 		- 	28%
+									LC					- 	50%
+									TC					-	70%
+									published			-	100%
+									taValidationStatus.validationStatus
+								-->
+								<!--  
+									validationResponse == null ? (ssValidationStatus.validationStatus == 'PS' ? { 'width':'28%' }:{'width':'8%'}}||
+										ssValidationStatus.validationStatus == 'PS' ? { 'width':'28%' }:{'width':'8%'}} || 
+										lcValidationStatus.validationStatus == 'PS' ? { 'width':'50%' }:{'width':'8%'}}  ||
+										taValidationStatus.validationStatus == 'PS' ? { 'width':'70%' } : { 'width':'8%'}||
+								-->
+									
+								
 									<div class="progress-bar" style="width: 6%;"></div>
+									<!-- <div class="progress-bar" ng-style="validationResponse == null ? (ssValidationStatus.validationStatus == 'PS' ? {'width':'28%'}: (lcValidationStatus.validationStatus == 'PS' ?{'width':'50%'}: (taValidationStatus.validationStatus == 'PS' ?{ 'width':'70%' } : {'width':'8%'}))): {'width': '8%'})  "></div> -->
+								<!-- <div class="progress-bar" ng-style="validationResponse == null ?(ssValidationStatus.validationStatus == 'PS' ? {'width':'28%'}:{'width':'8%'}):{'width':'8%'}"></div> -->
 								</div>
 								<div class="clearfix"></div>
+								
+								<!-- <p>
+								1-{{taValidationStatus.validationStatus}}-1  2-{{validationResponse}}-2
+								</p> -->
 								<!-- <div>
 												<md-slider></md-slider>
 											</div> -->
@@ -671,34 +693,33 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="solution.name.length <= 0 && !company.step1 || showSolName">
+														ng-if="solution.name.length <= 0  || showSolName">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.name.length>=1 && !showSolName || company.step1">
+														ng-if="solution.name.length>=1 && !showSolName">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolName = !showSolName" ng-class="{disabled-title: company.step1}">Model Name</a> |
+															<a ng-click="showSolName = !showSolName">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
 
 															<span class="green"
-																ng-if="solution.name.length>=1 && !company.step1">
+																ng-if="solution.name.length>=1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span class="green" ng-if="company.step1">Completed
-																on {{currentDate | date:'MM/dd/yyyy'}}</span> <span class="red"
-																ng-if="solution.name.length <= 0 && !company.step1">
+															</span> <span class="red"
+																ng-if="solution.name.length <= 0 ">
 																Not Started</span>
 
 														</h2>
 														<p ng-hide="showSolName">{{solution.name}}</p>
-														<div class="checkbox" ng-if="solution.name.length <= 0">
+														<!-- <div class="checkbox" ng-if="solution.name.length <= 0">
 															<label> <input type="checkbox"
 																ng-model="$parent.company.step1" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model name -->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -792,26 +813,26 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionCompanyDescStatus && !company.step2 || showDCKEditor">
+														ng-if="!solutionCompanyDescStatus || showDCKEditor">
 														<span class="entypo-suitcase">2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionCompanyDescStatus && !showDCKEditor || company.step2">
+														ng-if="solutionCompanyDescStatus && !showDCKEditor">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showDCKEditor = !showDCKEditor" ng-class="{'disabled-title': company.step2}">Model
+															<a ng-click="showDCKEditor = !showDCKEditor">Model
 																Description </a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
-																ng-if="solutionCompanyDescStatus && !company.step2">
+																ng-if="solutionCompanyDescStatus ">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span
-																ng-if="!solutionCompanyDescStatus && !company.step2"
-																class="red">Not Started</span> <span class="green"
-																ng-if="company.step2">Completed on {{currentDate
-																| date:'MM/dd/yyyy'}}</span>
+																ng-if="!solutionCompanyDescStatus "
+																class="red">Not Started</span> <!-- <span class="green"
+																>Completed on {{currentDate
+																| date:'MM/dd/yyyy'}}</span> -->
 														</h2>
 														<div
 															ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
@@ -874,13 +895,13 @@
 															Copy </md-button>
 														</div>
 														</p>
-														<div class="checkbox" ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
-															|| solutionCompanyDesc==null" > <!-- ng-if="solutionCompanyDescStatus" -->
+														<!-- <div class="checkbox" ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
+															|| solutionCompanyDesc==null" > 
 															<label> <input type="checkbox"
 																ng-model="company.step2" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model description -->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -915,23 +936,23 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !company.step3 || showSolCat">
+														ng-if="(!solution.modelTypeName || !solution.tookitTypeName) || showSolCat">
 														<span class="entypo-suitcase">3</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="( solution.modelTypeName && solution.tookitTypeName ) && !showSolCat || company.step3">
+														ng-if="( solution.modelTypeName && solution.tookitTypeName ) && !showSolCat">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolCat = !showSolCat" ng-class="{'disabled-title': company.step3}">Model Category</a>
+															<a ng-click="showSolCat = !showSolCat">Model Category</a>
 															| <span class="green"
-																ng-if="(solution.modelTypeName || solution.tookitTypeName ) && !company.step3">
+																ng-if="(solution.modelTypeName || solution.tookitTypeName )">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
-																ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !company.step3">Not
-																Started</span> <span class="green" ng-if="company.step3">Completed
-																on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																ng-if="(!solution.modelTypeName || !solution.tookitTypeName)">Not
+																Started</span> <!-- <span class="green">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
 
 														</h2>
 														<!-- <p>Some information can be display related to this
@@ -944,13 +965,13 @@
 																style="margin: 0px 5px;"><strong>
 																	Toolkit Type: </strong></label> {{solution.tookitTypeName}}
 														</p>
-														<div class="checkbox"
+														<!-- <div class="checkbox"
 															ng-if="!solution.modelTypeName || !solution.tookitTypeName">
 															<label> <input type="checkbox"
 																ng-model="$parent.company.step3" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model category -->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -1146,17 +1167,18 @@
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
 															<label> <input type="checkbox"
-																ng-model="$parent.company.step4" ng-click="skipStep()">
+															ng-disabled="company.close == true"
+																ng-model="$parent.company.skipStep">
 																Skip
 															</label>
 														</div>
 														<!-- update model documents -->
-														<div class="popovers skippopover hide" >
+														<div class="popovers skippopover" ng-class="{'hide': company.skipStep == '' || company.skipStep == false || company.skipStep == null || company.close == true}">
 															<md-toolbar>
 															  <div class="md-toolbar-tools">
 																<h2>Skip this step</h2>
 																<span flex></span>
-																<md-button class="md-icon-button" ng-click="cancel()">
+																<md-button class="md-icon-button" ng-click="company.close = true">
 																  <i class="material-icons">close</i>
 																</md-button>
 															  </div>
@@ -1167,10 +1189,12 @@
 																	You are skipping model documents step. Are you sure you want to skip this step?
 																</div>								
 																 <div layout="row" class="popovers-cloud-modalfooter">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button ng-click="company.close = true "
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Cancel
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																  ng-click="skipStep();company.close = true; ">
 																	Done
 																  </md-button>
 																</div>								
@@ -1192,23 +1216,23 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="tags.length<1 && !company.step5">
+														ng-if="tags.length<1">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="!tags.length<1 || company.step5">
+														ng-if="!tags.length<1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
 													<div class="timeline-label">
 														<h2>
-															<a ng-class="{'disabled-title': company.step5}">Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1 && !company.step5">
+															<a>Model Tags</a> | <span class="green"
+																ng-if="!tags.length<1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="tags.length<1 && !company.step5"
-																class="red">Not Started</span> <span class="green"
-																ng-if="company.step5">Completed on {{currentDate
-																| date:'MM/dd/yyyy'}}</span>
+															</span> <span ng-if="tags.length<1"
+																class="red">Not Started</span> <!-- <span class="green"
+																>Completed on {{currentDate
+																| date:'MM/dd/yyyy'}}</span> -->
 
 														</h2>
 														<p>Choose tags to help describe your model. Add new
@@ -1229,12 +1253,12 @@
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
 														</p>
-														<div class="checkbox" ng-if="tags.length<1">
+														<!-- <div class="checkbox" ng-if="tags.length<1">
 															<label> <input type="checkbox"
 																ng-model="$parent.company.step5" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model tags -->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -1363,24 +1387,24 @@
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon">
 														<div class="timeline-icon"
-															ng-if="!showSolutionImage && !company.step6 || showImageUpload">
+															ng-if="!showSolutionImage || showImageUpload">
 															<span class="entypo-suitcase">6</span>
 														</div>
 														<div class="timeline-icon bg-success"
-															ng-if="showSolutionImage && !showImageUpload || company.step6">
+															ng-if="showSolutionImage && !showImageUpload">
 															<span class="entypo-feather fa fa-check"></span>
 														</div>
 													</div>
 													<div class="timeline-label last">
 														<h2>
-															<a ng-click="showImageUpload = !showImageUpload" ng-class="{'disabled-title': company.step6}">Upload
+															<a ng-click="showImageUpload = !showImageUpload">Upload
 																Image for Model</a> | <span class="green"
-																ng-show="showSolutionImage && !company.step6">
+																ng-show="showSolutionImage">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-show="!showSolutionImage && !company.step6"
-																class="red">Not Started</span> <span class="green"
-																ng-if="company.step6">Completed on {{currentDate
-																| date:'MM/dd/yyyy'}}</span>
+															</span> <span ng-show="!showSolutionImage"
+																class="red">Not Started</span> <!-- <span class="green"
+																>Completed on {{currentDate
+																| date:'MM/dd/yyyy'}}</span> -->
 														</h2>
 														<!-- image popover -->	
 														<div class="popovers upload-icon"
@@ -1473,12 +1497,12 @@
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file
 															with maximum size of 1MB.</p>
-														<div class="checkbox" ng-if="!showSolutionImage">
+														<!-- <div class="checkbox" ng-if="!showSolutionImage">
 															<label> <input type="checkbox"
 																ng-model="$parent.company.step6" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update upload image for model -->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -1697,11 +1721,11 @@
 																			<div class="rating clear_both">
 
 																				<span>
-																				<i class="fa fa-star" ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 1}" aria-hidden="true"></i></span> <span><i
-																					class="fa fa-star" ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
-																					class="fa fa-star" ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
-																					class="fa fa-star" ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
-																					class="fa fa-star" ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 5}" aria-hidden="true"></i>
+																				<i class="fa fa-star" style="color:rgba(139, 139, 140, 0.78)"  aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star" style="color:rgba(139, 139, 140, 0.78)" aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star" style="color:rgba(139, 139, 140, 0.78)" aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star" style="color:rgba(139, 139, 140, 0.78)" aria-hidden="true"></i></span> <span><i
+																					class="fa fa-star" style="color:rgba(139, 139, 140, 0.78)" aria-hidden="true"></i>
 																				</span>
 
 																				<button
@@ -1849,6 +1873,12 @@
 
 																</md-content> </md-tab> <md-tab label="Model Details"> <md-content
 																	class="md-padding"> <!-- Model Detail Preview -->
+																	<md-content>
+																		<span class="md-headline2 mob-disblock">
+																			<img class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}
+																		</span>	
+																		<div class="clearfix" style="margin:10px 0pxR"></div>
+																	</md-content>
 																<div class="page-wrapper3">
 																	<div
 																		class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
@@ -2381,35 +2411,35 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="solution.name.length <= 0 && !public.step1 || showSolName">
+														ng-if="solution.name.length <= 0 || showSolName">
 														<span class="entypo-suitcase">1</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solution.name.length>=1 && !showSolName || public.step1">
+														ng-if="solution.name.length>=1 && !showSolName">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolName = !showSolName" ng-class="{'disabled-title': public.step1}">Model Name</a> |
+															<a ng-click="showSolName = !showSolName">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
 
 															<span class="green"
-																ng-if="solution.name.length>=1 && !public.step1">
+																ng-if="solution.name.length>=1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
-																ng-if="solution.name.length < 0 && !public.step1">
-																Not Started</span> <span class="green" ng-if="public.step1">Completed
-																on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																ng-if="solution.name.length < 0">
+																Not Started</span> <!-- <span class="green">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
 
 														</h2>
 														<p ng-hide="showSolName">{{solution.name}}</p>
-														<div class="checkbox" ng-if="solution.name.length <= 0">
+														<!-- <div class="checkbox" ng-if="solution.name.length <= 0">
 															<label> <input type="checkbox"
 																ng-model="$parent.public.step1" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model name popover-->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -2501,25 +2531,25 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionPublicDescStatus && !public.step2 || showCKEditor">
+														ng-if="!solutionPublicDescStatus || showCKEditor">
 														<span class="entypo-suitcase">2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionPublicDescStatus && !showCKEditor || public.step2">
+														ng-if="solutionPublicDescStatus && !showCKEditor">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showCKEditor = !showCKEditor" ng-class="{'disabled-title': public.step2}">Model
+															<a ng-click="showCKEditor = !showCKEditor">Model
 																Description</a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
-																ng-if="solutionPublicDescStatus && !public.step2">
+																ng-if="solutionPublicDescStatus">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="!solutionPublicDescStatus && !public.step2"
-																class="red">Not Started</span> <span class="green"
-																ng-if="public.step2">Completed on {{currentDate |
-																date:'MM/dd/yyyy'}}</span>
+															</span> <span ng-if="!solutionPublicDescStatus"
+																class="red">Not Started</span> <!-- <span class="green"
+																>Completed on {{currentDate |
+																date:'MM/dd/yyyy'}}</span> -->
 														</h2>
 														<div
 															ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
@@ -2583,13 +2613,13 @@
 															Copy </md-button>
 														</div>
 														</p>
-														<div class="checkbox" ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
-															|| solutionPublicDesc==null"> <!--ng-if="!solutionPublicDescStatus"-->
+														<!-- <div class="checkbox" ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
+															|| solutionPublicDesc==null"> 
 															<label> <input type="checkbox"
 																ng-model="public.step2" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model description popover-->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -2624,23 +2654,23 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="(!solution.modelTypeName || !solution.tookitTypeName ) && !public.step3 || showSolCat">
+														ng-if="(!solution.modelTypeName || !solution.tookitTypeName ) || showSolCat">
 														<span class="entypo-suitcase">3</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="(solution.modelTypeName && solution.tookitTypeName) && !showSolCat || public.step3">
+														ng-if="(solution.modelTypeName && solution.tookitTypeName) && !showSolCat">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolCat = !showSolCat" ng-class="{'disabled-title': public.step3}">Model Category</a>
+															<a ng-click="showSolCat = !showSolCat">Model Category</a>
 															| <span class="green"
-																ng-if="(solution.modelTypeName || solution.tookitTypeName) && !public.step3">
+																ng-if="(solution.modelTypeName || solution.tookitTypeName)">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
-																ng-if="(!solution.modelTypeName || !solution.tookitTypeName) && !public.step3">Not
-																Started</span> <span class="green" ng-if="public.step3">Completed
-																on {{currentDate | date:'MM/dd/yyyy'}}</span>
+																ng-if="(!solution.modelTypeName || !solution.tookitTypeName)">Not
+																Started</span> <!-- <span class="green">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
 														</h2>
 														<!-- <p>Some information can be display related to this
 															perticular task, such as how to complete this task what
@@ -2710,13 +2740,13 @@
 															</label>
 														</div>
 														</p> -->
-														<div class="checkbox"
+														<!-- <div class="checkbox"
 															ng-if="!solution.modelTypeName || !solution.tookitTypeName">
 															<label> <input type="checkbox"
 																ng-model="$parent.public.step3" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model category popover-->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -2851,17 +2881,18 @@
 														</div>														
 														<div class="checkbox" ng-if="!showPublicSolutionDocs">
 															<label> <input type="checkbox"
-																ng-model="$parent.public.step4" ng-click="skipStep()">
+																ng-disabled="public.close == true"
+																ng-model="$parent.public.skipStep" >
 																Skip
 															</label>
 														</div>
 														<!-- update model documents popover-->
-														<div class="popovers skippopover hide" >
+														<div class="popovers skippopover" ng-class="{'hide': public.skipStep == '' || public.skipStep == false || public.skipStep == null || public.close == true}">
 															<md-toolbar>
 																<div class="md-toolbar-tools">
 																	<h2>Skip this step</h2>
 																	<span flex></span>
-																	<md-button class="md-icon-button" ng-click="cancel()">
+																	<md-button class="md-icon-button" ng-click="public.close = true">
 																	  <i class="material-icons">close</i>
 																	</md-button>
 																</div>
@@ -2872,10 +2903,12 @@
 																		You are skipping model documents step. Are you sure you want to skip this step?
 																	</div>								
 																	 <div layout="row" class="popovers-cloud-modalfooter">
-																		<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																		<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																		ng-click="public.close = true">
 																		Cancel
 																	  </md-button>
-																	  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	  ng-click="skipStep(); public.close = true">
 																		Done
 																	  </md-button>
 																	</div>								
@@ -2896,22 +2929,22 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="tags.length<1 && !public.step5"">
+														ng-if="tags.length<1">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="!tags.length<1 || public.step5">
+														ng-if="!tags.length<1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
 													<div class="timeline-label">
 														<h2>
-															<a ng-class="{'disabled-title': public.step5}">Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1 && !public.step5">
+															<a>Model Tags</a> | <span class="green"
+																ng-if="!tags.length<1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="tags.length<1 && !public.step5" class="red">Not
-																Started</span> <span class="green" ng-if="public.step5">Completed
-																on {{currentDate | date:'MM/dd/yyyy'}}</span>
+															</span> <span ng-if="tags.length<1" class="red">Not
+																Started</span> <!-- <span class="green">Completed
+																on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
 														</h2>
 														<p>Choose tags to help describe your model. Add new
 															tags if needed.</p>
@@ -2936,12 +2969,12 @@
 															</label>
 														</div>
 														</p> -->
-														<div class="checkbox" ng-if="tags.length<1">
+														<!-- <div class="checkbox" ng-if="tags.length<1">
 															<label> <input type="checkbox"
 																ng-model="$parent.public.step5" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update model tags popover -->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
@@ -2998,23 +3031,23 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!showSolutionImage && !public.step6 || showImageUpload">
+														ng-if="!showSolutionImage || showImageUpload">
 														<span class="entypo-suitcase">6</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="showSolutionImage && !showImageUpload || public.step6">
+														ng-if="showSolutionImage && !showImageUpload">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label last">
 														<h2>
-															<a ng-click="showImageUpload = !showImageUpload" ng-class="{'disabled-title': public.step6}">Upload
+															<a ng-click="showImageUpload = !showImageUpload">Upload
 																Image for Model</a> | <span class="green"
-																ng-show="showSolutionImage && !public.step6">
+																ng-show="showSolutionImage">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-show="!showSolutionImage && !public.step6"
-																class="red">Not Started</span> <span class="green"
-																ng-if="public.step6">Completed on {{currentDate |
-																date:'MM/dd/yyyy'}}</span>
+															</span> <span ng-show="!showSolutionImage"
+																class="red">Not Started</span> <!-- <span class="green"
+																>Completed on {{currentDate |
+																date:'MM/dd/yyyy'}}</span> -->
 														</h2>
 														<!--  image popover -->
 <div class="popovers upload-icon"	ng-show="showImageUpload">
@@ -3103,12 +3136,12 @@
 														<p>Upload an image that will identify your model in
 															Marketplace. You can upload jpg, jpeg, png and gif file
 															with maximum size of 1MB.</p>
-														<div class="checkbox" ng-if="!showSolutionImage">
+														<!-- <div class="checkbox" ng-if="!showSolutionImage">
 															<label> <input type="checkbox"
 																ng-model="$parent.public.step6" ng-click="skipStep()">
 																Skip
 															</label>
-														</div>
+														</div> -->
 														<!-- update upload image for model popover -->
 														<div class="popovers skippopover hide" >
 															<md-toolbar>
