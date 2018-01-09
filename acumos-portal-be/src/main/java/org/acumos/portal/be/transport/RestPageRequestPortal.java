@@ -37,6 +37,8 @@ public class RestPageRequestPortal {
 	private String[] validationStatusCodes;
 	private String[] tags;
 	private RestPageRequest pageRequest;
+	private String sortBy;
+	private String sortById;
 	
 	public String getNameKeyword() {
 		return nameKeyword;
@@ -91,5 +93,17 @@ public class RestPageRequestPortal {
 	}
 	public void setPageRequest(RestPageRequest pageRequest) {
 		this.pageRequest = pageRequest;
+	}
+	public String getSortBy() {
+		return sortBy;
+	}
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}
+	public String getSortById() {
+		return sortById;
+	}
+	public void setSortById(String sortById) {
+		this.sortById = sortById;
 	}		
 }

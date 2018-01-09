@@ -952,12 +952,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.PORTAL_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> findPortalSolutions(HttpServletRequest request, @RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal,
-			 HttpServletResponse response) {		
-    	
-    	JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
-    	RestPageResponseBE<MLSolution> mlSolutions = null;
+			HttpServletResponse response) {
+		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
-			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody(), restPageReqPortal.getBody().getPageRequest());
+			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody());
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -967,10 +966,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
-					"Exception Occurred Fetching Solutions", e);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions", e);
 		}
-		return data; 
+		return data;
 	}
     
     @ApiOperation(value = "Get solutions shared for userId", response = User.class)

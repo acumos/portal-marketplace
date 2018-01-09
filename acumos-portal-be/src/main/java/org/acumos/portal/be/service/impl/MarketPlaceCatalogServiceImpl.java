@@ -2182,14 +2182,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	}
 	
 	@Override
-	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal,
-			RestPageRequest pageReq) {
+	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal) {
 		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.getAuthorKeyword(),
 				pageReqPortal.isActive(), pageReqPortal.getAccessTypeCodes(), pageReqPortal.getModelTypeCodes(),
-				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReq);
+				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -2222,8 +2221,69 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					}
 					mlSolution.setSolutionTagList(tagList);
 				}
-
 				content.add(mlSolution);
+			}
+
+			if (pageReqPortal.getSortBy() != null) {
+				// sort by Most Downloaded
+				if (pageReqPortal.getSortBy().equalsIgnoreCase("MD")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution ms1, MLSolution ms2) {
+							return (int) (ms2.getDownloadCount() - ms1.getDownloadCount());
+						}
+					});
+					// sort by Least Downloaded
+				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("FD")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution ms1, MLSolution ms2) {
+							return (int) (ms1.getDownloadCount() - ms2.getDownloadCount());
+						}
+					});
+					// sort by Highest Reach
+				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("HR")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution ms1, MLSolution ms2) {
+							return (int) (ms2.getViewCount() - ms1.getViewCount());
+						}
+					});
+					// sort by Lowest Reach
+				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("LR")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution ms1, MLSolution ms2) {
+							return (int) (ms1.getViewCount() - ms2.getViewCount());
+						}
+					});
+					// sort by Most Like
+				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("ML")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution ms1, MLSolution ms2) {
+							return (int) (ms2.getSolutionRating() - ms1.getSolutionRating());
+						}
+					});
+					// sort by Fiewest like
+				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("FL")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution ms1, MLSolution ms2) {
+							return (int) (ms1.getSolutionRating() - ms2.getSolutionRating());
+						}
+					});
+				}
+				// sort for Older
+				else if (pageReqPortal.getSortBy().equalsIgnoreCase("OLD")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution m1, MLSolution m2) {
+							return m1.getModified().compareTo(m2.getModified());
+						}
+					});
+				}
+				// sort by Most Recent
+				else if (pageReqPortal.getSortBy().equalsIgnoreCase("MR")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution m1, MLSolution m2) {
+							return m2.getModified().compareTo(m1.getModified());
+						}
+					});
+				}
 			}
 
 			mlSolutionsRest.setContent(content);
