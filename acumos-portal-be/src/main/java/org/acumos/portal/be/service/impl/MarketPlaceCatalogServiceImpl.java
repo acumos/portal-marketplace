@@ -43,9 +43,9 @@ import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.query.SearchCriteria;
+/*import org.acumos.cds.query.SearchCriteria;
 import org.acumos.cds.query.SearchCriterion;
-import org.acumos.cds.query.SearchOperation;
+import org.acumos.cds.query.SearchOperation;*/
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.cds.transport.RestPageResponse;
@@ -2186,10 +2186,11 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			RestPageRequest pageReq) {
 		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
+		RestPageResponse<MLPSolution> response = null;
+		/*RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.getAuthorKeyword(),
 				pageReqPortal.isActive(), pageReqPortal.getAccessTypeCodes(), pageReqPortal.getModelTypeCodes(),
-				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReq);
+				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReq);*/
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);

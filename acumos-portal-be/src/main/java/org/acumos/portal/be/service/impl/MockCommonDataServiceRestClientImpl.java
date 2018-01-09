@@ -57,7 +57,7 @@ import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.domain.MLPValidationSequence;
 import org.acumos.cds.domain.MLPValidationStatus;
 import org.acumos.cds.domain.MLPValidationType;
-import org.acumos.cds.query.SearchCriteria;
+/*import org.acumos.cds.query.SearchCriteria;*/
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.cds.transport.SuccessTransport;
@@ -1069,16 +1069,38 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		
 	}
 
-	@Override
+	/*@Override
 	public RestPageResponse<MLPSolution> findPortalSolutions(String nameKeyword, String descriptionKeyword,
 			String authorKeyword, boolean active, String[] accessTypeCodes, String[] modelTypeCodes,
+			String[] validationStatusCodes, String[] tags, RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
+
+	@Override
+	public List<MLPSolution> searchSolutions(Map<String, Object> queryParameters, boolean isOr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPSolution> findPortalSolutions(String[] nameKeywords, String[] descriptionKeywords,
+			boolean active, String[] ownerIds, String[] accessTypeCodes, String[] modelTypeCodes,
 			String[] validationStatusCodes, String[] tags, RestPageRequest pageRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<MLPSolution> searchSolutions(Map<String, Object> queryParameters, boolean isOr) {
+	public RestPageResponse<MLPThread> getSolutionRevisionThreads(String solutionId, String revisionId,
+			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPComment> getSolutionRevisionComments(String solutionId, String revisionId,
+			RestPageRequest pageRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}
