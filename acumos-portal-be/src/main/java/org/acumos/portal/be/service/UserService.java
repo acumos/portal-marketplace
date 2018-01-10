@@ -49,13 +49,22 @@ public interface UserService {
 	/**
 	 * Method to support User Account Password Reset functionality 
 	 * @param emailId
+	 * email ID
+	 * @return true or false
+	 * @throws Exception on failure
 	 */
 	boolean resetUserPassword(String emailId) throws Exception;
 	
 	/**
 	 *  Method to support User Account Password Update functionality 
-	 * @param oldPassword
+	 * @param userId 
+	 * user ID
+	 * @param oldPassword 
+	 * old password
 	 * @param newPassword
+	 * new password
+	 * @return true or false
+	 * @throws Exception on failure
 	 */
 	boolean changeUserPassword(String userId, String oldPassword, String newPassword) throws Exception;
 	

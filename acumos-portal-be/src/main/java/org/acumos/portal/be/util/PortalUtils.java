@@ -67,6 +67,7 @@ public class PortalUtils {
 		return isEmpty;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static boolean isEmptyList(List input) {
 		boolean isEmpty = false;
 		if (null == input || 0 == input.size()) {
@@ -167,7 +168,7 @@ public class PortalUtils {
 	
 	/**
 	 * 
-	 * @param accessType
+	 * @param accessType Access type value
 	 * @return
 	 * 		MLPAccessType object for Storing in DB
 	 */
