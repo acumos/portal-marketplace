@@ -25,6 +25,7 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.controller.UserServiceController;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -32,9 +33,11 @@ import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -53,31 +56,25 @@ public class UserServiceControllerTest {
 	final HttpServletRequest request = new MockHttpServletRequest();
 
 
+	@InjectMocks
+	UserServiceController userServiceController ;
+	
 	@Mock
-	UserServiceController userServiceController = new UserServiceController();
-
+	private UserService userService;
+	
 	@Test
 	public void createUserTest() {
 		try {
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("UserFirstName");
-			user.setLastName("UserLastName");
-			user.setUsername("User1");
-			user.setEmailId("user1@emial.com");
-			user.setActive("Y");
-			user.setPassword("password");
-
+			User user = getUser();
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
 			userReq.getBody();
 
-			
-
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(userReq);
-
-			Mockito.when(userServiceController.createUser(request, userReq, response)).thenReturn(value);
+			MLPUser mlpUser = getMLPUser();
+			Mockito.when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(mlpUser);
+			value =userServiceController.createUser(request, userReq, response);
 			logger.info("successfully  created user ");
 			Assert.assertNotNull(value);
 		} catch (Exception | UserServiceException e) {
@@ -89,23 +86,17 @@ public class UserServiceControllerTest {
 	@Test
 	public void updateUserTest() {
 		try {
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("UpdatedFirstName");
-			user.setLastName("UpdatedLastName");
-			user.setUsername("User1Updated");
-			user.setEmailId("user1Updated@emial.com");
-			user.setActive("Y");
-			user.setPassword("password");
-
+			User user = getUser();
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
 			userReq.getBody();
-
+			MLPUser mlpUser = getMLPUser();
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(userReq);
-
-			Mockito.when(userServiceController.updateUser(request, userReq, response)).thenReturn(value);
+			Mockito.when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(mlpUser);
+			Mockito.when(userService.findUserByUsername(userReq.getBody().getUsername())).thenReturn(mlpUser);
+			Assert.assertNotNull(mlpUser);
+			value = userServiceController.updateUser(request, userReq, response);
 			logger.info("successfully  updated  user details");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -117,23 +108,18 @@ public class UserServiceControllerTest {
 	@Test
 	public void forgetPasswordTest() {
 		try {
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("UpdatedFirstName");
-			user.setLastName("UpdatedLastName");
-			user.setUsername("User1Updated");
-			user.setEmailId("user1Updated@emial.com");
-			user.setActive("Y");
-			user.setPassword("password");
+			User user = getUser();
 			Assert.assertNotNull(user);
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
 			userReq.getBody();
 			Assert.assertNotNull(userReq);
-
+			MLPUser mlpUser = getMLPUser();
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(userReq);
-			Mockito.when(userServiceController.forgetPassword(request, userReq, response)).thenReturn(value);
+			Mockito.when(userService.findUserByEmail(userReq.getBody().getEmailId())).thenReturn(mlpUser);
+			Assert.assertNotNull(mlpUser);
+			value = userServiceController.forgetPassword(request, userReq, response);
 			logger.info("forgetPasswordTest");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -143,16 +129,9 @@ public class UserServiceControllerTest {
 	}
 
 	@Test
-	public void changeUserPasswordTest() {
+	public void changeUserPasswordTest() { 
 		try {
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("UpdatedFirstName");
-			user.setLastName("UpdatedLastName");
-			user.setUsername("User1Updated");
-			user.setEmailId("user1Updated@emial.com");
-			user.setActive("Y");
-			user.setPassword("oldpassword");
+			User user = getUser();
 
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
@@ -165,8 +144,9 @@ public class UserServiceControllerTest {
 
 			JsonResponse<Object> valuepass = new JsonResponse<>();
 			valuepass.setResponseBody(passwordDTO);
-
-			Mockito.when(userServiceController.changeUserPassword(request, passwordDTO, response)).thenReturn(valuepass);
+			boolean flag= true;
+			Mockito.when(userService.changeUserPassword(passwordDTO.getUserId(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword())).thenReturn(flag);
+			valuepass = userServiceController.changeUserPassword(request, passwordDTO, response);
 			logger.info("Successfully changed user profile password");
 			Assert.assertNotNull(valuepass);
 		} catch (Exception e) {
@@ -179,14 +159,7 @@ public class UserServiceControllerTest {
 	public void getUserAccountDetailsTest() {
 		try {
 
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("FirstName");
-			user.setLastName("LastName");
-			user.setUsername("User1");
-			user.setEmailId("user1@emial.com");
-			user.setActive("Y");
-			user.setPassword("oldpassword");
+			User user = getUser();
 			Assert.assertNotNull(user);
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
@@ -198,7 +171,8 @@ public class UserServiceControllerTest {
 			JsonResponse<MLPUser> value = new JsonResponse<>();
 			value.setResponseBody(mlpUser);
 
-			Mockito.when(userServiceController.getUserAccountDetails(userReq)).thenReturn(value);
+			Mockito.when(userService.findUserByUserId(userReq.getBody().getUserId())).thenReturn(mlpUser);
+			value= userServiceController.getUserAccountDetails(userReq);
 			logger.info("Successfully fectched user details ");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -210,24 +184,18 @@ public class UserServiceControllerTest {
 	@Test
 	public void getAllUsersTest() {
 		try {
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("FirstName");
-			user.setLastName("LastName");
-			user.setUsername("User1");
-			user.setEmailId("user1@emial.com");
-			user.setActive("Y");
-			user.setPassword("oldpassword");
+			User user = getUser();
 			Assert.assertNotNull(user);
 			JsonResponse<List<User>> userList = new JsonResponse<List<User>>();
 			List<User> responseBody = new ArrayList<User>();
 			responseBody.add(user);
 			userList.setResponseBody(responseBody);
 			userList.getResponseBody();
-			Assert.assertNotNull(userList);
-			Mockito.when(userServiceController.getAllUsers(request, response)).thenReturn(userList);
-			logger.info("Successfully fectched list of user details ");
+			Mockito.when(userService.getAllUser()).thenReturn(responseBody);
 			Assert.assertNotNull(responseBody);
+			userList = userServiceController.getAllUsers(request, response);
+			logger.info("Successfully fectched list of user details ");
+			Assert.assertNotNull(userList);
 		} catch (Exception e) {
 			logger.debug("Error while getAllUsersTest : ", e);
 		}
@@ -244,16 +212,7 @@ public class UserServiceControllerTest {
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
 			
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("FirstName");
-			user.setLastName("LastName");
-			user.setUsername("User1");
-			user.setEmailId("user1@emial.com");
-			user.setActive("Y");
-			user.setPassword("oldpassword");
-			user.setRole(mlRole.getName());
-			user.setRoleId(mlRole.getRoleId());
+			User user = getUser();
 
 			String userId = user.getUserId();
 			
@@ -264,7 +223,8 @@ public class UserServiceControllerTest {
 			Assert.assertNotNull(mlprolelist);
 			JsonResponse<List<MLPRole>> responseBody = new JsonResponse<>();
 			responseBody.setResponseBody(mlprolelist);
-			Mockito.when(userServiceController.getUserRole(userId, request, response)).thenReturn(responseBody);
+			Mockito.when( userService.getUserRole(userId)).thenReturn(mlprolelist);
+			responseBody = userServiceController.getUserRole(userId, request, response);
 			logger.info("Successfully fectched list of user details according user roles : ",
 					responseBody.getResponseBody().toString());
 			Assert.assertNotNull(responseBody);
@@ -272,5 +232,25 @@ public class UserServiceControllerTest {
 			logger.debug("Error while getUserRoleTest : ", e);
 		}
 	}
-
+	
+	private User getUser(){
+		User user = new User();
+		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setFirstName("UserFirstName");
+		user.setLastName("UserLastName");
+		user.setUsername("User1");
+		user.setEmailId("user1@emial.com");
+		user.setActive("Y");
+		user.setPassword("password");
+		return user;
+	}
+	private MLPUser getMLPUser(){
+		MLPUser mlpUser = new MLPUser();
+		mlpUser.setActive(true);
+		mlpUser.setFirstName("test-first-name");			
+		mlpUser.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
+		mlpUser.setLoginName("test-User-Name");
+		return mlpUser;
+	}
+	
 }
