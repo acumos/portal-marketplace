@@ -1,19 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.acumos.portal-marketplace</groupId>
-  <artifactId>acumos-portal-fe</artifactId>
-  <version>1.12.7-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <name>Acumos Portal frontend resources</name>
-  <description>Acumos Portal AngularJS Front End</description>
-  
-  <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
-  </parent>
-    
-  <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.acumos.portal-marketplace</groupId>
+	<artifactId>acumos-portal-fe</artifactId>
+	<version>1.12.7-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>Acumos Portal frontend resources</name>
+	<description>Acumos Portal AngularJS Front End</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.4.RELEASE</version>
+		<!-- silence warning about parent relative path -->
+		<relativePath />
+	</parent>
+
+	<properties>
 		<encoding>UTF-8</encoding>
 		<!-- Stand-alone RESTFul application -->
 		<start-class>org.acumos.portal.fe.AcumosPortalApplication</start-class>
@@ -22,15 +25,13 @@
 		<eelf.version>1.0.0</eelf.version>
 		<!-- tests require database to be running -->
 		<skipTests>true</skipTests>
-		<!-- Docker daemon; overridden by Jenkins settings -->
-		<docker.host.url>unix:/var/run/docker.sock</docker.host.url>
-		<!-- Docker image registry; all overriden by Jenkins settings -->
-		<docker.registry.url>set by Jenkins</docker.registry.url>
-		<docker.registry.login>set by Jenkins</docker.registry.login>
-		<docker.registry.password>set by Jenkins</docker.registry.password>
+		<!-- LF Docker coordinates; pull is a proxy for external -->
+		<docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
+		<docker.push.registry>nexus3.acumos.org:10003</docker.push.registry>
 	</properties>
-  <dependencies>
-  		<dependency>
+	<!-- All dependencies are public, no extra repositories needed. -->
+	<dependencies>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<!-- Spring chooses <version>${slf4j.version}</version> -->
@@ -53,23 +54,25 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+			<!-- spring sets the version -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- spring sets the version -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<!-- spring sets the version -->
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-zuul</artifactId>
-    <version>1.3.1.RELEASE</version>
-</dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zuul</artifactId>
+			<version>1.3.1.RELEASE</version>
+		</dependency>
 	</dependencies>
-
 
 	<build>
 		<plugins>
@@ -82,30 +85,30 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			 <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <warSourceDirectory>src/main/webapp/</warSourceDirectory>
-                    <archive>
-                    	<manifestEntries>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warSourceDirectory>src/main/webapp/</warSourceDirectory>
+					<archive>
+						<manifestEntries>
 							<Build-Number>${project.version}.${build.number}</Build-Number>
 							<Build-Time>${maven.build.timestamp}</Build-Time>
 						</manifestEntries>
 					</archive>
-                </configuration>
-            </plugin>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				 <configuration>
-                     <executable>true</executable>
-                     <fork>true</fork>
-                     <addResources>true</addResources>
-                     <goals>
+				<configuration>
+					<executable>true</executable>
+					<fork>true</fork>
+					<addResources>true</addResources>
+					<goals>
 						<goal>repackage</goal>
-					 </goals>
-                 </configuration>
+					</goals>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -126,11 +129,31 @@
 					<canUpdateLicense>true</canUpdateLicense>
 					<emptyLineAfterHeader>true</emptyLineAfterHeader>
 					<includes>
-	                      <include>**/*.java</include>
-<!-- 	                      <include>**/*.js</include> -->
-<!-- 	                      <include>**/*.ts</include> -->
-	                 </includes>
-		        </configuration>
+						<include>**/*.java</include>
+						<!-- <include>**/*.js</include> -->
+						<!-- <include>**/*.ts</include> -->
+					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.6.201602180812</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>io.fabric8</groupId>
@@ -138,12 +161,11 @@
 				<version>0.21.0</version>
 				<configuration>
 					<verbose>true</verbose>
-					<dockerHost>${docker.host.url}</dockerHost>
-					<registry>${docker.registry.url}</registry>
-					<authConfig>
-						<username>${docker.registry.login}</username>
-						<password>${docker.registry.password}</password>
-					</authConfig>
+					<!-- docker runs on the LF build minion so the default value is ok -->
+					<!-- LF <dockerHost>unix:///var/run/docker.sock</dockerHost> LF -->
+					<pullRegistry>${docker.pull.registry}</pullRegistry>
+					<pushRegistry>${docker.push.registry}</pushRegistry>
+					<!-- LF credentials are not supplied here -->
 					<images>
 						<image>
 							<name>acumos-portal-fe:${project.version}</name>
@@ -166,47 +188,24 @@
 									</inline>
 								</assembly>
 								<cmd>
-									<shell>cd /maven; java -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}</shell>
+									<!-- CDATA prevents Eclipse formatter from breaking line -->
+									<shell><![CDATA[cd /maven; java -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}]]></shell>
 								</cmd>
 							</build>
 						</image>
 					</images>
 				</configuration>
-			</plugin>
-						<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
+				<!-- build Docker images in install phase, push in deploy phase -->
 				<executions>
 					<execution>
-						<id>default-prepare-agent</id>
 						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
+							<goal>build</goal>
+							<goal>push</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<snapshotRepository>
-			<!-- must match ID in Jenkins settings -->
-			<id>acumos-nexus</id>
-			<name>acumos-repository-snapshots</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.snapshot.path}</url>
-		</snapshotRepository>
-		<repository>
-			<!-- must match ID in Jenkins settings -->
-			<id>acumos-nexus</id>
-			<name>acumos-repository-releases</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.release.path}</url>
-		</repository>
-	</distributionManagement>
+	<!-- No distributionManagement section, jars are not deployed -->
 </project>
