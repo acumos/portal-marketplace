@@ -2197,10 +2197,11 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
 		Set<String> filteredTagSet = new HashSet<>();
+		List<MLPSolution> filteredSolList = new ArrayList<>();
 
 		if (response.getContent() != null) {
 			List<MLPSolution> mlpSolList = response.getContent();
-			
+			filteredSolList.addAll(mlpSolList);
 			//To show shared models with user in MyModel
 			if (pageReqPortal.getAuthorKeyword() != null) {
 				RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
@@ -2208,13 +2209,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 						new RestPageRequest(0, 1000));
 				mlSolutionsRest.setModelsSharedWithUser(mlpSolutionsShareRest.getContent());
 				if (mlpSolutionsShareRest != null) {
-					for (MLPSolution mlpSolution : mlpSolutionsShareRest) {
-						mlpSolList.add(mlpSolution);
+					for (MLPSolution mlpSolution : mlpSolutionsShareRest.getContent()) {
+						filteredSolList.add(mlpSolution);
 					}
 				}
 			}
 			
-			for (MLPSolution mlpSol : mlpSolList) {
+			for (MLPSolution mlpSol : filteredSolList) {
 				MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
 
 				// set rating, view, download count for model
