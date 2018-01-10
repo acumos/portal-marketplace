@@ -269,7 +269,7 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .mdl-layout__drawer-button{display:block;}
 .discover, .hasClass .discover{background-image:none; width:auto; padding:0 15px;}
 .discover h3{margin-bottom:30px;}
-.discover > .marketplace, .discover .desingstudio, .discover .sdn, .discover .community, .discover .onboard, .hasClass .discover > .marketplace, .hasClass .discover .desingstudio, .hasClass .discover .sdn, .hasClass .discover .community, .hasClass .discover .onboard  {position:relative; width: auto; float: left; top: 0; display:flex; }
+.discover > .marketplace, .discover .desingstudio, .discover .sdn, .discover .community, .discover .onboard, .hasClass .discover > .marketplace, .hasClass .discover .desingstudio, .hasClass .discover .sdn, .hasClass .discover .community, .hasClass .discover .onboard  {position:relative; width: 100%; float: left; top: 0; display:flex; margin-bottom: 10px; }
 .discover .marketplace .discover-description, .discover .desingstudio .discover-description, .discover .sdn .discover-description, .discover .community .discover-description, .discover .onboard .discover-description, .discover .onboard .discover-description p{width: auto;} 
 .community.text-right, .onboard.text-right, .discover .onboard .discover-description p {text-align:left;}
 .discover .community .discover-description, .discover .onboard .discover-description{padding: 0 0 0 15px;}
@@ -282,7 +282,7 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .hackathon-container{width:100%;}
 .hackathon-container .hackathon-image{width:100%; text-align:center; }
 .hackathon-container .hackathon-text{display:inline-block;}
-.success .success-icon{padding-left: 40px;}
+/* .success .success-icon{padding-left: 40px;} */
 .home-footer{padding: 30px 15px;}
 .home-footer .heading{padding: 0px 0 4px 0;}
 .home-footer{display:inline-block; margin-bottom:-10px;}
@@ -316,5 +316,3 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .slide-content .mdl-button{padding: 18px 18px;}
 .success .success-icon{padding-left: 0px;}
 }
-
-

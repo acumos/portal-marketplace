@@ -231,8 +231,16 @@ position:relative;
 .ui-carousel .carousel-prev, .ui-carousel .carousel-next{cursor:pointer;}
 
 /* .carousel-item  */  
+@media(max-width:1024px){
+	.home-screen3{background-position: -135px top;}
+	.hasClass.initialVal .home-screen1, .home-screen1{background-position: -200px top;}
+}
+
+
 @media(max-width:768px){
 	.success{padding: 0px 0px 10px;}
+	.hasClass.initialVal .home-screen1, .home-screen1, .home-screen2, .home-screen3{background-image:none;}
+	
 	}
 
 @media(max-width:767px) {
@@ -242,19 +250,50 @@ position:relative;
 	.homemain-carousel .slide-content .mdl-button:last-child{margin-right:0px;}
 	.explore .carousel-prev i{margin-left: 10px;}
 	.explore .carousel-next i{margin-right: 10px;}
-	
+	.explore h3{padding:10px 5px 0;}
+	.explore h6{padding:0 5px;}
 	
 }
+@media(max-width:568px){
+	.homemain-carousel .slide-content .mdl-button{font-size:14px; }
+	.slide-content .mdl-button{margin: 50px 15px 10px 0;}
+}
+
 @media(max-width:480px) {
-	
-	.homemain-carousel .slide-content .mdl-button{padding: 18px 5px; font-size:14px; margin-right:5px;}
-	
+	.slide-content { padding: 0 50px;}
+	.homemain-carousel .slide-content .mdl-button{padding: 18px 5px; font-size:14px; margin-right:10px;}
+	.homemain-carousel .ui-carousel .carousel-prev span,  .homemain-carousel .ui-carousel .carousel-next span{background-color:#fff; width:40px; height:60px; float:left; opacity:0.5; }
+	/* .homemain-carousel .ui-carousel .carousel-prev span i{margin-left:-5px;} */
+	.homemain-carousel .ui-carousel .carousel-next span i{margin-left:-5px;}
+	.slide-content h4{font-size: 22px;  line-height: 28px;}
+	.homemain-carousel .slide-content .mdl-button{font-weight:normal;}
 }
+
+@media(max-width:414px){
+	
+	.slide-content h4 { font-size: 18px; line-height: 24px;}
+	.slide-content p {line-height: 18px;  font-size: 13px;}
+	.slide-content .mdl-button{margin: 25px 15px 10px 0; width:100%;}
+	.homemain-carousel .slide-content .mdl-button:last-child{margin-top:10px;}
+}
+
 
 @media(max-width:375px){
 	
-	.homemain-carousel .slide-content .mdl-button{width: 100%; font-size: 15px;}
-	.homemain-carousel .slide-content .mdl-button:last-child{margin-top:20px;}
+	.slide-content h4{font-size: 17px; padding: 25px 0 0 0;}	
+	
 }
-      
-      
+@media(max-width:360px){
+	
+.slide-content h4{font-size: 16px; line-height: 22px;}
+.slide-content p{font-size:12px;}
+
+}
+@media(max-width:320px){
+	
+.slide-content h4{font-size: 15px; line-height: 21px; padding: 20px 0 0 0; }
+.slide-content .mdl-button{margin: 20px 15px 5px 0; }
+.homemain-carousel .slide-content .mdl-button{padding: 16px 5px;}
+.homemain-carousel .carousel-dots { top: 280px;}
+
+}
