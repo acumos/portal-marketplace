@@ -796,6 +796,7 @@ angular
 						};
 
 						$scope.publishtoMarket = function(pub_value) {
+							debugger
 							var userId = sessionStorage.getItem("SessionName");
 							$scope.currentModelAccess = pub_value;
 
@@ -836,6 +837,7 @@ angular
 													data)
 											.then(
 													function(response) {
+														debugger
 														$scope.handleSuccess = true;
 														$timeout(
 																function() {
@@ -843,19 +845,33 @@ angular
 																}, 4500);
 														// scroll to top :
 														// scrolltotop
-														$location
-																.hash('manage-models');
+														$scope.styleclass = 'c-error';
+														if(response.data.error_code == 500){
+															$scope.errorMsg = response.data.response_detail;
+															$scope.msg = "Solution Not Published";
+															$scope.icon = 'report_problem';
+															
+														}else if (response.data.error_code == 100){
+															
+															$scope.status = response.data.response_detail;
+															$scope.msg = "Solution Published Successfully";
+															$scope.icon = '';
+															$scope.styleclass = 'c-success';
+															$scope.modelDocumentation = true;
+														}else{
+															$scope.status = response.data.response_detail;
+															$scope.msg = "Unexpected Error Occured";
+															$scope.icon = 'report_problem';
+														}
+														
+														$location.hash('manage-models');
 														$anchorScroll();
-														$scope.status = response.data.response_detail;
-														$scope.msg = "Solution Published Successfully";
-														$scope.icon = '';
-														$scope.styleclass = 'c-success';
 														$scope.showAlertMessage = true;
-														$scope.loadData();
 														$timeout(
 																function() {
 																	$scope.showAlertMessage = false;
 																}, 2500);
+														$scope.loadData();
 														
 
 													},

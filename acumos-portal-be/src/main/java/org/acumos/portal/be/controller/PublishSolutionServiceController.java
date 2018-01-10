@@ -83,7 +83,8 @@ public class PublishSolutionServiceController extends AbstractController {
 		try {
 			// TODO As of now it does not check if User Account already exists.
 			// Need to first check if the account exists in DB
-			publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
+			 //publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
+			boolean published = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
 			// code to create notification
 			MLSolution solutionDetail = catalogService.getSolution(solutionId);
 			String notification = null;
@@ -94,8 +95,14 @@ public class PublishSolutionServiceController extends AbstractController {
 			else
 				notification = solutionDetail.getName() + " published to marketplace";
 			//generateNotification(notification,userId);
+		if(published){	 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions published Successfully");
+		}else{
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+			data.setResponseDetail("Solutions not published");
+		}
+			
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while publishSolution()");
