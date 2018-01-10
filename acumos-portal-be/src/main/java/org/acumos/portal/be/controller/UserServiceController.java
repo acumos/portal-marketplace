@@ -571,7 +571,7 @@ public class UserServiceController extends AbstractController {
 	}
 	
 	
-    @ApiOperation(value = "Get user Account Details from jwt Token", response = JsonResponse.class)
+    @ApiOperation(value = "Get Q and A URL", response = JsonResponse.class)
     @RequestMapping(value = {"/qAUrl"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
 	public JsonResponse<String> getQandAurl(HttpServletRequest request, HttpServletResponse response) {
@@ -579,6 +579,20 @@ public class UserServiceController extends AbstractController {
 		String qandaUrl = env.getProperty("qanda.url", "");
 		JsonResponse<String> responseVO = new JsonResponse<String>();
 		responseVO.setResponseBody(qandaUrl);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
+
+    @ApiOperation(value = "Get Documentation URL", response = JsonResponse.class)
+    @RequestMapping(value = {"/docs"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<String> getDocurl(HttpServletRequest request, HttpServletResponse response) {
+		
+		String docUrl = env.getProperty("doc.url", "");
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		responseVO.setResponseBody(docUrl);
 		responseVO.setStatus(true);
 		responseVO.setResponseDetail("Success");
 		responseVO.setStatusCode(HttpServletResponse.SC_OK);

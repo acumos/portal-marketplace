@@ -106,6 +106,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/admin/config/{configKey}").permitAll()
         .antMatchers("/user/deleteUser").permitAll()
         .antMatchers("/users/qAUrl").permitAll()
+        .antMatchers("/users/docs").permitAll()
         .antMatchers("/users/userProfileImage/{userId}").permitAll()  
         .antMatchers("/admin/version").permitAll() 
         .anyRequest().authenticated();

@@ -392,6 +392,11 @@ app.component('headerNav',{
 			}
 		  });
 		  
+		  $scope.showDocUrl = false;
+		  apiService.getDocUrl().then( function(response){
+				$scope.docUrl = response.data.response_body;
+			});
+		  
 		//ForgotPassword
           $scope.$on('forgotPassword', function(event, data) {
               $mdDialog.show({

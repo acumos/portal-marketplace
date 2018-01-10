@@ -54,6 +54,9 @@ portal.feature.validateModel=false
 
 #model upload storage folder path
 model.storage.folder.path=./temp
+
+#Documentation URL
+doc.url=https://cognita.atlassian.net/wiki/spaces/CW/pages/7438367/Acumos+Documentation
 ###################################################################
 ###########################################################################
 #Dev
