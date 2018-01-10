@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.concurrent.Future;
 
 import org.acumos.cds.domain.MLPComment;
+import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.MLSolution;
@@ -58,6 +59,7 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
     private long commentsCount;
     private long threadCount;
     private int totalElements;
+    private List<MLPSolution> modelsSharedWithUser;
 
 	public RestPageResponseBE(List<T> content) {
 		super(content);
@@ -203,5 +205,13 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 
 	public void setTotalElements(int totalElements) {
 		this.totalElements = totalElements;
+	}
+
+	public List<MLPSolution> getModelsSharedWithUser() {
+		return modelsSharedWithUser;
+	}
+
+	public void setModelsSharedWithUser(List<MLPSolution> modelsSharedWithUser) {
+		this.modelsSharedWithUser = modelsSharedWithUser;
 	}	
 }

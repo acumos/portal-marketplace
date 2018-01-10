@@ -54,6 +54,7 @@ import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
@@ -76,6 +77,9 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private UserService userService;
 	
 	private ICommonDataServiceRestClient getClient() {
 		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
@@ -2196,6 +2200,20 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 		if (response.getContent() != null) {
 			List<MLPSolution> mlpSolList = response.getContent();
+			
+			//To show shared models with user in MyModel
+			if (pageReqPortal.getAuthorKeyword() != null) {
+				RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
+				mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(pageReqPortal.getAuthorKeyword(),
+						new RestPageRequest(0, 1000));
+				mlSolutionsRest.setModelsSharedWithUser(mlpSolutionsShareRest.getContent());
+				if (mlpSolutionsShareRest != null) {
+					for (MLPSolution mlpSolution : mlpSolutionsShareRest) {
+						mlpSolList.add(mlpSolution);
+					}
+				}
+			}
+			
 			for (MLPSolution mlpSol : mlpSolList) {
 				MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
 
@@ -2221,6 +2239,28 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					}
 					mlSolution.setSolutionTagList(tagList);
 				}
+				
+				//set owner name for model
+				MLPUser userDetails = userService.findUserByUserId(mlSolution.getOwnerId());
+				mlSolution.setOwnerName(userDetails.getFirstName() +" "+userDetails.getLastName());
+				
+				//get shared users for model
+				try {
+					List<User> users = null;
+					List<MLPUser> mlpUsersList = dataServiceRestClient.getSolutionAccessUsers(mlSolution.getSolutionId());
+					if (!PortalUtils.isEmptyList(mlpUsersList)) {
+						users = new ArrayList<>();
+						for (MLPUser mlpusers : mlpUsersList) {
+							User user = PortalUtils.convertToMLPuser(mlpusers);
+							users.add(user);
+						}
+					}
+					mlSolution.setOwnerListForSol(users);
+				} catch (Exception e) {
+					log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
+							mlSolution.getSolutionId());
+				}		
+				
 				content.add(mlSolution);
 			}
 
