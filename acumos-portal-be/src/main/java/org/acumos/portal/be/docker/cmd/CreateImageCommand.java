@@ -35,7 +35,7 @@ import com.github.dockerjava.core.command.BuildImageResultCallback;
 /**
  * This command creates a new image from specified Dockerfile.
  *
- * @see http://docs.docker.com/reference/api/docker_remote_api_v1.13/#build-an-image-from-dockerfile-via-stdin
+ * @see <a href="http://docs.docker.com/reference/api/docker_remote_api_v1.13/#build-an-image-from-dockerfile-via-stdin">Docker build</a>
  */
 public class CreateImageCommand extends DockerCommand
 {

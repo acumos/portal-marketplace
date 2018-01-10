@@ -28,9 +28,6 @@ import java.io.InputStream;
 
 import org.acumos.portal.be.transport.MLSolutionDownload;
 
-import org.acumos.cds.domain.MLPArtifact;
-import org.acumos.cds.domain.MLPSolutionDownload;
-
 
 /**
  * Interface to support downloading of Docker Images and Artifacts for the Machine Learning Model
