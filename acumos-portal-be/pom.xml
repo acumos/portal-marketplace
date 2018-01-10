@@ -23,51 +23,34 @@
 		<build.number>0</build.number>
 		<eelf.version>1.0.0</eelf.version>
 		<!-- tests require database to be running -->
-<!-- 		<skipTests>true</skipTests> -->
-		<!-- All acumos.nexus.* are overridden by Jenkins settings -->
-		<!-- These properties are NOT inherited from local parent pom -->
-		<acumos.nexus.url>http://cognita-nexus01.eastus.cloudapp.azure.com:8081</acumos.nexus.url>
-		<acumos.nexus.snapshot.path>repository/repo_cognita_platform_maven_snapshots</acumos.nexus.snapshot.path>
-		<acumos.nexus.release.path>repository/repo_cognita_platform_maven</acumos.nexus.release.path>
-		<!-- Docker daemon; overridden by Jenkins settings -->
-		<docker.host.url>unix:/var/run/docker.sock</docker.host.url>
-		<!-- Docker image registry; all overriden by Jenkins settings -->
-		<docker.registry.url>set by Jenkins</docker.registry.url>
-		<docker.registry.login>set by Jenkins</docker.registry.login>
-		<docker.registry.password>set by Jenkins</docker.registry.password>
+		<!-- <skipTests>true</skipTests> -->
+		<!-- LF Docker coordinates; pull is a proxy for external -->
+		<docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
+		<docker.push.registry>nexus3.acumos.org:10003</docker.push.registry>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>acumos-snapshots</id>
-			<name>acumos-repository-snapshots</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.snapshot.path}</url>
-		</repository>
-		<repository>
-			<id>acumos-releases</id>
-			<name>acumos-repository-releases</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.release.path}</url>
-		</repository>
-		<repository>
-			<id>onap-snapshots</id>
-			<name>ONAP Snapshot Repository</name>
-			<url>${onap.nexus.url}/${onap.nexus.snapshot.path}</url>
-		</repository>
-		<repository>
-			<id>onap-releases</id>
-			<name>ONAP Release Repository</name>
-			<url>${onap.nexus.url}/${onap.nexus.release.path}</url>
-		</repository>
-	</repositories>
+	<!-- Some dependencies are specific to Acumos, but this POM defines no repositories 
+		section. The Jenkins server specifies Acumos repositories. Developers should 
+		ensure their ~/.m2/settings.xml file has the following URLs in both the repositories 
+		and pluginRepositories sections or in a profile: https://nexus.acumos.org/content/repositories/snapshots/ 
+		https://nexus.acumos.org/content/repositories/releases/ -->
 
 	<dependencies>
+		<dependency>
+			<groupId>org.acumos.common-dataservice</groupId>
+			<artifactId>cmn-data-svc-client</artifactId>
+			<version>1.10.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.acumos</groupId>
+			<artifactId>acumos-nexus-client</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<!-- Spring chooses <version>${slf4j.version}</version> -->
 		</dependency>
-		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-support</artifactId> 
-			</dependency> -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -84,27 +67,20 @@
 			<version>3.0.10</version>
 		</dependency>
 		<dependency>
-			<groupId>org.acumos</groupId>
-			<artifactId>acumos-nexus-client</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+			<!-- spring sets version -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- spring sets version -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<!-- spring sets version -->
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.acumos.common-dataservice</groupId>
-			<artifactId>cmn-data-svc-client</artifactId>
-			<version>1.10.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -124,14 +100,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+			<!-- spring sets version -->
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mobile</artifactId>
+			<!-- spring sets version -->
 		</dependency>
-
-
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
@@ -160,7 +135,7 @@
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
-			<version>1.5.6</version>
+			<!-- spring sets the <version>1.5.6</version> -->
 		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -170,12 +145,12 @@
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.23</version>
+			<!-- spring sets the <version>2.3.23</version> -->
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.httpcomponents</groupId>
-		    <artifactId>httpmime</artifactId>
-		    <version>4.3.1</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<!-- spring sets the <version>4.3.1</version> -->
 		</dependency>
 		<dependency>
 			<groupId>com.mailjet</groupId>
@@ -183,7 +158,6 @@
 			<version>4.0.0</version>
 		</dependency>
 	</dependencies>
-
 
 	<build>
 		<plugins>
@@ -214,11 +188,11 @@
 					<canUpdateLicense>true</canUpdateLicense>
 					<emptyLineAfterHeader>true</emptyLineAfterHeader>
 					<includes>
-	                      <include>**/*.java</include>
-<!-- 	                      <include>**/*.js</include> -->
-<!-- 	                      <include>**/*.ts</include> -->
-	                 </includes>
-		        </configuration>
+						<include>**/*.java</include>
+						<!-- <include>**/*.js</include> -->
+						<!-- <include>**/*.ts</include> -->
+					</includes>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -246,6 +220,15 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Skip the deploy-jar-to-nexus step -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<!-- Spring sets the <version>2.8</version> -->
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -272,12 +255,11 @@
 				<version>0.21.0</version>
 				<configuration>
 					<verbose>true</verbose>
-					<dockerHost>${docker.host.url}</dockerHost>
-					<registry>${docker.registry.url}</registry>
-					<authConfig>
-						<username>${docker.registry.login}</username>
-						<password>${docker.registry.password}</password>
-					</authConfig>
+					<!-- docker runs on the LF build minion so the default value is ok -->
+					<!-- LF <dockerHost>unix:///var/run/docker.sock</dockerHost> LF -->
+					<pullRegistry>${docker.pull.registry}</pullRegistry>
+					<pushRegistry>${docker.push.registry}</pushRegistry>
+					<!-- LF credentials are not supplied here -->
 					<images>
 						<image>
 							<name>acumos-portal-be:${project.version}</name>
@@ -301,47 +283,15 @@
 								</assembly>
 								<!-- This is the same CMD used in a Dockerfile -->
 								<cmd>
-									<shell>cd /maven; java -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}</shell>
+									<!-- CDATA prevents Eclipse formatter from breaking line -->
+									<shell><![CDATA[cd /maven; java -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}]]></shell>
 								</cmd>
 							</build>
 						</image>
 					</images>
 				</configuration>
 			</plugin>
-						<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
-				<executions>
-					<execution>
-						<id>default-prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>default-report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<snapshotRepository>
-			<!-- must match ID in Jenkins settings -->
-			<id>acumos-nexus</id>
-			<name>acumos-repository-snapshots</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.snapshot.path}</url>
-		</snapshotRepository>
-		<repository>
-			<!-- must match ID in Jenkins settings -->
-			<id>acumos-nexus</id>
-			<name>acumos-repository-releases</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.release.path}</url>
-		</repository>
-	</distributionManagement>
+	<!-- No distributionManagement section, jars are not deployed -->
 </project>

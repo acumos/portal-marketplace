@@ -42,7 +42,7 @@ import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.cds.transport.RestPageResponse;
 
 /**
- * Interface for Supporting Market Place Catalog & Manage models modules
+ * Interface for Supporting Market Place Catalog and Manage models modules
  */
 public interface MarketPlaceCatalogService {
 	 

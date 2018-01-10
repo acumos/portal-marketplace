@@ -1,39 +1,37 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.acumos.portal-marketplace</groupId>
-  <version>1.0.0-SNAPSHOT</version>
-  <artifactId>acumos-nexus-client</artifactId>
-  <name>Acumos Nexus client library</name>
-  <description>Nexus Client Library to Get and Upload Artifacts</description>
-  
-  <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.acumos.portal-marketplace</groupId>
+	<artifactId>acumos-nexus-client</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>Acumos Nexus client library</name>
+	<description>Nexus Client Library to Get and Upload Artifacts</description>
+	<properties>
 		<springframework.version>4.3.9.RELEASE</springframework.version>
 		<encoding>UTF-8</encoding>
 		<!-- Jenkins invokes mvn with argument -Dbuild.number=${BUILD_NUMBER} -->
 		<build.number>0</build.number>
 		<wagonVersion>2.12</wagonVersion>
+		<!-- For distributionManagement section -->
+		<acumos.nexus.url>https://nexus.acumos.org</acumos.nexus.url>
 	</properties>
-	
-  <dependencies>
-		<!-- Code to SLF4J shims -->
+	<!-- All dependencies are public, no extra repositories needed. -->
+	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.21</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>1.7.21</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.3.5</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -45,20 +43,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -95,12 +90,9 @@
 			<artifactId>wagon-http-shared</artifactId>
 			<version>${wagonVersion}</version>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<plugins>
-
 			<!-- Require Java 1.8 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -130,11 +122,11 @@
 					<canUpdateLicense>true</canUpdateLicense>
 					<emptyLineAfterHeader>true</emptyLineAfterHeader>
 					<includes>
-	                      <include>**/*.java</include>
-<!-- 	                      <include>**/*.js</include> -->
-<!-- 	                      <include>**/*.ts</include> -->
-	                 </includes>
-		        </configuration>
+						<include>**/*.java</include>
+						<!-- <include>**/*.js</include> -->
+						<!-- <include>**/*.ts</include> -->
+					</includes>
+				</configuration>
 			</plugin>
 			<!-- add build information to manifest -->
 			<plugin>
@@ -147,13 +139,11 @@
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
 						<manifestEntries>
-							<Build-Number>${project.version}.${build.number}</Build-Number>
-							<Build-Time>${maven.build.timestamp}</Build-Time>
+							<Implementation-Version>${project.version}-b${build.number}</Implementation-Version>
 						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
-			
 			<!-- Generate javadoc jar; see profile for Java 8 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -168,7 +158,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<!-- Generate source jar -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -183,7 +172,7 @@
 					</execution>
 				</executions>
 			</plugin>
-						<plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.6.201602180812</version>
@@ -205,18 +194,20 @@
 			</plugin>
 		</plugins>
 	</build>
+	<!-- The client jar must be deployed to Nexus. The IDs must match Jenkins 
+		settings for credentials. -->
 	<distributionManagement>
-		<snapshotRepository>
-			<!-- must match ID in Jenkins settings -->
-			<id>acumos-nexus</id>
-			<name>acumos-repository-snapshots</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.snapshot.path}</url>
-		</snapshotRepository>
 		<repository>
-			<!-- must match ID in Jenkins settings -->
-			<id>acumos-nexus</id>
-			<name>acumos-repository-releases</name>
-			<url>${acumos.nexus.url}/${acumos.nexus.release.path}</url>
+			<id>releases</id>
+			<url>${acumos.nexus.url}/content/repositories/releases</url>
 		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<url>${acumos.nexus.url}/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<site>
+			<id>acumos-site</id>
+			<url>dav:${acumos.nexus.url}/content/sites/site/${project.groupId}/${project.artifactId}/${project.version}</url>
+		</site>
 	</distributionManagement>
 </project>
