@@ -23,13 +23,10 @@ package org.acumos.portal.be.controller;
 import java.io.FileNotFoundException;
 import java.net.ConnectException;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
-import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.transport.MLSolution;
@@ -39,7 +36,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -68,7 +64,6 @@ public class WebBasedOnboardingController  extends AbstractController {
 	public JsonResponse<RestPageResponseBE<MLSolution>> addToCatalog(@RequestHeader("Authorization") String authorization, @RequestHeader(value="provider", required=false) String provider ,@RequestBody JsonRequest<UploadSolution> restPageReq, @PathVariable("userId") String userId ) {
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "addToCatalog");
-		RestPageResponseBE<MLSolution> mlSolutions = null;
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 	    
 	    System.out.println("Execute method asynchronously - "+ Thread.currentThread().getName());

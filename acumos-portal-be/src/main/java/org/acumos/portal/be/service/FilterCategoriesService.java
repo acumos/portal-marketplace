@@ -24,11 +24,10 @@
 package org.acumos.portal.be.service;
 
 import java.util.List;
- 
+
 import org.acumos.cds.domain.MLPAccessType;
 import org.acumos.cds.domain.MLPModelType;
 import org.acumos.cds.domain.MLPToolkitType;
-import org.acumos.cds.domain.MLPAccessType;
 
 public interface FilterCategoriesService {
 	/**

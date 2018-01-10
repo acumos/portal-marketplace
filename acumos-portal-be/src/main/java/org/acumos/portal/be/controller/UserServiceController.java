@@ -30,6 +30,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -41,19 +43,15 @@ import org.acumos.portal.be.security.jwt.TokenValidation;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,9 +59,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import org.acumos.cds.domain.MLPRole;
-import org.acumos.cds.domain.MLPUser;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -99,7 +94,7 @@ public class UserServiceController extends AbstractController {
 	 * @param response
 	 *            artifactService
 	 * @return Returns Status Code and Message serialized as JSON
-	 * @throws UserServiceException 
+	 * @throws UserServiceException on failure to create user account
 	 */
 	@ApiOperation(value = "Creates a User Account on the Platform.  Returns Success if Account created successfully; else an error message is returned.", response = ResponseVO.class)
 	@RequestMapping(value = { APINames.ACCOUNT_SIGNUP }, method = RequestMethod.POST, produces = APPLICATION_JSON)
