@@ -66,7 +66,7 @@ public class CommandUtils {
         }
     }
 */
-    /**
+    /*
      * Log a streamed response that is not wrapped in JSON
      */
   /*  public static void logCommandResultStream(InputStream inputStream,
@@ -82,6 +82,12 @@ public class CommandUtils {
         }
     }*/
 
+    /**
+     * Adds latest tag
+     * @param fullImageName
+     * full image name
+     * @return Docker tag
+     */
     public static String addLatestTagIfNeeded(String fullImageName) {
         // Assuming that the fullImageName is a valid name, the pattern is
         // enough to decide if it contains tag or not.

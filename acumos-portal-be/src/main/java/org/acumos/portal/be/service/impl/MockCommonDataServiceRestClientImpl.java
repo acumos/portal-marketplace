@@ -57,20 +57,18 @@ import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.domain.MLPValidationSequence;
 import org.acumos.cds.domain.MLPValidationStatus;
 import org.acumos.cds.domain.MLPValidationType;
-import org.acumos.cds.query.SearchCriteria;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.cds.transport.SuccessTransport;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.transport.MLNotification;
 
-
-public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRestClient{
+public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRestClient {
 
 	public MockCommonDataServiceRestClientImpl() {
 		// TODO Auto-generated method stub
 	}
-	
+
 	@Override
 	public SuccessTransport getHealth() {
 		// TODO Auto-generated method stub
@@ -119,7 +117,7 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 
 	@Override
 	public List<MLPModelType> getModelTypes() {
-		
+
 		MLPModelType mlpModelType1 = new MLPModelType();
 		mlpModelType1.setTypeCode("CL");
 		mlpModelType1.setTypeName("Classification");
@@ -237,19 +235,19 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateSolution(MLPSolution solution) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void incrementSolutionViewCount(String solutionId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSolution(String solutionId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -285,13 +283,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateSolutionRevision(MLPSolutionRevision revision) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSolutionRevision(String solutionId, String revisionId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -303,13 +301,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void addSolutionRevisionArtifact(String solutionId, String revisionId, String artifactId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dropSolutionRevisionArtifact(String solutionId, String revisionId, String artifactId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -327,7 +325,7 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void deleteTag(MLPTag tag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -339,13 +337,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void addSolutionTag(String solutionId, String tag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dropSolutionTag(String solutionId, String tag) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -387,13 +385,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateArtifact(MLPArtifact artifact) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteArtifact(String artifactId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -436,29 +434,28 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 
 	@Override
 	public MLPUser createUser(MLPUser user) {
-		/*System.out.println("################In Mock Data Service####################");
-		MLPUser mlpUser = new MLPUser();
-		mlpUser.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-		mlpUser.setActive(true);
-		mlpUser.setFirstName("UserFirstName");
-		mlpUser.setLastName("UserLastName");
-		mlpUser.setLoginName("User1");
-		mlpUser.setEmail("user1@emial.com");
-		mlpUser.setLoginHash("User1");
-		return mlpUser;*/
+		/*
+		 * System.out.println("################In Mock Data Service####################"
+		 * ); MLPUser mlpUser = new MLPUser();
+		 * mlpUser.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		 * mlpUser.setActive(true); mlpUser.setFirstName("UserFirstName");
+		 * mlpUser.setLastName("UserLastName"); mlpUser.setLoginName("User1");
+		 * mlpUser.setEmail("user1@emial.com"); mlpUser.setLoginHash("User1"); return
+		 * mlpUser;
+		 */
 		return null;
 	}
 
 	@Override
 	public void updateUser(MLPUser user) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteUser(String userId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -470,31 +467,31 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void addUserRole(String userId, String roleId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateUserRoles(String userId, List<String> roleIds) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dropUserRole(String userId, String roleId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void addUsersInRole(List<String> userIds, String roleId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dropUsersInRole(List<String> userIds, String roleId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -524,13 +521,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateUserLoginProvider(MLPUserLoginProvider provider) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteUserLoginProvider(MLPUserLoginProvider provider) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -566,13 +563,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateRole(MLPRole role) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteRole(String roleId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -596,13 +593,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateRoleFunction(MLPRoleFunction roleFunction) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteRoleFunction(String roleId, String roleFunctionId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -678,13 +675,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updatePeer(MLPPeer user) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deletePeer(String peerId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -708,13 +705,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updatePeerSubscription(MLPPeerSubscription peerSub) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deletePeerSubscription(Long subscriptionId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -732,7 +729,7 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void deleteSolutionDownload(MLPSolutionDownload download) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -750,7 +747,7 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void deleteSolutionFavorite(MLPSolutionFavorite fs) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -768,13 +765,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateSolutionRating(MLPSolutionRating rating) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSolutionRating(MLPSolutionRating rating) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -785,14 +782,14 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		mlNotification.setMessage("notification");
 		mlNotification.setTitle("Notification");
 		mlNotification.setUrl("http://notify.com");
-		
+
 		long count = mlNotification.getCount();
 		return count;
 	}
 
 	@Override
 	public RestPageResponse<MLPNotification> getNotifications(RestPageRequest pageRequest) {
-		  // TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -816,13 +813,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateNotification(MLPNotification notification) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteNotification(String notificationId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -834,19 +831,19 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void addUserToNotification(String notificationId, String userId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dropUserFromNotification(String notificationId, String userId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setUserViewedNotification(String notificationId, String userId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -870,19 +867,19 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void addSolutionUserAccess(String solutionId, String userId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dropSolutionUserAccess(String solutionId, String userId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updatePassword(MLPUser user, MLPPasswordChangeRequest changeRequest) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -900,13 +897,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateSolutionValidation(MLPSolutionValidation validation) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSolutionValidation(MLPSolutionValidation validation) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -924,7 +921,7 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void deleteValidationSequence(MLPValidationSequence sequence) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -956,13 +953,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateSolutionDeployment(MLPSolutionDeployment deployment) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSolutionDeployment(MLPSolutionDeployment deployment) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -980,16 +977,14 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateSiteConfig(MLPSiteConfig config) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSiteConfig(String configKey) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
 
 	@Override
 	public MLPSolutionRating getSolutionRating(String solutionId, String userId) {
@@ -1024,13 +1019,13 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateThread(MLPThread thread) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteThread(String threadId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -1060,18 +1055,18 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public void updateComment(MLPComment comment) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteComment(String threadId, String commentId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public RestPageResponse<MLPSolution> findPortalSolutions(String nameKeyword, String descriptionKeyword,
-			String authorKeyword, boolean active, String[] accessTypeCodes, String[] modelTypeCodes,
+	public RestPageResponse<MLPSolution> findPortalSolutions(String[] nameKeywords, String[] descriptionKeywords,
+			boolean active, String[] ownerIds, String[] accessTypeCodes, String[] modelTypeCodes,
 			String[] validationStatusCodes, String[] tags, RestPageRequest pageRequest) {
 		// TODO Auto-generated method stub
 		return null;
@@ -1079,6 +1074,20 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 
 	@Override
 	public List<MLPSolution> searchSolutions(Map<String, Object> queryParameters, boolean isOr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPThread> getSolutionRevisionThreads(String solutionId, String revisionId,
+			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPComment> getSolutionRevisionComments(String solutionId, String revisionId,
+			RestPageRequest pageRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}

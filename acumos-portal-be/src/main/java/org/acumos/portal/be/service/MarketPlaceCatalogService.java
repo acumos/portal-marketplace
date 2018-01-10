@@ -42,7 +42,7 @@ import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.cds.transport.RestPageResponse;
 
 /**
- * Interface for Supporting Market Place Catalog & Manage models modules
+ * Interface for Supporting Market Place Catalog and Manage models modules
  */
 public interface MarketPlaceCatalogService {
 	 
@@ -72,15 +72,16 @@ public interface MarketPlaceCatalogService {
 	 * @param solutionId : SolutionId for which Solution Revision Needs to be returned
 	 * 
 	 * @return List of the Solution Revision for the specified solution Id
+	 * @throws AcumosServiceException On failure
 	 */
 	List<MLPSolutionRevision> getSolutionRevision(String solutionId) throws AcumosServiceException;
 	
 	/**
 	 * @param solutionId : SolutionId for which Solution Revision Artifacts Needs to be returned
+	 * @param revisionId : RevisionId of the Solution for which List of Artifacts are needed.
 	 * 
-	 * @param revisionid : RevisionId of the Solution for which List of Artifacts are needed.
-	 * 
-	 * @return List of the Solution Artifacts for the specified solution Id & revisionId
+	 * @return List of the Solution Artifacts for the specified solution Id and revisionId
+	 * @throws AcumosServiceException On failure
 	 */
 	List<MLPArtifact> getSolutionArtifacts(String solutionId, String revisionId) throws AcumosServiceException;
 	
