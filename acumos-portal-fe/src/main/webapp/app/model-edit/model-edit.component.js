@@ -1804,6 +1804,12 @@ angular
 							})
 						};
 						
+						$scope.ssProgress = false;
+						$scope.taProgress = false;
+						$scope.lcProgress = false;
+						$scope.oqProgress = false;
+						$scope.spProgress = false;
+						
 					/******Model Validataion status*****/
 					$scope.getModelValidation = function(){
 						apiService.getModelValidationStatus($scope.solutionId,
@@ -1816,15 +1822,20 @@ angular
 											item) {
 										if(item.validationType == "SS"){					//Security Scan
 											$scope.ssValidationStatus = item;
+											$scope.ssProgress = true;
 										}else if(item.validationType == "TA"){				//Text Analysis/Check
 											$scope.taValidationStatus = item;
 											$scope.checkTA = $scope.taValidationStatus.validationStatus;
+											$scope.taProgress = true;
 										}else if (item.validationType == "LC"){				//License Check
 											$scope.lcValidationStatus = item;
+											$scope.lcProgress = true;
 										}else if (item.validationType == "OQ"){				//Verify Model
 											$scope.oqValidationStatus = item;
+											$scope.oqProgress = true;
 										}else if (item.validationType == "SP"){				// Submit to Publication
 											$scope.spValidationStatus = item;
+											$scope.spProgress = true;
 										}
 										 
 									});

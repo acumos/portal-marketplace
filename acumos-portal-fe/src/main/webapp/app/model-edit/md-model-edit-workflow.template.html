@@ -665,6 +665,11 @@
 									
 								
 									<div class="progress-bar" style="width: 6%;"></div>
+									<!-- <div class="progress-bar" style="width: 6%;" ng-show="modelDocumentation == true"></div>
+									<div class="progress-bar" style="width: 6%;" ng-show="ssProgress == true"></div>
+									<div class="progress-bar" style="width: 6%;"></div>
+									<div class="progress-bar" style="width: 6%;"></div> -->
+									
 									<!-- <div class="progress-bar" ng-style="validationResponse == null ? (ssValidationStatus.validationStatus == 'PS' ? {'width':'28%'}: (lcValidationStatus.validationStatus == 'PS' ?{'width':'50%'}: (taValidationStatus.validationStatus == 'PS' ?{ 'width':'70%' } : {'width':'8%'}))): {'width': '8%'})  "></div> -->
 								<!-- <div class="progress-bar" ng-style="validationResponse == null ?(ssValidationStatus.validationStatus == 'PS' ? {'width':'28%'}:{'width':'8%'}):{'width':'8%'}"></div> -->
 								</div>
@@ -2895,7 +2900,7 @@
 																<div class="md-toolbar-tools">
 																	<h2>Skip this step</h2>
 																	<span flex></span>
-																	<md-button class="md-icon-button" ng-click="public.close = true">
+																	<md-button class="md-icon-button" ng-click="public.skipStep = false">
 																	  <i class="material-icons">close</i>
 																	</md-button>
 																</div>
@@ -2907,7 +2912,7 @@
 																	</div>								
 																	 <div layout="row" class="popovers-cloud-modalfooter">
 																		<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																		ng-click="public.close = true">
+																		ng-click="public.skipStep = false">
 																		Cancel
 																	  </md-button>
 																	  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
