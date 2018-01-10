@@ -95,14 +95,17 @@ public class PublishSolutionServiceController extends AbstractController {
 			else
 				notification = solutionDetail.getName() + " published to marketplace";
 			//generateNotification(notification,userId);
-		if(published){	 
+		/*if(published){	 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions published Successfully");
 		}else{
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			data.setResponseDetail("Solutions not published");
-		}
+		}*/
 			
+		data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+		data.setResponseDetail("Solutions not published");
+		
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while publishSolution()");
