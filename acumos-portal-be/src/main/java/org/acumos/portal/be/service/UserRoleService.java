@@ -21,16 +21,15 @@
 package org.acumos.portal.be.service;
 
 import java.util.List;
-import java.util.Map;
 
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.User;
-import org.acumos.cds.domain.MLPRole;
-import org.acumos.cds.domain.MLPRoleFunction;
-import org.acumos.cds.transport.RestPageRequest;
 
 public interface UserRoleService {
 

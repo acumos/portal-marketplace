@@ -20,6 +20,13 @@
 
 package org.acumos.portal.be.controller;
 
+import java.util.List;
+
+import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPPeerSubscription;
+import org.acumos.cds.domain.MLPSiteConfig;
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.Application;
 import org.acumos.portal.be.common.JSONTags;
@@ -31,20 +38,11 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
-
-import org.acumos.cds.domain.MLPPeer;
-import org.acumos.cds.domain.MLPPeerSubscription;
-import org.acumos.cds.domain.MLPSiteConfig;
-import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
 
 import io.swagger.annotations.ApiOperation;
 

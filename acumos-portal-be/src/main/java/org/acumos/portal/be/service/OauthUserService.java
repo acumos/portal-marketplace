@@ -23,12 +23,10 @@
  */
 package org.acumos.portal.be.service;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.acumos.portal.be.transport.OauthUser;
-import org.apache.http.client.ClientProtocolException;
 import org.acumos.cds.domain.MLPUserLoginProvider;
+import org.acumos.portal.be.transport.OauthUser;
 
 public interface OauthUserService {
 	
