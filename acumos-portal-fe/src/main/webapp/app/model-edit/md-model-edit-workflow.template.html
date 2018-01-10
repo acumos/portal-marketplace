@@ -1641,7 +1641,7 @@
 											<form ng-cloak>
 												<md-toolbar>
 												<div class="md-toolbar-tools">
-													<h2>Preview</h2>
+													<h2>Preview For Model : {{solution.name}} ( Version : {{versionId}} )</h2>
 													<span flex></span>
 													<md-button class="md-icon-button" ng-click="closeDialog()">
 													<i class="material-icons">close</i> </md-button>
@@ -1657,7 +1657,7 @@
 																	class="md-padding"><!-- MarketPlace Preview -->
 																<div class="mp-grid">
 																	<div class="alert alert-info"
-																		ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
+																		ng-if="solution.length < 1 || (allDeletedData && !searchResults)">
 																		<strong>No Result found</strong>
 																	</div>
 																	<!-- the current model along with two items from marketplace -->
@@ -1928,12 +1928,12 @@
 																					id="tab1-panel">
 																					<div class="md-intro-container">
 																						<h6 class="sectiontitle9">INTRODUCTION</h6>
-																						<button type="button"
-																							class="mdl-button mdl-js-button mdl-js-ripple-effect btn-primary">Company
-																							Marketplace</button>
-																						<button type="button"
-																							class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Public
-																							Marketplace</button>
+																						<button type="button" ng-if="solution.accessType != 'PR'"
+																								class="mdl-button mdl-js-button mdl-js-ripple-effect btn-company"
+																								ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company Marketplace</button>
+																						<button type="button" ng-if="solution.accessType != 'PR'"
+																								class="mdl-button mdl-js-button mdl-js-ripple-effect"
+																								ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public Marketplace</button>
 																					</div>
 
 																					<div class="description-img-container">
@@ -2063,8 +2063,8 @@
 																						<tbody>
 																							<tr ng-repeat="value in artifactDownload">
 																								<td>
-																									<!-- <a class="link-blue" href="#"> -->Version
-																									name {{value.name}}<!-- </a> --> <span
+																									<!-- <a class="link-blue" href="#"> --><span class="md-modellbl1">Version
+																									name {{value.name}}<!-- </a> --></span> <span
 																									class="font600"></span>
 																								</td>
 																								<td>{{value.version}}</td>

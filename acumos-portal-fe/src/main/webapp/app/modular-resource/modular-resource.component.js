@@ -321,7 +321,8 @@ angular.module('modelResource')
 							 $anchorScroll();
 							var counter = 1;
 							$interval(function() {
-								angular.element(angular.element('.onboarding-web li div')[counter-3]).removeClass('active');				
+								angular.element(angular.element('.onboarding-web li div')[counter-3]).removeClass('active');
+								angular.element(angular.element('.onboarding-web li div')[counter-3]).addClass('completed');
 								angular.element(angular.element('.onboarding-web li div')[counter-1]).addClass('active');
 								angular.element(angular.element('.onboarding-web li')[counter]).addClass('progress-status green')
 								angular.element(angular.element('.onboarding-web li')[counter-2]).addClass('completed');
@@ -330,7 +331,7 @@ angular.module('modelResource')
 									$scope.activeViewModel = true;
 								}
 								
-							}, 5000, 6);
+							}, 5000, 7);
 							
 							
 						},
