@@ -1272,6 +1272,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 return $http.post(url,angular.toJson(fieldMap))
                     .then(function(response){
                         $scope.saveState.noSaves = false;
+                        _dirty = true;
                         //console.log(Promise.resolve(edge));
                         return Promise.resolve(edge);
                     });
@@ -2348,6 +2349,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.nodeNameUI = name;
         changeNode[nodeId] = name;
         $scope.saveState.noSaves = false;
+        _dirty = true;
         //console.log("console"+angular.toJson($http.post(url)));
         return $http.post(url);
 
