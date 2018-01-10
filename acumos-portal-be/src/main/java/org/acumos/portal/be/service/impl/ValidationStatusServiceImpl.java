@@ -199,14 +199,16 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 			mlModelValidationStepStatus.add(getMLModelValidationStepStatus(mlArtifactValidationStatusForLC, ValidationTypeCode.LC.toString(), artifacts));
 		}
 		boolean isAllPassed = false;
-		for (MLModelValidationStepStatus validationStepStatus : mlModelValidationStepStatus) {
-			if(validationStepStatus.getValidationStatus() != null && !validationStepStatus.getValidationStatus().equalsIgnoreCase(ValidationStatusCode.PS.toString())) {
-				isAllPassed = false;
-				break;
-			} else {
-				isAllPassed = true;
+		if(!PortalUtils.isEmptyList(mlModelValidationStepStatus)) {
+			for (MLModelValidationStepStatus validationStepStatus : mlModelValidationStepStatus) {
+				if(validationStepStatus != null && validationStepStatus.getValidationStatus() != null && !validationStepStatus.getValidationStatus().equalsIgnoreCase(ValidationStatusCode.PS.toString())) {
+					isAllPassed = false;
+					break;
+				} else {
+					isAllPassed = true;
+				}
 			}
-		}	
+		}
 		if(isAllPassed) {
 			MLPSolution mlpSolution = client.getSolution(mlModelValidationStatus.getSolutionId());
 			if(mlpSolution != null ) {

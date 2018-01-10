@@ -177,6 +177,11 @@
 		    <artifactId>httpmime</artifactId>
 		    <version>4.3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.mailjet</groupId>
+			<artifactId>mailjet-client</artifactId>
+			<version>4.0.0</version>
+		</dependency>
 	</dependencies>
 
 
