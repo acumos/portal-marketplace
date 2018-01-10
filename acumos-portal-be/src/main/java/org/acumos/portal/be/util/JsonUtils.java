@@ -154,7 +154,10 @@ public class JsonUtils {
     }
 
     public static class JsonException extends RuntimeException {
-        private JsonException(Exception ex) {
+
+		private static final long serialVersionUID = 5062308764894162892L;
+
+		private JsonException(Exception ex) {
             super(ex);
         }
     }

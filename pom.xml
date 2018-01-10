@@ -2,24 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>portal-marketplace-parent</artifactId>
 	<version>1.12.7-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
 	<name>Acumos Portal MarketPlace Parent Project</name>
-	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<acumos.nexus.url>Set by Jenkins</acumos.nexus.url>
-		<acumos.nexus.snapshot.path>Set by Jenkins</acumos.nexus.snapshot.path>
-		<acumos.nexus.release.path>Set by Jenkins</acumos.nexus.release.path>
 	</properties>
-	
 	<modules>
+		<!-- Child modules do NOT name this parent. -->
 		<module>acumos-platon</module>
 		<module>acumos-nexus-client</module>
 		<module>acumos-portal-be</module>
@@ -30,9 +24,16 @@
 			<!-- Skip the deployment step, this makes jenkins config easy -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5.2</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.8.2</version>
-				<!-- Spring sets the <version>2.8</version> -->
 				<configuration>
 					<skip>true</skip>
 				</configuration>

@@ -22,7 +22,9 @@ package org.acumos.portal.be.common.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 
-    public StorageFileNotFoundException(String message) {
+	private static final long serialVersionUID = 1707691176161236891L;
+
+	public StorageFileNotFoundException(String message) {
         super(message);
     }
 

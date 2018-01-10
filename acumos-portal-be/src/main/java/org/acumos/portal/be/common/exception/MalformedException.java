@@ -22,7 +22,9 @@ package org.acumos.portal.be.common.exception;
 
 public class MalformedException extends Exception {
 
-    public MalformedException(String message) {
+	private static final long serialVersionUID = 1894167095700144180L;
+
+	public MalformedException(String message) {
         super(message);
     }
 
