@@ -22,9 +22,7 @@ package org.acumos.portal.be.transport;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.acumos.cds.domain.MLPTag;
 import org.acumos.portal.be.common.JSONTags;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

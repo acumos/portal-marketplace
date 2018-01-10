@@ -54,7 +54,7 @@ public class OauthUser extends AbstractResponseObject {
 	/**
 	 * 
 	 * Clone of the User Object
-	 * @param userCopy
+	 * @param userCopy object to copy
 	 * 
 	 */
 	public OauthUser(OauthUser userCopy) {

@@ -25,7 +25,6 @@ import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.common.JsonRequest;
-import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 

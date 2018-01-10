@@ -29,7 +29,6 @@ import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.portal.be.transport.AbstractResponseObject;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.User;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
