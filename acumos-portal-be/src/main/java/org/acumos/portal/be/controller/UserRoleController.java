@@ -20,14 +20,14 @@
 
 package org.acumos.portal.be.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -47,10 +47,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.acumos.cds.domain.MLPRole;
-import org.acumos.cds.domain.MLPRoleFunction;
-import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.transport.RestPageRequest;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -62,7 +58,7 @@ public class UserRoleController extends AbstractController {
 
 	@Autowired
 	private UserRoleService userRoleService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -71,10 +67,6 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
 	 * @return List roles in JSON format.
 	 */
 	@ApiOperation(value = "Gets a list of roles for user.", response = MLRole.class, responseContainer = "List")
@@ -109,6 +101,8 @@ public class UserRoleController extends AbstractController {
 	/**
 	 * @param request
 	 *            HttpServletRequest
+	 * @param roleId
+	 *            role ID
 	 * @param response
 	 *            HttpServletResponse
 	 * @return object in JSON format.
@@ -149,6 +143,8 @@ public class UserRoleController extends AbstractController {
 	/**
 	 * @param request
 	 *            HttpServletRequest
+	 * @param role
+	 *            Role
 	 * @param response
 	 *            HttpServletResponse
 	 * @return object in JSON format.
@@ -156,23 +152,24 @@ public class UserRoleController extends AbstractController {
 	@ApiOperation(value = "Creates a new role.", response = MLPRole.class)
 	@RequestMapping(value = { APINames.CREATE_ROLE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPRole> postRole(HttpServletRequest request, @RequestBody JsonRequest<MLRole> role, HttpServletResponse response) {
+	public JsonResponse<MLPRole> postRole(HttpServletRequest request, @RequestBody JsonRequest<MLRole> role,
+			HttpServletResponse response) {
 		MLPRole mlpRole = null;
 		JsonResponse<MLPRole> data = new JsonResponse<>();
-		MLPRoleFunction	mlpFunction=null;
+		MLPRoleFunction mlpFunction = null;
 		try {
 			if (role.getBody() != null) {
 				mlpRole = userRoleService.createRole(role.getBody());
 			}
-			if(mlpRole.getRoleId() != null && role.getBody().getPermissionList() != null){
-				for(String permission : role.getBody().getPermissionList()){
-				MLPRoleFunction roleFunction = new MLPRoleFunction();
-				roleFunction.setRoleId(mlpRole.getRoleId());
-				roleFunction.setName(permission);
-				mlpFunction = userRoleService.createRoleFunction(roleFunction);
+			if (mlpRole.getRoleId() != null && role.getBody().getPermissionList() != null) {
+				for (String permission : role.getBody().getPermissionList()) {
+					MLPRoleFunction roleFunction = new MLPRoleFunction();
+					roleFunction.setRoleId(mlpRole.getRoleId());
+					roleFunction.setName(permission);
+					mlpFunction = userRoleService.createRoleFunction(roleFunction);
 				}
 			}
-			
+
 			if (mlpFunction != null) {
 				data.setResponseBody(mlpRole);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -195,10 +192,9 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
+	 * @param role
+	 *            Role
+	 * @return success message
 	 */
 	@ApiOperation(value = "Update a role.", response = MLPRole.class)
 	@RequestMapping(value = { APINames.UPDATE_ROLE }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
@@ -225,10 +221,9 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
+	 * @param role
+	 *            Role
+	 * @return Success or error message
 	 */
 	@ApiOperation(value = "Delete a role.", response = MLPRole.class)
 	@RequestMapping(value = { APINames.DELETE_ROLE }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
@@ -254,10 +249,8 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
+	 * @param roleFunction
+	 *            Role function
 	 * @return object in JSON format.
 	 */
 	@ApiOperation(value = "Gets a rolefunction Detail for the given RoleId.", response = MLRoleFunction.class)
@@ -293,10 +286,8 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
+	 * @param mlpRoleFunction
+	 *            Role function
 	 * @return object in JSON format.
 	 */
 	@ApiOperation(value = "Creates a new rolefunction.", response = MLPRole.class)
@@ -326,10 +317,9 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
+	 * @param mlpRoleFunction
+	 *            Role function
+	 * @return Success or error message
 	 */
 	@ApiOperation(value = "Update a rolefunction.", response = MLPRole.class)
 	@RequestMapping(value = { APINames.UPDATE_ROLE_FUNCTION }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
@@ -356,14 +346,13 @@ public class UserRoleController extends AbstractController {
 	}
 
 	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
+	 * @param roleFunction
+	 *            Role function
+	 * @return Success or error message
 	 */
 	@ApiOperation(value = "Delete role function.", response = MLPRole.class)
 	@RequestMapping(value = {
-			APINames.DELETE_ROLE_FUNCTION }, method = RequestMethod.DELETE, produces = APPLICATION_JSON) 
+			APINames.DELETE_ROLE_FUNCTION }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> deleteRoleFunction(@RequestBody JsonRequest<MLRoleFunction> roleFunction) {
 		JsonResponse<Object> response = new JsonResponse<>();
@@ -391,12 +380,12 @@ public class UserRoleController extends AbstractController {
 		}
 		return response;
 	}
-	
+
 	@ApiOperation(value = "Add role for User", response = MLPRole.class)
 	@RequestMapping(value = { APINames.ADD_ROLES_USER }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPRole> addUserRole(HttpServletRequest request,
-			@RequestBody JsonRequest<User> user, HttpServletResponse response) {
+	public JsonResponse<MLPRole> addUserRole(HttpServletRequest request, @RequestBody JsonRequest<User> user,
+			HttpServletResponse response) {
 		JsonResponse<MLPRole> data = new JsonResponse<>();
 		User newUser = null;
 		try {
@@ -443,7 +432,7 @@ public class UserRoleController extends AbstractController {
 		}
 		return data;
 	}
-	
+
 	@ApiOperation(value = "Update role for user", response = MLPRole.class)
 	@RequestMapping(value = { APINames.UPDATE_ROLES_USER }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -464,9 +453,9 @@ public class UserRoleController extends AbstractController {
 		}
 		return data;
 	}
-	
+
 	@ApiOperation(value = "Gets a list of roles for user.", response = MLRole.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.USER_ROLES}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.USER_ROLES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLRole>> getRolesForUser(HttpServletRequest request, @PathVariable("userId") String userId,
 			HttpServletResponse response) {
@@ -488,37 +477,36 @@ public class UserRoleController extends AbstractController {
 			data.setResponseDetail("Exception Occurred Fetching roles for Market Place user");
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getRolesList()", e);
 		}
-		return data; 
+		return data;
 	}
-	
-	/*@ApiOperation(value = "Gets a list of role count for user.", response = MLRole.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.USER_ROLE_COUNT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<MLRole> getRoleCountForUser(HttpServletRequest request, HttpServletResponse response) {
-		MLRole mlRoles = null;
-		JsonResponse<MLRole> data = new JsonResponse<>();
-		//@PathVariable("pageRequest") RestPageRequest pageRequest,
-		RestPageRequest pageRequest = new RestPageRequest();
-		
-		try {
-			mlRoles = userRoleService.getRoleCountForUser(pageRequest);
-			if (mlRoles != null) {
-				data.setResponseBody(mlRoles);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Role Count for user fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getRoleCountForUser: size is {} ", mlRoles);
-			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("Error Occurred while getRoleCountForUser()");
-			}
-		} catch (Exception e) {
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			data.setResponseDetail("Exception Occurred Fetching role count for Market Place user");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getRoleCountForUser()", e);
-		}
-		return data; 
-	}*/
-	
+
+	/*
+	 * @ApiOperation(value = "Gets a list of role count for user.", response =
+	 * MLRole.class, responseContainer = "List")
+	 * 
+	 * @RequestMapping(value = { APINames.USER_ROLE_COUNT}, method =
+	 * RequestMethod.GET, produces = APPLICATION_JSON)
+	 * 
+	 * @ResponseBody public JsonResponse<MLRole>
+	 * getRoleCountForUser(HttpServletRequest request, HttpServletResponse response)
+	 * { MLRole mlRoles = null; JsonResponse<MLRole> data = new JsonResponse<>();
+	 * //@PathVariable("pageRequest") RestPageRequest pageRequest, RestPageRequest
+	 * pageRequest = new RestPageRequest();
+	 * 
+	 * try { mlRoles = userRoleService.getRoleCountForUser(pageRequest); if (mlRoles
+	 * != null) { data.setResponseBody(mlRoles);
+	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+	 * data.setResponseDetail("Role Count for user fetched Successfully");
+	 * log.debug(EELFLoggerDelegate.debugLogger, "getRoleCountForUser: size is {} ",
+	 * mlRoles); } else { data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+	 * data.setResponseDetail("Error Occurred while getRoleCountForUser()"); } }
+	 * catch (Exception e) { data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+	 * data.
+	 * setResponseDetail("Exception Occurred Fetching role count for Market Place user"
+	 * ); log.error(EELFLoggerDelegate.errorLogger,
+	 * "Exception Occurred while getRoleCountForUser()", e); } return data; }
+	 */
+
 	@ApiOperation(value = "Change user roles", response = MLPRole.class)
 	@RequestMapping(value = { APINames.CHANGE_ROLES_USER }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -526,8 +514,8 @@ public class UserRoleController extends AbstractController {
 		JsonResponse<MLPRole> data = new JsonResponse<>();
 		try {
 
-			if(user.getBody() != null){
-				
+			if (user.getBody() != null) {
+
 				userRoleService.updateUserRoles(user.getBody());
 			}
 
@@ -547,12 +535,12 @@ public class UserRoleController extends AbstractController {
 	public JsonResponse<List<MLRole>> getRoleUsersCount() {
 		JsonResponse<List<MLRole>> data = new JsonResponse<List<MLRole>>();
 		List<MLRole> rolesCountMap = null;
-		try {	
-			//String json = new ObjectMapper().writeValueAsString(map);
-			rolesCountMap = userRoleService.getRoleUsersCount();			
-			//MLRole role = new MLRole();
-			//role.setRoleIdUserCount(rolesCountMap);
-			
+		try {
+			// String json = new ObjectMapper().writeValueAsString(map);
+			rolesCountMap = userRoleService.getRoleUsersCount();
+			// MLRole role = new MLRole();
+			// role.setRoleIdUserCount(rolesCountMap);
+
 			data.setResponseBody(rolesCountMap);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Role count fetched Successfully");

@@ -103,7 +103,7 @@ public class User extends AbstractResponseObject {
 	/**
 	 * 
 	 * Clone of the User Object
-	 * @param userCopy
+	 * @param userCopy Object to copy
 	 * 
 	 */
 	public User(User userCopy) {

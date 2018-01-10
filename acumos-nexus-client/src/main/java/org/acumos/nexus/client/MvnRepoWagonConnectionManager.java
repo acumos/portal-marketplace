@@ -101,7 +101,7 @@ public class MvnRepoWagonConnectionManager {
 	 * 			Version for the artifact
 	 * @param packaging
 	 * 			packaging for artifact e.g jar, war etc
-	 * @return
+	 * @return Maven path for the specified artifact
 	 */
 	public static String createMvnPath(String groupId, String artifactId, String version, String packaging) {
 		StringBuilder buffer = new StringBuilder();

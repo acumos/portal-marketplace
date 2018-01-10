@@ -29,8 +29,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
-import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.OauthUserService;
@@ -39,7 +40,6 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.OauthUser;
-import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
@@ -47,14 +47,10 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.acumos.cds.domain.MLPRole;
-import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.domain.MLPUserLoginProvider;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -81,7 +77,7 @@ public class OauthUserServiceController extends AbstractController {
 	/**
 	 * @param request
 	 * 			HttpServletRequest
-	 * @param user
+	 * @param userMasterObject
 	 * 			User to be created on the Platform
 	 * @param response
 	 * 			artifactService
