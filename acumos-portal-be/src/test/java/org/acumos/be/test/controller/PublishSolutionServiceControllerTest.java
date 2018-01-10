@@ -23,16 +23,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.PublishSolutionServiceController;
+import org.acumos.portal.be.service.PublishSolutionService;
+import org.acumos.portal.be.service.impl.PublishSolutionServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PublishSolutionServiceControllerTest {
@@ -43,8 +47,14 @@ public class PublishSolutionServiceControllerTest {
 	final HttpServletRequest request = new MockHttpServletRequest();
 
 	
+	@InjectMocks
+	PublishSolutionServiceController publishController;
+	
 	@Mock
-	PublishSolutionServiceController publishController = new PublishSolutionServiceController();
+	PublishSolutionServiceImpl publishImpl;
+	
+	@Mock
+	PublishSolutionService publishService;
 	
 	@Test
 	public void publishSolutionTest() {
@@ -68,7 +78,29 @@ public class PublishSolutionServiceControllerTest {
 			Assert.assertNotNull(visibility);
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
-			Mockito.when(publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response)).thenReturn(value );
+			String accessType = "PB";
+			String accessType1 = "OR";
+			String accessType2 = "PR";
+			if(accessType == "PB"){
+				boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+				if(published){
+					value.setResponseBody(mlsolution);
+					value.setResponseDetail("Solution unpublished successfully ");
+				}
+			}else if(accessType1 == "OR"){
+				boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+				if(published){
+					value.setResponseBody(mlsolution);
+					value.setResponseDetail("Solution unpublished successfully ");
+				}
+			}else if(accessType2 == "PR"){
+				boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+				if(published){
+					value.setResponseBody(mlsolution);
+					value.setResponseDetail("Solution unpublished successfully ");
+				}
+			}
+			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -97,8 +129,30 @@ public class PublishSolutionServiceControllerTest {
 			Assert.assertNotNull(visibility);
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
-			Mockito.when(publishController.unpublishSolution(request, solutionId, visibility,
-					userId, response)).thenReturn(value);
+			String accessType = "PB";
+			String accessType1 = "OR";
+			String accessType2 = "PR";
+			if(accessType == "PB"){
+				boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
+				if(unpublished){
+					value.setResponseBody(mlsolution);
+					value.setResponseDetail("Solution unpublished successfully ");
+				}
+			}else if(accessType1 == "OR"){
+				boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
+				if(unpublished){
+					value.setResponseBody(mlsolution);
+					value.setResponseDetail("Solution unpublished successfully ");
+				}
+			}else if(accessType2 == "PR"){
+				boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
+				if(unpublished){
+					value.setResponseBody(mlsolution);
+					value.setResponseDetail("Solution unpublished successfully ");
+				}
+			}
+			
+			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
