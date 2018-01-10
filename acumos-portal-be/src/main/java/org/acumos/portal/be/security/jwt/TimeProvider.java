@@ -23,14 +23,7 @@ package org.acumos.portal.be.security.jwt;
 
 import java.util.Date;
 
-
-/**
- * @ Author Dilip kumar
- */
-
 public class TimeProvider {
-
-    private static final long serialVersionUID = -3301695478208950415L;
 
     public Date now() {
         return new Date();
