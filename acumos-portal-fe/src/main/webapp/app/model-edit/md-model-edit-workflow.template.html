@@ -1167,18 +1167,21 @@
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
 															<label> <input type="checkbox"
-															ng-disabled="company.close == true"
+																ng-disabled="company.close == true"
 																ng-model="$parent.company.skipStep">
 																Skip
 															</label>
 														</div>
+														<!-- -company.dismiss {{company.dismiss}}- </br>
+														-company.close {{company.close}}- </br>
+														-company.skipStep {{company.skipStep}}- -->
 														<!-- update model documents -->
-														<div class="popovers skippopover" ng-class="{'hide': company.skipStep == '' || company.skipStep == false || company.skipStep == null || company.close == true}">
+														<div class="popovers skippopover" ng-class="{'hide': company.skipStep == '' || company.skipStep == false || company.skipStep == null || company.close == true || company.dismiss == true}">
 															<md-toolbar>
 															  <div class="md-toolbar-tools">
 																<h2>Skip this step</h2>
 																<span flex></span>
-																<md-button class="md-icon-button" ng-click="company.close = true">
+																<md-button class="md-icon-button" ng-click="company.skipStep = false">
 																  <i class="material-icons">close</i>
 																</md-button>
 															  </div>
@@ -1189,7 +1192,7 @@
 																	You are skipping model documents step. Are you sure you want to skip this step?
 																</div>								
 																 <div layout="row" class="popovers-cloud-modalfooter">
-																	<md-button ng-click="company.close = true "
+																	<md-button ng-click="company.skipStep = false "
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Cancel
 																  </md-button>

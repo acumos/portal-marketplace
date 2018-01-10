@@ -60,7 +60,8 @@ angular.module('AcumosApp')
         var rolesCount = '/api/roles/count';
         var urlSolutionsCount = "api/solutions/count";
         var urlSearchSolution = "api/searchSolutions";
-        
+        var urlGetVersion	= "api/admin/version"
+        	
         /**************** ALL GET ******************/
         
         this.getRoleCount = function () {
@@ -168,6 +169,10 @@ angular.module('AcumosApp')
         	return $http.get(urlSolutionsCount + '/' + userID);
         }
         
+        this.getVersion = function(){
+        	return $http.get(urlGetVersion);
+        }
+                
         /**************** ALL PUT ******************/
         this.updateSolutions = function(solution){
         	return $http.put(urlSolutions + '/' + solution.request_body.solutionId, solution);

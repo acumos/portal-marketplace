@@ -529,7 +529,7 @@
 													<div class="admin-tab-heading"><span class="admin-title2">Subscription Requests</span></div>
 													<div class="fed-row1">
 														<div class="fedrow-cell1">
-															<span class="font600">Current peers</span> <span>(6 active peers)</span>
+															<span class="font600">Current peers</span> <span>(0 active peers)</span>
 														</div>
 														<div class="fed-row2">																												
 															<div class="mdl-textfield mdl-js-textfield admin-search-container">
@@ -575,7 +575,7 @@
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr>															
+																<!-- <tr>															
 																	<td><a data-target>RQID 12345678</a></td>
 																	<td>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</td>
 																	<td>Registration</td>
@@ -597,9 +597,12 @@
 																	<td>
 																		<button data-upgraded=",MaterialButton" class="mdl-button mdl-js-button btn-secondary viewnote">View Note</button>																		
 																	</td>
-																</tr>
+																</tr> -->
 															  </tbody>
 															</table>
+															<div class="alert c-info text-center">
+                                                                   <strong>No Result Found</strong> 
+                                                               </div>
 														</div>
 												</div>
 												<!-- subscription request end-->
@@ -719,7 +722,7 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Confirm Password</label> 
-													<input type="password" ng-model='value.cpassword' name="cpwd" valid-password required maxlength="20"/>
+													<input type="password" ng-model='value.cpassword' name="cpwd" valid-password-c required maxlength="20"/>
 												</md-input-container>
 												<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">

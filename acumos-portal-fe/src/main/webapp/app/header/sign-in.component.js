@@ -178,7 +178,7 @@ app
                                               }
                                               
                                               
-                                          $scope.login = function(){
+                                          $scope.login = function(){$scope.userIdDisabled = false;
                                         	  /* apiService.insertSignIn($scope.userData).then(function successCallback(response) {
                                               console.log(response);
                                               if(response.data.loginPassExpire == true){
@@ -251,8 +251,10 @@ app
                                                    console.log("Error: ", response);
                                                    $scope.userPassInvalid = true;
                                                    if(response.data.message == "Inactive user"){
-                                                	   	 $mdDialog.hide();
-                                                         alert("User Id is disabled");
+                                                	   $scope.userIdDisabled = true;
+                                                	   $scope.userPassInvalid = false;
+                                                	   	 /*$mdDialog.hide();
+                                                         alert("User Id is disabled");*/
                                                    }
                                              });
                                               //console.log("test"+test);

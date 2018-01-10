@@ -18,6 +18,11 @@
 									<md-dialog-content>
 									  <div class="md-dialog-content">										
 										<label class="sign-in-lbl1 disblock">Already have an Account</label>
+										<div class="help-inline" ng-show="userIdDisabled">
+											<span style="color: #ff0000;">
+												You can't sign in because your account was disabled by Administrator.
+											</span>
+										</div>
 										<div class="mdl-grid mdl-grid--no-spacing">
 										  <div class="mdl-cell mdl-cell--6-col">
 										  		 <md-input-container class="md-icon-float md-block">
