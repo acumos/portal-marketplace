@@ -1208,8 +1208,26 @@ angular
 								'solutionId' : $scope.solution.solutionId
 
 							};
+							
+							if($scope.solution.tookitType != "CP") {
+								var url = '/azure/singleImageAsyncDeployment?acrName=' + $scope.acrName + '&client=' + $scope.applicationId + '&imagetag=' + imageTagUri + '&key=' + $scope.secretKey + '&rgName=' + $scope.resourceGroup + '&storageAccount=' + $scope.storageAccount + '&subscriptionKey=' + $scope.subscriptionKey + '&tenant=' + $scope.tenantId;
+								$http({
+									method : 'GET',
+									url : url,
+								})
+								
+							} else {
+								var url = '/azure/compositeSolutionAsyncAzure?acrName=' + $scope.acrName + '&client=' + $scope.applicationId + '&solutionId=' + $scope.solution.solutionId +  '&key=' + $scope.secretKey + '&rgName=' + $scope.resourceGroup +  '&storageAccount=' + $scope.storageAccount + '&subscriptionKey=' + $scope.subscriptionKey + '&tenant=' + $scope.tenantId + '&solutionVersion=' + $scope.revisionId;
+								$http({
+									method : 'GET',
+									url : url,
+								})
+							}
+							alert("Deployment Started Successfully")
+							
+							
 
-							apiService
+							/*apiService
 									.authenticateAnddeployToAzure(
 											authDeployObject)
 									.then(
@@ -1227,7 +1245,7 @@ angular
 
 											}, function(error) {
 												alert('FAILED');
-											});
+											});*/
 						}
 
 						/** ****** Export/Deploy to Azure ends *** */
