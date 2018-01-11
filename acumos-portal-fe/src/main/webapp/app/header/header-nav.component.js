@@ -300,6 +300,7 @@ app.component('headerNav',{
 			$rootScope.sidebarHeader = false;
 			$scope.sidebarHeader = false;
 			$scope.loginUserID = "";
+			localStorage.setItem("homeRefresh", 'Yes');
 			$state.go("home");
 			//localStorage.setItem("pageLoad", true);
             //location.reload();
