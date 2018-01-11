@@ -163,6 +163,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link .icon-onboarding-model {width: 26px; height: 37px; background: url("../images/sidebar-icons/on_boarding.png") no-repeat center center;}
 .mdl-navigation__link .icon-design_studio {width: 26px; height: 24px; background: url("../images/sidebar-icons/design_studio.png") no-repeat center center;}
 .mdl-navigation__link .icon-site-admin {width: 26px; height: 24px; background: url("../images/sidebar-icons/site_admin.png") no-repeat center center;}
+.mdl-navigation__link .icon-qa {width: 28px; height: 26px; background: url("../images/sidebar-icons/qa.png") no-repeat center center;}
 
 .mdl-navigation__link.active .icon-home {background: url("../images/sidebar-icons/home_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-marketplace {background: url("../images/sidebar-icons/marketplace_selected.png") no-repeat center center;}
@@ -170,7 +171,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link.active .icon-onboarding-model {background: url("../images/sidebar-icons/on_boarding_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-design_studio {background: url("../images/sidebar-icons/design_studio_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-site-admin {background: url("../images/sidebar-icons/site_admin_selected.png") no-repeat center center;}
-
+.mdl-navigation__link.active .icon-qa {background: url("../images/sidebar-icons/qa_selected.png") no-repeat center center;}
 
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {padding: 0; height: 54px;}
 .cg-sidebar {padding-top:0 !important;}
@@ -767,6 +768,8 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .btn-grid-action {color: #0366d6;padding:0; min-width:10px;}
 .btn-grid-action i {font-size:14px !important;}
 .btn-grid-action:hover {background: none;color: #0366d6;}
+
+a.mdl-tabs__tab.tab5-panel {height:1px;}
 /*************progress bar style start **************/
 
 
