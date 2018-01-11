@@ -24,14 +24,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.service.UserRoleService;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -45,6 +48,9 @@ import org.acumos.cds.transport.RestPageResponse;
 public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRoleService{
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(UserRoleServiceImpl.class);
+	
+	@Autowired
+	private UserService userService;
 	
 	public UserRoleServiceImpl()	{
 		
@@ -246,18 +252,39 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	@Override
 	public List<MLRole> getRoleUsersCount() {
 		log.debug(EELFLoggerDelegate.debugLogger, "updateUserRoles");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		RestPageRequest pageRequest = new RestPageRequest();
-		RestPageResponse<MLPRole> roleList = dataServiceRestClient.getRoles(pageRequest);
 		List<MLRole> mlRoleList = new ArrayList<>();
 
-		Map<MLRole, Long> rolesCountMap = new HashMap<>();
-		for (MLPRole mlpRole : roleList) {
-			MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
-			Long roleCount = dataServiceRestClient.getRoleUsersCount(mlRole.getRoleId());
-			mlRole.setRoleCount(roleCount.intValue());
-			mlRoleList.add(mlRole);
-			rolesCountMap.put(mlRole, roleCount);
+		Map<String, List<MLRole>> mlRoleMap = new HashMap<>();
+		List<User> userList = userService.getAllUser();
+		if (userList != null && !userList.isEmpty()) {
+			List<MLRole> mlRoleProcessingList = new ArrayList<>();
+			for (User user : userList) {
+				if ("true".equals(user.getActive())) {
+					for (MLPRole mlpRole : user.getUserAssignedRolesList()) {
+						MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
+						if (mlRoleMap.containsKey(mlRole.getRoleId())) {
+							mlRoleProcessingList = new ArrayList<>();
+							mlRoleProcessingList.addAll(mlRoleMap.get(mlRole.getRoleId()));
+							mlRoleProcessingList.add(mlRole);
+							mlRoleMap.put(mlRole.getRoleId(), mlRoleProcessingList);
+						} else {
+							mlRoleProcessingList = new ArrayList<>();
+							mlRoleProcessingList.add(mlRole);
+							mlRoleMap.put(mlRole.getRoleId(), mlRoleProcessingList);
+						}
+
+					}
+				}
+			}
+			for (Entry<String, List<MLRole>> entrySet : mlRoleMap.entrySet()) {
+				List<MLRole> mlRoles = entrySet.getValue();
+				if (!mlRoles.isEmpty()) {
+					MLRole mlRole = mlRoles.get(0);
+					mlRole.setRoleCount(mlRoles.size());
+					mlRoleList.add(mlRole);
+				}
+
+			}
 		}
 		return mlRoleList;
 	}
