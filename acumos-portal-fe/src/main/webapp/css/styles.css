@@ -146,6 +146,12 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-textfield--expandable.header-search-control .mdl-button--icon { top: 14px;}
 
 .header-search-control.mdl-textfield.is-focused .mdl-textfield__input {-webkit-transition: width 200ms; transition: width 200ms;}
+.icon-header-help {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/ico_help.png') no-repeat left center}
+.helplink-container a {margin-top: 10px; position:relative; line-height: 44px !important;}
+.help-not-login a {padding-right:10px !important;}
+.mdl-layout__header-row {padding: 0 10px;}
+
+
 /*********** header style end  ************/
 
 /*********** Left side navigation style start************/
