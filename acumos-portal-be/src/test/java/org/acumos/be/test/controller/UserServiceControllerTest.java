@@ -23,9 +23,13 @@ import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.exception.MalformedException;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.controller.UserServiceController;
+import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.service.impl.MockCommonDataServiceRestClientImpl;
+import org.acumos.portal.be.service.impl.UserServiceImpl;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -38,8 +42,19 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +76,24 @@ public class UserServiceControllerTest {
 	
 	@Mock
 	private UserService userService;
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@Mock
+	private UserServiceImpl userImpl;
+	
+	@InjectMocks
+	private UserServiceController userController;
+	
+	@Mock
+	private JwtTokenUtil jwtTokenUtil;
+	
+	@Mock
+	private Environment env;
+	
+
+	String userId = "601f8aa5-5978-44e2-996e-2dbfc321ee73";
 	
 	@Test
 	public void createUserTest() {
@@ -252,5 +285,77 @@ public class UserServiceControllerTest {
 		mlpUser.setLoginName("test-User-Name");
 		return mlpUser;
 	}
+	
+	@Test
+	public void updateBulkUser(){
+		User user = new User();
+		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setFirstName("UserFirstName");
+		user.setLastName("UserLastName");
+		user.setUsername("User1");
+		user.setEmailId("user1@emial.com");
+		user.setActive("Y");
+		user.setPassword("password");
+		JsonRequest<User> userReq = new JsonRequest<>();
+		String userId = user.getUserId();
+		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+		userService.findUserByUserId(userId );
+		userService.updateBulkUsers(mlpUser);
+		JsonResponse<Object> userRes = userServiceController.updateBulkUsers(request, userReq , response);
+		if(userRes != null){
+			logger.debug(EELFLoggerDelegate.debugLogger, "Successfully updated BulkUsers");
+		}else{
+			logger.debug(EELFLoggerDelegate.errorLogger, "Exception occured while updateBulkUsers");
+		}
+	}
+	
+	@Test
+	public void deleteBulkUser(){
+		User user = new User();
+		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setFirstName("UserFirstName");
+		user.setLastName("UserLastName");
+		user.setUsername("User1");
+		user.setEmailId("user1@emial.com");
+		user.setActive("Y");
+		user.setPassword("password");
+		JsonRequest<User> userReq = new JsonRequest<>();
+		String userId = user.getUserId();
+		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+		userService.findUserByUserId(userId );
+		userService.updateUser(user);
+		JsonResponse<Object> userRes = userServiceController.deleteBulkUsers(request, userReq , response);
+		if(userRes != null){
+			logger.debug(EELFLoggerDelegate.debugLogger, "Successfully deleted BulkUsers");
+		}else{
+			logger.debug(EELFLoggerDelegate.errorLogger, "Exception occured while deleteBulkUsers");
+		}
+	}
+	
+	@Test
+	public void getUserImageTest() throws Exception{
+		Assert.assertNotNull(userId);
+		MockCommonDataServiceRestClientImpl mockCommonDataService = new MockCommonDataServiceRestClientImpl();
+		userImpl.findUserByUserId(userId);
+		userController.getUserImage(userId);
+		
+	}
+	
+	@Test
+	public void userProfileTest() throws MalformedException{
+		MockCommonDataServiceRestClientImpl mockCommonDataService = new MockCommonDataServiceRestClientImpl();
+		String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJyb2xlIjpudWxsLCJjcmVhdGVkIjoxNTA4MTQ4Njk1NTE4LCJleHAiOjE1MDgyMzUwOTUsIm1scHVzZXIiOnsidXNlcklkIjoiNjE1MjUyMTEtNmFhYi00ZmRlLTllM2UtYTE4ZjBjNDhiNWQzIiwiZmlyc3ROYW1lIjoiVmVua2F0IiwibWlkZGxlTmFtZSI6bnVsbCwibGFzdE5hbWUiOm51bGwsIm9yZ05hbWUiOm51bGwsImVtYWlsIjoidmVua3lAdGVjaC5jb20iLCJsb2dpbk5hbWUiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJsb2dpbkhhc2giOm51bGwsImxvZ2luUGFzc0V4cGlyZSI6bnVsbCwiYXV0aFRva2VuIjpudWxsLCJhY3RpdmUiOnRydWUsImxhc3RMb2dpbiI6bnVsbCwicGljdHVyZSI6bnVsbCwiY3JlYXRlZCI6MTUwODE0ODY3ODAwMCwibW9kaWZpZWQiOjE1MDgxNDg2NzgwMDB9fQ.qOce0mapjkXYwNBjLbEfKmiJCnQ9IvuKXkIlmWUFWeGGn1D0VOOf-HI7AzPIvkegnrQfk_MZVG4EZUohBJvGKw";
+		String value = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJyb2xlIjpudWxsLCJjcmVhdGVkIjoxNTA4MTQ4Njk1NTE4LCJleHAiOjE1MDgyMzUwOTUsIm1scHVzZXIiOnsidXNlcklkIjoiNjE1MjUyMTEtNmFhYi00ZmRlLTllM2UtYTE4ZjBjNDhiNWQzIiwiZmlyc3ROYW1lIjoiVmVua2F0IiwibWlkZGxlTmFtZSI6bnVsbCwibGFzdE5hbWUiOm51bGwsIm9yZ05hbWUiOm51bGwsImVtYWlsIjoidmVua3lAdGVjaC5jb20iLCJsb2dpbk5hbWUiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJsb2dpbkhhc2giOm51bGwsImxvZ2luUGFzc0V4cGlyZSI6bnVsbCwiYXV0aFRva2VuIjpudWxsLCJhY3RpdmUiOnRydWUsImxhc3RMb2dpbiI6bnVsbCwicGljdHVyZSI6bnVsbCwiY3JlYXRlZCI6MTUwODE0ODY3ODAwMCwibW9kaWZpZWQiOjE1MDgxNDg2NzgwMDB9fQ.qOce0mapjkXYwNBjLbEfKmiJCnQ9IvuKXkIlmWUFWeGGn1D0VOOf-HI7AzPIvkegnrQfk_MZVG4EZUohBJvGKw";;
+		jwtTokenUtil.getUsernameFromToken(token);
+	}
+	
+	@Test
+	public void getQandAurlTest() throws Exception {
+		String url = "http://localhost:9083";
+		when(env.getProperty("qanda.url", "")).thenReturn(url);
+		userController.getQandAurl(request, response);
+	}
+	
+	
 	
 }

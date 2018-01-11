@@ -19,11 +19,133 @@
  */
 
 package org.acumos.be.test.controller;
-/**
- * 
- * 
- *
- */
-public class AuthServiceControllerTest {
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPUser;
+import org.acumos.portal.be.common.JsonRequest;
+import org.acumos.portal.be.common.exception.MalformedException;
+import org.acumos.portal.be.controller.AuthServiceController;
+import org.acumos.portal.be.security.jwt.JwtTokenUtil;
+import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.AbstractResponseObject;
+import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalUtils;
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.springframework.core.env.Environment;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+
+public class AuthServiceControllerTest {
+	
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(AuthServiceControllerTest.class);
+
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
+	
+	@InjectMocks
+	AuthServiceController authServiceController;
+	
+	@Mock
+	UserService userService;
+	
+	@Mock
+	JwtTokenUtil jwtTokenUtil;
+	
+	@Mock
+	Environment env;
+	
+	final HttpServletResponse response = new MockHttpServletResponse();
+	final HttpServletRequest request = new MockHttpServletRequest();
+	
+	@Test
+	public void login(){
+		
+		User user1 = new User();
+		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user1.setFirstName("UserFirstName");
+		user1.setLastName("UserLastName");
+		user1.setUsername("User1");
+		user1.setEmailId("user1@emial.com");
+		user1.setActive("Y");
+		user1.setPassword("password");
+		
+		String username = user1.getUsername();
+		String password = user1.getPassword();
+		userService.login(username, password);
+		String emailId = user1.getEmailId();
+		userService.findUserByEmail(emailId );
+		JsonRequest<User> user = new JsonRequest<>();
+		user.setBody(user1);
+		authServiceController.login(request, user , response);
+	}
+	
+	@Test
+	public void jwtLogin(){
+		User user1 = new User();
+		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user1.setFirstName("UserFirstName");
+		user1.setLastName("UserLastName");
+		user1.setUsername("User1");
+		user1.setEmailId("user1@emial.com");
+		user1.setActive("Y");
+		user1.setPassword("password");
+		String username = user1.getUsername();
+		String password = user1.getPassword();
+		
+		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user1);
+		Assert.assertNotNull(mlpUser);
+		
+		JsonRequest<User> user = new JsonRequest<>();
+		user.setBody(user1);
+		
+		MLPRole mlpRole = new MLPRole();
+		mlpRole.setName("Admin");
+		Date created = new Date();
+		mlpRole.setCreated(created);
+		mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+		Assert.assertNotNull(mlpRole);
+		
+		userService.login(username, password);
+		userService.getUserRole(mlpUser.getUserId());
+		jwtTokenUtil.generateToken(mlpUser, null);
+		AbstractResponseObject abstractobject = new AbstractResponseObject();
+		abstractobject = authServiceController.jwtLogin(request, user, response);
+		if(abstractobject != null){
+			
+		}else{
+			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()");
+		}
+	}
+	
+	@Test
+	public void validateToken() throws MalformedException{
+		
+		User user1 = new User();
+		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user1.setFirstName("UserFirstName");
+		user1.setLastName("UserLastName");
+		user1.setUsername("User1");
+		user1.setEmailId("user1@emial.com");
+		user1.setActive("Y");
+		user1.setPassword("password");
+		String provider="google";
+		JsonRequest<User> userObj = new JsonRequest<>();
+		userObj.setBody(user1);
+		
+		String jwtToken = userObj.getBody().getJwtToken();
+		
+		authServiceController.validateToken(request, response, userObj , provider);
+	}
 }

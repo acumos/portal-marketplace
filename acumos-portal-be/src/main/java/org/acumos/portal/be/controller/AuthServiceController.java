@@ -337,7 +337,7 @@ public class AuthServiceController extends AbstractController {
 	@ApiOperation(value = "Validate the jwt Token for third party access", response = JsonResponse.class)
 	@RequestMapping(value = { APINames.JWTTOKENVALIDATION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<Object> validateToken(HttpServletResponse request, HttpServletResponse response,
+	public JsonResponse<Object> validateToken(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody JsonRequest<User> userObj, @RequestHeader(value="provider", required=false) String provider) throws MalformedException {
 
 		log.debug(EELFLoggerDelegate.debugLogger, "Validate the jwt Token for third party access={}");
