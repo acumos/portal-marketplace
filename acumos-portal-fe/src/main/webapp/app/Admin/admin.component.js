@@ -40,6 +40,9 @@ angular.module('admin')
 						$scope.user = response.data.response_body.length;
 						$scope.userDetails = response.data.response_body;
 						$scope.alluserDetails = response.data.response_body;
+						$scope.alluserDetails = ($scope.alluserDetails).filter(function(userObj) {
+							  return userObj.active == "true";
+						});
 						detailsUser = $scope.userDetails;
 					},
 					function(error) {console.log(error);});
