@@ -19,9 +19,12 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,18 +32,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
+import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.WebBasedOnboardingController;
+import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.apache.http.HttpResponse;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebBasedOnboardingTest {
@@ -51,8 +61,19 @@ public class WebBasedOnboardingTest {
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 	
+	@InjectMocks
+	private WebBasedOnboardingController webBasedController;
+	
+	private MockMvc mockMvc;
+	
 	@Mock
-	WebBasedOnboardingController webBasedController = new WebBasedOnboardingController();
+	private AsyncServices asyncService;
+	
+	@Before
+	public void setUp() throws Exception {
+		mockMvc = standaloneSetup(webBasedController).build();
+
+	}
 	
 	@Test
 	public void testAddToCatalog() {
@@ -94,7 +115,12 @@ public class WebBasedOnboardingTest {
 			Assert.assertEquals(mlSolution.getOwnerId(), userId);
 			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<RestPageResponseBE<MLSolution>>();
 			value.setResponseBody(responseBody);
-			Mockito.when(webBasedController.addToCatalog(null, null, restPageReq, userId)).thenReturn(value);
+			UploadSolution solution = restPageReq.getBody();
+			String provider = "abc";
+			String access_token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXJ5YSIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlQ291bnQiOjAsInJvbGVJZCI6IjEyMzQ1Njc4LWFiY2QtOTBhYi1jZGVmLTEyMzQ1Njc4OTBhYiIsIm5hbWUiOiJNTFAgU3lzdGVtIFVzZXIiLCJhY3RpdmUiOmZhbHNlLCJjcmVhdGVkIjoxNTE1NDEzMTM2MDAwLCJtb2RpZmllZCI6bnVsbH1dLCJjcmVhdGVkIjoxNTE1NDE2NzY4MzAyLCJleHAiOjE1MTYwMjE1NjgsIm1scHVzZXIiOnsiY3JlYXRlZCI6MTUxNTQxNjc1NTAwMCwibW9kaWZpZWQiOjE1MTU0MTY3NTUwMDAsInVzZXJJZCI6IjkxODY4MTA3LTc2NDktNGU4OS1hMTNjLWZhMzNhODYyODJiNSIsImZpcnN0TmFtZSI6InN1cnlha2FudCIsIm1pZGRsZU5hbWUiOm51bGwsImxhc3ROYW1lIjoiaW5nYWxlIiwib3JnTmFtZSI6bnVsbCwiZW1haWwiOiJzdXJ5YUB0ZWNobS5jb20iLCJsb2dpbk5hbWUiOiJzdXJ5YSIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjpudWxsLCJwaWN0dXJlIjpudWxsfX0.eTg1PbhDtoUtLI0oRaRMN7qMBrVHnqJQb_e5AATB55D1uUJIkWuTTU-YP-YNrdqYDzCpljo2WB7ILIQsNZ4ekA";
+			Future<HttpResponse> future = null;
+			Mockito.when(asyncService.callOnboarding(userId, solution, provider, access_token)).thenReturn(future);
+			value = webBasedController.addToCatalog(null, null, restPageReq, userId);
 			logger.equals(value);
 			logger.info("successfully added the toolkit to catalog ");
 			Assert.assertNotNull(value);

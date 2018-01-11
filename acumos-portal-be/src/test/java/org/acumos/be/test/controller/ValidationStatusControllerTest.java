@@ -19,6 +19,8 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,19 +29,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.ValidationStatusController;
+import org.acumos.portal.be.service.ValidationStatusService;
 import org.acumos.portal.be.transport.MLArtifactValidationStatus;
 import org.acumos.portal.be.transport.MLModelValidationCheck;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLModelValidationStepStatus;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,8 +57,19 @@ public class ValidationStatusControllerTest {
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 	
+	@InjectMocks
+	ValidationStatusController validationController ;
+	
+	private MockMvc mockMvc;
+	
 	@Mock
-	ValidationStatusController validationController = new ValidationStatusController();
+	private ValidationStatusService validationStatusService;
+	
+	@Before
+	public void setUp() throws Exception {
+		mockMvc = standaloneSetup(validationController).build();
+
+	}
 
 	@Test
 	public void testUpdateValidationTaskStatus() {
@@ -73,7 +90,15 @@ public class ValidationStatusControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlArtifactValidationStatus);
 			value.getResponseBody();
-			validationController.updateValidationTaskStatus(request, taskId, mlModelvalidationStatus, response);
+			boolean flag = true;
+			MLModelValidationStatus mlModelValidationStatus =new MLModelValidationStatus();
+			mlModelValidationStatus.setArtifactValidationStatus(artifactValidationStatus);
+			mlModelValidationStatus.setRevisionId("v2.2");
+			mlModelValidationStatus.setSolutionId("Solution1");
+			mlModelValidationStatus.setStatus("Y");
+			mlModelValidationStatus.setTaskId(taskId);
+			Mockito.when(validationStatusService.updateValidationTaskStatus(taskId, mlModelValidationStatus)).thenReturn(flag);
+			value = validationController.updateValidationTaskStatus(request, taskId, mlModelvalidationStatus, response);
 			logger.info("successfully updated validationTaskStatus");
 			logger.equals(value.getResponseBody());
 			Assert.assertNotNull(value);
@@ -112,8 +137,9 @@ public class ValidationStatusControllerTest {
 			responseBody.setMlModelValidationStepStatus(mlModelValidationStepStatusList);
 			value.setResponseBody(responseBody);
 			value.getResponseBody();
-			Mockito.when(validationController.getValidationTaskStatus(request, solutionId, revisionId, response))
-					.thenReturn(value);
+			Mockito.when(validationStatusService.getSolutionValidationTaskStatus(solutionId, revisionId))
+					.thenReturn(responseBody);
+			value = validationController.getValidationTaskStatus(request, solutionId, revisionId, response);
 			logger.equals(value.getResponseBody());
 			logger.info("successfully fetched getValidationTaskStatus ");
 			Assert.assertNotNull(value);

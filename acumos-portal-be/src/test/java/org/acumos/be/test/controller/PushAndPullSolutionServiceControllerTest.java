@@ -24,20 +24,30 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.PushAndPullSolutionServiceController;
+import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 import org.junit.Assert;
+import org.junit.Before;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
+import java.io.InputStream;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PushAndPullSolutionServiceControllerTest {
@@ -48,40 +58,26 @@ public class PushAndPullSolutionServiceControllerTest {
 	
 	
 	@Mock
-	PushAndPullSolutionServiceController pushPullController = new PushAndPullSolutionServiceController();
-
+	private PushAndPullSolutionService pushAndPullSolutionService;
 	
+	private MockMvc mockMvc;
+	
+	@InjectMocks
+	private PushAndPullSolutionServiceController pushPullController;
+	
+	@Before
+	public void setUp() throws Exception {
+		mockMvc = standaloneSetup(pushPullController).build();
+
+	}
 	
 	@Test
 	public void downloadSolutionArtifactTest(){
 		try{
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("UserFirstName");
-			user.setLastName("UserLastName");
-			user.setUsername("User1");
-			user.setEmailId("user1@emial.com");
-			user.setActive("Y");
-			user.setPassword("password");
 			
+			User user = getUser();
+			MLSolution mlsolution = getMLSolution();
 			
-			MLSolution mlsolution = new MLSolution();
-			mlsolution.setSolutionId("Solution1");
-			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
-			mlsolution.setOwnerId(user.getUserId());
-			mlsolution.setAccessType("PB");
-			mlsolution.setActive(true);
-			mlsolution.setModelType("CL");
-			mlsolution.setTookitType("DS");
-			
-			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
-
-			mlpSolRev.setRevisionId("REV2");
-			mlpSolRev.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			mlpSolRev.setVersion("v.0.0");
-			mlpSolRev.setDescription("test data for revision");
-			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
 
 			MLPArtifact mockMLPArtifact = new MLPArtifact();
 			mockMLPArtifact.setArtifactId("4cbf491b-c687-459f-9d81-e150d1a0b972");
@@ -90,16 +86,19 @@ public class PushAndPullSolutionServiceControllerTest {
 			mockMLPArtifact.setName("Test Artifact data");
 			mockMLPArtifact.setOwnerId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 			
+			MLPSolutionRevision mlpSolRev = getMLPSolutionRevision();
+			
 			String userId = user.getUserId();
 			String artifactId = mockMLPArtifact.getArtifactId();
 			String revisionId = mlpSolRev.getRevisionId();
 			String solutionId = mlsolution.getSolutionId();
 			
-			PushAndPullSolutionServiceController mockController = mock(PushAndPullSolutionServiceController.class);
-			
-			mockController.downloadSolutionArtifact(solutionId, artifactId, revisionId, userId, request, response);
+			InputStream resource = null;
+
+			Mockito.when(pushAndPullSolutionService.downloadModelArtifact(artifactId)).thenReturn(resource);
+			pushPullController.downloadSolutionArtifact(solutionId, artifactId, revisionId, userId, request, response);
 			Assert.assertNotNull(solutionId);
-			Assert.assertNotNull(artifactId);
+			Assert.assertNotNull(artifactId); 
 			Assert.assertNotNull(revisionId);
 			Assert.assertNotNull(userId);
 			logger.error("Successfully downloaded solution artifacts");
@@ -112,41 +111,8 @@ public class PushAndPullSolutionServiceControllerTest {
 	@Test
 	public void uploadModelTest(){
 		try{
-			User user = new User();
-			user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			user.setFirstName("UserFirstName");
-			user.setLastName("UserLastName");
-			user.setUsername("User1");
-			user.setEmailId("user1@emial.com");
-			user.setActive("Y");
-			user.setPassword("password");
 			
-			
-			MLSolution mlsolution = new MLSolution();
-			mlsolution.setSolutionId("Solution1");
-			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
-			mlsolution.setOwnerId(user.getUserId());
-			mlsolution.setAccessType("PB");
-			mlsolution.setActive(true);
-			mlsolution.setModelType("CL");
-			mlsolution.setTookitType("DS");
-			
-			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
-
-			mlpSolRev.setRevisionId("REV2");
-			mlpSolRev.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			mlpSolRev.setVersion("v.0.0");
-			mlpSolRev.setDescription("test data for revision");
-			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
-
-			MLPArtifact mockMLPArtifact = new MLPArtifact();
-			mockMLPArtifact.setArtifactId("4cbf491b-c687-459f-9d81-e150d1a0b972");
-			mockMLPArtifact.setArtifactTypeCode("MI");
-			mockMLPArtifact.setDescription("Test data");
-			mockMLPArtifact.setName("Test Artifact data");
-			mockMLPArtifact.setOwnerId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
-			
+			User user = getUser();
 			String userId = user.getUserId();
 			MultipartFile dfsdf = null;
 			MultipartFile file = dfsdf ;
@@ -159,4 +125,50 @@ public class PushAndPullSolutionServiceControllerTest {
 		}
 	}
 	
+	private User getUser(){
+		User user = new User();
+		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setFirstName("UserFirstName");
+		user.setLastName("UserLastName");
+		user.setUsername("User1");
+		user.setEmailId("user1@emial.com");
+		user.setActive("Y");
+		user.setPassword("password");
+		return user;
+	}
+	
+	private MLSolution getMLSolution(){
+		MLSolution mlsolution = new MLSolution();
+		mlsolution.setSolutionId("Solution1");
+		mlsolution.setName("Test_Solution data");
+		mlsolution.setDescription("Test data");
+		mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		mlsolution.setAccessType("PB");
+		mlsolution.setActive(true);
+		mlsolution.setModelType("CL");
+		mlsolution.setTookitType("DS");
+		return mlsolution;
+	}
+	
+	private MLPSolutionRevision getMLPSolutionRevision(){
+		MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
+		MLSolution mlsolution = getMLSolution();
+		mlpSolRev.setRevisionId("REV2");
+		mlpSolRev.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		mlpSolRev.setVersion("v.0.0");
+		mlpSolRev.setDescription("test data for revision");
+		mlpSolRev.setSolutionId(mlsolution.getSolutionId());
+		return mlpSolRev;
+	}
+	
+	private MLPArtifact getMLPArtifact(){
+		MLPArtifact mockMLPArtifact = new MLPArtifact();
+		mockMLPArtifact.setArtifactId("4cbf491b-c687-459f-9d81-e150d1a0b972");
+		mockMLPArtifact.setArtifactTypeCode("MI");
+		mockMLPArtifact.setDescription("Test data");
+		mockMLPArtifact.setName("Test Artifact data");
+		mockMLPArtifact.setOwnerId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		return mockMLPArtifact;
+		
+	}
 }
