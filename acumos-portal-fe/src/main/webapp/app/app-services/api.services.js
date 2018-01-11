@@ -60,7 +60,11 @@ angular.module('AcumosApp')
         var rolesCount = '/api/roles/count';
         var urlSolutionsCount = "api/solutions/count";
         var urlSearchSolution = "api/searchSolutions";
-        var urlGetVersion	= "api/admin/version"
+        var urlGetVersion	= "api/admin/version";
+		 var urlComment = "api/comments";
+        var urlThread = "api/thread";
+        var urlUserProfileImage = "api/users/userProfileImage";
+        var urlUserAccountDetails = "api/users/userAccountDetails";
         	
         /**************** ALL GET ******************/
         
@@ -172,6 +176,11 @@ angular.module('AcumosApp')
         this.getVersion = function(){
         	return $http.get(urlGetVersion);
         }
+		
+		 this.getUserProfileImage = function(userID){
+        	return $http.get(urlUserProfileImage + '/' + userID);
+        }
+        
                 
         /**************** ALL PUT ******************/
         this.updateSolutions = function(solution){
@@ -217,6 +226,10 @@ angular.module('AcumosApp')
         	return $http.put(urlSiteConfig + '/' + configKey, reqObj);
         };
         
+		 this.updateComment = function(dataObj){
+        	return $http.put(urlComment + '/update', dataObj);
+        };
+		
         /**************** ALL POST ******************/
         this.postGlobalUserDetails = function(){
         	return $http.put(urlPostGlobalLogin);
@@ -303,6 +316,25 @@ angular.module('AcumosApp')
             return $http.post(urlCreateTags, dataObj);
         };
 
+        this.createComment = function(dataObj){
+        	return $http.post(urlComment + '/create', dataObj);
+        };
+        
+        this.createThread = function(dataObj){
+        	return $http.post(urlThread + '/create', dataObj);
+        };
+        
+        this.deleteComment = function(threadId, commentId){
+        	return $http.post(urlComment + '/delete/' + threadId + '/comment/' + commentId);
+        };
+        
+        this.getComment = function(solutionId, revisionId, dataObj){
+        	return $http.post(urlThread + '/' + solutionId + '/' + revisionId + '/comments', dataObj);
+        };
+        
+        this.getUserAccountDetails = function(userID){
+        	return $http.post(urlUserAccountDetails, userID);
+        }
         
         /**************** ALL DELETE ******************/
         this.deleteTag = function(solutionid, tag){
