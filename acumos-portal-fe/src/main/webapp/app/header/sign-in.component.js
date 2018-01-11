@@ -50,7 +50,7 @@ app
 						                          $scope.emitedusername = data.username;
 						
 						                    });*/
-						                    
+                                            localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
 						                    $scope.$emit('transferUp', {
 						                          message : true,
 						                          username : $scope.userfirstname
