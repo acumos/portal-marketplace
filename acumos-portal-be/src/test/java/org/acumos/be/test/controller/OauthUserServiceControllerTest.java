@@ -19,24 +19,37 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPUser;
+import org.acumos.portal.be.common.exception.UserServiceException;
+import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.OauthUserServiceController;
+import org.acumos.portal.be.service.UserRoleService;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.AbstractResponseObject;
+import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OauthUserServiceControllerTest {
@@ -46,9 +59,23 @@ public class OauthUserServiceControllerTest {
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 
+	private MockMvc mockMvc;
+	
+	@InjectMocks
+	private OauthUserServiceController oauthServiceController;
+	
 	@Mock
-	OauthUserServiceController oauthServiceController = new OauthUserServiceController();
+	private UserService userService;
+	
+	@Mock
+	private UserRoleService userRoleService;
+	
+	@Before
+	public void setUp() throws Exception {
+		mockMvc = standaloneSetup(oauthServiceController).build();
 
+	}
+	
 	@Test
 	public void createUserTest() {
 		UserMasterObject userMasterObject = new UserMasterObject();
@@ -65,12 +92,22 @@ public class OauthUserServiceControllerTest {
 			userMasterObject.setImageURL(
 					"https://www.google.co.in/search?q=google+images&oq=google+im&aqs=chrome.1.69i57j0l5.6032j0j7&sourceid=chrome&ie=UTF-8#");
 			userMasterObject.setUsername("Test_User_name");
-
-			Mockito.when(oauthServiceController.createUser(request, userMasterObject, response))
-					.thenReturn(userMasterObject);
+			MLRole role = new MLRole();
+			role.setName("MLP System User");
+			MLPRole mlpRole = getMLPRole();
+			User user=PortalUtils.convertUserMasterIntoMLPUser(userMasterObject);
+			Mockito.when(userService.save(user))
+					.thenReturn(user);
+			Assert.assertNotNull(user);
+			oauthServiceController.createUser(request, userMasterObject, response);
+			Mockito.when(userRoleService.createRole(role))
+			.thenReturn(mlpRole);
+			Assert.assertNotNull(mlpRole);
+			oauthServiceController.createUser(request, userMasterObject, response);
+			
 			logger.debug("Successfully created user ", userMasterObject);
 			Assert.assertNotNull(userMasterObject);
-		} catch (Exception e) {
+		} catch (Exception | UserServiceException e) {
 			logger.debug("Exception Occurred while createUser()", e);
 		}
 	}
@@ -80,6 +117,7 @@ public class OauthUserServiceControllerTest {
 		User user = new User();
 		Date created = new Date();
 		try {
+			MLPUser mlpUser = getMLPUser();
 			user.setUserId("09514016-2f24-4a0c-8587-f0f0d2ff03b3");
 			user.setActive("Y");
 			user.setCreated(created);
@@ -95,12 +133,32 @@ public class OauthUserServiceControllerTest {
 			
 			value.setJwtToken(jwtToken);
 			
-			Mockito.when(oauthServiceController.login(request, user, response)).thenReturn(value);
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(mlpUser);
+			Assert.assertNotNull(mlpUser);
+			value = oauthServiceController.login(request, user, response);
 			logger.info("Successfully loged in");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			logger.error("Exception Occurred while loginTest()", e);
 		}
+	}
+	
+	private MLPRole getMLPRole(){
+		MLPRole mlpRole = new MLPRole();
+		mlpRole.setName("Admin");
+		Date created = new Date();
+		mlpRole.setCreated(created);
+		mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+		return mlpRole;
+	}
+	
+	private MLPUser getMLPUser(){
+		MLPUser mlpUser = new MLPUser();
+		mlpUser.setActive(true);
+		mlpUser.setFirstName("test-first-name");			
+		mlpUser.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
+		mlpUser.setLoginName("test-User-Name");
+		return mlpUser;
 	}
 
 }
