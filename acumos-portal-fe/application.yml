@@ -8,6 +8,9 @@ server:
   address: 127.0.0.1
 
 zuul:
+  host: 
+    connect-timeout-millis : 60000
+    socket-timeout-millis : 60000
   routes:
     api:
       path: /api/**
