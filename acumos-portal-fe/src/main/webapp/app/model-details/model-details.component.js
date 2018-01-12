@@ -20,6 +20,7 @@ angular
 						 * $window.location.reload(); $rootScope.load = false; }
 						 */
 						//API for rating the model start
+
 						var user= JSON.parse(localStorage.getItem("userDetail"));
 						$scope.userDetailsLogged = user;
 						
@@ -341,7 +342,11 @@ angular
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												$scope.getComment();
 												$scope.getArtifacts();
-												$scope.getSolPublicDesc($scope.solution.accessType);
+												$scope.getSolPublicDesc();
+												$scope.getSolCompanyDesc();
+												if(!$scope.solutionPublicDesc){
+													$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
+												}
 												$scope.getPublicSolutionDocuments($scope.solution.accessType);
 											}
 
@@ -846,14 +851,10 @@ angular
 								console.log(data);
 							})*/
 						}
-						$scope.getSolPublicDesc = function(type){
-							var accessType = 'public';
-							if( type == 'OR' ){
-								accessType = 'org';
-							}
+						$scope.getSolPublicDesc = function(){
 							var req = {
 									method : 'GET',
-									url : '/site/api-manual/Solution/description/' + accessType + '/' + $scope.solutionId + '/' + $scope.revisionId,
+									url : '/site/api-manual/Solution/description/public/' + $scope.solutionId + '/' + $scope.revisionId,
 							};
 							$http(req)
 							.success(
@@ -863,10 +864,29 @@ angular
 									}).error(
 											function(data, status, headers,
 													config) {
-											});
+									});
 						}
 						
-
+						$scope.getSolCompanyDesc = function(){
+							var req = {
+									method : 'GET',
+									url : '/site/api-manual/Solution/description/org/' + $scope.solutionId + '/' + $scope.revisionId,
+							};
+							$http(req)
+							.success(
+									function(data, status, headers,
+											config) {
+										$scope.solutionCompanyDesc = data.description;
+									}).error(
+											function(data, status, headers,
+													config) {
+									});
+						}
+						$scope.getSolPublicDesc();
+						$scope.getSolCompanyDesc();
+						if(!$scope.solutionPublicDesc){
+							$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
+						}
 						var session = sessionStorage.getItem("SessionName")
 						if (session) {
 							console.log(session);
@@ -1027,7 +1047,11 @@ angular
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
-							$scope.getSolPublicDesc($scope.solution.accessType);
+							$scope.getSolPublicDesc();
+							$scope.getSolCompanyDesc();
+							if(!$scope.solutionPublicDesc){
+								$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
+							}
 							$scope.getPublicSolutionDocuments($scope.solution.accessType);
 							$scope.getArtifacts();
 						}

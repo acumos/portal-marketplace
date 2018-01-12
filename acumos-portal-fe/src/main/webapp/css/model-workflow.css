@@ -1247,7 +1247,7 @@ border: 1px solid rgba(0, 0, 0, 0.12);
 /* .removespaces{margin:0 -15px} */
 
 .upload-icon .iconcontainer img {
-      height: 100%;
+      height: 100%;      
 }
 
 .imageuploader {
@@ -1257,8 +1257,10 @@ border: 1px solid rgba(0, 0, 0, 0.12);
 
 .imageuploader .iconcontainer {
       height: 75px;
+      width:100px;
 }
-
+.imageuploader .iconcontainer img{max-width: 100%; height: auto; max-height: 100%; top: 0; bottom: 0; left: 0; right: 0; margin: auto;
+    position: absolute;}
 .imageuploader .mdl-textfield {
       padding: 20px 0 0px 0;
 }
@@ -1390,6 +1392,19 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
  .skiptext{display:inline-block; line-height: 23px;}
 .skiptext:before{content:url(../images/ico_alert_information.png); background-repeat:no-repeat; float:left; margin-right:5px; line-height: 8px;}
   /* skip popover end*/ 
+.mdl-textfield__input.upload-image-input{width: calc(100% - 0px); border: 1px solid rgba(0,0,0,.12); padding:3px 5px; display:inline-block;}
+
+.iconboder:hover{border:1px solid #671C9D; -webkit-box-shadow: 3px 4px 2px 0px rgba(221,221,221,0.86);
+-moz-box-shadow: 3px 4px 2px 0px rgba(221,221,221,0.86);
+box-shadow: 3px 4px 2px 0px rgba(221,221,221,0.86);}
+
+.iconboder.active {
+   border:1px solid #671C9D; -webkit-box-shadow: 3px 4px 2px 0px rgba(221,221,221,0.86);
+-moz-box-shadow: 3px 4px 2px 0px rgba(221,221,221,0.86);
+box-shadow: 3px 4px 2px 0px rgba(221,221,221,0.86);
+position:relative;
+}
+.iconboder.active::after{content:url('../images/status.png'); position: absolute; right: 3px; top: 3px;}
 
 
 /*---- media query start ----------*/

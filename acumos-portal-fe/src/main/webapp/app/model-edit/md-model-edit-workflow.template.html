@@ -1443,8 +1443,9 @@
 														                        data-drop="true"
 														                        jqyoui-droppable="{onDrop:'dropCallback'}"
 														                        data-jqyoui-options="{revert: {{!icon}}}">
-														                        <input class="mdl-textfield__input"
+														                        <input class="mdl-textfield__input upload-image-input"
 														                           placeholder="Upload Image" type="file"
+														                           accept="image/*"
 														                           fileinput="file" filepreview="previewImage"
 														                           data-drop="true" id="solImage"
 														                           jqyoui-droppable="{onDrop:'dropCallback'}"
@@ -1454,12 +1455,12 @@
 														                           class="mdl-textfield__input"
 														                           placeholder="Upload Image" type="text"
 														                           ng-model="solImage.name" ng-show="icon" readonly />
-														                        <div
+														                       <!--  <div
 														                           class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
 														                           ng-click="icon = false">
 														                           <i class="material-icons">attach_file</i><input
 														                              type="file" id="uploadBtn">
-														                        </div>
+														                        </div> -->
 														                     </div>
 														                     <div>
 														                        <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
@@ -1662,7 +1663,7 @@
 																	class="md-padding"><!-- MarketPlace Preview -->
 																<div class="mp-grid">
 																	<div class="alert alert-info"
-																		ng-if="solution.length < 1 || (allDeletedData && !searchResults)">
+																		ng-if="(solution.length && solution.length <= 0) || (allDeletedData && !searchResults)">
 																		<strong>No Result found</strong>
 																	</div>
 																	<!-- the current model along with two items from marketplace -->
@@ -1987,11 +1988,8 @@
 																							style="max-width: 500px; margin: 0 auto; display: block;">
 
 																					</div>
-																					<div ng-if="solution.accessType != 'OR'"
-																					ng-bind-html="solutionPublicDesc"></div>
-																					<div ng-if="solution.accessType == 'OR'"
-																					ng-bind-html="solutionCompanyDesc"></div>
-
+																					<div>{{solutionPublicDesc || solutionCompanyDesc}}</div>
+																	
 																				</div>
 																				<div class="mdl-tabs__panel" id="tab2-panel">
 																					<h6 class="sectiontitle6">SIGNATURE</h6>
@@ -3082,8 +3080,9 @@
 				   <div class="mdl-cell mdl-cell--9-col">
 					  <div
 						 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth">
-						 <input class="mdl-textfield__input"
+						 <input class="mdl-textfield__input upload-image-input"
 							placeholder="Upload Image" type="file"
+							accept="image/*"
 							fileinput="file" filepreview="previewImage"
 							data-drop="true" id="solImage"
 							jqyoui-droppable="{onDrop:'dropCallback'}"
@@ -3092,11 +3091,11 @@
 							class="mdl-textfield__input"
 							placeholder="Upload Image" type="text"
 							ng-model="solImage.name" ng-show="icon" readonly />
-						 <div
+						 <!-- <div
 							class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
 							<i class="material-icons">attach_file</i><input
 							   type="file" id="uploadBtn">
-						 </div>
+						 </div> -->
 					  </div>
 					  <div>
 						 <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>

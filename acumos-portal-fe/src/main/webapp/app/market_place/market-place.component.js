@@ -8,8 +8,20 @@ angular
 					templateUrl : '/app/market_place/market-place.template.html',
 					controller : function($scope, $compile, $location, $http,
 							$state, $stateParams, $sessionStorage, $rootScope,
-							apiService) {
+							apiService, $element) {
 						$scope.autoHeight = true;
+					    $element.find('input').on('keydown', function(ev) {
+					          ev.stopPropagation();
+					    });
+					    
+					    $scope.viewAllSolutions = function(){
+					    	angular.element('.md-select-menu-container').addClass('ddl-column');
+					    }
+					    
+						$scope.searchChange = function(index){
+							$scope.mlsolutions = [ $scope.solutionIds[index] ]; 
+						};
+						
 						if(localStorage.getItem("viewMarktetPlace")){
 							  if(localStorage.getItem("viewMarktetPlace") == 'false')$scope.Viewtile = false;else $scope.Viewtile = true;
 							}else $scope.Viewtile = true;
@@ -34,33 +46,18 @@ angular
 						}
 						$scope.mlsolutions = [];
 						$scope.pageNumber = 0;$scope.modelCount = 0;
-						$scope.categoryFilter
+
 						console.log("market-place-component");
 						$scope.actions = [ 	{name:"Most Liked",value:"ML"}, 
 						                	{name:"Fewest Liked",value:"FL"},
 						                	{name:"Most Downloaded",value:"MD"},
 						                	{name:"Fewest Downloaded",value:"FD"},
-						                	{name:"Highest Reach",value:"HR"} 
+						                	{name:"Highest Reach",value:"HR"},
+						                	{name:"Lowest Reach",value:"LR"},
+						                	{name:"Most Recent",value:"MR"},
+						                	{name:"Older",value:"OLD"}
 						                ];
-						$scope.filterids = [ {
-							name : "001",
-							value : "1"
-						}, {
-							name : "002",
-							value : "2"
-						}, {
-							name : "003",
-							value : "3"
-						}, {
-							name : "004",
-							value : "4"
-						}, {
-							name : "005",
-							value : "5"
-						}, {
-							name : "006",
-							value : "6"
-						} ];
+
 						$scope.checkBox = [ "Private", "Shared", "Company",
 								"Public" ];
 
@@ -166,6 +163,31 @@ angular
 													 * });
 													 * 
 													 */
+							// need to be changed at the timeof commit
+									var requestObject = {
+											"request_body" : {
+												"active" : true,							
+											    "pageRequest": {
+											        "page": 0,
+											        "size": 7
+											      }
+											}
+									}
+
+							apiService
+									.insertSolutionDetail(requestObject)
+									.then(
+											function(response) {
+												$scope.solutionIds = [];
+												angular.forEach(response.data.response_body.content,function(value,key) {
+													$scope.solutionIds.push(response.data.response_body.content[key]);
+												});
+											},
+											function(error) {
+												$scope.status = 'Unable to load data: '
+														+ error.data.error;
+												console.log($scope.status);
+											});
 						}
 						$scope.onLoad();
 
@@ -219,7 +241,7 @@ angular
 							toBeSearch = $scope.searchBox;
 							if($scope.viewNoMLsolution == 'No More ML Solutions' && $scope.pageNumber != 0){return;}
 							$scope.MlSoltionCount = false;
-							dataObj = {
+							/*dataObj = {
 								"request_body" : {
 									"modelType" : $scope.categoryFilter,
 									"activeType" : 'Y',
@@ -232,20 +254,20 @@ angular
 								},
 								"request_from" : "string",
 								"request_id" : "string"
+							}*/
+							dataObj = {
+									"request_body" : {
+										"modelTypeCodes" : $scope.categoryFilter,
+										"active" : true,
+										"nameKeyword" : toBeSearch,
+										"sortBy":$scope.sortBy,
+									    "pageRequest": {
+									        "page": $scope.pageNumber,
+									        "size": 9
+									      }
+									}
 							}
 							console.log(angular.toJson(dataObj));
-							/*
-							 * $http({ method : 'POST', url : url, data :
-							 * dataObj, // params: //
-							 * {"category":caegoryArr,"sortby":$scope.sortedby,"sortbyid":$scope.sortedbyid}, })
-							 */
-/*							if($scope.sortBy != null){
-								apiService.getSearchSolution($scope.sortBy)
-								.then(function(response){
-									console.log(response);
-									getSolution(response);
-								});
-							}else{*/
 
 							apiService
 									.insertSolutionDetail(dataObj)
@@ -258,9 +280,7 @@ angular
 														+ error.data.error;
 												console.log($scope.status);
 											});
-							//}
 							count += 9;
-							// console.clear()
 						}
 						if($rootScope.relatedModelType){
 							$scope.categoryFilter = $rootScope.relatedModelType;
@@ -277,7 +297,7 @@ angular
 									}
 								if(response.data.response_body.content.length==9){$scope.viewNoMLsolution = 'View More ML Solutions';}
 								else {$scope.viewNoMLsolution = 'No More ML Solutions'; $rootScope.valueToSearch = '';}
-								$scope.tags = response.data.response_body.allTagsSet;
+								$scope.tags = response.data.response_body.filteredTagSet;
 								$scope.dataLoading = false;
 								if (response.data.response_body.content.length >= 0) {
 									for (var i = 0; i < response.data.response_body.content.length; i++) {
@@ -428,14 +448,16 @@ angular
 								if (bool1 == false) {
 									caegoryArr.push(checkbox);
 								}
-								angular.forEach(caegoryArr,
+								/*angular.forEach(caegoryArr,
 										function(value, key) {
 											categoryUrl = categoryUrl + value
 													+ ",";
 										});
-								categoryUrl = categoryUrl.slice(0, -1);
+								categoryUrl = categoryUrl.slice(0, -1);*/
 							}
-							$scope.categoryFilter = categoryUrl;
+
+							//$scope.categoryFilter = categoryUrl;
+							$scope.categoryFilter = caegoryArr;
 							if(type == 'sortBy'){$scope.sortBy = checkbox.value; $scope.selectedAction = checkbox.name; }else if(type == 'sortById')$scope.sortById = checkbox.value;
 							/*
 							 * else if(type == 'sortBy'){ sortByUrl='';url='';

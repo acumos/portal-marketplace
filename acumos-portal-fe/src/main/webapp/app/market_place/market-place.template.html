@@ -109,7 +109,7 @@
 							             <md-select-header class="demo-select-header">
 								            <input ng-model="searchTerm" type="search" >
 								        </md-select-header> 
-							            <md-option ng-repeat="solution in mlsolutions | filter : searchTerm" ng-value="solution.solutionId" ng-click="searchChange(solution.solutionId)">
+							            <md-option ng-repeat="(key, solution) in solutionIds | filter : searchTerm" ng-value="solution.solutionId" ng-click="searchChange(key)">
 							              {{solution.solutionId}}
 							            </md-option>
 							             <md-select-header class="demo-select-header">

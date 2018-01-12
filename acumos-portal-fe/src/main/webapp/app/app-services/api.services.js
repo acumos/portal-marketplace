@@ -6,6 +6,7 @@ angular.module('AcumosApp')
         var urlAllRole = '/api/roles';
         var urlToolkitTypes = '/api/filter/toolkitType';  
         var urlSolutions = '/api/solutions';
+        var urlPortalSolutions = '/api/portal/solutions';
         var urlPublishSolution = '/api/publish';
        	var urlSignUp = 'api/users/register';
         var urlSocialSignUp = 'api/oauth/login/register';
@@ -260,7 +261,7 @@ angular.module('AcumosApp')
         };
         
         this.insertSolutionDetail = function (solutionDetails) {
-            return $http.post(urlSolutions, solutionDetails);
+            return $http.post(urlPortalSolutions, solutionDetails);
         };
         
         this.getPeers = function (dataObj) {
