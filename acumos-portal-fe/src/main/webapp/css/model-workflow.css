@@ -683,10 +683,8 @@
     text-align: center;
 }
 /* completed section*/
-.company-market ul li .imageplace.completed .imagecontent {
-      border: 3px solid #009901;
-      background-color: #FFF;
-}
+.company-market ul li .imageplace.completed .imagecontent {border: 3px solid #009901;  background-color: #FFF;}
+.company-market ul li .imageplace.incomplet .imagecontent {border: 3px solid #ff0000; background-color: #FFF;}
 /* .company-market ul li .imageplace.completed ~ .text{color: #009901; font-size:11px;} */
 .company-market ul li:last-child .publshbutton {min-width: 92px;}
 .btn-publish{margin: 4px 0;
@@ -1383,6 +1381,10 @@ md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style
 .completed .license-check{background-image: url(../images/ico-license-check-green.png); background-repeat: no-repeat; background-position: center;}
 .completed .text-check{background-image: url(../images/ico-txtcheck-green.png); background-repeat: no-repeat; background-position: center;}
 .completed .yet-not-publish{background-image: url(../images/ico-checkmark.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .model-documentation{background-image: url(../images/ico_model_documentation_red.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .security-scan{background-image: url(../images/ico_security_scan_red.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .license-check{background-image: url(../images/ico_license_check_red.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .text-check{background-image: url(../images/ico_text_check_red.png); background-repeat: no-repeat; background-position: center;}
 /* .company-market ul li .completed ~ .publshbutton ~ .text{color: #009901; font-size: 11px;} */
 .company-market ul li .completed ~ .publshbutton.hide{display:block !important;} 
 .imageplace.completed ~ .hide ~ .text, .imageplace ~ .hide ~ .text-completed{display:none;}

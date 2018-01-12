@@ -453,12 +453,18 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .completed .create-tosca{background-image: url(../images/ico_create_tosca_green.png); background-repeat: no-repeat; background-position: center;}
 .completed .add-repository{background-image: url(../images/ico_add_to_repository_green.png); background-repeat: no-repeat; background-position: center;}
 .completed .not-yet-onboarded{background-image: url(../images/ico-checkmark.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .micro-service{background-image: url(../images/ico_create_micro_service_red.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .package{background-image: url(../images/ico_package_red.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .dockerize{background-image: url(../images/ico_dockerize_red.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .create-tosca{background-image: url(../images/ico_create_tosca_red.png); background-repeat: no-repeat; background-position: center;}
+.incomplet .add-repository{background-image: url(../images/ico_add_to_repository_red.png); background-repeat: no-repeat; background-position: center;}
 .company-market ul li .completed ~ .publshbutton ~ .text{color: #009901; font-size: 11px;}
 .company-market ul li .completed ~ .publshbutton.hide{display:block !important;} 
 .imageplace.completed ~ .hide ~ .text, .imageplace ~ .hide ~ .text-completed{display:none;}
 .imageplace.completed ~ .hide ~ .text-completed{color: #009901; font-size: 11px; line-height: 13px;  padding-top: 3px; display:block;}
 /* completed section*/
 .company-market ul li .imageplace.completed .imagecontent {border: 3px solid #009901; background-color: #FFF;}
+.company-market ul li .imageplace.incomplet .imagecontent {border: 3px solid #ff0000; background-color: #FFF;}
 .btn-publish{margin: 4px 0; float: inherit; padding: 0 10px; height: 24px; font-size: 12px; line-height: 17px; min-height: 24px;
     background-color: #FFF; color: #671C9D;  border:1px solid #671C9D; text-align:center;}
 .skiptext{display:inline-block; line-height: 23px;}

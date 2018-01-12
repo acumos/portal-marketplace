@@ -160,7 +160,7 @@ angular
 						$scope.loadData = function() {
 							$scope.apiUrl;
 							angular.element('.md-version-ddl1').hide();
-							$scope.tags = [];
+							$scope.tags1 = [];
 							if ($scope.solutionId) {
 								$scope.solutionId = $scope.solutionId;
 							}
@@ -169,6 +169,7 @@ angular
 									.then(
 											function(response) {
 												if (response.data.response_body) {
+													debugger
 													$scope.solution = response.data.response_body;
 													$scope.versionList = [];
 													$scope.categoryname = $scope.solution.modelType;
@@ -277,15 +278,18 @@ angular
 													$scope.isModelActive = $scope.solution.active;
 													// $scope.solutionDesc =
 													// $scope.solution.description;
+													debugger
 													if ($scope.solution.solutionTagList) {
 														for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
-															$scope.tags
+															debugger
+															$scope.tags1
 																	.push({
 																		text : $scope.solution.solutionTagList[i].tag
 																	});
 														}
 													} else if ($scope.solution.solutionTag) {
-														$scope.tags
+														debugger
+														$scope.tags1
 																.push({
 																	text : $scope.solution.solutionTag
 																});
@@ -1909,7 +1913,7 @@ angular
 							if($scope.solution.modelTypeName && $scope.solution.tookitTypeName)count++;
 						}
 						if($scope.supportingDocs.length > 0)count++;
-						if($scope.tags.length > 0)count++;
+						if($scope.tags1.length > 0)count++;
 						if($scope.solImage)count++;
 						/*if($scope.company){
 							debugger
