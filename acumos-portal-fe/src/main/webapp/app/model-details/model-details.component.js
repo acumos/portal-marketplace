@@ -339,6 +339,7 @@ angular
 												
 												$scope.versionId = $scope.versionList[0].version;
 												$scope.revisionId = $scope.versionList[0].revisionId;
+												$scope.getComment();
 												$scope.getArtifacts();
 												$scope.getSolPublicDesc($scope.solution.accessType);
 												$scope.getPublicSolutionDocuments($scope.solution.accessType);
@@ -642,13 +643,36 @@ angular
 								$scope.userFullName = $scope.userDetails[0];
 							}
 							
-							var commentObj = {
+							var threadObj = {
+									  "request_body": {
+										    "revisionId": $scope.revisionId,
+										    "solutionId": $scope.solutionId
+										    
+										  }
+										 
+										};
+							/*var commentObj = {
 									"author": $scope.loginUserID,
 									"name": $scope.userFullName,
 									"url": $scope.solutionId,
 									"text": $scope.comment
-							}
-							var url = "/cmnt/api/comments?threadUrl="+ $scope.solutionId +"&threadTitle=";
+							}*/
+								apiService.createThread(threadObj).then(function(response) {
+									console.log(response);
+									var commentObj = {
+											  "request_body": {
+												    "text": $scope.comment,
+												    "threadId": response.data.response_body.threadId,
+												    "url": $scope.solutionId,
+												    "userId": $scope.loginUserID
+												  },
+												};
+									apiService.createComment(commentObj).then(function(response) {
+										$scope.getComment();
+										$scope.comment = '';
+									});
+								});
+							/*var url = "/cmnt/api/comments?threadUrl="+ $scope.solutionId +"&threadTitle=";
 							$http({
 								method : 'POST',
 								url : url,
@@ -656,17 +680,32 @@ angular
 							}).success(function(data, status, headers,config) {
 								$scope.getComment();
 								$scope.comment = '';
-							})
+							});*/
 						}
 						
 						$scope.newcomment = {};
-						$scope.postReply = function(key, parentId){
+						$scope.postReply = function(key, comment){
 							if (localStorage.getItem("userDetail")) {
 								$scope.loginUserID = JSON.parse(localStorage
 										.getItem("userDetail"))[1];
 								$scope.userFullName = $scope.userDetails[0];
 							}
-							var replyCommentObj = {
+							
+								var commentObj = {
+										  "request_body": {
+											    "text": $scope.newcomment[key].text,
+											    "threadId": comment.threadId,
+											    "parentId": comment.commentId,
+											    "url": $scope.solutionId,
+											    "userId": $scope.loginUserID
+											  },
+											};
+								apiService.createComment(commentObj).then(function(response) {
+									$scope.getComment();
+									$scope.comment = '';
+								});
+						
+							/*var replyCommentObj = {
 									"author": $scope.loginUserID,
 									"name": $scope.userFullName,
 									"url": $scope.solutionId,
@@ -681,7 +720,7 @@ angular
 							}).success(function(data, status, headers,config) {
 								$scope.getComment();
 								
-							})
+							})*/
 							$scope.newcomment = {};
 						}
 						
@@ -691,20 +730,93 @@ angular
 								$scope.loginUserID = JSON.parse(localStorage
 										.getItem("userDetail"))[1];
 							}
+							var reqObj = {
+									  "request_body": {
+										    "page": 0,
+										    "size": 9
+										  },
+										};
+							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
+								//$scope.totalCommentCount = response.data.response_body.content.CommentsCount;
+								$scope.commentList = [];
+								angular.forEach(response.data.response_body.content,function(value,key) {
+									if(response.data.response_body.content[key].parentId == null){
+										$scope.commentList.push({
+											creationDate : response.data.response_body.content[key].creationDate,
+											text : response.data.response_body.content[key].text,
+											commentId : response.data.response_body.content[key].commentId,
+											threadId : response.data.response_body.content[key].threadId
+										});
+						
+										var userObject = {
+												  "request_body": {
+													  		    "userId": value.userId
+												  					}};
+										apiService.getUserAccountDetails(userObject).then(function(userDetail){
+											console.log(userDetail);
+												$scope.commentList[key].name = userDetail.data.response_body.loginName
+									    });
+										apiService.getUserProfileImage(value.userId).then(function(userImage){
+											console.log(userImage);
+												$scope.commentList[key].image = userImage.data.response_body;
+										});
+									}
+								});
+								console.log(response);
+								
+							});
 							
-							var url = "/cmnt/api/comments?threadUrl="+ $scope.solutionId +"&threadTitle=";
+							/*var url = "/cmnt/api/comments?threadUrl="+ $scope.solutionId +"&threadTitle=";
 							$http({
 								method : 'GET',
 								url : url
 							}).success(function(data, status, headers,config) {
 								$scope.totalCommentCount = data.totalCommentCount;
 								$scope.commentList = data.comments;
-							})
+							})*/
 						};
-						$scope.getComment();
+						
+						/*$scope.getReply = function(){
+							angular.forEach($scope.commentList,function(commentValue,commentKey) {
+								if($scope.commentList[commentKey].commentId == response.data.response_body.content[key].parentId){
+									$scope.commentList[commentKey].replies.push({
+										creationDate : response.data.response_body.content[key].creationDate,
+										text : response.data.response_body.content[key].text,
+										name : "",
+										
+									});
+					
+									var userObject = {
+											  "request_body": {
+												  		    "userId": value.userId
+											  					}};
+									apiService.getUserAccountDetails(userObject).then(function(userDetail){
+										console.log(userDetail);
+											$scope.commentList[key].name = userDetail.data.response_body.loginName,
+											$scope.commentList[key].image = userDetail.data.response_body.picture
+										
+										
+									});
+									}
+								});
+							console.log($scope.commentList);
+						};*/
 						
 						$scope.editComment = function(comment) {
-							var reqObj = {"author":comment.author,
+							var commentObj = {
+									  "request_body": {
+										    "text": comment.text,
+										    "commentId": comment.commentId,
+										    "threadId": comment.threadId,
+										    "url": $scope.solutionId,
+										    "userId": $scope.loginUserID
+										  },
+										};
+							apiService.updateComment(commentObj).then(function(response) {
+								console.log(response.data);
+								$scope.getComment();
+							});
+							/*var reqObj = {"author":comment.author,
 											"email":comment.emailHash,
 											"url":$stateParams.solutionId,
 											"text":comment.text, 
@@ -718,19 +830,22 @@ angular
 								url : url
 							}).success(function(data, status, headers,config) {
 								console.log(data);
-							})
+							})*/
 						};
 						
-						$scope.deleteComment = function(commentId) {
-						    var url = "/cmnt/api/comments/"+ commentId;
+						$scope.deleteComment = function(comment) {
+							apiService.deleteComment(comment.threadId,comment.commentId).then(function(response) {
+								console.log(response.data);
+								$scope.getComment();
+							});
+						    /*var url = "/cmnt/api/comments/"+ commentId;
 							$http({
 								method : 'Delete',
 								url : url
 							}).success(function(data, status, headers,config) {
 								console.log(data);
-							})
+							})*/
 						}
-						
 						$scope.getSolPublicDesc = function(type){
 							var accessType = 'public';
 							if( type == 'OR' ){
@@ -1323,5 +1438,4 @@ function linkFunc(scope, element, attrs, ctrl) {
 			renderValue();
 		}
 	});
-
 }

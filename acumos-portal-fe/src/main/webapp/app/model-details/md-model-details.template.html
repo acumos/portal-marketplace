@@ -566,10 +566,14 @@
 								<div class="discussion-container discussion-container2"
 									ng-repeat="(key, comment) in commentList">
 									<div>
-										<img src="images/userprofile/user-profile-black.png" alt=""
+										<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!comment.image"
 											title="user">
+										<!-- user uploaded image -->
+										<img class="userimg" ng-show="comment.image"
+										ng-src="data:image/PNG;base64,{{comment.image}}"
+										title="{{comment.name}}" />
 									</div>
-									<div class="discussion-details">
+									<div class="discussion-details" ng-if = "comment.parentId == null">
 										<div>
 											<label class="dis-name">{{comment.name}}</label> | <span
 												class="text-small">{{comment.creationDate}}</span>
@@ -578,10 +582,10 @@
 												ng-click="edit = true">Edit</button>
 											<button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deleteComment(comment.id)">Delete</button>
+												ng-click="deleteComment(comment)">Delete</button>
 										</div>
 										<p ng-hide="edit">{{comment.text}}</p>
-										<textarea class="mdl-textfield__input md-txtarea" type="text"
+										<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "comment.text"
 											ng-show="edit" rows="3" id="comment">{{comment.text}}</textarea>
 										<button
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
@@ -597,14 +601,14 @@
 												</div>
 												<button
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-													ng-click="postReply(key, comment.id)">Post</button>
+													ng-click="postReply(key, comment)">Post</button>
 											</div>
 										</div>
 										<div class="discussion"
 											ng-repeat="(key, reply) in comment.replies">
 											<!-- <div class="flex1 discussionformbox">
 														<div class="mdl-textfield mdl-js-textfield">
-															<input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
+															<input  class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
 																id="sample3"> <label
 																class="mdl-textfield__label">Add
 																Reply here...</label>

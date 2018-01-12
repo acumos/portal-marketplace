@@ -320,6 +320,7 @@ angular.module('modelResource')
 							$location.hash('page-top');
 							 $anchorScroll();
 							var counter = 1;
+							var width = 0;
 							$interval(function() {
 								angular.element(angular.element('.onboarding-web li div')[counter-3]).removeClass('active');
 								angular.element(angular.element('.onboarding-web li div')[counter-3]).addClass('completed');
@@ -327,13 +328,14 @@ angular.module('modelResource')
 								angular.element(angular.element('.onboarding-web li')[counter]).addClass('progress-status green')
 								angular.element(angular.element('.onboarding-web li')[counter-2]).addClass('completed');
 								counter = counter + 2;
+								width = width+14.25;
+								angular.element('.progress .progress-bar').css({ "width" : width+'%'});
+								angular.element('.onboardingwebContent').css({ "height" :'100%'});
 								if(counter > 12){
 									$scope.activeViewModel = true;
 								}
 								
 							}, 5000, 7);
-							
-							
 						},
 						function(error) {
 							$scope.catalorError = error.data;
