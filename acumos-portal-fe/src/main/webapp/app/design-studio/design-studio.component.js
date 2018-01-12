@@ -928,6 +928,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             solutionId: $scope.solutionIdvalidate,
             version:$scope.solutionVersion
         };                     var url = build_url(options.validate, args);
+        $('#validateActive').removeClass('enabled');
+        $scope.validationState = true;
+
         return $http.post(url).success(function(result) {
             console.log(result);
             if(result.success == "true"){
