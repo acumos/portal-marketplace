@@ -10,6 +10,7 @@ angular
 							$state, $stateParams, $sessionStorage, $rootScope,
 							apiService, $element) {
 						$scope.autoHeight = true;
+						$scope.tags = [];
 					    $element.find('input').on('keydown', function(ev) {
 					          ev.stopPropagation();
 					    });
@@ -297,7 +298,8 @@ angular
 									}
 								if(response.data.response_body.content.length==9){$scope.viewNoMLsolution = 'View More ML Solutions';}
 								else {$scope.viewNoMLsolution = 'No More ML Solutions'; $rootScope.valueToSearch = '';}
-								$scope.tags = response.data.response_body.filteredTagSet;
+								$scope.tags = ($scope.tags).concat(response.data.response_body.filteredTagSet);
+
 								$scope.dataLoading = false;
 								if (response.data.response_body.content.length >= 0) {
 									for (var i = 0; i < response.data.response_body.content.length; i++) {
@@ -569,4 +571,29 @@ angular
 
 				}).config([ '$compileProvider', function($compileProvider) {
 			$compileProvider.debugInfoEnabled(false);
-		} ]);
+		} ]).filter('unique', function() {
+   // we will return a function which will take in a collection
+   // and a keyname
+   return function(collection, keyname) {
+      // we define our output and keys array;
+      var output = [], 
+          keys = [];
+      
+      // we utilize angular's foreach function
+      // this takes in our original collection and an iterator function
+      angular.forEach(collection, function(item) {
+          // we check to see whether our object exists
+          var key = item[keyname];
+          // if it's not already part of our keys array
+          if(keys.indexOf(key) === -1) {
+              // add it to our keys array
+              keys.push(key); 
+              // push this item to our final output array
+              output.push(item);
+          }
+      });
+      // return our array which should be devoid of
+      // any duplicates
+      return output;
+   };
+});

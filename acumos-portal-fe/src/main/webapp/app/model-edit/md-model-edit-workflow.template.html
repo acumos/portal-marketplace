@@ -1988,7 +1988,8 @@
 																							style="max-width: 500px; margin: 0 auto; display: block;">
 
 																					</div>
-																					<div>{{solutionPublicDesc || solutionCompanyDesc}}</div>
+																					<div ng-if="solutionPublicDesc" ng-bind-html="solutionPublicDesc"></div>
+																					<div ng-if="!solutionPublicDesc" ng-bind-html="solutionCompanyDesc"></div>
 																	
 																				</div>
 																				<div class="mdl-tabs__panel" id="tab2-panel">

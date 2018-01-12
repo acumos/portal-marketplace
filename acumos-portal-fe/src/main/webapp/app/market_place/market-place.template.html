@@ -155,7 +155,7 @@
 							                   <strong>No Result found</strong> 
 						                   </div>
 										  <!--  <div infinite-scroll='loadMore()' infinite-scroll-distance="2"> -->
-											<div class="grid-item" ng-repeat="mlsolution in mlsolutions | filter:(!searchResults || '') && {active:true} as filtered">
+											<div class="grid-item" ng-repeat="mlsolution in mlsolutions | unique:'solutionId' | filter:(!searchResults || '') && {active:true} as filtered">
 												<div class="grid-top-section">	
 												    <div class="product-image">										
 													<!-- <div class="mpimgcontainer"> -->
@@ -264,7 +264,7 @@
 											<div class="alert c-info" ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
 											    <strong>No Result found</strong> 
 										    </div>
-											<div class="mp-grid-list-row" ng-repeat="mlsolution in mlsolutions | filter:(!searchResults || '') && {active:true}">
+											<div class="mp-grid-list-row" ng-repeat="mlsolution in mlsolutions | unique:'solutionId' | filter:(!searchResults || '') && {active:true}">
 												<div class="mp-grid-list-image-cell">
 													<div class="mpimage1">
 														 <figure>
