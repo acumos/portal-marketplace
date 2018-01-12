@@ -619,7 +619,8 @@
 												</h2>
 												
 												<p ng-show="!file">Upload your model bundle.</p>
-												<p ng-show="file" >Uploaded file: {{file.name}}</p>	
+												<p ng-show="file && !filename" >Uploading file: {{file.name}}</p>
+												<p ng-show="filename" >Uploaded file: {{file.name}}</p>	
 												<!-- update model name -->
 												<div class="popovers cont add-document" id="uploadModel"
 													ng-show="uploadModel">
