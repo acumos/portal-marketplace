@@ -49,6 +49,8 @@ angular.module('admin')
 			}
 			userDetailsFetch();
 			//API for Peer count
+			getAllPeer();
+			function getAllPeer(){
 			var obj = {"fieldToDirectionMap": {},"page": 0,"size": 0};
 			apiService
 			.getPeers(obj)
@@ -57,6 +59,7 @@ angular.module('admin')
 						$scope.peer = response.data.response_body.content;
 					},
 					function(error) {console.log(error);});
+			}
 			//Close popup
 			$scope.closePoup = function(){
           	  $mdDialog.hide();
@@ -311,21 +314,21 @@ angular.module('admin')
                           console.log($scope.queryParam);
                       }
                       //Add peer
-                      $scope.addPeer = function(){console.log($scope.editPeer);
-                    	  var peerDetails = {
-				                    			  "request_body": {
-				
-				                    				    "peerId": $scope.editPeer.peerId,
-				                    					"maxArtifactSize": 0,
-				                    				    "refreshInterval": 0,
-				                    				    "selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
-				                    				  }
-                    	  
-                    						};
-                    	  
-                    	apiService.addPeer(peerDetails)
-                  	    .then(
+                      $scope.addEditPeer = '';
+                      $scope.addPeer = function(){
+                    	 var peerDetails = {"request_body": {				
+				                    				  	"apiUrl": $scope.apiUrlPop,
+				                    				    "contact1": $scope.emailIdPop,
+				                    				    "contact2":'check',
+				                    				    "description": $scope.descriptionPop,
+				                    				    "name": $scope.peerNamePop,
+				                    				    "subjectName": $scope.subNamePop,
+				                    				    "webUrl": $scope.webUrlPop
+				                    				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
+				                    		}};
+                    	apiService.insertPeers(peerDetails).then(
                   	    		function(response){
+                  	    			getAllPeer();
                   	    			$scope.category;fetchCat();
                   	    			$scope.data = '';$scope.hidePeer = false;$scope.queryParam='';
                         	    	$scope.closePoup();
@@ -343,6 +346,46 @@ angular.module('admin')
                   	    		function(error){
                   	    			// handle error 
                   	    	})
+                      
+                    }
+                      //Edit PEER
+                      
+                      $scope.editPeer = function(peerDetail){
+                    	  $scope.editPeerID = peerDetail.peerId;
+                    	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
+                    	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.webUrl;$scope.descriptionPop = peerDetail.description;
+                    	  $scope.showPopupPeer();
+                      }
+                      function updatePeer(){
+                    	  var peerDetails = {"request_body": {	                    		  
+            				  	"apiUrl": peerDetail.apiUrl,
+            				    "contact1": peerDetail.contact1,
+            				    "contact2":'check',
+            				    "description": peerDetail.description,
+            				    "name": peerDetail.name,
+            				    "subjectName": peerDetail.subjectName,
+            				    "webUrl": peerDetail.webUrl
+            				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
+            		}};
+                      	  apiService.editPeer($scope.editPeerID,peerDetails).then(
+                      	    		function(response){
+                      	    			$scope.category;fetchCat();
+                      	    			$scope.data = '';$scope.hidePeer = false;$scope.queryParam='';
+                            	    	$scope.closePoup();
+                            	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                        $anchorScroll(); 
+                                        $scope.msg = "Peer Created successfully."; 
+                                        $scope.icon = 'report_problem';
+                                        $scope.styleclass = 'c-success';
+                                        $scope.showAlertMessage = true;
+                                        $timeout(function() {
+                                        	$scope.showAlertMessage = false;
+                                        }, 5000);
+                            	            // success
+                            	    }, 
+                      	    		function(error){
+                      	    			// handle error 
+                      	    	})
                       }
             	    //Delete Peer
                       /*$scope.deletePeer = function(peerId, idx) {
@@ -366,6 +409,7 @@ angular.module('admin')
                    	      .deletePeer(peerId)
                    	      .then(
                    	    		function(response){
+                   	    			getAllPeer();
                    	    			fetchPeer();
                         	    	//$scope.closePoup();
                         	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)

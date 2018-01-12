@@ -952,9 +952,9 @@
 														<h2>
 															<a ng-click="showSolCat = !showSolCat">Model Category</a>
 															| <span class="green"
-																ng-if="(solution.modelTypeName || solution.tookitTypeName )">
+																ng-if="(solution.modelTypeName && solution.tookitTypeName )">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span class="red"
+															</span> <span class="red" 
 																ng-if="(!solution.modelTypeName || !solution.tookitTypeName)">Not
 																Started</span> <!-- <span class="green">Completed
 																on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
@@ -1253,7 +1253,7 @@
 															Static chips are transcluded
 															<md-chip>{{ctrl.chipText}}</md-chip> </md-chips>
 															</md-content> -->
-														<tags-input ng-model="tags"
+														<tags-input ng-model="tags1"
 															replace-spaces-with-dashes="false"
 															on-tag-added="tagAdded($tag)"
 															on-tag-removed="tagRemoved($tag)"> <auto-complete
@@ -1443,9 +1443,8 @@
 														                        data-drop="true"
 														                        jqyoui-droppable="{onDrop:'dropCallback'}"
 														                        data-jqyoui-options="{revert: {{!icon}}}">
-														                        <input class="mdl-textfield__input upload-image-input"
+														                        <input class="mdl-textfield__input"
 														                           placeholder="Upload Image" type="file"
-														                           accept="image/*"
 														                           fileinput="file" filepreview="previewImage"
 														                           data-drop="true" id="solImage"
 														                           jqyoui-droppable="{onDrop:'dropCallback'}"
@@ -1455,12 +1454,12 @@
 														                           class="mdl-textfield__input"
 														                           placeholder="Upload Image" type="text"
 														                           ng-model="solImage.name" ng-show="icon" readonly />
-														                       <!--  <div
+														                        <div
 														                           class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
 														                           ng-click="icon = false">
 														                           <i class="material-icons">attach_file</i><input
 														                              type="file" id="uploadBtn">
-														                        </div> -->
+														                        </div>
 														                     </div>
 														                     <div>
 														                        <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
@@ -1663,7 +1662,7 @@
 																	class="md-padding"><!-- MarketPlace Preview -->
 																<div class="mp-grid">
 																	<div class="alert alert-info"
-																		ng-if="(solution.length && solution.length <= 0) || (allDeletedData && !searchResults)">
+																		ng-if="solution.length < 1 || (allDeletedData && !searchResults)">
 																		<strong>No Result found</strong>
 																	</div>
 																	<!-- the current model along with two items from marketplace -->
@@ -1681,37 +1680,37 @@
 																							&& solution.name.indexOf('Chat') < 0
 																							&& solution.name.indexOf('Sentiment') < 0"
 																						ng-src="{{imgURLdefault}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 
 																					<img
 																						ng-if="solution.name.indexOf('Predictor') > -1"
 																						ng-src="{{imgURLnull}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 
 																					<img ng-if="solution.name.indexOf('Threat') > -1"
 																						ng-src="{{imgURLthreat}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 
 																					<img ng-if="solution.name.indexOf('Emotion') > -1"
 																						ng-src="{{imgURLemotion}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 
 																					<img ng-if="solution.name.indexOf('Face') > -1"
 																						ng-src="{{imgURLcommercial}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 
 																					<img ng-if="solution.name.indexOf('Video') > -1"
 																						ng-src="{{imgURLvideo}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 
 																					<img ng-if="solution.name.indexOf('Chat') > -1"
 																						ng-src="{{imgURLChat}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 
 																					<img
 																						ng-if="solution.name.indexOf('Sentiment') > -1"
 																						ng-src="{{imgURLSensitive}}" class="img-rounded"
-																						width="204" height="156">
+																						>
 																				</figure>
 																			</div>
 																			<div class="mpdetailscontainer">
@@ -1988,9 +1987,11 @@
 																							style="max-width: 500px; margin: 0 auto; display: block;">
 
 																					</div>
+
 																					<div ng-if="solutionPublicDesc" ng-bind-html="solutionPublicDesc"></div>
 																					<div ng-if="!solutionPublicDesc" ng-bind-html="solutionCompanyDesc"></div>
-																	
+																
+
 																				</div>
 																				<div class="mdl-tabs__panel" id="tab2-panel">
 																					<h6 class="sectiontitle6">SIGNATURE</h6>
@@ -2672,7 +2673,7 @@
 														<h2>
 															<a ng-click="showSolCat = !showSolCat">Model Category</a>
 															| <span class="green"
-																ng-if="(solution.modelTypeName || solution.tookitTypeName)">
+																ng-if="(solution.modelTypeName && solution.tookitTypeName)">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
 																ng-if="(!solution.modelTypeName || !solution.tookitTypeName)">Not
@@ -3081,9 +3082,8 @@
 				   <div class="mdl-cell mdl-cell--9-col">
 					  <div
 						 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth">
-						 <input class="mdl-textfield__input upload-image-input"
+						 <input class="mdl-textfield__input"
 							placeholder="Upload Image" type="file"
-							accept="image/*"
 							fileinput="file" filepreview="previewImage"
 							data-drop="true" id="solImage"
 							jqyoui-droppable="{onDrop:'dropCallback'}"
@@ -3092,11 +3092,11 @@
 							class="mdl-textfield__input"
 							placeholder="Upload Image" type="text"
 							ng-model="solImage.name" ng-show="icon" readonly />
-						 <!-- <div
+						 <div
 							class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
 							<i class="material-icons">attach_file</i><input
 							   type="file" id="uploadBtn">
-						 </div> -->
+						 </div>
 					  </div>
 					  <div>
 						 <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>

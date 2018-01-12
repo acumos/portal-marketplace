@@ -237,10 +237,11 @@
 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i>
 															 </span>
-															
-															<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-disabled = "!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
-																<i class="material-icons" ng-class="{'unselected-fav':!mlsolution.selectFav ,'selected-fav':mlsolution.selectFav}">favorite_border</i>
-														 </button>	
+															 <!--  requwested download commented -->
+															<!-- <button class="mdl-button mdl-js-button mdl-button--icon req-download-btn" ng-disabled="!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)" ">
+																Request To download
+														 	</button> -->
+																
 													</div>
 													<!-- <div class="md-icons">									
 														<span class="iconspan1">
@@ -253,8 +254,10 @@
 															<span><span class="statistics-icons icon-chat"></span> 0</span>
 															<span><span class="statistics-icons icon-view"></span> {{mlsolution.viewCount == null ? 0 : mlsolution.viewCount}}</span>
 															<span><span class="statistics-icons icon-download"></span> {{mlsolution.downloadCount == null ? 0 : mlsolution.downloadCount}}</span>
-															<span><span class="statistics-icons icon-attachment"></span> {{mlsolution.solutionTag == null ? 0 : mlsolution.solutionTag}}</span>
-														
+															<!-- <span><span class="statistics-icons icon-attachment"></span> {{mlsolution.solutionTag == null ? 0 : mlsolution.solutionTag}}</span> -->
+															<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-disabled = "!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
+																<i class="material-icons" ng-class="{'unselected-fav':!mlsolution.selectFav ,'selected-fav':mlsolution.selectFav}">favorite_border</i>
+														 	</button>
 														</div>
 												</div>													
 											</div> <!-- Grid item End -->
