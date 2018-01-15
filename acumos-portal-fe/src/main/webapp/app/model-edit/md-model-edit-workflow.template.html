@@ -1224,11 +1224,11 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="tags.length<1">
+														ng-if="tags1.length<1">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="!tags.length<1">
+														ng-if="!tags1.length<1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
@@ -1237,7 +1237,7 @@
 															<a>Model Tags</a> | <span class="green"
 																ng-if="!tags.length<1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="tags.length<1"
+															</span> <span ng-if="tags1.length<1"
 																class="red">Not Started</span> <!-- <span class="green"
 																>Completed on {{currentDate
 																| date:'MM/dd/yyyy'}}</span> -->
@@ -2937,20 +2937,20 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="tags.length<1">
+														ng-if="tags1.length<1">
 														<span class="entypo-suitcase">5</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="!tags.length<1">
+														ng-if="!tags1.length<1">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 
 													<div class="timeline-label">
 														<h2>
 															<a>Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1">
+																ng-if="!tags1.length<1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="tags.length<1" class="red">Not
+															</span> <span ng-if="tags1.length<1" class="red">Not
 																Started</span> <!-- <span class="green">Completed
 																on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
 														</h2>
@@ -2961,7 +2961,7 @@
 
 														<div class="">
 															<!-- showSolTags ng-enter="updateTag(tags)" -->
-															<tags-input ng-model="tags"
+															<tags-input ng-model="tags1"
 																replace-spaces-with-dashes="false"
 																on-tag-added="tagAdded($tag)"
 																on-tag-removed="tagRemoved($tag)"> <auto-complete
