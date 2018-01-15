@@ -942,7 +942,6 @@ angular
 						}
 						
 						$scope.loadMore = function(type) {
-							debugger;
 							if ($scope.isBusy)
 								return;
 							else

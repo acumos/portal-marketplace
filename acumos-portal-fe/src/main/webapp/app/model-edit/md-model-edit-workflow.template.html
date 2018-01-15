@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/css/model-workflow.css" />
+	<link rel="stylesheet" type="text/css" href="/css/model-workflow.css" />
 <style>
 .user_icon i img {
 	border: 1px solid #FFF;
@@ -818,23 +818,23 @@
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
 													<div class="timeline-icon"
-														ng-if="!solutionCompanyDescStatus || showDCKEditor">
+														ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc || showDCKEditor">
 														<span class="entypo-suitcase">2</span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionCompanyDescStatus && !showDCKEditor">
+														ng-if="solutionCompanyDescStatus && !showDCKEditor || copiedCompanyDesc">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showDCKEditor = !showDCKEditor">Model
+															<a ng-click="showDCKEditor = !showDCKEditor; copiedCompanyDesc = false">Model
 																Description </a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
-																ng-if="solutionCompanyDescStatus ">
+																ng-if="solutionCompanyDescStatus || copiedCompanyDesc">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span
-																ng-if="!solutionCompanyDescStatus "
+																ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc"
 																class="red">Not Started</span> <!-- <span class="green"
 																>Completed on {{currentDate
 																| date:'MM/dd/yyyy'}}</span> -->
@@ -855,8 +855,9 @@
 																<div class="md-toolbar-tools">
 																	<h2>Model Description</h2>
 																	<span flex></span>
+																	<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																	<md-button class="md-icon-button"
-																		ng-click="showDCKEditor = !showDCKEditor; solutionCompanyDesc='' ">
+																		ng-click="showDCKEditor = !showDCKEditor;  ">
 																	<i class="material-icons">close</i> </md-button>
 																</div>
 																</md-toolbar>
@@ -867,8 +868,9 @@
 																		<ng-quill-editor ng-model="solutionCompanyDesc"></ng-quill-editor>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
+																	<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																		<md-button
-																			ng-click="showDCKEditor = !showDCKEditor; solutionCompanyDesc='' "
+																			ng-click="showDCKEditor = !showDCKEditor; "
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																		Cancel </md-button>
 																		<md-button
@@ -884,7 +886,7 @@
 														<p></p>
 														<div ng-show="solutionPublicDesc!=null" class="checkbox"
 															ng-click="copyPublicToCompany()">
-															<label> <input type="checkbox"> Use the
+															<label> <input type="checkbox" ng-checked="showDCKEditor"> Use the
 																Description you have in Public Marketplace. 
 														</div>
 														<div>
@@ -1235,7 +1237,7 @@
 													<div class="timeline-label">
 														<h2>
 															<a>Model Tags</a> | <span class="green"
-																ng-if="!tags.length<1">
+																ng-if="!tags1.length<1">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span ng-if="tags1.length<1"
 																class="red">Not Started</span> <!-- <span class="green"
@@ -1541,7 +1543,7 @@
 														<!-- updateupload image for model end -->
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
 															<div class="imagecontainer">
-																<img ng-src="{{imgURLdefault}}" alt="" title="" />
+																<img ng-src="{{imgURLdefault}}" alt="" title="" ng-model="imgURLdefault"/>
 															</div>
 															<div class="file-name">
 																{{solutionImageName}} | <a
@@ -2538,23 +2540,24 @@
 											</article>
 											<article class="timeline-entry">
 												<div class="timeline-entry-inner">
+												
 													<div class="timeline-icon"
-														ng-if="!solutionPublicDescStatus || showCKEditor">
-														<span class="entypo-suitcase">2</span>
+														ng-if="!solutionPublicDescStatus && !copiedPublicDesc || showCKEditor ">
+														<span class="entypo-suitcase">2 </span>
 													</div>
 													<div class="timeline-icon bg-success"
-														ng-if="solutionPublicDescStatus && !showCKEditor">
+														ng-if="solutionPublicDescStatus && !showCKEditor || copiedPublicDesc">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showCKEditor = !showCKEditor">Model
+															<a ng-click="showCKEditor = !showCKEditor; copiedPublicDesc = false">Model 
 																Description</a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
-																ng-if="solutionPublicDescStatus">
+																ng-if="solutionPublicDescStatus || copiedPublicDesc">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-if="!solutionPublicDescStatus"
+															</span> <span ng-if="!solutionPublicDescStatus && !copiedPublicDesc"
 																class="red">Not Started</span> <!-- <span class="green"
 																>Completed on {{currentDate |
 																date:'MM/dd/yyyy'}}</span> -->
@@ -2575,8 +2578,9 @@
 																<div class="md-toolbar-tools">
 																	<h2>Model Description</h2>
 																	<span flex></span>
+																	<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																	<md-button class="md-icon-button"
-																		ng-click="showCKEditor = !showCKEditor; solutionPublicDesc='' ">
+																		ng-click="showCKEditor = !showCKEditor; ">
 																	<i class="material-icons">close</i> </md-button>
 																</div>
 																</md-toolbar>
@@ -2587,8 +2591,9 @@
 																		<ng-quill-editor ng-model="solutionPublicDesc"></ng-quill-editor>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
+																	<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																		<md-button
-																			ng-click="showCKEditor = !showCKEditor; solutionPublicDesc='' "
+																			ng-click="showCKEditor = !showCKEditor; "
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																		Cancel </md-button>
 																		<md-button
@@ -2605,7 +2610,7 @@
 														<div ng-show="solutionCompanyDesc!=null" class="checkbox"
 															ng-click="copyCompanyToPublic()">
 															<!-- ng-click="copyCompanyToPublic()" -->
-															<label> <input type="checkbox"> Use the
+															<label> <input type="checkbox" ng-checked="showCKEditor" > Use the
 																Description you have in Company Marketplace. <!-- </label> <a>View more</a> -->
 														</div>
 														<div>
@@ -3180,7 +3185,7 @@
 														<!-- updateupload image for model popover end -->
 														<div class="uploaded-img-des" ng-show="showSolutionImage">
 															<div class="imagecontainer">
-																<img ng-src="{{imgURLdefault}}" alt="" title="" />
+																<img ng-src="{{imgURLdefault}}" alt="" title=""  ng-model="imgURLdefault"/>
 															</div>
 															<div class="file-name">
 																{{solutionImageName}} | <a

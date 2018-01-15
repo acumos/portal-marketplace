@@ -44,6 +44,7 @@ angular
 						$scope.showPublicSolutionDocs = false;
 						$scope.supportingPublicDocs = [];
 						$scope.supportingDocs = [];
+						$scope.tags1 = [];
 						componentHandler.upgradeAllRegistered();
 						$scope.solutionCompanyDescStatus = false;
 						$scope.solutionPublicDescStatus = false;
@@ -169,7 +170,6 @@ angular
 									.then(
 											function(response) {
 												if (response.data.response_body) {
-													debugger
 													$scope.solution = response.data.response_body;
 													$scope.versionList = [];
 													$scope.categoryname = $scope.solution.modelType;
@@ -278,17 +278,14 @@ angular
 													$scope.isModelActive = $scope.solution.active;
 													// $scope.solutionDesc =
 													// $scope.solution.description;
-													debugger
 													if ($scope.solution.solutionTagList) {
 														for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
-															debugger
 															$scope.tags1
 																	.push({
 																		text : $scope.solution.solutionTagList[i].tag
 																	});
 														}
 													} else if ($scope.solution.solutionTag) {
-														debugger
 														$scope.tags1
 																.push({
 																	text : $scope.solution.solutionTag
@@ -567,6 +564,7 @@ angular
 											});
 						}
 
+						$scope.copiedCompanyDesc = false;
 						$scope.copyPublicToCompany = function() {
 							var solution = {
 								"description" : $scope.solutionPublicDesc,
@@ -583,6 +581,7 @@ angular
 											function(data, status, headers,
 													config) {
 												$scope.solutionCompanyDesc = data.description;
+												$scope.copiedCompanyDesc = true;
 											}).error(
 											function(data, status, headers,
 													config) {
@@ -635,6 +634,7 @@ angular
 									});
 						}
 
+						$scope.copiedPublicDesc = false;
 						$scope.copyCompanyToPublic = function() {
 							var solution = {
 								"description" : $scope.solutionCompanyDesc,
@@ -652,6 +652,7 @@ angular
 											function(data, status, headers,
 													config) {
 												$scope.solutionPublicDesc = data.description;
+												$scope.copiedPublicDesc = true;
 											}).error(
 											function(data, status, headers,
 													config) {
@@ -723,6 +724,32 @@ angular
 							        .theme('success-toast')
 							        .hideDelay(2000);
 							     $mdToast.show(toast);
+							     var refreshTag = $scope.tags1;
+							     $scope.tags1 = [];
+							     if ($scope.solution.solutionTagList) {
+										for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
+											$scope.tags1
+													.push({
+														text : $scope.solution.solutionTagList[i].tag
+													});
+										}
+									} else if ($scope.solution.solutionTag) {
+										$scope.tags1
+												.push({
+													text : $scope.solution.solutionTag
+												});
+
+									}
+							     for (var t = 0 ; t < refreshTag.length ; t++) {
+							    	 $scope.tags1
+										.push({
+											text : refreshTag[t].text
+										});
+							     }
+							     $scope.tags1
+									.push({
+										text : tag.text
+									});
 
 							}, function(error) {
 								console.log("Tag Error: ",error)
@@ -800,7 +827,6 @@ angular
 						};
 
 						$scope.publishtoMarket = function(pub_value) {
-							debugger
 							var userId = sessionStorage.getItem("SessionName");
 							$scope.currentModelAccess = pub_value;
 
@@ -841,7 +867,6 @@ angular
 													data)
 											.then(
 													function(response) {
-														debugger
 														$scope.handleSuccess = true;
 														$timeout(
 																function() {
@@ -1912,9 +1937,20 @@ angular
 							if($scope.solution.name)count++;
 							if($scope.solution.modelTypeName && $scope.solution.tookitTypeName)count++;
 						}
-						if($scope.supportingDocs.length > 0)count++;
-						if($scope.tags1.length > 0)count++;
-						if($scope.solImage)count++;
+						if($scope.supportingDocs.length > 0){
+							Orcount++;
+						}
+						if($scope.supportingPublicDocs.length > 0){
+							Pbcount++;
+							
+						}
+						if($scope.tags1.length > 0){
+							count++;
+						}
+						if($scope.solImage || $scope.imgURLdefault != 'images/default-model.png'){
+							count++;
+							console.log(">>>>>>> imgURLdefault: ",$scope.imgURLdefault)
+						}
 						/*if($scope.company){
 							debugger
 							angular.forEach($scope.company, function(value, key) {
@@ -1926,8 +1962,7 @@ angular
 						}*/
 						if($scope.company){
 							if($scope.company.skipStep == true){
-								debugger;
-								Orcount++
+								Orcount++;
 							}
 						}
 						
@@ -1943,15 +1978,13 @@ angular
 						}*/
 						if($scope.public){
 							if($scope.public.skipStep == true){
-								debugger;
-								Pbcount++
+								Pbcount++;
 							}
 						}
 						
 						
 						if($scope.solutionCompanyDesc)Orcount++;
 						if($scope.solutionPublicDesc)Pbcount++;
-						
 						$scope.statusCount = count + Orcount;
 						$scope.pbstatusCount = count + Pbcount;
 						if($scope.statusCount > 5){
@@ -1970,25 +2003,29 @@ angular
 					$scope.$watch('solution.modelTypeName', function() {chkCount();});
 					$scope.$watch('solution.tookitTypeName', function() {chkCount();});
 					$scope.$watch('supportingDocs', function() {chkCount();});
-					$scope.$watch('tags', function() {chkCount();});
-					$scope.$watch('solImage', function() {chkCount();});
+					$scope.$watch('supportingPublicDocs', function() {chkCount();});
+					$scope.$watch('tags1', function() {chkCount();});
+					//$scope.$watch('tags', function() {chkCount();});
+					$scope.$watch('solImage', function() {
+						chkCount();
+						});
+					$scope.$watch('imgURLdefault', function() {
+						chkCount();
+						});
 					
 					$scope.$watch('file', function() {chkCount();});
 					$scope.$watch('user', function() {chkCount();});
 					$scope.$watch('popupAddSubmit', function() {chkCount();});
 					
 					$scope.skipStep = function(){
-						debugger;
 						if($scope.company){
 							if($scope.company.skipStep == true){
-								debugger;
 								$scope.company.step4 = true
 								chkCount();
 							}
 						}
 						else if($scope.public){
 							if($scope.public.skipStep == true){
-								debugger;
 								$scope.public.step4 = true
 								chkCount();
 							}
