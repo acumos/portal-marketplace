@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.domain.MLPNotification;
 
 import io.swagger.annotations.ApiOperation;
@@ -87,14 +87,25 @@ public class PublishSolutionServiceController extends AbstractController {
 			boolean published = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
 			// code to create notification
 			MLSolution solutionDetail = catalogService.getSolution(solutionId);
-			String notification = null;
-			if (visibility.equals("PB"))
-				notification = solutionDetail.getName() + " published to public marketplace";
-			else if (visibility.equals("OR"))
-				notification = solutionDetail.getName() + " published to company marketplace";
-			else
-				notification = solutionDetail.getName() + " published to marketplace";
-			//generateNotification(notification,userId);
+			if (published || ValidationStatusCode.PS.toString().equalsIgnoreCase(solutionDetail.getValidationStatusCode())) {			
+				String notification = null;
+				if (visibility.equals("PB"))
+					notification = solutionDetail.getName() + " published to public marketplace";
+				else if (visibility.equals("OR"))
+					notification = solutionDetail.getName() + " published to company marketplace";
+				else
+					notification = solutionDetail.getName() + " published to marketplace";
+				generateNotification(notification, userId);
+			}else{
+				String notification = null;
+				if (visibility.equals("PB"))
+					notification = "Failed to publish " +solutionDetail.getName() + " to public marketplace";
+				else if (visibility.equals("OR"))
+					notification = "Failed to publish " +solutionDetail.getName() + " to company marketplace";
+				else
+					notification = "Failed to publish " +solutionDetail.getName() + " to marketplace";
+				generateNotification(notification, userId);
+			}
 		/*if(published){	 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions published Successfully");
