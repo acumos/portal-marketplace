@@ -1999,7 +1999,7 @@ angular
 					
 					$scope.$watch('solution.name', function() {chkCount();});
 					$scope.$watch('solutionCompanyDesc', function() {chkCount();});
-					$scope.$watch('solutionPublicDes', function() {chkCount();});
+					$scope.$watch('solutionPublicDesc', function() {chkCount();});
 					$scope.$watch('solution.modelTypeName', function() {chkCount();});
 					$scope.$watch('solution.tookitTypeName', function() {chkCount();});
 					$scope.$watch('supportingDocs', function() {chkCount();});
