@@ -426,7 +426,7 @@
 															
 														</div>
 														<div class="admin-switch-container">
-														<button class="mdl-button mdl-js-button btn-secondary btn-with-icon" ng-click='showPopupPeer();addEditPeer = "add"'><span class="admin-btn-add"></span> Add Peer</button>
+														<button class="mdl-button mdl-js-button btn-secondary btn-with-icon" ng-click='showPopupPeer();addEditPeer = "add";peerNamePop="";subNamePop="";emailIdPop="";apiUrlPop="";webUrlPop="";descriptionPop="";itsEdit = false;'><span class="admin-btn-add"></span> Add Peer</button>
 															<span class="admin-title3">| Accepts Federation Requests</span>
 															 <md-switch ng-model="data.cb1" aria-label="Switch 1" class="md-warn">
 																Accept
@@ -576,7 +576,7 @@
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr ng-repeat='val in peer  | filter: searchPeerDetails.name as filtered'>															
+																<tr ng-repeat='val in subscription  | filter: searchPeerDetails.name as filtered'>															
 																	<td><span>{{val.name}}</span></td>
 																	<td>
 																		<label>{{val.description}}</label>
@@ -612,7 +612,7 @@
 																</tr>
 															  </tbody>
 															</table>
-															<div class="alert c-info text-center" ng-if="filtered.length == 0">
+															<div class="alert c-info text-center"">
 									                   			<strong>No Result Found</strong> 
 								                   			</div>
 														</div>
@@ -910,7 +910,7 @@
 												</div>
 												<div>
 													<!-- <button ng-click='hidePeer = true' ng-hide='!data.peer || hidePeer' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Next</button> -->
-													<button ng-click='addPeer()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
+													<button ng-click='addPeer()' ng-disabled="peerForm.$invalid" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
 												</div>
 											</div>
 										</div>

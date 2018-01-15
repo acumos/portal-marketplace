@@ -109,6 +109,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/users/qAUrl").permitAll()
         .antMatchers("/users/docs").permitAll()
         .antMatchers("/users/userProfileImage/{userId}").permitAll()  
+        .antMatchers("/admin/peers/{peerId}").permitAll()  
         .antMatchers("/admin/version").permitAll() 
         .anyRequest().authenticated();
     	

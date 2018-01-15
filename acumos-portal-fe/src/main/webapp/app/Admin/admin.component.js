@@ -316,10 +316,11 @@ angular.module('admin')
                       //Add peer
                       $scope.addEditPeer = '';
                       $scope.addPeer = function(){
+                    	  if($scope.itsEdit == true){updatePeer();return}
                     	 var peerDetails = {"request_body": {				
 				                    				  	"apiUrl": $scope.apiUrlPop,
 				                    				    "contact1": $scope.emailIdPop,
-				                    				    "contact2":'check',
+				                    				    "contact2":$scope.emailIdPop,
 				                    				    "description": $scope.descriptionPop,
 				                    				    "name": $scope.peerNamePop,
 				                    				    "subjectName": $scope.subNamePop,
@@ -349,32 +350,35 @@ angular.module('admin')
                       
                     }
                       //Edit PEER
-                      
+                      $scope.itsEdit = false;
                       $scope.editPeer = function(peerDetail){
+                    	  $scope.itsEdit = true;
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
                     	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.webUrl;$scope.descriptionPop = peerDetail.description;
                     	  $scope.showPopupPeer();
                       }
                       function updatePeer(){
-                    	  var peerDetails = {"request_body": {	                    		  
-            				  	"apiUrl": peerDetail.apiUrl,
-            				    "contact1": peerDetail.contact1,
-            				    "contact2":'check',
-            				    "description": peerDetail.description,
-            				    "name": peerDetail.name,
-            				    "subjectName": peerDetail.subjectName,
-            				    "webUrl": peerDetail.webUrl
-            				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
-            		}};
+                    	  var peerDetails = {"request_body": {				
+          				  	"apiUrl": $scope.apiUrlPop,
+        				    "contact1": $scope.emailIdPop,
+        				    "contact2":$scope.emailIdPop,
+        				    "description": $scope.descriptionPop,
+        				    "name": $scope.peerNamePop,
+        				    "subjectName": $scope.subNamePop,
+        				    "webUrl": $scope.webUrlPop,
+        				    "peerId" : $scope.editPeerID
+        				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
+        		}};
                       	  apiService.editPeer($scope.editPeerID,peerDetails).then(
                       	    		function(response){
+                      	    			getAllPeer();
                       	    			$scope.category;fetchCat();
                       	    			$scope.data = '';$scope.hidePeer = false;$scope.queryParam='';
                             	    	$scope.closePoup();
                             	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                         $anchorScroll(); 
-                                        $scope.msg = "Peer Created successfully."; 
+                                        $scope.msg = "Peer Updated successfully."; 
                                         $scope.icon = 'report_problem';
                                         $scope.styleclass = 'c-success';
                                         $scope.showAlertMessage = true;
