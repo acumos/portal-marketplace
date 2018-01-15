@@ -93,7 +93,8 @@ public class PortalUtils {
     }
 	
 	public static MLSolution convertToMLSolution(MLPSolution mlpSolution) {
-		MLSolution mlSolution = new MLSolution();
+		
+		MLSolution mlSolution = new MLSolution();	
 		mlSolution.setSolutionId(mlpSolution.getSolutionId());
 		mlSolution.setName(mlpSolution.getName());
 		mlSolution.setOwnerId(mlpSolution.getOwnerId());
@@ -110,6 +111,7 @@ public class PortalUtils {
 		}*/
 		mlSolution.setTookitType(mlpSolution.getToolkitTypeCode());
 		mlSolution.setModelType(mlpSolution.getModelTypeCode());
+		mlSolution.setValidationStatusCode(mlpSolution.getValidationStatusCode());
 		return mlSolution;
 	}
 	

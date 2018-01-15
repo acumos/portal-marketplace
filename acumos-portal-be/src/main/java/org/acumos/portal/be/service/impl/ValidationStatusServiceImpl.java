@@ -216,7 +216,7 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 				mlpSolution.setValidationStatusCode(ValidationStatusCode.PS.name());		
 				client.updateSolution(mlpSolution);
 				log.debug(EELFLoggerDelegate.debugLogger, "determinStatusAndPublishModel =Model Published successfully: {}", mlpSolution.toString());
-				try {
+				/*try {
 					MLPSolution solutionDetail = client.getSolution(mlModelValidationStatus.getSolutionId());
 					String notification = null;
 					if (visibility.equals("PB"))
@@ -229,7 +229,7 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 				} catch (Exception e) {
 					log.debug(EELFLoggerDelegate.debugLogger, "determinStatusAndPublishModel = Exception occurred while generating User Notification for validation status of solutionId : {} and revisionId {}",
 							mlModelValidationStatus.getSolutionId(), mlModelValidationStatus.getRevisionId() );
-				}
+				}*/
 				
 			}
 		}

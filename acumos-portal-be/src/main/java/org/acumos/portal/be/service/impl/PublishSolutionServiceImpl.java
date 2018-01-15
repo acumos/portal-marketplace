@@ -107,6 +107,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 									log.info(EELFLoggerDelegate.debugLogger, "Validation API Response: ", validationResponse);
 								}
 							}
+							
 						} else {
 							updateSolution(mlpSolution2, accessType);
 							isPublished = true;
