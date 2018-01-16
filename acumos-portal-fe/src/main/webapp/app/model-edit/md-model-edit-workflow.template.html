@@ -1440,32 +1440,45 @@
 														                     </div>
 														                  </div>
 														                  <div class="mdl-cell mdl-cell--9-col">
-														                     <div
-														                        class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
-														                        data-drop="true"
-														                        jqyoui-droppable="{onDrop:'dropCallback'}"
-														                        data-jqyoui-options="{revert: {{!icon}}}">
-														                        <input class="mdl-textfield__input"
-														                           placeholder="Upload Image" type="file"
-														                           fileinput="file" filepreview="previewImage"
-														                           data-drop="true" id="solImage"
-														                           jqyoui-droppable="{onDrop:'dropCallback'}"
-														                           data-jqyoui-options="{revert: {{!icon}}}"
-														                           upload-image-model="solImage" readonly
-														                           ng-show="!icon" /> <input
-														                           class="mdl-textfield__input"
-														                           placeholder="Upload Image" type="text"
-														                           ng-model="solImage.name" ng-show="icon" readonly />
-														                        <div
-														                           class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
-														                           ng-click="icon = false">
-														                           <i class="material-icons">attach_file</i><input
-														                              type="file" id="uploadBtn">
-														                        </div>
-														                     </div>
-														                     <div>
-														                        <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
-														                     </div>
+														                  <div class="upload-image-input">
+														                     <div file-upload
+														                  		file = previewImage uploadid = "companyuploadid"
+                                                                                id="solImage" filename = "filename"
+                                                                                fileinput="file" filepreview="previewImage"
+                                                                                ng-model="solImage" icon = "icon"
+                                                                                upload-image-model="solImage" readonly
+                                                                                 ></div><input
+                                                                                   class="mdl-textfield__input"
+                                                                                   placeholder="Upload Image" type="text"
+                                                                                   ng-model="filename"  readonly />
+                                                                                   </div>
+                                                                             <!-- <div
+                                                                                class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
+                                                                                data-drop="true" 
+                                                                                jqyoui-droppable="{onDrop:'dropCallback'}"
+                                                                                data-jqyoui-options="{revert: {{!icon}}}">
+                                                                                <input class="mdl-textfield__input upload-image-input"
+                                                                                   placeholder="Upload Image" type="file"
+                                                                                   accept="image/*"
+                                                                                   fileinput="file" filepreview="previewImage"
+                                                                                   data-drop="true" id="solImage"
+                                                                                   jqyoui-droppable="{onDrop:'dropCallback'}"
+                                                                                   data-jqyoui-options="{revert: {{!icon}}}"
+                                                                                   upload-image-model="solImage" readonly
+                                                                                   ng-show="!icon" /> <input
+                                                                                   class="mdl-textfield__input"
+                                                                                   placeholder="Upload Image" type="text"
+                                                                                   ng-model="solImage.name" ng-show="icon" readonly />
+                                                                                <div
+                                                                                   class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
+                                                                                   ng-click="icon = false">
+                                                                                   <i class="material-icons">attach_file</i><input
+                                                                                      type="file" id="uploadBtn">
+                                                                                </div>
+                                                                             </div> -->
+                                                                             <div>
+                                                                                <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
+                                                                             </div>
 														                  </div>
 														               </div>
 														               <p>Set Default from below icons provided by
@@ -1476,10 +1489,12 @@
 														                     ng-repeat="iconSrc in iconImages">
 														                     <div class="iconcontainer">
 														                        <img ng-src="images/solutions/{{iconSrc}}.png"
-														                           ng-model="iconImage" data-drag="true"
+														                           ng-model="iconImage" ng-click = "selectIcon(iconSrc)"
+														                           alt="" title="" />
+														                           <!-- data-drag="true" 
 														                           data-jqyoui-options="{revert: {{!icon}}}"
 														                           jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
-														                           alt="" title="" />
+														                            -->
 														                     </div>
 														                     <div>{{iconSrc}}</div>
 														                     <div class="clearfix"></div>
@@ -1496,7 +1511,7 @@
 														            </md-button>
 														            <md-button
 														               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-														               ng-click="updateSolImage(); showImageUpload = !showImageUpload">
+														               ng-click="updateSolImage('companyuploadid'); showImageUpload = !showImageUpload">
 														               Done 
 														            </md-button>
 														         </div>
@@ -3085,27 +3100,45 @@
 					  </div>
 				   </div>
 				   <div class="mdl-cell mdl-cell--9-col">
-					  <div
-						 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth">
-						 <input class="mdl-textfield__input"
-							placeholder="Upload Image" type="file"
-							fileinput="file" filepreview="previewImage"
-							data-drop="true" id="solImage"
-							jqyoui-droppable="{onDrop:'dropCallback'}"
-							upload-image-model="solImage" readonly
-							ng-show="!icon" /> <input
-							class="mdl-textfield__input"
-							placeholder="Upload Image" type="text"
-							ng-model="solImage.name" ng-show="icon" readonly />
-						 <div
-							class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
-							<i class="material-icons">attach_file</i><input
-							   type="file" id="uploadBtn">
-						 </div>
-					  </div>
-					  <div>
-						 <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
-					  </div>
+				   <div class="upload-image-input">
+					  <div file-upload
+														                  		file = previewImage uploadid = "publicuploadid"
+                                                                                id="solImage" filename = "filename"
+                                                                                fileinput="file" filepreview="previewImage"
+                                                                                ng-model="solImage" icon = "icon"
+                                                                                upload-image-model="solImage" readonly
+                                                                                 ></div><input
+                                                                                   class="mdl-textfield__input"
+                                                                                   placeholder="Upload Image" type="text"
+                                                                                   ng-model="filename"  readonly />
+                                                                                   </div>
+                                                                             <!-- <div
+                                                                                class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
+                                                                                data-drop="true" 
+                                                                                jqyoui-droppable="{onDrop:'dropCallback'}"
+                                                                                data-jqyoui-options="{revert: {{!icon}}}">
+                                                                                <input class="mdl-textfield__input upload-image-input"
+                                                                                   placeholder="Upload Image" type="file"
+                                                                                   accept="image/*"
+                                                                                   fileinput="file" filepreview="previewImage"
+                                                                                   data-drop="true" id="solImage"
+                                                                                   jqyoui-droppable="{onDrop:'dropCallback'}"
+                                                                                   data-jqyoui-options="{revert: {{!icon}}}"
+                                                                                   upload-image-model="solImage" readonly
+                                                                                   ng-show="!icon" /> <input
+                                                                                   class="mdl-textfield__input"
+                                                                                   placeholder="Upload Image" type="text"
+                                                                                   ng-model="solImage.name" ng-show="icon" readonly />
+                                                                                <div
+                                                                                   class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file"
+                                                                                   ng-click="icon = false">
+                                                                                   <i class="material-icons">attach_file</i><input
+                                                                                      type="file" id="uploadBtn">
+                                                                                </div>
+                                                                             </div> -->
+                                                                             <div>
+                                                                                <p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
+                                                                             </div>
 				   </div>
 				</div>
 				<p>Set Default from below icons provided by
@@ -3116,12 +3149,12 @@
 					  ng-repeat="iconSrc in iconImages">
 					  <div class="iconcontainer">
 						 <img ng-src="images/solutions/{{iconSrc}}.png"
-							ng-model="iconImage"
-							ng-class="{'initialPosition' : icon}"
-							data-drag="true"
-							data-jqyoui-options="{revert: 'invalid'}"
-							jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
-							alt="" title="" />
+														                           ng-model="iconImage" ng-click = "selectIcon(iconSrc)"
+														                           alt="" title="" />
+														                           <!-- data-drag="true" 
+														                           data-jqyoui-options="{revert: {{!icon}}}"
+														                           jqyoui-draggable="{onStart:'startCallback(iconImage, $index)'}"
+														                            -->
 					  </div>
 					  <div>{{iconSrc}}</div>
 					  <div class="clearfix"></div>
@@ -3138,7 +3171,7 @@
 			 </md-button>
 			 <md-button
 				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-				ng-click="updateSolImage(); showImageUpload = !showImageUpload">
+				ng-click="updateSolImage('publicuploadid'); showImageUpload = !showImageUpload">
 				Done 
 			 </md-button>
 		  </div>

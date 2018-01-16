@@ -308,25 +308,46 @@ app.directive("dynamicName",function($compile){
             $compile(element)(scope);
         }
     }});
+
 angular
 .module('AcumosApp')
-.directive("fileinput", [function() {
-    return {
-      scope: {
-        fileinput: "=",
-        filepreview: "="
-      },
-      link: function(scope, element, attributes) {
-        element.bind("change", function(changeEvent) {
-          scope.fileinput = changeEvent.target.files[0];
-          var reader = new FileReader();
-          reader.onload = function(loadEvent) {
-            scope.$apply(function() {
-              scope.filepreview = loadEvent.target.result;
+.directive("fileUpload", [function() {
+	return {
+        templateUrl:'./app/file-upload/file-upload-template.html',
+        scope: {
+            file: "=",
+            filepreview: "=",
+            filename: "=",
+            icon: "=",
+            uploadid: "@"
+          },
+        link: function (scope, element) {
+
+            //scope.fileName = 'Browse';
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                	//scope.fileinput = changeEvent.target.files[0];
+                    
+                    scope.fileinput = document.getElementById(scope.uploadid).files[0];
+                    var reader = new FileReader();
+                    reader.onload = function(loadEvent) {
+                      scope.$apply(function() {
+                        scope.filepreview = loadEvent.target.result;
+                        scope.filename = scope.fileinput.name;
+                        scope.icon = true;
+                      });
+                    }
+                    reader.readAsDataURL(scope.fileinput);
+                });
             });
-          }
-          reader.readAsDataURL(scope.fileinput);
-        });
-      }
-    }
+
+            scope.uploadFile = function(){
+                var formData = new FormData();
+
+                formData.append('file', document.getElementById('uploadFileInput').files[0]);
+
+                // Add code to submit the formData  
+            };
+        }}
   }]);

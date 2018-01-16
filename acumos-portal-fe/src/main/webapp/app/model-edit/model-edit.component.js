@@ -53,7 +53,7 @@ angular
 						$scope.iconImages = ["CLI","curl", "dotnet","javascript", "java", "go",
 											"scala","ruby", "rust", 'REST API',"nodejs", "swift", 
 											"python", "R"];
-						$scope.previewImage = "images/Edit_model_default_icon.jpg";
+						$scope.previewImage = "images/img-list-item.png";
 
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
@@ -1286,8 +1286,10 @@ angular
 						});
 
 						/** ***** image upload****** */
-						$scope.updateSolImage = function() {
-							
+						$scope.updateSolImage = function(uploadid) {
+							if($scope.icon){
+								$scope.solImage = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
+							}
 							var file = $scope.solImage;
 							var fileName = file.name;
 							var validFormats = ['jpg','jpeg','png','gif'];
@@ -1296,7 +1298,7 @@ angular
 							var ext = fileName.split('.').pop();
 				            var size = file.size;
 				           
-				            if(validFormats.indexOf(ext) == -1){
+				            if(validFormats.indexOf(ext) == -1 && $scope.icon == true){
 				            	$scope.error = true;
 				                // return value;
 				            }else{
@@ -1893,7 +1895,7 @@ angular
 					$scope.viewModel = function(){
 						$state.go('manageModule');
 					}
-						
+					
 					//Drag Drop for image icon
 					
 					$scope.dropCallback = function(event, ui) {
@@ -1911,7 +1913,9 @@ angular
 					$scope.startCallback = function(event, iconImage) {
 						    console.log('You started draggin: ' + event.currentTarget.src);
 						    $scope.draggedTitle = event.currentTarget.src;
+						    $scope.previewImage = $scope.draggedTitle;
 						    $scope.icon = false;
+						    $scope.solImage = "";
 						    srcToFile($scope.draggedTitle, $scope.draggedTitle.split('/').pop(), 'image/png')
 							.then(function(file){
 							    var fd = new FormData();
@@ -1920,14 +1924,28 @@ angular
 							});
 					};  
 					
-					//load src and convert to a File instance object
-					function srcToFile(src, fileName, mimeType){
-					    return (fetch(src)
-					        .then(function(res){return res.arrayBuffer();})
-					        .then(function(buf){return new File([buf], fileName, {type:mimeType});})
-					    );
-					}
-					
+					$scope.selectIcon = function(iconImage) {
+						$scope.previewImage = 'images/solutions/'+ iconImage +'.png';
+						
+					    $scope.icon = false;
+					    $scope.solImage = "";
+					    srcToFile($scope.previewImage, iconImage, 'image/png')
+						.then(function(file){
+						    var fd = new FormData();
+						    fd.append('file1', file);
+						    $scope.solImage = file;
+						    $scope.filename = $scope.solImage.name +".png";
+						});
+				};  
+				
+				//load src and convert to a File instance object
+				function srcToFile(src, fileName, mimeType){
+				    return (fetch(src)
+				        .then(function(res){return res.arrayBuffer();})
+				        .then(function(buf){return new File([buf], fileName, {type:mimeType});})
+				    );
+				}
+				
 
 					//check the count of success
 					$scope.statusCount = 0;
