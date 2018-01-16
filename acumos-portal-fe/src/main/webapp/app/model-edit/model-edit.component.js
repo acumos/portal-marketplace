@@ -1856,16 +1856,25 @@ angular
 											if(item.validationStatus == "PS"){
 												angular.element('.progress .progress-bar').css({ "width" : '28%'});
 											}
+										}else if (item.validationType == "LC"){				//License Check
+											$scope.lcValidationStatus = item;
+											if(item.validationStatus == "PS"){
+												if($scope.taValidationStatus){
+													if($scope.taValidationStatus.validationType == "TA" && $scope.taValidationStatus.validationStatus == "PS"){
+														angular.element('.progress .progress-bar').css({ "width" : '100%'});	
+													}else{
+														angular.element('.progress .progress-bar').css({ "width" : '50%'});
+													}	
+												}else{
+													angular.element('.progress .progress-bar').css({ "width" : '50%'});
+												}
+												
+											}
 										}else if(item.validationType == "TA"){				//Text Analysis/Check
 											$scope.taValidationStatus = item;
 											$scope.checkTA = $scope.taValidationStatus.validationStatus;
 											if(item.validationStatus == "PS"){
-												angular.element('.progress .progress-bar').css({ "width" : '70%'});
-											}
-										}else if (item.validationType == "LC"){				//License Check
-											$scope.lcValidationStatus = item;
-											if(item.validationStatus == "PS"){
-												angular.element('.progress .progress-bar').css({ "width" : '50%'});
+												angular.element('.progress .progress-bar').css({ "width" : '100%'});
 											}
 										}else if (item.validationType == "OQ"){				//Verify Model
 											$scope.oqValidationStatus = item;
