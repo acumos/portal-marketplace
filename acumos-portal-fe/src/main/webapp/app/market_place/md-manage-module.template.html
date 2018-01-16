@@ -1,6 +1,6 @@
 <!-- <div class="alert alert-warning" ng-if="noDataFound">
   <strong>No data found</strong>
-</div> --> 
+</div> -->
 
 <div class="page-content">
 	<section class="pageheadsection">
@@ -8,7 +8,7 @@
 			<div
 				class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
 				<span class="headline mob-disblock"> <!-- Manage  -->My
-					Models 
+					Models
 				</span>
 				<ul class="c-breadcrumb">
 					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
@@ -58,6 +58,7 @@
 						<md-checkbox aria-label="Checkbox 1" class="text-medium"
 							ng-true-value="'yup'" ng-false-value="'nope'" value="{{cat}}"
 							ng-click="filterChange(cat.typeCode,'caegory')">{{cat.typeName}}
+
 
 						
 					</div>
@@ -111,7 +112,7 @@
 					<div
 						class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--3-col-phone text-right">
 						<div class="grid-control-btn-container">
-							<div class="marketplace-btn-container">
+							<!-- <div class="marketplace-btn-container">
 								<button id="demo-menu-lower-right2"
 									class="mdl-button mdl-js-button btn-sort bdr">
 									<span class="hide-xs"><span class="txtspan1">Sort
@@ -126,8 +127,15 @@
 										ng-click="filterChange(action,'sortBy')">{{action.name}}</li>
 								</ul>
 
+							</div> -->
+
+							<div class="select-control">
+								<md-select ng-model="action.name" placeholder="Sort By - All">  <!-- md-on-open="loadUsers()" -->
+								<md-option  ng-repeat="action in actions" ng-click="filterChange(action,'sortBy')">{{action.name}}</md-option>
+								</md-select>
 							</div>
-							<div class="marketplace-btn-container">
+
+						<!-- 	<div class="marketplace-btn-container">
 								<button id="demo-menu-lower-right3"
 									class="mdl-button mdl-js-button btn-sort bdr">
 									<span class="hide-xs"><span class="txtspan1">Sort
@@ -140,7 +148,15 @@
 									<li class="mdl-menu__item" ng-repeat="filterid in filterids"
 										ng-click="filterChange(filterid ,'sortById')">{{filterid}}</li>
 								</ul>
+							</div> -->
+							
+							<div class="select-control">
+								<md-select ng-model="filterid" placeholder="Sort By - ID">  <!-- md-on-open="loadUsers()" -->
+								<md-option  ng-repeat="filterid in filterids" ng-click="filterChange(filterid ,'sortById')">{{filterid}}</md-option>
+								</md-select>
 							</div>
+							
+							
 							<div class="grid-view-btn-container">
 								<button ng-disabled="Viewtile"
 									ng-class="{'gridlistview-btnactive':Viewtile}"
@@ -220,7 +236,7 @@
 											<!-- Shared icon. Commented now, Uncomment and work -->
 											<!-- .md-share-with-me and .md-share-with-others classes for icons-->
 											<!-- <span class="md-share-with-others"></span> -->
-										</div>  
+										</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
 												{{privateSolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -341,12 +357,12 @@
 											</div> -->
 									</div>
 									<div class="mpdetailscontainer">
-										<div class="tilecontainer1"> 
-										<label class="griditem-title">{{companySolution.name}}
-											<span class="text-xsmall link-orange">In Process</span>
-										</label> 
-										<!-- Shared Icon commented for now. Uncomment and work -->
-										<!-- <span class="md-share-with-me"></span> -->
+										<div class="tilecontainer1">
+											<label class="griditem-title">{{companySolution.name}}
+												<span class="text-xsmall link-orange">In Process</span>
+											</label>
+											<!-- Shared Icon commented for now. Uncomment and work -->
+											<!-- <span class="md-share-with-me"></span> -->
 										</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by

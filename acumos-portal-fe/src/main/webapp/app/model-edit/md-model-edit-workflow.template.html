@@ -579,7 +579,7 @@
 										</li>
 										<li>
 											<div class="imageplace"
-												ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}">
+												ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS' , 'incomplet': ssValidationStatus.validationStatus == 'FA' && ssValidationStatus.validationType == 'SS'}">
 												<span class="imagecontent security-scan"> <!-- <img
 													src="images/security-scan.png" alt="" title=""> -->
 												</span>
@@ -590,7 +590,7 @@
 											ng-class="{'completed': ssValidationStatus.validationStatus == 'PS'&& ssValidationStatus.validationType == 'SS'}"></li>
 										<li>
 											<div class="imageplace"
-												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}">
+												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' , 'incomplet': lcValidationStatus.validationStatus == 'FA' && lcValidationStatus.validationType == 'LC'}">
 												<span class="imagecontent license-check"> <!-- <img
 													src="images/license-check.png" alt="" title=""> -->
 												</span>
@@ -610,7 +610,7 @@
 										<li class="progress-status"  ng-class="{'green': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}"></li> -->
 										<li>
 											<div class="imageplace"
-												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
+												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA' , 'incomplet': taValidationStatus.validationStatus == 'FA' && taValidationStatus.validationType == 'TA'}">
 												<span class="imagecontent text-check"> <!-- <img
 													src="images/text-check.png" alt="" title=""> -->
 												</span>
@@ -839,6 +839,7 @@
 																>Completed on {{currentDate
 																| date:'MM/dd/yyyy'}}</span> -->
 														</h2>
+														<!-- <h1>{{solutionCompanyDesc}} ---- {{solutionCompanyDesc.length}}</h1> -->
 														<div
 															ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
 															|| solutionCompanyDesc==null">
@@ -2346,7 +2347,7 @@
 										</li>
 										<li>
 											<div class="imageplace"
-												ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}">
+												ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS' , 'incomplet': ssValidationStatus.validationStatus == 'FA' && ssValidationStatus.validationType == 'SS'}">
 												<span class="imagecontent security-scan"> <!-- <img
 													src="images/security-scan.png" alt="" title=""> -->
 												</span>
@@ -2357,7 +2358,7 @@
 											ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}"></li>
 										<li>
 											<div class="imageplace "
-												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}">
+												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' , 'incomplet': lcValidationStatus.validationStatus == 'FA' && lcValidationStatus.validationType == 'LC'}">
 												<span class="imagecontent license-check"> <!-- <img
 													src="images/license-check.png" alt="" title=""> -->
 												</span>
@@ -2377,7 +2378,7 @@
 										<li class="progress-status" ng-class="{'green': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}"></li> -->
 										<li>
 											<div class="imageplace"
-												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}">
+												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA' , 'incomplet': taValidationStatus.validationStatus == 'FA' && taValidationStatus.validationType == 'TA'}">
 												<span class="imagecontent text-check"> <!-- <img
 													src="images/text-check.png" alt="" title=""> -->
 												</span>

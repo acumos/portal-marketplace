@@ -1835,11 +1835,11 @@ angular
 							})
 						};
 						
-						$scope.ssProgress = false;
+						/*$scope.ssProgress = false;
 						$scope.taProgress = false;
 						$scope.lcProgress = false;
 						$scope.oqProgress = false;
-						$scope.spProgress = false;
+						$scope.spProgress = false;*/
 						
 					/******Model Validataion status*****/
 					$scope.getModelValidation = function(){
@@ -1853,20 +1853,27 @@ angular
 											item) {
 										if(item.validationType == "SS"){					//Security Scan
 											$scope.ssValidationStatus = item;
-											$scope.ssProgress = true;
+											if(item.validationStatus == "PS"){
+												angular.element('.progress .progress-bar').css({ "width" : '28%'});
+											}
 										}else if(item.validationType == "TA"){				//Text Analysis/Check
 											$scope.taValidationStatus = item;
 											$scope.checkTA = $scope.taValidationStatus.validationStatus;
-											$scope.taProgress = true;
+											if(item.validationStatus == "PS"){
+												angular.element('.progress .progress-bar').css({ "width" : '70%'});
+											}
 										}else if (item.validationType == "LC"){				//License Check
 											$scope.lcValidationStatus = item;
-											$scope.lcProgress = true;
+											if(item.validationStatus == "PS"){
+												angular.element('.progress .progress-bar').css({ "width" : '50%'});
+											}
 										}else if (item.validationType == "OQ"){				//Verify Model
 											$scope.oqValidationStatus = item;
-											$scope.oqProgress = true;
 										}else if (item.validationType == "SP"){				// Submit to Publication
 											$scope.spValidationStatus = item;
-											$scope.spProgress = true;
+											if(item.validationStatus == "PS"){
+												angular.element('.progress .progress-bar').css({ "width" : '100%'});
+											}
 										}
 										 
 									});
@@ -1876,6 +1883,7 @@ angular
 								//if validation is fetched TA as passed (the last step) stop calling again and again
 								if($scope.checkTA == "PS"){
 									console.log("calling ends");
+									return
 								}else{
 									$timeout(function() {
 										$scope.getModelValidation()
