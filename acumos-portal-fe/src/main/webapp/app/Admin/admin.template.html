@@ -480,9 +480,9 @@
 															  <thead  ng-hide="hideLabel">
 																<tr>														  
 																  <th>Name</th>
-																  <th>Category</th>
 																  <th>API and Web URL</th>
 																  <th>Contact</th>
+																  <th>Subscriptions</th>
 																  <th>Status</th>
 																  <th>Action</th>
 																</tr>
@@ -490,29 +490,31 @@
 															  <tbody>
 																<tr ng-repeat='val in peer  | filter: searchPeerDetails.name as filtered'>															
 																	<td><span>{{val.name}}</span></td>
-																	<td>
+																	<!-- <td>
 																		<label>{{val.description}}</label>
-																		<!-- <label>Regression</label> -->
-																	</td>
+																		<label>Regression</label>
+																	</td> -->
 																	<td>
 																		<a class="disblock" data-target>{{val.apiUrl}}</a>
 																		<a class="disblock" data-target>{{val.webUrl}}</a>
 																	</td>
 																	<td>
 																		<label class="disblock">{{val.contact1}}</label>
-																		<label class="disblock">{{val.contact2}}</label>																	
+																		<!-- <label class="disblock">{{val.contact2}}</label> -->																	
 																	</td>
-																	<td ng-if='val.active'>
+																	<td><a class="fed-view-link" data-target ng-click="subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add Subscriptions</a></td>
+																	<!-- <td ng-if='val.active'>
 																		<label class="">Active</label>
 																		<label class="">since 08/04/2017</label>
-																	</td>
-																	<td ng-if='!val.active'>
-																		<label class="">Inactive</label>
+																	</td> -->
+																	<td >
+																		<label ng-if='val.active == true' class="">Active</label>
+																		<label ng-if='val.active == false' class="">Inactive</label>
 																		<!-- <label class="">since 08/04/2017</label> -->
 																	</td>
 																	<td>
 																		<div class="admin-action-container">
-																			<button class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-activate"></span></button>
+																			<button ng-click="updatePeer(val)" class="mdl-button mdl-js-button mdl-button--icon"><span ng-class="val.active==true?'gridicon-deactivate':'gridicon-activate'" class="gridicon-activate"></span></button>
 																			<button ng-click='editPeer(val)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-edit"></span></button>
 																			<button ng-click='confirmDelete(val.peerId)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button>
 																		</div>
@@ -953,6 +955,166 @@
                             </div>
 <!-- Saving old version popup confirmation Modal box end -->
 <!-- Confirmation Popup End -->
+
+
+<!-- Modal box View/Add Subscriptions start -->
+							<div class="md-dialog-container" id="subscriptionPopUp" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="fedration-subscription">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>View/Add Subscriptions</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click='closePoup()'>
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+									  		<div class="subscontainer">
+									  			<div class="subscontainerinner1">
+									  				<span class="font600 fedlbl2">Subscription List</span>
+									  				<button class="mdl-button mdl-js-button btn-secondary btn-with-icon" ng-click="subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button>
+									  			</div> 
+									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
+									  				<span class="font600 fedlbl2">Filter</span>
+									  				<div class="mdl-textfield mdl-js-textfield admin-search-container">
+														<input class="mdl-textfield__input admin-search-control" type="text" >																
+													</div>
+									  			
+									  			</div>
+									  		</div>											
+											<div class="fedouter-container">
+												<div class="fedcontainer1" ng-hide="subscripDetails1">
+													<div class="fedgridcontainer">
+														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
+															<colgroup>
+																<col>															
+																<col>
+																<col>															
+																<col>
+																<col style="width:6%;">
+															</colgroup>
+														  <thead>
+															<tr>														  
+															  <th>SUBSCRIPTIONS</th>
+															  <th>MODEL NAME</th>	
+															  <th>CATEGORY</th>
+															  <th>TOOLKIT TYPE</th>
+															  <th>&nbsp;</th>															  													  
+															</tr>
+														  </thead>
+														  <tbody>
+															<tr ng-repeat = "val in arrDetails">
+																<td><label>{{val.subId}}</label></td>
+																<td><label>Name of Solution</label></td>
+																<td><label>{{val.modelType}}</label></td>
+																<td><label>{{val.toolKitType}}</label></td>
+																<td class="text-center"><button class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button></td>
+															</tr>
+															
+																												
+														  </tbody>
+														</table>
+													</div>
+												</div>
+												<div class="fedcontainer2" ng-show="subscripDetails1">
+													<div class="filter-container">
+														<div class="fed-search-container">
+															<label class="fedlbl1 fedlbl4">Model ID</label>
+															<div class="mdl-textfield mdl-js-textfield admin-search-container">
+																<input class="mdl-textfield__input admin-search-control" ng-change="modelEdit()" ng-disabled="toolKitTypeValue||categoryValue" type="text" placeholder="Filter" ng-model = "modelIDValue">																
+															</div>
+														</div>
+														<div>														
+															<span class="fedlbl5">OR</span>
+														</div>
+														<div>															
+															<md-input-container class="admin-select">
+														 		<label class="fedlbl4">Select Category</label>												          
+													          <md-select ng-model="categoryValue" ng-disabled="modelIDValue">
+													            <!-- <md-option><em>Select Category</em></md-option> -->
+													            <md-option ng-repeat="cat in category" ng-value="cat.typeCode"><em>{{cat.typeName}}</em></md-option>
+													            <!-- <md-option ng-repeat="state in ctrl.states" ng-value="state.abbrev" ng-disabled="$index === 1">
+													              {{state.abbrev}}
+													            </md-option> -->
+													          </md-select>
+													      </md-input-container>
+														</div>
+														<div>															
+															<md-input-container class="admin-select">
+													   			<label class="fedlbl4">Select toolkit type</label>													          
+														          <md-select ng-model="toolKitTypeValue" ng-disabled="modelIDValue">
+														            <!-- <md-option><em>Select toolkit type</em></md-option> -->
+														            <md-option ng-repeat="tool in toolKitType" ng-value="tool.toolkitCode">
+														              {{tool.toolkitName}}
+														            </md-option>
+														          </md-select>
+													      </md-input-container>
+														</div>													
+													</div>
+													
+													<div class="fedgridcontainer" ng-show="solutionDetail">
+														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
+															<colgroup>
+																<col>
+																<col>
+																<col>															
+																<col style="width:20%;">																
+															</colgroup>														 
+														  <tbody>
+															<tr>
+																<td><img class="admin-img1" src="{{imgURLdefault}}" /></td>
+																<td>
+																	<label>{{solutionDetail.name}}</label>
+																	<div><span class="text-small">by  {{solutionDetail.ownerName}} </span><span class="text-small">on {{solutionDetail.created}}</span></div>
+																	<label>Model belongs to: AT&T</label>
+																</td>
+																<td><button ng-click="addToSubs()" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td></td>
+															</tr>														
+																												
+														  </tbody>
+														</table>
+													</div>
+													<div class="fedgridcontainer" ng-show="toolKitTypeValue||categoryValue">
+														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
+															<colgroup>
+																<col>
+																<col>
+																<col>															
+																<col style="width:40%;">																
+															</colgroup>														 
+														  <tbody>
+															<tr>
+																<td>{{categoryValue}}</td>
+																<td>
+																	{{toolKitTypeValue}}
+																</td>
+																<td><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td></td>
+															</tr>														
+																												
+														  </tbody>
+														</table>
+													</div>
+												</div>											
+											
+											</div>
+											<div class="dialog-btn-container">
+												<div>													
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
+												</div>
+												<div>													
+													<button ng-click='addPeer111111()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
+												</div>
+											</div>
+										</md-dialog-content>
+								  </form>
+								</md-dialog>
+							</div>
+						<!-- Modal box View/Add Subscriptions End -->
 
 
 
@@ -1931,3 +2093,5 @@ popup confirmation Modal box start
                             </div>
 Saving old version popup confirmation Modal box end
 Confirmation Popup End -->
+
+
