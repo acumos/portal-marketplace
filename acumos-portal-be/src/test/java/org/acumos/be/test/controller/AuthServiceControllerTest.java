@@ -20,7 +20,9 @@
 
 package org.acumos.be.test.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +43,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.springframework.core.env.Environment;
@@ -101,10 +104,12 @@ public class AuthServiceControllerTest {
 		user1.setEmailId("user1@emial.com");
 		user1.setActive("Y");
 		user1.setPassword("password");
+		user1.setJwtToken("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 		String username = user1.getUsername();
 		String password = user1.getPassword();
 		
 		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user1);
+		mlpUser.setAuthToken("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 		Assert.assertNotNull(mlpUser);
 		
 		JsonRequest<User> user = new JsonRequest<>();
@@ -116,12 +121,16 @@ public class AuthServiceControllerTest {
 		mlpRole.setCreated(created);
 		mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 		Assert.assertNotNull(mlpRole);
-		
-		userService.login(username, password);
-		userService.getUserRole(mlpUser.getUserId());
-		jwtTokenUtil.generateToken(mlpUser, null);
-		AbstractResponseObject abstractobject = new AbstractResponseObject();
-		abstractobject = authServiceController.jwtLogin(request, user, response);
+		List<MLPRole> mlpRoles = new ArrayList<>();
+		mlpRoles.add(mlpRole);
+		String generatedToken = user1.getJwttoken();
+		Mockito.when(userService.login(username, password)).thenReturn(mlpUser);
+		Mockito.when(userService.getUserRole(mlpUser.getUserId())).thenReturn(mlpRoles);
+		Mockito.when(jwtTokenUtil.generateToken(mlpUser, null)).thenReturn(generatedToken);
+//		userService.login(username, password);
+//		userService.getUserRole(mlpUser.getUserId());
+//		jwtTokenUtil.generateToken(mlpUser, null);
+		AbstractResponseObject abstractobject = authServiceController.jwtLogin(request, user, response);
 		if(abstractobject != null){
 			
 		}else{

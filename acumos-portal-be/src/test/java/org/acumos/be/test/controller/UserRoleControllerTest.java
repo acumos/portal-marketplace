@@ -81,14 +81,17 @@ public class UserRoleControllerTest {
 			Assert.assertNotNull(mlRoleList);
 			JsonResponse<List<MLRole>> roleList = new JsonResponse<>();
 			roleList.setResponseBody(mlRoleList);
-			userRoleService.getAllRoles();
-			roleList = userRoleController.getRolesList();
-			if(roleList != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getRolesList: size is {} ", mlRoleList.size());
-			}else{
-				logger.error(EELFLoggerDelegate.errorLogger, "Error Occurred while getRolesList()");
-			}
-			Assert.assertNotNull(roleList);
+			Mockito.when(userRoleService.getAllRoles()).thenReturn(mlRoleList);
+			//userRoleService.getAllRoles();
+			JsonResponse<List<MLRole>> data = userRoleController.getRolesList();
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Roles fetched Successfully", data.getResponseDetail());
+			Mockito.when(userRoleService.getAllRoles()).thenReturn(null);
+			//userRoleService.getAllRoles();
+			data = userRoleController.getRolesList();
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Error Occurred while getRolesList()", data.getResponseDetail());
+			
 		} catch (Exception e) {
 			
 			logger.info("Eception while fetching getRolesListTest ", e);
@@ -110,14 +113,15 @@ public class UserRoleControllerTest {
 			Assert.assertEquals(roleId, mlRole.getRoleId());
 			JsonResponse<MLRole> mlRoler = new JsonResponse<>();
 			mlRoler.setResponseBody(mlRole);
-			userRoleService.getRole(roleId);
+			Mockito.when(userRoleService.getRole(roleId)).thenReturn(mlRole);
 			mlRoler = userRoleController.getRoleDetails(request, roleId, response);
-			if(mlRoler != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getRoleDetails :  ", mlRoler);
-			}else{
-				logger.error(EELFLoggerDelegate.errorLogger, "Error Occurred while getRoleDetails() :");
-			}
 			Assert.assertNotNull(mlRoler);
+			Assert.assertEquals("Role fetched Successfully", mlRoler.getResponseDetail());
+			Mockito.when(userRoleService.getRole(roleId)).thenReturn(null);
+			mlRoler = userRoleController.getRoleDetails(request, roleId, response);
+			Assert.assertNotNull(mlRoler);
+			Assert.assertEquals("Error Occurred while getRoleDetails()", mlRoler.getResponseDetail());
+
 		} catch (Exception e) {
 			logger.info("Eception while fetching getRoleDetailsTest ", e);
 		}

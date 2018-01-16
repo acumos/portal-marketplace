@@ -79,27 +79,17 @@ public class PublishSolutionServiceControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			String accessType = "PB";
-			String accessType1 = "OR";
-			String accessType2 = "PR";
-			if(accessType == "PB"){
-				boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
-				if(published){
-					value.setResponseBody(mlsolution);
-					value.setResponseDetail("Solution unpublished successfully ");
-				}
-			}else if(accessType1 == "OR"){
-				boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
-				if(published){
-					value.setResponseBody(mlsolution);
-					value.setResponseDetail("Solution unpublished successfully ");
-				}
-			}else if(accessType2 == "PR"){
-				boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
-				if(published){
-					value.setResponseBody(mlsolution);
-					value.setResponseDetail("Solution unpublished successfully ");
-				}
-			}
+			boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
+			logger.info("Successfully published the solutions : ", value.getResponseBody());
+			Assert.assertNotNull(value);
+			accessType = "OR";
+			published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
+			logger.info("Successfully published the solutions : ", value.getResponseBody());
+			Assert.assertNotNull(value);
+			accessType = "PR";
+			published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
@@ -130,28 +120,19 @@ public class PublishSolutionServiceControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			String accessType = "PB";
-			String accessType1 = "OR";
-			String accessType2 = "PR";
-			if(accessType == "PB"){
-				boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
-				if(unpublished){
-					value.setResponseBody(mlsolution);
-					value.setResponseDetail("Solution unpublished successfully ");
-				}
-			}else if(accessType1 == "OR"){
-				boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
-				if(unpublished){
-					value.setResponseBody(mlsolution);
-					value.setResponseDetail("Solution unpublished successfully ");
-				}
-			}else if(accessType2 == "PR"){
-				boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
-				if(unpublished){
-					value.setResponseBody(mlsolution);
-					value.setResponseDetail("Solution unpublished successfully ");
-				}
-			}
 			
+			boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
+			
+			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
+			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
+			Assert.assertNotNull(value);
+			accessType = "OR";
+			unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
+			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
+			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
+			Assert.assertNotNull(value);
+			accessType = "PR";
+			unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);

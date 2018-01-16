@@ -19,35 +19,36 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
+import java.io.InputStream;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.PushAndPullSolutionServiceController;
+import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
-import org.junit.Assert;
-import org.junit.Before;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
-import java.io.InputStream;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PushAndPullSolutionServiceControllerTest {
@@ -56,7 +57,8 @@ public class PushAndPullSolutionServiceControllerTest {
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 	
-	
+	@Mock
+	AdminService adminService;
 	@Mock
 	private PushAndPullSolutionService pushAndPullSolutionService;
 	
@@ -94,7 +96,8 @@ public class PushAndPullSolutionServiceControllerTest {
 			String solutionId = mlsolution.getSolutionId();
 			
 			InputStream resource = null;
-
+			
+			Mockito.when(pushAndPullSolutionService.getFileNameByArtifactId(artifactId)).thenReturn(mockMLPArtifact.getName());
 			Mockito.when(pushAndPullSolutionService.downloadModelArtifact(artifactId)).thenReturn(resource);
 			pushPullController.downloadSolutionArtifact(solutionId, artifactId, revisionId, userId, request, response);
 			Assert.assertNotNull(solutionId);
@@ -111,13 +114,18 @@ public class PushAndPullSolutionServiceControllerTest {
 	@Test
 	public void uploadModelTest(){
 		try{
-			
 			User user = getUser();
 			String userId = user.getUserId();
+			MLPSiteConfig mlPSiteConfig = new MLPSiteConfig();
+			mlPSiteConfig.setConfigKey("configKey");
+			mlPSiteConfig.setConfigValue("configValue");
+			mlPSiteConfig.setCreated(new Date(System.currentTimeMillis()));
+			mlPSiteConfig.setUserId(userId);
 			MultipartFile dfsdf = null;
 			MultipartFile file = dfsdf ;
-			PushAndPullSolutionServiceController mockController = mock(PushAndPullSolutionServiceController.class);
-			mockController.uploadModel(file, userId, request, response);
+			Mockito.when(adminService.getSiteConfig("site_config")).thenReturn(mlPSiteConfig);
+			//PushAndPullSolutionServiceController mockController = mock(PushAndPullSolutionServiceController.class);
+			pushPullController.uploadModel(file, userId, request, response);
 			Assert.assertNotNull(userId);
 			logger.error("Successfully uploaded models");
 		}catch (Exception e) {
