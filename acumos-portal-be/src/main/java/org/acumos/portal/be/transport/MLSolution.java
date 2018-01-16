@@ -70,6 +70,7 @@ public class MLSolution {
 	private String threadId;
 	private String commentId;
 	private List<MLPThread> threadList ;
+	private String validationStatusCode;
 	
 	public String getLoginName() {
 		return loginName;
@@ -463,5 +464,13 @@ public class MLSolution {
 
 	public void setThreadList(List<MLPThread> threadList) {
 		this.threadList = threadList;
+	}
+
+	public String getValidationStatusCode() {
+		return validationStatusCode;
+	}
+
+	public void setValidationStatusCode(String validationStatusCode) {
+		this.validationStatusCode = validationStatusCode;
 	}	
 }
