@@ -1412,7 +1412,7 @@ position:relative;
 .upload-image-input{border: 1px solid rgba(0,0,0,.12); padding:3px 5px;    margin-top: 3px; }
 .upload-image-input input[type="file"]{ position: absolute; top: 0; left: 0;  z-index: 2; width: calc(100% - 85px); height: 100%;  opacity: 0; cursor: pointer; } 
 .upload-image-input input.mdl-textfield__input{box-sizing: border-box; width: calc(100% - 85px); border:none;}
-.upload-field { position: relative;    cursor: pointer;    float: right;    height: 26px;    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
+.upload-field { position: relative;    cursor: pointer;  height: 26px;    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
 .icon-folder {background-image: url("../images/icon-folder.png"); height: 30px; width: 30px; background-size: cover;
     background-color: transparent; border: none; float: right;}
@@ -1501,7 +1501,7 @@ position:relative;
             margin: 20px 0;
       }
       .hasClass .company-market ul li, .hasClass .company-market ul li.text {
-            width: 58px;
+            /*width: 58px;*/
       }
       .hasClass .company-market ul li .imagecontent {
             width: 52px;
@@ -1522,7 +1522,7 @@ position:relative;
             padding: 0 33px;
       }
       .hasClass .company-market ul li.text, .company-market ul li .text {
-            width: 68px;
+            /*width: 68px;*/
       }
       .hasClass .company-market ul li:last-child .text {
             width: 126px;
@@ -1537,6 +1537,11 @@ position:relative;
 }
 
 @media ( max-width :768px) {
+	
+	.hasClass .company-market ul li .imagecontent {width: 62px;  height: 62px;  border-radius: 52px;}
+.hasClass .company-market ul li.progress-status {width: 4%;}
+.hasClass .company-market ul li:last-child .text {width: auto;}
+.company-market ul li:last-child{margin:0;}
       
 }
 
@@ -1625,4 +1630,22 @@ position:relative;
       .popovers .deploy-grid>div:first-child{padding-right:0;}
       .deploy-grid > div:last-child, .deploy-grid > div:first-child{padding-right: 5px;  padding-left: 5px;}
       
+}
+@media ( max-width :640px){
+	.hasClass .company-market ul li{width:20%;}
+	.hasClass .company-market ul li.progress-status{display:none;}
+	.company-market ul li .text{text-overflow: ellipsis; overflow-x: hidden;}
+	
+}
+@media ( max-width :375px){
+	.company-market ul li .imageplace.completed .imagecontent, .company-market ul li .imageplace.incomplet .imagecontent, .company-market ul li .imageplace.active .imagecontent{border:0px;}
+	.company-market ul li .imagecontent{background-color:transparent; border:0px;}
+	.btn-publish{padding:0 5px; font-size: 10px;}
+	.company-market ul{margin: 0 -20px 15px -20px;}
+	.company-market ul li .text{ font-size: 13px; line-height: 16px; margin-top: -10px;}
+	.company-market ul li:last-child .publshbutton{min-width:auto; margin-top: -12px;}	
+	.company-market ul li .text{font-size:12px;}
+}
+@media ( max-width :360px){
+	.btn-publish{padding:0 3px; width: 50px; float: right;}
 }

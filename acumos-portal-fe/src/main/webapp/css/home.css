@@ -60,7 +60,7 @@ min-height: 553px;
 .slide-content .mdl-button{border-radius:4px; margin: 70px 15px 10px 0; line-height: 0px;}
 .slide-content .mdl-button.active{background-color:#fc0;  border:2px solid #fc0; color:#000;}
 .slide-content .mdl-button{background-color:transparent; border:2px solid #FFF; color:#FFF; padding:18px 34px; font-size:16px; font-weight:600;}
-.slide-content .slide-text{float:left; width:63%;}
+.slide-content .slide-text{float:left; width:61%;}
 .slide-content .image-container, .hasClass.initialVal .slide-content .image-container{/* float:left; */ margin:15px 0 0 17px; /* width: 32% */ width: 372px; height: 260px; float:right;}
 .hasClass .slide-content .image-container{margin:15px 0 0 17px; width: 35%;  float:right;}
 .slide-content .image-container img{width:100%;}
