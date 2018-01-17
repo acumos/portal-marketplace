@@ -802,6 +802,7 @@
 								<div>
 									<!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button-->
 									<button ng-click="addToCatalog()"
+									ng-disabled= "! (toolkitNameValue.length>1 && install && file && fileSubmit && user.name && popupAddSubmit )"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
 										Add to Catalog</button>
 								</div>

@@ -77,16 +77,21 @@
 								  <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--3-col-phone text-right">
 									<div class="grid-control-btn-container">
 									<div class="marketplace-btn-container">								  
-										<button id="demo-menu-lower-right2"
+<!-- 										<button id="demo-menu-lower-right2"
 												class="mdl-button mdl-js-button btn-sort bdr">
-											<span class="hide-xs"><span class="txtspan1">Sort By</span> - <span ng-if="!sortBy">All</span> <span ng-if="sortBy">{{selectedAction}}</span></span>	
+											<span class="hide-xs"><span class="txtspan1"></span>	
 											<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort_by_alpha</i></span>	
 										  <i class="material-icons">keyboard_arrow_down</i>
 										</button>
 										<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist1"
 											for="demo-menu-lower-right2">
-											<li class="mdl-menu__item" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</li>
-										  </ul>
+											<li class="mdl-menu__item">{{action.name}}</li>
+										 </ul> -->
+									<div class="select-control">
+								      <md-select ng-model="action" placeholder="Sort By - All" class="btn-sort bdr mdl-button md-no-underline">
+								           <md-option ng-value="action" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
+								      </md-select>
+									</div>
 									
 									 </div>
 									 
@@ -160,62 +165,11 @@
 												    <div class="product-image">										
 													<!-- <div class="mpimgcontainer"> -->
 											        	<!-- <div class="mpimage1"> -->
-											        	    <figure>
-															<!-- <img ng-if="mlsolution.modelType == 'CL'" ng-src="{{imgURLCL}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-													       <img ng-if="mlsolution.modelType == 'RG'" ng-src="{{imgURLRG}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-													        <img ng-if="mlsolution.modelType == 'DT'" ng-src="{{imgURLDT}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-													       <img ng-if="mlsolution.modelType == 'PR'" ng-src="{{imgURLPR}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-															<img ng-if="mlsolution.modelType == null" ng-src="{{imgURLnull}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156"> -->
-															
-															 <!-- For Demo images according to model-name -->
-															 <img ng-if="mlsolution.name.indexOf('Predictor') < 0 
-															&& mlsolution.name.indexOf('Threat') < 0 
-															&& mlsolution.name.indexOf('Emotion') < 0
-															&& mlsolution.name.indexOf('Face') < 0
-															&& mlsolution.name.indexOf('Video') < 0
-															&& mlsolution.name.indexOf('Chat') < 0
-															&& mlsolution.name.indexOf('Sentiment') < 0" ng-src="{{imgURLdefault}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Predictor') > -1" ng-src="{{imgURLnull}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Threat') > -1" ng-src="{{imgURLthreat}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Emotion') > -1" ng-src="{{imgURLemotion}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Face') > -1" ng-src="{{imgURLcommercial}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-
-															<img ng-if="mlsolution.name.indexOf('Video') > -1" ng-src="{{imgURLvideo}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Chat') > -1" ng-src="{{imgURLChat}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Sentiment') > -1" ng-src="{{imgURLSensitive}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-								                            </figure>
+											        	   <figure>
+																<img ng-src="{{imageUrls[mlsolution.solutionId]}}"
+																	ng-click="onClickModel($index, mlsolution.solutionId)"
+																	class="img-rounded">
+															</figure>
 											        	<!-- </div> -->
 											        	<!-- <div class="mpbtncontainer">
 											        			<md-button class="text-small">anomoly detection</md-button>
@@ -271,61 +225,10 @@
 												<div class="mp-grid-list-image-cell">
 													<div class="mpimage1">
 														 <figure>
-															<!-- <img ng-if="mlsolution.modelType == 'CL'" ng-src="{{imgURLCL}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-													       <img ng-if="mlsolution.modelType == 'RG'" ng-src="{{imgURLRG}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-													        <img ng-if="mlsolution.modelType == 'DT'" ng-src="{{imgURLDT}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-													       <img ng-if="mlsolution.modelType == 'PR'" ng-src="{{imgURLPR}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156">
-															<img ng-if="mlsolution.modelType == null" ng-src="{{imgURLnull}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded" width="204" height="156"> -->
-															
-															 <img ng-if="mlsolution.name.indexOf('Predictor') < 0 
-															&& mlsolution.name.indexOf('Threat') < 0 
-															&& mlsolution.name.indexOf('Emotion') < 0
-															&& mlsolution.name.indexOf('Face') < 0
-															&& mlsolution.name.indexOf('Video') < 0
-															&& mlsolution.name.indexOf('Chat') < 0
-															&& mlsolution.name.indexOf('Sentiment') < 0" ng-src="{{imgURLdefault}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Predictor') > -1" ng-src="{{imgURLnull}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Threat') > -1" ng-src="{{imgURLthreat}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Emotion') > -1" ng-src="{{imgURLemotion}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Face') > -1" ng-src="{{imgURLcommercial}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-
-															<img ng-if="mlsolution.name.indexOf('Video') > -1" ng-src="{{imgURLvideo}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Chat') > -1" ng-src="{{imgURLChat}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-															<img ng-if="mlsolution.name.indexOf('Sentiment') > -1" ng-src="{{imgURLSensitive}}"
-															ng-click = "onClickModel($index, mlsolution.solutionId)"
-															class="img-rounded">
-															
-								                            </figure>
+																<img ng-src="{{imageUrls[mlsolution.solutionId]}}"
+																	ng-click="onClickModel($index, mlsolution.solutionId)"
+																	class="img-rounded">
+								                         </figure>
 													</div>
 														<div class="mpbtncontainer">
 															<md-button class="text-small">anomoly detection</md-button>
@@ -373,9 +276,6 @@
 											</div>								
 									</div>
 									</div>
-									
-									
-																	
 								</div>
 								<br />
 								<div class="text-center">									

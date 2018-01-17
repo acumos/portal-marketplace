@@ -1374,7 +1374,8 @@ angular
 	                       	 var getSolutionImagesReq = {
 										method : 'GET',
 										url : '/site/api-manual/Solution/solutionImages/'+$scope.solutionId
-								};
+								};                     	
+
 	                       	 $http(getSolutionImagesReq)
 									.success(
 											function(data, status, headers,
@@ -1383,6 +1384,9 @@ angular
 													$scope.showSolutionImage = true;
 													$scope.solutionImageName = data[0];
 													$scope.imgURLdefault = "/site/binaries/content/gallery/acumoscms/solution/" + $scope.solutionId + "/" + data.response_body[0];
+
+													$scope.previewImage = $scope.imgURLdefault;
+												
 												}
 											}).error(
 													function(data, status, headers,
