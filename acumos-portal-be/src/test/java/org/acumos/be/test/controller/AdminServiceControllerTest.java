@@ -320,7 +320,8 @@ public class AdminServiceControllerTest {
 			subscriptionRes = adminController.deletePeerSubscription(null);
 			
 			Assert.assertNotNull(subscriptionRes);
-			Assert.assertEquals("Success", subscriptionRes.getResponseDetail());
+			Assert.assertEquals("Remove Peer Subscription Failed", subscriptionRes.getResponseDetail());
+		   //Assert.assertEquals("Success", subscriptionRes.getResponseDetail());
 		} catch (Exception e) {
 			logger.info("failed tot execute the above test case");
 		}
