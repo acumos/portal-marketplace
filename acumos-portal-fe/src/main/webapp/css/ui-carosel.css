@@ -209,6 +209,7 @@ background-repeat:no-repeat;
 background-color:#10001c;
 min-height: 553px;
 position:relative;
+background-position: -30px top;
 }
 .home-screen3 .slide-content{float:right;}
 .hasClass.initialVal .home-screen3 .slide-content .slide-text, .home-screen3 .slide-content .slide-text{float:right;}
@@ -260,7 +261,7 @@ position:relative;
 }
 
 @media(max-width:480px) {
-	.slide-content { padding: 0 50px;}
+	.slide-content, .hasClass .slide-content { padding: 0 50px;}
 	.homemain-carousel .slide-content .mdl-button{padding: 18px 5px; font-size:14px; margin-right:10px;}
 	.homemain-carousel .ui-carousel .carousel-prev span,  .homemain-carousel .ui-carousel .carousel-next span{background-color:#fff; width:40px; height:60px; float:left; opacity:0.5; }
 	/* .homemain-carousel .ui-carousel .carousel-prev span i{margin-left:-5px;} */
