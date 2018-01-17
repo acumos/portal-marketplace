@@ -66,6 +66,7 @@ angular.module('AcumosApp')
         var urlThread = "api/thread";
         var urlUserProfileImage = "api/users/userProfileImage";
         var urlUserAccountDetails = "api/users/userAccountDetails";
+        var urlDeleteSub = 'api/admin/peer/subcription/delete/';
         	
         /**************** ALL GET ******************/
         
@@ -358,6 +359,9 @@ angular.module('AcumosApp')
             return $http.post(urlDeleteFavorite, dataObj);
         };
         
+        this.deleteSubscription = function (dataObj) {
+            return $http.delete(urlDeleteSub +'/'+ dataObj);
+        };
         /**************** Google API ******************/
         this.getGoogleUserProfile = function(accessToken) {
         	return $http.get("https://www.googleapis.com/plus/v1/people/me",{

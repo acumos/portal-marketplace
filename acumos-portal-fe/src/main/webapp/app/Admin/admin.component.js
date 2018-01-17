@@ -363,16 +363,16 @@ angular.module('admin')
                       //Edit PEER
                       $scope.itsEdit = false;
                       $scope.editPeer = function(peerDetail){
-                    	  $scope.itsEdit = true;
+                    	  $scope.itsEdit = true;$scope.peerStatus = peerDetail.active;
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
                     	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.webUrl;$scope.descriptionPop = peerDetail.description;
                     	  $scope.showPopupPeer();
                       }
                       $scope.updatePeer = function(val){
-                    	  debugger;
                     	  if(val == 'detail'){
-                    		  var peerDetails = {"request_body": {				
+                    		  var peerDetails = {"request_body": {	
+                    			  "active" : $scope.peerStatus,
                 				  	"apiUrl": $scope.apiUrlPop,
               				    "contact1": $scope.emailIdPop,
               				    "contact2":$scope.emailIdPop,
@@ -500,7 +500,7 @@ angular.module('admin')
             					  console.log($scope.categoryForSubId);console.log($scope.toolKitForSubId);
             				  }
             				  arrSub.push({
-            					  "subId" : $scope.subId,
+            					  "subId" : value.subId,
             					  "toolKitType" : $scope.toolKitForSubId.toolkitName,
             					  "modelType" : $scope.categoryForSubId.typeName
             				  })
@@ -609,6 +609,17 @@ angular.module('admin')
                           }, function myError(response) {
                         	  debugger;
                           });
+                      }
+                      //delete subscription
+                      $scope.deleteSub = function(subId,index){debugger;
+                    	  //deleteSubscription
+                    	  apiService
+                   	      .deleteSubscription(subId)
+                   	      .then(
+                   	    		function(response){
+                   	    			$scope.arrDetails.splice(index,1);
+                   	    		},
+                   	    		function(error){console.log('Error :' +error);});
                       }
             	    //Delete Peer
                       /*$scope.deletePeer = function(peerId, idx) {

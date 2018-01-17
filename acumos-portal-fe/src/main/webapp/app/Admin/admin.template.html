@@ -53,10 +53,10 @@
 															<span>Federation</span>
 														 </span>
 											          </a>
-													  <a href="#tab6-panel"  ng-click='menuName = "Subscription Requests"'  class="mdl-tabs__tab">									      	     
+													  <a href="#tab6-panel"  ng-click='menuName = "Requests"'  class="mdl-tabs__tab">									      	     
 											            	<span class="tab-box"> 
 															<span class="tab-icons tab-subscription_requests"></span>
-															<span>Subscription Requests</span>
+															<span>Requests</span>
 														 </span>
 											          </a>
 													  <a href="#tab7-panel" ng-click='menuName = "Validation"' class="mdl-tabs__tab">									      	     
@@ -1011,7 +1011,7 @@
 																<td><label>Name of Solution</label></td>
 																<td><label>{{val.modelType}}</label></td>
 																<td><label>{{val.toolKitType}}</label></td>
-																<td class="text-center"><button class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button></td>
+																<td class="text-center"><button ng-click="deleteSub(val.subId,$index)" class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button></td>
 															</tr>
 															
 																												
@@ -1031,27 +1031,42 @@
 															<span class="fedlbl5">OR</span>
 														</div>
 														<div>															
-															<md-input-container class="admin-select">
+															<!-- <md-input-container class="admin-select">
 														 		<label class="fedlbl4">Select Category</label>												          
 													          <md-select ng-model="categoryValue" ng-disabled="modelIDValue">
-													            <!-- <md-option><em>Select Category</em></md-option> -->
+													            <md-option><em>Select Category</em></md-option>
 													            <md-option ng-repeat="cat in category" ng-value="cat.typeCode"><em>{{cat.typeName}}</em></md-option>
-													            <!-- <md-option ng-repeat="state in ctrl.states" ng-value="state.abbrev" ng-disabled="$index === 1">
+													            <md-option ng-repeat="state in ctrl.states" ng-value="state.abbrev" ng-disabled="$index === 1">
 													              {{state.abbrev}}
-													            </md-option> -->
+													            </md-option>
 													          </md-select>
-													      </md-input-container>
+													      </md-input-container> -->
+													      <div class="select-control admin-select">
+															     <label class="fedlbl4">Category</label>
+															        <md-select ng-model="categoryValue" ng-disabled="modelIDValue" placeholder="Select Category">
+															        <md-option ng-selected="true" value="">Select Category</md-option>
+															           <md-option ng-repeat="cat in category" ng-value="cat.typeCode">{{cat.typeName}}</md-option>
+															     </md-select>
+															</div>
+													      
 														</div>
 														<div>															
-															<md-input-container class="admin-select">
+															<!-- <md-input-container class="admin-select">
 													   			<label class="fedlbl4">Select toolkit type</label>													          
 														          <md-select ng-model="toolKitTypeValue" ng-disabled="modelIDValue">
-														            <!-- <md-option><em>Select toolkit type</em></md-option> -->
+														            <md-option><em>Select toolkit type</em></md-option>
 														            <md-option ng-repeat="tool in toolKitType" ng-value="tool.toolkitCode">
 														              {{tool.toolkitName}}
 														            </md-option>
 														          </md-select>
-													      </md-input-container>
+													      </md-input-container> -->
+													      <div class="select-control admin-select">
+															     <label class="fedlbl4">Toolkit type</label>
+															        <md-select ng-model="toolKitTypeValue" ng-disabled="modelIDValue" placeholder="Select toolkit">
+															        <md-option ng-selected="true" value="">Select toolkit</md-option>
+															           <md-option ng-repeat="tool in toolKitType" ng-value="tool.toolkitCode"> {{tool.toolkitName}}</md-option>
+															     </md-select>
+															</div>
 														</div>													
 													</div>
 													
@@ -1065,7 +1080,7 @@
 															</colgroup>														 
 														  <tbody>
 															<tr>
-																<td><img class="admin-img1" src="{{imgURLdefault}}" /></td>
+																<td><img class="admin-img1" src="images/ml_solution_03.png" /></td>
 																<td>
 																	<label>{{solutionDetail.name}}</label>
 																	<div><span class="text-small">by  {{solutionDetail.ownerName}} </span><span class="text-small">on {{solutionDetail.created}}</span></div>
