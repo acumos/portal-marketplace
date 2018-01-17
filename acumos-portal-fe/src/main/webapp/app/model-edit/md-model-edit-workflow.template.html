@@ -1425,7 +1425,7 @@
 														         <h2>Upload Icon for Your Model</h2>
 														         <span flex></span>
 														         <md-button class="md-icon-button"
-														            ng-click="showImageUpload = !showImageUpload">
+														            ng-click="showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
 														            <i class="material-icons">close</i> 
 														         </md-button>
 														      </div>
@@ -1507,7 +1507,7 @@
 														            class="popovers-cloud-modalfooter fullwidth layout-row">
 														            <md-button
 														               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-														               ng-click="showImageUpload = !showImageUpload">
+														               ng-click="showImageUpload = !showImageUpload;  previewImage = imgURLdefault;">
 														               Cancel 
 														            </md-button>
 														            <md-button
@@ -3085,7 +3085,7 @@
 		  <h2>Upload Icon for Your Model</h2>
 		  <span flex></span>
 		  <md-button class="md-icon-button"
-			 ng-click="showImageUpload = !showImageUpload">
+			 ng-click="showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
 			 <i class="material-icons">close</i> 
 		  </md-button>
 	   </div>
@@ -3096,7 +3096,7 @@
 			 <form>
 				<div class="mdl-grid imageuploader">
 				   <div class="mdl-cell mdl-cell--3-col">
-					  <div class="iconcontainer">
+					  <div class="iconcontainer"> 
 						 <img ng-src="{{previewImage}}" alt="" title="" />
 					  </div>
 				   </div>
@@ -3167,7 +3167,7 @@
 			 class="popovers-cloud-modalfooter fullwidth layout-row ">
 			 <md-button
 				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-				ng-click="showImageUpload = !showImageUpload">
+				ng-click="showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
 				Cancel 
 			 </md-button>
 			 <md-button

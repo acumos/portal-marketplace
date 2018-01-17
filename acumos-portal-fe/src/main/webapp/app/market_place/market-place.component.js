@@ -11,6 +11,7 @@ angular
 							apiService, $element) {
 						$scope.autoHeight = true;
 						$scope.tags = [];
+						$scope.sortBy = 'MR';
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -286,6 +287,11 @@ angular
 							 * "request_from" : "string", "request_id" :
 							 * "string" }
 							 */
+							var fieldToSort = {};
+							if( $scope.sortBy == 'MR' ){
+								fieldToSort = { "modified" : "DESC" };
+							}
+							
 							dataObj = {
 								"request_body" : {
 									"modelTypeCodes" : $scope.categoryFilter,
@@ -293,6 +299,7 @@ angular
 									"nameKeyword" : toBeSearch,
 									"sortBy" : $scope.sortBy,
 									"pageRequest" : {
+										"fieldToDirectionMap": fieldToSort,
 										"page" : $scope.pageNumber,
 										"size" : 9
 									}
@@ -384,8 +391,11 @@ angular
 												// $scope.mlsolutions[i].downloads
 												});
 									}
-								}
 
+								}
+								angular.forEach($scope.mlsolutions, function(value,key) {
+									$scope.getSolutionImages(value.solutionId);
+								});
 								if ($scope.loginUserID) {
 									apiService
 											.getFavoriteSolutions(
@@ -636,7 +646,7 @@ angular
 
 						$scope.imageUrls = {};
 						$scope.getSolutionImages = function(solutionId) {
-							
+
 							apiService
 									.getSolutionImage(solutionId)
 									.then(
