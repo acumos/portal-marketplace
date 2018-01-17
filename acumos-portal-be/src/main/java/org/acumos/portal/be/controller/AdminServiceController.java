@@ -315,16 +315,16 @@ public class AdminServiceController extends AbstractController {
         log.debug(EELFLoggerDelegate.debugLogger, "deletePeerSubscription={}", subId);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
-            if (subId != null) {
-                log.debug(EELFLoggerDelegate.errorLogger, "removePeer: Invalid Parameters");
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-                data.setResponseDetail("Remove Peer Subscription Failed");
-            } else {
-                adminService.deletePeerSubscription(subId);
-                data.setStatus(true);
-                data.setResponseDetail("Success");
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-            }
+        	 if (subId != null) {
+                 adminService.deletePeerSubscription(subId);
+                 data.setStatus(true);
+                 data.setResponseDetail("Success");
+                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+             } else {
+                 log.debug(EELFLoggerDelegate.errorLogger, "removePeer: Invalid Parameters");
+                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                 data.setResponseDetail("Remove Peer Subscription Failed");
+             }
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
