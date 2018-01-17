@@ -19,15 +19,20 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.PublishSolutionServiceController;
+import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.service.impl.PublishSolutionServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -36,7 +41,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import static org.mockito.Mockito.*;
+import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PublishSolutionServiceControllerTest {
@@ -54,7 +59,10 @@ public class PublishSolutionServiceControllerTest {
 	PublishSolutionServiceImpl publishImpl;
 	
 	@Mock
-	PublishSolutionService publishService;
+	PublishSolutionService publishSolutionService;
+	
+	@Mock
+	private MarketPlaceCatalogService catalogService;
 	
 	@Test
 	public void publishSolutionTest() {
@@ -68,6 +76,7 @@ public class PublishSolutionServiceControllerTest {
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
+			mlsolution.setValidationStatusCode("PS");
 			Assert.assertNotNull(mlsolution);
 			String userId = "12121";
 			String solutionId = mlsolution.getSolutionId();
@@ -79,17 +88,20 @@ public class PublishSolutionServiceControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			String accessType = "PB";
-			boolean published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId)).thenReturn(true);
+			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "OR";
-			published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId)).thenReturn(true);
+			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "PR";
-			published = publishService.publishSolution(solutionId, accessType , userId, revisionId);
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId)).thenReturn(true);
+			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
@@ -121,20 +133,24 @@ public class PublishSolutionServiceControllerTest {
 			value.setResponseBody(mlsolution);
 			String accessType = "PB";
 			
-			boolean unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
 			
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn(true);
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "OR";
-			unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn(true);
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "PR";
-			unpublished = publishService.unpublishSolution(solutionId, accessType, userId);
+			Mockito.when(publishSolutionService.unpublishSolution(solutionId, accessType, userId)).thenReturn(true);
 			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			logger.info("Successfully unpublisheded the solutions : ", value.getResponseBody());
+			Assert.assertNotNull(value);
+			
+			boolean unpublished = publishSolutionService.unpublishSolution(solutionId, accessType, userId);
+			value = publishController.unpublishSolution(request, solutionId, visibility,userId, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			logger.error("Error while unpublishSolutionTest", e);

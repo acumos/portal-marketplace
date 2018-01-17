@@ -497,8 +497,13 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solutionId);
 			Assert.assertNotNull(userId);
 			JsonResponse<User> value = new JsonResponse<>();
-			Mockito.when(marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response))
-					.thenReturn(value);
+			
+			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
+//			Mockito.when(service.findUserByUserId(userId)).thenReturn(mlsolution);
+//			userService.findUserByUserId(userId)
+			value = marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response);
+//			Mockito.when(marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response))
+//					.thenReturn(value);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			logger.info("Failed to execute the testcase");
@@ -571,9 +576,9 @@ public class MarketPlaceServiceControllerTest {
 			JsonRequest<MLPSolutionRating> mlpSolutionRatingREs = new JsonRequest<>();
 			mlpSolutionRatingREs.setBody(mlpSolutionRating);
 			Assert.assertNotNull(mlpSolutionRatingREs);
-			JsonResponse<MLSolution> value = new JsonResponse<>();
-			Mockito.when(marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs, response))
-					.thenReturn(value);
+			JsonResponse<MLSolution> value = marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs, response);
+//			Mockito.when(marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs, response))
+//					.thenReturn(value);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			logger.info("Failed to execute the testcase");

@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.JsonRequest;
+import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.MalformedException;
 import org.acumos.portal.be.controller.AuthServiceController;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
@@ -83,15 +84,50 @@ public class AuthServiceControllerTest {
 		user1.setEmailId("user1@emial.com");
 		user1.setActive("Y");
 		user1.setPassword("password");
-		
+		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user1);
 		String username = user1.getUsername();
 		String password = user1.getPassword();
-		userService.login(username, password);
+		Mockito.when(userService.login(username, password)).thenReturn(mlpUser);
+//		userService.login(username, password);
 		String emailId = user1.getEmailId();
-		userService.findUserByEmail(emailId );
+		Mockito.when(userService.findUserByEmail(emailId)).thenReturn(mlpUser);
+//		userService.findUserByEmail(emailId );
 		JsonRequest<User> user = new JsonRequest<>();
 		user.setBody(user1);
-		authServiceController.login(request, user , response);
+		AbstractResponseObject responseObject  = authServiceController.login(request, user , response);
+		Assert.assertNotNull(responseObject);
+		user.getBody().setEmailId("");
+		user.getBody().setUsername("");
+		responseObject  = authServiceController.login(request, user , response);
+		Assert.assertNotNull(responseObject);
+		user.getBody().setUsername("");
+		responseObject  = authServiceController.login(request, user , response);
+		Assert.assertNotNull(responseObject);
+		user1.setActive("N");
+		mlpUser = PortalUtils.convertToMLPUserForUpdate(user1);
+		Mockito.when(userService.login(username, password)).thenReturn(mlpUser);
+		Mockito.when(userService.findUserByEmail(emailId)).thenReturn(mlpUser);
+		user = new JsonRequest<>();
+		user.setBody(user1);
+		responseObject  = authServiceController.login(request, user , response);
+		Assert.assertNotNull(responseObject);
+		
+	}
+	
+	@Test
+	public void logoutTest(){
+		User user1 = new User();
+		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user1.setFirstName("UserFirstName");
+		user1.setLastName("UserLastName");
+		user1.setUsername("User1");
+		user1.setEmailId("user1@emial.com");
+		user1.setActive("Y");
+		user1.setPassword("password");
+		JsonRequest<User> user = new JsonRequest<>();
+		user.setBody(user1);
+		JsonResponse<Object> responseObject  = authServiceController.logout(request, user , response);
+		Assert.assertNull(responseObject);
 	}
 	
 	@Test
@@ -131,11 +167,7 @@ public class AuthServiceControllerTest {
 //		userService.getUserRole(mlpUser.getUserId());
 //		jwtTokenUtil.generateToken(mlpUser, null);
 		AbstractResponseObject abstractobject = authServiceController.jwtLogin(request, user, response);
-		if(abstractobject != null){
-			
-		}else{
-			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()");
-		}
+		Assert.assertNotNull(abstractobject);
 	}
 	
 	@Test
@@ -149,12 +181,15 @@ public class AuthServiceControllerTest {
 		user1.setEmailId("user1@emial.com");
 		user1.setActive("Y");
 		user1.setPassword("password");
+		//user1.setJwttoken("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 		String provider="google";
 		JsonRequest<User> userObj = new JsonRequest<>();
 		userObj.setBody(user1);
+		//userObj.getBody().setJwtToken(user1.getJwttoken());;
+		JsonResponse<Object> jsonObj = authServiceController.validateToken(request, response, userObj , provider);
+		Assert.assertNotNull(jsonObj);
 		
-		String jwtToken = userObj.getBody().getJwtToken();
-		
-		authServiceController.validateToken(request, response, userObj , provider);
+		jsonObj = authServiceController.validateToken(request, response, userObj , null);
+		Assert.assertNotNull(jsonObj);
 	}
 }

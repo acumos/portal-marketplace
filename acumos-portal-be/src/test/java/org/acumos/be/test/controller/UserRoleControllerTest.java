@@ -140,24 +140,42 @@ public class UserRoleControllerTest {
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
 			mlRole.setCreated(created);
+
 			mlRole.setRoleId(mlpRole.getRoleId());
 			Assert.assertNotNull(mlRole);
 			String roleId = mlpRole.getRoleId();
 			Assert.assertEquals(roleId, mlpRole.getRoleId());
 			JsonResponse<MLPRole> value = new JsonResponse<>();
-			value.setResponseBody(mlpRole);
-
+			value.setResponseBody(mlpRole);	
+			List<String> permissionList = new ArrayList<>();
+			permissionList.add("Admin");
 			JsonRequest<MLRole> role = new JsonRequest<>();
 			role.setBody(mlRole);
+			role.getBody().setPermissionList(permissionList);;
+			
+			MLPRoleFunction roleFunction = new MLPRoleFunction();
+			roleFunction.setRoleId(mlpRole.getRoleId());
+			roleFunction.setName("Admin");
+			
+						
 			userRoleService.createRole(mlRole);
 			value = userRoleController.postRole(request, role, response);
-			if(value != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "postRole :  ", role);
-			}else{
-				logger.error(EELFLoggerDelegate.errorLogger, "Error Occurred while getRoleDetails() :");
-			}
-			logger.info("Successfully created Role: ", mlRole);
 			Assert.assertNotNull(value);
+			Assert.assertEquals("Error occured while creating role", value.getResponseDetail());
+			
+			Mockito.when(userRoleService.createRole(mlRole)).thenReturn(mlpRole);
+			Mockito.when(userRoleService.createRoleFunction(roleFunction)).thenReturn(roleFunction);
+			value = userRoleController.postRole(request, role, response);
+			Assert.assertNotNull(value);
+			Assert.assertEquals("Role created Successfully", value.getResponseDetail());
+			logger.info("Successfully created Role: ", mlRole);
+			
+			Mockito.when(userRoleService.createRole(mlRole)).thenReturn(mlpRole);
+			Mockito.when(userRoleService.createRoleFunction(roleFunction)).thenReturn(null);
+			value = userRoleController.postRole(request, role, response);
+			Assert.assertNotNull(value);
+			Assert.assertEquals("Error Occurred while postRole()", value.getResponseDetail());
+			
 		} catch (Exception e) {
 			
 			logger.info("Eception while fetching postRoleTest ", e);
