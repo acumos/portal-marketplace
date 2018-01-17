@@ -502,7 +502,7 @@
 																		<label class="disblock">{{val.contact1}}</label>
 																		<!-- <label class="disblock">{{val.contact2}}</label> -->																	
 																	</td>
-																	<td><a class="fed-view-link" data-target ng-click="subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add Subscriptions</a></td>
+																	<td><a class="fed-view-link" data-target ng-click="mdPrimaryClass=false;subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add Subscriptions</a></td>
 																	<!-- <td ng-if='val.active'>
 																		<label class="">Active</label>
 																		<label class="">since 08/04/2017</label>
@@ -975,7 +975,7 @@
 									  		<div class="subscontainer">
 									  			<div class="subscontainerinner1">
 									  				<span class="font600 fedlbl2">Subscription List</span>
-									  				<button class="mdl-button mdl-js-button btn-secondary btn-with-icon" ng-click="subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button>
+									  				<button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button>
 									  			</div> 
 									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
 									  				<span class="font600 fedlbl2">Filter</span>

@@ -449,10 +449,11 @@ angular.module('admin')
                     	  			debugger;
                     	  		});
                       }
+                      $scope.mdPrimaryClass=false;
                       //Subscription popup
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
-                	  $scope.subscripDetails1 = false;
+                	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
                 	  $scope.categoryValue = '';
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
                 	  $scope.peerIdForSubsList = val.peerId;
