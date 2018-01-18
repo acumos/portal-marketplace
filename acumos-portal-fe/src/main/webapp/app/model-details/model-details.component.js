@@ -1153,13 +1153,87 @@ angular
 						}
 						
 						$scope.authenticateAnddeployToAzure = function() {
-							
 							var imageTagUri = '';
-							if ($scope.artifactType != null && $scope.artifactType == 'DI') {
+							if ($scope.artifactType != null
+									&& $scope.artifactType == 'DI') {
 								imageTagUri = $scope.artifactUri;
 							}
+							/*
+							 * 'client' : $scope.applicationId,
+								'tenant' : $scope.tenantId,
+								'key' : $scope.secretKey,
+								'subscriptionKey' : $scope.subscriptionKey,
+								'rgName' : $scope.resourceGroup,
+								'acrName' : $scope.acrName,
+								'storageAccount' : $scope.storageAccount,
+								'solutionId' : $scope.solutionId,
+								'imagetag' : imageTagUri
 
-							var authDeployObject = {
+							 * */
+								
+								if($scope.solution.tookitType != "CP") {
+									// imagetag:  imageTagUri,
+									$scope.reqObject = {
+											'request_body' : {
+												 'acrName': $scope.acrName,
+												 'client': $scope.applicationId,
+												 'key': $scope.secretKey,
+												 'rgName': $scope.resourceGroup,
+												 'solutionId': $scope.solution.solutionId,
+												 'solutionRevisionId': $scope.revisionId,
+												 'storageAccount': $scope.storageAccount,
+												 'subscriptionKey':  $scope.subscriptionKey,
+												 'tenant': $scope.tenantId,
+												 'userId':  user[1],
+												 'imagetag': imageTagUri
+											}
+									}
+									
+									var url = '/azure/singleImageAzureDeployment';
+									$http({
+										method : 'POST',
+										url : url,
+										req: $scope.reqObject
+										
+									}).then(function(response) {
+											alert("Deployment Started Successfully");
+										},
+										function(error) {
+											console.warn("Error occured");
+
+										});
+									
+								} else {
+									$scope.reqObject = {
+											'request_body' : {
+												 'acrName': $scope.acrName,
+												 'client': $scope.applicationId,
+												 'key': $scope.secretKey,
+												 'rgName': $scope.resourceGroup,
+												 'solutionId': $scope.solution.solutionId,
+												 'solutionRevisionId': $scope.revisionId,
+												 'storageAccount': $scope.storageAccount,
+												 'subscriptionKey':  $scope.subscriptionKey,
+												 'tenant': $scope.tenantId,
+												 'userId':  user[1],
+											}
+									}
+									var url = '/azure/compositeSolutionAzureDeployment';
+									$http({
+										method : 'POST',
+										url : url,
+										req: $scope.reqObject
+									}).then(function(response) {
+										alert("Deployment Started Successfully");
+									},
+									function(error) {
+										console.warn("Error occured");
+
+									});
+								}
+						
+
+							/*var authDeployObject = {
 								'client' : $scope.applicationId,
 								'tenant' : $scope.tenantId,
 								'key' : $scope.secretKey,
@@ -1193,7 +1267,7 @@ angular
 											}, function(error) {
 												alert('FAILED');
 												$mdDialog.hide();
-											});
+											});*/
 
 						}
 

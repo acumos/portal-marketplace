@@ -1225,7 +1225,7 @@ angular
 								imageTagUri = $scope.artifactUri;
 							}
 
-							var authDeployObject = {
+							/*var authDeployObject = {
 								'client' : $scope.applicationId,
 								'tenant' : $scope.tenantId,
 								'key' : $scope.secretKey,
@@ -1251,8 +1251,69 @@ angular
 									method : 'GET',
 									url : url,
 								})
-							}
-							alert("Deployment Started Successfully")
+							}*/
+							
+								if($scope.solution.tookitType != "CP") {
+									$scope.reqObject = {
+											'request_body' : {
+												 'acrName': $scope.acrName,
+												 'client': $scope.applicationId,
+												 'key': $scope.secretKey,
+												 'rgName': $scope.resourceGroup,
+												 'solutionId': $scope.solution.solutionId,
+												 'solutionRevisionId': $scope.revisionId,
+												 'storageAccount': $scope.storageAccount,
+												 'subscriptionKey':  $scope.subscriptionKey,
+												 'tenant': $scope.tenantId,
+												 'userId':  $scope.loginUserId[1],
+												 'imagetag': imageTagUri
+											}
+									}
+									
+									var url = '/azure/singleImageAzureDeployment';
+									$http({
+										method : 'POST',
+										url : url,
+										req: $scope.reqObject
+										
+									}).then(function(response) {
+											alert("Deployment Started Successfully")
+										},
+										function(error) {
+											console.warn("Error occured")
+
+										});
+									
+								} else {
+									$scope.reqObject = {
+											'request_body' : {
+												 'acrName': $scope.acrName,
+												 'client': $scope.applicationId,
+												 'key': $scope.secretKey,
+												 'rgName': $scope.resourceGroup,
+												 'solutionId': $scope.solution.solutionId,
+												 'solutionRevisionId': $scope.revisionId,
+												 'storageAccount': $scope.storageAccount,
+												 'subscriptionKey':  $scope.subscriptionKey,
+												 'tenant': $scope.tenantId,
+												 'userId':  $scope.loginUserId[1],
+											}
+									}
+									
+									var url = '/azure/compositeSolutionAzureDeployment';
+									$http({
+										method : 'POST',
+										url : url,
+										req: $scope.reqObject
+									}).then(function(response) {
+										alert("Deployment Started Successfully")
+									},
+									function(error) {
+										console.warn("Error occured")
+
+									});
+								}
+							
 							
 							
 
