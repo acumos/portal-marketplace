@@ -32,6 +32,11 @@ spring.mail.debug=true
 spring.mail.transport.protocol=smtp
 spring.mail.template.folder.path=/fmtemplates/
 
+#MailJet Credentials
+#portal.mailjet.api.key=
+#portal.mailjet.secret.key=
+#portal.mailjet.address.from=cusomerservice@acumos.org
+
 # Max file size.
 spring.http.multipart.max-file-size=-1
 # Max request size.
@@ -50,7 +55,11 @@ portal.getValidation.api=http://localhost:9000/status
 
 #FeatureController
 portal.feature.email=false
+portal.feature.email.service=mailjet
 portal.feature.validateModel=false
+
+#Dashboard Url
+portal.dashboard.url=http://cognita-dev1-logcollector.eastus.cloudapp.azure.com:5601
 
 #model upload storage folder path
 model.storage.folder.path=./temp

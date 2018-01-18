@@ -36,6 +36,7 @@ angular.module('AcumosApp')
         var urlAuthAndDeployToAzure='/azure/authAndpushimage';//'http://localhost:9081/azure/authAndpushimage';
         var urlqandAUrl = 'api/users/qAUrl';
         var docUrl = 'api/users/docs';
+        var dashboardUrl = 'api/admin/dashboard';
         var urlmodelFileUpload = 'api/model/upload';
         var urlTermsCondition = '/site/api-manual/Solution/global/termsCondition';
         var urlDownloadArtifact = '/api/downloads';
@@ -132,6 +133,10 @@ angular.module('AcumosApp')
         
         this.getDocUrl = function () {
             return $http.get(docUrl);
+        };
+        
+        this.getDashboardUrl = function () {
+            return $http.get(dashboardUrl);
         };
         
         this.downloadPopupValue = function (solutionId, revisionId){
