@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f656df61_db2a1fbc",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MailJet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-01-18T22:42:49Z",
+      "side": 1,
+      "message": "Need to have log.error()",
+      "range": {
+        "startLine": 65,
+        "startChar": 3,
+        "endLine": 65,
+        "endChar": 23
+      },
+      "revId": "726f52cf643318236ecf61585fcbd55d59c5ad98",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f25221c9_9f6bfe11",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MailJet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-01-18T22:42:49Z",
+      "side": 1,
+      "message": "Need to have log.error()",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "726f52cf643318236ecf61585fcbd55d59c5ad98",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
