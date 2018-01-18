@@ -43,6 +43,8 @@ public class MLArtifactValidationTest {
 		Assert.assertEquals(artifactId, mlArtifactValidation.getArtifactId());
 		Assert.assertEquals(artifactName, mlArtifactValidation.getArtifactName());
 		Assert.assertEquals(url, mlArtifactValidation.getUrl());
+		
+		Assert.assertNotNull(mlArtifactValidation.toString());
 	}
  
 	

@@ -78,7 +78,11 @@ public class OauthUserTest {
 		Assert.assertEquals(rank, oauthUser.getRank());
 		Assert.assertEquals(refreshToken, oauthUser.getRefreshToken());
 		Assert.assertEquals(jwtToken, oauthUser.getJwtToken());
-
+		
+		OauthUser oauthUserObj = new OauthUser(oauthUser);
+		Assert.assertNotNull(oauthUserObj);
+		Assert.assertNotNull(oauthUserObj.toString());
+		
 	}
 
 

@@ -58,5 +58,7 @@ public class MLModelValidationTest {
 		Assert.assertEquals(solutionId, mlModelValidation.getSolutionId());
 		Assert.assertEquals(userId, mlModelValidation.getUserId());
 		Assert.assertEquals(visibility, mlModelValidation.getVisibility());
+		
+		Assert.assertNotNull(mlModelValidation.toString());
 	}
 }

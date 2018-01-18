@@ -60,5 +60,7 @@ public class MLModelValidationStatusTest {
 		Assert.assertEquals(revisionId, mlModelValidationCheck.getRevisionId());
 		Assert.assertEquals(visibility, mlModelValidationCheck.getVisibility());
 		Assert.assertEquals(mlModelValidationStatusList, mlModelValidationCheck.getArtifactValidationStatus());
+		
+		Assert.assertNotNull(mlModelValidationStepStatus.toString());
 	}
 }

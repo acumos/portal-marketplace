@@ -39,7 +39,7 @@ public class MLSolutionFavoriteTest {
 		Assert.assertEquals(solutionID, mlSolutionFavorite.getSolutionID());
 		Assert.assertEquals(userID, mlSolutionFavorite.getUserID());
 
-
+		Assert.assertNotNull(mlSolutionFavorite.toString());
 	}
 
 }

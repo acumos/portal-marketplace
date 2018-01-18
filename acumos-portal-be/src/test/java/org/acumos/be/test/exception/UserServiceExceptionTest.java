@@ -17,28 +17,19 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-package org.acumos.be.test.transport;
+package org.acumos.be.test.exception;
 
-import org.acumos.portal.be.transport.UploadSolution;
-import org.junit.Assert;
+import org.acumos.portal.be.common.exception.UserServiceException;
 import org.junit.Test;
 
-public class UploadSolutionTest {
-	
-	@Test	
-	public void testOauthUserParameter(){
-		
-		String name = "abc";
-		String version = "1.2";
+public class UserServiceExceptionTest {
 
-		UploadSolution uploadSolution = new  UploadSolution();
+	@Test
+	public void acumosServiceExceptionTParam(){
 		
-		uploadSolution.setName(name);
-		uploadSolution.setVersion(version);
-		
-		Assert.assertEquals(name, uploadSolution.getName());
-		Assert.assertEquals(version, uploadSolution.getVersion());
-		
-		Assert.assertNotNull(uploadSolution.toString());
+		String errorCode= "500";
+		new UserServiceException();
+		new UserServiceException("custom exception");
+		new UserServiceException(400, "custom exception");
 	}
 }

@@ -52,6 +52,7 @@ public class MLSolutionRatingTest {
 		Assert.assertEquals(rating, mlSolutionRating.getRating());
 		Assert.assertEquals(created, mlSolutionRating.getCreated());
 
+		Assert.assertNotNull(mlSolutionRating.toString());
 
 	}
 }

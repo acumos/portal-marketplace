@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.portal.be.transport.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -54,6 +55,8 @@ public class UserTest {
 		userIdList.add(loginName);
 		List<String> userNewRoleList = new ArrayList<String>();
 		userNewRoleList.add(roleId);
+		List<MLPRole> userAssignedRolesList=new ArrayList<>();
+
 		
 		User user= new User();
 		user.setActive(active);
@@ -76,6 +79,7 @@ public class UserTest {
 		user.setUserIdList(userIdList);
 		user.setUsername(username);
 		user.setUserNewRoleList(userNewRoleList);
+		user.setUserAssignedRolesList(userAssignedRolesList);
 		
 		Assert.assertEquals(active, user.getActive());
 		Assert.assertEquals(created, user.getCreated());
@@ -96,6 +100,6 @@ public class UserTest {
 		Assert.assertEquals(userIdList, user.getUserIdList());
 		Assert.assertEquals(username, user.getUsername());
 		Assert.assertEquals(userNewRoleList, user.getUserNewRoleList());
-
+        Assert.assertNotNull(user.getUserAssignedRolesList());
 	}
 }

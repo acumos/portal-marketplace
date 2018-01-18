@@ -25,7 +25,9 @@ import java.util.List;
 
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
+import org.acumos.cds.domain.MLPThread;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -58,6 +60,16 @@ public class MLSolutionTest {
 		int viewCount = 25;
 		int ratingAverageTenths = 20;
 		int ratingCount = 45;
+	    int privateModelCount =33;
+		int publicModelCount =22;
+		 int companyModelCount=11;
+		 int deletedModelCount=4;
+		 List<User> ownerListForSol=new ArrayList<User>();
+		 String threadId= "th1001";
+		 String commentId="cm2001";
+		 List<MLPThread> threadList = new ArrayList<MLPThread>();
+		 int solutionRatingAvg=3;
+				
 		MLPSolutionRevision mlPSolutionRevision = new MLPSolutionRevision();
 		mlPSolutionRevision.setCreated(new Date());
 		mlPSolutionRevision.setDescription("fafaf");
@@ -99,7 +111,26 @@ public class MLSolutionTest {
 		mlRole.setTookitType(tookitType);
 		mlRole.setTookitTypeName(tookitTypeName);
 		mlRole.setViewCount(viewCount);
-
+		mlRole.setPrivateModelCount(privateModelCount);
+		mlRole.setPublicModelCount(publicModelCount);
+		mlRole.setCommentId(commentId);
+		mlRole.setCompanyModelCount(companyModelCount);
+		mlRole.setThreadId(threadId);
+		mlRole.setDeletedModelCount(deletedModelCount);
+		mlRole.setOwnerListForSol(ownerListForSol);
+		mlRole.setThreadList(threadList);
+		mlRole.setSolutionRatingAvg(solutionRatingAvg);
+		
+		Assert.assertEquals(privateModelCount, mlRole.getPrivateModelCount());
+		Assert.assertEquals(publicModelCount, mlRole.getPublicModelCount());
+		Assert.assertEquals(companyModelCount, mlRole.getCompanyModelCount());
+		Assert.assertEquals(deletedModelCount, mlRole.getDeletedModelCount());
+		Assert.assertEquals(solutionRatingAvg, mlRole.getSolutionRatingAvg());
+		Assert.assertEquals(threadId, mlRole.getThreadId());
+		Assert.assertEquals(commentId, mlRole.getCommentId());
+		Assert.assertNotNull(mlRole.getOwnerListForSol());
+		Assert.assertNotNull(mlRole.getThreadList());
+		
 		Assert.assertEquals(accessType, mlRole.getAccessType());
 		Assert.assertEquals(created, mlRole.getCreated());
 		Assert.assertEquals(modified, mlRole.getModified());
@@ -126,7 +157,5 @@ public class MLSolutionTest {
 		Assert.assertEquals(viewCount, mlRole.getViewCount());
 		Assert.assertEquals(tookitTypeName, mlRole.getTookitTypeName());
 		Assert.assertEquals(active, mlRole.isActive());
-
 	}
-
 }

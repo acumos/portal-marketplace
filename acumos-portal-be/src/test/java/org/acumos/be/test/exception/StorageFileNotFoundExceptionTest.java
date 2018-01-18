@@ -17,28 +17,18 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-package org.acumos.be.test.transport;
+package org.acumos.be.test.exception;
 
-import org.acumos.portal.be.transport.UploadSolution;
+import org.acumos.portal.be.common.exception.StorageException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class UploadSolutionTest {
-	
-	@Test	
-	public void testOauthUserParameter(){
-		
-		String name = "abc";
-		String version = "1.2";
+public class StorageFileNotFoundExceptionTest {
 
-		UploadSolution uploadSolution = new  UploadSolution();
+	@Test
+	public void storageFileNotFoundExceptionParam() {
 		
-		uploadSolution.setName(name);
-		uploadSolution.setVersion(version);
-		
-		Assert.assertEquals(name, uploadSolution.getName());
-		Assert.assertEquals(version, uploadSolution.getVersion());
-		
-		Assert.assertNotNull(uploadSolution.toString());
+		Assert.assertNotNull(new StorageException("StorageFileNotFoundException"));
+		Assert.assertNotNull(new StorageException("StorageFileNotFoundException", new Throwable()));
 	}
 }

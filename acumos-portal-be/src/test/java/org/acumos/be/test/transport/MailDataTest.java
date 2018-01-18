@@ -21,6 +21,7 @@ package org.acumos.be.test.transport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.acumos.portal.be.transport.MailData;
 import org.junit.Assert;
@@ -36,16 +37,22 @@ public class MailDataTest {
 	    to.add("hhh@techm.com");
 	    String from = "abc@techm.com";
 	    String template = "sfsfsff";
+	    //Map<String, Object> model = new HashMap<String, Object>();
+	    
 		MailData mailData = new MailData();
 		mailData.setSubject(subject);
 		mailData.setFrom(from);		
 		mailData.setTo(to);
-		mailData.setTemplate(template);		
+		mailData.setTemplate(template);	
+//		mailData.setModel(model);
 		
 		Assert.assertEquals(subject, mailData.getSubject());
 		Assert.assertEquals(from, mailData.getFrom());
 		Assert.assertEquals(to, mailData.getTo());
 		Assert.assertEquals(template, mailData.getTemplate());
+		//Assert.assertNotNull(mailData.getModel());
+		
+		Assert.assertNotNull(mailData.toString());
 	}
 
 }
