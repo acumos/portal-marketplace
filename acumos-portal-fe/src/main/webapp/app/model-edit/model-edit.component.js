@@ -1953,17 +1953,15 @@ angular
 										}
 										 
 									});
-								}
-								
-								//calling function after every 10s to check the status 
-								//if validation is fetched TA as passed (the last step) stop calling again and again
-								if($scope.checkTA == "PS"){
-									console.log("calling ends");
-									return
-								}else{
-									$timeout(function() {
-										$scope.getModelValidation()
-									}, 10000);
+								}else if($scope.checkTA == "PS"){ 
+									console.log("calling ends");			//calling function after every 10s to check the status 
+									return									//if validation is fetched TA as passed (the last step) stop calling again and again
+								}else if($scope.validationResponse != null){ 
+									if(window.location.href.indexOf("modelEdit") > -1) {
+										$timeout(function() {
+											$scope.getModelValidation()
+										}, 10000);
+								    }
 								}
 							},
 							function(error) {
