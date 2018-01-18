@@ -28,16 +28,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.controller.UserRoleController;
 import org.acumos.portal.be.service.UserRoleService;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.UserRoleServiceImpl;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +50,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class UserRoleControllerTest {
 	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(UserRoleControllerTest.class);
@@ -61,6 +63,9 @@ public class UserRoleControllerTest {
 	
 	@Mock
 	UserRoleService userRoleService;
+	
+	@Mock
+	UserService userService;
 	
 	@Mock
 	UserRoleServiceImpl userRoleImpl;
@@ -204,15 +209,16 @@ public class UserRoleControllerTest {
 
 			JsonRequest<MLPRole> role = new JsonRequest<>();
 			role.setBody(mlpRole);
-			userRoleService.updateRole(role);
-			userRoleController.updateRole(role);
-			logger.info("Successfully updated Role: ", role);
-			Assert.assertNotNull(value);
-		} catch (Exception e) {
 			
+			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
+			Mockito.doNothing().when(userRoleService).updateRole(role);
+			value = userRoleController.updateRole(role);
+			
+			Assert.assertNotNull(value);
+			Assert.assertEquals("Role updated Successfuly", value.getResponseDetail());
+		} catch (Exception e) {
 			logger.info("Eception while fetching updateRoleTest ", e);
 		} catch (UserServiceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -240,10 +246,15 @@ public class UserRoleControllerTest {
 			JsonRequest<MLRole> role = new JsonRequest<>();
 			role.setBody(mlRole);
 			Assert.assertNotNull(role);
-			userRoleService.deleteRole(roleId);
-			userRoleController.deleteRole(role);
-			logger.info("Successfully deleted Role: ", role);
 			
+			
+			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
+			Mockito.doNothing().when(userRoleService).deleteRole(roleId);
+			value = userRoleController.deleteRole(role);
+			
+			Assert.assertNotNull(value);
+			Assert.assertEquals("Role deleted Successfuly", value.getResponseDetail());
+					
 		} catch (Exception e) {
 			
 			logger.info("Eception while fetching deleteRoleTest ", e);
@@ -277,10 +288,16 @@ public class UserRoleControllerTest {
 			value.setResponseBody(mlRoleFunction);
 			String roleFunctionId = mlRoleFunction.getRoleFunctionId();
 			String roleId = mlRole.getRoleId();
-			userRoleService.getRoleFunction(roleId, roleFunctionId);
-			userRoleController.getRoleFunction(roleFunction);
-			logger.info("Successfully fetched all the role function details ");
+			Mockito.when(userRoleService.getRoleFunction(roleId, roleFunctionId)).thenReturn(mlRoleFunction);
+			value = userRoleController.getRoleFunction(roleFunction);
 			Assert.assertNotNull(value);
+			Assert.assertEquals("Role fetched Successfully", value.getResponseDetail());
+			
+			Mockito.when(userRoleService.getRoleFunction(roleId, roleFunctionId)).thenReturn(mlRoleFunction);
+			value = userRoleController.getRoleFunction(roleFunction);
+			Assert.assertNotNull(value);
+			Assert.assertEquals("Role fetched Successfully", value.getResponseDetail());
+
 		} catch (Exception e) {
 			logger.info("Eception while fetching getRoleFunctionTest ", e);
 		} catch (UserServiceException e) {
@@ -375,6 +392,7 @@ public class UserRoleControllerTest {
 			mlRoleFunction.setCreated(created);
 			mlRoleFunction.setName("Role NAme");
 			mlRoleFunction.setRoleFunctionId("123");
+			mlRoleFunction.setMlRole(mlRole);
 			Assert.assertNotNull(mlRoleFunction);
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlRoleFunction);
@@ -384,8 +402,20 @@ public class UserRoleControllerTest {
 			Assert.assertNotNull(mlRoleFunctionReq);
 			String roleId =mlRole.getRoleId();
 			String roleFunctionId = mlRoleFunction.getRoleFunctionId();
-			userRoleService.deleteRoleFunction(roleId, roleFunctionId);
-			userRoleController.deleteRoleFunction(mlRoleFunctionReq);
+			
+			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
+			Mockito.doNothing().when(userRoleService).deleteRoleFunction(roleId, roleFunctionId);
+			JsonResponse<Object>  data = userRoleController.deleteRoleFunction(mlRoleFunctionReq);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("RoleFunction deleted Successfuly", data.getResponseDetail());
+			
+			mlRoleFunction.getMlRole().setRoleId(null);
+			Mockito.doNothing().when(userRoleService).deleteRoleFunction(roleId, roleFunctionId);
+			data = userRoleController.deleteRoleFunction(mlRoleFunctionReq);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Exception Occurred while deleteRoleFunction()", data.getResponseDetail());
+
+			
 			logger.info("Successfully deleted the role function details ");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -417,6 +447,10 @@ public class UserRoleControllerTest {
 			user.setLoginName("test-User-Name");
 			user.setRole(mlpRole.getName());
 			user.setRoleId(mlpRole.getRoleId());
+			List<String> newRoleList = new ArrayList<>();
+			newRoleList.add("Admin");
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 			Assert.assertNotNull(user);
 			String roleId = mlpRole.getRoleId();
 			Assert.assertEquals(roleId, user.getRoleId());
@@ -425,8 +459,42 @@ public class UserRoleControllerTest {
 			JsonResponse<MLPRole> value = new JsonResponse<>();
 			value.setResponseBody(mlpRole);
 			String userId= user.getUserId();
-			userRoleService.addUserRole(userId, roleId);
-		    userRoleController.addUserRole(request, userreq, response);
+			
+			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
+			Mockito.doNothing().when(userRoleService).addUserRole(userId, roleId);
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(mlpUser);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(mlpUser);
+			JsonResponse<MLPRole> data = userRoleController.addUserRole(request, userreq, response);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("User already exist", data.getResponseDetail());
+			
+
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(mlpUser);
+			data = userRoleController.addUserRole(request, userreq, response);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("User already exist", data.getResponseDetail());
+			
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
+			Mockito.when(userService.save(user)).thenReturn(user);
+			
+			data = userRoleController.addUserRole(request, userreq, response);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Error Occurred while addUserRole()", data.getResponseDetail());
+			
+			user.setUserNewRoleList(newRoleList);
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
+			Mockito.when(userService.save(user)).thenReturn(user);
+			
+			data = userRoleController.addUserRole(request, userreq, response);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Role created Successfully", data.getResponseDetail());
+			
+//			userRoleService.addUserRole(userId, roleId);
+//		    userRoleController.addUserRole(request, userreq, response);
+		    
 			logger.info("Successfully added user role");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -434,7 +502,129 @@ public class UserRoleControllerTest {
 			logger.info("Eception while fetching addUserRoleTest ", e);
 		}
 	}
-
-
-
+	@Test
+	public void updateUserRoleTest() {
+		MLPRole mlpRole = new MLPRole();
+		mlpRole.setName("Admin");
+		Date created = new Date();
+		mlpRole.setCreated(created);
+		mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+		Assert.assertNotNull(mlpRole);
+		User user = new User();
+		user.setActive("Y");
+		user.setFirstName("test-first-name");
+		user.setJwttoken(
+				"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOm51bGwsImNyZWF0ZWQiOjE1MTAxMzgyMzY4NjcsImV4cCI6MTUxMDc0MzAzNiwibWxwdXNlciI6eyJjcmVhdGVkIjoxNTA4MjM0Njk2MDAwLCJtb2RpZmllZCI6MTUwOTk2MDg5NTAwMCwidXNlcklkIjoiNDEwNTgxMDUtNjdmNC00NDYxLWExOTItZjRjYjdmZGFmZDM0IiwiZmlyc3ROYW1lIjoiTWFuaW1vemhpVDEiLCJtaWRkbGVOYW1lIjpudWxsLCJsYXN0TmFtZSI6IlQyIiwib3JnTmFtZSI6bnVsbCwiZW1haWwiOiJNYW5pbW96aGlUMUBnbWFpLmNvbSIsImxvZ2luTmFtZSI6Ik1hbmltb3poaVQxIiwibG9naW5IYXNoIjpudWxsLCJsb2dpblBhc3NFeHBpcmUiOm51bGwsImF1dGhUb2tlbiI6bnVsbCwiYWN0aXZlIjp0cnVlLCJsYXN0TG9naW4iOm51bGwsInBpY3R1cmUiOm51bGx9fQ.bLzIAFVUIPMVE_WD0-BvMupFyHyy90mw_je1PmnvP34swv1ZUW_SL7DBoKeSGnIf_zhtDp8V8d3Q3pAiWMjLyA");
+		user.setEmailId("testemail@test.com");
+		user.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
+		user.setLoginName("test-User-Name");
+		user.setRole(mlpRole.getName());
+		user.setRoleId(mlpRole.getRoleId());
+		Assert.assertNotNull(user);
+		String roleId = mlpRole.getRoleId();
+		Assert.assertEquals(roleId, user.getRoleId());
+		List<User> users = new ArrayList<>();
+		users.add(user);
+		JsonRequest<List<User>> userreq = new JsonRequest<>();
+		userreq.setBody(users);
+		try {
+			for (User u : userreq.getBody()) {
+				UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
+				Mockito.doNothing().when(userRoleService).updateUserRole(u);
+			}
+			JsonResponse<MLPRole> data = userRoleController.updateUserRole(userreq);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Role updated Successfully", data.getResponseDetail());
+			logger.info("updateUserRoleTest : Role updated Successfully");
+		}  catch (Exception e) {
+			logger.info("Eception while fetching addUserRoleTest ", e);
+		}
+			
+	}
+	
+	@Test
+	public void getRolesForUserTest() {
+		try {
+			String userId = "1810f833-8698-4233-add4-091e34b8703c";
+			MLRole mlRole = createMLRole();
+			Assert.assertNotNull(mlRole);
+			List<MLRole> mlRoleList = new ArrayList<MLRole>();
+			mlRoleList.add(mlRole);
+			Assert.assertNotNull(mlRoleList);
+			Mockito.when(userRoleService.getRolesForUser(userId)).thenReturn(mlRoleList);
+			JsonResponse<List<MLRole>> mlRoles = userRoleController.getRolesForUser(request, userId, response);
+			Assert.assertNotNull(mlRoles);
+			Assert.assertEquals("Roles for user fetched Successfully", mlRoles.getResponseDetail());
+			Mockito.when(userRoleService.getRolesForUser(userId)).thenReturn(null);
+			mlRoles = userRoleController.getRolesForUser(request, userId, response);
+			Assert.assertNotNull(mlRoles);
+			Assert.assertEquals("Error Occurred while getRolesList()", mlRoles.getResponseDetail());
+		} catch (Exception e) {
+			logger.info("Error Occurred while getRolesForUserTest()", e);
+		}
+	}
+	
+	
+	
+	@Test
+	public void changeUserRolesTest() {
+		JsonResponse<MLPRole> data = new JsonResponse<>();
+		try {
+			JsonRequest<User> jsonRequest = new JsonRequest<>();
+			User user = createUser();
+			jsonRequest.setBody(user);
+			if(jsonRequest.getBody() != null){
+				UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
+				Mockito.doNothing().when(userRoleService).updateUserRoles(jsonRequest.getBody());
+				data = userRoleController.changeUserRoles(jsonRequest);
+				Assert.assertNotNull(data);
+				Assert.assertEquals("Role updated Successfully", data.getResponseDetail());
+			}
+		} catch (Exception e) {
+			logger.info("Error Occurred while changeUserRolesTest()", e);
+		}
+	}
+	
+	@Test
+	public void getRoleUsersCountTest() {
+		JsonResponse<List<MLRole>> data = new JsonResponse<List<MLRole>>();
+		
+		try {	
+			MLRole mlRole = createMLRole();
+			List<MLRole> rolesCountMap = new ArrayList<>();
+			rolesCountMap.add(mlRole);
+			Mockito.when(userRoleService.getRoleUsersCount()).thenReturn(rolesCountMap);
+			data = userRoleController.getRoleUsersCount();			
+			//MLRole role = new MLRole();
+			//role.setRoleIdUserCount(rolesCountMap);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Role count fetched Successfully", data.getResponseDetail());
+			
+		} catch (Exception e) {
+			logger.info("Error Occurred while getRoleUsersCountTest()", e);
+		}
+	}
+	private MLRole createMLRole(){
+		MLRole mlRole = new MLRole();
+		mlRole.setActive(true);
+		mlRole.setName("Admin");
+		Date created = new Date();
+		mlRole.setCreated(created);
+		mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+		
+		return mlRole;
+	}
+	private User createUser(){
+		User user = new User();
+		user.setActive("Y");
+		user.setFirstName("test-first-name");
+		user.setJwttoken(
+				"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOm51bGwsImNyZWF0ZWQiOjE1MTAxMzgyMzY4NjcsImV4cCI6MTUxMDc0MzAzNiwibWxwdXNlciI6eyJjcmVhdGVkIjoxNTA4MjM0Njk2MDAwLCJtb2RpZmllZCI6MTUwOTk2MDg5NTAwMCwidXNlcklkIjoiNDEwNTgxMDUtNjdmNC00NDYxLWExOTItZjRjYjdmZGFmZDM0IiwiZmlyc3ROYW1lIjoiTWFuaW1vemhpVDEiLCJtaWRkbGVOYW1lIjpudWxsLCJsYXN0TmFtZSI6IlQyIiwib3JnTmFtZSI6bnVsbCwiZW1haWwiOiJNYW5pbW96aGlUMUBnbWFpLmNvbSIsImxvZ2luTmFtZSI6Ik1hbmltb3poaVQxIiwibG9naW5IYXNoIjpudWxsLCJsb2dpblBhc3NFeHBpcmUiOm51bGwsImF1dGhUb2tlbiI6bnVsbCwiYWN0aXZlIjp0cnVlLCJsYXN0TG9naW4iOm51bGwsInBpY3R1cmUiOm51bGx9fQ.bLzIAFVUIPMVE_WD0-BvMupFyHyy90mw_je1PmnvP34swv1ZUW_SL7DBoKeSGnIf_zhtDp8V8d3Q3pAiWMjLyA");
+		user.setEmailId("testemail@test.com");
+		user.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
+		user.setLoginName("test-User-Name");
+		user.setRole("Admin");
+		user.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+		return user;
+	}
 }

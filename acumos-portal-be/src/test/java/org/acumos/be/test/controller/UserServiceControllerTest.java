@@ -27,6 +27,7 @@ import org.acumos.portal.be.common.exception.MalformedException;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.controller.UserServiceController;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
+import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.MockCommonDataServiceRestClientImpl;
 import org.acumos.portal.be.service.impl.UserServiceImpl;
@@ -51,6 +52,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -296,17 +300,34 @@ public class UserServiceControllerTest {
 		user.setEmailId("user1@emial.com");
 		user.setActive("Y");
 		user.setPassword("password");
+		
 		JsonRequest<User> userReq = new JsonRequest<>();
+		List<String> userIdList = new ArrayList<>();
+		userIdList.add(user.getUserId());
+		user.setUserIdList(userIdList);
+		userReq.setBody(user);
 		String userId = user.getUserId();
 		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
-		userService.findUserByUserId(userId );
-		userService.updateBulkUsers(mlpUser);
+		Mockito.when(userService.findUserByUserId(userId )).thenReturn(mlpUser);
+		UserService myList = mock(UserService.class);
+	    doNothing().when(myList).updateBulkUsers(mlpUser);
+//		userService.findUserByUserId(userId );
+//		userService.updateBulkUsers(mlpUser);
 		JsonResponse<Object> userRes = userServiceController.updateBulkUsers(request, userReq , response);
-		if(userRes != null){
-			logger.debug(EELFLoggerDelegate.debugLogger, "Successfully updated BulkUsers");
-		}else{
-			logger.debug(EELFLoggerDelegate.errorLogger, "Exception occured while updateBulkUsers");
-		}
+		Assert.assertNotNull(userRes);
+		Assert.assertEquals("Users deactivated succesfuly", userRes.getResponseDetail());
+		
+		user.setUserIdList(null);
+		userReq.setBody(user);
+		mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+		Mockito.when(userService.findUserByUserId(userId )).thenReturn(mlpUser);
+		myList = mock(UserService.class);
+	    doNothing().when(myList).updateBulkUsers(mlpUser);
+//		userService.findUserByUserId(userId );
+//		userService.updateBulkUsers(mlpUser);
+		userRes = userServiceController.updateBulkUsers(request, userReq , response);
+		Assert.assertNotNull(userRes);
+		Assert.assertEquals("UserId not found", userRes.getResponseDetail());
 	}
 	
 	@Test

@@ -34,6 +34,7 @@ import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
@@ -42,6 +43,7 @@ import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
@@ -68,6 +70,9 @@ public class MarketPlaceServiceControllerTest {
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 
+	@Mock
+	UserService userService;
+	
 	@Mock
 	private MarketPlaceCatalogServiceImpl service;
 	
@@ -384,7 +389,8 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solRes);
 			String tag = mlpTag.getTag();
 			String solutionId = mlsolution.getSolutionId();
-			Mockito.when(marketPlaceController.dropSolutionTag(request, solutionId, tag, response)).thenReturn(solRes);
+			solRes = marketPlaceController.dropSolutionTag(request, solutionId, tag, response);
+			//Mockito.when(marketPlaceController.dropSolutionTag(request, solutionId, tag, response)).thenReturn(solRes);
 			logger.info("Successfully dropped  tags : " + solRes.getResponseBody());
 			Assert.assertNotNull(solRes);
 		} catch (Exception e) {
@@ -499,7 +505,8 @@ public class MarketPlaceServiceControllerTest {
 			JsonResponse<User> value = new JsonResponse<>();
 			
 			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
-//			Mockito.when(service.findUserByUserId(userId)).thenReturn(mlsolution);
+			MLPUser user = getMLPUser();
+			Mockito.when(userService.findUserByUserId(userId)).thenReturn(user);
 //			userService.findUserByUserId(userId)
 			value = marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response);
 //			Mockito.when(marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response))
@@ -918,5 +925,13 @@ public class MarketPlaceServiceControllerTest {
 		mlsolution.setModelType("CL");
 		mlsolution.setTookitType("DS");
 		return mlsolution;
+	}
+	private MLPUser getMLPUser(){
+		MLPUser mlpUser = new MLPUser();
+		mlpUser.setActive(true);
+		mlpUser.setFirstName("test-first-name");			
+		mlpUser.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
+		mlpUser.setLoginName("test-User-Name");
+		return mlpUser;
 	}
 }

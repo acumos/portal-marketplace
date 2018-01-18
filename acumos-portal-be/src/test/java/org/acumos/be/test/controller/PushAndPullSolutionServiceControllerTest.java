@@ -80,13 +80,7 @@ public class PushAndPullSolutionServiceControllerTest {
 			User user = getUser();
 			MLSolution mlsolution = getMLSolution();
 			
-
-			MLPArtifact mockMLPArtifact = new MLPArtifact();
-			mockMLPArtifact.setArtifactId("4cbf491b-c687-459f-9d81-e150d1a0b972");
-			mockMLPArtifact.setArtifactTypeCode("MI");
-			mockMLPArtifact.setDescription("Test data");
-			mockMLPArtifact.setName("Test Artifact data");
-			mockMLPArtifact.setOwnerId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+			MLPArtifact mockMLPArtifact =  getMLPArtifact();
 			
 			MLPSolutionRevision mlpSolRev = getMLPSolutionRevision();
 			
