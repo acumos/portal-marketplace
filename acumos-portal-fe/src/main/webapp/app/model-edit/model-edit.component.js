@@ -1705,10 +1705,12 @@ angular
 							$scope.uData = [];
 							$scope.allUserDetails = [];
 							$scope.allGroups1 =[];
+							$scope.userActiveStatus = true;
 							apiService
-									.getAllUsersLists()
+									.getAllActiveUser($scope.userActiveStatus)
 									.then(
 											function(response) {
+												debugger
 												$scope.loadShareWithTeam();
 												$scope.allUserDetails = response.data.response_body;
 												console.log("allGroups: ",$scope.allGroups);

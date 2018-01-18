@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -41,19 +44,15 @@ import org.acumos.portal.be.security.jwt.TokenValidation;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,9 +60,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import org.acumos.cds.domain.MLPRole;
-import org.acumos.cds.domain.MLPUser;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -670,4 +666,40 @@ public class UserServiceController extends AbstractController {
 		return responseObj;
 		
 	}
+	
+	@ApiOperation(value = "Get user Account Details. Returns successful response after the data.", response = JsonResponse.class)
+	   @RequestMapping(value = {APINames.ACTIVE_USER_DETAILS}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	   @ResponseBody
+	    public JsonResponse<List<User>> getAllActiveUsers(HttpServletRequest request, HttpServletResponse response,@PathVariable("active") boolean activeFlag) {
+	        // public JsonResponse getUserAccountDetails() { 
+	        log.debug(EELFLoggerDelegate.debugLogger, "getAllActiveUsers={}");
+	        // Object responseVO = null;
+	        JsonResponse<List<User>> responseVO = new JsonResponse<>();
+	        try {
+	            List<User> users = userService.getAllUser();
+	            
+	            if (activeFlag) {
+	                List<User> removeUsers = new ArrayList<>(users.size());
+	                for (User user : users) {
+	                    if (!user.getActive().equals(String.valueOf(activeFlag))) {
+	                        removeUsers.add(user);
+	                    }
+	                }
+	                users.removeAll(removeUsers);
+	            }
+	            
+	            responseVO.setResponseBody(users);
+	            responseVO.setStatus(true);
+	            responseVO.setResponseDetail("Success");
+	            responseVO.setStatusCode(HttpServletResponse.SC_OK);
+	            
+	        } catch (Exception e) {
+	            responseVO.setStatus(false);
+	            responseVO.setResponseDetail("Failed");
+	            responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+	            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAllActiveUsers()", e);
+	        }
+	        return responseVO;
+	    }
 }
+

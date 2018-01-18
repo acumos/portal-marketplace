@@ -67,8 +67,12 @@ angular.module('AcumosApp')
         var urlUserProfileImage = "api/users/userProfileImage";
         var urlUserAccountDetails = "api/users/userAccountDetails";
         var urlDeleteSub = 'api/admin/peer/subcription/delete/';
+        var urlGetActiveUsers = "api/users/activeUserDetails"
         	
         /**************** ALL GET ******************/
+    	this.getAllActiveUser = function (activeStatus) {
+            return $http.get(urlGetActiveUsers + '/' + activeStatus);
+        };
         
         this.getRoleCount = function () {
             return $http.get(rolesCount);
@@ -76,7 +80,7 @@ angular.module('AcumosApp')
         
         this.getSolutionDescription = function(publicOrOrg, solutionId, revisionId){
         	return $http.get(urlSolutionDescription + '/' +publicOrOrg  + '/'+solutionId + '/' +revisionId)
-        }
+        };
         
         this.getSolutionImage = function(solutionId){
         	return $http.get(urlSolutionImages + '/'+solutionId)
