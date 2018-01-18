@@ -61,6 +61,9 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Autowired
     MailService mailservice;
+    
+    @Autowired
+    MailJet mailJet;
 
     private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(UserServiceImpl.class);
 
@@ -283,6 +286,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         cal.setTime(date);
         cal.add(Calendar.DATE, 1);
         mlpUser.setLoginPassExpire(cal.getTime());
+        mlpUser.setAuthToken(null);
 
         // Update users password & password expire date
         dataServiceRestClient.updateUser(mlpUser);
@@ -297,12 +301,19 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         mailData.setTo(to);
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("user", mlpUser);
+        model.put("signature", "Acumos Customer Service");
         mailData.setModel(model);
 
         if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email")) 
         		&& env.getProperty("portal.feature.email").equalsIgnoreCase("true")) {
         	try {
-                mailservice.sendMail(mailData);
+        		if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email.service")) 
+                		&& env.getProperty("portal.feature.email.service").equalsIgnoreCase("mailjet")) {
+        			mailJet.sendMail(mailData);
+        		}else {
+	        		//Use SMTP setup
+	                mailservice.sendMail(mailData);
+        		}
             }
             catch (MailException ex) {
                 log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
