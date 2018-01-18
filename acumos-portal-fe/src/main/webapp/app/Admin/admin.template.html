@@ -975,7 +975,9 @@
 									  		<div class="subscontainer">
 									  			<div class="subscontainerinner1">
 									  				<span class="font600 fedlbl2">Subscription List</span>
-									  				<button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button>
+									  				<!-- <button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button> -->
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;showPopupPeeR1($event,peerDetailList)"><!-- <span class="admin-btn-add"></span> --> Back to Subscription list</button>
 									  			</div> 
 									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
 									  				<span class="font600 fedlbl2">Filter</span>
@@ -1043,7 +1045,7 @@
 													      </md-input-container> -->
 													      <div class="select-control admin-select">
 															     <label class="fedlbl4">Category</label>
-															        <md-select ng-model="categoryValue" ng-disabled="modelIDValue" placeholder="Select Category">
+															        <md-select ng-model="categoryValue" ng-change="addedToSubs = false;solutionDetail=false" ng-disabled="modelIDValue" placeholder="Select Category">
 															        <md-option ng-selected="true" value="">Select Category</md-option>
 															           <md-option ng-repeat="cat in category" ng-value="cat.typeCode">{{cat.typeName}}</md-option>
 															     </md-select>
@@ -1062,7 +1064,7 @@
 													      </md-input-container> -->
 													      <div class="select-control admin-select">
 															     <label class="fedlbl4">Toolkit type</label>
-															        <md-select ng-model="toolKitTypeValue" ng-disabled="modelIDValue" placeholder="Select toolkit">
+															        <md-select ng-model="toolKitTypeValue" ng-change="addedToSubs = false" ng-disabled="modelIDValue" placeholder="Select toolkit">
 															        <md-option ng-selected="true" value="">Select toolkit</md-option>
 															           <md-option ng-repeat="tool in toolKitType" ng-value="tool.toolkitCode"> {{tool.toolkitName}}</md-option>
 															     </md-select>
@@ -1086,7 +1088,8 @@
 																	<div><span class="text-small">by  {{solutionDetail.ownerName}} </span><span class="text-small">on {{solutionDetail.created}}</span></div>
 																	<label>Model belongs to: AT&T</label>
 																</td>
-																<td><button ng-click="addToSubs()" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td><button ng-hide='solutionDetail&&addedToSubs' ng-click="addToSubs()" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td ng-show='solutionDetail&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
 															</tr>														
 																												
@@ -1107,7 +1110,8 @@
 																<td>
 																	{{toolKitTypeValue}}
 																</td>
-																<td><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
 															</tr>														
 																												
@@ -1122,7 +1126,7 @@
 													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
 												</div>
 												<div>													
-													<button ng-click='addPeer111111()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
 												</div>
 											</div>
 										</md-dialog-content>

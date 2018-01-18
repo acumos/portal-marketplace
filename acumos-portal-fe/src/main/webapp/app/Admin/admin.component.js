@@ -422,6 +422,7 @@ angular.module('admin')
                       }
                       //Serch using model id
                       $scope.modelEdit = function(){
+                    	  $scope.addedToSubs = false;
                     	  var getSolutionImagesReq = {
 									method : 'GET',
 									url : '/site/api-manual/Solution/solutionImages/'+$scope.modelIDValue
@@ -457,6 +458,7 @@ angular.module('admin')
                 	  $scope.categoryValue = '';
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
                 	  $scope.peerIdForSubsList = val.peerId;
+                	  $scope.peerDetailList = val;
                 	  var url = 'api/admin/peer/subcriptions/' +  val.peerId;
                 	  $http.post(url).success(function(response){
                 		  //debugger;
@@ -568,11 +570,14 @@ angular.module('admin')
                     	  console.log($scope.solutionDetail.tookitType   $scope.solutionDetail.modelType);
                       }*/
                       //Add to subscription
+                      $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
+                    	  var check = false;
                     	  var jsonFormate = '',cat='',toolKit='';
                     	  if(!$scope.categoryValue && !$scope.toolKitTypeValue){
                     		  $scope.categoryValue = $scope.solutionDetail.modelType;
                     		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;
+                    		  check = true;
                     	  }
                     	  if($scope.categoryValue){
                     		  cat = '"modelTypeCode\\":\\"' +$scope.categoryValue + '\\"'
@@ -588,6 +593,7 @@ angular.module('admin')
                     			    	"subId": $scope.subId,
                     			    	"selector" : catToolkit    //"{\"modelTypeCode\":\"CL\"}"  
                     	  				}}
+                    	  if(check){$scope.categoryValue='';$scope.toolKitTypeValue='';}
                     	  var url = "api/admin/peer/subcription/create";
                           $http({
                               method : "POST",
@@ -595,8 +601,9 @@ angular.module('admin')
                               data : json
                           }).then(function mySuccess(response) {
                               if(response.data.response_detail ==  "Success"){
-                            	  $scope.closePoup();
-                      	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                            	  //$scope.closePoup();
+                            	  $scope.addedToSubs = true;
+                      	    	/*$location.hash('myDialog');  
                                   $anchorScroll(); 
                                   $scope.msg = "Successfully added to subscription list."; 
                                   $scope.icon = 'report_problem';
@@ -604,7 +611,7 @@ angular.module('admin')
                                   $scope.showAlertMessage = true;
                                   $timeout(function() {
                                   	$scope.showAlertMessage = false;
-                                  }, 5000);
+                                  }, 5000);*/
                               }
                           }, function myError(response) {
                         	  debugger;
