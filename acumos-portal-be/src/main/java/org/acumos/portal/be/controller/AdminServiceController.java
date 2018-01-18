@@ -30,6 +30,7 @@ import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
@@ -52,8 +56,11 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(APINames.ADMIN)
 public class AdminServiceController extends AbstractController {
 
-	@Autowired
+    @Autowired
     AdminService adminService;
+    
+    @Autowired
+    private Environment env;
 
     private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AdminServiceController.class);
 
@@ -121,25 +128,25 @@ public class AdminServiceController extends AbstractController {
         try {
             if (peer != null) {
                 
-            	//First check if the Peer urls exists
-	            boolean isPeerExists = false;
-	            try {
-	                MLPPeer mlpPeer = adminService.findPeerByApiAndWebUrl(peer.getBody().getApiUrl(), peer.getBody().getWebUrl());
-	                if (mlpPeer != null) {
-	                    isPeerExists = true;
-	                }
-	            } catch (Exception e) {
-	                isPeerExists = false;
-	            }
-	            if (!isPeerExists) {
-	                newPeer = adminService.savePeer(peer.getBody());
-	                data.setResponseBody(newPeer);
-	                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-	                data.setResponseDetail("Success");
-	            } else {
-	                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-	                data.setResponseDetail("Reset_Content");
-	            } 
+                //First check if the Peer urls exists
+                boolean isPeerExists = false;
+                try {
+                    MLPPeer mlpPeer = adminService.findPeerByApiAndWebUrl(peer.getBody().getApiUrl(), peer.getBody().getWebUrl());
+                    if (mlpPeer != null) {
+                        isPeerExists = true;
+                    }
+                } catch (Exception e) {
+                    isPeerExists = false;
+                }
+                if (!isPeerExists) {
+                    newPeer = adminService.savePeer(peer.getBody());
+                    data.setResponseBody(newPeer);
+                    data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                    data.setResponseDetail("Success");
+                } else {
+                    data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                    data.setResponseDetail("Reset_Content");
+                } 
             } else {
                 log.debug(EELFLoggerDelegate.errorLogger, "createPeer: Invalid Parameters");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -164,7 +171,7 @@ public class AdminServiceController extends AbstractController {
         JsonResponse<Object> data = new JsonResponse<>();
         try {
             if (peer != null && peer.getBody() != null) {
-        	   adminService.updatePeer(peer.getBody());
+               adminService.updatePeer(peer.getBody());
                data.setStatus(true);
                data.setResponseDetail("Success");
                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -211,27 +218,27 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Gets paginated list of Peer Subscriptions.", response = MLPPeerSubscription.class, responseContainer = "List")
     @RequestMapping(value = { APINames.PEERSUBSCRIPTION_PAGINATED }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
-	public JsonResponse<List<MLPPeerSubscription>> getPeerSubscriptions(
-			@PathVariable("peerId") String peerId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getPeerList");
-		List<MLPPeerSubscription> subscriptionList = null;
-		JsonResponse<List<MLPPeerSubscription>> data = new JsonResponse<>();
-		try {
-			subscriptionList = adminService.getPeerSubscriptions(peerId);
-			if (subscriptionList != null) {
-				data.setResponseBody(subscriptionList);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("PeerSubscription fetched Successfully");
-			}
-		} catch (Exception e) {
-			
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Exception Occurred Fetching PeerSubscription for Admin Configuration");
-			log.error(EELFLoggerDelegate.errorLogger,
-					"Exception Occurred Fetching PeerSubscription for Admin Configuration", e);
-		}
-		return data;
-	}
+    public JsonResponse<List<MLPPeerSubscription>> getPeerSubscriptions(
+            @PathVariable("peerId") String peerId) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getPeerList");
+        List<MLPPeerSubscription> subscriptionList = null;
+        JsonResponse<List<MLPPeerSubscription>> data = new JsonResponse<>();
+        try {
+            subscriptionList = adminService.getPeerSubscriptions(peerId);
+            if (subscriptionList != null) {
+                data.setResponseBody(subscriptionList);
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("PeerSubscription fetched Successfully");
+            }
+        } catch (Exception e) {
+            
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Exception Occurred Fetching PeerSubscription for Admin Configuration");
+            log.error(EELFLoggerDelegate.errorLogger,
+                    "Exception Occurred Fetching PeerSubscription for Admin Configuration", e);
+        }
+        return data;
+    }
 
     @ApiOperation(value = "Gets Subscription details.", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -259,29 +266,29 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Add a new peer subscription", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_CREATE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
-	public JsonResponse<MLPPeerSubscription> createPeerSubscription(@RequestBody JsonRequest<MLPPeerSubscription> peerSub) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createPeer={}", peerSub);
-		JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
-		MLPPeerSubscription peerSubscription = null;
-		try {
-			if (peerSub != null) {
-				peerSubscription = adminService.createPeerSubscription(peerSub.getBody());
-				data.setResponseBody(peerSubscription);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Success");
-			} else {
-				log.debug(EELFLoggerDelegate.errorLogger, "createPeerSubscription: Invalid Parameters");
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-				data.setResponseDetail("Create PeerSubscription Failed");
-			}
+    public JsonResponse<MLPPeerSubscription> createPeerSubscription(@RequestBody JsonRequest<MLPPeerSubscription> peerSub) {
+        log.debug(EELFLoggerDelegate.debugLogger, "createPeer={}", peerSub);
+        JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
+        MLPPeerSubscription peerSubscription = null;
+        try {
+            if (peerSub != null) {
+                peerSubscription = adminService.createPeerSubscription(peerSub.getBody());
+                data.setResponseBody(peerSubscription);
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("Success");
+            } else {
+                log.debug(EELFLoggerDelegate.errorLogger, "createPeerSubscription: Invalid Parameters");
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                data.setResponseDetail("Create PeerSubscription Failed");
+            }
 
-		} catch (Exception e) {
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Failed");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerSubscription()", e);
-		}
-		return data;
-	}
+        } catch (Exception e) {
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Failed");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerSubscription()", e);
+        }
+        return data;
+    }
     
     @ApiOperation(value = "Update Peer subscription details.", response = JsonResponse.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_UPDATE }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
@@ -291,12 +298,12 @@ public class AdminServiceController extends AbstractController {
         JsonResponse<Object> data = new JsonResponse<>();
         try {
             if (peerSub!= null && peerSub.getBody() != null) {
-            	adminService.updatePeerSubscription(peerSub.getBody());
+                adminService.updatePeerSubscription(peerSub.getBody());
                 data.setStatus(true);
                 data.setResponseDetail("Success");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
             } else {
-            	log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
+                log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                 data.setResponseDetail("Update Peer subscription Failed");
             }
@@ -315,7 +322,7 @@ public class AdminServiceController extends AbstractController {
         log.debug(EELFLoggerDelegate.debugLogger, "deletePeerSubscription={}", subId);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
-        	 if (subId != null) {
+             if (subId != null) {
                  adminService.deletePeerSubscription(subId);
                  data.setStatus(true);
                  data.setResponseDetail("Success");
@@ -337,82 +344,82 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Gets list of Site configuration.", response = MLPSiteConfig.class, responseContainer = "List")
     @RequestMapping(value = { APINames.GET_SITE_CONFIG}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
-	public JsonResponse<MLPSiteConfig> getSiteConfiguration(@PathVariable("configKey") String configKey) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
-		MLPSiteConfig mlpSiteConfig = null;
-		JsonResponse<MLPSiteConfig> data = null;
-		try {
-			data = new JsonResponse<>();
-			mlpSiteConfig = adminService.getSiteConfig(configKey);
-			if (mlpSiteConfig != null) {
-				data.setResponseBody(mlpSiteConfig	);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("SiteConfiguration fetched Successfully");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
-			log.error(EELFLoggerDelegate.errorLogger,
-					"Exception Occurred Fetching Site Configuration for Admin Configuration", e);
-		}
-		return data;
-	}
+    public JsonResponse<MLPSiteConfig> getSiteConfiguration(@PathVariable("configKey") String configKey) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
+        MLPSiteConfig mlpSiteConfig = null;
+        JsonResponse<MLPSiteConfig> data = null;
+        try {
+            data = new JsonResponse<>();
+            mlpSiteConfig = adminService.getSiteConfig(configKey);
+            if (mlpSiteConfig != null) {
+                data.setResponseBody(mlpSiteConfig    );
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("SiteConfiguration fetched Successfully");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
+            log.error(EELFLoggerDelegate.errorLogger,
+                    "Exception Occurred Fetching Site Configuration for Admin Configuration", e);
+        }
+        return data;
+    }
     
     
     @ApiOperation(value = "Create site configuration", response = MLPSiteConfig.class)
     @RequestMapping(value = { APINames.CREATE_SITE_CONFIG}, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLPSiteConfig> createSiteConfig(@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig) {
-    	log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig={}", mlpSiteConfig);
-		JsonResponse<MLPSiteConfig> data = null;
-		MLPSiteConfig siteConfiguration = null;
-		try {
-			data = new JsonResponse<>();
-			if(mlpSiteConfig != null) {
-				adminService.createSiteConfig(mlpSiteConfig.getBody());
-				data.setResponseBody(siteConfiguration);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Successfully create siteconfig");
-			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			}
-			log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig :  ");
-		} catch (Exception e) {
-			e.printStackTrace();
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Exception occured while createSiteConfig");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createSiteConfig :", e);
-		}
-		return data;
-	}
+        log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig={}", mlpSiteConfig);
+        JsonResponse<MLPSiteConfig> data = null;
+        MLPSiteConfig siteConfiguration = null;
+        try {
+            data = new JsonResponse<>();
+            if(mlpSiteConfig != null) {
+                adminService.createSiteConfig(mlpSiteConfig.getBody());
+                data.setResponseBody(siteConfiguration);
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("Successfully create siteconfig");
+            } else {
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            }
+            log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig :  ");
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Exception occured while createSiteConfig");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createSiteConfig :", e);
+        }
+        return data;
+    }
     
     @ApiOperation(value = "Update site configuration", response = MLPSiteConfig.class)
     @RequestMapping(value = { APINames.UPDATE_SITE_CONFIG}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLPSiteConfig> updateSiteConfig(@PathVariable ("configKey") String configKey,@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig) {
-    	log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig={}", mlpSiteConfig);
-		JsonResponse<MLPSiteConfig> data = null;
-		try {
-			data = new JsonResponse<>();
-			if(mlpSiteConfig != null){
-				adminService.updateSiteConfig(mlpSiteConfig.getBody());
-				//adminService.createSiteConfig(mlpSiteConfig.getBody());
-				//data.setResponseBody(adminService.updateSiteConfig(mlpSiteConfig.getBody()));
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Successfully updated siteconfig");
-				log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig :  ");
-			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Exception occured while updateSiteConfig");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateSiteConfig :", e);
-		}
-		return data;
-	}
+        log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig={}", mlpSiteConfig);
+        JsonResponse<MLPSiteConfig> data = null;
+        try {
+            data = new JsonResponse<>();
+            if(mlpSiteConfig != null){
+                adminService.updateSiteConfig(mlpSiteConfig.getBody());
+                //adminService.createSiteConfig(mlpSiteConfig.getBody());
+                //data.setResponseBody(adminService.updateSiteConfig(mlpSiteConfig.getBody()));
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("Successfully updated siteconfig");
+                log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig :  ");
+            } else {
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Exception occured while updateSiteConfig");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateSiteConfig :", e);
+        }
+        return data;
+    }
     
     
     
@@ -446,4 +453,18 @@ public class AdminServiceController extends AbstractController {
                  : "no version, classpath is not jar";
          return new TransportData(200, version);
      }
+    
+    @ApiOperation(value = "Get Dashboard URL", response = JsonResponse.class)
+    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<String> getDocurl(HttpServletRequest request, HttpServletResponse response) {
+        
+        String docUrl = env.getProperty("portal.dashboard.url", "");
+        JsonResponse<String> responseVO = new JsonResponse<String>();
+        responseVO.setResponseBody(docUrl);
+        responseVO.setStatus(true);
+        responseVO.setResponseDetail("Success");
+        responseVO.setStatusCode(HttpServletResponse.SC_OK);
+        return responseVO;
+    }
 }

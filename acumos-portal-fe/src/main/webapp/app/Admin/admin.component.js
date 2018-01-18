@@ -19,6 +19,10 @@ angular.module('admin')
 			}
 			$scope.checkAdmin();
 			
+			$scope.showDocUrl = false;
+			  apiService.getDashboardUrl().then( function(response){
+					$scope.dashboardUrl = response.data.response_body;
+				});
 			//API for get Roles
 			function getRole(){
 				apiService
