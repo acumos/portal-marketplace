@@ -1196,6 +1196,7 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 .subscontainerinner2 {display: flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;}
 .btn-with-icon {padding-left: 8px;}
 .fedgridcontainer {margin-top: 15px;border: 1px solid #d5d5d5; border-bottom: none;}
+.btn-with-icon.btn-primary .admin-btn-add {background: url("../images/admin-dashboard/add_new_user_white_ico.png") no-repeat center center;}
 
 .filter-container {display: flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start; background: #f1f1f1;padding: 10px; margin-top: 15px; border-top:1px solid #E4E4E4;border-bottom:1px solid #E4E4E4;}
 .filter-container div {margin-right: 20px;}
@@ -1494,3 +1495,6 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 
 
 
+.subs-message1 {display: flex; justify-content: flex-start; align-items: center; padding: 8px;}
+.subs-added {display:inline-block;width: 20px; height: 20px; background: url("../images/dashboard/status.png") no-repeat center center;background-size:cover;}
+.subs-message1 span:last-child {color: #0f9c6d; margin-left: 5px;}
