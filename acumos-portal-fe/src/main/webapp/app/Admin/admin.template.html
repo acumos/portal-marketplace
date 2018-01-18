@@ -982,7 +982,7 @@
 									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
 									  				<span class="font600 fedlbl2">Filter</span>
 									  				<div class="mdl-textfield mdl-js-textfield admin-search-container">
-														<input class="mdl-textfield__input admin-search-control" type="text" >																
+														<input class="mdl-textfield__input admin-search-control" type="text" ng-model="arrDetails.subId">																
 													</div>
 									  			
 									  			</div>
@@ -1008,7 +1008,7 @@
 															</tr>
 														  </thead>
 														  <tbody>
-															<tr ng-repeat = "val in arrDetails">
+															<tr ng-repeat = "val in arrDetails | filter: arrDetails.subId as filtered">
 																<td><label>{{val.subId}}</label></td>
 																<td><label>Name of Solution</label></td>
 																<td><label>{{val.modelType}}</label></td>
