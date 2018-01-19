@@ -1129,6 +1129,7 @@ angular
 									})
 									.then(
 											function successCallback(response) {
+												debugger
 												$scope.artifactDownload = response.data.response_body;
 												for (var x = 0; x < response.data.response_body.length; x++) {
 													if(response.data.response_body[x].artifactTypeCode == "DI"){
@@ -1387,6 +1388,12 @@ angular
 											});
 				            }
 						}
+						
+						$scope.cancelSolImage = function(){
+							$scope.previewImage = $scope.imgURLdefault;
+							$scope.filename = "";
+							$scope.solImage = "";
+						};
 						
 						/** ***** File upload****** */
 						$scope.updateSolutionFiles = function() {
@@ -1771,7 +1778,6 @@ angular
 									.getAllActiveUser($scope.userActiveStatus)
 									.then(
 											function(response) {
-												debugger
 												$scope.loadShareWithTeam();
 												$scope.allUserDetails = response.data.response_body;
 												console.log("allGroups: ",$scope.allGroups);
@@ -2007,18 +2013,18 @@ angular
 					};  
 					
 					$scope.selectIcon = function(iconImage) {
-						$scope.previewImage = 'images/solutions/'+ iconImage +'.png';
-						
-					    $scope.icon = false;
-					    $scope.solImage = "";
-					    srcToFile($scope.previewImage, iconImage, 'image/png')
-						.then(function(file){
-						    var fd = new FormData();
-						    fd.append('file1', file);
-						    $scope.solImage = file;
-						    $scope.filename = $scope.solImage.name +".png";
-						});
-				};  
+                        $scope.previewImage = 'images/solutions/'+ iconImage +'.png';
+                        $scope.selectedIcon = iconImage;
+                        $scope.icon = false;
+                        $scope.filename = iconImage +'.png';
+                        srcToFile($scope.previewImage, iconImage, 'image/png')
+                        .then(function(file){
+                            var fd = new FormData();
+                            fd.append('file1', file);
+                            $scope.solImage = file;
+                            //$scope.filename = $scope.solImage.name +".png";
+                        });
+                }; 
 				
 				//load src and convert to a File instance object
 				function srcToFile(src, fileName, mimeType){
@@ -2161,7 +2167,7 @@ angular
 					$scope.imgURLvideo ="images/video_analytics.png";
 					$scope.imgURLChat = "images/ChatBot.png";
 					$scope.imgURLSensitive = "images/Sensitive.png";
-					$scope.imgURLdefault ="images/default-model.png";
+					$scope.imgURLdefault ="images/img-list-item.png";
 						
 						
 					}
