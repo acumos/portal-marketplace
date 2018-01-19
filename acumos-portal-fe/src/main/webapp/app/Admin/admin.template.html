@@ -474,8 +474,8 @@
 															<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1">
 																<colgroup>
 																	<col width="15%">
-																	<col width="15%">
 																	<col width="30%">
+																	<col width="15%">
 																	<col width="15%">
 																	<col width="15%">
 																	<col width="10%">
@@ -483,7 +483,7 @@
 															  <thead  ng-hide="hideLabel">
 																<tr>														  
 																  <th>Name</th>
-																  <th>gateway information</th>
+																  <th>gateway info</th>
 																  <th>Contact</th>
 																  <th>Subscriptions</th>
 																  <th>Status</th>
@@ -498,7 +498,7 @@
 																		<label>Regression</label>
 																	</td> -->
 																	<td>
-																		<a class="disblock" data-target>{{val.apiUrl}}</a>
+																		<a class="disblock" href="{{val.apiUrl}}">{{val.apiUrl}}</a>
 																		<!-- <a class="disblock" data-target>{{val.webUrl}}</a> -->
 																	</td>
 																	<td>
@@ -907,7 +907,7 @@
 										<div layout="row">
 										  <div flex="100">
 										    <md-input-container class="md-block">
-									          <label>Biography</label>
+									          <label>Description</label>
 									          <!-- <textarea ng-model="addPeer.biography" rows="4" md-select-on-focus></textarea> -->
 									          <textarea ng-model="descriptionPop" rows="4"></textarea>
 									        </md-input-container>
@@ -985,8 +985,8 @@
 									  			<div class="subscontainerinner1">
 									  				<span class="font600 fedlbl2">Subscription List</span>
 									  				<!-- <button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button> -->
-									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true;categoryValue='';toolKitTypeValue='';modelIDValue='';noData=''"><span class="admin-btn-add"></span> New Subscription</button>
-									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;backTo()"><!-- <span class="admin-btn-add"></span> --> <i class="material-icons">arrow_back</i>Back to Subscription list</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true;categoryValue='';toolKitTypeValue='';modelIDValue='';noData=''"><span class="admin-btn-add"></span> Add Subscription</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-primary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;backTo()"><!-- <span class="admin-btn-add"></span> --> <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back to Subscription list</button>
 									  			</div> 
 									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
 									  				<span class="font600 fedlbl2">Filter</span>
@@ -1106,8 +1106,8 @@
 															</colgroup>														 
 														  <tbody>
 															<tr>
-																<td>{{catValue}}</td>
-																<td>
+																<td ng-if="catValue">{{catValue}}</td>
+																<td ng-if="toolType">
 																	{{toolType}}
 																</td>
 																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
