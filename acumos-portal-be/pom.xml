@@ -231,7 +231,7 @@
 						<manifestEntries>
 							<Build-Number>${project.version}.${build.number}</Build-Number>
 							<Build-Time>${maven.build.timestamp}</Build-Time>
-							<Implementation-Version>${project.version}.${build.number}</Implementation-Version>
+							<Implementation-Version>${project.version}-b${build.number}</Implementation-Version>
 						</manifestEntries>
 					</archive>
 				</configuration>

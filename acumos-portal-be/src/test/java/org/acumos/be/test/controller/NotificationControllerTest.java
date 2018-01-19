@@ -85,6 +85,12 @@ public class NotificationControllerTest {
 		when(notificationService.createNotification(mlpNotification)).thenReturn(value);
 		data = notificationController.createNotification(request, notificationReq, response);
 		data.setResponseBody(value);
+		
+		notificationReq.setBody(null);
+		when(notificationService.createNotification(mlpNotification)).thenReturn(value);
+		data = notificationController.createNotification(request, notificationReq, response);
+		data.setResponseBody(value);
+		
 		if(data != null){
 			logger.debug(EELFLoggerDelegate.debugLogger, "Notification created Successfully :  "+data.getResponseBody());
 		}else {
@@ -108,11 +114,10 @@ public class NotificationControllerTest {
 		notificationres.setResponseBody(mlNotificationList);
 		when(notificationService.getNotifications()).thenReturn(mlNotificationList);
 		notificationres = notificationController.getNotifications();
-		if(notificationres != null){
-			logger.debug(EELFLoggerDelegate.debugLogger, "getNotifications: size is {} ", mlNotificationList.size());
-		}else {
-			logger.error(EELFLoggerDelegate.errorLogger, "Error Occurred while fetching Notification :");
-		}
+		
+		when(notificationService.getNotifications()).thenReturn(null);
+		notificationres = notificationController.getNotifications();
+		
 	}
 	
 	@Test

@@ -265,36 +265,4 @@ public class OauthUserServiceController extends AbstractController {
 		return responseObject;
 	}
 	
-/*	
-	@ApiOperation(value = "Get Github access Token")
-	@RequestMapping(value = {}, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public AbstractResponseObject getGitHubAccessToken(HttpServletRequest request, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getGitHubAccessToken={}", request.getHeader("code"));
-		AbstractResponseObject responseObject = null;
-		
-		String code = request.getHeader("code");
-		//Check if the UserName or emailId is null or not.
-		if(PortalUtils.isEmptyOrNullString(code)) {
-			log.debug(EELFLoggerDelegate.errorLogger, "Invalid Parameters");
-			responseObject = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Login Failed");
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		} else {
-			try {
-				
-					//TODO Check Account Status and respond with appropriate error if Account is inactive
-				String token = oauthUserService.getGitHubToken(code);
-					responseObject = new User(validUser);
-					response.setStatus(HttpServletResponse.SC_OK);
-				
-			} catch (Exception e) {
-				responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, "Login Failed");
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
-			}
-		}
-		
-		return responseObject;
-	}*/
-	
 }
