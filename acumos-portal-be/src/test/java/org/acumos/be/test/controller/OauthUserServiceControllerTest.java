@@ -31,6 +31,7 @@ import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.OauthUserServiceController;
+import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.AbstractResponseObject;
@@ -47,6 +48,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -66,6 +68,9 @@ public class OauthUserServiceControllerTest {
 	
 	@Mock
 	private UserService userService;
+	
+	@Mock
+	private JwtTokenUtil jwtTokenUtil;
 	
 	@Mock
 	private UserRoleService userRoleService;
@@ -124,20 +129,56 @@ public class OauthUserServiceControllerTest {
 			user.setEmailId("testEmail1@att.com");
 			user.setFirstName("Test_First_name");
 			user.setUsername("Test_User_name");
-			user.setJwtToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlSWQiOiIxIiwibmFtZSI6IlVzZXIiLCJhY3RpdmUiOmZhbHNlLCJjcmVhdGVkIjoxNTEwMjIwMDQzMDAwLCJtb2RpZmllZCI6MTUxMDIyMDA0MzAwMH1dLCJjcmVhdGVkIjoxNTEwNzUzMjgzMDUyLCJleHAiOjE1MTEzNTgwODMsIm1scHVzZXIiOnsiY3JlYXRlZCI6MTUwODIzNDY5NjAwMCwibW9kaWZpZWQiOjE1MTAyMjkyMzkwMDAsInVzZXJJZCI6IjQxMDU4MTA1LTY3ZjQtNDQ2MS1hMTkyLWY0Y2I3ZmRhZmQzNCIsImZpcnN0TmFtZSI6InNkZnNkZiIsIm1pZGRsZU5hbWUiOiJzZGZzZGYiLCJsYXN0TmFtZSI6ImRmc2RmIiwib3JnTmFtZSI6InNkZnNkZiIsImVtYWlsIjoiZGZzZGYiLCJsb2dpbk5hbWUiOiJNYW5pbW96aGlUMSIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjpudWxsLCJwaWN0dXJlIjpudWxsfX0.8LuG8jsQvDDhhS037R6I1AwGOFkq3jTMxg2mLYbtEsKqzJcrS7fa0iwOGpvAMejx0GKoEZAhfWLgR6YVaSwK1w");
+			//user.setJwtToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlSWQiOiIxIiwibmFtZSI6IlVzZXIiLCJhY3RpdmUiOmZhbHNlLCJjcmVhdGVkIjoxNTEwMjIwMDQzMDAwLCJtb2RpZmllZCI6MTUxMDIyMDA0MzAwMH1dLCJjcmVhdGVkIjoxNTEwNzUzMjgzMDUyLCJleHAiOjE1MTEzNTgwODMsIm1scHVzZXIiOnsiY3JlYXRlZCI6MTUwODIzNDY5NjAwMCwibW9kaWZpZWQiOjE1MTAyMjkyMzkwMDAsInVzZXJJZCI6IjQxMDU4MTA1LTY3ZjQtNDQ2MS1hMTkyLWY0Y2I3ZmRhZmQzNCIsImZpcnN0TmFtZSI6InNkZnNkZiIsIm1pZGRsZU5hbWUiOiJzZGZzZGYiLCJsYXN0TmFtZSI6ImRmc2RmIiwib3JnTmFtZSI6InNkZnNkZiIsImVtYWlsIjoiZGZzZGYiLCJsb2dpbk5hbWUiOiJNYW5pbW96aGlUMSIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjpudWxsLCJwaWN0dXJlIjpudWxsfX0.8LuG8jsQvDDhhS037R6I1AwGOFkq3jTMxg2mLYbtEsKqzJcrS7fa0iwOGpvAMejx0GKoEZAhfWLgR6YVaSwK1w");
 			
 			String jwtToken = user.getJwtToken();
-			Assert.assertNotNull(jwtToken);
-			Assert.assertEquals(jwtToken, user.getJwtToken());
-			AbstractResponseObject value = new AbstractResponseObject();
-			
-			value.setJwtToken(jwtToken);
+//			Assert.assertNotNull(jwtToken);
+//			Assert.assertEquals(jwtToken, user.getJwtToken());
+//			AbstractResponseObject value = new AbstractResponseObject();
+//			
+//			value.setJwtToken(jwtToken);
 			
 			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(mlpUser);
 			Assert.assertNotNull(mlpUser);
+			AbstractResponseObject value = oauthServiceController.login(request, user, response);
+			logger.info("Successfully loged in");
+			Assert.assertNotNull(value);
+			
+			String tokenValue="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlSWQiOiIxIiwibmFtZSI6IlVzZXIiLCJhY3RpdmUiOmZhbHNlLCJjcmVhdGVkIjoxNTEwMjIwMDQzMDAwLCJtb2RpZmllZCI6MTUxMDIyMDA0MzAwMH1dLCJjcmVhdGVkIjoxNTEwNzUzMjgzMDUyLCJleHAiOjE1MTEzNTgwODMsIm1scHVzZXIiOnsiY3JlYXRlZCI6MTUwODIzNDY5NjAwMCwibW9kaWZpZWQiOjE1MTAyMjkyMzkwMDAsInVzZXJJZCI6IjQxMDU4MTA1LTY3ZjQtNDQ2MS1hMTkyLWY0Y2I3ZmRhZmQzNCIsImZpcnN0TmFtZSI6InNkZnNkZiIsIm1pZGRsZU5hbWUiOiJzZGZzZGYiLCJsYXN0TmFtZSI6ImRmc2RmIiwib3JnTmFtZSI6InNkZnNkZiIsImVtYWlsIjoiZGZzZGYiLCJsb2dpbk5hbWUiOiJNYW5pbW96aGlUMSIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjpudWxsLCJwaWN0dXJlIjpudWxsfX0.8LuG8jsQvDDhhS037R6I1AwGOFkq3jTMxg2mLYbtEsKqzJcrS7fa0iwOGpvAMejx0GKoEZAhfWLgR6YVaSwK1w";
+			Mockito.when(jwtTokenUtil.generateToken(mlpUser, null)).thenReturn(tokenValue);
+			Assert.assertNotNull(tokenValue);
+			
+			mlpUser.setAuthToken(tokenValue);
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(mlpUser);
+			Assert.assertNotNull(mlpUser);
+		    value = oauthServiceController.login(request, user, response);
+			logger.info("Successfully loged in");
+			Assert.assertNotNull(value);
+			
+			
+			Mockito.when(jwtTokenUtil.generateToken(mlpUser, null)).thenReturn(tokenValue);
+			Assert.assertNotNull(tokenValue);
+			
+			Mockito.when(jwtTokenUtil.isTokenExpired(tokenValue)).thenReturn(true);
 			value = oauthServiceController.login(request, user, response);
 			logger.info("Successfully loged in");
 			Assert.assertNotNull(value);
+			
+			Mockito.when(jwtTokenUtil.isTokenExpired(tokenValue)).thenReturn(false);
+			value = oauthServiceController.login(request, user, response);
+			logger.info("Successfully loged in");
+			Assert.assertNotNull(value);
+			
+			Mockito.when(jwtTokenUtil.validateToken(tokenValue, mlpUser)).thenReturn(false);
+			value = oauthServiceController.login(request, user, response);
+			logger.info("Successfully loged in");
+			Assert.assertNotNull(value);
+			
+			Mockito.when(jwtTokenUtil.validateToken(tokenValue, mlpUser)).thenReturn(true);
+			value = oauthServiceController.login(request, user, response);
+			logger.info("Successfully loged in");
+			Assert.assertNotNull(value);
+			
 		} catch (Exception e) {
 			logger.error("Exception Occurred while loginTest()", e);
 		}
