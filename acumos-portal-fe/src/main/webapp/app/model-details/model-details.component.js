@@ -1193,7 +1193,7 @@ angular
 									$http({
 										method : 'POST',
 										url : url,
-										req: $scope.reqObject
+										data: $scope.reqObject
 										
 									}).then(function(response) {
 											alert("Deployment Started Successfully");
@@ -1222,7 +1222,7 @@ angular
 									$http({
 										method : 'POST',
 										url : url,
-										req: $scope.reqObject
+										data: $scope.reqObject
 									}).then(function(response) {
 										alert("Deployment Started Successfully");
 									},
