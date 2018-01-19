@@ -28,8 +28,8 @@ public class RestPageRequestPortal {
 		
 	}
 
-	private String nameKeyword;
-	private String descriptionKeyword;	
+	private String[] nameKeyword;
+	private String[] descriptionKeyword;	
 	private String authorKeyword;
 	private boolean active;
 	private String[] modelTypeCodes;
@@ -39,17 +39,30 @@ public class RestPageRequestPortal {
 	private RestPageRequest pageRequest;
 	private String sortBy;
 	private String sortById;
+	private String[] ownerIds;
 	
-	public String getNameKeyword() {
+	/**
+	 * @return the ownerIds
+	 */
+	public String[] getOwnerIds() {
+		return ownerIds;
+	}
+	/**
+	 * @param ownerIds the ownerIds to set
+	 */
+	public void setOwnerIds(String[] ownerIds) {
+		this.ownerIds = ownerIds;
+	}
+	public String[] getNameKeyword() {
 		return nameKeyword;
 	}
-	public void setNameKeyword(String nameKeyword) {
+	public void setNameKeyword(String[] nameKeyword) {
 		this.nameKeyword = nameKeyword;
 	}
-	public String getDescriptionKeyword() {
+	public String[] getDescriptionKeyword() {
 		return descriptionKeyword;
 	}
-	public void setDescriptionKeyword(String descriptionKeyword) {
+	public void setDescriptionKeyword(String[] descriptionKeyword) {
 		this.descriptionKeyword = descriptionKeyword;
 	}
 	public String getAuthorKeyword() {

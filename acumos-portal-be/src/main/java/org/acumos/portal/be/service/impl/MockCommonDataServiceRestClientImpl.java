@@ -1073,12 +1073,6 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	}
 
 	@Override
-	public List<MLPSolution> searchSolutions(Map<String, Object> queryParameters, boolean isOr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public RestPageResponse<MLPThread> getSolutionRevisionThreads(String solutionId, String revisionId,
 			RestPageRequest pageRequest) {
 		// TODO Auto-generated method stub
@@ -1088,6 +1082,12 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public RestPageResponse<MLPComment> getSolutionRevisionComments(String solutionId, String revisionId,
 			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MLPSolution> searchSolutions(Map<String, Object> queryParameters, boolean isOr) {
 		// TODO Auto-generated method stub
 		return null;
 	}

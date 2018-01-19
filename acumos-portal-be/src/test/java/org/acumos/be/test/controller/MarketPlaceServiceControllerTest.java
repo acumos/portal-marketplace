@@ -900,7 +900,6 @@ public class MarketPlaceServiceControllerTest {
 			RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
 			RestPageRequestPortal restPageRequestPortal = new RestPageRequestPortal();
 			restPageRequestPortal.setActive(true);
-			restPageRequestPortal.setDescriptionKeyword("test");			
 			restPageReqPortal.setBody(restPageRequestPortal);
 			data.setResponseDetail("Solutions fetched Successfully");
 			Mockito.when(service.findPortalSolutions(restPageReqPortal.getBody()))

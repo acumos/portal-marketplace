@@ -1922,10 +1922,9 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		String[] accessTypeCodes = {AccessTypeCode.PB.toString(), AccessTypeCode.OR.toString()};
 		
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
-				new String[] { pageReqPortal.getNameKeyword() }, new String[] { pageReqPortal.getDescriptionKeyword() },
-				pageReqPortal.isActive(), new String[0], accessTypeCodes,
-				pageReqPortal.getModelTypeCodes(), pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(),
-				pageReqPortal.getPageRequest());
+				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
+				pageReqPortal.getOwnerIds(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
+				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);

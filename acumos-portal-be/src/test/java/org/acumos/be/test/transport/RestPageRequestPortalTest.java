@@ -10,8 +10,8 @@ public class RestPageRequestPortalTest {
 	@Test
 	public void testRestPageRequestPortalParameter() {
 
-		String nameKeyword = "solution1";
-		String descriptionKeyword = "artificial inte";
+		String[] nameKeyword = {"solution1"};
+		String[] descriptionKeyword = {"artificial inte"};
 		String authorKeyword = "23c7a5a3-aa43-4f79-9bf6-fa42a0bae527";
 		boolean active = true;
 		String[] modelTypeCodes = { "CL", "DS" };
