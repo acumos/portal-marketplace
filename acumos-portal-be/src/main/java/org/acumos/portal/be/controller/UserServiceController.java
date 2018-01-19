@@ -95,7 +95,7 @@ public class UserServiceController extends AbstractController {
 	 * @param response
 	 *            artifactService
 	 * @return Returns Status Code and Message serialized as JSON
-	 * @throws UserServiceException 
+	 * @throws UserServiceException on failure to create user account
 	 */
 	@ApiOperation(value = "Creates a User Account on the Platform.  Returns Success if Account created successfully; else an error message is returned.", response = ResponseVO.class)
 	@RequestMapping(value = { APINames.ACCOUNT_SIGNUP }, method = RequestMethod.POST, produces = APPLICATION_JSON)

@@ -27,26 +27,36 @@ import org.acumos.portal.be.transport.MLModelValidationCheck;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 
 public interface ValidationStatusService {
-	
+
 	/**
 	 * Updates a validation status for specific task in the Database
 	 * 
 	 * @param taskId
+	 *            task ID
 	 * @param mlModelValidationStatus
-	 * @return
+	 *            validation status
+	 * @return True or false
 	 */
 	boolean updateValidationTaskStatus(String taskId, MLModelValidationStatus mlModelValidationStatus);
-	
-	
+
 	/**
 	 * Gets the validation status update for a given SolutionId and RevisionId
-	 * @param userId
+	 * 
 	 * @param solutionId
+	 *            solution ID
 	 * @param revisionId
-	 * @return
+	 *            revision ID
+	 * @return ML Model validation status
 	 */
 	MLModelValidationCheck getValidationTaskStatus(String solutionId, String revisionId);
 
-
+	/**
+	 * 
+	 * @param solutionId
+	 *            solution ID
+	 * @param revisionId
+	 *            revision ID
+	 * @return ML Model validation status
+	 */
 	MLModelValidationCheck getSolutionValidationTaskStatus(String solutionId, String revisionId);
 }

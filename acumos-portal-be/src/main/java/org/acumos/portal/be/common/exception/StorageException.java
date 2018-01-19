@@ -22,7 +22,9 @@ package org.acumos.portal.be.common.exception;
 
 public class StorageException extends RuntimeException {
 
-    public StorageException(String message) {
+	private static final long serialVersionUID = -2275804373819229564L;
+
+	public StorageException(String message) {
         super(message);
     }
 

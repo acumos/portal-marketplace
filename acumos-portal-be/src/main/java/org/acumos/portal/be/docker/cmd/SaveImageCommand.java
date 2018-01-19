@@ -34,10 +34,6 @@ import com.github.dockerjava.api.exception.NotFoundException;
 
 /**
  * This command removes specified Docker container(s).
- * 
- * @see docker save
- * 
- * 
  */
 public class SaveImageCommand extends DockerCommand
 {

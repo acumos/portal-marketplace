@@ -20,11 +20,14 @@
 
 package org.acumos.portal.be.controller;
 
-import java.util.List; 
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPUserNotification;
+import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -36,21 +39,17 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.acumos.cds.domain.MLPNotification;
-import org.acumos.cds.domain.MLPUserNotification;
-import org.acumos.cds.transport.RestPageRequest;
 
 import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/")
-public class NotificationController extends AbstractController {  
+public class NotificationController extends AbstractController {
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(NotificationController.class);
 
@@ -67,9 +66,12 @@ public class NotificationController extends AbstractController {
 	/**
 	 * 
 	 * @param request
+	 *            HttpServletRequest
 	 * @param mlpNotification
+	 *            Notification
 	 * @param response
-	 * @return
+	 *            HttpServletResponse
+	 * @return Notification
 	 */
 	@ApiOperation(value = "Create notification", response = MLSolution.class)
 	@RequestMapping(value = { APINames.CREATE_NOTIFICATION }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
@@ -78,7 +80,7 @@ public class NotificationController extends AbstractController {
 			@RequestBody JsonRequest<MLPNotification> mlpNotification, HttpServletResponse response) {
 		JsonResponse<MLNotification> data = new JsonResponse<>();
 		try {
-			if (mlpNotification.getBody() != null) {				
+			if (mlpNotification.getBody() != null) {
 				MLNotification mlNotification = notificationService.createNotification(mlpNotification.getBody());
 				data.setResponseBody(mlNotification);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -98,8 +100,7 @@ public class NotificationController extends AbstractController {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return List of notifications
 	 */
 	@ApiOperation(value = "Gets a list of Paginated Notifications for Market Place Catalog.", response = MLNotification.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.NOTIFICATIONS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -107,7 +108,7 @@ public class NotificationController extends AbstractController {
 	public JsonResponse<List<MLNotification>> getNotifications() {
 		JsonResponse<List<MLNotification>> data = new JsonResponse<>();
 		try {
-			List<MLNotification> mlNotificationList = notificationService.getNotifications(); 
+			List<MLNotification> mlNotificationList = notificationService.getNotifications();
 			if (mlNotificationList != null) {
 				data.setResponseBody(mlNotificationList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -125,31 +126,39 @@ public class NotificationController extends AbstractController {
 		}
 		return data;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
+	 *            HttpServletRequest
 	 * @param userId
+	 *            userId
+	 * @param restPageReq
+	 *            rest page request
 	 * @param response
-	 * @return
+	 *            HttpServletResponse
+	 * @return List of notifications
 	 */
 	@ApiOperation(value = "Gets a list of Paginated Notifications for Market Place Catalog.", response = MLNotification.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.USER_NOTIFICATIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLPUserNotification>> getUserNotifications(HttpServletRequest request,
-			@PathVariable("userId") String userId,@RequestBody JsonRequest<RestPageRequest> restPageReq, HttpServletResponse response) {
+			@PathVariable("userId") String userId, @RequestBody JsonRequest<RestPageRequest> restPageReq,
+			HttpServletResponse response) {
 		JsonResponse<List<MLPUserNotification>> data = new JsonResponse<>();
 		try {
-			List<MLPUserNotification> mlNotificationList = notificationService.getUserNotifications(userId,restPageReq.getBody()); 
+			List<MLPUserNotification> mlNotificationList = notificationService.getUserNotifications(userId,
+					restPageReq.getBody());
 			if (mlNotificationList != null) {
 				data.setResponseBody(mlNotificationList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getUserNotifications: size is {} ", mlNotificationList.size());
+				log.debug(EELFLoggerDelegate.debugLogger, "getUserNotifications: size is {} ",
+						mlNotificationList.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("No notifications exist for user : "+userId);
-				log.debug(EELFLoggerDelegate.debugLogger, "No notifications exist for user : "+userId);
+				data.setResponseDetail("No notifications exist for user : " + userId);
+				log.debug(EELFLoggerDelegate.debugLogger, "No notifications exist for user : " + userId);
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
@@ -158,24 +167,30 @@ public class NotificationController extends AbstractController {
 		}
 		return data;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
+	 *            HttpServletRequest
 	 * @param notificationId
+	 *            notification ID
 	 * @param userId
+	 *            user Id
 	 * @param response
-	 * @return
+	 *            HttpServletResponse
+	 * @return List of notification
 	 */
 	@ApiOperation(value = "Add notification for user", response = MLNotification.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.ADD_USER_NOTIFICATIONS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			APINames.ADD_USER_NOTIFICATIONS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLNotification>> addNotificationUser(HttpServletRequest request,
-			@PathVariable("notificationId") String notificationId, @PathVariable("userId") String userId, HttpServletResponse response) {
+			@PathVariable("notificationId") String notificationId, @PathVariable("userId") String userId,
+			HttpServletResponse response) {
 		JsonResponse<List<MLNotification>> data = new JsonResponse<>();
 		try {
-			 if (!PortalUtils.isEmptyOrNullString(notificationId) && !PortalUtils.isEmptyOrNullString(userId)) {
-				 notificationService.addNotificationUser(notificationId,userId); 
+			if (!PortalUtils.isEmptyOrNullString(notificationId) && !PortalUtils.isEmptyOrNullString(userId)) {
+				notificationService.addNotificationUser(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "addNotificationUser: size is {} ");
@@ -190,25 +205,31 @@ public class NotificationController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while addNotificationUser", e);
 		}
 		return data;
-	} 
-	
+	}
+
 	/**
 	 * 
 	 * @param request
+	 *            HttpServletRequest
 	 * @param notificationId
+	 *            notification ID
 	 * @param userId
+	 *            user ID
 	 * @param response
-	 * @return
+	 *            HttpServletResponse
+	 * @return List of notification
 	 */
 	@ApiOperation(value = "Drop notification for user", response = MLNotification.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.DROP_USER_NOTIFICATIONS }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			APINames.DROP_USER_NOTIFICATIONS }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLNotification>> dropNotificationUser(HttpServletRequest request,
-			@PathVariable("notificationId") String notificationId, @PathVariable("userId") String userId, HttpServletResponse response) {
+			@PathVariable("notificationId") String notificationId, @PathVariable("userId") String userId,
+			HttpServletResponse response) {
 		JsonResponse<List<MLNotification>> data = new JsonResponse<>();
 		try {
-			 if (!PortalUtils.isEmptyOrNullString(notificationId) && !PortalUtils.isEmptyOrNullString(userId)) {
-				 notificationService.dropNotificationUser(notificationId,userId); 
+			if (!PortalUtils.isEmptyOrNullString(notificationId) && !PortalUtils.isEmptyOrNullString(userId)) {
+				notificationService.dropNotificationUser(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications droped Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "dropNotificationUser: size is {} ");
@@ -223,25 +244,31 @@ public class NotificationController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while dropNotificationUser", e);
 		}
 		return data;
-	} 
-	
+	}
+
 	/**
 	 * 
 	 * @param request
+	 *            HttpServletRequest
 	 * @param notificationId
+	 *            notification ID
 	 * @param userId
+	 *            user ID
 	 * @param response
-	 * @return
+	 *            HttpServletResponse
+	 * @return List of notification
 	 */
 	@ApiOperation(value = "Notification viewed by user", response = MLNotification.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.VIEW_USER_NOTIFICATIONS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			APINames.VIEW_USER_NOTIFICATIONS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLNotification>> setNotificationUserViewed(HttpServletRequest request,
-			@PathVariable("notificationId") String notificationId, @PathVariable("userId") String userId, HttpServletResponse response) {
+			@PathVariable("notificationId") String notificationId, @PathVariable("userId") String userId,
+			HttpServletResponse response) {
 		JsonResponse<List<MLNotification>> data = new JsonResponse<>();
 		try {
-			 if (!PortalUtils.isEmptyOrNullString(notificationId) && !PortalUtils.isEmptyOrNullString(userId)) {
-				 notificationService.setNotificationUserViewed(notificationId,userId); 
+			if (!PortalUtils.isEmptyOrNullString(notificationId) && !PortalUtils.isEmptyOrNullString(userId)) {
+				notificationService.setNotificationUserViewed(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Set Notifications viewed by user Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "setNotificationUserViewed: size is {} ");
@@ -256,17 +283,21 @@ public class NotificationController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while setNotificationUserViewed", e);
 		}
 		return data;
-	} 
-	
+	}
+
 	/**
 	 * 
 	 * @param request
+	 *            HttpServletRequest
 	 * @param notificationId
+	 *            notification ID
 	 * @param response
-	 * @return
+	 *            HttpServletResponse
+	 * @return List of notification
 	 */
 	@ApiOperation(value = "Delete notification", response = MLNotification.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.DELETE_NOTIFICATIONS }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			APINames.DELETE_NOTIFICATIONS }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLNotification>> deleteNotification(HttpServletRequest request,
 			@PathVariable("notificationId") String notificationId, HttpServletResponse response) {
@@ -288,11 +319,11 @@ public class NotificationController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deleteNotification", e);
 		}
 		return data;
-	} 
-	
+	}
+
 	/**
 	 * 
-	 * @return
+	 * @return Notification count
 	 */
 	@ApiOperation(value = "Gets Notifications count for Market Place Catalog.", response = MLNotification.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.NOTIFICATIONS_COUNT }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -301,7 +332,7 @@ public class NotificationController extends AbstractController {
 		MLNotification notification = new MLNotification();
 		JsonResponse<MLNotification> data = new JsonResponse<>();
 		try {
-			int count = notificationService.getNotificationCount();		
+			int count = notificationService.getNotificationCount();
 			notification.setCount(count);
 			data.setResponseBody(notification);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -314,4 +345,4 @@ public class NotificationController extends AbstractController {
 		}
 		return data;
 	}
-} 
+}
