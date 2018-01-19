@@ -100,17 +100,21 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
 }
 .mdl-layout__header {box-shadow:none;}
 
-.notification-list {width: 300px; max-width: 300px;}
-.notification-list li {overflow:auto; padding:5px 10px; border-bottom:1px solid #ccc;cursor:pointer;}
-.notification-list li:nth-last-child(-n+2) {border-bottom:none; text-align:center;padding:10px; }
+.notification-list {width: 280px; max-width: 280px; padding-left: 10px; padding-right: 10px;}
+.notification-list li {overflow:auto; padding:5px 10px; border-top:1px dotted #b1b1b1;cursor:pointer;}
+.notification-list li:first-child {border-top:none;}
+.notification-list li.readall-btn-container {padding-top:12px;text-align:center;position: relative; margin: 0 -10px;border-top: 1px solid #d5d5d5;}
 .notification-text {width: 94%; max-width: 96%;color:#000; text-align:left; white-space: normal; text-overflow:ellipsis;display:block;word-wrap: break-word;}
 
-.notification-list li {display:flex; justify-content:space-between;align-items: center;}
-.notification-list li .mdl-button {min-height: 10px; width:25px }
-.notification-list li .mdl-button.btn-readall-msg {width:175px; margin: 0 auto;text-transform: none; }
-.notification-list li .mdl-button .fa {color: #999; font-size: 16px;position:relative; top:-5px;}
-.notification-list li .notification-text {color: #2e2f2f ; font-weight: 600;}
-.notification-list li.read-note {background: #f1f1f1 ;}
+.notification-list li {display:flex; justify-content:space-between;align-items: center;padding-right:8px;}
+.notification-list li .mdl-button {min-height: 10px; width:15px; min-width: 15px; }
+.notification-list li .mdl-button.btn-readall-msg {width:175px; margin: 0 auto;text-transform: none; color:#0366d6;font-size: 14px; font-weight: normal;line-height: 28px; }
+.notification-list li .mdl-button.btn-readall-msg:hover { color:#671C9D;}
+.notification-list li .mdl-button .fa  {color: #999; font-size: 13px;position:relative; top:-5px;}
+.notification-list li .mdl-button:hover {background: none; }
+.notification-list li .mdl-button:hover .fa {background: none; color: #000; }
+.notification-list li .notification-text {color: #2e2f2f; font-weight: normal; font-size:13px;}
+.notification-list li.read-note {background: #f1f1f1;}
 .notification-list li.read-note .notification-text {color: #656565; font-weight: normal;}
 
 .default-profile-img {width: 29px; height: 29px; display:block;line-height: 22px; border: 2px solid #fff;text-align:center;margin-right:24px;border-radius:50%;}
@@ -225,6 +229,8 @@ h6 {margin:0;padding:0}
 .link-blue:hover, .link-blue:focus {color: #0366d6; text-decoration: none;}
 
 .md-hr-rule1 {position:relative; margin: 10px -20px;}
+
+a:hover {color: #671C9D;}
 /*********** typo style end  ************/
 
 /*********** form elements style start************/

@@ -483,7 +483,7 @@
 															  <thead  ng-hide="hideLabel">
 																<tr>														  
 																  <th>Name</th>
-																  <th>API and Web URL</th>
+																  <th>gateway information</th>
 																  <th>Contact</th>
 																  <th>Subscriptions</th>
 																  <th>Status</th>
@@ -499,7 +499,7 @@
 																	</td> -->
 																	<td>
 																		<a class="disblock" data-target>{{val.apiUrl}}</a>
-																		<a class="disblock" data-target>{{val.webUrl}}</a>
+																		<!-- <a class="disblock" data-target>{{val.webUrl}}</a> -->
 																	</td>
 																	<td>
 																		<label class="disblock">{{val.contact1}}</label>
@@ -864,39 +864,45 @@
 									<md-dialog-content>
 									  <div class="md-dialog-content">	
 										<div layout="row" class="admin-grid1">
-										  <div flex="33">
+										  <div flex="50">
 										    <md-input-container class="md-block" flex-gt-sm>
 												<label>Peers Name</label> 
-												<input type="text" required ng-model='peerNamePop'/> 
+												<input type="text" name='peerName' required ng-model='peerNamePop'/> 
 											</md-input-container>
 										  </div>
-										  <div flex="33">
+										  <!-- <div flex="33">
 										   	<md-input-container class="md-block" flex-gt-sm>
 												<label>Subject Name</label> 
 												<input type="text"  required ng-model='subNamePop'/> 
 											</md-input-container>
-										  </div>
-										  <div flex="33">
+										  </div> -->
+										  <div flex="50">
 										   	<md-input-container class="md-block" flex-gt-sm>
 												<label>Peer Admin Email</label> 
 												<input type="text"  required ng-model='emailIdPop' ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"/> 
 											</md-input-container>
 										  </div>
 										</div>										
-										<h6 class="sectiontitle">Gateway URLs</h6>
+										<h6 class="sectiontitle">Gateway Information</h6>
 										<div layout="row" class="admin-grid1">
+										<div flex="50">
+										   	<md-input-container class="md-block" flex-gt-sm>
+												<label>Subject Name</label> 
+												<input type="text"  required ng-model='subNamePop'/> 
+											</md-input-container>
+										  </div>
 										  <div flex="50">
 										    <md-input-container class="md-block" flex-gt-sm>
 												<label>API Url</label> 
 												<input type="text"  required ng-model='apiUrlPop'/> 
 											</md-input-container>
 										  </div>
-										  <div flex="50">
+										  <!-- <div flex="50">
 										   	<md-input-container class="md-block" flex-gt-sm>
 												<label>Web Url</label> 
 												<input type="text"  required ng-model='webUrlPop'/> 
 											</md-input-container>
-										  </div>										  
+										  </div> -->										  
 										</div>
 										<div layout="row">
 										  <div flex="100">
@@ -979,8 +985,8 @@
 									  			<div class="subscontainerinner1">
 									  				<span class="font600 fedlbl2">Subscription List</span>
 									  				<!-- <button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button> -->
-									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button>
-									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;showPopupPeeR1($event,peerDetailList)"><!-- <span class="admin-btn-add"></span> --> Back to Subscription list</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true;categoryValue='';toolKitTypeValue='';modelIDValue='';noData=''"><span class="admin-btn-add"></span> New Subscription</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;backTo()"><!-- <span class="admin-btn-add"></span> --> <i class="material-icons">arrow_back</i>Back to Subscription list</button>
 									  			</div> 
 									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
 									  				<span class="font600 fedlbl2">Filter</span>
@@ -996,7 +1002,7 @@
 														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
 															<colgroup>
 																<col>															
-																<col>
+																<!-- <col> -->
 																<col>															
 																<col>
 																<col style="width:6%;">
@@ -1004,24 +1010,31 @@
 														  <thead>
 															<tr>														  
 															  <th>SUBSCRIPTIONS</th>
-															  <th>MODEL NAME</th>	
+															  <th>Created on</th>
+															  <th>Updated on</th>
+															  <!-- <th>MODEL NAME</th>	
 															  <th>CATEGORY</th>
-															  <th>TOOLKIT TYPE</th>
+															  <th>TOOLKIT TYPE</th> -->
 															  <th>&nbsp;</th>															  													  
 															</tr>
 														  </thead>
 														  <tbody>
-															<tr ng-repeat = "val in arrDetails | filter: arrDetails.subId as filtered">
+															<tr ng-repeat = "val in arrDetails | filter: arrDetails.subId as filte">
 																<td><label>{{val.subId}}</label></td>
-																<td><label>Name of Solution</label></td>
+																<td><label>{{val.createdOn | date:"MM/dd/yyyy"}}</label></td>
+																<td><label>{{val.updatedOn | date:"MM/dd/yyyy"}}</label></td>
+																<!-- <td><label>Name of Solution</label></td>
 																<td><label>{{val.modelType}}</label></td>
-																<td><label>{{val.toolKitType}}</label></td>
+																<td><label>{{val.toolKitType}}</label></td> -->
 																<td class="text-center"><button ng-click="deleteSub(val.subId,$index)" class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button></td>
 															</tr>
 															
 																												
 														  </tbody>
 														</table>
+														<div class="alert c-info text-center" ng-if="filte.length == 0">
+									                   			<strong>No Result Found</strong> 
+								                   		</div>
 													</div>
 												</div>
 												<div class="fedcontainer2" ng-show="subscripDetails1">
@@ -1036,38 +1049,19 @@
 															<span class="fedlbl5">OR</span>
 														</div>
 														<div>															
-															<!-- <md-input-container class="admin-select">
-														 		<label class="fedlbl4">Select Category</label>												          
-													          <md-select ng-model="categoryValue" ng-disabled="modelIDValue">
-													            <md-option><em>Select Category</em></md-option>
-													            <md-option ng-repeat="cat in category" ng-value="cat.typeCode"><em>{{cat.typeName}}</em></md-option>
-													            <md-option ng-repeat="state in ctrl.states" ng-value="state.abbrev" ng-disabled="$index === 1">
-													              {{state.abbrev}}
-													            </md-option>
-													          </md-select>
-													      </md-input-container> -->
-													      <div class="select-control admin-select">
+															<div class="select-control admin-select">
 															     <label class="fedlbl4">Category</label>
-															        <md-select ng-model="categoryValue" ng-change="addedToSubs = false;solutionDetail=false" ng-disabled="modelIDValue" placeholder="Select Category">
+															        <md-select ng-model="categoryValue" ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue)" ng-disabled="modelIDValue" placeholder="Select Category">
 															        <md-option ng-selected="true" value="">Select Category</md-option>
 															           <md-option ng-repeat="cat in category" ng-value="cat.typeCode">{{cat.typeName}}</md-option>
 															     </md-select>
 															</div>
 													      
 														</div>
-														<div>															
-															<!-- <md-input-container class="admin-select">
-													   			<label class="fedlbl4">Select toolkit type</label>													          
-														          <md-select ng-model="toolKitTypeValue" ng-disabled="modelIDValue">
-														            <md-option><em>Select toolkit type</em></md-option>
-														            <md-option ng-repeat="tool in toolKitType" ng-value="tool.toolkitCode">
-														              {{tool.toolkitName}}
-														            </md-option>
-														          </md-select>
-													      </md-input-container> -->
+														<div>				
 													      <div class="select-control admin-select">
 															     <label class="fedlbl4">Toolkit type</label>
-															        <md-select ng-model="toolKitTypeValue" ng-change="addedToSubs = false" ng-disabled="modelIDValue" placeholder="Select toolkit">
+															        <md-select ng-model="toolKitTypeValue" ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue)" ng-disabled="modelIDValue" placeholder="Select toolkit">
 															        <md-option ng-selected="true" value="">Select toolkit</md-option>
 															           <md-option ng-repeat="tool in toolKitType" ng-value="tool.toolkitCode"> {{tool.toolkitName}}</md-option>
 															     </md-select>
@@ -1099,6 +1093,9 @@
 														  </tbody>
 														</table>
 													</div>
+													<div class="alert c-info text-center" ng-if="!solutionDetail&&noData">
+									                   			<strong>No Result Found</strong> 
+								                   		</div>
 													<div class="fedgridcontainer" ng-show="toolKitTypeValue||categoryValue">
 														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
 															<colgroup>
@@ -1109,9 +1106,9 @@
 															</colgroup>														 
 														  <tbody>
 															<tr>
-																<td>{{categoryValue}}</td>
+																<td>{{catValue}}</td>
 																<td>
-																	{{toolKitTypeValue}}
+																	{{toolType}}
 																</td>
 																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
 																<td ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>

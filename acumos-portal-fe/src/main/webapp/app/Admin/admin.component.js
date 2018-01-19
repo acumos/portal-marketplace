@@ -32,7 +32,7 @@ angular.module('admin')
 							$scope.roles = response.data.response_body;
 							$scope.rolesLength = $scope.roles.length;
 						},
-						function(error) {console.log(error);});
+						function(error) {});
 			}
 			getRole();
 			//API for user count
@@ -101,6 +101,8 @@ angular.module('admin')
         		  targetEvent: ev,
         		  clickOutsideToClose: true
         	  });
+        	  $scope.peerForm.$setUntouched();
+              $scope.peerForm.$setPristine();
           }
             
           //Open popup Delete confirmation
@@ -135,7 +137,7 @@ angular.module('admin')
             				    "userNewRoleList":$scope.roleValue
             				  }
             				};
-            	debugger;
+            	
             	    apiService.addUser( obj/*, $scope.roleValue*/ )
             	    .then(function(response) {
             	    	if(response.data.error_code == 500){
@@ -152,7 +154,7 @@ angular.module('admin')
             	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                         $anchorScroll(); 
                         $scope.msg = "User Created successfully."; 
-                        $scope.icon = 'report_problem';
+                        $scope.icon = '';
                         $scope.styleclass = 'c-success';
                         $scope.showAlertMessage = true;
                         $timeout(function() {
@@ -319,14 +321,12 @@ angular.module('admin')
                               }
                             });
                           if(checkDup){arr.splice(dupKey, 1);}else arr.push({typeName : cat.typeName,typeCode : cat.typeCode});
-                          console.log(arr);
                           angular.forEach(arr, function(value, key) {
                               if(key == 0){$scope.string = $scope.string + '"{'}
                               $scope.string = $scope.string + '\\"' + value.typeCode + '\\":\\"' + value.typeName + '\\",';
                         });
                           $scope.queryParam = $scope.string.slice(0, -1);
                           $scope.queryParam= $scope.queryParam + '}"';
-                          console.log($scope.queryParam);
                       }
                       //Add peer
                       $scope.addEditPeer = '';
@@ -339,7 +339,7 @@ angular.module('admin')
 				                    				    "description": $scope.descriptionPop,
 				                    				    "name": $scope.peerNamePop,
 				                    				    "subjectName": $scope.subNamePop,
-				                    				    "webUrl": $scope.webUrlPop
+				                    				    "webUrl": $scope.apiUrlPop
 				                    				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
 				                    		}};
                     	apiService.insertPeers(peerDetails).then(
@@ -351,7 +351,7 @@ angular.module('admin')
                         	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                     $anchorScroll(); 
                                     $scope.msg = "Peer Created successfully."; 
-                                    $scope.icon = 'report_problem';
+                                    $scope.icon = '';
                                     $scope.styleclass = 'c-success';
                                     $scope.showAlertMessage = true;
                                     $timeout(function() {
@@ -370,7 +370,7 @@ angular.module('admin')
                     	  $scope.itsEdit = true;$scope.peerStatus = peerDetail.active;
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
-                    	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.webUrl;$scope.descriptionPop = peerDetail.description;
+                    	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.apiUrl;$scope.descriptionPop = peerDetail.description;
                     	  $scope.showPopupPeer();
                       }
                       $scope.updatePeer = function(val){
@@ -383,7 +383,7 @@ angular.module('admin')
               				    "description": $scope.descriptionPop,
               				    "name": $scope.peerNamePop,
               				    "subjectName": $scope.subNamePop,
-              				    "webUrl": $scope.webUrlPop,
+              				    "webUrl": $scope.apiUrlPop,
               				    "peerId" : $scope.editPeerID
               				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
               		}}
@@ -402,7 +402,7 @@ angular.module('admin')
             				    "peerId" : val.peerId
             				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
             		}}
-                  	  }console.log(angular.toJson(peerDetails));
+                  	  }
                       	  apiService.editPeer($scope.editPeerID,peerDetails).then(
                       	    		function(response){
                       	    			$scope.peer='';getAllPeer();
@@ -412,7 +412,7 @@ angular.module('admin')
                             	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                         $anchorScroll(); 
                                         $scope.msg = "Peer Updated successfully."; 
-                                        $scope.icon = 'report_problem';
+                                        $scope.icon = '';
                                         $scope.styleclass = 'c-success';
                                         $scope.showAlertMessage = true;
                                         $timeout(function() {
@@ -424,6 +424,18 @@ angular.module('admin')
                       	    			// handle error 
                       	    	})
                       }
+                    //Chane cat and tool
+                      $scope.catChange = function(val1,val2){
+                    	  $scope.catValue = '';$scope.toolType = '';$scope.noData = false;
+                    	  angular.forEach($scope.category, function(value, key) {
+                    		  if(value.typeCode == val1)
+                    			  $scope.catValue = value.typeName;
+                    	  });
+    					  angular.forEach($scope.toolKitType, function(value, key) {
+    						  if(value.toolkitCode == val2)
+    							  $scope.toolType  = value.toolkitName;
+    					  });
+                      }
                       //Serch using model id
                       $scope.modelEdit = function(){
                     	  $scope.addedToSubs = false;
@@ -434,7 +446,7 @@ angular.module('admin')
                      	 $http(getSolutionImagesReq)
 								.success(
 										function(data, status, headers,
-												config) {debugger;
+												config) {
 											if(data.response_body.length > 0)
 												$scope.imgURLdefault = "/site/binaries/content/gallery/acumoscms/solution/" + $scope.modelIDValue + "/" + data.response_body[0];
 											else
@@ -447,11 +459,12 @@ angular.module('admin')
                     	  apiService
                     	  .getSolutionDetail($scope.modelIDValue)
                     	  .then(
-                    	  		function(response) {debugger;console.log(response.data.response_body)
+                    	  		function(response) {debugger;
                     	  			$scope.solutionDetail = response.data.response_body;
+                    	  			if($scope.solutionDetail == 'null'){$scope.noData = false;}else {$scope.noData = true;}
                     	  		},
                     	  		function(error) {
-                    	  			debugger;
+                    	  			
                     	  		});
                       }
                       $scope.mdPrimaryClass=false;
@@ -459,14 +472,12 @@ angular.module('admin')
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
-                	  $scope.categoryValue = '';
+                	  $scope.categoryValue = '';$scope.arrDetails='';
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
                 	  $scope.peerIdForSubsList = val.peerId;
                 	  $scope.peerDetailList = val;
                 	  var url = 'api/admin/peer/subcriptions/' +  val.peerId;
                 	  $http.post(url).success(function(response){
-                		  //debugger;
-                		  //console.log(response);
                 		  $scope.subId = '';
                 		  $scope.subId = response.response_body[0].subId;
                 		  
@@ -474,7 +485,6 @@ angular.module('admin')
                 		  angular.forEach(response.response_body, function(value, key) {
                 			  var catTool = value.selector;
             				  var catTool = catTool.split(",");
-            				  //console.log(catTool.length);
             				  if(catTool.length > 1){
             					  angular.forEach($scope.category, function(value, key) {
             						  var serch = value.typeCode ;
@@ -486,7 +496,6 @@ angular.module('admin')
             						  var serchValue = catTool[1].search(serch);
             						  if(serchValue > 0)$scope.toolKitForSubId = value;
             						});
-            					 // console.log($scope.categoryForSubId);console.log($scope.toolKitForSubId);
             				  }else {
             					  $scope.toolKitForSubId ='';$scope.categoryForSubId = '';
             					  if(catTool[0].search('modelTypeCode') > 0){
@@ -503,64 +512,18 @@ angular.module('admin')
                 						  if(serchValue > 0)$scope.toolKitForSubId = value;
                 						});
             					  }
-            					  console.log($scope.categoryForSubId);console.log($scope.toolKitForSubId);
             				  }
             				  arrSub.push({
             					  "subId" : value.subId,
             					  "toolKitType" : $scope.toolKitForSubId.toolkitName,
-            					  "modelType" : $scope.categoryForSubId.typeName
+            					  "modelType" : $scope.categoryForSubId.typeName,
+            					  "updatedOn" : value.modified,
+            					  "createdOn" : value.created
             				  })
                 		  });
 
         				 $scope.arrDetails = arrSub;
         			  
-                		  console.log($scope.arrDetails );
-                		  
-                		  
-                		  
-                		  
-                		  
-                		  if($scope.subId != ''){/*
-                			  var url1 = 'api/admin/peer/subcription/' +  $scope.subId;
-                			  $http.get(url1).success(function(response){
-                				  var catTool = response.response_body.selector;
-                				  var catTool = catTool.split(",");
-                				  //console.log(catTool.length);
-                				  if(catTool.length > 1){
-                					  angular.forEach($scope.category, function(value, key) {
-                						  var serch = value.typeCode ;
-                						  var serchValue = catTool[0].search(serch);
-                						  if(serchValue > 0)$scope.categoryForSubId = value;
-                						});
-                					  angular.forEach($scope.toolKitType, function(value, key) {
-                						  var serch = value.toolkitCode ;
-                						  var serchValue = catTool[1].search(serch);
-                						  if(serchValue > 0)$scope.toolKitForSubId = value;
-                						});
-                					  console.log($scope.categoryForSubId);console.log($scope.toolKitForSubId);
-                				  }else {
-                					  $scope.toolKitForSubId ='';$scope.categoryForSubId = '';
-                					  if(catTool[0].search('modelTypeCode') > 0){
-                						  angular.forEach($scope.category, function(value, key) {
-                    						  var serch = value.typeCode ;
-                    						  var serchValue = catTool[0].search(serch);
-                    						  if(serchValue > 0)$scope.categoryForSubId = value;
-                    						});
-                					  }
-                					  else if(catTool[0].search('toolKitTypeCode') > 0){
-                						  angular.forEach($scope.toolKitType, function(value, key) {
-                    						  var serch = value.toolkitCode ;
-                    						  var serchValue = catTool[0].search(serch);
-                    						  if(serchValue > 0)$scope.toolKitForSubId = value;
-                    						});
-                					  }
-                					  console.log($scope.categoryForSubId);console.log($scope.toolKitForSubId);
-                				  }
-                			  }, function Error(response) {
-                			        debugger;console.log(response);
-                			    });
-                		  */}
-                		  //console.log(response);
                 	  });
                   
                 	  
@@ -570,9 +533,7 @@ angular.module('admin')
               		  targetEvent: ev,
               		  clickOutsideToClose: true
               	  });}
-                      /*$scope.addToSubsUsingSolution = function(){
-                    	  console.log($scope.solutionDetail.tookitType   $scope.solutionDetail.modelType);
-                      }*/
+                      
                       //Add to subscription
                       $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
@@ -618,11 +579,11 @@ angular.module('admin')
                                   }, 5000);*/
                               }
                           }, function myError(response) {
-                        	  debugger;
+                        	 
                           });
                       }
                       //delete subscription
-                      $scope.deleteSub = function(subId,index){debugger;
+                      $scope.deleteSub = function(subId,index){
                     	  //deleteSubscription
                     	  apiService
                    	      .deleteSubscription(subId)
@@ -660,7 +621,7 @@ angular.module('admin')
                         	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                     $anchorScroll(); 
                                     $scope.msg = "Peer Deleted successfully."; 
-                                    $scope.icon = 'report_problem';
+                                    $scope.icon = '';
                                     $scope.styleclass = 'c-success';
                                     $scope.showAlertMessage = true;
                                     $timeout(function() {
@@ -718,7 +679,7 @@ angular.module('admin')
                     	                        	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                     	                                    $anchorScroll(); 
                     	                                    $scope.msg = "Role created successfully."; 
-                    	                                    $scope.icon = 'report_problem';
+                    	                                    $scope.icon = '';
                     	                                    $scope.styleclass = 'c-success';
                     	                                    $scope.showAlertMessage = true;
                     	                                    $timeout(function() {
@@ -739,7 +700,6 @@ angular.module('admin')
                                         		   return value != obj.userId;
                                         		 });
                                         	 }
-                                        	 console.log($scope.roleArr);
                                           }
                                           /*$scope.changeRoleSelectBox = function(roleId,obj){
                                         	  var dupInMap = false,keyVal = null;
@@ -760,7 +720,7 @@ angular.module('admin')
                                             		  $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
     	        	                                    $anchorScroll(); 
     	        	                                    $scope.msg = "Please select role."; 
-    	        	                                    $scope.icon = 'report_problem';
+    	        	                                    $scope.icon = '';
     	        	                                    $scope.styleclass = 'c-success';
     	        	                                    $scope.showAlertMessage = true;
     	        	                                    $timeout(function() {
@@ -798,7 +758,6 @@ angular.module('admin')
 	                                        	 
 	                                        	  json = {
 	                                        		  "request_body": json};
-	                                        	  console.log(angular.toJson(json));
 	                                        	 apiService
 	                                  			.updateUserRoleNew(json)
 	                                  			.then(function(response) {
@@ -823,6 +782,62 @@ angular.module('admin')
 	                                         }
 	                                          else if(val == 'delete'){ $scope.deleteUser();}
 	                                      }
+                                          //Back to subscription list
+                                          $scope.backTo = function(){
+                                        	  $scope.subscripDetails1 = false;
+                                        	  $scope.solutionDetail = false;
+                                        	  //$scope.peerDetailList = val;
+                                        	  $scope.arrDetails = '';
+                                        	  var url = 'api/admin/peer/subcriptions/' +  $scope.peerDetailList.peerId;
+                                        	  $http.post(url).success(function(response){
+                                        		  $scope.subId = '';
+                                        		  $scope.subId = response.response_body[0].subId;
+                                        		  
+                                        		  var arrSub = [];
+                                        		  angular.forEach(response.response_body, function(value, key) {
+                                        			  var catTool = value.selector;
+                                    				  var catTool = catTool.split(",");
+                                    				  if(catTool.length > 1){
+                                    					  angular.forEach($scope.category, function(value, key) {
+                                    						  var serch = value.typeCode ;
+                                    						  var serchValue = catTool[0].search(serch);
+                                    						  if(serchValue > 0)$scope.categoryForSubId = value;
+                                    						});
+                                    					  angular.forEach($scope.toolKitType, function(value, key) {
+                                    						  var serch = value.toolkitCode ;
+                                    						  var serchValue = catTool[1].search(serch);
+                                    						  if(serchValue > 0)$scope.toolKitForSubId = value;
+                                    						});
+                                    				  }else {
+                                    					  $scope.toolKitForSubId ='';$scope.categoryForSubId = '';
+                                    					  if(catTool[0].search('modelTypeCode') > 0){
+                                    						  angular.forEach($scope.category, function(value, key) {
+                                        						  var serch = value.typeCode ;
+                                        						  var serchValue = catTool[0].search(serch);
+                                        						  if(serchValue > 0)$scope.categoryForSubId = value;
+                                        						});
+                                    					  }
+                                    					  else if(catTool[0].search('toolKitTypeCode') > 0){
+                                    						  angular.forEach($scope.toolKitType, function(value, key) {
+                                        						  var serch = value.toolkitCode ;
+                                        						  var serchValue = catTool[0].search(serch);
+                                        						  if(serchValue > 0)$scope.toolKitForSubId = value;
+                                        						});
+                                    					  }
+                                    				  }
+                                    				  arrSub.push({
+                                    					  "subId" : value.subId,
+                                    					  "toolKitType" : $scope.toolKitForSubId.toolkitName,
+                                    					  "modelType" : $scope.categoryForSubId.typeName,
+                                    					  "updatedOn" : value.modified,
+                                    					  "createdOn" : value.created
+                                    				  })
+                                        		  });
+
+                                				 $scope.arrDetails = arrSub;
+                                			  
+                                        	  });
+                                          }
                                           //Delete user 
                                           $scope.deleteUser = function(){
                                         	  var obj = {
@@ -830,7 +845,6 @@ angular.module('admin')
                                         				    "userIdList": $scope.roleArr
                                         				  }
                                         				}
-                                        	  console.log(angular.toJson(obj));
                                         	  apiService.deleteUser(obj)
                                       	    .then(function(response) {
                                       	    	userDetailsFetch();
@@ -839,7 +853,7 @@ angular.module('admin')
                                   				$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
         	                                    $anchorScroll(); 
         	                                    $scope.msg = "User Deleted successfully."; 
-        	                                    $scope.icon = 'report_problem';
+        	                                    $scope.icon = '';
         	                                    $scope.styleclass = 'c-success';
         	                                    $scope.showAlertMessage = true;
         	                                    $timeout(function() {
@@ -854,7 +868,6 @@ angular.module('admin')
                                           var detailsUser = '';
                                           
                                           $scope.userFilter = function(role){
-                                        	  debugger;
                                         	  if(role == 'all'){ $scope.userDetails = $scope.alluserDetails; return;}
                                         	  var temp=[];
                                           
