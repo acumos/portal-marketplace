@@ -1538,7 +1538,7 @@ position:relative;
 
 @media ( max-width :768px) {
 	
-	.hasClass .company-market ul li .imagecontent {width: 62px;  height: 62px;  border-radius: 52px;}
+.hasClass .company-market ul li .imagecontent {width: 62px;  height: 62px;  border-radius: 52px;}
 .hasClass .company-market ul li.progress-status {width: 4%;}
 .hasClass .company-market ul li:last-child .text {width: auto;}
 .company-market ul li:last-child{margin:0;}
@@ -1601,7 +1601,7 @@ position:relative;
       
       .vertical-mdl-tabs .mdl-tabs__tab-bar{padding-bottom:0;}
       .mdl-cell.workflow-left{overflow-y: scroll; width: 100%; background-color: transparent;}
-      .tabs-left{width:1904px; height: 88px;}
+      .tabs-left{width:1853px; height: 88px;}
       .workflow-leftheader{width:100%;}
       .workflow-right-header{display:none;}
       .tabs-left>li{width:auto; min-height:75px; margin-bottom: 6px; background-color: #F1F1F1;}
