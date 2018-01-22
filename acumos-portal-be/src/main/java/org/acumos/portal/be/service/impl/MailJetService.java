@@ -33,6 +33,7 @@ import freemarker.template.Configuration;
 
 import java.util.Map;
 
+import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -47,7 +48,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 
 @Service
-public class MailJet {
+public class MailJetService implements MailJet {
 	
 	
     @Autowired
@@ -56,8 +57,9 @@ public class MailJet {
 	@Autowired
 	private Environment env;
 	
-    private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MailJet.class);
+    private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MailJetService.class);
 	
+    @Override
 	public void sendMail(final MailData mailData) {
       MailjetClient client;
       MailjetRequest request = null;

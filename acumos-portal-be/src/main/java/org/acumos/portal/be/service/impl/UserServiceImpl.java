@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
@@ -41,17 +42,12 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
-/*import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessagePreparator;*/
 import org.springframework.stereotype.Service;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPPasswordChangeRequest;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.transport.LoginTransport;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 
@@ -102,21 +98,20 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         model.put("user", mlpUser);
         mailData.setModel(model);
 
-        if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email")) 
-        		&& env.getProperty("portal.feature.email").equalsIgnoreCase("true")) {
-        	try {
-        		if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email.service")) 
-                		&& env.getProperty("portal.feature.email.service").equalsIgnoreCase("mailjet")) {
-        			mailJet.sendMail(mailData);
+        try {
+        	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
+        	
+        		//Use SMTP setup
+                mailservice.sendMail(mailData);
         		}else {
-	        		//Use SMTP setup
-	                mailservice.sendMail(mailData);
+        			if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+                    		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet")) 
+            			mailJet.sendMail(mailData);
         		}
-            }
-            catch (MailException ex) {
+            } catch (MailException ex) {
                 log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
             }
-        }
         return user;
     }
 
@@ -260,20 +255,20 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 			model.put("user", user);
 			mailData.setModel(model);
 
-			if (!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email"))
-					&& env.getProperty("portal.feature.email").equalsIgnoreCase("true")) {
-				try {
-	        		if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email.service")) 
-	                		&& env.getProperty("portal.feature.email.service").equalsIgnoreCase("mailjet")) {
-	        			mailJet.sendMail(mailData);
+			try {
+	        	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+	        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
+	        	
+	        		//Use SMTP setup
+	                mailservice.sendMail(mailData);
 	        		}else {
-		        		//Use SMTP setup
-		                mailservice.sendMail(mailData);
+	        			if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+	                    		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet")) 
+	            			mailJet.sendMail(mailData);
 	        		}
 	            } catch (MailException ex) {
-					log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
-				}
-			}
+	                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+	            }
 		}
 		return passwordChangeSuccessful;
 	}
@@ -316,22 +311,21 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         model.put("signature", "Acumos Customer Service");
         mailData.setModel(model);
 
-        if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email")) 
-        		&& env.getProperty("portal.feature.email").equalsIgnoreCase("true")) {
-        	try {
-        		if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email.service")) 
-                		&& env.getProperty("portal.feature.email.service").equalsIgnoreCase("mailjet")) {
-        			mailJet.sendMail(mailData);
+        try {
+        	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
+        	
+        		//Use SMTP setup
+                mailservice.sendMail(mailData);
         		}else {
-	        		//Use SMTP setup
-	                mailservice.sendMail(mailData);
+        			if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+                    		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet")) 
+            			mailJet.sendMail(mailData);
         		}
-            }
-            catch (MailException ex) {
+            } catch (MailException ex) {
                 log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
             }
         }
-    }
 
 	@Override
 	public MLPUser findUserByUserId(String userId) {

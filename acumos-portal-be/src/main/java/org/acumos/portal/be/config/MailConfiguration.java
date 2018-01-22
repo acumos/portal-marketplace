@@ -42,8 +42,8 @@ public class MailConfiguration {
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         
-        if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email")) 
-        		&& env.getProperty("portal.feature.email").equalsIgnoreCase("true")) {
+        if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
         	mailSender.setHost(env.getProperty("spring.mail.host"));
             mailSender.setPort(Integer.parseInt(env.getProperty("spring.mail.port")));
             mailSender.setUsername(env.getProperty("spring.mail.username"));

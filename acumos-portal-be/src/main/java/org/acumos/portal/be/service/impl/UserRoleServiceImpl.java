@@ -62,8 +62,8 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 		List<MLRole> mlRoles = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		Map<String, Object> queryParameters = new HashMap<>();
-		//queryParameters.put("active", "Y"); // Fetch all active roles
-		List<MLPRole> mlpRoles = dataServiceRestClient.searchRoles(queryParameters, false);
+		queryParameters.put("active", "Y"); // Fetch all active roles
+		List<MLPRole> mlpRoles = dataServiceRestClient.searchRoles(queryParameters, true);
 		if (!PortalUtils.isEmptyList(mlpRoles)) {
 			mlRoles = new ArrayList<>();
 			for (MLPRole mlpRole : mlpRoles) {
