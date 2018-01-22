@@ -358,8 +358,8 @@
 									<td><span class="file-type"><i
 											class="fa fa-file-word-o" aria-hidden="true"></i></span><a
 										class="link-blue">{{supportingDoc}}</a></td>
-									<td>{{value.version}}</td>
-									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
+									<td>{{versionId}}</td>
+									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 									<td><a ng-if="solution.accessType ==='OR' " 
 										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}">
 										<i class="fa fa-download" aria-hidden="true"></i> </a>

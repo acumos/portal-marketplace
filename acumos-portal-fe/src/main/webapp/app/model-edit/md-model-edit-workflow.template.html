@@ -841,14 +841,14 @@
 														</h2>
 														<!-- <h1>{{solutionCompanyDesc}} ---- {{solutionCompanyDesc.length}}</h1> -->
 														<div
-															ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
-                                                                                          || solutionCompanyDesc==null">
+															ng-show="!solutionCompanyDescLength || solutionCompanyDesc=='' 
+															|| solutionCompanyDesc==null">
 															<p class="editable-desc" ng-hide="showDCKEditor">Description
 																not added. Add a description</p>
 														</div>
 
 														<p class="editable-desc" ng-hide="showDCKEditor"
-															ng-bind-html="solutionCompanyDesc"></p>
+															ng-bind-html="solutionCompanyDesc" ng-show="solutionCompanyDescLength"></p>
 
 														<div ng-show="showDCKEditor">
 															<div class="popovers model-description">
@@ -874,7 +874,7 @@
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																		Cancel </md-button>
 																		<md-button
-																			ng-click="updateCompanyDescription(); showDCKEditor = !showDCKEditor"
+																			ng-click="updateCompanyDescription();"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 																		Done </md-button>
 																	</div>
@@ -1483,7 +1483,7 @@
 																			</div>
 																		</div>
 																		<p>Set Default from below icons provided by
-																			Cognita</p>
+																			Acumos</p>
 																		<div class="mdl-grid">
 																			<div class="mdl-cell mdl-cell--3-col iconboder"
 																				ng-repeat="iconSrc in iconImages"
@@ -2584,14 +2584,14 @@
                                                                                                 date:'MM/dd/yyyy'}}</span> -->
 													</h2>
 													<div
-														ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
+														ng-show="!solutionPublicDescLength || solutionPublicDesc=='' 
                                                                                           || solutionPublicDesc==null">
 														<p class="editable-desc" ng-hide="showCKEditor">Description
 															not added. Add a description</p>
 													</div>
 
-													<p class="editable-desc" ng-hide="showCKEditor"
-														ng-bind-html="solutionPublicDesc"></p>
+														<p class="editable-desc" ng-hide="showCKEditor" ng-show="solutionPublicDescLength "
+															ng-bind-html="solutionPublicDesc"></p>
 
 													<div ng-show="showCKEditor">
 														<div class="popovers model-description">
@@ -2617,7 +2617,7 @@
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Cancel </md-button>
 																	<md-button
-																		ng-click="updatePublicDescription(); showCKEditor = !showCKEditor"
+																		ng-click="updatePublicDescription();"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 																	Done </md-button>
 																</div>
