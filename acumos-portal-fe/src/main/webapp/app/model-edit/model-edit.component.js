@@ -485,10 +485,37 @@ angular
 														+ error.data.error;
 											});
 						}
+						
+						$scope.solutionPublicDescLength = false;
+						$scope.solutionCompanyDescLength = false;
 
 						$scope.updateCompanyDescription = function() {
 							// $scope.solutionCompanyDesc =
 							// $scope.solutionEditorCompanyDesc;
+							
+							if($scope.solutionCompanyDesc){
+								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc.substring($scope.solutionCompanyDesc.indexOf(">") + 1);
+								$scope.solutionCompanyDescString = $scope.solutionCompanyDescString.substring(0, $scope.solutionCompanyDescString.indexOf('<'));
+								$scope.solutionCompanyDescString = $scope.solutionCompanyDescString.replace(/\s+/g, '');
+								if($scope.solutionCompanyDescString.length > 1){
+									$scope.solutionCompanyDescLength = true;
+								}else{
+									$scope.solutionCompanyDescLength = false;
+									alert("Enter more text in the description");
+									return
+								}
+							}else{
+								$scope.solutionCompanyDescLength = false;
+								alert("Enter more text in the description");
+								return
+							}
+							
+							if($scope.solutionCompanyDescLength = true){
+								$scope.showDCKEditor = false
+							}else{
+								$scope.showDCKEditor = true
+							}
+							
 							var solution = {
 								"description" : $scope.solutionCompanyDesc,
 								"solutionId" : $scope.solution.solutionId,
@@ -529,6 +556,40 @@ angular
 						}
 
 						$scope.updatePublicDescription = function() {
+							/*
+							if($scope.solutionPublicDesc){
+								$scope.solutionPublicDescString = $scope.solutionPublicDesc.substring($scope.solutionPublicDesc.indexOf(">") + 1);
+								if($scope.solutionPublicDescString.length > 1){
+									$scope.solutionPublicDescLength = true;
+								}else{
+									alert("Enter more description")
+								}
+							}
+							*/
+							
+							if($scope.solutionPublicDesc){
+								$scope.solutionPublicDescString = $scope.solutionPublicDesc.substring($scope.solutionPublicDesc.indexOf(">") + 1);
+								$scope.solutionPublicDescString = $scope.solutionPublicDescString.substring(0, $scope.solutionPublicDescString.indexOf('<'));
+								$scope.solutionPublicDescString = $scope.solutionPublicDescString.replace(/\s+/g, '');
+								if($scope.solutionPublicDescString.length > 1){
+									$scope.solutionPublicDescLength = true;
+								}else{
+									$scope.solutionPublicDescLength = false;
+									alert("Enter more text in the description");
+									return
+								}
+							}else{
+								$scope.solutionPublicDescLength = false;
+								alert("Enter more text in the description");
+								return
+							}
+							
+							if($scope.solutionPublicDescLength = true){
+								$scope.showCKEditor = false
+							}else{
+								$scope.showCKEditor = true
+							}
+							
 							var solution = {
 								"description" : $scope.solutionPublicDesc,
 								"solutionId" : $scope.solution.solutionId,
@@ -2129,13 +2190,17 @@ angular
 								$scope.company.step4 = true
 								chkCount();
 							}
-						}
-						else if($scope.public){
+						}else{
+							//empty else required
+						} 
+						if($scope.public){
 							if($scope.public.skipStep == true){
 								$scope.public.step4 = true
 								chkCount();
 							}
 							
+						}else{ 
+							//empty else required
 						}
 					}
 					

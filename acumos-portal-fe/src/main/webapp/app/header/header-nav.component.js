@@ -411,7 +411,7 @@ app.component('headerNav',{
           $scope.closePoup = function(){
         	  $mdDialog.hide();
           };
-          $scope.forgotPaswd = function(){debugger;
+          $scope.forgotPaswd = function(){
               if($scope.forgot.$valid){
                     var dataObj = {"request_body": {"emailId" : $scope.emailAddress}}
                     $http({ method : 'PUT',
@@ -435,6 +435,12 @@ app.component('headerNav',{
             
           }
 
+          var originatorEv;
+          $scope.openMenu = function($mdMenu, ev) {
+              originatorEv = ev;
+              $mdMenu.open(ev);
+            };
+            
 
 	},
 

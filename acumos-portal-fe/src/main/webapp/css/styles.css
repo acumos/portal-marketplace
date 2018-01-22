@@ -87,7 +87,7 @@ p {font-size: 1em;}
 
 .header-controls {display:inline-flex;}
 .header-controls .mdl-navigation__link {padding-left:12px; padding-right:12px;}
-.headertxtspan { font-size: 14px; font-weight:600; color:#2e2f2f;opacity:1; margin-left: 15px; text-transform: uppercase;}
+.headertxtspan { font-size: 14px; font-weight:600; color:#2e2f2f;opacity:1; margin-left: 10px; text-transform: uppercase;}
 .headerlogospan { width:60px; height: 25px; display: inline-block; float:left; background: url("../images/logo.png") no-repeat; background-size:cover;}
 
 .acumos-logo {width: 125px; height: 55px; display: inline-block; margin-right: 30px; }
@@ -147,7 +147,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .header-user-list li a {color: #0366d6;}
 .header-user-list li a:hover {text-decoration:none;color: #0366d6;}
 #btn_header {height:25px; line-height: 25px;}
-.mdl-textfield--expandable.header-search-control .mdl-button--icon { top: 14px;}
+
 
 .header-search-control.mdl-textfield.is-focused .mdl-textfield__input {-webkit-transition: width 200ms; transition: width 200ms;}
 .icon-header-help {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/ico_help.png') no-repeat left center}
@@ -1439,7 +1439,7 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 	.mdl-layout__drawer {width:227px;}
 	.mdl-layout--fixed-drawer>.mdl-layout__content { margin-left: 227px;}	
 	.mdl-layout__drawer.initialVal {width:55px; overflow:hidden;}
-	.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {padding-left: 15px;}
+	.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {padding-left: 10px;}
 	.mdl-layout__drawer .mdl-navigation .mdl-navigation__link,
 	.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover,
 	.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:focus
@@ -1448,7 +1448,7 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 	.mdl-layout__header.initialVal {margin-left: 55px !important; width: calc(100% - 55px) !important;}
 	.mdl-layout-title {font-size: 26px;}
 	.header-right {padding-right: 40px; text-align:right;}	
-	.mdl-layout--fixed-drawer > .mdl-layout__header .mdl-layout__header-row {padding-right: 0;padding-left:14px}
+	.mdl-layout--fixed-drawer > .mdl-layout__header .mdl-layout__header-row {padding-right: 0;padding-left:0;}
 	.mdl-layout__drawer>.mdl-layout__title, .mdl-layout__drawer>.mdl-layout-title {}	
 	.lg-v-self-center {align-self: center;}
 	.leftbrowse-section.ng-hide{display:block !important}
@@ -1475,7 +1475,7 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 	html,body, button,input, select, textarea,.mdl-button {
     font-family: 'Open Sans', sans-serif !important;
   }
-  #btn_header {position: relative;top: -11px;}
+  #btn_header {position: relative;}
   #account-info.header-ddl {display:block;}
   .mdl-badge[data-badge]:after { right: 0px !important;}
   .mdl-layout__header-row .mdl-navigation .header-ddl:first-child {margin-right: 10px;}
@@ -1504,4 +1504,38 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 .subs-message1 {display: flex; justify-content: flex-start; align-items: center; padding: 8px;}
 .subs-added {display:inline-block;width: 20px; height: 20px; background: url("../images/dashboard/status.png") no-repeat center center;background-size:cover;}
 .subs-message1 span:last-child {color: #0f9c6d; margin-left: 5px;}
-  
+
+/****** new header and sidebar ***************/
+
+.mdl-layout__drawer {top: 55px; height: calc(100% - 55px);}
+.mdl-layout__header {margin-left:0 !important; width: calc(100%) !important;}
+.mdl-layout__header.initialVal {width: calc(100%) !important;margin-left:0 !important;}
+
+.header-title {display: none;}
+
+.a-logo-container {display: flex; justify-content: flex-start; align-items: center;background: url("../images/general-icons/header_cross_img.png") no-repeat left center;padding-left: 11px; }
+.accumos-header-logo img {width: 110px; height: 31px;margin-left: 13px;position:relative;}
+.cobranding-header-logo {margin-left: 10px;position:relative; margin-right: 22px;}
+.cobranding-header-logo img {width: 54px; height: 15px;margin-left: 25px;position:relative;}
+
+.header-right1 button md-icon {display: none;}
+
+#menu_container_2, #menu_container_1 {top: 56px !important;}
+#menu_container_2 md-menu-content {padding-top:0; padding-bottom:0; }
+.new-note-container {display: flex; justify-content: space-between; align-items: center; padding-right: 5px;}
+.notification-text {max-width: 170px;}
+
+#menu_container_1 md-menu-content {max-height: 330px !important;}
+#menu_container_1 md-menu-content md-menu-item {border-top: 1px dotted #b1b1b1;margin: 3px 10px; position:relative;}
+#menu_container_1 md-menu-content md-menu-item:first-child {border-top: none;}
+#menu_container_1 md-menu-content md-menu-item.readall-btn-container {position: relative;border-top: 1px dotted #b1b1b1;margin: 3px 0; padding-top: 8px !important; }
+
+#menu_container_1 md-menu-content .mdl-button {min-height: 10px; width:15px; min-width: 15px; background: none;}
+#menu_container_1 md-menu-content .mdl-button.btn-readall-msg {height: 30px; position:relative; text-align: center; width:175px; margin: 0 auto;text-transform: none; color:#0366d6;font-size: 14px; font-weight: normal;line-height: 28px; }
+#menu_container_1 md-menu-content .mdl-button.btn-readall-msg:hover { color:#671C9D;}
+#menu_container_1 md-menu-content .mdl-button .fa  {color: #999; font-size: 13px;position:relative; top:-5px;}
+#menu_container_1 md-menu-content .mdl-button:hover {background: none; }
+#menu_container_1 md-menu-content .mdl-button:hover .fa {background: none; color: #000; }
+#menu_container_1 md-menu-content .notification-text {color: #2e2f2f; font-weight: normal; font-size:13px;}
+#menu_container_1 md-menu-content.read-note {background: #f1f1f1;}
+#menu_container_1 md-menu-content.read-note .notification-text {color: #656565; font-weight: normal;}

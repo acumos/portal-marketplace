@@ -65,35 +65,72 @@
 	<div class="mdl-layout__header-row">
 		<div class="mdl-grid mdl-grid--no-spacing header-grid">
 			<div
-				class="mdl-cell mdl-cell--6-col mdl-cell--3-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing mdl-cell--middle">
-				<button id="btn_header"
-					ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
-					class="mdl-button mdl-js-button mdl-button--icon hide-sm hide-xs">
-					<i class="material-icons">menu</i>
-				</button>
-				<a ui-sref="home"><span
-					class="cog-header-logo-mob hide-lg hide-xl">{{$root.siteInstanceName}}</span></a>
-				<div
-					class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-								  mdl-textfield--floating-label mdl-textfield--align-right header-search-control">
-					<label class="mdl-button mdl-js-button mdl-button--icon"
-						for="fixed-header-drawer-exp1" ng-click="globalSearch(searchText)">
-						<i class="material-icons">search</i>
-					</label>
-					<div class="mdl-textfield__expandable-holder">
-						<input class="mdl-textfield__input header-search-txtbox"
-							type="search" id="fixed-header-drawer-exp1"
-							placeholder="Search Models" ng-model="searchText">
-					</div>
+				class="mdl-cell mdl-cell--7-col mdl-cell--3-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing mdl-cell--middle">
+				
+					<div class="a-logo-container">
+						<button id="btn_header"
+							ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
+							class="mdl-button mdl-js-button mdl-button--icon hide-sm hide-xs">
+							<i class="material-icons">menu</i>
+						</button>
+						<span class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" /></span>
+						<span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" /></span>
+						
+						<div
+						class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+									  mdl-textfield--floating-label mdl-textfield--align-right header-search-control">
+						<label class="mdl-button mdl-js-button mdl-button--icon"
+							for="fixed-header-drawer-exp1" ng-click="globalSearch(searchText)">
+							<i class="material-icons">search</i>
+						</label>
+						<div class="mdl-textfield__expandable-holder">
+							<input class="mdl-textfield__input header-search-txtbox"
+								type="search" id="fixed-header-drawer-exp1"
+								placeholder="Search Models" ng-model="searchText">
+						</div>
+					</div>				
 				</div>
+				<!-- <div>
+					<a ui-sref="home"><span
+					class="cog-header-logo-mob hide-lg hide-xl">{{$root.siteInstanceName}}</span></a>
+				</div>	 -->		
+				
 			</div>
 			<div
-				class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing text-right">
-				<div layout="row" layout-fill layout-align="end center"
-					layout-align-lg="end center">
+				class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing text-right">
+				<div layout="row" layout-fill layout-align="end center" layout-align-lg="end center">
 					<nav
 						class="mdl-navigation header-controls text-right hide-sm hide-xs header-right1">
-						<button id="demo-menu-lower-right10"
+						<div>
+							<md-menu md-position-mode="target-right target" >
+					          <md-button id="demo-menu-lower-right10" class="mdl-button header-ddl mdl-js-button cg-acitve" ng-click="openMenu($mdMenu, $event)">
+					            <!-- <md-icon md-menu-origin md-svg-icon="call:portable-wifi-off"></md-icon> -->
+					          	<span class="material-icons mdl-badge mdl-badge--overlap"
+									ng-if="$root.notificationCount < 1">notifications_none</span>
+								<span class="material-icons mdl-badge mdl-badge--overlap"
+									data-badge="{{$root.notificationCount}}"
+									ng-if="$root.notificationCount > 0">notifications_none</span>					          
+					          </md-button>
+					          <md-menu-content width="4" ng-show = "$root.notificationCount > 0">
+					            <md-menu-item ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
+					            	<div class="new-note-container">
+					            		<span class="notification-text"
+										ng-click="viewNotification(notification.notificationId)">{{notification.message}}</span>
+										<md-button class="mdl-button mdl-js-button mdl-button--icon"
+											ng-click="deleteNotification(notification.notificationId)">
+											<i class="fa fa-times" aria-hidden="true"></i>
+										</md-button>					            	
+					            	</div>					              
+					            </md-menu-item>
+					            <md-menu-item ng-if="$root.notificationCount > 5" class="readall-btn-container">
+						           <md-button ng-click="showNotification()"
+											class="mdl-button mdl-js-button btn-secondary btn-readall-msg">Read
+											all Messages</md-button>
+						        </md-menu-item>
+					          </md-menu-content>
+					        </md-menu>
+						</div>
+						<!-- <button id="demo-menu-lower-right10"
 							class="mdl-button header-ddl mdl-js-button cg-acitve">
 							<div class="material-icons mdl-badge mdl-badge--overlap"
 								ng-if="$root.notificationCount < 1">notifications_none</div>
@@ -116,40 +153,86 @@
 										<i class="fa fa-times" aria-hidden="true"></i>
 									</button>
 								</li>
-								<li ng-if="$root.notificationCount > 5" class="readall-btn-container">
+								<li ng-if="$root.notificationCount > 5">
 									<button ng-click="showNotification()"
 										class="mdl-button mdl-js-button btn-secondary btn-readall-msg">Read
 										all Messages</button>
 
 								</li>
 							</ul>
-						</div>
+						</div> 
+						
 						<!-- Right aligned menu below button -->
-						<button id="account-info"
+						<div class="posrel">
+							<md-menu>
+	      						<md-button id="account-info"
+								class="mdl-button header-ddl mdl-js-button" ng-click="openMenu($mdMenu, $event)">
+	        						<span><img class="userimg"
+									ng-show="showAltImage"
+									ng-src="images/userprofile/user-profile.png"
+									title="{{userfirstname}}" /> <img
+									class="userimg" ng-show="!showAltImage"
+									ng-src="data:image/PNG;base64,{{userImage}}"
+									title="{{userfirstname}}" /> {{userDetails.userName}}
+								</span> <i class="material-icons">arrow_drop_down</i>
+	      						</md-button>
+						      <md-menu-content>
+						        <md-menu-item class="mdl-button header-ddl mdl-js-button">
+						           <a ui-sref="userDetail">Account Setting </a>
+						        </md-menu-item>
+						        <md-menu-item ng-show="provider == 'globaluid'">
+						           <a ui-sref="resetPswd">Change Password</a>
+						        </md-menu-item>
+						      </md-menu-content>
+	    					</md-menu>
+						</div>
+						
+						<!-- <button id="account-info"
 							class="mdl-button header-ddl mdl-js-button">
-							<span> <!-- default image --> <img class="userimg"
+							<span><img class="userimg"
 								ng-show="showAltImage"
 								ng-src="images/userprofile/user-profile.png"
-								title="{{userfirstname}}" /> <!-- user uploaded image --> <img
+								title="{{userfirstname}}" /> <img
 								class="userimg" ng-show="!showAltImage"
 								ng-src="data:image/PNG;base64,{{userImage}}"
 								title="{{userfirstname}}" /> {{userDetails.userName}}
 							</span> <i class="material-icons">arrow_drop_down</i>
 						</button>
-
+						
 						<ul
 							class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect header-user-list"
 							for="account-info">
 							<li class="mdl-menu__item"><a ui-sref="userDetail">Account
 									Setting </a></li>
-							<!-- <li class="mdl-menu__item"><a ui-sref="">Notification Settings</a></li> -->
-							<!-- <li class="mdl-menu__item"><a ui-sref="">Reset Password -
-								{{$root.successfulAdmin}}</a></li> -->
-							<!-- <li class="mdl-menu__item" ng-show="$root.successfulAdmin"><a ui-sref="adminConfig">Admin
-									Configurations</a></li> -->
+							<li class="mdl-menu__item"><a ui-sref="">Notification Settings</a></li>
+							<li class="mdl-menu__item"><a ui-sref="">Reset Password -
+								{{$root.successfulAdmin}}</a></li>
+							<li class="mdl-menu__item" ng-show="$root.successfulAdmin"><a ui-sref="adminConfig">Admin
+									Configurations</a></li>
 							<li class="mdl-menu__item" ng-show="provider == 'globaluid'"><a
 								ui-sref="resetPswd">Change Password</a></li>
 						</ul>
+						<md-select id="account-info" ng-model = "accountInfo" placeholer = ""
+							class="mdl-button header-ddl mdl-js-button md-no-underline">
+							</span><i class="material-icons">arrow_drop_down</i> 
+							<md-option value = "AccountSetting"><a ui-sref="userDetail">Account Setting </a></md-option>
+							<md-option value = "changePassword" ng-show="provider == 'globaluid'"><a
+								ui-sref="resetPswd">Change Password</a></md-option>
+						</md-select> -->
+
+						<!-- <ul
+							class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect header-user-list"
+							for="account-info">
+							<li class="mdl-menu__item"><a ui-sref="userDetail">Account
+									Setting </a></li>
+							<li class="mdl-menu__item"><a ui-sref="">Notification Settings</a></li>
+							<li class="mdl-menu__item"><a ui-sref="">Reset Password -
+								{{$root.successfulAdmin}}</a></li>
+							<li class="mdl-menu__item" ng-show="$root.successfulAdmin"><a ui-sref="adminConfig">Admin
+									Configurations</a></li>
+							<li class="mdl-menu__item" ng-show="provider == 'globaluid'"><a
+								ui-sref="resetPswd">Change Password</a></li>
+						</ul> -->
 						<div class="helplink-container"><a class="mdl-navigation__link" target="_blank" href="{{docUrl}}"><span class="icon-header-help"></span></a></div>
 
 						<a class="mdl-navigation__link" ng-click="logout()"
@@ -182,7 +265,8 @@
 						</ul>
 					</nav>
 				</div>
-			</div>
+			
+				</div>
 		</div>
 	</div>
 </header>
