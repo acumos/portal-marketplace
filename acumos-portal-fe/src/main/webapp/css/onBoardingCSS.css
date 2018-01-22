@@ -469,11 +469,22 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
     background-color: #FFF; color: #671C9D;  border:1px solid #671C9D; text-align:center;}
 .skiptext{display:inline-block; line-height: 23px;}
 .skiptext:before{content:url(../images/ico_alert_information.png); background-repeat:no-repeat; float:left; margin-right:5px; line-height: 8px;}
+/* .progress-status::after { margin-left: -5px;} */
+
 /* media query start */
+@media(max-width:768px){
+.hasClass .company-market ul li {width: 13%;  text-align: center;}
+.hasClass .company-market ul li.progress-status { width: 4%;}
+.hasClass .company-market ul li .imagecontent {width: 62px;  height: 62px;  border-radius: 52px;}
+.hasClass .company-market ul li:last-child .text {width: auto;}
+.company-market ul li:last-child{margin:0;}
+.progress-status::after { margin-left: -4px;}
+.hasClass .progress-status.green::after, .hasClass .progress-status::after{width: 32px;}
+}
 @media(max-width:767px){
 	.vertical-mdl-tabs .mdl-tabs__tab-bar{padding-bottom:0;}
 	.mdl-cell.workflow-left{overflow-y: scroll; width: 100%; background-color: transparent;}
-	.tabs-left{width:438px; height: 88px;}
+	.tabs-left{width:432px; height: 88px;}
 	.workflow-leftheader{width:100%;}
 	.workflow-right-header{display:none;}
 	.tabs-left>li{width:auto; min-height:88px; border-bottom:0px;  border-top:0;}
@@ -503,4 +514,27 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 	.tabs-left li div.managelefttext{margin: 0px 0 0;}
 	.workflow-left ul.tabs-left>li a.mdl-tabs__tab.is-active div.managelefttext{background-color:#FFF;}
 	.onboarding .mdl-tabs__panel md-content{overflow: initial;}
+	.tabs-left .mdl-tabs__tab{background-color: #f1f1f1;}
+	
+}
+@media ( max-width :640px){
+	.hasClass .company-market ul li{width:16.5%; }
+	.hasClass .company-market ul li.progress-status{display:none;}
+	.company-market ul li .text{text-overflow: ellipsis; overflow-x: hidden; padding:0 2px;}
+	
+}
+@media ( max-width :414px){
+	.company-market ul li .imageplace.completed .imagecontent, .company-market ul li .imageplace.incomplet .imagecontent, .company-market ul li .imageplace.active .imagecontent{border:0px;}
+	.company-market ul li .imagecontent{background-color:transparent; border:0px;}
+	.company-market ul{margin: 0 -20px 15px -20px;}
+}
+@media ( max-width :375px){	
+	
+	.btn-publish{padding:0 5px; font-size: 10px;}	
+	.company-market ul li .text{ font-size: 13px; line-height: 16px; margin-top: -10px;}
+	.company-market ul li:last-child .publshbutton{min-width:auto; margin-top: -12px;}	
+	.company-market ul li .text{font-size:12px;}
+}
+@media ( max-width :360px){
+	.btn-publish{padding:0 3px; width: 50px; float: right;}
 }
