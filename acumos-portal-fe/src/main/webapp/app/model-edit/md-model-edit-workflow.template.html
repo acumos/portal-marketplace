@@ -3575,3 +3575,52 @@
 </div>
 </div>
 </div>
+
+
+<!--Download Cofirmation Modal -->
+	<div class="md-dialog-container" id="downloadConfirm"
+		style="height: 0;">
+		<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
+		<form ng-cloak>
+			<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Downloading - {{solution.name}}</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="handleDismiss()">
+				<i class="material-icons">close</i> </md-button>
+			</div>
+			</md-toolbar>
+			<md-dialog-content>
+			<div class="md-dialog-content text-center">
+				<div>
+					<span class="checkmark1" aria-hidden="true"></span>
+				</div>
+				<p class="md-text1">
+					Thank you for downloading <br /> <span class="wrap_text">{{solution.name}}</span>
+					version {{versionId}}
+				</p>
+				<p class="md-text2">
+					Your download will start automatically. <br /> if it does not
+					start, <a data-target>click here</a> for troubleshooting
+					information
+				</p>
+				<br />
+				<p class="md-text3">
+					Use below key along with a modified Solution if you want to <br />upload
+					it to {{$root.siteInstanceName}} platform.
+				</p>
+				<p>
+					<span class="md-key">{{secretKey || subscriptionKey}}</span>
+				</p>
+				<br />
+
+				<button
+					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+					ng-click="handleDismiss()">Close</button>
+
+
+			</div>
+			</md-dialog-content>
+		</form>
+		</md-dialog>
+	</div>
