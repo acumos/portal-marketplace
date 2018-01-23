@@ -11,7 +11,7 @@ angular
 							apiService, $element) {
 						$scope.autoHeight = true;
 						$scope.tags = [];
-						$scope.sortBy = 'MR';
+
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -257,7 +257,7 @@ angular
 						$scope.isBusy = false;
 						var check = 0;
 						var dataObj = {};
-						var toBeSearch = '';
+						var toBeSearch = [];
 						var duplicate = false;
 						$scope.loadMore = function() {
 							if ($scope.isBusy)
@@ -272,7 +272,10 @@ angular
 							 * $scope.isBusy = true; return; }
 							 */
 							// $scope.dataLoading = false;
-							toBeSearch = $scope.searchBox;
+							if($scope.searchBox){
+								toBeSearch[0] = $scope.searchBox;
+							}
+							
 							if ($scope.viewNoMLsolution == 'No More ML Solutions'
 									&& $scope.pageNumber != 0) {
 								return;
@@ -296,7 +299,7 @@ angular
 								"request_body" : {
 									"modelTypeCodes" : $scope.categoryFilter,
 									"active" : true,
-									"nameKeyword" : toBeSearch,
+									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
 									"pageRequest" : {
 										"fieldToDirectionMap": fieldToSort,

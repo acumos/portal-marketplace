@@ -1,11 +1,19 @@
 <!-- Header HTML if user not logged in -->
 
 <header
-	ng-if="$root.sidebarHeader === false">
+	ng-if="$root.sidebarHeader === false" class="header-without-login">
 	<div class="mdl-layout__header-row">
 		<!-- Title -->
-		<a ui-sref="home"><span class="acumos-logo"
-			style='background: url(../images/{{$root.headerImage.name}}) no-repeat 0px 10px'></span></a>
+		<div class="a-logo-container logo-without-login">
+						<button id="btn_header"
+							ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
+							class="mdl-button mdl-js-button mdl-button--icon hide-lg hide-xl">
+							<i class="material-icons">menu</i>
+						</button>
+						<span class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
+						<!-- <span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span> -->					
+										
+				</div>
 		<!-- Navigation -->
 		<nav class="mdl-navigation top-menu">
 			<a class="mdl-navigation__link" ui-sref="home"
@@ -73,8 +81,8 @@
 							class="mdl-button mdl-js-button mdl-button--icon hide-sm hide-xs">
 							<i class="material-icons">menu</i>
 						</button>
-						<span class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" /></span>
-						<span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" /></span>
+						<span class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
+						<span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span>
 						
 						<div
 						class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
@@ -176,7 +184,7 @@
 									title="{{userfirstname}}" /> {{userDetails.userName}}
 								</span> <i class="material-icons">arrow_drop_down</i>
 	      						</md-button>
-						      <md-menu-content>
+						      <md-menu-content class="menu-content1">
 						        <md-menu-item class="mdl-button header-ddl mdl-js-button">
 						           <a ui-sref="userDetail">Account Setting </a>
 						        </md-menu-item>

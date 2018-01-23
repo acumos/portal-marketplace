@@ -13,10 +13,10 @@
 									
 									  <div class="md-dialog-content">
 										<div class="mdl-grid mdl-grid--no-spacing">
-										  <div class="mdl-cell mdl-cell--6-col">
-										  <form name = "signupForm" ng-cloak novalidate>
-										  <div class="md-block">
-										  		 <md-input-container class="mdl-cell--6-col">
+										  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet">
+										  <form name="signupForm" ng-cloak novalidate>
+										  <div class="md-block signup-container2">
+										  		 <md-input-container class="mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>First Name</label>												      
 												      <input type="text" name="firstName" ng-model="firstName" valid-username required>
@@ -30,7 +30,7 @@
 															name must be 2-20 characters.</span>
 													</div>
 												 </md-input-container>
-												 <md-input-container class="mdl-cell--6-col pull-right">
+												 <md-input-container class="mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone signup-control1">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Last Name</label>												      
 												      <input type="text" name="lastName" ng-model="lastName" valid-username required>
@@ -88,20 +88,33 @@
 												 <md-input-container class="md-block">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Password</label>										     
-												      	<div>
+												      	<div class="password-container1">
 												      		<input name="pwd" class="ok-password pull-left" ng-model="pwd" type="{{inputtype}}" valid-password required  maxlength="20">
-												      	</div>
-												      	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												      		<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												      	</div>											      	
 												     
-												      <div class="help-inline validation-msgs"
-														ng-class="{validationmsg:!signupForm.pwd.$valid}">
-														<span ng-show="!!signupForm.pwd.$error.isBlank">Password
-															Required.</span> <span
-															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isWeak)">Must
-															contain one upper &amp; lower case letter and a non-letter
-															(number & symbol.)</span> <span
-															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.invalidLen)">Must
-															be 8-20 characters.</span>
+												      												      <div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.pwd.$valid}">
+														<span ng-show="!!signupForm.pwd.$error.isBlank">Password Required.</span>
+														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.invalidLen)">
+															Must be 8-20 characters.<br/> 
+														</span>
+														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isSpecialChar)">
+															Must contain at least one special symbol like * & #.<br/> 
+														</span>
+														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isDigit)">
+															Must contain at least one number.<br/> 
+														</span>
+														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isLowerCaseLetter)">
+															Must contain at least one lower case letter.<br/> 
+														</span>
+														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isUpperCaseLetter)">
+															Must contain at least one upper case letter.<br/>  
+														</span>	
+													</div>
+													<div>
+														<p class="password-note">
+															Your password must contain at least eight characters, with one upper case and lower case letter, number and symbols like, ! # @ $ * &.
+														</p>
 													</div>
 												 </md-input-container>
 
@@ -114,13 +127,17 @@
 						                        <div class="strength-meter" ng-if="signupForm.pwd.$valid">
 													<div class="strength-meter-fill" data-strength="{{passwordStrength}}"></div>
 						                        </div>	
-						                        						 
+						                        <div class="text-xsmall">
+													<span ng-if="signupForm.pwd.$invalid && signupForm.pwd.$dirty">Weak Password</span>
+							                        <span ng-if="signupForm.pwd.$valid && passwordStrength == 2">Strong Password</span>
+							                        <span ng-if="signupForm.pwd.$valid && (passwordStrength == 3 || passwordStrength == 4)">Very Strong Password</span>
+												</div>						 
 												 <md-input-container class="md-block confirm-control">
 												      <!-- Use floating label instead of placeholder -->
-												      <label>Confirm Password</label>												     
-												      <input name="cpwd" ng-model="cpwd" type="{{inputtypeconfirm}}"  valid-password-c required maxlength="20">
-												      <div>
-												      	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												      <label>Confirm Password</label>
+												      <div class="password-container1">											     
+												      	<input name="cpwd" ng-model="cpwd" type="{{inputtypeconfirm}}"  valid-password-c required maxlength="20">
+												        <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
 												      </div>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
@@ -131,18 +148,18 @@
 													</div>
 												 </md-input-container>
 												 												
-												<div>
+												<div >
 													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="signupForm.$invalid" ng-click="signUp()">Sign up</button>
 												</div>
-												<div>
+												<div class="signup-txt-mob">
 													<label>Already have an {{$root.siteInstanceName}} ID?</label> <a ng-click=" openlogin()">Sign In</a>
 												</div>
 										  </div>
 										  </form>
-										  <div class="mdl-cell mdl-cell--1-col posrel">
+										  <div class="mdl-cell mdl-cell--1-col mdl-cell--1-col-tablet posrel">
 										  		<div class="signinseperator"><span class="or_span">or</span></div>
 										  </div>
-										  <div class="mdl-cell mdl-cell--5-col">
+										  <div class="mdl-cell mdl-cell--5-col mdl-cell--3-col-tablet">
 										  	<div class="socbtncontainer">
 										  		<!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn"  ng-click = "signupAuthenticate('globaluid')"><span class="socbtnicon"><span class="att-icon"></span></span><span class="soctext">Sign In with Global UID</span></md-button> -->
 										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('github')" disabled><span class="socbtnicon"><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
@@ -157,6 +174,4 @@
 										</div>																	
 									  </div>
 									</md-dialog-content>
-									
-								  
 								</md-dialog>

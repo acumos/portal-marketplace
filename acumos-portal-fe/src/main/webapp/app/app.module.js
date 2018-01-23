@@ -194,10 +194,18 @@ angular
         if(viewValue){
         	 var invalidLen = !isBlank && (viewValue.length < 8 || viewValue.length > 20)
         }
-       var isWeak = !isBlank && !invalidLen && !/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z])(?=.*[^a-zA-Z0-9])/.test(viewValue)
-        ctrl.$setValidity('isBlank', !isBlank)
-        ctrl.$setValidity('isWeak', !isWeak)
-        ctrl.$setValidity('invalidLen', !invalidLen)
+       var isWeak = !isBlank && !invalidLen && !/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z])(?=.*[^a-zA-Z0-9])/.test(viewValue);
+       var isLowerCaseLetter = !isBlank && !invalidLen && !/(?=.+[a-z])/.test(viewValue);
+       var isUpperCaseLetter = !isBlank && !invalidLen && !/(?=.*[A-Z])/.test(viewValue);
+       var isDigit = !isBlank && !invalidLen && !/(?=.*[0-9])/.test(viewValue);
+       var isSpecialChar = !isBlank && !invalidLen && !/(?=.*[^a-zA-Z0-9])/.test(viewValue);
+	    ctrl.$setValidity('isBlank', !isBlank);
+	    ctrl.$setValidity('isWeak', !isWeak);
+	    ctrl.$setValidity('invalidLen', !invalidLen);
+	    ctrl.$setValidity('isLowerCaseLetter', !isLowerCaseLetter);
+	    ctrl.$setValidity('isUpperCaseLetter', !isUpperCaseLetter);
+	    ctrl.$setValidity('isDigit', !isDigit);
+	    ctrl.$setValidity('isSpecialChar', !isSpecialChar);
         scope.passwordGood = !isBlank && !isWeak && !invalidLen
                      return viewValue;
                };
