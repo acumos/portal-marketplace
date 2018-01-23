@@ -5,6 +5,7 @@ app
 					template : '<a ng-click="$root.showAdvancedSignup()" class="no-outline">Sign Up <span class="signUp">Now</span></a>',
 					controller : function($uibModal, $scope, $rootScope, $mdDialog) {
 						$ctrl = this;
+						
 						$ctrl.dataForModal = {
 							name : 'signup',
 							value : 'ValueToEdit'
@@ -68,7 +69,23 @@ app
                       		var $ctrl = this;
                     		// $scope.userPassInvalid = false;
                     		// $scope.successfulLogin = true;
-                      		
+    						$scope.inputtype = 'password';
+    						$scope.inputtypeconfirm = 'password';
+    						$scope.showPasswd = function(){
+    							if($scope.inputtype == 'text'){
+    								$scope.inputtype = 'password';
+    							} else {
+    								$scope.inputtype = 'text';
+    							}
+    						}
+    						$scope.showConfirmPasswd = function(){
+    							if($scope.inputtypeconfirm == 'text'){
+    								$scope.inputtypeconfirm = 'password';
+    							} else {
+    								$scope.inputtypeconfirm = 'text';
+    							}
+    						}
+    						
                     		$scope.openlogin = function() {
                     			$rootScope.showAdvancedLogin();
                     			//modalProvider.openPopupModal();

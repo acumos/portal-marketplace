@@ -147,7 +147,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .header-user-list li a {color: #0366d6;}
 .header-user-list li a:hover {text-decoration:none;color: #0366d6;}
 #btn_header {height:25px; line-height: 25px;}
-
+.mdl-textfield--expandable.header-search-control .mdl-button--icon { top: 14px;}
 
 .header-search-control.mdl-textfield.is-focused .mdl-textfield__input {-webkit-transition: width 200ms; transition: width 200ms;}
 .icon-header-help {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/ico_help.png') no-repeat left center}
@@ -1276,7 +1276,7 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 }
 
 /*--------------------------------------------------*/
-
+.eyebutton{ position: absolute; right: 2px; min-height: 35px;}
 /*--------------------------------------------------*/
 /*********** MEDIA QUERIES SECTION START************/
 

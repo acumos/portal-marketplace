@@ -78,11 +78,21 @@
 															ng-show="!!(signupForm.uemail.$dirty && signupForm.uemail.$error.pattern)">
 															Please Enter Valid Email</span>
 													</div>
+
 												 </md-input-container>
+												 	<div>
+														<!-- <p class="admin-text1">
+															Your password must contain atleast eight characters along with one upper case and lower case letter, number  and symbols like, ! # @ $ * &
+														</p> -->
+													</div>
 												 <md-input-container class="md-block">
 												      <!-- Use floating label instead of placeholder -->
-												      <label>Password</label>												     
-												      <input name="pwd" class="ok-password" ng-model="pwd" type="password" valid-password required  maxlength="20">
+												      <label>Password</label>										     
+												      	<div>
+												      		<input name="pwd" class="ok-password pull-left" ng-model="pwd" type="{{inputtype}}" valid-password required  maxlength="20">
+												      	</div>
+												      	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												     
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.pwd.$valid}">
 														<span ng-show="!!signupForm.pwd.$error.isBlank">Password
@@ -108,7 +118,10 @@
 												 <md-input-container class="md-block confirm-control">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Confirm Password</label>												     
-												      <input name="cpwd" ng-model="cpwd" type="password" valid-password-c required maxlength="20">
+												      <input name="cpwd" ng-model="cpwd" type="{{inputtypeconfirm}}"  valid-password-c required maxlength="20">
+												      <div>
+												      	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												      </div>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
 														<span ng-show="!!signupForm.cpwd.$error.isBlank">Confirm Password
@@ -132,9 +145,9 @@
 										  <div class="mdl-cell mdl-cell--5-col">
 										  	<div class="socbtncontainer">
 										  		<!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn"  ng-click = "signupAuthenticate('globaluid')"><span class="socbtnicon"><span class="att-icon"></span></span><span class="soctext">Sign In with Global UID</span></md-button> -->
-										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('github')" ><span class="socbtnicon"><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('github')" disabled><span class="socbtnicon"><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
 										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('facebook')" disabled><span class="socbtnicon" ><span class="facebook-icon"></span></span><span class="soctext">Sign In with Facebook</span></button>
-										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('google')"><span class="socbtnicon"><span class="google-icon"></span></span><span class="soctext">Sign In with Google</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('google')" disabled><span class="socbtnicon"><span class="google-icon"></span></span><span class="soctext">Sign In with Google</span></button>
 										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('linkedin')" disabled><span class="socbtnicon"><span class="linkedin-icon"></span></span><span class="soctext">Sign In with LinkedIn</span></button>
 										  	</div>
 										  	<p class="signintext">

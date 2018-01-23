@@ -338,7 +338,20 @@
 																		<span
 																			data-ng-show=" {{'form.'+field.name+'.$dirty && form.'+field.name+'.$error.required'}}">Required!</span>
 																	</div>
-																</div>								
+																</div>	
+																<!-- TEXTAREA FIELDS -->
+																<div ng-if="field.type=='textarea'" class="rowcontainer">
+																	<label class="disblock">{{field.label}}</label>
+																	<div class="disblock">
+																		<textarea dynamic-name="field.name" rows="4" cols="50"
+																			id="{{field.name}}" data-ng-model="field.data"
+																			required class="mdl-textfield__input admin-txtbox1">
+																		</textarea>
+																		<!--<span ng-show="myForm.{{field.name}}.$dirty && myForm.{{field.name}}.$error.required">Required!</span>.-->
+																		<span
+																			data-ng-show=" {{'form.'+field.name+'.$dirty && form.'+field.name+'.$error.required'}}">Required!</span>
+																	</div>
+																</div>							
 																<!-- EMAIL FIELDS -->
 																<div ng-if="field.type=='email'" class="rowcontainer">
 																	<label class="disblock">{{field.label}}</label>
