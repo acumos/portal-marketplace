@@ -9,8 +9,8 @@ server:
 
 zuul:
   host: 
-    connect-timeout-millis : 60000
-    socket-timeout-millis : 60000
+    connect-timeout-millis : 180000
+    socket-timeout-millis : 180000
   routes:
     api:
       path: /api/**
