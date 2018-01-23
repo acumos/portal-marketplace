@@ -112,6 +112,10 @@ public class AuthServiceControllerTest {
 		responseObject  = authServiceController.login(request, user , response);
 		Assert.assertNotNull(responseObject);
 		
+		mlpUser.setActive(false);
+		mlpUser.setEmail(null);
+		mlpUser.setLoginPassExpire(new Date());
+		responseObject  = authServiceController.login(request, user , response);
 	}
 	
 	@Test
@@ -165,9 +169,15 @@ public class AuthServiceControllerTest {
 		Mockito.when(jwtTokenUtil.generateToken(mlpUser, null)).thenReturn(generatedToken);
 //		userService.login(username, password);
 //		userService.getUserRole(mlpUser.getUserId());
-//		jwtTokenUtil.generateToken(mlpUser, null);
+		jwtTokenUtil.generateToken(mlpUser, null);
 		AbstractResponseObject abstractobject = authServiceController.jwtLogin(request, user, response);
 		Assert.assertNotNull(abstractobject);
+		
+		user.getBody().setUsername(null);
+		authServiceController.jwtLogin(request, user, response);
+		
+		mlpUser.setActive(false);
+		authServiceController.jwtLogin(request, user, response);
 	}
 	
 	@Test
