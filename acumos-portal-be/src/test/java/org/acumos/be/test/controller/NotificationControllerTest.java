@@ -153,17 +153,13 @@ public class NotificationControllerTest {
 		
 		when(notificationService.getUserNotifications(userId, restPageRequest)).thenReturn(mlpUserNotificationList);
 		notifires = notificationController.getUserNotifications(request, userId, restPageReq, response);
-		if(notifires != null){
-			logger.debug(EELFLoggerDelegate.debugLogger, "No notifications exist for user : "+userId);
-		}else {
-			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserNotifications");
-		}
+		when(notificationService.getUserNotifications(userId, restPageRequest)).thenReturn(null);
+		notifires = notificationController.getUserNotifications(request, userId, restPageReq, response);	
 	}
 	
 	@Test
 	public void addNotificationUserTest() {
-		try {
-
+		
 			MLNotification mlNotification = new MLNotification();
 			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
 			mlNotification.setCount(1);
@@ -190,14 +186,14 @@ public class NotificationControllerTest {
 			notificationController.addNotificationUser(request, notificationId, userId, response);
 			logger.info("Successfully  added notifiaction for particular user : " + notificationres.getResponseBody());
 			Assert.assertNotNull(notificationres);
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
+		
+			notificationId=null;
+			userId=null;
+			notificationController.addNotificationUser(request, notificationId, userId, response);
 	}
 	@Test
 	public void dropNotificationUserTest() {
-		try {
-
+		
 			MLNotification mlNotification = new MLNotification();
 			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
 			mlNotification.setCount(1);
@@ -224,15 +220,15 @@ public class NotificationControllerTest {
 			notificationController.dropNotificationUser(request, notificationId, userId, response);
 			logger.info("Successfully  droped notifiaction for particular user : " + notificationres.getResponseBody());
 			Assert.assertNotNull(notificationres);
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
+			
+			notificationId=null;
+			userId=null;
+			mockImpl.dropNotificationUser(notificationId, userId);	
+			notificationController.dropNotificationUser(request, notificationId, userId, response);
 	}
 
 	@Test
 	public void setNotificationUserViewedTest() {
-
-		try {
 
 			MLNotification mlNotification = new MLNotification();
 			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
@@ -258,18 +254,16 @@ public class NotificationControllerTest {
 			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
 			mockImpl.setNotificationUserViewed(notificationId, userId);
 			notificationController.setNotificationUserViewed(request, notificationId, userId, response);
-			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
 			Assert.assertNotNull(notificationres);
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
-
+			
+			notificationId=null;
+			userId=null;
+			mockImpl.setNotificationUserViewed(notificationId, userId);
+			notificationController.setNotificationUserViewed(request, notificationId, userId, response);
 	}
 
 	@Test
 	public void deleteNotificationTest() {
-
-		try {
 
 			MLNotification mlNotification = new MLNotification();
 			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
@@ -294,19 +288,20 @@ public class NotificationControllerTest {
 			Assert.assertNotNull(notificationId);
 			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
 			mockImpl.dropNotificationUser(notificationId, userId);
+			mockImpl.deleteNotification(notificationId);
 			notificationController.deleteNotification(request, notificationId, response);
 			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
 			Assert.assertNotNull(notificationres);
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
-
+		
+			notificationId=null;
+			userId=null;
+			mockImpl.dropNotificationUser(notificationId, userId);
+			mockImpl.deleteNotification(notificationId);
+			notificationController.deleteNotification(request, notificationId, response);
 	}
 
 	@Test
-	public void getNotificationCountTest(){
-		try {
-
+	public void getNotificationCountTest(){		
 			MLNotification mlNotification = new MLNotification();
 			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
 			mlNotification.setCount(1);
@@ -316,14 +311,13 @@ public class NotificationControllerTest {
 			Assert.assertNotNull(mlNotification);
 			JsonResponse<MLNotification> notificationres = new JsonResponse<>();
 			notificationres.setResponseBody(mlNotification);
+			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
+			mockImpl.getNotificationCount();
 			when(notificationServiceImpl.getNotificationCount());
 			notificationres = notificationController.getNotificationCount();
+			notificationService.getNotificationCount();
 			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
 			Assert.assertNotNull(notificationres);
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
-
-	
+			
 	}
 }

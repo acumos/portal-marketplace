@@ -42,6 +42,7 @@ import org.acumos.portal.be.controller.AdminServiceController;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
 import org.acumos.portal.be.service.impl.MockCommonDataServiceRestClientImpl;
+import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
 import org.junit.Before;
@@ -95,7 +96,6 @@ public class AdminServiceControllerTest {
 	@Test
 	public void removePeerTest() {
 
-		try {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
@@ -125,9 +125,8 @@ public class AdminServiceControllerTest {
 			logger.info("Successfully removed the peer: " + peerRes.getResponseBody());
 			Assert.assertNotNull(peerRes);
 
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
+			String peerId1 =null;
+			adminController.removePeer(peerId1);
 	}
 
 	@Test
@@ -245,7 +244,7 @@ public class AdminServiceControllerTest {
 	@Test
 	public void updatePeerSubscriptionTest() {
 
-		try {
+		
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
@@ -275,9 +274,7 @@ public class AdminServiceControllerTest {
 			subscriptionRes = adminController.updatePeerSubscription(subscriptionReq);
 			logger.info("Successfully updated peer subscription  : " + subscriptionRes.getResponseBody());
 			Assert.assertNotNull(subscriptionRes);
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
+		
 	}
 
 	@Test
@@ -376,11 +373,13 @@ public class AdminServiceControllerTest {
 			String configKey = mlpSiteConfig.getConfigKey();
 			Assert.assertNotNull(configKey);
 			
-			AdminService myList = mock(AdminService.class);
-		    doNothing().when(myList).createSiteConfig(isA(MLPSiteConfig.class));
-		    myList.createSiteConfig(mlpSiteConfigReq.getBody());
+			Mockito.when(adminService.getSiteConfig(configKey)).thenReturn(mlpSiteConfig);
 			configRes = adminController.createSiteConfig(mlpSiteConfigReq);
 			logger.info("created Configuration Details :" + configRes.getResponseBody());
+			Assert.assertNotNull(configRes);
+			
+
+			configRes = adminController.createSiteConfig(null);
 			Assert.assertNotNull(configRes);
 		} catch (Exception e) {
 			logger.info("failed tot execute the above test case");
@@ -452,15 +451,8 @@ public class AdminServiceControllerTest {
 		} catch (Exception e) {
 			logger.info("failed tot execute the above test case");
 		}
-
 	}
-	
 
-	
-	
-	
-	
-	
 	@Test
 	public void getPeerListTest() {
 		try {
@@ -531,7 +523,7 @@ public class AdminServiceControllerTest {
 
 	@Test
 	public void createPeerTest() {
-		try {
+	
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
@@ -556,18 +548,13 @@ public class AdminServiceControllerTest {
 			Mockito.when(adminImpl.savePeer(mlpPeer)).thenReturn(mlpPeer);
 			jsonResponse = adminController.createPeer(content);
 			Assert.assertNotNull(jsonResponse);
-			/*
-			 * "{\"response_detail\": \"Success\",\"response_body\": {\"created\": 1514534463000,\"modified\": 1514534463000,\"peerId\": \"c17c0562-c6df-4a0c-9702-ba8175eb23fd\",\"name\": \"PeerName\",\"subjectName\": \"peerSubjectName\",\"description\": \"peer description\",\"apiUrl\": \"http://apipeer.url\",\"webUrl\": \"http://weburl.api\",\"contact1\": \"contact1\",\"contact2\": \"contact2\",\"active\": true,\"self\": true},\"error_code\": \"100\"}"
-			 */
-		} catch (Exception e) {
-			logger.info("failed tot execute the above test case");
-		}
+			
+			content.setBody(null);
+			jsonResponse = adminController.createPeer(content);
 	}
 
 	@Test
 	public void updatePeerTest() {
-
-		try {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
@@ -592,16 +579,17 @@ public class AdminServiceControllerTest {
 		    doNothing().when(myList).updatePeer(isA(MLPPeer.class));
 		    myList.updatePeer(peer.getBody());
 			content = adminController.updatePeer(mlpPeer.getPeerId(),peer);
-			
-			//String content = result.getResponse().getContentAsString();
 			Assert.assertNotNull(content);
 
-		} catch (Exception e) {
-			logger.info("failed to execute the above test case");
-		}
-
+			mlpPeer.setPeerId(null);
+			peer.setBody(null);
+			content = adminController.updatePeer(mlpPeer.getPeerId(),peer);
 	}	
 	
-	
+	@Test
+	public void getVersionTest() {
+		TransportData data=adminController.getVersion();
+		Assert.assertNotNull(data);
+	}
 	
 }

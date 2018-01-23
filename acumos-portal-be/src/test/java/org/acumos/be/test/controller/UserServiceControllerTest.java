@@ -51,6 +51,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
@@ -87,7 +88,7 @@ public class UserServiceControllerTest {
 	@Mock
 	private UserServiceImpl userImpl;
 	
-	@InjectMocks
+	@Mock
 	private UserServiceController userController;
 	
 	@Mock
@@ -100,8 +101,8 @@ public class UserServiceControllerTest {
 	String userId = "601f8aa5-5978-44e2-996e-2dbfc321ee73";
 	
 	@Test
-	public void createUserTest() {
-		try {
+	public void createUserTest() {	
+		try{
 			User user = getUser();
 			JsonRequest<User> userReq = new JsonRequest<User>();
 			userReq.setBody(user);
@@ -114,8 +115,12 @@ public class UserServiceControllerTest {
 			value =userServiceController.createUser(request, userReq, response);
 			logger.info("successfully  created user ");
 			Assert.assertNotNull(value);
-		} catch (Exception | UserServiceException e) {
-			
+		
+			Mockito.when(userService.findUserByUsername(userReq.getBody().getUsername())).thenReturn(mlpUser);
+			value =userServiceController.createUser(request, userReq, response);
+			userReq.setBody(null);
+			userServiceController.createUser(request, userReq, response);
+		} catch (UserServiceException e) {
 			logger.debug("Error while creating user profile ", e);
 		}
 	}
@@ -346,11 +351,7 @@ public class UserServiceControllerTest {
 		userService.findUserByUserId(userId );
 		userService.updateUser(user);
 		JsonResponse<Object> userRes = userServiceController.deleteBulkUsers(request, userReq , response);
-		if(userRes != null){
-			logger.debug(EELFLoggerDelegate.debugLogger, "Successfully deleted BulkUsers");
-		}else{
-			logger.debug(EELFLoggerDelegate.errorLogger, "Exception occured while deleteBulkUsers");
-		}
+		Assert.assertNotNull(userRes);
 	}
 	
 	@Test
@@ -360,6 +361,21 @@ public class UserServiceControllerTest {
 		userImpl.findUserByUserId(userId);
 		userController.getUserImage(userId);
 		
+		User user = new User();
+		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setFirstName("UserFirstName");
+		user.setLastName("UserLastName");
+		user.setUsername("User1");
+		user.setEmailId("user1@emial.com");
+		user.setActive("Y");
+		user.setPassword("password");
+		JsonRequest<User> userReq = new JsonRequest<>();
+		String userId = user.getUserId();
+		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+		UserService service = mock(UserService.class);
+	    doNothing().when(service).updateUserImage(mlpUser);
+	    MultipartFile file = null;
+	    userController.updateUserImage(request, file, userId, response);
 	}
 	
 	@Test
@@ -368,6 +384,7 @@ public class UserServiceControllerTest {
 		String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJyb2xlIjpudWxsLCJjcmVhdGVkIjoxNTA4MTQ4Njk1NTE4LCJleHAiOjE1MDgyMzUwOTUsIm1scHVzZXIiOnsidXNlcklkIjoiNjE1MjUyMTEtNmFhYi00ZmRlLTllM2UtYTE4ZjBjNDhiNWQzIiwiZmlyc3ROYW1lIjoiVmVua2F0IiwibWlkZGxlTmFtZSI6bnVsbCwibGFzdE5hbWUiOm51bGwsIm9yZ05hbWUiOm51bGwsImVtYWlsIjoidmVua3lAdGVjaC5jb20iLCJsb2dpbk5hbWUiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJsb2dpbkhhc2giOm51bGwsImxvZ2luUGFzc0V4cGlyZSI6bnVsbCwiYXV0aFRva2VuIjpudWxsLCJhY3RpdmUiOnRydWUsImxhc3RMb2dpbiI6bnVsbCwicGljdHVyZSI6bnVsbCwiY3JlYXRlZCI6MTUwODE0ODY3ODAwMCwibW9kaWZpZWQiOjE1MDgxNDg2NzgwMDB9fQ.qOce0mapjkXYwNBjLbEfKmiJCnQ9IvuKXkIlmWUFWeGGn1D0VOOf-HI7AzPIvkegnrQfk_MZVG4EZUohBJvGKw";
 		String value = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJyb2xlIjpudWxsLCJjcmVhdGVkIjoxNTA4MTQ4Njk1NTE4LCJleHAiOjE1MDgyMzUwOTUsIm1scHVzZXIiOnsidXNlcklkIjoiNjE1MjUyMTEtNmFhYi00ZmRlLTllM2UtYTE4ZjBjNDhiNWQzIiwiZmlyc3ROYW1lIjoiVmVua2F0IiwibWlkZGxlTmFtZSI6bnVsbCwibGFzdE5hbWUiOm51bGwsIm9yZ05hbWUiOm51bGwsImVtYWlsIjoidmVua3lAdGVjaC5jb20iLCJsb2dpbk5hbWUiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJsb2dpbkhhc2giOm51bGwsImxvZ2luUGFzc0V4cGlyZSI6bnVsbCwiYXV0aFRva2VuIjpudWxsLCJhY3RpdmUiOnRydWUsImxhc3RMb2dpbiI6bnVsbCwicGljdHVyZSI6bnVsbCwiY3JlYXRlZCI6MTUwODE0ODY3ODAwMCwibW9kaWZpZWQiOjE1MDgxNDg2NzgwMDB9fQ.qOce0mapjkXYwNBjLbEfKmiJCnQ9IvuKXkIlmWUFWeGGn1D0VOOf-HI7AzPIvkegnrQfk_MZVG4EZUohBJvGKw";;
 		jwtTokenUtil.getUsernameFromToken(token);
+		userController.userProfile(request);
 	}
 	
 	@Test
