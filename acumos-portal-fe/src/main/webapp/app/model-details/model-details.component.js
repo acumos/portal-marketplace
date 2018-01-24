@@ -1174,7 +1174,7 @@ angular
 								if($scope.solution.tookitType != "CP") {
 									// imagetag:  imageTagUri,
 									$scope.reqObject = {
-											'request_body' : {
+											/*'request_body' : {*/
 												 'acrName': $scope.acrName,
 												 'client': $scope.applicationId,
 												 'key': $scope.secretKey,
@@ -1186,7 +1186,7 @@ angular
 												 'tenant': $scope.tenantId,
 												 'userId':  user[1],
 												 'imagetag': imageTagUri
-											}
+											/*}*/
 									}
 									
 									var url = '/azure/singleImageAzureDeployment';
@@ -1205,7 +1205,7 @@ angular
 									
 								} else {
 									$scope.reqObject = {
-											'request_body' : {
+											/*'request_body' : {*/
 												 'acrName': $scope.acrName,
 												 'client': $scope.applicationId,
 												 'key': $scope.secretKey,
@@ -1216,7 +1216,7 @@ angular
 												 'subscriptionKey':  $scope.subscriptionKey,
 												 'tenant': $scope.tenantId,
 												 'userId':  user[1],
-											}
+											/*}*/
 									}
 									var url = '/azure/compositeSolutionAzureDeployment';
 									$http({
