@@ -51,10 +51,8 @@
 					</div>
 					<!-- |
                               <span>Model ID - 234831</span> -->
-					<button id="demo-menu-lower-left11"
-						class="mdl-button mdl-js-button mdl-button--icon">
-						<i class="material-icons">more_horiz</i>
-					</button>
+                              <div class="owner-topnav">
+					
 
 					<span class="hide-xs hide-sm md-vertical-seperator"> | </span> <span
 						class="md-vertical-seperator">Owners - </span> <span
@@ -87,24 +85,13 @@
 
 								</span> {{sharedmember.firstName}} {{sharedmember.lastName}}
 							</div>
-						</div> <!-- <i ng-repeat="sharedmember in sharedWith">
-                                          <img
-                                          ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
-                                          id="T{{$index}}"
-                                          ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
-                                          alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-                                          title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
-
-                                          <img
-                                          ng-show="sharedmember.picture == null || sharedmember.picture == ''"
-                                          id="T{{$index}}" src="images/userprofile/user-profile-black.png"
-                                          alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-                                          title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
-
-                                          <div class="mdl-tooltip" data-mdl-for="T{{$index}}">
-                                                {{sharedmember.firstName}} {{sharedmember.lastName}}</div>
-                                    </i> -->
+						</div> 
 					</span>
+					<button id="demo-menu-lower-left11"
+						class="mdl-button mdl-js-button mdl-button--icon owner-ver-menu">
+						<i class="material-icons">more_horiz</i>
+					</button>
+					</div>
 				</div>
 			</div>
 			<div

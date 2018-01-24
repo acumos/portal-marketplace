@@ -1416,6 +1416,15 @@ position:relative;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
 .icon-folder {background-image: url("../images/icon-folder.png"); height: 30px; width: 30px; background-size: cover;
     background-color: transparent; border: none; float: right;}
+/*-- owner-top nav -- */ 
+.owner-topnav{	
+	display: inline-block;/* 
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: nowrap; */   
+}  
+.owner-topnav .userimg{margin-right:0;} 
+.owner-ver-menu{margin-top: 3px;}  
     
 /*---- media query start ----------*/
 @media(max-width:2560px){
@@ -1547,7 +1556,7 @@ position:relative;
 
 @media ( max-width :767px) {
       .user_icon i img {
-            margin-bottom: 5px;
+           /* margin-bottom: 5px;*/
       }
       /* responsive table*/
       table, thead, tbody, th, td, tr {
@@ -1629,13 +1638,20 @@ position:relative;
       .popovers .deploy-grid>div:last-child{padding-left:0;}
       .popovers .deploy-grid>div:first-child{padding-right:0;}
       .deploy-grid > div:last-child, .deploy-grid > div:first-child{padding-right: 5px;  padding-left: 5px;}
+     /*-- owner-top nav -- */ 
+     .md-vertical-seperator ~ .version-container{ margin-bottom: 0px;}
+      .owner-ver-menu{ margin-bottom:0px;}
+      .description-content-right.status{float:left; padding-left:0;} 
+      .description-content-right.status div,.description-content-right.status span{display:inline;}
+      
       
 }
 @media ( max-width :640px){
 	.hasClass .company-market ul li{width:20%;}
 	.hasClass .company-market ul li.progress-status{display:none;}
 	.company-market ul li .text{text-overflow: ellipsis; overflow-x: hidden;}
-	
+	.md-vertical-seperator ~ .version-container{margin-left: 0px; margin-right: 0px; width: auto; margin-bottom: 8px;}
+	.headline{max-width:100%; width:100%;}
 }
 @media ( max-width :375px){
 	.company-market ul li .imageplace.completed .imagecontent, .company-market ul li .imageplace.incomplet .imagecontent, .company-market ul li .imageplace.active .imagecontent{border:0px;}
@@ -1648,4 +1664,5 @@ position:relative;
 }
 @media ( max-width :360px){
 	.btn-publish{padding:0 3px; width: 50px; float: right;}
+	.owner-ver-menu{width: auto; height:30px;}
 }
