@@ -170,7 +170,8 @@
 
 .mountain {
                 background-image: url("../images/mountain.png");
-                background-position: center bottom;
+                /* background-position: center bottom; */
+                background-position: 100% bottom;
                 background-repeat: no-repeat;
                 min-height: 278px;
                 position: absolute;
@@ -240,7 +241,7 @@ background-position: -30px top;
 
 @media(max-width:768px){
 	.success{padding: 0px 0px 10px;}
-	.hasClass.initialVal .home-screen1, .home-screen1, .home-screen2, .home-screen3{background-image:none;}
+	.hasClass.initialVal .home-screen1, .home-screen1, .home-screen2, .home-screen3, .home-screen{background-image:none;}
 	
 	}
 
@@ -262,7 +263,7 @@ background-position: -30px top;
 
 @media(max-width:480px) {
 	.slide-content, .hasClass .slide-content { padding: 0 50px;}
-	.homemain-carousel .slide-content .mdl-button{padding: 18px 5px; font-size:14px; margin-right:10px;}
+	.homemain-carousel .slide-content .mdl-button{padding: 17px 5px; font-size:14px; margin-right:10px;}
 	.homemain-carousel .ui-carousel .carousel-prev span,  .homemain-carousel .ui-carousel .carousel-next span{background-color:#fff; width:40px; height:60px; float:left; opacity:0.5; }
 	/* .homemain-carousel .ui-carousel .carousel-prev span i{margin-left:-5px;} */
 	.homemain-carousel .ui-carousel .carousel-next span i{margin-left:-5px;}
@@ -281,7 +282,7 @@ background-position: -30px top;
 
 @media(max-width:375px){
 	
-	.slide-content h4{font-size: 17px; padding: 25px 0 0 0;}	
+	.slide-content h4{font-size: 17px; padding: 20px 0 0 0;}	
 	
 }
 @media(max-width:360px){
