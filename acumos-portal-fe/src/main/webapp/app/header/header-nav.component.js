@@ -6,14 +6,14 @@ app.component('headerNav',{
 	
 	//templateUrl : '/app/header/header-nav.template.html',
 	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService) {
-		console.log('=================================================');
-		console.log('header-nav.component.js-> inside controller')
-		console.log('$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader);
-		/*if(localStorage.getItem("pageLoad") == true)
-		{
+		console.log(localStorage.getItem("pageLoad"));		
+		debugger;
+		if(localStorage.getItem("pageLoad") == true || localStorage.getItem("pageLoad") == 'true')
+		{	
+			console.log("Page load function call ------->>>>>>>>>>>");
 			localStorage.setItem("pageLoad", false);
 			$state.go("home");
-		}*/
+		}
 		
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
@@ -301,9 +301,10 @@ app.component('headerNav',{
 			$scope.sidebarHeader = false;
 			$scope.loginUserID = "";
 			localStorage.setItem("homeRefresh", 'Yes');
-			$state.go("home");
-			//localStorage.setItem("pageLoad", true);
-            //location.reload();
+			//$state.go("home");
+			localStorage.setItem("pageLoad", true);
+			console.log("log out function -------->>>>>>");
+            location.reload();
 			
 		}
 		//Emit value from deactivate user
@@ -400,6 +401,9 @@ app.component('headerNav',{
 		  
 		//ForgotPassword
           $scope.$on('forgotPassword', function(event, data) {
+        	  $scope.emailAddress = '';
+        	  $scope.forgot.$setPristine();
+              $scope.forgot.$setUntouched();
               $mdDialog.show({
                     contentElement: '#myDialogForgtpswd',
                     parent: angular.element(document.body),
