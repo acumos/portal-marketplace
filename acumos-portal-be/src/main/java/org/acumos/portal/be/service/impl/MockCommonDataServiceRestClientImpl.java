@@ -20,50 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPAccessType;
-import org.acumos.cds.domain.MLPArtifact;
-import org.acumos.cds.domain.MLPArtifactType;
-import org.acumos.cds.domain.MLPComment;
-import org.acumos.cds.domain.MLPDeploymentStatus;
-import org.acumos.cds.domain.MLPLoginProvider;
-import org.acumos.cds.domain.MLPModelType;
-import org.acumos.cds.domain.MLPNotification;
-import org.acumos.cds.domain.MLPPasswordChangeRequest;
-import org.acumos.cds.domain.MLPPeer;
-import org.acumos.cds.domain.MLPPeerSubscription;
-import org.acumos.cds.domain.MLPRole;
-import org.acumos.cds.domain.MLPRoleFunction;
-import org.acumos.cds.domain.MLPSiteConfig;
-import org.acumos.cds.domain.MLPSolution;
-import org.acumos.cds.domain.MLPSolutionDeployment;
-import org.acumos.cds.domain.MLPSolutionDownload;
-import org.acumos.cds.domain.MLPSolutionFavorite;
-import org.acumos.cds.domain.MLPSolutionRating;
-import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPSolutionValidation;
-import org.acumos.cds.domain.MLPSolutionWeb;
-import org.acumos.cds.domain.MLPTag;
-import org.acumos.cds.domain.MLPThread;
-import org.acumos.cds.domain.MLPToolkitType;
-import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.domain.MLPUserLoginProvider;
-import org.acumos.cds.domain.MLPUserNotification;
-import org.acumos.cds.domain.MLPValidationSequence;
-import org.acumos.cds.domain.MLPValidationStatus;
-import org.acumos.cds.domain.MLPValidationType;
-import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
-import org.acumos.cds.transport.SuccessTransport;
-import org.acumos.portal.be.common.JsonResponse;
-import org.acumos.portal.be.transport.MLNotification;
-
-public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRestClient {
+public class MockCommonDataServiceRestClientImpl {/*implements ICommonDataServiceRestClient 
 
 	public MockCommonDataServiceRestClientImpl() {
 		// TODO Auto-generated method stub
@@ -434,7 +391,7 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 
 	@Override
 	public MLPUser createUser(MLPUser user) {
-		/*
+		
 		 * System.out.println("################In Mock Data Service####################"
 		 * ); MLPUser mlpUser = new MLPUser();
 		 * mlpUser.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
@@ -442,7 +399,7 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		 * mlpUser.setLastName("UserLastName"); mlpUser.setLoginName("User1");
 		 * mlpUser.setEmail("user1@emial.com"); mlpUser.setLoginHash("User1"); return
 		 * mlpUser;
-		 */
+		 
 		return null;
 	}
 
@@ -1092,4 +1049,4 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		return null;
 	}
 
-}
+*/}
