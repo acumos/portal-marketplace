@@ -57,7 +57,5 @@ Who do I talk to?
 
 * Repo owner or admin :
 
-**Ashwin Sharma**
-
 * Other community or team contact
 testing git
