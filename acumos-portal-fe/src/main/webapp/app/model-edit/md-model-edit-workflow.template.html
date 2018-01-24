@@ -694,7 +694,7 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolName = !showSolName">Model Name</a> |
+															<a ng-click="showSolName = !showSolName; closeOtherPopovers('showSolName',showSolName)">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
 
 															<span class="green" ng-if="solution.name.length>=1">
@@ -813,7 +813,8 @@
 													<div class="timeline-label">
 														<h2>
 															<a
-																ng-click="showDCKEditor = !showDCKEditor; copiedCompanyDesc = false">Model
+																ng-click="showDCKEditor = !showDCKEditor; copiedCompanyDesc = false;
+																closeOtherPopovers( 'showDCKEditor', showDCKEditor )">Model
 																Description </a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
@@ -940,7 +941,7 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolCat = !showSolCat">Model Category</a>
+															<a ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model Category</a>
 															| <span class="green"
 																ng-if="(solution.modelTypeName && solution.tookitTypeName )">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
@@ -1071,7 +1072,7 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload"
+															<a ng-click="showFileUpload = !showFileUpload; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 																ng-class="{'disabled-title': company.step4}">Model
 																Documents</a> | <span class="green"
 																ng-show="showSolutionDocs && !company.step4">
@@ -1107,16 +1108,26 @@
 																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																	<form class="ng-pristine ng-valid">
 																		<div
-																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded"
+																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
-																			<input class="mdl-textfield__input"
+																			<!-- <input class="mdl-textfield__input"
 																				placeholder="File" type="file" id="uploadFile"
-																				upload-image-model="solutionFile" readonly="">
-																			<div
+																				upload-image-model="solutionFile" readonly=""> -->
+																				
+																				<div file-upload file=previewImage 
+																						uploadid="documentuploadid" id="uploadFile"
+																						filename="privatefilename" fileinput="file"
+																						ng-model="solutionFile"
+																						upload-image-model="solutionFile" readonly></div>
+																		    	<input class="mdl-textfield__input"
+																						placeholder="Upload File" type="text"
+																						ng-model="privatefilename" readonly />
+																						
+																			<!-- <div
 																				class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
 																				<i class="material-icons">attach_file</i> <input
 																					type="file" id="uploadBtn">
-																			</div>
+																			</div> -->
 																		</div>
 																	</form>
 																</div>
@@ -1125,7 +1136,7 @@
 																	<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																	<md-button ng-click="showFileUpload = !showFileUpload"
+																	<md-button ng-click="privatefilename = ''; showFileUpload = !showFileUpload"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
 																		data-upgraded=",MaterialButton,MaterialRipple">
@@ -1133,7 +1144,7 @@
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
 																	<md-button
-																		ng-click="updateSolutionFiles(); showFileUpload = !showFileUpload"
+																		ng-click="updateSolutionFiles('documentuploadid'); showFileUpload = !showFileUpload"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
 																		data-upgraded=",MaterialButton,MaterialRipple">
@@ -1397,7 +1408,7 @@
 													</div>
 													<div class="timeline-label last">
 														<h2>
-															<a ng-click="showImageUpload = !showImageUpload">Upload
+															<a ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
 																Image for Model</a> | <span class="green"
 																ng-show="showSolutionImage"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
@@ -2437,7 +2448,7 @@
 
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showSolName = !showSolName">Model Name</a> |
+														<a ng-click="showSolName = !showSolName; closeOtherPopovers( 'showSolName', showSolName )">Model Name</a> |
 														<!-- <span class="red">Not Started</span> -->
 
 														<span class="green" ng-if="solution.name.length>=1">
@@ -2557,7 +2568,7 @@
 												<div class="timeline-label">
 													<h2>
 														<a
-															ng-click="showCKEditor = !showCKEditor; copiedPublicDesc = false">Model
+															ng-click="showCKEditor = !showCKEditor; copiedPublicDesc = false; closeOtherPopovers( 'showCKEditor', showCKEditor )">Model
 															Description</a> |
 														<!-- <span class="red">Not Started</span> -->
 														<span class="green"
@@ -2684,7 +2695,7 @@
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showSolCat = !showSolCat">Model Category</a>
+														<a ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model Category</a>
 														| <span class="green"
 															ng-if="(solution.modelTypeName && solution.tookitTypeName)">
 															Completed on {{solution.modified | date:'MM/dd/yyyy' }} </span>
@@ -2810,7 +2821,7 @@
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showFileUpload = !showFileUpload"
+														<a ng-click="showFileUpload = !showFileUpload; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 															ng-class="{'disabled-title': public.step4}">Model
 															Documents</a> | <span class="green"
 															ng-show="showPublicSolutionDocs && !public.step4">
@@ -2841,16 +2852,26 @@
 															<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																<form class="ng-pristine ng-valid">
 																	<div
-																		class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded"
+																		class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																		data-upgraded=",MaterialTextfield">
-																		<input class="mdl-textfield__input" placeholder="File"
+																		<!-- <input class="mdl-textfield__input" placeholder="File"
 																			type="file" id="uploadFile"
 																			upload-image-model="solutionFile" readonly="">
 																		<div
 																			class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
 																			<i class="material-icons">attach_file</i> <input
 																				type="file" id="uploadBtn">
-																		</div>
+																		</div> -->
+																		
+																			<div file-upload file=previewImage 
+																						uploadid="publicDocumentuploadid" id="uploadFile"
+																						filename="publicfilename" fileinput="file"
+																						ng-model="solutionFile"
+																						upload-image-model="solutionFile" readonly></div>
+																		    <input class="mdl-textfield__input"
+																						placeholder="Upload File" type="text"
+																						ng-model="publicfilename" readonly />
+																						
 																	</div>
 																</form>
 															</div>
@@ -2859,7 +2880,7 @@
 																<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																<md-button ng-click="showFileUpload = !showFileUpload"
+																<md-button ng-click="publicfilename = '';solutionFile = '' ;showFileUpload = !showFileUpload"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																	type="button"
 																	data-upgraded=",MaterialButton,MaterialRipple">
@@ -2867,7 +2888,7 @@
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
 																<md-button
-																	ng-click="updatePublicSolutionFiles(); showFileUpload = !showFileUpload"
+																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid'); showFileUpload = !showFileUpload"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																	type="button"
 																	data-upgraded=",MaterialButton,MaterialRipple">
@@ -3059,7 +3080,7 @@
 												</div>
 												<div class="timeline-label last">
 													<h2>
-														<a ng-click="showImageUpload = !showImageUpload">Upload
+														<a ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
 															Image for Model</a> | <span class="green"
 															ng-show="showSolutionImage"> Completed on
 															{{solution.modified | date:'MM/dd/yyyy' }} </span> <span

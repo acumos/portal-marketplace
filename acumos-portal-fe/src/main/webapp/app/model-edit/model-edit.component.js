@@ -1190,7 +1190,6 @@ angular
 									})
 									.then(
 											function successCallback(response) {
-												debugger
 												$scope.artifactDownload = response.data.response_body;
 												for (var x = 0; x < response.data.response_body.length; x++) {
 													if(response.data.response_body[x].artifactTypeCode == "DI"){
@@ -1457,7 +1456,8 @@ angular
 						};
 						
 						/** ***** File upload****** */
-						$scope.updateSolutionFiles = function() {
+						$scope.updateSolutionFiles = function(uploadid) {
+							$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
 
 							var uploadUrl = "/site/api-manual/Solution/solutionAssets/" + $scope.solution.solutionId + "/" + $scope.revisionId + "?path=org";
@@ -1474,10 +1474,11 @@ angular
 											.catch(function() {
 												alert("Error in uploading the file");
 											});
+							$scope.privatefilename = "";
 						}
 						
-						$scope.updatePublicSolutionFiles = function() {
-							
+						$scope.updatePublicSolutionFiles = function(uploadid) {
+							$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
 							
 
@@ -1496,6 +1497,7 @@ angular
 											.catch(function() {
 												alert("Error in uploading the file");
 											});
+							$scope.publicfilename = "";
 						}
 						
 						
@@ -2218,6 +2220,24 @@ angular
 	                        return k + '=' + encodeURIComponent(params[k]);
 	                    }).join('&');
 	                }
+	                
+	                $scope.closeOtherPopovers = function(variableName, variableValue){
+	                	$scope.variableName = variableName;
+	                	$scope.variableValue = variableValue;
+	                	if($scope.variableName == 'showSolName' && $scope.variableValue == true){
+	                		$scope.showDCKEditor = $scope.showSolCat = $scope.showCKEditor = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showDCKEditor' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showSolCat = $scope.showCKEditor = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showSolCat' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showCKEditor = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showFileUpload' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showCKEditor = $scope.showSolCat = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showImageUpload' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showCKEditor = $scope.showSolCat = $scope.showFileUpload = false;
+	                	}else if( $scope.variableName == 'showCKEditor' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showSolCat = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}
+	                };
 	                	
 					/***** pre populated images for demo purpose according to the name of solution*****/
 					$scope.imgURLCL = "images/alarm.png";

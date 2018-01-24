@@ -1425,7 +1425,7 @@ position:relative;
 }  
 .owner-topnav .userimg{margin-right:0;} 
 .owner-ver-menu{margin-top: 3px;}  
-    
+.mdl-button--file .material-icons {display: none;} /*hide the clip icon */
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}

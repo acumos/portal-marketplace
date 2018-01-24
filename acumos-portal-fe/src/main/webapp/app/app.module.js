@@ -327,6 +327,7 @@ angular
             filepreview: "=",
             filename: "=",
             icon: "=",
+            accept: "@",
             uploadid: "@"
           },
         link: function (scope, element) {
