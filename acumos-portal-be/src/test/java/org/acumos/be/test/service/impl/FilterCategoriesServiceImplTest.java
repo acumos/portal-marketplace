@@ -65,8 +65,8 @@ public class FilterCategoriesServiceImplTest {
 		try{
 			List<MLPAccessType> mlpAccessTypesList = new ArrayList<>();
 			MLPAccessType mlpAccessType = new MLPAccessType();
-			mlpAccessType.setAccessCode("200");
-			mlpAccessType.setAccessName("xyz");
+			mlpAccessType.setTypeCode("200");
+			mlpAccessType.setTypeName("xyz");
 			mlpAccessTypesList.add(mlpAccessType);
 			Mockito.when(impl.getSolutionAccessTypes()).thenReturn(mlpAccessTypesList);
 			if(mlpAccessTypesList !=null) {
