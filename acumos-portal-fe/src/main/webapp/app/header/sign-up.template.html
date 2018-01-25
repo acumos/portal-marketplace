@@ -18,31 +18,27 @@
 										  <div class="md-block signup-container2">
 										  		 <md-input-container class="mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone">
 												      <!-- Use floating label instead of placeholder -->
-												      <label>First Name</label>												      
-												      <input type="text" name="firstName" ng-model="firstName" valid-username required>
+												      <label>First Name</label>									      
+												      <input type="text" name="firstName" ng-model="firstName" valid-name required ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false">
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.firstName.$valid}">
-														<span ng-show="!!signupForm.firstName.$error.isBlank">First
+														<span ng-show="( !!signupForm.firstName.$error.required && signupForm.firstName.$touched && firstNameVisited)">First
 															Name Required.</span> <span
-															ng-show="!!signupForm.firstName.$error.invalidChars">First
-															name must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.firstName.$error.invalidLen">First
-															name must be 2-20 characters.</span>
+															ng-show="!!signupForm.firstName.$error.invalidChars && firstNameVisited">First
+															name must contain letters only.</span>
 													</div>
 												 </md-input-container>
 												 <md-input-container class="mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone signup-control1">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Last Name</label>												      
-												      <input type="text" name="lastName" ng-model="lastName" valid-username required>
+												      <input type="text" name="lastName" ng-model="lastName" valid-name required ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false">
 												     
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.lastName.$valid}">
-														<span ng-show="!!signupForm.lastName.$error.isBlank">Last
+														<span ng-show="!!signupForm.lastName.$error.required && signupForm.lastName.$touched && lastNameVisited">Last
 															Name Required.</span> <span
-															ng-show="!!signupForm.lastName.$error.invalidChars">Last
-															name must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.lastName.$error.invalidLen">First
-															name must be 2-20 characters.</span>
+															ng-show="!!signupForm.lastName.$error.invalidChars && lastNameVisited">Last
+															name must contain letters only.</span>
 													</div>
 												 </md-input-container>
 												 <span class="signupmsg">We're big on real names around here, so people know who's who</span>
@@ -51,17 +47,13 @@
 												 <md-input-container class="md-block">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>User Name</label>												      
-												      <input name="username" ng-model="username" type="text" valid-username required>
+												      <input name="username" ng-model="username" type="text" valid-name maxlength="20" required ng-blur="usernameVisited=true" ng-focus="usernameVisited=false">
 												      <span class="normalmsg"><span class="normalmsg"><!-- Your Acumos URL: https://acumos.com/ USERNAME --></span></span>
 												 	  <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.username.$valid}">
-														<span ng-show="!!signupForm.username.$error.isBlank">Username
-															Required.</span> <span
-															ng-show="!!signupForm.username.$error.invalidChars">Username
-															must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.username.$error.invalidLen">Username
-															must be 2-20 characters.</span>
-															<span ng-show="userExists">Username
+														<span ng-show="!!signupForm.username.$error.required && signupForm.username.$touched && usernameVisited">Username
+															Required.</span>
+															<span ng-show="userExists && usernameVisited">Username
 															already exists.</span>
 										</div>	
 												 </md-input-container>
@@ -69,14 +61,15 @@
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Email ID</label>												      
 												      <input name="uemail" ng-model="uemail" type="text" 
+												      ng-blur="emailVisited=true" ng-focus="emailVisited=false"
 												      ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.uemail.$valid}">
 														<span
-															ng-show="!!(signupForm.uemail.$dirty && signupForm.uemail.$error.required)">Email
+															ng-show="!!(signupForm.uemail.$touched && signupForm.uemail.$error.required && emailVisited)">Email
 															ID Required.</span> <span
-															ng-show="!!(signupForm.uemail.$dirty && signupForm.uemail.$error.pattern)">
-															Please Enter Valid Email</span>
+															ng-show="!!(signupForm.uemail.$dirty && signupForm.uemail.$error.pattern) && emailVisited">
+															Please enter valid email id</span>
 													</div>
 
 												 </md-input-container>
@@ -89,31 +82,27 @@
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Password</label>										     
 												      	<div class="password-container1">
-												      		<input name="pwd" class="ok-password pull-left" ng-model="pwd" type="{{inputtype}}" valid-password required  maxlength="20">
+												      		<input name="pwd" class="ok-password pull-left" ng-model="pwd" type="{{inputtype}}" valid-password required  maxlength="20" ng-blur="passwordVisited=true" ng-focus="passwordVisited=false">
 												      		<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
 												      	</div>											      	
 												     
-												      												      <div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.pwd.$valid}">
-														<span ng-show="!!signupForm.pwd.$error.isBlank">Password Required.</span>
-														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.invalidLen)">
-															Must be 8-20 characters.<br/> 
+												      <div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.pwd.$valid}">
+														<span ng-show="!!signupForm.pwd.$error.required && signupForm.pwd.$touched && passwordVisited">Password Required.</span>
+														<span ng-show="!! (signupForm.pwd.$touched && signupForm.pwd.$error.invalidLen) && passwordVisited">
+															Password must be at least 8 characters long.<br/> 
 														</span>
-														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isSpecialChar)">
-															Must contain at least one special symbol like * & #.<br/> 
+														<span ng-show="( passwordVisited && signupForm.pwd.$dirty && ( signupForm.pwd.$error.isSpecialChar || signupForm.pwd.$error.isDigit || signupForm.pwd.$error.isLowerCaseLetter || signupForm.pwd.$error.isUpperCaseLetter))">													
+															Password must contain at least one 
+															<span ng-if="signupForm.pwd.$error.isDigit">number</span>
+															<span ng-if="signupForm.pwd.$error.isLowerCaseLetter"><span ng-if="( signupForm.pwd.$error.isDigit )">, </span> lower case letter</span>
+															<span ng-if="signupForm.pwd.$error.isUpperCaseLetter"><span ng-if="( signupForm.pwd.$error.isDigit || signupForm.pwd.$error.isLowerCaseLetter )">, </span> upper case letter</span> 
+															<span ng-if="signupForm.pwd.$error.isSpecialChar"><span ng-if="( signupForm.pwd.$error.isDigit || signupForm.pwd.$error.isUpperCaseLetter || signupForm.pwd.$error.isLowerCaseLetter)">, </span> special symbol like * & # </span>
+															.
 														</span>
-														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isDigit)">
-															Must contain at least one number.<br/> 
-														</span>
-														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isLowerCaseLetter)">
-															Must contain at least one lower case letter.<br/> 
-														</span>
-														<span ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isUpperCaseLetter)">
-															Must contain at least one upper case letter.<br/>  
-														</span>	
 													</div>
 													<div>
 														<p class="password-note">
-															Your password must contain at least eight characters, with one upper case and lower case letter, number and symbols like, ! # @ $ * &.
+															Your password must contain at least eight characters, which should have at least one upper case and one lower case letter, numbers and symbols like, ! # @ $ * &.
 														</p>
 													</div>
 												 </md-input-container>
@@ -136,20 +125,20 @@
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Confirm Password</label>
 												      <div class="password-container1">											     
-												      	<input name="cpwd" ng-model="cpwd" type="{{inputtypeconfirm}}"  valid-password-c required maxlength="20">
+												      	<input name="cpwd" ng-model="cpwd" type="{{inputtypeconfirm}}"  valid-password-c required maxlength="20" ng-blur="cpasswordVisited=true" ng-focus="cpasswordVisited=false">
 												        <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
 												      </div>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
-														<span ng-show="!!signupForm.cpwd.$error.isBlank">Confirm Password
+														<span ng-show="!!signupForm.cpwd.$error.required && signupForm.cpwd.$touched && cpasswordVisited">Confirm Password
 															Required.</span> <span
-															ng-show="!!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
+															ng-show="cpasswordVisited && !!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
 															don't match.</span>
 													</div>
 												 </md-input-container>
 												 												
 												<div >
-													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="signupForm.$invalid" ng-click="signUp()">Sign up</button>
+													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="signupForm.$invalid ||(pwd!=cpwd)" ng-click="signUp()">Sign up</button>
 												</div>
 												<div class="signup-txt-mob">
 													<label>Already have an {{$root.siteInstanceName}} ID?</label> <a ng-click=" openlogin()">Sign In</a>

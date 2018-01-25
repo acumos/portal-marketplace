@@ -182,6 +182,31 @@ angular
     }
   }
 });
+angular
+.module('AcumosApp')
+.directive('validName', function() {
+return {
+require: 'ngModel',
+link: function(scope, elm, attrs, ctrl) {
+    var validate = function(viewValue) {
+    var isBlank = viewValue === ''
+    //var invalidChars = !isBlank && !/^[A-z0-9]+$/.test(viewValue)
+    var invalidChars = !isBlank && !/^[A-z0-9 ]+$/.test(viewValue)
+    ctrl.$setValidity('isBlank', !isBlank)
+    ctrl.$setValidity('invalidChars', !invalidChars)
+
+    scope.usernameGood = !isBlank && !invalidChars
+                 return viewValue;
+           };
+           ctrl.$parsers.unshift(validate);
+           ctrl.$formatters.push(validate);
+           attrs.$observe('validName', function(comparisonModel){
+                 return validate(ctrl.$viewValue);
+           });
+
+}
+}
+});
 
 angular
 	.module('AcumosApp')
@@ -202,9 +227,9 @@ angular
 	    ctrl.$setValidity('isBlank', !isBlank);
 	    ctrl.$setValidity('isWeak', !isWeak);
 	    ctrl.$setValidity('invalidLen', !invalidLen);
+	    ctrl.$setValidity('isDigit', !isDigit);
 	    ctrl.$setValidity('isLowerCaseLetter', !isLowerCaseLetter);
 	    ctrl.$setValidity('isUpperCaseLetter', !isUpperCaseLetter);
-	    ctrl.$setValidity('isDigit', !isDigit);
 	    ctrl.$setValidity('isSpecialChar', !isSpecialChar);
         scope.passwordGood = !isBlank && !isWeak && !invalidLen
                      return viewValue;
