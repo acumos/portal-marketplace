@@ -73,6 +73,13 @@ p {font-size: 1em;}
 /*********** Layout style end   ************/
 
 /*********** header style start************/
+.mdl-layout__header {
+	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,.26) !important;
+	-moz-box-shadow: 0 2px 5px rgba(0,0,0,.26) !important;
+	box-shadow: 0 2px 5px rgba(0,0,0,.26) !important;
+	z-index: 50;
+	}
+
 .mdl-layout__header {background: none !important;}
 
 
@@ -155,6 +162,8 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .help-not-login a {padding-right:10px !important;}
 .mdl-layout__header-row {padding: 0 10px;}
 
+#menu_container_4 {top: 56px !important;}
+#menu_container_4 md-menu-content {padding:0;}
 
 /*********** header style end  ************/
 
@@ -918,13 +927,13 @@ md-checkbox.md-checked .md-icon:after {width: 6px; height: 9px; left: 3px;}
 .cp-container1 {padding-left:0;}
 .cp-container1 .md-required {padding-left:0 !important;}
 
-md-input-container .md-placeholder, md-input-container label:not(.md-no-float):not(.md-container-ignore) {color:#2e2f2f;}
+md-input-container .md-placeholder, md-input-container label:not(.md-no-float):not(.md-container-ignore) {color:#050009;}
 /*******User Profile page Style end *********/
 
 /*********SIGN-IN & SIGN-UP page styling ************/
 
-.cg-dialog-sign_in {height: 92%; max-height: 590px;width: 700px;}
-.cg-dialog-sign_up {height: 97%; max-height: 620px;width: 700px;}
+.cg-dialog-sign_in {height: 84%; max-height: 590px;width: 700px;}
+.cg-dialog-sign_up {height: 98%; max-height: 630px;width: 700px;}
 .btn-close-dialog {font-size: 20px;}
 .cg-dialog-sign_in .md-toolbar-tools, .cg-dialog-sign_up .md-toolbar-tools { background: #fff;}
 .cg-dialog-sign_in .md-toolbar-tools h2, .cg-dialog-sign_up .md-toolbar-tools h2 { color: #671C9D; text-align: center; width: 100%; max-width: 100%; display: block;}
@@ -974,7 +983,10 @@ input.signin-control {padding-left: 35px !important;}
 .btn-forgotpass:hover {background: none; }
 .signup-control1 {float:right;}
 
+md-input-container.md-input-focused .password-container1 .md-input + div + .mdl-button {border: 1px solid #671C9D;}
+md-input-container.md-input-invalid .password-container1 .md-input + div + .mdl-button {border: 1px solid #ff0000;}
 
+.mdl-button.eyebutton.is-focused i {color:#671C9D;}
 
 /*************Admin User page style start ***************/
 .cg-dialog-admin1 {width: 650px; height: 85%; max-height:85%;}
@@ -1048,7 +1060,7 @@ a {text-decoration: none;}
 .strength-meter-fill[data-strength='2'] { background: #FFA500; width: 60%;}
 .strength-meter-fill[data-strength='3'] { background: #9ACD32; width: 80%;}
 .strength-meter-fill[data-strength='4'] { background: #008000; width: 100%;}
-.password-note{font-size: 12px;line-height: 20px;}
+.password-note{font-size: 12px;line-height: 14px;}
 
 .site-monitor-container { border:1px solid #d5d5d5; padding: 10px; margin-bottom: 20px;}
 md-content{ background:#fff ;}
@@ -1365,7 +1377,8 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 	.btn-md-edit {width: 155px;height: 25px;}
 	.mdchild-mob1 {display:flex; flex-direction: column;}
 	.head-stat-left {padding-left: 20px;}
-	.header-stats { align-items: flex-start; top: 0;justify-content:space-between;padding-right: 20px;    }
+	.header-stats { align-items: flex-start; top: 0;justify-content:space-between;padding-right: 20px;}
+	.mp-grid-list-image-cell { width: 150px;margin-right: 20px;}
 }
 
 @media (min-width: 600px) and (max-width: 699px) {	 
@@ -1382,7 +1395,7 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 	.btn-signup {width: 250px;}
 	.socbtn .socbtnicon {transform: scale(0.75);top:0; width:45px;left:-8px;}
 	.soctext {font-size: 13px;}
-	.signinseperator {left: 34px;}
+	.signinseperator {left: 32px;}
 	.signup-control1 {float:right;}	
 	.signup-txt-mob {margin-bottom: 15px;}
 	.user-email {width: 65%;}
@@ -1431,7 +1444,9 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 	.profile-container-inner > div {width: 100%;}	
 	.profile-img-container {text-align: center;}
 	.user-email md-input-container.md-block { width:85%;}
-	.grid-item {min-width: 220px;}	
+	.grid-item {min-width: 220px;}
+	.a-logo-container {height: 55px;}
+	.mdl-layout__header-row {padding:0 !important;}
  
 	
 }
@@ -1516,9 +1531,9 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 .header-title {display: none;}
 
 .a-logo-container {display: flex; justify-content: flex-start; align-items: center;background: url("../images/general-icons/header_cross_img.png") no-repeat left center;padding-left: 11px; }
-.accumos-header-logo img {width: 110px; height: 31px;margin-left: 13px;position:relative;}
+.accumos-header-logo img {width: 110px; height: 31px;margin-left: 13px;position:relative;cursor:pointer}
 .cobranding-header-logo {margin-left: 10px;position:relative; margin-right: 22px;}
-.cobranding-header-logo img {width: 54px; height: 15px;margin-left: 25px;position:relative;}
+.cobranding-header-logo img {width: 54px; height: 15px;margin-left: 25px;position:relative;cursor:pointer}
 
 .header-right1 button md-icon {display: none;}
 

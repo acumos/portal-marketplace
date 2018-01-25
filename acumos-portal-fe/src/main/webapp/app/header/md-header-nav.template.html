@@ -10,7 +10,7 @@
 							class="mdl-button mdl-js-button mdl-button--icon hide-lg hide-xl">
 							<i class="material-icons">menu</i>
 						</button>
-						<span class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
+						<span ui-sref="home" class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
 						<!-- <span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span> -->					
 										
 				</div>
@@ -73,7 +73,7 @@
 	<div class="mdl-layout__header-row">
 		<div class="mdl-grid mdl-grid--no-spacing header-grid">
 			<div
-				class="mdl-cell mdl-cell--7-col mdl-cell--3-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing mdl-cell--middle">
+				class="mdl-cell mdl-cell--7-col mdl-cell--3-col-tablet mdl-cell--3-col-phone mdl-grid--no-spacing mdl-cell--middle">
 				
 					<div class="a-logo-container">
 						<button id="btn_header"
@@ -81,8 +81,8 @@
 							class="mdl-button mdl-js-button mdl-button--icon hide-sm hide-xs">
 							<i class="material-icons">menu</i>
 						</button>
-						<span class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
-						<span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span>
+						<span ui-sref="home" ng-click="$root.parentActive = ''" ng-class="{ active: isActive('/home') }" class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
+						<span ui-sref="home" ng-click="$root.parentActive = ''" ng-class="{ active: isActive('/home') }" class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span>
 						
 						<div
 						class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
@@ -105,7 +105,7 @@
 				
 			</div>
 			<div
-				class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone mdl-grid--no-spacing text-right">
+				class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--1-col-phone mdl-grid--no-spacing text-right">
 				<div layout="row" layout-fill layout-align="end center" layout-align-lg="end center">
 					<nav
 						class="mdl-navigation header-controls text-right hide-sm hide-xs header-right1">
@@ -172,7 +172,7 @@
 						
 						<!-- Right aligned menu below button -->
 						<div class="posrel">
-							<md-menu>
+							<md-menu class="menu-content1">
 	      						<md-button id="account-info"
 								class="mdl-button header-ddl mdl-js-button" ng-click="openMenu($mdMenu, $event)">
 	        						<span><img class="userimg"
@@ -184,7 +184,7 @@
 									title="{{userfirstname}}" /> {{userDetails.userName}}
 								</span> <i class="material-icons">arrow_drop_down</i>
 	      						</md-button>
-						      <md-menu-content class="menu-content1">
+						      <md-menu-content>
 						        <md-menu-item class="mdl-button header-ddl mdl-js-button">
 						           <a ui-sref="userDetail">Account Setting </a>
 						        </md-menu-item>

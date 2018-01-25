@@ -404,6 +404,7 @@ app.component('headerNav',{
         	  $scope.emailAddress = '';
         	  $scope.forgot.$setPristine();
               $scope.forgot.$setUntouched();
+              
               $mdDialog.show({
                     contentElement: '#myDialogForgtpswd',
                     parent: angular.element(document.body),
