@@ -230,7 +230,6 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .mdl-layout__header{display:block;}
 .home-screen{background-size:2350px 100%;}
 .slide-content{padding: 0 70px;}
-.slide-content .slide-text{width:64%;}
 .slide-content .image-container{width:34%; margin: 40px 0 0 17px;}
 .discover{background-size:40%; width:1000px;}
 .discover .discover-icon{ width: 45px; height: 45px;}
@@ -262,6 +261,7 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .home-footer section > div:nth-child(4){width:21%;}
 .hasClass.initialVal .discover, .discover{width:100%;}
 .discover .discover-description{padding: 0 0 0 15px;}
+
 }
 
 @media(max-width:768px){
