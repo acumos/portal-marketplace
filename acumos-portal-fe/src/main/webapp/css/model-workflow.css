@@ -1432,7 +1432,7 @@ position:relative;
 .team-user i img {	height: 30px;}
 .mdl-button--icon.active {	background-color: #ECECEC;}
 .disabled-title {cursor: not-allowed;	color: red;	pointer-events: none;}
-    
+.mdl-button--file .material-icons {display: none;} /*hide the clip icon */    
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}

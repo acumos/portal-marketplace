@@ -671,7 +671,7 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolName = !showSolName">Model Name</a> |
+															<a ng-click="showSolName = !showSolName; closeOtherPopovers('showSolName',showSolName)">Model Name</a> |
 															<!-- <span class="red">Not Started</span> -->
 
 															<span class="green" ng-if="solution.name.length>=1">
@@ -790,7 +790,8 @@
 													<div class="timeline-label">
 														<h2>
 															<a
-																ng-click="showDCKEditor = !showDCKEditor; copiedCompanyDesc = false">Model
+																ng-click="showDCKEditor = !showDCKEditor; copiedCompanyDesc = false;
+																closeOtherPopovers( 'showDCKEditor', showDCKEditor )">Model
 																Description </a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
@@ -917,7 +918,7 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolCat = !showSolCat">Model Category</a>
+															<a ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model Category</a>
 															| <span class="green"
 																ng-if="(solution.modelTypeName && solution.tookitTypeName )">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
@@ -1048,7 +1049,7 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload"
+															<a ng-click="showFileUpload = !showFileUpload; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 																ng-class="{'disabled-title': company.step4}">Model
 																Documents</a> | <span class="green"
 																ng-show="showSolutionDocs && !company.step4">
@@ -1374,7 +1375,7 @@
 													</div>
 													<div class="timeline-label last">
 														<h2>
-															<a ng-click="showImageUpload = !showImageUpload">Upload
+															<a ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
 																Image for Model</a> | <span class="green"
 																ng-show="showSolutionImage"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
@@ -2414,7 +2415,7 @@
 
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showSolName = !showSolName">Model Name</a> |
+														<a ng-click="showSolName = !showSolName; closeOtherPopovers( 'showSolName', showSolName )">Model Name</a> |
 														<!-- <span class="red">Not Started</span> -->
 
 														<span class="green" ng-if="solution.name.length>=1">
@@ -2534,7 +2535,7 @@
 												<div class="timeline-label">
 													<h2>
 														<a
-															ng-click="showCKEditor = !showCKEditor; copiedPublicDesc = false">Model
+															ng-click="showCKEditor = !showCKEditor; copiedPublicDesc = false; ; closeOtherPopovers( 'showCKEditor', showCKEditor )">Model
 															Description</a> |
 														<!-- <span class="red">Not Started</span> -->
 														<span class="green"
@@ -2661,7 +2662,7 @@
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showSolCat = !showSolCat">Model Category</a>
+														<a ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model Category</a>
 														| <span class="green"
 															ng-if="(solution.modelTypeName && solution.tookitTypeName)">
 															Completed on {{solution.modified | date:'MM/dd/yyyy' }} </span>
@@ -2787,7 +2788,7 @@
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showFileUpload = !showFileUpload"
+														<a ng-click="showFileUpload = !showFileUpload; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 															ng-class="{'disabled-title': public.step4}">Model
 															Documents</a> | <span class="green"
 															ng-show="showPublicSolutionDocs && !public.step4">
@@ -3036,7 +3037,7 @@
 												</div>
 												<div class="timeline-label last">
 													<h2>
-														<a ng-click="showImageUpload = !showImageUpload">Upload
+														<a ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
 															Image for Model</a> | <span class="green"
 															ng-show="showSolutionImage"> Completed on
 															{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
@@ -3550,7 +3551,7 @@
 			<div class="md-toolbar-tools">
 				<h2>Downloading - {{solution.name}}</h2>
 				<span flex></span>
-				<md-button class="md-icon-button" ng-click="handleDismiss()">
+				<md-button class="md-icon-button" ng-click="handleDismiss(); closeDialog()">
 				<i class="material-icons">close</i> </md-button>
 			</div>
 			</md-toolbar>
@@ -3580,7 +3581,7 @@
 
 				<button
 					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-					ng-click="handleDismiss()">Close</button>
+					ng-click="handleDismiss(); closeDialog()">Close</button>
 
 
 			</div>
