@@ -2218,6 +2218,24 @@ angular
 	                        return k + '=' + encodeURIComponent(params[k]);
 	                    }).join('&');
 	                }
+	                
+	                $scope.closeOtherPopovers = function(variableName, variableValue){
+	                	$scope.variableName = variableName;
+	                	$scope.variableValue = variableValue;
+	                	if($scope.variableName == 'showSolName' && $scope.variableValue == true){
+	                		$scope.showDCKEditor = $scope.showSolCat = $scope.showCKEditor = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showDCKEditor' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showSolCat = $scope.showCKEditor = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showSolCat' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showCKEditor = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showFileUpload' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showCKEditor = $scope.showSolCat = $scope.showImageUpload = false;
+	                	}else if( $scope.variableName == 'showImageUpload' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showCKEditor = $scope.showSolCat = $scope.showFileUpload = false;
+	                	}else if( $scope.variableName == 'showCKEditor' && $scope.variableValue == true ){
+	                		$scope.showSolName = $scope.showDCKEditor = $scope.showSolCat = $scope.showFileUpload = $scope.showImageUpload = false;
+	                	}
+	                };
 	                	
 					/***** pre populated images for demo purpose according to the name of solution*****/
 					$scope.imgURLCL = "images/alarm.png";

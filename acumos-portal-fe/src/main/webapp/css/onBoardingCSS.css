@@ -470,6 +470,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .skiptext{display:inline-block; line-height: 23px;}
 .skiptext:before{content:url(../images/ico_alert_information.png); background-repeat:no-repeat; float:left; margin-right:5px; line-height: 8px;}
 /* .progress-status::after { margin-left: -5px;} */
+.mdl-button--file .material-icons {display: none;} /*hide the clip icon */
 
 /* media query start */
 @media(max-width:768px){
