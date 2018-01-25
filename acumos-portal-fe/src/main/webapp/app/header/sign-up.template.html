@@ -83,7 +83,7 @@
 												      <label>Password</label>										     
 												      	<div class="password-container1">
 												      		<input name="pwd" class="ok-password pull-left" ng-model="pwd" type="{{inputtype}}" valid-password required  maxlength="20" ng-blur="passwordVisited=true" ng-focus="passwordVisited=false">
-												      		<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												      		<md-button ng-class="inputtype=='password'?'':'is-focused'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
 												      	</div>											      	
 												     
 												      <div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.pwd.$valid}">
@@ -126,7 +126,7 @@
 												      <label>Confirm Password</label>
 												      <div class="password-container1">											     
 												      	<input name="cpwd" ng-model="cpwd" type="{{inputtypeconfirm}}"  valid-password-c required maxlength="20" ng-blur="cpasswordVisited=true" ng-focus="cpasswordVisited=false">
-												        <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												        <md-button ng-class="inputtypeconfirm=='password'?'':'is-focused'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
 												      </div>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
