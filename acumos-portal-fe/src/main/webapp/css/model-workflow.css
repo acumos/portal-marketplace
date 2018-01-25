@@ -1416,6 +1416,7 @@ position:relative;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
 .icon-folder {background-image: url("../images/icon-folder.png"); height: 30px; width: 30px; background-size: cover;
     background-color: transparent; border: none; float: right;}
+
 /*-- owner-top nav -- */ 
 .owner-topnav{	
 	display: inline-block;/* 
@@ -1425,6 +1426,12 @@ position:relative;
 }  
 .owner-topnav .userimg{margin-right:0;} 
 .owner-ver-menu{margin-top: 3px;}  
+
+ /* in page*/
+ .user_icon i img {	border: 1px solid #FFF;	border-radius: 50% !important;	width: 30px;	height: 30px;}
+.team-user i img {	height: 30px;}
+.mdl-button--icon.active {	background-color: #ECECEC;}
+.disabled-title {cursor: not-allowed;	color: red;	pointer-events: none;}
     
 /*---- media query start ----------*/
 @media(max-width:2560px){

@@ -47,8 +47,10 @@ body, h1, h2, h3, h4, h5, h6, p, .mdl-button{font-family: 'Open Sans', sans-seri
 background-image:url("../images/banner_bg_large.png");
 background-position:center top;
 background-repeat:no-repeat;
-background-color:#F1F1F1;
+/* background-color:#F1F1F1; */
+background-color:#681F9F;
 min-height: 553px;
+position:relative;
 }
 
 .slide-content{color:#FFF; padding:0 101px;}
@@ -197,6 +199,7 @@ background-color: rgb(255,255,255); color: rgba(0,0,0,0.87); position:relative; 
 background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size:  auto 559px; -o-background-size:  auto 559px;  -moz-background-size:  auto 559px; -webkit-background-size:  auto 559px; background-size: auto 559px;	background-color:#f1f1f1; height:100%;
 }
 /* create new password and forgot password end*/
+.home-footer ul.social-icons{float:left; margin-top:-5px;}
 
 /* ---- media query start ----*/
 @media(max-width:2560px){
@@ -308,11 +311,13 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .home-footer div.copy-right{margin-bottom:0;}
 .home-footer div.copy-right ul{float: left; margin-top: 0px; margin-bottom: -10px;}
 .discover-description{width: calc(100% - 45px) !important;}
-
-
+.home-footer ul.social-icons{margin-top: 0px;}
+.home-footer ul{margin-bottom: 10px;}
 }
 @media(max-width:767px){
 .explore .mdl-grid{padding: 8px 30px;}
 .slide-content .mdl-button{padding: 18px 18px;}
 .success .success-icon{padding-left: 0px;}
 }
+
+
