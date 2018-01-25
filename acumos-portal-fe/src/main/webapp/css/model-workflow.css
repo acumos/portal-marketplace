@@ -1498,14 +1498,15 @@ position:relative;
             height: 62px;
             border-radius: 62px;
       }
-      .initialVal.hasClass .company-market ul li {
+      /*.initialVal.hasClass .company-market ul li {
             width: 68px;
-      }
+      }*/
       .initialVal.hasClass.company-market ul li .imagecontent {
             line-height: 62px;
       }
       .initialVal.hasClass .company-market ul li.progress-status {
-            width: 3.4%;
+           /*  width: 3.4%; */
+           display:none;
       }
       .company-market ul li .btn-primary {
             margin: 20px 0;
@@ -1529,7 +1530,8 @@ position:relative;
             line-height: 52px;
       }
       .hasClass .company-market ul li.progress-status {
-            width: 2.5%;
+            /* width: 2.5%; */
+            display:none;
       }
       .progress-status::after {
             font-size: 20px;
@@ -1540,9 +1542,10 @@ position:relative;
       }
       .hasClass .company-market ul li.text, .company-market ul li .text {
             /*width: 68px;*/
+            word-wrap: break-word;
       }
       .hasClass .company-market ul li:last-child .text {
-            width: 126px;
+            /*width: 126px;*/
       }
       .company-market ul li .btn-primary {
             margin: 15px 0;
@@ -1550,7 +1553,8 @@ position:relative;
       
       .progress-status::after{margin-left: -4px;}
       .hasClass.initialVal .progress-status::after{margin-left: -4px;}
-      
+      .headline{max-width: 285px;} 
+      .hasClass .company-market ul li, .initialVal.hasClass .company-market ul li{width:20%;}
 }
 
 @media ( max-width :768px) {
@@ -1559,7 +1563,9 @@ position:relative;
 .hasClass .company-market ul li.progress-status {width: 4%;}
 .hasClass .company-market ul li:last-child .text {width: auto;}
 .company-market ul li:last-child{margin:0;}
-      
+.description-content-right.status{float:left; padding-left:0;} 
+.description-content-right.status div,.description-content-right.status span{display:inline;}
+ .headline{max-width:350px;}     
 }
 
 @media ( max-width :767px) {
@@ -1648,11 +1654,9 @@ position:relative;
       .deploy-grid > div:last-child, .deploy-grid > div:first-child{padding-right: 5px;  padding-left: 5px;}
      /*-- owner-top nav -- */ 
      .md-vertical-seperator ~ .version-container{ margin-bottom: 0px;}
-      .owner-ver-menu{ margin-bottom:0px;}
-      .description-content-right.status{float:left; padding-left:0;} 
-      .description-content-right.status div,.description-content-right.status span{display:inline;}
-      
-      
+      .owner-ver-menu{ margin-bottom:0px;}   
+      .hasClass .company-market ul li.progress-status,  .initialVal.hasClass .company-market ul li.progress-status{display:block;}
+      .hasClass .company-market ul li, .initialVal.hasClass .company-market ul li{width:16%;}
 }
 @media ( max-width :640px){
 	.hasClass .company-market ul li{width:20%;}
