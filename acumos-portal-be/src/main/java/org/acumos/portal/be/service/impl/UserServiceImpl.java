@@ -119,26 +119,34 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     public List<User> getAllUser() {
 
         List<User> user = null;
+        List<MLPUser> mlpUser = null;
         log.debug(EELFLoggerDelegate.debugLogger, "getAllUser");
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         Map<String, Object> queryParameters = new HashMap<>();
         //queryParameters.put("active_yn","Y");
-        List<MLPUser> mlpUser = dataServiceRestClient.searchUsers(queryParameters, false);
-        if(!PortalUtils.isEmptyList(mlpUser)) {
-            user = new ArrayList<>();
-            for(MLPUser mlpusers : mlpUser){
-                User users = PortalUtils.convertToMLPuser(mlpusers);
-                if(users.getUserId() != null){
-                    List<MLPRole> mlprolelist = dataServiceRestClient.getUserRoles(users.getUserId());
-                    users.setUserAssignedRolesList(mlprolelist);
-                   /* for (int i = 0; i < mlprolelist.size(); i++) {
-                        users.setRole(mlprolelist.get(i).getName());
-                        users.setRoleId(mlprolelist.get(i).getRoleId());                   	
-                    }*/
-                    
-               }
-                user.add(users);
-            }
+        RestPageRequest pageRequest = new RestPageRequest();
+        pageRequest.setPage(0);
+        pageRequest.setSize(1000);
+        RestPageResponse<MLPUser> userList = dataServiceRestClient.getUsers(pageRequest);
+        if (userList != null) {
+        	mlpUser = userList.getContent();
+		    //List<MLPUser> mlpUser = dataServiceRestClient.getUsers(pageRequest);
+	        if(!PortalUtils.isEmptyList(mlpUser)) {
+	            user = new ArrayList<>();
+	            for(MLPUser mlpusers : mlpUser){
+	                User users = PortalUtils.convertToMLPuser(mlpusers);
+	                if(users.getUserId() != null){
+	                    List<MLPRole> mlprolelist = dataServiceRestClient.getUserRoles(users.getUserId());
+	                    users.setUserAssignedRolesList(mlprolelist);
+	                   /* for (int i = 0; i < mlprolelist.size(); i++) {
+	                        users.setRole(mlprolelist.get(i).getName());
+	                        users.setRoleId(mlprolelist.get(i).getRoleId());
+	                    }*/
+	                    
+	               }
+	                user.add(users);
+	            }
+	        }
         }
         System.out.println("All User : " + user);
         return user;
