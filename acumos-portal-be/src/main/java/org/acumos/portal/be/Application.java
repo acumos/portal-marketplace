@@ -38,12 +38,15 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.boot.CommandLineRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+//@EnableAspectJAutoProxy(proxyTargetClass=true)
+@EnableAspectJAutoProxy
 @SpringBootApplication
 public class Application implements ApplicationContextAware, CommandLineRunner {
 

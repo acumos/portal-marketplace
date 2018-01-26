@@ -20,12 +20,29 @@
   <property name="defaultPattern" value="%date{ISO8601}|%X{RequestId}|%X{ServiceInstanceId}|%thread|%X{VirtualServerName}|%X{ServiceName}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{ServerFQDN}|%X{RemoteHost}|%X{ClassName}|%X{Timer}| %msg%n" />
   <property name="debugLoggerPattern" value="%date{ISO8601}|%X{RequestId}|%X{ServiceInstanceId}|%thread|%X{VirtualServerName}|%X{ServiceName}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{ServerFQDN}|%X{RemoteHost}|%X{ClassName}|%X{Timer}| %msg%n" />
   
+  <property name="debugAccessPattern" value="%date{ISO8601}|%X{contextName}|%X{user}|%thread|%.-5level|%X{AlertSeverity}|%X{ClassName}| %msg%n" />
+  
+  
   <!-- Example evaluator filter applied against console appender -->
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>${defaultPattern}</pattern>
     </encoder>
-  </appender>    
+  </appender>   
+  
+  <appender name="ACCESS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDirectory}/access.log</file>
+         <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>access.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>${debugAccessPattern}</pattern>
+        </encoder>
+    </appender>
     
   <appender name="EELF"
     class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -114,6 +131,10 @@
   
    <logger name="com.att.eelf.debug" level="debug" additivity="false">
         <appender-ref ref="asyncEELFDebug" />
+  </logger>
+  
+  <logger name="com.att.eelf.security" level="info" additivity="false">
+        <appender-ref ref="ACCESS_FILE" />        
   </logger>
   
   <root level="info">

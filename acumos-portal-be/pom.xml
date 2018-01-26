@@ -159,6 +159,13 @@
             <artifactId>mailjet-client</artifactId>
             <version>4.0.5</version>
         </dependency>
+        
+        <!--  AspectJ Dependencies -->
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-aop</artifactId>    
+		</dependency>
+        
 	</dependencies>
 
 	<build>
@@ -258,21 +265,15 @@
 				<version>0.21.0</version>
 				<configuration>
 					<verbose>true</verbose>
-					<!-- docker runs on the LF build minion so the default value is ok -->
-					<!-- LF <dockerHost>unix:///var/run/docker.sock</dockerHost> LF -->
 					<pullRegistry>${docker.pull.registry}</pullRegistry>
 					<pushRegistry>${docker.push.registry}</pushRegistry>
-					<!-- LF credentials are not supplied here -->
 					<images>
 						<image>
-							<!-- Specify a tag to avoid default tag "latest" -->
 							<name>acumos-portal-be:${project.version}</name>
 							<build>
-								<!-- This is the same FROM used in a Dockerfile -->
-								<from>frolvlad/alpine-oraclejdk8:slim</from>
+								  <from>frolvlad/alpine-oraclejdk8:slim</from>
 								<tags>
-									<!-- Add tag with build number -->
-									<tag>${project.version}-b${build.number}</tag>
+								  <tag>${project.version}-b${build.number}</tag>
 								</tags>
 								<assembly>
 									<inline>
@@ -289,16 +290,13 @@
 										</files>
 									</inline>
 								</assembly>
-								<!-- This is the same CMD used in a Dockerfile -->
 								<cmd>
-									<!-- CDATA prevents Eclipse formatter from breaking line -->
 									<shell><![CDATA[cd /maven; java -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}]]></shell>
 								</cmd>
 							</build>
 						</image>
 					</images>
 				</configuration>
-				<!-- build Docker images in install phase, push in deploy phase -->
 				<executions>
 					<execution>
 						<goals>
