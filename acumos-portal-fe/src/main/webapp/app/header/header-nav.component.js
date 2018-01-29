@@ -8,12 +8,12 @@ app.component('headerNav',{
 	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService) {
 		console.log(localStorage.getItem("pageLoad"));		
 		debugger;
-		if(localStorage.getItem("pageLoad") == true || localStorage.getItem("pageLoad") == 'true')
+		/*if(localStorage.getItem("pageLoad") == true || localStorage.getItem("pageLoad") == 'true')
 		{	
 			console.log("Page load function call ------->>>>>>>>>>>");
 			localStorage.setItem("pageLoad", false);
 			$state.go("home");
-		}
+		}*/
 		
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
@@ -301,11 +301,9 @@ app.component('headerNav',{
 			$scope.sidebarHeader = false;
 			$scope.loginUserID = "";
 			localStorage.setItem("homeRefresh", 'Yes');
-			//$state.go("home");
 			localStorage.setItem("pageLoad", true);
-			console.log("log out function -------->>>>>>");
-            location.reload();
-			
+			$state.go("home");
+            //location.reload();
 		}
 		//Emit value from deactivate user
 		$scope.$on("MyLogOutEvent", function(evt,data){ 
