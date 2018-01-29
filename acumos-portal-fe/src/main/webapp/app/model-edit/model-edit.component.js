@@ -161,7 +161,12 @@ angular
 						$scope.loadData = function() {
 							$scope.apiUrl;
 							angular.element('.md-version-ddl1').hide();
-							$scope.tags1 = [];
+							if($scope.tagUpdated = true){
+								$scope.tags1 = $scope.tags1;
+							}else{
+								$scope.tags1 = [];
+							}
+							
 							if ($scope.solutionId) {
 								$scope.solutionId = $scope.solutionId;
 							}
@@ -279,6 +284,7 @@ angular
 													// $scope.solutionDesc =
 													// $scope.solution.description;
 													if ($scope.solution.solutionTagList) {
+														debugger
 														for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
 															$scope.tags1
 																	.push({
@@ -286,6 +292,7 @@ angular
 																	});
 														}
 													} else if ($scope.solution.solutionTag) {
+														debugger
 														$scope.tags1
 																.push({
 																	text : $scope.solution.solutionTag
@@ -472,9 +479,9 @@ angular
 															}
 														}, 3500);
 												/* } */
-
-												$scope.loadData();
 												$scope.tagUpdated = true;
+												$scope.loadData();
+												
 											},
 											function(error) {
 												$timeout(function() {
@@ -785,9 +792,12 @@ angular
 							        .theme('success-toast')
 							        .hideDelay(2000);
 							     $mdToast.show(toast);
+							     debugger
 							     var refreshTag = $scope.tags1;
-							     $scope.tags1 = [];
-							     if ($scope.solution.solutionTagList) {
+							     
+							     /*fix: line commented to fix CD-2049 Starts*/
+							     //$scope.tags1 = [];
+							     /*if ($scope.solution.solutionTagList) {
 										for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
 											$scope.tags1
 													.push({
@@ -800,8 +810,8 @@ angular
 													text : $scope.solution.solutionTag
 												});
 
-									}
-							     for (var t = 0 ; t < refreshTag.length ; t++) {
+									}*/
+							     /*for (var t = 0 ; t < refreshTag.length ; t++) {
 							    	 $scope.tags1
 										.push({
 											text : refreshTag[t].text
@@ -810,7 +820,8 @@ angular
 							     $scope.tags1
 									.push({
 										text : tag.text
-									});
+									});*/
+							     /*fix: line commented to fix CD-2049 Ends*/
 
 							}, function(error) {
 								console.log("Tag Error: ",error)
@@ -1457,7 +1468,8 @@ angular
 						};
 						
 						/** ***** File upload****** */
-						$scope.updateSolutionFiles = function() {
+						$scope.updateSolutionFiles = function(uploadid) {
+							$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
 
 							var uploadUrl = "/site/api-manual/Solution/solutionAssets/" + $scope.solution.solutionId + "/" + $scope.revisionId + "?path=org";
@@ -1474,10 +1486,11 @@ angular
 											.catch(function() {
 												alert("Error in uploading the file");
 											});
+							$scope.privatefilename = "";
 						}
 						
-						$scope.updatePublicSolutionFiles = function() {
-							
+						$scope.updatePublicSolutionFiles = function(uploadid) {
+							$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
 							
 
@@ -1496,6 +1509,7 @@ angular
 											.catch(function() {
 												alert("Error in uploading the file");
 											});
+							$scope.publicfilename = "";
 						}
 						
 						
