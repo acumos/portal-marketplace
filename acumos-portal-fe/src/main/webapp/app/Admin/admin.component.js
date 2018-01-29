@@ -559,7 +559,8 @@ angular.module('admin')
                     	  var json={"request_body": {
                     			    	"peerId": $scope.peerIdForSubsList,
                     			    	"subId": $scope.subId,
-                    			    	"selector" : catToolkit    //"{\"modelTypeCode\":\"CL\"}"  
+                    			    	"selector" : catToolkit,
+                    			    	"ownerId" : userId
                     	  				}}
                     	  if(check){$scope.categoryValue='';$scope.toolKitTypeValue='';}
                     	  var url = "api/admin/peer/subcription/create";
