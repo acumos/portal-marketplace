@@ -270,6 +270,23 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				if (revisionList.size() > 0) {
 					mlSolution.setRevisions(revisionList);
 				}
+				//Set co-owners list for model
+				try {
+					List<User> users = null;
+					List<MLPUser> mlpUsersList = dataServiceRestClient
+							.getSolutionAccessUsers(mlSolution.getSolutionId());
+					if (!PortalUtils.isEmptyList(mlpUsersList)) {
+						users = new ArrayList<>();
+						for (MLPUser mlpusers : mlpUsersList) {
+							User user = PortalUtils.convertToMLPuser(mlpusers);
+							users.add(user);
+						}
+					}
+					mlSolution.setOwnerListForSol(users);
+				} catch (Exception e) {
+					log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
+							mlSolution.getSolutionId());
+				}
 			}
 		} catch (ArithmeticException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.ARITHMATIC_EXCEPTION, e.getMessage());
