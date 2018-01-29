@@ -136,7 +136,7 @@
 											<div class="managelefttext">
 												<article>Share with Team</article>
 												<ul class="">
-													<li>Shared with {{sharedWith.length}} co-workers</li>
+													<li>Shared with {{sharedWith.length}} co-worker<span ng-show="sharedWith.length>1">s</span></li>
 												</ul>
 											</div>
 									</a></li>
@@ -353,8 +353,8 @@
 									can.</p>
 								<div class="share-members">
 									<p>
-										<span>This Model shared with below team members | </span><span
-											class="green">({{sharedWith.length}} members)</span>
+										<span>This Model shared with below team member<span ng-show="sharedWith.length>1">s</span> | </span><span
+											class="green">({{sharedWith.length}} member<span ng-show="sharedWith.length>1">s</span>)</span>
 									</p>
 									<div>
 										<span class="team-user"> <i
@@ -1085,16 +1085,25 @@
 																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																	<form class="ng-pristine ng-valid">
 																		<div
-																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded"
+																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
-																			<input class="mdl-textfield__input"
+																			<!-- <input class="mdl-textfield__input"
 																				placeholder="File" type="file" id="uploadFile"
-																				upload-image-model="solutionFile" readonly="">
+																				upload-image-model="solutionFile" readonly=""> 
 																			<div
 																				class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
 																				<i class="material-icons">attach_file</i> <input
 																					type="file" id="uploadBtn">
-																			</div>
+																			</div>-->
+																			
+																			<div file-upload file=previewImage 
+																						uploadid="documentuploadid" id="uploadFile"
+																						filename="privatefilename" fileinput="file"
+																						ng-model="solutionFile" accept = ""
+																						upload-image-model="solutionFile" readonly></div>
+																		    	<input class="mdl-textfield__input"
+																						placeholder="Upload File" type="text"
+																						ng-model="privatefilename" readonly />
 																		</div>
 																	</form>
 																</div>
@@ -1103,7 +1112,7 @@
 																	<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																	<md-button ng-click="showFileUpload = !showFileUpload"
+																	<md-button ng-click="privatefilename = '';showFileUpload = !showFileUpload"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
 																		data-upgraded=",MaterialButton,MaterialRipple">
@@ -1111,7 +1120,7 @@
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
 																	<md-button
-																		ng-click="updateSolutionFiles(); showFileUpload = !showFileUpload"
+																		ng-click="updateSolutionFiles('documentuploadid'); showFileUpload = !showFileUpload"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
 																		data-upgraded=",MaterialButton,MaterialRipple">
@@ -1897,9 +1906,9 @@
 																					Tags <span class="title-icons icon-tags"></span>
 																				</h6>
 																				<div class="box-inner2 rowcontainer">
-																					<md-chips
+																					<!-- <md-chips
 																						ng-repeat="tag in solution.solutionTagList">
-																					<md-chip>{{tag.tag}}</md-chip> </md-chips>
+																					<md-chip>{{tag.tag}}</md-chip> </md-chips> -->
 																				</div>
 																			</div>
 																			<hr class="hor-seperator" />
@@ -2818,16 +2827,24 @@
 															<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																<form class="ng-pristine ng-valid">
 																	<div
-																		class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded"
+																		class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																		data-upgraded=",MaterialTextfield">
-																		<input class="mdl-textfield__input" placeholder="File"
+																		<!-- <input class="mdl-textfield__input" placeholder="File"
 																			type="file" id="uploadFile"
 																			upload-image-model="solutionFile" readonly="">
 																		<div
 																			class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
 																			<i class="material-icons">attach_file</i> <input
 																				type="file" id="uploadBtn">
-																		</div>
+																		</div> -->
+																		<div file-upload file=previewImage 
+																						uploadid="publicDocumentuploadid" id="uploadFile"
+																						filename="publicfilename" fileinput="file"
+																						ng-model="solutionFile" accept = ""
+																						upload-image-model="solutionFile" readonly></div>
+																		    <input class="mdl-textfield__input"
+																						placeholder="Upload File" type="text"
+																						ng-model="publicfilename" readonly />	
 																	</div>
 																</form>
 															</div>
@@ -2836,7 +2853,7 @@
 																<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																<md-button ng-click="showFileUpload = !showFileUpload"
+																<md-button ng-click="publicfilename = '';solutionFile = '' ;showFileUpload = !showFileUpload"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																	type="button"
 																	data-upgraded=",MaterialButton,MaterialRipple">
@@ -2844,7 +2861,7 @@
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
 																<md-button
-																	ng-click="updatePublicSolutionFiles(); showFileUpload = !showFileUpload"
+																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid'); showFileUpload = !showFileUpload"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																	type="button"
 																	data-upgraded=",MaterialButton,MaterialRipple">
