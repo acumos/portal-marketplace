@@ -3,7 +3,7 @@ app
 				'signUp',
 				{
 					template : '<a ng-click="$root.showAdvancedSignup()" class="no-outline">Sign Up <span class="signUp">Now</span></a>',
-					controller : function($uibModal, $scope, $rootScope, $mdDialog) {
+					controller : function($uibModal, $scope, $rootScope, $mdDialog, $location, $anchorScroll) {
 						$ctrl = this;
 						
 						$ctrl.dataForModal = {
@@ -113,14 +113,21 @@ app
                     				userDetails = {};
                     				debugger
                     				if(response.data.error_code == 100){
-                    					console.log(response.data.response_detail);
-                    					$timeout(function() {
+                    					/*$timeout(function() {
                         					alert("Signed-Up successfully\nPlease Sign In to log into the portal.");
-                        				},0);
-                        				$rootScope.showAdvancedLogin();
-                        				console.log("Success: ", response);
+                        				},0);*/
+                    					$mdDialog.hide();
+                    					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                        $anchorScroll(); 
+                                        $scope.msg = "Signed-Up successfully\nPlease Sign In to log into the portal."; 
+                                        $scope.icon = '';
+                                        $scope.styleclass = 'c-success';
+                                        $scope.showAlertMessage = true;
+                                        $timeout(function() {
+                                        	$scope.showAlertMessage = false;
+                                        }, 50000);
+                        				//$rootScope.showAdvancedLogin();
                         				$scope.successfulLogin = true;
-                        				$mdDialog.hide();
                     				}
                     				else if(response.data.error_code == 202){
                     					alert("Username Already Exists");
