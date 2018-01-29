@@ -170,8 +170,7 @@
 
 .mountain {
                 background-image: url("../images/mountain.png");
-                /* background-position: center bottom; */
-                background-position: 100% bottom;
+                background-position: center bottom;                 
                 background-repeat: no-repeat;
                 min-height: 278px;
                 position: absolute;
@@ -249,7 +248,7 @@ background-position: -30px top;
 @media(max-width:768px){
 	.success{padding: 0px 0px 10px;}
 	.hasClass.initialVal .home-screen1, .home-screen1, .home-screen2, .home-screen3, .home-screen{background-image:none;}
-	
+	.mountain{background-position: 100% bottom;}
 	}
 
 @media(max-width:767px) {

@@ -192,84 +192,87 @@ angular.module('admin')
             	        ]
             	      };*/
 
-            	      $scope.submitForm = function(){  
-						angular
-                          .forEach(
-                                  $scope.siteConfig.fields,
-                                  function( value, key) {
-                                  	if($scope.siteConfig.fields[key].type == 'file'){
-                                  		var fileObject  = {
-                                  			   'lastModified'     : $scope.siteConfig.fields[key].data.lastModified,
-                                  			   'lastModifiedDate' : $scope.siteConfig.fields[key].data.lastModifiedDate,
-                                  			   'name'             : $scope.siteConfig.fields[key].data.name,
-                                  			   'size'             : $scope.siteConfig.fields[key].data.size,
-                                  			   'type'             : $scope.siteConfig.fields[key].data.type
-                                  			}; 
-                                  		$scope.siteConfig.fields[key].data = fileObject;
-                                  	}
-                                     /* fileUploadService.uploadFileToUrl(
-                                      		$rootScope.headerImage, uploadUrl).then(
-          											function(response) {
-          												console.log(response);
-          												
-          											},
-          											function() {
-          												//$scope.serverResponse = 'An error has occurred';
-          											});*/
-                                      
-                                  });
-                         var data = angular.copy($scope.siteConfig);
-                          var strSiteConfig = JSON.stringify(data);
-                          var convertedString = strSiteConfig.replace(/"/g, '\"');
-						  var file = $scope.userImage;
-                          var uploadUrl = "api/users/updateUserImage/"
-								+ userId;
-                          var reqObj = {
-                                  "request_body": {
-                                      "configKey": "site_config",
-                                      "configValue":convertedString,
-                                      "userId": userId
-                                    }
-                                    };
-                          apiService
-                            .updateSiteConfig("site_config", reqObj)
-                            .then(
-                                    function(response) {
-                                        //$scope.siteConfig = angular.fromJson(response.data.response_body.configValue);
-                                        angular
-                                        .forEach(
-                                                $scope.siteConfig.fields,
-                                                function( value, key) {
-                                                   if($scope.siteConfig.fields[key].label == 'siteInstanceName'){
-                                                        $rootScope.siteInstanceName = $scope.siteConfig.fields[key].data;
-                                                    }if($scope.siteConfig.fields[key].name == 'headerLogo'){
-                                                        $rootScope.headerImage = $scope.siteConfig.fields[key].data;
-                                                    }if($scope.siteConfig.fields[key].name == 'footerLogo'){
-                                                        $rootScope.footerImage = $scope.siteConfig.fields[key].data;
-													} if($scope.siteConfig.fields[key].label == 'EnableOnboarding'){
-					                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
-					                                    	$rootScope.enableOnBoarding = true;
-					                                    } else {
-					                                    	$rootScope.enableOnBoarding = false;
-					                                    }
-					                                }
-                                                    
-													/*fileUploadService.uploadFileToUrl(
-                                                    		$rootScope.headerImage, uploadUrl).then(
-                        											function(response) {
-                        												console.log(response);
-                        												
-                        											},
-                        											function() {
-                        												//$scope.serverResponse = 'An error has occurred';
-                        											});*/
-                                                });
-                                        alert("Updated successfully.");
-                                    },
-                                    function(error) {console.log(error);
-                            });
-                        //$log.debug($scope.entity);
-                      }
+            $scope.submitForm = function(){  
+				angular
+                  .forEach(
+                          $scope.siteConfig.fields,
+                          function( value, key) {
+                          if($scope.siteConfig.fields[key].type == 'file'){
+                          		/*var fileObject  = {
+                          			   'lastModified'     : $scope.siteConfig.fields[key].data.lastModified,
+                          			   'lastModifiedDate' : $scope.siteConfig.fields[key].data.lastModifiedDate,
+                          			   'name'             : $scope.siteConfig.fields[key].data.name,
+                          			   'size'             : $scope.siteConfig.fields[key].data.size,
+                          			   'type'             : $scope.siteConfig.fields[key].data.type
+                          			};*/ 
+                        	 
+                          		 
+                          	}
+                             /* fileUploadService.uploadFileToUrl(
+                              		$rootScope.headerImage, uploadUrl).then(
+  											function(response) {
+  												console.log(response);
+  												
+  											},
+  											function() {
+  												//$scope.serverResponse = 'An error has occurred';
+  											});*/
+                              
+                          });
+                 var data = angular.copy($scope.siteConfig);
+                  var strSiteConfig = JSON.stringify(data);
+                  var convertedString = strSiteConfig.replace(/"/g, '\"');
+				  var file = $scope.userImage;
+                  var uploadUrl = "api/users/updateUserImage/"
+						+ userId;
+                  var reqObj = {
+                          "request_body": {
+                              "configKey": "site_config",
+                              "configValue":convertedString,
+                              "userId": userId
+                            }
+                            };
+                  apiService
+                    .updateSiteConfig("site_config", reqObj)
+                    .then(
+                            function(response) {
+                                //$scope.siteConfig = angular.fromJson(response.data.response_body.configValue);
+                                angular
+                                .forEach(
+                                        $scope.siteConfig.fields,
+                                        function( value, key) {
+                                           if($scope.siteConfig.fields[key].label == 'siteInstanceName'){
+                                                $rootScope.siteInstanceName = $scope.siteConfig.fields[key].data;
+                                            }if($scope.siteConfig.fields[key].label == 'Headerlogo'){
+                                                $rootScope.headerImage = $scope.siteConfig.fields[key].data.base64;
+                                            }if($scope.siteConfig.fields[key].label == 'coBrandingLogo'){
+                                                $rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
+                                            }if($scope.siteConfig.fields[key].label == 'Footerlogo'){   
+                                                $rootScope.footerImage = $scope.siteConfig.fields[key].data.base64;
+											} if($scope.siteConfig.fields[key].label == 'EnableOnboarding'){
+			                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
+			                                    	$rootScope.enableOnBoarding = true;
+			                                    } else {
+			                                    	$rootScope.enableOnBoarding = false;
+			                                    }
+			                                }
+                                            
+											/*fileUploadService.uploadFileToUrl(
+                                            		$rootScope.headerImage, uploadUrl).then(
+                											function(response) {
+                												console.log(response);
+                												
+                											},
+                											function() {
+                												//$scope.serverResponse = 'An error has occurred';
+                											});*/
+                                        });
+                                alert("Updated successfully.");
+                            },
+                            function(error) {console.log(error);
+                    });
+                //$log.debug($scope.entity);
+              }
             	      $scope.peerChange = function(peer){
             	    	  $scope.editPeer = peer;
             	      }

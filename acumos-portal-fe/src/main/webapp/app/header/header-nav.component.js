@@ -366,19 +366,21 @@ app.component('headerNav',{
                     .forEach(
                             $scope.siteConfig.fields,
                             function( value, key) {
-                                if($scope.siteConfig.fields[key].label == 'siteInstanceName'){
-                                    $rootScope.siteInstanceName = $scope.siteConfig.fields[key].data;
-                                }if($scope.siteConfig.fields[key].name == 'headerLogo'){
-                                    $rootScope.headerImage = $scope.siteConfig.fields[key].data;
-                                }if($scope.siteConfig.fields[key].name == 'footerLogo'){
-                                    $rootScope.footerImage = $scope.siteConfig.fields[key].data;
-                                }if($scope.siteConfig.fields[key].label == 'EnableOnboarding'){
-                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
-                                    	$rootScope.enableOnBoarding = true;
-                                    } else {
-                                    	$rootScope.enableOnBoarding = false;
-                                    }
-                                }
+                            	 if($scope.siteConfig.fields[key].label == 'siteInstanceName'){
+                                     $rootScope.siteInstanceName = $scope.siteConfig.fields[key].data;
+                                 }if($scope.siteConfig.fields[key].label == 'Headerlogo'){
+                                     $rootScope.headerImage = $scope.siteConfig.fields[key].data.base64;
+                                 }if($scope.siteConfig.fields[key].label == 'coBrandingLogo'){
+                                     $rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
+                                 }if($scope.siteConfig.fields[key].label == 'Footerlogo'){   
+                                     $rootScope.footerImage = $scope.siteConfig.fields[key].data.base64;
+									} if($scope.siteConfig.fields[key].label == 'EnableOnboarding'){
+	                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
+	                                    	$rootScope.enableOnBoarding = true;
+	                                    } else {
+	                                    	$rootScope.enableOnBoarding = false;
+	                                    }
+	                                }
                                 $window.document.title = $rootScope.siteInstanceName;
                             });
 				},
