@@ -3,7 +3,7 @@
 			<section>
 				<div>
 					<div class="heading">
-						<span class="footer-logo" style = 'background-image: url("../images/{{$root.footerImage.name}}")'></span>
+						<span class="footer-logo"><img ng-src="data:image/PNG;base64,{{$root.footerImage}}" /></span>
 					</div>
 					<ul>
 						<li ng-init="showmore=false">{{$root.siteInstanceName}} is an open source platform for the development, training, sharing and deployment of AI models. It empowers data scientists to move to an AI-centric process for producing software. The heart of {{$root.siteInstanceName}} is the AI collaboration ecosystem, where models are trained <a class="gray text-bold" ng-show="showmore==false" href="" ng-click='showmore=true' >More..</a><span ng-show="showmore">and graded on their ability to successfully analyze datasets that they are fed and select the best model for the job.</span></li>

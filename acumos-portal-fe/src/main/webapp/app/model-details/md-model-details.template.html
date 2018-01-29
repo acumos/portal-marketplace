@@ -248,43 +248,8 @@
 
 							<!-- images changed for demo  -->
 							<img
-								ng-if="solution.name.indexOf('Predictor') < 0 
-															&& solution.name.indexOf('Threat') < 0 
-															&& solution.name.indexOf('Emotion') < 0
-															&& solution.name.indexOf('Face') < 0
-															&& solution.name.indexOf('Video') < 0
-															&& solution.name.indexOf('Chat') < 0
-															&& solution.name.indexOf('Sentiment') < 0"
 								ng-src="{{imgURLdefault}}" class="modelimg1"
 								style="max-width: 400px; margin: 0 auto; display: block;">
-
-							<img ng-if="solution.name.indexOf('Predictor') > -1"
-								ng-src="{{imgURLnull}}" class="modelimg1"
-								style="max-width: 500px; margin: 0 auto; display: block;">
-
-							<img ng-if="solution.name.indexOf('Threat') > -1"
-								ng-src="{{imgURLthreat}}" class="modelimg1"
-								style="max-width: 500px; margin: 0 auto; display: block;">
-
-							<img ng-if="solution.name.indexOf('Emotion') > -1"
-								ng-src="{{imgURLemotion}}" class="modelimg1"
-								style="max-width: 500px; margin: 0 auto; display: block;">
-
-							<img ng-if="solution.name.indexOf('Face') > -1"
-								ng-src="{{imgURLcommercial}}" class="modelimg1"
-								style="max-width: 300px; margin: 0 auto; display: block;">
-
-							<img ng-if="solution.name.indexOf('Video') > -1"
-								ng-src="{{imgURLvideo}}" class="modelimg1"
-								style="max-width: 500px; margin: 0 auto; display: block;">
-
-							<img ng-if="solution.name.indexOf('Chat') > -1"
-								ng-src="{{imgURLChat}}" class="modelimg1"
-								style="max-width: 500px; margin: 0 auto; display: block;">
-
-							<img ng-if="solution.name.indexOf('Sentiment') > -1"
-								ng-src="{{imgURLSensitive}}" class="modelimg1"
-								style="max-width: 500px; margin: 0 auto; display: block;">
 
 						</div>
 						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
