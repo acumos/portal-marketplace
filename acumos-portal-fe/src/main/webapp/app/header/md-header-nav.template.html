@@ -120,7 +120,7 @@
 									data-badge="{{$root.notificationCount}}"
 									ng-if="$root.notificationCount > 0">notifications_none</span>					          
 					          </md-button>
-					          <md-menu-content width="4" ng-show = "$root.notificationCount > 0">
+					          <md-menu-content width="4" ng-show = "$root.notificationCount > 0" class="notelist_1">
 					            <md-menu-item ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
 					            	<div class="new-note-container">
 					            		<span class="notification-text"
@@ -185,7 +185,7 @@
 									title="{{userfirstname}}" /> {{userDetails.userName}}
 								</span> <i class="material-icons">arrow_drop_down</i>
 	      						</md-button>
-						      <md-menu-content>
+						      <md-menu-content class="menu-content1">
 						        <md-menu-item class="mdl-button header-ddl mdl-js-button">
 						           <a ui-sref="userDetail">Account Setting </a>
 						        </md-menu-item>

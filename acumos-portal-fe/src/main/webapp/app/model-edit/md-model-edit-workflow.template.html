@@ -855,7 +855,7 @@
 																ng-checked="showDCKEditor"> Use the Description
 																you have in Public Marketplace. 
 														</div>
-														<div>
+														<div class="timeline-version">
 															<label> Use the Description you have in Company
 																Marketplace for Other Revisions.</label>
 															<!--  <a>View more</a> -->
@@ -1137,7 +1137,7 @@
 																md-on-remove="removeDoc($chip, 'org')"> <md-chip-template>
 															<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
 														</div>
-														<div>
+														<div class="timeline-version">
 															<label> Use the Documents you have in Company
 																Marketplace for Other Revisions.</label>
 															<!--  <a>View more</a> -->
@@ -1411,12 +1411,12 @@
 																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																	<form>
 																		<div class="mdl-grid imageuploader">
-																			<div class="mdl-cell mdl-cell--3-col">
+																			<div class="mdl-cell mdl-cell--3-col mdl-cell--12-col-tablet mdl-cell--4-col-phone">
 																				<div class="iconcontainer">
 																					<img ng-src="{{previewImage}}" alt="" title="" />
 																				</div>
 																			</div>
-																			<div class="mdl-cell mdl-cell--9-col">
+																			<div class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
 																				<div class="upload-image-input">
 																					<div file-upload file=previewImage ng-click = "cancelSolImage()"
 																						uploadid="companyuploadid" id="solImage"
@@ -1458,7 +1458,7 @@
 																		</div>
 																		<p>You can upload an image of your own or select one from the images below.</p>
 																		<div class="mdl-grid">
-																			<div class="mdl-cell mdl-cell--3-col iconboder"
+																			<div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--4-col-phone iconboder"
 																				ng-repeat="iconSrc in iconImages"
 																				ng-class="{active : iconSrc == selectedIcon}">
 																				<div class="iconcontainer">
@@ -2607,7 +2607,7 @@
 															ng-checked="showCKEditor"> Use the Description
 															you have in Company Marketplace. <!-- </label> <a>View more</a> -->
 													</div>
-													<div>
+													<div class="timeline-version">
 														<label> Use the Description you have in Public
 															Marketplace for Other Revisions.</label>
 														<!--  <a>View more</a> -->
@@ -2879,7 +2879,7 @@
 															md-on-remove="removeDoc($chip, 'public')"> <md-chip-template>
 														<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
 													</div>
-													<div>
+													<div class="timeline-version">
 														<label> Use the Documents you have in Public
 															Marketplace for Other Revisions.</label>
 														<!--  <a>View more</a> -->
@@ -3079,12 +3079,12 @@
 															<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																<form>
 																	<div class="mdl-grid imageuploader">
-																		<div class="mdl-cell mdl-cell--3-col">
+																		<div class="mdl-cell mdl-cell--3-col mdl-cell--12-col-tablet mdl-cell--4-col-phone">
 																			<div class="iconcontainer">
 																				<img ng-src="{{previewImage}}" alt="" title="" />
 																			</div>
 																		</div>
-																		<div class="mdl-cell mdl-cell--9-col">
+																		<div class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
 																			<div class="upload-image-input">
 																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
 																					uploadid="publicuploadid" id="solImage"
@@ -3127,7 +3127,7 @@
 																	<p>You can upload an image of your own or select one from the images below.
 																	</p>
 																	<div class="mdl-grid">
-																		<div class="mdl-cell mdl-cell--3-col iconboder"
+																		<div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--4-col-phone iconboder"
 																			ng-repeat="iconSrc in iconImages"
 																			ng-class="{active : iconSrc == selectedIcon}">
 																			<div class="iconcontainer">
