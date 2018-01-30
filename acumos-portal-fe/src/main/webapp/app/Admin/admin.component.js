@@ -8,7 +8,9 @@ angular.module('admin')
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
 			$scope.userDetail = JSON.parse(localStorage
 					.getItem("userDetail"));
-			var userName = $scope.userDetail[0],userId = $scope.userDetail[1];
+			if($scope.userDetail != undefined){
+				var userName = $scope.userDetail[0],userId = $scope.userDetail[1];
+			}
 		
 			$scope.checkAdmin = function(){
 				if(localStorage.getItem("userRole") == 'Admin' || localStorage.getItem("userRole") == 'admin'){

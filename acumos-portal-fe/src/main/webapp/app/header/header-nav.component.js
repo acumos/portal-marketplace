@@ -368,7 +368,7 @@ app.component('headerNav',{
                             function( value, key) {
                             	 if($scope.siteConfig.fields[key].label == 'siteInstanceName'){
                                      $rootScope.siteInstanceName = $scope.siteConfig.fields[key].data;
-                                 }if($scope.siteConfig.fields[key].label == 'Headerlogo'){
+                                 }if($scope.siteConfig.fields[key].label == 'Headerlogo' && $scope.siteConfig.fields[key].data != undefined){
                                      $rootScope.headerImage = $scope.siteConfig.fields[key].data.base64;
                                  }if($scope.siteConfig.fields[key].label == 'coBrandingLogo'){
                                      $rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
