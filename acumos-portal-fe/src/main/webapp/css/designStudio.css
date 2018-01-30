@@ -1,4 +1,5 @@
 /******TAB STYLE start*********/
+span {font-family: 'Open Sans', sans-serif;}
 .ds-tab1 {position: relative; margin-top: -30px;}
 .ds-tab1 .md-tab {padding: 3px 15px 0px 15px;}
 .ds-tab1 md-tabs-canvas, .ds-tab1 md-pagination-wrapper {height: 30px;padding-left:10px;top:2px;}
@@ -71,7 +72,7 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 .ds-list1 li .mdl-button {padding-left:3px;font-size:13px; font-weight:600; width:100%; text-align:left; height:25px; line-height:25px;text-transform:none;text-transform: initial;}
 .ds-list1 li .mdl-button:hover {background: none; color: #3f51b5;}
 
-.ds-list3 {margin:0; padding:0; list-style-type: none; }
+.ds-list3 {margin:0; padding:0; list-style-type: none;  max-height: 200px;}
 .ds-list3 li {border-bottom: 1px dashed #E1E1E1;padding:3px 0;display:flex; justify-content: space-between;align-items:center;}
 .ds-list3 li label {font-size: 13px; font-weight:600;}
 .ds-list3 li .mdl-button {padding:0;min-width: 10px;font-size:16px; height: 25px; line-height: 25px;}

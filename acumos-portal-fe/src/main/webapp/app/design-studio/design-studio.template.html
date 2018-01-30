@@ -44,8 +44,8 @@
 								<md-content class="md-padding">
 								
 									<!-- <p>Tab 2</p> -->
-									<ul class="ds-list3" ng-repeat="val in publicCS">
-									<li ng-click="loadSolution(val)"><label>{{val.solutionName}}</label></li>
+									<ul class="ds-list3">
+									<li ng-repeat="val in publicCS | filter:myFilter" ng-click="loadSolution(val)"><label>{{val.solutionName}}</label></li>
 									</ul>
 									<!-- <div class="form-group"><label for="usr">Name:</label><input type="text" class="form-control" id="usr" ng-model="solutionName"></div>
 									<div class="form-group"><label for="usr">Description:</label><input ng-model="solutionDescription" type="text" class="form-control" id="usr" ng-model="solutionName"></div>
@@ -139,7 +139,7 @@
 									
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)"><span>{{val.solutionName}}({{val.version}})</span></div>
 							                      	</div>
 							                    </div>
 						                    
@@ -170,7 +170,7 @@
 								<div class="ds-list1">
 									<div ng-repeat="cat in palette.categories">
 							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
-								        	<div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								        	<div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)"><span>{{val.solutionName}}({{val.version}})</span></div>
 							            </div>
 							        </div>
 							     </div>

@@ -2680,8 +2680,18 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
             $http.get(url)
                 .success(function(data) {
-                    if(tempArr[key] == 'PB'){$scope.publicCS = data.items}
+                	if(tempArr[key] == 'PB'){
+                        $scope.publicCS = data.items
+                        }
+                    else if(tempArr[key] == 'OR'){
+                        $scope.publicOR = data.items
+                    }
                     else $scope.privateCS = data.items;
+                    angular.forEach($scope.publicOR, function(value1, key1) {
+                        $scope.publicCS.push(value1);
+                        console.clear();
+                        console.log($scope.publicCS.length);
+                    })
                 })
                 .error(function(response){
 
