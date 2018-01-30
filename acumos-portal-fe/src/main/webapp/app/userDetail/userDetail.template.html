@@ -170,29 +170,36 @@
 									<md-dialog-content>
 									<form name="resetPswd">
 									  <div class="md-dialog-content">										
-										<label>Once you are finished, use your new password to sign in {{$root.siteInstanceName}}.</label>
+										<label class="disblock">Once you are finished, use your new password to sign in {{$root.siteInstanceName}}.</label>
+										<br />
 										  <div class="">
-										  		 <md-input-container class="md-icon-float md-block cp-container1">
-												      <!-- Use floating label instead of placeholder -->
+										  		 <!-- <md-input-container class="md-icon-float md-block cp-container1">
+												      Use floating label instead of placeholder
 												      <div class="ud-row">
 													      <div>
 													      	<label>Old Password</label>												      
 													      	<input class="userprofiletxtbox" type="text" ng-attr-type="{{ showOldPassword ? 'text' : 'password' }}" name="oldPswd" ng-model="oldPswd" required>
 													      </div>
-													      <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="showPasswd('old')"><i class="material-icons btn-view-icon">remove_red_eye</i><!-- {{oldPswdShow}} --></md-button>
+													      <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd('old')"><i class="material-icons btn-view-icon">remove_red_eye</i>{{oldPswdShow}}</md-button>
 												      </div>
+												 </md-input-container> -->
+												 <md-input-container class="md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Old Password</label>										     
+												      	<div class="password-container1 chng-pass-container">
+												      		<input class="userprofiletxtbox" type="text" ng-attr-type="{{ showOldPassword ? 'text' : 'password' }}" name="oldPswd" ng-model="oldPswd" required>
+												      		 <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd('old')"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												      	</div>											      	
 												 </md-input-container>
 										  </div>
 										 <div class="">
 											<md-input-container class="md-icon-float md-block cp-container1">
-												<div class="ud-row">
-													<div>
-														<label>New Password</label>												
+													<label>New Password</label>
+													<div class="password-container1 chng-pass-container">												
 														<input class="userprofiletxtbox" type="text" ng-attr-type="{{ showNewPassword ? 'text' : 'password' }}" name="pwd" ng-model="newPswd" maxlength="20" valid-password required>
-													</div>
-													<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="showPasswd('new')"><i class="material-icons btn-view-icon">remove_red_eye</i><!-- {{newPswdShow}} --></md-button>
-												</div>												
-												</md-input-container>
+														<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton" ng-click="showPasswd('new')"><i class="material-icons btn-view-icon">remove_red_eye</i><!-- {{newPswdShow}} --></md-button>
+													</div>												
+
 												<!-- <p>Must be atleast 8 charactors</p> -->
 												<div class="help-inline validation-msgs"
                                                         ng-class="{validationmsg:!resetPswd.pwd.$valid}">
@@ -204,6 +211,7 @@
                                                             ng-show="!! (resetPswd.pwd.$dirty && resetPswd.pwd.$error.invalidLen)">Must
                                                             be 8-20 characters.</span>
                                                 </div>
+                                             </md-input-container>
 										</div>
 										<div class="">
 											<md-input-container class="md-icon-float md-block">
@@ -216,8 +224,10 @@
 														</div>
 											</md-input-container>
 										</div>
-										<hr class="userprofilehr-rule" />
-										 <div class="userprofile-dialog-footer">
+										
+										 									  </div>									  
+									</md-dialog-content>
+									<div class="userprofile-dialog-footer">
 											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 									        Cancel
 									      </md-button>
@@ -226,8 +236,7 @@
 									        Confirm
 									      </md-button>
 									    </div>
-									  </div>									  
-									</md-dialog-content>									
+																		
 								  </form>
 								</md-dialog>
 							</div>
@@ -265,16 +274,15 @@
 												      <p ng-show="error" class = "validationmsg">Invalid Image</p>
 												 </md-input-container>
 										  </div>
-										<hr class="userprofilehr-rule" />
-										 <div class="userprofile-dialog-footer">
+									  </div>									  
+									</md-dialog-content>
+									<div class="userprofile-dialog-footer">
 											<md-button ng-click="closePoup();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">									        Cancel
 									      </md-button>
 										  <md-button ng-click="uploadImg()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 									        Upload
 									      </md-button>
-									    </div>
-									  </div>									  
-									</md-dialog-content>									
+									    </div>									
 								  </form>
 								</md-dialog>
 							</div>
