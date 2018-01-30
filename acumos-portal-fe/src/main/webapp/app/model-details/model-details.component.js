@@ -312,7 +312,7 @@ angular
 											console.log($scope.solution);
 											$scope.getUserImage($scope.modelOwnerId);
 											relatedSoltion();
-											
+											$scope.disableEdit();
 											if (data.response_body.revisions) {
 												var length = data.response_body.revisions.length;
 												
@@ -1462,6 +1462,28 @@ angular
 							$scope.scrolltoId = function(id){
 								$location.hash(id);
 								$anchorScroll();
+							}
+							
+							$scope.disableEdit = function(){
+								$scope.editModel = true;
+								if($scope.solution.active == false){$scope.editModel = true;}
+								else{
+									if($scope.solution.ownerId != $scope.loginUserID){
+										if($scope.solution.ownerListForSol != null){
+											angular.forEach($scope.solution.ownerListForSol, function(owner, key) {
+												if ($scope.loginUserID == owner.userId) {
+													$scope.editModel = false;
+												}
+											
+											});
+											
+										}else{ 
+											$scope.editModel = true;
+										} 
+									}else{
+										$scope.editModel = false;
+									}
+								}
 							}
 					}
 
