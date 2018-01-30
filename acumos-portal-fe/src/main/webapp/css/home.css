@@ -200,6 +200,16 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 }
 /* create new password and forgot password end*/
 .home-footer ul.social-icons{float:left; margin-top:-5px;}
+.home-footer .heading span.footer-logo {
+    margin-top: -2px;
+    height: 36px;
+    line-height: 18px;
+    font-size: 18px;
+    padding: 0;
+   font-weight: bold;
+    width: 120px;
+    background-repeat: no-repeat;
+}
 
 /* ---- media query start ----*/
 @media(max-width:2560px){
