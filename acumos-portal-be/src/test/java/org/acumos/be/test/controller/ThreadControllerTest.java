@@ -76,10 +76,20 @@ public class ThreadControllerTest {
 		}else{
 			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createThread :");
 		}
+		//Negative Scenario 
+		MLPThread thread1 = new MLPThread();
+		thread1.setThreadId(null);
+		thread1.setTitle(null);
+		thread1.setRevisionId(null);
+		thread1.setSolutionId(null);
+		JsonRequest<MLPThread> mlpthread1 = new JsonRequest<>();
+		mlpthread1.setBody(thread1);
+		threadService.createThread(thread1);
+		JsonResponse<MLPThread> mlpthreadRes1 = threadController.createThread(request, mlpthread1 , response);
 	}
 	
 	@Test
-	public void updateThreadTest(){
+	public void updateThreadTest() throws AcumosServiceException{
 		
 		try {
 			MLPThread thread = new MLPThread();
@@ -97,10 +107,21 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateThread :",e);
 		}
+		
+		//Negative Scenario 
+				MLPThread thread1 = new MLPThread();
+				thread1.setThreadId(null);
+				thread1.setTitle(null);
+				thread1.setRevisionId(null);
+				thread1.setSolutionId(null);
+				JsonRequest<MLPThread> mlpthread1 = new JsonRequest<>();
+				mlpthread1.setBody(thread1);
+				threadService.updateThread(thread1);
+				JsonResponse<MLPThread> mlpthreadRes = threadController.updateThread(request, mlpthread1 , response);
 	}
 	
 	@Test
-	public void deleteThreadTest(){
+	public void deleteThreadTest() throws AcumosServiceException{
 		try {
 			MLPThread thread = new MLPThread();
 			thread.setThreadId("733fc1a3-c8ea-4d63-8daa-ff823c611067");
@@ -116,10 +137,16 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateThread :",e);
 		}
+		
+		//Negative Scenario 
+		
+		String threadId = null;
+		threadService.deleteThread(threadId );
+		JsonResponse<MLPThread> mlpthreadRes1 = threadController.deleteThread(request, threadId , response);
 	}
 	
 	@Test
-	public void getThreadTest(){
+	public void getThreadTest() throws AcumosServiceException{
 		try {
 			MLPThread thread = new MLPThread();
 			thread.setThreadId("733fc1a3-c8ea-4d63-8daa-ff823c611067");
@@ -135,10 +162,15 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateThread :",e);
 		}
+		//Negative Scenario 
+		
+				String threadId = null;
+				threadService.getThread(threadId );
+				JsonResponse<MLPThread> mlpthreadRes = threadController.getThread(request, threadId , response);
 	}
 	
 	@Test
-	public void createCommentTest(){
+	public void createCommentTest() throws AcumosServiceException{
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
@@ -159,10 +191,22 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createComment :", e);
 		}
+		//Negative Scenario
+		MLPComment mlpcomment1 = new MLPComment();
+		mlpcomment1.setCommentId(null);
+		mlpcomment1.setCreated(null);
+		mlpcomment1.setModified(null );
+		mlpcomment1.setParentId(null);
+		mlpcomment1.setText(null);
+		mlpcomment1.setThreadId(null);
+		mlpcomment1.setUserId(null);
+		threadService.createComment(mlpcomment1);
+		JsonRequest<MLPComment> mlpCommentReq1 = new JsonRequest<>();
+		JsonResponse<MLPComment> commentRes1 = threadController.createComment(request, mlpCommentReq1 , response);
 	}
 	
 	@Test
-	public void updateCommentTest() {
+	public void updateCommentTest() throws AcumosServiceException {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
@@ -183,10 +227,23 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateComment :", e);
 		}
+		
+		//Negative Scenario
+				MLPComment mlpcomment1 = new MLPComment();
+				mlpcomment1.setCommentId(null);
+				mlpcomment1.setCreated(null);
+				mlpcomment1.setModified(null );
+				mlpcomment1.setParentId(null);
+				mlpcomment1.setText(null);
+				mlpcomment1.setThreadId(null);
+				mlpcomment1.setUserId(null);
+				threadService.updateComment(mlpcomment1);
+				JsonRequest<MLPComment> mlpCommentReq = new JsonRequest<>();
+				JsonResponse<MLPComment> commentRes = threadController.updateComment(request, mlpCommentReq, response);
 	}
 	
 	@Test
-	public void deleteCommentTest(){
+	public void deleteCommentTest() throws AcumosServiceException{
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
@@ -208,10 +265,15 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteComment :", e);
 		}
+		//Negative Scenario
+		String threadId= null;
+		String commentId= null;
+		threadService.deleteComment(commentId,threadId);
+		JsonResponse<MLPComment> commentRes = threadController.deleteComment(request, threadId, commentId, response);
 	}
 	
 	@Test
-	public void getCommentTest(){
+	public void getCommentTest() throws AcumosServiceException{
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
@@ -233,10 +295,16 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getComment :", e);
 		}
+		
+		//Negative Scenario
+				String threadId= null;
+				String commentId= null;
+				threadService.getComment(commentId,threadId);
+				JsonResponse<MLPComment> commentRes = threadController.getComment(request, threadId, commentId, response);
 	}
 	
 	@Test
-	public void getThreadsTest(){
+	public void getThreadsTest() throws AcumosServiceException{
 		try {
 			MLPThread thread = new MLPThread();
 			thread.setThreadId("733fc1a3-c8ea-4d63-8daa-ff823c611067");
@@ -256,10 +324,18 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreads :",e);
 		}
+		//Negative Scenario
+		RestPageRequest body = new RestPageRequest();
+		body.setPage(null);
+		body.setSize(null);
+		JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
+		restPageReq.setBody(null);
+		threadService.getThreads(restPageReq);
+		JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreads(restPageReq);
 	}
 	
 	@Test
-	public void getThreadCommentsTest(){
+	public void getThreadCommentsTest() throws AcumosServiceException{
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
@@ -285,10 +361,20 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreadCommentsTest :",e);
 		}
+		
+		//Negative Scenario
+		String threadId= null;
+		RestPageRequest body = new RestPageRequest();
+		body.setPage(null);
+		body.setSize(null);
+		JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
+		restPageReq.setBody(null);
+		threadService.getThreadComments(threadId,body);
+		JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreadComments(threadId, restPageReq);
 	}
 	
 	@Test
-	public void getThreadCountTest(){
+	public void getThreadCountTest() throws AcumosServiceException{
 		try {
 			MLPThread thread = new MLPThread();
 			thread.setThreadId("733fc1a3-c8ea-4d63-8daa-ff823c611067");
@@ -308,10 +394,20 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreadCountTest :",e);
 		}
+		
+		//Negative Scenario
+				String threadId= null;
+				RestPageRequest body = new RestPageRequest();
+				body.setPage(null);
+				body.setSize(null);
+				JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
+				restPageReq.setBody(null);
+				threadService.getThreadCount();
+				JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreadCount();
 	}
 	
 	@Test
-	public void getThreadCommentsCountTest(){
+	public void getThreadCommentsCountTest() throws AcumosServiceException{
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
@@ -337,10 +433,20 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreadCommentsCountTest :",e);
 		}
+		
+		//Negative Scenario
+		String threadId= null;
+		RestPageRequest body = new RestPageRequest();
+		body.setPage(null);
+		body.setSize(null);
+		JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
+		restPageReq.setBody(null);
+		threadService.getThreadCommentsCount(threadId);
+		JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreadCommentsCount(threadId);
 	}
 	
 	@Test
-	public void getSolutionRevisionThreadsTest(){
+	public void getSolutionRevisionThreadsTest() throws AcumosServiceException{
 		try {
 			MLPThread thread = new MLPThread();
 			thread.setThreadId("733fc1a3-c8ea-4d63-8daa-ff823c611067");
@@ -362,10 +468,21 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getSolutionRevisionThreadsTest :",e);
 		}
+		//Negative Scenario
+				String threadId= null;
+				RestPageRequest body = new RestPageRequest();
+				body.setPage(null);
+				body.setSize(null);
+				JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
+				restPageReq.setBody(null);
+				String solutionId = null;
+				String revisionId = null;
+				threadService.getSolutionRevisionThreads(solutionId, revisionId, body);
+				JsonResponse<RestPageResponseBE<MLPThread>> mlpthreadRes = threadController.getSolutionRevisionThreads(solutionId, revisionId, restPageReq);
 	}
 	
 	@Test
-	public void getSolutionRevisionCommentsTest(){
+	public void getSolutionRevisionCommentsTest() throws AcumosServiceException{
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
@@ -393,5 +510,18 @@ public class ThreadControllerTest {
 		} catch (AcumosServiceException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getSolutionRevisionCommentsTest :",e);
 		}
+		
+		//Negative Scenario
+		String threadId= null;
+		RestPageRequest body = new RestPageRequest();
+		body.setPage(null);
+		body.setSize(null);
+		JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
+		restPageReq.setBody(null);
+		String solutionId = null;
+		String revisionId = null;
+		threadService.getSolutionRevisionComments(solutionId, revisionId, body);
+		JsonResponse<RestPageResponseBE<MLPComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq);
+		
 	}
 }
