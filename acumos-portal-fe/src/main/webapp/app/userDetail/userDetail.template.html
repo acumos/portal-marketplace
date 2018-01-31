@@ -1,3 +1,5 @@
+<alert-message msg="msg" icon="icon" styleclass="styleclass"
+            ng-show="showAlertMessage"></alert-message>
 <div class="page-content">
 	<section class="pageheadsection">
 		<div class="mdl-grid mdl-grid--no-spacing">
@@ -232,7 +234,7 @@
 									        Cancel
 									      </md-button>
 										  <md-button ng-click="changePswd();"
-								ng-disabled="resetPswd.oldPswd.$invalid || resetPswd.pwd.$invalid || resetPswd.pwd.cpwd || resetPswd.cpwd.$invalid || matchString" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+								ng-disabled="resetPswd.oldPswd.$invalid || resetPswd.pwd.$invalid || resetPswd.pwd.cpwd || resetPswd.cpwd.$invalid || matchString || (newPswd!=cpwd)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 									        Confirm
 									      </md-button>
 									    </div>
