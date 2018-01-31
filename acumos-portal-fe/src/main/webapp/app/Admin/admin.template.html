@@ -459,7 +459,7 @@
 													
 													<div class="fed-row1">
 														<div class="fedrow-cell1">
-															<span class="font600">Current peers</span> <span>({{peer.length}} active peers)</span>
+															<span class="font600">Current peers</span> <span>({{activeCount}} active peers)</span>
 														</div>
 														<div class="fed-row2">																												
 															<div class="mdl-textfield mdl-js-textfield admin-search-container">
@@ -669,30 +669,26 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>First Name</label> 
-													<input type="text" name='fname' ng-model='value.fname' valid-username required/>
+													<input type="text" name='fname' ng-model='value.fname' required valid-name ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false" />
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.fname.$valid}">
-														<span ng-show="!!signupForm.fname.$error.isBlank">First
+														<span ng-show="( !!signupForm.fname.$error.required && signupForm.fname.$touched && firstNameVisited)">First
 															Name Required.</span> <span
-															ng-show="!!signupForm.fname.$error.invalidChars">First
-															name must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.fname.$error.invalidLen">First
-															name must be 2-20 characters.</span>
+															ng-show="!!signupForm.fname.$error.invalidChars && firstNameVisited">First
+															name must contain letters only.</span>
 													</div>
 												</md-input-container>
 											</div>
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Last Name</label> 
-													<input type="text" name='lname' ng-model='value.lname' required valid-username/>
+													<input type="text" name='lname' ng-model='value.lname' required valid-name ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false"/>
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.lname.$valid}">
-														<span ng-show="!!signupForm.lname.$error.isBlank">Last
+														<span ng-show="!!signupForm.lname.$error.required && signupForm.lname.$touched && lastNameVisited">Last
 															Name Required.</span> <span
-															ng-show="!!signupForm.lname.$error.invalidChars">Last
-															name must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.lname.$error.invalidLen">First
-															name must be 2-20 characters.</span>
+															ng-show="!!signupForm.lname.$error.invalidChars && lastNameVisited">Last
+															name must contain letters only.</span>
 													</div>
 												</md-input-container>
 											</div>
@@ -701,64 +697,66 @@
 											<div>
 												<md-input-container class="md-block" >
 													<label>User Name</label> 
-													<input type="text" name='uname' ng-model='value.username' valid-username required/>
+													<input type="text" name='uname' ng-model='value.username' required maxlength="20" ng-blur="usernameVisited=true" ng-focus="usernameVisited=false" />
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.uname.$valid}">
-														<span ng-show="!!signupForm.uname.$error.isBlank">Username
-															Required.</span> <span
-															ng-show="!!signupForm.uname.$error.invalidChars">Username
-															must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.uname.$error.invalidLen">Username
-															must be 2-20 characters.</span>
-															<span ng-show="userExists">Username
+														<span ng-show="!!signupForm.uname.$error.required && signupForm.uname.$touched && usernameVisited">Username
+															Required.</span>
+														<span ng-show="userExists && usernameVisited">Username
 															already exists.</span>
-										</div>
+													</div>
 												</md-input-container>
 											</div>
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Email</label> 
 
-													<input id='emailValue' type="email" name='email' ng-model='value.email' required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" />
+													<input id='emailValue' type="email" name='email' ng-model='value.email' required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-blur="emailVisited=true" ng-focus="emailVisited=false" />
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.email.$valid}">
 														<span
-															ng-show="!!(signupForm.email.$dirty && signupForm.email.$error.required)">Email
-															ID Required.</span> <span
-															ng-show="!!(signupForm.email.$dirty && signupForm.email.$error.pattern)">
-															Please Enter Valid Email</span>
+															ng-show="!!(signupForm.email.$touched && signupForm.email.$error.required && emailVisited)">Email
+															ID Required.</span>
+														<span
+															ng-show="!!(signupForm.email.$dirty && signupForm.email.$error.pattern) && emailVisited">
+															Please enter valid email id</span>
 													</div>
 												</md-input-container>
 											</div>
 										</div>										
 										<div class="admin-row admin-row1">
 											<div>
-												<md-input-container class="md-block"  >
+												<md-input-container class="md-block">
 													<label>Password</label> 
-													<input ng-model='value.password'  valid-password required type="password" class="form-control ok-password" ng-class="(joinTeamForm.password.$dirty && joinTeamForm.password.$invalid) ? 'error' : ''" id="password" name="pwd" placeholder="Enter Password" ng-required="true" maxlength="20">
+													<input ng-model='value.password'  valid-password required type="password" class="form-control ok-password" ng-class="(joinTeamForm.password.$dirty && joinTeamForm.password.$invalid) ? 'error' : ''" id="password" name="pwd" placeholder="Enter Password" maxlength="20" ng-blur="passwordVisited=true" ng-focus="passwordVisited=false">
 												</md-input-container>
 												<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.pwd.$valid}">
-														<span ng-show="!!signupForm.pwd.$error.isBlank">Password
-															Required.</span> <span
-															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isWeak)">Must
-															contain one upper &amp; lower case letter and a non-letter
-															(number & symbol.)</span> <span
-															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.invalidLen)">Must
-															be 8-20 characters.</span>
+														<span ng-show="!!signupForm.pwd.$error.required && signupForm.pwd.$touched && passwordVisited">Password Required.</span>
+														<span ng-show="!! (signupForm.pwd.$touched && signupForm.pwd.$error.invalidLen) && passwordVisited">
+															Password must be at least 8 characters long.<br/> 
+														</span>
+														<span ng-show="( passwordVisited && signupForm.pwd.$dirty && ( signupForm.pwd.$error.isSpecialChar || signupForm.pwd.$error.isDigit || signupForm.pwd.$error.isLowerCaseLetter || signupForm.pwd.$error.isUpperCaseLetter))">													
+															Password must contain at least one 
+															<span ng-if="signupForm.pwd.$error.isDigit">number</span>
+															<span ng-if="signupForm.pwd.$error.isLowerCaseLetter"><span ng-if="( signupForm.pwd.$error.isDigit )">, </span> lower case letter</span>
+															<span ng-if="signupForm.pwd.$error.isUpperCaseLetter"><span ng-if="( signupForm.pwd.$error.isDigit || signupForm.pwd.$error.isLowerCaseLetter )">, </span> upper case letter</span> 
+															<span ng-if="signupForm.pwd.$error.isSpecialChar"><span ng-if="( signupForm.pwd.$error.isDigit || signupForm.pwd.$error.isUpperCaseLetter || signupForm.pwd.$error.isLowerCaseLetter)">, </span> special symbol like * & # </span>
+															.
+														</span>
 												</div>
 											</div>
 											
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Confirm Password</label> 
-													<input type="password" ng-model='value.cpassword' name="cpwd" valid-password-c required maxlength="20"/>
+													<input type="password" ng-model='value.cpassword' name="cpwd" valid-password-c required maxlength="20" ng-blur="cpasswordVisited=true" ng-focus="cpasswordVisited=false" />
 												</md-input-container>
 												<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
-														<span ng-show="!!signupForm.cpwd.$error.isBlank">Confirm Password
+														<span ng-show="!!signupForm.cpwd.$error.required && signupForm.cpwd.$touched && cpasswordVisited">Confirm Password
 															Required.</span> <span
-															ng-show="!!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
+															ng-show="cpasswordVisited && !!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
 															don't match.</span>
 													</div>
 												</div>
@@ -773,12 +771,16 @@
 						                        </div>
 						                        <div class="strength-meter" ng-if="signupForm.pwd.$valid">
 													<div class="strength-meter-fill" data-strength="{{passwordStrength}}"></div>
-						                        </div>												 
-												<p class="text-center font600">Strength indicator</p>
+						                        </div>	
+						                        <div class="text-xsmall">
+													<span ng-if="signupForm.pwd.$invalid && signupForm.pwd.$dirty">Weak Password</span>
+							                        <span ng-if="signupForm.pwd.$valid && passwordStrength == 2">Strong Password</span>
+							                        <span ng-if="signupForm.pwd.$valid && (passwordStrength == 3 || passwordStrength == 4)">Very Strong Password</span>
+												</div>
 											</div>
 											<div>
 												<p class="admin-text1">
-													Password should be atleast eight characters long. To make it stronger, use upper case and lower case letters, numbers and symbols like, ! # @ $ * &
+													Password must contain at least eight characters, which should have at least one upper case and one lower case letter, numbers and symbols like, ! # @ $ * &.
 												</p>
 											</div>
 										</div>
@@ -967,6 +969,40 @@
                                             Cancel
                                           </md-button>
                                           <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+                                            Confirm
+                                          </md-button>
+                                        </div>                                
+                                      </div>
+                                      </form>
+                                    </md-dialog-content>
+                                </md-dialog>
+                            </div>
+<!-- Saving old version popup confirmation Modal box end -->
+<!-- Confirmation Popup End -->
+
+<!-- Confirmation Popup start confirmPopupDeletePeer -->
+<!-- popup confirmation Modal box start -->
+                            <div class="md-dialog-container" id="confirmPopupDeletePeer" style="height:0;">
+                              <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+                                  	<md-toolbar>
+                                      <div class="md-toolbar-tools">
+                                        <h2>{{warningMsg}}</h2>
+                                        <span flex></span>
+                                        <md-button class="md-icon-button" ng-click="closePoup()">
+                                          <i class="material-icons">close</i>
+                                        </md-button>
+                                      </div>
+                                    </md-toolbar>
+                                    <md-dialog-content>
+                                    <form ng-cloak>
+                                      <div class="md-dialog-content">
+                                        <p>{{confirmMsg}}</p>
+                                        <hr />
+                                         <div layout="row" class="deploy-cloud-modalfooter">
+                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+                                            Cancel
+                                          </md-button>
+                                          <md-button ng-click="deletePeerFunc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
                                             Confirm
                                           </md-button>
                                         </div>                                
