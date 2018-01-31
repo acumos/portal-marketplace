@@ -8,9 +8,10 @@ angular
 					templateUrl : '/app/market_place/market-place.template.html',
 					controller : function($scope, $compile, $location, $http,
 							$state, $stateParams, $sessionStorage, $rootScope,
-							apiService, $element) {
+							apiService, $element, $timeout) {
 						$scope.autoHeight = true;
 						$scope.tags = [];
+						$scope.sortBy = 'MR';
 
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();

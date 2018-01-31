@@ -62,7 +62,13 @@ angular.module('admin')
 			.getPeers(obj)
 			.then(
 					function(response) {
+						$scope.activeCount = 0;
 						$scope.peer = response.data.response_body.content;
+						angular.forEach($scope.peer, function(value, key) {
+                            if(value.active == true){
+                            	$scope.activeCount = $scope.activeCount+1;
+                            }
+                          });
 					},
 					function(error) {console.log(error);});
 			}
@@ -616,25 +622,39 @@ angular.module('admin')
                           });
                         };*/
                       $scope.confirmDelete = function (peerId) {
-                    	                		                   		
+                    	
+	                      $scope.confirmMsg = "Do you want to delete this peer ?";
+	                	  $scope.warningMsg = "Delete Confirmation";
+	                	  $scope.selectedPeer = peerId;
+	                	  $mdDialog.show({
+	                  		  contentElement: '#confirmPopupDeletePeer',
+	                  		  parent: angular.element(document.body),
+	                  		  targetEvent: this,
+	                  		  clickOutsideToClose: true
+	                  	  });
+                	  
+                      }
+                	  
+                      $scope.deletePeerFunc = function () {
+
                   		apiService
-                   	      .deletePeer(peerId)
+                   	      .deletePeer($scope.selectedPeer)
                    	      .then(
                    	    		function(response){
+
                    	    			getAllPeer();
                    	    			fetchPeer();
-                        	    	//$scope.closePoup();
+                   	    			$scope.closePoup();
                         	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                     $anchorScroll(); 
-                                    $scope.msg = "Peer Deleted successfully."; 
+                                    $scope.msg = "Peer deleted successfully."; 
                                     $scope.icon = '';
                                     $scope.styleclass = 'c-success';
                                     $scope.showAlertMessage = true;
                                     $timeout(function() {
                                     	$scope.showAlertMessage = false;
                                     }, 5000);
-                                    
-                        	            // success
+                         	            // success
                         	    },
                    	    		function(error){console.log('Error :' +error);});
                     }
