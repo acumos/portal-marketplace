@@ -20,6 +20,8 @@
 
 package org.acumos.portal.be.docker.cmd;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -141,10 +143,12 @@ public class SaveImageCommand extends DockerCommand
 		try
 		{
 			logger.info(String.format("Started save image '%s' ... ", imageName));
-			inputStream =  client.saveImageCmd(imageName).exec();
-			
-			final OutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" , "dockerImage.tar"));
+			//inputStream =  client.saveImageCmd(imageName).exec();
+			final ByteArrayOutputStream output = new ByteArrayOutputStream();
+			//final ByteArrayOutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" , "dockerImage.tar"));
 			IOUtils.copy(client.saveImageCmd(imageName).exec(), output);
+			inputStream = new ByteArrayInputStream(output.toByteArray());
+			
 			IOUtils.closeQuietly(output);
 			
 			logger.info("Finished save image " + imageName );
