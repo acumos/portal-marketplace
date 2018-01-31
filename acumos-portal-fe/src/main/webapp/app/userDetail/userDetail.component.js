@@ -62,7 +62,7 @@ angular
 				'userDetail',
 				{
 					templateUrl : './app/userDetail/userDetail.template.html',
-					controller : function($scope, $http, $location, $rootScope,
+					controller : function($scope, $http, $location, $rootScope, $timeout,
 							fileUploadService, $q, $window, apiService, $mdDialog, $anchorScroll) {
 						//$scope.matchString = true;
 						$scope.showAltImage = true;
@@ -139,12 +139,31 @@ angular
 							var validCheck = false;
 							if ($scope.resetPswd.$invalid) {
 								validCheck = true;
-								alert("Enter all fields");
+								//alert("Enter all fields");
+								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                $anchorScroll(); 
+                                $scope.msg = "Enter all fields."; 
+                                $scope.icon = 'report_problem';
+                                $scope.styleclass = 'c-warning';
+                                $scope.showAlertMessage = true;
+                                $timeout(function() {
+                                	$scope.showAlertMessage = false;
+                                }, 2000);
 								return;
 							}
 							if (validCheck == false
 									&& $scope.oldPswd == $scope.newPswd) {
-								alert("Old and New password matches");
+								//alert("Old and New password matches");
+								$mdDialog.hide();
+								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                $anchorScroll(); 
+                                $scope.msg = "Old and New password should not match"; 
+                                $scope.icon = 'report_problem';
+                                $scope.styleclass = 'c-warning';
+                                $scope.showAlertMessage = true;
+                                $timeout(function() {
+                                	$scope.showAlertMessage = false;
+                                }, 2000);
 								$scope.oldPswd = '';
 								$scope.newPswd = '';
 								$scope.cpwd = '';
@@ -181,9 +200,31 @@ angular
 										.then(
 												function(response) {
 													if(response.data.error_code == 204 && response.data.response_detail == "Old password does not match")
-														alert(response.data.response_detail);
+														{
+															//alert(response.data.response_detail);
+															$mdDialog.hide();
+															$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+							                                $anchorScroll(); 
+							                                $scope.msg = response.data.response_detail; 
+							                                $scope.icon = '';
+							                                $scope.styleclass = 'c-warning';
+							                                $scope.showAlertMessage = true;
+							                                $timeout(function() {
+							                                	$scope.showAlertMessage = false;
+							                                }, 2000);
+														}
 														else {
-															alert("Password updated");
+															//alert("Password updated");
+															$mdDialog.hide();
+															$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+							                                $anchorScroll(); 
+							                                $scope.msg = "Password updated"; 
+							                                $scope.icon = '';
+							                                $scope.styleclass = 'c-success';
+							                                $scope.showAlertMessage = true;
+							                                $timeout(function() {
+							                                	$scope.showAlertMessage = false;
+							                                }, 2000);
 															$rootScope.$broadcast("MyLogOutEvent",{ "request_body" : $scope.user});
 														}
 													$scope.closePoup();
@@ -292,10 +333,23 @@ angular
 										.success(
 												function(data, status, headers,
 														config) {
-													alert("User daactivated successfully..");
-													$rootScope.$broadcast(
+													//alert("User deactivated successfully..");
+													$mdDialog.hide();
+													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+					                                $anchorScroll(); 
+					                                $scope.msg = "User deactivated successfully.."; 
+					                                $scope.icon = '';
+					                                $scope.styleclass = 'c-success';
+					                                $scope.showAlertMessage = true;
+					                                $timeout(function() {
+					                                	$scope.showAlertMessage = false;
+					                                	$rootScope.$broadcast(
+																"MyLogOutEvent",
+																data);
+					                                }, 2000);
+													/*$rootScope.$broadcast(
 															"MyLogOutEvent",
-															data);
+															data);*/
 												}).error(
 												function(data, status, headers,
 														config) {
@@ -330,7 +384,17 @@ angular
 												function(data, status, headers,
 														config) {
 													
-													alert('User detail updated successfully..')
+													//alert('User detail updated successfully..')
+													$mdDialog.hide();
+													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+					                                $anchorScroll(); 
+					                                $scope.msg = 'User detail updated successfully..'; 
+					                                $scope.icon = '';
+					                                $scope.styleclass = 'c-success';
+					                                $scope.showAlertMessage = true;
+					                                $timeout(function() {
+					                                	$scope.showAlertMessage = false;
+					                                }, 2000);
 													if( $scope.user.firstName != $scope.userCopy.firstName ){
 
 														if (JSON.parse(localStorage.getItem("userDetail"))) {
@@ -378,10 +442,23 @@ angular
 										function(data, status, headers,
 												config) {
 											getUserDetail();
-											alert('User email updated successfully..')
-											$rootScope.$broadcast(
+											//alert('User email updated successfully..')
+											$mdDialog.hide();
+											$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+			                                $anchorScroll(); 
+			                                $scope.msg = 'User email updated successfully..'; 
+			                                $scope.icon = '';
+			                                $scope.styleclass = 'c-success';
+			                                $scope.showAlertMessage = true;
+			                                $timeout(function() {
+			                                	$scope.showAlertMessage = false;
+			                                	$rootScope.$broadcast(
+														"MyLogOutEvent",
+														data);
+			                                }, 2000);
+											/*$rootScope.$broadcast(
 													"MyLogOutEvent",
-													data);
+													data);*/
 										})
 								.error(
 										function(data, status, headers,
