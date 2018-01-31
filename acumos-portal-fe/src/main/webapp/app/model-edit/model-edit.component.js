@@ -1095,7 +1095,16 @@ angular
 							if (asyncSelected == $scope.solution.ownerName
 									.substr(0, $scope.solution.ownerName
 											.indexOf(' '))) {
-								alert("Cannot share with yourself");
+								/*alert("Cannot share with yourself");*/
+								$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+	                               $anchorScroll();
+	                               $scope.msg = "Shared Successfully";
+	                               $scope.icon = 'report_problem';
+	                               $scope.styleclass = 'c-warning';
+	                               $scope.showAlertMessage = true;
+	                               $timeout(function() {
+	                                   $scope.showAlertMessage = false;
+	                               }, 2000);
 								return
 
 							}
@@ -1170,9 +1179,20 @@ angular
 
 												$scope.status = response.data.response_detail;
 												if (response.data.error_code == "100") {
-													alert("User: "
+													/*alert("User: "
 															+ $scope.sharedWithUserName
-															+ " removed successfully as a co-autor.");
+															+ " removed successfully as a co-autor.");*/
+													
+													$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+						                               $anchorScroll();
+						                               $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-autor.";
+						                               $scope.icon = '';
+						                               $scope.styleclass = 'c-success';
+						                               $scope.showAlertMessage = true;
+						                               $timeout(function() {
+						                                   $scope.showAlertMessage = false;
+						                               }, 2000);
+						                               
 													$scope.loadShareWithTeam();
 												} else {
 													alert("Unexpected error occured");
@@ -1931,7 +1951,16 @@ angular
 							};
 							$scope.reqSharedWith;
 							if($scope.sharedWithOwner == true){
-								alert("Cannot share the solution with yourself.");
+								/*alert("Cannot share the solution with yourself.");*/
+								$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+	                               $anchorScroll();
+	                               $scope.msg = "Cannot share the solution with yourself.";
+	                               $scope.icon = 'report_problem';
+	                               $scope.styleclass = 'c-warning';
+	                               $scope.showAlertMessage = true;
+	                               $timeout(function() {
+	                                   $scope.showAlertMessage = false;
+	                               }, 2000);
 								return
 							}
 							else{
@@ -1939,7 +1968,16 @@ angular
 										$scope.reqSharedWith).then(
 										function(response) {
 											if(response.status == 200){
-												alert("Shared Successfully");
+												/*alert("Shared Successfully");*/
+												$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+					                               $anchorScroll();
+					                               $scope.msg = "Shared Successfully";
+					                               $scope.icon = '';
+					                               $scope.styleclass = 'c-success';
+					                               $scope.showAlertMessage = true;
+					                               $timeout(function() {
+					                                   $scope.showAlertMessage = false;
+					                               }, 2000);
 												$scope.loadShareWithTeam();
 												// $scope.selectedGroups = ""
 												// $scope.searchText=undefined;
