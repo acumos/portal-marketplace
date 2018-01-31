@@ -21,6 +21,7 @@
 package org.acumos.portal.be.docker.cmd;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -141,6 +142,11 @@ public class SaveImageCommand extends DockerCommand
 		{
 			logger.info(String.format("Started save image '%s' ... ", imageName));
 			inputStream =  client.saveImageCmd(imageName).exec();
+			
+			final OutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" , "dockerImage.tar"));
+			IOUtils.copy(client.saveImageCmd(imageName).exec(), output);
+			IOUtils.closeQuietly(output);
+			
 			logger.info("Finished save image " + imageName );
 		} catch (NotFoundException e)
 		{
@@ -152,6 +158,10 @@ public class SaveImageCommand extends DockerCommand
 			{
 				logger.info(String.format("image '%s' not found, but skipping this error is turned on, let's continue ... ", imageName + " " + imageTag));
 			}
+		} catch (IOException e) {
+			logger.error(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage());
+			throw new DockerException(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage(),
+					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		} 
 		return inputStream;
 	}
