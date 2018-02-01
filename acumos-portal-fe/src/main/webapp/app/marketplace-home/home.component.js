@@ -8,10 +8,11 @@ angular
 					templateUrl : './app/marketplace-home/home.template.html',
 					controller : function($scope, $rootScope, apiService, $window, $state, $http) {
 						console.log("market-home")
-							  if(localStorage.getItem("homeRefresh") == 'Yes'){
+							  /*if(localStorage.getItem("homeRefresh") == 'Yes'){
 								  localStorage.setItem("homeRefresh",'No');
+								  $state.go("home");
 								  location.reload();
-							  };
+							  };*/
 							  $scope.myInterval = 3000;
 							  $scope.noWrapSlides = false;
 							  $scope.active = 0;

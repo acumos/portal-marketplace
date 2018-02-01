@@ -14,7 +14,7 @@ app.component('headerNav',{
 			localStorage.setItem("pageLoad", false);
 			$state.go("home");
 		}*/
-		
+		componentHandler.upgradeAllRegistered();
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
 		$scope.notificationObj = [];
@@ -300,10 +300,13 @@ app.component('headerNav',{
 			$rootScope.sidebarHeader = false;
 			$scope.sidebarHeader = false;
 			$scope.loginUserID = "";
-			localStorage.setItem("homeRefresh", 'Yes');
-			localStorage.setItem("pageLoad", true);
+			//localStorage.setItem("homeRefresh", 'Yes');
+			//localStorage.setItem("pageLoad", true);
 			$state.go("home");
-            //location.reload();
+			$timeout(function() {
+				location.reload();
+			}, 0);
+            
 		}
 		//Emit value from deactivate user
 		$scope.$on("MyLogOutEvent", function(evt,data){ 
@@ -320,6 +323,7 @@ app.component('headerNav',{
 		});
 		
 		$scope.globalSearch = function(val) {
+			componentHandler.upgradeAllRegistered();
 			$rootScope.valueToSearch = val;
 			
 			angular.element('#fixed-header-drawer-exp1').val('');
