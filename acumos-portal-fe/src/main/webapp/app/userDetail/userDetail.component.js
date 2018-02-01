@@ -206,7 +206,7 @@ angular
 															$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
 							                                $anchorScroll(); 
 							                                $scope.msg = response.data.response_detail; 
-							                                $scope.icon = '';
+							                                $scope.icon = 'report_problem';
 							                                $scope.styleclass = 'c-warning';
 							                                $scope.showAlertMessage = true;
 							                                $timeout(function() {
@@ -224,8 +224,9 @@ angular
 							                                $scope.showAlertMessage = true;
 							                                $timeout(function() {
 							                                	$scope.showAlertMessage = false;
+							                                	$rootScope.$broadcast("MyLogOutEvent",{ "request_body" : $scope.user});
 							                                }, 2000);
-															$rootScope.$broadcast("MyLogOutEvent",{ "request_body" : $scope.user});
+															
 														}
 													$scope.closePoup();
 													
