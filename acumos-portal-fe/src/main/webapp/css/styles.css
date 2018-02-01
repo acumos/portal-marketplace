@@ -162,8 +162,8 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .help-not-login a {padding-right:10px !important;}
 .mdl-layout__header-row {padding: 0 10px;}
 
-#menu_container_4 {top: 56px !important;}
-#menu_container_4 md-menu-content {padding:0;}
+/* #menu_container_4 {top: 56px !important;}
+#menu_container_4 md-menu-content {padding:0;} */
 
 /*********** header style end  ************/
 
@@ -1545,10 +1545,10 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 .md-open-menu-container {box-shadow: none !important;}
 md-menu-content.menu-content1 {padding-top:0; padding-bottom:0;position:relative; top: 47px;box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);}
 .new-note-container {display: flex; justify-content: space-between; align-items: center; padding-right: 5px;}
-.notification-text {max-width: 170px;}
+.notification-text {max-width: 232px;}
 
-md-menu-content.notelist_1 {max-height: 330px !important;padding-top:0;padding-bottom:0;position:relative; top: 47px;box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);}
-md-menu-content.notelist_1 md-menu-item {border-top: 1px dotted #b1b1b1;margin: 3px 10px; position:relative;}
+md-menu-content.notelist_1 {width: 300px;max-height: 400px !important;padding-top:0;padding-bottom:0;position:relative; top: 47px;box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);}
+md-menu-content.notelist_1 md-menu-item {border-top: 1px dotted #b1b1b1;margin: 3px 10px; position:relative;height:auto;}
 md-menu-content.notelist_1 md-menu-item:first-child {border-top: none;}
 md-menu-content.notelist_1 md-menu-item.readall-btn-container {position: relative;border-top: 1px dotted #b1b1b1;margin: 3px 0; padding-top: 10px !important; }
 
@@ -1558,7 +1558,7 @@ md-menu-content.notelist_1 .mdl-button.btn-readall-msg:hover { color:#671C9D;}
 md-menu-content.notelist_1 .mdl-button .fa  {color: #999; font-size: 13px;position:relative; top:-5px;}
 md-menu-content.notelist_1:hover .mdl-button, md-menu-content.notelist_1 .mdl-button:hover, md-menu-content.notelist_1 .mdl-button:focus, md-menu-content.notelist_1:focus .mdl-button {background: none; }
 md-menu-content.notelist_1 .mdl-button:hover .fa {background: none; color: #000; }
-md-menu-content.notelist_1 .notification-text {color: #2e2f2f; font-weight: normal; font-size:13px; overflow:hidden; max-height: 40px;}
+md-menu-content.notelist_1 .notification-text {color: #2e2f2f; font-weight: normal; font-size:13px;}
 md-menu-content.read-note {background: #f1f1f1;}
 md-menu-content.read-note .notification-text {color: #656565; font-weight: normal;max-height: 30px;}
 
@@ -1568,3 +1568,5 @@ header.header-without-login .mdl-layout__header-row {padding:0;align-items:stret
 .a-logo-container.logo-without-login {width: 170px; background-position: -40px center;}
 .logo-without-login .accumos-header-logo img { margin-left:0;}
 .terms-condition {display: block; padding: 20px;}
+.downloadlbl1 {display: block; max-width: 200px; text-overflow:ellipsis; float: left; overflow: hidden;}
+.downloadlbl2 {clear: both; display: block; width: 100%;}
