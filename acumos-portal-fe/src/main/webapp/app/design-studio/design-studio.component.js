@@ -2672,7 +2672,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         //updateOldSol = false;
     };
     function solutionPrPB(){
-        var tempArr = ['PR','PB'],url = '';
+        var tempArr = ['PR','PB','OR'],url = '';
         angular.forEach(tempArr, function(value, key) {
             url = build_url(options.getCompositeSolutions, {
                 userId: get_userId(),
