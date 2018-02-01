@@ -1952,9 +1952,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			List<MLPSolution> mlpSolList = response.getContent();
 			filteredSolList.addAll(mlpSolList);
 			// To show shared models with user in MyModel
-			if (pageReqPortal.getAuthorKeyword() != null) {
+			if (pageReqPortal.getOwnerIds() != null) {
 				RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
-				mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(pageReqPortal.getAuthorKeyword(),
+				String ownerId[]=pageReqPortal.getOwnerIds();
+				mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(ownerId[0],
 						new RestPageRequest(0, 1000));
 				mlSolutionsRest.setModelsSharedWithUser(mlpSolutionsShareRest.getContent());
 				if (mlpSolutionsShareRest != null) {
