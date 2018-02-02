@@ -638,33 +638,36 @@ public class UserServiceController extends AbstractController {
 		JsonResponse<Object> responseObj = new JsonResponse<>();
 		
 		try{
-			if(user.getBody().getUserIdList() != null){
+			if(user.getBody().getUserIdList() != null && user.getBody().getBulkUpdate() != null){				
 				for(String userId : user.getBody().getUserIdList())
 				{
 					MLPUser mlpUser = userService.findUserByUserId(userId);
 					if (mlpUser != null) {
 						User userObj = PortalUtils.convertToMLPuser(mlpUser);
-						userObj.setActive("N");
-						// userService.deleteBulkUsers(userId);
+						/*if (user.getBody().getBulkUpdate().equalsIgnoreCase("delete")) {
+							userService.deleteBulkUsers(userId);
+						} else */if (user.getBody().getBulkUpdate().equalsIgnoreCase("active")) {
+							userObj.setActive("Y");
+						} else if (user.getBody().getBulkUpdate().equalsIgnoreCase("inactive")) {
+							userObj.setActive("N");
+						}
 						userService.updateUser(userObj);
 					}
 				}
+				log.debug(EELFLoggerDelegate.errorLogger, "User detals updated succesfully");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				responseObj.setResponseDetail("Users deleted succesfuly");
 			}else{
 				log.debug(EELFLoggerDelegate.errorLogger, "UserId not found");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				responseObj.setResponseDetail("UserId not found");
-			}
-			
+			}		
 		}catch(Exception e){
 			log.debug(EELFLoggerDelegate.errorLogger, "Exception occured while deleteBulkUsers");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			responseObj.setResponseDetail("Exception occured while deleteBulkUsers");
-		}
-		
-		return responseObj;
-		
+		}	
+		return responseObj;		
 	}
 	
 	@ApiOperation(value = "Get user Account Details. Returns successful response after the data.", response = JsonResponse.class)

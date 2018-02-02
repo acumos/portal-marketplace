@@ -51,7 +51,16 @@ public class User extends AbstractResponseObject {
 	private List<String> userNewRoleList;
 	private List<MLPRole> userAssignedRolesList;
 	private Map<String,List<String>> userRolesList;
+	private String bulkUpdate;
 	
+	public String getBulkUpdate() {
+		return bulkUpdate;
+	}
+
+	public void setBulkUpdate(String bulkUpdate) {
+		this.bulkUpdate = bulkUpdate;
+	}
+
 	public List<MLPRole> getUserAssignedRolesList() {
 		return userAssignedRolesList;
 	}
