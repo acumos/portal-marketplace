@@ -449,21 +449,25 @@
                                                 <div class="md-errors-spacer"></div>
                                              </md-input-container> -->
 
-											<md-content class="autocomplete"> <md-chips
+											<md-content class="autocomplete"> 
+											<md-chips
 												ng-model="selectedGroups" md-autocomplete-snap
 												md-require-match="true"> <!-- md-item-firstName="item.firstName"
-                                                                    md-item-image="item.picture" -->
-											<md-autocomplete md-search-text="searchText"
-												md-items="item in queryGroups(searchText)"
-												md-selected-item="selectedItem" md-item-text="item"
-												md-item-image="item" md-autoselect="true"
-												md-select-on-match="true" md-no-cache="true"
-												md-require-match="true"
-												placeholder="Find a user to share with"> <img
-												class="userimg"
-												ng-src="images/userprofile/user-profile-black.png" /> <span
-												md-highlight-text="searchText"> {{item}} </span> </md-autocomplete> </md-chips>
-											<h2>{{selectedGroups[0].firstName}}</h2>
+                                                                   		 md-item-image="item.picture" -->
+												<md-autocomplete md-search-text="searchText"
+													md-items="item in queryGroups(searchText)"
+													md-selected-item="selectedItem" md-item-text="item"
+													md-item-image="item" md-autoselect="true"
+													md-select-on-match="true" md-no-cache="true"
+													md-require-match="true"
+													placeholder="Find a user to share with"> <img
+													class="userimg"
+													ng-click="testFunction()"
+													ng-src="images/userprofile/user-profile-black.png" /> <span
+													md-highlight-text="searchText"> {{item}}</span>  <!-- {{item.lastName}} -->
+												</md-autocomplete> 
+											</md-chips>
+											<!-- <h2>{{selectedGroups[0].firstName}}</h2> -->
 											</md-content>
 
 
@@ -2070,7 +2074,7 @@
 																							<td>
 																								<button
 																									class="mdl-button mdl-js-button btn-grid-action"
-																									ng-click="$root.showPrerenderedDialog($event, '#downloadConfirm')">
+																									ng-click="exportToLocal(value.artifactId)"> <!--$root.showPrerenderedDialog($event, '#downloadConfirm')  -->
 																									<i class="fa fa-download" aria-hidden="true"></i>
 																								</button>
 
