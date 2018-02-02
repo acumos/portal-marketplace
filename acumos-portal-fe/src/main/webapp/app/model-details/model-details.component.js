@@ -1115,7 +1115,44 @@ angular
 								  console.log(status); $mdDialog.hide(); });
 							 
 						}
+						
+						$scope.versionDownload = function(artifactId) {
+							
+							$scope.loginUserID = "";
+							if (localStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(localStorage
+										.getItem("userDetail"))[1];
+							}
 
+							var url = 'api/downloads/'+$scope.solution.solutionId+'?artifactId='+artifactId+'&revisionId='+$scope.revisionId+'&userId='+$scope.loginUserID;
+							
+							 $http({ method : 'GET', url : url, responseType : "arraybuffer", })
+							 .success(function(data, status, headers, config) { 
+								 headers = headers(); 
+								 var anchor = angular.element('<a/>'); // FOR
+																		// IE
+								 if(navigator.appVersion.toString().indexOf('.NET') > 0) 
+									 window.navigator.msSaveBlob(new Blob([data], { type: headers['content-type'] }), headers['x-filename']); 
+								 else { // FOR Chrome and Forefox
+									 anchor.css({display: 'none'}); // Make sure
+																	// it's not
+																	// visible
+									  angular.element(document.body).append(anchor); 
+									  // Attach to document
+									  anchor.attr({ href: window.URL.createObjectURL(new Blob([data], {type: headers['content-type'] })), target: '_blank', download: headers['x-filename']
+									  })[0].click(); 
+									  anchor.remove(); 
+								 }
+							  $rootScope.showPrerenderedDialog("", '#downloadConfirm'); 
+							  //$mdDialog.hide();
+							  })
+							  .error(function(data, status, headers, config) {
+								  $rootScope.showPrerenderedDialog("", '#downloadConfirm');
+								  console.log(status);
+								 // $mdDialog.hide(); 
+								  });
+							 
+						}
 						/** ****** Export/Deploy to Azure starts *** */
 						
 						$scope.getArtifacts = function() {

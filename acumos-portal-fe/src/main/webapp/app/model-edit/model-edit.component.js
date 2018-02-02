@@ -284,7 +284,6 @@ angular
 													// $scope.solutionDesc =
 													// $scope.solution.description;
 													if ($scope.solution.solutionTagList) {
-														debugger
 														for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
 															$scope.tags1
 																	.push({
@@ -292,7 +291,6 @@ angular
 																	});
 														}
 													} else if ($scope.solution.solutionTag) {
-														debugger
 														$scope.tags1
 																.push({
 																	text : $scope.solution.solutionTag
@@ -792,7 +790,6 @@ angular
 							        .theme('success-toast')
 							        .hideDelay(2000);
 							     $mdToast.show(toast);
-							     debugger
 							     var refreshTag = $scope.tags1;
 							     
 							     /*fix: line commented to fix CD-2049 Starts*/
@@ -1041,7 +1038,7 @@ angular
 
 						}
 
-						/** * shared with team members functionalities * */
+						/** * shared with team members functionalities START* */
 
 						$scope.getAllUsersList = function() {
 							return apiService
@@ -1148,17 +1145,14 @@ angular
 															function() {
 																$scope.showAlertMessage = false;
 															}, 2000);
-
 												}
 												$scope.status = response.data.response_detail;
-
 											},
 											function(error) {
 
 												alert("Error "
 														+ error.data.response_detail)
 											});
-
 						}
 
 						$scope.removeSharedUser = function(userFname) {
@@ -1179,10 +1173,6 @@ angular
 
 												$scope.status = response.data.response_detail;
 												if (response.data.error_code == "100") {
-													/*alert("User: "
-															+ $scope.sharedWithUserName
-															+ " removed successfully as a co-autor.");*/
-													
 													$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
 						                               $anchorScroll();
 						                               $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-autor.";
@@ -1207,6 +1197,173 @@ angular
 											});
 
 						}
+						
+						/** User chips */
+						var allGroups = [];
+						$scope.getUsersChips = function() {
+							$scope.uData = [];
+							$scope.allUserDetails = [];
+							$scope.allGroups1 =[];
+							$scope.userActiveStatus = true;
+							apiService
+									.getAllActiveUser($scope.userActiveStatus)
+									.then(
+											function(response) {
+												$scope.loadShareWithTeam();
+												$scope.allUserDetails = response.data.response_body;
+												console.log("allGroups: ",$scope.allGroups);
+												$scope.allGroups1 = $scope.allGroups;
+												
+												angular.forEach($scope.allUserDetails, function(item1, key1) {
+													angular.forEach($scope.sharedWith, function(item2, key2) {
+														if(item1.userId == item2.userId){
+															$scope.allUserDetails.splice(key1, 1);
+														}
+														
+													});
+												});
+												$scope.allUserDetails.map(function(item) {
+													$scope.allGroups.push(item.firstName); // item.lastName
+													
+													/*$scope.allGroups.push({
+														firstName : item.firstName,
+														lastName : item.lastName,
+														userEmailId : item.emailId,
+														userID : item.userId
+													});*/
+													
+												});
+
+											}, function(error) {
+											});
+
+						}
+						$scope.getUsersChips();
+
+						$scope.queryGroups = function(search) {
+							/***call here**/
+							//$scope.getUsersChips();
+							var firstPass = $filter('filter')
+									($scope.allGroups, search);
+							return firstPass
+									.filter(function(item) {
+										 $scope.selectedGroups;
+										 return $scope.selectedGroups.indexOf(item) === -1;
+									});
+						};
+
+						$scope.addGroup = function(group) {
+							$scope.selectedGroups.push(group);
+						};
+
+						$scope.allGroups = allGroups;
+						$scope.selectedGroups = [];
+
+						$scope.$watchCollection('selectedGroups', function() {
+							$scope.availableGroups = $scope.queryGroups();
+							$scope.selectedGroups;
+							$scope.availableGroups;
+						});
+
+						$scope.shareWithMultiple = function() {
+							$scope.sharedWithOwner = false;
+							$scope.reqSharedWith = [];
+							$scope.selectedGroups;
+							$scope.allUserDetails;
+							$scope.selectedId = [];
+							$scope.selectedGroups.map(function(item1) {
+								$scope.allUserDetails.map(function(item2) {
+									if (item1 == item2.firstName) {
+										// $scope.selectedGroups =
+										// $scope.allUserDetails.userId
+										$scope.selectedId.push(item2.userId);
+									}
+								})
+
+							})
+								angular.forEach($scope.selectedId, function(item) {
+									if($scope.loginUserId[1] == item){
+										$scope.sharedWithOwner = true;
+										
+									}
+							});
+
+							$scope.reqSharedWith = {
+								"request_body" : $scope.selectedId
+							};
+							$scope.reqSharedWith;
+							if($scope.sharedWithOwner == true){
+								/*alert("Cannot share the solution with yourself.");*/
+								$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+	                               $anchorScroll();
+	                               $scope.msg = "Cannot share the solution with yourself.";
+	                               $scope.icon = 'report_problem';
+	                               $scope.styleclass = 'c-warning';
+	                               $scope.showAlertMessage = true;
+	                               $timeout(function() {
+	                                   $scope.showAlertMessage = false;
+	                               }, 2000);
+								return
+							}
+							else{
+								apiService.insertMultipleShare($scope.solutionId,
+										$scope.reqSharedWith).then(
+										function(response) {
+											if(response.status == 200){
+												/*alert("Shared Successfully");*/
+												$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+					                               $anchorScroll();
+					                               $scope.msg = "Shared Successfully";
+					                               $scope.icon = '';
+					                               $scope.styleclass = 'c-success';
+					                               $scope.showAlertMessage = true;
+					                               $timeout(function() {
+					                                   $scope.showAlertMessage = false;
+					                               }, 2000);
+												$scope.loadShareWithTeam();
+												// $scope.selectedGroups = ""
+												// $scope.searchText=undefined;
+												clear();
+											}
+											console.log(response);
+											clear();
+										},
+										function(error) {
+											alert("Error "
+													+ error.data.response_detail);
+										});
+							}
+						}
+						
+						function clear() {
+						      /*self.selectedItem = null;
+						      self.searchText = "";*/
+						      //$scope.selectedGroups = '';
+							$scope.selectedGroups = [];
+						      //self.display = "";
+						    }
+						/** *chips ends** */
+						
+						/** * shared with team members functionalities ENDS* */
+						
+						/**** get User image starts****/
+						$scope.showAltImage = true;
+						$scope.getUserImage = function(){
+							var req = {
+								    method: 'Get',
+								    url: '/api/users/userProfileImage/' + $scope.solution.ownerId
+								};
+							$http(req).success(function(data, status, headers,config) {
+								if(data.status){
+								    $scope.userImage = data.response_body;
+								    $scope.showAltImage = false;
+								}
+							}).error(function(data, status, headers, config) {
+								
+							})
+						};
+						
+						/**** get User image ends****/
 
 						/** ****** Export to local *** */
 						$scope.getArtifacts = function() {
@@ -1221,7 +1378,6 @@ angular
 									})
 									.then(
 											function successCallback(response) {
-												debugger
 												$scope.artifactDownload = response.data.response_body;
 												for (var x = 0; x < response.data.response_body.length; x++) {
 													if(response.data.response_body[x].artifactTypeCode == "DI"){
@@ -1844,183 +2000,6 @@ angular
 						}
 						$scope.loadMLSolution();
 
-						/** chips */
-						
-						/* $scope.sharedUsersChips = function(){ */
-
-						/*
-						 * $scope.getMatches = function(searchText) { var
-						 * deferred = $q.defer();
-						 * 
-						 * $timeout(function() { var states =
-						 * $scope.getStates.filter(function(state) { return
-						 * (state.name.toUpperCase().indexOf(searchText.toUpperCase())
-						 * !== -1 ||
-						 * state.abbreviation.toUpperCase().indexOf(searchText.toUpperCase())
-						 * !== -1); }); deferred.resolve(states); }, 1500);
-						 * 
-						 * return deferred.promise; }
-						 */
-
-						// var allGroups = ['one', 'two', 'three' ];
-						var allGroups = [];
-						$scope.getUsersChips = function() {
-							$scope.uData = [];
-							$scope.allUserDetails = [];
-							$scope.allGroups1 =[];
-							$scope.userActiveStatus = true;
-							apiService
-									.getAllActiveUser($scope.userActiveStatus)
-									.then(
-											function(response) {
-												$scope.loadShareWithTeam();
-												$scope.allUserDetails = response.data.response_body;
-												console.log("allGroups: ",$scope.allGroups);
-												$scope.allGroups1 = $scope.allGroups;
-												
-												angular.forEach($scope.allUserDetails, function(item1, key1) {
-													angular.forEach($scope.sharedWith, function(item2, key2) {
-														if(item1.userId == item2.userId){
-															$scope.allUserDetails.splice(key1, 1);
-														}
-														
-													});
-												});
-												$scope.allUserDetails.map(function(item) {
-													$scope.allGroups.push(item.firstName);
-												});
-
-											}, function(error) {
-											});
-
-						}
-						$scope.getUsersChips();
-
-						$scope.queryGroups = function(search) {
-							var firstPass = $filter('filter')
-									($scope.allGroups, search);
-							return firstPass
-									.filter(function(item) {
-										 $scope.selectedGroups;
-										 return $scope.selectedGroups.indexOf(item) === -1;
-									});
-						};
-
-						$scope.addGroup = function(group) {
-							$scope.selectedGroups.push(group);
-						};
-
-						$scope.allGroups = allGroups;
-						$scope.selectedGroups = [];
-
-						$scope.$watchCollection('selectedGroups', function() {
-							$scope.availableGroups = $scope.queryGroups();
-							$scope.selectedGroups;
-							$scope.availableGroups;
-						});
-
-						$scope.shareWithMultiple = function() {
-							$scope.sharedWithOwner = false;
-							$scope.reqSharedWith = [];
-							$scope.selectedGroups;
-							$scope.allUserDetails;
-							$scope.selectedId = [];
-							
-							$scope.selectedGroups.map(function(item1) {
-								$scope.allUserDetails.map(function(item2) {
-									if (item1 == item2.firstName) {
-										// $scope.selectedGroups =
-										// $scope.allUserDetails.userId
-										$scope.selectedId.push(item2.userId);
-									}
-								})
-
-							})
-							
-								angular.forEach($scope.selectedId, function(item) {
-									if($scope.loginUserId[1] == item){
-										$scope.sharedWithOwner = true;
-										
-									}
-							});
-							
-							
-
-							$scope.reqSharedWith = {
-								"request_body" : $scope.selectedId
-							};
-							$scope.reqSharedWith;
-							if($scope.sharedWithOwner == true){
-								/*alert("Cannot share the solution with yourself.");*/
-								$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
-	                               $anchorScroll();
-	                               $scope.msg = "Cannot share the solution with yourself.";
-	                               $scope.icon = 'report_problem';
-	                               $scope.styleclass = 'c-warning';
-	                               $scope.showAlertMessage = true;
-	                               $timeout(function() {
-	                                   $scope.showAlertMessage = false;
-	                               }, 2000);
-								return
-							}
-							else{
-								apiService.insertMultipleShare($scope.solutionId,
-										$scope.reqSharedWith).then(
-										function(response) {
-											if(response.status == 200){
-												/*alert("Shared Successfully");*/
-												$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
-					                               $anchorScroll();
-					                               $scope.msg = "Shared Successfully";
-					                               $scope.icon = '';
-					                               $scope.styleclass = 'c-success';
-					                               $scope.showAlertMessage = true;
-					                               $timeout(function() {
-					                                   $scope.showAlertMessage = false;
-					                               }, 2000);
-												$scope.loadShareWithTeam();
-												// $scope.selectedGroups = ""
-												// $scope.searchText=undefined;
-												clear();
-											}
-											console.log(response);
-											clear();
-										},
-										function(error) {
-											alert("Error "
-													+ error.data.response_detail);
-										});
-							}
-							
-
-						}
-						
-						function clear() {
-						      /*self.selectedItem = null;
-						      self.searchText = "";*/
-						      //$scope.selectedGroups = '';
-							$scope.selectedGroups = [];
-						      //self.display = "";
-						    }
-						/** *chips ends** */
-
-						$scope.showAltImage = true;
-						// get User image
-						$scope.getUserImage = function(){
-							var req = {
-								    method: 'Get',
-								    url: '/api/users/userProfileImage/' + $scope.solution.ownerId
-								};
-							$http(req).success(function(data, status, headers,config) {
-								if(data.status){
-								    $scope.userImage = data.response_body;
-								    $scope.showAltImage = false;
-								}
-							}).error(function(data, status, headers, config) {
-								
-							})
-						};
-						
 						/*$scope.ssProgress = false;
 						$scope.taProgress = false;
 						$scope.lcProgress = false;
@@ -2171,7 +2150,6 @@ angular
 							console.log(">>>>>>> imgURLdefault: ",$scope.imgURLdefault)
 						}
 						/*if($scope.company){
-							debugger
 							angular.forEach($scope.company, function(value, key) {
 								if(value == true){
 									Orcount++
@@ -2187,7 +2165,6 @@ angular
 						
 						
 						/*if($scope.public){
-							debugger
 							angular.forEach($scope.public, function(value, key) {
 								if(value == true){
 									Pbcount++
