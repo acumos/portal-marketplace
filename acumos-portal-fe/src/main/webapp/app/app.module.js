@@ -385,3 +385,40 @@ angular
             };
         }}
   }]);
+
+angular
+.module('AcumosApp').directive("fileDroppable", function () {
+      return {
+        restrict: 'A',
+        scope: {
+           file: "=",
+           filepreview: "=",
+           filename: "=",
+          },
+        link: function (scope, element, attrs) {
+            element.bind('dragover', function (evt) {
+                evt.stopPropagation()
+                evt.preventDefault()
+                var clazz = 'not-available'
+                var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0
+           });
+            element.bind('drop', function (evt) {
+                //console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)))
+                evt.stopPropagation()
+                evt.preventDefault()
+                   var files = evt.originalEvent.dataTransfer.files
+                if (files.length > 0) {
+                    scope.$apply(function(){
+                        scope.file = files[0];
+                        scope.filename = scope.file.name;
+                        
+                    })
+                }
+           });
+            
+          element[0].addEventListener('drop', scope.handleDrop, false);
+          element[0].addEventListener('dragover', scope.handleDragOver, false);
+        
+        }
+      }
+    });
