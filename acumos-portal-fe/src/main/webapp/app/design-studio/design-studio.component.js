@@ -14,12 +14,7 @@ DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','
 
 function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams) {
 
-    /*
-     * $scope.toggleSolutionClass=function($event) {
-     * if($rootScope.toggleSolution==true){ $rootScope.toggleSolution=false;
-     * }else{ $rootScope.toggleSolution=true; }
-     *  };
-     */
+	$scope.activeInactivedeploy = true;
     $scope.userDetails = JSON.parse(localStorage
                                     .getItem("userDetail"));
     if($scope.userDetails == null){alert("Please sign in to application");$state.go('home');return;}
@@ -362,6 +357,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.solutionVersion = null;
                     $scope.validationState = true;
                     $scope.saveState.noSaves = true;
+
+                    $scope.activeInactivedeploy = true;
                     $scope.console = null;
                     reset();
                     if (parameter == 'new'){
@@ -755,6 +752,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function display_solution(solution) {
         $('#deleteHide').hide();
         $scope.validationState = true;
+        $scope.activeInactivedeploy = true;
         $scope.console = null;
         $('#validateActive').removeClass('active');
         $('#validateActive').removeClass('enabled');
@@ -934,7 +932,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         return $http.post(url).success(function(result) {
             console.log(result);
             if(result.success == "true"){
+            	 
                 $scope.validationState = true;
+                $scope.activeInactivedeploy = false;
                 $('#validateActive').removeClass('enabled');
                 $('#validateActive').addClass('active');
                 $('#consoleMsg').addClass('console-successmsg');
