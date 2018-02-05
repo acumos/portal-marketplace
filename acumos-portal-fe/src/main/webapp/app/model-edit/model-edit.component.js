@@ -13,7 +13,14 @@ angular
 					transformRequest : angular.identity,
 					headers : {
 						'Content-Type' : undefined
-					}
+					},uploadEventHandlers: {
+				        progress: function (e) {
+				                  if (e.lengthComputable) {
+				                     $rootScope.progressBar = (e.loaded / e.total) * 100;
+				                     $rootScope.progressCounter = $rootScope.progressBar;
+				                  }
+				        }
+				    }
 
 				}).success(function(response) {
 					deffered.resolve(response);
@@ -30,7 +37,7 @@ angular
 				{
 
 					templateUrl : './app/model-edit/md-model-edit-workflow.template.html',
-					controller : function($scope, $location, $http,
+					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
 							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state) {
@@ -54,7 +61,8 @@ angular
 											"scala","ruby", "rust", 'REST API',"nodejs", "swift", 
 											"python", "R"];
 						$scope.previewImage = "images/img-list-item.png";
-
+						$rootScope.progressBar = 0;
+						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
 							localStorage.setItem('solutionId',
@@ -1047,11 +1055,11 @@ angular
 											function(response) {
 												$scope.allUserDetails = response.data.response_body;
 												/* return $scope.allUserDetails; */
-
-												return response.data.response_body
+												/*Check functionality*/
+												/*return response.data.response_body
 														.map(function(item) {
 															return item.firstName;
-														});
+														});*/
 
 											}, function(error) {
 											});
@@ -1184,6 +1192,7 @@ angular
 						                               }, 2000);
 						                               
 													$scope.loadShareWithTeam();
+													$scope.getAllUsersList();
 												} else {
 													alert("Unexpected error occured");
 												}
@@ -1223,14 +1232,14 @@ angular
 													});
 												});
 												$scope.allUserDetails.map(function(item) {
-													$scope.allGroups.push(item.firstName); // item.lastName
+													//$scope.allGroups.push(item.firstName); // item.lastName
 													
-													/*$scope.allGroups.push({
+													$scope.allGroups.push({
 														firstName : item.firstName,
 														lastName : item.lastName,
 														userEmailId : item.emailId,
 														userID : item.userId
-													});*/
+													});
 													
 												});
 
@@ -1243,8 +1252,17 @@ angular
 						$scope.queryGroups = function(search) {
 							/***call here**/
 							//$scope.getUsersChips();
-							var firstPass = $filter('filter')
-									($scope.allGroups, search);
+							$scope.allGroupsDetails = []
+							$scope.allGroups.map(function(item) {
+								$scope.allGroupsDetails.push({
+									'firstName' : item.firstName,
+									'lastName' : item.lastName,
+									'userId' : item.userID,
+									'emailId' : item.userEmailId
+								}); // item.lastName
+							});
+							
+							var firstPass = $filter('filter')($scope.allGroupsDetails, search);
 							return firstPass
 									.filter(function(item) {
 										 $scope.selectedGroups;
@@ -1273,7 +1291,7 @@ angular
 							$scope.selectedId = [];
 							$scope.selectedGroups.map(function(item1) {
 								$scope.allUserDetails.map(function(item2) {
-									if (item1 == item2.firstName) {
+									if (item1.userId == item2.userId) {
 										// $scope.selectedGroups =
 										// $scope.allUserDetails.userId
 										$scope.selectedId.push(item2.userId);
@@ -1281,19 +1299,29 @@ angular
 								})
 
 							})
-								angular.forEach($scope.selectedId, function(item) {
+							angular.forEach($scope.selectedId, function(item) {
 									if($scope.loginUserId[1] == item){
 										$scope.sharedWithOwner = true;
 										
 									}
 							});
+							
+							angular.forEach($scope.selectedId, function(itemA) {
+								angular.forEach($scope.sharedWith, function(itemB) {
+									if(itemB.userId == itemA){
+										$scope.alreadySharedWithUserId = [];
+										$scope.alreadySharedWithUser = true;
+										$scope.alreadySharedWithUserId.push(itemB.userId);
+									}
+								});
+							});
+							
 
 							$scope.reqSharedWith = {
 								"request_body" : $scope.selectedId
 							};
 							$scope.reqSharedWith;
 							if($scope.sharedWithOwner == true){
-								/*alert("Cannot share the solution with yourself.");*/
 								$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
 	                               $anchorScroll();
 	                               $scope.msg = "Cannot share the solution with yourself.";
@@ -1305,11 +1333,35 @@ angular
 	                               }, 2000);
 								return
 							}
+							/*else if($scope.alreadySharedWithUser == true){
+								$scope.alreadySharedWithUsersName = [];
+								$scope.allUserDetails.map(function(item1) {
+									$scope.alreadySharedWithUserId.map(function(item2) {
+										if (item1.userId == item2) {
+											$scope.alreadySharedWithUsersName.push({
+												'firstName' : item1.firstName,
+												'lastName' : item1.lastName
+											});
+										}
+									})
+								})
+								
+								$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+	                               $anchorScroll();
+	                               $scope.msg = "Already shared with "+$scope.alreadySharedWithUsersName[0].firstName+' '+$scope.alreadySharedWithUsersName[0].lastName;
+	                               $scope.icon = 'report_problem';
+	                               $scope.styleclass = 'c-warning';
+	                               $scope.showAlertMessage = true;
+	                               $timeout(function() {
+	                                   $scope.showAlertMessage = false;
+	                               }, 2000);
+								return
+							}*/
 							else{
 								apiService.insertMultipleShare($scope.solutionId,
 										$scope.reqSharedWith).then(
 										function(response) {
-											if(response.status == 200){
+											if(response.data.error_code == 100){
 												/*alert("Shared Successfully");*/
 												$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
 					                               $anchorScroll();
@@ -1645,7 +1697,7 @@ angular
 						
 						/** ***** File upload****** */
 						$scope.updateSolutionFiles = function(uploadid) {
-							$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
+							//$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
 
 							var uploadUrl = "/site/api-manual/Solution/solutionAssets/" + $scope.solution.solutionId + "/" + $scope.revisionId + "?path=org";
@@ -1657,19 +1709,20 @@ angular
 											function(response) {
 												$scope.supportingDocs.push(response.response_body);
 												$scope.showSolutionDocs = true;
-												// $scope.closePoup();
+												$scope.showFileUpload = !$scope.showFileUpload;
+												$rootScope.progressBar = 0;
 											})
 											.catch(function() {
 												alert("Error in uploading the file");
+												$rootScope.progressBar = 0;
+												$scope.showFileUpload = !$scope.showFileUpload;
 											});
 							$scope.privatefilename = "";
 						}
 						
 						$scope.updatePublicSolutionFiles = function(uploadid) {
-							$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
+							//$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
-							
-
 							var uploadUrl = "/site/api-manual/Solution/solutionAssets/" + $scope.solution.solutionId + "/" + $scope.revisionId + "?path=public";
 							var promise = modelUploadService.uploadFileToUrl(
 									file, uploadUrl);
@@ -1681,9 +1734,11 @@ angular
 												$scope.supportingPublicDocs.push(response.response_body);
 												// $scope.closePoup();
 												$scope.showPublicSolutionDocs = true;
+												$rootScope.progressBar = 0;
 											})
 											.catch(function() {
 												alert("Error in uploading the file");
+												$rootScope.progressBar = 0;
 											});
 							$scope.publicfilename = "";
 						}
