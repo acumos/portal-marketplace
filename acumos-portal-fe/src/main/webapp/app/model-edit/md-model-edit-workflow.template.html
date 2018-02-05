@@ -464,10 +464,13 @@
 													class="userimg"
 													ng-click="testFunction()"
 													ng-src="images/userprofile/user-profile-black.png" /> <span
-													md-highlight-text="searchText"> {{item}}</span>  <!-- {{item.lastName}} -->
+													md-highlight-text="searchText"> {{item.firstName}} {{item.lastName}}</span> 
 												</md-autocomplete> 
+												<md-chip-template>
+										          <strong>{{selectedGroups[$index].firstName}} {{selectedGroups[$index].lastName}}</strong>
+										        </md-chip-template>
 											</md-chips>
-											<!-- <h2>{{selectedGroups[0].firstName}}</h2> -->
+											<h2>{{selectedGroups[$index].firstName}}</h2>
 											</md-content>
 
 
@@ -553,6 +556,14 @@
 												</span>
 											</div>
 											<div class="text">Security scan</div>
+											<!-- Validation Error message and button for popup. This will open a pop-up in which all detailed errors will be shown -->
+											<!-- <div class="errorfound hide">
+										      <p>Some errors found</p>
+										      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-error ">
+										      View Errors
+										      </button>
+										   </div> -->
+											
 										</li>
 										<li class="progress-status"
 											ng-class="{'completed': ssValidationStatus.validationStatus == 'PS'&& ssValidationStatus.validationType == 'SS'}"></li>
@@ -763,7 +774,10 @@
 																		<md-button
 																			ng-click="updateSolution(); showSolName = !showSolName"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-																		Done </md-button>
+																		<span ng-if="solution.name.length<1">Done</span> 
+																		<span ng-if="solution.name.length>=1">Update</span>
+																		</md-button>
+																	
 																	</div>
 																</div>
 																</md-dialog-content>
@@ -845,7 +859,9 @@
 																		<md-button
 																			ng-click="updateCompanyDescription();"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-																		Done </md-button>
+																		<span ng-if="!solutionCompanyDescStatus || !copiedCompanyDesc">Done</span> 
+																		<span ng-if="solutionCompanyDescStatus || copiedCompanyDesc">Update</span>
+																		</md-button>
 																	</div>
 																</div>
 																</md-dialog-content>
@@ -1022,7 +1038,9 @@
 																	<md-button
 																		ng-click="updateSolution(); showSolCat = !showSolCat"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-																	Done </md-button>
+																		<span ng-if="(!solution.modelTypeName && !solution.tookitTypeName )">Done</span>
+																		<span ng-if="(solution.modelTypeName && solution.tookitTypeName )">Update</span> 
+																	</md-button>
 																</div>
 															</div>
 															</md-dialog-content>
@@ -1099,15 +1117,26 @@
 																				<i class="material-icons">attach_file</i> <input
 																					type="file" id="uploadBtn">
 																			</div>-->
+																			<div class="drag-drop"  id = "private-dropbox">
+																			       <div class="drag-drop-files hide">
+																			              <p>doc.pdf</p>
+																			       </div>
+																			<div file-droppable filename="privatefilename" file=solutionFile>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
+																			</div>
 																			
-																			<div file-upload file=previewImage 
+																			<div file-upload file="solutionFile" 
 																						uploadid="documentuploadid" id="uploadFile"
-																						filename="privatefilename" fileinput="file"
+																						filename="privatefilename" 
 																						ng-model="solutionFile" accept = ""
 																						upload-image-model="solutionFile" readonly></div>
-																		    	<input class="mdl-textfield__input"
+																						<div class="upload-image-input files-uploaded">
+																		    			<input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
 																						ng-model="privatefilename" readonly />
+																						</div>
 																		</div>
 																	</form>
 																</div>
@@ -1116,21 +1145,32 @@
 																	<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																	<md-button ng-click="privatefilename = '';showFileUpload = !showFileUpload"
+																	<md-button ng-click="privatefilename = '';showFileUpload = !showFileUpload; $root.progressBar = 0; solutionFile = ''"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
 																		data-upgraded=",MaterialButton,MaterialRipple">
 																	<span class="ng-scope"> Cancel </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
-																	<md-button
+																	<md-button ng-show="!showSolutionDocs"
 																		ng-click="updateSolutionFiles('documentuploadid'); showFileUpload = !showFileUpload"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
 																		data-upgraded=",MaterialButton,MaterialRipple">
 																	<span class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
-																		class="mdl-ripple"></span></span> </md-button>
+																		class="mdl-ripple"></span></span> 
+																		</md-button>
+																		
+																		<md-button ng-show="showSolutionDocs"
+																		ng-click="updateSolutionFiles('documentuploadid'); showFileUpload = !showFileUpload"
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
+																		type="button"
+																		data-upgraded=",MaterialButton,MaterialRipple">
+																	<span class="ng-scope"> Update</span> <span
+																		class="mdl-button__ripple-container ng-scope"><span
+																		class="mdl-ripple"></span></span> 
+																		</md-button>
 																</div>
 															</div>
 															</md-dialog-content>
@@ -1489,7 +1529,9 @@
 																<md-button
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 																	ng-click="updateSolImage('companyuploadid'); showImageUpload = !showImageUpload">
-																Done </md-button>
+																	<span ng-show="!showSolutionImage">Done</span> 
+																	<span ng-show="showSolutionImage">Update</span>
+																</md-button>
 															</div>
 															</md-dialog-content>
 														</div>
@@ -2515,7 +2557,9 @@
 																	<md-button
 																		ng-click="updateSolution(); showSolName = !showSolName"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-																	Done </md-button>
+																		<span ng-if="solution.name.length<">Done</span> 
+																		<span ng-if="solution.name.length>=1">Update</span>
+																	</md-button>
 																</div>
 															</div>
 															</md-dialog-content>
@@ -2596,7 +2640,9 @@
 																	<md-button
 																		ng-click="updatePublicDescription();"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-																	Done </md-button>
+																		<span ng-if="!solutionPublicDescStatus || !copiedPublicDesc">Done</span>
+																		<span ng-if="solutionPublicDescStatus || copiedPublicDesc">Update</span>
+																	</md-button>
 																</div>
 															</div>
 															</md-dialog-content>
@@ -2736,7 +2782,9 @@
 																<md-button
 																	ng-click="updateSolution(); showSolCat = !showSolCat"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-																Done </md-button>
+																	<span ng-if="(!solution.modelTypeName && !solution.tookitTypeName)">Done</span>
+																	<span ng-if="(solution.modelTypeName && solution.tookitTypeName)">Update</span> 
+																</md-button>
 															</div>
 														</div>
 														</md-dialog-content>
@@ -2841,14 +2889,29 @@
 																			<i class="material-icons">attach_file</i> <input
 																				type="file" id="uploadBtn">
 																		</div> -->
-																		<div file-upload file=previewImage 
+																	<div class="drag-drop"  id = "public-dropbox">
+																			       <div class="drag-drop-files hide">
+																			              <p>doc.pdf</p>
+																			       </div>
+																			<div file-droppable filename="publicfilename" file=solutionFile>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
+																			</div> 
+																			
+																		<div file-upload file="solutionFile" 
 																						uploadid="publicDocumentuploadid" id="uploadFile"
-																						filename="publicfilename" fileinput="file"
+																						filename="publicfilename" 
 																						ng-model="solutionFile" accept = ""
 																						upload-image-model="solutionFile" readonly></div>
-																		    <input class="mdl-textfield__input"
+																		   <!--  <input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
-																						ng-model="publicfilename" readonly />	
+																						ng-model="publicfilename" readonly />	 -->
+																			<div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">{{publicfilename}}
+														               			<div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar}}%</span>
+														            			<span ng-show = "$root.progressBar == 100">Completed</span>
+														            			</div>
+														            		</div>
 																	</div>
 																</form>
 															</div>
@@ -2857,14 +2920,15 @@
 																<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																<md-button ng-click="publicfilename = '';solutionFile = '' ;showFileUpload = !showFileUpload"
+																<md-button ng-click="publicfilename = '';solutionFile = '' ;showFileUpload = !showFileUpload;$root.progressBar = 0"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																	type="button"
 																	data-upgraded=",MaterialButton,MaterialRipple">
 																<span class="ng-scope"> Cancel </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
-																<md-button
+																
+																<md-button ng-show="!showPublicSolutionDocs"
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid'); showFileUpload = !showFileUpload"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																	type="button"
@@ -2872,6 +2936,15 @@
 																<span class="ng-scope"> Done </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
+																
+																<md-button ng-show="showPublicSolutionDocs"
+																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid'); showFileUpload = !showFileUpload"
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
+																	type="button"
+																	data-upgraded=",MaterialButton,MaterialRipple">
+																<span class="ng-scope"> Update </span> <span
+																	class="mdl-button__ripple-container ng-scope"><span
+																	class="mdl-ripple"></span></span> </md-button>	
 															</div>
 														</div>
 														</md-dialog-content>
@@ -3158,7 +3231,9 @@
 															<md-button
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 																ng-click="updateSolImage('publicuploadid'); showImageUpload = !showImageUpload">
-															Done </md-button>
+																<span ng-show="!showSolutionImage">Done</span>
+																<span ng-show="showSolutionImage">Update</span> 
+															</md-button>
 														</div>
 													</div>
 													</md-dialog-content>
