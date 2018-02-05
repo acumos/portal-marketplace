@@ -205,7 +205,7 @@
 						<button id="validateActive" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-validate" ng-disabled="validationState" ng-click="validateCompSolu()"><span class="ds-icon icon-validate"></span>Validate</button>
 						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-save" ng-disabled='saveState.noSaves'  ng-click="showPrerenderedDialog($event)"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
 						<div class="">						 
-							<button id="demo-menu-lower-right4"
+							<button type="button" id="demo-menu-lower-right4" ng-disabled="activeInactivedeploy"
 								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ds-btn1 btn-deploy">
 								<span class="ds-icon icon-deploy"></span> Deploy <i class="material-icons">keyboard_arrow_down</i>
 							</button>
@@ -218,7 +218,8 @@
 								<li class="mdl-menu__item dc-amazon-cloud"></li>
 								<li class="mdl-menu__item dc-att-cloud"></li>
 							</ul>
-						</div>
+						</div> 
+						
 						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-download"><span class="ds-icon icon-download"></span>Download</button>						
 						<!-- <button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-run" disabled><span class="ds-icon icon-run-disabled"></span>Run</button> -->						
 						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist"><span class="ds-icon icon-expand-drawer"></span></button>
