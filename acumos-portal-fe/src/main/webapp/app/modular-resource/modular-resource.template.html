@@ -538,10 +538,10 @@
 			                                                        ng-model="toolkitNameValue" ng-change="changeModel();"> 
 			                                                        <md-radio-button
 			                                                        ng-repeat="val in alltoolkitType" 
-			                                                        ng-if = "val.toolkitCode != 'DS' && val.toolkitCode != 'CP'"
-			                                                        value="{{val.toolkitName}}"
-			                                                        ><span ng-if = "val.toolkitCode != 'RC'">{{val.toolkitName}}</span>
-			                                                         <span ng-if = "val.toolkitCode == 'RC'">R</span>
+			                                                        ng-if = "val.typeCode != 'DS' && val.typeCode != 'CP'"
+			                                                        value="{{val.typeName}}"
+			                                                        ><span ng-if = "val.typeCode != 'RC'">{{val.typeName}}</span>
+			                                                         <span ng-if = "val.typeCode == 'RC'">R</span>
 			                                                        </md-radio-button>
 			                                                    </md-radio-group>
 		                                                    </div>

@@ -22,6 +22,8 @@ package org.acumos.portal.be.controller;
 
 import java.io.FileNotFoundException;
 import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
@@ -29,7 +31,9 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.service.AsyncServices;
+import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.client.ClientProtocolException;
@@ -56,6 +60,9 @@ public class WebBasedOnboardingController  extends AbstractController {
 	@Autowired
 	private AsyncServices asyncService;
 
+	@Autowired
+	private MessagingService messagingService;
+	
 	
 	@Async
 	@ApiOperation(value = "adding Solution for Market Place Catalog.", response = RestPageResponseBE.class)
@@ -64,9 +71,8 @@ public class WebBasedOnboardingController  extends AbstractController {
 	public JsonResponse<RestPageResponseBE<MLSolution>> addToCatalog(@RequestHeader("Authorization") String authorization, @RequestHeader(value="provider", required=false) String provider ,@RequestBody JsonRequest<UploadSolution> restPageReq, @PathVariable("userId") String userId ) {
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "addToCatalog");
-		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();	    
 	    
-	    System.out.println("Execute method asynchronously - "+ Thread.currentThread().getName());
 		try {
 			if (restPageReq != null) {
 				UploadSolution solution = restPageReq.getBody();
@@ -119,4 +125,57 @@ public class WebBasedOnboardingController  extends AbstractController {
 		return data;
 	}
 	
+	
+	
+	@ApiOperation(value = "getting message for the OnBoarded Solution.", response = RestPageResponseBE.class)
+	@RequestMapping(value = { APINames.MESSAGING_STATUS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLStepResult>> messagingStatus(@PathVariable("userId") String userId, @PathVariable("trackingId") String trackingId) {
+		
+		log.debug(EELFLoggerDelegate.debugLogger, "messagingStatus");
+		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
+	    	     
+		try {
+			 		
+			List<MLStepResult> responseBody =  messagingService.callOnBoardingStatusList(userId, trackingId);
+			data.setResponseBody(responseBody);			 
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Solutions OnBoarded Successfully");
+			 			 
+		}catch (Exception e) {
+			
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog",
+					e);
+		}
+		return data;
+	}
+	
+	
+	
+	/*@ApiOperation(value = "getting message for the OnBoarded Solution.", response = MLStepResult.class)
+	@RequestMapping(value = { APINames.MESSAGING_STATUS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLStepResult> messagingStatus(@PathVariable("userId") String userId, @PathVariable("trackingId") String trackingId) {
+		
+		log.debug(EELFLoggerDelegate.debugLogger, "messagingStatus");
+		JsonResponse<MLStepResult> data = new JsonResponse<>();	     
+		try {			 
+			
+			MLStepResult responseBody =  null;
+			responseBody = messagingService.callOnBoardingStatus(userId, trackingId);
+			data.setResponseBody(responseBody);			
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Solutions OnBoarded Successfully");		 
+			 
+		}catch (Exception e) {
+			
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog",
+					e);
+		}
+		return data;
+	}*/
 }

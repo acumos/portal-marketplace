@@ -100,6 +100,7 @@ public class APINames {
     public static final String DROP_TAG = "/dropTag/{solutionId}/tag/{tag}";
     public static final String SEARCH_SOLUTION_TAGS = "/searchSolutionsTags/{tags}";
     public static final String ADD_TO_CATALOG = "/addToCatalog/{userId}";
+    public static final String MESSAGING_STATUS = "/messagingStatus/{userId}/{trackingId}";
     //Will be used when search condition is applied
     public static final String SEARCH_SOLUTION = "/searchSolutions";
     
