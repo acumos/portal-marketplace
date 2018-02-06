@@ -14,7 +14,14 @@ angular.module('modelResource')
 					transformRequest : angular.identity,
 					headers : {
 						'Content-Type' : undefined
-					}
+					},uploadEventHandlers: {
+				        progress: function (e) {
+			                  if (e.lengthComputable) {
+			                     $rootScope.progressBar = (e.loaded / e.total) * 100;
+			                     $rootScope.progressCounter = $rootScope.progressBar;
+			                  }
+			        }
+			    }
 
 				}).success(function(response) {
 					deffered.resolve(response);
@@ -31,8 +38,9 @@ angular.module('modelResource')
 		//template:"<div class=''>{{ content }}</div>",
 		//template:"<button ng-click='authenticate(google)'>Sign in with Google</button>",
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
-		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state){
+		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope){
 			//alert(localStorage.getItem("userDetail"));
+			$rootScope.progressBar = 0;
 			$scope.activeViewModel = false;
 			if(localStorage.getItem("userDetail")){
 				$scope.userLoggedIn = true;
@@ -72,7 +80,7 @@ angular.module('modelResource')
 			}
 			$scope.fileSubmit = false;
 			$scope.fileUpload = function(){
-				$scope.uploadModel = false;
+				//$scope.uploadModel = false;
 				var file = $scope.file;
 				var userId = JSON.parse(localStorage.getItem("userDetail"));
 				/*var fd = file;*/
@@ -103,10 +111,14 @@ angular.module('modelResource')
 						function(response) {
 							$scope.fileSubmit = true;
 							$scope.filename = $scope.tempfilename;
+							$rootScope.progressBar = 0;
 							chkCount();
+							$scope.uploadModel = false;
 						},
 						function() {
+							$rootScope.progressBar = 0;
 							$scope.serverResponse = 'An error has occurred';
+							$scope.uploadModel = false;
 						});
 			}
 			
