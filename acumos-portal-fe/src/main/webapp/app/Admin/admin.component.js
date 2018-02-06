@@ -760,7 +760,7 @@ angular.module('admin')
                                         		  $scope.warningMsg = "Change Role";
                                         	  }else if($scope.functionCall == 'deleteValue'){
                                         		  $scope.confirmMsg = "Do you want to Active/Inactive users ?";
-                                        		  $scope.warningMsg = "Delete Confirmation";
+                                        		  $scope.warningMsg = "Active/Inactive Confirmation";
                                         	  }
                                         	  $mdDialog.show({
                                           		  contentElement: '#confirmPopup',
