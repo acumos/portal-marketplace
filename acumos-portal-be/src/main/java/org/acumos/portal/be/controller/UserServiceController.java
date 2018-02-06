@@ -644,9 +644,9 @@ public class UserServiceController extends AbstractController {
 					MLPUser mlpUser = userService.findUserByUserId(userId);
 					if (mlpUser != null) {
 						User userObj = PortalUtils.convertToMLPuser(mlpUser);
-						/*if (user.getBody().getBulkUpdate().equalsIgnoreCase("delete")) {
+						if (user.getBody().getBulkUpdate().equalsIgnoreCase("delete")) {
 							userService.deleteBulkUsers(userId);
-						} else */if (user.getBody().getBulkUpdate().equalsIgnoreCase("active")) {
+						} else if (user.getBody().getBulkUpdate().equalsIgnoreCase("active")) {
 							userObj.setActive("Y");
 						} else if (user.getBody().getBulkUpdate().equalsIgnoreCase("inactive")) {
 							userObj.setActive("N");
