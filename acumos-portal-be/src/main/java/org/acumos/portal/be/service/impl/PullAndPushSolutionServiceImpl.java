@@ -176,6 +176,9 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
             String uri = mlpArtifact.getUri();
             if (!uri.isEmpty()) {
                 artifactFileName = uri.substring(uri.lastIndexOf("/") + 1, uri.length());
+                if(mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ArtifactTypeCode.DI.toString())) {
+                	artifactFileName += ".tar";
+                	}
                 }
             }
 
