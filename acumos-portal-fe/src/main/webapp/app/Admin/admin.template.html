@@ -179,7 +179,14 @@
 																</ul>
 															</div>		
 														</div> -->
-														<button ng-click='functionCall = "deleteValue";addRoleFuncConfirm();confirmFuncMsg = "delete"' ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary">Delete</button>
+														<div>															
+															<div class="note-btn-container">
+																	<md-select ng-model="activeYN" placeholder="Bulk Actions" ng-disabled='!roleArr.length' class="md-no-underline admin-ddl" >
+																		<md-option value="{{user.value}}" ng-repeat='user in bulkAction'>{{user.name}}</md-option>
+																	</md-select>
+															</div>
+														</div>
+														<button ng-click='functionCall = "deleteValue";addRoleFuncConfirm();confirmFuncMsg = "delete"' ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary">Apply</button>
 														<div class="ver-seperator"></div> 
 														<div>															
 															<div class="note-btn-container">
@@ -227,10 +234,11 @@
 														  <th>User Name</th>
 														  <th>Email</th>
 														  <th>Role</th>
+														  <th>Status</th>
 														</tr>
 													  </thead>
 													  <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))">
-														<tr ng-show = "{{val.active}}">
+														<tr >
 										
 															<td>
 																<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox{{$index}}">
@@ -252,6 +260,7 @@
 																    </md-select>
 																 </div> -->
 															  </td>
+															  <td><span ng-show="val.active=='true'">Active</span><span ng-show="val.active!='true'">Inative</span></td>
 														</tr>
 														
 													  </tbody>
@@ -545,7 +554,7 @@
 												</div>
 												<!-- subscription request -->
 												<div class="mdl-tabs__panel" id="tab6-panel">
-													<div class="admin-tab-heading"><span class="admin-title2">Subscription Requests</span></div>
+													<div class="admin-tab-heading"><span class="admin-title2">Requests</span></div>
 													<div class="fed-row1">
 														<div class="fedrow-cell1">
 															<span class="font600">Current peers</span> <span>(0 active peers)</span>
@@ -584,7 +593,7 @@
 																</colgroup>
 															  <thead  ng-hide="hideLabel">
 																<tr>														  
-																  <th>Requsted ID</th>
+																  <th>Request ID</th>
 																  <th>REQUESTED DETAILS</th>
 																  <th>RequEst TYPE</th>
 																  <th>SENDER</th>
