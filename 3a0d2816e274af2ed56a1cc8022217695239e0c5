@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4a96a15_ceda66c2",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-06T15:44:00Z",
+      "side": 1,
+      "message": "Also please remove the duplicate docker.push.registry property",
+      "revId": "3a0d2816e274af2ed56a1cc8022217695239e0c5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e4fd4e5_8a2e1d9e",
+        "filename": "acumos-portal-fe/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-06T15:44:00Z",
+      "side": 1,
+      "message": "Restore the docker.push.repository to what it was: ${env.NEXUS3_PUSH_REGISTRY}.",
+      "revId": "3a0d2816e274af2ed56a1cc8022217695239e0c5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
