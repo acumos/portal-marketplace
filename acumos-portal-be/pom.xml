@@ -14,7 +14,7 @@
 		<!-- silence warning about parent relative path -->
 		<relativePath />
 	</parent>
-
+ 
 	<properties>
 		<encoding>UTF-8</encoding>
 		<!-- Stand-alone RESTFul application -->
