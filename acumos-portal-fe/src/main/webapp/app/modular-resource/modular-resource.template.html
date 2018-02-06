@@ -515,10 +515,7 @@
 												<p ng-show="toolkitNameValue">
 													<strong> Toolkit Type: </strong> 
 													{{toolkitNameValue}}
-												</p>
-												<p ng-show="!toolkitNameValue">
-													<strong>Select a toolkit type.</strong> 
-												</p>
+												</p>												
 												<!-- update model name -->
 												<div class="popovers cont model-description"
 													id="chooseToolKit" ng-show="selToolKitT">
@@ -548,7 +545,9 @@
 		                                                 </div>
 		                                            </md-dialog-content>
 												</div>
-												
+												<p ng-show="!toolkitNameValue">
+													<strong>Select a toolkit type.</strong> 
+												</p>
 											</div>
 										</div>
 									</article>
@@ -617,11 +616,8 @@
 													 <span class="green" class="green"
 																ng-if="file&&fileSubmit">Completed</span>
 													 <span class="red" ng-if="!file || !fileSubmit">Not Started</span>
-												</h2>
+												</h2>										
 												
-												<p ng-show="!file">Upload your model bundle.</p>
-												<p ng-show="file && !filename" >Uploading file: {{file.name}}</p>
-												<p ng-show="filename" >Uploaded file: {{file.name}}</p>	
 												<!-- update model name -->
 												<div class="popovers cont add-document" id="uploadModel"
 													ng-show="uploadModel">
@@ -670,7 +666,9 @@
 													</md-dialog-content>
 												</div>
 												<!-- update model name end -->
-
+												<p ng-show="!file">Upload your model bundle.</p>
+												<p ng-show="file && !filename" >Uploading file: {{file.name}}</p>
+												<p ng-show="filename" >Uploaded file: {{file.name}}</p>	
 											</div>
 										</div>
 									</article>
