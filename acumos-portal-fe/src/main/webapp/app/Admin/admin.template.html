@@ -260,7 +260,11 @@
 																    </md-select>
 																 </div> -->
 															  </td>
-															  <td><span ng-show="val.active=='true'">Active</span><span ng-show="val.active!='true'">Inative</span></td>
+															  <!-- <td><span ng-show="val.active=='true'">Active</span><span ng-show="val.active!='true'">Inative</span></td> -->
+															  <td>
+																	  	<label ng-if='val.active == "true"' class="">Active</label>
+																		<label ng-if='val.active != "true"' class="">Inactive</label>
+															  </td>
 														</tr>
 														
 													  </tbody>
