@@ -5,6 +5,8 @@ angular.module('admin')
 		templateUrl:'./app/Admin/admin.template.html',
 		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state){
 			componentHandler.upgradeAllRegistered();
+			//Bulk Action
+			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
 			$scope.userDetail = JSON.parse(localStorage
 					.getItem("userDetail"));
@@ -757,7 +759,7 @@ angular.module('admin')
                                         		  $scope.confirmMsg = "Do you want to update user's Role ?";
                                         		  $scope.warningMsg = "Change Role";
                                         	  }else if($scope.functionCall == 'deleteValue'){
-                                        		  $scope.confirmMsg = "Do you want to delete users ?";
+                                        		  $scope.confirmMsg = "Do you want to Active/Inactive users ?";
                                         		  $scope.warningMsg = "Delete Confirmation";
                                         	  }
                                         	  $mdDialog.show({
@@ -868,17 +870,19 @@ angular.module('admin')
                                           $scope.deleteUser = function(){
                                         	  var obj = {
                                         			  "request_body": {
+                                        				  	"bulkUpdate": $scope.activeYN,
                                         				    "userIdList": $scope.roleArr
                                         				  }
                                         				}
                                         	  apiService.deleteUser(obj)
                                       	    .then(function(response) {
+                                      	    	$scope.activeYN = '';
                                       	    	userDetailsFetch();
                                       	    	$scope.roleArr = [];
                                       	    	$scope.closePoup();
                                   				$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
         	                                    $anchorScroll(); 
-        	                                    $scope.msg = "User Deleted successfully."; 
+        	                                    $scope.msg = "User updated successfully."; 
         	                                    $scope.icon = '';
         	                                    $scope.styleclass = 'c-success';
         	                                    $scope.showAlertMessage = true;
