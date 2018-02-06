@@ -1,7 +1,7 @@
 'use strict';
 angular
 		.module('modelEdit')
-		.service('modelUploadService', function($http, $q) {
+		.service('modelUploadService', function($http, $q, $rootScope) {
 
 			this.uploadFileToUrl = function(file, uploadUrl) {
 				// FormData, object of key/value pair for form fields and values
@@ -1735,10 +1735,12 @@ angular
 												// $scope.closePoup();
 												$scope.showPublicSolutionDocs = true;
 												$rootScope.progressBar = 0;
+												$scope.showFileUpload = !$scope.showFileUpload;
 											})
 											.catch(function() {
 												alert("Error in uploading the file");
 												$rootScope.progressBar = 0;
+												$scope.showFileUpload = !$scope.showFileUpload;
 											});
 							$scope.publicfilename = "";
 						}
