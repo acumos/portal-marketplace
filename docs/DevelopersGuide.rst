@@ -1,42 +1,41 @@
-==================================
-Acumos Portal MarketPlace Document
-==================================
+==========================================
+Acumos Portal MarketPlace Developers Guide
+==========================================
 
-1. Introduction**
-
-========================
+1. Introduction
+---------------
 
 This is the developers guide to MarketPlace.
 
-**\**1.1 What is MarketPlace\?*\***
+**1.1 What is MarketPlace?**
 
 Acumos provides a toolkit-independent 'App Store', called
-a Marketplace for:
+a Marketplace for:
 
-1. Data-powered decision making and artificial intelligence software
-models.
+   1. Data-powered decision making and artificial intelligence software
+      models.
 
-2. It provides a means to securely share AI microservices along with
-information on how they perform, such as ratings, popularity statistics
-and user-provided reviews to apply crowd sourcing to software
-development..
+   2. It provides a means to securely share AI microservices along with
+      information on how they perform, such as ratings, popularity statistics
+      and user-provided reviews to apply crowd sourcing to software
+      development..
 
-3. The platform provides integration between model developers and
-applications in order to automate the process of user feedback,
-exception handling and software updates..
+   3. The platform provides integration between model developers and
+      applications in order to automate the process of user feedback,
+      exception handling and software updates..
 
-**\**1.2 Target Users*\***
+**1.2 Target Users**
 
-This guide is targeted towards the open source user community that:
+   This guide is targeted towards the open source user community that:
 
-1. Intends to understand the functionality of the MarketPlace.
+   1. Intends to understand the functionality of the MarketPlace.
 
-**\**1.3 MarketPlace – High level Architecture*\***
+**1.3 MarketPlace - High level Architecture**
 
-.. image:: images/media/image1.png
+         .. image:: images/marketplace_architecture.jpg
+            :alt: MarketPlace High level Architecture
 
-
-**\**1.4 MarketPlace Backend API’s*\***
+**1.4 MarketPlace Backend APIs**
 
 -  .. rubric:: Admin Service
       :name: admin-service
@@ -61,23 +60,23 @@ This guide is targeted towards the open source user community that:
 
 -  Web Based Onboarding Services
 
-**\**1.5 MarketPlace Flow Structure:**
+**1.5 MarketPlace Flow Structure:**
 
-1. **Page Name:** Acumos Home Screen
+   1. **Page Name:** Acumos Home Screen
 
-1. **User Authentication Required:** NO
+      1. **User Authentication Required:** NO
 
-2. **Page Visibility to User:** ALL
+      2. **Page Visibility to User:** ALL
 
-3. **Navigation Menu:** Market Place, Manage Models, Docs, SIGN IN ,
-   SIGN UP
+      3. **Navigation Menu:** Market Place, Manage Models, Docs, SIGN IN ,
+         SIGN UP
 
-4. **Page Content:** Featured Machine Learning Models/Solutions along
-   with option to view all Solutions.
+      4. **Page Content:** Featured Machine Learning Models/Solutions along
+         with option to view all Solutions.
 
-5. When User open Acumos Page, He/she will be presented with Acumos Home
-   Screen with Featured Machine Learning Solutions in catalog Format
-   (Tiles)
+      5. When User open Acumos Page, He/she will be presented with Acumos Home
+         Screen with Featured Machine Learning Solutions in catalog Format
+         (Tiles)
 
    2. **Page Name:** Model/Solution Landing Page
 
@@ -96,29 +95,29 @@ This guide is targeted towards the open source user community that:
           Title, Description, API Usage (Input & Output swagger UI
           format to test API), Images/Videos. Bottom of the screen
           should display ratings, reviews from other users and options
-          to add review.   Buttons needed “Download” & “Deploy to
-          Cloud”. Social Media Sharing options also need to be
-          displayed.**Deploy to Cloud should only provide MS Azure
+          to add review. Buttons needed <Download>  & <Deploy to
+          Cloud>. Social Media Sharing options also need to be
+          displayed. Deploy to Cloud should only provide MS Azure
           option.
 
-      6.  Clicking on either of “Download”, “Deploy to Cloud” or “Add
-          review” should prompt user to SIGN IN.
+      6.  Clicking on either of <Download>,<“Deploy to Clou> ” or<“Add
+          review>  should prompt user to SIGN IN.
 
       7.  If User is already signed in, then clicking on:
 
-      8.  “Download” should download the Machine Learning Solution to
+      8.  <Download>  should download the Machine Learning Solution to
           user laptop/computer.
 
-      9.  “Deploy to Cloud” should prompt details about MS Azure (Inputs
-          TBD \**)
+      9.  <Deploy to Cloud>  should prompt details about MS Azure (Inputs
+          TBD)
 
-      10. “Add Review Comment” with text in the comment field should add
+      10. <Add Review Comment>  with text in the comment field should add
           the new comment.
 
    3. **Page Name:** My Models
 
-      11. Under Manage Models Menu, Options available are: “Add new
-          Model”, “My Models” “Delete a Model”
+      11. Under Manage Models Menu, Options available are: <Add new
+          Model>,<“My Model>  <Delete a Model>
 
       12. **Navigation:** Acumos Home -> Manage Models -> My Models
 
@@ -136,8 +135,8 @@ This guide is targeted towards the open source user community that:
 
    4. **Page Name:** Manage Models - My Models - Model Landing Page
 
-      16. Under Manage Models Menu, Options available are: “Add new
-          Model”, “My Models” “Delete a Model”
+      16. Under Manage Models Menu, Options available are: <Add new
+          Model>,<“My Model>  <Delete a Model>
 
       17. **User Authentication Required:** Yes
 
@@ -151,51 +150,59 @@ This guide is targeted towards the open source user community that:
           format to test API), Images/Videos will be displayed where
           User can add all the information using WYSIWYG editor.
 
-   1. User can save and view the preview of the Solutions like it would
-      display on the Market Place.
+    4.1. User can save and view the preview of the Solutions like it would
+    display on the Market Place.
 
     4.2 Once Saved, User can then Submit the Solution for publishing to
     Public Market Place or Company Market Place by clicking buttons
-    “Publish to Public Market Place” and “Publish to Company Market
-    Place”. Clicking on these two buttons will kick off the
-    Certification Process**\* which would allow the Solution to be able
+    <Publish to Public Market Place>  and <Publish to Company Market
+    Place>. Clicking on these two buttons will kick off the
+    Certification Process which would allow the Solution to be able
     to publish on Company Market Place i.e local Market Place and it
     would also be allowed to be published on Public Market Place.
 
-    4.4User would also be able to Share the Solutions with individuals
+    4.3 User would also be able to Share the Solutions with individuals
     or group or communities within the local Acumos instance i.e Company
-    Acumos by clicking on “Share with Team” which will open a pop up to
+    Acumos by clicking on <Share with Team>  which will open a pop up to
     lookup for the User/Group/Communities.
 
     4.4 Certification Process requirements is TBD and once available ,
     the user experience/Wireframes can be discusses later.
 
-1.7 User Account Signup Flow :
+1.6 User Account Signup Flow :
 
-.. image:: images/media/image2.png
+            .. image:: images/Signup_Flow.jpg
+               :alt: User Account Signup Flow
 
-1.7 User Account Login Flow :|image2|
+1.7 User Account Login Flow :
 
-1.9 Market Place Catalog Flow :
+            .. image:: images/Login_Flow.jpg
+               :alt: User Account Login Flow
 
-.. image:: images/media/image4.png
+1.8 Market Place Catalog Flow :
 
-1.10 Model Detail Page Flow :
+            .. image:: images/Catalog_Flow.jpg
+               :alt: Market Place Catalog Flow
 
-.. image:: images/media/image5.png
+1.9 Model Detail Page Flow :
 
--  2. Market Place Catalog Service
+            .. image:: images/Model_Detail_Page_Flow.jpg
+               :alt: Model Detail Page Flow
+
+2. Market Place Catalog Service
+-------------------------------
 
 **2.1 Operation Name**
 
     - Solutions
+~~~~~~~~~~~~~~~
 
 **- Trigger**
 
 This API is used to gets a list of Published Solutions for Market Place
 Catalog.
 
-**-** **Request**
+**- Request**
 
 {
 
@@ -233,7 +240,7 @@ Catalog.
 
 }
 
-**- Response **
+**- Response**
 
 {
 
@@ -320,11 +327,11 @@ Catalog.
     used for both Solution Owner view as well as General user. API will
     return isOwner as true if the user is owner of the solution.
 
-**-** **Request:**
+**- Request:**
 
     {
 
-    “solutionId”: “04cd7d58-16df-4a13-81da-99ca8d5701d3”
+    "solutionId":: "04cd7d58-16df-4a13-81da-99ca8d5701d3"
 
     }
 
@@ -406,11 +413,11 @@ Catalog.
     `Gets models shared for the given
     userId. <http://localhost:8083/swagger-ui.html#!/market-place-catalog-service-controller/getMySharedModelsUsingGET>`__
 
-**-** **Request:**
+**- Request:**
 
     {
 
-    “userId”: “173cad03-7527-42c5-81cc-35bac96cbf05”
+    "userId":: "173cad03-7527-42c5-81cc-35bac96cbf05"
 
     }
 
@@ -482,11 +489,11 @@ Catalog.
 `Gets the rating for the solution given by different
 user. <http://localhost:8083/swagger-ui.html#!/market-place-catalog-service-controller/getMySharedModelsUsingGET>`__
 
-**-** **Request:**
+**- Request:**
 
     {
 
-    “solutionId”: “06cdcc30-8725-4c2a-98ec-3219f2964206”
+    "solutionId": "06cdcc30-8725-4c2a-98ec-3219f2964206"
 
     }
 
@@ -555,14 +562,13 @@ user. <http://localhost:8083/swagger-ui.html#!/market-place-catalog-service-cont
 - Create Favorite
 ~~~~~~~~~~~~~~~~~
 
- **- Trigger:** 
-~~~~~~~~~~~~~~~~
+**- Trigger:** 
 
 `Create favorite for
 solution <http://localhost:8083/swagger-ui.html#!/market-place-catalog-service-controller/getSearchSolutionsUsingGET>`__
 given by the end users.
 
-**-** **Request:**
+**- Request:**
 
     {
 

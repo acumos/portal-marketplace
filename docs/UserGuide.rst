@@ -1,297 +1,314 @@
 =========================================
-Acumos Portal MarketPlace User’s Guide
+Acumos Portal MarketPlace Users Guide
 =========================================
 
-1.	Introduction
-========================
 
-         This is the User guide to MarketPlace. 
+1. Introduction
+======================
 
-**1.1 What is MarketPlace\?**
-	Acumos provides a toolkit-independent 'App Store', called a Marketplace for:
+    This is a userâ€™s guide that describes how to use the the Marketplace and Acumos Portal.
 
-	1.	Data-powered decision making and artificial intelligence software models.
+**1.1    What is the Marketplace?**
 
-	2.	It provides a means to securely share AI microservices along with information on how they perform, such as ratings, popularity statistics and user-provided reviews to apply crowd sourcing to software development..
+    The Acumos Marketplace is a web tool designed to bring data scientists together with users who wish to use their models.  It has the following key features:
+    
+    1.    Easy On-boarding of models.  The Acumos Portal enables modellers to easily on-board their AI models, document them, package them into reusable microservices, and publish them to either a local or public Marketplace.
 
-	3.	The platform provides integration between model developers and applications in order to automate the process of user feedback, exception handling and software updates..
-	
-**1.2	Target Users**
-	This guide is targeted towards the open source user community that:
+    2.    Explore the possibilities of AI. The Marketplace enables users to explore, gathering high-level or detailed information about a model and how it is used. Users have access to extensive documentation, as well as ratings and comments from the greater community.
+    
+    3.    Access.  Once a model is selected, the Acumos Marketplace provides access to that model, either via downloading or by deploying it to any one of several commonly used cloud environments.
 
-	1.	Intends to understand the functionality of the MarketPlace.
+    4.    Compose. Users may also work with models in the Design Studio to chain them together to create new custom composite models to help solve their business problems. These composite models can be saved and managed (deployed, published) just like simple models.  (See Design Studio User Guide.) //link
 
+    5.    Federation. The Acumos Marketplace is distributed.   Acumos supports federated relationships with other Acumos instances, allowing users to browse and procure models from federated partners.  Federation also creates a much larger available user pool for data scientists to share their models.
 
+    6.    Training. Acumos provides methods to train models.  Data sources can be discovered and training process can be designed in the Acumos Training Studio.  (This is work in progress, and not available in release 1.0.)
 
+**1.2    Target Users**
 
-**1.3 MarketPlace – High level Architecture**
- 	.. image: images/marketplace_architecture.jpg
-	:alt: MarketPlace – High level Architecture
+    The Marketplace is designed for users who wish to either explore and use machine learning models or data scientists who build models and wish to share them with a larger community of users.
 
-**1.4 MarketPlace Backend API’s**
 
-•	Admin Service 
-•	Auth Service 
-•	Market Place Catalog Service 
-•	Notification Services
-•	Oauth User Service 
-•	Publish Solution Service 
-•	Push And Pull Solution Service 
-•	User Role Services
-•	User Service Services
-•	Validation Status Services
-•	Web Based Onboarding Services
+2. Creating a Login on Acuomos
+==================================================
+    In order to use the full capabilities of Acuomos, the users must create a login on the Acumos Portal.
+    
+    The user may also complete a user profile. 
+    
+    Depending on the Acumos instance configuration, custom company login options may be supported. 
+    
+        All account management capabilities are available in the upper right corner of the header screen.
+        
+        .. image:: images/accountSettings.png
+           :alt: User Account Settings 
+        
 
-**1.5 MarketPlace Flow Structure 
-1.5.1	Page Name: Acumos Home Screen
-1.	User Authentication Required: NO
-2.	Page Visibility to User: ALL
-3.	Navigation Menu: Market Place, Manage Models, Docs, SIGN IN , SIGN UP
-4.	Page Content: Featured Machine Learning Models/Solutions along with option to view all Solutions.
-5.	When User open Acumos Page, He/she will be presented with Acumos Home Screen with Featured Machine Learning Solutions in catalog Format (Tiles)
+2.1 User Account Signup Flow :
 
-1.5.2	Page Name: Model/Solution Landing Page
-1	Navigation: Acumos Home -> Market Place -> Model/Solution Landing Page
-2	User Authentication Required: NO (Read Only), Yes (For Downloads, Deploy and to add Review Comment)
-3	Page Visibility: ALL
-4	Navigation Menu: Market Place, Manage Models, Docs, SIGN IN, SIGN UP
-5	Page Content: Machine Learning Solution Landing Page with Title, Description, API Usage (Input & Output swagger UI format to test API), Images/Videos. Bottom of the screen should display ratings, reviews from other users and options to add review.   Buttons needed “Download” & “Deploy to Cloud”. Social Media Sharing options also need to be displayed.**Deploy to Cloud should only provide MS Azure option.
-6	Clicking on either of “Download”, “Deploy to Cloud” or “Add review” should prompt user to SIGN IN.
-7	If User is already signed in, then clicking on:
-8	“Download” should download the Machine Learning Solution to user laptop/computer.
-9	“Deploy to Cloud” should prompt details about MS Azure (Inputs TBD **)
-10	“Add Review Comment” with text in the comment field should add the new comment.
+        .. image:: images/signUp_screen.png
+           :alt: User Account Screen 
 
-1.5.3	Page Name: My Models
-1	Under Manage Models Menu, Options available are: “Add new Model”, “My Models” “Delete a Model”
-2	Navigation: Acumos Home -> Manage Models -> My Models
-3	User Authentication Required: Yes
-4	Navigation Menu: Market Place, Manage Models, Docs, Notification, My Profile, Log Out
-5	Page Content: Machine Learning Solutions and Composite Solutions are displayed in a catalog format. Icons on these solutions should allow to distinguish Single Modelled Solutions, Composite Solutions, Unpublished, published (Public Market Place & Company Market Place) as well as newly created Solutions which does not have any title/description etc.
-1.5.4	Page Name: Manage Models - My Models - Model Landing Page
-1	Under Manage Models Menu, Options available are: “Add new Model”, “My Models” “Delete a Model”
-2	User Authentication Required: Yes
-3	Navigation Menu: Market Place, Manage Models, Docs, Notification, My Profile, Log Out
-4	Page Content: If User has clicked on newly added Machine Learning Solution that does not have any Title/Description etc then Machine Learning Solution Landing Page with fields for Title, Description, API Usage (Input & Output swagger UI format to test API), Images/Videos will be displayed where User can add all the information using WYSIWYG editor.
-4.1	User can save and view the preview of the Solutions like it would display on the Market Place.
-4.2 Once Saved, User can then Submit the Solution for publishing to Public Market Place or Company Market Place by clicking buttons “Publish to Public Market Place” and “Publish to Company Market Place”. Clicking on these two buttons will kick off the Certification Process*** which would allow the Solution to be able to publish on Company Market Place i.e local Market Place and it would also be allowed to be published on Public Market Place.
-4.4User would also be able to Share the Solutions with individuals or group or communities within the local Acumos instance i.e Company Acumos by clicking on “Share with Team” which will open a pop up to lookup for the User/Group/Communities.
-4.4 Certification Process requirements is TBD and once available , the user experience/Wireframes can be discusses later.
+        .. image:: images/signIn_screen.png
+           :alt: User Account Signup Flow
 
+2.2 User Account Login Flow :
 
-1.6 User Account Signup Flow :
+        .. image:: images/Login_Flow.jpg
+           :alt: User Account Login Flow
 
-	.. image:images/Signup_Flow.jpg
-	:alt: User Account Signup Flow
- 
-1.7 User Account Login Flow : 
+2.3 Set Profile and Notification Preferences
 
-	.. image:images/Login_Flow.jpg
-	:alt: User Account Login Flow
+        .. image:: images/accountSettings.png
+           :alt: User Account Settings Form
+           
+     // (----We need a screen shot here when this work is implemented---)
 
+3. Key Features of the Acumos Marketplace and Portal
+==================================================
 
-1.8 Market Place Catalog Flow :
- 
-	.. image:images/Catalog_Flow.jpg
-	:alt: Market Place Catalog Flow
+    The Acumos Marketplace is a place for builders and users of machine learning models to intersect and interact.  Users may view their LOCAL marketplace, which is restricted to users on their local instance, for example their company or department. They may also view the PUBLIC marketplace, where they can see models from other Acumos instances that have been published to the public.
 
+**3.1  Models in Acumos are packaged for Reuse** 
 
+    As a part of the on-boarding process, models are packaged into a containerized microservice that can be re-used by other components.  
+    
+    This is the `Acumos On-boarding Developers Guide <../../on-boarding/docs/index.html>`_.  (See more about on-boarding -here- LINK)
 
+4. Marketplace and Portal Experience - for Users
+==================================================
 
-1.9 Model Detail Page Flow :
- 
-	.. image:images/Model_Detail_Page_Flow.jpg
-	:alt: Model Detail Page Flow
+**4.1    Acumos Home**
 
+    Users are welcomed to Acumos on the home page, showing a carousel highlighting Acumos features and uses.  Other parts of the page show featured or trending models, upcoming Acumos events and illustrations of how Acumos can help customize solutions in many domains.
 
-2. Market Place Home	
-========================
+    Users do not need to be logged into Acumos or have an account to see the Home or Marketplace Pages.
 
-**2.1 All About MarketPlace Home **
+**4.2    Acumos Marketplace**
 
-We are Moving to a Future where AI is at the Center of Software.
-Acumos is the open-source framework for data scientists to build that future. 
-In Market Place Home we will Perform following :
+    1.    Users can discover models by browsing, direct search, or by applying any of a number of filter criteria to explore the marketplace. Models are presented on the Marketplace as "tiles", showing the Name, image, ratings and usage statistics. More information about the model is available by clicking on the tile to reach the MODEL DETAIL page. //make that a link.
 
-1.Add Your Model: This functionality will gives you to onboard any of your model like H20, TensorFlow, Scikitlearn, R, Java, etc. by using any of the following.
-a. On-Boarding By Command
-Description a:It will give you the description of the model which you want to Onboard ,how to start ,before you begin, description ,Installation and important commands corresponding to models.
-b. On-Boarding By Web:
-Description b: It has four steps to Onboard your model.
+    2.    The Market place has two main views:  LOCAL and PUBLIC.
 
-2. Under Market Place Home we have Explore Market Place functionality as well where we can explore the Acumos Marketplace. It is easy to discover, download & deploy.
+        a.    The LOCAL marketplace only shows models which have been on-boarded by local users and published to the local marketplace.  In many cases, this can be thought of as the COMPANY marketplace, although large companies may wish to have more than one Acumos instances. (For example, a Research Acumos and a Customer Care Acumos.)
 
-3.We have Discover Acumos in Home Page .We can discover below things:
-3a. Team up: Share, experiment & collaborate in an open source ecosystem of people, solutions and ideas.
-3b. Marketplace: Acumos it the go-to site for data powered decision making. With an intuitive easy-to-use Marketplace & Design Studio. Acumos brings AI into the mainstream.
-3c. Onboard with your preferred Toolkit:With a focus on interoperability, Acumos supports diverse AI toolkits. Onboarding tools are available for TensorFlow,SciKitlearn, Rcloud,H20 & generic java.
-3d. Design Studio:Because Acumos Converts models to microservices, we can apply them for different problems & data sources.
-3e.SDN & ONAP: Many marketplace solutions originated in the ONAP SDN Community and are configured to be directly deployed to SDC.
+        b. The model documentation, including the image describing the model, the short description, the uploaded documents, and the model signatures, the ratings and comments are custom and private to the LOCAL instance so protected company information can be used.  (Users may duplicate this information when publishing to PUBLIC, but they must explicitly opt to do that.)
 
+        c.    Models in the LOCAL marketplace can be shared by the owners with other users of that Acumos instance. (//see sharing //)
 
-4.  Acumos Hackathon:  This is the upcoming feature in Acumos Hackathon.
+        d.  Models in the PUBLIC marketplace are visible to all Acumos instances with a federated relationship to the home instance, that is the original Acumos publish site. 
+        
+        //for more details, see Federation in Acumos
 
-Description :  Meet new colleagues and expand your Acumos skills.
+        e. Models in the PUBLIC marketplace have been cleared by the local administrator for publication according to requirements established by them.  (//see validation)
 
-5.Under Acumos Home Page we have success stories.
-6.Acumos Home page has following quick links:
-6a: Home
-6b:Marketplace
-6c:Modeler Resources
-6d:Terms & Condition
-6e:Documentation
+    3.    Browsing and Finding Models in the Marketplace
+    There are many ways to find models that may fit your needs.
+        a. Filter
+            i)  category (classification, data sources, data transformation, prediction, regression
+            ii) Rating
+            iii) Filter by Peer Catalog
 
-3. MarketPlace	
-========================
+        b. Search
+        	A search box is provided on Marketplace   
 
-MarketPlace has search functionality which will allow user to search any model which is being Onboarded.
-We have following Filter By Category Option by which we can easily search the Onboarded Model in Market Place.
-•	Classification
-•	Data Sources
-•	Data Transformer 
-•	Prediction
-•	Regression
+    4.    Saving a model to Favorites List
+        Logged in users my click on the "heart" icon to denote a model they wish to add to their "favorites" list.  This list can be retrieved by <....> and also in the Design Studio.
 
+**4.3    Acumos Model Detail Pages - Users**
 
+    1.    Much more information about a model is available on the Model Detail Pages. Most of the information on these pages is contributed by the creator of the models 
+    to showcase the model and tell potential users about it's capabilities and how to use it. Ratings and Comments are contributed by other users of this model.  
+    The sections include:
 
-3.1 Downloading any Onboarded Model : 
-We can download any model which is Onboarded.
-We have following things when we download any model:
-•	Description
-•	 Signatures
-•	Documents
-•	Version History
+        a. Introduction-Summary Description
+        b. Ratings
+        c. Comments
+        d. Signatures:  the description of the model incoming data feed and output
+        e. Documents: any supporting documentation the modeler wishes to include
+        f. Version History:  //see model versioning
 
 
-3.2 Deploy Onboarded Model to Cloud : 
+**4.4    Accessing Models for download and deploy from the Marketplace**
 
-We can Deploy Onboarded Model to Cloud.
+    1.  From the Model Detail Page, users may procure the model.
 
-Following are the Platforms where we can Deploy the models to Cloud:
-•	Microsoft Azure
-•	Google Cloud Platform
-•	rackspace
-•	amazon webservices
+        a. If the model is on their local repository already, they are immediately available and the Deploy or Download button are activated in the upper right hand corner and users may download the model or deploy it to a cloud environment.  // link (see section X.Y for Deploy/Download Models).
 
+            i) Models that were created locally, or previously imported to the local repo via a federation get-model request would be immediately available and no request process would be needed.
+
+        b. If the chosen model is from a federated peer, and has never been moved to the local repo, it may not be immediately available and must be requested. //see Federation
+
+         In that case, the tile on the Marketplace shows the message: "Request to Download", or the same message is shown on the Model Detail page in the upper right hand corner of the page.
+
+         .. image:: images/RequestModel_tile.png
+            :alt: Request Model Tile
+
+
+
+         .. image:: images/requestModel_detailPage.png
+            :alt: Request Model Detail Page
+
+Clicking the "Request" button, initiates an import request to your local administrator to procure the model and move it to your local repo.  
+Imported models are subject to local validation rules that are set by your local admin.  
+This process may be immediate, or it may take some time, depending on what steps are required.  
+You will be notified, according to your preferences, 
+(//see notification preferences settings in profile - link-)
+
+
+5. Marketplace and Portal Experience - for Modelers
+==================================================
+    The Acumos Portal is designed to enable modellers to easily on-board, document, package their AI models into reusable microservices.
+    The modeler may test out the Acumos features in a private section of the portal or he/she may publish the models  either their local marketplace or distribute widely by publishing them to the public. 
+    Modelers are typically subject-matter experts in their fields, so Acumos models come from a wide range of domains or applications.
+    Models may be written in a number of popular programing languages or toolkits, including TensorFlow and R.
+    
+**5.1    Overview for Modelers**
 
-   3.3 UI Layout for Deploying model to Microsoft Azure:
- 
-	.. image :images/deploy_on_azure.jpg
-	:alt: Deploying model to Microsoft Azure
+    Three views: private, local and public
 
+**5.2    On-Boarding Models**
 
-3.4 Add New Model to MarketPlace
 
-We can add New Models in MarketPlace by using following
- 
-•	On-Boarding By Command Line
-•	On-Boarding By Web
+    1.  Users can reach on-boarding page from HOME, MARKETPLACE or side navigation
+    	For more information about on-boarding, see  This is the `Acumos On-boarding Developers Guide <../../on-boarding/docs/index.html>`_. <link>
 
-4. My Models	
-========================
+    
 
-My Models has search functionality which will allow user to search any model which is being Onboarded it is like MarketPlace search functionality.
-We have following Filter By Category Option by which we can easily search the Onboarded Model under My Models.
-•	Classification
-•	Data Sources
-•	Data Transformer 
-•	Prediction
-•	Regression
-•	Deleted models
+**5.3    My Models Page**
 
-4.1 Under My Models you can see :
-•	My Unpublished Models
-	.. image: images/unpublished_model.jpg
-	:alt: My Unpublished Models
+	   Users may view all the models they have uploaded by accessing the My Models page.
+   Models are organized by their visibility to others.  Models are sorted into four sections:  Unpublished, Published to Local (Company), Published to Public and Deleted.
+   
+   Clicking on any model image shows the Model Detail page for that model.
+   
+   If a model has not been published, the Model Detail page will not show very much information.  To add a description, documents and details for this section, select the "Manage My Model" page and choose one of the Publishing tabs.
 
- 
+    1. My Models: private view
+    
+        Initially, successfully on-boarded model will appear in my Models page in the UNPUBLISHED section.  These are visible only to you and any collaborators of that model (shared).  Partially on-boarded models (in process) are also displayed in this section but are shown greyed out until the on-boarding process is successfully completed.
+        
+    2. My Models: Published to Local view
+    
+        Models that have been published to Local, appear in the the LOCAL marketplace and are visible to anyone with an account on the local Acumos Instance.  
+        
+    3. My Models: Published to Public view
+    
+         Models that have been published to Public, appear in the the PUBLIC marketplace and may be viewed by users on Acumos instances that have a federated relationship with your local instance. 
+        
+    4. My Models: Deleted Models
+    
+        Initially, successfully on-boarded model will appear in my Models page in the UNPUBLISHED section.  These are visible only to the owner of that model and any collaborators of that model (via the "Share Model" process).  Partially on-boarded models (in process) are also displayed in this section but are shown greyed out until the on-boarding process is successfully completed.
+        
+    
 
+**5.4    Manage My Model - page & capabilities**
 
+    1. On-boarding
+        overview (command line & web-onboarding) & link to on-boarding guide
 
-•	MY MODELS: Published to Company Market Place
-	.. image: images/publish_to_company.jpg
-	:alt: Published to Company Market Place
- 
+    2.     Share Model with Team
+        Users can share a model with anyone who has an account on your local Acumos. When you share a model with a collaborator, you make them a co-owner of the model.  This means they have all the same capabilities as the original owner.
+        
+        First, select the "Share with Team" tab under "Management Options".
+        
+        .. image:: images/share-1.jpg
+           :alt: share with team: select box
+           
+        Next, where you see "find a user to share with", type in the user ID of the person you wish to share with - you will need to get that user ID from them.   The UI will show suggestions, based on the characters you have typed.  Once you have located the correct person, select the SHARE button.
+        
+        .. image:: images/share-2.jpg
+           :alt: share with team: select user to share with, by user ID
+           
+Finally, the Sharing Popup will disappear and you can see that your model is shared and you have added them as a collaborator for that model. Click on each icon to see who you are currently sharing a model with.
 
+The new collaborator will receive a notification that a new model has been shared with them.
 
-•	My Deleted Models
-	.. image : images/deleted_model.jpg
-	:alt: My Deleted Models
- 
+If you wish to remove the sharing rights from someone, simply click on the small "X" next to their icon.
+        
+        .. image:: images/share-3.jpg
+           :alt: share with team: sharing result
+        
 
+    3. Publishing a Model 
+    
+    Users may distribute their model by publishing it to either their LOCAL marketplace or to the PUBLIC marketplace.
+    
+    The presentation of the model may be different in each marketplace to meet the needs of the different communities.  For example, the user may wish to provide company-specific details to their colleagues inside their LOCAL instance.  This may include company proprietary information, documents or details that are only relevant to colleagues using the LOCAL instance.  Information published to LOCAL is contained within the company firewall.
+    
+    The modeller may wish to present their model to the PUBLIC in a more general way.
+    
+    Acumos provides two separate publishing workflows to meet this need.  
+    
+    If the publication information is the same for both marketplaces, there is a facility to simply use the same information.
+    
+    	A. Publishing to Local Marketplace
+        Directions
 
+    	B.  Publish to Public Marketplace
+        Directions
 
+    5. Export/Deploy to Cloud
+        Download
+        Deploy to Cloud
 
-5. On-Boarding Model 
+    6. View Downloads
 
-     ========================
+    7. Reply to Comments
 
-The Acumos on-boarding process generates everything needed to create an executable microservice for your model and add it to the catalog.  Acumos uses Protobuf as a language-agnostic data format to provide a common description of the model data inputs and outputs.
-The client library does the first step of the on-boarding process. This includes:  (1) introspection to assess the toolkit library versions and determine file types, (2) creation of a json description of the system (3) creation of the protobuf file, (4) file push to the Acumos on-boarding server.
-Once your model is on-boarded, it will available in the PRIVATE section of the Acumos Marketplace.  Tools to manage and publish your model are available in the Acumos Portal.
+    8. Delete Model
 
-5.1 We have to ways to On-board the Model :
-•	On-Boarding By Command Line
-•	On-Boarding By Web
-5.2  Onboarding By Command Line: 
-We can Onboard any model like H20,Tensorflow,Java,R,Scikit Learn by using command line.
+    9. Model Version Control
 
-Following are the steps that we need to follow like for TensorFlow following are the steps shown in UI:
 
- 	.. image:: images/Tensor_Flow.jpg
-	:alt: TensorFlow
 
 
+6. Acumos Deploy/Export/Download
+==================================================
+    <some overview info>
+**6.1    Overview**
 
-5.3	On-Boarding By Web: 
-We can Onboard any model by using web based On-Boarding
+7. Acumos Distributed Marketplace:  Federation
+==================================================
 
-There are four steps for Performing Web based On-boarding
-1.Choose Toolkit
-We can choose any one Toolkit i.e. the model that we need to upload:
-       .. image:: images/choose_toolkit.jpg
-	:alt: Choose Toolkit
+**7.1    Overview of Federation**
 
-2.Download Client Library from Command Line:
-Under this we have tick the checkbox Installation of the toolkit Library is completed.
- 	.. image::images/Download_Client_Lib_Command_Line.jpg
-	:alt: Download Client Library from Command Line
+    A key feature of the Acumos platform is it's distributed marketplace.  Each Acumos instance may create a federated (peer) relationship with any other Acumos instance, allowing individual models, all models from a category, or the full catalog of models to be included in the PUBLIC view of the marketplace.
 
-3.Upload Model Bundle:
-We can upload model bundle here which is a zip file that contains following:
-•	JSON file
-•	Potofile
-•	Model.zip 
- 	.. image:: images/Upload_Model.jpg
-	:alt: Upload Model Bundle
+    Federated relationships are set up and managed by the administers of each of Acumos instances.  (//see user guide for Admin: setting up federation)
 
-4. Model Information :
-We can add the model Information under Model Name:
- 	.. image:: images/Model_Information.jpg
-	:alt: Model Information
+    For example, if Acumos A has a federated relationship with Acumos B, say for the full catalog, then all the models that have been published to PUBLIC from users on Acumos B will be viewable in the PUBLIC marketplace of Acumos A.
 
+    This federated relationship between A and B does not mean that all the models from B have been moved to the Acumos A repository and are immediately available from Acumos A.  Instead, the federated relationship simply allows users from A to browse the catalog from B and see all the documentation, public ratings and comments from the models in the public Acumos B's catalog. When a user from Acumos A discovers a model they would like to work with, they must request access to that model.
 
+    Since granting that request means that new model from B would be imported to Acumos A's repo, the model must be subjected to the import rules set up for Acumos A.
 
+**7.2    Browsing Federated Models**
 
+    To see models from federated peers, choose the PUBLIC marketplace.  The default view is showing all public models from your local Acumos as well as all models from all peers.
 
+    To restrict your view to a particular peer, or set of peers, adjust the filters found on the left side accordingly.
 
 
+        .. image:: images/Public_Marketplace_peer.jpg
+           :alt: Public Marketplace Peer
 
+**7.3    Accessing Federated Models**
+//see section 4.4
 
 
 
 
+8. Acumos Composition:   Design Studio
+==================================================
+    <some overview info>
+**8.1    Overview of Design Studio and Link to DS User Guide**
 
+         `Link to Design Studio User Guide <../../design-studio/docs/index.html>`_.
 
-
-
-
-
-
-
-
-
-
+9. Acumos Model Training: Training Studio
+==================================================
+    <some overview info>
+**9.1    Overview of Training Plan**
 
 
 
