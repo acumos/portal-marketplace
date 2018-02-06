@@ -636,33 +636,58 @@
 													</md-toolbar>
 													<md-dialog-content>
 													<div class="md-dialog-content">
-														<div class="popCont">Drag and Drop your file here</div>
+														<!-- <div class="popCont">Drag and Drop your file here</div>
 														<div class="text-center">OR</div>
-														<div class="clear"></div>
+														<div class="clear"></div> -->
 														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-															Drag and Drop your file here
-															<form>
-																<div
-																	class="mdl-textfield mdl-js-textfield mdl-textfield--file">
-																	<!-- <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile" readonly/> -->
-																	<input type="file" upload-image-model="file"
-																		class="mdl-textfield__input userprofiletxtbox"
-																		id="file">
-																	<div
-																		class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
-																		<i class="material-icons">attach_file</i><input
-																			type="file" id="uploadBtn">
-																	</div>
+																	<form class="ng-pristine ng-valid">
+																		<div
+																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
+																			data-upgraded=",MaterialTextfield">
+																			<!-- <input class="mdl-textfield__input"
+																				placeholder="File" type="file" id="uploadFile"
+																				upload-image-model="solutionFile" readonly=""> 
+																			<div
+																				class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+																				<i class="material-icons">attach_file</i> <input
+																					type="file" id="uploadBtn">
+																			</div>-->
+																			<div class="drag-drop"  id = "private-dropbox">
+																			       <div class="drag-drop-files hide">
+																			              <p>doc.pdf</p>
+																			       </div>
+																			<div file-droppable filename="filename" file=file>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
+																			</div>
+																			
+																			<div file-upload file="file" 
+																						uploadid="bundleuploadid" id="uploadFile"
+																						filename="filename" fileinput="file"
+																						ng-model="file" accept = ""
+																						upload-image-model="file" readonly></div>
+																		    	<input class="mdl-textfield__input"
+																						placeholder="Upload File" type="text"
+																						ng-model="filename" readonly />
+																		</div>
+																	</form>
 																</div>
-															</form>
-														</div>
+																<div  > <!-- ng-show="progressVisible" -->
+														            
+														            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
+														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar}}%</span>
+														            			<span ng-show = "$root.progressBar == 100">Completed</span>
+														            </div>
+														            </div>
+														         </div>
 														<div layout="row" class="popovers-cloud-modalfooter">
 															<md-button
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 																ng-click="closePoup(); openDrop(true);"
 																>
 															Cancel </md-button>
-															<md-button ng-disabled="!file" ng-click="fileUpload();openDrop(true);"
+															<md-button ng-disabled="!file" ng-click="fileUpload();"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 															Done </md-button>
 														</div>
