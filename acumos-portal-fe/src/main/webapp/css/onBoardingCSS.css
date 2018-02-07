@@ -192,7 +192,7 @@ a:focus, a:hover {text-decoration: none;}
 .progress {height: 5px;border-radius: 5px;background-color: #EBEBEB;float: left;width: 100%;margin: 10px 0 25px 0;}
 .progress-bar {background-color: #671c9d;	border-radius: 5px;	height: 5px; cursor:pointer;}
 /* .timeline h6{font-size:16px; padding-bottom:30px; text-transform:uppercase; font-weight:bold; color:#671c9d;} */
-.timeline h6 {line-height:auto;font-size: 16px; padding-bottom: 7px;/* padding: 16px 0 16px 10px; */text-transform: uppercase;	font-weight: bold;	color: #671c9d;/*color: #414141;*/	border-bottom: 1px solid #ddd;	margin-bottom: 22px;}
+.timeline h6 {line-height:auto;font-size: 16px;/*padding-bottom: 7px;*/padding: 16px 0 16px 10px;text-transform: uppercase;	font-weight: bold;	color: #671c9d;/*color: #414141;*/	border-bottom: 1px solid #ddd;	margin-bottom: 22px;}
 .timeline.cont h6 {/* color: #414141; */ font-size: 14px;  vertical-align: top;}
 .timeline h6 span{font-weight:normal;color: #414141;}
 .timeline-label details{float:left; padding-right:5px;}
@@ -331,7 +331,7 @@ md-toolbar {background: #671C9D !important;min-height:39px;}
 md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
     color: rgba(255,255,255,0.87);
 }
-.popovers.cont {position: absolute;z-index: 800; margin-top: 2px; }
+.popovers.cont {position: absolute;z-index: 800; margin-top: 2px;}
 .popCont {text-align:center;font-weight: bold;margin-bottom: 20px;font-size: 16px;}
 .expCollCont {float: left; padding-top: 1px;}
 .hdrTxt {background-color: #e8e5ec;}
@@ -471,9 +471,29 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .skiptext:before{content:url(../images/ico_alert_information.png); background-repeat:no-repeat; float:left; margin-right:5px; line-height: 8px;}
 /* .progress-status::after { margin-left: -5px;} */
 .mdl-button--file .material-icons {display: none;} /*hide the clip icon */
+/*drag and drop*/
+.drag-drop{border: 1px dashed #d5d5d5; border-radius: 5px; width:100%; padding:15px; text-align:left;}
+.drag-drop img{display:block; margin:auto;}
+.drag-drop .destext{text-align:center; font-size: 16px; color: #777; padding: 5px 10px;}
+.add-document .upload-image-input{margin-top:5px;}
+.add-document .upload-field{margin-top: 9px; margin-right: 5px;}
+/*---- File upload ----------*/
+.upload-image-input{border: 1px solid rgba(0,0,0,.12); padding:3px 5px; margin-top: 3px;  }
+.upload-image-input input[type="file"]{ position: absolute; top: 0; left: 0;  z-index: 2; width: 70px; height: 100%;  opacity: 0; cursor: pointer; } 
+.upload-image-input input.mdl-textfield__input{float:none !important; margin-top:0 !important; box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666;}
+.upload-field { position: relative;    cursor: pointer;    float: right;    height: 26px;    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
+    background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
+.icon-folder {background-image: url("../images/icon-folder.png"); height: 30px; width: 30px; background-size: cover;
+    background-color: transparent; border: none; float: right;}
+ .mdl-button.mdl-js-button[disabled] {
+    background: #e2e0e0;
+    color: #B3B3B3;
+    border-color: #d3d1d1;
+    cursor: not-allowed;
+}
+ 
 
 /* media query start */
-
 @media(max-width:1024px){
 body,  ul, ol{font-size:12px;}
 .headline{font-size:16px;}
