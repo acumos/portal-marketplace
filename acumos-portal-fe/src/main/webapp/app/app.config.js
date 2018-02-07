@@ -60,7 +60,8 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
           .state('modelEdit', {
 			url: '/modelEdit',
 			component: 'modelEdit',
-			params: {solutionId: null}
+			params: {solutionId: null,
+				deployStatus:null}
          })
 		.state('modularResource', {
 			url: '/modelerResource',
