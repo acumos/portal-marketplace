@@ -1,7 +1,7 @@
 'use strict';
 angular
 		.module('modelEdit')
-		.service('modelUploadService', function($http, $q) {
+		.service('modelUploadService', function($http, $q, $rootScope) {
 
 			this.uploadFileToUrl = function(file, uploadUrl) {
 				// FormData, object of key/value pair for form fields and values

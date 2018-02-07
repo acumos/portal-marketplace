@@ -364,6 +364,7 @@ angular
                 	//scope.fileinput = changeEvent.target.files[0];
                     
                     scope.fileinput = document.getElementById(scope.uploadid).files[0];
+                    scope.file = scope.fileinput;
                     var reader = new FileReader();
                     reader.onload = function(loadEvent) {
                       scope.$apply(function() {
