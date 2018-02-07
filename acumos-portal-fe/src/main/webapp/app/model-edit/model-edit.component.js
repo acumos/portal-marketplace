@@ -1464,6 +1464,7 @@ angular
 							$http({
 								method : 'GET',
 								url : url,
+								responseType : "arraybuffer"
 							})
 									.success(
 											function(data, status, headers,
