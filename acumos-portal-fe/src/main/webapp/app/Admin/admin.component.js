@@ -5,6 +5,9 @@ angular.module('admin')
 		templateUrl:'./app/Admin/admin.template.html',
 		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state){
 			componentHandler.upgradeAllRegistered();
+			//Sorting
+				$scope.orderByField = 'username';$scope.reverseSort = false;
+				$scope.orderByFieldFed = 'name'; $scope.reverseSortFederation = false;
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
@@ -760,7 +763,7 @@ angular.module('admin')
                                         		  $scope.warningMsg = "Change Role";
                                         	  }else if($scope.functionCall == 'deleteValue'){
                                         		  $scope.confirmMsg = "Do you want to Active/Inactive users ?";
-                                        		  $scope.warningMsg = "Delete Confirmation";
+                                        		  $scope.warningMsg = "Active/Inactive Confirmation";
                                         	  }
                                         	  $mdDialog.show({
                                           		  contentElement: '#confirmPopup',
