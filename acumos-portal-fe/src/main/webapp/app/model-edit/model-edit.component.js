@@ -41,7 +41,10 @@ angular
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
 							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state) {
-
+						if($stateParams.deployStatus == true){
+						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
+						}
+						else {$scope.workflowTitle='On-Boarding';$scope.tab='onboard'}
 
 						$scope.status;
 						$scope.activePublishBtn = false;

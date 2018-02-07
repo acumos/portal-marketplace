@@ -13,7 +13,12 @@ angular
 DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams'];
 
 function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams) {
-
+	componentHandler.upgradeAllRegistered();
+	
+	$scope.myfunction = function(){
+        $rootScope.deployEdit = true;
+    };
+	
 	$scope.activeInactivedeploy = true;
     $scope.userDetails = JSON.parse(localStorage
                                     .getItem("userDetail"));
@@ -935,6 +940,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	 
                 $scope.validationState = true;
                 $scope.activeInactivedeploy = false;
+                $scope.solutionIdDeploy = $scope.solutionIdvalidate;
                 $('#validateActive').removeClass('enabled');
                 $('#validateActive').addClass('active');
                 $('#consoleMsg').addClass('console-successmsg');
@@ -2700,4 +2706,122 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     }
     solutionPrPB();
+    $scope.authenticateAnddeployToAzure = function() {
+		var imageTagUri = '';
+		if ($scope.artifactType != null
+				&& $scope.artifactType == 'DI') {
+			imageTagUri = $scope.artifactUri;
+		}
+		/*
+		 * 'client' : $scope.applicationId,
+			'tenant' : $scope.tenantId,
+			'key' : $scope.secretKey,
+			'subscriptionKey' : $scope.subscriptionKey,
+			'rgName' : $scope.resourceGroup,
+			'acrName' : $scope.acrName,
+			'storageAccount' : $scope.storageAccount,
+			'solutionId' : $scope.solutionId,
+			'imagetag' : imageTagUri
+
+		 * */
+			
+			if($scope.solution.tookitType != "CP") {
+				// imagetag:  imageTagUri,
+				$scope.reqObject = {
+						/*'request_body' : {*/
+							 'acrName': $scope.acrName,
+							 'client': $scope.applicationId,
+							 'key': $scope.secretKey,
+							 'rgName': $scope.resourceGroup,
+							 'solutionId': $scope.solution.solutionId,
+							 'solutionRevisionId': $scope.revisionId,
+							 'storageAccount': $scope.storageAccount,
+							 'subscriptionKey':  $scope.subscriptionKey,
+							 'tenant': $scope.tenantId,
+							 'userId':  user[1],
+							 'imagetag': imageTagUri
+						/*}*/
+				}
+				
+				var url = '/azure/singleImageAzureDeployment';
+				$http({
+					method : 'POST',
+					url : url,
+					data: $scope.reqObject
+					
+				}).then(function(response) {
+						alert("Deployment Started Successfully");
+					},
+					function(error) {
+						console.warn("Error occured");
+
+					});
+				
+			} else {
+				$scope.reqObject = {
+						/*'request_body' : {*/
+							 'acrName': $scope.acrName,
+							 'client': $scope.applicationId,
+							 'key': $scope.secretKey,
+							 'rgName': $scope.resourceGroup,
+							 'solutionId': $scope.solution.solutionId,
+							 'solutionRevisionId': $scope.revisionId,
+							 'storageAccount': $scope.storageAccount,
+							 'subscriptionKey':  $scope.subscriptionKey,
+							 'tenant': $scope.tenantId,
+							 'userId':  user[1],
+						/*}*/
+				}
+				var url = '/azure/compositeSolutionAzureDeployment';
+				$http({
+					method : 'POST',
+					url : url,
+					data: $scope.reqObject
+				}).then(function(response) {
+					alert("Deployment Started Successfully");
+				},
+				function(error) {
+					console.warn("Error occured");
+
+				});
+			}
+	
+
+		/*var authDeployObject = {
+			'client' : $scope.applicationId,
+			'tenant' : $scope.tenantId,
+			'key' : $scope.secretKey,
+			'subscriptionKey' : $scope.subscriptionKey,
+			'rgName' : $scope.resourceGroup,
+			'acrName' : $scope.acrName,
+			'storageAccount' : $scope.storageAccount,
+			'solutionId' : $scope.solutionId,
+			'imagetag' : imageTagUri
+
+		};
+
+		apiService
+				.authenticateAnddeployToAzure(
+						authDeployObject)
+				.then(
+						function(response) {
+							if (response.status == "401"
+									|| response.data.error_code == "401") {
+
+								alert("Authorization Failed !!");
+
+							} else {
+
+								alert("Deployed successfully !! ");
+
+							}
+
+							$mdDialog.hide();
+
+						}, function(error) {
+							alert('FAILED');
+							$mdDialog.hide();
+						});*/
+
+	}
 }
