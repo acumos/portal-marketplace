@@ -1736,10 +1736,12 @@ angular
 												// $scope.closePoup();
 												$scope.showPublicSolutionDocs = true;
 												$rootScope.progressBar = 0;
+												$scope.showFileUpload = !$scope.showFileUpload;
 											})
 											.catch(function() {
 												alert("Error in uploading the file");
 												$rootScope.progressBar = 0;
+												$scope.showFileUpload = !$scope.showFileUpload;
 											});
 							$scope.publicfilename = "";
 						}
