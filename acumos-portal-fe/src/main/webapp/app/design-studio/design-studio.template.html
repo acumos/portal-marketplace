@@ -212,11 +212,11 @@
 							<ul
 								class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
 								for="demo-menu-lower-right4">
-								<li class="mdl-menu__item dc-microsoft-azure"></li>
-								<li class="mdl-menu__item dc-google-cloud"></li>
-								<li class="mdl-menu__item dc-rackspace"></li>
-								<li class="mdl-menu__item dc-amazon-cloud"></li>
-								<li class="mdl-menu__item dc-att-cloud"></li>
+								<li class="mdl-menu__item dc-microsoft-azure" ui-sref="modelEdit ({solutionId: solutionIdDeploy,deployStatus: true})"></li>
+								<li class="mdl-menu__item dc-google-cloud" disabled></li>
+								<li class="mdl-menu__item dc-rackspace" disabled></li>
+								<li class="mdl-menu__item dc-amazon-cloud" disabled></li>
+								<li class="mdl-menu__item dc-att-cloud" disabled></li>
 							</ul>
 						</div> 
 						
@@ -682,3 +682,61 @@
 							</div>
 <!-- Saving old version popup confirmation Modal box end -->
 </div>
+<!--Deploy To Cloud Modal -->
+	<div class="md-dialog-container" id="deployCloud" style="height: 0;">
+		<md-dialog aria-label="Mango (Fruit)"
+			class="cg-dialog-Deploy-to-cloud">
+		<form ng-cloak>
+			<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Deploying to Microsoft Azure</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="closePoup()">
+				<i class="material-icons">close</i> </md-button>
+			</div>
+			</md-toolbar>
+			<md-dialog-content>
+			<div class="md-dialog-content">
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+					<div class="mdl-cell mdl-cell--6-col">
+						<md-input-container class="md-icon-float md-block">
+						<!-- Use floating label instead of placeholder --> <label>Application
+							Id</label> <input ng-model="applicationId" type="text"> </md-input-container>
+						<md-input-container class="md-icon-float md-block">
+						<!-- Use floating label instead of placeholder --> <label>Secret
+							key</label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
+						<md-input-container class="md-icon-float md-block">
+						<!-- Use floating label instead of placeholder --> <label>Resource
+							Group</label> <input ng-model="resourceGroup" type="text"> </md-input-container>
+						<md-input-container class="md-icon-float md-block">
+						<!-- Use floating label instead of placeholder --> <label>Storage
+							Account</label> <input ng-model="storageAccount" type="text"> </md-input-container>
+					</div>
+
+					<div class="mdl-cell mdl-cell--6-col">
+						<md-input-container class="md-icon-float md-block">
+						<label>Tenant Id</label> <input ng-model="tenantId" type="text">
+						</md-input-container>
+						<md-input-container class="md-icon-float md-block">
+						<label>Subscription Key</label> <input ng-model="subscriptionKey"
+							type="text"> </md-input-container>
+						<md-input-container class="md-icon-float md-block">
+						<label>Acr Name</label> <input ng-model="acrName" type="text">
+						</md-input-container>
+					</div>
+				</div>
+				<hr />
+				<div layout="row" class="deploy-cloud-modalfooter">
+					<md-button
+						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+						ng-click="closePoup()"> Cancel </md-button>
+					<md-button
+						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						ng-click="authenticateAnddeployToAzure()"> Deploy </md-button>
+				</div>
+			</div>
+			</md-dialog-content>
+
+		</form>
+		</md-dialog>
+	</div>
