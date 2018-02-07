@@ -33,9 +33,23 @@ angular
 					controller : function($scope, $location, $http,
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
-							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state) {
+							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $rootScope) {
 
-
+						/*if($rootScope.deployEdit == true){
+                            $("#onboardDesign").removeClass("isActive");
+                            $("#deployDesign").addClass("isActive");
+                            $("#deployDesign").trigger("click");
+                        }*/
+						/*$scope.checkfuntion = function(){
+							debugger
+							$scope.tab;
+						}*/
+						
+						debugger;
+						if($stateParams.deployStatus == true){debugger;
+						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
+						}
+						else {$scope.workflowTitle='On-Boarding';$scope.tab='onboard'}
 						$scope.status;
 						$scope.activePublishBtn = false;
 						$scope.activePublishBtnPB = false;
