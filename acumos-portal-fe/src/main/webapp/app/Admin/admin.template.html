@@ -212,7 +212,7 @@
 														<div>
 															<span class="admin-search-lbl">Search User</span>
 															<div class="mdl-textfield mdl-js-textfield user-mgmt-search-container">
-																	<input class="mdl-textfield__input adminsearchicon" type="text" ng-model='searchUserDetails.username'>
+																	<input class="mdl-textfield__input adminsearchicon" type="text" ng-model='search'>
 																	<!-- <label class="mdl-textfield__label" for="module-search">Search User</label> -->
 															</div>
 														</div>
@@ -231,13 +231,14 @@
 															  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input">
 															  <span class="mdl-checkbox__label"></span>
 															</label> --></th>
-														  <th>User Name</th>
-														  <th>Email</th>
-														  <th>Role</th>
-														  <th>Status</th>
+														  <th ng-click="orderByField='username'; reverseSort = !reverseSort">User Name<span ng-if='orderByField!="username"' class="gridcell-sort deactivate"></span><span ng-if='orderByField=="username"' ng-class="reverseSort?'ascending':'descending'" class="gridcell-sort"></span></th>
+														  <th ng-click="orderByField='emailId'; reverseSort = !reverseSort">Email<span ng-if='orderByField!="emailId"' class="gridcell-sort deactivate"></span><span ng-if='orderByField=="emailId"' ng-class="reverseSort?'ascending':'descending'" class="gridcell-sort"></span></th>
+														  <th ng-click="orderByField='userAssignedRolesList'; reverseSort = !reverseSort">Role<span ng-if='orderByField!="userAssignedRolesList"' class="gridcell-sort deactivate"></span><span ng-if='orderByField=="userAssignedRolesList"' ng-class="reverseSort?'ascending':'descending'" class="gridcell-sort"></span></th>
+														  <th ng-click="orderByField='active'; reverseSort = !reverseSort">Status<span ng-if='orderByField!="active"' class="gridcell-sort deactivate"></span><span ng-if='orderByField=="active"' ng-class="reverseSort?'ascending':'descending'" class="gridcell-sort"></span></th>
 														</tr>
 													  </thead>
-													  <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))">
+													  <!-- <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))"> -->
+													  <tbody ng-repeat="val in userDetails | orderBy:orderByField:reverseSort | filter : search">
 														<tr >
 										
 															<td>
@@ -260,7 +261,10 @@
 																    </md-select>
 																 </div> -->
 															  </td>
-															  <td><span ng-show="val.active=='true'">Active</span><span ng-show="val.active!='true'">Inative</span></td>
+															  <td><!-- <span ng-show="val.active=='true'">Active</span><span ng-show="val.active!='true'">Inative</span> -->
+															  			<label class="text-green" ng-if='val.active == "true"' class="">Active</label>
+																		<label ng-if='val.active != "true"' class="">Inactive</label>
+															  </td>
 														</tr>
 														
 													  </tbody>
@@ -472,7 +476,7 @@
 														</div>
 														<div class="fed-row2">																												
 															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model = "searchPeerDetails.name">																
+																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model = "searchPeerDetails">																
 															</div>															
 															<!-- <div class="marketplace-btn-container">								  
 																<button id="demo-menu-lower-right2"
@@ -504,16 +508,16 @@
 																</colgroup>
 															  <thead  ng-hide="hideLabel">
 																<tr>														  
-																  <th>Name</th>
-																  <th>gateway info</th>
-																  <th>Contact</th>
+																  <th ng-click="orderByFieldFed='name'; reverseSortFederation = !reverseSortFederation">Name<span ng-if='orderByFieldFed!="name"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="name"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
+																  <th ng-click="orderByFieldFed='apiUrl'; reverseSortFederation = !reverseSortFederation">gateway info<span ng-if='orderByFieldFed!="apiUrl"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="apiUrl"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
+																  <th ng-click="orderByFieldFed='contact1'; reverseSortFederation = !reverseSortFederation">Contact<span ng-if='orderByFieldFed!="contact1"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="contact1"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
 																  <th>Subscriptions</th>
-																  <th>Status</th>
+																  <th ng-click="orderByFieldFed='active'; reverseSortFederation = !reverseSortFederation">Status<span ng-if='orderByFieldFed!="active"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="active"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
 																  <th>Action</th>
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr ng-repeat='val in peer  | filter: searchPeerDetails.name as filtered'>															
+																<tr ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails  '>															
 																	<td><span>{{val.name}}</span></td>
 																	<!-- <td>
 																		<label>{{val.description}}</label>
