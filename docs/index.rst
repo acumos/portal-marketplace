@@ -1,12 +1,12 @@
-portal-marketplace
+Portal Marketplace
 ------------------
     
 .. toctree::
        :maxdepth: 2
-    
+
        portal-marketplace
        release-notes
-       tutorials/index   
-	   DevelopersGuide
+       tutorials/index
+       DevelopersGuide
        UserGuide
 
