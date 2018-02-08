@@ -97,10 +97,8 @@ public class AdminServiceControllerTest {
 	public void removePeerTest() {
 
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -133,10 +131,8 @@ public class AdminServiceControllerTest {
 	public void getPeerSubscriptionsTest() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -173,10 +169,8 @@ public class AdminServiceControllerTest {
 
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -209,10 +203,8 @@ public class AdminServiceControllerTest {
 	public void createPeerSubscription() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -246,10 +238,8 @@ public class AdminServiceControllerTest {
 
 		
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -282,10 +272,8 @@ public class AdminServiceControllerTest {
 
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -457,10 +445,8 @@ public class AdminServiceControllerTest {
 	public void getPeerListTest() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -495,10 +481,8 @@ public class AdminServiceControllerTest {
 	public void getPeerDetailsTest() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -525,10 +509,8 @@ public class AdminServiceControllerTest {
 	public void createPeerTest() {
 	
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -556,10 +538,8 @@ public class AdminServiceControllerTest {
 	@Test
 	public void updatePeerTest() {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
 			mlpPeer.setPeerId("c17c0562-c6df-4a0c-9702-ba8175eb23fd");

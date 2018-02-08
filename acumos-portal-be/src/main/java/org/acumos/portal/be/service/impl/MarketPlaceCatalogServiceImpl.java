@@ -203,9 +203,9 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				List<MLPToolkitType> toolkitTypeList = dataServiceRestClient.getToolkitTypes();
 				if (toolkitTypeList.size() > 0) {
 					for (MLPToolkitType toolkitType : toolkitTypeList) {
-						if (toolkitType.getToolkitCode() != null) {
-							if (toolkitType.getToolkitCode().equalsIgnoreCase(mlpSolution.getToolkitTypeCode())) {
-								mlSolution.setTookitTypeName(toolkitType.getToolkitName());
+						if (toolkitType.getTypeCode() != null) {
+							if (toolkitType.getTypeCode().equalsIgnoreCase(mlpSolution.getToolkitTypeCode())) {
+								mlSolution.setTookitTypeName(toolkitType.getTypeName());
 								break;
 							}
 						}
