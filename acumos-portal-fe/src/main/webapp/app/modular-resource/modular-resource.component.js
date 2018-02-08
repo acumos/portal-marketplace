@@ -316,6 +316,7 @@ angular.module('modelResource')
 							}*/
 				
 				$scope.userId = JSON.parse(localStorage.getItem("userDetail"));
+				$scope.statusReult = [];
 				$scope.addToReqObj = {
 						  "request_body": {
 							    "version": $scope.toolkitNameValue,
@@ -323,18 +324,79 @@ angular.module('modelResource')
 							  }
 							}
 				
+				$scope.completedSteps = [];
+				$scope.errorCM = ''; $scope.errorPA = ''; $scope.errorDO = ''; $scope.errorAR = ''; $scope.errorVM = '';
+				$scope.showValidationStatus = function(){
+					var counter = 1;
+					var width = 0;
+
+					apiService
+					.getMessagingStatus($scope.userId[1], $scope.trackId ).then(
+							function(reponse) {
+								var data = reponse.data.response_body;
+								for(var i=0 ; i< data.length; i++){
+									var stepCode = data[i].stepCode;
+									var statusCode =  data[i].statusCode;
+
+									switch(stepCode){
+										case 'CM': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+										case 'PA' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorPA = data[i].result : $scope.errorPA = ''; break;
+										case 'DO' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+										case 'CT' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+										case 'AR' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+										case 'VM' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = ''; break;
+									}
+									angular.element(angular.element('.onboarding-web li div')[counter]).removeClass('completed incomplet active');
+									if(statusCode == 'FA'){
+										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('incomplet');
+										angular.element(angular.element('.onboarding-web li')[counter+1]).removeClass('green');
+									}else if(statusCode == 'ST'){
+										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('active');
+										angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('progress-status green')
+										
+									} else if(statusCode == 'SU'){
+										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('completed');
+										angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('green completed');
+										$scope.completedSteps[stepCode] = stepCode;
+									}
+
+									
+								}
+								
+							},
+							function(error) {
+								
+						});
+					
+						var allStepsCount = Object.keys($scope.completedSteps);
+						if($scope.completedSteps && allStepsCount.length == 6 ){
+							$interval.cancel(clearInterval);
+						}
+					
+				} 
+				
 				apiService
 				.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
 				.then(
 						function(response) {
-							alert("Onboarding process started. It may take some time to onboard your solution. \nPlease check notification to know the status of your solution.")
+							 $scope.trackId = response.data.response_detail;
+							//alert("Onboarding process started successfully with track id " + $scope.trackId + ". It may take some time to onboard your solution. \nPlease check notification to know the status of your solution.")
 							$scope.catalogResponse = response.data;
-							$location.hash('page-top');
-							 $anchorScroll();
-							var counter = 1;
-							var width = 0;
-							$interval(function() {
-								angular.element(angular.element('.onboarding-web li div')[counter-3]).removeClass('active');
+							
+							//need to change once we get response from onboarding
+							
+							
+							var clearInterval = $interval(function(){
+								$scope.showValidationStatus();
+							}, 30000);
+							
+/*							$location.hash('page-top');
+							 $anchorScroll();*/
+
+
+									
+
+								/*angular.element(angular.element('.onboarding-web li div')[counter-3]).removeClass('active');
 								angular.element(angular.element('.onboarding-web li div')[counter-3]).addClass('completed');
 								angular.element(angular.element('.onboarding-web li div')[counter-1]).addClass('active');
 								angular.element(angular.element('.onboarding-web li')[counter]).addClass('progress-status green')
@@ -345,9 +407,9 @@ angular.module('modelResource')
 								angular.element('.onboardingwebContent').css({ "height" :'100%'});
 								if(counter > 12){
 									$scope.activeViewModel = true;
-								}
+								}*/
 								
-							}, 5000, 7);
+							//}, 5000, 7);
 						},
 						function(error) {
 							$scope.catalorError = error.data;

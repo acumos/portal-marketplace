@@ -38,6 +38,7 @@ import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionValidation;
+import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
@@ -48,6 +49,7 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.OauthUser;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
@@ -452,4 +454,21 @@ public class PortalUtils {
 			return sb.toString();
       }
 	
+      public static MLStepResult convertToMLStepResult(MLPStepResult mlpStepResult){
+    	  
+    	MLStepResult mlStepResult = new MLStepResult();
+    	mlStepResult.setArtifactId(mlpStepResult.getArtifactId());
+    	mlStepResult.setName(mlpStepResult.getArtifactId());
+    	mlStepResult.setResult(mlpStepResult.getResult());
+    	mlStepResult.setRevisionId(mlpStepResult.getRevisionId());
+    	mlStepResult.setSolutionId(mlpStepResult.getSolutionId());
+    	mlStepResult.setStatusCode(mlpStepResult.getStatusCode());
+    	mlStepResult.setStepCode(mlpStepResult.getStepCode());
+    	mlStepResult.setStepResultId(mlpStepResult.getStepResultId());
+    	mlStepResult.setTrackingId(mlpStepResult.getTrackingId());
+    	mlStepResult.setUserId(mlpStepResult.getUserId());    	
+    	
+  		return mlStepResult;
+  		
+  	}
 }

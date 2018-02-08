@@ -22,14 +22,24 @@ package org.acumos.portal.be.controller;
 
 import java.io.FileNotFoundException;
 import java.net.ConnectException;
+import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPStepStatus;
+import org.acumos.cds.domain.MLPStepType;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.service.AsyncServices;
+import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.client.ClientProtocolException;
@@ -56,17 +66,21 @@ public class WebBasedOnboardingController  extends AbstractController {
 	@Autowired
 	private AsyncServices asyncService;
 
+	@Autowired
+	private MessagingService messagingService;
 	
-	@Async
+	
+	//@Async
 	@ApiOperation(value = "adding Solution for Market Place Catalog.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.ADD_TO_CATALOG}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> addToCatalog(@RequestHeader("Authorization") String authorization, @RequestHeader(value="provider", required=false) String provider ,@RequestBody JsonRequest<UploadSolution> restPageReq, @PathVariable("userId") String userId ) {
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "addToCatalog");
-		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
-	    
-	    System.out.println("Execute method asynchronously - "+ Thread.currentThread().getName());
+		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();	    
+		String uuid = UUID.randomUUID().toString();
+		
+		
 		try {
 			if (restPageReq != null) {
 				UploadSolution solution = restPageReq.getBody();
@@ -75,9 +89,9 @@ public class WebBasedOnboardingController  extends AbstractController {
 				//restPageReq.getBody() will get( modelType, modelToolkitType, name) which required to proceed
 				//String provider = request.getHeader("provider");
 				String access_token = authorization;
-				asyncService.callOnboarding(userId, solution, provider, access_token);
+				asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions OnBoarded Successfully");
+				data.setResponseDetail(uuid);
 			}
 			/*if (mlSolutions != null) {
 				
@@ -119,4 +133,217 @@ public class WebBasedOnboardingController  extends AbstractController {
 		return data;
 	}
 	
+	
+	
+	@ApiOperation(value = "getting message for the OnBoarded Solution.", response = RestPageResponseBE.class)
+	@RequestMapping(value = { APINames.MESSAGING_STATUS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLStepResult>> messagingStatus(@PathVariable("userId") String userId, @PathVariable("trackingId") String trackingId) {
+		
+		log.debug(EELFLoggerDelegate.debugLogger, "messagingStatus");
+		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
+	    	     
+		try {
+			 		
+			List<MLStepResult> responseBody =  messagingService.callOnBoardingStatusList(userId, trackingId);
+			data.setResponseBody(responseBody);			 
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Solutions OnBoarded Successfully");
+			 			 
+		}catch (Exception e) {
+			
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog",
+					e);
+		}
+		return data;
+	}
+	
+	/**
+	 * 
+	 * @param stepResult
+	 * @param response
+	 * @return
+	 */
+	@ApiOperation(value = "Create StepResult", response = MLPStepResult.class)
+	@RequestMapping(value = { APINames.CREATE_STEP_RESULT }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPStepResult> createStepResult(@RequestBody MLPStepResult stepResult,
+			HttpServletResponse response) {
+
+		JsonResponse<MLPStepResult> data = new JsonResponse<>();
+		try {
+			if (stepResult != null) {
+				MLPStepResult result = messagingService.createStepResult(stepResult);
+				if (result != null) {
+					data.setResponseBody(result);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Step result created Successfully");
+					log.debug(EELFLoggerDelegate.debugLogger, "Step result created Successfully :  ");
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					data.setResponseDetail("Error occured while createStepResult");
+					log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createStepResult :");
+				}
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while createStepResult");
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createStepResult :");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while createStepResult");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createStepResult :", e);
+		}
+		return data;
+	}
+	
+	/**
+	 * 
+	 * @param stepResult
+	 * @param response
+	 * @return
+	 */
+	@ApiOperation(value = "Create StepResult", response = MLPStepResult.class)
+	@RequestMapping(value = { APINames.UPDATE_STEP_RESULT }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPStepResult> updateStepResult(@RequestBody MLPStepResult stepResult,
+			HttpServletResponse response) {
+
+		JsonResponse<MLPStepResult> data = new JsonResponse<>();
+		try {
+			if (stepResult != null) {
+				messagingService.updateStepResult(stepResult);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Step result updated Successfully");
+					log.debug(EELFLoggerDelegate.debugLogger, "Step result updated Successfully :  ");		
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while updateStepResult");
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred updateStepResult :");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while updateStepResult");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateStepResult :", e);
+		}
+		return data;
+	}
+	
+	@ApiOperation(value = "Create StepResult", response = MLPStepResult.class)
+	@RequestMapping(value = { APINames.DELETE_STEP_RESULT }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPStepResult> deleteStepResult(HttpServletRequest request,
+			@PathVariable("userId") Long stepResultId,
+			HttpServletResponse response) {
+
+		JsonResponse<MLPStepResult> data = new JsonResponse<>();
+		try {
+			if (stepResultId != null) {
+				messagingService.deleteStepResult(stepResultId);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Step result deleted Successfully");
+					log.debug(EELFLoggerDelegate.debugLogger, "Step result deleted Successfully :  ");		
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while deleteStepResult");
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred deleteStepResult :");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while deleteStepResult");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteStepResult :", e);
+		}
+		return data;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ApiOperation(value = "Fetch Step statuses", response = MLPStepStatus.class)
+	@RequestMapping(value = { APINames.GET_STEP_STATUSES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLPStepStatus>> getStepStatuses(HttpServletRequest request, HttpServletResponse response) {
+		JsonResponse<List<MLPStepStatus>> data = new JsonResponse<>();
+		try {
+			List<MLPStepStatus> stepStatusesList = messagingService.getStepStatuses();
+			if (stepStatusesList != null) {
+				data.setResponseBody(stepStatusesList);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Step result created Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "Step result created Successfully :  ");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while createStepResult");
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createStepResult :");
+			}
+
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while createStepResult");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createStepResult :", e);
+		}
+		return data;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ApiOperation(value = "Fetch Step types", response = MLPStepType.class)
+	@RequestMapping(value = { APINames.GET_STEP_TYPES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLPStepType>> getStepTypes(HttpServletRequest request, HttpServletResponse response) {
+		JsonResponse<List<MLPStepType>> data = new JsonResponse<>();
+		try {
+			List<MLPStepType> stepStatusesList = messagingService.getStepTypes();
+			if (stepStatusesList != null) {
+				data.setResponseBody(stepStatusesList);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Step statuses fetched Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "Step statuses fetched Successfully :  ");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while getStepTypes");
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred getStepTypes :");
+			}
+
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while getStepTypes");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getStepTypes :", e);
+		}
+		return data;
+	}
+	
+	/*@ApiOperation(value = "getting message for the OnBoarded Solution.", response = MLStepResult.class)
+	@RequestMapping(value = { APINames.MESSAGING_STATUS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLStepResult> messagingStatus(@PathVariable("userId") String userId, @PathVariable("trackingId") String trackingId) {
+		
+		log.debug(EELFLoggerDelegate.debugLogger, "messagingStatus");
+		JsonResponse<MLStepResult> data = new JsonResponse<>();	     
+		try {			 
+			
+			MLStepResult responseBody =  null;
+			responseBody = messagingService.callOnBoardingStatus(userId, trackingId);
+			data.setResponseBody(responseBody);			
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Solutions OnBoarded Successfully");		 
+			 
+		}catch (Exception e) {
+			
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog",
+					e);
+		}
+		return data;
+	}*/
 }

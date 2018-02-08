@@ -414,7 +414,9 @@
                                                                            src="images/submit-to-publication.png" alt="" title=""> -->
                                                                      </span>
                                                               </div>
+                                                              <md-tooltip>{{errorCM}}</md-tooltip>
                                                               <div class="text">Create Micro-service</div>
+                                                              
                                                        </li>
                                                        <li class="progress-status"></li>
                                                        <li>
@@ -423,7 +425,9 @@
                                                                            src="images/security-scan.png" alt="" title=""> -->
                                                                      </span>
                                                               </div>
+                                                              <md-tooltip>{{errorPA}}</md-tooltip>
                                                               <div class="text">Package</div>
+                                                              
                                                        </li>
                                                        <li class="progress-status"></li>
                                                        <li>
@@ -432,7 +436,9 @@
                                                                            src="images/verify-model.png" alt="" title=""> -->
                                                                      </span>
                                                               </div>
+                                                              <md-tooltip>{{errorDO}}</md-tooltip>
                                                               <div class="text">Dockerize</div>
+                                                              
                                                        </li>
                                                        <li class="progress-status"></li>
                                                        <li>
@@ -441,7 +447,9 @@
                                                                            src="images/license-check.png" alt="" title=""> -->
                                                                      </span>
                                                               </div>
+                                                              <md-tooltip>{{errorCT}}</md-tooltip>
                                                               <div class="text">Create TOSCA</div>
+                                                              
                                                        </li>
                                                        <li class="progress-status"></li>
                                                        <li>
@@ -450,7 +458,9 @@
                                                                            src="images/text-check.png" alt="" title=""> -->
                                                                      </span>
                                                               </div>
+                                                              <md-tooltip>{{errorAR}}</md-tooltip>
                                                               <div class="text">Add to Repository</div>
+                                                              
                                                        </li>
                                                        <li class="progress-status"></li>
                                                        <li>
@@ -459,6 +469,7 @@
                                                                            src="images/text-check.png" alt="" title=""> -->
                                                                      </span>
                                                               </div>
+                                                               <md-tooltip>{{errorVM}}</md-tooltip>
                                                               <div class="publshbutton hide">
                                                                      <button   
                                                                      ng-click="viewModel()"
@@ -474,6 +485,7 @@
                                                               <div class="text-completed">
                                                               Model is onboarded and available in Private catalog
                                                               </div>
+                                                             
                                                        </li>                                                       
                                                 </ul>
 

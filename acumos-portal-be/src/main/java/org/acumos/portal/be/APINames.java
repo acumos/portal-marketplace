@@ -196,4 +196,10 @@ public class APINames {
 	   
 	   public static final String GET_VERSION = "/version";
 	   
+	   public static final String MESSAGING_STATUS = "/messagingStatus/{userId}/{trackingId}";
+	   public static final String CREATE_STEP_RESULT = "/stepResult/create";
+	   public static final String UPDATE_STEP_RESULT = "/stepResult/update";
+	   public static final String DELETE_STEP_RESULT = "/stepResult/delete/{stepResultId}";
+	   public static final String GET_STEP_STATUSES = "/stepStatuses";
+	   public static final String GET_STEP_TYPES = "/stepTypes";
 }

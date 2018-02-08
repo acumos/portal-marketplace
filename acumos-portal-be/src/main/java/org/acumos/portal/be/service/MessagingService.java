@@ -18,19 +18,27 @@
  * ===============LICENSE_END=========================================================
  */
 
+
 package org.acumos.portal.be.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.concurrent.Future;
+import java.util.List;
 
-import org.acumos.portal.be.transport.UploadSolution;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
+import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPStepStatus;
+import org.acumos.cds.domain.MLPStepType;
+import org.acumos.portal.be.transport.MLStepResult;
 
-public interface AsyncServices {
+public interface MessagingService {
 
-	Future<String> initiateAsyncProcess() throws InterruptedException;
+	List<MLStepResult> callOnBoardingStatusList(String userId, String trackingId);
 	
-	Future<HttpResponse> callOnboarding(String uuid, String userId, UploadSolution solution, String provider, String access_token) throws InterruptedException, FileNotFoundException, ClientProtocolException, IOException;
+	MLPStepResult createStepResult(MLPStepResult stepResult);
+
+	void updateStepResult(MLPStepResult stepResult);
+
+	void deleteStepResult(Long stepResultId);
+
+	List<MLPStepStatus> getStepStatuses();
+
+	List<MLPStepType> getStepTypes();
 }

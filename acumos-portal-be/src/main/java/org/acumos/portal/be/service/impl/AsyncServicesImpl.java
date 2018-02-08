@@ -97,7 +97,7 @@ public class AsyncServicesImpl implements AsyncServices {
 	}
 
 	@Override
-	public Future<HttpResponse> callOnboarding(String userId, UploadSolution solution, String provider, String access_token)
+	public Future<HttpResponse> callOnboarding(String uuid, String userId, UploadSolution solution, String provider, String access_token)
 			throws InterruptedException, ClientProtocolException, IOException {
 
 		File directory = new File(env.getProperty("model.storage.folder.name") + File.separator + userId);
