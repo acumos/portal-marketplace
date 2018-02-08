@@ -6,14 +6,6 @@ app.component('headerNav',{
 	
 	//templateUrl : '/app/header/header-nav.template.html',
 	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService) {
-		console.log(localStorage.getItem("pageLoad"));		
-		debugger;
-		/*if(localStorage.getItem("pageLoad") == true || localStorage.getItem("pageLoad") == 'true')
-		{	
-			console.log("Page load function call ------->>>>>>>>>>>");
-			localStorage.setItem("pageLoad", false);
-			$state.go("home");
-		}*/
 		componentHandler.upgradeAllRegistered();
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
@@ -24,19 +16,8 @@ app.component('headerNav',{
 		$scope.page = 0;
 		$scope.moreNotif = false;
 		
-	// Hardcode Priva
-		/*$scope.getTemplateUrl = function() {
-			 if(localStorage.getItem("HeaderNameVar")=="manageModule"){
-				 return '/app/header/header-nav.template1.html';
-			 }else{
-				 return '/app/header/header-nav.template2.html';
-			 }
-			  
-		   };*/
 		$rootScope.parentActive = '';
-		
 		$rootScope.toggleHeader = true; 
-
 		$scope.toggleHeaderClass=function($event) {
 			if($rootScope.toggleHeader==true){
 				$rootScope.toggleHeader=false;
