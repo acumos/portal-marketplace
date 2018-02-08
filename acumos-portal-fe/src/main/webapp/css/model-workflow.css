@@ -700,14 +700,12 @@
     text-align:center;
     
     }
-
 .errorfound{font-size: 11px; color:#FF0000;} 
-.imageplace.incomplet ~ .errorfound.hide{display:block !important;}
-#manage-models .errorfound p{font-size:11px; line-height:13px; margin-bottom:2px;}
-.btn-error{ margin: 4px 0;  float: inherit;  padding: 0 10px;  height: 24px;  font-size: 12px;  line-height: 17px;
-  min-height: 24px; background-color: #FFF; color: #ff0000; border:1px solid #ff0000; text-align:center;
-}
-
+    .imageplace.incomplet ~ .errorfound.hide{display:block !important;}
+    #manage-models .errorfound p{font-size:11px; line-height:13px; margin-bottom:2px;}
+   .btn-error{ margin: 4px 0;  float: inherit;  padding: 0 10px;  height: 24px;  font-size: 12px;  line-height: 17px;
+    min-height: 24px; background-color: #FFF; color: #ff0000; border:1px solid #ff0000; text-align:center;
+   }
 
 
 /* .hasClass .company-market ul li {list-style-type: none;  display: inline-block;      vertical-align: top; width: 15.2%;}
@@ -970,7 +968,7 @@ body {
       letter-spacing: 0;
       margin: 0 0 16px;
       line-height: 24px;
-      word-break: break-word;
+      word-break:break-word;
 }
 
 ul li {
@@ -1446,18 +1444,19 @@ position:relative;
 .timeline-version label  {padding-bottom:15px; line-height:30px;}
 .timeline-version select{height: 26px;padding-bottom: 3px; margin-bottom:15px;}
 .model-description .md-dialog-content .deploy-grid.midcontent{margin-bottom:20px;}
-
-.ql-editor{word-break: break-word;}
-.sectiontitle{font-size:14px;}
-.response .mdl-data-table td{font-weight:normal;}
-
 /*drag and drop*/
-
 .drag-drop{border: 1px dashed #d5d5d5; border-radius: 5px; width:100%; padding:15px; text-align:left;}
 .drag-drop img{display:block; margin:auto;}
 .drag-drop .destext{text-align:center; font-size: 16px; color: #777; padding: 5px 10px;}
 .add-document .upload-image-input{margin-top:5px;}
 .add-document .upload-field{margin-top: 9px; margin-right: 5px;}
+
+ .mdl-button.mdl-js-button[disabled] {
+    background: #e2e0e0;
+    color: #B3B3B3;
+    border-color: #d3d1d1;
+    cursor: not-allowed;
+}
     
 /*---- media query start ----------*/
 @media(max-width:2560px){
@@ -1568,7 +1567,7 @@ position:relative;
       .hasClass .company-market ul li.text, .company-market ul li .text {
             /*width: 68px;*/
             word-wrap: break-word;
-            line-height: 18px;
+                line-height: 18px;
       }
       .hasClass .company-market ul li:last-child .text {
             /*width: 126px;*/
@@ -1579,11 +1578,11 @@ position:relative;
       
       .progress-status::after{margin-left: -4px;}
       .hasClass.initialVal .progress-status::after{margin-left: -4px;}
-      .headline{max-width: 275px;} 
+      .headline{max-width: 285px;} 
       .hasClass .company-market ul li, .initialVal.hasClass .company-market ul li{width:20%;}
       .popovers{width:100%;}
       .timeline h6{display: inline-block; padding-bottom:0px; width:100%;} 
-      .timeline button.btn-secondary {margin-bottom:3px; font-size: 13px; padding: 0 10px;} 
+      .timeline button.btn-secondary {margin-bottom:3px;} 
       .imageuploader .iconcontainer{width:75px;}
       .initialVal .imageuploader .iconcontainer{width:100px;}
       /* resolution changes */
@@ -1613,13 +1612,8 @@ position:relative;
     .timeline-version select{padding-bottom:0px;}
     #manage-models .md-tab, .sectiontitle{font-size: 13px;}
     .response .mdl-data-table th{font-size: 12px;}
-    .response .mdl-data-table td{font-size:12px;}
-    
-    .cloud-radio div {width:48%;}  
-      /* styles.css changes */
-      .mdl-layout__drawer{width: 188px;}
-      .headertxtspan{font-size: 11px;}
-      .mdl-layout--fixed-drawer>.mdl-layout__content{margin-left: 188px;}
+    .response .mdl-data-table td{font-size:12px;}    
+    .cloud-radio div {width:48%;} 
 }
 
 @media ( max-width :768px) {
@@ -1631,7 +1625,7 @@ position:relative;
 .description-content-right.status{float:left; padding-left:0;} 
 .description-content-right.status div,.description-content-right.status span{display:inline;}
  .headline{max-width:350px;}  
-  .imageuploader .iconcontainer{width:100px;} 
+  .imageuploader .iconcontainer{width:100px;}   
   .mdl-layout--fixed-drawer>.mdl-layout__content{margin-left: 0px;}  
 }
 
