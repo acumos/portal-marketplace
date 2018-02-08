@@ -1571,3 +1571,4 @@ header.header-without-login .mdl-layout__header-row {padding:0;align-items:stret
 .downloadlbl1 {display: block; max-width: 200px; text-overflow:ellipsis; float: left; overflow: hidden;}
 .downloadlbl2 {clear: both; display: block; width: 100%;}
 .text-green {color: #009900;}
+.disabledLink{pointer-events: none;}
