@@ -6,7 +6,7 @@
 	<section class="pageheadsection">
 		<div class="mdl-grid mdl-grid--no-spacing">
 			<div
-				class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+				class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--3-col-phone">
 				<span class="headline mob-disblock"> <!-- Manage  -->My
 					Models
 				</span>
@@ -18,7 +18,7 @@
 				</ul>
 			</div>
 			<div
-				class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--4-col-phone text-right lg-v-self-center">
+				class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--1-col-phone text-right lg-v-self-center">
 				<a
 					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary hide-xs"
 					ui-sref="modularResource" ng-click="$root.parentActive = ''">add
@@ -91,7 +91,7 @@
 		<div
 			class="mdl-cell mdl-cell--10-col mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-color--white cg-grid-right-container">
 			<div class="page-wrapper">
-				<div class="mdl-grid mdl-grid--no-spacing grid1">
+				<div class="mdl-grid mdl-grid--no-spacing grid1 hide-xs">
 					<div
 						class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--1-col-phone mdl-cell--middle">
 						<span class="hide-xs hide-sm showing-text">Showing - <span
@@ -182,6 +182,45 @@
 						</div>
 					</div>
 				</div>
+								<div class="mob-actions-container1 hide-sm hide-md hide-lg hide-xl">
+									<button class="mdl-button mdl-js-button mdl-button--primary btn-browse1" ng-click="showfilter = !showfilter"><i class="material-icons">open_in_browser</i></button>
+									<div class="select-control ">
+									    <md-select ng-model="action" placeholder="" class="mdl-button md-no-underline mob-btn-sort">
+									        <md-option ng-value="action" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
+									    </md-select>
+									</div>
+									<div class="select-control">
+											<md-select ng-model="selectedSolutionId" placeholder="" class="mdl-button md-no-underline mob-btn-sort">
+								             <md-select-header class="demo-select-header">
+									            <input ng-model="searchTerm" type="search" >
+									        </md-select-header> 
+								            <md-option ng-repeat="(key, solution) in solutionIds | filter : searchTerm" ng-value="solution.solutionId" ng-click="searchChange(key)">
+								              {{solution.solutionId}}
+								            </md-option>
+								             <md-select-header class="demo-select-header">
+									           <a ng-click="viewAllSolutions()" > View All </a>
+									        </md-select-header>
+								          </md-select>
+									</div>
+									<div class="grid-view-btn-container">                                   
+		                                <button ng-disabled="Viewtile" ng-class="{'gridlistview-btnactive':Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true">
+		                                      <i ng-if="Viewtile">
+		                                            	<img src="images/tile_view_white_icon.png" />
+		                                            </i>
+		                                             <i ng-if="!Viewtile">
+		                                            	<img src="images/tile_view_black_icon.png" />
+		                                            </i>
+		                                </button>
+		                                <button ng-disabled="!Viewtile" ng-class="{'gridlistview-btnactive':!Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = false">
+		                                           <i ng-if="Viewtile">
+		                                            	<img src="images/list_view_black_icon.png" />
+		                                            </i>
+		                                              <i ng-if="!Viewtile">
+		                                            	<img src="images/list_view_white_icon.png" />
+		                                            </i>  
+		                                </button>
+		                            </div>
+								</div>
 				<br />
 
 				<div class="grid-outer-wrapper">
