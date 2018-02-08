@@ -57,11 +57,19 @@
 								</div>
 							</div>
 							<div class="profile-container1-right">
+							<form name="signupForm" ng-cloak novalidate>
 								<div class="profile-container-inner">
+								
 									<div class="profile-row-1">
 										<div>
 											<md-input-container class="md-block" flex-gt-sm>
-											<label>First Name</label> <input type="text" ng-model="user.firstName" /> </md-input-container>
+												 <label>First Name</label> <!--<input type="text" ng-model="user.firstName" /> -->
+												<input type="text" name="firstName" ng-model="user.firstName" valid-name required ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false">
+												<div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.firstName.$valid}">
+														<span ng-show="( !!signupForm.firstName.$error.required && signupForm.firstName.$touched && firstNameVisited)">First Name Required.</span>
+														<span ng-show="!!signupForm.firstName.$error.invalidChars && firstNameVisited">First name must contain letters only.</span>
+												</div>
+											</md-input-container>
 										</div>
 										<div>
 											<md-input-container class="md-block" flex-gt-sm>
@@ -72,7 +80,13 @@
 									<div class="profile-row-1">
 										<div>
 											<md-input-container class="md-block" flex-gt-sm>
-											<label>Last Name</label> <input type="text" ng-model="user.lastName" /> </md-input-container>
+												<label>Last Name</label> <!-- <input type="text" ng-model="user.lastName" /> -->
+												<input type="text" name="lastName" ng-model="user.lastName" valid-name required ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false">
+												   <div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.lastName.$valid}">
+														<span ng-show="!!signupForm.lastName.$error.required && signupForm.lastName.$touched && lastNameVisited">Last Name Required.</span> 
+														<span ng-show="!!signupForm.lastName.$error.invalidChars && lastNameVisited">Last name must contain letters only.</span>
+													</div>
+											 </md-input-container>
 										</div>
 										
 										<div>
@@ -80,7 +94,9 @@
 											<label>Company</label> <input type="text" ng-model="user.orgName" /> </md-input-container>
 										</div>
 									</div>
+									
 								</div>
+								</form>
 								<div class="profile-row-2">															
 									<div class="mdl-textfield mdl-js-textfield">
 										<label class="text-normal">Bio</label>											
@@ -95,23 +111,32 @@
 					</div>
 					<div id="tab2-panel" class="user-detail-container">
 						<h6 class="sectiontitle6">CONTACT SETTINGS</h6>
+						<form name="signupFormEmail" ng-cloak novalidate>
 						<div class="user-contact-settings-container">
 							<div class="user-email">
 								<md-input-container class="md-block"> <label>
-									Email</label> <input required type="email" name="clientEmail"
+									Email</label> <!-- <input required type="email" name="clientEmail"
 									ng-model="user.email"  minlength="10" maxlength="100"
 									ng-pattern="/^.+@.+\..+$/" 
-									ng-disabled="disableEmail"/>
-
-								<div ng-messages="projectForm.clientEmail.$error" role="alert">
+									ng-disabled="disableEmail"/> -->
+									<input name="uemail" ng-disabled="disableEmail" ng-model="user.email" type="text" ng-blur="emailVisited=true" ng-focus="emailVisited=false"
+											ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required />
+									<div class="help-inline validation-msgs" ng-class="{validationmsg:!signupFormEmail.uemail.$valid}">
+										<span ng-show="!!(signupFormEmail.uemail.$touched && signupFormEmail.uemail.$error.required && emailVisited)">Email ID Required.</span> 
+										<span ng-show="!!(signupFormEmail.uemail.$dirty && signupFormEmail.uemail.$error.pattern) && emailVisited">Please enter valid email id</span>
+									</div>
+								<!-- <div ng-messages="projectForm.clientEmail.$error" role="alert">
 									<div
 										ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
 										Please enter valid e-mail address.</div>
-								</div>
+								</div> -->
 								</md-input-container>
-								<a class="link-blue" href="" ng-click="disableEmail=!disableEmail"><span ng-if="disableEmail">Change Email</span><span ng-if="!disableEmail" ng-click="$parent.saveEmail()">Save Email</span></a>
+								<a class="link-blue" href="" ng-click="disableEmail=!disableEmail"><span ng-if="disableEmail">Change Email</span></a>
+								<a class="link-blue" href="" ng-class="{disabledLink:!signupFormEmail.uemail.$valid}" ng-if="!disableEmail" ng-click="$parent.saveEmail()">Save Email</a>
+								
 							</div>
 						</div>
+						</form>
 						<hr />
 					</div>
 					<div id="tab3-panel" class="user-detail-container">
@@ -140,7 +165,7 @@
 					</div>
 					<div class="text-right">
 						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="updateDeactivate('deactivate')">Deactivate Account</button>
-						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btn-gap" ng-click="updateDeactivate('update')">Update Account</button>				
+						<button ng-disabled="signupForm.$invalid" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btn-gap" ng-click="updateDeactivate('update')">Update Account</button>				
 					</div>
 					
 					<!-- <div class="form-group clearfix">
