@@ -137,7 +137,9 @@ public class AsyncServicesImpl implements AsyncServices {
 				if(StringUtils.isNotEmpty(provider)) {
 					post.setHeader("provider", provider);
 				}
-				
+				if(StringUtils.isEmpty(uuid)){
+					post.addHeader("tracking_id", uuid);
+				}
 
 				MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
