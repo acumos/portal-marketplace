@@ -69,7 +69,11 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("apiUrl", apiUrl);
         queryParams.put("webUrl", webUrl);
-        List<MLPPeer> mlpPeers =  dataServiceRestClient.searchPeers(queryParams, false);
+        RestPageRequest pageRequest = new RestPageRequest();
+        pageRequest.setPage(0);
+        pageRequest.setSize(100);
+        RestPageResponse<MLPPeer> peerList = dataServiceRestClient.searchPeers(queryParams, false, pageRequest);
+        List<MLPPeer> mlpPeers = peerList.getContent();
         for(MLPPeer peer : mlpPeers) {
             if(peer != null) {
                 if(!PortalUtils.isEmptyOrNullString(peer.getApiUrl()) && peer.getApiUrl().equalsIgnoreCase(apiUrl)

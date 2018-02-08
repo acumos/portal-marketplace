@@ -82,10 +82,8 @@ public class AdminServiceImplTest {
 		try {
 			String peerId = "ab20f129-06ba-48dc-b238-335f9982799c";
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -110,10 +108,8 @@ public class AdminServiceImplTest {
 		try {
 			
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -143,10 +139,8 @@ public class AdminServiceImplTest {
 	public void savePeerTest() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -173,10 +167,8 @@ public class AdminServiceImplTest {
 	public void updatePeerTest() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -221,10 +213,8 @@ public class AdminServiceImplTest {
 	public void getPeerSubscriptionsTest() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
@@ -258,10 +248,8 @@ public class AdminServiceImplTest {
 
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
-			mlpPeer.setActive(true);
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			mlpPeer.setContact2("Contact2");
 			Date created = new Date();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");

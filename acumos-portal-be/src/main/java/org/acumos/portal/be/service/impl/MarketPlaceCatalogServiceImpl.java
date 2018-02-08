@@ -126,16 +126,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				for (MLPSolution mlpSolution : mlpSolutions) {
 					MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
 					// Identify the OwnerName for each solution
-					Map<String, Object> queryParams = new HashMap<>();
-					queryParameters.put("userId", mlpSolution.getOwnerId());
-					List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-					for (MLPUser user : mlpUsers) {
-						if (user != null) {
-							mlSolution.setOwnerName(user.getFirstName());
-							mlSolutions.add(mlSolution);
-							// Lets loop through other solutions
-							break;
-						}
+					MLPUser user = dataServiceRestClient.getUser(mlpSolution.getOwnerId());
+					if (user != null) {
+						mlSolution.setOwnerName(user.getFirstName());
+						mlSolutions.add(mlSolution);
 					}
 				}
 			}
@@ -169,17 +163,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				mlSolutions = new ArrayList<>();
 				for (MLPSolution mlpSolution : mlpSolutions) {
 					MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
-					// Identify the OwnerName for each solution
-					Map<String, Object> queryParams = new HashMap<>();
-					queryParameters.put("userId", mlpSolution.getOwnerId());
-					List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-					for (MLPUser user : mlpUsers) {
-						if (user != null) {
-							mlSolution.setOwnerName(user.getFirstName());
-							mlSolutions.add(mlSolution);
-							// Lets loop through other solutions
-							break;
-						}
+					MLPUser user = dataServiceRestClient.getUser(mlpSolution.getOwnerId());
+					if (user != null) {
+						mlSolution.setOwnerName(user.getFirstName());
+						mlSolutions.add(mlSolution);
 					}
 				}
 			}
@@ -203,9 +190,9 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				List<MLPToolkitType> toolkitTypeList = dataServiceRestClient.getToolkitTypes();
 				if (toolkitTypeList.size() > 0) {
 					for (MLPToolkitType toolkitType : toolkitTypeList) {
-						if (toolkitType.getToolkitCode() != null) {
-							if (toolkitType.getToolkitCode().equalsIgnoreCase(mlpSolution.getToolkitTypeCode())) {
-								mlSolution.setTookitTypeName(toolkitType.getToolkitName());
+						if (toolkitType.getTypeCode() != null) {
+							if (toolkitType.getTypeCode().equalsIgnoreCase(mlpSolution.getToolkitTypeCode())) {
+								mlSolution.setTookitTypeName(toolkitType.getTypeName());
 								break;
 							}
 						}
@@ -223,13 +210,9 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					}
 				}
 
-				Map<String, Object> queryParams = new HashMap<>();
-				queryParams.put("userId", mlpSolution.getOwnerId());
-				List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-				for (MLPUser user : mlpUsers) {
-					if (user != null) {
-						mlSolution.setOwnerName(user.getFirstName().concat(" " + user.getLastName()));
-					}
+				MLPUser mlpUser = dataServiceRestClient.getUser(mlpSolution.getOwnerId());
+				if (mlpUser != null) {
+					mlSolution.setOwnerName(mlpUser.getFirstName().concat(" " + mlpUser.getLastName()));
 				}
 				/*
 				 * CountTransport t =
@@ -509,50 +492,19 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 						// Identify the OwnerName for each solution
 						Map<String, Object> queryParams = new HashMap<>();
 						queryParams.put("userId", mlpSol.getOwnerId());
-						List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-						for (MLPUser user : mlpUsers) {
-							if (user != null) {
-								// Lets loop through other solutions
-								userFirstName = user.getFirstName();
-								userLastName = user.getLastName();
-								if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
-									userName = userFirstName;
-									if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
-										userName = userName + " " + user.getLastName();
-									}
+						MLPUser mlpUser = dataServiceRestClient.getUser(mlpSol.getOwnerId());
+						if (mlpUser != null) {
+							// Lets loop through other solutions
+							userFirstName = mlpUser.getFirstName();
+							userLastName = mlpUser.getLastName();
+							if (!PortalUtils.isEmptyOrNullString(mlpUser.getFirstName())) {
+								userName = userFirstName;
+								if (!PortalUtils.isEmptyOrNullString(mlpUser.getLastName())) {
+									userName = userName + " " + mlpUser.getLastName();
 								}
-								mlSolution.setOwnerName(userName);
-								/*
-								 * CountTransport t = null; try{ t= dataServiceRestClient.
-								 * getSolutionDownloadCount(filteredMLPSolutions .get(i).getSolutionId());
-								 * }catch(Exception e){
-								 * 
-								 * }
-								 */
-
-								/*
-								 * if(t!=null){ int downloadCount = (int)t.getCount();
-								 * mlSolution.setDownloadCount(downloadCount); }
-								 */
-								/*
-								 * try { RestPageResponse<MLPSolutionRating> ratingListPaged =
-								 * dataServiceRestClient.getSolutionRatings(
-								 * filteredMLPSolutions.get(i).getSolutionId(), null); List<MLPSolutionRating>
-								 * ratingList = null; if(ratingListPaged != null &&
-								 * !PortalUtils.isEmptyList(ratingListPaged. getContent())) { ratingList =
-								 * ratingListPaged.getContent(); if(ratingList.size()>0){ int solutionRating =
-								 * ratingList.get(0).getRating(); mlSolution.setSolutionRating(solutionRating);
-								 * } } } catch (Exception e) { log.error(EELFLoggerDelegate.errorLogger,
-								 * "No ratings found for SolutionId={}",
-								 * filteredMLPSolutions.get(i).getSolutionId()); }
-								 */
-								/*
-								 * List<MLPSolutionTag> tagList = dataServiceRestClient.getSolutionTags(
-								 * filteredMLPSolutions.get(i).getSolutionId()); if (tagList.size() > 0) { for
-								 * (MLPSolutionTag tag : tagList) { tagSetForSolutions.add(tag.getTag()); } }
-								 */
-								break;
 							}
+							mlSolution.setOwnerName(userName);
+							
 						}
 						List<MLPTag> tagList = dataServiceRestClient
 								.getSolutionTags(filteredMLPSolutions.get(i).getSolutionId());
@@ -821,23 +773,18 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 						MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
 						// Identify the OwnerName for each solution
-						Map<String, Object> queryParams = new HashMap<>();
-						queryParams.put("userId", mlpSol.getOwnerId());
-						List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-						for (MLPUser user : mlpUsers) {
-							if (user != null) {
-								// Lets loop through other solutions
-								userFirstName = user.getFirstName();
-								userLastName = user.getLastName();
-								if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
-									userName = userFirstName;
-									if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
-										userName = userName + " " + user.getLastName();
-									}
+						MLPUser user = dataServiceRestClient.getUser(mlpSol.getOwnerId());
+						if (user != null) {
+							// Lets loop through other solutions
+							userFirstName = user.getFirstName();
+							userLastName = user.getLastName();
+							if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
+								userName = userFirstName;
+								if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
+									userName = userName + " " + user.getLastName();
 								}
-								mlSolution.setOwnerName(userName);
-								break;
 							}
+							mlSolution.setOwnerName(userName);
 						}
 						List<MLPTag> tagList = dataServiceRestClient
 								.getSolutionTags(filteredMLPSolutions.get(i).getSolutionId());
@@ -1112,50 +1059,20 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 						MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
 						// Identify the OwnerName for each solution
-						Map<String, Object> queryParams = new HashMap<>();
-						queryParams.put("userId", mlpSol.getOwnerId());
-						List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-						for (MLPUser user : mlpUsers) {
-							if (user != null) {
+						MLPUser mlpUser = dataServiceRestClient.getUser(mlpSol.getOwnerId());
+						if (mlpUser != null) {
 
-								// Lets loop through other solutions
-								userFirstName = user.getFirstName();
-								userLastName = user.getLastName();
-								if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
-									userName = userFirstName;
-									if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
-										userName = userName + " " + user.getLastName();
-									}
+							// Lets loop through other solutions
+							userFirstName = mlpUser.getFirstName();
+							userLastName = mlpUser.getLastName();
+							if (!PortalUtils.isEmptyOrNullString(mlpUser.getFirstName())) {
+								userName = userFirstName;
+								if (!PortalUtils.isEmptyOrNullString(mlpUser.getLastName())) {
+									userName = userName + " " + mlpUser.getLastName();
 								}
-
-								mlSolution.setOwnerName(userName);
-								/*
-								 * CountTransport t = dataServiceRestClient.
-								 * getSolutionDownloadCount(filteredMLPSolutions .get(i).getSolutionId());
-								 * if(t!=null){ int downloadCount = (int)t.getCount();
-								 * mlSolution.setDownloadCount(downloadCount); }
-								 */
-								/*
-								 * try { RestPageResponse<MLPSolutionRating> ratingListPaged =
-								 * dataServiceRestClient.getSolutionRatings(
-								 * filteredMLPSolutions.get(i).getSolutionId(), null); List<MLPSolutionRating>
-								 * ratingList = null; if(ratingListPaged != null &&
-								 * !PortalUtils.isEmptyList(ratingListPaged. getContent())) { ratingList =
-								 * ratingListPaged.getContent(); if(ratingList.size()>0){ int solutionRating =
-								 * ratingList.get(0).getRating(); mlSolution.setSolutionRating(solutionRating);
-								 * } } } catch (Exception e) { log.error(EELFLoggerDelegate.errorLogger,
-								 * "No ratings found for SolutionId={}",
-								 * filteredMLPSolutions.get(i).getSolutionId()); }
-								 */
-
-								/*
-								 * List<MLPSolutionTag> tagList = dataServiceRestClient.getSolutionTags(
-								 * filteredMLPSolutions.get(i).getSolutionId()); if(tagList.size()>0){ for
-								 * (MLPSolutionTag tag : tagList) { filteredTagSet.add(tag.getTag()); }
-								 * mlSolution.setSolutionTagList(tagList); }
-								 */
-								break;
 							}
+
+							mlSolution.setOwnerName(userName);
 						}
 						try {
 							MLPSolutionWeb solutionStats = dataServiceRestClient
@@ -1764,49 +1681,20 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 						MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
 						// Identify the OwnerName for each solution
-						Map<String, Object> queryParams = new HashMap<>();
-						queryParams.put("userId", mlpSol.getOwnerId());
-						List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-						for (MLPUser user : mlpUsers) {
-							if (user != null) {
+						MLPUser user = dataServiceRestClient.getUser(mlpSol.getOwnerId());
+						if (user != null) {
 
-								// Lets loop through other solutions
-								userFirstName = user.getFirstName();
-								userLastName = user.getLastName();
-								if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
-									userName = userFirstName;
-									if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
-										userName = userName + " " + user.getLastName();
-									}
+							// Lets loop through other solutions
+							userFirstName = user.getFirstName();
+							userLastName = user.getLastName();
+							if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
+								userName = userFirstName;
+								if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
+									userName = userName + " " + user.getLastName();
 								}
-
-								mlSolution.setOwnerName(userName);
-								/*
-								 * CountTransport t = dataServiceRestClient. getSolutionDownloadCount(
-								 * filteredMLPSolutions.get(i).getSolutionId()); if(t!=null){ int downloadCount
-								 * = (int)t.getCount(); mlSolution.setDownloadCount(downloadCount); }
-								 */
-								/*
-								 * try { RestPageResponse<MLPSolutionRating> ratingListPaged =
-								 * dataServiceRestClient.getSolutionRatings(
-								 * filteredMLPSolutions.get(i).getSolutionId(), null); List<MLPSolutionRating>
-								 * ratingList = null; if(ratingListPaged != null &&
-								 * !PortalUtils.isEmptyList(ratingListPaged. getContent())) { ratingList =
-								 * ratingListPaged.getContent(); if(ratingList.size()>0){ int solutionRating =
-								 * ratingList.get(0).getRating(); mlSolution.setSolutionRating(solutionRating);
-								 * } } } catch (Exception e) { log.error(EELFLoggerDelegate.errorLogger,
-								 * "No ratings found for SolutionId={}",
-								 * filteredMLPSolutions.get(i).getSolutionId()); }
-								 */
-
-								/*
-								 * List<MLPSolutionTag> tagList = dataServiceRestClient.getSolutionTags(
-								 * filteredMLPSolutions.get(i).getSolutionId()); if(tagList.size()>0){ for
-								 * (MLPSolutionTag tag : tagList) { filteredTagSet.add(tag.getTag()); }
-								 * mlSolution.setSolutionTagList(tagList); }
-								 */
-								break;
 							}
+
+							mlSolution.setOwnerName(userName);
 						}
 						try {
 							MLPSolutionWeb solutionStats = dataServiceRestClient

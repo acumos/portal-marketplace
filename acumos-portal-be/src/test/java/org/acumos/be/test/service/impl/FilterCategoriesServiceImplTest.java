@@ -83,8 +83,8 @@ public class FilterCategoriesServiceImplTest {
 		try{
 			List<MLPToolkitType> mlpToolkitTypesList = new ArrayList<>();
 			MLPToolkitType mlpToolkitType = new MLPToolkitType();
-			mlpToolkitType.setToolkitCode("400");
-			mlpToolkitType.setToolkitName("test");
+			mlpToolkitType.setTypeCode("400");
+			mlpToolkitType.setTypeName("test");
 			mlpToolkitTypesList.add(mlpToolkitType);
 			Mockito.when(impl.getToolkitTypes()).thenReturn(mlpToolkitTypesList);
 			if(mlpToolkitTypesList !=null) {	

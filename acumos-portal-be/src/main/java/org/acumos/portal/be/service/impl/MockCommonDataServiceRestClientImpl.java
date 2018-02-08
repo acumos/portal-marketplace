@@ -48,6 +48,9 @@ import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPSolutionValidation;
 import org.acumos.cds.domain.MLPSolutionWeb;
+import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPStepStatus;
+import org.acumos.cds.domain.MLPStepType;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.cds.domain.MLPToolkitType;
@@ -145,28 +148,28 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public List<MLPToolkitType> getToolkitTypes() {
 		MLPToolkitType mlpToolKit = new MLPToolkitType();
-		mlpToolKit.setToolkitCode("CP");
-		mlpToolKit.setToolkitName("Composite Solution");
+		mlpToolKit.setTypeCode("CP");
+		mlpToolKit.setTypeName("Composite Solution");
 
 		MLPToolkitType mlpToolKit1 = new MLPToolkitType();
-		mlpToolKit1.setToolkitCode("DS");
-		mlpToolKit1.setToolkitName("Design Studio");
+		mlpToolKit1.setTypeCode("DS");
+		mlpToolKit1.setTypeName("Design Studio");
 
 		MLPToolkitType mlpToolKit2 = new MLPToolkitType();
-		mlpToolKit2.setToolkitCode("H2");
-		mlpToolKit2.setToolkitName("H2O");
+		mlpToolKit2.setTypeCode("H2");
+		mlpToolKit2.setTypeName("H2O");
 
 		MLPToolkitType mlpToolKit3 = new MLPToolkitType();
-		mlpToolKit3.setToolkitCode("RC");
-		mlpToolKit3.setToolkitName("RCloud");
+		mlpToolKit3.setTypeCode("RC");
+		mlpToolKit3.setTypeName("RCloud");
 
 		MLPToolkitType mlpToolKit4 = new MLPToolkitType();
-		mlpToolKit4.setToolkitCode("SK");
-		mlpToolKit4.setToolkitName("Scikit-Learn");
+		mlpToolKit4.setTypeCode("SK");
+		mlpToolKit4.setTypeName("Scikit-Learn");
 
 		MLPToolkitType mlpToolKit5 = new MLPToolkitType();
-		mlpToolKit5.setToolkitCode("TF");
-		mlpToolKit5.setToolkitName("TensorFlow");
+		mlpToolKit5.setTypeCode("TF");
+		mlpToolKit5.setTypeName("TensorFlow");
 
 		List<MLPToolkitType> mlpToolKitList = new ArrayList<>();
 		mlpToolKitList.add(mlpToolKit);
@@ -365,12 +368,6 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	}
 
 	@Override
-	public List<MLPArtifact> searchArtifacts(Map<String, Object> queryParameters, boolean isOr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public MLPArtifact getArtifact(String artifactId) {
 		// TODO Auto-generated method stub
 		return null;
@@ -411,13 +408,6 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		// TODO Auto-generated method stub
 		RestPageResponse<MLPUser> response = new RestPageResponse();
 		return response;
-	}
-
-	@Override
-	public List<MLPUser> searchUsers(Map<String, Object> queryParameters, boolean isOr) {
-		// TODO Auto-generated method stub
-		List<MLPUser> mlpUserList = new ArrayList<MLPUser>();
-		return mlpUserList;
 	}
 
 	@Override
@@ -537,12 +527,6 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	}
 
 	@Override
-	public List<MLPRole> searchRoles(Map<String, Object> queryParameters, boolean isOr) {
-		List<MLPRole> mlpRoleList = new ArrayList<MLPRole>();
-		return mlpRoleList;
-	}
-
-	@Override
 	public RestPageResponse<MLPRole> getRoles(RestPageRequest pageRequest) {
 		// TODO Auto-generated method stub
 		return null;
@@ -605,10 +589,8 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public RestPageResponse<MLPPeer> getPeers(RestPageRequest pageRequest) {
 		MLPPeer mlpPeer = new MLPPeer();
-		mlpPeer.setActive(true);
 		mlpPeer.setApiUrl("http://peer-api");
 		mlpPeer.setContact1("Contact1");
-		mlpPeer.setContact2("Contact2");
 		Date created = new Date();
 		mlpPeer.setCreated(created);
 		mlpPeer.setDescription("Peer description");
@@ -631,18 +613,10 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	}
 
 	@Override
-	public List<MLPPeer> searchPeers(Map<String, Object> queryParameters, boolean isOr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public MLPPeer getPeer(String peerId) {
 		MLPPeer mlpPeer = new MLPPeer();
-		mlpPeer.setActive(true);
 		mlpPeer.setApiUrl("http://peer-api");
 		mlpPeer.setContact1("Contact1");
-		mlpPeer.setContact2("Contact2");
 		Date created = new Date();
 		mlpPeer.setCreated(created);
 		mlpPeer.setDescription("Peer description");
@@ -657,10 +631,8 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public MLPPeer createPeer(MLPPeer peer) {
 		MLPPeer mlpPeer = new MLPPeer();
-		mlpPeer.setActive(true);
 		mlpPeer.setApiUrl("http://peer-api");
 		mlpPeer.setContact1("Contact1");
-		mlpPeer.setContact2("Contact2");
 		Date created = new Date();
 		mlpPeer.setCreated(created);
 		mlpPeer.setDescription("Peer description");
@@ -1087,7 +1059,79 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	}
 
 	@Override
-	public List<MLPSolution> searchSolutions(Map<String, Object> queryParameters, boolean isOr) {
+	public RestPageResponse<MLPStepResult> getStepResults(RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPStepResult createStepResult(MLPStepResult stepResult) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateStepResult(MLPStepResult stepResult) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteStepResult(Long stepResultId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<MLPStepStatus> getStepStatuses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MLPStepType> getStepTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPSolution> searchSolutions(Map<String, Object> queryParameters, boolean isOr,
+			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPArtifact> searchArtifacts(Map<String, Object> queryParameters, boolean isOr,
+			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPUser> searchUsers(Map<String, Object> queryParameters, boolean isOr,
+			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPRole> searchRoles(Map<String, Object> queryParameters, boolean isOr,
+			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPPeer> searchPeers(Map<String, Object> queryParameters, boolean isOr,
+			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPStepResult> searchStepResults(Map<String, Object> queryParameters, boolean isOr,
+			RestPageRequest pageRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}

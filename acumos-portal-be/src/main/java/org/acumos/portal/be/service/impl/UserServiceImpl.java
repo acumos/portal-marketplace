@@ -160,7 +160,11 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         //TODO WorkAround for emailId as there is no method available for finding user using emailId
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("email",emailId);
-        List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
+        RestPageRequest pageRequest = new RestPageRequest();
+        pageRequest.setPage(0);
+        pageRequest.setSize(10);
+        RestPageResponse<MLPUser> userList = dataServiceRestClient.searchUsers(queryParams, false, pageRequest);
+        List<MLPUser> mlpUsers = userList.getContent();
         for(MLPUser user : mlpUsers) {
             if(user != null) {
                 if(!PortalUtils.isEmptyOrNullString(user.getEmail()) && user.getEmail().equalsIgnoreCase(emailId)) {
@@ -182,7 +186,11 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         MLPUser mlpUser = null;
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("loginName",username);
-        List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
+        RestPageRequest pageRequest = new RestPageRequest();
+        pageRequest.setPage(0);
+        pageRequest.setSize(10);
+        RestPageResponse<MLPUser> userList = dataServiceRestClient.searchUsers(queryParams, false, pageRequest);
+        List<MLPUser> mlpUsers = userList.getContent();
         for(MLPUser user : mlpUsers) {
             if(user != null) {
                 if(!PortalUtils.isEmptyOrNullString(user.getLoginName()) && user.getLoginName().equalsIgnoreCase(username)) {
@@ -341,13 +349,10 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	        MLPUser mlpUser = null;
 	        Map<String, Object> queryParams = new HashMap<>();
 	        queryParams.put("userId",userId);
-	        List<MLPUser> mlpUsers = dataServiceRestClient.searchUsers(queryParams, false);
-	        for(MLPUser user : mlpUsers) {
-	            if(user != null) {
-                    mlpUser = user;
-                    break;
-	            }
-	        }
+	        MLPUser user = dataServiceRestClient.getUser(userId);
+            if(user != null) {
+                mlpUser = user;
+            }
 	        return mlpUser;
 	}
 	
