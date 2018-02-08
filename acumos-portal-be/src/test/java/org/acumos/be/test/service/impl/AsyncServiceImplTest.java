@@ -67,7 +67,7 @@ public class AsyncServiceImplTest {
 			String provider = "FB"; 
 			String access_token = "PB";
 			AsyncServicesImpl mockimpl = mock(AsyncServicesImpl.class);
-			mockimpl.callOnboarding(userId, solution, provider, access_token);
+			//mockimpl.callOnboarding(userId, solution, provider, access_token);
 			Assert.assertEquals(userId, userId);
 			Assert.assertNotNull(userId);
 			Assert.assertNotNull(solution);
