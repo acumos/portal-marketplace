@@ -458,7 +458,7 @@ public class PortalUtils {
     	  
     	MLStepResult mlStepResult = new MLStepResult();
     	mlStepResult.setArtifactId(mlpStepResult.getArtifactId());
-    	mlStepResult.setName(mlpStepResult.getArtifactId());
+    	mlStepResult.setName(mlpStepResult.getName());
     	mlStepResult.setResult(mlpStepResult.getResult());
     	mlStepResult.setRevisionId(mlpStepResult.getRevisionId());
     	mlStepResult.setSolutionId(mlpStepResult.getSolutionId());

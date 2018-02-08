@@ -335,16 +335,16 @@ angular.module('modelResource')
 							function(reponse) {
 								var data = reponse.data.response_body;
 								for(var i=0 ; i< data.length; i++){
-									var stepCode = data[i].stepCode;
+									var stepName = data[i].name;
 									var statusCode =  data[i].statusCode;
 
-									switch(stepCode){
-										case 'CM': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-										case 'PA' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorPA = data[i].result : $scope.errorPA = ''; break;
-										case 'DO' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-										case 'CT' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-										case 'AR' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
-										case 'VM' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = ''; break;
+									switch(stepName){
+										case 'CreateMicroservice': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+										case 'Package' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorPA = data[i].result : $scope.errorPA = ''; break;
+										case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+										case 'AddToRepository' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+										case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = ''; break;
 									}
 									angular.element(angular.element('.onboarding-web li div')[counter]).removeClass('completed incomplet active');
 									if(statusCode == 'FA'){

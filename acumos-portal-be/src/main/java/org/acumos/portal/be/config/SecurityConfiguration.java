@@ -82,6 +82,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //.antMatchers("/models/{userId}").permitAll()
         //.antMatchers("/unpublish/{visibility}").permitAll()
         //.antMatchers("/webBasedOnBoarding/addToCatalog/{userId}").permitAll()
+        .antMatchers("/webBasedOnBoarding/messagingStatus/{userId}/{trackingId}").permitAll()
         .antMatchers("/auth/jwtToken").permitAll()
         .antMatchers("/filter/modeltype").permitAll()
         .antMatchers("/filter/toolkitType").permitAll()
