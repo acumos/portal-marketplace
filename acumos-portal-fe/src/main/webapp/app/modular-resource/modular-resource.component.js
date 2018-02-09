@@ -125,6 +125,8 @@ angular.module('modelResource')
 			$scope.closePoup = function(){
 				$scope.uploadModel = !$scope.uploadModel;
 				$scope.file = false;
+				$scope.filename = "";
+				$scope.file = "";
 	           	angular.element('#file').val('');
 	        }
 			

@@ -638,7 +638,7 @@
 														<h2>Upload Model Bundle</h2>
 														<span flex></span>
 														<md-button class="md-icon-button"
-															ng-click="uploadModel = !uploadModel; openDrop(true)"> <i
+															ng-click="closePoup(); openDrop(true)"> <i
 															class="material-icons">close</i> </md-button>
 													</div>
 													</md-toolbar>
@@ -686,7 +686,7 @@
 																<div  > <!-- ng-show="progressVisible" -->
 														            
 														            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar}}%</span>
+														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
 														            			<span ng-show = "$root.progressBar == 100">Completed</span>
 														            </div>
 														            </div>
