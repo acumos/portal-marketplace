@@ -10,6 +10,9 @@ angular.module('admin')
 				$scope.orderByFieldFed = 'name'; $scope.reverseSortFederation = false;
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
+			//Frequency of update
+			$scope.frequency = [{'name':'Hourly','value':'hr'},{'name':'Daily','value':'dl'},{'name':'Monthly','value':'ml'},{'name':'Update on demand','value':'ud'}]
+			$scope.freqOfUpdate = 'hr';
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
 			$scope.userDetail = JSON.parse(localStorage
 					.getItem("userDetail"));
@@ -70,7 +73,7 @@ angular.module('admin')
 						$scope.activeCount = 0;
 						$scope.peer = response.data.response_body.content;
 						angular.forEach($scope.peer, function(value, key) {
-                            if(value.active == true){
+                            if(value.self == true){
                             	$scope.activeCount = $scope.activeCount+1;
                             }
                           });
@@ -320,7 +323,7 @@ angular.module('admin')
                           apiService
                           .getToolkitTypes()
                           .then(
-                                  function(response) {
+                                  function(response) {console.log(response.data.response_body);
                                       $scope.toolKitType = response.data.response_body;
                                   },
                                   function(error) {console.log('Error :' +error);});
@@ -351,11 +354,12 @@ angular.module('admin')
                     	 var peerDetails = {"request_body": {				
 				                    				  	"apiUrl": $scope.apiUrlPop,
 				                    				    "contact1": $scope.emailIdPop,
-				                    				    "contact2":$scope.emailIdPop,
 				                    				    "description": $scope.descriptionPop,
 				                    				    "name": $scope.peerNamePop,
 				                    				    "subjectName": $scope.subNamePop,
-				                    				    "webUrl": $scope.apiUrlPop
+				                    				    "webUrl": $scope.apiUrlPop,
+				                    				    "validationStatusCode": "PS",
+				                    				    "statusCode": "AC"
 				                    				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
 				                    		}};
                     	apiService.insertPeers(peerDetails).then(
@@ -383,39 +387,41 @@ angular.module('admin')
                       //Edit PEER
                       $scope.itsEdit = false;
                       $scope.editPeer = function(peerDetail){
-                    	  $scope.itsEdit = true;$scope.peerStatus = peerDetail.active;
+                    	  $scope.itsEdit = true;$scope.peerStatus = peerDetail.self;
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
                     	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.apiUrl;$scope.descriptionPop = peerDetail.description;
                     	  $scope.showPopupPeer();
                       }
-                      $scope.updatePeer = function(val){
+                      $scope.updatePeer = function(val){debugger;console.log(val);
                     	  if(val == 'detail'){
                     		  var peerDetails = {"request_body": {	
-                    			  "active" : $scope.peerStatus,
-                				  	"apiUrl": $scope.apiUrlPop,
+                    			 "self" : $scope.peerStatus,
+                				"apiUrl": $scope.apiUrlPop,
               				    "contact1": $scope.emailIdPop,
-              				    "contact2":$scope.emailIdPop,
               				    "description": $scope.descriptionPop,
               				    "name": $scope.peerNamePop,
               				    "subjectName": $scope.subNamePop,
               				    "webUrl": $scope.apiUrlPop,
-              				    "peerId" : $scope.editPeerID
+              				    "peerId" : $scope.editPeerID,
+              				    "validationStatusCode": "PS",
+              				    "statusCode": "AC"
               				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
               		}}
                     	  }else {
-                    		  if(val.active == true)(val.active = false);else val.active = true;
+                    		  if(val.self == true)(val.self = false);else val.self = true;
                     		  $scope.editPeerID = val.peerId;
                     		  var peerDetails = {"request_body": {	
-                    			  "active" : val.active,
+                    			"self" : val.self,
               				  	"apiUrl": val.apiUrl,
             				    "contact1": val.contact1,
-            				    "contact2":val.contact2,
             				    "description": val.description,
             				    "name": val.name,
             				    "subjectName": val.subjectName,
             				    "webUrl": val.webUrl,
-            				    "peerId" : val.peerId
+            				    "peerId" : val.peerId,
+            				    "validationStatusCode": "PS",
+              				    "statusCode": "AC"
             				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
             		}}
                   	  }
@@ -448,9 +454,13 @@ angular.module('admin')
                     			  $scope.catValue = value.typeName;
                     	  });
     					  angular.forEach($scope.toolKitType, function(value, key) {
-    						  if(value.toolkitCode == val2)
-    							  $scope.toolType  = value.toolkitName;
+    						  if(value.typeCode == val2)
+    							  $scope.toolType  = value.typeName;
     					  });
+                      }
+                      //All select federation
+                      $scope.allSelect = function(){
+                    	  $scope.categoryValue='';$scope.toolKitTypeValue='';$scope.modelIDValue='';
                       }
                       //Serch using model id
                       $scope.modelEdit = function(){
@@ -475,7 +485,7 @@ angular.module('admin')
                     	  apiService
                     	  .getSolutionDetail($scope.modelIDValue)
                     	  .then(
-                    	  		function(response) {debugger;
+                    	  		function(response) {
                     	  			$scope.solutionDetail = response.data.response_body;
                     	  			if($scope.solutionDetail == 'null'){$scope.noData = false;}else {$scope.noData = true;}
                     	  		},
@@ -488,7 +498,7 @@ angular.module('admin')
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
-                	  $scope.categoryValue = '';$scope.arrDetails='';
+                	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false';
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
                 	  $scope.peerIdForSubsList = val.peerId;
                 	  $scope.peerDetailList = val;
@@ -508,7 +518,7 @@ angular.module('admin')
             						  if(serchValue > 0)$scope.categoryForSubId = value;
             						});
             					  angular.forEach($scope.toolKitType, function(value, key) {
-            						  var serch = value.toolkitCode ;
+            						  var serch = value.typeCode ;
             						  var serchValue = catTool[1].search(serch);
             						  if(serchValue > 0)$scope.toolKitForSubId = value;
             						});
@@ -523,7 +533,7 @@ angular.module('admin')
             					  }
             					  else if(catTool[0].search('toolKitTypeCode') > 0){
             						  angular.forEach($scope.toolKitType, function(value, key) {
-                						  var serch = value.toolkitCode ;
+                						  var serch = value.typeCode ;
                 						  var serchValue = catTool[0].search(serch);
                 						  if(serchValue > 0)$scope.toolKitForSubId = value;
                 						});
@@ -571,9 +581,12 @@ angular.module('admin')
                     	  else if(!cat&&toolKit)var catToolkit = '"{\\' + toolKit + '\\"}"';
                     	  var json={"request_body": {
                     			    	"peerId": $scope.peerIdForSubsList,
-                    			    	"subId": $scope.subId,
+                    			    	//"subId": $scope.subId,
                     			    	"selector" : catToolkit,
-                    			    	"ownerId" : userId
+                    			    	"ownerId" : userId,
+                    			    	"scopeType": "FL",
+                    			    	"refreshInterval": 30,
+                    			    	"accessType": "PB"
                     	  				}}
                     	  if(check){$scope.categoryValue='';$scope.toolKitTypeValue='';}
                     	  var url = "api/admin/peer/subcription/create";
@@ -835,7 +848,7 @@ angular.module('admin')
                                     						  if(serchValue > 0)$scope.categoryForSubId = value;
                                     						});
                                     					  angular.forEach($scope.toolKitType, function(value, key) {
-                                    						  var serch = value.toolkitCode ;
+                                    						  var serch = value.typeCode ;
                                     						  var serchValue = catTool[1].search(serch);
                                     						  if(serchValue > 0)$scope.toolKitForSubId = value;
                                     						});
@@ -850,7 +863,7 @@ angular.module('admin')
                                     					  }
                                     					  else if(catTool[0].search('toolKitTypeCode') > 0){
                                     						  angular.forEach($scope.toolKitType, function(value, key) {
-                                        						  var serch = value.toolkitCode ;
+                                        						  var serch = value.typeCode ;
                                         						  var serchValue = catTool[0].search(serch);
                                         						  if(serchValue > 0)$scope.toolKitForSubId = value;
                                         						});
