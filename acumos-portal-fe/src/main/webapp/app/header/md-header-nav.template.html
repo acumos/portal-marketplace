@@ -112,7 +112,7 @@
 						class="mdl-navigation header-controls text-right hide-sm hide-xs header-right1">
 						<div>
 							<md-menu md-position-mode="target-right target" >
-					          <md-button id="demo-menu-lower-right10" class="mdl-button header-ddl mdl-js-button cg-acitve" ng-click="openMenu($mdMenu, $event)">
+					          <md-button id="demo-menu-lower-right10" class="mdl-button header-ddl mdl-js-button cg-acitve" ng-click="openMenu($mdMenu, $event)" aria-label="Open Menu">
 					            <!-- <md-icon md-menu-origin md-svg-icon="call:portable-wifi-off"></md-icon> -->
 					          	<span class="material-icons mdl-badge mdl-badge--overlap"
 									ng-if="$root.notificationCount < 1">notifications_none</span>
@@ -315,7 +315,7 @@
 
 			<div>
 				<md-input-container class="md-block"> <input ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"
-					type="text" name='forgotpaswd' ng-model='emailAddress' required />
+					type="text" name='forgotpaswd' aria-label="Forgot Password"  ng-model='emailAddress' required />
 				</md-input-container>
 			</div>
 

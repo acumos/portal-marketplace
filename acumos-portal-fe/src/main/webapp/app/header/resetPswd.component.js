@@ -7,11 +7,10 @@ angular
 				{
 					templateUrl : '/app/header/resetPswd.template.html',
 					controller : function($scope,$compile, $location, $http) {
-						//debugger;
 						//$scope.userid = sessionStorage.getItem("SessionName");
 					
 					$scope.changePswd = function(){
-						if($scope.resetPswd.$invalid){debugger;return}
+						if($scope.resetPswd.$invalid){return}
 						//API CALL
 						$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
 						//var userId = localStorage.getItem("userDetail");
@@ -38,7 +37,6 @@ angular
 		                       // or server returns response with an error status.
 		                    	 $scope.ribbonShow = true;
 		                    	 $scope.ribbonMsg = "Your Password is not updated";
-		                    	 debugger;
 		                       //console.log(status);
 		                 });
 					};

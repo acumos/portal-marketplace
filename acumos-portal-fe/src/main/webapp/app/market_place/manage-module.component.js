@@ -842,7 +842,7 @@ angular
 							 * checkbox; $scope.sortById = checkbox; sortByIdUrl =
 							 * "sortById="+$scope.sortedbyid; } else if(type ==
 							 * 'searchFilter'){ url=''; if($scope.searchBox ==
-							 * ''){searchUrl='';} else {debugger;searchUrl =
+							 * ''){searchUrl='';} else {searchUrl =
 							 * "search="+$scope.searchBox;$scope.master =
 							 * false;categoryUrl='';sortByUrl='';sortByIdUrl='';
 							 * $scope.sortedby='';$scope.sortedbyid=''} }
