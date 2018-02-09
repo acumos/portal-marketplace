@@ -21,7 +21,7 @@
 										  		 <md-input-container class="mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>First Name</label>									      
-												      <input type="text" name="firstName" ng-model="firstName" valid-name required ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false">
+												      <input type="text" name="firstName" ng-model="firstName" valid-name required ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false" maxlength="50">
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.firstName.$valid}">
 														<span ng-show="( !!signupForm.firstName.$error.required && signupForm.firstName.$touched && firstNameVisited)">First
@@ -33,7 +33,7 @@
 												 <md-input-container class="mdl-cell--6-col mdl-cell--4-col-tablet mdl-cell--2-col-phone signup-control1">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Last Name</label>												      
-												      <input type="text" name="lastName" ng-model="lastName" valid-name required ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false">
+												      <input type="text" name="lastName" ng-model="lastName" valid-name required ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false" maxlength="50">
 												     
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.lastName.$valid}">
@@ -49,7 +49,7 @@
 												 <md-input-container class="md-block">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>User Name</label>												      
-												      <input name="username" ng-model="username" type="text" valid-name maxlength="20" required ng-blur="usernameVisited=true" ng-focus="usernameVisited=false">
+												      <input name="username" ng-model="username" type="text" valid-name maxlength="30" required ng-blur="usernameVisited=true" ng-focus="usernameVisited=false">
 												      <span class="normalmsg"><span class="normalmsg"><!-- Your Acumos URL: https://acumos.com/ USERNAME --></span></span>
 												 	  <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.username.$valid}">

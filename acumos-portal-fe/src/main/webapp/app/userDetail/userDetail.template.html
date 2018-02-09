@@ -64,7 +64,7 @@
 										<div>
 											<md-input-container class="md-block" flex-gt-sm>
 												 <label>First Name</label> <!--<input type="text" ng-model="user.firstName" /> -->
-												<input type="text" name="firstName" ng-model="user.firstName" valid-name required ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false">
+												<input type="text" name="firstName" ng-model="user.firstName" maxlength="50" valid-name required ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false">
 												<div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.firstName.$valid}">
 														<span ng-show="( !!signupForm.firstName.$error.required && signupForm.firstName.$touched && firstNameVisited)">First Name Required.</span>
 														<span ng-show="!!signupForm.firstName.$error.invalidChars && firstNameVisited">First name must contain letters only.</span>
@@ -81,7 +81,7 @@
 										<div>
 											<md-input-container class="md-block" flex-gt-sm>
 												<label>Last Name</label> <!-- <input type="text" ng-model="user.lastName" /> -->
-												<input type="text" name="lastName" ng-model="user.lastName" valid-name required ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false">
+												<input type="text" name="lastName" ng-model="user.lastName" valid-name maxlength="50" required ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false">
 												   <div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.lastName.$valid}">
 														<span ng-show="!!signupForm.lastName.$error.required && signupForm.lastName.$touched && lastNameVisited">Last Name Required.</span> 
 														<span ng-show="!!signupForm.lastName.$error.invalidChars && lastNameVisited">Last name must contain letters only.</span>
