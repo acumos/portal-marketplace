@@ -475,7 +475,7 @@ angular.module('admin')
                     	  apiService
                     	  .getSolutionDetail($scope.modelIDValue)
                     	  .then(
-                    	  		function(response) {debugger;
+                    	  		function(response) {
                     	  			$scope.solutionDetail = response.data.response_body;
                     	  			if($scope.solutionDetail == 'null'){$scope.noData = false;}else {$scope.noData = true;}
                     	  		},

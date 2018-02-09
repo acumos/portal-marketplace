@@ -95,7 +95,7 @@ app
                               	                  then(function(response) {
                               	                    console.log(response);
                               	                  localStorage.setItem('auth_token', response.access_token);
-                              	                    debugger
+                              	                    
                               	                    console.log("Success: ", response);
                               	                    $scope.socialsigninresponse = response;
                               	                    apiService.getGoogleTokenInfo($scope.socialsigninresponse.access_token).then(function successCallback(response) {
@@ -105,7 +105,7 @@ app
                                                   }, function errorCallback(response) {
                                                 	  console.log(response);
                                                   });
-                              	                    debugger
+                              	                    
                               	                    
                               	                  /*  var currentUser = $scope.gauth.currentUser.get(); 
                                    					var profile = currentUser.getBasicProfile(); 
@@ -182,7 +182,6 @@ app
                                         	  /* apiService.insertSignIn($scope.userData).then(function successCallback(response) {
                                               console.log(response);
                                               if(response.data.loginPassExpire == true){
-                                                    debugger;
                                                     $('.modal').hide();
                                                     $('.modal-backdrop').hide();
                                                     localStorage.setItem('loginPassExpire', response.data.loginPassExpire);
@@ -208,7 +207,6 @@ app
                                             	  var authToken = jwtHelper.decodeToken(response.data.jwtToken);
                                                   if(response.data.jwtToken != ""){
 	                                                  if(authToken.loginPassExpire == true){
-	                                                      debugger;
 	                                                      $('.modal').hide();
 	                                                      $('.modal-backdrop').hide();
 	                                                      localStorage.setItem('loginPassExpire', authToken.loginPassExpire);
@@ -276,7 +274,7 @@ app
                                         		  console.log(response);
                                         		  //localStorage.setItem('auth_token', response.data.jwtToken);
                                                   if(response.data.loginPassExpire == true){
-                                                        debugger;
+                                                        
                                                         $('.modal').hide();
                                                         $('.modal-backdrop').hide();
                                                         localStorage.setItem('loginPassExpire', response.data.loginPassExpire);
@@ -502,7 +500,7 @@ app
                               sessionStorage.setItem('authToken', authToken);
                               console.log(authToken);
                               if(response.data.loginPassExpire == true){
-                              debugger;
+                              
                               $('.modal').hide();
                               $('.modal-backdrop').hide();
                               localStorage.setItem('loginPassExpire', response.data.loginPassExpire);
@@ -535,7 +533,7 @@ app
                   apiService.insertSignIn($scope.userData).then(function successCallback(response) {
                         console.log(response);
                         if(response.data.loginPassExpire == true){
-                              debugger;
+                              
                               $('.modal').hide();
                               $('.modal-backdrop').hide();
                               localStorage.setItem('loginPassExpire', response.data.loginPassExpire);
@@ -596,10 +594,10 @@ app
 	                    // Signed in with Google.
 	                    console.log(response);
 	                   // $location.path('/');
-	                    debugger
+	                    
 	                    console.log("Success: ", response);
 	                    $scope.socialsigninresponse = response;
-	                    debugger
+	                    
 	                    
 	                    var currentUser = $scope.gauth.currentUser.get(); 
      					var profile = currentUser.getBasicProfile(); 

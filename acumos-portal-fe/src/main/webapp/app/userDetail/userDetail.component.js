@@ -246,7 +246,7 @@ angular
 
 								/*
 								 * $http(req).success(function(data, status,
-								 * headers,config) { debugger alert("Password
+								 * headers,config) {  alert("Password
 								 * updated successfully");
 								 * $('#myModal').modal('toggle');
 								 * //$location.path('/marketPlace')

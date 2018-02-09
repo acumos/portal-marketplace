@@ -161,19 +161,19 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
     		/*This is added for resolving mdl search related issues */
     		componentHandler.upgradeAllRegistered();
     		
-    		console.log('app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
+    		//console.log('app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
     	 	$rootScope.sidebarHeader = false;
     	 	angular.element('#fixed-header-drawer-exp1').val('');
     	 	angular.element('#fixed-header-drawer-exp').val('');
-    	 	console.log('#######app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
+    	 	//console.log('#######app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
     	 	//$scope.sidebarHeader = false;
 		   if (localStorage.getItem("userDetail")) {
-				console.log("Yes");
+				//console.log("Yes");
 				$rootScope.sidebarHeader = true;
 				//$scope.sidebarHeader = true;
 			}
 		   else{
-			   console.log("No");
+			   //console.log("No");
 			   $rootScope.sidebarHeader = false;
 			   //$scope.sidebarHeader = false;
 		   }

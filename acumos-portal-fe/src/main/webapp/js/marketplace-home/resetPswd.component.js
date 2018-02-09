@@ -7,12 +7,11 @@ angular
 				{
 					templateUrl : './js/marketplace-home/resetPswd.template.html',
 					controller : function($scope,$compile, $location, $http) {
-						//debugger;
 						console.log('userIdJincy');
 						//$scope.userid = sessionStorage.getItem("SessionName");
 					
 					$scope.changePswd = function(){
-						if($scope.resetPswd.$invalid){debugger;return}
+						if($scope.resetPswd.$invalid){ return}
 						//API CALL
 						var userId = sessionStorage.getItem("SessionName");
 						var req = {
@@ -28,7 +27,6 @@ angular
 						console.log(angular.toJson(req));
 						console.log(angular.toJson(req.data));
 						$http(req).success(function(data, status, headers,config) {
-							debugger;
 		                	 console.log(data);
 		                	 $scope.ribbonMsg = "Your Password is updated successfully";
 		                	 $scope.ribbonShow = true;
@@ -37,7 +35,6 @@ angular
 		                       // or server returns response with an error status.
 		                    	 $scope.ribbonShow = true;
 		                    	 $scope.ribbonMsg = "Your Password is not updated";
-		                    	 debugger;
 		                       console.log(status);
 		                 });
 					};

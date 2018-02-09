@@ -802,7 +802,7 @@ angular
 							        .hideDelay(2000);
 							     $mdToast.show(toast);
 							     var refreshTag = $scope.tags1;
-							     
+							     chkCount();
 							     /*fix: line commented to fix CD-2049 Starts*/
 							     //$scope.tags1 = [];
 							     /*if ($scope.solution.solutionTagList) {
@@ -857,7 +857,7 @@ angular
 									$scope.showAlertMessage = false;
 								}, 2000);
 								addtag;*/
-								
+								chkCount();
 								var toast = $mdToast.simple()
 						        .content('Tag Added')
 						        .position('bottom right')
@@ -888,6 +888,7 @@ angular
 								$timeout(function() {
 									$scope.showAlertMessage = false;
 								}, 2000);*/
+								chkCount();
 								var toast = $mdToast.simple()
 						        .content('Tag Removed')
 						        .position('bottom right')
@@ -2203,10 +2204,14 @@ angular
 							Pbcount++;
 							
 						}
+						
 						if($scope.tags1.length > 0){
 							count++;
+						}else if($scope.tags1.length < 1){
+							count -1;
 						}
-						if($scope.solImage || $scope.imgURLdefault != 'images/default-model.png'){
+						
+						if($scope.solImage &&  ($scope.imgURLdefault != 'images/default-model.png' || $scope.imgURLdefault != 'images/img-list-item.png')){
 							count++;
 							console.log(">>>>>>> imgURLdefault: ",$scope.imgURLdefault)
 						}

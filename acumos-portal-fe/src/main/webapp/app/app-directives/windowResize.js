@@ -9,7 +9,6 @@
  */
 
 app.directive('windowResize', ['$window', function ($window) {
-	/*debugger*/
      return {
         link: link,
         restrict: 'A'           
