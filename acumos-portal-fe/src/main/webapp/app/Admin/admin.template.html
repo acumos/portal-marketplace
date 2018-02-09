@@ -682,7 +682,7 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>First Name</label> 
-													<input type="text" name='fname' ng-model='value.fname' required valid-name ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false" />
+													<input type="text" name='fname' ng-model='value.fname' required valid-name ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false" maxlength="50" />
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.fname.$valid}">
 														<span ng-show="( !!signupForm.fname.$error.required && signupForm.fname.$touched && firstNameVisited)">First
@@ -695,7 +695,7 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Last Name</label> 
-													<input type="text" name='lname' ng-model='value.lname' required valid-name ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false"/>
+													<input type="text" name='lname' ng-model='value.lname' required valid-name maxlength="50" ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false"/>
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.lname.$valid}">
 														<span ng-show="!!signupForm.lname.$error.required && signupForm.lname.$touched && lastNameVisited">Last
@@ -710,7 +710,7 @@
 											<div>
 												<md-input-container class="md-block" >
 													<label>User Name</label> 
-													<input type="text" name='uname' ng-model='value.username' required maxlength="20" ng-blur="usernameVisited=true" ng-focus="usernameVisited=false" />
+													<input type="text" name='uname' ng-model='value.username' required maxlength="30" ng-blur="usernameVisited=true" ng-focus="usernameVisited=false" />
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.uname.$valid}">
 														<span ng-show="!!signupForm.uname.$error.required && signupForm.uname.$touched && usernameVisited">Username
