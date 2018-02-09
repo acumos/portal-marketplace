@@ -111,7 +111,6 @@ app
                     			
                     			apiService.insertSignUp(userDetails).then(function successCallback(response) {
                     				userDetails = {};
-                    				debugger
                     				if(response.data.error_code == 100){
                     					/*$timeout(function() {
                         					alert("Signed-Up successfully\nPlease Sign In to log into the portal.");

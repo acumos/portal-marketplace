@@ -26,7 +26,6 @@ angular
 				                       url : '/api/users/forgetPassword',
 				                       data : dataObj
 				                 }).success(function(data, status, headers,config) {
-				                	 debugger;
 				                	 if(data.error_code === "100"){
 				                		 alert("Temporary Passpword is send on your email id");
 											window.location = 'index.html#/home'; 
