@@ -456,9 +456,9 @@
 														</div>
 														<div class="admin-switch-container">
 														<button class="mdl-button mdl-js-button btn-secondary btn-with-icon" ng-click='showPopupPeer();addEditPeer = "add";peerNamePop="";subNamePop="";emailIdPop="";apiUrlPop="";webUrlPop="";descriptionPop="";itsEdit = false;'><span class="admin-btn-add"></span> Add Peer</button>
-															<span class="admin-title3">| Accepts Federation Requests</span>
+															<span class="admin-title3">| Federation</span>
 															 <md-switch ng-model="data.cb1" aria-label="Switch 1" class="md-warn">
-																Accept
+																<span class="text-xsmall text-green">Enabled</span>
 															  </md-switch>
 
 															<!-- <span class="admin-title3">Turn On/Off Federation</span>
@@ -474,26 +474,13 @@
 														<div class="fedrow-cell1">
 															<span class="font600">Current peers</span> <span>({{activeCount}} active peers)</span>
 														</div>
-														<div class="fed-row2">																												
-															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model = "searchPeerDetails">																
-															</div>															
-															<!-- <div class="marketplace-btn-container">								  
-																<button id="demo-menu-lower-right2"
-																		class="mdl-button mdl-js-button btn-sort bdr">
-																	<span class="hide-xs"><span class="txtspan1">Sort By</span> - All</span>	
-																	<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort_by_alpha</i></span>	
-																  <i class="material-icons">keyboard_arrow_down</i>
-																</button>
-																<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist1"
-																	for="demo-menu-lower-right2">
-																	<li class="mdl-menu__item" >1111</li>
-																	<li class="mdl-menu__item" >1223</li>
-																	<li class="mdl-menu__item" >1245</li>
-																	<li class="mdl-menu__item" >4554</li>
-																	<li class="mdl-menu__item" >4535</li>
-																  </ul>															
-															 </div>	 -->										
+														<div class="fed-row2">
+															<div class="fed-srch-container">
+																<label class="fed-lbl1">Filter</label>																										
+																<div class="mdl-textfield mdl-js-textfield admin-search-container">
+																	<input class="mdl-textfield__input admin-search-control" type="text" placeholder="" ng-model = "searchPeerDetails">																
+																</div>
+															</div>							
 														</div>														
 													</div>
 													<div class="admin-grid-container">
@@ -517,33 +504,36 @@
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails  '>															
-																	<td><span>{{val.name}}</span></td>
+																<tr ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails  ' ng-class="val.self==false?'disabledRow':''">															
+																	<td><span class="disabledRowChild">{{val.name}}</span></td>
 																	<!-- <td>
 																		<label>{{val.description}}</label>
 																		<label>Regression</label>
 																	</td> -->
 																	<td>
-																		<a class="disblock" href="{{val.apiUrl}}">{{val.apiUrl}}</a>
+																		<a class="disblock disabledRowChild" target="_blank" href="{{val.apiUrl}}">{{val.apiUrl}}</a>
 																		<!-- <a class="disblock" data-target>{{val.webUrl}}</a> -->
 																	</td>
 																	<td>
-																		<label class="disblock">{{val.contact1}}</label>
+																		<label class="disblock disabledRowChild">{{val.contact1}}</label>
 																		<!-- <label class="disblock">{{val.contact2}}</label> -->																	
 																	</td>
-																	<td><a class="fed-view-link" data-target ng-click="mdPrimaryClass=false;subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add Subscriptions</a></td>
+																	<td>
+																		<label class="disabledRowChild">0 Subscriptions </label>
+																		<a class="fed-view-link text-small" data-target ng-click="mdPrimaryClass=false;subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add</a></td>
 																	<!-- <td ng-if='val.active'>
 																		<label class="">Active</label>
 																		<label class="">since 08/04/2017</label>
 																	</td> -->
 																	<td >
-																		<label ng-if='val.active == true' class="">Active</label>
-																		<label ng-if='val.active == false' class="">Inactive</label>
+																		<label ng-if='val.self == true' class="text-green">Active</label>
+																		<label ng-if='val.self == false' class="disabledRowChild">Inactive</label>
+																		<label class="text-xsmall disabledRowChild">since {{val.created | date :  "dd.MM.y"}}</label>
 																		<!-- <label class="">since 08/04/2017</label> -->
 																	</td>
 																	<td>
 																		<div class="admin-action-container">
-																			<button ng-click="updatePeer(val)" class="mdl-button mdl-js-button mdl-button--icon"><span ng-class="val.active==true?'gridicon-deactivate':'gridicon-activate'" class="gridicon-activate"></span></button>
+																			<button ng-click="updatePeer(val)" class="mdl-button mdl-js-button mdl-button--icon"><span ng-class="val.self==true?'gridicon-deactivate':'gridicon-activate'" class="gridicon-activate"></span></button>
 																			<button ng-click='editPeer(val)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-edit"></span></button>
 																			<button ng-click='confirmDelete(val.peerId)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button>
 																		</div>
@@ -625,11 +615,11 @@
 																		<label class="disblock">{{val.contact1}}</label>
 																		<label class="disblock">{{val.contact2}}</label>																	
 																	</td>
-																	<td ng-if='val.active'>
+																	<td ng-if='val.self'>
 																		<label class="">Active</label>
 																		<label class="">since 08/04/2017</label>
 																	</td>
-																	<td ng-if='!val.active'>
+																	<td ng-if='!val.self'>
 																		<label class="">Inactive</label>
 																		<!-- <label class="">since 08/04/2017</label> -->
 																	</td>
@@ -879,10 +869,10 @@
 						<!-- Modal box Add Peer start -->
 							<div class="md-dialog-container" id="addPeer" style="height:0;">
 							  <md-dialog aria-label="Mango (Fruit)" class="admin-add-peer">
-								  <form name='peerForm' ng-cloak>
+								  <form name='peerForm' ng-cloak novalidate>
 									<md-toolbar>
 									  <div class="md-toolbar-tools">
-										<h2>Add Peers Details</h2>
+										<h2>Add Peer Details</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click='closePoup()'>
 										  <i class="material-icons">close</i>
@@ -894,7 +884,7 @@
 										<div layout="row" class="admin-grid1">
 										  <div flex="50">
 										    <md-input-container class="md-block" flex-gt-sm>
-												<label>Peers Name</label> 
+												<label>Peer Name</label> 
 												<input type="text" name='peerName' required ng-model='peerNamePop'/> 
 											</md-input-container>
 										  </div>
@@ -941,6 +931,9 @@
 									        </md-input-container>
 										  </div>
 										 										  
+										</div>
+										<div class="adminchkbox-container1">															
+											<md-checkbox class="adminchkbox" ng-model="data.cb1" aria-label="Checkbox 1" ng-true-value="'yup'" ng-false-value="'nope'"><span class="font600">Validation Not Required for incoming models from this peer</span><p class="peerpara1">I confirm that this is a trusted partner for my Acumos so validation process is not required for all incoming models from this peer.</p></md-checkbox>
 										</div>
 										<div class="dialog-btn-container">
 												<div>
@@ -1047,7 +1040,7 @@
 									  			<div class="subscontainerinner1">
 									  				<span class="font600 fedlbl2">Subscription List</span>
 									  				<!-- <button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button> -->
-									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true;categoryValue='';toolKitTypeValue='';modelIDValue='';noData=''"><span class="admin-btn-add"></span> Add Subscription</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true;categoryValue='';toolKitTypeValue='';modelIDValue='';noData=''"><span class="admin-btn-add"></span> New Subscription</button>
 									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-primary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;backTo()"><!-- <span class="admin-btn-add"></span> --> <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back to Subscription list</button>
 									  			</div> 
 									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
@@ -1071,11 +1064,11 @@
 															</colgroup>
 														  <thead>
 															<tr>														  
-															  <th>SUBSCRIPTIONS</th>
+															  <th>SUBSCRIPTIONS ID</th>
 															  <th>Created on</th>
 															  <th>Updated on</th>
-															  <!-- <th>MODEL NAME</th>	
-															  <th>CATEGORY</th>
+															   <th>Frequency of update</th>	
+															  <!--<th>CATEGORY</th>
 															  <th>TOOLKIT TYPE</th> -->
 															  <th>&nbsp;</th>															  													  
 															</tr>
@@ -1088,7 +1081,16 @@
 																<!-- <td><label>Name of Solution</label></td>
 																<td><label>{{val.modelType}}</label></td>
 																<td><label>{{val.toolKitType}}</label></td> -->
+																<td>
+																	<div class="select-control">
+																	        <md-select ng-model="freqOfUpdate" placeholder="Select Frequency of update">
+																	       		 <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
+																	           <md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
+																	     </md-select>
+																	</div>
+																</td>
 																<td class="text-center"><button ng-click="deleteSub(val.subId,$index)" class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button></td>
+																
 															</tr>
 															
 																												
@@ -1104,7 +1106,7 @@
 														<div class="fed-search-container">
 															<label class="fedlbl1 fedlbl4">Model ID</label>
 															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" ng-change="modelEdit()" ng-disabled="toolKitTypeValue||categoryValue" type="text" placeholder="Filter" ng-model = "modelIDValue">																
+																<input class="mdl-textfield__input admin-search-control" ng-change="modelEdit()" ng-disabled="toolKitTypeValue||categoryValue|| allSubs=='true'" type="text" placeholder="Filter" ng-model = "modelIDValue">																
 															</div>
 														</div>
 														<div>														
@@ -1113,7 +1115,7 @@
 														<div>															
 															<div class="select-control admin-select">
 															     <label class="fedlbl4">Category</label>
-															        <md-select ng-model="categoryValue" ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue)" ng-disabled="modelIDValue" placeholder="Select Category">
+															        <md-select ng-model="categoryValue" ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue)" ng-disabled="modelIDValue || allSubs=='true'" placeholder="Select Category">
 															        <md-option ng-selected="true" value="">Select Category</md-option>
 															           <md-option ng-repeat="cat in category" ng-value="cat.typeCode">{{cat.typeName}}</md-option>
 															     </md-select>
@@ -1123,15 +1125,21 @@
 														<div>				
 													      <div class="select-control admin-select">
 															     <label class="fedlbl4">Toolkit type</label>
-															        <md-select ng-model="toolKitTypeValue" ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue)" ng-disabled="modelIDValue" placeholder="Select toolkit">
+															        <md-select ng-model="toolKitTypeValue" ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue)" ng-disabled="modelIDValue || allSubs=='true'" placeholder="Select toolkit">
 															        <md-option ng-selected="true" value="">Select toolkit</md-option>
-															           <md-option ng-repeat="tool in toolKitType" ng-value="tool.toolkitCode"> {{tool.toolkitName}}</md-option>
+															           <md-option ng-repeat="tool in toolKitType" ng-value="tool.typeCode"> {{tool.typeName}}</md-option>
 															     </md-select>
 															</div>
-														</div>													
+														</div>
+														<div>														
+															<span class="fedlbl5">OR</span>
+														</div>
+														<div>															
+															 <md-checkbox class="adminchkbox" ng-change="allSelect()" ng-model="allSubs" aria-label="Checkbox 1" ng-true-value="'true'" ng-false-value="'false'">All Models</md-checkbox>
+														</div>											
 													</div>
 													
-													<div class="fedgridcontainer" ng-show="solutionDetail">
+													<div class="fedgridcontainer" ng-show="solutionDetail&&(modelIDValue!='')">
 														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
 															<colgroup>
 																<col>
@@ -1146,7 +1154,7 @@
 																	<label>{{solutionDetail.name}}</label>
 																	<div><span class="text-small">by  {{solutionDetail.ownerName}} </span><span class="text-small">on {{solutionDetail.created}}</span></div>
 																	<label>Model belongs to: AT&T</label>
-																</td>
+																</td>																
 																<td><button ng-hide='solutionDetail&&addedToSubs' ng-click="addToSubs()" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Add to Subscription List</button></td>
 																<td ng-show='solutionDetail&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
@@ -1172,11 +1180,45 @@
 																<td ng-if="toolType">
 																	{{toolType}}
 																</td>
+																<td ng-if="catValue">
+																	<div class="select-control">
+																	        <md-select ng-model="freqOfUpdatePass" placeholder="Select Frequency of update">
+																	       		 <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
+																	           <md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
+																	     </md-select>
+																	</div>
+																</td>
 																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
 																<td ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
 															</tr>														
 																												
+														  </tbody>
+														</table>
+													</div>
+													<div class="fedgridcontainer" ng-hide='true'>
+														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
+															<colgroup>
+																<col>
+																<col>
+																<col>															
+																<col>																
+															</colgroup>
+															<thead>
+																<tr>
+																	<th><label>subscriptions ID</label></th>
+																	<th><label>subscriptions name</label></th>
+																	<th><label>catagory</label></th>
+																	<th><label>toolkit</label></th>
+																</tr>
+															</thead>													 
+														  <tbody>
+															<tr>
+																<td>ID1234</td>
+																<td>subscriptions name 01</td>
+																<td>Classification</td>
+																<td>Tensorflow</td>																
+															</tr>												
 														  </tbody>
 														</table>
 													</div>
