@@ -109,6 +109,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/users/userProfileImage/{userId}").permitAll()  
         .antMatchers("/admin/version").permitAll()
         .antMatchers("/users/forgetPassword").permitAll()
+        .antMatchers("/admin/requests").permitAll()
+        .antMatchers("/admin/request/update").permitAll()
         .anyRequest().authenticated();
     	
     	// Custom JWT based authentication

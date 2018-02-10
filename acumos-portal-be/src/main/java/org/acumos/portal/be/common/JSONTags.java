@@ -54,4 +54,7 @@ public class JSONTags {
 	public static final String ROLE_ACTIVE = "active";
 	public static final String ROLE_CREATED = "created";
 	public static final String ROLE_MODIFIED = "modified";
+	
+	public static final String REQUEST_APPROVED = "approve";
+	public static final String REQUEST_DENIED = "deny";
 }

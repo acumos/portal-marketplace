@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-be</artifactId>
-	<version>1.14.24-SNAPSHOT</version>
+	<version>1.14.23</version>
 	<name>Acumos Portal backend server</name>
 	<description>Acumos Portal Backend APIs</description>
 
@@ -26,6 +26,7 @@
 		<!-- <skipTests>true</skipTests> -->
 		<!-- Not supplied to all jobs; e.g., Javadoc -->
 		<docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
+		<!-- <docker.push.registry>nexus3.acumos.org:10003</docker.push.registry> -->
 		<!-- Supplied by Jenkins -->
 		<docker.push.registry>${env.NEXUS3_PUSH_REGISTRY}</docker.push.registry>
 	</properties>
@@ -40,12 +41,12 @@
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>1.13.0</version>
+			<version>1.13.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.acumos.acumos-nexus-client</groupId>
 			<artifactId>acumos-nexus-client</artifactId>
-			<version>2.0.0</version>
+			<version>2.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -164,7 +165,12 @@
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-aop</artifactId>    
 		</dependency>
-        
+
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb2-basics-runtime</artifactId>
+			<version>0.6.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

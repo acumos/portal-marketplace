@@ -30,6 +30,8 @@ import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.common.JsonRequest;
+import org.acumos.portal.be.transport.MLRequest;
 
 
 public interface AdminService {
@@ -63,5 +65,9 @@ public interface AdminService {
 	void deleteSiteConfig(String configKey);
 
 	MLPSiteConfig createSiteConfig(MLPSiteConfig mlSiteConfig);
+
+	List<MLRequest> getAllRequests(RestPageRequest pageRequest);
+	
+	void updateMLRequest(MLRequest mlRequest);
 
 }
