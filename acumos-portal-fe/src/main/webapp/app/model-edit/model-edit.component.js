@@ -1755,7 +1755,7 @@ angular
 	                       	 var getSolutionImagesReq = {
 										method : 'GET',
 										url : '/site/api-manual/Solution/solutionImages/'+$scope.solutionId
-								};                     	
+								};
 
 	                       	 $http(getSolutionImagesReq)
 									.success(
@@ -2171,7 +2171,7 @@ angular
                         $scope.selectedIcon = iconImage;
                         $scope.icon = false;
                         $scope.filename = iconImage +'.png';
-                        srcToFile($scope.previewImage, iconImage, 'image/png')
+                        srcToFile($scope.previewImage, iconImage + '.png', 'image/png')
                         .then(function(file){
                             var fd = new FormData();
                             fd.append('file1', file);
