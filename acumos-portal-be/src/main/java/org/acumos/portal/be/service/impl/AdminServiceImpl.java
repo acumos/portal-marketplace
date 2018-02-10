@@ -20,11 +20,16 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.stereotype.Service;
@@ -42,7 +47,8 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
     private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AdminServiceImpl.class);
 
-
+    private static List<MLRequest> mlRequestList = requestList();
+    
     @Override
     public RestPageResponse<MLPPeer> getAllPeers(RestPageRequest restPageReq) {
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -206,6 +212,60 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 			dataServiceRestClient.deleteSiteConfig(configKey);
 		}
 	}
-
 	
+	@Override
+	public List<MLRequest> getAllRequests(RestPageRequest restPageReq){
+		log.debug(EELFLoggerDelegate.debugLogger, "getRequests ={}");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		return getMlRequestList();
+				
+	}
+
+	@Override
+	public void updateMLRequest(MLRequest mlRequest) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateMLRequest ={}", mlRequest);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if (mlRequest != null) {
+			// MLPSiteConfig mlpSiteConfig =
+			// PortalUtils.convertMLSiteConfigToMLPSiteConfig(config);
+			// dataServiceRestClient.updateMLRequest(mlRequest);
+			for (MLRequest mlRequest2 : mlRequestList) {
+				if (mlRequest2.getRequestId().equals(mlRequest.getRequestId())) {
+					if (JSONTags.REQUEST_DENIED.equals(mlRequest.getAction())) {
+						mlRequest2.setStatus(JSONTags.REQUEST_DENIED);
+					} else {
+						mlRequest2.setStatus(JSONTags.REQUEST_APPROVED);
+					}
+				}
+			}
+			System.out.println("Testing");
+		}
+	}
+	
+	private static List<MLRequest> requestList(){
+		
+		List<MLRequest> mlRequestList = new ArrayList<MLRequest>();
+		for (int i = 1; i <= 10; i++) {
+			MLRequest mlrequest = new MLRequest();
+			Date date = new Date();
+			mlrequest.setDate(date);
+			mlrequest.setRequestedDetails("Requested Details" + i);
+			mlrequest.setRequestId("REQID " +i);
+			if(i%2 == 0){
+				mlrequest.setRequestType("Federation");
+				mlrequest.setSender("Acumous " +i);
+			}else{
+				mlrequest.setRequestType("Model Download");
+				mlrequest.setSender("TechM " +i);
+			}
+			mlrequest.setStatus("Pending");
+			mlRequestList.add(mlrequest);
+		}
+		return mlRequestList;
+		
+	}
+
+	public List<MLRequest> getMlRequestList() {
+		return mlRequestList;
+	}
 }
