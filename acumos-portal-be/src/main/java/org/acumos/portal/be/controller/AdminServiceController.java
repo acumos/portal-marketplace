@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,10 @@ import org.acumos.portal.be.Application;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.RestPageResponseBE;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
@@ -465,4 +469,53 @@ public class AdminServiceController extends AbstractController {
         responseVO.setStatusCode(HttpServletResponse.SC_OK);
         return responseVO;
     }
+    
+    @ApiOperation(value = "Gets a list of Requests ", response = RestPageResponseBE.class)
+	@RequestMapping(value = { APINames.GET_REQUESTS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE> getAllRequests(@RequestBody RestPageRequest restPageReq) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getRequests");
+		List<MLRequest> requestList = new ArrayList<>();
+		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
+		requestList = adminService.getAllRequests(restPageReq);
+		if (requestList != null) {
+			List test = new ArrayList<>();
+			RestPageResponseBE responseBody = new RestPageResponseBE<>(test);
+			responseBody.setRequestList(requestList);
+			data.setResponseBody(responseBody);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Requests fetched  Successfully");
+		} else {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred Fetching requests");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching requests");
+		}
+		return data;
+	}
+    
+    @ApiOperation(value = "Update Request details.", response = JsonResponse.class)
+    @RequestMapping(value = { APINames.UPDATE_REQUEST}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<Object> updateRequest(@RequestBody JsonRequest<MLRequest> mlrequest) {
+        log.debug(EELFLoggerDelegate.debugLogger, "updateRequest={}", mlrequest);
+        JsonResponse<Object> data = new JsonResponse<>();
+        try {
+            if (mlrequest != null && mlrequest.getBody() != null) {
+               adminService.updateMLRequest(mlrequest.getBody());
+               data.setStatus(true);
+               data.setResponseDetail("Success");
+               data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+            } else {  
+               log.debug(EELFLoggerDelegate.errorLogger, "updateRequest: Invalid Parameters");
+               data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+               data.setResponseDetail("Update Request Failed");
+            }
+        }catch(Exception e) {
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Failed");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updaterequest()", e);
+        }
+        return data;
+    }
+    
 }

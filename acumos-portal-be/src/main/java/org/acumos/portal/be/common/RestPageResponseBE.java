@@ -29,6 +29,7 @@ import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.portal.be.transport.AbstractResponseObject;
+import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.User;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -59,6 +60,7 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
     private long threadCount;
     private int totalElements;
     private List<MLPSolution> modelsSharedWithUser;
+    private List<MLRequest> requestList;
 
 	public RestPageResponseBE(List<T> content) {
 		super(content);
@@ -212,5 +214,13 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 
 	public void setModelsSharedWithUser(List<MLPSolution> modelsSharedWithUser) {
 		this.modelsSharedWithUser = modelsSharedWithUser;
+	}
+
+	public List<MLRequest> getRequestList() {
+		return requestList;
+	}
+
+	public void setRequestList(List<MLRequest> requestList) {
+		this.requestList = requestList;
 	}	
 }
