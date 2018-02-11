@@ -32,6 +32,7 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.transport.MLRequest;
+import org.acumos.portal.be.transport.MLSolution;
 
 
 public interface AdminService {
@@ -69,5 +70,6 @@ public interface AdminService {
 	List<MLRequest> getAllRequests(RestPageRequest pageRequest);
 	
 	void updateMLRequest(MLRequest mlRequest);
-
+	
+	void createSubscription(MLSolution mlSolution);
 }

@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.transport.MLRequest;
+import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.stereotype.Service;
@@ -268,4 +269,21 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	public List<MLRequest> getMlRequestList() {
 		return mlRequestList;
 	}
+	
+	@Override
+    public void createSubscription(MLSolution solutionObj) {
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        //String selectorVal=null;
+        for(MLSolution sol : solutionObj.getPublicSolList()){
+            MLPPeerSubscription sub = new MLPPeerSubscription();
+            sub.setAccessType("PB");
+            sub.setPeerId(sol.getPeerId());
+            Long longVal= new Long(30);
+            sub.setRefreshInterval(longVal);
+            sub.setScopeType("FL");
+            sub.setSelector("{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"DS\"}");
+            
+            dataServiceRestClient.createPeerSubscription(sub);
+        }    
+    }
 }
