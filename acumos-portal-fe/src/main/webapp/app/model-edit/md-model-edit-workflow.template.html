@@ -141,7 +141,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='company'}"
-										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'">
+										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')">
 											<div class="managelefticon">
 												<i class="companyimg"></i>
 											</div>
@@ -586,7 +586,7 @@
                                                                   <div class="text">Verify Model</div>
                                                             </li>
                                                             <li class="progress-status"  ng-class="{'green': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}"></li> -->
-										<li>
+										<li ng-show = "tcShow">
 											<div class="imageplace"
 												ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA' , 'incomplet': taValidationStatus.validationStatus == 'FA' && taValidationStatus.validationType == 'TA'}">
 												<span class="imagecontent text-check"> <!-- <img
@@ -594,7 +594,7 @@
 												</span>
 											</div>
 											<div class="text">Text Check</div>
-										</li>
+										</li >
 										<li class="progress-status"
 											ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}"></li>
 										<li>

@@ -71,6 +71,8 @@ public class MLSolution {
 	private String commentId;
 	private List<MLPThread> threadList ;
 	private String validationStatusCode;
+	private List<MLSolution> publicSolList;
+    private String peerId;
 	
 	public String getLoginName() {
 		return loginName;
@@ -472,5 +474,21 @@ public class MLSolution {
 
 	public void setValidationStatusCode(String validationStatusCode) {
 		this.validationStatusCode = validationStatusCode;
+	}
+
+	public List<MLSolution> getPublicSolList() {
+		return publicSolList;
+	}
+
+	public void setPublicSolList(List<MLSolution> publicSolList) {
+		this.publicSolList = publicSolList;
+	}
+
+	public String getPeerId() {
+		return peerId;
+	}
+
+	public void setPeerId(String peerId) {
+		this.peerId = peerId;
 	}	
 }

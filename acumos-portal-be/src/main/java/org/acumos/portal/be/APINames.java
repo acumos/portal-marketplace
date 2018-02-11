@@ -154,6 +154,7 @@ public class APINames {
     public static final String SUBSCRIPTION_CREATE = "/peer/subcription/create";
     public static final String SUBSCRIPTION_UPDATE = "/peer/subcription/update";
     public static final String SUBSCRIPTION_DELETE = "/peer/subcription/delete/{subId}";
+    public static final String CREATE_SUBSCREPTION = "/peer/sub/create";
     
     //Site Configuration API's for Admin
     

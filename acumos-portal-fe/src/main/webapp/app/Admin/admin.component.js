@@ -11,7 +11,20 @@ angular.module('admin')
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
 			//Frequency of update
-			$scope.frequency = [{'name':'Hourly','value':'hr'},{'name':'Daily','value':'dl'},{'name':'Monthly','value':'ml'},{'name':'Update on demand','value':'ud'}]
+			$scope.frequency = [{'name':'Hourly','value':'1'},{'name':'Daily','value':'24'},{'name':'Monthly','value':'720'},{'name':'Update on demand','value':'0'}]
+			
+			//Hard coded (delete it)
+			/*$scope.subscription = [{
+			       "requestId": "REQID 12345680",
+			       "requestedDetails": "Requested Details",
+			       "requestType": "Model Download",
+			       "sender": "Techm10",
+			       "date": 1518252201559,
+			       "action": null,
+			       "status": 'pending'
+			     }]*/
+			$scope.activeRequest = 5;
+			//Hard coded (delete it)
 			$scope.freqOfUpdate = 'hr';
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
 			$scope.userDetail = JSON.parse(localStorage
@@ -77,6 +90,7 @@ angular.module('admin')
                             	$scope.activeCount = $scope.activeCount+1;
                             }
                           });
+						$scope.countSubscriptions();
 					},
 					function(error) {console.log(error);});
 			}
@@ -364,20 +378,39 @@ angular.module('admin')
 				                    		}};
                     	apiService.insertPeers(peerDetails).then(
                   	    		function(response){
-                  	    			getAllPeer();
-                  	    			$scope.category;fetchCat();
-                  	    			$scope.data = '';$scope.hidePeer = false;$scope.queryParam='';
-                        	    	$scope.closePoup();
-                        	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-                                    $anchorScroll(); 
-                                    $scope.msg = "Peer Created successfully."; 
-                                    $scope.icon = '';
-                                    $scope.styleclass = 'c-success';
-                                    $scope.showAlertMessage = true;
-                                    $timeout(function() {
-                                    	$scope.showAlertMessage = false;
-                                    }, 5000);
-                        	            // success
+                  	    			if(response.data.error_code == 400){
+
+                      	    			getAllPeer();
+                      	    			$scope.category;fetchCat();
+                      	    			$scope.data = '';$scope.hidePeer = false;$scope.queryParam='';
+                            	    	$scope.closePoup();
+                            	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                        $anchorScroll(); 
+                                        $scope.msg = "Peer Already Exists."; 
+                                        $scope.icon = 'report_problem';
+                                        $scope.styleclass = 'c-error';
+                                        $scope.showAlertMessage = true;
+                                        $timeout(function() {
+                                        	$scope.showAlertMessage = false;
+                                        }, 5000);
+                            	            // success
+                  	    			}else{
+                  	    				getAllPeer();
+                      	    			$scope.category;fetchCat();
+                      	    			$scope.data = '';$scope.hidePeer = false;$scope.queryParam='';
+                            	    	$scope.closePoup();
+                            	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                        $anchorScroll(); 
+                                        $scope.msg = "Peer Created successfully."; 
+                                        $scope.icon = '';
+                                        $scope.styleclass = 'c-success';
+                                        $scope.showAlertMessage = true;
+                                        $timeout(function() {
+                                        	$scope.showAlertMessage = false;
+                                        }, 5000);
+                            	            // success
+                  	    			}
+                  	    			
                         	    }, 
                   	    		function(error){
                   	    			// handle error 
@@ -393,7 +426,7 @@ angular.module('admin')
                     	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.apiUrl;$scope.descriptionPop = peerDetail.description;
                     	  $scope.showPopupPeer();
                       }
-                      $scope.updatePeer = function(val){debugger;console.log(val);
+                      $scope.updatePeer = function(val){
                     	  if(val == 'detail'){
                     		  var peerDetails = {"request_body": {	
                     			 "self" : $scope.peerStatus,
@@ -507,7 +540,7 @@ angular.module('admin')
                 		  $scope.subId = '';
                 		  $scope.subId = response.response_body[0].subId;
                 		  
-                		  var arrSub = [];
+                		  $scope.arrSub = [];
                 		  angular.forEach(response.response_body, function(value, key) {
                 			  var catTool = value.selector;
             				  var catTool = catTool.split(",");
@@ -539,17 +572,16 @@ angular.module('admin')
                 						});
             					  }
             				  }
-            				  arrSub.push({
+            				  $scope.arrSub.push({
             					  "subId" : value.subId,
-            					  "toolKitType" : $scope.toolKitForSubId.toolkitName,
+            					  "toolKitType" : $scope.toolKitForSubId.typeName,
             					  "modelType" : $scope.categoryForSubId.typeName,
             					  "updatedOn" : value.modified,
             					  "createdOn" : value.created
             				  })
                 		  });
 
-        				 $scope.arrDetails = arrSub;
-        			  
+        				 $scope.arrDetails = $scope.arrSub;
                 	  });
                   
                 	  
@@ -559,7 +591,9 @@ angular.module('admin')
               		  targetEvent: ev,
               		  clickOutsideToClose: true
               	  });}
-                      
+                      // frequency change from add subscription
+                      var freqChangeValue = '';
+                      $scope.freqChange = function(freqOfUpdatePass){freqChangeValue=freqOfUpdatePass;}
                       //Add to subscription
                       $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
@@ -578,14 +612,14 @@ angular.module('admin')
                     	  }
                     	  if(cat&&toolKit)var catToolkit = '"{\\' + cat + ',\\' + toolKit + '\\"}"';
                     	  else if(cat&&!toolKit)var catToolkit = '"{\\' + cat +'}"';
-                    	  else if(!cat&&toolKit)var catToolkit = '"{\\' + toolKit + '\\"}"';
+                    	  else if(!cat&&toolKit)var catToolkit = '"{\\' + toolKit + '\\"}"';debugger;console.clear();console.log($scope);
                     	  var json={"request_body": {
                     			    	"peerId": $scope.peerIdForSubsList,
                     			    	//"subId": $scope.subId,
                     			    	"selector" : catToolkit,
                     			    	"ownerId" : userId,
                     			    	"scopeType": "FL",
-                    			    	"refreshInterval": 30,
+                    			    	"refreshInterval": freqChangeValue || '24',
                     			    	"accessType": "PB"
                     	  				}}
                     	  if(check){$scope.categoryValue='';$scope.toolKitTypeValue='';}
@@ -947,7 +981,170 @@ angular.module('admin')
                                          		 	$scope.hideLabel = false;
                                          	 }
                                            });
+                                          //Get all request
+                                          function getAllRequest(){
+		                                        var dataPass = {
+		                                        		  "fieldToDirectionMap": {},
+		                                        		  "page": 0,
+		                                        		  "size": 0
+		                                        		};
+		                                          $http({
+												        method : "POST",
+												        url : "/api/admin/requests",
+												        data : dataPass
+												    }).then(function mySuccess(response) {
+												    	$scope.subscription = response.data.response_body.requestList;
+												    }, function myError(response) {
+												    	debugger;
+												    });
+                                          }
+                                          getAllRequest();
+                                          //Approve/Delete request for federation
+                                          $scope.appDelRequest = function(val1,val2){
+                                        	  var appDeny = '';
+                                        	  if(val2 == "approve"){appDeny = 'approve'}
+                                        	  else if(val2 == "deny"){appDeny = 'deny'}
+                                        	  var data = {
+                                        			  	"action": appDeny,
+                                        			    "requestId": val1.requestId,
+                                        	  };
+                                        	  $http({
+											        method : "PUT",
+											        url : "/api/admin/request/update",
+											        data : data
+											    }).then(function mySuccess(response) {debugger;
+											    	getAllRequest();
+											    }, function myError(response) {
+											    	debugger;
+											    });
+                                          }
+                                          
+                                          /*
+                                           * Have Added this function for the count as for now. This is not good for the performance. 
+                                           * Please remove and ask BE team for an api to return the counts
+                                           */
+                                          $scope.countSubscriptions = function(){
+                                        	  $scope.peer;
+                                        	  if($scope.peer){
+                                        		  angular.forEach($scope.peer, function(value, key) {
+                            						  value.peerId;
+                            						  var counyUrl = 'api/admin/peer/subcriptions/' +  value.peerId;
+                            						  $http.post(counyUrl).success(function(response){
+                            							$scope.subscriptionCount  = response.response_body.length;
+                            						  }).error(function(error){
+                            							 
+                            						  });
+                            						});
+                                        	  }
+                                          }
+                                          
+                                          
+                                          /*get all solutions start*/
+                                          $scope.loadAllSolutions = function(){
+                                        	  
+                    							var dataObj = {
+                    								"request_body" : {
+                    									"active" : true,
+                    									"pageRequest" : {
+                    										"page" : 0,
+                    										"size" : 1000
+                    									}
+                    								}
+                    							}
+                    							console.log(angular.toJson(dataObj));
+                    							apiService.insertSolutionDetail(dataObj).then(
+                      									function(response) {
+                      										debugger
+                      										$scope.mlsolutions = response.data.response_body.content;
+                      									},
+                      									function(error) {
+                      										$scope.status = 'Unable to load data: '
+                      												+ error.data.error;
+                      										console.log($scope.status);
+                      									});
+                                          }
+                                          
+                                          $scope.loadAllSolutions();
+                                        
+                                  		/*get solutions ends*/
+                                          
+										  
+										  //Validation code
+                                          $scope.addStep = false;
+                                          $scope.showPrerenderedDialog = function(ev, dialogId) {
+                                        	    $mdDialog.show({
+                                        	      contentElement: '#'+ dialogId,
+                                        	      parent: angular.element(document.body),
+                                        	      targetEvent: this,
+                                        	      clickOutsideToClose: true
+                                        	      
+                                        	     
+                                        	    });
+                                        	  };
+                                        	  
+                                        	  
+                                        	  $scope.getValidationWorkflow = function(flowConfigKey){
+                                        		$scope.removeTC = false;
+                                        	  
+                                        		apiService
+                      		 	    			.getSiteConfig(flowConfigKey)
+                      		 	    			.then(
+                      		 	    					function(response) {
+                      		 	    						$scope.ignoreWorkFlow = angular.fromJson(response.data.response_body.configValue);
+                      		 	    						angular
+                      		 	    		                  .forEach(
+                      		 	    		                          $scope.ignoreWorkFlow.ignore_list,
+                      		 	    		                          function( value, key) {
+                      		 	    		                        	 if(value == "Text Check" ){
+                      		 	    		                        		 $scope.removeTC = true;
+                      		 	    		                        	 }
+                      		 	    		                          });
+                      		 	    					},
+                      		 	    					function(error) {console.log(error);
+                      		 	    			});
+                                        	  }
+                                        	  
+                                        	  
+                                        	  $scope.addValidationStep = function(validStep){
+                                        		  if($scope.removeTC == false){
+                                        			  $scope.ignoreWorkFlow.ignore_list.push(validStep);
+                                        			  $scope.removeTC = true;
+                                        		  }else{
+                                        			  var index = $scope.ignoreWorkFlow.ignore_list.indexOf(validStep);
+                                        			  $scope.ignoreWorkFlow.ignore_list.splice(index, 1);
+                                        			  $scope.removeTC = false;
+                                        		  }
+                                        	  }	  
+                                                  
+                                              $scope.assignWorkFlow = function(flow){
+                                            	  var data = angular.copy($scope.ignoreWorkFlow);
+                                                  var strworkFlowConfig = JSON.stringify(data);
+                                                  var convertedString = strworkFlowConfig.replace(/"/g, '\"');
+                                            	  var reqObj = {
+                                            			  "request_body": {
+                                            				    "configKey": flow,
+                                            				    "configValue": convertedString,
+                                            				    "created": "2018-02-11T13:23:08.549Z",
+                                            				    "modified": "2018-02-11T13:23:08.549Z",
+                                            				    "userId": userId
+                                            				  },
+                                            				  "request_from": "string",
+                                            				  "request_id": "string"
+                                            				}
+                                            	  apiService
+                                                  .updateSiteConfig(flow, reqObj)
+                                                  .then(function(response) {
+                                        		  console.log("response");
+                                                  });
+                                              };
+                                              
+                                              $scope.closeValidationPopup = function(){
+                                            	  $mdDialog.hide();  
+                                              };
             	    
+                                          
+                                          
+                                          
 		}
 }).directive(
 		'uploadImageModel',
@@ -981,3 +1178,4 @@ angular.module('admin')
 				}
 			}
 		});
+
