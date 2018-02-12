@@ -19,11 +19,7 @@
  */
 package org.acumos.portal.be.transport;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import org.jvnet.jaxb2_commons.xml.bind.model.MList;
 
 public class MLRequest {
 
