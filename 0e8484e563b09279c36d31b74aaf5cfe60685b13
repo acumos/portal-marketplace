@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "132b1f48_af81e296",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-13T15:25:59Z",
+      "side": 1,
+      "message": "Must remove \"debugger\" lines",
+      "revId": "0e8484e563b09279c36d31b74aaf5cfe60685b13",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
