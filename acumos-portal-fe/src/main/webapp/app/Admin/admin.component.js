@@ -531,6 +531,7 @@ angular.module('admin')
                       //Subscription popup
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
+                    	  debugger
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
                 	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false';
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
@@ -594,10 +595,13 @@ angular.module('admin')
               	  });}
                       // frequency change from add subscription
                       var freqChangeValue = '';
-                      $scope.freqChange = function(freqOfUpdatePass){freqChangeValue=freqOfUpdatePass;}
+                      $scope.freqChange = function(freqOfUpdatePass){
+                    	  freqChangeValue = freqOfUpdatePass * 60 * 60;
+                    	  }
                       //Add to subscription
                       $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
+                    	  debugger
                     	  var check = false;
                     	  var jsonFormate = '',cat='',toolKit='';
                     	  if(!$scope.categoryValue && !$scope.toolKitTypeValue){
@@ -1157,11 +1161,52 @@ angular.module('admin')
                                   		/*get solutions ends*/
                                           
 										  
-										  //Validation code
+										   //Validation code
                                           $scope.addStep = false;
-                                          
+                                          var onBoardingStep = {
+                      		  					"step": [
+                      		  						{ "stepName" : "Create Micro-service", "class" : "create-docker"},
+                      		  						{ "stepName" : "Package", "class" : "create-docker"},
+                      		  						{ "stepName" : "Dockerize", "class" : "create-docker"},
+                      		  						{ "stepName" : "Create TOSCA", "class" : "create-tosca"},
+                      		  						{ "stepName" : "Security Scan", "class" : "create-security"},
+                      		  						{ "stepName" : "Add to Repository", "class" : "add-repository"},
+                      		  						
+                      		               	  ]};
+                                          var localFlowStep ={"step": [
+                      		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
+                      		  						
+                      		  						
+                      		               	  ]};
+                                          $scope.optionalLocalFlowStep ={"step": [
+                		  						{ "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
+                		  						{ "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},
+                		  						{ "stepName" : "Text Check", "class" : "create-docker", "active" : "true"},
+                		  					]};
+                                          var publicFlowStep ={"step": [
+                      		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
+                      		  								  						
+                      		               	  ]};
+                                          $scope.optionalPublicFlowStep ={"step": [
+              		  						{ "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
+              		  						{ "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},
+              		  						{ "stepName" : "Text Check", "class" : "create-docker", "active" : "true"},
+              		  						{ "stepName" : "Manual Text Check", "class" : "create-docker", "active" : "true"}
+              		  					]};
+                                          var fedratedStep = {"step": [
+                      		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
+                      		  						{ "stepName" : "Security Scan", "class" : "create-security"},
+                      		  						{ "stepName" : "License Check", "class" : "create-docker"},
+                      		  						{ "stepName" : "Text Check", "class" : "create-docker"},
+                      		  					
+                      		               	  ]
+                                          };
                                           $scope.showPrerenderedDialog = function(ev, dialogId, workFlow) {
                                         	  $scope.workFlow = workFlow;
+                                        	  if (workFlow == "On-boarding Work flow"){$scope.workFlowStep = onBoardingStep;}
+                                        	  else if (workFlow == "Publishing to Local Work Flow"){$scope.workFlowStep = localFlowStep; }
+                                        	  else if (workFlow == "Publishing to Public Work Flow"){$scope.workFlowStep = publicFlowStep;}
+                                        	  else if (workFlow == "Import Federated Model Work Flow"){$scope.workFlowStep = fedratedStep;}
                                         	    $mdDialog.show({
                                         	      contentElement: '#'+ dialogId,
                                         	      parent: angular.element(document.body),
@@ -1175,54 +1220,66 @@ angular.module('admin')
                                         	  
                                         	  $scope.getValidationWorkflow = function(flowConfigKey){
                                         		$scope.removeTC = false;
-                                        	  
+                                        		if (flowConfigKey == "local_validation_workflow"){ $scope.optionalWorkFlowStep = $scope.optionalLocalFlowStep;}
+                                          	  	else if (flowConfigKey == "public_validation_workflow"){$scope.optionalWorkFlowStep = $scope.optionalPublicFlowStep;}
                                         		apiService
                       		 	    			.getSiteConfig(flowConfigKey)
                       		 	    			.then(
                       		 	    					function(response) {
                       		 	    						$scope.ignoreWorkFlow = angular.fromJson(response.data.response_body.configValue);
                       		 	    						angular
-                      		 	    		                  .forEach(
-                      		 	    		                          $scope.ignoreWorkFlow.ignore_list,
-                      		 	    		                          function( value, key) {
-                      		 	    		                        	 if(value == "Text Check" ){
-                      		 	    		                        		 $scope.removeTC = true;
-                      		 	    		                        	 }
-                      		 	    		                          });
+                      		 	    							.forEach(
+                      		 	    								$scope.optionalWorkFlowStep.step,
+                      		 	    									function(optionalValue,optionalKey){
+                      		 	    										angular
+				                      		 	    		                  .forEach(
+				                      		 	    		                          $scope.ignoreWorkFlow.ignore_list,
+				                      		 	    		                          function( ignoreValue, key) {
+				                      		 	    		                        	 if(optionalValue.stepName == ignoreValue ){
+				                      		 	    		                        		optionalValue.active = false;
+				                      		 	    		                        	 }
+				                      		 	    		                          });
+                      		 	    						});
+                      		 	    						if (flowConfigKey == "local_validation_workflow"){ $scope.optionalLocalFlowStep = $scope.optionalWorkFlowStep; }
+                                                      	  	else if (flowConfigKey == "public_validation_workflow"){$scope.optionalPublicFlowStep = $scope.optionalWorkFlowStep;}
                       		 	    					},
                       		 	    					function(error) {console.log(error);
                       		 	    			});
                                         	  }
                                         	  
+                                        	  $scope.getValidationWorkflow("local_validation_workflow");
                                         	  
-                                        	  $scope.addValidationStep = function(validStep){
-                                        		  if($scope.removeTC == false){
+                                        	  $scope.addValidationStep = function(validStep, validKey){
+                                        		  $scope.editStep = validStep;
+                                        		  if($scope.optionalWorkFlowStep.step[validKey].active){
                                         			  $scope.ignoreWorkFlow.ignore_list.push(validStep);
-                                        			  $scope.removeTC = true;
+                                        			  $scope.optionalWorkFlowStep.step[validKey].active = false;
+                                        			  $scope.added = false;
                                         		  }else{
                                         			  var index = $scope.ignoreWorkFlow.ignore_list.indexOf(validStep);
                                         			  $scope.ignoreWorkFlow.ignore_list.splice(index, 1);
-                                        			  $scope.removeTC = false;
+                                        			  $scope.optionalWorkFlowStep.step[validKey].active = true;
+                                        			  $scope.added = true;
                                         		  }
-                                        	  }	  
+                                        	  };	
                                                   
                                               $scope.assignWorkFlow = function(flow){
+                                            	  var configKey = "";
+                                            	  if(flow == "Publishing to Local Work Flow" ){configKey = "local_validation_workflow";}
+                                            	  else if(flow == "Publishing to Public Work Flow" ){configKey = "public_validation_workflow";}
                                             	  var data = angular.copy($scope.ignoreWorkFlow);
                                                   var strworkFlowConfig = JSON.stringify(data);
                                                   var convertedString = strworkFlowConfig.replace(/"/g, '\"');
                                             	  var reqObj = {
                                             			  "request_body": {
-                                            				    "configKey": flow,
+                                            				    "configKey": configKey,
                                             				    "configValue": convertedString,
-                                            				    "created": "2018-02-11T13:23:08.549Z",
-                                            				    "modified": "2018-02-11T13:23:08.549Z",
                                             				    "userId": userId
-                                            				  },
-                                            				  "request_from": "string",
-                                            				  "request_id": "string"
+                                            				  }
+                                            				 
                                             				}
                                             	  apiService
-                                                  .updateSiteConfig(flow, reqObj)
+                                                  .updateSiteConfig(configKey, reqObj)
                                                   .then(function(response) {
                                         		  console.log("response");
                                                   });
