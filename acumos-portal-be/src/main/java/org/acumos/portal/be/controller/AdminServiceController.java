@@ -522,26 +522,26 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Add peer subscription for models", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.CREATE_SUBSCREPTION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
-    public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "createSubscription={}");
-        JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
-        try {
-            if (!solList.getBody().isEmpty() && peerId != null) {              
-                adminService.createSubscription(solList.getBody(),peerId);
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                data.setResponseDetail("Success");
-            } else {
-                log.debug(EELFLoggerDelegate.errorLogger, "createPeerSubscription: Invalid Parameters");
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-                data.setResponseDetail("Create PeerSubscription Failed");
-            }
+       public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId, @PathVariable("refreshInterval") Long refreshInterval) {
+           log.debug(EELFLoggerDelegate.debugLogger, "createSubscription={}");
+           JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
+           try {
+               if (!solList.getBody().isEmpty() && peerId != null) {              
+                   adminService.createSubscription(solList.getBody(),peerId,refreshInterval);
+                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                   data.setResponseDetail("Success");
+               } else {
+                   log.debug(EELFLoggerDelegate.errorLogger, "createPeerSubscription: Invalid Parameters");
+                   data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                   data.setResponseDetail("Create PeerSubscription Failed");
+               }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-            data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerSubscription()", e);
-        }
-        return data;
-    }
+           } catch (Exception e) {
+               e.printStackTrace();
+               data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+               data.setResponseDetail("Failed");
+               log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerSubscription()", e);
+           }
+           return data;
+       }
 }
