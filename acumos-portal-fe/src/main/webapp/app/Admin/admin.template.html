@@ -431,6 +431,8 @@
                                                                                 <input type="{{ field.type }}" dynamic-name="field.name"
                                                                             id="{{field.name}}" data-ng-model="field.data" upload-image-model = "field.data" base-sixty-four-input
                                                                             />
+                                                                           <div class="help-inline validation-msgs"><span ng-show = "imageError">Image should be max size of 2KB.</span></div>
+                                                                            
                                                                             </div>
                                                                         </div>								
 																</ng-form>
@@ -551,13 +553,13 @@
 													<div class="admin-tab-heading"><span class="admin-title2">Requests</span></div>
 													<div class="fed-row1">
 														<div class="fedrow-cell1">
-															<span class="font600">Current peers</span> <span>(0 active peers)</span>
+															<span class="font600">Current peers</span> <span>({{activeRequest}} active request)</span>
 														</div>
 														<div class="fed-row2">																												
 															<div class="mdl-textfield mdl-js-textfield admin-search-container">
 																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model='searchUserDetails.firstName'">																
 															</div>															
-															<div class="marketplace-btn-container">								  
+															<!-- <div class="marketplace-btn-container">								  
 																<button id="demo-menu-lower-right4"
 																		class="mdl-button mdl-js-button btn-sort bdr">
 																	<span class="hide-xs"><span class="txtspan1">Sort By</span> - All</span>	
@@ -571,7 +573,7 @@
 																	<li class="mdl-menu__item" >Approve</li>
 																	<li class="mdl-menu__item" >Deny</li>																	
 																  </ul>															
-															 </div>											
+															 </div>	 -->										
 														</div>														
 													</div>
 													<div class="admin-grid-container">
@@ -598,50 +600,508 @@
 															  </thead>
 															  <tbody>
 																<tr ng-repeat='val in subscription  | filter: searchPeerDetails.name as filtered'>															
-																	<td><span>{{val.name}}</span></td>
+																	<td><span>{{val.requestId}}</span></td>
 																	<td>
-																		<label>{{val.description}}</label>
+																		<label>{{val.requestedDetails}}</label>
 																		<!-- <label>Regression</label> -->
 																	</td>
 																	<td>
-																		<a class="disblock" data-target>{{val.apiUrl}}</a>
-																		<a class="disblock" data-target>{{val.webUrl}}</a>
+																		<label>{{val.requestType}}</label>
 																	</td>
 																	<td>
-																		<a class="disblock" data-target>{{val.apiUrl}}</a>
-																		<a class="disblock" data-target>{{val.webUrl}}</a>
+																		<label>{{val.sender}}</label>
 																	</td>
 																	<td>
-																		<label class="disblock">{{val.contact1}}</label>
-																		<label class="disblock">{{val.contact2}}</label>																	
+																		<label class="">{{val.date | date:"MM/dd/yyyy"}}</label>																	
 																	</td>
-																	<td ng-if='val.self'>
-																		<label class="">Active</label>
-																		<label class="">since 08/04/2017</label>
-																	</td>
-																	<td ng-if='!val.self'>
-																		<label class="">Inactive</label>
-																		<!-- <label class="">since 08/04/2017</label> -->
+																	<td>
+																		<label class="" ng-if='val.status=="Pending"'>Pending</label>
+																		<label class="" ng-if='val.status=="approve"'>Approve</label>
+																		<label class="" ng-if='val.status=="deny"'>Deny</label>
 																	</td>
 																	<td>
 																		<div class="admin-action-container">
 																			<!-- <button class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-activate"></span></button> -->
-																			<button class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-edit"></span></button>
-																			<button ng-click='confirmDelete(val.peerId)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button>
+																			<button ng-disabled='val.status=="approve" || val.status=="deny"' ng-click='appDelRequest(val,"approve")' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-approve"></span></button>
+																			<button ng-disabled='val.status=="approve" || val.status=="deny"' ng-click='appDelRequest(val,"deny")' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-deny"></span></button>
 																		</div>
 																	</td>
 																</tr>
 															  </tbody>
 															</table>
-															<div class="alert c-info text-center"">
+															<div class="alert c-info text-center" ng-if="subscription.length<1">
 									                   			<strong>No Result Found</strong> 
 								                   			</div>
 														</div>
 												</div>
 												<!-- subscription request end-->
-												<div class="mdl-tabs__panel" id="tab7-panel">
+												<!-- <div class="mdl-tabs__panel" id="tab7-panel">
 													<div class="admin-tab-heading"><span class="admin-title2">Validation</span></div>
-												</div>
+												</div> -->
+												
+												<!-- admin validation tab (workflow configuration -->
+												<div class="mdl-tabs__panel is-active" id="tab7-panel">
+													<div class="admin-tab-heading"><span class="admin-title2">Workflow Configuration</span></div>
+														<div class="mdl-grid validation-container">
+														<div class="mdl-cell mdl-cell--12-col" ng-show = "addStep">
+															<div class="alert c-success">
+																<img src="images/status.png" alt="" title=""/>
+																<span class="alert-text" ng-show = "!removeTC">Text Check added in to Publishing to Local Work Flow. Please click on Assign workflow button to apply the new workflow to your instance.</span>
+																<span class="alert-text" ng-show = "removeTC">Text Check removed in to Publishing to Local Work Flow. Please click on Assign workflow button to apply the new workflow to your instance.</span>
+															</div>															
+														</div>
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+															<div class="box-layout-title">
+																<span>On-boarding Work flow</span>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'On-boarding Work Flow');getValidationWorkflow('local_validation_workflow')">mode_edit</a></i>
+															</div>
+															<div class="list-validation">
+																<!-- timeline start -->
+																	<div class="timeline">
+																		<div>												
+																			<div class="timeline-centered">	
+																				<div class="list-validation-box disable">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">1</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Create Micro service</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																				</div>
+																				<div class="list-validation-box disable">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">2</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Package</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																				</div>
+																				<div class="list-validation-box disable">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">3</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Dockerize</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>																								
+																							</div>
+																						</div>			
+																					</article>
+																				</div>
+																				<div class="list-validation-box disable">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">4</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Create TOSCA</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																				</div>
+																				<div class="list-validation-box disable">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">5</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Add to Repositry</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">6</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Security Scan</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																			</div>	
+																		</div>
+																	</div>	
+																<!-- timeline end -->
+															</div>
+															<div layout="row" class="box-layout-footer">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Deactivate Workflow
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
+																	Assign Workflow
+																  </md-button>
+															</div>
+														</div>
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+															<div class="box-layout-title">
+																<span>Publishing to Local Work Flow</span>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow');getValidationWorkflow('local_validation_workflow')" >mode_edit</a></i>
+															</div>
+															<div class="list-validation">
+																<!-- timeline start -->
+																	<div class="timeline">
+																		<div>												
+																			<div class="timeline-centered">	
+																				<div class="list-validation-box disable">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">1</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Model Documentation</h2>
+																								<p>Mandatory for Publishing Model</p>																								
+																							</div>
+																						</div>			
+																					</article>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">2</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Security Scan</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">3</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Licence Check</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>																								
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box" ng-show = "!removeTC">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">4</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Text Check</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																			</div>	
+																		</div>
+																	</div>	
+																<!-- timeline end -->
+															</div>
+															<div layout="row" class="box-layout-footer">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Deactivate Workflow
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
+																	Assign Workflow
+																  </md-button>
+															</div>												
+														</div>
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+															<div class="box-layout-title">
+																<span>Publishing to Public Work Flow</span>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow');getValidationWorkflow('public_validation_workflow')">mode_edit</a></i>
+															</div>
+															<div class="list-validation">
+																<!-- timeline start -->
+																	<div class="timeline">
+																		<div>												
+																			<div class="timeline-centered">	
+																				<div class="list-validation-box disable">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">1</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Model Documentation</h2>
+																								<p>Mandatory for Publishing Model</p>																								
+																							</div>
+																						</div>			
+																					</article>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">2</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Security Scan</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">3</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Licence Check</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>																								
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">4</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Text Check</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">5</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Manual Text Check</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																			</div>	
+																		</div>
+																	</div>	
+																<!-- timeline end -->
+															</div>
+															<div layout="row" class="box-layout-footer">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Deactivate Workflow
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
+																	Assign Workflow
+																  </md-button>
+															</div>
+														</div>
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+															<div class="box-layout-title">
+																<span>Import Federated Model Work Flow</span>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Import Federated Model Work Flow');getValidationWorkflow('federated_validation_workflow')">mode_edit</a></i>
+															</div>
+															<div class="list-validation">
+																<!-- timeline start -->
+																	<div class="timeline">
+																		<div>												
+																			<div class="timeline-centered">	
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">1</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Steo 01</h2>
+																								<ul>
+																									<li>Federation</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>																								
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">2</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Step 02</h2>
+																								<ul>
+																									<li>Federation</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">3</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Step 03</h2>
+																								<ul>
+																									<li>Federation</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>																								
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">4</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Step 04</h2>
+																								<ul>
+																									<li>Federation</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																				<div class="list-validation-box">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">5</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>Step 05</h2>
+																								<ul>
+																									<li>Federation</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div>
+																			</div>	
+																		</div>
+																	</div>	
+																<!-- timeline end -->																
+															</div>
+															<div layout="row" class="box-layout-footer">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	Deactivate Workflow
+																  </md-button>
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
+																	Assign Workflow
+																  </md-button>
+															</div>
+														</div>													
+													</div>
+													</div>
+													<!-- admin validation tab (workflow configuration) end -->
 												
 											 </div>
 										</div>
@@ -672,7 +1132,7 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>First Name</label> 
-													<input type="text" name='fname' ng-model='value.fname' required valid-name ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false" maxlength="50" />
+													<input type="text" name='fname' ng-model='value.fname' required valid-name ng-blur="firstNameVisited=true" ng-focus="firstNameVisited=false" />
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.fname.$valid}">
 														<span ng-show="( !!signupForm.fname.$error.required && signupForm.fname.$touched && firstNameVisited)">First
@@ -685,7 +1145,7 @@
 											<div>
 												<md-input-container class="md-block"  >
 													<label>Last Name</label> 
-													<input type="text" name='lname' ng-model='value.lname' required valid-name maxlength="50" ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false"/>
+													<input type="text" name='lname' ng-model='value.lname' required valid-name ng-blur="lastNameVisited=true" ng-focus="lastNameVisited=false"/>
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.lname.$valid}">
 														<span ng-show="!!signupForm.lname.$error.required && signupForm.lname.$touched && lastNameVisited">Last
@@ -700,7 +1160,7 @@
 											<div>
 												<md-input-container class="md-block" >
 													<label>User Name</label> 
-													<input type="text" name='uname' ng-model='value.username' required maxlength="30" ng-blur="usernameVisited=true" ng-focus="usernameVisited=false" />
+													<input type="text" name='uname' ng-model='value.username' required maxlength="20" ng-blur="usernameVisited=true" ng-focus="usernameVisited=false" />
 													<div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.uname.$valid}">
 														<span ng-show="!!signupForm.uname.$error.required && signupForm.uname.$touched && usernameVisited">Username
@@ -1023,11 +1483,11 @@
 
 <!-- Modal box View/Add Subscriptions start -->
 							<div class="md-dialog-container" id="subscriptionPopUp" style="height:0;">
-							  <md-dialog aria-label="Mango (Fruit)" class="fedration-subscription">
+							  <md-dialog aria-label="Subscription List" class="fedration-subscription">
 								  <form ng-cloak>
 									<md-toolbar>
 									  <div class="md-toolbar-tools">
-										<h2>View/Add Subscriptions</h2>
+										<h2>View/Add Subscriptions for {{peerDetailList.name}}</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click='closePoup()'>
 										  <i class="material-icons">close</i>
@@ -1063,7 +1523,9 @@
 																<col style="width:6%;">
 															</colgroup>
 														  <thead>
-															<tr>														  
+															<tr>
+															  <th> &nbsp; </th>	
+															  <!-- <th>Description</th>	 -->													  
 															  <th>SUBSCRIPTIONS ID</th>
 															  <th>Created on</th>
 															  <th>Updated on</th>
@@ -1073,8 +1535,27 @@
 															  <th>&nbsp;</th>															  													  
 															</tr>
 														  </thead>
-														  <tbody>
-															<tr ng-repeat = "val in arrDetails | filter: arrDetails.subId as filte">
+														  <tbody ng-repeat = "val in arrDetails | filter: arrDetails.subId as filte">
+															<tr >
+																<td>
+																<span aria-label="More" style="cursor:pointer" ng-click="accordionToggle = !accordionToggle">
+															        <md-icon>
+															        	<i class="material-icons" style="margin:0" ng-show="!accordionToggle">add</i>
+															        	<i class="material-icons" style="margin:0" ng-show="accordionToggle">indeterminate_check_box</i>
+															        </md-icon>
+															      </span>
+															      
+																 <!-- <md-button class="md-icon-button" aria-label="More">
+															        <md-icon>
+															        	<i class="material-icons">add</i>
+															        	<i class="material-icons">indeterminate_check_box</i>
+															        </md-icon>
+															      </md-button> -->
+																<!-- text -->													
+																</td>
+																<!-- <td>
+																	Description Text:
+																</td> -->
 																<td><label>{{val.subId}}</label></td>
 																<td><label>{{val.createdOn | date:"MM/dd/yyyy"}}</label></td>
 																<td><label>{{val.updatedOn | date:"MM/dd/yyyy"}}</label></td>
@@ -1089,10 +1570,21 @@
 																	     </md-select>
 																	</div>
 																</td>
-																<td class="text-center"><button ng-click="deleteSub(val.subId,$index)" class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button></td>
+																<td class="text-center">
+																<button ng-click="deleteSub(val.subId,$index)" class="mdl-button mdl-js-button mdl-button--icon">
+																	<span class="gridicon-delete"></span>
+																</button>
+																</td>
 																
 															</tr>
-															
+															<tr  ng-show="accordionToggle">
+															<td colspan="7">
+															<ul>
+																<li>Model Type: {{val.modelType}}</li>
+																<li>Toolkit Type: {{val.toolKitType}}</li>
+															</ul>
+															</td>
+															</tr>
 																												
 														  </tbody>
 														</table>
@@ -1135,7 +1627,7 @@
 															<span class="fedlbl5">OR</span>
 														</div>
 														<div>															
-															 <md-checkbox class="adminchkbox" ng-change="allSelect()" ng-model="allSubs" aria-label="Checkbox 1" ng-true-value="'true'" ng-false-value="'false'">All Models</md-checkbox>
+															 <md-checkbox class="adminchkbox" ng-change="allSelect();allModelsTable = !allModelsTable" ng-model="allSubs" aria-label="Checkbox 1" ng-true-value="'true'" ng-false-value="'false'">All Models</md-checkbox>
 														</div>											
 													</div>
 													
@@ -1182,10 +1674,18 @@
 																</td>
 																<td ng-if="catValue">
 																	<div class="select-control">
-																	        <md-select ng-model="freqOfUpdatePass" placeholder="Select Frequency of update">
+																	        <md-select ng-model="freqOfUpdatePass" placeholder="Select Frequency of update" ng-change="freqChange(freqOfUpdatePass)">
 																	       		 <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
 																	           <md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
 																	     </md-select>
+																	     
+																	     <!--
+																	     <md-select ng-model="toolKitTypeValue" ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue)" ng-disabled="modelIDValue || allSubs=='true'" placeholder="Select toolkit">
+																	        <md-option ng-selected="true" value="">Select toolkit</md-option>
+																	           <md-option ng-repeat="tool in toolKitType" ng-value="tool.typeCode"> {{tool.typeName}}</md-option>
+																	     </md-select>
+																	       -->
+																	     
 																	</div>
 																</td>
 																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
@@ -1196,7 +1696,30 @@
 														  </tbody>
 														</table>
 													</div>
-													<div class="fedgridcontainer" ng-hide='true'>
+													<!-- All models table -->
+													<div ng-show="allModelsTable">
+													<h4 ng-model="mlsolutionsLength"></h4>
+														<div>
+															{{mlsolutionsSize}} models found
+															<button ng-hide='solutionDetail&&addedToSubs' ng-click="showAllModelsTable = !showAllModelsTable" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
+																<span ng-show="!showAllModelsTable">Browse Remote Catalog</span>
+																<span ng-show="showAllModelsTable">Clear Catalog</span>
+															</button>
+														</div>
+													</div>
+													<div class="fedgridcontainer" ng-show="showAllModelsTable">
+														<div>
+												  			<button ng-hide='addedAllToSubs' ng-click="addAllSolutions()" 
+												  			class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
+												  				Add to Subscription List
+												  			</button>
+															<div ng-show='addedAllToSubs'>
+																<div class="subs-message1">
+																	<span class="subs-added"></span>
+																	<span>Added</span>
+																</div>
+															</div>
+														</div>
 														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
 															<colgroup>
 																<col>
@@ -1206,18 +1729,18 @@
 															</colgroup>
 															<thead>
 																<tr>
-																	<th><label>subscriptions ID</label></th>
-																	<th><label>subscriptions name</label></th>
+																	<th><label>solution ID</label></th>
+																	<th><label>solution name</label></th>
 																	<th><label>catagory</label></th>
 																	<th><label>toolkit</label></th>
 																</tr>
 															</thead>													 
 														  <tbody>
-															<tr>
-																<td>ID1234</td>
-																<td>subscriptions name 01</td>
-																<td>Classification</td>
-																<td>Tensorflow</td>																
+															<tr ng-repeat="mlSolution in mlsolutions |  filter: {accessType:'PB'}">
+																<td>{{mlSolution.solutionId}}</td>
+																<td>{{mlSolution.name}}</td>
+																<td>{{mlSolution.modelType}}</td>
+																<td>{{mlSolution.tookitType}}</td>																
 															</tr>												
 														  </tbody>
 														</table>
@@ -1238,6 +1761,174 @@
 								</md-dialog>
 							</div>
 						<!-- Modal box View/Add Subscriptions End -->
+							<!-- Modal box Edit Workflow start -->
+							<div class="md-dialog-container" id="editlocalflowDialog" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>{{workFlow}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="cancel()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<div>
+											<p>
+											You are viewing default {{workFlow}} which is mandatory for onboarding the models in the Acumos. You can add and remove the "Text Check" steps in below workflow as per your organisation requirement. Also you can reorder step 5 and 6 only, other steps you will not able to reorder as those are default steps.
+											</p>
+										</div>		
+																			
+											<div class="validation-onboarding">
+												<ul>
+                                                       <li>
+                                                            <div class="steppointer arrow_box"> 
+															  <div class="imageplace">
+                                                                     <span class="imagecontent create-solution">
+                                                                     </span>
+                                                              </div>                                                              
+                                                              <div class="text">Create Solution Object</div>
+															</div>
+															<div class="count-circle">
+																1
+															</div>
+                                                              
+                                                       </li>
+                                                       <li class="progress-status"></li>
+                                                       <li>
+															<div class="steppointer arrow_box"> 
+                                                              <div class="imageplace">
+                                                                     <span class="imagecontent create-docker">
+                                                                     </span>
+                                                              </div>                                                             
+                                                              <div class="text">Create Docker Micro-service</div>
+															</div>
+                                                            <div class="count-circle">
+																2
+															</div> 
+                                                       </li>
+                                                       <li class="progress-status"></li>
+                                                       <li>
+															<div class="steppointer arrow_box"> 
+                                                              <div class="imageplace">
+                                                                     <span class="imagecontent create-tosca">
+                                                                     </span>
+                                                              </div>                                                              
+                                                              <div class="text">Create Tosca</div>
+															</div>
+                                                            <div class="count-circle">
+																3
+															</div>
+                                                       </li>
+                                                       <li class="progress-status"></li>
+                                                       <li>
+                                                            <div class="steppointer arrow_box">
+																<div class="imageplace">
+                                                                     <span class="imagecontent create-package">
+                                                                     </span>
+																</div>
+																<div class="text">Package Other Artefacts</div>
+															</div>
+                                                            <div class="count-circle">
+																4
+															</div>
+                                                       </li>
+                                                       <li class="progress-status"></li>
+                                                       <li>
+															<div class="steppointer arrow_box">
+																<div class="imageplace">
+                                                                     <span class="imagecontent add-repository"> 
+                                                                     </span>
+																</div>                                                              
+																<div class="text">Add to Repository</div>
+															</div>
+                                                            <div class="count-circle">
+																5
+															</div> 
+                                                       </li>
+                                                       <li class="progress-status"></li>
+													   <li>
+													   		<div class="steppointer  arrow_box removescan" ng-show = "!removeTC">
+																<div class="imageplace" >
+                                                                     <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent create-security"> 
+                                                                     </span></a>
+																</div>                                                              
+																<div class="text">Text Check</div>
+																<div class="removestepicon">
+																	<i class="material-icons"><a href="">remove_circle</a></i>
+																</div>
+															</div>
+															<div class="steppointer  arrow_box active" ng-show = "removeTC">
+																<div class="imageplace">
+                                                                     <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent add-security"> 
+                                                                     </span></a>
+																</div>                                                              
+																<div class="text">Please Add Text Check if required</div>
+															</div>
+                                                            <div class="count-circle">
+																6
+															</div> 
+                                                       </li>
+													   <li class="progress-status"></li>
+                                                       <li>
+															<div class="steppointer arrow_box">
+																<div class="imageplace">
+                                                                    <span class="imagecontent not-yet-onboarded">
+                                                                     </span>
+																</div>                                                       
+																<div class="text">Not yet onboarded</div>
+															</div>
+                                                            <div class="count-circle">
+																7
+															</div>                                                             
+                                                       </li>                                                       
+                                                </ul>
+											</div>										
+									
+										<div class="dialog-btn-container popovers-cloud-modalfooter">
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup()">Cancel</button>
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-paddSteprimary" ng-click = "addStep = 'true';closeValidationPopup();">Done</button>
+										</div>
+									  </div>
+									</md-dialog-content>
+								  </form>
+								</md-dialog>
+							</div>
+						<!-- Modal box Edit Workflow start -->
+						<!-- Assign Workflow Modal box start -->
+							<div class="md-dialog-container" id="confirmAssignWorkflow" style="height:0;" >
+							  <md-dialog aria-label="Mango (Fruit)" class="">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Confirm Assign {{workFlow}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="cancel()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<div class="sign-in-lbl1">
+											Are you sure you would like to assign the {{workFlow}} to your application?
+										</div>								
+											<div>	
+												<p>Please note new workflow will be applicable to all new models which will {{workFlow}} from today onwards.</p> 												
+											</div>	
+										<div class="dialog-btn-container popovers-cloud-modalfooter">
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup();">Cancel</button>
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "assignWorkFlow('local_validation_workflow');closeValidationPopup();">Confirm</button>
+										</div>
+									  </div>
+									</md-dialog-content>
+								  </form>
+								</md-dialog>
+							</div>
+						<!-- Assign Workflow Modal box end -->
 
 
 

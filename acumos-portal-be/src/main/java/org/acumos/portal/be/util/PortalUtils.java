@@ -105,6 +105,8 @@ public class PortalUtils {
 		mlSolution.setModified(mlpSolution.getModified());
 		if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
 			mlSolution.setAccessType(mlpSolution.getAccessTypeCode());
+		if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
+			mlSolution.setAccessType(mlpSolution.getAccessTypeCode());
 		mlSolution.setActive(mlpSolution.isActive());
 		mlSolution.setDescription(mlpSolution.getDescription());
 		if(mlpSolution.getMetadata()!=null)

@@ -2331,6 +2331,35 @@ angular
 	                		$scope.showSolName = $scope.showDCKEditor = $scope.showSolCat = $scope.showFileUpload = $scope.showImageUpload = false;
 	                	}
 	                };
+					
+					//WorkFlow Validation
+	                $scope.workFLowValidation = function(flow){
+	                	$scope.tcShow = true;
+	                	var flowConfigKey = ""
+	                	if(flow = "Company"){
+	                		flowConfigKey = "local_validation_workflow";
+	                	}else if(flow = "Public"){
+	                		flowConfigKey = "public_validation_workflow";
+	                	}
+		                	 apiService
+		 	    			.getSiteConfig(flowConfigKey)
+		 	    			.then(
+		 	    					function(response) {
+		 	    						$scope.Workflow = angular.fromJson(response.data.response_body.configValue);
+		 	    						angular
+		 	    		                  .forEach(
+		 	    		                          $scope.Workflow.ignore_list,
+		 	    		                          function( value, key) {
+		 	    		                        	 if(value == "Text Check" ){
+		 	    		                        		 $scope.tcShow = false;
+		 	    		                        	 }
+		 	    		                          });
+		 	    					},
+		 	    					function(error) {console.log(error);
+		 	    			});
+	                	
+	                };
+	               
 	                	
 					/***** pre populated images for demo purpose according to the name of solution*****/
 					$scope.imgURLCL = "images/alarm.png";

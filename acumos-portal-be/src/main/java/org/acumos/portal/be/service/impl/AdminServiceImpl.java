@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.transport.MLRequest;
+import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.stereotype.Service;
@@ -267,5 +268,28 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	public List<MLRequest> getMlRequestList() {
 		return mlRequestList;
+	}
+	
+	@Override
+	public void createSubscription(List<MLSolution> solList, String peerId) {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		for (MLSolution sol : solList) {
+			MLPPeerSubscription sub = new MLPPeerSubscription();
+			sub.setAccessType("PB");
+			sub.setPeerId(peerId);
+			sub.setScopeType("FL");
+			sub.setOwnerId(sol.getOwnerId());
+			// Long longVal= new Long(30);
+			// sub.setRefreshInterval(longVal);
+			// StringBuilder selector = new StringBuilder(MODEL_TYPE_CODE);
+			// selector.append(sol.getTookitTypeName()).append(TOOL_KIT_TYPE_CODE).append(sol.getModelTypeName()).append("\"}");
+			// sub.setSelector(selector.toString());
+			// String
+			// sel="{\"modelTypeCode\":\"RG\",\"toolKitTypeCode\":\"SK\"}";
+			// String sel="selectorVal";
+			 sub.setSelector("{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"CP\"}");
+			dataServiceRestClient.createPeerSubscription(sub);
+		}
 	}
 }

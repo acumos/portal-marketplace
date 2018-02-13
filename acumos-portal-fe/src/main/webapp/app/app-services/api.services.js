@@ -70,6 +70,7 @@ angular.module('AcumosApp')
         var urlDeleteSub = 'api/admin/peer/subcription/delete/';
         var urlGetActiveUsers = "api/users/activeUserDetails";
         var urlMessagingStatus = "api/webBasedOnBoarding/messagingStatus";
+        var urladdAllSolutionsAdmin = "api/admin/peer/sub/create"
         	
         /**************** ALL GET ******************/
     	this.getAllActiveUser = function (activeStatus) {
@@ -347,6 +348,11 @@ angular.module('AcumosApp')
         this.getUserAccountDetails = function(userID){
         	return $http.post(urlUserAccountDetails, userID);
         }
+        
+        this.insertAddAllSolutions = function(peeriId, addSolObj){
+        	return $http.post(urladdAllSolutionsAdmin + '/' + peeriId , addSolObj);
+        }
+        
         
         /**************** ALL DELETE ******************/
         this.deleteTag = function(solutionid, tag){

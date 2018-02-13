@@ -1,27 +1,28 @@
 <!-- Header HTML if user not logged in -->
 
-<header
-	ng-if="$root.sidebarHeader === false" class="header-without-login">
+<header ng-if="$root.sidebarHeader === false"
+	class="header-without-login">
 	<div class="mdl-layout__header-row">
 		<!-- Title -->
 		<div class="a-logo-container logo-without-login">
-						<button id="btn_header"
-							ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
-							class="mdl-button mdl-js-button mdl-button--icon hide-lg hide-xl">
-							<i class="material-icons">menu</i>
-						</button>
-						<span ui-sref="home" class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
-						<!-- <span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span> -->					
-										
-				</div>
+			<button id="btn_header"
+				ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
+				class="mdl-button mdl-js-button mdl-button--icon hide-lg hide-xl">
+				<i class="material-icons">menu</i>
+			</button>
+			<span ui-sref="home" class="accumos-header-logo"><img
+				src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
+			<!-- <span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span> -->
+
+		</div>
 		<!-- Navigation -->
 		<nav class="mdl-navigation top-menu">
 			<a class="mdl-navigation__link" ui-sref="home"
 				ui-sref-active="active">HOME</a> <a class="mdl-navigation__link"
 				ui-sref="marketPlace" ui-sref-active="active">MARKETPLACE</a> <a
 				class="mdl-navigation__link" ui-sref="modularResource"
-				ui-sref-active="active">MODELER RESOURCES</a>
-				<a class="mdl-navigation__link" target="_blank" href="{{docUrl}}">DOCUMENTATION</a>
+				ui-sref-active="active">MODELER RESOURCES</a> <a
+				class="mdl-navigation__link" target="_blank" href="{{docUrl}}">DOCUMENTATION</a>
 			<!--  <a class="mdl-navigation__link" ui-sref="designStudio" ui-sref-active="active">DESIGN
 				STUDIO</a> -->
 		</nav>
@@ -47,7 +48,10 @@
 					<li style="cursor: pointer"><sign-up></sign-up></li>
 				</ul>
 			</div>
-			<div class="helplink-container"><a class="mdl-navigation__link" target="_blank" href="{{docUrl}}"><span class="icon-header-help"></span></a></div>
+			<div class="helplink-container">
+				<a class="mdl-navigation__link" target="_blank" href="{{docUrl}}"><span
+					class="icon-header-help"></span></a>
+			</div>
 
 			<nav
 				class="mdl-navigation header-controls hide-sm hide-md hide-lg hide-xl mobheader-icons header-right2">
@@ -74,70 +78,77 @@
 		<div class="mdl-grid mdl-grid--no-spacing header-grid">
 			<div
 				class="mdl-cell mdl-cell--7-col mdl-cell--3-col-tablet mdl-cell--3-col-phone mdl-grid--no-spacing mdl-cell--middle">
-				
-					<div class="a-logo-container">
-						<button id="btn_header"
-							ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
-							class="mdl-button mdl-js-button mdl-button--icon">
-							<i class="material-icons">menu</i>
-						</button>
-						<span ui-sref="home" ng-click="$root.parentActive = ''" class="accumos-header-logo"><img src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
-						<!-- <span ui-sref="home" ng-click="$root.parentActive = ''" ng-class="{ active: isActive('/home') }" class="accumos-header-logo"><img ng-src="data:image/PNG;base64,{{$root.headerImage}}" title="Acumos" /></span> -->
-						<span ui-sref="home" ng-click="$root.parentActive = ''" ng-class="{ active: isActive('/home') }" class="cobranding-header-logo"><img ng-src="data:image/PNG;base64,{{$root.coBrandingImage}}" title="Tech Mahindra" /></span>
-						
-						<div
-						class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-									  mdl-textfield--floating-label mdl-textfield--align-right header-search-control">
-						<label class="mdl-button mdl-js-button mdl-button--icon"
-							for="fixed-header-drawer-exp1" ng-click="globalSearch(searchText)">
-							<i class="material-icons">search</i>
-						</label>
-						<div class="mdl-textfield__expandable-holder">
-							<input class="mdl-textfield__input header-search-txtbox"
-								type="search" id="fixed-header-drawer-exp1"
-								placeholder="Search Models" ng-model="searchText">
-						</div>
-					</div>				
+
+				<div class="a-logo-container">
+					<button id="btn_header"
+						ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
+						class="mdl-button mdl-js-button mdl-button--icon">
+						<i class="material-icons">menu</i>
+					</button>
+					<span ui-sref="home" ng-click="$root.parentActive = ''"
+						class="accumos-header-logo"><img
+						src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
+					<!-- <span ui-sref="home" ng-click="$root.parentActive = ''" ng-class="{ active: isActive('/home') }" class="accumos-header-logo"><img ng-src="data:image/PNG;base64,{{$root.headerImage}}" title="Acumos" /></span> -->
+					<span ui-sref="home" ng-click="$root.parentActive = ''"
+						ng-class="{ active: isActive('/home') }"
+						class="cobranding-header-logo"><img
+						ng-src="data:image/PNG;base64,{{$root.coBrandingImage}}"
+						title="Tech Mahindra" /></span>
+
+
 				</div>
 				<!-- <div>
 					<a ui-sref="home"><span
 					class="cog-header-logo-mob hide-lg hide-xl">{{$root.siteInstanceName}}</span></a>
-				</div>	 -->		
-				
+				</div>	 -->
+
 			</div>
 			<div
 				class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--1-col-phone mdl-grid--no-spacing text-right">
-				<div layout="row" layout-fill layout-align="end center" layout-align-lg="end center">
+				<div layout="row" layout-fill layout-align="end center"
+					layout-align-lg="end center">
 					<nav
 						class="mdl-navigation header-controls text-right hide-sm hide-xs header-right1">
 						<div>
-							<md-menu md-position-mode="target-right target" >
-					          <md-button id="demo-menu-lower-right10" class="mdl-button header-ddl mdl-js-button cg-acitve" ng-click="openMenu($mdMenu, $event)" aria-label="Open Menu">
-					            <!-- <md-icon md-menu-origin md-svg-icon="call:portable-wifi-off"></md-icon> -->
-					          	<span class="material-icons mdl-badge mdl-badge--overlap"
-									ng-if="$root.notificationCount < 1">notifications_none</span>
-								<span class="material-icons mdl-badge mdl-badge--overlap"
-									data-badge="{{$root.notificationCount}}"
-									ng-if="$root.notificationCount > 0">notifications_none</span>					          
-					          </md-button>
-					          <md-menu-content width="4" ng-show = "$root.notificationCount > 0" class="notelist_1">
-					            <md-menu-item ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
-					            	<div class="new-note-container">
-					            		<span class="notification-text"
-										ng-click="viewNotification(notification.notificationId)">{{notification.message}}</span>
-										<md-button class="mdl-button mdl-js-button mdl-button--icon"
-											ng-click="deleteNotification(notification.notificationId)">
-											<i class="fa fa-times" aria-hidden="true"></i>
-										</md-button>					            	
-					            	</div>					              
-					            </md-menu-item>
-					            <md-menu-item ng-if="$root.notificationCount > 5" class="readall-btn-container">
-						           <md-button ng-click="showNotification()"
-											class="mdl-button mdl-js-button btn-secondary btn-readall-msg">Read
-											all Messages</md-button>
-						        </md-menu-item>
-					          </md-menu-content>
-					        </md-menu>
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+								<label class="mdl-button mdl-js-button mdl-button--icon search-button"
+									for="fixed-header-drawer-exp1"
+									ng-click="globalSearch(searchText)"> <i
+									class="material-icons search-icon">search</i>
+								</label>
+								<div class="mdl-textfield__expandable-holder">
+									<input class="mdl-textfield__input header-search2"
+										type="search" id="fixed-header-drawer-exp1"
+										placeholder="Search for anything you need" ng-model="searchText">
+								</div>
+							</div>
+						</div>
+						<div>
+							<md-menu md-position-mode="target-right target"> <md-button
+								id="demo-menu-lower-right10"
+								class="mdl-button header-ddl mdl-js-button cg-acitve"
+								ng-click="openMenu($mdMenu, $event)" aria-label="Open Menu">
+							<!-- <md-icon md-menu-origin md-svg-icon="call:portable-wifi-off"></md-icon> -->
+							<span class="material-icons mdl-badge mdl-badge--overlap"
+								ng-if="$root.notificationCount < 1">notifications_none</span> <span
+								class="material-icons mdl-badge mdl-badge--overlap"
+								data-badge="{{$root.notificationCount}}"
+								ng-if="$root.notificationCount > 0">notifications_none</span> </md-button> <md-menu-content
+								width="4" ng-show="$root.notificationCount > 0"
+								class="notelist_1"> <md-menu-item
+								ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
+							<div class="new-note-container">
+								<span class="notification-text"
+									ng-click="viewNotification(notification.notificationId)">{{notification.message}}</span>
+								<md-button class="mdl-button mdl-js-button mdl-button--icon"
+									ng-click="deleteNotification(notification.notificationId)">
+								<i class="fa fa-times" aria-hidden="true"></i> </md-button>
+							</div>
+							</md-menu-item> <md-menu-item ng-if="$root.notificationCount > 5"
+								class="readall-btn-container"> <md-button
+								ng-click="showNotification()"
+								class="mdl-button mdl-js-button btn-secondary btn-readall-msg">Read
+							all Messages</md-button> </md-menu-item> </md-menu-content> </md-menu>
 						</div>
 						<!-- <button id="demo-menu-lower-right10"
 							class="mdl-button header-ddl mdl-js-button cg-acitve">
@@ -173,27 +184,21 @@
 						
 						<!-- Right aligned menu below button -->
 						<div class="posrel">
-							<md-menu class="menu-content1">
-	      						<md-button id="account-info"
-								class="mdl-button header-ddl mdl-js-button" ng-click="openMenu($mdMenu, $event)">
-	        						<span><img class="userimg"
-									ng-show="showAltImage"
-									ng-src="images/userprofile/user-profile.png"
-									title="{{userfirstname}}" /> <img
-									class="userimg" ng-show="!showAltImage"
-									ng-src="data:image/PNG;base64,{{userImage}}"
-									title="{{userfirstname}}" /> {{userDetails.userName}}
-								</span> <i class="material-icons">arrow_drop_down</i>
-	      						</md-button>
-						      <md-menu-content class="menu-content1">
-						        <md-menu-item class="mdl-button header-ddl mdl-js-button">
-						           <a ui-sref="userDetail">Account Settings</a>
-						        </md-menu-item>
-						        <md-menu-item ng-show="provider == 'globaluid'">
-						           <a ui-sref="resetPswd">Change Password</a>
-						        </md-menu-item>
-						      </md-menu-content>
-	    					</md-menu>
+							<md-menu class="menu-content1"> <md-button
+								id="account-info" class="mdl-button header-ddl mdl-js-button"
+								ng-click="openMenu($mdMenu, $event)"> <span><img
+								class="userimg" ng-show="showAltImage"
+								ng-src="images/userprofile/user-profile.png"
+								title="{{userfirstname}}" /> <img class="userimg"
+								ng-show="!showAltImage"
+								ng-src="data:image/PNG;base64,{{userImage}}"
+								title="{{userfirstname}}" /> {{userDetails.userName}} </span> <i
+								class="material-icons">arrow_drop_down</i> </md-button> <md-menu-content
+								class="menu-content1"> <md-menu-item
+								class="mdl-button header-ddl mdl-js-button"> <a
+								ui-sref="userDetail">Account Settings</a> </md-menu-item> <md-menu-item
+								ng-show="provider == 'globaluid'"> <a
+								ui-sref="resetPswd">Change Password</a> </md-menu-item> </md-menu-content> </md-menu>
 						</div>
 						
 						<!-- <button id="account-info"
@@ -242,7 +247,10 @@
 							<li class="mdl-menu__item" ng-show="provider == 'globaluid'"><a
 								ui-sref="resetPswd">Change Password</a></li>
 						</ul> -->
-						<div class="helplink-container"><a class="mdl-navigation__link" target="_blank" href="{{docUrl}}"><span class="icon-header-help"></span></a></div>
+						<div class="helplink-container">
+							<a class="mdl-navigation__link" target="_blank" href="{{docUrl}}"><span
+								class="icon-header-help"></span></a>
+						</div>
 
 						<a class="mdl-navigation__link" ng-click="logout()"
 							style="cursor: pointer"><i class="material-icons">power_settings_new</i></a>
@@ -304,8 +312,7 @@
 			<h2>Forgot password</h2>
 			<span flex></span>
 			<md-button class="md-icon-button" ng-click="closePoup()">
-				<md-icon class="material-icons btn-close-dialog">close</md-icon>
-			</md-button>
+			<md-icon class="material-icons btn-close-dialog">close</md-icon> </md-button>
 		</div>
 		</md-toolbar>
 		<md-dialog-content>
@@ -314,9 +321,10 @@
 				password reset link.</p>
 
 			<div>
-				<md-input-container class="md-block"> <input ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"
-					type="text" name='forgotpaswd' aria-label="Forgot Password"  ng-model='emailAddress' required />
-				</md-input-container>
+				<md-input-container class="md-block"> <input
+					ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" type="text"
+					name='forgotpaswd' aria-label="Forgot Password"
+					ng-model='emailAddress' required /> </md-input-container>
 			</div>
 
 			<div class="dialog-btn-container">
