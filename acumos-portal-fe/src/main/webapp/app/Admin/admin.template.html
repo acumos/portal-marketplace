@@ -646,8 +646,8 @@
 														<div class="mdl-cell mdl-cell--12-col" ng-show = "addStep">
 															<div class="alert c-success">
 																<img src="images/status.png" alt="" title=""/>
-																<span class="alert-text" ng-show = "!removeTC">Text Check added in to Publishing to Local Work Flow. Please click on Assign workflow button to apply the new workflow to your instance.</span>
-																<span class="alert-text" ng-show = "removeTC">Text Check removed in to Publishing to Local Work Flow. Please click on Assign workflow button to apply the new workflow to your instance.</span>
+																<span class="alert-text" ng-show = "added">{{editStep}} added in to {{workFlow}}. Please click on Assign workflow button to apply the new workflow to your instance.</span>
+																<span class="alert-text" ng-show = "!added">{{editStep}} removed in to {{workFlow}}. Please click on Assign workflow button to apply the new workflow to your instance.</span>
 															</div>															
 														</div>
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
@@ -768,7 +768,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" disabled ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -776,7 +776,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Local Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow');getValidationWorkflow('local_validation_workflow')" >mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow'); getValidationWorkflow('local_validation_workflow')" >mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -796,7 +796,7 @@
 																						</div>			
 																					</article>
 																				</div>
-																				<div class="list-validation-box">		
+																				<!-- <div class="list-validation-box">		
 																					<article class="timeline-entry">			
 																						<div class="timeline-entry-inner">			
 																							<div class="timeline-icon">
@@ -833,15 +833,16 @@
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
-																				</div>
-																				<div class="list-validation-box" ng-show = "!removeTC">		
+																				</div> -->
+																				<span ng-repeat = "step in optionalLocalFlowStep.step">
+																				<div class="list-validation-box"  ng-show = "step.active">		
 																					<article class="timeline-entry">			
 																						<div class="timeline-entry-inner">			
 																							<div class="timeline-icon">
-																								<span class="entypo-feather">4</span>
+																								<span class="entypo-feather">{{$index+2}}</span>
 																							</div>			
 																							<div class="timeline-label">
-																								<h2>Text Check</h2>
+																								<h2>{{step.stepName}}</h2>
 																								<ul>
 																									<li>Onboarding</li>
 																									<li>added on 01/22/2018 </li>
@@ -852,7 +853,7 @@
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
-																				</div>
+																				</div></span>
 																			</div>	
 																		</div>
 																	</div>	
@@ -862,7 +863,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!editStep" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>												
@@ -870,7 +871,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Public Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow');getValidationWorkflow('public_validation_workflow')">mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow'); getValidationWorkflow('public_validation_workflow')">mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -881,7 +882,7 @@
 																					<article class="timeline-entry">			
 																						<div class="timeline-entry-inner">			
 																							<div class="timeline-icon">
-																								<span class="entypo-feather">1</span>
+																								<span class="entypo-feather">{{$index+1}}</span>
 																							</div>			
 																							<div class="timeline-label">
 																								<h2>Model Documentation</h2>
@@ -890,7 +891,7 @@
 																						</div>			
 																					</article>
 																				</div>
-																				<div class="list-validation-box">		
+																				<!-- <div class="list-validation-box">		
 																					<article class="timeline-entry">			
 																						<div class="timeline-entry-inner">			
 																							<div class="timeline-icon">
@@ -946,7 +947,7 @@
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
-																				</div>
+																				</div> 
 																				<div class="list-validation-box">		
 																					<article class="timeline-entry">			
 																						<div class="timeline-entry-inner">			
@@ -965,7 +966,27 @@
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
-																				</div>
+																				</div>-->
+																				<span ng-repeat = "step in optionalPublicFlowStep.step">
+																				<div class="list-validation-box"  ng-if = "step.active">		
+																					<article class="timeline-entry">			
+																						<div class="timeline-entry-inner">			
+																							<div class="timeline-icon">
+																								<span class="entypo-feather">{{$index+1}}</span>
+																							</div>			
+																							<div class="timeline-label">
+																								<h2>{{step.stepName}}</h2>
+																								<ul>
+																									<li>Onboarding</li>
+																									<li>added on 01/22/2018 </li>
+																								</ul>																								
+																							</div>
+																						</div>			
+																					</article>
+																					<div class="removestepicon">
+																						<i class="material-icons"><a href="">remove_circle</a></i>
+																					</div>
+																				</div></span>
 																			</div>	
 																		</div>
 																	</div>	
@@ -975,7 +996,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!editStep" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1094,7 +1115,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" disabled ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1556,7 +1577,7 @@
 																<!-- <td>
 																	Description Text:
 																</td> -->
-																<td><label>{{val.subId}}</label></td>
+																<td><label>ID {{val.subId}}</label></td>
 																<td><label>{{val.createdOn | date:"MM/dd/yyyy"}}</label></td>
 																<td><label>{{val.updatedOn | date:"MM/dd/yyyy"}}</label></td>
 																<!-- <td><label>Name of Solution</label></td>
@@ -1641,12 +1662,20 @@
 															</colgroup>														 
 														  <tbody>
 															<tr>
-																<td><img class="admin-img1" src="images/ml_solution_03.png" /></td>
+																<!-- <td><img class="admin-img1" src="images/ml_solution_03.png" /></td> -->
 																<td>
 																	<label>{{solutionDetail.name}}</label>
 																	<div><span class="text-small">by  {{solutionDetail.ownerName}} </span><span class="text-small">on {{solutionDetail.created}}</span></div>
 																	<label>Model belongs to: AT&T</label>
-																</td>																
+																</td>	
+																<td>
+																	<div class="select-control">
+															        	<md-select ng-model="freqOfUpdatePass" placeholder="Select Frequency of update" ng-change="freqChange(freqOfUpdatePass)">
+															       		 	<!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
+																           	<md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
+																     	</md-select>
+																	</div>
+																</td>															
 																<td><button ng-hide='solutionDetail&&addedToSubs' ng-click="addToSubs()" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Add to Subscription List</button></td>
 																<td ng-show='solutionDetail&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
@@ -1709,6 +1738,14 @@
 													</div>
 													<div class="fedgridcontainer" ng-show="showAllModelsTable">
 														<div>
+															
+															<div class="select-control">
+													        	<md-select ng-model="freqOfUpdate" placeholder="Select Frequency of update">
+													       		 <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
+													           		<md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
+													     		</md-select>
+															</div>
+																	
 												  			<button ng-hide='addedAllToSubs' ng-click="addAllSolutions()" 
 												  			class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
 												  				Add to Subscription List
@@ -1784,21 +1821,59 @@
 																			
 											<div class="validation-onboarding">
 												<ul>
+                                                       <span ng-repeat  = "step in workFlowStep.step">
                                                        <li>
                                                             <div class="steppointer arrow_box"> 
 															  <div class="imageplace">
-                                                                     <span class="imagecontent create-solution">
+                                                                     <span class="imagecontent " ng-class = "step.class">
                                                                      </span>
                                                               </div>                                                              
-                                                              <div class="text">Create Solution Object</div>
+                                                              <div class="text">{{step.stepName}}</div>
 															</div>
 															<div class="count-circle">
-																1
+																{{$index+1}}
+															</div>
+                                                              
+                                                       </li><li class="progress-status"></li></span>
+                                                       <span ng-repeat  = "(key, step) in optionalWorkFlowStep.step">
+                                                       <li>
+                                                       <div class="steppointer  arrow_box removescan" ng-show = "step.active">
+																<div class="imageplace" >
+                                                                     <a ng-click = "addValidationStep(step.stepName, key)"><span class="imagecontent create-security"> 
+                                                                     </span></a>
+																</div>                                                              
+																<div class="text">{{step.stepName}}</div>
+																<div class="removestepicon">
+																	<i class="material-icons"><a href="">remove_circle</a></i>
+																</div>
+															</div>
+															<div class="steppointer  arrow_box active" ng-show = "!step.active">
+																<div class="imageplace">
+                                                                     <a ng-click = "addValidationStep(step.stepName, key)"><span class="imagecontent add-security"> 
+                                                                     </span></a>
+																</div>                                                              
+																<div class="text">Please Add {{step.stepName}} if required</div>
+															</div>
+                                                            <div class="count-circle">
+																{{workFlowStep.step.length + $index+1}}
+															</div> 
+															</li>
+                                                       <li class="progress-status"></li>
+                                                       </span>
+                                                       <li>
+															<div class="steppointer arrow_box">
+																<div class="imageplace">
+                                                                    <span class="imagecontent not-yet-onboarded">
+                                                                     </span>
+                                                              </div>                                                              
+                                                              <div class="text">Not yet published</div>
+															</div>
+															<div class="count-circle">
+																{{workFlowStep.step.length + optionalWorkFlowStep.step.length + $index+1}}
 															</div>
                                                               
                                                        </li>
-                                                       <li class="progress-status"></li>
-                                                       <li>
+                                                       <!-- <li>
 															<div class="steppointer arrow_box"> 
                                                               <div class="imageplace">
                                                                      <span class="imagecontent create-docker">
@@ -1851,7 +1926,7 @@
                                                        </li>
                                                        <li class="progress-status"></li>
 													   <li>
-													   		<div class="steppointer  arrow_box removescan" ng-show = "!removeTC">
+													   		<div class="steppointer  arrow_box removescan" ng-show = "removeTC">
 																<div class="imageplace" >
                                                                      <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent create-security"> 
                                                                      </span></a>
@@ -1861,7 +1936,7 @@
 																	<i class="material-icons"><a href="">remove_circle</a></i>
 																</div>
 															</div>
-															<div class="steppointer  arrow_box active" ng-show = "removeTC">
+															<div class="steppointer  arrow_box active" ng-show = "!removeTC">
 																<div class="imageplace">
                                                                      <a ng-click = "addValidationStep('Text Check')"><span class="imagecontent add-security"> 
                                                                      </span></a>
@@ -1884,7 +1959,7 @@
                                                             <div class="count-circle">
 																7
 															</div>                                                             
-                                                       </li>                                                       
+                                                       </li>                         -->                               
                                                 </ul>
 											</div>										
 									
@@ -1921,7 +1996,7 @@
 											</div>	
 										<div class="dialog-btn-container popovers-cloud-modalfooter">
 											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup();">Cancel</button>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "assignWorkFlow('local_validation_workflow');closeValidationPopup();">Confirm</button>
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "assignWorkFlow(workFlow);closeValidationPopup();">Confirm</button>
 										</div>
 									  </div>
 									</md-dialog-content>

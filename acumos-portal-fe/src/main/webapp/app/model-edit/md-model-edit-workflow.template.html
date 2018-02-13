@@ -186,7 +186,7 @@
                                                       </a></li> -->
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='public'}"
-										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public'">
+										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')">
 											<div class="managelefticon">
 												<i class="publicimg"></i>
 											</div>
@@ -547,7 +547,7 @@
 										<li class="progress-status"
 											ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
 										</li>
-										<li>
+										<li ng-show = "scShow">
 											<div class="imageplace"
 												ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS' , 'incomplet': ssValidationStatus.validationStatus == 'FA' && ssValidationStatus.validationType == 'SS'}">
 												<span class="imagecontent security-scan"> <!-- <img
@@ -564,9 +564,9 @@
 										   </div> -->
 											
 										</li>
-										<li class="progress-status"
+										<li class="progress-status" ng-show = "scShow"
 											ng-class="{'completed': ssValidationStatus.validationStatus == 'PS'&& ssValidationStatus.validationType == 'SS'}"></li>
-										<li>
+										<li ng-show = "lcShow">
 											<div class="imageplace"
 												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' , 'incomplet': lcValidationStatus.validationStatus == 'FA' && lcValidationStatus.validationType == 'LC'}">
 												<span class="imagecontent license-check"> <!-- <img
@@ -575,7 +575,7 @@
 											</div>
 											<div class="text">License Check</div>
 										</li>
-										<li class="progress-status"
+										<li class="progress-status" ng-show = "lcShow"
 											ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' }"></li>
 										<!-- <li>
                                                                   <div class="imageplace" ng-class="{'active': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}">
@@ -595,7 +595,7 @@
 											</div>
 											<div class="text">Text Check</div>
 										</li >
-										<li class="progress-status"
+										<li class="progress-status" ng-show = "tcShow"
 											ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}"></li>
 										<li>
 											<div class="imageplace"
@@ -2373,18 +2373,18 @@
 									<li class="progress-status"
 										ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
 									</li>
-									<li>
+									<li ng-show = "scShow">
 										<div class="imageplace"
 											ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS' , 'incomplet': ssValidationStatus.validationStatus == 'FA' && ssValidationStatus.validationType == 'SS'}">
 											<span class="imagecontent security-scan"> <!-- <img
                                                                               src="images/security-scan.png" alt="" title=""> -->
 											</span>
 										</div>
-										<div class="text">Security scan</div>
+										<div class="text">Security Scan</div>
 									</li>
-									<li class="progress-status"
+									<li class="progress-status" ng-show = "scShow"
 										ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}"></li>
-									<li>
+									<li ng-show = "lcShow">
 										<div class="imageplace "
 											ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' , 'incomplet': lcValidationStatus.validationStatus == 'FA' && lcValidationStatus.validationType == 'LC'}">
 											<span class="imagecontent license-check"> <!-- <img
@@ -2393,7 +2393,7 @@
 										</div>
 										<div class="text">License Check</div>
 									</li>
-									<li class="progress-status"
+									<li class="progress-status" ng-show = "lcShow"
 										ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC'}"></li>
 									<!-- <li>
                                                                   <div class="imageplace" ng-class="{'active': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}">
@@ -2404,7 +2404,7 @@
                                                                   <div class="text">Verify Model</div>
                                                             </li>
                                                             <li class="progress-status" ng-class="{'green': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}"></li> -->
-									<li>
+									<li ng-show = "tcShow">
 										<div class="imageplace"
 											ng-class="{'completed': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA' , 'incomplet': taValidationStatus.validationStatus == 'FA' && taValidationStatus.validationType == 'TA'}">
 											<span class="imagecontent text-check"> <!-- <img
