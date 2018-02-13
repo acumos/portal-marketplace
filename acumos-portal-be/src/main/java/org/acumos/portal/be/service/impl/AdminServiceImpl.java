@@ -271,25 +271,30 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	}
 	
 	@Override
-	public void createSubscription(List<MLSolution> solList, String peerId) {
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+    public void createSubscription(List<MLSolution> solList, String peerId, Long refreshInterval) {
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        
+        for (MLSolution sol : solList) {
+            MLPPeerSubscription sub = new MLPPeerSubscription();
+            sub.setAccessType("PB");
+            sub.setPeerId(peerId);
+            sub.setScopeType("FL");
+            sub.setOwnerId(sol.getOwnerId());
+            if (refreshInterval != null)
+                sub.setRefreshInterval(refreshInterval);
 
-		for (MLSolution sol : solList) {
-			MLPPeerSubscription sub = new MLPPeerSubscription();
-			sub.setAccessType("PB");
-			sub.setPeerId(peerId);
-			sub.setScopeType("FL");
-			sub.setOwnerId(sol.getOwnerId());
-			// Long longVal= new Long(30);
-			// sub.setRefreshInterval(longVal);
-			// StringBuilder selector = new StringBuilder(MODEL_TYPE_CODE);
-			// selector.append(sol.getTookitTypeName()).append(TOOL_KIT_TYPE_CODE).append(sol.getModelTypeName()).append("\"}");
-			// sub.setSelector(selector.toString());
-			// String
-			// sel="{\"modelTypeCode\":\"RG\",\"toolKitTypeCode\":\"SK\"}";
-			// String sel="selectorVal";
-			 sub.setSelector("{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"CP\"}");
-			dataServiceRestClient.createPeerSubscription(sub);
-		}
-	}
+            String selector = "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"CP\"}";
+            
+            if (sol.getModelType() != null && sol.getTookitType()!= null)
+            {
+                String selValue = selector.replace("CL", sol.getModelType());
+                selValue = selector.replace("CP", sol.getTookitType());
+                sub.setSelector(selValue);
+            }else{
+                String selector1 = "{\"modelTypeCode\":\"\",\"toolKitTypeCode\":\"\"}";
+                sub.setSelector(selector1);
+            }        
+            dataServiceRestClient.createPeerSubscription(sub);
+        }
+    }
 }
