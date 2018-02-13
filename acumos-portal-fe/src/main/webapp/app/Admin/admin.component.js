@@ -11,7 +11,20 @@ angular.module('admin')
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
 			//Frequency of update
-			$scope.frequency = [{'name':'Hourly','value':'1'},{'name':'Daily','value':'24'},{'name':'Monthly','value':'720'},{'name':'Update on demand','value':'0'}]
+			$scope.frequency = 
+				[{
+					'name': 'Hourly',
+					'value': '1'
+				}, {
+					'name': 'Daily',
+					'value': '24'
+				}, {
+					'name': 'Monthly',
+					'value': '720'
+				}, {
+					'name': 'Update on demand',
+					'value': '0'
+				}]
 			
 			//Hard coded (delete it)
 			/*$scope.subscription = [{
@@ -531,7 +544,6 @@ angular.module('admin')
                       //Subscription popup
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
-                    	  
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
                 	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false';
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
@@ -546,6 +558,7 @@ angular.module('admin')
                 		  angular.forEach(response.response_body, function(value, key) {
                 			  var catTool = value.selector;
             				  var catTool = catTool.split(",");
+            				  
             				  if(catTool.length > 1){
             					  angular.forEach($scope.category, function(value, key) {
             						  var serch = value.typeCode ;
@@ -574,12 +587,32 @@ angular.module('admin')
                 						});
             					  }
             				  }
+            				  
+            				  $scope.frequency;
+            				  $scope.frequencySelected = [];
+            				  /*angular.forEach($scope.frequency, function(value1, key1) {*/
+            					  if(value.refreshInterval == 3600){
+                					 $scope.frequencySelected[0] =  '1';
+                				  }else if(value.refreshInterval == 86400){
+                					  $scope.frequencySelected[1] = '24';
+                				  }else if(value.refreshInterval == 2592000){ 
+                					  $scope.frequencySelected[2] = '720';
+                				  }else if(value.refreshInterval == 24){
+                					  $scope.frequencySelected[3] = '0';
+                				  }
+        						/*});*/
+            				 // $scope.frequencySelected = 24;
+            				  
+            				  /* convert time freq of update*/
+            				  
+            				  
             				  $scope.arrSub.push({
             					  "subId" : value.subId,
             					  "toolKitType" : $scope.toolKitForSubId.typeName,
             					  "modelType" : $scope.categoryForSubId.typeName,
             					  "updatedOn" : value.modified,
-            					  "createdOn" : value.created
+            					  "createdOn" : value.created,
+            					  "frequencySelected" : $scope.frequencySelected
             				  })
                 		  });
 
@@ -601,7 +634,6 @@ angular.module('admin')
                       //Add to subscription
                       $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
-                    	  
                     	  var check = false;
                     	  var jsonFormate = '',cat='',toolKit='';
                     	  if(!$scope.categoryValue && !$scope.toolKitTypeValue){
@@ -910,12 +942,27 @@ angular.module('admin')
                                         						});
                                     					  }
                                     				  }
+                                    				  
+                                    				  $scope.frequency;
+                                    				  $scope.frequencySelected = [];
+                                    				  /*angular.forEach($scope.frequency, function(value1, key1) {*/
+                                    					  if(value.refreshInterval == 3600){
+                                        					 $scope.frequencySelected[0] =  '1';
+                                        				  }else if(value.refreshInterval == 86400){
+                                        					  $scope.frequencySelected[1] = '24';
+                                        				  }else if(value.refreshInterval == 2592000){ 
+                                        					  $scope.frequencySelected[2] = '720';
+                                        				  }else if(value.refreshInterval == 24){
+                                        					  $scope.frequencySelected[3] = '0';
+                                        				  }
+                                    					  
                                     				  arrSub.push({
                                     					  "subId" : value.subId,
                                     					  "toolKitType" : $scope.toolKitForSubId.toolkitName,
                                     					  "modelType" : $scope.categoryForSubId.typeName,
                                     					  "updatedOn" : value.modified,
-                                    					  "createdOn" : value.created
+                                    					  "createdOn" : value.created,
+                                    					  "frequencySelected" : $scope.frequencySelected
                                     				  })
                                         		  });
 
@@ -1081,46 +1128,14 @@ angular.module('admin')
    		 	    		                        				 {
 	        		 	    		              					  "accessType" : "PB",
 	        		 	    		              					  "ownerId" : userId,
-	        		 	    		              					  "peerId" : $scope.peerIdForSubsList,
-	        		 	    		              					  "scopeType" : "FL"
+	        		 	    		              					  /*"peerId" : $scope.peerIdForSubsList,*/
+	        		 	    		              					  "scopeType" : "FL",
+	        		 	    		              					"tookitType" :value1.tookitType,
+	        		 	    		              					"modelType": value1.modelType
    		 	    		                        				 }
                       										) 
                       										}
                       										});
-                      										/*angular.forEach($scope.mlsolutions,function(value1, key1) {
-	        		 	    		                        	 if(value1.accessType == "PB" ){
-	        		 	    		                        		$scope.mlsolutionsSize = $scope.mlsolutionsSize +1;
-	        		 	    		                        		
-	        		 	    		                        		angular.forEach($scope.category,function(value2, key2) {
-	        		 	    		                        			if(value2.typeCode == value1.modelType){
-	        		 	    		                        			
-	        		 	    		                        			angular.forEach($scope.toolKitType,function(value3, key3) {
-	        		 	    		                        				
-	        		 	    		                        				if(value3.typeCode == value1.tookitType)
-	        		 	    		                        				
-	        		 	    		                        				$scope.publicSolList.push(
-			        		 	    		                        				 {
-					        		 	    		              					  "solutionId" : value1.solutionId,
-					        		 	    		              					  "modelType" : value1.modelType,
-					        		 	    		              					  "modelTypeName" : value2.typeName,
-					        		 	    		              					  "ownerId" : value1.ownerId,
-					        		 	    		              					  "tookitType" : value1.tookitType,
-					        		 	    		              					  "tookitTypeName" : value3.typeName
-			        		 	    		                        				 }
-			        		 	    		                        		 ) 
-			        		 	    		                        		 
-			        		 	    		                        		 
-	        		 	    		                        			
-	        		 	    		                        			});
-	        		 	    		                        			
-	        		 	    		                        			}
-			        		 	    		                        		 
-	        		 	    		                        		});
-	        		 	    		                        		 
-	        		 	    		                        		 
-	        		 	    		                        		 
-	        		 	    		                        	 }
-                      										});	*/
                       										console.log(" $scope.publicSolList >>>>>>>>>>> ", $scope.publicSolList)
                       									},
                       									function(error) {
@@ -1134,7 +1149,6 @@ angular.module('admin')
                                           
                                           /*Add all models start*/
                                           $scope.addAllSolutions = function(){
-                                        	  
                   							var addAllSolObj =  $scope.publicSolList;
                                         	  var reqAddObj = {
                                         			  "request_body": 
@@ -1142,12 +1156,13 @@ angular.module('admin')
                                         			  }
                                         	  
                   							console.log(angular.toJson(reqAddObj));
-                  							apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
+                  							apiService.insertAddAllSolutions($scope.peerIdForSubsList, freqChangeValue, reqAddObj).then(
                     									function(response) {
                     										
                     										if(response.data.response_detail ==  "Success"){
                     			                            	  $scope.addedAllToSubs = true;
                     			                              }
+                    										
                     									},
                     									function(error) {
                     										$scope.status = 'Unable to load data: '

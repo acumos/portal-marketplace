@@ -428,13 +428,13 @@
                                                                         <div ng-if="field.type=='file'" class="rowcontainer">
                                                                             <label class="disblock">{{field.label}}</label>
                                                                             <div class="disblock">
-                                                                                <input type="{{ field.type }}" dynamic-name="field.name"
+                                                                                <input type="{{ field.type }}" dynamic-name="field.name" 
                                                                             id="{{field.name}}" data-ng-model="field.data" upload-image-model = "field.data" base-sixty-four-input
                                                                             />
                                                                            <div class="help-inline validation-msgs"><span ng-show = "imageError">Image should be max size of 2KB.</span></div>
                                                                             
                                                                             </div>
-                                                                        </div>								
+                                                                        </div>							
 																</ng-form>
 																						
 															</div>
@@ -1386,7 +1386,8 @@
 										<div layout="row" class="admin-grid1">
 										<div flex="50">
 										   	<md-input-container class="md-block" flex-gt-sm>
-												<label>Subject Name</label> 
+												<!-- <label>Subject Name</label> --> 
+												<div class="admin-lbl-container-1"><label class="admin-lbl-item1">Server FQDN</label> <a data-target class="admin-help-link admin-lbl-item2" title="Server FQDN"><i class="material-icons">help</i></a></div>
 												<input type="text"  required ng-model='subNamePop'/> 
 											</md-input-container>
 										  </div>
@@ -1587,7 +1588,7 @@
 																	<div class="select-control">
 																	        <md-select ng-model="freqOfUpdate" placeholder="Select Frequency of update">
 																	       		 <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
-																	           <md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
+																	           <md-option ng-repeat="freq in frequency" ng-value="freq.value" ng-selected="val.frequencySelected[$index]">{{freq.name}}</md-option>
 																	     </md-select>
 																	</div>
 																</td>
@@ -1737,11 +1738,11 @@
 														</div>
 													</div>
 													<div class="fedgridcontainer" ng-show="showAllModelsTable">
-														<div>
+														<!--<div class="fed-container1">
 															
 															<div class="select-control">
 													        	<md-select ng-model="freqOfUpdate" placeholder="Select Frequency of update">
-													       		 <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
+													       		 <md-option ng-selected="true" value="">Select toolkit</md-option> 
 													           		<md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
 													     		</md-select>
 															</div>
@@ -1755,8 +1756,32 @@
 																	<span class="subs-added"></span>
 																	<span>Added</span>
 																</div>
+                                                                                                                          </div>
+                                                                                                                  </div>-->
+													<div>
+														<div class="fed-container1">
+															<div>
+																<div class="select-control">
+															        	<md-select ng-model="freqOfUpdatePass" placeholder="Select Frequency of update" ng-change="freqChange(freqOfUpdatePass)">
+															       		 	<!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
+																           	<md-option ng-repeat="freq in frequency" ng-value="freq.value">{{freq.name}}</md-option>
+																     	</md-select>
+																	</div>
 															</div>
+															<div>	
+													  			<button ng-hide='addedAllToSubs' ng-click="addAllSolutions()" 
+													  			class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
+													  				Add to Subscription List
+													  			</button>
+																<div ng-show='addedAllToSubs'>
+																	<div class="subs-message1">
+																		<span class="subs-added"></span>
+																		<span>Added</span>
+																	</div>
+																</div>
+															</div>	
 														</div>
+														<div class="fedgridcontainer" >
 														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
 															<colgroup>
 																<col>
@@ -1781,6 +1806,7 @@
 															</tr>												
 														  </tbody>
 														</table>
+														</div>
 													</div>
 												</div>											
 											
