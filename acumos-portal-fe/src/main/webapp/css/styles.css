@@ -20,6 +20,7 @@ p {font-size: 1em;}
 .rowcontainer {clear: both;margin-bottom: 15px;}
 .page-wrapper {padding: 10px 20px 15px 20px;}
 .page-wrapper2 {padding: 0 15px; margin-bottom: 30px;}
+.page-wrapper-terms {padding: 12px 0 0 0; margin-bottom: 30px;}
 
 .bdr {border: 1px solid #b1b1b1;}
 .bdr-top {border-top: 1px solid #b1b1b1;}
@@ -32,6 +33,7 @@ p {font-size: 1em;}
 
 .gray-bg {background: rgb(242,242,242)}
 .pageheadsection {padding: 15px 15px;}
+.reqfield {color: #ff0000;}
 /*********** Common CSS classes end  ************/
 
 /*********** Icons section start ************/
@@ -133,14 +135,15 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
 .tbl-notification-list thead tr th {text-align:left;}
 .tbl-notification-list tbody tr td {text-align:left;}
 .tbl-notification-list tbody tr td i {margin-left: 15px;}
-.notification-btn-container {display: flex;flex-wrap:nowrap;align-items:center;}
+.notification-btn-container {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items: center;}
 .notification-btn-container button { margin-right: 15px}
 
-.notification-search {border: 1px solid #d5d5d5;padding-right: 40px;width: 100%;border: 1px solid #d5d5d5;padding-left:5px; 
+.notification-search {border: 1px solid #d5d5d5;padding-right: 40px;width: 100%;border: 1px solid #d5d5d5;padding-left:5px; font-size: 14px;
 border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/sidebar-icons/search_icon.png') no-repeat 98% center !important;}
 
 .note-btn-container {display:inline-block;}
-.note-btn-container .btn-sort {display: flex;flex-wrap:nowrap;align-items:center;}
+.note-btn-container .btn-sort {display: flex;flex-wrap:nowrap;align-items:center; margin-right: 0;}
+.note-btn-inner {display: flex;align-items:center;}
 .header-search-control {padding-top: 13px; padding-bottom: 13px}
 
 .header-search-txtbox {position:relative; top:2px;left: 5px;}
@@ -492,7 +495,7 @@ transition: box-shadow 0.3s ease-in-out;
 
 .tab-box {display:flex;align-items:center;}
 .tab-box .tab-icons {margin-right: 10px;}
-.mdl-tabs__tab .tab-box span {color: #2e2f2f;font-weight: 600;}
+.mdl-tabs__tab .tab-box span {color: #2e2f2f;font-weight: 600;white-space: nowrap;}
 .mdl-tabs__tab.is-active .tab-box span {color: #671C9D;}
 .mdl-tabs__tab:hover, .mdl-tabs__tab:focus {text-decoration:none;}
 
@@ -1223,7 +1226,7 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 .role-link {white-space:nowrap;}
 .role-link:first-child {margin-left: 8px;}
 .admin-btn-add {display:inline-block;width:16px; height:16px;background: url("../images/admin-dashboard/add_new_user.png") no-repeat center center;position:relative; top:3px;}
-.user-mgmt-search-container {width: 235px;}
+.user-mgmt-search-container {width: 200px;}
 .user-mgmt-search-container .adminsearchicon {width:100%;}
 .admin-search-lbl {font-weight:600; padding-left: 20px; padding-right: 10px;}
 
@@ -1241,6 +1244,9 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 .fed-srch-container {display:flex; flex-wrap:nowrap;align-items: center;}
 
 .fed-srch-container .mdl-textfield.admin-search-container {margin-right: 5px;}
+.admin-lbl-container-1 {display:flex; flex-wrap:nowrap;justify-content: flex-start;}
+.admin-lbl-item1 {order:1; width: auto !important;}
+.admin-lbl-item2 {order:2; position:relative; top: -2px;}
 
 /********** Admin page Federation modal box style **********/
 .fedration-subscription {max-height: 80%;width: 750px;}
@@ -1275,7 +1281,7 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 .admin-img1 {max-width: 150px;}
 
 .fed-view-link {text-overflow: normal; width: 100px; overflow: auto; white-space: normal;}
-
+.fed-container1 {display: flex;flex-wrap:nowrap;align-items:center; justify-content: flex-end;}
 /*************Admin User page style End ***************/
 
 /************** GRID STYLE STARTS************/
@@ -1390,6 +1396,10 @@ header.header-without-login .mdl-layout__header-row {padding:0;align-items:stret
 .disabledLink{pointer-events: none;}
 
 terms-condition {padding: 0 20px; display:block;}
+.termspara1 {padding-bottom: 2px; margin-bottom: 0;}
+.terms-list {margin-top: 5px; padding-top:0;}
+.terms-list li {margin-bottom: 12px;}
+
 
 /* ---------- validation -------------*/
 .validation-container{padding:0; margin: 0 -8px;}
@@ -1818,3 +1828,4 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 /*********** MEDIA QUERIES SECTION END  ************/
 
 table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed; pointer-events: none;}
+.ds-btn1.btn-deploy[disabled] .ds-icon.icon-deploy {opacity: 0.2;}
