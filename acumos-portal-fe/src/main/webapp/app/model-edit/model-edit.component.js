@@ -2335,10 +2335,12 @@ angular
 					//WorkFlow Validation
 	                $scope.workFLowValidation = function(flow){
 	                	$scope.tcShow = true;
+	                	$scope.lcShow = true;
+	                	$scope.scShow = true;
 	                	var flowConfigKey = ""
-	                	if(flow = "Company"){
+	                	if(flow == "Company"){
 	                		flowConfigKey = "local_validation_workflow";
-	                	}else if(flow = "Public"){
+	                	}else if(flow == "Public"){
 	                		flowConfigKey = "public_validation_workflow";
 	                	}
 		                	 apiService
@@ -2352,6 +2354,10 @@ angular
 		 	    		                          function( value, key) {
 		 	    		                        	 if(value == "Text Check" ){
 		 	    		                        		 $scope.tcShow = false;
+		 	    		                        	 }if(value == "License Check"){
+		 	    		                        		$scope.lcShow = false;
+		 	    		                        	 }if(value == "Security Scan"){
+		 	    		                        		$scope.scShow = false;
 		 	    		                        	 }
 		 	    		                          });
 		 	    					},
