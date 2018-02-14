@@ -163,8 +163,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
     		
     		//console.log('app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
     	 	$rootScope.sidebarHeader = false;
-    	 	angular.element('#fixed-header-drawer-exp1').val('');
-    	 	angular.element('#fixed-header-drawer-exp').val('');
+
     	 	//console.log('#######app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
     	 	//$scope.sidebarHeader = false;
 		   if (localStorage.getItem("userDetail")) {
