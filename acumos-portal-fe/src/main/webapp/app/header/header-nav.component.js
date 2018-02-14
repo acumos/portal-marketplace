@@ -307,12 +307,18 @@ app.component('headerNav',{
 			componentHandler.upgradeAllRegistered();
 			$rootScope.valueToSearch = val;
 			
-			angular.element('#fixed-header-drawer-exp1').val('');
+			//angular.element('#fixed-header-drawer-exp1').val('');
 
 			if(val){
 				var stateName = $state.$current.name;
+				angular.element('.mdl-textfield').addClass('is-focused');
 				if(stateName != 'marketPlace' && stateName != 'manageModule')$window.location.href = '/index.html#/marketPlace';
-			}	
+				$scope.search = $rootScope.valueToSearch;
+				$scope.searchText = $rootScope.valueToSearch;
+			}
+			
+			debugger;
+
 			if(val){
 				$rootScope.$broadcast('scanner-started', {
 					searchValue : val
@@ -320,6 +326,16 @@ app.component('headerNav',{
 			}
 			//}
 		}
+		
+		$scope.addSearchFocus = function($event,searchText){ 
+			if(searchText == false || searchText == undefined ) {
+				angular.element('.mdl-textfield').removeClass('is-focused');
+			}else {
+				angular.element('.mdl-textfield').addClass('is-focused');
+			}
+			$event.stopImmediatePropagation(true);
+		};
+		
 		//Notification functionlity
 		$scope.notification = null;
 		//Emit for notification

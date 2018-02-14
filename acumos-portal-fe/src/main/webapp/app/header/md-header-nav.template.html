@@ -39,7 +39,8 @@
 				<div class="mdl-textfield__expandable-holder">
 					<input class="mdl-textfield__input header-search2" type="text"
 						name="search" ng-model="search" id="fixed-header-drawer-exp"
-						placeholder="Search for anything you need">
+						placeholder="Search for anything you need"
+						ng-blur="addSearchFocus($event,search)">
 				</div>
 			</div>
 			<div class="text-right signupnav hide-xs">
@@ -119,7 +120,8 @@
 								<div class="mdl-textfield__expandable-holder">
 									<input class="mdl-textfield__input header-search2"
 										type="search" id="fixed-header-drawer-exp1"
-										placeholder="Search for anything you need" ng-model="searchText">
+										placeholder="Search for anything you need" ng-model="searchText"
+										ng-blur="addSearchFocus($event,searchText)">
 								</div>
 							</div>
 						</div>
