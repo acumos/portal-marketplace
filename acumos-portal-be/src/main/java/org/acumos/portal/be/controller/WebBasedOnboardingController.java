@@ -40,6 +40,7 @@ import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.StepResultRequest;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.client.ClientProtocolException;
@@ -318,6 +319,32 @@ public class WebBasedOnboardingController  extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while getStepTypes");
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getStepTypes :", e);
+		}
+		return data;
+	}
+	
+	@ApiOperation(value = "Search step result", response = MLPStepResult.class)
+	@RequestMapping(value = {APINames.SEARCH_STEP_RESULT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLStepResult>> searchStepResults(HttpServletRequest request,@RequestBody JsonRequest<StepResultRequest> stepResultRequest, HttpServletResponse response) {
+		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
+		try {
+			List<MLStepResult> stepResultList = messagingService.searchStepResults(stepResultRequest.getBody());
+			if (stepResultList != null) {
+				data.setResponseBody(stepResultList);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Step result fetched Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "Step result fetched Successfully :  ");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while searchStepResults");
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred searchStepResults :");
+			}
+
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while searchStepResults");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred searchStepResults :", e);
 		}
 		return data;
 	}

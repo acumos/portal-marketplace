@@ -33,6 +33,7 @@ import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.StepResultRequest;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,5 +140,18 @@ public class MessagingServiceImpl implements MessagingService{
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPStepType> stepStatusesList  = dataServiceRestClient.getStepTypes();	
 		return stepStatusesList;
+	}
+	
+	@Override
+	public List<MLStepResult> searchStepResults(StepResultRequest stepResultRequest) {
+		log.debug(EELFLoggerDelegate.debugLogger, "searchStepResults`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLStepResult> stepResultList = new ArrayList<>();
+		RestPageResponse<MLPStepResult> stepResultResponse = dataServiceRestClient.searchStepResults(stepResultRequest.getQueryParameters(), stepResultRequest.isOr(),stepResultRequest.getPageRequest());	
+		if(!stepResultResponse.getContent().isEmpty())
+		for(MLPStepResult mlpStepResult : stepResultResponse.getContent()){
+			stepResultList.add(PortalUtils.convertToMLStepResult(mlpStepResult));
+		}	
+		return stepResultList;
 	}
 }

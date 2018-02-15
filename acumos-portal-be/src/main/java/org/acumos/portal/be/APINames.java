@@ -207,4 +207,5 @@ public class APINames {
 	   public static final String DELETE_STEP_RESULT = "/stepResult/delete/{stepResultId}";
 	   public static final String GET_STEP_STATUSES = "/stepStatuses";
 	   public static final String GET_STEP_TYPES = "/stepTypes";
+	   public static final String SEARCH_STEP_RESULT = "/messagingStatus/search";
 }

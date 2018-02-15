@@ -27,6 +27,7 @@ import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPStepStatus;
 import org.acumos.cds.domain.MLPStepType;
 import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.StepResultRequest;
 
 public interface MessagingService {
 
@@ -41,4 +42,6 @@ public interface MessagingService {
 	List<MLPStepStatus> getStepStatuses();
 
 	List<MLPStepType> getStepTypes();
+	
+	List<MLStepResult> searchStepResults(StepResultRequest body);
 }
