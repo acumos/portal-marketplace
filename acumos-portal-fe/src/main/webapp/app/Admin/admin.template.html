@@ -644,16 +644,26 @@
 													<div class="admin-tab-heading"><span class="admin-title2">Workflow Configuration</span></div>
 														<div class="mdl-grid validation-container">
 														<div class="mdl-cell mdl-cell--12-col" ng-show = "addStep">
-															<div class="alert c-success">
+															<div class="alert c-success" ng-show = "added == 'true'">
 																<img src="images/status.png" alt="" title=""/>
-																<span class="alert-text" ng-show = "added">{{editStep}} added in to {{workFlow}}. Please click on Assign workflow button to apply the new workflow to your instance.</span>
-																<span class="alert-text" ng-show = "!added">{{editStep}} removed in to {{workFlow}}. Please click on Assign workflow button to apply the new workflow to your instance.</span>
-															</div>															
+																<span class="alert-text" >{{editStep}} added in to {{workFlow}}. Please click on Assign workflow button to apply the new workflow to your instance.</span>
+																
+															</div>
+															<div class="alert c-success" ng-show = "added == 'false'">
+																<img src="images/status.png" alt="" title=""/>
+																
+																<span class="alert-text" >{{editStep}} removed in to {{workFlow}}. Please click on Assign workflow button to apply the new workflow to your instance.</span>
+															</div>
+															<div class="alert c-success" ng-show = "assignAlert">
+																<img src="images/status.png" alt="" title=""/>
+																<span class="alert-text" >{{workFlow}} has been assign successfully to your instance.</span>
+																
+															</div>																
 														</div>
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>On-boarding Work flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'On-boarding Work Flow');getValidationWorkflow('local_validation_workflow')">mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'On-boarding Work Flow');">mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -768,7 +778,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" disabled ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignOnBoardingActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -776,7 +786,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Local Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow'); getValidationWorkflow('local_validation_workflow')" >mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow');" >mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -834,8 +844,8 @@
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
 																				</div> -->
-																				<span ng-repeat = "step in optionalLocalFlowStep.step">
-																				<div class="list-validation-box"  ng-show = "step.active">		
+																				<span ng-repeat = "step in activeLocalFlowStep">
+																				<div class="list-validation-box">		
 																					<article class="timeline-entry">			
 																						<div class="timeline-entry-inner">			
 																							<div class="timeline-icon">
@@ -863,7 +873,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!editStep" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignLocalActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>												
@@ -871,7 +881,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Public Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow'); getValidationWorkflow('public_validation_workflow')">mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow');">mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -967,12 +977,12 @@
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
 																				</div>-->
-																				<span ng-repeat = "step in optionalPublicFlowStep.step">
-																				<div class="list-validation-box"  ng-if = "step.active">		
+																				<span ng-repeat = "step in activePublicFlowStep" >
+																				<div class="list-validation-box" >	
 																					<article class="timeline-entry">			
 																						<div class="timeline-entry-inner">			
 																							<div class="timeline-icon">
-																								<span class="entypo-feather">{{$index+1}}</span>
+																								<span class="entypo-feather">{{$index +2}}</span>
 																							</div>			
 																							<div class="timeline-label">
 																								<h2>{{step.stepName}}</h2>
@@ -986,7 +996,9 @@
 																					<div class="removestepicon">
 																						<i class="material-icons"><a href="">remove_circle</a></i>
 																					</div>
-																				</div></span>
+																				</div>
+																				
+																				</span>
 																			</div>	
 																		</div>
 																	</div>	
@@ -996,7 +1008,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!editStep" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignPublicActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1004,7 +1016,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Import Federated Model Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Import Federated Model Work Flow');getValidationWorkflow('federated_validation_workflow')">mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Import Federated Model Work Flow');">mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -1115,7 +1127,7 @@
 																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" disabled ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignFedratedActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1275,7 +1287,7 @@
 												  </md-checkbox>
 											</div>
 											<div  class="md-block" >
-												<label>Role</label>
+												<label class="disblock">Role <span class="reqfield">*</span></label>
 												 <md-select ng-model="roleValue" placeholder="Select" class="md-no-underline admin-ddl" multiple>
 												  <md-option ng-repeat='role in roles' value="{{role.roleId}}" >{{role.name}}</md-option>
 												  <!-- <md-option value="sword">Sword</md-option>
@@ -1727,7 +1739,7 @@
 														</table>
 													</div>
 													<!-- All models table -->
-													<div ng-show="allModelsTable">
+													<div ng-show="allModelsTable && allSubs">
 													<h4 ng-model="mlsolutionsLength"></h4>
 														<div>
 															{{mlsolutionsSize}} models found
@@ -1737,9 +1749,9 @@
 															</button>
 														</div>
 													</div>
-													<div class="fedgridcontainer" ng-show="showAllModelsTable">
-														<!--<div class="fed-container1">
-															
+
+													<div class="fedgridcontainer" ng-show="allModelsTable && allSubs && showAllModelsTable">
+														<!-- <div>														
 															<div class="select-control">
 													        	<md-select ng-model="freqOfUpdate" placeholder="Select Frequency of update">
 													       		 <md-option ng-selected="true" value="">Select toolkit</md-option> 
@@ -1757,7 +1769,7 @@
 																	<span>Added</span>
 																</div>
                                                                                                                           </div>
-                                                                                                                  </div>-->
+                                                                                                                  </div> -->
 													<div>
 														<div class="fed-container1">
 															<div>
@@ -1793,7 +1805,7 @@
 																<tr>
 																	<th><label>solution ID</label></th>
 																	<th><label>solution name</label></th>
-																	<th><label>catagory</label></th>
+																	<th><label>category</label></th>
 																	<th><label>toolkit</label></th>
 																</tr>
 															</thead>													 
@@ -1801,8 +1813,8 @@
 															<tr ng-repeat="mlSolution in mlsolutions |  filter: {accessType:'PB'}">
 																<td>{{mlSolution.solutionId}}</td>
 																<td>{{mlSolution.name}}</td>
-																<td>{{mlSolution.modelType}}</td>
-																<td>{{mlSolution.tookitType}}</td>																
+																<td>{{mlSolution.modelTypeName}}</td>
+																<td>{{mlSolution.tookitTypeName}}</td>																
 															</tr>												
 														  </tbody>
 														</table>
@@ -1863,7 +1875,7 @@
                                                        </li><li class="progress-status"></li></span>
                                                        <span ng-repeat  = "(key, step) in optionalWorkFlowStep.step">
                                                        <li>
-                                                       <div class="steppointer  arrow_box removescan" ng-show = "step.active">
+                                                       <div class="steppointer  arrow_box removescan" ng-show = "step.active == 'true'">
 																<div class="imageplace" >
                                                                      <a ng-click = "addValidationStep(step.stepName, key)"><span class="imagecontent create-security"> 
                                                                      </span></a>
@@ -1873,7 +1885,7 @@
 																	<i class="material-icons"><a href="">remove_circle</a></i>
 																</div>
 															</div>
-															<div class="steppointer  arrow_box active" ng-show = "!step.active">
+															<div class="steppointer  arrow_box active" ng-show = "step.active == 'false'">
 																<div class="imageplace">
                                                                      <a ng-click = "addValidationStep(step.stepName, key)"><span class="imagecontent add-security"> 
                                                                      </span></a>

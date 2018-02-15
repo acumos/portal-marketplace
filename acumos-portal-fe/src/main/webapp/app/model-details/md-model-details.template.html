@@ -724,32 +724,32 @@
 					<div class="mdl-cell mdl-cell--6-col">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Application
-							Id</label> <input ng-model="applicationId" type="text"> </md-input-container>
+							Id <span class="reqfield">*</span></label> <input ng-model="applicationId" type="text"> </md-input-container>
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Secret
-							key</label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
+							key <span class="reqfield">*</span></label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Resource
-							Group</label> <input ng-model="resourceGroup" type="text"> </md-input-container>
+							Group <span class="reqfield">*</span></label> <input ng-model="resourceGroup" type="text"> </md-input-container>
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Storage
-							Account</label> <input ng-model="storageAccount" type="text"> </md-input-container>
+							Account <span class="reqfield">*</span></label> <input ng-model="storageAccount" type="text"> </md-input-container>
 					</div>
 
 					<div class="mdl-cell mdl-cell--6-col">
 						<md-input-container class="md-icon-float md-block">
-						<label>Tenant Id</label> <input ng-model="tenantId" type="text">
+						<label>Tenant Id <span class="reqfield">*</span></label> <input ng-model="tenantId" type="text">
 						</md-input-container>
 						<md-input-container class="md-icon-float md-block">
-						<label>Subscription Key</label> <input ng-model="subscriptionKey"
+						<label>Subscription Key <span class="reqfield">*</span></label> <input ng-model="subscriptionKey"
 							type="text"> </md-input-container>
 						<md-input-container class="md-icon-float md-block">
-						<label>Acr Name</label> <input ng-model="acrName" type="text">
+						<label>Acr Name <span class="reqfield">*</span></label> <input ng-model="acrName" type="text">
 						</md-input-container>
 					</div>
 				</div>
 				<hr />
-				<div layout="row" class="deploy-cloud-modalfooter">
+				<div class="dialog-btn-container">
 					<md-button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>

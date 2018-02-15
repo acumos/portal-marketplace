@@ -1066,7 +1066,7 @@ a {text-decoration: none;}
 .admin-box2 span, .admin-box1 button { margin: 0 5px;}
 .admin-box2 span:first-child {margin-left:0;}
 
-.admin-help-link {position:relative; top: 2px; margin-left: 8px;}
+.admin-help-link {position:relative; top: 2px; margin-left: 8px;margin-right: 15px;}
 .admin-help-link .material-icons { font-size:22px;color: #656565;}
 
 .admin-row {display: flex;flex-wrap:nowrap;align-items:center;justify-content: space-between;}
@@ -1584,7 +1584,7 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 	.userprofile-dialog-footer > .mdl-button {min-width: 85px; width: 85px;}
 	
 	.mdl-layout__header .mdl-layout__header-row {padding: 0 10px;}
-	#btn_header {width:45px;margin-bottom:0;top:0 !important;}
+	#btn_header {width:30px;margin-bottom:0;top:0 !important;}
 	.header-search-control {position:absolute; right: 40px;padding:0;top: -5px;}
 	.mobheader-icons .mdl-button:first-child {margin-bottom:0;}
 	.mdl-layout__drawer.initialVal {transform: translateX(0px);}
@@ -1627,11 +1627,14 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 
 	.mob-actions-container1 .mdl-button {margin-bottom: 0;}
 	.mob-actions-container1 .grid-view-btn-container {margin-left:0;}
-	
+	.accumos-header-logo {transform:scale(0.98);}
 	.accumos-header-logo img {transform: scale(0.85); margin-left: 0 !important;}
 	.mob-actions-container1 .select-control .md-select-icon {position:relative; top: 4px;}
 	
-	.mob-add-button {margin-bottom:0;}		
+	.mob-add-button {margin-bottom:0;}
+	.mob-header-menu-container {margin-bottom: 0;}
+	.header-controls .search-button.mob-header-search-btn {margin-top: -4px !important;}
+	.a-logo-container {padding-left:5px;background: url("../images/general-icons/header_cross_img.png") no-repeat -30px center;}		
 	
 }
 
@@ -1829,3 +1832,4 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 
 table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed; pointer-events: none;}
 .ds-btn1.btn-deploy[disabled] .ds-icon.icon-deploy {opacity: 0.2;}
+

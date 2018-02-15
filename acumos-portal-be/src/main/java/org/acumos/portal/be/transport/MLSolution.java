@@ -70,9 +70,8 @@ public class MLSolution {
 	private String threadId;
 	private String commentId;
 	private List<MLPThread> threadList ;
-	private String validationStatusCode;
-	private List<MLSolution> publicSolList;
-    private String peerId;
+	private String validationStatusCode;	
+    private Long refreshInterval;
 	
 	public String getLoginName() {
 		return loginName;
@@ -476,19 +475,13 @@ public class MLSolution {
 		this.validationStatusCode = validationStatusCode;
 	}
 
-	public List<MLSolution> getPublicSolList() {
-		return publicSolList;
+	public Long getRefreshInterval() {
+		return refreshInterval;
 	}
 
-	public void setPublicSolList(List<MLSolution> publicSolList) {
-		this.publicSolList = publicSolList;
+	public void setRefreshInterval(Long refreshInterval) {
+		this.refreshInterval = refreshInterval;
 	}
 
-	public String getPeerId() {
-		return peerId;
-	}
-
-	public void setPeerId(String peerId) {
-		this.peerId = peerId;
-	}	
+	
 }

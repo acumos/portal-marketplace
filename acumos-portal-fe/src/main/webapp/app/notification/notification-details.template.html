@@ -21,27 +21,22 @@
 					<div class="page-wrapper2">
 						<!-- copy from here (start) -->
 						<div class="notification-btn-container">
-							<button class="mdl-button mdl-js-button btn-secondary" ng-click="refreshNotification()">Refresh</button>
-							<button class="mdl-button mdl-js-button btn-secondary" ng-click="markRead()">Mark as read</button>							
-							<button class="mdl-button mdl-js-button btn-secondary" ng-click="trashNotification()">Move to trash</button>
-							<div class="mdl-textfield mdl-js-textfield">
+							<div class="note-btn-inner">
+								<button class="mdl-button mdl-js-button btn-secondary" ng-click="refreshNotification()"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
+								<button class="mdl-button mdl-js-button btn-secondary" ng-click="markRead()"><i class="fa fa-eye" aria-hidden="true"></i> Mark as read</button>							
+								<button class="mdl-button mdl-js-button btn-secondary" ng-click="trashNotification()"><i class="fa fa-trash-o" aria-hidden="true"></i> Move to trash</button>
+								<div class="mdl-textfield mdl-js-textfield">
 									<input class="mdl-textfield__input notification-search" type="text" placeholder="Filter" ng-model = "search">
 									<!-- <label class="mdl-textfield__label" for="module-search"></label> -->
 								</div>
-							<!-- <div class="note-btn-container">
-										<button id="demo-menu-lower-right3" class="mdl-button mdl-js-button btn-sort bdr">
-											<span class="hide-xs">Sort By ID: All</span>
-											<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort</i></span>
-										  <i class="material-icons">keyboard_arrow_down</i>
-										</button>
-										<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist2" for="demo-menu-lower-right3">
-											<li class="mdl-menu__item">2147584</li>
-											<li class="mdl-menu__item">2147583</li>
-											<li class="mdl-menu__item">2147582</li>
-											<li class="mdl-menu__item">2147581</li> 
-										</ul>
-									</div> -->
-						
+							</div>
+							<div>
+								<div class="select-control">
+									<md-select ng-model="action.name" placeholder="Sort By - All">  <!-- md-on-open="loadUsers()" -->
+										<md-option  ng-repeat="action in actions" ng-click="filterChange(action,'sortBy')">{{action.name}}</md-option>
+									</md-select>
+							</div>
+							</div>					
 						</div>
 						<div class="tbl-notification-container">
 							<table ng-if='notificationManageObj.length' class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
