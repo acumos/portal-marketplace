@@ -522,12 +522,12 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Add peer subscription for models", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.CREATE_SUBSCREPTION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
-       public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId, @PathVariable("refreshInterval") Long refreshInterval) {
+       public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId) {
            log.debug(EELFLoggerDelegate.debugLogger, "createSubscription={}");
            JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
            try {
                if (!solList.getBody().isEmpty() && peerId != null) {              
-                   adminService.createSubscription(solList.getBody(),peerId,refreshInterval);
+                   adminService.createSubscription(solList.getBody(),peerId);
                    data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
                    data.setResponseDetail("Success");
                } else {
