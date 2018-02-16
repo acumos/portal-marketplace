@@ -339,14 +339,15 @@ angular.module('modelResource')
 								for(var i=0 ; i< data.length; i++){
 									var stepName = data[i].name;
 									var statusCode =  data[i].statusCode;
+									var stepCode = data[i].stepCode;
 
 									switch(stepName){
 										case 'CreateMicroservice': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-										case 'Package' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorPA = data[i].result : $scope.errorPA = ''; break;
+										//case 'Package' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorPA = data[i].result : $scope.errorPA = ''; break;
 										case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-										case 'AddToRepository' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
-										case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = ''; break;
+										case 'AddToRepository' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+										case 'CreateTOSCA' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+										case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
 									}
 									angular.element(angular.element('.onboarding-web li div')[counter]).removeClass('completed incomplet active');
 									if(statusCode == 'FA'){
@@ -359,7 +360,14 @@ angular.module('modelResource')
 									} else if(statusCode == 'SU'){
 										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('completed');
 										angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('green completed');
-										$scope.completedSteps[stepCode] = stepCode;
+										$scope.completedSteps[stepName] = stepName;
+										if (counter === 8) {
+											counter = counter +2;
+											angular.element(angular.element('.onboarding-web li div')[counter]).addClass('completed');
+											angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('green completed');
+											$scope.errorVM = '';
+											$scope.completedSteps['ViewModel'] = 'ViewModel';
+										}
 									}
 
 									
@@ -390,7 +398,7 @@ angular.module('modelResource')
 							
 							var clearInterval = $interval(function(){
 								$scope.showValidationStatus();
-							}, 30000);
+							}, 5000);
 							
 /*							$location.hash('page-top');
 							 $anchorScroll();*/
