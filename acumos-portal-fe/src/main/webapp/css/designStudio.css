@@ -167,7 +167,7 @@ height: 25px; line-height: 25px; padding:0;border-radius:0; min-width:50px; text
 
 .ds-delete-icon {width:12px; height:13px; display:inline-block; background: url("../images/ds-icons/mysolution_delete_icon.png")}
 
-.ds-btn-container {display:flex;justify-content: center;}
+.ds-btn-container {display:flex;justify-content: center; center; align-items: center;}
 .ds-btn-container .mdl-button { text-transform: initial; height: 38px;color: #636363;}
 .ds-section-heading label, .ds-section-heading2 label {color:#671C9D; font-weight:600; padding-left:9px; }
 .btn-delete-toggle {padding-right:5px;}
@@ -194,7 +194,7 @@ height: 25px; line-height: 25px; padding:0;border-radius:0; min-width:50px; text
 .ds-btn-container .mdl-button.btn-save[disabled] {color: #BDBDBD;background:#EFEFEF;  }
 .ds-btn-container .mdl-button.btn-save[disabled] .icon-run {background: url("../images/ds-icons/run_disabled_icon.png");position:relative;top:-2px;margin-right: 5px;}
 
-.ds-btn-container .mdl-button.btn-delete {color: #671C9D; font-weight:600; }
+.ds-btn-container .mdl-button.btn-delete {color: #671C9D; font-weight:600; padding-left: 8px; padding-right: 8px;}
 .ds-btn-container .mdl-button.btn-delete i {margin-right: 7px;font-size: 16px }
 .ds-btn-container .mdl-button.btn-delete[disabled] {color: #BDBDBD;background:#EFEFEF;  }
 .ds-btn-container .mdl-button.btn-delete[disabled] .icon-run {background: url("../images/ds-icons/run_disabled_icon.png");position:relative;top:-2px;margin-right: 5px;}
@@ -300,3 +300,4 @@ text.edge-label {
 .dslist1 {font-family: 'Open Sans', sans-serif;}
 
 .ds-btn1.btn-deploy[disabled] .ds-icon.icon-deploy {opacity: 0.2;}
+.probe-container {border-right: 1px solid #B9B9B9 !important;position:relative; height: 37px; line-height: 37px; }

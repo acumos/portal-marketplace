@@ -421,7 +421,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $http.get(url)
                 .success(function(result) {
                     console.log(result);
-                    if(result.probeIndicator == true){
+                    if(result.probeIndicator == 'true'){
                     	$scope.myCheckbox = true;
                     }else{
                     	$scope.myCheckbox = false;
@@ -2730,7 +2730,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }
     	var url = build_url(options.setProbe, args);
     	 return $http.post(url).success(function(result) {
-    		 if(setProbeStatus = true){
+    		 if(setProbeStatus == true){
     			 $scope.msg = "Probe added successfully";
                 $scope.showpopup();
     		 }
