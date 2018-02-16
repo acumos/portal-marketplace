@@ -674,6 +674,7 @@ angular.module('admin')
                               if(response.data.response_detail ==  "Success"){
                             	  //$scope.closePoup();
                             	  $scope.addedToSubs = true;
+                            	  $scope.countSubscriptions();
                       	    	/*$location.hash('myDialog');  
                                   $anchorScroll(); 
                                   $scope.msg = "Successfully added to subscription list."; 
@@ -1112,7 +1113,7 @@ angular.module('admin')
                                            * Have Added this function for the count as for now. This is not good for the performance. 
                                            * Please remove and ask BE team for an api to return the counts
                                            */
-                                          $scope.countSubscriptions = function(){
+                                          /*$scope.countSubscriptions = function(){
                                         	  $scope.subscriptionCount = [];
                                         	  $scope.peer;
                                         	  if($scope.peer){
@@ -1133,7 +1134,7 @@ angular.module('admin')
                             						  });
                             						});
                                         	  }
-                                          }
+                                          }*/
                                           
                                           
                                           /*get all solutions start*/
@@ -1238,6 +1239,7 @@ angular.module('admin')
                     										
                     										if(response.data.response_detail ==  "Success"){
                     			                            	  $scope.addedAllToSubs = true;
+                    			                            	  $scope.countSubscriptions();
                     			                              }
                     										
                     									},
@@ -1249,14 +1251,6 @@ angular.module('admin')
                                         }
                                           
                                           /*End add all models*/
-                                          
-                                          /*fetch number of subscriptions per peer. 
-                                           * Currently invoking api from fe
-                                           * Need counts from BE since performance reduces.
-                                           * */
-                                          
-                                          /*var url = 'api/admin/peer/subcriptions/' +  val.peerId;
-                                    	  $http.post(url).success(function(response){*/
                                         
                                   		/*get solutions ends*/
                                           
