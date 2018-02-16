@@ -17,7 +17,7 @@
 /********* manage model page*******************/
  /* vertical tab */
 /*Vertical Tabs*/
-.workflow-leftheader {width: 28%; float: left; padding: 15px 0; background-color:rgb(232,229,236); color: #681D9e;}
+.workflow-leftheader {width: 210px; float: left; padding: 15px 0; background-color:rgb(232,229,236); color: #681D9e;}
 .workflow-leftheader span{padding:0 20px;}
 .workflow-right-header {float: left; padding: 15px 20px; color: #424043;}
 .workflow-right-header span{padding:0 10px;} 
@@ -33,10 +33,10 @@
 .tabs-left i{margin-right:15px; color:#bbb; font-size: 23px; margin-top:5px;}
 .tabs-left>li article{color:rgb(104,29,158); line-height: 18px; font-weight: bold;}
 .md-tab {color:#414141 !important;/*font-weight: bold;*/padding: 12px 20px;}
-.managelefticon{width:35px; float:left; padding: 15px 0 0; }
+/* .managelefticon{width:35px; float:left; padding: 15px 0 0; } */
 .managelefticon-single{width:35px; float:left; padding: 11px 0 0;}
-.managelefticon{width:40px; float:left; padding: 15px 0 0; }
-.managelefticon i{margin:0 auto;}
+.managelefticon{width:40px; float:left; padding: 4px 0 0; }
+.managelefticon i{margin:0 auto; display: inline-block;}
 .managelefticon i img{vertical-align:top; padding-top:10px;}
 .managelefticon-single i img{vertical-align:top; padding-top:10px;}
 .managelefttext{/*margin-left:35px;*/ line-height:15px; /*padding: 20px 0;*/padding: 15px 0;}
@@ -491,7 +491,20 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
     border-color: #d3d1d1;
     cursor: not-allowed;
 }
- 
+/* active de-active images*/
+.h2o{background-image:url("../images/ico_h2o_inactive.png"); background-repeat:no-repeat; width:22px; height:13px; display:inline-block;}
+.is-active .h2o{background-image:url("../images/ico_h2o_active.png");}
+.managelefticon .tensorflow{ margin-top: 17px; background-image:url("../images/ico_tensortflow_inactive.png"); background-repeat:no-repeat; width:20px; height:24px; display:inline-block;}
+.is-active .tensorflow{ margin-top: 17px; background-image:url("../images/ico_tensortflow_active.png");}
+.scikit-learn{background-image:url("../images/ico_scikit_learn_inactive.png"); background-repeat:no-repeat; width:17px; height:11px; display:inline-block;}
+.is-active .scikit-learn{background-image:url("../images/ico_scikit_learn_active.png");}
+.R{background-image:url("../images/ico_rcloud_inactive.png"); background-repeat:no-repeat; width:12px; height:15px; display:inline-block;}
+.is-active .R{background-image:url("../images/ico_rcloud_active.png");}
+.managelefticon .java{ margin-top: 15px; background-image:url("../images/ico_java_inactive.png"); background-repeat:no-repeat; width:20px; height:26px; display:inline-block;}
+.is-active .java{margin-top: 15px; background-image:url("../images/ico_java_active.png");}
+.R-cloud{ background-image:url("../images/ico_R_inactive.png"); background-repeat:no-repeat; width:20px; height:15px; display:inline-block;}
+.is-active .R-cloud{background-image:url("../images/ico_R_active.png");}
+.popovers .progress-bar{margin:5px 0 3px;}
 
 /* media query start */
 @media(max-width:1024px){

@@ -28,14 +28,24 @@
 						<md-tabs md-dynamic-height md-border-bottom> <md-tab
 							label="On-Boarding By Command Line"> <md-content
 							class="md-padding"> <!-- On-Boarding By Command Line section -->
-						<div
-							class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+						<div class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
 							<div class="mdl-grid mdl-grid--no-spacing">
+								<div class="workflow-header">
+									<div class="workflow-leftheader">
+										<span>TOOL KIT CATEGORY</span>
+									</div>
+									<div class="workflow-right-header">
+										<span>H2O</span>
+									</div>
+								</div>							
 								<div class="mdl-cell workflow-left">
 									<!-- <div class="mdl-tabs__tab-bar"> -->
 									<div>
 										<ul class="tabs-left">
-											<!-- <li><a href="#onboard" class="mdl-tabs__tab"> div class="managelefticon"> <i><img src="images/status-sml.png" alt="" title=""></i> </div
+											<!-- <li><a href="#onboard" class="mdl-tabs__tab"> 
+												<div class="managelefticon"> 
+													<i class="R"></i> 
+												</div>
 													<div class="managelefttext">
 														<article>RCloud</article>
 														ul class="green">
@@ -43,7 +53,10 @@
                                     </ul
 													</div>
 											</a></li> -->
-											<li><a href="#share" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/share1.png" alt="" title=""></i> </div-->
+											<li><a href="#share" class="mdl-tabs__tab"> 
+												<div class="managelefticon">
+													 <i class="h2o"></i> 
+												</div>
 													<div class="managelefttext">
 														<article>H2O</article>
 														<!--ul class="">
@@ -51,7 +64,10 @@
                                     </ul-->
 													</div>
 											</a></li>
-											<li><a href="#company" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/Publish1.png" alt="" title=""></i> </div-->
+											<li><a href="#company" class="mdl-tabs__tab"> 
+												<div class="managelefticon"> 
+													<i class="tensorflow"></i> 
+												</div>
 													<div class="managelefttext">
 														<article>TensorFlow</article>
 														<!--ul class="red">
@@ -60,7 +76,9 @@
 													</div>
 											</a></li>
 											<li><a href="#catalog" class="mdl-tabs__tab is-active">
-													<!--div class="managelefticon"> <i><img src="images/publish-to-onap3.png" alt="" title=""></i> </div-->
+													<div class="managelefticon"> 
+														<i class="scikit-learn"></i> 
+													</div>
 													<div class="managelefttext">
 														<article>Scikit Learn</article>
 														<!--ul class="gray">
@@ -68,7 +86,10 @@
                                     </ul-->
 													</div>
 											</a></li>
-											<li><a href="#public" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/publish-to-public1.png" alt="" title=""></i> </div-->
+											<li><a href="#public" class="mdl-tabs__tab">
+											 	<div class="managelefticon">
+											 	 	<i class="R-cloud"></i>
+											 	 </div>
 													<div class="managelefttext">
 														<article>R</article>
 														<!--ul class="red">
@@ -76,7 +97,10 @@
                                     </ul-->
 													</div>
 											</a></li>
-											<li><a href="#cloud" class="mdl-tabs__tab"> <!--div class="managelefticon"> <i><img src="images/export1.png" alt="" title=""></i> </div-->
+											<li><a href="#cloud" class="mdl-tabs__tab"> 
+											<div class="managelefticon">
+											 <i class="java"></i> 											 
+											</div>
 													<div class="managelefttext">
 														<article>Java</article>
 														<!--ul class="red">
@@ -676,21 +700,21 @@
 																						ng-model="file" accept = ""
 																						upload-image-model="file" readonly></div>
 																						<div class="upload-image-input files-uploaded">
-																		    	<input class="mdl-textfield__input"
-																						placeholder="Upload File" type="text"
-																						ng-model="filename" readonly />
+																		    				<input class="mdl-textfield__input"
+																							placeholder="Upload File" type="text"
+																							ng-model="filename" readonly />
 																						</div>
+																						<div  > <!-- ng-show="progressVisible" -->
+																				            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
+																				               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
+																				            			<span ng-show = "$root.progressBar == 100">Completed</span>
+																				            </div>
+																				            </div>
+																				         </div>
 																		</div>
 																	</form>
 																</div>
-																<div  > <!-- ng-show="progressVisible" -->
-														            
-														            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
-														            			<span ng-show = "$root.progressBar == 100">Completed</span>
-														            </div>
-														            </div>
-														         </div>
+																
 														<div layout="row" class="popovers-cloud-modalfooter">
 															<md-button
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"

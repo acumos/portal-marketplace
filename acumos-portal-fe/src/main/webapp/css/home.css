@@ -77,9 +77,9 @@ position:relative;
 .initialVal .discover .discover-description{padding: 0 0 0 15px;}
 .discover .discover-description p {font-size:15px; line-height:18px;}
 .discover .discover-description h5{margin:10px 0 15px 0; font-size:18px; font-weight:600;}
-.discover .marketplace .discover-description, .hasClass.initialVal .discover .marketplace .discover-description {width: 318px;}
+.discover .marketplace .discover-description, .hasClass.initialVal .discover .marketplace .discover-description {width: 318px; color:#f49419;}
 .discover .desingstudio, .hasClass.initialVal .discover .desingstudio{color:#10a6b5; width:362px; position:absolute; right: 0px; top:260px;}
-.discover .desingstudio .discover-description, .hasClass.initialVal .discover .desingstudio .discover-description {width: 285px;}
+.discover .desingstudio .discover-description, .hasClass.initialVal .discover .desingstudio .discover-description {width: 285px; color: #10a6b5;}
 .discover .sdn, .hasClass.initialVal .discover .sdn{color:#8529f5; width:370px; position:absolute; right: 40px; top: 422px;}
 .discover .sdn .discover-description, .hasClass.initialVal .discover .sdn .discover-description{width:293px;}
 .discover .community, .hasClass.initialVal .discover .community{color:#d5305a; width:355px; position:absolute; left: 8px; top: 164px;}
@@ -329,5 +329,3 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .slide-content .mdl-button{padding: 18px 18px;}
 .success .success-icon{padding-left: 0px;}
 }
-
-
