@@ -674,6 +674,7 @@ angular.module('admin')
                               if(response.data.response_detail ==  "Success"){
                             	  //$scope.closePoup();
                             	  $scope.addedToSubs = true;
+                            	  $scope.countSubscriptions();
                       	    	/*$location.hash('myDialog');  
                                   $anchorScroll(); 
                                   $scope.msg = "Successfully added to subscription list."; 
@@ -1111,8 +1112,10 @@ angular.module('admin')
                                           /*
                                            * Have Added this function for the count as for now. This is not good for the performance. 
                                            * Please remove and ask BE team for an api to return the counts
+                                           * 
+                                           * Have removed the subscription count - 
                                            */
-                                          $scope.countSubscriptions = function(){
+                                          /*$scope.countSubscriptions = function(){
                                         	  $scope.subscriptionCount = [];
                                         	  $scope.peer;
                                         	  if($scope.peer){
@@ -1133,7 +1136,7 @@ angular.module('admin')
                             						  });
                             						});
                                         	  }
-                                          }
+                                          }*/
                                           
                                           
                                           /*get all solutions start*/
@@ -1238,6 +1241,7 @@ angular.module('admin')
                     										
                     										if(response.data.response_detail ==  "Success"){
                     			                            	  $scope.addedAllToSubs = true;
+                    			                            	  $scope.countSubscriptions();
                     			                              }
                     										
                     									},
