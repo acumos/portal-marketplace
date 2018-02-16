@@ -167,7 +167,7 @@ height: 25px; line-height: 25px; padding:0;border-radius:0; min-width:50px; text
 
 .ds-delete-icon {width:12px; height:13px; display:inline-block; background: url("../images/ds-icons/mysolution_delete_icon.png")}
 
-.ds-btn-container {display:flex;justify-content: center;}
+.ds-btn-container {display:flex;justify-content: center; align-items: center;}
 .ds-btn-container .mdl-button { text-transform: initial; height: 38px;color: #636363;}
 .ds-section-heading label, .ds-section-heading2 label {color:#671C9D; font-weight:600; padding-left:9px; }
 .btn-delete-toggle {padding-right:5px;}
@@ -379,3 +379,4 @@ text.edge-label {
 
  */
 /******** resizable div end *************/
+.probe-container {border-right: 1px solid #B9B9B9 !important;position:relative; height: 37px; line-height: 37px; }
