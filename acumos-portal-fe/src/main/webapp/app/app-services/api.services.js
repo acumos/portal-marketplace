@@ -219,6 +219,10 @@ angular.module('AcumosApp')
         		return $http.put(urlPeers + '/' + peerId, peer);
         }
         
+        this.deactivatePeer = function(peerId, peer){
+    		return $http.put(urlPeers + '/' + peerId, peer);
+        }
+        
         this.updateViewCount = function(solutionId){
         	return $http.put(urlUpdateViewCount +'/'+ solutionId);
         }
