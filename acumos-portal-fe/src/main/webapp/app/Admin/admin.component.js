@@ -455,8 +455,9 @@ angular.module('admin')
               				    "validationStatusCode": "PS",
               				    "statusCode": "AC"
               				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
-              		}}
-                    	  }else {
+                    		  }}
+                    	  }
+                    	  else {
                     		  if(val.self == true)(val.self = false);else val.self = true;
                     		  $scope.editPeerID = val.peerId;
                     		  var peerDetails = {"request_body": {	
@@ -471,7 +472,7 @@ angular.module('admin')
             				    "validationStatusCode": "PS",
               				    "statusCode": "AC"
             				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
-            		}}
+                    		  }}
                   	  }
                       	  apiService.editPeer($scope.editPeerID,peerDetails).then(
                       	    		function(response){
@@ -545,6 +546,7 @@ angular.module('admin')
                       //Subscription popup
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
+                	  $scope.addedAllToSubs = false;
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
                 	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false';
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
@@ -713,11 +715,10 @@ angular.module('admin')
                                }
                           });
                         };*/
-                      $scope.confirmDelete = function (peerId) {
-                    	
+                      $scope.confirmDelete = function (peerVal) {
 	                      $scope.confirmMsg = "Do you want to delete this peer ?";
 	                	  $scope.warningMsg = "Delete Confirmation";
-	                	  $scope.selectedPeer = peerId;
+	                	  $scope.selectedPeer = peerVal;
 	                	  $mdDialog.show({
 	                  		  contentElement: '#confirmPopupDeletePeer',
 	                  		  parent: angular.element(document.body),
@@ -728,8 +729,41 @@ angular.module('admin')
                       }
                 	  
                       $scope.deletePeerFunc = function () {
+                    	  $scope.selectedPeer;
+                    	  var peerDetails = {"request_body": {	
+                 			 "self" : $scope.selectedPeer.self,
+             				"apiUrl": $scope.selectedPeer.apiUrl,
+           				    "contact1": $scope.selectedPeer.contact1,
+           				    "description": $scope.selectedPeer.description,
+           				    "name": $scope.selectedPeer.name,
+           				    "subjectName": $scope.selectedPeer.subjectName,
+           				    "webUrl": $scope.selectedPeer.webUrl,
+           				    "peerId" : $scope.selectedPeer.peerId,
+           				    "validationStatusCode": "PS",
+           				    "statusCode": "IN"
+                 		  }}
+                    	  
+                    	  apiService.deactivatePeer($scope.selectedPeer.peerId,peerDetails).then(
+                    	    		function(response){
+                    	    			getAllPeer();
+                       	    			fetchPeer();
+                       	    			$scope.closePoup();
+                            	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                        $anchorScroll(); 
+                                        $scope.msg = "Peer deleted successfully."; 
+                                        $scope.icon = '';
+                                        $scope.styleclass = 'c-success';
+                                        $scope.showAlertMessage = true;
+                                        $timeout(function() {
+                                        	$scope.showAlertMessage = false;
+                                        }, 5000);
+                    	    			 
+                          	    }, 
+                    	    		function(error){
+                          	    	console.log('Error :' +error);
+                    	    	})
 
-                  		apiService
+                  		/*apiService
                    	      .deletePeer($scope.selectedPeer)
                    	      .then(
                    	    		function(response){
@@ -748,7 +782,7 @@ angular.module('admin')
                                     }, 5000);
                          	            // success
                         	    },
-                   	    		function(error){console.log('Error :' +error);});
+                   	    		function(error){console.log('Error :' +error);});*/
                     }
                     //Permission list
                       function perValue(){
@@ -1079,13 +1113,21 @@ angular.module('admin')
                                            * Please remove and ask BE team for an api to return the counts
                                            */
                                           $scope.countSubscriptions = function(){
+                                        	  $scope.subscriptionCount = [];
                                         	  $scope.peer;
                                         	  if($scope.peer){
                                         		  angular.forEach($scope.peer, function(value, key) {
                             						  value.peerId;
                             						  var counyUrl = 'api/admin/peer/subcriptions/' +  value.peerId;
                             						  $http.post(counyUrl).success(function(response){
-                            							$scope.subscriptionCount  = response.response_body.length;
+                            							//$scope.subscriptionCount  = response.response_body.length;
+                            							$scope.subscriptionCount.push(
+  		 	    		                        				 {
+	        		 	    		              					  "peerId" : value.peerId,
+	        		 	    		              					  "subscriptionLength" : response.response_body.length,
+  		 	    		                        				 }
+                     										) 
+                     										
                             						  }).error(function(error){
                             							 
                             						  });
@@ -1161,7 +1203,6 @@ angular.module('admin')
                                           /*Add all models start*/
                                           $scope.addAllSolutions = function(){
                                         	  var addAllSolObj = [];
-                                        	  debugger;
                                         	  /*if(freqChangeValue){
                                         		  $scope.freqChangeValue = freqChangeValue;
                                         	  }else{
@@ -1183,7 +1224,6 @@ angular.module('admin')
        										) 
        									
        										});
-                                    	  debugger
                                     	  console.log(angular.toJson(addAllSolObj));  
                                         	  
                   							/*var addAllSolObj =  $scope.publicSolList;*/
@@ -1209,6 +1249,7 @@ angular.module('admin')
                                         }
                                           
                                           /*End add all models*/
+
                                         
                                   		/*get solutions ends*/
                                           
