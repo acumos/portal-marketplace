@@ -506,7 +506,7 @@
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails  ' ng-class="val.self==false?'disabledRow':''">															
+																<tr ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails |  filter: { statusCode: "AC"} ' ng-class="val.self==false?'disabledRow':''">															
 																	<td><span class="disabledRowChild">{{val.name}}</span></td>
 																	<!-- <td>
 																		<label>{{val.description}}</label>
@@ -521,7 +521,10 @@
 																		<!-- <label class="disblock">{{val.contact2}}</label> -->																	
 																	</td>
 																	<td>
-																		<label class="disabledRowChild">0 Subscriptions </label>
+																		<!-- <label class="disabledRowChild">{{val.subscriptionCount}} Subscriptions </label> -->
+																		<label class="disabledRowChild"  ng-repeat="count in subscriptionCount">
+																		<label ng-show="val.peerId == count.peerId"> {{count.subscriptionLength}} Subscriptions</label>
+																		 </label>
 																		<a class="fed-view-link text-small" data-target ng-click="mdPrimaryClass=false;subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add</a></td>
 																	<!-- <td ng-if='val.active'>
 																		<label class="">Active</label>
@@ -537,9 +540,45 @@
 																		<div class="admin-action-container">
 																			<button ng-click="updatePeer(val)" class="mdl-button mdl-js-button mdl-button--icon"><span ng-class="val.self==true?'gridicon-deactivate':'gridicon-activate'" class="gridicon-activate"></span></button>
 																			<button ng-click='editPeer(val)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-edit"></span></button>
-																			<button ng-click='confirmDelete(val.peerId)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button>
+																			<button ng-click='confirmDelete(val)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button>
 																		</div>
 																	</td>
+																	
+																	
+																	<!-- Confirmation Popup start confirmPopupDeletePeer -->
+<!-- popup confirmation Modal box start -->
+                            <div class="md-dialog-container" id="confirmPopupDeletePeer" style="height:0;">
+                              <md-dialog aria-label="Delete Peer" class="cg-dialog-Deploy-to-cloud">
+                                  	<md-toolbar>
+                                      <div class="md-toolbar-tools">
+                                        <h2>{{warningMsg}}</h2>
+                                        <span flex></span>
+                                        <md-button class="md-icon-button" ng-click="closePoup()">
+                                          <i class="material-icons">close</i>
+                                        </md-button>
+                                      </div>
+                                    </md-toolbar>
+                                    <md-dialog-content>
+                                    <form ng-cloak>
+                                      <div class="md-dialog-content">
+                                        <p>{{confirmMsg}}</p>
+                                        <hr />
+                                         <div layout="row" class="deploy-cloud-modalfooter">
+                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+                                            Cancel
+                                          </md-button>
+                                          <md-button ng-click="deletePeerFunc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+                                            Confirm
+                                          </md-button>
+                                        </div>                                
+                                      </div>
+                                      </form>
+                                    </md-dialog-content>
+                                </md-dialog>
+                            </div>
+<!-- Saving old version popup confirmation Modal box end -->
+<!-- Confirmation Popup End -->
+
 																</tr>
 															  </tbody>
 															</table>
@@ -1480,39 +1519,7 @@
 <!-- Saving old version popup confirmation Modal box end -->
 <!-- Confirmation Popup End -->
 
-<!-- Confirmation Popup start confirmPopupDeletePeer -->
-<!-- popup confirmation Modal box start -->
-                            <div class="md-dialog-container" id="confirmPopupDeletePeer" style="height:0;">
-                              <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
-                                  	<md-toolbar>
-                                      <div class="md-toolbar-tools">
-                                        <h2>{{warningMsg}}</h2>
-                                        <span flex></span>
-                                        <md-button class="md-icon-button" ng-click="closePoup()">
-                                          <i class="material-icons">close</i>
-                                        </md-button>
-                                      </div>
-                                    </md-toolbar>
-                                    <md-dialog-content>
-                                    <form ng-cloak>
-                                      <div class="md-dialog-content">
-                                        <p>{{confirmMsg}}</p>
-                                        <hr />
-                                         <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-                                            Cancel
-                                          </md-button>
-                                          <md-button ng-click="deletePeerFunc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-                                            Confirm
-                                          </md-button>
-                                        </div>                                
-                                      </div>
-                                      </form>
-                                    </md-dialog-content>
-                                </md-dialog>
-                            </div>
-<!-- Saving old version popup confirmation Modal box end -->
-<!-- Confirmation Popup End -->
+<!-- neeraj -->
 
 
 <!-- Modal box View/Add Subscriptions start -->
