@@ -19,18 +19,18 @@
 						<div class="mdl-cell mdl-cell--2-col mdl-cell--3-col-tablet mdl-cell--4-col-phone cg-grid-left-container" ng-class=" 'showfilter' ? 'leftbrowse-section' : '' " ng-show="showfilter">
 							<div class="mdl-grid browse-section-container" layout="row">
 								<span class="title text-bold" flex="60">BROWSE BY</span>
-								<a class="text-right" flex="40" ng-click="autoHeight = !autoHeight" ng-show = "!autoHeight">Show Less</a>
-								<a class="text-right" flex="40" ng-click="autoHeight = !autoHeight" ng-show = "autoHeight">Show All</a>
+								<a class="text-right" flex="40" ng-click="autoHeight = !autoHeight" ng-show = "!autoHeight  && category.length > 4">Show Less</a>
+								<a class="text-right" flex="40" ng-click="autoHeight = !autoHeight" ng-show = "autoHeight  && category.length > 4">Show All</a>
 								
-							</div>								        
+							</div>							        
 							<div class="" >
 								<div class="sidebar-search-container">
 									<input class="searchicon" type="text" id="model-search"
 									ng-change="filterChange('searchBox','searchFilter')" ng-model="searchBox" placeholder="Search here" >									
 								</div>
 								
-								<!-- <div class="sidebar-checkbox-container" ng-class= "autoHeight ? 'fixheightfilter' : 'autoheightfilter'"> -->
-								<div class="sidebar-checkbox-container autoheightfilter">
+								<div class="sidebar-checkbox-container" ng-class= "autoHeight ? 'fixheightfilter' : 'autoheightfilter'">
+								<!-- <div class="sidebar-checkbox-container autoheightfilter"> -->
 								<label class="disblock margin-b md-subhead">Filter By Category <span class="title-icons filter-catagory"></span></label>
 							   
 								<div class="checkbox"  ng-repeat="cat in category">
