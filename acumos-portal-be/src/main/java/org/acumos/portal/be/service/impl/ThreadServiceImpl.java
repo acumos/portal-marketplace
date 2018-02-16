@@ -267,7 +267,7 @@ public class ThreadServiceImpl implements ThreadService{
 	public RestPageResponseBE<MLPThread> getSolutionRevisionThreads(String solutionId, String revisionId, RestPageRequest pageRequest) throws AcumosServiceException{
 		List<MLPThread> threadList = new ArrayList<MLPThread>();
 		RestPageResponseBE<MLPThread> threadResponse = new RestPageResponseBE<>(threadList);
-		/*try {
+		try {
 			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreads");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPThread> pageResponse = new RestPageResponse<>();
@@ -279,7 +279,7 @@ public class ThreadServiceImpl implements ThreadService{
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
-		}*/
+		}
 		
 		return threadResponse;
 		
@@ -288,7 +288,7 @@ public class ThreadServiceImpl implements ThreadService{
 	public  RestPageResponseBE<MLPComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException{
 		List<MLPComment> commentList = new ArrayList<MLPComment>();
 		RestPageResponseBE<MLPComment> commentResponse = new RestPageResponseBE<>(commentList);
-		/*try {
+		try {
 			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
@@ -300,7 +300,7 @@ public class ThreadServiceImpl implements ThreadService{
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
-		}*/
+		}
 			return commentResponse;
 		
 	}
