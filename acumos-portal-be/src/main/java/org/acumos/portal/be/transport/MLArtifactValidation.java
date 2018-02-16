@@ -25,7 +25,22 @@ public class MLArtifactValidation {
 	private String artifactId;
 	private String artifactName;
 	private String url;
+	private String artifactType;
 	
+	/**
+	 * @return the artifactType
+	 */
+	public String getArtifactType() {
+		return artifactType;
+	}
+
+	/**
+	 * @param artifactType the artifactType to set
+	 */
+	public void setArtifactType(String artifactType) {
+		this.artifactType = artifactType;
+	}
+
 	public MLArtifactValidation() {
 		// TODO Auto-generated constructor stub
 	}

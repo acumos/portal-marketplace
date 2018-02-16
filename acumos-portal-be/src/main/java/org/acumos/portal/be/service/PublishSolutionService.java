@@ -20,9 +20,11 @@
 
 package org.acumos.portal.be.service;
 
+import java.util.UUID;
+
 public interface PublishSolutionService {
 	
-	boolean publishSolution(String solutionId, String accessType, String userId, String revisionId);
+	boolean publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId);
 	
 	boolean unpublishSolution(String solutionId, String accessType, String userId);
 }

@@ -30,6 +30,8 @@ public class MLModelValidation {
 	private String userId;
 	private List<MLArtifactValidation> artifactValidations;
 	private String callbackUrl;
+	private String trackingId;
+	private String artifactTypeId;
 	
 	public MLModelValidation() {
 		// TODO Auto-generated constructor stub
@@ -117,6 +119,34 @@ public class MLModelValidation {
 	 */
 	public void setCallbackUrl(String callbackUrl) {
 		this.callbackUrl = callbackUrl;
+	}
+
+	/**
+	 * @return the trackingId
+	 */
+	public String getTrackingId() {
+		return trackingId;
+	}
+
+	/**
+	 * @param trackingId the trackingId to set
+	 */
+	public void setTrackingId(String trackingId) {
+		this.trackingId = trackingId;
+	}
+
+	/**
+	 * @return the artifactTypeId
+	 */
+	public String getArtifactTypeId() {
+		return artifactTypeId;
+	}
+
+	/**
+	 * @param artifactTypeId the artifactTypeId to set
+	 */
+	public void setArtifactTypeId(String artifactTypeId) {
+		this.artifactTypeId = artifactTypeId;
 	}
 
 	/* (non-Javadoc)

@@ -19,6 +19,8 @@
  */
 package org.acumos.be.test.service.impl;
 
+import java.util.UUID;
+
 import org.acumos.portal.be.service.impl.PublishSolutionServiceImpl;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
@@ -44,9 +46,10 @@ public class PublishSolutionServiceImplTest {
 			String accessType = "PR";
 			String userId = "1810f833-8698-4233-add4-091e34b8703c";
 			String revisionId = "1810f833-8698-4233-add4-091e34b8703c";
+			UUID trackingId = UUID.randomUUID();
 			
 			boolean flag = true;
-			Mockito.when(impl.publishSolution(solutionId, accessType, userId, revisionId)).thenReturn(flag);
+			Mockito.when(impl.publishSolution(solutionId, accessType, userId, revisionId, trackingId)).thenReturn(flag);
 			Assert.assertTrue(flag);
 			logger.info("Successfully publishSolution");
 		} catch (Exception e) {

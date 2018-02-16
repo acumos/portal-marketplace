@@ -24,6 +24,7 @@
 package org.acumos.portal.be.controller;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,11 +80,12 @@ public class PublishSolutionServiceController extends AbstractController {
 			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "publishSolution={}", solutionId, visibility);
 		JsonResponse<Object> data = new JsonResponse<>();
+		UUID trackingId = UUID.randomUUID();
 		try {
 			// TODO As of now it does not check if User Account already exists.
 			// Need to first check if the account exists in DB
 			 //publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
-			boolean published = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
+			boolean published = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
 			// code to create notification
 			MLSolution solutionDetail = catalogService.getSolution(solutionId);
 			if (published || ValidationStatusCode.PS.toString().equalsIgnoreCase(solutionDetail.getValidationStatusCode())) {			

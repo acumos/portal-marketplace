@@ -23,6 +23,7 @@ package org.acumos.portal.be.service.impl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.transport.MLArtifactValidation;
@@ -55,7 +56,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	}
 	
 	@Override
-	public boolean publishSolution(String solutionId, String accessType, String userId, String revisionId) {
+	public boolean publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "publishModelBySolution ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		PortalRestClienttImpl portalRestClienttImpl = null;
@@ -84,13 +85,16 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							mlModelValidation.setRevisionId(mlpSolutionRevision.getRevisionId());
 							mlModelValidation.setUserId(userId);
 							mlModelValidation.setVisibility(accessType);
+							mlModelValidation.setTrackingId(trackingId.toString());
 							artifactValidations = new ArrayList<>();
 							for(MLPArtifact mlpArtifact : artifacts) {
 								MLArtifactValidation artifactValidation = new MLArtifactValidation();
 								artifactValidation.setArtifactId(mlpArtifact.getArtifactId());
 								artifactValidation.setArtifactName(mlpArtifact.getName());
+								artifactValidation.setArtifactType(mlpArtifact.getArtifactTypeCode());
 								artifactValidation.setUrl(env.getProperty("nexus.url") + mlpArtifact.getUri());
 								artifactValidations.add(artifactValidation);
+								
 							}
 							mlModelValidation.setArtifactValidations(artifactValidations);
 							
