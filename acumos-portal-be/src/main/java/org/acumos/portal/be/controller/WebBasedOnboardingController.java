@@ -21,9 +21,17 @@
 package org.acumos.portal.be.controller;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.ConnectException;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +50,7 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -89,8 +98,46 @@ public class WebBasedOnboardingController  extends AbstractController {
 				//restPageReq.getBody() will get( modelType, modelToolkitType, name) which required to proceed
 				//String provider = request.getHeader("provider");
 				String access_token = authorization;
-				asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);				
+				FutureTask<HttpResponse> futureTask_1 = new FutureTask<HttpResponse>(new Callable<HttpResponse>() {
+		            @Override
+		            public HttpResponse call() throws FileNotFoundException, ClientProtocolException, InterruptedException, IOException {
+		                return (HttpResponse) asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
+		            }
+		        });				
+				executor.execute(futureTask_1);
+				executor.shutdown();
+				
+				/*Callable<Integer> task = new Callable<Integer>() {
+		            public Integer call() {
+		                // fake computation time
+		                try {
+		                    Thread.sleep(5000);
+		                } catch (InterruptedException ex) {
+		                    ex.printStackTrace();
+		                }
+		                
+		                //asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
+		 
+		                return asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
+		            }
+		        }; 
+				
+				
+				Callable<String> callableTask = () -> {
+				    TimeUnit.MILLISECONDS.sleep(300);
+				    return "Task's execution";
+				};
+				
+				Future<HttpResponse> future = executor.submit(new Callable());
+		        try {
+		        	future = asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
+		        } catch (InterruptedException | ExecutionException e) {
+		            e.printStackTrace();
+		        }				
+				//executor.submit(task)
+				//asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
+*/				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail(uuid);
 			}
 			/*if (mlSolutions != null) {
@@ -99,7 +146,7 @@ public class WebBasedOnboardingController  extends AbstractController {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions OnBoarded Successfully");
 			}*/
-		} catch (FileNotFoundException e) {
+		} /*catch (FileNotFoundException e) {
 			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("FileNotFoundException Occurred OnBoarding Solutions for Market Place Catalog");
@@ -123,7 +170,7 @@ public class WebBasedOnboardingController  extends AbstractController {
 			data.setResponseDetail("ConnectException Occurred OnBoarding Solutions for Market Place Catalog");
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred OnBoarding Solutions for Market Place Catalog",
 					e);
-		}catch (Exception e) {
+		}*/catch (Exception e) {
 			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred OnBoarding Solutions for Market Place Catalog");

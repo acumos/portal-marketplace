@@ -21,7 +21,9 @@
 package org.acumos.portal.be.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -81,26 +83,23 @@ public class MessagingServiceImpl implements MessagingService{
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		
 		RestPageRequest pageRequest = new RestPageRequest();
-		RestPageResponse<MLPStepResult> pageResponse = dataServiceRestClient.getStepResults(pageRequest);
-		//messageStatus = pageResponse.set	 
-		
-		
-		
+		Map<String,Object> queryParam = new HashMap<String, Object>();
+		queryParam.put("trackingId", trackingId);
+		RestPageResponse<MLPStepResult> pageResponse = dataServiceRestClient.searchStepResults(queryParam, false, pageRequest);
 		
 		for(int i=0; i< pageResponse.getContent().size(); i++){
 			messageStatus.add(PortalUtils.convertToMLStepResult(pageResponse.getContent().get(i)));
-			
 		}
 		
-		List<MLStepResult> messageStatusFilter = new ArrayList<>();
+		/*List<MLStepResult> messageStatusFilter = new ArrayList<>();
 		for(MLStepResult mlStepResult : messageStatus){
 			if(mlStepResult.getTrackingId()!=null && mlStepResult.getTrackingId().equals(trackingId)){
 				messageStatusFilter.add(mlStepResult);
 			}
 			
 			
-		}
-		return messageStatusFilter;
+		}*/
+		return messageStatus;
 	}
 	
 	@Override
