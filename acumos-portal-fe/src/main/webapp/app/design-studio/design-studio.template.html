@@ -199,6 +199,10 @@
 						</button>
 					</span>
 					<div class="ds-btn-container">
+						<div class="probe-container">
+							<label>Probe:</label>
+							<input ng-model="myCheckbox" type="checkbox" name="probe" ng-change='setProbe(myCheckbox)'>
+						</div>
 						<button ng-click='showDeleteNodeLink()' id="deleteHide" class="mdl-button mdl-js-button text-small font-semi-bold btn-delete-toggle normaltext-transform bdr-right ds-btn1 btn-delete"><i class="ds-icon icon-delete-toggle" aria-hidden="true"></i>Delete</button>
 						<!-- <span class="btn-divider"> | </span> -->
 						<button ng-click='clearSolution()' class="mdl-button mdl-js-button text-small font-semi-bold bdr-right btn-clear-canvas normaltext-transform" ng-disabled="cleardis"><span class="ds-icon icon-clear-canvas"></span>Clear</button>

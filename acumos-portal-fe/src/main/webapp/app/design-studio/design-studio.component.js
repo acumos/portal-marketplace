@@ -421,6 +421,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $http.get(url)
                 .success(function(result) {
                     console.log(result);
+                    if(result.probeIndicator == true){
+                    	$scope.myCheckbox = true;
+                    }else{
+                    	$scope.myCheckbox = false;
+                    }
                     $scope.cleardis = false;
                     // $scope.deleteDis= false;
                     $scope.namedisabled = true;$scope.canvas = true;
@@ -527,6 +532,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         addLink: 'solution/addLink',
         save: 'solution/saveCompositeSolution',
         validate:'solution/validateCompositeSolution',
+        setProbe:'solution/setProbeIndicator',
         read: 'solution/readCompositeSolutionGraph',
         catformat: 'acumos',
         solution: '',
@@ -2513,7 +2519,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.solutionDetails = null;
                     $scope.showProperties = null;
                     $scope.showLink=null;
-
+                    $scope.myCheckbox = false;
                     $scope.clearSolution();
                     $scope.namedisabled = false;$scope.closeDisabled = true;
                     $scope.solutionName = '';$scope.solutionVersion = '';$scope.solutionDescription = '';_cid = '';_solutionId = '';
@@ -2706,122 +2712,29 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     }
     solutionPrPB();
-    $scope.authenticateAnddeployToAzure = function() {
-		var imageTagUri = '';
-		if ($scope.artifactType != null
-				&& $scope.artifactType == 'DI') {
-			imageTagUri = $scope.artifactUri;
-		}
-		/*
-		 * 'client' : $scope.applicationId,
-			'tenant' : $scope.tenantId,
-			'key' : $scope.secretKey,
-			'subscriptionKey' : $scope.subscriptionKey,
-			'rgName' : $scope.resourceGroup,
-			'acrName' : $scope.acrName,
-			'storageAccount' : $scope.storageAccount,
-			'solutionId' : $scope.solutionId,
-			'imagetag' : imageTagUri
-
-		 * */
-			
-			if($scope.solution.tookitType != "CP") {
-				// imagetag:  imageTagUri,
-				$scope.reqObject = {
-						/*'request_body' : {*/
-							 'acrName': $scope.acrName,
-							 'client': $scope.applicationId,
-							 'key': $scope.secretKey,
-							 'rgName': $scope.resourceGroup,
-							 'solutionId': $scope.solution.solutionId,
-							 'solutionRevisionId': $scope.revisionId,
-							 'storageAccount': $scope.storageAccount,
-							 'subscriptionKey':  $scope.subscriptionKey,
-							 'tenant': $scope.tenantId,
-							 'userId':  user[1],
-							 'imagetag': imageTagUri
-						/*}*/
-				}
-				
-				var url = '/azure/singleImageAzureDeployment';
-				$http({
-					method : 'POST',
-					url : url,
-					data: $scope.reqObject
-					
-				}).then(function(response) {
-						alert("Deployment Started Successfully");
-					},
-					function(error) {
-						console.warn("Error occured");
-
-					});
-				
-			} else {
-				$scope.reqObject = {
-						/*'request_body' : {*/
-							 'acrName': $scope.acrName,
-							 'client': $scope.applicationId,
-							 'key': $scope.secretKey,
-							 'rgName': $scope.resourceGroup,
-							 'solutionId': $scope.solution.solutionId,
-							 'solutionRevisionId': $scope.revisionId,
-							 'storageAccount': $scope.storageAccount,
-							 'subscriptionKey':  $scope.subscriptionKey,
-							 'tenant': $scope.tenantId,
-							 'userId':  user[1],
-						/*}*/
-				}
-				var url = '/azure/compositeSolutionAzureDeployment';
-				$http({
-					method : 'POST',
-					url : url,
-					data: $scope.reqObject
-				}).then(function(response) {
-					alert("Deployment Started Successfully");
-				},
-				function(error) {
-					console.warn("Error occured");
-
-				});
-			}
-	
-
-		/*var authDeployObject = {
-			'client' : $scope.applicationId,
-			'tenant' : $scope.tenantId,
-			'key' : $scope.secretKey,
-			'subscriptionKey' : $scope.subscriptionKey,
-			'rgName' : $scope.resourceGroup,
-			'acrName' : $scope.acrName,
-			'storageAccount' : $scope.storageAccount,
-			'solutionId' : $scope.solutionId,
-			'imagetag' : imageTagUri
-
-		};
-
-		apiService
-				.authenticateAnddeployToAzure(
-						authDeployObject)
-				.then(
-						function(response) {
-							if (response.status == "401"
-									|| response.data.error_code == "401") {
-
-								alert("Authorization Failed !!");
-
-							} else {
-
-								alert("Deployed successfully !! ");
-
-							}
-
-							$mdDialog.hide();
-
-						}, function(error) {
-							alert('FAILED');
-							$mdDialog.hide();
-						});*/
-
-	}
+    $scope.setProbe = function(setProbeStatus){
+    	if(_solutionId){
+            var args = {
+            	userId: get_userId(),
+            	solutionId: _solutionId,
+            	version: $scope.solutionVersion,
+            	probeIndicator: setProbeStatus
+            };
+        } else if(_cid){
+            var args = {
+            	userId: get_userId(),
+                cid: _cid,
+                version: '1',
+                probeIndicator: setProbeStatus
+            };
+        }
+    	var url = build_url(options.setProbe, args);
+    	 return $http.post(url).success(function(result) {
+    		 if(setProbeStatus = true){
+    			 $scope.msg = "Probe added successfully";
+                $scope.showpopup();
+    		 }
+             
+         });
+    }
 }
