@@ -674,6 +674,7 @@ angular.module('admin')
                               if(response.data.response_detail ==  "Success"){
                             	  //$scope.closePoup();
                             	  $scope.addedToSubs = true;
+                            	  $scope.countSubscriptions();
                       	    	/*$location.hash('myDialog');  
                                   $anchorScroll(); 
                                   $scope.msg = "Successfully added to subscription list."; 
@@ -1238,6 +1239,7 @@ angular.module('admin')
                     										
                     										if(response.data.response_detail ==  "Success"){
                     			                            	  $scope.addedAllToSubs = true;
+                    			                            	  $scope.countSubscriptions();
                     			                              }
                     										
                     									},
