@@ -8,6 +8,7 @@ angular.module('admin')
 			//Sorting
 				$scope.orderByField = 'username';$scope.reverseSort = false;
 				$scope.orderByFieldFed = 'name'; $scope.reverseSortFederation = false;
+				$scope.showAllModelsTable = false;
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
 			//Frequency of update
@@ -1113,13 +1114,21 @@ angular.module('admin')
                       										$scope.mlsolutions = response.data.response_body.content;
                       										$scope.mlsolutionsSize = 0;
                       										
-                      										/*if(!$scope.category){
-                      											 fetchCat(); 
+                      										if($scope.mlsolutions){
+                      	            							for(var counter=0; counter < $scope.mlsolutions.length ; counter++){
+                      	            								if($scope.mlsolutions[counter].modelType) {
+	                      	            								angular.forEach($scope.category, function(value, key) {
+	                      	                 									return ($scope.mlsolutions[counter].modelType == value.typeCode )? $scope.mlsolutions[counter].modelTypeName = value.typeName : '';                             	                						  
+	                              	                					});
+                      	            								}
+
+                      	            								if($scope.mlsolutions[counter].tookitType) {
+	                      	            								angular.forEach($scope.toolKitType, function(value, key) {
+	                      	                 									return ($scope.mlsolutions[counter].tookitType == value.typeCode )? $scope.mlsolutions[counter].tookitTypeName = value.typeName : '';                             	                						  
+	                              	                					});
+                      	            								}
+                      	            							}
                       										}
-                      										
-                      										if(!$scope.toolKitType){
-                      											fetchToolKitType();
-                      										}*/
                       										
                       										angular.forEach($scope.mlsolutions,function(value1, key1) {
 	        		 	    		                        	 if(value1.accessType == "PB" ){
@@ -1131,7 +1140,9 @@ angular.module('admin')
 	        		 	    		              					  /*"peerId" : $scope.peerIdForSubsList,*/
 	        		 	    		              					  "scopeType" : "FL",
 	        		 	    		              					"tookitType" :value1.tookitType,
-	        		 	    		              					"modelType": value1.modelType
+	        		 	    		              					"modelType": value1.modelType,
+	        		 	    		              					"refreshInterval": freqChangeValue
+	        		 	    		              					
    		 	    		                        				 }
                       										) 
                       										}
@@ -1149,14 +1160,40 @@ angular.module('admin')
                                           
                                           /*Add all models start*/
                                           $scope.addAllSolutions = function(){
-                  							var addAllSolObj =  $scope.publicSolList;
+                                        	  var addAllSolObj = [];
+                                        	  debugger;
+                                        	  /*if(freqChangeValue){
+                                        		  $scope.freqChangeValue = freqChangeValue;
+                                        	  }else{
+                                        		  $scope.freqChangeValue = ;
+                                        	  }*/
+    										  
+                                    	  angular.forEach($scope.publicSolList,function(value, key) {
+       										addAllSolObj.push(
+	    		                        				 {
+		 	    		              					  "accessType" : "PB",
+		 	    		              					  "ownerId" : userId,
+		 	    		              					  /*"peerId" : $scope.peerIdForSubsList,*/
+		 	    		              					  "scopeType" : "FL",
+		 	    		              					  "tookitType" :value.tookitType,
+		 	    		              					  "modelType": value.modelType,
+		 	    		              					  "refreshInterval": freqChangeValue || 24
+		 	    		              					
+	    		                        				 }
+       										) 
+       									
+       										});
+                                    	  debugger
+                                    	  console.log(angular.toJson(addAllSolObj));  
+                                        	  
+                  							/*var addAllSolObj =  $scope.publicSolList;*/
                                         	  var reqAddObj = {
                                         			  "request_body": 
                                         				  addAllSolObj
                                         			  }
                                         	  
                   							console.log(angular.toJson(reqAddObj));
-                  							apiService.insertAddAllSolutions($scope.peerIdForSubsList, freqChangeValue, reqAddObj).then(
+                  							apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
                     									function(response) {
                     										
                     										if(response.data.response_detail ==  "Success"){
@@ -1176,8 +1213,13 @@ angular.module('admin')
                                   		/*get solutions ends*/
                                           
 										  
-										   //Validation code
+										    //Validation code
+                                          //$scope.stepIndex =0;
                                           $scope.addStep = false;
+                                          $scope.assignOnBoardingActivate = false;
+                                          $scope.assignFedratedActivate = false;
+                                          $scope.assignLocalActivate = false;
+                                          $scope.assignPublicActivate = false;
                                           var onBoardingStep = {
                       		  					"step": [
                       		  						{ "stepName" : "Create Micro-service", "class" : "create-docker"},
@@ -1194,19 +1236,19 @@ angular.module('admin')
                       		  						
                       		               	  ]};
                                           $scope.optionalLocalFlowStep ={"step": [
-                		  						{ "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
-                		  						{ "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},
-                		  						{ "stepName" : "Text Check", "class" : "create-docker", "active" : "true"},
+                                        	  { "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},  
+                                        	  { "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
+              		  						  { "stepName" : "Text Check", "class" : "create-docker", "active" : "true"}
                 		  					]};
                                           var publicFlowStep ={"step": [
                       		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
                       		  								  						
                       		               	  ]};
                                           $scope.optionalPublicFlowStep ={"step": [
-              		  						{ "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
-              		  						{ "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},
-              		  						{ "stepName" : "Text Check", "class" : "create-docker", "active" : "true"},
-              		  						{ "stepName" : "Manual Text Check", "class" : "create-docker", "active" : "true"}
+                                        	  { "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},  
+                                        	  { "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
+              		  						  { "stepName" : "Text Check", "class" : "create-docker", "active" : "true"}
+              		  						//{ "stepName" : "Manual Text Check", "class" : "create-docker", "active" : "true"}
               		  					]};
                                           var fedratedStep = {"step": [
                       		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
@@ -1216,11 +1258,12 @@ angular.module('admin')
                       		  					
                       		               	  ]
                                           };
+                                          
                                           $scope.showPrerenderedDialog = function(ev, dialogId, workFlow) {
                                         	  $scope.workFlow = workFlow;
                                         	  if (workFlow == "On-boarding Work flow"){$scope.workFlowStep = onBoardingStep;}
-                                        	  else if (workFlow == "Publishing to Local Work Flow"){$scope.workFlowStep = localFlowStep; }
-                                        	  else if (workFlow == "Publishing to Public Work Flow"){$scope.workFlowStep = publicFlowStep;}
+                                        	  else if (workFlow == "Publishing to Local Work Flow"){$scope.workFlowStep = localFlowStep; $scope.optionalWorkFlowStep = $scope.optionalLocalFlowStep;}
+                                        	  else if (workFlow == "Publishing to Public Work Flow"){$scope.workFlowStep = publicFlowStep;$scope.optionalWorkFlowStep = $scope.optionalPublicFlowStep;}
                                         	  else if (workFlow == "Import Federated Model Work Flow"){$scope.workFlowStep = fedratedStep;}
                                         	    $mdDialog.show({
                                         	      contentElement: '#'+ dialogId,
@@ -1231,10 +1274,9 @@ angular.module('admin')
                                         	     
                                         	    });
                                         	  };
-                                        	  
-                                        	  
+                                        	                                          	                                      	  
                                         	  $scope.getValidationWorkflow = function(flowConfigKey){
-                                        		$scope.removeTC = false;
+                                        		$scope.activeworkFlowStep = [];
                                         		if (flowConfigKey == "local_validation_workflow"){ $scope.optionalWorkFlowStep = $scope.optionalLocalFlowStep;}
                                           	  	else if (flowConfigKey == "public_validation_workflow"){$scope.optionalWorkFlowStep = $scope.optionalPublicFlowStep;}
                                         		apiService
@@ -1251,12 +1293,26 @@ angular.module('admin')
 				                      		 	    		                          $scope.ignoreWorkFlow.ignore_list,
 				                      		 	    		                          function( ignoreValue, key) {
 				                      		 	    		                        	 if(optionalValue.stepName == ignoreValue ){
-				                      		 	    		                        		optionalValue.active = false;
+				                      		 	    		                        		optionalValue.active = "false";
 				                      		 	    		                        	 }
 				                      		 	    		                          });
                       		 	    						});
-                      		 	    						if (flowConfigKey == "local_validation_workflow"){ $scope.optionalLocalFlowStep = $scope.optionalWorkFlowStep; }
-                                                      	  	else if (flowConfigKey == "public_validation_workflow"){$scope.optionalPublicFlowStep = $scope.optionalWorkFlowStep;}
+                      		 	    						angular
+                  		 	    							.forEach(
+                  		 	    								$scope.optionalWorkFlowStep.step,
+                  		 	    									function(optionalValue,optionalKey){
+	                  		 	    									if(optionalValue.active == "true" ){
+	                  		 	    		                        		$scope.activeworkFlowStep.push(optionalValue);
+	                  		 	    		                        	 }
+                  		 	    								});
+                      		 	    						if (flowConfigKey == "local_validation_workflow"){ 
+                      		 	    							$scope.optionalLocalFlowStep = $scope.optionalWorkFlowStep; 
+                      		 	    							$scope.activeLocalFlowStep = $scope.activeworkFlowStep;
+                      		 	    							$scope.getValidationWorkflow("public_validation_workflow");
+                      		 	    						}else if (flowConfigKey == "public_validation_workflow"){
+                      		 	    							$scope.optionalPublicFlowStep = $scope.optionalWorkFlowStep;
+                      		 	    							$scope.activePublicFlowStep = $scope.activeworkFlowStep;
+                      		 	    						}
                       		 	    					},
                       		 	    					function(error) {console.log(error);
                       		 	    			});
@@ -1266,16 +1322,32 @@ angular.module('admin')
                                         	  
                                         	  $scope.addValidationStep = function(validStep, validKey){
                                         		  $scope.editStep = validStep;
-                                        		  if($scope.optionalWorkFlowStep.step[validKey].active){
+                                        		  $scope.activeworkFlowStep = [];
+                                        		  if($scope.optionalWorkFlowStep.step[validKey].active == "true"){
                                         			  $scope.ignoreWorkFlow.ignore_list.push(validStep);
-                                        			  $scope.optionalWorkFlowStep.step[validKey].active = false;
-                                        			  $scope.added = false;
+                                        			  $scope.optionalWorkFlowStep.step[validKey].active = "false";
+                                        			  $scope.added = "false";
                                         		  }else{
                                         			  var index = $scope.ignoreWorkFlow.ignore_list.indexOf(validStep);
                                         			  $scope.ignoreWorkFlow.ignore_list.splice(index, 1);
-                                        			  $scope.optionalWorkFlowStep.step[validKey].active = true;
-                                        			  $scope.added = true;
+                                        			  $scope.optionalWorkFlowStep.step[validKey].active = "true";
+                                        			  $scope.added = "true";
                                         		  }
+                                        		  angular
+        		 	    							.forEach(
+        		 	    								$scope.optionalWorkFlowStep.step,
+        		 	    									function(optionalValue,optionalKey){
+            		 	    									if(optionalValue.active == "true" ){
+            		 	    		                        		$scope.activeworkFlowStep.push(optionalValue);
+            		 	    		                        	 }
+        		 	    								});
+                                        		  if ($scope.workFlow == "On-boarding Work flow"){$scope.assignOnBoardingActivate = true;}
+                                            	  else if ($scope.workFlow == "Publishing to Local Work Flow"){$scope.assignLocalActivate = true; $scope.activeLocalFlowStep = $scope.activeworkFlowStep;}
+                                            	  else if ($scope.workFlow == "Publishing to Public Work Flow"){$scope.assignPublicActivate = true; $scope.activePublicFlowStep = $scope.activeworkFlowStep;}
+                                            	  else if ($scope.workFlow == "Import Federated Model Work Flow"){$scope.assignFedratedActivate = true;}
+                                        		  $timeout( function(){
+                                        	            $scope.added = "";
+                                        	        }, 5000 );
                                         	  };	
                                                   
                                               $scope.assignWorkFlow = function(flow){
@@ -1296,6 +1368,10 @@ angular.module('admin')
                                             	  apiService
                                                   .updateSiteConfig(configKey, reqObj)
                                                   .then(function(response) {
+                                                  $scope.assignAlert = true;
+                                                  $timeout( function(){
+                                      	            $scope.assignAlert = false;
+                                      	        }, 5000 );
                                         		  console.log("response");
                                                   });
                                               };

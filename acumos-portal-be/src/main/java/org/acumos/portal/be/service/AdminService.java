@@ -70,5 +70,5 @@ public interface AdminService {
 	
 	void updateMLRequest(MLRequest mlRequest);
 	
-	void createSubscription(List<MLSolution> body, String peerId, Long refreshInterval);
+	void createSubscription(List<MLSolution> body, String peerId);
 }

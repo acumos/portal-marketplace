@@ -271,7 +271,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	}
 	
 	@Override
-    public void createSubscription(List<MLSolution> solList, String peerId, Long refreshInterval) {
+    public void createSubscription(List<MLSolution> solList, String peerId) {
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         
         for (MLSolution sol : solList) {
@@ -280,8 +280,8 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
             sub.setPeerId(peerId);
             sub.setScopeType("FL");
             sub.setOwnerId(sol.getOwnerId());
-            if (refreshInterval != null)
-                sub.setRefreshInterval(refreshInterval);
+            if (sol.getRefreshInterval() != null)
+                sub.setRefreshInterval(sol.getRefreshInterval());
 
             String selector = "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"CP\"}";
             
