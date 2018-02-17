@@ -263,6 +263,7 @@
 						<goals>
 							<goal>repackage</goal>
 						</goals>
+						<phase>package</phase>
 					</execution>
 				</executions>
 			</plugin>
@@ -272,7 +273,7 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 				<!-- Spring sets the <version>2.8</version> -->
 				<configuration>
-					<skip>true</skip>
+					<skip>false</skip>
 				</configuration>
 			</plugin>
 			<plugin>
