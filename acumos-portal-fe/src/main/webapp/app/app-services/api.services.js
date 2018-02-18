@@ -70,7 +70,8 @@ angular.module('AcumosApp')
         var urlDeleteSub = 'api/admin/peer/subcription/delete/';
         var urlGetActiveUsers = "api/users/activeUserDetails";
         var urlMessagingStatus = "api/webBasedOnBoarding/messagingStatus";
-        var urladdAllSolutionsAdmin = "api/admin/peer/sub/create"
+        var urladdAllSolutionsAdmin = "api/admin/peer/sub/create";
+        var urlMessageStatusWithTrackingId = 'api/webBasedOnBoarding/messagingStatus/search/';
         	
         /**************** ALL GET ******************/
     	this.getAllActiveUser = function (activeStatus) {
@@ -431,5 +432,10 @@ angular.module('AcumosApp')
         this.getMessagingStatus = function(userId, trackingId){
             return $http.post(urlMessagingStatus + '/' + userId + '/' + trackingId);
         };
+        
+        this.getMessagingStatusBySolutionId = function(solutionId, revisionId){
+        	return $http.get(urlMessageStatusWithTrackingId + '/' + solutionId + '/' +revisionId);
+        };
+        
         
     }]);

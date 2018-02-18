@@ -22,16 +22,12 @@ package org.acumos.portal.be.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,7 +49,6 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -368,6 +363,29 @@ public class WebBasedOnboardingController  extends AbstractController {
 		}
 		return data;
 	}
+	
+	@ApiOperation(value = "Searching step result with solution id", response = MLPStepResult.class)
+	   @RequestMapping(value = {APINames.SEARCH_STEP_RESULT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	   @ResponseBody
+	    public JsonResponse<List<MLPStepResult>> findStepresultBySolutionId(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId) {
+	        JsonResponse<List<MLPStepResult>> data = new JsonResponse<>();
+	        if (solutionId != null) {
+	            try {
+	                List<MLPStepResult> mlpStepresult = messagingService.findStepresultBySolutionId(solutionId,revisionId);
+	                if (mlpStepresult != null) {
+	                    data.setResponseBody(mlpStepresult);
+	                    data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+	                    data.setResponseDetail("Step result fetched Successfully");
+	                    log.debug(EELFLoggerDelegate.debugLogger, "Step result fetched Successfully :  ");
+	                }
+	            } catch (Exception e) {
+	                data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+	                data.setResponseDetail("Exception occured while searchStepResults");
+	                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred searchStepResults :", e);
+	            }
+	        }
+	        return data;
+	    }
 	
 	/*@ApiOperation(value = "getting message for the OnBoarded Solution.", response = MLStepResult.class)
 	@RequestMapping(value = { APINames.MESSAGING_STATUS}, method = RequestMethod.POST, produces = APPLICATION_JSON)

@@ -41,4 +41,6 @@ public interface MessagingService {
 	List<MLPStepStatus> getStepStatuses();
 
 	List<MLPStepType> getStepTypes();
+
+	List<MLPStepResult> findStepresultBySolutionId(String solutionId, String revisionId);
 }
