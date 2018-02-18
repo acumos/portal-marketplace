@@ -40,7 +40,7 @@ angular
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
-							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state) {
+							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval) {
 						if($stateParams.deployStatus == true){
 						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
 						}
@@ -123,7 +123,6 @@ angular
 												$scope.handleError = false;
 												$scope.status = 'Unable to load customer data: '
 														+ error.data.error;
-												console.warn($scope.status)
 											});
 						}
 						$scope.loadCategory();
@@ -314,7 +313,7 @@ angular
 													$scope.supportingDocs = [];
 													$scope.getArtifacts();
 													$scope.getUserImage();
-													$scope.getModelValidation();
+													//$scope.getModelValidation();
 													$scope.getSolCompanyDesc();
 													$scope.getSolPublicDesc();
 													$scope.getPublicSolutionDocuments();
@@ -707,7 +706,6 @@ angular
 									function(error) {
 
 										$scope.status = error.data.error;
-										console.log($scope.status)
 									});
 						}
 
@@ -758,7 +756,6 @@ angular
 											function(error) {
 
 												$scope.status = error.data.error;
-												console.log($scope.status)
 											});
 						}
 						$scope.loadAllTags();
@@ -832,7 +829,6 @@ angular
 							     /*fix: line commented to fix CD-2049 Ends*/
 
 							}, function(error) {
-								console.log("Tag Error: ",error)
 							});
 						}
 						
@@ -914,8 +910,10 @@ angular
 							if ($scope.currentModelAccess == $scope.solution.accessType) {
 								if ($scope.solution.accessType == 'OR') {
 									$scope.accessName = 'Company/Organization';
+									var flow= 'company';
 								} else if ($scope.solution.accessType == 'PB') {
 									$scope.accessName = 'Public';
+									var flow= 'public';
 								}
 
 								$location.hash('manage-models');
@@ -925,7 +923,7 @@ angular
 								$scope.icon = 'report_problem';
 								$scope.styleclass = 'c-warning';
 								$scope.showAlertMessage = true;
-								$scope.getModelValidation();
+								$scope.getModelValidation(flow);
 								$timeout(function() {
 									$scope.showAlertMessage = false;
 								}, 2500);
@@ -1094,7 +1092,6 @@ angular
 												$scope.handleError = false;
 												$scope.status = 'Unable to load customer data: '
 														+ error.data.error;
-												console.warn($scope.status)
 											});
 
 						}
@@ -1161,9 +1158,6 @@ angular
 												$scope.status = response.data.response_detail;
 											},
 											function(error) {
-
-												alert("Error "
-														+ error.data.response_detail)
 											});
 						}
 
@@ -1187,7 +1181,7 @@ angular
 												if (response.data.error_code == "100") {
 													$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
 						                               $anchorScroll();
-						                               $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-autor.";
+						                               $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-author.";
 						                               $scope.icon = '';
 						                               $scope.styleclass = 'c-success';
 						                               $scope.showAlertMessage = true;
@@ -1619,29 +1613,7 @@ angular
 
 									});
 								}
-							
-							
-							
 
-							/*apiService
-									.authenticateAnddeployToAzure(
-											authDeployObject)
-									.then(
-											function(response) {
-												if (response.status == "401"
-														|| response.data.error_code == "401") {
-
-													alert("Authorization Failed !!");
-
-												} else {
-
-													alert("Deployed successfully !! ");
-
-												}
-
-											}, function(error) {
-												alert('FAILED');
-											});*/
 						}
 
 						/** ****** Export/Deploy to Azure ends *** */
@@ -1686,10 +1658,7 @@ angular
 												$scope.imgURLdefault = "/site/binaries/content/gallery/acumoscms/solution/"+$scope.solutionId+"/"+response.response_body;
 											})
 											.catch(function() {
-												// $scope.showSolutionImage =
-												// true;
-												// $scope.solutionImageName =
-												// 'An error has occurred';
+												
 											});
 				            }
 						}
@@ -1702,7 +1671,7 @@ angular
 						
 						/** ***** File upload****** */
 						$scope.updateSolutionFiles = function(uploadid) {
-							//$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
+
 							var file = $scope.solutionFile;
 
 							var uploadUrl = "/site/api-manual/Solution/solutionAssets/" + $scope.solution.solutionId + "/" + $scope.revisionId + "?path=org";
@@ -1796,9 +1765,7 @@ angular
 																config) {
 															return "No Contents Available"
 														});
-								}
-								//$scope.getCompanySolutionDocuments();
-								
+								}							
 								
 								$scope.getPublicSolutionDocuments = function(){
 			                       	 var getSolutionDocumentsReq = {
@@ -2062,76 +2029,97 @@ angular
 						}
 						$scope.loadMLSolution();
 
-						/*$scope.ssProgress = false;
-						$scope.taProgress = false;
-						$scope.lcProgress = false;
-						$scope.oqProgress = false;
-						$scope.spProgress = false;*/
 						
 					/******Model Validataion status*****/
-					$scope.getModelValidation = function(){
-						apiService.getModelValidationStatus($scope.solutionId,
-							$scope.revisionId).then(
-							function(response) {
-								$scope.validationResponse = response.data.response_body;
-								$scope.modelValidationStatus = [];
-								if($scope.validationResponse != null){
-									angular.forEach($scope.validationResponse.mlModelValidationStepStatus, function(
-											item) {
-										if(item.validationType == "SS"){					//Security Scan
-											$scope.ssValidationStatus = item;
-											if(item.validationStatus == "PS"){
-												angular.element('.progress .progress-bar').css({ "width" : '28%'});
-											}
-										}else if (item.validationType == "LC"){				//License Check
-											$scope.lcValidationStatus = item;
-											if(item.validationStatus == "PS"){
-												if($scope.taValidationStatus){
-													if($scope.taValidationStatus.validationType == "TA" && $scope.taValidationStatus.validationStatus == "PS"){
-														angular.element('.progress .progress-bar').css({ "width" : '100%'});	
-													}else{
-														angular.element('.progress .progress-bar').css({ "width" : '50%'});
-													}	
-												}else{
-													angular.element('.progress .progress-bar').css({ "width" : '50%'});
+					$scope.getModelValidation = function(flow){
+
+						$scope.completedSteps = [];
+						
+						var clearInterval = $interval(function(){
+		
+							apiService.getMessagingStatusBySolutionId($scope.solutionId, $scope.revisionId).then(
+									function(response) {
+								
+								var data = response.data.response_body;
+								var counter = 0;
+								
+								if(flow == 'public'){
+									var id = '#public-market';
+								} else {
+									var id = '#company-market';
+								}
+		
+								for(var i=0 ; i< data.length; i++){
+									var stepName = data[i].name;
+									var statusCode =  data[i].statusCode;
+									var hideStep = false;
+									switch(stepName){
+										case 'SecurityScan': {
+												if($scope.scShow == true ){
+													counter = 2; ( statusCode == 'FA' ) ?  $scope.errorSS = data[i].result : $scope.errorSS = ''; break; 
+												} else {
+													hideStep = true;
 												}
-												
 											}
-										}else if(item.validationType == "TA"){				//Text Analysis/Check
-											$scope.taValidationStatus = item;
-											$scope.checkTA = $scope.taValidationStatus.validationStatus;
-											if(item.validationStatus == "PS"){
-												angular.element('.progress .progress-bar').css({ "width" : '100%'});
-											}
-										}else if (item.validationType == "OQ"){				//Verify Model
-											$scope.oqValidationStatus = item;
-										}else if (item.validationType == "SP"){				// Submit to Publication
-											$scope.spValidationStatus = item;
-											if(item.validationStatus == "PS"){
-												angular.element('.progress .progress-bar').css({ "width" : '100%'});
+										case 'LicenseCheck' : {
+											if($scope.lcShow == true ){
+												counter = 4; 
+												( statusCode == 'FA' ) ?  $scope.errorLC = data[i].result : $scope.errorLC = ''; break;
+											}else {
+												hideStep = true;
 											}
 										}
-										 
-									});
-								}else if($scope.checkTA == "PS"){ 
-									console.log("calling ends");			//calling function after every 10s to check the status 
-									return									//if validation is fetched TA as passed (the last step) stop calling again and again
-								}else if($scope.validationResponse != null){ 
-									if(window.location.href.indexOf("modelEdit") > -1) {
-										$timeout(function() {
-											$scope.getModelValidation()
-										}, 10000);
-								    }
-								}
-							},
-							function(error) {
-								alert("Error " + error.data.response_detail);
+										case 'TextCheck' :  {
+											if($scope.tcShow == true ){
+												counter = 6; 
+												( statusCode == 'FA' ) ?  $scope.errorTC = data[i].result : $scope.errorTC = ''; break;
+											}else {
+												hideStep = true;
+											}
+										}
+										case 'PublishToCompany' : {
+											if(flow == 'company'){
+												counter = 8;
+												( statusCode == 'FA' ) ?  $scope.errorPC = data[i].result : $scope.errorPC = ''; break;
+											} else {
+												hideStep = true;
+											}
+										}
+										case 'PublishToMarket' : {
+											if(flow == 'public'){
+												counter = 8;
+												( statusCode == 'FA' ) ?  $scope.errorPM = data[i].result : $scope.errorPM = ''; break;
+											} else {
+												hideStep = true;
+											}
+										}
+									}
+									if(!hideStep){
+										angular.element(angular.element(id + ' li div')[counter]).removeClass('completed incomplet active');
+										if(statusCode == 'FA'){
+											angular.element(angular.element(id + ' li div')[counter]).addClass('incomplet');
+											angular.element(angular.element(id + ' li')[counter+1]).removeClass('green completed');
+										}else if(statusCode == 'ST'){
+											angular.element(angular.element(id + ' li div')[counter]).addClass('active');
+											angular.element(angular.element(id + ' li')[counter+1]).addClass('progress-status green');
+											
+										} else if(statusCode == 'SU'){
+											angular.element(angular.element(id + ' li div')[counter]).addClass('completed');
+											angular.element(angular.element(id + ' li')[counter+1]).addClass('green completed');
+											$scope.completedSteps[stepName] = stepName;
+										}
+									}
+								}											
 							});
 						
-						
-						
-					};
-					//$scope.getModelValidation();	
+							var allStepsCount = Object.keys($scope.completedSteps);
+							if($scope.completedSteps && $scope.Workflow && allStepsCount.length == (5-$scope.Workflow.ignore_list.length) ){
+								$interval.cancel(clearInterval);
+							}
+							
+						}, 5000);
+							
+					}
 					
 					//redirect to manage model page after all validation is completed and redirect using View Model button.
 					$scope.viewModel = function(){
@@ -2215,29 +2203,13 @@ angular
 							count++;
 							console.log(">>>>>>> imgURLdefault: ",$scope.imgURLdefault)
 						}
-						/*if($scope.company){
-							angular.forEach($scope.company, function(value, key) {
-								if(value == true){
-									Orcount++
-								}
-								
-							});
-						}*/
+
 						if($scope.company){
 							if($scope.company.skipStep == true){
 								Orcount++;
 							}
 						}
-						
-						
-						/*if($scope.public){
-							angular.forEach($scope.public, function(value, key) {
-								if(value == true){
-									Pbcount++
-								}
-								
-							});
-						}*/
+
 						if($scope.public){
 							if($scope.public.skipStep == true){
 								Pbcount++;
@@ -2337,6 +2309,7 @@ angular
 	                	$scope.tcShow = true;
 	                	$scope.lcShow = true;
 	                	$scope.scShow = true;
+
 	                	var flowConfigKey = ""
 	                	if(flow == "Company"){
 	                		flowConfigKey = "local_validation_workflow";

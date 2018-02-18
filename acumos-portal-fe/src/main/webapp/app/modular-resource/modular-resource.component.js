@@ -343,11 +343,10 @@ angular.module('modelResource')
 
 									switch(stepName){
 										case 'CreateMicroservice': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-										//case 'Package' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorPA = data[i].result : $scope.errorPA = ''; break;
-										case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-										case 'AddToRepository' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
-										case 'CreateTOSCA' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-										case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
+										case 'Dockerize' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+										case 'AddToRepository' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+										case 'ViewModel' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
 									}
 									angular.element(angular.element('.onboarding-web li div')[counter]).removeClass('completed incomplet active');
 									if(statusCode == 'FA'){
@@ -361,26 +360,25 @@ angular.module('modelResource')
 										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('completed');
 										angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('green completed');
 										$scope.completedSteps[stepName] = stepName;
-										if (counter === 8) {
+
+										if (counter === 6) {
 											counter = counter +2;
 											angular.element(angular.element('.onboarding-web li div')[counter]).addClass('completed');
 											angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('green completed');
 											$scope.errorVM = '';
 											$scope.completedSteps['ViewModel'] = 'ViewModel';
 										}
-									}
 
-									
+									}
 								}
-								
 							},
 							function(error) {
 								
 						});
 					
 						var allStepsCount = Object.keys($scope.completedSteps);
-						if($scope.completedSteps && allStepsCount.length == 6 ){
-							$interval.cancel(clearInterval);
+						if($scope.completedSteps && allStepsCount.length == 5 ){
+							$interval.cancel($scope.clearInterval);
 						}
 					
 				} 
@@ -389,52 +387,19 @@ angular.module('modelResource')
 				.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
 				.then(
 						function(response) {
-							 $scope.trackId = response.data.response_detail;
+							$scope.trackId = response.data.response_detail;
 							//alert("Onboarding process started successfully with track id " + $scope.trackId + ". It may take some time to onboard your solution. \nPlease check notification to know the status of your solution.")
-							$scope.catalogResponse = response.data;
+							$scope.catalogResponse = response.data;						
 							
-							//need to change once we get response from onboarding
-							
-							
-							var clearInterval = $interval(function(){
+							$scope.clearInterval = $interval(function(){
 								$scope.showValidationStatus();
 							}, 5000);
 							
-/*							$location.hash('page-top');
-							 $anchorScroll();*/
-
-
-									
-
-								/*angular.element(angular.element('.onboarding-web li div')[counter-3]).removeClass('active');
-								angular.element(angular.element('.onboarding-web li div')[counter-3]).addClass('completed');
-								angular.element(angular.element('.onboarding-web li div')[counter-1]).addClass('active');
-								angular.element(angular.element('.onboarding-web li')[counter]).addClass('progress-status green')
-								angular.element(angular.element('.onboarding-web li')[counter-2]).addClass('completed');
-								counter = counter + 2;
-								width = width+14.25;
-								angular.element('.progress .progress-bar').css({ "width" : width+'%'});
-								angular.element('.onboardingwebContent').css({ "height" :'100%'});
-								if(counter > 12){
-									$scope.activeViewModel = true;
-								}*/
-								
-							//}, 5000, 7);
 						},
 						function(error) {
 							$scope.catalorError = error.data;
 						});
-				
-				/*apiService
-				.getModelerResourcesContent(addToReqObj)
-				.then(
-						function(response) {
-							$scope.catalogResponse = response.data;
-						},
-						function(error) {
-							$scope.catalorError = error.data;
-						});*/
-				
+
 			}
 			$scope.viewModel = function(){
 				$state.go('manageModule');

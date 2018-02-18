@@ -27,13 +27,13 @@ import java.util.Map;
 
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPSolutionValidation;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPStepStatus;
 import org.acumos.cds.domain.MLPStepType;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.MessagingService;
-import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
@@ -138,5 +138,33 @@ public class MessagingServiceImpl implements MessagingService{
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPStepType> stepStatusesList  = dataServiceRestClient.getStepTypes();	
 		return stepStatusesList;
+	}
+	
+	@Override
+	public List<MLPStepResult> findStepresultBySolutionId(String solutionId, String revisionId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "findStepresultBySolutionId ={}", solutionId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		Map<String, Object> queryParams = new HashMap<>();
+		//queryParams.put("solutionId", solutionId);
+		RestPageRequest pageRequest = new RestPageRequest();
+		pageRequest.setPage(0);
+		pageRequest.setSize(100);
+		List<MLPSolutionValidation> mlPSolutionValidations =  dataServiceRestClient.getSolutionValidations(solutionId, revisionId);
+		MLPSolutionValidation mlPSolutionValidation = mlPSolutionValidations.get(0);
+		String trackingId = mlPSolutionValidation.getTaskId();
+		queryParams.put("solutionId", solutionId);
+		queryParams.put("trackingId", trackingId);
+		queryParams.put("revisionId", revisionId);
+		RestPageResponse<MLPStepResult> stepResultList = dataServiceRestClient.searchStepResults(queryParams, false,
+				pageRequest);
+		List<MLPStepResult> mlpStepResultList = stepResultList.getContent();
+		/*
+		 * for(MLPStepResult mlpStepResult : mlpStepResultList) {
+		 * if(mlpStepResult != null) {
+		 * if(!PortalUtils.isEmptyOrNullString(mlpStepResult.getSolutionId()) &&
+		 * mlpStepResult.getSolutionId().equalsIgnoreCase(solutionId)) {
+		 * stepResult = mlpStepResult; break; } } }
+		 */
+		return mlpStepResultList;
 	}
 }
