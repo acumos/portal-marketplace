@@ -39,8 +39,8 @@
 				<span class="title text-bold" flex="60">BROWSE BY</span>
 				<!-- <a href="#" class="text-right" flex="40" >Show All</a> -->
 				<a class="text-right" flex="40" ng-click="autoHeight = !autoHeight"
-					ng-show="autoHeight">Show All</a> <a class="text-right" flex="40"
-					ng-click="autoHeight = !autoHeight" ng-show="!autoHeight">Show
+					ng-show="autoHeight && category.length > 4">Show All</a> <a class="text-right" flex="40"
+					ng-click="autoHeight = !autoHeight" ng-show="!autoHeight  && category.length > 4">Show
 					Less</a>
 			</div>
 			<div class="">
@@ -50,7 +50,7 @@
 						ng-model="searchBox" placeholder="Search here">
 				</div>
 				<!-- <hr class="sidebar-seperator"> -->
-				<div class="sidebar-checkbox-container autoheightfilter">
+				<div class="sidebar-checkbox-container" ng-class= "autoHeight ? 'fixheightfilter' : 'autoheightfilter'">
 					<label class="disblock margin-b md-subhead">Filter By
 						Category <span class="title-icons filter-catagory"></span>
 					</label>
