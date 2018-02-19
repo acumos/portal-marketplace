@@ -19,6 +19,8 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import java.util.ArrayList;
@@ -29,13 +31,19 @@ import java.util.concurrent.Future;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPStepStatus;
+import org.acumos.cds.domain.MLPStepType;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.WebBasedOnboardingController;
 import org.acumos.portal.be.service.AsyncServices;
+import org.acumos.portal.be.service.MessagingService;
+import org.acumos.portal.be.service.impl.MessagingServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.HttpResponse;
@@ -63,6 +71,12 @@ public class WebBasedOnboardingTest {
 	
 	@InjectMocks
 	private WebBasedOnboardingController webBasedController;
+	@Mock
+	MessagingService messagingService;
+	@Mock
+	MessagingServiceImpl messagingServiceImpl;
+	
+	
 	
 	private MockMvc mockMvc;
 	
@@ -130,5 +144,166 @@ public class WebBasedOnboardingTest {
 		}
 
 	}
+	
+	@Test
+	public void createStepResultTest(){
+		MLPStepResult mlpStepResult = new MLPStepResult();
+		mlpStepResult.setStepResultId((long) 1);
+		mlpStepResult.setStepCode("OB");
+		mlpStepResult.setStatusCode("SU");
+		mlpStepResult.setName("TestStepResult");
+		mlpStepResult.setTrackingId("1234wer346576");
+		mlpStepResult.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+		mlpStepResult.setRevisionId("90361063-3ee0-434b-85da-208a8be6856d");
+		mlpStepResult.setArtifactId("d36d9a0c-5658-40e2-a284-b2f7be448a1c");
+		mlpStepResult.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		JsonResponse<MLPStepResult> mlpRes = new JsonResponse<>();
+		when(messagingService.createStepResult(mlpStepResult)).thenReturn(mlpStepResult);
+		mlpRes = webBasedController.createStepResult(mlpStepResult, response);
+		
+		//Negative scenario 
+		MLPStepResult mlpNeg = new MLPStepResult();
+		mlpNeg.setStepResultId(null);
+		mlpNeg.setStepCode(null);
+		mlpNeg.setStatusCode(null);
+		mlpNeg.setName(null);
+		mlpNeg.setTrackingId(null);
+		mlpNeg.setSolutionId(null);
+		mlpNeg.setRevisionId(null);
+		mlpNeg.setArtifactId(null);
+		mlpNeg.setUserId(null);
+		
+		mlpRes = webBasedController.createStepResult(mlpNeg, response);
+	}
 
+	@Test
+	public void updateStepResultTest(){
+		MLPStepResult mlpStepResult = new MLPStepResult();
+		mlpStepResult.setStepResultId((long) 1);
+		mlpStepResult.setStepCode("OB");
+		mlpStepResult.setStatusCode("SU");
+		mlpStepResult.setName("TestStepResult");
+		mlpStepResult.setTrackingId("1234wer346576");
+		mlpStepResult.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+		mlpStepResult.setRevisionId("90361063-3ee0-434b-85da-208a8be6856d");
+		mlpStepResult.setArtifactId("d36d9a0c-5658-40e2-a284-b2f7be448a1c");
+		mlpStepResult.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		JsonResponse<MLPStepResult> mlpRes = new JsonResponse<>();
+		MessagingServiceImpl mockImpl = mock(MessagingServiceImpl.class);
+		mockImpl.updateStepResult(mlpStepResult);
+		mlpRes = webBasedController.updateStepResult(mlpStepResult, response);
+		
+		//Negative scenario 
+		MLPStepResult mlpNeg = new MLPStepResult();
+		mlpNeg.setStepResultId(null);
+		mlpNeg.setStepCode(null);
+		mlpNeg.setStatusCode(null);
+		mlpNeg.setName(null);
+		mlpNeg.setTrackingId(null);
+		mlpNeg.setSolutionId(null);
+		mlpNeg.setRevisionId(null);
+		mlpNeg.setArtifactId(null);
+		mlpNeg.setUserId(null);
+		
+		mlpRes = webBasedController.updateStepResult(mlpNeg, response);
+	}
+	
+	@Test
+	public void deleteStepResult(){
+
+		MLPStepResult mlpStepResult = new MLPStepResult();
+		mlpStepResult.setStepResultId((long) 1);
+		mlpStepResult.setStepCode("OB");
+		mlpStepResult.setStatusCode("SU");
+		mlpStepResult.setName("TestStepResult");
+		mlpStepResult.setTrackingId("1234wer346576");
+		mlpStepResult.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+		mlpStepResult.setRevisionId("90361063-3ee0-434b-85da-208a8be6856d");
+		mlpStepResult.setArtifactId("d36d9a0c-5658-40e2-a284-b2f7be448a1c");
+		mlpStepResult.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		JsonResponse<MLPStepResult> mlpRes = new JsonResponse<>();
+		MessagingServiceImpl mockImpl = mock(MessagingServiceImpl.class);
+		
+		long id = mlpStepResult.getStepResultId();
+		mockImpl.deleteStepResult(id);
+		mlpRes = webBasedController.deleteStepResult(request, id, response);
+		
+	
+	}
+	
+	@Test
+	public void getStepStatusesTest(){
+		MLPStepStatus mlpStepStatus = new MLPStepStatus();
+		mlpStepStatus.setCode("SU");
+		mlpStepStatus.setName("Succeeded");
+		MLPStepStatus mlpStepStatus1 = new MLPStepStatus();
+		mlpStepStatus1.setCode("ST");
+		mlpStepStatus1.setName("Started");
+		MLPStepStatus mlpStepStatus2 = new MLPStepStatus();
+		mlpStepStatus2.setCode("FA");
+		mlpStepStatus2.setName("Failed");
+		List<MLPStepStatus> stepList = new ArrayList<MLPStepStatus>();
+		stepList.add(mlpStepStatus);
+		stepList.add(mlpStepStatus1);
+		stepList.add(mlpStepStatus2);
+		when(messagingService.getStepStatuses()).thenReturn(stepList);
+		webBasedController.getStepStatuses(request, response);
+		
+	}
+	
+	@Test
+	public void getStepType(){
+		MLPStepType mlpStepType = new MLPStepType();
+		mlpStepType.setCode("OB");
+		mlpStepType.setName("Onboarding");
+		MLPStepType mlpStepType1 = new MLPStepType();
+		mlpStepType1.setCode("VL");
+		mlpStepType1.setName("Validation");
+		List<MLPStepType> typeList = new ArrayList<MLPStepType>();
+		typeList.add(mlpStepType);
+		typeList.add(mlpStepType1);
+		when(messagingService.getStepTypes()).thenReturn(typeList);
+		webBasedController.getStepTypes(request, response);
+	}
+
+	@Test
+	public void findStepresultBySolutionIdTest(){
+		MLPStepResult mlpStepResult = new MLPStepResult();
+		mlpStepResult.setStepResultId((long) 1);
+		mlpStepResult.setStepCode("OB");
+		mlpStepResult.setStatusCode("SU");
+		mlpStepResult.setName("TestStepResult");
+		mlpStepResult.setTrackingId("1234wer346576");
+		mlpStepResult.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+		mlpStepResult.setRevisionId("90361063-3ee0-434b-85da-208a8be6856d");
+		mlpStepResult.setArtifactId("d36d9a0c-5658-40e2-a284-b2f7be448a1c");
+		mlpStepResult.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		List<MLPStepResult> stepResultList = new ArrayList<MLPStepResult>();
+		stepResultList.add(mlpStepResult);
+		String solutionId = mlpStepResult.getSolutionId();
+		String revisionId = mlpStepResult.getRevisionId();
+		when(messagingService.findStepresultBySolutionId(solutionId, revisionId)).thenReturn(stepResultList);
+		webBasedController.findStepresultBySolutionId(solutionId, revisionId);
+	}
+	
+	@Test
+	public void messagingStatusTest(){
+		MLStepResult mlStepResult = new MLStepResult();
+		mlStepResult.setStepResultId((long) 1);
+		mlStepResult.setStepCode("OB");
+		mlStepResult.setStatusCode("SU");
+		mlStepResult.setName("TestStepResult");
+		mlStepResult.setTrackingId("1234wer346576");
+		mlStepResult.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
+		mlStepResult.setRevisionId("90361063-3ee0-434b-85da-208a8be6856d");
+		mlStepResult.setArtifactId("d36d9a0c-5658-40e2-a284-b2f7be448a1c");
+		mlStepResult.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		List<MLStepResult> stepResultList = new ArrayList<MLStepResult>();
+		stepResultList.add(mlStepResult);
+		String userId = mlStepResult.getUserId();
+		String trackingId = mlStepResult.getTrackingId();
+		when(messagingService.callOnBoardingStatusList(userId, trackingId)).thenReturn(stepResultList);
+		webBasedController.messagingStatus(userId, trackingId);
+		
+	}
 }
