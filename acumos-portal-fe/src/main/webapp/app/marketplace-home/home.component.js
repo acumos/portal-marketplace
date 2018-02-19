@@ -37,17 +37,17 @@ angular
 							  var slides = $scope.slides = [];
 							  var currIndex = 0;
 							  var dataObj = {
-										"request_body" : {
-											"page": 0,
-										
-											"sortingOrder" : "ASC",
-											"size" : 8
-										},
-										"request_from" : "string",
-										"request_id" : "string"
-									};
-							  
-							  
+                                      "request_body" : {
+                                          "sortBy" : "MR",
+                                          "active": true,
+                                          "accessTypeCodes": ["PB"],
+                                          "pageRequest" : {
+                                              "fieldToDirectionMap": { "modified" : "DESC" },
+                                              "page" : 0,
+                                              "size" : 8
+                                          }
+                                      }
+                                  }
 							  $scope.successStories.slides = [{story :'I needed to better position my ads in streaming video to improve my results.  The Acumos Design studio allowed me to quickly insert my video stream to a working model and use it ...',
 			  												   from : 'AT&T Entertainment Exec'},	
 			  												   {story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',

@@ -57,7 +57,7 @@ angular
 						$scope.mlsolutions = [];
 						$scope.pageNumber = 0;
 						$scope.modelCount = 0;
-
+						$scope.categoryFilter = [];
 						console.log("market-place-component");
 						$scope.actions = [ {
 							name : "Most Liked",
@@ -214,6 +214,7 @@ angular
 																		key) {
 																	$scope.solutionIds
 																			.push(response.data.response_body.content[key]);
+																	
 																});
 												
 												
@@ -292,14 +293,19 @@ angular
 							 * "string" }
 							 */
 							var fieldToSort = {};
+							
 							if( $scope.sortBy == 'MR' ){
 								fieldToSort = { "modified" : "DESC" };
+							}if ($rootScope.relatedModelType) {
+								$scope.categoryFilter.push($rootScope.relatedModelType);
 							}
+							
 							
 							dataObj = {
 								"request_body" : {
 									"modelTypeCodes" : $scope.categoryFilter,
 									"active" : true,
+									"accessTypeCodes": ["OR", "PB"],
 									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
 									"pageRequest" : {
@@ -323,9 +329,7 @@ angular
 									});
 							count += 9;
 						}
-						if ($rootScope.relatedModelType) {
-							$scope.categoryFilter = $rootScope.relatedModelType;
-						}
+						
 
 						$scope.loadMore();
 						function getSolution(response) {
