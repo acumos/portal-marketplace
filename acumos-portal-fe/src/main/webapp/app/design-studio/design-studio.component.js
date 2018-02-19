@@ -18,7 +18,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	$scope.myfunction = function(){
         $rootScope.deployEdit = true;
     };
-	
+	$scope.checkboxDisable = true;
 	$scope.activeInactivedeploy = true;
     $scope.userDetails = JSON.parse(localStorage
                                     .getItem("userDetail"));
@@ -37,9 +37,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         if(numItems > 1){
             // $scope.deleteDis= false;
             $scope.cleardis= false;
+            $scope.checkboxDisable = false;
         }else {
             // $scope.deleteDis= true;
             $scope.cleardis= true;
+            $scope.checkboxDisable = true; 
         }
     }
 
@@ -169,10 +171,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                
                 $scope.protoNode=proto;
                 var protoJson=proto;
-                // console.log($scope.protoNode);
-                console.log('jsonProtoNode initialized for ' + $scope.solutionDetails.solutionName);
                 jsonProtoNode.set($scope.solutionDetails.solutionName,protoJson);
-                console.log(jsonProtoNode);
             });
 
             /*
@@ -211,8 +210,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 if(value.request.format.length !== 0){
                     check_isValid_provides = value.request.format[0].messageName;
                     var capObj = value.request.format;
-                    // console.log(capObj);
-                    // capOperation.push(value.route);
                     var capOperation=value.route;
                     capabilityJson.push({
                         "id": "",
@@ -315,7 +312,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.cleardis= false;
                     // $scope.deleteDis= false;
                     nodeIdCnt++;
-
+                    $scope.checkboxDisable = false;
                     // console.log(_catalog.ports(data.id,
                     // def.requirements, def.capabilities));
                     // console.log(def.requirements);
@@ -351,6 +348,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     }
     $scope.newSolution = function(parameter) {
+    	
         if(_dirty && $scope.solutionName != null){$scope.CloseOrNew = 'new';$scope.showsaveConfirmationPopup(); }
         else{
             maybe_save_solution().then(function(cat2) {
@@ -362,6 +360,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.solutionVersion = null;
                     $scope.validationState = true;
                     $scope.saveState.noSaves = true;
+                    
 
                     $scope.activeInactivedeploy = true;
                     $scope.console = null;
@@ -426,6 +425,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     }else{
                     	$scope.myCheckbox = false;
                     }
+                    $scope.checkboxDisable = false;
                     $scope.cleardis = false;
                     // $scope.deleteDis= false;
                     $scope.namedisabled = true;$scope.canvas = true;
@@ -1797,6 +1797,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var select_edges_group = dc_graph.select_things_group('select-edges-group', 'select-edges');
         var select_ports_group = dc_graph.select_things_group('select-ports-group', 'select-ports');
         select_nodes_group.on('set_changed.show-info', function(nodes) {
+        	$scope.showProperties = false;
             // console.log(nodes);
             if(nodes.length == 0){$('#deleteHide').hide();deleteShow = 0}else {$('#deleteHide').show();deleteShow = 1;};
             // $scope.deleteState.noDeletes=true;
@@ -2520,6 +2521,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.showProperties = null;
                     $scope.showLink=null;
                     $scope.myCheckbox = false;
+                   
                     $scope.clearSolution();
                     $scope.namedisabled = false;$scope.closeDisabled = true;
                     $scope.solutionName = '';$scope.solutionVersion = '';$scope.solutionDescription = '';_cid = '';_solutionId = '';
@@ -2534,7 +2536,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         if(val == 'yes' && $scope.CloseOrNew == 'closeSol'){
             $scope.showPrerenderedDialog();
         }
-        else if(val == 'no' && $scope.CloseOrNew == 'closeSol'){_dirty = false;$scope.closeComSol();$scope.closePoup();}
+        else if(val == 'no' && $scope.CloseOrNew == 'closeSol'){_dirty = false;$scope.closeComSol();$scope.closePoup();$scope.checkboxDisable = true;}
         else if(val == 'yes' && $scope.CloseOrNew == 'new'){
             $scope.showPrerenderedDialog();
         }
