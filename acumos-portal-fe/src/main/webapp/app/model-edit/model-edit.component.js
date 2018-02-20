@@ -1553,66 +1553,90 @@ angular
 								})
 							}*/
 							
-								if($scope.solution.tookitType != "CP") {
-									$scope.reqObject = {
-											/*'request_body' : {*/
-												 'acrName': $scope.acrName,
-												 'client': $scope.applicationId,
-												 'key': $scope.secretKey,
-												 'rgName': $scope.resourceGroup,
-												 'solutionId': $scope.solution.solutionId,
-												 'solutionRevisionId': $scope.revisionId,
-												 'storageAccount': $scope.storageAccount,
-												 'subscriptionKey':  $scope.subscriptionKey,
-												 'tenant': $scope.tenantId,
-												 'userId':  $scope.loginUserId[1],
-												 'imagetag': imageTagUri
-											/*}*/
-									}
-									
-									var url = '/azure/singleImageAzureDeployment';
-									$http({
-										method : 'POST',
-										url : url,
-										data: $scope.reqObject
-										
-									}).then(function(response) {
-											alert("Deployment Started Successfully")
-										},
-										function(error) {
-											console.warn("Error occured")
+							 if($scope.solution.tookitType != "CP") {
+                                                      var reqObject = '';
+                                                      if($scope.checkboxExport == 'microsoft'){
+                                                            var url = '/azure/singleImageAzureDeployment';
+                                                            reqObject = {
+                                                                        /*'request_body' : {*/
+                                                                              'acrName': $scope.acrName,
+                                                                              'client': $scope.applicationId,
+                                                                              'key': $scope.secretKey,
+                                                                              'rgName': $scope.resourceGroup,
+                                                                              'solutionId': $scope.solution.solutionId,
+                                                                              'solutionRevisionId': $scope.revisionId,
+                                                                              'storageAccount': $scope.storageAccount,
+                                                                              'subscriptionKey':  $scope.subscriptionKey,
+                                                                              'tenant': $scope.tenantId,
+                                                                              'userId':  $scope.loginUserId[1],
+                                                                              'imagetag': imageTagUri
+                                                                        /*}*/
+                                                            }
+                                                      }
+                                                      else if($scope.checkboxExport == 'ripple'){
+                                                            var url =  '/openstack/singleImageOpenstackDeployment';
+                                                            reqObject ={
+                                                'vmName': $scope.vmName,
+                                                'solutionId': $scope.solution.solutionId,
+                                                'solutionRevisionId': $scope.revisionId,
+                                                'userId':  $scope.loginUserId[1],
+                                                'imagetag': imageTagUri
+                                                            }
+                                                      }
+                                                      $http({
+                                                            method : 'POST',
+                                                            url : url,
+                                                            data: reqObject
+                                                            
+                                                      }).then(function(response) {debugger;
+                                                                  alert("Deployment Started Successfully")
+                                                            },
+                                                            function(error) {debugger;
+                                                                  console.warn("Error occured")
 
-										});
-									
-								} else {
-									$scope.reqObject = {
-											/*'request_body' : {*/
-												 'acrName': $scope.acrName,
-												 'client': $scope.applicationId,
-												 'key': $scope.secretKey,
-												 'rgName': $scope.resourceGroup,
-												 'solutionId': $scope.solution.solutionId,
-												 'solutionRevisionId': $scope.revisionId,
-												 'storageAccount': $scope.storageAccount,
-												 'subscriptionKey':  $scope.subscriptionKey,
-												 'tenant': $scope.tenantId,
-												 'userId':  $scope.loginUserId[1],
-											/*}*/
-									}
-									
-									var url = '/azure/compositeSolutionAzureDeployment';
-									$http({
-										method : 'POST',
-										url : url,
-										data: $scope.reqObject
-									}).then(function(response) {
-										alert("Deployment Started Successfully")
-									},
-									function(error) {
-										console.warn("Error occured")
+                                                            });
+                                                      
+                                                } else {
+                                                      var reqObject = '';
+                                                      if($scope.checkboxExport == 'microsoft'){
+                                                            var url = '/azure/compositeSolutionAzureDeployment';
+                                                            reqObject = {
+                                                                        /*'request_body' : {*/
+                                                                              'acrName': $scope.acrName,
+                                                                              'client': $scope.applicationId,
+                                                                              'key': $scope.secretKey,
+                                                                              'rgName': $scope.resourceGroup,
+                                                                              'solutionId': $scope.solution.solutionId,
+                                                                              'solutionRevisionId': $scope.revisionId,
+                                                                              'storageAccount': $scope.storageAccount,
+                                                                              'subscriptionKey':  $scope.subscriptionKey,
+                                                                              'tenant': $scope.tenantId,
+                                                                              'userId':  $scope.loginUserId[1],
+                                                                        /*}*/
+                                                            }
+                                                      }
+                                                      else if($scope.checkboxExport == 'ripple'){
+                                                            var url = "/openstack/compositeSolutionOpenstackDeployment";
+                                                            reqObject ={
+                                                'vmName': $scope.vmName,
+                                                'solutionId': $scope.solution.solutionId,
+                                                'solutionRevisionId': $scope.revisionId,
+                                                'userId':  $scope.loginUserId[1],
+                                                'imagetag': imageTagUri
+                                                            }
+                                                      }
+                                                      $http({
+                                                            method : 'POST',
+                                                            url : url,
+                                                            data: reqObject
+                                                      }).then(function(response) {
+                                                            alert("Deployment Started Successfully")
+                                                      },
+                                                      function(error) {
+                                                            console.warn("Error occured")
 
-									});
-								}
+                                                      });
+                                                }
 
 						}
 

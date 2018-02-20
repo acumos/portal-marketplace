@@ -3401,6 +3401,7 @@
 										<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
 											for="option1"> <input type="radio" id="option1"
 											name="icons" class="mdl-radio__button cloud-radio-btn"
+											ng-model="checkboxExport" value='microsoft'
 											checked> <span class="mdl-radio__label"><img
 												src="images/microsoft_azure_logo.png" alt=""></span>
 										</label>
@@ -3418,6 +3419,7 @@
 										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
 										<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
 											for="option3"> <input type="radio" id="option3"
+											ng-model="checkboxExport" value='ripple'
 											name="icons" class="mdl-radio__button cloud-radio-btn"
 											disabled> <span class="mdl-radio__label"><img
 												src="images/rackspace_logo.png" alt="" /></span>
@@ -3436,7 +3438,7 @@
 								</div>
 								<div class="tab-content">
 									<div class="md-dialog-content">
-										<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide='checkboxExport!="microsoft"'>
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
@@ -3466,6 +3468,15 @@
 												<md-input-container class="md-icon-float md-block">
 												<label class="md-required">Acr Name</label> <input ng-model="acrName"
 													type="text"> </md-input-container>
+											</div>
+                                         </div>
+                                         <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show='checkboxExport=="ripple"'>
+                                                   <div
+                                                       class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                                                       <md-input-container class="md-icon-float md-block">
+                                                                 <label>VM Name</label>
+                                                                  <input type="text" ng-model='vmName'>
+                                                       </md-input-container>
 											</div>
 										</div>
 										<hr />

@@ -34,6 +34,12 @@ zuul:
       url: http://localhost:9081
       stripPrefix: false
       sensitiveHeaders:
+    openstack:
+      path: /openstack/**
+      url: http://localhost:8007
+      stripPrefix: false
+      sensitiveHeaders:
+    
 spring:
   http:
     multipart:
