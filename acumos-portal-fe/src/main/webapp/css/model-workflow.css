@@ -1259,8 +1259,7 @@ border: 1px solid rgba(0, 0, 0, 0.12);
 
 .imageuploader {
       padding: 0;
-      margin-bottom: 15px;
-}
+      margin-bottom: 5px;}
 
 .imageuploader .iconcontainer {
       height: 75px;
@@ -1367,7 +1366,7 @@ md-input-container .md-select-value{border-width: 1px;
     line-height: 16px;}
 md-select:not([disabled]):focus .md-select-value{border-width: 1px; border-style:solid; border-color:rgb(63,81,181); padding-bottom: 4px;
     padding-top: 2px;  margin-top: 2px;  line-height: 16px;}  
-  .md-chips.md-removable{margin-bottom:0; border-bottom:1px solid #d5d5d5;}
+  .md-chips.md-removable{margin-bottom:0; border:1px solid #d5d5d5;}
   .mdl-textfield{font-size:15px;}
   .mdl-textfield label{float: left; width:100%; line-height:23px;}
 .mdl-textfield__input.profile-txtarea{margin-top:2px}
@@ -1458,7 +1457,8 @@ position:relative;
     border-color: #d3d1d1;
     cursor: not-allowed;
 }
-    
+.popovers .progress-bar {margin: 5px 0 3px;}
+.model-detail md-input-container .md-errors-spacer{float:left; color:#FF0000; font-size:12px;}  
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}

@@ -447,12 +447,13 @@
                                                                         typeahead-no-results="noResults">
                                                 <div class="md-errors-spacer"></div>
                                              </md-input-container> -->
-
+											<md-input-container><label class="md-required">Find a user to Share with</label></md-input-container>
 											<md-content class="autocomplete"> 
 											<md-chips
 												ng-model="selectedGroups" md-autocomplete-snap
 												md-require-match="true"> <!-- md-item-firstName="item.firstName"
                                                                    		 md-item-image="item.picture" -->
+                                                 
 												<md-autocomplete md-search-text="searchText"
 													md-items="item in queryGroups(searchText)"
 													md-selected-item="selectedItem" md-item-text="item"
@@ -744,12 +745,13 @@
 																		<div
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																			<md-input-container class="md-icon-float md-block">
-																			<!-- Use floating label instead of placeholder --> <label>Model
+																			<!-- Use floating label instead of placeholder --> <label class="md-required">Model
 																				Name </label> <input ng-model="solutionName" type="text">
 																			</md-input-container>
 																			<md-input-container class="md-icon-float md-block">
 																			<!-- Use floating label instead of placeholder --> <label>Model
-																				ID </label> <input ng-model="popupSolutionId" type="text">
+																				ID </label> <input disabled
+																				class="force-disable" ng-model="popupSolutionId" type="text">
 																			</md-input-container>
 																		</div>
 
@@ -1006,7 +1008,7 @@
 																		<div layout="row"
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone pull-left removeleftpadd">
 																			<md-input-container class="fullwidth">
-																			<label>Select Category</label> <md-select
+																			<label class="md-required">Select Category</label> <md-select
 																				ng-model="categoryname"> <md-option
 																				ng-repeat="category in allCategory"
 																				value="{{category.typeCode}}">{{category.typeName}}</md-option>
@@ -1015,7 +1017,7 @@
 																		<div layout="row"
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone pull-left removerightpadd">
 																			<md-input-container class="fullwidth">
-																			<label>Select Toolkit Type</label> <md-select
+																			<label class="md-required">Select Toolkit Type</label> <md-select
 																				ng-model="toolkitname"> <md-option
 																				ng-repeat="toolkitType in alltoolkitType"
 																				ng-if="toolkitType.typeCode != 'DS' && toolkitType.typeCode != 'CP'"
@@ -1131,10 +1133,7 @@
 																						placeholder="Upload File" type="text"
 																						ng-model="privatefilename" readonly />
 																						</div>
-																		</div>
-																	</form>
-																</div>
-																<div  > <!-- ng-show="progressVisible" -->
+																			<div  > <!-- ng-show="progressVisible" -->
 														            
 														            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
 														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar}}%</span>
@@ -1142,6 +1141,10 @@
 														            </div>
 														            </div>
 														         </div>
+																		</div>
+																	</form>
+																</div>
+																
 																<div layout="row"
 																	class="popovers-cloud-modalfooter layout-row">
 																	<!-- <md-button class="md-icon-button" ng-click="cancel()">
@@ -1463,6 +1466,7 @@
 																				</div>
 																			</div>
 																			<div class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
+																				<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																				<div class="upload-image-input">
 																					<div file-upload file=previewImage ng-click = "cancelSolImage()"
 																						uploadid="companyuploadid" id="solImage"
@@ -2530,19 +2534,20 @@
 																	<div
 																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																		<md-input-container class="md-icon-float md-block">
-																		<!-- Use floating label instead of placeholder --> <label>Model
+																		<!-- Use floating label instead of placeholder --> <label class="md-required">Model
 																			Name </label> <input ng-model="solutionName" type="text">
 																		</md-input-container>
 																		<md-input-container class="md-icon-float md-block">
 																		<!-- Use floating label instead of placeholder --> <label>Model
-																			ID </label> <input ng-model="popupSolutionId" type="text">
+																			ID </label> <input disabled
+																				class="force-disable" ng-model="popupSolutionId" type="text">
 																		</md-input-container>
 																	</div>
 
 																	<div
 																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																		<md-input-container class="md-icon-float md-block">
-																		<label>Model Version</label> <input disabled
+																		<label>Model Version</label> <input disabled class="force-disable"
 																			ng-model="revisionsVersion" type="text"> </md-input-container>
 																	</div>
 																</div>
@@ -2752,7 +2757,7 @@
 																	<div layout="row"
 																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone pull-left removeleftpadd">
 																		<md-input-container class="fullwidth">
-																		<label>Select Category</label> <md-select
+																		<label class="md-required">Select Category</label> <md-select
 																			ng-model="categoryname"> <md-option
 																			ng-repeat="category in allCategory"
 																			value="{{category.typeCode}}">{{category.typeName}}</md-option>
@@ -2761,7 +2766,7 @@
 																	<div layout="row"
 																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone pull-left removerightpadd">
 																		<md-input-container class="fullwidth">
-																		<label>Select Toolkit Type</label> <md-select
+																		<label class="md-required">Select Toolkit Type</label> <md-select
 																			ng-model="toolkitname"> <md-option
 																			ng-repeat="toolkitType in alltoolkitType"
 																			ng-if="toolkitType.typeCode != 'DS' && toolkitType.typeCode != 'CP'"
@@ -3163,6 +3168,7 @@
 																			</div>
 																		</div>
 																		<div class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
+																			<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																			<div class="upload-image-input">
 																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
 																					uploadid="publicuploadid" id="solImage"
@@ -3434,17 +3440,17 @@
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label>Application
+												<!-- Use floating label instead of placeholder --> <label class="md-required">Application
 													Id </label> <input ng-model="applicationId" type="text"> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label>Secret
+												<!-- Use floating label instead of placeholder --> <label class="md-required">Secret
 													key </label> <input ng-model="secretKey" type="password"> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label>Resource
+												<!-- Use floating label instead of placeholder --> <label class="md-required">Resource
 													Group </label> <input ng-model="resourceGroup" type="text">
 												</md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label>Storage
+												<!-- Use floating label instead of placeholder --> <label class="md-required">Storage
 													Account </label> <input ng-model="storageAccount" type="text">
 												</md-input-container>
 											</div>
@@ -3452,13 +3458,13 @@
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
-												<label>Tenant Id</label> <input ng-model="tenantId"
+												<label class="md-required">Tenant Id</label> <input ng-model="tenantId"
 													type="text"> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<label>Subscription Key</label> <input
+												<label class="md-required">Subscription Key</label> <input
 													ng-model="subscriptionKey" type="text"> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<label>Acr Name</label> <input ng-model="acrName"
+												<label class="md-required">Acr Name</label> <input ng-model="acrName"
 													type="text"> </md-input-container>
 											</div>
 										</div>
