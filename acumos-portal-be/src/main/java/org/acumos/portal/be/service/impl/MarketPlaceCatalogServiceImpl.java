@@ -1981,4 +1981,16 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		RestPageResponse<MLPSolution> mlSolutions = dataServiceRestClient.getUserAccessSolutions(userId, pageRequest);
 		return mlSolutions;
 	}
+
+	@Override
+	public MLPSolutionWeb getSolutionWebMetadata(String solutionId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionWebMetadata");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPSolutionWeb solutionStats = dataServiceRestClient.getSolutionWebMetadata(solutionId);
+		if (solutionStats.getRatingAverageTenths() != null) {
+			Long avgRating = solutionStats.getRatingAverageTenths() / 10;
+			solutionStats.setRatingAverageTenths(avgRating);
+		}
+		return solutionStats;
+	}
 }
