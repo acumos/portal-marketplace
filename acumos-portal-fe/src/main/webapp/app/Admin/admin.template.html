@@ -700,7 +700,7 @@
 																
 															</div>																
 														</div>
-														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>On-boarding Work flow</span>
 																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'On-boarding Work Flow');">mode_edit</a></i>
@@ -823,7 +823,7 @@
 																  </md-button>
 															</div>
 														</div>
-														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Local Work Flow</span>
 																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow');" >mode_edit</a></i>
@@ -918,7 +918,7 @@
 																  </md-button>
 															</div>												
 														</div>
-														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Public Work Flow</span>
 																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow');">mode_edit</a></i>
@@ -1053,7 +1053,7 @@
 																  </md-button>
 															</div>
 														</div>
-														<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone box-layout">
+														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Import Federated Model Work Flow</span>
 																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Import Federated Model Work Flow');">mode_edit</a></i>
@@ -1747,7 +1747,7 @@
 														</table>
 													</div>
 													<!-- All models table -->
-													<div ng-show="allModelsTable && allSubs">
+													<div ng-show="(allSubs == 'true')">
 													<h4 ng-model="mlsolutionsLength"></h4>
 														<div>
 															{{mlsolutionsSize}} models found
@@ -1758,7 +1758,7 @@
 														</div>
 													</div>
 
-													<div class="fedgridcontainer" ng-show="allModelsTable && allSubs && showAllModelsTable">
+													<div class="fedgridcontainer" ng-show="allModelsTable && (allSubs == 'true') && showAllModelsTable">
 														<!-- <div>														
 															<div class="select-control">
 													        	<md-select ng-model="freqOfUpdate" placeholder="Select Frequency of update">

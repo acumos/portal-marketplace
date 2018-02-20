@@ -11,6 +11,7 @@ angular
 							apiService, $element, $timeout) {
 						$scope.autoHeight = true;
 						$scope.tags = [];
+						$scope.selectedChip = [];
 						$scope.sortBy = 'MR';
 
 						$element.find('input').on('keydown', function(ev) {
@@ -308,6 +309,7 @@ angular
 									"accessTypeCodes": ["OR", "PB"],
 									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
+									"tags" : $scope.tagFilter,
 									"pageRequest" : {
 										"fieldToDirectionMap": fieldToSort,
 										"page" : $scope.pageNumber,
@@ -479,6 +481,7 @@ angular
 						}
 						var privacyArr = [];
 						var caegoryArr = [];
+						var tagArr = [];
 						var url = 'solutions';
 						var categoryUrl = '';
 						var sortByUrl = '';
@@ -521,10 +524,14 @@ angular
 								 * ","; }); categoryUrl = categoryUrl.slice(0,
 								 * -1);
 								 */
+							}else if(type == 'tag'){
+								tagArr.push(checkbox);
+								
 							}
 
 							// $scope.categoryFilter = categoryUrl;
 							$scope.categoryFilter = caegoryArr;
+							$scope.tagFilter = tagArr;
 							if (type == 'sortBy') {
 								$scope.sortBy = checkbox.value;
 								$scope.selectedAction = checkbox.name;
@@ -563,6 +570,11 @@ angular
 							$scope.loadMore();
 
 						}
+						
+						$scope.selectChip = function(index){
+							$scope.selectedChip[index] = true;
+						};
+						
 						$scope.$on('scanner-started', function(event, args) {
 							$scope.pageNumber = 0;
 							$scope.searchBox = args.searchValue;

@@ -41,6 +41,7 @@ angular.module('modelResource')
 		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope){
 			//alert(localStorage.getItem("userDetail"));
 			$rootScope.progressBar = 0;
+			
 			$scope.activeViewModel = false;
 			if(localStorage.getItem("userDetail")){
 				$scope.userLoggedIn = true;
@@ -328,14 +329,16 @@ angular.module('modelResource')
 				
 				$scope.completedSteps = [];
 				$scope.errorCM = ''; $scope.errorPA = ''; $scope.errorDO = ''; $scope.errorAR = ''; $scope.errorVM = '';
+
 				$scope.showValidationStatus = function(){
 					var counter = 1;
-					var width = 0;
-
+					
 					apiService
 					.getMessagingStatus($scope.userId[1], $scope.trackId ).then(
 							function(reponse) {
 								var data = reponse.data.response_body;
+								var stepfailed = false;
+								var width = 0;
 								for(var i=0 ; i< data.length; i++){
 									var stepName = data[i].name;
 									var statusCode =  data[i].statusCode;
@@ -351,7 +354,8 @@ angular.module('modelResource')
 									angular.element(angular.element('.onboarding-web li div')[counter]).removeClass('completed incomplet active');
 									if(statusCode == 'FA'){
 										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('incomplet');
-										angular.element(angular.element('.onboarding-web li')[counter+1]).removeClass('green');
+										angular.element(angular.element('.onboarding-web li')[counter+1]).removeClass('green completed');
+										stepfailed = true;
 									}else if(statusCode == 'ST'){
 										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('active');
 										angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('progress-status green')
@@ -368,7 +372,12 @@ angular.module('modelResource')
 											$scope.errorVM = '';
 											$scope.completedSteps['ViewModel'] = 'ViewModel';
 										}
-
+										
+										if($scope.completedSteps.indexOf(stepName) == -1 && stepfailed == false){
+											width = width+20;
+											angular.element('.progress .progress-bar').css({ "width" : width+'%'});
+											angular.element('.onboardingwebContent').css({ "height" :'100%'});
+										}
 									}
 								}
 							},

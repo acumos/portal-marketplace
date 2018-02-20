@@ -11,7 +11,7 @@
 .list-validation-box ul li:first-child:after { content: "|"; padding: 0 0px 0 3px; }
 .timeline-centered .list-validation-box .timeline-entry .timeline-entry-inner .timeline-label p{font-size:10px; line-height: 18px;}
 .list-validation .timeline-centered{margin-bottom:0px;}
-.box-layout-footer{margin: 0 -5px; border-top: 1px solid #e0e0e0; background-color:#f1f1f1; padding:5px; display: flex;
+.box-layout-footer{margin: 0 -5px; border-top: 1px solid #e0e0e0; background-color:#F9f9f9; /*background-color:#f1f1f1;*/  padding:5px; display: flex;
 flex-wrap: nowrap;
 justify-content: space-between;  }
 .box-layout-footer .mdl-button{font-size:12px; padding:0 5px; line-height: 30px;    min-height: 30px;}
@@ -29,7 +29,7 @@ justify-content: space-between;  }
 .validation-container .timeline-centered:after {clear: both;}
 .validation-container .timeline-centered:before, .timeline-centered:after {content: " ";display: table;}
 .validation-container .timeline-centered:after {clear: both;}
-.validation-container .timeline-centered:before {content: ''; position: absolute; display: block; width: 1px; background: #DBCBE8;top: 20px; bottom: 20px; margin-left: 18px;}
+.validation-container .timeline-centered:before {content: ''; position: absolute; display: block; width: 1px; background: #DBCBE8;top: 20px; bottom: 40px; margin-left: 18px;}
 /* .timeline-centered .timeline-entry */
 .validation-container .timeline-centered .timeline-entry {position: relative;margin-top: 2px; margin-left: 15px; /*margin-bottom: 10px;*/clear: both;}
 .validation-container .timeline-centered .timeline-entry:before, .validation-container .timeline-centered .timeline-entry:after {content: " ";display: table;}
@@ -117,3 +117,19 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 .arrow_box:before {border-color: rgba(224, 224, 224, 0);	border-top-color: #e0e0e0;	border-width: 21px;	margin-left: -21px;}
 /* validation popup end*/
 /* validation end*/
+
+/* media query start */
+@media (max-width:1024px){
+	.box-layout{width: calc(50% - 16px);}
+	
+}
+@media (max-width:768px){
+	.box-layout{width: auto;}
+	.list-validation{min-height:auto;}]
+	
+}
+@media (max-width:360px){
+	
+	.box-layout-footer .mdl-button{margin:0; height:auto;}
+	
+}

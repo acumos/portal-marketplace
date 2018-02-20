@@ -35,7 +35,7 @@
 .md-tab {color:#414141 !important;/*font-weight: bold;*/padding: 12px 20px;}
 /* .managelefticon{width:35px; float:left; padding: 15px 0 0; } */
 .managelefticon-single{width:35px; float:left; padding: 11px 0 0;}
-.managelefticon{width:40px; float:left; padding: 4px 0 0; }
+.managelefticon{width:35px; float:left; padding: 4px 0 0; }
 .managelefticon i{margin:0 auto; display: inline-block;}
 .managelefticon i img{vertical-align:top; padding-top:10px;}
 .managelefticon-single i img{vertical-align:top; padding-top:10px;}
@@ -505,14 +505,28 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .R-cloud{ background-image:url("../images/ico_R_inactive.png"); background-repeat:no-repeat; width:20px; height:15px; display:inline-block;}
 .is-active .R-cloud{background-image:url("../images/ico_R_active.png");}
 .popovers .progress-bar{margin:5px 0 3px;}
+.onboardsection{margin-bottom: 0px;}
+.onboardtabsection{padding-bottom:0;}
+.vertical-mdl-tabs .mdl-tabs__tab-bar {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-bottom: 35px;
+    height: inherit;
+    border-bottom: none;
+    margin: 0;
+}
 
 /* media query start */
 @media(max-width:1024px){
 body,  ul, ol{font-size:12px;}
 .headline{font-size:16px;}
 .tabs-left>li article, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 span {font-size: 11px;}
-.mdl-cell.workflow-left{width: 150px;}
-.mdl-cell.workflow-right{width: calc(100% - 150px) !important;}  
+.mdl-cell.workflow-left, .workflow-leftheader{width: 165px;}
+.mdl-cell.workflow-right, .workflow-right-header{width: calc(100% - 165px) !important;}  
+.managelefticon{width: 25px;}
+.tabs-left li div.managelefttext{margin-left: 30px;}
+.onboarding .vertical-mdl-tabs.mdl-tabs .mdl-tabs__tab { padding: 0 20px;}
 .company-market ul li .text{line-height:18px;} 
 .timeline h6 { font-size: 14px;}
 .timeline h6 span, .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p{font-size: 12px;}
@@ -540,15 +554,15 @@ body,  ul, ol{font-size:12px;}
 @media(max-width:767px){
 	.vertical-mdl-tabs .mdl-tabs__tab-bar{padding-bottom:0;}
 	.mdl-cell.workflow-left{overflow-y: scroll; width: 100%; background-color: transparent;}
-	.tabs-left{/*width:432px; height: 88px; */width:382px; height: 72px; border-bottom: 6px; background-color: #f1f1f1;}
+	/* .tabs-left{width:432px; height: 88px;width:100%; min-width:572px; height: 72px; border-bottom: 6px; background-color: #f1f1f1;} */
+	.tabs-left{width: 100%;  min-width: 547px; background-image:url("../images/ul_bg.png"); background-repeat:repeat-x;}
 	.workflow-leftheader{width:100%;}
 	.workflow-right-header{display:none;}
-	.tabs-left>li{width:auto; min-height:88px; border-bottom:0px;  border-top:0;}
-	
+	/* .tabs-left>li{width:auto; min-height:88px; border-bottom:0px;  border-top:0;} */
+	.tabs-left>li{ width: auto; min-height: 75px; margin-bottom: 6px; background-color: #F1F1F1; border-bottom:0px;}   
 	.vertical-mdl-tabs.mdl-tabs.is-upgraded a.mdl-tabs__tab.is-active, .vertical-mdl-tabs a.mdl-tabs__tab.is-active{
 	    border-right: 0;
-	    border-bottom: 5px solid #671C9D;
-	    
+	    border-bottom: 5px solid #671C9D;	    
 	}
 	.vertical-mdl-tabs.mdl-tabs.is-upgraded .mdl-tabs__tab.is-active::before, .vertical-mdl-tabs a.mdl-tabs__tab.is-active::before{
 		border-left: 6px solid transparent;
@@ -558,7 +572,7 @@ body,  ul, ol{font-size:12px;}
    		bottom: 0;
    		right: 50%;
    		top: auto;
-   		margin-right:-5px;
+   		margin-right:-5px;   		
 	}
 	.managelefticon-single{padding: 11px 0 15px;}	
 	.mdl-cell.workflow-right{width:100% !important;}
@@ -566,11 +580,13 @@ body,  ul, ol{font-size:12px;}
 	.timeline h6{display: inline-block; padding-bottom:2px;}
 	.popovers{width:100%;}
 	.mdl-tabs__panel md-content{overflow: initial;}
-	.mdl-cell.workflow-left div{background-color:#F1F1F1; height:72px; border-bottom: 1px dashed #DFDFDF;}
-	.tabs-left li div.managelefttext{margin: 0px 0 0;}
+	.mdl-cell.workflow-left div{/* background-color:#F1F1F1; border-bottom: 1px dashed #DFDFDF; height:82px;*/   }
+	.tabs-left li div.managelefttext{margin: 0px 0 0 8px; float:left; line-height:15px; padding: 28px 0; }
 	.workflow-left ul.tabs-left>li a.mdl-tabs__tab.is-active div.managelefttext{background-color:#FFF;}
 	.onboarding .mdl-tabs__panel md-content{overflow: initial;}
 	.tabs-left .mdl-tabs__tab{background-color: #f1f1f1;}
+	.managelefticon{padding: 8px 0 0;}
+	.managelefticon .h2o{margin-top: 23px; float: left;}
 	
 }
 @media ( max-width :640px){
