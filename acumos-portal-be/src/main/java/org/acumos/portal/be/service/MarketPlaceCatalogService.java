@@ -36,6 +36,7 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
@@ -127,5 +128,7 @@ public interface MarketPlaceCatalogService {
 	
 	RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageRequestPortal); 
 	
-	RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest); 
+	RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest);
+
+	MLPSolutionWeb getSolutionWebMetadata(String solutionId); 
 }

@@ -38,6 +38,7 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
@@ -1005,6 +1006,31 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			data.setResponseDetail("Error occured while fetching solutions for user");
 			log.error(EELFLoggerDelegate.errorLogger, "Error Occurred Fetching solutions for user :" + userId);
+		}
+		return data;
+	}
+	
+	@ApiOperation(value = "Get avg ratings for a solution Id", response = MLPSolutionWeb.class, responseContainer = "List")
+	@RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
+		JsonResponse<MLPSolutionWeb> data = new JsonResponse<>();
+		try {
+			MLPSolutionWeb  solutionStats  = catalogService.getSolutionWebMetadata(solutionId);
+			if (solutionStats != null) {
+				data.setResponseBody(solutionStats);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Solution ratings fetched Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");
+			}else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("No ratings found for solution :"+ solutionId);
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred Fetching ratings for model :" + solutionId);
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while getAvgRatingsForSol");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAvgRatingsForSol", e);
 		}
 		return data;
 	}

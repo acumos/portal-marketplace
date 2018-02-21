@@ -93,6 +93,7 @@ public class APINames {
     public static final String GET_SOLUTION_RATING_USER = "/solutions/ratings/{solutionId}/user/{userId}";
     public static final String PORTAL_SOLUTIONS = "/portal/solutions";
     public static final String USER_ACCESS_SOLUTIONS = "userAccess/solution/{userId}";
+    public static final String GET_AVG_SOLUTION_RATING = "solution/avgRating/{solutionId}";
     
     //Tags APIs for MarketPlace Catalog
     public static final String TAGS = "/tags";
