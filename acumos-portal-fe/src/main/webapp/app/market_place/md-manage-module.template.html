@@ -272,9 +272,10 @@
 									<div class="mpdetailscontainer">
 										<div class="tilecontainer1">
 											<label class="griditem-title">{{privateSolution.name}}</label>
-											<!-- Shared icon. Commented now, Uncomment and work -->
-											<!-- .md-share-with-me and .md-share-with-others classes for icons-->
-											<!-- <span class="md-share-with-others"></span> -->
+											<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="privateSolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="privateSolution.ownerId == loginUserID && privateSolution.ownerListForSol.length > 0"></span> 
+										
 										</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
@@ -321,6 +322,9 @@
 								<div class="mp-grid-list-details-cell">
 									<label class="griditem-title">{{privateSolution.name}}
 										<!-- <span class="text-xsmall link-orange">In progress</span> -->
+										<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="privateSolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="privateSolution.ownerId == loginUserID && privateSolution.ownerListForSol.length > 0"></span>
 									</label>
 									<div class="disblock detail-content">
 										<span class="griditem-text2">by
@@ -400,8 +404,9 @@
 											<label class="griditem-title">{{companySolution.name}}
 												<span class="text-xsmall link-orange">In Process</span>
 											</label>
-											<!-- Shared Icon commented for now. Uncomment and work -->
-											<!-- <span class="md-share-with-me"></span> -->
+											<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="companySolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="companySolution.ownerId == loginUserID && companySolution.ownerListForSol.length > 0"></span>
 										</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
@@ -489,6 +494,9 @@
 									<label class="griditem-title">{{companySolution.name}}
 										<span class="text-xsmall link-orange">In progress</span>
 									</label>
+									<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="companySolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="companySolution.ownerId == loginUserID && companySolution.ownerListForSol.length > 0"></span>
 									<div class="disblock detail-content">
 										<span class="griditem-text2">by
 											{{companySolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -622,7 +630,12 @@
 									<div class="mpdetailscontainer">
 										<label class="griditem-title">{{publicSolution.name}}
 											<span class="text-xsmall link-orange">In Process</span>
-										</label> <label class="grid-item-text-container"><span
+										</label>
+										<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="publicSolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="publicSolution.ownerId == loginUserID && publicSolution.ownerListForSol.length > 0"></span> 
+										
+										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
 												{{publicSolution.ownerName}}</span> | <span class="griditem-text2">on
 												{{publicSolution.modified || publicSolution.created |
@@ -684,6 +697,10 @@
 								<div class="mp-grid-list-details-cell">
 									<label class="griditem-title">{{mlsolution.name}} <span
 										class="text-xsmall link-orange">In progress</span></label>
+										<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="mlsolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="mlsolution.ownerId == loginUserID && mlsolution.ownerListForSol.length > 0"></span> 
+										
 									<div class="disblock detail-content">
 										<span class="griditem-text2">by
 											{{mlsolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -775,7 +792,13 @@
 										</div>
 										<div class="mpdetailscontainer">
 											<label class="griditem-title">{{deletedSolution.name}}
-											</label> <label class="grid-item-text-container"><span
+											</label> 
+												<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="deletedSolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="deletedSolution.ownerId == loginUserID && deletedSolution.ownerListForSol.length > 0"></span> 
+										
+											
+											<label class="grid-item-text-container"><span
 												class="griditem-text2 grid-item-lbl">by
 													{{deletedSolution.ownerName}}</span> | <span
 												class="griditem-text2">on {{deletedSolution.modified
@@ -836,6 +859,10 @@
 										<label class="griditem-title">{{deletedSolution.name}}
 											<span class="text-xsmall link-orange">In progress</span>
 										</label>
+											<!-- Shared With/ Shared By Icon -->
+											<span class="md-share-with-me" title="Shared With Me" ng-show="deletedSolution.ownerId != loginUserID"></span>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="deletedSolution.ownerId == loginUserID && deletedSolution.ownerListForSol.length > 0"></span> 
+										
 										<div class="disblock detail-content">
 											<span class="griditem-text2">by
 												{{deletedSolution.ownerName}}</span> | <span class="griditem-text2">on
