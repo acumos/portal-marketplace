@@ -509,9 +509,7 @@ angular
 							// $scope.solutionEditorCompanyDesc;
 							
 							if($scope.solutionCompanyDesc){
-								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc.substring($scope.solutionCompanyDesc.indexOf(">") + 1);
-								$scope.solutionCompanyDescString = $scope.solutionCompanyDescString.substring(0, $scope.solutionCompanyDescString.indexOf('<'));
-								$scope.solutionCompanyDescString = $scope.solutionCompanyDescString.replace(/\s+/g, '');
+								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc ? String($scope.solutionCompanyDesc).replace(/<[^>]+>/gm, '') : '';
 								if($scope.solutionCompanyDescString.length > 1){
 									$scope.solutionCompanyDescLength = true;
 								}else{

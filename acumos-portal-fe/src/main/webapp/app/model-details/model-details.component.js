@@ -47,6 +47,7 @@ angular
 								$scope.ratingCount3 = 0;
 								$scope.ratingCount4 = 0;
 								$scope.ratingCount5 = 0;
+								$scope.totalRatingsCount = 0;
 								
 								angular.forEach($scope.allUserRatings, function(value, key) {									
                     				if(value.rating == 1){
@@ -61,12 +62,34 @@ angular
                     					$scope.ratingCount5 = $scope.ratingCount5+1
                     				}
                     			});
+								
+								$scope.totalRatingsCount = $scope.ratingCount1 + $scope.ratingCount2 + $scope.ratingCount3 + $scope.ratingCount4 + $scope.ratingCount5;
 							}).error(function(data, status, headers, config) {
 								
 							});
 						}
 													
 						$scope.getAllRatings();
+						
+						$scope.getAverageRatings = function(){
+							$stateParams.solutionId
+							debugger;
+									var req = {
+
+										    method: 'GET',
+										    url: 'api/solution/avgRating/'+ $stateParams.solutionId,
+										};
+									$http(req)
+									.success(function(data, status, headers,config) {
+										debugger
+										$scope.averageRatings = data.response_body;
+										
+									}).error(function(data, status, headers, config) {
+										console.warn("Error: ",data);
+									});
+						}
+						$scope.getAverageRatings();
+						
 						
 						$scope.revisionId;
 						
@@ -76,7 +99,8 @@ angular
 								"request_body" : {
 									"solutionId" : $stateParams.solutionId,
 									"rating" : rating,
-									"userId" : user[1]
+									"userId" : user[1],
+									"textReview": $scope.ratingReview
 								},
 								  "request_from" : "string",
 								  "request_id" : "string"
@@ -126,9 +150,11 @@ angular
 														$scope.showAlertMessage = false;
 													}, 2500);
 												}
+												$mdDialog.hide();
 												$scope.getAllRatings();
 											},
 											function(error) {
+												$mdDialog.hide();
 												console.log(error);
 											});
 								
@@ -164,10 +190,13 @@ angular
 												}, 2500);
 												
 											}
+											$mdDialog.hide();
 											$scope.getSolutionratings();
+											
 										},
 										function(error) {
 											console.log(error);
+											$mdDialog.hide();
 										});
 								
 							}

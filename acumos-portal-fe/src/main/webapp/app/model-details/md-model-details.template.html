@@ -185,10 +185,15 @@
 					<div>
 						<!-- <hr class="hor-seperator" /> -->
 						<h6 class="sectiontitle4">
-							Tags <span class="title-icons icon-tags"></span>
+							Tags<span class="title-icons icon-tags"></span>
 						</h6>
-						<div class="box-inner2 rowcontainer" ng-repeat="tag in tags">
-							<md-chips> <md-chip>{{tag.tag}}</md-chip> </md-chips>
+						<div class="box-inner2 rowcontainer">
+							<md-chips ng-model="tags" readonly="true"> 
+								<md-chip-template>
+									{{$chip.tag}}
+								 </md-chip-template> 
+							</md-chips>
+							<br/>
 						</div>
 					</div>
 					<hr class="hor-seperator" />
@@ -457,19 +462,24 @@
 									<div class="text-right rating-container1">
 										<div>
 											<!-- <span class="star-rating-title">21</span>  -->
-											<h6 class="sectiontitle5 rate-title" ng-show="!cantRate">You've rated</h6>
-											<h6 class="sectiontitle5 rate-title" ng-show="cantRate">Ratings</h6>
-											<jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars>
+											<h6 class="sectiontitle5 rate-title" ng-show="cantRate || !cantRate">{{averageRatings.ratingAverageTenths}}</h6>
+											<!-- <h6 class="sectiontitle5 rate-title" ng-show="cantRate">Ratings</h6> -->
+											<jk-rating-stars rating="averageRatings.ratingAverageTenths" class="staticRating"></jk-rating-stars>
 										</div>
 										<div>
-											<label class="font600">{{mlSolutionGetRating.rating}} stars</label>
+											<label class="font300">Out of 5 ratings</label>
+										</div>
+										<div>
+											<!-- <label class="font600">{{mlSolutionGetRating.rating}} ratings</label> -->
+											<label class="font600">Total {{totalRatingsCount}} ratings</label>
 										</div>
 										<!-- <div>
 											<label class="font600">51 reviews</label>
 										</div> -->
 										<div>
-											<button ng-click="onItemRating(mlSolutionGetRating.rating)"
+											<button 
 												ng-disabled="cantRate"
+												ng-click="$root.showPrerenderedDialog($event, '#rateModelPopup')"
 												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Rate
 												This Model</button>
 										</div>
@@ -480,35 +490,35 @@
 										<span style="font-weight: bold"> {{ratingCount5}} </span> <span>5
 											stars</span>
 										<div class="progress">
-											<div class="determinate" style="width: 100%"></div>
+											<div class="determinate" style="width: 100%; background-color: green"></div>
 										</div>
 									</div>
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount4}} </span> <span>4
 											stars</span>
 										<div class="progress">
-											<div class="determinate" style="width: 80%"></div>
+											<div class="determinate" style="width: 80%; background-color: green"></div>
 										</div>
 									</div>
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount3}} </span> <span>3
 											stars</span>
 										<div class="progress">
-											<div class="determinate" style="width: 60%"></div>
+											<div class="determinate" style="width: 60%; background-color: green"></div>
 										</div>
 									</div>
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount2}} </span> <span>2
 											stars</span>
 										<div class="progress">
-											<div class="determinate" style="width: 40%"></div>
+											<div class="determinate" style="width: 40%; background-color: orange"></div>
 										</div>
 									</div>
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount1}} </span> <span>1
 											star</span>
 										<div class="progress">
-											<div class="determinate" style="width: 20%"></div>
+											<div class="determinate" style="width: 20%; background-color: red"></div>
 										</div>
 									</div>
 								</div>
@@ -872,6 +882,51 @@
 		</md-dialog>
 	</div>
 	<!-- Modal box end -->
+	
+	
+	<!-- Rating Model Starts  -->
+	<div class="md-dialog-container" id="rateModelPopup" style="height: 0;">
+		<md-dialog aria-label="Rate Model" class="cg-dialog-medium">
+		<form ng-cloak>
+			<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Rate this Model - {{solution.name}}</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="handleDismiss()">
+				<i class="material-icons">close</i> </md-button>
+			</div>
+			</md-toolbar>
+			<md-dialog-content>
+			<div class="md-dialog-content">
+			You've Rated <jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars>
+			<br/>
+			<label class="md-lbl2">Review this model</label>
+			<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "ratingReview"
+			rows="3" id="comment"></textarea>
+										
+			</div>
+			<md-dialog-actions>
+			
+				<!-- <button ng-click="handleDismiss()"
+					class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary text-tranformnone">Close</button> -->
+				<div class="modeldetails-dialog-footer">
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple" type="button" ng-click="handleDismiss()" data-upgraded=",MaterialButton,MaterialRipple">
+						<span> Cancel</span>
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple" type="button" ng-click="onItemRating(mlSolutionGetRating.rating)" data-upgraded=",MaterialButton,MaterialRipple">
+						<span> Submit </span>
+						<div class="md-ripple-container"></div>
+					</button>
+				</div>
+				
+		
+			</md-dialog-actions>
+			</md-dialog-content>
+			
+		</form>
+		</md-dialog>
+	</div>
+	<!-- Rating Model Ends -->
 
 
 

@@ -432,5 +432,19 @@ angular.module('modelResource')
 			$scope.$watch('file', function() {chkCount();});
 			$scope.$watch('user', function() {chkCount();});
 			$scope.$watch('popupAddSubmit', function() {chkCount();});
-		}
+			
+			/*if a popup is open other should close*/
+			$scope.closeOtherPopovers = function(variableName, variableValue){
+		    	$scope.variableName = variableName;
+		    	$scope.variableValue = variableValue;
+		    	if($scope.variableName == 'uploadModel' && $scope.variableValue == true){
+		    		$scope.selToolKitT = $scope.addModel = false;
+		    	}else if( $scope.variableName == 'selToolKitT' && $scope.variableValue == true ){
+		    		$scope.uploadModel = $scope.addModel = false;
+		    	}else if( $scope.variableName == 'addModel' && $scope.variableValue == true ){
+		    		$scope.uploadModel = $scope.selToolKitT = false;
+		    	}
+		    };
+		    
+			}
 });
