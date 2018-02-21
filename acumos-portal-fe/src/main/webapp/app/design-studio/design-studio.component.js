@@ -2734,7 +2734,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	 return $http.post(url).success(function(result) {
     		 if(setProbeStatus == true){
     			 $scope.msg = "Probe added successfully";
+    			 $scope.saveState.noSaves = false;
                 $scope.showpopup();
+    		 } else{
+    			 $scope.msg = "Probe removed";
+    			 $scope.saveState.noSaves = false;
+                 $scope.showpopup();
     		 }
              
          });
