@@ -56,6 +56,7 @@ import org.acumos.cds.domain.MLPThread;
 import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
+import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.domain.MLPValidationSequence;
 import org.acumos.cds.domain.MLPValidationStatus;
@@ -1132,6 +1133,36 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public RestPageResponse<MLPStepResult> searchStepResults(Map<String, Object> queryParameters, boolean isOr,
 			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPUserNotifPref createUserNotificationPreference(MLPUserNotifPref usrNotifPref) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateUserNotificationPreference(MLPUserNotifPref usrNotifPref) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUserNotificationPreference(Long userNotifPrefId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<MLPUserNotifPref> getUserNotificationPreferences(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPUserNotifPref getUserNotificationPreference(Long usrNotifPrefId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

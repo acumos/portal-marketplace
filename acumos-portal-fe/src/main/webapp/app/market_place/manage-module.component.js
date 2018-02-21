@@ -999,7 +999,10 @@ angular
 												else {
 													$scope.viewNoMLsolution = 'No More ML Solutions';
 													}
-												$scope.tags = response.data.response_body.allTagsSet;
+												if(response.data.response_body.allTagsSet){
+													$scope.tags = response.data.response_body.allTagsSet;
+												}
+												
 												$scope.dataLoading = false;
 												if (response.data.response_body.content.length >= 0) {
 													for (var i = 0; i < response.data.response_body.content.length; i++) {

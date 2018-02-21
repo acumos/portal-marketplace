@@ -532,7 +532,7 @@
 											</div>
 											<div class="timeline-label">
 												<h2>
-													 <span ng-click="selToolKitT = !selToolKitT;" class="link-heading">Choose Toolkit</span> | 
+													 <span ng-click="selToolKitT = !selToolKitT; closeOtherPopovers('selToolKitT',selToolKitT)" class="link-heading">Choose Toolkit</span> | 
 													 <span class="green" class="green"
 																ng-if="toolkitNameValue">Completed</span>
 													 <span class="red" ng-if="!toolkitNameValue">Not Started</span>
@@ -637,7 +637,7 @@
 												<span class="entypo-feather fa fa-check"></span>
 											</div>
 											<div class="timeline-label">
-												<h2><span ng-click="uploadModel = !uploadModel;openDrop(false)" class="link-heading">
+												<h2><span ng-click="uploadModel = !uploadModel;openDrop(false); closeOtherPopovers('uploadModel',uploadModel)" class="link-heading">
 													 Upload Model Bundle  </span>| 
 													 <span class="green" class="green"
 																ng-if="file&&fileSubmit">Completed</span>
@@ -735,7 +735,7 @@
 												<span class="entypo-feather fa fa-check"></span>
 											</div>
 											<div class="timeline-label">
-												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;user='';openDrop(false)" class="link-heading">
+												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;user='';openDrop(false); closeOtherPopovers('addModel',addModel)" class="link-heading">
 													 <!-- Add Model Information  --> Model Name</span>| 
 													 <span class="green" class="green"
 																ng-if="user.name&&popupAddSubmit">Completed</span>

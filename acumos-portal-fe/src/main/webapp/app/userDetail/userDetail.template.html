@@ -399,8 +399,8 @@
 	<div class="userprofile-dialog-footer">
 		<md-button ng-click="closePoup();"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-		Cancel </md-button>
-		<md-button ng-click="uploadImg()"
+		Cancel </md-button> <!--enableUploadBtn  -->
+		<md-button ng-click="uploadImg()" ng-disabled="!userImage"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 		Upload </md-button>
 	</div>
