@@ -3397,7 +3397,7 @@
 								<h6 class="sectiontitle">Export To Cloud</h6>
 								<div class="mdl-grid cloud-radio">
 									<div
-										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone active">
+										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone" ng-class='checkboxExport=="microsoft"?"active":""'>
 										<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
 											for="option1"> <input type="radio" id="option1"
 											name="icons" class="mdl-radio__button cloud-radio-btn"
@@ -3416,12 +3416,12 @@
 										</label>
 									</div>
 									<div
-										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone" ng-class='checkboxExport=="ripple"?"active":""'>
 										<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
 											for="option3"> <input type="radio" id="option3"
 											ng-model="checkboxExport" value='ripple'
 											name="icons" class="mdl-radio__button cloud-radio-btn"
-											disabled> <span class="mdl-radio__label"><img
+											> <span class="mdl-radio__label"><img
 												src="images/rackspace_logo.png" alt="" /></span>
 										</label>
 									</div>

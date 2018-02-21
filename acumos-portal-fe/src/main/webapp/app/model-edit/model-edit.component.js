@@ -1517,7 +1517,7 @@ angular
 						/** ****** Export to local ends *** */
 
 						/** ****** Export/Deploy to Azure starts *** */
-
+						$scope.checkboxExport = 'microsoft';
 						$scope.authenticateAnddeployToAzure = function() {
 							var imageTagUri = '';
 							if ($scope.artifactType != null
