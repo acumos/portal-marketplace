@@ -548,7 +548,8 @@ angular.module('admin')
                       $scope.showPopupPeeR1 = function(ev,val){
                 	  $scope.addedAllToSubs = false;
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
-                	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false';
+                	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false'; $scope.allModelsTable = false;
+                	  $scope.showAllModelsTable = false;
             		  $scope.toolKitTypeValue = '';$scope.solutionDetail = '';
                 	  $scope.peerIdForSubsList = val.peerId;
                 	  $scope.peerDetailList = val;

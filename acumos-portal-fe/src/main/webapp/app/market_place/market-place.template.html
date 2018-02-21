@@ -46,7 +46,9 @@
 								<label class="disblock md-subhead">Tags <span class="title-icons icon-tags"></span></label>
 								<div class="">
 									<md-chips>
-									  <md-chip ng-repeat="tag in tags">{{tag}}</md-chip>
+									  <md-chip ng-repeat="tag in tags" 
+									  	ng-class="{'selected-tag': selectedChip[$index]}"
+									   ng-click="filterChange(tag,'tag');selectChip($index)">{{tag}}</md-chip>
 									</md-chips>
 								</div>
 								
