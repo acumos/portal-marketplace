@@ -40,7 +40,7 @@
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
 						ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID">Sign
 						In To Download</button>
-				<button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
+				<!-- <button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
 							ng-hide="solution.accessType =='PR'"
 							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 							<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
@@ -55,7 +55,15 @@
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
 					<li class="mdl-menu__item dc-amazon-cloud" disabled
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-				</ul>
+				</ul> -->
+				<div  class="select-control dcl-list" >
+                    <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-microsoft-azure" value="microsoft">Microsoft</md-option>
+                        <md-option class="dc-google-cloud" value="rackspace" disabled>Deploy To Cloud</md-option>
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-rackspace" value="ripple">Rack Space</md-option>
+                        <md-option class="dc-amazon-cloud" value="amazon" disabled>Deploy To Cloud</md-option>
+                    </md-select>
+                </div>
 			</div>
 		</div>
 		<div class="md-head-container2">
@@ -730,7 +738,7 @@
 			</md-toolbar>
 			<md-dialog-content>
 			<div class="md-dialog-content">
-				<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='microsoft'">
 					<div class="mdl-cell mdl-cell--6-col">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Application
@@ -758,6 +766,13 @@
 						</md-input-container>
 					</div>
 				</div>
+				
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
+						<md-input-container class="md-icon-float md-block">
+						<!-- Use floating label instead of placeholder --> <label>VM
+							Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text"> </md-input-container>
+				</div>
+				
 				<hr />
 				<div class="dialog-btn-container">
 					<md-button
