@@ -1,1338 +1,1353 @@
 <div class="posrel">
-	<alert-message msg="msg" icon="icon" styleclass="styleclass"
-		ng-show="showAlertMessage"></alert-message>
+      <alert-message msg="msg" icon="icon" styleclass="styleclass"
+            ng-show="showAlertMessage"></alert-message>
 </div>
 <div class="page-content">
-	<section class="pageheadsection gray-bg" id="md-model-detail-template">
-		<div class="md-head-container1">
-			<div class="md-head-containerinner1">
-				<span class="md-headline2 mob-disblock">
-					<img class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}</span>				
-				<div class="md-head-container3">
-					<div class="md-head-containerinner-seperator"></div>
-					<div class="version-container">
-						<button id="demo-menu-lower-right" class="mdl-button mdl-js-button"
-								ng-click="showVersion();$event.stopPropagation();">
-								<span>Version - {{versionId}} <i class="material-icons">keyboard_arrow_down</i></span>
-						</button>
-						<ul class="md-version-ddl1">
-							<li ng-repeat="v in versionList"
-									ng-click="loadVersionDetails(solution.solutionId, v.revisionId, v.version)"
-									ng-class="{selected: v.version == versionId}">Version - {{v.version}}</li>
-						</ul>
-					</div>
-					<button type="button" ng-if="solution.accessType != 'PR'"
-							class="mdl-button mdl-js-button mdl-js-ripple-effect btn-company"
-							ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company</button>
-					<button type="button" ng-if="solution.accessType != 'PR'"
-							class="mdl-button mdl-js-button mdl-js-ripple-effect"
-							ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public</button>								
-			</div>
-			</div>
-			
-			<div class="md-head-container2">	
-				<button type="button"
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
-						ng-hide="solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null "
-						ng-show="loginUserID">Download </button>
-				<button type="button"
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
-						ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID">Sign
-						In To Download</button>
-				<button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
-							ng-hide="solution.accessType =='PR'"
-							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-							<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
-				</button>
-				<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
-							for="demo-menu-lower-right4">
-					<li class="mdl-menu__item dc-microsoft-azure"
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-					<li class="mdl-menu__item dc-google-cloud" disabled
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-					<li class="mdl-menu__item dc-rackspace" disabled
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-					<li class="mdl-menu__item dc-amazon-cloud" disabled
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-				</ul>
-			</div>
-		</div>
-		<div class="md-head-container2">
-			<ul class="c-breadcrumb">
-				<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
-				<li><a ui-sref="marketPlace"
-						ng-if="$root.parentActive == 'marketplace'">Marketplace</a> <a
-						ui-sref="manageModule" ng-if="$root.parentActive == 'mymodel'">My
-							Model</a></li>
-				<li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
-			</ul>
-				<span class="md-lbl1" >Version {{versionId}} |
-					{{solution.downloadCount === null ? 0 : solution.downloadCount}}
-					Downloaded</span>		
-		</div>
-	</section>
-	<div class="md-container-head1 md-header3">
-		<div class="head-stat-left">
-			<div class="mdchild1">
-				<!-- <img src="images/chatuser.jpg" alt="" title="user"> -->
-				<!-- default image -->
-				<img class="userimg" ng-show="showAltImage"
-					ng-src="images/userprofile/user-profile-black.png"
-					title="{{userfirstname}}" />
-				<!-- user uploaded image -->
-				<img class="userimg" ng-show="!showAltImage"
-					ng-src="data:image/PNG;base64,{{userImage}}"
-					title="{{userfirstname}}" />
-			</div>
-			<div>
-				<div>
-					<span class="text-medium font600"><span
-						class="md-created-label">Created by {{solution.ownerName}}</span></span>
-					| <span class="text-xsmall">Created on {{solution.created |
-						date:'MM/dd/yyyy'}} </span>|
-					<button
-						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
-						ui-sref="modelEdit({solutionId:'{{solutionId}}'})"
-						ng-disabled="editModel">
-						<i class="material-icons">mode_edit</i> Manage My Model
-					</button>
-				</div>
-				<span class="text-xsmall publish-text" ng-if="solution.accessType != 'PR'">Published on
-					{{solution.modified | date:'MM/dd/yyyy' }}</span>
-			</div>
-		</div>
+      <section class="pageheadsection gray-bg" id="md-model-detail-template">
+            <div class="md-head-container1">
+                  <div class="md-head-containerinner1">
+                        <span class="md-headline2 mob-disblock">
+                              <img class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}</span>                      
+                        <div class="md-head-container3">
+                              <div class="md-head-containerinner-seperator"></div>
+                              <div class="version-container">
+                                    <button id="demo-menu-lower-right" class="mdl-button mdl-js-button"
+                                                ng-click="showVersion();$event.stopPropagation();">
+                                                <span>Version - {{versionId}} <i class="material-icons">keyboard_arrow_down</i></span>
+                                    </button>
+                                    <ul class="md-version-ddl1">
+                                          <li ng-repeat="v in versionList"
+                                                      ng-click="loadVersionDetails(solution.solutionId, v.revisionId, v.version)"
+                                                      ng-class="{selected: v.version == versionId}">Version - {{v.version}}</li>
+                                    </ul>
+                              </div>
+                              <button type="button" ng-if="solution.accessType != 'PR'"
+                                          class="mdl-button mdl-js-button mdl-js-ripple-effect btn-company"
+                                          ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company</button>
+                              <button type="button" ng-if="solution.accessType != 'PR'"
+                                          class="mdl-button mdl-js-button mdl-js-ripple-effect"
+                                          ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public</button>                                                
+                  </div>
+                  </div>
+                  
+                  <div class="md-head-container2">    
+                        <button type="button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                    ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
+                                    ng-hide="solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null "
+                                    ng-show="loginUserID">Download </button>
+                        <button type="button"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                                    ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID">Sign
+                                    In To Download</button>
+                        <!-- <button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
+                                          ng-hide="solution.accessType =='PR'"
+                                          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+                                          <span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
+                                          for="demo-menu-lower-right4">
+                              <li class="mdl-menu__item dc-microsoft-azure"
+                                                ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
+                              <li class="mdl-menu__item dc-google-cloud" disabled
+                                                ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
+                              <li class="mdl-menu__item dc-rackspace" disabled
+                                                ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
+                              <li class="mdl-menu__item dc-amazon-cloud" disabled
+                                                ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
+                        </ul> -->
+                        <div  class="select-control dcl-list" >
+                    <md-select ng-model="exportTo"  placeholder="Deploy To Cloud" class="dc-cloud-list">
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-microsoft-azure" value="microsoft">Microsoft</md-option>
+                        <md-option  class="dc-google-cloud" value="rackspace" disabled>Deploy To Cloud</md-option>
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-rackspace" value="ripple">Rack Space</md-option>
+                        <md-option class="dc-amazon-cloud" value="amazon" disabled>Deploy To Cloud</md-option>
+                    </md-select>
+                </div>
+                  </div>
+            </div>
+            <div class="md-head-container2">
+                  <ul class="c-breadcrumb">
+                        <li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+                        <li><a ui-sref="marketPlace"
+                                    ng-if="$root.parentActive == 'marketplace'">Marketplace</a> <a
+                                    ui-sref="manageModule" ng-if="$root.parentActive == 'mymodel'">My
+                                          Model</a></li>
+                        <li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
+                  </ul>
+                        <span class="md-lbl1" >Version {{versionId}} |
+                              {{solution.downloadCount === null ? 0 : solution.downloadCount}}
+                              Downloaded</span>       
+            </div>
+      </section>
+      <div class="md-container-head1 md-header3">
+            <div class="head-stat-left">
+                  <div class="mdchild1">
+                        <!-- <img src="images/chatuser.jpg" alt="" title="user"> -->
+                        <!-- default image -->
+                        <img class="userimg" ng-show="showAltImage"
+                              ng-src="images/userprofile/user-profile-black.png"
+                              title="{{userfirstname}}" />
+                        <!-- user uploaded image -->
+                        <img class="userimg" ng-show="!showAltImage"
+                              ng-src="data:image/PNG;base64,{{userImage}}"
+                              title="{{userfirstname}}" />
+                  </div>
+                  <div>
+                        <div>
+                              <span class="text-medium font600"><span
+                                    class="md-created-label">Created by {{solution.ownerName}}</span></span>
+                              | <span class="text-xsmall">Created on {{solution.created |
+                                    date:'MM/dd/yyyy'}} </span>|
+                              <button
+                                    class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
+                                    ui-sref="modelEdit({solutionId:'{{solutionId}}'})"
+                                    ng-disabled="editModel">
+                                    <i class="material-icons">mode_edit</i> Manage My Model
+                              </button>
+                        </div>
+                        <span class="text-xsmall publish-text" ng-if="solution.accessType != 'PR'">Published on
+                              {{solution.modified | date:'MM/dd/yyyy' }}</span>
+                  </div>
+            </div>
 
-		<div class="header-stats" ng-if="solution.accessType == 'PR'">
-			<span
-				style="color: rgb(255, 87, 34); text-transform: uppercase; padding-right: 20px; font-weight: bold; font-size: 12px; padding-top: 5px;">Status: Unpublished</span>
-		</div>
+            <div class="header-stats" ng-if="solution.accessType == 'PR'">
+                  <span
+                        style="color: rgb(255, 87, 34); text-transform: uppercase; padding-right: 20px; font-weight: bold; font-size: 12px; padding-top: 5px;">Status: Unpublished</span>
+            </div>
 
-		<div class="header-stats" ng-if="solution.accessType != 'PR'">
-			<div>
-				<span class="rating header-stat-lg"> <span><i
-						class="material-icons fa fa-star"
-						ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 1}"></i></span>
-					<span><i class="material-icons fa fa-star"
-						ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 2}"></i></span>
-					<span><i class="material-icons fa fa-star"
-						ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 3}"></i></span>
-					<span><i class="material-icons fa fa-star"
-						ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 4}"></i></span>
-					<span><i class="material-icons fa fa-star"
-						ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 5}"></i></span>
-				</span>
-			</div>
-			<!-- <div class="header-stat-star"><a href="#"><i class="material-icons">star_rate</i> {{solution.solutionRating}}</a></div> -->
-			<div>
-				<a class="link-blue text-medium"><span
-					class="statistics-icons icon-chat-blue md-icons1"></span>
-					{{totalCommentCount}} <span class="header-stat-lg">Comments</span></a>
-			</div>
-			<div ng-show="solution.active == true">|</div>
-			<div ng-show="solution.active == true">
-				<a class="link-write-comments link-blue text-medium">Write
-					Comments</a>
-			</div>
-			<div>|</div>
-			<div class="text-medium">
-				<span class="statistics-icons icon-view md-icons1"></span>
-				{{solution.viewCount === null ? 0 : solution.viewCount}} <span
-					class="header-stat-lg">Viewed</span>
-			</div>
-			<div>|</div>
-			<div class="text-medium">
-				<span class="statistics-icons icon-download md-icons1"></span>
-				{{solution.downloadCount === null ? 0 : solution.downloadCount}} <span
-					class="header-stat-lg">Downloaded</span>
-			</div>
-		</div>
-	</div>
-	<div class="page-wrapper3">
-		<div
-			class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-			<div class="mdl-grid mdl-grid--no-spacing">
-				<div class="mdl-cell md-left-container">
-					<div class="mdl-tabs__tab-bar">
-						<a href="#tab1-panel" class="mdl-tabs__tab is-active"> <span
-							class="tab-box"> <span class="tab-icons tab-description"></span>
-								<span>Description</span>
-						</span>
-						</a> <a href="#tab2-panel" class="mdl-tabs__tab"> <span
-							class="tab-box"> <span class="tab-icons tab-signatures"></span>
-								<span>Signatures</span>
-						</span>
-						</a> <a href="#tab3-panel" class="mdl-tabs__tab"> <span
-							class="tab-box"> <span class="tab-icons tab-documents"></span>
-								<span>Documents</span>
-						</span>
+            <div class="header-stats" ng-if="solution.accessType != 'PR'">
+                  <div>
+                        <span class="rating header-stat-lg"> <span><i
+                                    class="material-icons fa fa-star"
+                                    ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 1}"></i></span>
+                              <span><i class="material-icons fa fa-star"
+                                    ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 2}"></i></span>
+                              <span><i class="material-icons fa fa-star"
+                                    ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 3}"></i></span>
+                              <span><i class="material-icons fa fa-star"
+                                    ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 4}"></i></span>
+                              <span><i class="material-icons fa fa-star"
+                                    ng-class="{'fa-star1': mlSolutionGetRating.content[0].rating == null || mlSolutionGetRating.content[0].rating < 5}"></i></span>
+                        </span>
+                  </div>
+                  <!-- <div class="header-stat-star"><a href="#"><i class="material-icons">star_rate</i> {{solution.solutionRating}}</a></div> -->
+                  <div>
+                        <a class="link-blue text-medium"><span
+                              class="statistics-icons icon-chat-blue md-icons1"></span>
+                              {{totalCommentCount}} <span class="header-stat-lg">Comments</span></a>
+                  </div>
+                  <div ng-show="solution.active == true">|</div>
+                  <div ng-show="solution.active == true">
+                        <a class="link-write-comments link-blue text-medium">Write
+                              Comments</a>
+                  </div>
+                  <div>|</div>
+                  <div class="text-medium">
+                        <span class="statistics-icons icon-view md-icons1"></span>
+                        {{solution.viewCount === null ? 0 : solution.viewCount}} <span
+                              class="header-stat-lg">Viewed</span>
+                  </div>
+                  <div>|</div>
+                  <div class="text-medium">
+                        <span class="statistics-icons icon-download md-icons1"></span>
+                        {{solution.downloadCount === null ? 0 : solution.downloadCount}} <span
+                              class="header-stat-lg">Downloaded</span>
+                  </div>
+            </div>
+      </div>
+      <div class="page-wrapper3">
+            <div
+                  class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+                  <div class="mdl-grid mdl-grid--no-spacing">
+                        <div class="mdl-cell md-left-container">
+                              <div class="mdl-tabs__tab-bar">
+                                    <a href="#tab1-panel" class="mdl-tabs__tab is-active"> <span
+                                          class="tab-box"> <span class="tab-icons tab-description"></span>
+                                                <span>Description</span>
+                                    </span>
+                                    </a> <a href="#tab2-panel" class="mdl-tabs__tab"> <span
+                                          class="tab-box"> <span class="tab-icons tab-signatures"></span>
+                                                <span>Signatures</span>
+                                    </span>
+                                    </a> <a href="#tab3-panel" class="mdl-tabs__tab"> <span
+                                          class="tab-box"> <span class="tab-icons tab-documents"></span>
+                                                <span>Documents</span>
+                                    </span>
 
-						</a> <a href="#tab4-panel" class="mdl-tabs__tab"> <span
-							class="tab-box"> <span
-								class="tab-icons tab-versionhistory"></span> <span>Version
-									History</span>
-						</span>
-						</a>
+                                    </a> <a href="#tab4-panel" class="mdl-tabs__tab"> <span
+                                          class="tab-box"> <span
+                                                class="tab-icons tab-versionhistory"></span> <span>Version
+                                                      History</span>
+                                    </span>
+                                    </a>
 
-						<!--  <a href="#tab5-panel" class="mdl-tabs__tab">
-											      	       <span class="tab-box">
-											      	     	<span class="tab-icons tab-description"></span>
-											      	      	<span>Write Comments</span>
-											      	      </span>											            	
-											          </a> -->
-						<a href="#tab5-panel" class="mdl-tabs__tab tab5-panel"> </a>
-					</div>
-					<div>
-						<!-- <hr class="hor-seperator" /> -->
-						<h6 class="sectiontitle4">
-							Tags <span class="title-icons icon-tags"></span>
-						</h6>
-						<div class="box-inner2 rowcontainer" ng-repeat="tag in tags">
-							<md-chips> <md-chip>{{tag.tag}}</md-chip> </md-chips>
-						</div>
-					</div>
-					<hr class="hor-seperator" />
-					<div class="">
-						<h6 class="sectiontitle4">
-							Other {{solution.modelTypeName}} Models <a
-								class="text-small pull-right" data-target ng-click="showAll()">Show
-								all</a>
-						</h6>
-						<div class="md-list-container1">
-							<div class="list-item list-container"
-								ng-repeat="val in relatedSolutions | limitTo: 5">
-								<ul class="model-list"
-									ng-click='goToRelatedSolutions(val.solutionId)'>
-									<li><img src="images/solution2.jpg" alt=""
-										ng-click="onClickModel(val.solutionId, val.ownerId)"
-										title="solution"></li>
-									<li><label class="rel-title">{{val.name}}</label> <span
-										class="rating"> <span><i
-												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRatingAvg == null || val.solutionRatingAvg < 1}"></i></span>
-											<span><i class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRatingAvg < 2}"></i></span> <span><i
-												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRatingAvg < 3}"></i></span> <span><i
-												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRatingAvg < 4}"></i></span> <span><i
-												class="material-icons fa fa-star"
-												ng-class="{'fa-star1': val.solutionRatingAvg < 5}"></i></span>
-									</span> <label class="iconcontainer"> <span class="iconspan1"><span
-												class="statistics-icons icon-chat"></span> 0</span> <span
-											class="iconspan1"><span
-												class="statistics-icons icon-view"></span> {{val.viewCount}}</span>
-											<span class="iconspan1"><span
-												class="statistics-icons icon-download"></span>
-												{{val.downloadCount}}</span>
-									</label></li>
-								</ul>
-							</div>
+                                    <!--  <a href="#tab5-panel" class="mdl-tabs__tab">
+                                                                                     <span class="tab-box">
+                                                                                         <span class="tab-icons tab-description"></span>
+                                                                                          <span>Write Comments</span>
+                                                                                    </span>                                                                                   
+                                                                            </a> -->
+                                    <a href="#tab5-panel" class="mdl-tabs__tab tab5-panel"> </a>
+                              </div>
+                              <div>
+                                    <!-- <hr class="hor-seperator" /> -->
+                                    <h6 class="sectiontitle4">
+                                          Tags <span class="title-icons icon-tags"></span>
+                                    </h6>
+                                    <div class="box-inner2 rowcontainer" ng-repeat="tag in tags">
+                                          <md-chips> <md-chip>{{tag.tag}}</md-chip> </md-chips>
+                                    </div>
+                              </div>
+                              <hr class="hor-seperator" />
+                              <div class="">
+                                    <h6 class="sectiontitle4">
+                                          Other {{solution.modelTypeName}} Models <a
+                                                class="text-small pull-right" data-target ng-click="showAll()">Show
+                                                all</a>
+                                    </h6>
+                                    <div class="md-list-container1">
+                                          <div class="list-item list-container"
+                                                ng-repeat="val in relatedSolutions | limitTo: 5">
+                                                <ul class="model-list"
+                                                      ng-click='goToRelatedSolutions(val.solutionId)'>
+                                                      <li><img src="images/solution2.jpg" alt=""
+                                                            ng-click="onClickModel(val.solutionId, val.ownerId)"
+                                                            title="solution"></li>
+                                                      <li><label class="rel-title">{{val.name}}</label> <span
+                                                            class="rating"> <span><i
+                                                                        class="material-icons fa fa-star"
+                                                                        ng-class="{'fa-star1': val.solutionRatingAvg == null || val.solutionRatingAvg < 1}"></i></span>
+                                                                  <span><i class="material-icons fa fa-star"
+                                                                        ng-class="{'fa-star1': val.solutionRatingAvg < 2}"></i></span> <span><i
+                                                                        class="material-icons fa fa-star"
+                                                                        ng-class="{'fa-star1': val.solutionRatingAvg < 3}"></i></span> <span><i
+                                                                        class="material-icons fa fa-star"
+                                                                        ng-class="{'fa-star1': val.solutionRatingAvg < 4}"></i></span> <span><i
+                                                                        class="material-icons fa fa-star"
+                                                                        ng-class="{'fa-star1': val.solutionRatingAvg < 5}"></i></span>
+                                                      </span> <label class="iconcontainer"> <span class="iconspan1"><span
+                                                                        class="statistics-icons icon-chat"></span> 0</span> <span
+                                                                  class="iconspan1"><span
+                                                                        class="statistics-icons icon-view"></span> {{val.viewCount}}</span>
+                                                                  <span class="iconspan1"><span
+                                                                        class="statistics-icons icon-download"></span>
+                                                                        {{val.downloadCount}}</span>
+                                                      </label></li>
+                                                </ul>
+                                          </div>
 
-						</div>
-					</div>
-
-
-				</div>
-				<div class="mdl-cell md-right-container model-details-tabwrapper">
-					<div class="mdl-tabs__panel is-active" id="tab1-panel">
-						<div class="md-intro-container">
-							<h6 class="sectiontitle9">INTRODUCTION</h6>							
-						</div>
-
-						<div class="description-img-container">
-							<!-- <img class="modelimg1" src="images/imagegallery2.jpg" /> -->
-
-							<!-- images changed for demo  -->
-							<img
-								ng-src="{{imgURLdefault}}" class="modelimg1"
-								style="max-width: 400px; margin: 0 auto; display: block;">
-
-						</div>
-						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
-						<div ng-bind-html="solutionPublicDesc"></div>
-						<!-- <h6 class="sectiontitle6">EXAMPLE</h6>
-														<h6 class="sectiontitle7">Tree Example - English</h6>
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div>														
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div>
-														<h6 class="sectiontitle7">Tree ExamGraph Example - Germanple - English</h6>
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div>														
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div> -->
+                                    </div>
+                              </div>
 
 
-					</div>
-					<div class="mdl-tabs__panel" id="tab2-panel">
-						<h6 class="sectiontitle6">SIGNATURE</h6>
-						<div ng-show="modelName">
-							<div class="message" ng-repeat="(key,val) in messageDisplay">
-								message {{key}} {
-								<div ng-repeat="(key1,val1) in val track by $index">
-									{{val1}};</div>
-								}
+                        </div>
+                        <div class="mdl-cell md-right-container model-details-tabwrapper">
+                              <div class="mdl-tabs__panel is-active" id="tab1-panel">
+                                    <div class="md-intro-container">
+                                          <h6 class="sectiontitle9">INTRODUCTION</h6>                                          
+                                    </div>
 
-							</div>
-							service {{modelName}}{
-							<div class="operation" ng-repeat="(key,val) in operationDisplay">
-								{{key}} ({{val.input}}) returns {{val.output}};</div>
-							}
-						</div>
-						<!-- <h6 class="sectiontitle7">Input</h6>
-						<label>*(Required) Image Data API Url, Web (http/https)
-							Url, binary image, base64 encoded image or an array of data API
-							URLs/web URLs.</label> <label>**(Optional) **Output image
-							location, if input is an array, output location should be an
-							array of equal size.</label> <br />
-						<h6 class="sectiontitle7">Output</h6>
-						<label>Output image location</label> <label>Note: The
-							first call to this algorithm will take a bit longer than
-							sequential calls to due algorithm initialization. All following
-							calls will be significantly faster.</label>
- -->
-					</div>
-					<div class="mdl-tabs__panel" id="tab3-panel">
-						<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
-						<table class="mdl-data-table mdl-js-data-table md-tbl1">
-							<colgroup>
-								<col />
-								<col />
-								<col />
-								<col width="10%" />
-							</colgroup>
-							<thead>
-								<tr>
-									<th>Folder/Documents</th>
-									<th>Version</th>
-									<th>Modified on</th>
-									<th>action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<!-- ng-repeat = "value in downloadData" -->
-								<tr ng-repeat="supportingDoc in supportingDocs">
-									<td><span class="file-type"><i
-											class="fa fa-file-word-o" aria-hidden="true"></i></span><a
-										class="link-blue">{{supportingDoc}}</a></td>
-									<td>{{versionId}}</td>
-									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-									<td><a ng-if="solution.accessType ==='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}">
-										<i class="fa fa-download" aria-hidden="true"></i> </a>
-										<a ng-if="solution.accessType !=='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}">
-											<i class="fa fa-download" aria-hidden="true"></i>
-									</a></td>
-								</tr>
-								<!-- <tr>
-																	<td><span class="file-type"><i class="fa fa-file-excel-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 01</a></td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button btn-grid-action">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																	</td>
-																</tr>
-																<tr>
-																	<td><span class="file-type"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 02</a></td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button btn-grid-action">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																	</td>
-																</tr>
-																<tr>
-																	<td><span class="file-type"><i class="fa fa-folder-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Folder</a></td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button btn-grid-action">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																	</td>
-																</tr> -->
+                                    <div class="description-img-container">
+                                          <!-- <img class="modelimg1" src="images/imagegallery2.jpg" /> -->
+
+                                          <!-- images changed for demo  -->
+                                          <img
+                                                ng-src="{{imgURLdefault}}" class="modelimg1"
+                                                style="max-width: 400px; margin: 0 auto; display: block;">
+
+                                    </div>
+                                    <!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
+                                    <div ng-bind-html="solutionPublicDesc"></div>
+                                    <!-- <h6 class="sectiontitle6">EXAMPLE</h6>
+                                                                                    <h6 class="sectiontitle7">Tree Example - English</h6>
+                                                                                    <div class="c-mgcontainer">
+                                                                                          <label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
+                                                                                    </div>                                                                                    
+                                                                                    <div class="c-mgcontainer">
+                                                                                          <label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
+                                                                                    </div>
+                                                                                    <h6 class="sectiontitle7">Tree ExamGraph Example - Germanple - English</h6>
+                                                                                    <div class="c-mgcontainer">
+                                                                                          <label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
+                                                                                    </div>                                                                                    
+                                                                                    <div class="c-mgcontainer">
+                                                                                          <label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
+                                                                                    </div> -->
 
 
-							</tbody>
-						</table>
-					</div>
-					<div class="mdl-tabs__panel" id="tab4-panel">
-						<h6 class="sectiontitle6">VERSION HISTORY OF SOLUTION</h6>
-						<table class="mdl-data-table mdl-js-data-table md-tbl1">
-							<colgroup>
-								<col />
-								<col />
-								<col />
-								<col width="15%" />
-							</colgroup>
-							<thead>
-								<tr>
-									<th>Version Name</th>
-									<th>Version</th>
-									<th>Modified on</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="value in downloadData">
-									<td>
-										<!-- <a class="link-blue" href="#"> --><!-- Version name -->
-										{{value.name}}<!-- </a> --> <span class="font600"></span>
-									</td>
-									<td>{{value.version}}</td>
-									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
-									<td>
-										<button class="mdl-button mdl-js-button btn-grid-action"
-											ng-click="versionDownload(value.artifactId)">
-											<i class="fa fa-download" aria-hidden="true"></i>
-										</button>
+                              </div>
+                              <div class="mdl-tabs__panel" id="tab2-panel">
+                                    <h6 class="sectiontitle6">SIGNATURE</h6>
+                                    <div ng-show="modelName">
+                                          <div class="message" ng-repeat="(key,val) in messageDisplay">
+                                                message {{key}} {
+                                                <div ng-repeat="(key1,val1) in val track by $index">
+                                                      {{val1}};</div>
+                                                }
 
-									</td>
-								</tr>
-								<!-- <tr>
-																	<td>Version name 02 </td>
-																	<td>V2.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																		<a href="#" class="btn-view-details">View Details</a>
-																	</td>
-																</tr>
-																<tr>
-																	<td>Version name 03 </td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																		<a href="#" class="btn-view-details">View Details</a>
-																	</td>
-																</tr> -->
-
-							</tbody>
-						</table>
-					</div>
-					<div class="mdl-tabs__panel" id="tab5-panel">Content 5</div>
-					<div class="md-lower-container1" ng-hide="solution.accessType == 'PR'">
-						<div class="mdl-grid mdl-grid--no-spacing bdr-bottom">
-							<div
-								class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-								<h6 class="sectiontitle5 rate-title">RATE:
-									{{solution.name}}</h6>
-							</div>
-							<div  ng-show="solution.accessType == 'PB'"
-								class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-								<div flex class="text-right" >
-									<ul class="horizontal-list2 md-social-icons">
-										<li><h6 class="sharetitle">Share with</h6></li>
-										<li><span><i class="fa fa-facebook"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-linkedin"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-google-plus"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-github"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-twitter"
-												aria-hidden="true"></i></span></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="rating-container"> 
-							<div class="mdl-grid rating-container-inner">
-								<div class="mdl-cell mdl-cell--5-col rating-container-left">
-									<div class="text-right rating-container1">
-										<div>
-											<!-- <span class="star-rating-title">21</span>  -->
-											<h6 class="sectiontitle5 rate-title" ng-show="!cantRate">You've rated</h6>
-											<h6 class="sectiontitle5 rate-title" ng-show="cantRate">Ratings</h6>
-											<jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars>
-										</div>
-										<div>
-											<label class="font600">{{mlSolutionGetRating.rating}} stars</label>
-										</div>
-										<!-- <div>
-											<label class="font600">51 reviews</label>
-										</div> -->
-										<div>
-											<button ng-click="onItemRating(mlSolutionGetRating.rating)"
-												ng-disabled="cantRate"
-												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Rate
-												This Model</button>
-										</div>
-									</div>
-								</div>
-								<div class="mdl-cell mdl-cell--4-col rating-container-right">
-									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount5}} </span> <span>5
-											stars</span>
-										<div class="progress">
-											<div class="determinate" style="width: 100%"></div>
-										</div>
-									</div>
-									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount4}} </span> <span>4
-											stars</span>
-										<div class="progress">
-											<div class="determinate" style="width: 80%"></div>
-										</div>
-									</div>
-									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount3}} </span> <span>3
-											stars</span>
-										<div class="progress">
-											<div class="determinate" style="width: 60%"></div>
-										</div>
-									</div>
-									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount2}} </span> <span>2
-											stars</span>
-										<div class="progress">
-											<div class="determinate" style="width: 40%"></div>
-										</div>
-									</div>
-									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount1}} </span> <span>1
-											star</span>
-										<div class="progress">
-											<div class="determinate" style="width: 20%"></div>
-										</div>
-									</div>
-								</div>
-								<div class="mdl-cell mdl-cell--5-col"></div>
-							</div>
-							<hr class="md-hr-rule1" />
-							<div class="discussion-outer-container" ng-hide="solution.active == false">
-								<div class="md-discussion-container">
-									<span class="md-discussion-title">DISCUSSION
-										({{totalCommentCount}})</span>
-									<div class="md-discussion-links-container">
-										<a>Newest</a> <span>|</span> <a>Older</a> <span>|</span> <a>Liked</a>
-									</div>
-								</div>
-							</div>
-							<div class="discussion-outer-container">
-								<div class="discussion-container discussion-container2"
-									ng-repeat="(key, comment) in commentList">
-									<div>
-										<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!comment.image"
-											title="user">
-										<!-- user uploaded image -->
-										<img class="userimg" ng-show="comment.image"
-										ng-src="data:image/PNG;base64,{{comment.image}}"
-										title="{{comment.name}}" />
-									</div>
-									<div class="discussion-details" ng-if = "comment.parentId == null">
-										<div>
-											<label class="dis-name">{{comment.name}}</label> | <span
-												class="text-small">{{comment.creationDate}}</span>
-											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="edit = true">Edit</button>
-											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deleteComment(comment)">Delete</button>
-										</div>
-										<p ng-hide="edit">{{comment.text}}</p>
-										<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "comment.text"
-											ng-show="edit" rows="3" id="comment">{{comment.text}}</textarea>
-										<button
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-											ng-show="edit" ng-click="edit = false; editComment(comment)">Post</button>
-										<div>
-											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-												ng-click="replytoComment = !replytoComment">Reply</button>
-											<div class="flex1 discussionformbox" ng-show="replytoComment">
-												<div class="mdl-textfield mdl-js-textfield">
-													<input class="mdl-textfield__input" type="text"
-														ng-model="newcomment[key].text" id="sample3">
-												</div>
-												<button
-													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-													ng-click="postReply(key, comment)">Post</button>
-											</div>
-										</div>
-										<div class="discussion"
-											ng-repeat="(key, reply) in comment.replies">
-											<!-- <div class="flex1 discussionformbox">
-														<div class="mdl-textfield mdl-js-textfield">
-															<input  class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
-																id="sample3"> <label
-																class="mdl-textfield__label">Add
-																Reply here...</label>
-														</div> 
-														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
-													</div> -->
-											<div>
-												<img src="images/userprofile/user-profile-black.png" alt=""
-													title="user">
-											</div>
-											<div class="discussion-details">
-
-												<div>
-													<label class="dis-name">{{reply.name}}</label> | <span
-														class="text-small">{{reply.creationDate}}</span>
-													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-														ng-click="edit = true">Edit</button>
-													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-														ng-click="deleteComment(comment.id)">Delete</button>
-												</div>
-												<p ng-hide="edit">{{reply.text}}</p>
-												<textarea class="mdl-textfield__input md-txtarea"
-													type="text" ng-show="edit" rows="1" id="comment">{{reply.text}}</textarea>
-												<button
-													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-													ng-show="edit" ng-click="edit = false; editComment(reply)">Post</button>
-												<!-- <button ng-if="reply.replies.length > 0"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button> -->
-
-												<div class="flex1 discussionformbox"
-													ng-show="replytoComment[key]">
-													<div class="mdl-textfield mdl-js-textfield">
-														<input class="mdl-textfield__input" type="text"
-															ng-model="newcomment[key].text" id="sample3">
-													</div>
-													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-														ng-click="postReply(key, reply.id)">Post</button>
-												</div>
+                                          </div>
+                                          service {{modelName}}{
+                                          <div class="operation" ng-repeat="(key,val) in operationDisplay">
+                                                {{key}} ({{val.input}}) returns {{val.output}};</div>
+                                          }
+                                    </div>
+                                    <!-- <h6 class="sectiontitle7">Input</h6>
+                                    <label>*(Required) Image Data API Url, Web (http/https)
+                                          Url, binary image, base64 encoded image or an array of data API
+                                          URLs/web URLs.</label> <label>**(Optional) **Output image
+                                          location, if input is an array, output location should be an
+                                          array of equal size.</label> <br />
+                                    <h6 class="sectiontitle7">Output</h6>
+                                    <label>Output image location</label> <label>Note: The
+                                          first call to this algorithm will take a bit longer than
+                                          sequential calls to due algorithm initialization. All following
+                                          calls will be significantly faster.</label>
+-->
+                              </div>
+                              <div class="mdl-tabs__panel" id="tab3-panel">
+                                    <h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
+                                    <table class="mdl-data-table mdl-js-data-table md-tbl1">
+                                          <colgroup>
+                                                <col />
+                                                <col />
+                                                <col />
+                                                <col width="10%" />
+                                          </colgroup>
+                                          <thead>
+                                                <tr>
+                                                      <th>Folder/Documents</th>
+                                                      <th>Version</th>
+                                                      <th>Modified on</th>
+                                                      <th>action</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <!-- ng-repeat = "value in downloadData" -->
+                                                <tr ng-repeat="supportingDoc in supportingDocs">
+                                                      <td><span class="file-type"><i
+                                                                  class="fa fa-file-word-o" aria-hidden="true"></i></span><a
+                                                            class="link-blue">{{supportingDoc}}</a></td>
+                                                      <td>{{versionId}}</td>
+                                                      <td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
+                                                      <td><a ng-if="solution.accessType ==='OR' " 
+                                                            href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}">
+                                                            <i class="fa fa-download" aria-hidden="true"></i> </a>
+                                                            <a ng-if="solution.accessType !=='OR' " 
+                                                            href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}">
+                                                                  <i class="fa fa-download" aria-hidden="true"></i>
+                                                      </a></td>
+                                                </tr>
+                                                <!-- <tr>
+                                                                                                      <td><span class="file-type"><i class="fa fa-file-excel-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 01</a></td>
+                                                                                                      <td>V1.0</td>
+                                                                                                      <td>05/21/2017</td>
+                                                                                                      <td>
+                                                                                                            <button class="mdl-button mdl-js-button btn-grid-action">
+                                                                                                              <i class="fa fa-download" aria-hidden="true"></i>
+                                                                                                            </button>
+                                                                                                      </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                      <td><span class="file-type"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 02</a></td>
+                                                                                                      <td>V1.0</td>
+                                                                                                      <td>05/21/2017</td>
+                                                                                                      <td>
+                                                                                                            <button class="mdl-button mdl-js-button btn-grid-action">
+                                                                                                              <i class="fa fa-download" aria-hidden="true"></i>
+                                                                                                            </button>
+                                                                                                      </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                      <td><span class="file-type"><i class="fa fa-folder-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Folder</a></td>
+                                                                                                      <td>V1.0</td>
+                                                                                                      <td>05/21/2017</td>
+                                                                                                      <td>
+                                                                                                            <button class="mdl-button mdl-js-button btn-grid-action">
+                                                                                                              <i class="fa fa-download" aria-hidden="true"></i>
+                                                                                                            </button>
+                                                                                                      </td>
+                                                                                                </tr> -->
 
 
-												<!-- <div ng-if="reply.replies" class="discussion" ng-repeat="(key, reply) in reply.replies" ng-include="'commentTree'">
-											</div> -->
+                                          </tbody>
+                                    </table>
+                              </div>
+                              <div class="mdl-tabs__panel" id="tab4-panel">
+                                    <h6 class="sectiontitle6">VERSION HISTORY OF SOLUTION</h6>
+                                    <table class="mdl-data-table mdl-js-data-table md-tbl1">
+                                          <colgroup>
+                                                <col />
+                                                <col />
+                                                <col />
+                                                <col width="15%" />
+                                          </colgroup>
+                                          <thead>
+                                                <tr>
+                                                      <th>Version Name</th>
+                                                      <th>Version</th>
+                                                      <th>Modified on</th>
+                                                      <th>Action</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                <tr ng-repeat="value in downloadData">
+                                                      <td>
+                                                            <!-- <a class="link-blue" href="#"> --><!-- Version name -->
+                                                            {{value.name}}<!-- </a> --> <span class="font600"></span>
+                                                      </td>
+                                                      <td>{{value.version}}</td>
+                                                      <td>{{value.created | date:'MM/dd/yyyy'}}</td>
+                                                      <td>
+                                                            <button class="mdl-button mdl-js-button btn-grid-action"
+                                                                  ng-click="versionDownload(value.artifactId)">
+                                                                  <i class="fa fa-download" aria-hidden="true"></i>
+                                                            </button>
 
-												<!-- <div class="flex1 discussionformbox" ng-if="reply.replies.length == 0">
-														<div class="mdl-textfield mdl-js-textfield">
-															<input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
-																id="sample3"> <label
-																class="mdl-textfield__label">Add
-																Reply here...</label>
-														</div> 
-														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
-													</div> -->
-											</div>
+                                                      </td>
+                                                </tr>
+                                                <!-- <tr>
+                                                                                                      <td>Version name 02 </td>
+                                                                                                      <td>V2.0</td>
+                                                                                                      <td>05/21/2017</td>
+                                                                                                      <td>
+                                                                                                            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+                                                                                                              <i class="fa fa-download" aria-hidden="true"></i>
+                                                                                                            </button>
+                                                                                                            <a href="#" class="btn-view-details">View Details</a>
+                                                                                                      </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                      <td>Version name 03 </td>
+                                                                                                      <td>V1.0</td>
+                                                                                                      <td>05/21/2017</td>
+                                                                                                      <td>
+                                                                                                            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+                                                                                                              <i class="fa fa-download" aria-hidden="true"></i>
+                                                                                                            </button>
+                                                                                                            <a href="#" class="btn-view-details">View Details</a>
+                                                                                                      </td>
+                                                                                                </tr> -->
 
-										</div>
-									</div>
+                                          </tbody>
+                                    </table>
+                              </div>
+                              <div class="mdl-tabs__panel" id="tab5-panel">Content 5</div>
+                              <div class="md-lower-container1" ng-hide="solution.accessType == 'PR'">
+                                    <div class="mdl-grid mdl-grid--no-spacing bdr-bottom">
+                                          <div
+                                                class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                                <h6 class="sectiontitle5 rate-title">RATE:
+                                                      {{solution.name}}</h6>
+                                          </div>
+                                          <div  ng-show="solution.accessType == 'PB'"
+                                                class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                                <div flex class="text-right" >
+                                                      <ul class="horizontal-list2 md-social-icons">
+                                                            <li><h6 class="sharetitle">Share with</h6></li>
+                                                            <li><span><i class="fa fa-facebook"
+                                                                        aria-hidden="true"></i></span></li>
+                                                            <li><span><i class="fa fa-linkedin"
+                                                                        aria-hidden="true"></i></span></li>
+                                                            <li><span><i class="fa fa-google-plus"
+                                                                        aria-hidden="true"></i></span></li>
+                                                            <li><span><i class="fa fa-github"
+                                                                        aria-hidden="true"></i></span></li>
+                                                            <li><span><i class="fa fa-twitter"
+                                                                        aria-hidden="true"></i></span></li>
+                                                      </ul>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="rating-container"> 
+                                          <div class="mdl-grid rating-container-inner">
+                                                <div class="mdl-cell mdl-cell--5-col rating-container-left">
+                                                      <div class="text-right rating-container1">
+                                                            <div>
+                                                                  <!-- <span class="star-rating-title">21</span>  -->
+                                                                  <h6 class="sectiontitle5 rate-title" ng-show="!cantRate">You've rated</h6>
+                                                                  <h6 class="sectiontitle5 rate-title" ng-show="cantRate">Ratings</h6>
+                                                                  <jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars>
+                                                            </div>
+                                                            <div>
+                                                                  <label class="font600">{{mlSolutionGetRating.rating}} stars</label>
+                                                            </div>
+                                                            <!-- <div>
+                                                                  <label class="font600">51 reviews</label>
+                                                            </div> -->
+                                                            <div>
+                                                                  <button ng-click="onItemRating(mlSolutionGetRating.rating)"
+                                                                        ng-disabled="cantRate"
+                                                                        class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Rate
+                                                                        This Model</button>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="mdl-cell mdl-cell--4-col rating-container-right">
+                                                      <div class="progress-wrapper">
+                                                            <span style="font-weight: bold"> {{ratingCount5}} </span> <span>5
+                                                                  stars</span>
+                                                            <div class="progress">
+                                                                  <div class="determinate" style="width: 100%"></div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="progress-wrapper">
+                                                            <span style="font-weight: bold"> {{ratingCount4}} </span> <span>4
+                                                                  stars</span>
+                                                            <div class="progress">
+                                                                  <div class="determinate" style="width: 80%"></div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="progress-wrapper">
+                                                            <span style="font-weight: bold"> {{ratingCount3}} </span> <span>3
+                                                                  stars</span>
+                                                            <div class="progress">
+                                                                  <div class="determinate" style="width: 60%"></div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="progress-wrapper">
+                                                            <span style="font-weight: bold"> {{ratingCount2}} </span> <span>2
+                                                                  stars</span>
+                                                            <div class="progress">
+                                                                  <div class="determinate" style="width: 40%"></div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="progress-wrapper">
+                                                            <span style="font-weight: bold"> {{ratingCount1}} </span> <span>1
+                                                                  star</span>
+                                                            <div class="progress">
+                                                                  <div class="determinate" style="width: 20%"></div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="mdl-cell mdl-cell--5-col"></div>
+                                          </div>
+                                          <hr class="md-hr-rule1" />
+                                          <div class="discussion-outer-container" ng-hide="solution.active == false">
+                                                <div class="md-discussion-container">
+                                                      <span class="md-discussion-title">DISCUSSION
+                                                            ({{totalCommentCount}})</span>
+                                                      <div class="md-discussion-links-container">
+                                                            <a>Newest</a> <span>|</span> <a>Older</a> <span>|</span> <a>Liked</a>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div class="discussion-outer-container">
+                                                <div class="discussion-container discussion-container2"
+                                                      ng-repeat="(key, comment) in commentList">
+                                                      <div>
+                                                            <img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!comment.image"
+                                                                  title="user">
+                                                            <!-- user uploaded image -->
+                                                            <img class="userimg" ng-show="comment.image"
+                                                            ng-src="data:image/PNG;base64,{{comment.image}}"
+                                                            title="{{comment.name}}" />
+                                                      </div>
+                                                      <div class="discussion-details" ng-if = "comment.parentId == null">
+                                                            <div>
+                                                                  <label class="dis-name">{{comment.name}}</label> | <span
+                                                                        class="text-small">{{comment.creationDate}}</span>
+                                                                  <button
+                                                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                        ng-click="edit = true">Edit</button>
+                                                                  <button
+                                                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                        ng-click="deleteComment(comment)">Delete</button>
+                                                            </div>
+                                                            <p ng-hide="edit">{{comment.text}}</p>
+                                                            <textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "comment.text"
+                                                                  ng-show="edit" rows="3" id="comment">{{comment.text}}</textarea>
+                                                            <button
+                                                                  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                  ng-show="edit" ng-click="edit = false; editComment(comment)">Post</button>
+                                                            <div>
+                                                                  <button
+                                                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+                                                                        ng-click="replytoComment = !replytoComment">Reply</button>
+                                                                  <div class="flex1 discussionformbox" ng-show="replytoComment">
+                                                                        <div class="mdl-textfield mdl-js-textfield">
+                                                                              <input class="mdl-textfield__input" type="text"
+                                                                                    ng-model="newcomment[key].text" id="sample3">
+                                                                        </div>
+                                                                        <button
+                                                                              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                              ng-click="postReply(key, comment)">Post</button>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="discussion"
+                                                                  ng-repeat="(key, reply) in comment.replies">
+                                                                  <!-- <div class="flex1 discussionformbox">
+                                                                                    <div class="mdl-textfield mdl-js-textfield">
+                                                                                          <input  class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
+                                                                                                id="sample3"> <label
+                                                                                                class="mdl-textfield__label">Add
+                                                                                                Reply here...</label>
+                                                                                    </div> 
+                                                                                    <button
+                                                                                          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+                                                                              </div> -->
+                                                                  <div>
+                                                                        <img src="images/userprofile/user-profile-black.png" alt=""
+                                                                              title="user">
+                                                                  </div>
+                                                                  <div class="discussion-details">
 
+                                                                        <div>
+                                                                              <label class="dis-name">{{reply.name}}</label> | <span
+                                                                                    class="text-small">{{reply.creationDate}}</span>
+                                                                              <button
+                                                                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                                    ng-click="edit = true">Edit</button>
+                                                                              <button
+                                                                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                                    ng-click="deleteComment(comment.id)">Delete</button>
+                                                                        </div>
+                                                                        <p ng-hide="edit">{{reply.text}}</p>
+                                                                        <textarea class="mdl-textfield__input md-txtarea"
+                                                                              type="text" ng-show="edit" rows="1" id="comment">{{reply.text}}</textarea>
+                                                                        <button
+                                                                              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                              ng-show="edit" ng-click="edit = false; editComment(reply)">Post</button>
+                                                                        <!-- <button ng-if="reply.replies.length > 0"
+                                                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button> -->
 
-								</div>
-
-								<br />
-								<div class="discussion-add-comment" ng-hide="solution.active == false">
-									<label class="md-lbl2">Add Comments</label>
-									<div class="flex1">
-										<div
-											class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
-											<textarea class="mdl-textfield__input md-txtarea" type="text"
-												rows="3" id="comment" ng-model="comment"></textarea>
-											<!-- <label class="mdl-textfield__label" for="sample3">Add comment here...</label> -->
-										</div>
-									</div>
-									<button
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-										ng-click="postComment()">Post Comments</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-
-	<script type="text/ng-template" id="commentTree">
-												<div>
-													<img src="images/userprofile/user-profile-black.png" alt="" title="user">
-												</div>
-												<div class="discussion-details" >
-													 
-													 <div >
-														<label class="dis-name">{{reply.name}}</label> | <span
-															class="text-small">{{reply.creationDate}}</span>
-														<button	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="edit = true">Edit</button>
-														<button	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="deleteComment(comment.id)">Delete</button>
-													</div>
-													<p ng-hide="edit">{{reply.text}}</p>
-													<textarea class="mdl-textfield__input md-txtarea" type="text" ng-show="edit"
-														rows="1" id="comment">{{reply.text}}</textarea><button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-show="edit" ng-click="edit = false; editComment(reply)">Post</button>
-													<button ng-if="reply.replies.length > 0"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button>
-												
-														<div class="flex1 discussionformbox" ng-show="replytoComment[key]">
-														<div class="mdl-textfield mdl-js-textfield">
-															<input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text" id="sample3">
-														</div> 
-														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
-													</div>
-												
-
-											<div ng-if="reply.replies" class="discussion" ng-repeat="(key, reply) in reply.replies" ng-include="'commentTree'">
-											</div>
-												
-														<div class="flex1 discussionformbox" ng-if="reply.replies.length == 0">
-														<div class="mdl-textfield mdl-js-textfield">
-															<input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
-																id="sample3"> <label
-																class="mdl-textfield__label">Add
-																Reply here...</label>
-														</div> 
-														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
-													</div>
-	</script>
-	</script>
-
-	<!--Deploy To Cloud Modal -->
-	<div class="md-dialog-container" id="myDialog" style="height: 0;">
-		<md-dialog aria-label="Mango (Fruit)"
-			class="cg-dialog-Deploy-to-cloud">
-		<form ng-cloak>
-			<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Deploying to Microsoft Azure</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="handleDismiss()">
-				<i class="material-icons">close</i> </md-button>
-			</div>
-			</md-toolbar>
-			<md-dialog-content>
-			<div class="md-dialog-content">
-				<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-					<div class="mdl-cell mdl-cell--6-col">
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Application
-							Id <span class="reqfield">*</span></label> <input ng-model="applicationId" type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Secret
-							key <span class="reqfield">*</span></label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Resource
-							Group <span class="reqfield">*</span></label> <input ng-model="resourceGroup" type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Storage
-							Account <span class="reqfield">*</span></label> <input ng-model="storageAccount" type="text"> </md-input-container>
-					</div>
-
-					<div class="mdl-cell mdl-cell--6-col">
-						<md-input-container class="md-icon-float md-block">
-						<label>Tenant Id <span class="reqfield">*</span></label> <input ng-model="tenantId" type="text">
-						</md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<label>Subscription Key <span class="reqfield">*</span></label> <input ng-model="subscriptionKey"
-							type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<label>Acr Name <span class="reqfield">*</span></label> <input ng-model="acrName" type="text">
-						</md-input-container>
-					</div>
-				</div>
-				<hr />
-				<div class="dialog-btn-container">
-					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-						ng-click="handleDismiss()"> Cancel </md-button>
-					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-						ng-click="authenticateAnddeployToAzure()"> Deploy </md-button>
-				</div>
-			</div>
-			</md-dialog-content>
-
-		</form>
-		</md-dialog>
-	</div>
-
-
-	<!--Download Cofirmation Modal -->
-	<div class="md-dialog-container" id="downloadConfirm"
-		style="height: 0;">
-		<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
-		<form ng-cloak>
-			<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Downloading - {{solution.name}}</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="handleDismiss()">
-				<i class="material-icons">close</i> </md-button>
-			</div>
-			</md-toolbar>
-			<md-dialog-content>
-			<div class="md-dialog-content text-center">
-				<div>
-					<span class="checkmark1" aria-hidden="true"></span>
-				</div>
-				<p class="md-text1">
-					Thank you for downloading <br /> <span class="wrap_text">{{solution.name}}</span>
-					version {{versionId}}
-				</p>
-				<p class="md-text2">
-					Your download will start automatically. 
-					<!-- <br /> if it does not
-					start, <a data-target>click here</a> for troubleshooting
-					information -->
-				</p>
-				<br />
-				<p class="md-text3">
-					Use below key along with a modified Solution if you want to <br />upload
-					it to {{$root.siteInstanceName}} platform.
-				</p>
-				<p>
-					<span class="md-key"><!-- {{secretKey || subscriptionKey}} --></span>
-				</p>
-				<br />
-
-				<button
-					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-					ng-click="handleDismiss()">Close</button>
-
-
-			</div>
-			</md-dialog-content>
-		</form>
-		</md-dialog>
-	</div>
-
-	<!-- Download Artifact -->
-	<div class="md-dialog-container" id="downloadDialog" style="height: 0;">
-		<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
-		<form ng-cloak>
-			<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Downloading - {{solution.name}}</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="handleDismiss()">
-				<i class="material-icons">close</i> </md-button>
-			</div>
-			</md-toolbar>
-			<md-dialog-content>
-			<div class="md-dialog-content">
-				<p class="wrap_text">Please choose any version of
-					{{solution.name}} from below.</p>
-				<div class="modal-row1" ng-repeat="value in downloadData">
-					<div>
-						<label><b>Version {{value.version}}</b> - <span
-							class="txt-orange text-small">Latest</span> </label> <label class="downloadlbl1"><b>File
-								Name:</b> - {{value.name}} {{value.version}} </label> <label class="downloadlbl2"><b>Uploaded
-								on</b> - {{value.created | date:'MM/dd/yyyy'}}</label>
-					</div>
-					<button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-						ng-click="download(value.artifactId)">Download</button>
-				</div>
-				<!-- <div class="modal-row1">
-											<div>
-												<label><b>Version 1.9</b> </label>
-												<label><b>File Name:</b> - Name-of-solution-V1.9 </label>
-												<label><b>Uploaded on</b> - 05/01/2017</label>
-											</div>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Download</button>										
-										</div>
-										<div class="modal-row1">
-											<div>
-												<label><b>Version1.7</b></label>
-												<label><b>File Name:</b> - Name-of-solution-V1.7 </label>
-												<label><b>Uploaded on</b> - 01/01/2017</label>
-											</div>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "">Download</button>										
-										</div> -->
-			</div>
-
-
-			</md-dialog-content>
-			<md-dialog-actions>
-			<div class="modeldetails-dialog-footer">
-				<span></span>
-				<button ng-click="handleDismiss()"
-					class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary text-tranformnone">Close</button>
-			</div>
-			</md-dialog-actions>
-		</form>
-		</md-dialog>
-	</div>
-	<!-- Modal box end -->
+                                                                        <div class="flex1 discussionformbox"
+                                                                              ng-show="replytoComment[key]">
+                                                                              <div class="mdl-textfield mdl-js-textfield">
+                                                                                    <input class="mdl-textfield__input" type="text"
+                                                                                          ng-model="newcomment[key].text" id="sample3">
+                                                                              </div>
+                                                                              <button
+                                                                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                                                    ng-click="postReply(key, reply.id)">Post</button>
+                                                                        </div>
 
 
+                                                                        <!-- <div ng-if="reply.replies" class="discussion" ng-repeat="(key, reply) in reply.replies" ng-include="'commentTree'">
+                                                                  </div> -->
 
-	<!-- <div class="page-content">
-	<section class="pageheadsection gray-bg">
-		<div layout="row" layout-xs="column" layout-fill
-			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
-			<div
-				class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
-				<div>
-					<span class="headline mob-disblock">{{solution.name}}</span> <span
-						class="hide-xs hide-sm"> | </span><span>Version-2.0</span> |
-					<span>Model
-						ID - 234831</span>
-				</div>
-				<ul class="breadcrumb">
-					<li><a ui-sref="home">Home</a></li>
-					<li><a ui-sref="marketPlace">Marketplace</a></li>
-					<li>{{solution.name}}</li>
-				</ul>
-			</div>
-			<div
-				class="mdl-cell mdl-cell--7-col mdl-cell--4-col-phone mdl-cell--3-col-tablet text-right">
-				<div class="header-stats">
-					<div class="header-stat-lg">
-						<span class="rating header-stat-lg"> <span><i
-								class="material-icons">star_rate</i></span><span><i 
-								class="material-icons">star_rate</i></span><span><i
-								class="material-icons">star_rate</i></span><span><i
-								class="material-icons">star_rate</i></span><span><i
-								class="material-icons">star_rate</i></span>
-						</span>
+                                                                        <!-- <div class="flex1 discussionformbox" ng-if="reply.replies.length == 0">
+                                                                                    <div class="mdl-textfield mdl-js-textfield">
+                                                                                          <input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
+                                                                                                id="sample3"> <label
+                                                                                                class="mdl-textfield__label">Add
+                                                                                                Reply here...</label>
+                                                                                    </div> 
+                                                                                    <button
+                                                                                          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+                                                                              </div> -->
+                                                                  </div>
 
-					</div>
-					<div class="header-stat-lg">
-						<div class="rating header-stat-lg">
-							<span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 2}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 3}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 4}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 5}"
-								aria-hidden="true"></i></span>
-	
-							<button
-								class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-								<i class="material-icons unselected-fav">favorite_border</i>
-							</button>
-						</div>
-					</div>
+                                                            </div>
+                                                      </div>
 
 
-					<div class="header-stat-star">
-						<a href="#"><i class="material-icons">star_rate</i> 3.5</a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">chat_bubble</i> 10 <span
-							class="header-stat-lg">Comments</span></a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">mode_edit</i> <span
-							class="header-stat-lg">Write Comments </span></a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">remove_red_eye</i> 176 <span
-							class="header-stat-lg">Viewed</span></a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">file_download</i> 6 <span
-							class="header-stat-lg">Downloaded</span></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<div class="page-wrapper2">
-		<div class="mdl-grid mdl-grid--no-spacing">
-			<div class="mdl-cell mdl-cell--9-col posrel">
-				<md-tabs md-dynamic-height md-border-bottom> <md-tab
-					label="Description"> <md-content class="md-padding">
-				<h6 class="sectiontitle">Introduction about Model</h6>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi.Lorem ipsum dolor sit amet, consectetur
-					adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat
-					neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In
-					sodales pretium ultrices. Maecenas lectus est, sollicitudin
-					consectetur felis nec, feugiat ultricies mi.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi.</p>
-				<h6 class="sectiontitle">Images and Videos</h6>
-				<div class="rowcontainer">
-					<img class="modelimg1" src="images/imagegallery.jpg" />
-					<div class="image-list-container">
-						<button class="mdl-button mdl-js-button mdl-button--icon">
-							<i class="material-icons">navigate_before</i>
-						</button>
-						<div class="image-list">
-							<div class="image-list-inner">
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-							</div>
-						</div>
-						<button class="mdl-button mdl-js-button mdl-button--icon">
-							<i class="material-icons">navigate_next</i>
-						</button>
-					</div>
-				</div>
-				<h6 class="sectiontitle">Example</h6>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi.</p>
-				</md-content> </md-tab> <md-tab label="Signatures"> <md-content
-					class="md-padding">
-				<h1 class="md-display-2">Signatures</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor
-					in ultrices porttitor, orci enim rutrum enim, vel tempor sapien
-					arcu a tellus. Vivamus convallis sodales ante varius gravida.
-					Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam
-					malesuada consequat diam, a facilisis tortor volutpat et. Sed urna
-					dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis
-					risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in
-					enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus
-					dictum neque volutpat blandit. Praesent efficitur faucibus risus,
-					ac auctor purus porttitor vitae. Phasellus ornare dui nec orci
-					posuere, nec luctus mauris semper.</p>
-				<p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra
-					quam, at semper massa orci nec magna. Donec posuere nec sapien sed
-					laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in
-					tempor tortor. Vivamus faucibus egestas enim, at convallis diam
-					pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna
-					libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas
-					facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed
-					nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
-				<p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
-					interdum tellus. Curabitur posuere molestie dictum. Morbi eget
-					congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
-					at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
-					volutpat non ac est. Praesent ligula diam, congue eu enim
-					scelerisque, finibus commodo lectus.</p>
-				</md-content> </md-tab> <md-tab label="Documents"> <md-content class="md-padding">
-				<h1 class="md-display-2">Documents</h1>
-				<p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
-					interdum tellus. Curabitur posuere molestie dictum. Morbi eget
-					congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
-					at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
-					volutpat non ac est. Praesent ligula diam, congue eu enim
-					scelerisque, finibus commodo lectus.</p>
-				</md-content> </md-tab> <md-tab label="Version history"> <md-content
-					class="md-padding">
-				<h1 class="md-display-2">Version history</h1>
-				<p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
-					interdum tellus. Curabitur posuere molestie dictum. Morbi eget
-					congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
-					at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
-					volutpat non ac est. Praesent ligula diam, congue eu enim
-					scelerisque, finibus commodo lectus.</p>
-				</md-content> </md-tab> </md-tabs>
-				<div class="statcontainer hide-sm hide-xs">
-					<span> <span class="number">3.6</span> <span class="text">MB</span>
-						<br> <span class="text">Size</span>
-					</span> <span> <span class="number">96</span><br> <span
-						class="text">Lines</span>
-					</span> <span> <span class="number">4</span><br> <span
-						class="text">Inputs</span>
-					</span> <span> <span class="number">2</span><br> <span
-						class="text">Outputs</span>
-					</span>
-				</div>
-				<div class="box2">
-					<div class="box-inner1">
-						<div class="mdl-grid mdl-grid--no-spacing">
-							<div
-								class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-								<h6 class="sectiontitle3">Rate this Name of ML Model</h6>
-							</div>
-							<div
-								class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-								<div flex class="text-right">
-									<ul class="horizontal-list2 social-icons">
-										<li><h6 class="sectiontitle3">Share with</h6></li>
-										<li><span><i class="fa fa-facebook"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-linkedin"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-google-plus"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-github"
-												aria-hidden="true"></i></span></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<hr />
-						<div class="mdl-grid mdl-grid--no-spacing">
-							<div class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet">
-								<label class="lbl1">Discussion (10)</label>
-							</div>
-							<div class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet">
-								<div flex class="text-right">
-									<ul class="horizontal-list">
-										<li><a href="#">Newest</a></li>
-										<li><a href="#">Older</a></li>
-										<li><a href="#">Liked</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="discussion-container">
-							<div>
-								<img src="images/chatuser.jpg" alt="" title="user">
-							</div>
-							<div class="discussion-details">
-								<div>
-									<label class="text-bold">Mike Smith</label> | <span
-										class="text-small">Today 4:21pm - 12.05.2017</span>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								<div>
-									<button
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Reply</button>
-									<div class="discussion">
-										<div>
-											<img src="images/chatuser.jpg" alt="" title="user">
-										</div>
-										<div class="discussion-details">
-											<div>
-												<label class="text-bold">Mike Smith</label> | <span
-													class="text-small">Today 4:21pm - 12.05.2017</span>
-											</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-												elit.</p>
-											<div class="flex1 discussionformbox">
-												<div
-													class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-													<input class="mdl-textfield__input" type="text"
-														id="sample3"> <label class="mdl-textfield__label"
-														for="sample3">Add Reply here...</label>
-												</div>
-												<button
-													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Post</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="discussion-container">
-							<div>
-								<img src="images/chatuser.jpg" alt="" title="user">
-							</div>
-							<div class="discussion-details">
-								<div>
-									<label class="text-bold">Mike Smith</label> | <span
-										class="text-small">Today 4:21pm - 12.05.2017</span>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								<div>
-									<button
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Reply</button>
-								</div>
-							</div>
-						</div>
-						<div class="discussion-add-comment">
-							<label class="disblock text-bold">Add Comments</label>
-							<div class="flex1">
-								<div
-									class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<input class="mdl-textfield__input" type="text" id="sample3">
-									<label class="mdl-textfield__label" for="sample3">Add
-										comment here...</label>
-								</div>
-							</div>
-							<button
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Post
-								Comments</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-phone">
-				<div class="box1">
-					<div class="box-inner1 bdr-bottom">
-						<ul class="horizontal-list2">
-							<li><img src="images/chatuser.jpg" alt="" title="user"></li>
-							<li><label class="text-bold">Created by Blakes Seven</label>
-								<label>Created on 05/21/2017</label> <label>Published on
-									05/21/2017</label></li>
-						</ul>
-					</div>
-					<h6 class="sectiontitle2">Description</h6>
-					<div class="box-inner1">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Nulla venenatis ante augue.Integer turpis erat, porttitor vitae
-							mi faucibus, laoreet interdum tellus.</p>
-						<div class="text-center">
-							<button type="button"
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Download</button>
-							<label class="normallbl ">Version 2.0 | 6 Downloaded</label>
-							<div class="rowcontainer">
-								<button id="demo-menu-lower-right4"
-									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-ddl">
-									<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
-								</button>
+                                                </div>
 
-								<ul
-									class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-									for="demo-menu-lower-right4">
-									<li class="mdl-menu__item">Menu item 1</li>
-									<li class="mdl-menu__item">Menu item 2</li>
-									<li class="mdl-menu__item">Menu item 3</li>
-								</ul>
-							</div>
-							<div class="rowcontainer">
-								<button type="button"
-									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Push
-									to ONAP</button>
-							</div>
-						</div>
-					</div>
-					<br />
-					<h6 class="sectiontitle2">Tags</h6>
-					<div class="box-inner2 rowcontainer">
-						<md-chips> <md-chip>Hockey</md-chip> <md-chip>Lacrosse</md-chip>
-						<md-chip>Baseball</md-chip> <md-chip>Cricket</md-chip> </md-chips>
-					</div>
-				</div>
-				<div class="box1">
-					<h6 class="sectiontitle2">Related ML solutions</h6>
-					<div class="box-inner2 rowcontainer">
-						<div class="box-inner1">
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                                <br />
+                                                <div class="discussion-add-comment" ng-hide="solution.active == false">
+                                                      <label class="md-lbl2">Add Comments</label>
+                                                      <div class="flex1">
+                                                            <div
+                                                                  class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
+                                                                  <textarea class="mdl-textfield__input md-txtarea" type="text"
+                                                                        rows="3" id="comment" ng-model="comment"></textarea>
+                                                                  <!-- <label class="mdl-textfield__label" for="sample3">Add comment here...</label> -->
+                                                            </div>
+                                                      </div>
+                                                      <button
+                                                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                                            ng-click="postComment()">Post Comments</button>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+
+            </div>
+      </div>
+
+
+      <script type="text/ng-template" id="commentTree">
+                                                                        <div>
+                                                                              <img src="images/userprofile/user-profile-black.png" alt="" title="user">
+                                                                        </div>
+                                                                        <div class="discussion-details" >
+                                                                              
+                                                                               <div >
+                                                                                    <label class="dis-name">{{reply.name}}</label> | <span
+                                                                                          class="text-small">{{reply.creationDate}}</span>
+                                                                                    <button     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="edit = true">Edit</button>
+                                                                                    <button     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="deleteComment(comment.id)">Delete</button>
+                                                                              </div>
+                                                                              <p ng-hide="edit">{{reply.text}}</p>
+                                                                              <textarea class="mdl-textfield__input md-txtarea" type="text" ng-show="edit"
+                                                                                    rows="1" id="comment">{{reply.text}}</textarea><button
+                                                                                          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-show="edit" ng-click="edit = false; editComment(reply)">Post</button>
+                                                                              <button ng-if="reply.replies.length > 0"
+                                                                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button>
+                                                                        
+                                                                                    <div class="flex1 discussionformbox" ng-show="replytoComment[key]">
+                                                                                    <div class="mdl-textfield mdl-js-textfield">
+                                                                                          <input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text" id="sample3">
+                                                                                    </div> 
+                                                                                    <button
+                                                                                          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+                                                                              </div>
+                                                                        
+
+                                                                  <div ng-if="reply.replies" class="discussion" ng-repeat="(key, reply) in reply.replies" ng-include="'commentTree'">
+                                                                  </div>
+                                                                        
+                                                                                    <div class="flex1 discussionformbox" ng-if="reply.replies.length == 0">
+                                                                                    <div class="mdl-textfield mdl-js-textfield">
+                                                                                          <input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
+                                                                                                id="sample3"> <label
+                                                                                                class="mdl-textfield__label">Add
+                                                                                                Reply here...</label>
+                                                                                    </div> 
+                                                                                    <button
+                                                                                          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+                                                                              </div>
+      </script>
+      </script>
+
+      <!--Deploy To Cloud Modal -->
+      <div class="md-dialog-container" id="myDialog" style="height: 0;">
+            <md-dialog aria-label="Mango (Fruit)"
+                  class="cg-dialog-Deploy-to-cloud">
+            <form ng-cloak>
+                  <md-toolbar>
+                  <div class="md-toolbar-tools">
+                        <h2>Deploying to Microsoft Azure</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="handleDismiss()">
+                        <i class="material-icons">close</i> </md-button>
+                  </div>
+                  </md-toolbar>
+                  <md-dialog-content>
+                  <div class="md-dialog-content">
+                        <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='microsoft'">
+                              <div class="mdl-cell mdl-cell--6-col">
+                                    <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder --> <label>Application
+                                          Id <span class="reqfield">*</span></label> <input ng-model="applicationId" type="text"> </md-input-container>
+                                    <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder --> <label>Secret
+                                          key <span class="reqfield">*</span></label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
+                                    <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder --> <label>Resource
+                                          Group <span class="reqfield">*</span></label> <input ng-model="resourceGroup" type="text"> </md-input-container>
+                                    <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder --> <label>Storage
+                                          Account <span class="reqfield">*</span></label> <input ng-model="storageAccount" type="text"> </md-input-container>
+                              </div>
+
+                              <div class="mdl-cell mdl-cell--6-col">
+                                    <md-input-container class="md-icon-float md-block">
+                                    <label>Tenant Id <span class="reqfield">*</span></label> <input ng-model="tenantId" type="text">
+                                    </md-input-container>
+                                    <md-input-container class="md-icon-float md-block">
+                                    <label>Subscription Key <span class="reqfield">*</span></label> <input ng-model="subscriptionKey"
+                                          type="text"> </md-input-container>
+                                    <md-input-container class="md-icon-float md-block">
+                                    <label>Acr Name <span class="reqfield">*</span></label> <input ng-model="acrName" type="text">
+                                    </md-input-container>
+                              </div>
+                        </div>
+                        
+                        <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
+                             
+                                    <md-input-container class="md-icon-float md-block">
+                                    <!-- Use floating label instead of placeholder --> <label>VM
+                                          Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text"> </md-input-container>
+                              
+                        </div>                  
+                        <div class="dialog-btn-container">
+                              <md-button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+                                    ng-click="handleDismiss()"> Cancel </md-button>
+                              <md-button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+                                    ng-click="authenticateAnddeployToAzure()"> Deploy </md-button>
+                        </div>
+                  </div>
+                  </md-dialog-content>
+
+            </form>
+            </md-dialog>
+      </div>
+
+
+      <!--Download Cofirmation Modal -->
+      <div class="md-dialog-container" id="downloadConfirm"
+            style="height: 0;">
+            <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
+            <form ng-cloak>
+                  <md-toolbar>
+                  <div class="md-toolbar-tools">
+                        <h2>Downloading - {{solution.name}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="handleDismiss()">
+                        <i class="material-icons">close</i> </md-button>
+                  </div>
+                  </md-toolbar>
+                  <md-dialog-content>
+                  <div class="md-dialog-content text-center">
+                        <div>
+                              <span class="checkmark1" aria-hidden="true"></span>
+                        </div>
+                        <p class="md-text1">
+                              Thank you for downloading <br /> <span class="wrap_text">{{solution.name}}</span>
+                              version {{versionId}}
+                        </p>
+                        <p class="md-text2">
+                              Your download will start automatically. 
+                              <!-- <br /> if it does not
+                              start, <a data-target>click here</a> for troubleshooting
+                              information -->
+                        </p>
+                        <br />
+                        <p class="md-text3">
+                              Use below key along with a modified Solution if you want to <br />upload
+                              it to {{$root.siteInstanceName}} platform.
+                        </p>
+                        <p>
+                              <span class="md-key"><!-- {{secretKey || subscriptionKey}} --></span>
+                        </p>
+                        <br />
+
+                        <button
+                              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+                              ng-click="handleDismiss()">Close</button>
+
+
+                  </div>
+                  </md-dialog-content>
+            </form>
+            </md-dialog>
+      </div>
+
+      <!-- Download Artifact -->
+      <div class="md-dialog-container" id="downloadDialog" style="height: 0;">
+            <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
+            <form ng-cloak>
+                  <md-toolbar>
+                  <div class="md-toolbar-tools">
+                        <h2>Downloading - {{solution.name}}</h2>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="handleDismiss()">
+                        <i class="material-icons">close</i> </md-button>
+                  </div>
+                  </md-toolbar>
+                  <md-dialog-content>
+                  <div class="md-dialog-content">
+                        <p class="wrap_text">Please choose any version of
+                              {{solution.name}} from below.</p>
+                        <div class="modal-row1" ng-repeat="value in downloadData">
+                              <div>
+                                    <label><b>Version {{value.version}}</b> - <span
+                                          class="txt-orange text-small">Latest</span> </label> <label class="downloadlbl1"><b>File
+                                                Name:</b> - {{value.name}} {{value.version}} </label> <label class="downloadlbl2"><b>Uploaded
+                                                on</b> - {{value.created | date:'MM/dd/yyyy'}}</label>
+                              </div>
+                              <button
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+                                    ng-click="download(value.artifactId)">Download</button>
+                        </div>
+                        <!-- <div class="modal-row1">
+                                                                  <div>
+                                                                        <label><b>Version 1.9</b> </label>
+                                                                        <label><b>File Name:</b> - Name-of-solution-V1.9 </label>
+                                                                        <label><b>Uploaded on</b> - 05/01/2017</label>
+                                                                  </div>
+                                                                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Download</button>                                                        
+                                                            </div>
+                                                            <div class="modal-row1">
+                                                                  <div>
+                                                                        <label><b>Version1.7</b></label>
+                                                                        <label><b>File Name:</b> - Name-of-solution-V1.7 </label>
+                                                                        <label><b>Uploaded on</b> - 01/01/2017</label>
+                                                                  </div>
+                                                                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "">Download</button>                                                          
+                                                            </div> -->
+                  </div>
+
+
+                  </md-dialog-content>
+                  <md-dialog-actions>
+                  <div class="modeldetails-dialog-footer">
+                        <span></span>
+                        <button ng-click="handleDismiss()"
+                              class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary text-tranformnone">Close</button>
+                  </div>
+                  </md-dialog-actions>
+            </form>
+            </md-dialog>
+      </div>
+      <!-- Modal box end -->
+
+
+
+      <!-- <div class="page-content">
+      <section class="pageheadsection gray-bg">
+            <div layout="row" layout-xs="column" layout-fill
+                  layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
+                  <div
+                        class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
+                        <div>
+                              <span class="headline mob-disblock">{{solution.name}}</span> <span
+                                    class="hide-xs hide-sm"> | </span><span>Version-2.0</span> |
+                              <span>Model
+                                    ID - 234831</span>
+                        </div>
+                        <ul class="breadcrumb">
+                              <li><a ui-sref="home">Home</a></li>
+                              <li><a ui-sref="marketPlace">Marketplace</a></li>
+                              <li>{{solution.name}}</li>
+                        </ul>
+                  </div>
+                  <div
+                        class="mdl-cell mdl-cell--7-col mdl-cell--4-col-phone mdl-cell--3-col-tablet text-right">
+                        <div class="header-stats">
+                              <div class="header-stat-lg">
+                                    <span class="rating header-stat-lg"> <span><i
+                                                class="material-icons">star_rate</i></span><span><i 
+                                                class="material-icons">star_rate</i></span><span><i
+                                                class="material-icons">star_rate</i></span><span><i
+                                                class="material-icons">star_rate</i></span><span><i
+                                                class="material-icons">star_rate</i></span>
+                                    </span>
+
+                              </div>
+                              <div class="header-stat-lg">
+                                    <div class="rating header-stat-lg">
+                                          <span><i class="fa fa-star"
+                                                ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
+                                                aria-hidden="true"></i></span> <span><i class="fa fa-star"
+                                                ng-class="{'fa-star-o': mlsolution.solutionRating < 2}"
+                                                aria-hidden="true"></i></span> <span><i class="fa fa-star"
+                                                ng-class="{'fa-star-o': mlsolution.solutionRating < 3}"
+                                                aria-hidden="true"></i></span> <span><i class="fa fa-star"
+                                                ng-class="{'fa-star-o': mlsolution.solutionRating < 4}"
+                                                aria-hidden="true"></i></span> <span><i class="fa fa-star"
+                                                ng-class="{'fa-star-o': mlsolution.solutionRating < 5}"
+                                                aria-hidden="true"></i></span>
+      
+                                          <button
+                                                class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                                                <i class="material-icons unselected-fav">favorite_border</i>
+                                          </button>
+                                    </div>
+                              </div>
+
+
+                              <div class="header-stat-star">
+                                    <a href="#"><i class="material-icons">star_rate</i> 3.5</a>
+                              </div>
+                              <div>
+                                    <a href="#"><i class="material-icons">chat_bubble</i> 10 <span
+                                          class="header-stat-lg">Comments</span></a>
+                              </div>
+                              <div>
+                                    <a href="#"><i class="material-icons">mode_edit</i> <span
+                                          class="header-stat-lg">Write Comments </span></a>
+                              </div>
+                              <div>
+                                    <a href="#"><i class="material-icons">remove_red_eye</i> 176 <span
+                                          class="header-stat-lg">Viewed</span></a>
+                              </div>
+                              <div>
+                                    <a href="#"><i class="material-icons">file_download</i> 6 <span
+                                          class="header-stat-lg">Downloaded</span></a>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </section>
+      <div class="page-wrapper2">
+            <div class="mdl-grid mdl-grid--no-spacing">
+                  <div class="mdl-cell mdl-cell--9-col posrel">
+                        <md-tabs md-dynamic-height md-border-bottom> <md-tab
+                              label="Description"> <md-content class="md-padding">
+                        <h6 class="sectiontitle">Introduction about Model</h6>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                              Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
+                              vulputate. Etiam consequat aliquam cursus. In sodales pretium
+                              ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+                              feugiat ultricies mi.Lorem ipsum dolor sit amet, consectetur
+                              adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat
+                              neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In
+                              sodales pretium ultrices. Maecenas lectus est, sollicitudin
+                              consectetur felis nec, feugiat ultricies mi.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                              Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
+                              vulputate. Etiam consequat aliquam cursus. In sodales pretium
+                              ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+                              feugiat ultricies mi.</p>
+                        <h6 class="sectiontitle">Images and Videos</h6>
+                        <div class="rowcontainer">
+                              <img class="modelimg1" src="images/imagegallery.jpg" />
+                              <div class="image-list-container">
+                                    <button class="mdl-button mdl-js-button mdl-button--icon">
+                                          <i class="material-icons">navigate_before</i>
+                                    </button>
+                                    <div class="image-list">
+                                          <div class="image-list-inner">
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                                <div class="image-list-item"></div>
+                                          </div>
+                                    </div>
+                                    <button class="mdl-button mdl-js-button mdl-button--icon">
+                                          <i class="material-icons">navigate_next</i>
+                                    </button>
+                              </div>
+                        </div>
+                        <h6 class="sectiontitle">Example</h6>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                              Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
+                              vulputate. Etiam consequat aliquam cursus. In sodales pretium
+                              ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+                              feugiat ultricies mi.</p>
+                        </md-content> </md-tab> <md-tab label="Signatures"> <md-content
+                              class="md-padding">
+                        <h1 class="md-display-2">Signatures</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                              Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
+                              vulputate. Etiam consequat aliquam cursus. In sodales pretium
+                              ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+                              feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor
+                              in ultrices porttitor, orci enim rutrum enim, vel tempor sapien
+                              arcu a tellus. Vivamus convallis sodales ante varius gravida.
+                              Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam
+                              malesuada consequat diam, a facilisis tortor volutpat et. Sed urna
+                              dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis
+                              risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in
+                              enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus
+                              dictum neque volutpat blandit. Praesent efficitur faucibus risus,
+                              ac auctor purus porttitor vitae. Phasellus ornare dui nec orci
+                              posuere, nec luctus mauris semper.</p>
+                        <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra
+                              quam, at semper massa orci nec magna. Donec posuere nec sapien sed
+                              laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in
+                              tempor tortor. Vivamus faucibus egestas enim, at convallis diam
+                              pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna
+                              libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas
+                              facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed
+                              nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
+                        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
+                              interdum tellus. Curabitur posuere molestie dictum. Morbi eget
+                              congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
+                              at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
+                              volutpat non ac est. Praesent ligula diam, congue eu enim
+                              scelerisque, finibus commodo lectus.</p>
+                        </md-content> </md-tab> <md-tab label="Documents"> <md-content class="md-padding">
+                        <h1 class="md-display-2">Documents</h1>
+                        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
+                              interdum tellus. Curabitur posuere molestie dictum. Morbi eget
+                              congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
+                              at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
+                              volutpat non ac est. Praesent ligula diam, congue eu enim
+                              scelerisque, finibus commodo lectus.</p>
+                        </md-content> </md-tab> <md-tab label="Version history"> <md-content
+                              class="md-padding">
+                        <h1 class="md-display-2">Version history</h1>
+                        <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
+                              interdum tellus. Curabitur posuere molestie dictum. Morbi eget
+                              congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
+                              at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
+                              volutpat non ac est. Praesent ligula diam, congue eu enim
+                              scelerisque, finibus commodo lectus.</p>
+                        </md-content> </md-tab> </md-tabs>
+                        <div class="statcontainer hide-sm hide-xs">
+                              <span> <span class="number">3.6</span> <span class="text">MB</span>
+                                    <br> <span class="text">Size</span>
+                              </span> <span> <span class="number">96</span><br> <span
+                                    class="text">Lines</span>
+                              </span> <span> <span class="number">4</span><br> <span
+                                    class="text">Inputs</span>
+                              </span> <span> <span class="number">2</span><br> <span
+                                    class="text">Outputs</span>
+                              </span>
+                        </div>
+                        <div class="box2">
+                              <div class="box-inner1">
+                                    <div class="mdl-grid mdl-grid--no-spacing">
+                                          <div
+                                                class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                                <h6 class="sectiontitle3">Rate this Name of ML Model</h6>
+                                          </div>
+                                          <div
+                                                class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+                                                <div flex class="text-right">
+                                                      <ul class="horizontal-list2 social-icons">
+                                                            <li><h6 class="sectiontitle3">Share with</h6></li>
+                                                            <li><span><i class="fa fa-facebook"
+                                                                        aria-hidden="true"></i></span></li>
+                                                            <li><span><i class="fa fa-linkedin"
+                                                                        aria-hidden="true"></i></span></li>
+                                                            <li><span><i class="fa fa-google-plus"
+                                                                        aria-hidden="true"></i></span></li>
+                                                            <li><span><i class="fa fa-github"
+                                                                        aria-hidden="true"></i></span></li>
+                                                      </ul>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <hr />
+                                    <div class="mdl-grid mdl-grid--no-spacing">
+                                          <div class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet">
+                                                <label class="lbl1">Discussion (10)</label>
+                                          </div>
+                                          <div class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet">
+                                                <div flex class="text-right">
+                                                      <ul class="horizontal-list">
+                                                            <li><a href="#">Newest</a></li>
+                                                            <li><a href="#">Older</a></li>
+                                                            <li><a href="#">Liked</a></li>
+                                                      </ul>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="discussion-container">
+                                          <div>
+                                                <img src="images/chatuser.jpg" alt="" title="user">
+                                          </div>
+                                          <div class="discussion-details">
+                                                <div>
+                                                      <label class="text-bold">Mike Smith</label> | <span
+                                                            class="text-small">Today 4:21pm - 12.05.2017</span>
+                                                </div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                <div>
+                                                      <button
+                                                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Reply</button>
+                                                      <div class="discussion">
+                                                            <div>
+                                                                  <img src="images/chatuser.jpg" alt="" title="user">
+                                                            </div>
+                                                            <div class="discussion-details">
+                                                                  <div>
+                                                                        <label class="text-bold">Mike Smith</label> | <span
+                                                                              class="text-small">Today 4:21pm - 12.05.2017</span>
+                                                                  </div>
+                                                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                                        elit.</p>
+                                                                  <div class="flex1 discussionformbox">
+                                                                        <div
+                                                                              class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                                              <input class="mdl-textfield__input" type="text"
+                                                                                    id="sample3"> <label class="mdl-textfield__label"
+                                                                                    for="sample3">Add Reply here...</label>
+                                                                        </div>
+                                                                        <button
+                                                                              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Post</button>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="discussion-container">
+                                          <div>
+                                                <img src="images/chatuser.jpg" alt="" title="user">
+                                          </div>
+                                          <div class="discussion-details">
+                                                <div>
+                                                      <label class="text-bold">Mike Smith</label> | <span
+                                                            class="text-small">Today 4:21pm - 12.05.2017</span>
+                                                </div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                <div>
+                                                      <button
+                                                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Reply</button>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="discussion-add-comment">
+                                          <label class="disblock text-bold">Add Comments</label>
+                                          <div class="flex1">
+                                                <div
+                                                      class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                                      <input class="mdl-textfield__input" type="text" id="sample3">
+                                                      <label class="mdl-textfield__label" for="sample3">Add
+                                                            comment here...</label>
+                                                </div>
+                                          </div>
+                                          <button
+                                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Post
+                                                Comments</button>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+                  <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-phone">
+                        <div class="box1">
+                              <div class="box-inner1 bdr-bottom">
+                                    <ul class="horizontal-list2">
+                                          <li><img src="images/chatuser.jpg" alt="" title="user"></li>
+                                          <li><label class="text-bold">Created by Blakes Seven</label>
+                                                <label>Created on 05/21/2017</label> <label>Published on
+                                                      05/21/2017</label></li>
+                                    </ul>
+                              </div>
+                              <h6 class="sectiontitle2">Description</h6>
+                              <div class="box-inner1">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                          Nulla venenatis ante augue.Integer turpis erat, porttitor vitae
+                                          mi faucibus, laoreet interdum tellus.</p>
+                                    <div class="text-center">
+                                          <button type="button"
+                                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Download</button>
+                                          <label class="normallbl ">Version 2.0 | 6 Downloaded</label>
+                                          <div class="rowcontainer">
+                                                <button id="demo-menu-lower-right4"
+                                                      class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-ddl">
+                                                      <span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
+                                                </button>
+
+                                                <ul
+                                                      class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                                                      for="demo-menu-lower-right4">
+                                                      <li class="mdl-menu__item">Menu item 1</li>
+                                                      <li class="mdl-menu__item">Menu item 2</li>
+                                                      <li class="mdl-menu__item">Menu item 3</li>
+                                                </ul>
+                                          </div>
+                                          <div class="rowcontainer">
+                                                <button type="button"
+                                                      class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Push
+                                                      to ONAP</button>
+                                          </div>
+                                    </div>
+                              </div>
+                              <br />
+                              <h6 class="sectiontitle2">Tags</h6>
+                              <div class="box-inner2 rowcontainer">
+                                    <md-chips> <md-chip>Hockey</md-chip> <md-chip>Lacrosse</md-chip>
+                                    <md-chip>Baseball</md-chip> <md-chip>Cricket</md-chip> </md-chips>
+                              </div>
+                        </div>
+                        <div class="box1">
+                              <h6 class="sectiontitle2">Related ML solutions</h6>
+                              <div class="box-inner2 rowcontainer">
+                                    <div class="box-inner1">
+                                          <div class="list-item">
+                                                <ul class="horizontal-list2">
+                                                      <li><img src="images/solution1.jpg" alt=""
+                                                            title="solution"></li>
+                                                      <li><label class="disblock text-bold">Name of ML
+                                                                  solution</label> <span class="rating"> <span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span>
+                                                      </span> <label class="normallbl display-block iconcontainer">
+                                                                  <span class="iconspan1"><i class="material-icons">chat_bubble</i>
+                                                                        12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
+                                                                        176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
+                                                                        6</span>
+                                                      </label></li>
+                                                </ul>
+                                          </div>
+                                          <div class="list-item">
+                                                <ul class="horizontal-list2">
+                                                      <li><img src="images/solution1.jpg" alt=""
+                                                            title="solution"></li>
+                                                      <li><label class="disblock text-bold">Name of ML
+                                                                  solution</label> <span class="rating"> <span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span>
+                                                      </span> <label class="normallbl display-block iconcontainer">
+                                                                  <span class="iconspan1"><i class="material-icons">chat_bubble</i>
+                                                                        12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
+                                                                        176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
+                                                                        6</span>
+                                                      </label></li>
+                                                </ul>
+                                          </div>
+                                          <div class="list-item">
+                                                <ul class="horizontal-list2">
+                                                      <li><img src="images/solution1.jpg" alt=""
+                                                            title="solution"></li>
+                                                      <li><label class="disblock text-bold">Name of ML
+                                                                  solution</label> <span class="rating"> <span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span>
+                                                      </span> <label class="normallbl display-block iconcontainer">
+                                                                  <span class="iconspan1"><i class="material-icons">chat_bubble</i>
+                                                                        12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
+                                                                        176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
+                                                                        6</span>
+                                                      </label></li>
+                                                </ul>
+                                          </div>
+                                          <div class="list-item">
+                                                <ul class="horizontal-list2">
+                                                      <li><img src="images/solution1.jpg" alt=""
+                                                            title="solution"></li>
+                                                      <li><label class="disblock text-bold">Name of ML
+                                                                  solution</label> <span class="rating"> <span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span>
+                                                      </span> <label class="normallbl display-block iconcontainer">
+                                                                  <span class="iconspan1"><i class="material-icons">chat_bubble</i>
+                                                                        12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
+                                                                        176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
+                                                                        6</span>
+                                                      </label></li>
+                                                </ul>
+                                          </div>
+                                          <div class="list-item">
+                                                <ul class="horizontal-list2">
+                                                      <li><img src="images/solution1.jpg" alt=""
+                                                            title="solution"></li>
+                                                      <li><label class="disblock text-bold">Name of ML
+                                                                  solution</label> <span class="rating"> <span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span><span><i
+                                                                        class="material-icons">star_rate</i></span>
+                                                      </span> <label class="normallbl display-block iconcontainer">
+                                                                  <span class="iconspan1"><i class="material-icons">chat_bubble</i>
+                                                                        12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
+                                                                        176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
+                                                                        6</span>
+                                                      </label></li>
+                                                </ul>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
 </div> -->
