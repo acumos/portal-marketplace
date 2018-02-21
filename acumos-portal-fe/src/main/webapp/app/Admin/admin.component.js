@@ -104,7 +104,7 @@ angular.module('admin')
                             	$scope.activeCount = $scope.activeCount+1;
                             }
                           });
-						$scope.countSubscriptions();
+						//$scope.countSubscriptions();
 					},
 					function(error) {console.log(error);});
 			}
@@ -601,7 +601,7 @@ angular.module('admin')
                 					  $scope.frequencySelected[1] = '24';
                 				  }else if(value.refreshInterval == 2592000){ 
                 					  $scope.frequencySelected[2] = '720';
-                				  }else if(value.refreshInterval == 24){
+                				  }else if(value.refreshInterval == 0){
                 					  $scope.frequencySelected[3] = '0';
                 				  }
         						/*});*/
@@ -662,7 +662,7 @@ angular.module('admin')
                     			    	"selector" : catToolkit,
                     			    	"ownerId" : userId,
                     			    	"scopeType": "FL",
-                    			    	"refreshInterval": freqChangeValue || '24',
+                    			    	"refreshInterval": freqChangeValue,
                     			    	"accessType": "PB"
                     	  				}}
                     	  if(check){$scope.categoryValue='';$scope.toolKitTypeValue='';}
@@ -675,7 +675,7 @@ angular.module('admin')
                               if(response.data.response_detail ==  "Success"){
                             	  //$scope.closePoup();
                             	  $scope.addedToSubs = true;
-                            	  $scope.countSubscriptions();
+                            	  //$scope.countSubscriptions();
                       	    	/*$location.hash('myDialog');  
                                   $anchorScroll(); 
                                   $scope.msg = "Successfully added to subscription list."; 
@@ -989,7 +989,7 @@ angular.module('admin')
                                         					  $scope.frequencySelected[1] = '24';
                                         				  }else if(value.refreshInterval == 2592000){ 
                                         					  $scope.frequencySelected[2] = '720';
-                                        				  }else if(value.refreshInterval == 24){
+                                        				  }else if(value.refreshInterval == 0){
                                         					  $scope.frequencySelected[3] = '0';
                                         				  }
                                     					  
@@ -1222,7 +1222,7 @@ angular.module('admin')
 		 	    		              					  "scopeType" : "FL",
 		 	    		              					  "tookitType" :value.tookitType,
 		 	    		              					  "modelType": value.modelType,
-		 	    		              					  "refreshInterval": freqChangeValue || 24
+		 	    		              					  "refreshInterval": freqChangeValue
 		 	    		              					
 	    		                        				 }
        										) 
@@ -1242,7 +1242,7 @@ angular.module('admin')
                     										
                     										if(response.data.response_detail ==  "Success"){
                     			                            	  $scope.addedAllToSubs = true;
-                    			                            	  $scope.countSubscriptions();
+                    			                            	  //$scope.countSubscriptions();
                     			                              }
                     										
                     									},
