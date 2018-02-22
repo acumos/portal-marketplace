@@ -260,9 +260,10 @@ angular
 						$scope.isBusy = false;
 						var check = 0;
 						var dataObj = {};
-						var toBeSearch = [];
+
 						var duplicate = false;
 						$scope.loadMore = function() {
+							var toBeSearch = [];
 							if ($scope.isBusy)
 								return;
 							else
@@ -317,7 +318,6 @@ angular
 									}
 								}
 							}
-							console.log(angular.toJson(dataObj));
 
 							apiService.insertSolutionDetail(dataObj).then(
 									function(response) {
