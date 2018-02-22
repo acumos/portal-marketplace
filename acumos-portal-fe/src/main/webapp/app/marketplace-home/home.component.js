@@ -40,7 +40,7 @@ angular
                                       "request_body" : {
                                           "sortBy" : "MR",
                                           "active": true,
-                                          "accessTypeCodes": ["PB"],
+                                          "accessTypeCodes": ["PB", "OR"],
                                           "pageRequest" : {
                                               "fieldToDirectionMap": { "modified" : "DESC" },
                                               "page" : 0,

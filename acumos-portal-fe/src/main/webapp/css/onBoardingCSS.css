@@ -516,6 +516,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
     border-bottom: none;
     margin: 0;
 }
+.onboarding .timeline.cont p{margin-left: 0px;} 
 
 /* media query start */
 @media(max-width:1024px){

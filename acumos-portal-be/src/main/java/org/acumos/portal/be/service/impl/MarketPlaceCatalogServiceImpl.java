@@ -1824,11 +1824,11 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal) {
 		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = {AccessTypeCode.PB.toString(), AccessTypeCode.OR.toString()};
+		//String[] accessTypeCodes = {AccessTypeCode.PB.toString(), AccessTypeCode.OR.toString()};
 		
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
-				pageReqPortal.getOwnerIds(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
+				pageReqPortal.getOwnerIds(), pageReqPortal.getAccessTypeCodes(), pageReqPortal.getModelTypeCodes(),
 				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
