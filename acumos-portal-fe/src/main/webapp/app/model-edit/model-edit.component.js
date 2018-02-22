@@ -1522,7 +1522,8 @@ angular
 									&& $scope.artifactType == 'DI') {
 								imageTagUri = $scope.artifactUri;
 							}
-
+							console.log($scope.brokerURL + $scope.positionM1 + $scope.positionM2 + $scope.positionM3 + $scope.positionM4);
+							console.log($scope.fieldM1 + $scope.fieldM2 + $scope.fieldM3 + $scope.fieldM4);
 							/*var authDeployObject = {
 								'client' : $scope.applicationId,
 								'tenant' : $scope.tenantId,
