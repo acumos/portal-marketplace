@@ -56,12 +56,12 @@
 					<li class="mdl-menu__item dc-amazon-cloud" disabled
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
 				</ul> -->
-				<div  class="select-control dcl-list" >
+				<div  class="select-control dcl-list" class=".." >
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
-                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-microsoft-azure" value="microsoft">Microsoft</md-option>
-                        <md-option class="dc-google-cloud" value="rackspace" disabled>Deploy To Cloud</md-option>
-                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-rackspace" value="ripple">Rack Space</md-option>
-                        <md-option class="dc-amazon-cloud" value="amazon" disabled>Deploy To Cloud</md-option>
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-microsoft-azure opacityZero" value="microsoft">Microsoft</md-option>
+                        <md-option class="dc-google-cloud opacityZero" value="rackspace" disabled>Deploy To Cloud</md-option>
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-rackspace opacityZero" value="ripple">Rack Space</md-option>
+                        <md-option class="dc-amazon-cloud opacityZero" value="amazon" disabled>Deploy To Cloud</md-option>
                     </md-select>
                 </div>
 			</div>
@@ -737,44 +737,76 @@
 			</div>
 			</md-toolbar>
 			<md-dialog-content>
-			<div class="md-dialog-content">
-				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='microsoft'">
-					<div class="mdl-cell mdl-cell--6-col">
+				<div class="md-dialog-content">
+				<div ng-hide="exportTo!='microsoft'">
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
+					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Application
 							Id <span class="reqfield">*</span></label> <input ng-model="applicationId" type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Secret
-							key <span class="reqfield">*</span></label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Resource
-							Group <span class="reqfield">*</span></label> <input ng-model="resourceGroup" type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
+							<md-input-container class="md-icon-float md-block">
+						<label>Subscription Key <span class="reqfield">*</span></label> <input ng-model="subscriptionKey"
+							type="text"> </md-input-container>
+							<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Storage
 							Account <span class="reqfield">*</span></label> <input ng-model="storageAccount" type="text"> </md-input-container>
 					</div>
-
-					<div class="mdl-cell mdl-cell--6-col">
+					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
 						<label>Tenant Id <span class="reqfield">*</span></label> <input ng-model="tenantId" type="text">
 						</md-input-container>
 						<md-input-container class="md-icon-float md-block">
-						<label>Subscription Key <span class="reqfield">*</span></label> <input ng-model="subscriptionKey"
-							type="text"> </md-input-container>
+						<!-- Use floating label instead of placeholder --> <label>Resource
+							Group <span class="reqfield">*</span></label> <input ng-model="resourceGroup" type="text"> </md-input-container>
+					</div>
+					<div class="mdl-cell mdl-cell--4-col">
+						<md-input-container class="md-icon-float md-block">
+						<!-- Use floating label instead of placeholder --> <label>Secret
+							key <span class="reqfield">*</span></label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
 						<md-input-container class="md-icon-float md-block">
 						<label>Acr Name <span class="reqfield">*</span></label> <input ng-model="acrName" type="text">
 						</md-input-container>
 					</div>
 				</div>
 				
+				<h4 class="gridlistheading broker-heading">
+							Broker</h4>
+				<div>
+					<md-input-container class="md-icon-float md-block">
+						<label>URL</label> <input type="text" ng-model="brokerURL">
+						</md-input-container>
+				</div>
+				<div class="borker-row">
+					<div>
+						<label class="disblock">Position Mappings</label>
+						<div>
+							<input class="md-input" type="text" ng-model="positionM1">
+							<input class="md-input" type="text" ng-model="positionM2">						
+						</div>
+						<div>
+							<input class="md-input" type="text" ng-model="positionM3">
+							<input class="md-input" type="text" ng-model="positionM4">						
+						</div>
+					</div>
+					<div>
+						<label class="disblock">Field Mappings</label>
+						<div>
+							<input class="md-input" type="text" ng-model="fieldM1">
+							<input class="md-input" type="text" ng-model="fieldM2">						
+						</div>
+						<div>
+							<input class="md-input" type="text" ng-model="fieldM3">
+							<input class="md-input" type="text" ng-model="fieldM4">						
+						</div>
+					</div>
+				</div>
+				</div>
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>VM
 							Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text"> </md-input-container>
 				</div>
-				
-				<hr />
-				<div class="dialog-btn-container">
+				<div class="dialog-btn-container broker-dialog-footer">
 					<md-button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>
