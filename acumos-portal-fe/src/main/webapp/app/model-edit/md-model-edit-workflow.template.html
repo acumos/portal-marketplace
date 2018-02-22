@@ -3470,16 +3470,53 @@
 													type="text"> </md-input-container>
 											</div>
                                          </div>
+                                         
+                                         
+                                         <!--  new section  -->
+                                                                          <div ng-hide='checkboxExport!="microsoft"'>
+                                        		<h4 class="gridlistheading broker-heading">
+															Broker</h4>
+												<div>
+													<md-input-container class="md-icon-float md-block">
+														<label>URL</label> <input type="text" ng-model="brokerURL">
+														</md-input-container>
+												</div>
+												<div class="borker-row">
+													<div>
+														<label class="disblock">Position Mappings</label>
+														<div>
+															<input class="md-input" type="text" ng-model="positionM1">
+															<input class="md-input" type="text" ng-model="positionM2">						
+														</div>
+														<div>
+															<input class="md-input" type="text" ng-model="positionM3">
+															<input class="md-input" type="text" ng-model="positionM4">						
+														</div>
+													</div>
+													<div>
+														<label class="disblock">Field Mappings</label>
+														<div>
+															<input class="md-input" type="text" ng-model="fieldM1">
+															<input class="md-input" type="text" ng-model="fieldM2">						
+														</div>
+														<div>
+															<input class="md-input" type="text" ng-model="fieldM3">
+															<input class="md-input" type="text" ng-model="fieldM4">						
+														</div>
+													</div>
+												</div>
+                                                                          </div>
+                                         <!--  new section end -->
+                                         
                                          <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show='checkboxExport=="ripple"'>
-                                                   <div
-                                                       class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                                                   
                                                        <md-input-container class="md-icon-float md-block">
                                                                  <label>VM Name</label>
                                                                   <input type="text" ng-model='vmName'>
                                                        </md-input-container>
-											</div>
+											
 										</div>
-										<hr />
+										
 										<div layout="row" class="pull-right">
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
