@@ -36,6 +36,7 @@ import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -104,7 +105,7 @@ public class MessagingServiceImpl implements MessagingService{
 	
 	@Override
 	public MLPStepResult createStepResult(MLPStepResult stepResult) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createStepResult`");
+		log.debug(EELFLoggerDelegate.debugLogger, "createStepResult : "+ JsonUtils.serializer().toPrettyString(stepResult));
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPStepResult result = dataServiceRestClient.createStepResult(stepResult);	
 		return result;
