@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3dd42ef_8f45e743",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1827,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-02-22T19:12:32Z",
+      "side": 1,
+      "message": "please remove code, don\u0027t comment it out, let git remember",
+      "revId": "2be49f87dcf63299afd58bba5a8752042edff4a7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
