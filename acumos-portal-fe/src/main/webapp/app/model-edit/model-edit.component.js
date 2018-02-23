@@ -944,6 +944,7 @@ angular
 													data)
 											.then(
 													function(response) {
+														$scope.getModelValidation(flow);
 														$scope.handleSuccess = true;
 														$timeout(
 																function() {
