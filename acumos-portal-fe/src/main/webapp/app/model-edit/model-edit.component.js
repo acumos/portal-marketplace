@@ -959,7 +959,7 @@ angular
 															
 														}else if (response.data.error_code == 100){
 															
-															$scope.status = response.data.response_detail;
+															$scope.trackId = response.data.response_detail;
 															$scope.msg = "Solution Published Successfully";
 															$scope.icon = '';
 															$scope.styleclass = 'c-success';
@@ -2060,7 +2060,7 @@ angular
 						
 						var clearInterval = $interval(function(){
 		
-							apiService.getMessagingStatusBySolutionId($scope.solutionId, $scope.revisionId).then(
+							apiService.getMessagingStatus($scope.loginUserId[1], $scope.trackId).then(
 									function(response) {
 								
 								var data = response.data.response_body;
