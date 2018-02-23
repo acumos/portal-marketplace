@@ -16,6 +16,7 @@ angular
 						 * key value pair of element attributes
 						 */
 						link : function(scope, element, attrs) {
+							scope.isUserImageUpdated = false;
 							var model = $parse(attrs.uploadImageModel), modelSetter = model.assign; // define
 																									// a
 																									// setter
@@ -26,6 +27,7 @@ angular
 							element.bind('change', function() {
 								// Call apply on scope, it checks for value
 								// changes and reflect them on UI
+								scope.isUserImageUpdated = true;
 								scope.$apply(function() {
 									// set the model value
 									modelSetter(scope, element[0].files[0]);
@@ -67,7 +69,8 @@ angular
 						//$scope.matchString = true;
 						$scope.showAltImage = true;
 						$scope.disableEmail = true;
-						
+						$scope.isUserImageUpdated = false; // checks if userimage is uploaded or not if no keep upload btn disabled
+
 						if(localStorage.getItem("userDetail")){
 							var userName = JSON.parse(localStorage.getItem("userDetail"))[0];
 							var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
