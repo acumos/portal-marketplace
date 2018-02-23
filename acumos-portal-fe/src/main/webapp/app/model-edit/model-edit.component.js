@@ -905,13 +905,17 @@ angular
 							var userId = sessionStorage.getItem("SessionName");
 							$scope.currentModelAccess = pub_value;
 
+							if (pub_value == 'OR') {
+								var flow= 'company';
+							} else if (pub_value == 'PB') {
+								var flow= 'public';
+							}
+
 							if ($scope.currentModelAccess == $scope.solution.accessType) {
 								if ($scope.solution.accessType == 'OR') {
 									$scope.accessName = 'Company/Organization';
-									var flow= 'company';
 								} else if ($scope.solution.accessType == 'PB') {
 									$scope.accessName = 'Public';
-									var flow= 'public';
 								}
 
 								$location.hash('manage-models');
