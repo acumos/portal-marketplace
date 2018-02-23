@@ -3438,74 +3438,83 @@
 								</div>
 								<div class="tab-content">
 									<div class="md-dialog-content">
+									<form name="deploy">
 										<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide='checkboxExport!="microsoft"'>
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
 												<!-- Use floating label instead of placeholder --> <label class="md-required">Application
-													Id </label> <input ng-model="applicationId" type="text"> </md-input-container>
+													Id </label> <input ng-model="applicationId" type="text" required> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
 												<!-- Use floating label instead of placeholder --> <label class="md-required">Secret
-													key </label> <input ng-model="secretKey" type="password"> </md-input-container>
+													key </label> <input ng-model="secretKey" type="password" required> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
 												<!-- Use floating label instead of placeholder --> <label class="md-required">Resource
-													Group </label> <input ng-model="resourceGroup" type="text">
+													Group </label> <input ng-model="resourceGroup" type="text" required>
 												</md-input-container>
 												<md-input-container class="md-icon-float md-block">
 												<!-- Use floating label instead of placeholder --> <label class="md-required">Storage
-													Account </label> <input ng-model="storageAccount" type="text">
+													Account </label> <input ng-model="storageAccount" type="text" required>
 												</md-input-container>
 											</div>
 
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Tenant Id</label> <input ng-model="tenantId"
+												<label class="md-required">Tenant Id</label> <input ng-model="tenantId" required
 													type="text"> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Subscription Key</label> <input
+												<label class="md-required">Subscription Key</label> <input required
 													ng-model="subscriptionKey" type="text"> </md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Acr Name</label> <input ng-model="acrName"
+												<label class="md-required">Acr Name</label> <input ng-model="acrName" required
 													type="text"> </md-input-container>
 											</div>
                                          </div>
-                                         
-                                         
+                                         <div layout="row" class="pull-right" ng-hide='checkboxExport!="microsoft"'>
+											<md-button
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+												ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();">
+											Deploy </md-button>
+										</div>
+                                         </form>
+                                         <br>
                                          <!--  new section  -->
+                                         <form name="deployCloud">
                                                                           <div ng-hide='checkboxExport!="microsoft"'>
                                         		<h4 class="gridlistheading broker-heading">
 															Broker</h4>
 												<div>
 													<md-input-container class="md-icon-float md-block">
-														<label>URL</label> <input type="text" ng-model="brokerURL">
+														<label>URL</label> <input type="text" ng-model="brokerURL" required>
 														</md-input-container>
 												</div>
 												<div class="borker-row">
 													<div>
 														<label class="disblock">Position Mappings</label>
 														<div>
-															<input class="md-input" type="text" ng-model="positionM1">
-															<input class="md-input" type="text" ng-model="positionM2">						
+															<input class="md-input readOnlyDark" type="text" ng-model="positionM1" readonly placeholder="MIME_TYPE">
+															<input class="md-input" type="text" ng-model="positionM2" required>						
 														</div>
 														<div>
-															<input class="md-input" type="text" ng-model="positionM3">
-															<input class="md-input" type="text" ng-model="positionM4">						
+															<input class="md-input readOnlyDark" type="text" ng-model="positionM3" readonly placeholder="CONTENT">
+															<input class="md-input" type="text" ng-model="positionM4" required>						
 														</div>
 													</div>
 													<div>
 														<label class="disblock">Field Mappings</label>
 														<div>
-															<input class="md-input" type="text" ng-model="fieldM1">
-															<input class="md-input" type="text" ng-model="fieldM2">						
+															<input class="md-input readOnlyDark" type="text" ng-model="fieldM1" readonly placeholder="MIME_TYPE">
+															<input class="md-input" type="text" ng-model="fieldM2" required>						
 														</div>
 														<div>
-															<input class="md-input" type="text" ng-model="fieldM3">
-															<input class="md-input" type="text" ng-model="fieldM4">						
+															<input class="md-input readOnlyDark" type="text" ng-model="fieldM3" readonly placeholder="CONTENT">
+															<input class="md-input" type="text" ng-model="fieldM4" required>						
 														</div>
 													</div>
 												</div>
                                                                           </div>
+                                          </form>
                                          <!--  new section end -->
                                          
                                          <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show='checkboxExport=="ripple"'>
@@ -3516,12 +3525,17 @@
                                                        </md-input-container>
 											
 										</div>
-										
-										<div layout="row" class="pull-right">
+										<div layout="row" class="pull-right" ng-hide='checkboxExport!="ripple"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="authenticateAnddeployToAzure();">
+												ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();">
 											Deploy </md-button>
+										</div>
+										<div layout="row" class="pull-right" ng-show='checkboxExport=="microsoft"'>
+											<md-button
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid">
+											Deploy Broker</md-button>
 										</div>
 									</div>
 								</div>
