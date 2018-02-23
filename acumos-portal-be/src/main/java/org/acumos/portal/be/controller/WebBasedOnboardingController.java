@@ -42,6 +42,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.service.MessagingService;
+import org.acumos.portal.be.transport.Broker;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.UploadSolution;
@@ -411,4 +412,31 @@ public class WebBasedOnboardingController  extends AbstractController {
 		}
 		return data;
 	}*/
+	
+	
+	@ApiOperation(value = "dummy api for Broker.", response = RestPageResponseBE.class)
+	@RequestMapping(value = { APINames.BROKER}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Broker> messagingStatus(@RequestBody JsonRequest<Broker> brokerDetail) {
+		
+		log.debug(EELFLoggerDelegate.debugLogger, "broker details");
+		
+		JsonResponse<Broker> data = new JsonResponse<>();
+	    	     
+		try {
+			 		Broker responseBody = new Broker();
+			 		responseBody.setResponseName("test_name");
+			 		responseBody.setResponseContent("test_COntent");
+					data.setResponseBody(responseBody );
+			 
+			 			 
+		}catch (Exception e) {
+			
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog",
+					e);
+		}
+		return data;
+	}
 }
