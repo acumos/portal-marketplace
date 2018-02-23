@@ -53,7 +53,7 @@ angular
 						/*Start call for Sections*/
 						var check = 0;
 						var dataObj = {};
-						var toBeSearch = '';
+						var toBeSearch = [];
 						$scope.pageNumber = 0;
 						$scope.categoryFilter = [];
 						$scope.privacyFilter = '';
@@ -95,7 +95,8 @@ angular
 						
 						$scope.getPrivateModels=function(){
 							$scope.dataLoading = true;
-							toBeSearch = $scope.searchBox;
+							if($scope.searchBox!=null && $scope.searchBox!='')
+								toBeSearch[0] = $scope.searchBox;
 
 							dataObj = {
 									  "request_body": {
@@ -163,7 +164,8 @@ angular
 						
 						$scope.getCompanyModels=function(){
 
-							toBeSearch = $scope.searchBox;
+							if($scope.searchBox!=null && $scope.searchBox!='')
+								toBeSearch[0] = $scope.searchBox;
 
 							dataObj = {
 									  "request_body": {
@@ -228,7 +230,8 @@ angular
 						$scope.getPublicModels=function(){
 							$scope.dataLoading = true;
 
-							toBeSearch = $scope.searchBox;
+							if($scope.searchBox!=null && $scope.searchBox!='')
+								toBeSearch[0] = $scope.searchBox;
 							
 							dataObj = {
 									  "request_body": {
@@ -291,7 +294,8 @@ angular
 						};
 						$scope.getDeleteModels=function(){
 							$scope.dataLoading = true;
-							toBeSearch = $scope.searchBox;
+							if($scope.searchBox!=null && $scope.searchBox!='')
+							toBeSearch[0] = $scope.searchBox;
 							dataObj = {
 									  "request_body": {
 										    "active": false,
@@ -692,7 +696,7 @@ angular
 						$scope.isBusy = false;
 						var check = 0;
 						var dataObj = {};
-						var toBeSearch = '';
+						var toBeSearch = [];
 						var duplicate = false;
 						$scope.imageUrls = {};
 						
@@ -713,7 +717,8 @@ angular
 								return;
 
 							$scope.dataLoading = true;							
-							toBeSearch = $scope.searchBox;
+							if($scope.searchBox!=null && $scope.searchBox!='')
+								toBeSearch[0] = $scope.searchBox;
 							if($scope.viewNoMLsolution == 'No More ML Solutions' && $scope.pageNumber != 0){return;}
 							$scope.MlSoltionCount = false;
 							

@@ -276,9 +276,8 @@ angular
 							 * $scope.isBusy = true; return; }
 							 */
 							// $scope.dataLoading = false;
-							if($scope.searchBox){
+							if($scope.searchBox!=null && $scope.searchBox!='')
 								toBeSearch[0] = $scope.searchBox;
-							}
 							
 							if ($scope.viewNoMLsolution == 'No More ML Solutions'
 									&& $scope.pageNumber != 0) {
