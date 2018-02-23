@@ -1523,8 +1523,6 @@ angular
 									&& $scope.artifactType == 'DI') {
 								imageTagUri = $scope.artifactUri;
 							}
-							console.log($scope.brokerURL + $scope.positionM1 + $scope.positionM2 + $scope.positionM3 + $scope.positionM4);
-							console.log($scope.fieldM1 + $scope.fieldM2 + $scope.fieldM3 + $scope.fieldM4);
 							/*var authDeployObject = {
 								'client' : $scope.applicationId,
 								'tenant' : $scope.tenantId,
@@ -1639,7 +1637,33 @@ angular
                                                 }
 
 						}
+						$scope.deployCloudVal = function(){
+							//console.log($scope.brokerURL + $scope.positionM1 + $scope.positionM2 + $scope.positionM3 + $scope.positionM4);
+							//console.log($scope.fieldM1 + $scope.fieldM2 + $scope.fieldM3 + $scope.fieldM4);
+							var reqObj = {
+			                          "request_body": {         
+                                          URL_ATTRIBUTE:{"url":  $scope.brokerURL },
+                                          jsonPosition:{"MIME_TYPE":$scope.positionM2, "CONTENT":$scope.positionM4},
+                                          jsonMapping : {"MIME_TYPE":$scope.fieldM2,"CONTENT":$scope.fieldM4}
+                          }
+									};
+							console.log(reqObj);
+							var req = {
+									 method: 'POST',
+									 url: 'api/webBasedOnBoarding/broker',
+									 data: { test: reqObj }
+									}
 
+									$http(req).then(
+										function(data){
+											console.log(angular.toJson(data))
+											debugger;
+										},
+										function(data){
+											debugger;
+											});
+							
+						}
 						/** ****** Export/Deploy to Azure ends *** */
 
 						/** file uploading function** */
