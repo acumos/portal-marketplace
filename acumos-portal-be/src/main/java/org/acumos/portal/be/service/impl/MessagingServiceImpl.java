@@ -154,7 +154,7 @@ public class MessagingServiceImpl implements MessagingService{
 		MLPSolutionValidation mlPSolutionValidation = mlPSolutionValidations.get(0);
 		String trackingId = mlPSolutionValidation.getTaskId();
 		queryParams.put("solutionId", solutionId);
-		queryParams.put("trackingId", trackingId);
+		//queryParams.put("trackingId", trackingId);
 		queryParams.put("revisionId", revisionId);
 		RestPageResponse<MLPStepResult> stepResultList = dataServiceRestClient.searchStepResults(queryParams, false,
 				pageRequest);
