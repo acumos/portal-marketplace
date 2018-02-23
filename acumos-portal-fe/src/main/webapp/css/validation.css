@@ -121,15 +121,13 @@ color: #666;font-size: 13px;margin: 0;line-height: 1.428571429;
 /* media query start */
 @media (max-width:1024px){
 	.box-layout{width: calc(50% - 16px);}
-	
 }
 @media (max-width:768px){
 	.box-layout{width: auto;}
-	.list-validation{min-height:auto;}]
-	
+	.list-validation{min-height:auto;}	
 }
 @media (max-width:360px){
-	
+	.box-layout-footer{display:block;}
 	.box-layout-footer .mdl-button{margin:0; height:auto;}
-	
+	.box-layout-footer .btn-primary{margin-top:3px;}
 }
