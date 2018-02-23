@@ -2086,20 +2086,19 @@ angular
 					$scope.getModelValidation = function(flow){
 
 						$scope.completedSteps = [];
+						if(flow == 'public'){
+							$scope.idTab = '#public-market';
+						} else {
+							$scope.idTab = '#company-market';
+						}
 						
 						var clearInterval = $interval(function(){
-		
+
 							apiService.getMessagingStatus($scope.loginUserId[1], $scope.trackId).then(
 									function(response) {
 								
 								var data = response.data.response_body;
 								var counter = 0;
-								
-								if(flow == 'public'){
-									var id = '#public-market';
-								} else {
-									var id = '#company-market';
-								}
 		
 								for(var i=0 ; i< data.length; i++){
 									var stepName = data[i].name;
@@ -2129,35 +2128,19 @@ angular
 												hideStep = true;
 											}
 										}
-										case 'PublishToCompany' : {
-											if(flow == 'company'){
-												counter = 8;
-												( statusCode == 'FA' ) ?  $scope.errorPC = data[i].result : $scope.errorPC = ''; break;
-											} else {
-												hideStep = true;
-											}
-										}
-										case 'PublishToMarket' : {
-											if(flow == 'public'){
-												counter = 8;
-												( statusCode == 'FA' ) ?  $scope.errorPM = data[i].result : $scope.errorPM = ''; break;
-											} else {
-												hideStep = true;
-											}
-										}
 									}
 									if(!hideStep){
-										angular.element(angular.element(id + ' li div')[counter]).removeClass('completed incomplet active');
+										angular.element(angular.element($scope.idTab + ' li div')[counter]).removeClass('completed incomplet active');
 										if(statusCode == 'FA'){
-											angular.element(angular.element(id + ' li div')[counter]).addClass('incomplet');
-											angular.element(angular.element(id + ' li')[counter+1]).removeClass('green completed');
+											angular.element(angular.element($scope.idTab + ' li div')[counter]).addClass('incomplet');
+											angular.element(angular.element($scope.idTab + ' li')[counter+1]).removeClass('green completed');
 										}else if(statusCode == 'ST'){
-											angular.element(angular.element(id + ' li div')[counter]).addClass('active');
-											angular.element(angular.element(id + ' li')[counter+1]).addClass('progress-status green');
+											angular.element(angular.element($scope.idTab + ' li div')[counter]).addClass('active');
+											angular.element(angular.element($scope.idTab + ' li')[counter+1]).addClass('progress-status green');
 											
 										} else if(statusCode == 'SU'){
-											angular.element(angular.element(id + ' li div')[counter]).addClass('completed');
-											angular.element(angular.element(id + ' li')[counter+1]).addClass('green completed');
+											angular.element(angular.element($scope.idTab + ' li div')[counter]).addClass('completed');
+											angular.element(angular.element($scope.idTab + ' li')[counter+1]).addClass('green completed');
 											$scope.completedSteps[stepName] = stepName;
 										}
 									}
@@ -2165,8 +2148,9 @@ angular
 							});
 						
 							var allStepsCount = Object.keys($scope.completedSteps);
-							if($scope.completedSteps && $scope.Workflow && allStepsCount.length == (5-$scope.Workflow.ignore_list.length) ){
+							if($scope.completedSteps && $scope.Workflow && allStepsCount.length == (3-$scope.Workflow.ignore_list.length) ){
 								$interval.cancel(clearInterval);
+								angular.element(angular.element($scope.idTab + ' li div')[8]).addClass('completed');
 							}
 							
 						}, 5000);
