@@ -132,7 +132,7 @@
 								</div> --> </md-input-container>
 					<a class="link-blue" href="" ng-click="disableEmail=!disableEmail"><span
 						ng-if="disableEmail">Change Email</span></a> <a class="link-blue"
-						href="" ng-class="{disabledLink:!signupFormEmail.uemail.$valid}"
+						href="" ng-class="{disabledLink:!signupFormEmail.$dirty}"
 						ng-if="!disableEmail" ng-click="$parent.saveEmail()">Save
 						Email</a>
 
@@ -204,7 +204,7 @@
 				<div class="u-note-priority-container">
 					<div class="select-control">
 						<label class="fedlbl4">Set Notification Priority</label>
-						<md-select ng-model="user" md-on-open="loadUsers()"> <md-option
+						<md-select ng-model="user" md-on-open="loadUsers()"  aria-label="Load Users"> <md-option
 							ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
 						</md-select>
 					</div>
@@ -223,7 +223,7 @@
 				<div class="u-note-priority-container">
 					<div class="select-control">
 						<label class="fedlbl4">Set Notification Priority</label>
-						<md-select ng-model="user" md-on-open="loadUsers()"> <md-option
+						<md-select ng-model="user" md-on-open="loadUsers()"  aria-label="Load Users"> <md-option
 							ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
 						</md-select>
 					</div>
@@ -238,7 +238,7 @@
 				<div class="u-note-proority-container">
 					<div class="select-control">
 						<label class="fedlbl4">Set Notification Priority</label>
-						<md-select ng-model="user" md-on-open="loadUsers()"> <md-option
+						<md-select ng-model="user" md-on-open="loadUsers()"  aria-label="Load Users"> <md-option
 							ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
 						</md-select>
 					</div>
@@ -248,7 +248,7 @@
 				<div class="select-control">
 					<label class="fedlbl4">How frequently do you want to be
 						notified?</label>
-					<md-select ng-model="user" md-on-open="loadUsers()"> <md-option
+					<md-select ng-model="user" md-on-open="loadUsers()"  aria-label="Load Users" > <md-option
 						ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
 					</md-select>
 				</div>
@@ -385,7 +385,7 @@
 					<div>
 						<!-- <label>Upload Photo</label> -->
 						<input type="file" upload-image-model="userImage"
-							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
+							class="mdl-textfield__input userprofiletxtbox uploadtxtbox" aria-label="User Image"
 							id="userImage">
 					</div>
 
@@ -400,7 +400,7 @@
 		<md-button ng-click="closePoup();"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 		Cancel </md-button> <!--enableUploadBtn  -->
-		<md-button ng-click="uploadImg()" ng-disabled="!userImage"
+		<md-button ng-click="uploadImg()" ng-disabled="!isUserImageUpdated"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 		Upload </md-button>
 	</div>
