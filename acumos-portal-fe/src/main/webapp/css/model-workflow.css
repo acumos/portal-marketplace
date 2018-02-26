@@ -1458,7 +1458,8 @@ position:relative;
     cursor: not-allowed;
 }
 .popovers .progress-bar {margin: 5px 0 3px;}
-.model-detail md-input-container .md-errors-spacer{float:left; color:#FF0000; font-size:12px;}  
+.model-detail md-input-container .md-errors-spacer{float:left; color:#FF0000; font-size:12px;}
+.ql-size-huge{font-size: 2.5em;}  
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}
