@@ -604,13 +604,14 @@
 													</div> -->
 									</div>
 									<div class="mpdetailscontainer">
+									<div class="tilecontainer1">
 										<label class="griditem-title">{{publicSolution.name}}
 											<span class="text-xsmall link-orange">In Process</span>
 										</label>
 										<!-- Shared With/ Shared By Icon -->
 											<span class="md-share-with-me" title="Shared With Me" ng-show="publicSolution.ownerId != loginUserID"></span>
 											<span class="md-share-with-others" title="Shared With Others" ng-show="publicSolution.ownerId == loginUserID && publicSolution.ownerListForSol.length > 0"></span> 
-										
+									</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
 												{{publicSolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -767,12 +768,13 @@
 											<!-- <span class="img-ctag"><i class="material-icons">copyright</i> </span> -->
 										</div>
 										<div class="mpdetailscontainer">
+										<div class="tilecontainer1">
 											<label class="griditem-title">{{deletedSolution.name}}
 											</label> 
 												<!-- Shared With/ Shared By Icon -->
 											<span class="md-share-with-me" title="Shared With Me" ng-show="deletedSolution.ownerId != loginUserID"></span>
 											<span class="md-share-with-others" title="Shared With Others" ng-show="deletedSolution.ownerId == loginUserID && deletedSolution.ownerListForSol.length > 0"></span> 
-										
+										</div>
 											
 											<label class="grid-item-text-container"><span
 												class="griditem-text2 grid-item-lbl">by
