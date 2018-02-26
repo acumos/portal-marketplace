@@ -3493,22 +3493,22 @@
 													<div>
 														<label class="disblock">Position Mappings</label>
 														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="positionM1" readonly placeholder="MIME_TYPE">
+															<input class="md-input readOnlyDark" type="text" ng-model="positionM1"  placeholder="MIME_TYPE">
 															<input class="md-input" type="text" ng-model="positionM2" required>						
 														</div>
 														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="positionM3" readonly placeholder="CONTENT">
+															<input class="md-input readOnlyDark" type="text" ng-model="positionM3"  placeholder="CONTENT">
 															<input class="md-input" type="text" ng-model="positionM4" required>						
 														</div>
 													</div>
 													<div>
 														<label class="disblock">Field Mappings</label>
 														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="fieldM1" readonly placeholder="MIME_TYPE">
+															<input class="md-input readOnlyDark" type="text" ng-model="fieldM1"  placeholder="MIME_TYPE">
 															<input class="md-input" type="text" ng-model="fieldM2" required>						
 														</div>
 														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="fieldM3" readonly placeholder="CONTENT">
+															<input class="md-input readOnlyDark" type="text" ng-model="fieldM3"  placeholder="CONTENT">
 															<input class="md-input" type="text" ng-model="fieldM4" required>						
 														</div>
 													</div>
@@ -3534,8 +3534,8 @@
 										<div layout="row" class="pull-right" ng-show='checkboxExport=="microsoft"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid">
-											Deploy Broker</md-button>
+												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid&&deploy.$invalid">
+											Data Broker</md-button>
 										</div>
 									</div>
 								</div>
