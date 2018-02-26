@@ -2235,7 +2235,7 @@ angular
 							count -1;
 						}
 						
-						if($scope.solImage &&  ($scope.imgURLdefault != 'images/default-model.png' || $scope.imgURLdefault != 'images/img-list-item.png')){
+						if($scope.solImage || ($scope.imgURLdefault != 'images/default-model.png' || $scope.imgURLdefault != 'images/img-list-item.png')){
 							count++;
 							console.log(">>>>>>> imgURLdefault: ",$scope.imgURLdefault)
 						}
@@ -2391,7 +2391,10 @@ angular
 					$scope.imgURLSensitive = "images/Sensitive.png";
 					$scope.imgURLdefault ="images/img-list-item.png";
 						
-						
+				    $scope.$on('$destroy', function () {
+				    	angular.element($scope.idTab + ' li div').removeClass('completed incomplet active');
+				    	angular.element($scope.idTab + ' li').removeClass('green completed');
+		            });	
 					}
 
 				});

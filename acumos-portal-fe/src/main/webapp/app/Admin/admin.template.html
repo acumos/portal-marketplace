@@ -1852,7 +1852,7 @@
 									  <div class="md-toolbar-tools">
 										<h2>{{workFlow}}</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="cancel()">
+										<md-button class="md-icon-button" ng-click = "closeValidationPopup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
@@ -1885,12 +1885,12 @@
                                                        <li>
                                                        <div class="steppointer  arrow_box removescan" ng-show = "step.active == 'true'">
 																<div class="imageplace" >
-                                                                     <a ng-click = "addValidationStep(step.stepName, key)"><span class="imagecontent create-security"> 
+                                                                     <a ><span class="imagecontent" ng-class = "step.class"> 
                                                                      </span></a>
 																</div>                                                              
 																<div class="text">{{step.stepName}}</div>
 																<div class="removestepicon">
-																	<i class="material-icons"><a href="">remove_circle</a></i>
+																	<i class="material-icons"><a href="" ng-click = "addValidationStep(step.stepName, key)">remove_circle</a></i>
 																</div>
 															</div>
 															<div class="steppointer  arrow_box active" ng-show = "step.active == 'false'">
@@ -2027,7 +2027,7 @@
 									  <div class="md-toolbar-tools">
 										<h2>Confirm Assign {{workFlow}}</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="cancel()">
+										<md-button class="md-icon-button" ng-click = "closeValidationPopup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
