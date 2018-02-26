@@ -31,7 +31,7 @@ zuul:
       sensitiveHeaders:
     azure:
       path: /azure/**
-      url: http://localhost:9081
+      url: http://localhost:8007
       stripPrefix: false
       sensitiveHeaders:
     openstack:
