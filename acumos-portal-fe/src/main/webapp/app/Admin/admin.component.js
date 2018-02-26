@@ -1284,30 +1284,30 @@ angular.module('admin')
                       		  						
                       		               	  ]};
                                           var localFlowStep ={"step": [
-                      		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
+                      		  						{ "stepName" : "Model Documentation", "class" : "create-model-documentation"},
                       		  						
                       		  						
                       		               	  ]};
                                           $scope.optionalLocalFlowStep ={"step": [
-                                        	  { "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},  
-                                        	  { "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
-              		  						  { "stepName" : "Text Check", "class" : "create-docker", "active" : "true"}
+                                        	  { "stepName" : "Security Scan", "class" : "create-security-gray", "active" : "true"},  
+                                        	  { "stepName" : "License Check", "class" : "create-licence-check", "active" : "true"},
+              		  						  { "stepName" : "Text Check", "class" : "create-text-check", "active" : "true"}
                 		  					]};
                                           var publicFlowStep ={"step": [
-                      		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
+                      		  						{ "stepName" : "Model Documentation", "class" : "create-model-documentation"},
                       		  								  						
                       		               	  ]};
                                           $scope.optionalPublicFlowStep ={"step": [
-                                        	  { "stepName" : "Security Scan", "class" : "create-security", "active" : "true"},  
-                                        	  { "stepName" : "License Check", "class" : "create-solution", "active" : "true"},
-              		  						  { "stepName" : "Text Check", "class" : "create-docker", "active" : "true"}
-              		  						//{ "stepName" : "Manual Text Check", "class" : "create-docker", "active" : "true"}
+                                        	  { "stepName" : "Security Scan", "class" : "create-security-gray", "active" : "true"},  
+                                        	  { "stepName" : "License Check", "class" : "create-licence-check", "active" : "true"},
+              		  						  { "stepName" : "Text Check", "class" : "create-text-check", "active" : "true"}
+              		  						//{ "stepName" : "Manual Text Check", "class" : "create-manual-text-check", "active" : "true"}
               		  					]};
                                           var fedratedStep = {"step": [
-                      		  						{ "stepName" : "Model Documentation", "class" : "create-solution"},
-                      		  						{ "stepName" : "Security Scan", "class" : "create-security"},
-                      		  						{ "stepName" : "License Check", "class" : "create-docker"},
-                      		  						{ "stepName" : "Text Check", "class" : "create-docker"},
+                      		  						{ "stepName" : "Model Documentation", "class" : "create-model-documentation"},
+                      		  						{ "stepName" : "Security Scan", "class" : "create-security-gray"},
+                      		  						{ "stepName" : "License Check", "class" : "create-licence-check"},
+                      		  						{ "stepName" : "Text Check", "class" : "create-text-check"},
                       		  					
                       		               	  ]
                                           };
@@ -1407,6 +1407,8 @@ angular.module('admin')
                                             	  var configKey = "";
                                             	  if(flow == "Publishing to Local Work Flow" ){configKey = "local_validation_workflow";}
                                             	  else if(flow == "Publishing to Public Work Flow" ){configKey = "public_validation_workflow";}
+                                            	  $scope.assignLocalActivate = false;
+                                            	  $scope.assignPublicActivate = false;
                                             	  var data = angular.copy($scope.ignoreWorkFlow);
                                                   var strworkFlowConfig = JSON.stringify(data);
                                                   var convertedString = strworkFlowConfig.replace(/"/g, '\"');

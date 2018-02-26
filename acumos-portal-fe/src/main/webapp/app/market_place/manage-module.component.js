@@ -128,7 +128,7 @@ angular
 								
 								if($scope.prOperator == 'Add' || $scope.prOperator == undefined){
 									$scope.mlSolutionPrivateCount = $scope.mlSolutionPrivate.length + $scope.mlSolutionPrivateCount;
-									if(toBeSearch){
+									if(toBeSearch.length > 0){
 										$scope.mlSolutionPrivateCount = $scope.mlSolutionPrivate.length;
 									}
 								}else if($scope.prOperator == 'Subtract'){
@@ -195,7 +195,7 @@ angular
 								
 								if($scope.cpOperator == 'Add' || $scope.cpOperator == undefined){
 									$scope.mlSolutionCompanyCount = $scope.mlSolutionCompany.length + $scope.mlSolutionCompanyCount;
-									if(toBeSearch){
+									if(toBeSearch.length > 0){
 										$scope.mlSolutionCompanyCount = $scope.mlSolutionCompany.length;
 									}
 								}else if($scope.cpOperator == 'Subtract'){
@@ -262,7 +262,7 @@ angular
 								
 								if($scope.pbOperator == 'Add' || $scope.pbOperator == undefined){
 									$scope.mlSolutionPublicCount = $scope.mlSolutionPublic.length + $scope.mlSolutionPublicCount;
-									if(toBeSearch){
+									if(toBeSearch.length > 0){
 										$scope.mlSolutionPublicCount = $scope.mlSolutionPublic.length;
 									}
 								}else if($scope.pbOperator == 'Subtract'){
@@ -322,7 +322,7 @@ angular
 								  
 								if($scope.dlOperator == 'Add' || $scope.dlOperator == undefined){
 									$scope.mlSolutionDeletedCount = $scope.mlSolutionDelete.length + $scope.mlSolutionDeletedCount;
-									if(toBeSearch){
+									if(toBeSearch.length > 0){
 										$scope.mlSolutionDeletedCount = $scope.mlSolutionDelete.length;
 									}
 								}else if($scope.dlOperator == 'Subtract'){
@@ -501,6 +501,10 @@ angular
 							$scope.mlSolutionDeletedCount = 0;
 							$scope.categoryFilter = [];
 							$scope.privacyFilter = '';
+							$scope.prOperator = 'Add';
+							$scope.cpOperator = 'Add';
+							$scope.pbOperator = 'Add';
+							$scope.dlOperator = 'Add';
 							$scope.mlSolutionPrivate=[];
 							$scope.mlSolutionCompany=[];
 							$scope.mlSolutionPublic=[];
