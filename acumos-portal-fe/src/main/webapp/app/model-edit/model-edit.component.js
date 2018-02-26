@@ -1641,21 +1641,55 @@ angular
                                                 }
 
 						}
+						//Default values
+						$scope.positionM1 = "mime_type";$scope.positionM3 = "image_binary";$scope.positionM2 = 1;$scope.positionM4 = 2;
+						$scope.fieldM1 = "mime_type";$scope.fieldM3 = "image_binary";$scope.fieldM4 = "image_binary";$scope.fieldM2 = "mime_type";
 						$scope.deployCloudVal = function(){
+							/*
+							 reqObject = {
+                                                                              'acrName': $scope.acrName,
+                                                                              'client': $scope.applicationId,
+                                                                              'key': $scope.secretKey,
+                                                                              'rgName': $scope.resourceGroup,
+                                                                              'solutionId': $scope.solution.solutionId,
+                                                                              'solutionRevisionId': $scope.revisionId,
+                                                                              'storageAccount': $scope.storageAccount,
+                                                                              'subscriptionKey':  $scope.subscriptionKey,
+                                                                              'tenant': $scope.tenantId,
+                                                                              'userId':  $scope.loginUserId[1],
+                                                            }
+							 */
 							//console.log($scope.brokerURL + $scope.positionM1 + $scope.positionM2 + $scope.positionM3 + $scope.positionM4);
 							//console.log($scope.fieldM1 + $scope.fieldM2 + $scope.fieldM3 + $scope.fieldM4);
+							debugger;
+							var obj1 =  '{'+ $scope.positionM1 + ':' + $scope.positionM2+','+ $scope.positionM3+":" +$scope.positionM4 +'}';
+							var obj2 =  '{'+ $scope.fieldM1 + ':' + $scope.fieldM2+','+ $scope.fieldM3+":" +$scope.fieldM4 +'}';
+							var obj3 = '{"url":"'+$scope.brokerURL+'"}';
 							var reqObj = {
-			                          "request_body": {         
-                                          URL_ATTRIBUTE:{"url":  $scope.brokerURL },
-                                          jsonPosition:{"MIME_TYPE":$scope.positionM2, "CONTENT":$scope.positionM4},
-                                          jsonMapping : {"MIME_TYPE":$scope.fieldM2,"CONTENT":$scope.fieldM4}
-                          }
+			                          //"request_body": {         
+											urlAttribute:obj3,
+                                          jsonPosition:obj1,
+                                          jsonMapping : obj2,
+                                          //jsonPosition:{"MIME_TYPE":$scope.positionM2, "CONTENT":$scope.positionM4},
+                                          //jsonMapping : {"MIME_TYPE":$scope.fieldM2,"CONTENT":$scope.fieldM4}
+                                          'acrName': $scope.acrName,
+                                          'client': $scope.applicationId,
+                                          'key': $scope.secretKey,
+                                          'rgName': $scope.resourceGroup,
+                                          'solutionId': $scope.solution.solutionId,
+                                          'solutionRevisionId': $scope.revisionId,
+                                          'storageAccount': $scope.storageAccount,
+                                          'subscriptionKey':  $scope.subscriptionKey,
+                                          'tenant': $scope.tenantId,
+                                          'userId':  $scope.loginUserId[1],
+                                          //}
 									};
 							console.log(reqObj);
 							var req = {
 									 method: 'POST',
-									 url: 'api/webBasedOnBoarding/broker',
-									 data: { test: reqObj }
+									 url: '/azure/compositeSolutionAzureDeployment',
+									 //data: { test: reqObj }
+									 data: reqObj
 									}
 
 									$http(req).then(
@@ -1664,7 +1698,7 @@ angular
 											
 										},
 										function(data){
-											
+											debugger;
 											});
 							
 						}
