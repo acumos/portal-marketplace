@@ -657,17 +657,19 @@
 								<br />
 								<div class="discussion-add-comment" ng-hide="solution.active == false">
 									<label class="md-lbl2">Add Comments</label>
-									<div class="flex1">
-										<div
-											class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
-											<textarea class="mdl-textfield__input md-txtarea" type="text"
-												rows="3" id="comment" ng-model="comment"></textarea>
-											<!-- <label class="mdl-textfield__label" for="sample3">Add comment here...</label> -->
+									<form name="commentArea">
+										<div class="flex1">
+											<div
+												class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
+												<textarea class="mdl-textfield__input md-txtarea" type="text"
+													rows="3" id="comment" ng-model="comment"></textarea>
+												<!-- <label class="mdl-textfield__label" for="sample3">Add comment here...</label> -->
+											</div>
 										</div>
-									</div>
+									</form>
 									<button
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-										ng-click="postComment()">Post Comments</button>
+										ng-click="postComment()" ng-disabled="comment == '' || comment == null || comment == undefined ">Post Comments</button>
 								</div>
 							</div>
 						</div>
@@ -725,9 +727,9 @@
 
 	<!--Deploy To Cloud Modal -->
 	<div class="md-dialog-container" id="myDialog" style="height: 0;">
-		<md-dialog aria-label="Mango (Fruit)"
+		<md-dialog aria-label="Deploy to cloud"
 			class="cg-dialog-Deploy-to-cloud">
-		<form ng-cloak>
+		
 			<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h2>Deploying to Microsoft Azure</h2>
@@ -738,33 +740,34 @@
 			</md-toolbar>
 			<md-dialog-content>
 				<div class="md-dialog-content">
+				<form ng-cloak name="deployToCloud">
 				<div ng-hide="exportTo!='microsoft'">
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Application
-							Id <span class="reqfield">*</span></label> <input ng-model="applicationId" type="text"> </md-input-container>
+							Id <!-- <span class="reqfield">*</span> --></label> <input ng-model="applicationId" type="text" required> </md-input-container>
 							<md-input-container class="md-icon-float md-block">
-						<label>Subscription Key <span class="reqfield">*</span></label> <input ng-model="subscriptionKey"
+						<label>Subscription Key <!-- <span class="reqfield">*</span> --></label> <input ng-model="subscriptionKey" required
 							type="text"> </md-input-container>
 							<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Storage
-							Account <span class="reqfield">*</span></label> <input ng-model="storageAccount" type="text"> </md-input-container>
+							Account <!-- <span class="reqfield">*</span> --></label> <input ng-model="storageAccount" type="text" required> </md-input-container>
 					</div>
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
-						<label>Tenant Id <span class="reqfield">*</span></label> <input ng-model="tenantId" type="text">
+						<label>Tenant Id<!--  <span class="reqfield">*</span> --></label> <input ng-model="tenantId" type="text" required>
 						</md-input-container>
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Resource
-							Group <span class="reqfield">*</span></label> <input ng-model="resourceGroup" type="text"> </md-input-container>
+							Group <!-- <span class="reqfield">*</span> --></label> <input ng-model="resourceGroup" type="text" required> </md-input-container>
 					</div>
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Secret
-							key <span class="reqfield">*</span></label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
+							key <!-- <span class="reqfield">*</span> --></label> <input ng-model="secretKey" type="password" autocomplete="new-password" required> </md-input-container>
 						<md-input-container class="md-icon-float md-block">
-						<label>Acr Name <span class="reqfield">*</span></label> <input ng-model="acrName" type="text">
+						<label>Acr Name <!-- <span class="reqfield">*</span> --></label> <input ng-model="acrName" type="text" required>
 						</md-input-container>
 					</div>
 				</div>
@@ -801,24 +804,30 @@
 					</div>
 				</div>
 				</div>
-				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>VM
-							Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text"> </md-input-container>
-				</div>
+				</form>
+				<form name="rippleForm">
+					<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
+							<md-input-container class="md-icon-float md-block">
+							<!-- Use floating label instead of placeholder --> <label>VM
+								Name <!-- <span class="reqfield">*</span> --></label> <input ng-model="vmName" type="text" required> </md-input-container>
+					</div>
+				</form>
 				<div class="dialog-btn-container broker-dialog-footer">
 					<md-button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>
-					<md-button
+						<!-- different buttons for deploy to microsoft and rackspace to endable and disable buttons for the respsective forms -->
+					<md-button ng-show="exportTo =='microsoft'"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-						ng-click="authenticateAnddeployToAzure()"> Deploy </md-button>
+						ng-click="authenticateAnddeployToAzure()" ng-disabled="!deployToCloud.$valid"> Deploy </md-button>
+					
+					<md-button ng-show="exportTo =='ripple'"
+						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						ng-click="authenticateAnddeployToAzure()" ng-disabled="!rippleForm.$valid"> Deploy </md-button>	
 				</div>
 			</div>
-			</md-dialog-content>
-
-		</form>
-		</md-dialog>
+		</md-dialog-content>
+	</md-dialog>
 	</div>
 
 

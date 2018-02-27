@@ -441,7 +441,7 @@
 															<br />	
 																<div class="text-right admin-sccontainer1">
 																<button type="submit" id="submit" 
-																class="mdl-button mdl-js-button btn-primary">Submit</button>
+																class="mdl-button mdl-js-button btn-primary" ng-disabled="!myForm.$dirty">Submit</button>
 															</div>	
 															
 															
@@ -503,11 +503,12 @@
 																  <th ng-click="orderByFieldFed='contact1'; reverseSortFederation = !reverseSortFederation">Contact<span ng-if='orderByFieldFed!="contact1"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="contact1"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
 																  <th>Subscriptions</th>
 																  <th ng-click="orderByFieldFed='active'; reverseSortFederation = !reverseSortFederation">Status<span ng-if='orderByFieldFed!="active"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="active"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
+																  <!-- <th>Self</th> -->
 																  <th>Action</th>
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails |  filter: { statusCode: "AC"} ' ng-class="val.self==false?'disabledRow':''">															
+																<tr ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails  ' ng-class="val.statusCode=='IN'?'disabledRow':''">															
 																	<td><span class="disabledRowChild">{{val.name}}</span></td>
 																	<!-- <td>
 																		<label>{{val.description}}</label>
@@ -532,14 +533,17 @@
 																		<label class="">since 08/04/2017</label>
 																	</td> -->
 																	<td >
-																		<label ng-if='val.self == true' class="text-green">Active</label>
-																		<label ng-if='val.self == false' class="disabledRowChild">Inactive</label>
+																		<label ng-if='val.statusCode == "AC"' class="text-green">Active</label>
+																		<label ng-if='val.statusCode == "IN"' class="disabledRowChild">Inactive</label>
 																		<label class="text-xsmall disabledRowChild">since {{val.created | date :  "dd.MM.y"}}</label>
 																		<!-- <label class="">since 08/04/2017</label> -->
 																	</td>
+																	<!-- <td >
+																		<input type="checkbox" name="isSelf" ng-checked="val.self == true" ng-click="isSelfTrue(val)"/>
+																	</td> -->
 																	<td>
 																		<div class="admin-action-container">
-																			<button ng-click="updatePeer(val)" class="mdl-button mdl-js-button mdl-button--icon"><span ng-class="val.self==true?'gridicon-deactivate':'gridicon-activate'" class="gridicon-activate"></span></button>
+																			<button ng-click="updatePeer(val)" class="mdl-button mdl-js-button mdl-button--icon"><span ng-class="val.statusCode=='AC'?'gridicon-deactivate':'gridicon-activate'" class="gridicon-activate"></span></button>
 																			<button ng-click='editPeer(val)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-edit"></span></button>
 																			<button ng-click='confirmDelete(val)' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-delete"></span></button>
 																		</div>
