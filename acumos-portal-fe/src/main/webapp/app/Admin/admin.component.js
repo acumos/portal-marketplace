@@ -100,7 +100,7 @@ angular.module('admin')
 						$scope.activeCount = 0;
 						$scope.peer = response.data.response_body.content;
 						angular.forEach($scope.peer, function(value, key) {
-                            if(value.self == true){
+                            if(value.statusCode == "AC"){
                             	$scope.activeCount = $scope.activeCount+1;
                             }
                           });
@@ -381,14 +381,15 @@ angular.module('admin')
                       $scope.addPeer = function(){
                     	  if($scope.itsEdit == true){$scope.updatePeer('detail');return}
                     	 var peerDetails = {"request_body": {				
-				                    				  	"apiUrl": $scope.apiUrlPop,
+                    		 							"self": false,
+                    		 							"apiUrl": $scope.apiUrlPop,
 				                    				    "contact1": $scope.emailIdPop,
 				                    				    "description": $scope.descriptionPop,
 				                    				    "name": $scope.peerNamePop,
 				                    				    "subjectName": $scope.subNamePop,
 				                    				    "webUrl": $scope.apiUrlPop,
 				                    				    "validationStatusCode": "PS",
-				                    				    "statusCode": "AC"
+				                    				    "statusCode": "IN"
 				                    				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
 				                    		}};
                     	apiService.insertPeers(peerDetails).then(
@@ -435,16 +436,56 @@ angular.module('admin')
                       //Edit PEER
                       $scope.itsEdit = false;
                       $scope.editPeer = function(peerDetail){
-                    	  $scope.itsEdit = true;$scope.peerStatus = peerDetail.self;
+                    	  $scope.itsEdit = true;
+                    	  $scope.peerStatus = peerDetail.statusCode;
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
                     	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.apiUrl;$scope.descriptionPop = peerDetail.description;
                     	  $scope.showPopupPeer();
                       }
+                    
+                     /* $scope.isSelfTrue = function(val){
+                    	  
+                    	  var peerDetails = {
+                    			  "request_body": {	
+					                  			"statusCode": true,
+					        				  	"apiUrl": val.apiUrl,
+					          				    "contact1": val.contact1,
+					          				    "description": val.description,
+					          				    "name": val.name,
+					          				    "subjectName": val.subjectName,
+					          				    "webUrl": val.webUrl,
+					          				    "peerId" : val.peerId,
+					          				    "validationStatusCode": "PS",
+                    			  				}
+                    	  				}
+                    	  apiService.editPeer($scope.editPeerID,peerDetails).then(
+                    	    		function(response){
+                    	    			$scope.peer='';getAllPeer();
+                    	    			//$scope.category;fetchCat();
+                    	    			$scope.data = '';$scope.hidePeer = false;$scope.queryParam='';
+                          	    	$scope.closePoup();
+                          	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                      $anchorScroll(); 
+                                      $scope.msg = "Peer Updated successfully."; 
+                                      $scope.icon = '';
+                                      $scope.styleclass = 'c-success';
+                                      $scope.showAlertMessage = true;
+                                      $timeout(function() {
+                                      	$scope.showAlertMessage = false;
+                                      }, 5000);
+                          	            // success
+                          	    }, 
+                    	    		function(error){
+                    	    			// handle error 
+                    	    	})
+                      }*/
+                      
                       $scope.updatePeer = function(val){
+                    	  debugger
                     	  if(val == 'detail'){
                     		  var peerDetails = {"request_body": {	
-                    			 "self" : $scope.peerStatus,
+                    			"self" : $scope.peerStatus,
                 				"apiUrl": $scope.apiUrlPop,
               				    "contact1": $scope.emailIdPop,
               				    "description": $scope.descriptionPop,
@@ -458,10 +499,10 @@ angular.module('admin')
                     		  }}
                     	  }
                     	  else {
-                    		  if(val.self == true)(val.self = false);else val.self = true;
+                    		  if(val.statusCode == "AC")(val.statusCode = "IN");else val.statusCode = "AC";
                     		  $scope.editPeerID = val.peerId;
                     		  var peerDetails = {"request_body": {	
-                    			"self" : val.self,
+                    			"statusCode": val.statusCode,
               				  	"apiUrl": val.apiUrl,
             				    "contact1": val.contact1,
             				    "description": val.description,
@@ -470,7 +511,7 @@ angular.module('admin')
             				    "webUrl": val.webUrl,
             				    "peerId" : val.peerId,
             				    "validationStatusCode": "PS",
-              				    "statusCode": "AC"
+              				    //"statusCode": "AC"
             				    //"selector": $scope.queryParam/*"{\"CL\":\"Classification\",\"DT\":\"Data Transform\"}"*/
                     		  }}
                   	  }
@@ -733,7 +774,7 @@ angular.module('admin')
                       $scope.deletePeerFunc = function () {
                     	  $scope.selectedPeer;
                     	  var peerDetails = {"request_body": {	
-                 			 "self" : $scope.selectedPeer.self,
+                 			 //"self" : $scope.selectedPeer.self,
              				"apiUrl": $scope.selectedPeer.apiUrl,
            				    "contact1": $scope.selectedPeer.contact1,
            				    "description": $scope.selectedPeer.description,
@@ -742,7 +783,7 @@ angular.module('admin')
            				    "webUrl": $scope.selectedPeer.webUrl,
            				    "peerId" : $scope.selectedPeer.peerId,
            				    "validationStatusCode": "PS",
-           				    "statusCode": "IN"
+           				    "statusCode": $scope.selectedPeer.statusCode
                  		  }}
                     	  
                     	  apiService.deactivatePeer($scope.selectedPeer.peerId,peerDetails).then(
