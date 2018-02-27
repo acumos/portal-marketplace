@@ -774,7 +774,7 @@ angular.module('admin')
                       $scope.deletePeerFunc = function () {
                     	  $scope.selectedPeer;
                     	  var peerDetails = {"request_body": {	
-                 			 //"self" : $scope.selectedPeer.self,
+                 			"self" : $scope.selectedPeer.self,
              				"apiUrl": $scope.selectedPeer.apiUrl,
            				    "contact1": $scope.selectedPeer.contact1,
            				    "description": $scope.selectedPeer.description,
@@ -783,7 +783,7 @@ angular.module('admin')
            				    "webUrl": $scope.selectedPeer.webUrl,
            				    "peerId" : $scope.selectedPeer.peerId,
            				    "validationStatusCode": "PS",
-           				    "statusCode": $scope.selectedPeer.statusCode
+           				    "statusCode": "IN" 
                  		  }}
                     	  
                     	  apiService.deactivatePeer($scope.selectedPeer.peerId,peerDetails).then(

@@ -69,7 +69,7 @@ angular
 						$scope.showAltImage = true;
 						$scope.disableEmail = true;
 						$scope.isUserImageUpdated = false; // checks if userimage is uploaded or not if no keep upload btn disabled
-						
+						 
 						if(localStorage.getItem("userDetail")){
 							var userName = JSON.parse(localStorage.getItem("userDetail"))[0];
 							var userId = JSON.parse(localStorage.getItem("userDetail"))[1];

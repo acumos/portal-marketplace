@@ -112,6 +112,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/users/forgetPassword").permitAll()
         .antMatchers("/webBasedOnBoarding/broker").permitAll()
         .antMatchers("/admin/paginatedPeers").permitAll()
+        .antMatchers("/admin/peers/{peerId}").permitAll()
         .anyRequest().authenticated();
     	
     	// Custom JWT based authentication
