@@ -186,8 +186,13 @@ public class SaveImageCommand extends DockerCommand
 			//inputStream =  client.saveImageCmd(imageName).exec();
 			//final ByteArrayOutputStream output = new ByteArrayOutputStream();
 			//final ByteArrayOutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" , "dockerImage.tar"));
-			IOUtils.copy(client.saveImageCmd(imageName).exec(), response.getOutputStream());
-			response.flushBuffer();
+			//IOUtils.copy(client.saveImageCmd(imageName).exec(), response.getOutputStream());
+			int read = 0;
+			while ((read = client.saveImageCmd(imageName).exec().read(new byte[4096])) != -1) {
+				response.getOutputStream().write(new byte[4096], 0, read);
+				response.flushBuffer();
+			}
+			//response.flushBuffer();
 			//inputStream = new ByteArrayInputStream(output.toByteArray());
 			
 			//IOUtils.closeQuietly(output);
