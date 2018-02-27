@@ -3534,7 +3534,7 @@
 										<div layout="row" class="pull-right" ng-show='checkboxExport=="microsoft"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid&&deploy.$invalid">
+												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid || deploy.$invalid">
 											Data Broker</md-button>
 										</div>
 									</div>

@@ -1078,7 +1078,7 @@ a {text-decoration: none;}
 .admin-row2 > div:last-child {width: 45%;}
 
 .admin-text1 {font-size: 12px; line-height: 16px;}
-.dialog-btn-container {display: flex;flex-wrap:nowrap;align-items:center;justify-content: space-between; /* background:#f1f1f1; */ position:relative; margin: 24px -24px -24px -24px; padding: 10px 20px;}
+.dialog-btn-container {display: flex;flex-wrap:nowrap;align-items:center;justify-content: space-between; /* background:#f1f1f1; */ position:relative; margin: 24px -24px -24px -24px; padding: 20px;}
 .password-count { float: right; position: relative; bottom: 24px; right: 10px;}
 
 .strength-meter {position: relative; height: 5px; background: #DDD; margin: 0 0 5px 0; width:99.5%;}
@@ -1601,6 +1601,71 @@ transition: box-shadow 0.3s ease-in-out;
 .up-sociallist li a span:last-child {font-size: 13px; color: #2e2f2f;font-weight:600;}
 /****** view user profile page style end **********/
 
+table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed; pointer-events: none;}
+.ds-btn1.btn-deploy[disabled] .ds-icon.icon-deploy {opacity: 0.2;}
+
+.n-rating1 {display: flex; flex-wrap: nowrap; justify-content:flex-end;align-items:center;position: relative;right: -5px;}
+.n-rating1 .jk-rating-stars-container {position:relative; top: 3px;}
+.ratingtxt1 {font-size: 11px;float: left; position: relative; top: -7px;margin-left: 19px;}
+.ratingtxt2 {display: block; clear:both; width: 100%;}
+.rating-container-right .progress-wrapper .progress {width: 200px; margin-right: 15px;margin-left: 10px;}
+
+.discussion-lbl1 {font-size: 11px; margin-bottom: 6px; display:block;}
+.reviews-ratings-container {position:relative; left:-5px;}
+
+.discussion-reviews-tab {position: relative; margin: 0 -20px;}
+.discussion-reviews-tab md-tabs-content-wrapper {border-left: none; border-right: none; padding: 0 20px;}
+.discussion-reviews-tab md-content {padding: 15px 0;}
+.discussion-row {border-bottom: 1px dotted #bcbcbc;}
+
+.dcl-list {margin-left: 10px; }
+.dcl-list md-select {padding-left: 8px;}
+
+div[id^="select_container_"] {margin-top: 41px;}
+div[id^="select_container_"] md-content {padding-top: 0; padding-bottom:0;}
+
+div[id^="select_container_"] md-option {border-bottom: 1px solid #d5d5d5;}
+div[id^="select_container_"] md-option .md-text {/* opacity: 0; */}
+
+.md-select-menu-container .dc-microsoft-azure .md-ripple-container {display: none;}
+.dcl-list md-option:hover {background-color: none;}
+
+md-option.dc-microsoft-azure {background: #fff url("../images/deploy-cloud/microsoft_azure.png") no-repeat 10px center !important;}
+md-option.dc-microsoft-azure:hover { background: none !important; background: #fff url("../images/deploy-cloud/microsoft_azure.png") no-repeat 10px center !important;}
+
+md-option.dc-google-cloud {background: #fff url("../images/deploy-cloud/google_cloud_platform.png") no-repeat 10px center !important;}
+md-option.dc-google-cloud:hover { background: none !important; background: #fff url("../images/deploy-cloud/google_cloud_platform.png") no-repeat 10px center !important;}
+
+md-option.dc-rackspace {background: #fff url("../images/deploy-cloud/rackspace.png") no-repeat 10px center !important;}
+md-option.dc-rackspace:hover { background: none !important; background: #fff url("../images/deploy-cloud/rackspace.png") no-repeat 10px center !important;}
+
+md-option.ddc-amazon-cloud {background: #fff url("../images/deploy-cloud/amazon.png") no-repeat 10px center !important;}
+md-option.dc-amazon-cloud:hover { background: none !important; background: #fff url("../images/deploy-cloud/amazon.png") no-repeat 10px center !important;}
+
+md-option.dc-att-cloud {background: #fff url("../images/deploy-cloud/at&t_internet_cloud_logo.png") no-repeat 10px center !important;}
+md-option.dc-att-cloud:hover { background: none !important; background: #fff url("../images/deploy-cloud/at&t_internet_cloud_logo.png") no-repeat 10px center !important;}
+
+.dc-microsoft-azure[disabled], .dc-microsoft-azure[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/microsoft_azure_disabled.png") no-repeat 10px center !important; cursor: not-allowed;}
+.dc-google-cloud[disabled], .dc-google-cloud[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/google_cloud_platform_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
+.dc-rackspace[disabled], .dc-rackspace[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/rackspace_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
+.dc-amazon-cloud[disabled], .dc-amazon-cloud[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/amazon_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
+.dc-att-cloud[disabled], .dc-att-cloud[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/at&t_internet_cloud_logo_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
+.opacityZero .md-text{opacity:0 !important;}
+
+.borker-row {display:flex; justify-content: space-between; align-items: center;}
+.borker-row .md-input {border: 1px solid #d5d5d5; height: 35px;padding-left: 10px;border-radius: 2px; margin-bottom: 10px;}
+.borker-row > div:first-child  > div > input:first-child {width: 200px;}
+.borker-row > div:first-child  > div > input:last-child {width: 100px;}
+.broker-heading {margin-top: 0 !important;} 
+.broker-dialog-footer {margin-top: 5px;}
+
+.ratethis-container .jk-rating-stars-container {width: 175px; margin: 5px auto 0 auto;}
+.ratethis-container .star-button .material-icons {font-size: 30px;}
+.ratethis-container .star-button.star-on .material-icons {color:#358E3C; }
+
+.dialog-footer-container1 {display:flex; justify-content: space-between;width: 100%;}
+.dialog-footer-container1 .mdl-button {margin:0; }
+
 
 /*********** MEDIA QUERIES SECTION START************/
 
@@ -1904,62 +1969,4 @@ transition: box-shadow 0.3s ease-in-out;
 }
 /*********** MEDIA QUERIES SECTION END  ************/
 
-table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed; pointer-events: none;}
-.ds-btn1.btn-deploy[disabled] .ds-icon.icon-deploy {opacity: 0.2;}
 
-/****** 20 Feb 2018 *******/
-.n-rating1 {display: flex; flex-wrap: nowrap; justify-content:flex-end;align-items:center;position: relative;right: -5px;}
-.n-rating1 .jk-rating-stars-container {position:relative; top: 3px;}
-.ratingtxt1 {font-size: 11px;float: left; position: relative; top: -7px;margin-left: 19px;}
-.ratingtxt2 {display: block; clear:both; width: 100%;}
-.rating-container-right .progress-wrapper .progress {width: 200px;}
-
-.discussion-lbl1 {font-size: 11px; margin-bottom: 6px; display:block;}
-.reviews-ratings-container {position:relative; left:-5px;}
-
-.discussion-reviews-tab {position: relative; margin: 0 -20px;}
-.discussion-reviews-tab md-tabs-content-wrapper {border-left: none; border-right: none; padding: 0 20px;}
-.discussion-reviews-tab md-content {padding: 15px 0;}
-.discussion-row {border-bottom: 1px dotted #bcbcbc;}
-
-/********** 21-Feb-2018  *********/
-.dcl-list {margin-left: 10px; }
-.dcl-list md-select {padding-left: 8px;}
-
-div[id^="select_container_"] {margin-top: 41px;}
-div[id^="select_container_"] md-content {padding-top: 0; padding-bottom:0;}
-
-div[id^="select_container_"] md-option {border-bottom: 1px solid #d5d5d5;}
-div[id^="select_container_"] md-option .md-text {/* opacity: 0; */}
-
-.md-select-menu-container .dc-microsoft-azure .md-ripple-container {display: none;}
-.dcl-list md-option:hover {background-color: none;}
-
-md-option.dc-microsoft-azure {background: #fff url("../images/deploy-cloud/microsoft_azure.png") no-repeat 10px center !important;}
-md-option.dc-microsoft-azure:hover { background: none !important; background: #fff url("../images/deploy-cloud/microsoft_azure.png") no-repeat 10px center !important;}
-
-md-option.dc-google-cloud {background: #fff url("../images/deploy-cloud/google_cloud_platform.png") no-repeat 10px center !important;}
-md-option.dc-google-cloud:hover { background: none !important; background: #fff url("../images/deploy-cloud/google_cloud_platform.png") no-repeat 10px center !important;}
-
-md-option.dc-rackspace {background: #fff url("../images/deploy-cloud/rackspace.png") no-repeat 10px center !important;}
-md-option.dc-rackspace:hover { background: none !important; background: #fff url("../images/deploy-cloud/rackspace.png") no-repeat 10px center !important;}
-
-md-option.ddc-amazon-cloud {background: #fff url("../images/deploy-cloud/amazon.png") no-repeat 10px center !important;}
-md-option.dc-amazon-cloud:hover { background: none !important; background: #fff url("../images/deploy-cloud/amazon.png") no-repeat 10px center !important;}
-
-md-option.dc-att-cloud {background: #fff url("../images/deploy-cloud/at&t_internet_cloud_logo.png") no-repeat 10px center !important;}
-md-option.dc-att-cloud:hover { background: none !important; background: #fff url("../images/deploy-cloud/at&t_internet_cloud_logo.png") no-repeat 10px center !important;}
-
-.dc-microsoft-azure[disabled], .dc-microsoft-azure[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/microsoft_azure_disabled.png") no-repeat 10px center !important; cursor: not-allowed;}
-.dc-google-cloud[disabled], .dc-google-cloud[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/google_cloud_platform_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
-.dc-rackspace[disabled], .dc-rackspace[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/rackspace_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
-.dc-amazon-cloud[disabled], .dc-amazon-cloud[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/amazon_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
-.dc-att-cloud[disabled], .dc-att-cloud[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/at&t_internet_cloud_logo_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
-.opacityZero .md-text{opacity:0 !important;}
-
-.borker-row {display:flex; justify-content: space-between; align-items: center;}
-.borker-row .md-input {border: 1px solid #d5d5d5; height: 35px;padding-left: 10px;border-radius: 2px; margin-bottom: 10px;}
-.borker-row > div:first-child  > div > input:first-child {width: 200px;}
-.borker-row > div:first-child  > div > input:last-child {width: 100px;}
-.broker-heading {margin-top: 0 !important;} 
-.broker-dialog-footer {margin-top: 5px;}
