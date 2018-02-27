@@ -744,3 +744,81 @@
 		</form>
 		</md-dialog>
 	</div>
+	<!-- popup to write script for Databroker start -->
+<div class="md-dialog-container" id="myDialogScript" style="height:30px;;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Script For DataBroker</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									<form ng-cloak>
+									  <div class="md-dialog-content">
+									 <label class="disblock">Script:</label>
+									 <textarea rows="7" cols="55" id="script" ng-model="scriptText" placeholder="eg: filter : [ /somepath/mood*, sentiment*]"></textarea>
+    								 </div>
+										<hr/>
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="saveScript()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Done
+									      </md-button>
+									    </div>								
+									  </div>
+									  </form>
+									</md-dialog-content>
+								</md-dialog>
+							</div>
+<!-- popup to write script for Databroker end -->
+
+<!-- popup to select output message for Databroker start -->
+<div class="md-dialog-container" id="myDialogSelectOutput" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2></h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									<form ng-cloak>
+									  <div class="md-dialog-content">
+										<p>Please select the output port for the databroker.</p>
+										<md-radio-group ng-model="selectedOutput"> 
+			                                 <md-radio-button ng-repeat="(key,value) in dataBrokerSelectOutput" 
+			                                                        value="{{key}}">
+			                                                        {{key}}
+			                                                        </md-radio-button>
+			                                                    </md-radio-group>
+										<!-- <div ng-repeat="(key,value) in dataBrokerSelectOutput">
+											<input type="radio" data-ng-model="selectedOutput" value="key">{{key}}({{value}})
+										</div> -->
+										<hr />
+										 <div layout="row" class="deploy-cloud-modalfooter">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+									        Cancel
+									      </md-button>
+										  <md-button type="submit" ng-click="selectedDBOutput()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									        Confirm
+									      </md-button>
+									    </div>								
+									  </div>
+									  </form>
+									</md-dialog-content>
+								</md-dialog>
+							</div>
+<!-- popup to select output message for Databroker end -->
+</div>
+	
