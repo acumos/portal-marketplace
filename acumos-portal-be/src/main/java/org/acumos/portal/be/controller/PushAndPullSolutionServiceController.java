@@ -101,7 +101,6 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	public void downloadSolutionArtifact(@PathVariable("solutionId") String solutionId,
 			@RequestParam("artifactId") String artifactId, @RequestParam("revisionId") String revisionId,
 			@RequestParam("userId") String userId, HttpServletRequest request, HttpServletResponse response) {
-		InputStream resource = null;
 		try {
 
 			/**
@@ -119,14 +118,14 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + artifactFileName + "\"");
 			response.setStatus(HttpServletResponse.SC_OK);
 
-			resource = pushAndPullSolutionService.downloadModelArtifact(artifactId);
+			pushAndPullSolutionService.downloadModelArtifact(artifactId, response);
 			pushAndPullSolutionService.getSolutionDownload(solutionId, artifactId, userId);
-			if (resource.available() > 0) {
+			/*if (resource.available() > 0) {
 				org.apache.commons.io.IOUtils.copy(resource, response.getOutputStream());
 				response.flushBuffer();
 			} else {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			}
+			}*/
 
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -29,7 +29,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerException;
@@ -168,6 +171,43 @@ public class SaveImageCommand extends DockerCommand
 					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		} 
 		return inputStream;
+	}
+	
+	public void getDockerImageStream(HttpServletResponse response) throws DockerException {
+		InputStream inputStream = null;
+		if (imageName == null || imageName.isEmpty())
+		{
+			throw new IllegalArgumentException("Image Name is not configured");
+		}
+		final DockerClient client = getClient();
+		try
+		{
+			logger.info(String.format("Started save image '%s' ... ", imageName));
+			//inputStream =  client.saveImageCmd(imageName).exec();
+			//final ByteArrayOutputStream output = new ByteArrayOutputStream();
+			//final ByteArrayOutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" , "dockerImage.tar"));
+			IOUtils.copy(client.saveImageCmd(imageName).exec(), response.getOutputStream());
+			response.flushBuffer();
+			//inputStream = new ByteArrayInputStream(output.toByteArray());
+			
+			//IOUtils.closeQuietly(output);
+			
+			logger.info("Finished save image " + imageName );
+		} catch (NotFoundException e)
+		{
+			if (!ignoreIfNotFound)
+			{
+				logger.error(String.format("image '%s' not found ", imageName + " " + imageTag));
+				throw e;
+			} else
+			{
+				logger.info(String.format("image '%s' not found, but skipping this error is turned on, let's continue ... ", imageName + " " + imageTag));
+			}
+		} catch (IOException e) {
+			logger.error(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage());
+			throw new DockerException(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage(),
+					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
+		} 
 	}
 	
 	@Override

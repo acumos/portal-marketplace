@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.portal.be.docker.DockerClientFactory;
 import org.acumos.portal.be.docker.DockerConfiguration;
 import org.acumos.portal.be.docker.cmd.SaveImageCommand;
@@ -35,6 +37,7 @@ import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.InputStreamResource;
@@ -48,6 +51,7 @@ import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
 
 import com.github.dockerjava.api.DockerClient;
+import com.sun.mail.iap.Response;
 
 
 @Service
@@ -162,6 +166,72 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
         }
 
         return inputStream;
+	}
+
+	@Override
+	public void downloadModelArtifact(String artifactId, HttpServletResponse response) {
+
+        ByteArrayOutputStream byteArrayOutputStream  = null;
+
+        try{
+
+               ICommonDataServiceRestClient dataServiceRestClient = getClient();
+               MLPArtifact mlpArtifact = dataServiceRestClient.getArtifact(artifactId);
+
+               if(mlpArtifact != null && !mlpArtifact.getUri().isEmpty()) {
+            	   
+            	   if(mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ArtifactTypeCode.DI.toString())) {
+            		   DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
+            		   try {
+            			   SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null, true);
+            			   saveImageCommand.setClient(dockerClient);
+                		   saveImageCommand.getDockerImageStream(response);
+            		   } catch (Exception e) {
+            			   
+            			   log.error(EELFLoggerDelegate.errorLogger, "Error in Downloading artifact", e);
+            		   } 
+            		   finally {
+            			   try
+            				{
+            					dockerClient.close();
+            				} catch (IOException e)
+            				{
+            					log.warn("Fail to close docker client gracefully", e);
+            				}
+            		   }
+            		   
+            	   } else {
+            		   RepositoryLocation repositoryLocation = new RepositoryLocation();
+    	               repositoryLocation.setId("1");
+    	
+    	               repositoryLocation.setUrl(env.getProperty("nexus.url"));
+    	               repositoryLocation.setUsername("nexus.username");
+    	               repositoryLocation.setPassword("nexus.password");
+    	               // if you need a proxy to access the Nexus
+    	               if (!PortalUtils.isEmptyOrNullString(env.getProperty("nexus.proxy"))) {
+    						repositoryLocation.setProxy(env.getProperty("nexus.proxy"));
+    				    }
+    	
+    	               // if you need a proxy to access the Nexus
+    	               NexusArtifactClient artifactClient = new NexusArtifactClient(repositoryLocation);
+    	               
+    	               byteArrayOutputStream = artifactClient.getArtifact(mlpArtifact.getUri());
+    	               byteArrayOutputStream.writeTo(response.getOutputStream());
+    	               response.flushBuffer();
+    	               //inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+    	
+    	               if(byteArrayOutputStream != null) {
+    	                     byteArrayOutputStream.close();
+    	               }
+            	   }
+	               
+               }
+
+        } catch (Exception e) {
+               log.error(EELFLoggerDelegate.errorLogger, "Error in Downloading artifact", e);
+        }
+
+        //return inputStream;
 
 	}
 	

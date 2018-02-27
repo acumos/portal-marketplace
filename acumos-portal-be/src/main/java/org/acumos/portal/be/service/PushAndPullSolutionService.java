@@ -26,6 +26,8 @@ package org.acumos.portal.be.service;
 import java.io.File;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.acumos.portal.be.transport.MLSolutionDownload;
 
 
@@ -42,4 +44,6 @@ public interface PushAndPullSolutionService {
 	String getFileNameByArtifactId(String artifactId);
 
 	MLSolutionDownload getSolutionDownload(String solutionId, String artifactId, String userId);
+
+	public void downloadModelArtifact(String artifactId, HttpServletResponse respose);
 }
