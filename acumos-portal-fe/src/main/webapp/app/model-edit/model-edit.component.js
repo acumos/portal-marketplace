@@ -1644,6 +1644,7 @@ angular
 						//Default values
 						$scope.positionM1 = "mime_type";$scope.positionM3 = "image_binary";$scope.positionM2 = 1;$scope.positionM4 = 2;
 						$scope.fieldM1 = "mime_type";$scope.fieldM3 = "image_binary";$scope.fieldM4 = "image_binary";$scope.fieldM2 = "mime_type";
+						//Deploy to Broker
 						$scope.deployCloudVal = function(){
 							/*
 							 reqObject = {
@@ -1661,7 +1662,6 @@ angular
 							 */
 							//console.log($scope.brokerURL + $scope.positionM1 + $scope.positionM2 + $scope.positionM3 + $scope.positionM4);
 							//console.log($scope.fieldM1 + $scope.fieldM2 + $scope.fieldM3 + $scope.fieldM4);
-							debugger;
 							var obj1 =  '{'+ $scope.positionM1 + ':' + $scope.positionM2+','+ $scope.positionM3+":" +$scope.positionM4 +'}';
 							var obj2 =  '{'+ $scope.fieldM1 + ':' + $scope.fieldM2+','+ $scope.fieldM3+":" +$scope.fieldM4 +'}';
 							var obj3 = '{"url":"'+$scope.brokerURL+'"}';
@@ -1684,7 +1684,6 @@ angular
                                           'userId':  $scope.loginUserId[1],
                                           //}
 									};
-							console.log(reqObj);
 							var req = {
 									 method: 'POST',
 									 url: '/azure/compositeSolutionAzureDeployment',

@@ -727,7 +727,7 @@
 	<div class="md-dialog-container" id="myDialog" style="height: 0;">
 		<md-dialog aria-label="Mango (Fruit)"
 			class="cg-dialog-Deploy-to-cloud">
-		<form ng-cloak>
+		
 			<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h2>Deploying to Microsoft Azure</h2>
@@ -739,85 +739,102 @@
 			<md-dialog-content>
 				<div class="md-dialog-content">
 				<div ng-hide="exportTo!='microsoft'">
+				<form name="deploy">
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Application
-							Id <span class="reqfield">*</span></label> <input ng-model="applicationId" type="text"> </md-input-container>
+							Id </label> <input ng-model="applicationId" type="text" required> </md-input-container>
 							<md-input-container class="md-icon-float md-block">
-						<label>Subscription Key <span class="reqfield">*</span></label> <input ng-model="subscriptionKey"
+						<label>Subscription Key </label> <input ng-model="subscriptionKey" required
 							type="text"> </md-input-container>
 							<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Storage
-							Account <span class="reqfield">*</span></label> <input ng-model="storageAccount" type="text"> </md-input-container>
+							Account </label> <input ng-model="storageAccount" type="text" required> </md-input-container>
 					</div>
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
-						<label>Tenant Id <span class="reqfield">*</span></label> <input ng-model="tenantId" type="text">
+						<label>Tenant Id </label> <input ng-model="tenantId" type="text" required>
 						</md-input-container>
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Resource
-							Group <span class="reqfield">*</span></label> <input ng-model="resourceGroup" type="text"> </md-input-container>
+							Group </label> <input ng-model="resourceGroup" type="text" required> </md-input-container>
 					</div>
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>Secret
-							key <span class="reqfield">*</span></label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
+							key </label> <input ng-model="secretKey" type="password" autocomplete="new-password" required> </md-input-container>
 						<md-input-container class="md-icon-float md-block">
-						<label>Acr Name <span class="reqfield">*</span></label> <input ng-model="acrName" type="text">
+						<label>Acr Name </label> <input ng-model="acrName" type="text" required>
 						</md-input-container>
 					</div>
 				</div>
-				
+				<div layout="row" class="pull-right">
+						<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+								ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();">Deploy
+						</md-button>
+				</div>
+				</form>
+				<br><br>
 				<h4 class="gridlistheading broker-heading">
 							Broker</h4>
+				<form name="deployCloud">
 				<div>
 					<md-input-container class="md-icon-float md-block">
-						<label>URL</label> <input type="text" ng-model="brokerURL">
+						<label>URL</label> <input type="text" ng-model="brokerURL" required>
 						</md-input-container>
 				</div>
 				<div class="borker-row">
 					<div>
 						<label class="disblock">Position Mappings</label>
 						<div>
-							<input class="md-input" type="text" ng-model="positionM1">
-							<input class="md-input" type="text" ng-model="positionM2">						
+							<input class="md-input" type="text" ng-model="positionM1" required>
+							<input class="md-input" type="text" ng-model="positionM2" required>						
 						</div>
 						<div>
-							<input class="md-input" type="text" ng-model="positionM3">
-							<input class="md-input" type="text" ng-model="positionM4">						
+							<input class="md-input" type="text" ng-model="positionM3" required>
+							<input class="md-input" type="text" ng-model="positionM4" required>						
 						</div>
 					</div>
 					<div>
 						<label class="disblock">Field Mappings</label>
 						<div>
-							<input class="md-input" type="text" ng-model="fieldM1">
-							<input class="md-input" type="text" ng-model="fieldM2">						
+							<input class="md-input" type="text" ng-model="fieldM1" required>
+							<input class="md-input" type="text" ng-model="fieldM2" required>						
 						</div>
 						<div>
-							<input class="md-input" type="text" ng-model="fieldM3">
-							<input class="md-input" type="text" ng-model="fieldM4">						
+							<input class="md-input" type="text" ng-model="fieldM3" required>
+							<input class="md-input" type="text" ng-model="fieldM4" required>						
 						</div>
 					</div>
 				</div>
+				</form>
 				</div>
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>VM
 							Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text"> </md-input-container>
 				</div>
-				<div class="dialog-btn-container broker-dialog-footer">
+				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='ripple'">
 					<md-button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>
 					<md-button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-						ng-click="authenticateAnddeployToAzure()"> Deploy </md-button>
+						ng-click="authenticateAnddeployToAzure()" ng-disabled="!vmName"> Deploy </md-button>
+				</div>
+				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='microsoft'">
+					<md-button
+						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+						ng-click="handleDismiss()"> Cancel </md-button>
+					<md-button
+						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid || deploy.$invalid"> Data Broker </md-button>
 				</div>
 			</div>
 			</md-dialog-content>
 
-		</form>
+		
 		</md-dialog>
 	</div>
 
@@ -945,18 +962,21 @@
 			</md-toolbar>
 			<md-dialog-content>
 			<div class="md-dialog-content">
-			You've Rated <jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars>
+			<div class="text-center"><label class="font600">Rate This Model</label></div>
+				<div class="text-center ratethis-container"><jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars></div>
+				<div class="text-center"><label class="text-small">Liked It</label></div>
+			
+			
 			<br/>
-			<label class="md-lbl2">Review this model</label>
+			<label class="disblock">Review this model</label>
 			<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "ratingReview"
 			rows="3" id="comment"></textarea>
 										
 			</div>
-			<md-dialog-actions>
-			
+			<md-dialog-actions>			
 				<!-- <button ng-click="handleDismiss()"
 					class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary text-tranformnone">Close</button> -->
-				<div class="modeldetails-dialog-footer">
+				<div class="dialog-footer-container1">
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple" type="button" ng-click="handleDismiss()" data-upgraded=",MaterialButton,MaterialRipple">
 						<span> Cancel</span>
 					</button>
@@ -974,467 +994,3 @@
 		</md-dialog>
 	</div>
 	<!-- Rating Model Ends -->
-
-
-
-	<!-- <div class="page-content">
-	<section class="pageheadsection gray-bg">
-		<div layout="row" layout-xs="column" layout-fill
-			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
-			<div
-				class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
-				<div>
-					<span class="headline mob-disblock">{{solution.name}}</span> <span
-						class="hide-xs hide-sm"> | </span><span>Version-2.0</span> |
-					<span>Model
-						ID - 234831</span>
-				</div>
-				<ul class="breadcrumb">
-					<li><a ui-sref="home">Home</a></li>
-					<li><a ui-sref="marketPlace">Marketplace</a></li>
-					<li>{{solution.name}}</li>
-				</ul>
-			</div>
-			<div
-				class="mdl-cell mdl-cell--7-col mdl-cell--4-col-phone mdl-cell--3-col-tablet text-right">
-				<div class="header-stats">
-					<div class="header-stat-lg">
-						<span class="rating header-stat-lg"> <span><i
-								class="material-icons">star_rate</i></span><span><i 
-								class="material-icons">star_rate</i></span><span><i
-								class="material-icons">star_rate</i></span><span><i
-								class="material-icons">star_rate</i></span><span><i
-								class="material-icons">star_rate</i></span>
-						</span>
-
-					</div>
-					<div class="header-stat-lg">
-						<div class="rating header-stat-lg">
-							<span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating == null || mlsolution.solutionRating < 1}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 2}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 3}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 4}"
-								aria-hidden="true"></i></span> <span><i class="fa fa-star"
-								ng-class="{'fa-star-o': mlsolution.solutionRating < 5}"
-								aria-hidden="true"></i></span>
-	
-							<button
-								class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-								<i class="material-icons unselected-fav">favorite_border</i>
-							</button>
-						</div>
-					</div>
-
-
-					<div class="header-stat-star">
-						<a href="#"><i class="material-icons">star_rate</i> 3.5</a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">chat_bubble</i> 10 <span
-							class="header-stat-lg">Comments</span></a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">mode_edit</i> <span
-							class="header-stat-lg">Write Comments </span></a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">remove_red_eye</i> 176 <span
-							class="header-stat-lg">Viewed</span></a>
-					</div>
-					<div>
-						<a href="#"><i class="material-icons">file_download</i> 6 <span
-							class="header-stat-lg">Downloaded</span></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<div class="page-wrapper2">
-		<div class="mdl-grid mdl-grid--no-spacing">
-			<div class="mdl-cell mdl-cell--9-col posrel">
-				<md-tabs md-dynamic-height md-border-bottom> <md-tab
-					label="Description"> <md-content class="md-padding">
-				<h6 class="sectiontitle">Introduction about Model</h6>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi.Lorem ipsum dolor sit amet, consectetur
-					adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat
-					neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In
-					sodales pretium ultrices. Maecenas lectus est, sollicitudin
-					consectetur felis nec, feugiat ultricies mi.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi.</p>
-				<h6 class="sectiontitle">Images and Videos</h6>
-				<div class="rowcontainer">
-					<img class="modelimg1" src="images/imagegallery.jpg" />
-					<div class="image-list-container">
-						<button class="mdl-button mdl-js-button mdl-button--icon">
-							<i class="material-icons">navigate_before</i>
-						</button>
-						<div class="image-list">
-							<div class="image-list-inner">
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-								<div class="image-list-item"></div>
-							</div>
-						</div>
-						<button class="mdl-button mdl-js-button mdl-button--icon">
-							<i class="material-icons">navigate_next</i>
-						</button>
-					</div>
-				</div>
-				<h6 class="sectiontitle">Example</h6>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi.</p>
-				</md-content> </md-tab> <md-tab label="Signatures"> <md-content
-					class="md-padding">
-				<h1 class="md-display-2">Signatures</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis
-					vulputate. Etiam consequat aliquam cursus. In sodales pretium
-					ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-					feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor
-					in ultrices porttitor, orci enim rutrum enim, vel tempor sapien
-					arcu a tellus. Vivamus convallis sodales ante varius gravida.
-					Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam
-					malesuada consequat diam, a facilisis tortor volutpat et. Sed urna
-					dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis
-					risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in
-					enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus
-					dictum neque volutpat blandit. Praesent efficitur faucibus risus,
-					ac auctor purus porttitor vitae. Phasellus ornare dui nec orci
-					posuere, nec luctus mauris semper.</p>
-				<p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra
-					quam, at semper massa orci nec magna. Donec posuere nec sapien sed
-					laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in
-					tempor tortor. Vivamus faucibus egestas enim, at convallis diam
-					pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna
-					libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas
-					facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed
-					nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
-				<p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
-					interdum tellus. Curabitur posuere molestie dictum. Morbi eget
-					congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
-					at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
-					volutpat non ac est. Praesent ligula diam, congue eu enim
-					scelerisque, finibus commodo lectus.</p>
-				</md-content> </md-tab> <md-tab label="Documents"> <md-content class="md-padding">
-				<h1 class="md-display-2">Documents</h1>
-				<p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
-					interdum tellus. Curabitur posuere molestie dictum. Morbi eget
-					congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
-					at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
-					volutpat non ac est. Praesent ligula diam, congue eu enim
-					scelerisque, finibus commodo lectus.</p>
-				</md-content> </md-tab> <md-tab label="Version history"> <md-content
-					class="md-padding">
-				<h1 class="md-display-2">Version history</h1>
-				<p>Integer turpis erat, porttitor vitae mi faucibus, laoreet
-					interdum tellus. Curabitur posuere molestie dictum. Morbi eget
-					congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat,
-					at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo
-					volutpat non ac est. Praesent ligula diam, congue eu enim
-					scelerisque, finibus commodo lectus.</p>
-				</md-content> </md-tab> </md-tabs>
-				<div class="statcontainer hide-sm hide-xs">
-					<span> <span class="number">3.6</span> <span class="text">MB</span>
-						<br> <span class="text">Size</span>
-					</span> <span> <span class="number">96</span><br> <span
-						class="text">Lines</span>
-					</span> <span> <span class="number">4</span><br> <span
-						class="text">Inputs</span>
-					</span> <span> <span class="number">2</span><br> <span
-						class="text">Outputs</span>
-					</span>
-				</div>
-				<div class="box2">
-					<div class="box-inner1">
-						<div class="mdl-grid mdl-grid--no-spacing">
-							<div
-								class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-								<h6 class="sectiontitle3">Rate this Name of ML Model</h6>
-							</div>
-							<div
-								class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-								<div flex class="text-right">
-									<ul class="horizontal-list2 social-icons">
-										<li><h6 class="sectiontitle3">Share with</h6></li>
-										<li><span><i class="fa fa-facebook"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-linkedin"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-google-plus"
-												aria-hidden="true"></i></span></li>
-										<li><span><i class="fa fa-github"
-												aria-hidden="true"></i></span></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<hr />
-						<div class="mdl-grid mdl-grid--no-spacing">
-							<div class="mdl-cell mdl-cell--5-col mdl-cell--4-col-tablet">
-								<label class="lbl1">Discussion (10)</label>
-							</div>
-							<div class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet">
-								<div flex class="text-right">
-									<ul class="horizontal-list">
-										<li><a href="#">Newest</a></li>
-										<li><a href="#">Older</a></li>
-										<li><a href="#">Liked</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="discussion-container">
-							<div>
-								<img src="images/chatuser.jpg" alt="" title="user">
-							</div>
-							<div class="discussion-details">
-								<div>
-									<label class="text-bold">Mike Smith</label> | <span
-										class="text-small">Today 4:21pm - 12.05.2017</span>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								<div>
-									<button
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Reply</button>
-									<div class="discussion">
-										<div>
-											<img src="images/chatuser.jpg" alt="" title="user">
-										</div>
-										<div class="discussion-details">
-											<div>
-												<label class="text-bold">Mike Smith</label> | <span
-													class="text-small">Today 4:21pm - 12.05.2017</span>
-											</div>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-												elit.</p>
-											<div class="flex1 discussionformbox">
-												<div
-													class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-													<input class="mdl-textfield__input" type="text"
-														id="sample3"> <label class="mdl-textfield__label"
-														for="sample3">Add Reply here...</label>
-												</div>
-												<button
-													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Post</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="discussion-container">
-							<div>
-								<img src="images/chatuser.jpg" alt="" title="user">
-							</div>
-							<div class="discussion-details">
-								<div>
-									<label class="text-bold">Mike Smith</label> | <span
-										class="text-small">Today 4:21pm - 12.05.2017</span>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								<div>
-									<button
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Reply</button>
-								</div>
-							</div>
-						</div>
-						<div class="discussion-add-comment">
-							<label class="disblock text-bold">Add Comments</label>
-							<div class="flex1">
-								<div
-									class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-									<input class="mdl-textfield__input" type="text" id="sample3">
-									<label class="mdl-textfield__label" for="sample3">Add
-										comment here...</label>
-								</div>
-							</div>
-							<button
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Post
-								Comments</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-phone">
-				<div class="box1">
-					<div class="box-inner1 bdr-bottom">
-						<ul class="horizontal-list2">
-							<li><img src="images/chatuser.jpg" alt="" title="user"></li>
-							<li><label class="text-bold">Created by Blakes Seven</label>
-								<label>Created on 05/21/2017</label> <label>Published on
-									05/21/2017</label></li>
-						</ul>
-					</div>
-					<h6 class="sectiontitle2">Description</h6>
-					<div class="box-inner1">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Nulla venenatis ante augue.Integer turpis erat, porttitor vitae
-							mi faucibus, laoreet interdum tellus.</p>
-						<div class="text-center">
-							<button type="button"
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Download</button>
-							<label class="normallbl ">Version 2.0 | 6 Downloaded</label>
-							<div class="rowcontainer">
-								<button id="demo-menu-lower-right4"
-									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored btn-ddl">
-									<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
-								</button>
-
-								<ul
-									class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-									for="demo-menu-lower-right4">
-									<li class="mdl-menu__item">Menu item 1</li>
-									<li class="mdl-menu__item">Menu item 2</li>
-									<li class="mdl-menu__item">Menu item 3</li>
-								</ul>
-							</div>
-							<div class="rowcontainer">
-								<button type="button"
-									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Push
-									to ONAP</button>
-							</div>
-						</div>
-					</div>
-					<br />
-					<h6 class="sectiontitle2">Tags</h6>
-					<div class="box-inner2 rowcontainer">
-						<md-chips> <md-chip>Hockey</md-chip> <md-chip>Lacrosse</md-chip>
-						<md-chip>Baseball</md-chip> <md-chip>Cricket</md-chip> </md-chips>
-					</div>
-				</div>
-				<div class="box1">
-					<h6 class="sectiontitle2">Related ML solutions</h6>
-					<div class="box-inner2 rowcontainer">
-						<div class="box-inner1">
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-							<div class="list-item">
-								<ul class="horizontal-list2">
-									<li><img src="images/solution1.jpg" alt=""
-										title="solution"></li>
-									<li><label class="disblock text-bold">Name of ML
-											solution</label> <span class="rating"> <span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span><span><i
-												class="material-icons">star_rate</i></span>
-									</span> <label class="normallbl display-block iconcontainer">
-											<span class="iconspan1"><i class="material-icons">chat_bubble</i>
-												12</span> <span class="iconspan1"><i class="material-icons">remove_red_eye</i>
-												176</span> <span class="iconspan1"><i class="material-icons">file_download</i>
-												6</span>
-									</label></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> -->

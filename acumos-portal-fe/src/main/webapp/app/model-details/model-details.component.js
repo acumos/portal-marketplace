@@ -1330,119 +1330,47 @@ angular
 
                                 });
                           }
-							/*
-							 * 'client' : $scope.applicationId,
-								'tenant' : $scope.tenantId,
-								'key' : $scope.secretKey,
-								'subscriptionKey' : $scope.subscriptionKey,
-								'rgName' : $scope.resourceGroup,
-								'acrName' : $scope.acrName,
-								'storageAccount' : $scope.storageAccount,
-								'solutionId' : $scope.solutionId,
-								'imagetag' : imageTagUri
-
-							 * */
-								
-								/*if($scope.solution.tookitType != "CP") {
-									// imagetag:  imageTagUri,
-									$scope.reqObject = {
-											'request_body' : {
-												 'acrName': $scope.acrName,
-												 'client': $scope.applicationId,
-												 'key': $scope.secretKey,
-												 'rgName': $scope.resourceGroup,
-												 'solutionId': $scope.solution.solutionId,
-												 'solutionRevisionId': $scope.revisionId,
-												 'storageAccount': $scope.storageAccount,
-												 'subscriptionKey':  $scope.subscriptionKey,
-												 'tenant': $scope.tenantId,
-												 'userId':  user[1],
-												 'imagetag': imageTagUri
-											}
-									}
-									
-									var url = '/azure/singleImageAzureDeployment';
-									$http({
-										method : 'POST',
-										url : url,
-										data: $scope.reqObject
-										
-									}).then(function(response) {
-											alert("Deployment Started Successfully");
-										},
-										function(error) {
-											console.warn("Error occured");
-
-										});
-									
-								} else {
-									$scope.reqObject = {
-											'request_body' : {
-												 'acrName': $scope.acrName,
-												 'client': $scope.applicationId,
-												 'key': $scope.secretKey,
-												 'rgName': $scope.resourceGroup,
-												 'solutionId': $scope.solution.solutionId,
-												 'solutionRevisionId': $scope.revisionId,
-												 'storageAccount': $scope.storageAccount,
-												 'subscriptionKey':  $scope.subscriptionKey,
-												 'tenant': $scope.tenantId,
-												 'userId':  user[1],
-											}
-									}
-									var url = '/azure/compositeSolutionAzureDeployment';
-									$http({
-										method : 'POST',
-										url : url,
-										data: $scope.reqObject
-									}).then(function(response) {
-										alert("Deployment Started Successfully");
-									},
-									function(error) {
-										console.warn("Error occured");
-
-									});
-								}*/
-						
-
-							/*var authDeployObject = {
-								'client' : $scope.applicationId,
-								'tenant' : $scope.tenantId,
-								'key' : $scope.secretKey,
-								'subscriptionKey' : $scope.subscriptionKey,
-								'rgName' : $scope.resourceGroup,
-								'acrName' : $scope.acrName,
-								'storageAccount' : $scope.storageAccount,
-								'solutionId' : $scope.solutionId,
-								'imagetag' : imageTagUri
-
-							};
-
-							apiService
-									.authenticateAnddeployToAzure(
-											authDeployObject)
-									.then(
-											function(response) {
-												if (response.status == "401"
-														|| response.data.error_code == "401") {
-
-													alert("Authorization Failed !!");
-
-												} else {
-
-													alert("Deployed successfully !! ");
-
-												}
-
-												$mdDialog.hide();
-
-											}, function(error) {
-												alert('FAILED');
-												$mdDialog.hide();
-											});*/
-
 						}
+						//Default values
+						$scope.positionM1 = "mime_type";$scope.positionM3 = "image_binary";$scope.positionM2 = 1;$scope.positionM4 = 2;
+						$scope.fieldM1 = "mime_type";$scope.fieldM3 = "image_binary";$scope.fieldM4 = "image_binary";$scope.fieldM2 = "mime_type";
+						//Deploy to Broker
+						$scope.deployCloudVal = function(){
+							var obj1 =  '{'+ $scope.positionM1 + ':' + $scope.positionM2+','+ $scope.positionM3+":" +$scope.positionM4 +'}';
+							var obj2 =  '{'+ $scope.fieldM1 + ':' + $scope.fieldM2+','+ $scope.fieldM3+":" +$scope.fieldM4 +'}';
+							var obj3 = '{"url":"'+$scope.brokerURL+'"}';
+							var reqObj = {
+										  urlAttribute:obj3,
+                                          jsonPosition:obj1,
+                                          jsonMapping : obj2,
+                                          'acrName': $scope.acrName,
+                                          'client': $scope.applicationId,
+                                          'key': $scope.secretKey,
+                                          'rgName': $scope.resourceGroup,
+                                          'solutionId': $scope.solution.solutionId,
+                                          'solutionRevisionId': $scope.revisionId,
+                                          'storageAccount': $scope.storageAccount,
+                                          'subscriptionKey':  $scope.subscriptionKey,
+                                          'tenant': $scope.tenantId,
+									};
+							var req = {
+									 method: 'POST',
+									 url: '/azure/compositeSolutionAzureDeployment',
+									 //data: { test: reqObj }
+									 data: reqObj
+									}
 
+									$http(req).then(
+										function(data){
+											console.log(angular.toJson(data))
+											
+										},
+										function(data){
+											debugger;
+											});
+							
+						}
+						
 						$scope.handleDismiss = function() {
 							console.info("in handle dismiss");
 							$mdDialog.cancel();
