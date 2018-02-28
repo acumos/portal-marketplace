@@ -19,6 +19,7 @@ angular
 						$scope.seeAllSelected = false;
 						$scope.selectedChip = [];
 						$scope.mlsolutions = [];
+
 						if(localStorage.getItem("viewMM")){
 						  if(localStorage.getItem("viewMM") == 'false')$scope.Viewtile = false;else $scope.Viewtile = true;
 						}else $scope.Viewtile = true;
@@ -97,7 +98,7 @@ angular
 							$scope.dataLoading = true;
 							if($scope.searchBox!=null && $scope.searchBox!='')
 								toBeSearch[0] = $scope.searchBox;
-
+							$scope.privateDataLoaded = true;
 							dataObj = {
 									  "request_body": {
 										    "accessTypeCodes": [
@@ -119,7 +120,8 @@ angular
 							apiService.insertSolutionDetail(dataObj).then(function(response) {
 								var data = response.data;
 								privatePrevTotal = privatePrevCounter;
-
+								$scope.privateDataLoaded = false;
+								
 								$scope.mlSolutionPrivate = $scope.getUniqueSolutions(data.response_body.content);
 
 								if($scope.mlSolutionPrivate.length != 0){
@@ -163,7 +165,7 @@ angular
 											
 						
 						$scope.getCompanyModels=function(){
-
+							$scope.companyDataLoaded = true;
 							if($scope.searchBox!=null && $scope.searchBox!='')
 								toBeSearch[0] = $scope.searchBox;
 
@@ -188,6 +190,9 @@ angular
 							apiService.insertSolutionDetail(dataObj).then(function(response) {
 								var data = response.data;
 								companyPrevTotal = companyPrevCounter;
+								$scope.companyDataLoaded = false;
+
+								
 								$scope.mlSolutionCompany = $scope.getUniqueSolutions(data.response_body.content);
 								if($scope.mlSolutionCompany.length != 0){
 									companyPrevCounter = $scope.mlSolutionCompany.length;
@@ -224,12 +229,14 @@ angular
 								}, function(error) {
 										$scope.isBusy = false
 								});
+
+							
 						}; 
 						
 						
 						$scope.getPublicModels=function(){
 							$scope.dataLoading = true;
-
+							$scope.publicDataLoaded = true;
 							if($scope.searchBox!=null && $scope.searchBox!='')
 								toBeSearch[0] = $scope.searchBox;
 							
@@ -255,6 +262,8 @@ angular
 								var data = response.data;
 							
 								publicPrevTotal = publicPrevCounter;
+								$scope.publicDataLoaded = false;
+								
 								$scope.mlSolutionPublic = $scope.getUniqueSolutions(data.response_body.content);
 								if($scope.mlSolutionPublic.length != 0){
 									publicPrevCounter = $scope.mlSolutionPublic.length;
@@ -296,6 +305,7 @@ angular
 							$scope.dataLoading = true;
 							if($scope.searchBox!=null && $scope.searchBox!='')
 							toBeSearch[0] = $scope.searchBox;
+							$scope.deleteDataLoaded = true;
 							dataObj = {
 									  "request_body": {
 										    "active": false,
@@ -314,6 +324,8 @@ angular
 							apiService.insertSolutionDetail(dataObj).then(function(response) {
 								publicPrevTotal = deletedPrevCounter;
 								var data = response.data;
+
+								$scope.deleteDataLoaded = false;
 								$scope.mlSolutionDelete = $scope.getUniqueSolutions(data.response_body.content);
 
 								if($scope.mlSolutionDelete.length != 0){
@@ -356,7 +368,7 @@ angular
 						getModels();
 						
                         $scope.publicNav=function(NavName, loadmore){
-							
+
 							if(NavName=='Next'){
 								$scope.pageNumPublic = $scope.pageNumPublic+1;
 								$scope.pbOperator = 'Add';
@@ -388,7 +400,7 @@ angular
 						}
                         
                         $scope.CompanyNav=function(NavName, loadmore){
-							
+
 							if(NavName=='Next'){
 								$scope.pageNumCompany = $scope.pageNumCompany+1;
 								$scope.cpOperator = 'Add';
@@ -420,7 +432,7 @@ angular
 						} 
                         
 						$scope.privateNav=function(NavName, loadmore){
-							
+
 							if(NavName=='Next'){
 								$scope.pageNumPrivate = $scope.pageNumPrivate+1;
 								$scope.prOperator = 'Add';
@@ -454,7 +466,7 @@ angular
 						}
 						
                         $scope.deleteNav=function(NavName, loadmore){
-							
+
 							if(NavName=='Next'){
 								$scope.pageNumDelete = $scope.pageNumDelete+1;
 								$scope.dlOperator = 'Add';

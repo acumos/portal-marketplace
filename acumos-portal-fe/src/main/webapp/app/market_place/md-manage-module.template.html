@@ -99,12 +99,17 @@
 				<div class="mdl-grid mdl-grid--no-spacing grid1 hide-xs">
 					<div
 						class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--1-col-phone mdl-cell--middle">
-						<span class="hide-xs hide-sm showing-text">Showing - <span
-							class="text-colorgray1">{{solutionsCount.privateModelCount
+						<span class="hide-xs hide-sm showing-text">Showing -
+						<span
+							class="text-colorgray1" ng-show="hidePrivate&&hidePublic&&hideCompany&&hideDelete">{{solutionsCount.privateModelCount
 								+ solutionsCount.companyModelCount +
 								solutionsCount.publicModelCount +
-								solutionsCount.deletedModelCount}} Models </span></span>
-
+								solutionsCount.deletedModelCount}} Models
+						</span>
+						<span class="text-colorgray1" ng-show="hidePrivate&&!hidePublic&&!hideCompany&&!hideDelete">{{solutionsCount.privateModelCount}} Models</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&hideCompany&&!hideDelete">{{solutionsCount.companyModelCount}} Models</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&hidePublic&&!hideCompany&&!hideDelete">{{solutionsCount.publicModelCount}} Models</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&!hideCompany&&hideDelete">{{solutionsCount.deletedModelCount}} Models</span>
 						<md-chips ng-model="filterOptions" name="filterOptions"
 							readonly="true" md-removable="true" ng-click='removeFilter()'>
 						<md-chip-template> <strong>{{$chip}}</strong> </md-chip-template>
@@ -237,12 +242,12 @@
 								class="pull-right"> <span
 								class="mp-grid-head-buttons-container"
 								ng-hide="seeAllSelected || mlSolutionPrivate.length < 1">
-									<a class="btnseeall removetop" ng-click="privateNav('SeeAll')"
+									<a class="btnseeall removetop" ng-click="privateNav('SeeAll')" 
 									ng-class="{ removetop: !(pageNumPrivate < 1 || mlSolutionPrivate.length < 4)}">See
 										All</a> <a href="" ng-click="privateNav('Pre')"
-									class="seeall-icons" ng-hide="pageNumPrivate < 1"> <i
+									class="seeall-icons" ng-hide="pageNumPrivate < 1" ng-class="{disabledClick: privateDataLoaded==true}"> <i
 										class="material-icons">navigate_before</i>
-								</a> <a href="" ng-click="privateNav('Next')" class="seeall-icons"
+								</a> <a href="" ng-click="privateNav('Next')" class="seeall-icons" ng-class="{disabledClick: privateDataLoaded==true}"
 									ng-hide="mlSolutionPrivateCount == solutionsCount.privateModelCount">
 										<i class="material-icons">navigate_next</i>
 								</a>
@@ -370,10 +375,11 @@
 									href="" class="btnseeall removetop"
 									ng-click="CompanyNav('SeeAll')"
 									ng-class="{ removetop: !(pageNumPublic < 1 || mlSolutionPublic.length < 4)}">See
-										All</a> <a href="" ng-click="CompanyNav('Pre')"
-									class="seeall-icons" ng-hide="pageNumCompany < 1"><i
-										class="material-icons">navigate_before</i></a><a href=""
-									ng-click="CompanyNav('Next')" class="seeall-icons"
+										All</a> <a href="" ng-click="CompanyNav('Pre');"
+									class="seeall-icons" ng-hide="pageNumCompany < 1" ng-class="{disabledClick:companyDataLoaded==true}"><i
+									class="material-icons">navigate_before</i></a><a href=""
+									ng-click="CompanyNav('Next');" class="seeall-icons"
+									ng-class="{disabledClick:companyDataLoaded==true}"								
 									ng-hide="mlSolutionCompanyCount == solutionsCount.companyModelCount"><i
 										class="material-icons">navigate_next</i></a> </span></span>
 						</h4>
@@ -544,9 +550,10 @@
 								class="btnseeall" ng-click="publicNav('SeeAll')"
 								ng-class="{ removetop: !(pageNumPublic < 1 || publicSolution.length < 4)}">See
 									All</a> <a ng-click="publicNav('Pre')" class="seeall-icons" href=""
+									 ng-class="{disabledClick: publicDataLoaded==true}"
 								ng-hide="pageNumPublic < 1"><i class="material-icons">navigate_before</i></a><a
-								ng-click="publicNav('Next')" class="seeall-icons" href=""
-								ng-hide="mlSolutionPublicCount == solutionsCount.publicModelCount"><i
+								ng-click="publicNav('Next');" class="seeall-icons" href=""
+								ng-hide="mlSolutionPublicCount == solutionsCount.publicModelCount"  ng-class="{disabledClick: publicDataLoaded==true}"><i
 									class="material-icons">navigate_next</i></a> </span></span>
 					</h4>
 					<div class="posrel" ng-if="publicSolution.length < 1">
@@ -738,8 +745,10 @@
 								class="btnseeall " ng-click="deleteNav('SeeAll')"
 								ng-class="{ removetop: !(pageNumDelete < 1 || mlSolutionDelete.length < 4)}">See
 									All</a> <a ng-click="deleteNav('Pre')" class="seeall-icons" href=""
+									ng-class="{disabledClick: deleteDataLoaded==true}"
 								ng-hide="pageNumDelete < 1"><i class="material-icons">navigate_before</i></a><a
 								ng-click="deleteNav('Next')" class="seeall-icons" href=""
+								ng-class="{disabledClick: deleteDataLoaded==true}"
 								ng-hide="mlSolutionDeletedCount == solutionsCount.deletedModelCount"><i
 									class="material-icons">navigate_next</i></a> </span>
 						</span>

@@ -306,8 +306,6 @@ app.component('headerNav',{
 		$scope.globalSearch = function(val) {
 			componentHandler.upgradeAllRegistered();
 			$rootScope.valueToSearch = val;
-			
-			//angular.element('#fixed-header-drawer-exp1').val('');
 
 			if(val){
 				var stateName = $state.$current.name;
@@ -316,8 +314,6 @@ app.component('headerNav',{
 				$scope.search = $rootScope.valueToSearch;
 				$scope.searchText = $rootScope.valueToSearch;
 			}
-			
-			debugger;
 
 			if(val){
 				$rootScope.$broadcast('scanner-started', {
@@ -330,6 +326,7 @@ app.component('headerNav',{
 		$scope.addSearchFocus = function($event,searchText){ 
 			if(searchText == false || searchText == undefined ) {
 				angular.element('.mdl-textfield').removeClass('is-focused');
+				angular.element('.sidebar-search-container input').val('');
 			}else {
 				angular.element('.mdl-textfield').addClass('is-focused');
 			}

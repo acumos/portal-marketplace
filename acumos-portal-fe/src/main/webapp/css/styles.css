@@ -1666,6 +1666,10 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
 .dialog-footer-container1 {display:flex; justify-content: space-between;width: 100%;}
 .dialog-footer-container1 .mdl-button {margin:0; }
 
+/**** my model disable arrow ***/ 
+.disabledClick {
+       pointer-events: none;
+}
 
 /*********** MEDIA QUERIES SECTION START************/
 
