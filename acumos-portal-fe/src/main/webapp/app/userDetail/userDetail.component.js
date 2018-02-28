@@ -28,7 +28,17 @@ angular
 								// changes and reflect them on UI
 								scope.$apply(function() {
 									// set the model value
-									modelSetter(scope, element[0].files[0]);
+									
+									var size = element[0].files[0].size;
+				                	if(size >= 800000){
+				    	            	scope.imageError = true;
+				    	            	modelSetter(scope, "");
+				    	            	element.val("");
+				    	            	return true;
+				    	            }
+				    	            scope.imageError = false;
+				    	            modelSetter(scope, element[0].files[0]);
+				    	            //return true;
 								});
 							});
 						}

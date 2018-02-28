@@ -384,14 +384,15 @@
 				<div class="ud-row">
 					<div>
 						<!-- <label>Upload Photo</label> -->
-						<input type="file" upload-image-model="userImage"
+						<input type="file" upload-image-model="userImage" data-ng-model="userImage"
 							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
 							id="userImage">
 					</div>
 
 				</div>
 				<span>JPG, GIF or PNG. Max size of 800KB</span>
-				<p ng-show="error" class="validationmsg">Invalid Image</p>
+				<!-- <div ng-show="imageError" class="validationmsg validation-msgs"><span>Invalid Image</span></div> -->
+				<div class="help-inline validation-msgs"><span ng-show = "imageError">Invalid Image.</span></div>
 				</md-input-container>
 			</div>
 		</div>
