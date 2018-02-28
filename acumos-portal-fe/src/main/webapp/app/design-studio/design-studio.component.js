@@ -14,10 +14,9 @@ DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','
 
 function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams) {
 	componentHandler.upgradeAllRegistered();
-	
-	$scope.myfunction = function(){
-        $rootScope.deployEdit = true;
-    };
+	$scope.checkProbe = function(){
+		alert("Probe has been checked in");
+	}
 	$scope.checkboxDisable = true;
 	$scope.activeInactivedeploy = true;
     $scope.userDetails = JSON.parse(localStorage
@@ -28,18 +27,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.showSearch = function(){
         $scope.searchbox = false;
     };
-    /* $scope.$apply(); */
-    // $scope.showTest = false;
-    // $("path").hasClass("edge")) && $scope.showTest
+    
     $('#deleteHide').hide();var deleteShow = 0;
     function enanleDisable(){
         var numItems = $('.node').length;
         if(numItems > 1){
-            // $scope.deleteDis= false;
+        	 $scope.checkboxDisable = false;
             $scope.cleardis= false;
-            $scope.checkboxDisable = false;
         }else {
-            // $scope.deleteDis= true;
             $scope.cleardis= true;
             $scope.checkboxDisable = true; 
         }
@@ -55,10 +50,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var protoJsonRead = new Map();var changeNode = new Object();
     var jsonProtoNode= new Map(); var jsonProtoMap;
     var dataMaps = new Map();
+    var extras = false;
+    var dataBrokerOutput = new Map();
     // document.getElementById("showHide").className = "disnone";
     var operations = []; var messages = [];
     $scope.palette = {categories: []};
-    // $scope.messageUI = [];
     $scope.saveState = {
         desc: "solution is unchanged",
         noSaves: true,
@@ -151,13 +147,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
             nodeId = _components.get(type).solutionId;
             nodeVersion = _components.get(type).version;
-            // console.log("tgif :
-            // ");console.log(angular.toJson(tgif));
             $scope.solutionDetails=_components.get(type);
-            // console.log($scope.solutionDetails);
             $scope.showProperties=null;
             console.log($scope.solutionDetails);
-            // $scope.showProperties=false;
             $scope.packageName= JSON.stringify(tgif.self.name);
             $scope.requireCalls= tgif.services.calls;
             $scope.capabilityProvides=tgif.services.provides;
@@ -174,10 +166,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 jsonProtoNode.set($scope.solutionDetails.solutionName,protoJson);
             });
 
-            /*
-             * $http.get(_catalog.fModUrl(_components.get(type))).success(function(proto){
-             * $scope.nodeProtobuf=proto; });
-             */
             var requirementJson=[], capabilityJson=[];
             // get requirements
             var check_isValid_calls ='';
@@ -230,7 +218,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 "name": tgif.self.name,
                 "ndata": {},
                 "capabilities": capabilityJson,
-                "requirements": requirementJson
+                "requirements": requirementJson,
+                "extras": []
             };
             data.capabilities = capabilityJson;
             data.requirements = requirementJson;
@@ -240,25 +229,41 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 px: pos[0],
                 py: pos[1]
             };
-            if(check_isValid_calls === "ANY" && check_isValid_provides === "ANY"){
-                type = "DataMapper";
-            }else{
-                type = "MLModel";
+            // based on solutionDetails, we can change this type
+            switch($scope.solutionDetails.toolKit){
+            case 'BR': 
+            	type = "DataBroker";
+            	def.extras = ["script"];
+            	$scope.scriptText = null;
+            	$scope.selectedOutput = null;
+            	break;
+            case 'TC':
+            	type = "TrainingClient";
+            	def.extras = [];
+            	break;
+            default:
+            	if(check_isValid_calls === "ANY" && check_isValid_provides === "ANY"){
+                    type = "DataMapper";
+                }else{
+                    type = "MLModel";
+                }
+            	def.extras = [];
             }
+            data.modelName = type;
+            
             if(_solutionId){
                 url = build_url(options.addNode, {
                     userId: get_userId(),
                     solutionId :  _solutionId,
                     version : nodeVersion
                     /*
-                     * name: data.name, nodeId: data.id, nodeSolutionId :
-                     * '', nodeVersion : '', nodeSolutionId : nodeId,
-                     * nodeVersion : nodeVersion, // properties:
-                     * JSON.stringify([]), requirements:
-                     * JSON.stringify(requirementJson), type : type,
-                     * capabilities: JSON.stringify(capabilityJson),
-                     * ndata: JSON.stringify(ndata)
-                     */
+					 * name: data.name, nodeId: data.id, nodeSolutionId : '',
+					 * nodeVersion : '', nodeSolutionId : nodeId, nodeVersion :
+					 * nodeVersion, // properties: JSON.stringify([]),
+					 * requirements: JSON.stringify(requirementJson), type :
+					 * type, capabilities: JSON.stringify(capabilityJson),
+					 * ndata: JSON.stringify(ndata)
+					 */
                 });
 
                 nodeDetails = {
@@ -280,16 +285,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     userId: get_userId(),
                     cid: _cid
                     /*
-                     * name: data.name, nodeId: data.id, nodeSolutionId :
-                     * '', nodeVersion : '', //nodeIdCnt.toString(),
-                     * //type: JSON.stringify({type: type}),
-                     * nodeSolutionId : nodeId, nodeVersion :
-                     * nodeVersion, //properties: JSON.stringify([]),
-                     *  // properties: JSON.stringify([]), requirements:
-                     * JSON.stringify(requirementJson), type : type,
-                     * capabilities: JSON.stringify(capabilityJson),
-                     * ndata: JSON.stringify(ndata)
-                     */
+					 * name: data.name, nodeId: data.id, nodeSolutionId : '',
+					 * nodeVersion : '', //nodeIdCnt.toString(), //type:
+					 * JSON.stringify({type: type}), nodeSolutionId : nodeId,
+					 * nodeVersion : nodeVersion, //properties:
+					 * JSON.stringify([]), // properties: JSON.stringify([]),
+					 * requirements: JSON.stringify(requirementJson), type :
+					 * type, capabilities: JSON.stringify(capabilityJson),
+					 * ndata: JSON.stringify(ndata)
+					 */
                 });
                 nodeDetails = {
                     'name' : data.name,
@@ -316,7 +320,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     // console.log(_catalog.ports(data.id,
                     // def.requirements, def.capabilities));
                     // console.log(def.requirements);
-                    _ports = _ports.concat(_catalog.ports(data.nodeId, def.requirements, def.capabilities));
+                    _ports = _ports.concat(_catalog.ports(data.nodeId, data.modelName, def.requirements, def.capabilities, def.extras));
 
                     update_ports();
                     _drawGraphs.createNode(pos, data);
@@ -328,17 +332,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
 
     /*
-     * $http.get(_catalog.fModUrl(_components.get(type))).success(function(proto){
-     * $scope.nodeProtobuf=proto;
-     * $scope.messageName=proto.messages.messageName;
-     * $scope.argumentList = proto.messages.argumentList;
-     *
-     * angular.forEach($scope.argumentList, function(value, key) {
-     * $scope.msgDetails=value.firstToken+' '+value.type+'
-     * '+value.name+' = '+value.tag; });
-     *
-     * });
-     */
+	 * $http.get(_catalog.fModUrl(_components.get(type))).success(function(proto){
+	 * $scope.nodeProtobuf=proto; $scope.messageName=proto.messages.messageName;
+	 * $scope.argumentList = proto.messages.argumentList;
+	 * 
+	 * angular.forEach($scope.argumentList, function(value, key) {
+	 * $scope.msgDetails=value.firstToken+' '+value.type+' '+value.name+' =
+	 * '+value.tag; });
+	 * 
+	 * });
+	 */
     function reset(){
         $scope.saveState.noSaves = true;
         $('#deleteHide').hide();
@@ -360,8 +363,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.solutionVersion = null;
                     $scope.validationState = true;
                     $scope.saveState.noSaves = true;
-                    
-
+                    $scope.checkboxDisable = true;
+                   $scope.myCheckbox = false;
                     $scope.activeInactivedeploy = true;
                     $scope.console = null;
                     reset();
@@ -386,14 +389,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }
                 var userId = get_userId(),
                     url = build_url(options.create, {userId: userId});
-                /*if(parameter == 'new'){
-                  $scope.titlemsg ="New Solution";
-                  $scope.msg = "Create a new Composite Solution";
-                  $scope.showok = true;
-                  $scope.showpopup();
-                  // alert("Create a new Composite Solution");
-
-                  }*/
+                /*
+				 * if(parameter == 'new'){ $scope.titlemsg ="New Solution";
+				 * $scope.msg = "Create a new Composite Solution"; $scope.showok =
+				 * true; $scope.showpopup(); // alert("Create a new Composite
+				 * Solution");
+				 *  }
+				 */
                 $(".ds-grid-bg").css("background", "url('../images/grid.png')");
                 $scope.closeDisabledCheck = !$scope.closeDisabledCheck;
                 countComSol += 1;
@@ -407,10 +409,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.loadSolution = function(entry) {
         if(entry.toolKit === 'CP' || entry.toolKit === 'DS') {
             /*
-             * var url = build_url(options.read, {
-             * userId:get_userId(), solutionId: entry.solutionId,
-             * version: entry.version });
-             */
+			 * var url = build_url(options.read, { userId:get_userId(),
+			 * solutionId: entry.solutionId, version: entry.version });
+			 */
             var url = build_url(options.read, {
                 userId:get_userId(),
                 solutionId: entry.solutionId,
@@ -572,7 +573,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
 
     function is_wildcard_type(type) {
-        return type[0].messageName === 'ANY'; // replace with correct checks on proto-json
+    	if(type !== "script"){
+    		return type[0].messageName === 'ANY'; // replace with correct
+													// checks on proto-json
+    	} else{
+    		return false;
+    	}
     }
     function removeMsgNames(msgType) {
         return msgType.map(function(msg) {
@@ -650,32 +656,61 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             fTypeName: function(type) {
                 return type.name;
             },
-            ports: function(nid, requirements, capabilities) {
-                return requirements.map((req,i) => ({
-                    nodeId: nid,
-                    portname: req.capability.id+'+'+JSON.stringify(removeMsgNames(req.capability.name))+'+req'+i,
-                    type: is_wildcard_type(req.capability.name) ? null : JSON.stringify(removeMsgNames(req.capability.name)),
-                    fullType: req.capability.name,
-                    originalType: req.capability.name,
-                    shortname: req.capability.id,
-                    bounds: outbounds
-                })).concat(
-                    capabilities.map((cap,i) => ({
-                        nodeId: nid,
-                        portname: cap.target.id+'+'+JSON.stringify(removeMsgNames(cap.target.name))+'+cap'+i,//
-                        type: is_wildcard_type(cap.target.name) ? null : JSON.stringify(removeMsgNames(cap.target.name)),
-                        fullType: cap.target.name,
-                        originalType: cap.target.name,
-                        shortname: cap.target.id,
-                        bounds: inbounds
-                    })));
+            ports: function(nid, ntype, requirements, capabilities, extras) {
+            	// if(extras.length !==0){
+            if(extras != undefined){
+	                return requirements.map((req,i) => ({
+	                    nodeId: nid,
+	                    portname: req.capability.id+'+'+JSON.stringify(removeMsgNames(req.capability.name))+'+req'+i,
+	                    type: is_wildcard_type(req.capability.name) ? null : JSON.stringify(removeMsgNames(req.capability.name)),
+	                    fullType: req.capability.name,
+	                    originalType: req.capability.name,
+	                    shortname: req.capability.id,
+	                    bounds: outbounds
+	                })).concat(
+	                    capabilities.map((cap,i) => ({
+	                        nodeId: nid,
+	                        portname: cap.target.id+'+'+JSON.stringify(removeMsgNames(cap.target.name))+'+cap'+i,//
+	                        type: is_wildcard_type(cap.target.name) ? null : JSON.stringify(removeMsgNames(cap.target.name)),
+	                        fullType: cap.target.name,
+	                        originalType: cap.target.name,
+	                        shortname: cap.target.id,
+	                        bounds: inbounds
+	                    }))).concat(
+	                    		extras.map((ext,i) => ({
+	                    			nodeId: nid,
+	                    			portname: 'xtra'+i,
+	                    			type: is_wildcard_type(ext) ? null : ext,
+	                    			originalType: ext,
+	                    			bounds: xtrabounds
+	                    		})));
+	                    
+            	} else {
+            		return requirements.map((req,i) => ({
+	                    nodeId: nid,
+	                    portname: req.capability.id+'+'+JSON.stringify(removeMsgNames(req.capability.name))+'+req'+i,
+	                    type: is_wildcard_type(req.capability.name) ? null : JSON.stringify(removeMsgNames(req.capability.name)),
+	                    fullType: req.capability.name,
+	                    originalType: req.capability.name,
+	                    shortname: req.capability.id,
+	                    bounds: outbounds
+	                })).concat(
+	                    capabilities.map((cap,i) => ({
+	                        nodeId: nid,
+	                        portname: cap.target.id+'+'+JSON.stringify(removeMsgNames(cap.target.name))+'+cap'+i,//
+	                        type: is_wildcard_type(cap.target.name) ? null : JSON.stringify(removeMsgNames(cap.target.name)),
+	                        fullType: cap.target.name,
+	                        originalType: cap.target.name,
+	                        shortname: cap.target.id,
+	                        bounds: inbounds
+	                    })));
+            	}
             }/*
-              * , fModUrl: function(model){ return
-              * build_url(options.protobuf, {
-              * userId:get_userId(), solutionId:
-              * this.fModelId(model), version:
-              * this.fModelVersion(model) }); }
-              */
+				 * , fModUrl: function(model){ return
+				 * build_url(options.protobuf, { userId:get_userId(),
+				 * solutionId: this.fModelId(model), version:
+				 * this.fModelVersion(model) }); }
+				 */
 
         };
     }
@@ -745,13 +780,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     var lbounds = [Math.PI*5/6, -Math.PI*5/6], rbounds = [-Math.PI/6, Math.PI/6],
         dbounds = [Math.PI/6, Math.PI*5/6], ubounds = [-Math.PI*5/6, -Math.PI/6];
-    var inbounds, outbounds;
+    var inbounds, outbounds,xtrabounds;
     if(options.TB) {
         inbounds = ubounds;
         outbounds = dbounds;
+        xtrabounds = [Math.PI, Math.PI]; 
     } else  {
         inbounds = lbounds;
         outbounds = rbounds;
+        xtrabounds = [-Math.PI/2, -Math.PI/2]; 
     }
     function update_ports() {
         var port_flat = dc_graph.flat_group.make(_ports, d => d.nodeId + '/' + d.portname);
@@ -784,7 +821,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             // console.log(n);
             var lastChar = n.nodeId.slice(-1);
             var res = n.nodeId.split(lastChar);
-            _ports = _ports.concat(_catalog.ports(n.nodeId, n.requirements, n.capabilities));
+          // var properties = n.
+            if(n.properties.length > 0 || n.type.name == "DataBroker"){
+            	var script = ["script"];
+            }
+            _ports = _ports.concat(_catalog.ports(n.nodeId, n.type.name,n.requirements, n.capabilities, script));
             var url= build_url(options.protobuf, {
                 userId: get_userId(),
                 solutionId :  n.nodeSolutionId,
@@ -834,33 +875,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 });
                 dataMaps.set(n.nodeId, DM);
             }
+            
+            // need to check the if condition to satisfy the databroker
+            if(n.type.name === "DataBroker"){
+            	angular.forEach(n.properties, function(value, key){
+            		if(value.data_broker_map != null){
+            			$scope.scriptText = value.data_broker_map.script;
+            		}
+            	});
+            }
         });
     }
-
-    /*
-     * function display_solution1(solution) { console.log(solution);
-     * var nodes = solution.nodes || (console.warn('no nodes in
-     * composite solution!'), []), edges = solution.relations || [];
-     * _readPorts = []; _ports = []; console.log(nodes);
-     * console.log(edges); nodes.forEach(function(n) {
-     * n.requirements=n.requirements. _ports =
-     * _ports.concat(_catalog.ports(n.id, n.requirements,
-     * n.capabilities));
-     *
-     * }); var node_flat = dc_graph.flat_group.make(nodes,
-     * function(d) { console.log(d.name); return d.name; }),
-     * edge_flat = dc_graph.flat_group.make(edges, function(d) {
-     * return d.sourcename + '->' + d.targetname; });
-     * console.log(node_flat); console.log(edge_flat); _diagram
-     * .nodeDimension(node_flat.dimension).nodeGroup(node_flat.group)
-     * .edgeDimension(edge_flat.dimension).edgeGroup(edge_flat.group);
-     * update_ports(); _drawGraphs
-     * .nodeCrossfilter(node_flat.crossfilter)
-     * .edgeCrossfilter(edge_flat.crossfilter);
-     *
-     * if(!_rendered) { _diagram.render(); _rendered = true; } else
-     * _diagram.redraw(); }
-     */
 
     //
     // SAVE AREA
@@ -900,11 +925,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 else if(result.alert){
                     set_dirty(false, 'saved at ' + d3.time.format('%X')(new Date()));
                     /*
-                     * if(confirm(result.alert +'?')){
-                     * $scope.updateOldSol = true;
-                     * $scope.solutionNameSave = name;
-                     * save_solution(name); $scope.updateOldSol = false; }
-                     */
+					 * if(confirm(result.alert +'?')){ $scope.updateOldSol =
+					 * true; $scope.solutionNameSave = name;
+					 * save_solution(name); $scope.updateOldSol = false; }
+					 */
                     solutionNameSave = name;
                     updateOldSol = true;
                     $scope.myDialogOldVersionSave();
@@ -921,7 +945,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.showpopup();
 
                     solutionPrPB();
-                    //set_dirty(true, 'saved at ' + d3.time.format('%X')(new Date()));
+                    // set_dirty(true, 'saved at ' + d3.time.format('%X')(new
+					// Date()));
                     $scope.saveState.noSaves = true;
                     _solutionId = result.solutionId;
                     $scope.solutionIdvalidate = result.solutionId;
@@ -953,6 +978,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $('#consoleMsg').removeClass('console-errormsg');
                 $scope.console = "Valid composite Solution";
             } else {
+            	 $scope.activeInactivedeploy = true;
                 $scope.validationState =false;
                 $('#consoleMsg').removeClass('console-successmsg');
                 $('#consoleMsg').addClass('console-errormsg');
@@ -1006,9 +1032,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             }
 
             /*
-             * $scope.initIndex=!$scope.initIndex;
-             * $scope.selectedIndex=index;
-             */
+			 * $scope.initIndex=!$scope.initIndex; $scope.selectedIndex=index;
+			 */
         };
 
         $scope.listNavs=[];
@@ -1021,25 +1046,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.packageName= JSON.stringify(comp.self.name);
                 $scope.capabilityProvides=comp.services.provides;
                 $scope.requireCalls=comp.services.calls;
-                /*
-                 * var name = _catalog.fTypeName(comp); delete
-                 * comp.name;
-                 */
-                /*
-                 * content.style('visibility', 'visible');
-                 * d3.select('#selected-name') .text(name);
-                 */
-                /*
-                 * var table = d3.select('#properties-table'); var
-                 * keys = Object.keys(comp).sort(); var rows =
-                 * table.selectAll('tr.property').data(keys);
-                 * rows.enter().append('tr').attr('class',
-                 * 'property'); var cols =
-                 * rows.selectAll('td').data(function(x) { return
-                 * [x, print_value(comp[x])]; });
-                 * cols.enter().append('td'); cols.text(function(x) {
-                 * return x; });
-                 */
+                
                 var keys = Object.keys(comp).sort();
                 $scope.listNavs=comp;
                 $scope.navsKeys=keys;
@@ -1245,10 +1252,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 dataMaps.get(nodeId).set(source.value.tag, target.value.tag);
                 // call API to modify node accordingly
                 var params, rnodeDetails, lnodeDetails, url;
-                //console.log(edge);
-                /*console.log(lnodes);
-                  console.log(rnodes);
-                  console.log(lport);*/
+                // console.log(edge);
+                /*
+				 * console.log(lnodes); console.log(rnodes); console.log(lport);
+				 */
 
                 for(var j=0;j<rnodes.length;j++){
                     if(rnodes[j].id === edge.targetname){
@@ -1322,42 +1329,23 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
                     edgeDetails = mapper.getWholeEdge(eid);
                     dataMaps.get(nodeId).delete(edgeDetails.source.orig.value.tag);
-                    /*for(var j=0;j<rnodes.length;j++){
-                      if(rnodes[j].id === edgeDetails.target.orig.key){
-                      rnodeDetails = rnodes[j];
-                      }
-                      }
-                      for(var i=0;i<lnodes.length;i++){
-                      if(lnodes[i].id === edgeDetails.source.orig.key){
-                      lnodeDetails = lnodes[i];
-                      }
-                      }
-                      var fieldMap = {
-                      input_field_message_name: lport.fullType[0].messageName,
-                      input_field_tag_id: lnodeDetails.tag,
-                      map_action: "delete",
-                      output_field_message_name: "",
-                      output_field_tag_id: ""
-                      };
-                      console.log(fieldMap);
-                      if(_solutionId){
-                      params = {
-                      userid: get_userId(),
-                      solutionId: _solutionId,
-                      version: $scope.solutionVersion,
-                      nodeid: lport.nodeId
-                      };
-                      } else if(_cid){
-                      params = {
-                      userid: get_userId(),
-                      cid: _cid,
-                      nodeid: lport.nodeId
-                      };
-                      }
-                      console.log(params);
-                      url = build_url(options.modifyNode, params);
-                      console.log(url);*/
-                    /*return $http.post(url,angular.toJson(fieldMap));*/
+                    /*
+					 * for(var j=0;j<rnodes.length;j++){ if(rnodes[j].id ===
+					 * edgeDetails.target.orig.key){ rnodeDetails = rnodes[j]; } }
+					 * for(var i=0;i<lnodes.length;i++){ if(lnodes[i].id ===
+					 * edgeDetails.source.orig.key){ lnodeDetails = lnodes[i]; } }
+					 * var fieldMap = { input_field_message_name:
+					 * lport.fullType[0].messageName, input_field_tag_id:
+					 * lnodeDetails.tag, map_action: "delete",
+					 * output_field_message_name: "", output_field_tag_id: "" };
+					 * console.log(fieldMap); if(_solutionId){ params = {
+					 * userid: get_userId(), solutionId: _solutionId, version:
+					 * $scope.solutionVersion, nodeid: lport.nodeId }; } else
+					 * if(_cid){ params = { userid: get_userId(), cid: _cid,
+					 * nodeid: lport.nodeId }; } console.log(params); url =
+					 * build_url(options.modifyNode, params); console.log(url);
+					 */
+                    /* return $http.post(url,angular.toJson(fieldMap)); */
                 });
                 return Promise.all(promises)
                     .then(function(responses){
@@ -1425,7 +1413,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 return (e.source.width + e.target.width) / 2 + layout.ranksep();
             }
         });
-
+  
+    // used for copying the messages into "any" port
     var wildcardPorts = dc_graph.wildcard_ports({
         get_type: p => p.orig.value.type,
         set_type: function(p1, p2) {
@@ -1479,12 +1468,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .edgeStroke('#777')
             .nodeShape(function(n){
-               /*var lastChar = n.key.slice(-1);
-            	//var res = n.key.split("(");
-                var res = n.key.split(lastChar);
-            	//console.log(res[0]);
-            	
-*/       
+               /*
+				 * var lastChar = n.key.slice(-1); //var res = n.key.split("(");
+				 * var res = n.key.split(lastChar); //console.log(res[0]);
+				 * 
+				 */       
             	
             	var res = n.key.slice(0, -1);
             	var nodeDet=_components.get(res);
@@ -1500,8 +1488,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .nodeContent('text-with-icon')
             .nodeIcon(function(d) {
-                /*var lastChar = d.key.slice(-1);
-                var res = d.key.split(lastChar);*/
+                /*
+				 * var lastChar = d.key.slice(-1); var res =
+				 * d.key.split(lastChar);
+				 */
             	var res = d.key.slice(0, -1);
             	var nodeDet=_components.get(res);
                // var nodeDet=_components.get(res[0]);
@@ -1548,16 +1538,30 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     // // 8-class dark2
                 )))
             .portBackgroundFill(p => p.value.bounds === inbounds ? 'white' : 'black');
+        
+        var letterPorts = dc_graph.symbol_port_style()
+    	.content(dc_graph.symbol_port_style.content.letter())  
+        .outlineStrokeWidth(1)  
+        .symbol('S')  
+        .symbolScale(x => x)  
+        .color('black')  
+        .colorScale(null); 
+        
         _diagram
             .portStyle('symbols', symbolPorts)
-            .portStyleName('symbols');
-
+            /* .portStyleName('symbols'); */
+            .portStyle('letters', letterPorts)  
+            .portStyleName(function(p) {
+            	return (p.value.type === "script") ? 'letters' : 'symbols';  
+            	});  
 
         var portMatcher = dc_graph.match_ports(_diagram, symbolPorts);
 
         portMatcher.isValid(
             (sourcePort, targetPort) =>
                 wildcardPorts.isValid(sourcePort, targetPort) &&
+                sourcePort.orig.value.bounds !== xtrabounds &&  
+                targetPort.orig.value.bounds !== xtrabounds &&  
                 sourcePort.orig.value.bounds !== targetPort.orig.value.bounds);
 
         _drawGraphs = dc_graph.draw_graphs({
@@ -1593,8 +1597,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 e.targetNodeCapability = tport.name;
                 var params, url =  '';
                 var properties, map_json = [];
-
-                if(is_wildcard_type(sport.orig.value.originalType)){
+                // need to check for databroker
+                /* if(sport.) */
+               if(sport.node.orig.value.modelName == "DataBroker" || sport.node.orig.value.type.name == 'DataBroker' || tport.node.orig.value.modelName == "DataBroker" ||tport.node.orig.value.type.name == 'DataBroker' ){
+                	properties = {};
+                } else {
+                
+                	if(is_wildcard_type(sport.orig.value.originalType)){
                     var capabilities = tport.node.orig.value.capabilities;
                     capabilities.forEach(function(capability) {
                         if(capability.target.id == tport.orig.value.shortname) {
@@ -1662,6 +1671,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 } else{
                     properties = {};
                 }
+              }/* else {
+            	  properties = {};
+              }*/
                 if(_solutionId){
                     params = {
                         userId:get_userId(),
@@ -1880,19 +1892,41 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         select_ports_group.on('set_changed.show-info', function(ports) {
             var portType, port_info;
             if(ports.length>0) {
+            	$scope.nodeIdDB = ports[0].node;
                 select_nodes_group.set_changed([], false);
                 select_edges_group.set_changed([], true);
                 var p = _diagram.getPort(ports[0].node, null, ports[0].name);
-
+                $scope.portDets = p;
                 // console.log(p.orig.value.bounds === inbounds ?
                 // 'input' : 'output', p.orig.value.type);
                 // display matching models for port here
                 if(p.orig.value.bounds === inbounds){
                     portType = "input";
-                } else{
-                    portType = "output";
+                } else if(p.orig.value.bounds === outbounds){
+                	if(p.node.orig.value.modelName === "DataBroker"){
+                		if(p.edges.length > 0 || p.orig.value.type !== null)
+                			portType = "output";
+                		else 
+                			portType = "DBoutput";
+                	}
+                	else {
+                		portType = "output";
+                	}
+                } else {
+                	portType = "script";
                 }
-
+                
+                if(portType === "script"){	
+                     	// code for UI for script port and output port of data
+						// broker
+                	$scope.showScript();
+                     	
+                } else if(portType === "DBoutput"){
+                	// code for output port of data broker
+                	$scope.selectOutputMessage(p);
+                	
+                	
+                } else {
                 var selectedNodeId = ports[0].node;
                 var res = selectedNodeId.slice(0,-1);
               //  var res = selectedNodeId.split(lastChar);
@@ -1927,10 +1961,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
                 $http.get(url).success(function(data){
                     // console.log(data);
-                    /*matchingModelsSave.set(keySave, data.matchingModels);
-                      console.log(matchingModelsSave.get(keySave));*/
-                    /*var i=0; matchingModels = [];*/
-                	
                     var i=0;
                     var matchingModels = [];
 
@@ -1960,6 +1990,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         }, 0);
 
                     });
+            }
             } else display_properties(null);
         });
 
@@ -2064,12 +2095,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
          * console.log(operations); console.log(messages);
          */
         /*
-         * var url= build_url(options.protobuf, { userId:
-         * get_userId(), solutionId : _solutionId, version :
-         * $scope.solutionVersion });
-         * $http.get(url).success(function(proto){
-         * $scope.protoNode=proto; });
-         */
+		 * var url= build_url(options.protobuf, { userId: get_userId(),
+		 * solutionId : _solutionId, version : $scope.solutionVersion });
+		 * $http.get(url).success(function(proto){ $scope.protoNode=proto; });
+		 */
 
         function input_generate_operation(d) {
             // console.log(jsonProto);
@@ -2232,10 +2261,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                             					"message" : complexSubJson
                             				});
                             				$scope.complexProtoMap.set(value2.complexType.messageName,complexSubJson);
-                            				/*complexProtoMap.push(value2.complexType.messageName); 
-                            				angular.forEach(complexProtoMap,function(val,ky){
-                            					
-                            				});*/
+                            				/*
+											 * complexProtoMap.push(value2.complexType.messageName);
+											 * angular.forEach(complexProtoMap,function(val,ky){
+											 * 
+											 * });
+											 */
                             			}
                             			var temp = value2.tag.split(".");
                     					value2.tag=temp[temp.length-1];
@@ -2265,24 +2296,28 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.complexProtoJson = $scope.complexProtoMap;
                 console.log(complexMapArray);
                 $scope.complexMapArrayUI=complexMapArray;
-                /*angular.forEach(data.items, function(value, key) {});*/
-               /* var typeName = '',valueType = '';
-                angular.forEach(jsonProto.protobuf_json.listOfMessages[0].messageargumentList, function(value, key) {
-                	typeName = value.messageName;
-                	angular.forEach(value, function(value, key) {
-                    	typeName = value.messageName;
-                    	
-                    });
-                	
-                });
-                */
-               // $scope.getComplexProtoJson = angular.toJson($scope.complexProtoJson[0]);
-               /* for(var key in $scope.getComplexProtoJson) {
-                    alert("Key: " + key + " value: " + $scope.getComplexProtoJson[key]);
-                  }*/
-                /*for(i=0; i<= $scope.complexProtoJson.length; i++){
-                	console.log(complexProtoMap[i]);
-                }*/
+                /* angular.forEach(data.items, function(value, key) {}); */
+               /*
+				 * var typeName = '',valueType = '';
+				 * angular.forEach(jsonProto.protobuf_json.listOfMessages[0].messageargumentList,
+				 * function(value, key) { typeName = value.messageName;
+				 * angular.forEach(value, function(value, key) { typeName =
+				 * value.messageName;
+				 * 
+				 * });
+				 * 
+				 * });
+				 */
+               // $scope.getComplexProtoJson =
+				// angular.toJson($scope.complexProtoJson[0]);
+               /*
+				 * for(var key in $scope.getComplexProtoJson) { alert("Key: " +
+				 * key + " value: " + $scope.getComplexProtoJson[key]); }
+				 */
+                /*
+				 * for(i=0; i<= $scope.complexProtoJson.length; i++){
+				 * console.log(complexProtoMap[i]); }
+				 */
                 $scope.messageUI=messageJson;
                 $scope.showDataMapper = null;
                 if($scope.messageUI){
@@ -2302,12 +2337,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('port-tips', port_tips);
 
         function nodeTypeOnHover(d){
-        	/*var nodeTypeDisp = d.orig.key;
-             var lastChar = nodeTypeDisp.slice(-1);
-             nodeTypeDisp = nodeTypeDisp.split(lastChar);
-             var rest = nodeTypeDisp.slice(0,-1)
-             console.log('node==========='+ rest);
-            return rest;*/
+        	/*
+			 * var nodeTypeDisp = d.orig.key; var lastChar =
+			 * nodeTypeDisp.slice(-1); nodeTypeDisp =
+			 * nodeTypeDisp.split(lastChar); var rest = nodeTypeDisp.slice(0,-1)
+			 * console.log('node==========='+ rest); return rest;
+			 */
         	 var nodeTypeDispTest = d.orig.value.name;
         	 return nodeTypeDispTest;
         }
@@ -2521,7 +2556,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.showProperties = null;
                     $scope.showLink=null;
                     $scope.myCheckbox = false;
-                   
+                    $scope.checkboxDisable = true;
                     $scope.clearSolution();
                     $scope.namedisabled = false;$scope.closeDisabled = true;
                     $scope.solutionName = '';$scope.solutionVersion = '';$scope.solutionDescription = '';_cid = '';_solutionId = '';
@@ -2573,16 +2608,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
                 $('#deleteHide').hide();
                 /*
-                 * var empty = {"cname":
-                 * $scope.solutionName,"version":
-                 * $scope.solutionVersion,"cid": _cid,"solutionId":
-                 * _solutionId,"ctime": '',"mtime": "","nodes":
-                 * [],"relations": []};
-                 * display_solution(empty);$scope.solutionDetails =
-                 * false; _cid = '';_solutionId =
-                 * '';$scope.solutionName = '';$scope.namedisabled =
-                 * false;$scope.solutionVersion = '';
-                 */
+				 * var empty = {"cname": $scope.solutionName,"version":
+				 * $scope.solutionVersion,"cid": _cid,"solutionId":
+				 * _solutionId,"ctime": '',"mtime": "","nodes": [],"relations":
+				 * []}; display_solution(empty);$scope.solutionDetails = false;
+				 * _cid = '';_solutionId = '';$scope.solutionName =
+				 * '';$scope.namedisabled = false;$scope.solutionVersion = '';
+				 */
 
             })
             .error(function(response){
@@ -2739,9 +2771,125 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		 } else{
     			 $scope.msg = "Probe removed";
     			 $scope.saveState.noSaves = false;
+    			 _dirty = true;
                  $scope.showpopup();
     		 }
              
          });
+    }
+    
+    $scope.showScript = function(ev) {
+        $mdDialog.show({
+            contentElement: '#myDialogScript',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+        });
+    };
+    
+    $scope.saveScript = function(){
+    	if(!$scope.scriptText) {
+            // alert("Please fill all mandatory fields");
+            set_focus('input-name');
+            return;
+        }
+    	// Needs to be uncommented and correct values need to be passed
+    	var url;
+    	var data = {
+    			"databrokerMap": {
+    			    "script": $scope.scriptText
+    			  },
+    			  "fieldMap":null
+    		}
+        if(_solutionId){
+            url = build_url(options.modifyNode, {
+                userid: get_userId(),
+                // cid:_cid,
+                solutionid:_solutionId,
+                nodeid: $scope.nodeIdDB,
+                nodename: name,
+                // version : $scope.solutionVersion,
+                // data_broker_script: $scope.scriptText
+               // dataConnector:data
+
+            });
+        } else {
+            url = build_url(options.modifyNode, {
+                userid: get_userId(),
+                cid:_cid,
+                nodeid: $scope.nodeIdDB,
+                nodename: name,
+                // version : $scope.solutionVersion,
+                // data_broker_script: $scope.scriptText
+                // dataConnector:data
+
+            });
+        }
+        
+    	$http.post(url,data)
+        .success(function(result) {
+        	console.log(result);
+        	if(result.success === 'true'){
+        		$scope.msg = "Script added successfully";
+        		$scope.saveState.noSaves = false;
+    			$scope.showpopup();
+        	}else{
+        		$scope.saveState.noSaves = true;
+        	}
+        })
+        .error(function(response){
+        	
+        });
+        
+        
+    }
+    $scope.selectOutputMessage = function(p,ev) {
+    	$scope.portDets = p;
+    	if(jsonProtoNode.size > 1){
+    		angular.forEach(jsonProtoNode, function(value, key){
+    			angular.forEach(value.protobuf_json.service.listOfOperations, function(value1, key1){
+    				angular.forEach(value1.listOfInputMessages,function(value2,key2){
+                        // console.log(value1);
+    					if(value2.inputMessageName !== "ANY"){
+    						angular.forEach(value.protobuf_json.listOfMessages, function(value3,key3){
+    							if(value3.messageName === value2.inputMessageName){
+    								dataBrokerOutput[value1.operationName+"("+value2.inputMessageName+")"]=value3;
+    							}
+    						});
+    					}
+    						
+    						
+                    });
+    			});
+    		});
+    	}
+    	
+    	$scope.dataBrokerSelectOutput = dataBrokerOutput;
+        $mdDialog.show({
+            contentElement: '#myDialogSelectOutput',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+        });
+    };
+    
+    $scope.selectedDBOutput = function(){
+    	
+    	angular.forEach(_ports, function(value,key){
+    		console.log(value.originalType[0]);
+    		if(value.shortname+"("+value.originalType[0].messageName+")" === $scope.selectedOutput){
+    			$scope.portDets.orig.value.type = value.type;
+    			$scope.portDets.orig.value.shortname = value.shortname;
+    			$scope.portDets.orig.value.fullType = value.fullType;
+    		}
+    	});
+    	/*
+		 * if($scope.selectedOutput !== null){ p.orig.value.type =
+		 * [dataBrokerOutput[$scope.selectedOutput]]; p.orig.value.fullType =
+		 * [dataBrokerOutput[$scope.selectedOutput]]; }
+		 */
+    	update_ports();
+    	dc.redrawAll();
+    	$scope.closePoup();
     }
 }
