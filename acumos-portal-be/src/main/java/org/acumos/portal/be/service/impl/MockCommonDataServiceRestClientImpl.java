@@ -1136,4 +1136,167 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 		return null;
 	}
 
+	/*@Override
+	public RestPageResponse<MLPSolution> findSolutionsByDate(boolean active, String[] accessTypeCodes,
+			String[] validationStatusCodes, Date date, RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPPeerGroup> getPeerGroups(RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPPeerGroup createPeerGroup(MLPPeerGroup peerGroup) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updatePeerGroup(MLPPeerGroup peerGroup) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletePeerGroup(Long peerGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPSolutionGroup> getSolutionGroups(RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPSolutionGroup createSolutionGroup(MLPSolutionGroup solutionGroup) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateSolutionGroup(MLPSolutionGroup solutionGroup) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteSolutionGroup(Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPPeer> getPeersInGroup(Long peerGroupId, RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addPeerToGroup(String peerId, Long peerGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropPeerFromGroup(String peerId, Long peerGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPSolution> getSolutionsInGroup(Long solutionGroupId, RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addSolutionToGroup(String solutionId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropSolutionFromGroup(String solutionId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPPeerSolAccMap> getPeerSolutionGroupMaps(RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void mapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unmapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mapPeerPeerGroups(Long principalGroupId, Long resourceGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unmapPeerPeerGroups(Long principalGroupId, Long resourceGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long checkPeerSolutionAccess(String peerId, String solutionId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<MLPPeer> getPeerAccess(String peerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPUserNotifPref createUserNotificationPreference(MLPUserNotifPref usrNotifPref) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateUserNotificationPreference(MLPUserNotifPref usrNotifPref) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUserNotificationPreference(Long userNotifPrefId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<MLPUserNotifPref> getUserNotificationPreferences(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPUserNotifPref getUserNotificationPreference(Long usrNotifPrefId) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
+
 }
