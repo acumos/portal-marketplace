@@ -597,6 +597,7 @@ angular.module('admin')
                 	  $scope.peerDetailList = val;
                 	  var url = 'api/admin/peer/subcriptions/' +  val.peerId;
                 	  $http.post(url).success(function(response){
+                		  fetchToolKitType();
                 		  $scope.subId = '';
                 		  $scope.subId = response.response_body[0].subId;
                 		  
@@ -687,15 +688,30 @@ angular.module('admin')
                     		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;
                     		  check = true;
                     	  }
+                    	  /*commented to remove the \ */
+                    	  /*
                     	  if($scope.categoryValue){
                     		  cat = '"modelTypeCode\\":\\"' +$scope.categoryValue + '\\"'
                     	  }
                     	  if($scope.toolKitTypeValue){
                     		  toolKit = '"toolKitTypeCode\\":\\"' +$scope.toolKitTypeValue 
                     	  }
-                    	  if(cat&&toolKit)var catToolkit = '"{\\' + cat + ',\\' + toolKit + '\\"}"';
-                    	  else if(cat&&!toolKit)var catToolkit = '"{\\' + cat +'}"';
-                    	  else if(!cat&&toolKit)var catToolkit = '"{\\' + toolKit + '\\"}"';
+                    	  if(cat&&toolKit){var catToolkit = '{\\' + cat + ',\\' + toolKit + '\\"}';}
+                    	  else if(cat&&!toolKit)var catToolkit = '{\\' + cat +'}';
+                    	  else if(!cat&&toolKit)var catToolkit = '{\\' + toolKit + '\\"}';
+                    	  console.log("catToolkit ",catToolkit);*/
+                    	  
+                    	  
+                    	  // new code 
+                    	  if($scope.categoryValue){
+                    		  cat = '"modelTypeCode":"' +$scope.categoryValue + '"'
+                    	  }
+                    	  if($scope.toolKitTypeValue){
+                    		  toolKit = '"toolKitTypeCode":"' +$scope.toolKitTypeValue 
+                    	  }
+                    	  if(cat&&toolKit){var catToolkit = '{' + cat + ',' + toolKit + '"}';}
+                    	  else if(cat&&!toolKit)var catToolkit = '{' + cat +'}';
+                    	  else if(!cat&&toolKit)var catToolkit = '{' + toolKit + '"}';
                     	  
                     	  console.clear();console.log($scope);
                     	  var json={"request_body": {
@@ -708,6 +724,7 @@ angular.module('admin')
                     			    	"accessType": "PB"
                     	  				}}
                     	  if(check){$scope.categoryValue='';$scope.toolKitTypeValue='';}
+                    	  console.log("json>> ",json);
                     	  var url = "api/admin/peer/subcription/create";
                           $http({
                               method : "POST",
@@ -716,6 +733,7 @@ angular.module('admin')
                           }).then(function mySuccess(response) {
                               if(response.data.response_detail ==  "Success"){
                             	  //$scope.closePoup();
+                            	  fetchToolKitType();
                             	  $scope.addedToSubs = true;
                             	  //$scope.countSubscriptions();
                       	    	/*$location.hash('myDialog');  
@@ -1254,8 +1272,17 @@ angular.module('admin')
                                         	  }else{
                                         		  $scope.freqChangeValue = ;
                                         	  }*/
-    										  
-                                    	  angular.forEach($scope.publicSolList,function(value, key) {
+                                        	  var cat,toolKit,catToolkit;
+                                        	  angular.forEach($scope.publicSolList,function(value, key) {
+                                    		  
+                                    		  cat="";toolKit ="";catToolkit="";
+                                    		  if(value.modelType){
+                                        		  cat = '"modelTypeCode":"' +value.modelType + '"'
+                                        	  }
+                                        	  if(value.tookitType){
+                                        		  toolKit = '"toolKitTypeCode":"' +value.tookitType 
+                                        	  }
+                                        	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}';
        										addAllSolObj.push(
 	    		                        				 {
 		 	    		              					  "accessType" : "PB",
@@ -1264,15 +1291,14 @@ angular.module('admin')
 		 	    		              					  "scopeType" : "FL",
 		 	    		              					  "tookitType" :value.tookitType,
 		 	    		              					  "modelType": value.modelType,
-		 	    		              					  "refreshInterval": freqChangeValue
-		 	    		              					
+		 	    		              					  "refreshInterval": freqChangeValue,
+		 	    		              					  "selector": catToolkit
 	    		                        				 }
        										) 
-       									
+       										//console.log(value);
        										});
-                                    	  console.log(angular.toJson(addAllSolObj));  
-                                        	  
-                  							/*var addAllSolObj =  $scope.publicSolList;*/
+                                    	  
+                                    	  console.log(addAllSolObj);  
                                         	  var reqAddObj = {
                                         			  "request_body": 
                                         				  addAllSolObj
@@ -1281,7 +1307,7 @@ angular.module('admin')
                   							console.log(angular.toJson(reqAddObj));
                   							apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
                     									function(response) {
-                    										
+                    										fetchToolKitType();
                     										if(response.data.response_detail ==  "Success"){
                     			                            	  $scope.addedAllToSubs = true;
                     			                            	  //$scope.countSubscriptions();
