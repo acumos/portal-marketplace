@@ -72,6 +72,7 @@ public class MLSolution {
 	private List<MLPThread> threadList ;
 	private String validationStatusCode;	
     private Long refreshInterval;
+    private String selector;
 	
 	public String getLoginName() {
 		return loginName;
@@ -483,5 +484,11 @@ public class MLSolution {
 		this.refreshInterval = refreshInterval;
 	}
 
-	
+	public String getSelector() {
+		return selector;
+	}
+
+	public void setSelector(String selector) {
+		this.selector = selector;
+	}
 }
