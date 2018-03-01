@@ -276,24 +276,14 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
         
         for (MLSolution sol : solList) {
             MLPPeerSubscription sub = new MLPPeerSubscription();
-            sub.setAccessType("PB");
+            sub.setAccessType(sol.getAccessType());
             sub.setPeerId(peerId);
-            sub.setScopeType("FL");
+            sub.setScopeType(sol.getScopeType());
             sub.setOwnerId(sol.getOwnerId());
-            if (sol.getRefreshInterval() != null)
+            sub.setSelector(sol.getSelector());
+            if (sol.getRefreshInterval() != null){
                 sub.setRefreshInterval(sol.getRefreshInterval());
-
-            String selector = "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"CP\"}";
-            
-            if (sol.getModelType() != null && sol.getTookitType()!= null)
-            {
-                String selValue = selector.replace("CL", sol.getModelType());
-                selValue = selector.replace("CP", sol.getTookitType());
-                sub.setSelector(selValue);
-            }else{
-                String selector1 = "{\"modelTypeCode\":\"\",\"toolKitTypeCode\":\"\"}";
-                sub.setSelector(selector1);
-            }        
+            }
             dataServiceRestClient.createPeerSubscription(sub);
         }
     }
