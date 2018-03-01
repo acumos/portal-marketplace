@@ -1254,8 +1254,17 @@ angular.module('admin')
                                         	  }else{
                                         		  $scope.freqChangeValue = ;
                                         	  }*/
-    										  
+                                        	  var cat,toolKit,catToolkit;
                                     	  angular.forEach($scope.publicSolList,function(value, key) {
+                                    		  
+                                    		  cat="";toolKit ="";catToolkit="";
+                                    		  if(value.modelType){
+                                        		  cat = '"modelTypeCode\\":\\"' +value.modelType + '\\"'
+                                        	  }
+                                        	  if(value.tookitType){
+                                        		  toolKit = '"toolKitTypeCode\\":\\"' +value.tookitType 
+                                        	  }
+                                        	  if(cat&&toolKit) catToolkit = '{\\' + cat + ',\\' + toolKit + '\\"}';
        										addAllSolObj.push(
 	    		                        				 {
 		 	    		              					  "accessType" : "PB",
@@ -1264,15 +1273,13 @@ angular.module('admin')
 		 	    		              					  "scopeType" : "FL",
 		 	    		              					  "tookitType" :value.tookitType,
 		 	    		              					  "modelType": value.modelType,
-		 	    		              					  "refreshInterval": freqChangeValue
-		 	    		              					
+		 	    		              					  "refreshInterval": freqChangeValue,
+		 	    		              					  "selector": catToolkit
 	    		                        				 }
        										) 
-       									
        										});
-                                    	  console.log(angular.toJson(addAllSolObj));  
-                                        	  
-                  							/*var addAllSolObj =  $scope.publicSolList;*/
+                                    	  
+                                    	  console.log(addAllSolObj);  
                                         	  var reqAddObj = {
                                         			  "request_body": 
                                         				  addAllSolObj
