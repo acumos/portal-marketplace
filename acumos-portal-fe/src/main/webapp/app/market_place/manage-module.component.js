@@ -632,8 +632,9 @@ angular
 								$scope.mlSolutionCompanyCount = 0;
 								$scope.mlSolutionDeletedCount = 0;
 							} else if(type == 'tag'){
-								tagArr.push(checkbox);
-								
+								if (tagArr.includes(checkbox))
+									tagArr = tagArr.filter(val => val != checkbox);
+								else tagArr.push(checkbox);
 							}
 							$scope.categoryFilter = caegoryArr;
 							$scope.privacyFilter = privacyUrl;
@@ -651,7 +652,7 @@ angular
 						}
 						
 						$scope.selectChip = function(index){
-							$scope.selectedChip[index] = true;
+							$scope.selectedChip[index] = !$scope.selectedChip[index];
 						};
 						
 						$scope.onClickModel = function(id, ownerId){

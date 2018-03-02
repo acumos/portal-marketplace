@@ -524,8 +524,9 @@ angular
 								 * -1);
 								 */
 							}else if(type == 'tag'){
-								tagArr.push(checkbox);
-								
+								if (tagArr.includes(checkbox))
+									tagArr = tagArr.filter(val => val != checkbox);
+								else tagArr.push(checkbox);
 							}
 
 							// $scope.categoryFilter = categoryUrl;
@@ -571,7 +572,7 @@ angular
 						}
 						
 						$scope.selectChip = function(index){
-							$scope.selectedChip[index] = true;
+							$scope.selectedChip[index] = !$scope.selectedChip[index];
 						};
 						
 						$scope.$on('scanner-started', function(event, args) {
