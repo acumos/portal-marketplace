@@ -89,14 +89,6 @@ angular
 						$scope.checkBox = [ "Private", "Shared", "Company",
 								"Public" ];
 
-						// Rest API for category
-						/*
-						 * $http({ method : 'GET', url :
-						 * '/api/filter/modeltype', }).success(function(data,
-						 * status, headers, config) { $scope.category =
-						 * data.response_body; }).error(function(data, status,
-						 * headers, config) { console.log(status); });
-						 */
 
 						apiService
 								.getModelTypes()
@@ -133,64 +125,7 @@ angular
 
 						$scope.isBusyOnLoad = false;
 						$scope.pageNumber = 0;
-						$scope.onLoad = function() {/*
-													 * ;
-													 * if($scope.isBusyOnLoad){return}
-													 * $scope.isBusyOnLoad =
-													 * true; // if(tempVar ==
-													 * "marketPlace"){ var
-													 * dataObj = {
-													 * "request_body" : { "page" :
-													 * $scope.page, "size" :
-													 * '8', "sortingOrder" :
-													 * "ASC", //"searchTerm" :
-													 * "Solution", }, }; {
-													 * "request_body": {
-													 * "modelType":
-													 * $scope.categoryFilter,
-													 * "page":
-													 * $scope.pageNumber,
-													 * "searchTerm":
-													 * $scope.searchBox,
-													 * "sortingOrder" : "ASC",
-													 * "size": 8 },
-													 * "request_from": "string",
-													 * "request_id": "string" };
-													 * console.log(angular.toJson(dataObj));
-													 * $http({ method : 'POST',
-													 * url : '/api/solutions',
-													 * data : dataObj,
-													 * }).success(function(data,
-													 * status, headers, config) {
-													 * console.log(data);
-													 * //$scope.mlsolutions =
-													 * data; $scope.mlsolutions =
-													 * data.response_body.content;
-													 * $scope.isBusy = false;
-													 * $scope.pageNumber += 1;
-													 * 
-													 * if (data.response_body ==
-													 * null) {
-													 * //$scope.noDataFound =
-													 * true } else {
-													 * console.log(data);
-													 * $scope.mlsolutions =
-													 * data.response_body.content;
-													 * $stateParams.solutionId =
-													 * $scope.mlsolutions[0].solutionId;
-													 * $sessionStorage.solutionId
-													 * =$scope.mlsolutions[0].solutionId;
-													 * console.log("sessionStorage.solutionId"+$sessionStorage.solutionId);
-													 * //$window.sessionStorage.setItem("SavedString",$scope.solutionId);
-													 * //$sessionStorage.soluId =
-													 * $scope.solutionId; }
-													 * }).error(function(data,
-													 * status, headers, config) {
-													 * console.log(status);
-													 * $scope.isBusy = false;
-													 * });
-													 * 
-													 */
+						$scope.onLoad = function() {
 							// need to be changed at the timeof commit
 							var requestObject = {
 								"request_body" : {
@@ -270,12 +205,7 @@ angular
 								$scope.isBusy = true;
 							// $scope.mlsolutions = [];
 							$scope.dataLoading = true;
-							/*
-							 * if($scope.mlsolutions.length <= counter){
-							 * $scope.nodata = true; $scope.dataLoading = false;
-							 * $scope.isBusy = true; return; }
-							 */
-							// $scope.dataLoading = false;
+
 							if($scope.searchBox!=null && $scope.searchBox!='')
 								toBeSearch[0] = $scope.searchBox;
 							
@@ -284,15 +214,7 @@ angular
 								return;
 							}
 							$scope.MlSoltionCount = false;
-							/*
-							 * dataObj = { "request_body" : { "modelType" :
-							 * $scope.categoryFilter, "activeType" : 'Y', "page" :
-							 * $scope.pageNumber, "searchTerm" : toBeSearch,
-							 * "sortingOrder" : "ASC", "sortBy":$scope.sortBy,
-							 * //"sortById":$scope.sortById, "size" : 9 },
-							 * "request_from" : "string", "request_id" :
-							 * "string" }
-							 */
+
 							var fieldToSort = {};
 							
 							if( $scope.sortBy == 'MR' ){
@@ -387,17 +309,6 @@ angular
 													solutionRating : response.data.response_body.content[i].ratingAverageTenths,
 													ownerName : response.data.response_body.content[i].ownerName,
 													ratingCount : response.data.response_body.content[i].ratingCount
-												// solutionTag
-												// :
-												// response.data.response_body.content[i].
-												// UserDefVersion:$scope.mlsolutions[i].UserDefVersion,
-												// comments:
-												// $scope.mlsolutions[i].comments,
-												// views:
-												// $scope.mlsolutions[i].view,
-												// sol_img:$scope.mlsolutions[i].sol_img,
-												// downloads:
-												// $scope.mlsolutions[i].downloads
 												});
 									}
 
@@ -441,17 +352,7 @@ angular
 													});
 								}
 
-							} /*
-								 * else { console.log(data); $scope.mlsolutions =
-								 * data.response_body.content;
-								 * $stateParams.solutionId =
-								 * $scope.mlsolutions[0].solutionId;
-								 * $sessionStorage.solutionId
-								 * =$scope.mlsolutions[0].solutionId;
-								 * console.log("sessionStorage.solutionId"+$sessionStorage.solutionId);
-								 * //$window.sessionStorage.setItem("SavedString",$scope.solutionId);
-								 * //$sessionStorage.soluId = $scope.solutionId; }
-								 */
+							}
 							if (response.data.response_body.content.length == 9) {
 								$scope.pageNumber += 1;
 							}
@@ -486,22 +387,20 @@ angular
 						var sortByUrl = '';
 						var sortByIdUrl = '';
 						var searchUrl = '';
+						var inputChangedPromise = '';
 						$scope.filterChange = function(checkbox, type) {
 							$scope.mlsolutions = [];
 							$scope.pageNumber = 0;
 							$scope.modelCount = 0;
 							$scope.isBusy = false;
-							if (type == 'solution') {
-
+					    
+							if (type == 'searchFilter') {
+								if(inputChangedPromise){
+							        $timeout.cancel(inputChangedPromise);
+							    }
+							    inputChangedPromise = $timeout($scope.loadMore(),0);
+							    return;
 							}
-							/*
-							 * else if(type == 'privacy'){ var bool = false; for
-							 * (var j=0; j<privacyArr.length; j++) { if
-							 * (privacyArr[j].match(checkbox)){
-							 * privacyArr.splice(j, 1); bool = true; break; };}
-							 * if(bool == false){ privacyArr.push(checkbox); }
-							 * console.log(privacyArr); }
-							 */
 							else if (type == 'caegory') {
 								categoryUrl = '';
 								url = '';
@@ -517,18 +416,10 @@ angular
 								if (bool1 == false) {
 									caegoryArr.push(checkbox);
 								}
-								/*
-								 * angular.forEach(caegoryArr, function(value,
-								 * key) { categoryUrl = categoryUrl + value +
-								 * ","; }); categoryUrl = categoryUrl.slice(0,
-								 * -1);
-								 */
 							}else if(type == 'tag'){
 								tagArr.push(checkbox);
-								
 							}
 
-							// $scope.categoryFilter = categoryUrl;
 							$scope.categoryFilter = caegoryArr;
 							$scope.tagFilter = tagArr;
 							if (type == 'sortBy') {
@@ -536,36 +427,6 @@ angular
 								$scope.selectedAction = checkbox.name;
 							} else if (type == 'sortById')
 								$scope.sortById = checkbox.value;
-							/*
-							 * else if(type == 'sortBy'){ sortByUrl='';url='';
-							 * $scope.sortedby = checkbox; $scope.sortBy =
-							 * checkbox; sortByUrl = "sortBy="+$scope.sortedby; }
-							 * else if(type == 'sortById'){
-							 * sortByIdUrl='';url=''; $scope.sortedbyid =
-							 * checkbox; $scope.sortById = checkbox; sortByIdUrl =
-							 * "sortById="+$scope.sortedbyid; } else if(type ==
-							 * 'searchFilter'){ url=''; if($scope.searchBox ==
-							 * ''){searchUrl='';} else {;searchUrl =
-							 * "search="+$scope.searchBox;$scope.master =
-							 * false;categoryUrl='';sortByUrl='';sortByIdUrl='';
-							 * $scope.sortedby='';$scope.sortedbyid=''} }
-							 */
-
-							/*
-							 * if(categoryUrl.length){url = categoryUrl;}
-							 * if(sortByUrl.length && $scope.sortedby){
-							 * if(url.length){url = url+'&'+sortByUrl}else url =
-							 * sortByUrl} if(sortByIdUrl.length &&
-							 * $scope.sortedbyid){ if(url.length){url =
-							 * url+'&'+sortByIdUrl}else url = sortByIdUrl}
-							 * if(searchUrl.length && $scope.searchBox){
-							 * if(url.length){url = url+'&'+searchUrl}else url =
-							 * searchUrl}
-							 * 
-							 * if(url.length){url = 'solutions?'+url;} else {url =
-							 * 'solutions';}
-							 * console.log('url');console.log(url);
-							 */
 							$scope.loadMore();
 
 						}
@@ -578,7 +439,6 @@ angular
 							$scope.pageNumber = 0;
 							$scope.searchBox = args.searchValue;
 							$scope.loadMore();
-							// do what you want to do
 						});
 
 						$scope.onClickModel = function(index, id) {

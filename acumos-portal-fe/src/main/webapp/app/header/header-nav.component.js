@@ -327,6 +327,7 @@ app.component('headerNav',{
 			if(searchText == false || searchText == undefined ) {
 				angular.element('.mdl-textfield').removeClass('is-focused');
 				angular.element('.sidebar-search-container input').val('');
+				$rootScope.valueToSearch = '';
 			}else {
 				angular.element('.mdl-textfield').addClass('is-focused');
 			}

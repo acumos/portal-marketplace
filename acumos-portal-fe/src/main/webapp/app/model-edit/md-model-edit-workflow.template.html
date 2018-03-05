@@ -110,7 +110,7 @@
 								<ul class="tabs-left">
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='onboard'}"
-										ng-click="workflowTitle = 'On-Boarding'; tab = 'onboard'">
+										ng-click="workflowTitle = 'On-Boarding'; tab = 'onboard'" title="On - Boarding">
 											<div class="managelefticon">
 												<!-- <i><img src="/images/status.PNG" alt="" title=""></i> -->
 												<i class="launcherimg"></i>
@@ -128,7 +128,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='share'}"
-										ng-click="workflowTitle = 'Share With Team'; tab = 'share'">
+										ng-click="workflowTitle = 'Share With Team'; tab = 'share'" title="Share with Team">
 											<div class="managelefticon">
 												<i class="shareimg"></i>
 											</div>
@@ -139,9 +139,10 @@
 												</ul>
 											</div>
 									</a></li>
-									<li ng-click="(solution.accessType=='OR')? getModelValidation('company'):solution.accessType;"><a href class="mdl-tabs__tab"
+									<li ng-click="(solution.accessType=='OR')? getModelValidation('company'):solution.accessType;">
+										<a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='company'}"
-										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')">
+										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')" title="Publish to Company Marketplace">
 											<div class="managelefticon">
 												<i class="companyimg"></i>
 											</div>
@@ -184,9 +185,10 @@
                                                                         </ul>
                                                                   </div>
                                                       </a></li> -->
-									<li ng-click="(solution.accessType=='PB')? getModelValidation('public'):solution.accessType;"><a href class="mdl-tabs__tab"
+									<li ng-click="(solution.accessType=='PB')? getModelValidation('public'):solution.accessType;">
+										<a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='public'}"
-										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')">
+										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')" title="Publish to Public Marketplace">
 											<div class="managelefticon">
 												<i class="publicimg"></i>
 											</div>
@@ -216,7 +218,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='cloud'}"
-										ng-click="workflowTitle = 'Export/Deploy to Cloud'; tab = 'cloud'">
+										ng-click="workflowTitle = 'Export/Deploy to Cloud'; tab = 'cloud'" title="Export / Deploy to Cloud">
 											<div class="managelefticon">
 												<i class="cloudimg"></i>
 											</div>
@@ -229,7 +231,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='viewdownload'}"
-										ng-click="workflowTitle = 'View Downloadss'; tab = 'viewdownload'">
+										ng-click="workflowTitle = 'View Downloadss'; tab = 'viewdownload'" title="View Downloads">
 											<div class="managelefticon-single">
 												<i class="viewdownimg"></i>
 											</div>
@@ -239,7 +241,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='comments'}"
-										ng-click="workflowTitle = 'Reply to Comments'; tab = 'comments'">
+										ng-click="workflowTitle = 'Reply to Comments'; tab = 'comments'" title="Reply to Comments">
 											<div class="managelefticon-single">
 												<i class="commentimg"></i>
 											</div>
@@ -249,7 +251,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='delete'}"
-										ng-click="workflowTitle = 'Delete Model'; tab = 'delete'">
+										ng-click="workflowTitle = 'Delete Model'; tab = 'delete'" title="Delete Model">
 											<div class="managelefticon-single">
 												<i class="deleteimg"></i>
 											</div>
@@ -820,7 +822,7 @@
 														</h2>
 														<!-- <h1>{{solutionCompanyDesc}} ---- {{solutionCompanyDesc.length}}</h1> -->
 														<div
-															ng-show="!solutionCompanyDescLength || solutionCompanyDesc=='' 
+															ng-show="solutionCompanyDesc=='' 
 															|| solutionCompanyDesc==null">
 															<p class="editable-desc" ng-hide="showDCKEditor">Description
 																not added. Add a description</p>
@@ -829,7 +831,7 @@
 														<p class="editable-desc" ng-hide="showDCKEditor"
 															ng-bind-html="solutionCompanyDesc" ng-show="solutionCompanyDescLength"></p>
 
-														<div ng-show="showDCKEditor">
+														<div ng-show="showDCKEditor" ng-init="previousValueCompany=solutionCompanyDesc">
 															<div class="popovers model-description">
 																<md-toolbar>
 																<div class="md-toolbar-tools">
@@ -849,7 +851,7 @@
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
 																		<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
-																		<md-button ng-click="showDCKEditor = !showDCKEditor; "
+																		<md-button ng-click="showDCKEditor = !showDCKEditor;solutionCompanyDesc=previousValueCompany"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																		Cancel </md-button>
 																		<md-button
@@ -1988,46 +1990,8 @@
 
 																					<!-- images changed for demo  -->
 																					<img
-																						ng-if="solution.name.indexOf('Predictor') < 0 
-                                                                                                                                                      && solution.name.indexOf('Threat') < 0 
-                                                                                                                                                      && solution.name.indexOf('Emotion') < 0
-                                                                                                                                                      && solution.name.indexOf('Face') < 0
-                                                                                                                                                      && solution.name.indexOf('Video') < 0
-                                                                                                                                                      && solution.name.indexOf('Chat') < 0
-                                                                                                                                                      && solution.name.indexOf('Sentiment') < 0"
 																						ng-src="{{imgURLdefault}}" class="modelimg1"
 																						style="max-width: 400px; margin: 0 auto; display: block;">
-
-																					<img
-																						ng-if="solution.name.indexOf('Predictor') > -1"
-																						ng-src="{{imgURLnull}}" class="modelimg1"
-																						style="max-width: 500px; margin: 0 auto; display: block;">
-
-																					<img ng-if="solution.name.indexOf('Threat') > -1"
-																						ng-src="{{imgURLthreat}}" class="modelimg1"
-																						style="max-width: 500px; margin: 0 auto; display: block;">
-
-																					<img ng-if="solution.name.indexOf('Emotion') > -1"
-																						ng-src="{{imgURLemotion}}" class="modelimg1"
-																						style="max-width: 500px; margin: 0 auto; display: block;">
-
-																					<img ng-if="solution.name.indexOf('Face') > -1"
-																						ng-src="{{imgURLcommercial}}" class="modelimg1"
-																						style="max-width: 300px; margin: 0 auto; display: block;">
-
-																					<img ng-if="solution.name.indexOf('Video') > -1"
-																						ng-src="{{imgURLvideo}}" class="modelimg1"
-																						style="max-width: 500px; margin: 0 auto; display: block;">
-
-																					<img ng-if="solution.name.indexOf('Chat') > -1"
-																						ng-src="{{imgURLChat}}" class="modelimg1"
-																						style="max-width: 500px; margin: 0 auto; display: block;">
-
-																					<img
-																						ng-if="solution.name.indexOf('Sentiment') > -1"
-																						ng-src="{{imgURLSensitive}}" class="modelimg1"
-																						style="max-width: 500px; margin: 0 auto; display: block;">
-
 																				</div>
 
 																				<div ng-if="solutionPublicDesc"
@@ -2606,8 +2570,7 @@
                                                                                                 date:'MM/dd/yyyy'}}</span> -->
 													</h2>
 													<div
-														ng-show="!solutionPublicDescLength || solutionPublicDesc=='' 
-                                                                                          || solutionPublicDesc==null">
+														ng-show="solutionPublicDesc=='' || solutionPublicDesc==null">
 														<p class="editable-desc" ng-hide="showCKEditor">Description
 															not added. Add a description</p>
 													</div>
@@ -2615,7 +2578,7 @@
 														<p class="editable-desc" ng-hide="showCKEditor" ng-show="solutionPublicDescLength "
 															ng-bind-html="solutionPublicDesc"></p>
 
-													<div ng-show="showCKEditor">
+													<div ng-show="showCKEditor" ng-init="previousValuePublic=solutionPublicDesc">
 														<div class="popovers model-description">
 															<md-toolbar>
 															<div class="md-toolbar-tools">
@@ -2635,7 +2598,7 @@
 																</div>
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
-																	<md-button ng-click="showCKEditor = !showCKEditor; "
+																	<md-button ng-click="showCKEditor = !showCKEditor;solutionPublicDesc=previousValuePublic"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 																	Cancel </md-button>
 																	<md-button

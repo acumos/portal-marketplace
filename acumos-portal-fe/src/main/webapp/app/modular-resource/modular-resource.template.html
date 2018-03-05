@@ -35,7 +35,7 @@
 										<span>TOOL KIT CATEGORY</span>
 									</div>
 									<div class="workflow-right-header">
-										<span>H2O</span>
+										<span>{{toolkitHeader}}</span>
 									</div>
 								</div>							
 								<div class="mdl-cell workflow-left">
@@ -53,7 +53,7 @@
                                     </ul
 													</div>
 											</a></li> -->
-											<li><a href="#share" class="mdl-tabs__tab"> 
+											<li><a href="#share" class="mdl-tabs__tab" title="H2O" ng-click="toolkitHeader='H2O'"> 
 												<div class="managelefticon">
 													 <i class="h2o"></i> 
 												</div>
@@ -64,7 +64,7 @@
                                     </ul-->
 													</div>
 											</a></li>
-											<li><a href="#company" class="mdl-tabs__tab"> 
+											<li><a href="#company" class="mdl-tabs__tab" title="TensorFlow" ng-click="toolkitHeader='TensorFlow'"> 
 												<div class="managelefticon"> 
 													<i class="tensorflow"></i> 
 												</div>
@@ -75,7 +75,7 @@
                                     </ul-->
 													</div>
 											</a></li>
-											<li><a href="#catalog" class="mdl-tabs__tab is-active">
+											<li><a href="#catalog" class="mdl-tabs__tab is-active" title="Scikit Learn" ng-click="toolkitHeader='Scikit Learn'">
 													<div class="managelefticon"> 
 														<i class="scikit-learn"></i> 
 													</div>
@@ -86,7 +86,7 @@
                                     </ul-->
 													</div>
 											</a></li>
-											<li><a href="#public" class="mdl-tabs__tab">
+											<li><a href="#public" class="mdl-tabs__tab" title="R" ng-click="toolkitHeader='R'">
 											 	<div class="managelefticon">
 											 	 	<i class="R-cloud"></i>
 											 	 </div>
@@ -97,7 +97,7 @@
                                     </ul-->
 													</div>
 											</a></li>
-											<li><a href="#cloud" class="mdl-tabs__tab"> 
+											<li><a href="#cloud" class="mdl-tabs__tab" title="Java" ng-click="toolkitHeader='Java'"> 
 											<div class="managelefticon">
 											 <i class="java"></i> 											 
 											</div>

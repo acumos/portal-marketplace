@@ -26,7 +26,7 @@
 							<div class="" >
 								<div class="sidebar-search-container">
 									<input class="searchicon" type="text" id="model-search"
-									ng-change="filterChange('searchBox','searchFilter')" ng-model="searchBox" placeholder="Search here" >									
+									ng-change="filterChange('searchBox','searchFilter')" ng-model="searchBox" placeholder="Search here"  ng-model-options="{ debounce: 2000 }">									
 								</div>
 								
 								<div class="sidebar-checkbox-container" ng-class= "autoHeight ? 'fixheightfilter' : 'autoheightfilter'">
@@ -51,19 +51,6 @@
 									   ng-click="filterChange(tag,'tag');selectChip($index)">{{tag}}</md-chip>
 									</md-chips>
 								</div>
-								
-								<!-- <div class="rowcontainer">
-									<md-chips>
-									  <md-chip>Hockey</md-chip>
-									  <md-chip>Lacrosse</md-chip>
-									  <md-chip>Baseball</md-chip>
-									  <md-chip>Cricket</md-chip>
-									</md-chips>
-								</div> -->
-								<!-- <div class="rowcontainer text-right">
-									<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="showfilter = !showfilter"	>Apply</button>
-									<hr class="hide-lg hide-xl" />
-								</div> -->
 								</div>
 								
 							</div>
