@@ -21,6 +21,7 @@
 package org.acumos.portal.be.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -1846,9 +1847,18 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 						new RestPageRequest(0, 1000));
 				mlSolutionsRest.setModelsSharedWithUser(mlpSolutionsShareRest.getContent());
 				if (mlpSolutionsShareRest != null) {
-					for (MLPSolution mlpSolution : mlpSolutionsShareRest.getContent()) {
-						filteredSolList.add(mlpSolution);
-					}
+					List<String> accessTypeCodes = pageReqPortal.getAccessTypeCodes()!= null? new ArrayList<String>(Arrays.asList(pageReqPortal.getAccessTypeCodes())) : null; 
+                    for (MLPSolution mlpSolution : mlpSolutionsShareRest.getContent()) {
+                        if(accessTypeCodes != null){
+                            if(accessTypeCodes.contains(mlpSolution.getAccessTypeCode()) && mlpSolution.isActive()){
+                                filteredSolList.add(mlpSolution);
+                            }
+                        }else {
+                            if(!mlpSolution.isActive()){
+                                filteredSolList.add(mlpSolution);
+                            }
+                        }
+                    }
 				}
 			}
 

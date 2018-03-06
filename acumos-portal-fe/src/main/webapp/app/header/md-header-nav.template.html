@@ -34,7 +34,7 @@
 				<label
 					class="mdl-button mdl-js-button mdl-button--icon search-button"
 					for="fixed-header-drawer-exp" ng-click="globalSearch(search)">
-					<i class="material-icons search-icon">search</i>
+					<i class="material-icons search-icon" alt="Search" title="Search">search</i>
 				</label>
 				<div class="mdl-textfield__expandable-holder">
 					<input class="mdl-textfield__input header-search2" type="text"
@@ -115,7 +115,7 @@
 								<label class="mdl-button mdl-js-button mdl-button--icon search-button"
 									for="fixed-header-drawer-exp1"
 									ng-click="globalSearch(searchText)"> <i
-									class="material-icons search-icon">search</i>
+									class="material-icons search-icon" alt="Search" title="Search">search</i>
 								</label>
 								<div class="mdl-textfield__expandable-holder">
 									<input class="mdl-textfield__input header-search2"
@@ -132,7 +132,7 @@
 								ng-click="openMenu($mdMenu, $event)" aria-label="Open Menu">
 							<!-- <md-icon md-menu-origin md-svg-icon="call:portable-wifi-off"></md-icon> -->
 							<span class="material-icons mdl-badge mdl-badge--overlap"
-								ng-if="$root.notificationCount < 1">notifications_none</span> <span
+								ng-if="$root.notificationCount < 1" alt="Notifications" title="Notifications">notifications_none</span> <span
 								class="material-icons mdl-badge mdl-badge--overlap"
 								data-badge="{{$root.notificationCount}}"
 								ng-if="$root.notificationCount > 0">notifications_none</span> </md-button> <md-menu-content
@@ -251,11 +251,11 @@
 						</ul> -->
 						<div class="helplink-container">
 							<a class="mdl-navigation__link" target="_blank" href="{{docUrl}}"><span
-								class="icon-header-help"></span></a>
+								class="icon-header-help" alt="Help" title="Help"></span></a>
 						</div>
 
 						<a class="mdl-navigation__link" ng-click="logout()"
-							style="cursor: pointer"><i class="material-icons">power_settings_new</i></a>
+							style="cursor: pointer"><i class="material-icons" alt="LogOut" title="LogOut">power_settings_new</i></a>
 							
 													
 							
