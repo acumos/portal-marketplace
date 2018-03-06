@@ -9,6 +9,7 @@ angular.module('admin')
 				$scope.orderByField = 'username';$scope.reverseSort = false;
 				$scope.orderByFieldFed = 'name'; $scope.reverseSortFederation = false;
 				$scope.showAllModelsTable = false;
+				$scope.verify = true;
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
 			//Frequency of update
@@ -26,7 +27,20 @@ angular.module('admin')
 					'name': 'Update on demand',
 					'value': '0'
 				}]
-			
+			//Verify check for url in add peer popup
+			$scope.verifyUrl= function(apiUrlPop){debugger;
+				$scope.verify = false;
+				$scope.verified = !$scope.verified ;
+			}
+			//Browse catelog when category and toolkitype selected
+			$scope.browseForCatTool =function(){
+				//allModelsTable && (allSubs == 'true') && showAllModelsTable
+				console.log($scope.allModelsTable );
+				//$scope.allModelsTable = 'true';
+				//$scope.allSubs  = 'true';
+				$scope.showAllModelsTable = true;
+				$scope.allModelsTable = !$scope.allModelsTable
+			}
 			//Hard coded (delete it)
 			/*$scope.subscription = [{
 			       "requestId": "REQID 12345680",

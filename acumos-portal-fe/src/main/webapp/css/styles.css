@@ -489,7 +489,7 @@ transition: box-shadow 0.3s ease-in-out;
 .header-stats .header-stat-star .material-icons {width: 25px;}
 .header-stat-lg{display: none; }
 
-.fixheightfilter {max-height: 175px; overflow:hidden;}
+.fixheightfilter {max-height: 180px; overflow:hidden;}
 .autoheightfilter {overflow:hidden;} 
 .link-write-comments {line-height: 25px;}
 
@@ -784,7 +784,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .rating-container1 {width: 175px;float:right;}
 .rating-container1 div {margin-bottom: 5px; margin-top: 5px;}
 .progress-wrapper {display: flex; margin-bottom: 10px;}
-.progress-wrapper span { width: 70px;position:relative; top:-2px;}
+.progress-wrapper span { width: 45px;position:relative; top:-2px;}
 .progress-wrapper span:first-child { display: none;}
 
 .star-rating-title {font-size:36px; line-height: 41px;font-weight:600;margin-right: 5px;}
@@ -1250,6 +1250,15 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 .admin-lbl-item1 {order:1; width: auto !important;}
 .admin-lbl-item2 {order:2; position:relative; top: -2px;}
 
+.btn-fed1 { height: 35px; color: #0366d6;position:relative; top: 2px; }
+.red-btn {color: #ff0000;}
+.green-btn {color: #009900;}
+
+.fed-container1 {display:flex; flex-wrap:nowrap;justify-content: space-between;margin-right: 0 !important;}
+.fed-container2 {display:flex; flex-wrap:nowrap;justify-content: flex-end;align-items: center;}
+.fed-container2 .mdl-button { width: 100%;}
+.fed-err-msg {position:absolute;width: 350px;margin-top: -17px;}
+.fed-err-msg span {position:relative; margin-left: 2px; line-height: 15px !important;}
 /********** Admin page Federation modal box style **********/
 .fedration-subscription {max-height: 80%;width: 750px;}
 
@@ -1394,6 +1403,7 @@ header.header-without-login .mdl-layout__header-row {padding:0;align-items:stret
 .downloadlbl1 {display: block; max-width: 200px; text-overflow:ellipsis; float: left; overflow: hidden;}
 .downloadlbl2 {clear: both; display: block; width: 100%;}
 .text-green {color: #009900;}
+.text-red {color: #ff0000;}
 .req-star {color: #ff0000; margin-right: 4px;}
 .disabledLink{pointer-events: none;}
 
@@ -1608,7 +1618,7 @@ table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed
 .n-rating1 .jk-rating-stars-container {position:relative; top: 3px;}
 .ratingtxt1 {font-size: 11px;float: left; position: relative; top: -7px;margin-left: 19px;}
 .ratingtxt2 {display: block; clear:both; width: 100%;}
-.rating-container-right .progress-wrapper .progress {width: 200px; margin-right: 15px;margin-left: 10px;}
+.rating-container-right .progress-wrapper .progress {width: 180px; margin-right: 15px;margin-left: 10px;}
 
 .discussion-lbl1 {font-size: 11px; margin-bottom: 6px; display:block;}
 .reviews-ratings-container {position:relative; left:-5px;}
@@ -1657,7 +1667,7 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
 .borker-row > div:first-child  > div > input:first-child {width: 200px;}
 .borker-row > div:first-child  > div > input:last-child {width: 100px;}
 .broker-heading {margin-top: 0 !important;} 
-.broker-dialog-footer {margin-top: 5px;}
+
 
 .ratethis-container .jk-rating-stars-container {width: 175px; margin: 5px auto 0 auto;}
 .ratethis-container .star-button .material-icons {font-size: 30px;}
@@ -1666,10 +1676,27 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
 .dialog-footer-container1 {display:flex; justify-content: space-between;width: 100%;}
 .dialog-footer-container1 .mdl-button {margin:0; }
 
-/**** my model disable arrow ***/ 
-.disabledClick {
-       pointer-events: none;
-}
+.ud-change-photo {width: 400px; max-height: 80% !important;}
+.ud-change-password {width: 450px; max-height: 80% !important;}
+md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
+
+/**** Build for ONAP style starts ****/
+.onap-section {padding: 0 15px !important;}
+.onap-title {font-size: 14px; border-bottom:1px solid rgba(0,0,0,0.12);margin-top: 5px;padding-bottom: 10px !important; height: 30px;font-weight: 600;font-family: 'Open Sans', sans-serif;}
+.onap-steps-container {display:flex; flex-wrap:nowrap; justify-content: space-around; align-items: flex-start;}
+.onap-steps-container > div {text-align:center; max-width: 100px; }
+.steps-dots {width: 32px;height:11px; background: url("../images/dashboard/stepper_progress.png") no-repeat left center;position:relative; top: 32px;}
+.steps-dots.completed {background-image: url("../images/dashboard/stepper_progress_completed.png") }
+.onap-step { width: 75px; height: 75px; margin:0 auto 10px auto; border: 3px solid #fff; background-color: #EBEBEB; border-radius: 50%; }
+.onap-step.completed {border-color: #009901; background-color: #fff;}
+
+.onap-steps-outer-container {}
+.onap-steps-inner-container { padding: 15px 10px;}
+
+.add-to-catalog-container {padding-left: 40px;}
+.onap-link1 {font-size: 13px;position:relative; top: 8px;display:flex; align-items: center;}
+.onap-link1 .material-icons { margin-left: 5px;}
+/**** Build for ONAP style end ****/
 
 /*********** MEDIA QUERIES SECTION START************/
 
@@ -1972,5 +1999,3 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
     #btn_header {position: relative; top: 1px;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
-
-

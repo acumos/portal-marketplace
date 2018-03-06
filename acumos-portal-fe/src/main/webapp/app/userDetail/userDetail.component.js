@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-		.module('userDetail', [ 'ui.bootstrap' ])
+		.module('userDetail', [ 'ui.bootstrap' , 'ngFileUpload'])
 		.directive(
 				'uploadImageModel',
 				function($parse) {

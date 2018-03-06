@@ -384,15 +384,21 @@
 				<div class="ud-row">
 					<div>
 						<!-- <label>Upload Photo</label> -->
-						<input type="file" upload-image-model="userImage" data-ng-model="userImage"
+						<!-- <input type="file" upload-image-model="userImage" data-ng-model="userImage"
 							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
-							id="userImage">
+							id="userImage"> -->
+							
+							<input type="file" ngf-select ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
+             					accept="image/*" ngf-max-size="0.8MB" required
+             					ngf-model-invalid="errorFile" />
+							
 					</div>
 
 				</div>
 				<span>JPG, GIF or PNG. Max size of 800KB</span>
 				<!-- <div ng-show="imageError" class="validationmsg validation-msgs"><span>Invalid Image</span></div> -->
-				<div class="help-inline validation-msgs"><span ng-show = "imageError">Invalid Image.</span></div>
+				<!-- <div class="help-inline validation-msgs"><span ng-show = "imageError">Invalid Image.</span></div> -->
+				<div class="help-inline validation-msgs"><span ng-show="uploadImage.fileNew.$error.maxSize">Invalid Image.</span></div>
 				</md-input-container>
 			</div>
 		</div>
@@ -401,7 +407,7 @@
 		<md-button ng-click="closePoup();"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
 		Cancel </md-button> <!--enableUploadBtn  -->
-		<md-button ng-click="uploadImg()" ng-disabled="!userImage"
+		<md-button ng-click="uploadImg()" ng-disabled="uploadImage.fileNew.$invalid || uploadImage.fileNew.$untouched"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
 		Upload </md-button>
 	</div>

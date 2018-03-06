@@ -1428,7 +1428,7 @@
 									<md-dialog-content>
 									  <div class="md-dialog-content">	
 										<div layout="row" class="admin-grid1">
-										  <div flex="50">
+										  <div flex="40">
 										    <md-input-container class="md-block" flex-gt-sm>
 												<label>Peer Name</label> 
 												<input type="text" name='peerName' required ng-model='peerNamePop'/> 
@@ -1440,34 +1440,45 @@
 												<input type="text"  required ng-model='subNamePop'/> 
 											</md-input-container>
 										  </div> -->
-										  <div flex="50">
+										  <div flex="40">
 										   	<md-input-container class="md-block" flex-gt-sm>
 												<label>Peer Admin Email</label> 
 												<input type="text"  required ng-model='emailIdPop' ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"/> 
 											</md-input-container>
 										  </div>
+										  <div flex="20">
+										  </div>
 										</div>										
 										<h6 class="sectiontitle">Gateway Information</h6>
 										<div layout="row" class="admin-grid1">
-										<div flex="50">
+										<div flex="40">
 										   	<md-input-container class="md-block" flex-gt-sm>
 												<!-- <label>Subject Name</label> --> 
 												<div class="admin-lbl-container-1"><label class="admin-lbl-item1">Server FQDN</label> <a data-target class="admin-help-link admin-lbl-item2" title="Server FQDN"><i class="material-icons">help</i></a></div>
 												<input type="text"  required ng-model='subNamePop'/> 
 											</md-input-container>
 										  </div>
-										  <div flex="50">
-										    <md-input-container class="md-block" flex-gt-sm>
-												<label>API Url</label> 
-												<input type="text"  required ng-model='apiUrlPop'/> 
-											</md-input-container>
+										   <div flex="40" layout="column" class="">
+										  	<div class="fed-container1">
+											    <md-input-container class="md-block" flex-gt-sm>
+													<label>API Url</label> 
+													<input type="text"  required ng-model='apiUrlPop'/> 
+												</md-input-container>												
+											</div>
+											<div class="fed-err-msg" ng-if="!verified&&!verify">
+													<span class="disblock text-red text-xsmall">Error-01-Host unreachable:Network error Please check your URL.</span>
+													<span class="disblock text-red text-xsmall">Error-02-Action denied:Peer mat not have completed handshake.</span>
+											</div>
+											<div class="fed-err-msg" ng-if="verified&&!verify">
+													<span class="disblock text-green text-xsmall">Connection is settled successfully with your peer.</span>
+											</div>
 										  </div>
-										  <!-- <div flex="50">
-										   	<md-input-container class="md-block" flex-gt-sm>
-												<label>Web Url</label> 
-												<input type="text"  required ng-model='webUrlPop'/> 
-											</md-input-container>
-										  </div> -->										  
+										  <div flex="20" class="fed-container2">
+										  <label class="disblock">&nbsp;</label> 
+										  		<button class="mdl-button mdl-js-button btn-secondary btn-fed1" ng-disabled="!apiUrlPop" ng-click="verifyUrl(apiUrlPop)" ng-if="verify">Verify</button>
+												<button flex class="mdl-button mdl-js-button btn-secondary btn-fed1 red-btn" ng-click="verifyUrl(apiUrlPop)" ng-if="!verified&&!verify">Not Verified</button>
+												<button flex class="mdl-button mdl-js-button btn-secondary btn-fed1 green-btn" ng-click="verifyUrl(apiUrlPop)" ng-if="verified&&!verify">Verified</button>
+										  </div>										 										  
 										</div>
 										<div layout="row">
 										  <div flex="100">
@@ -1751,6 +1762,7 @@
 																	     
 																	</div>
 																</td>
+																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="browseForCatTool()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Browse Remote Catalog</button></td>
 																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
 																<td ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
@@ -1771,7 +1783,7 @@
 														</div>
 													</div>
 
-													<div class="fedgridcontainer" ng-show="allModelsTable && (allSubs == 'true') && showAllModelsTable">
+													<div class="fedgridcontainer" ng-show="allModelsTable &&  showAllModelsTable">
 														<!-- <div>														
 															<div class="select-control">
 													        	<md-select ng-model="freqOfUpdate" placeholder="Select Frequency of update">
