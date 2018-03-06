@@ -28,7 +28,7 @@
 							<md-tab label="Solutions"> 
 							<div class="ds-contentsection1">
 										<md-input-container md-no-float class="md-block ds-search-input">
-										<input ng-model="myFilter" type="text"> <md-icon
+										<input ng-model="myFilter.solutionName" type="text"> <md-icon
 											style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
@@ -45,7 +45,7 @@
 								
 									<!-- <p>Tab 2</p> -->
 									<ul class="ds-list3">
-									<li ng-repeat="val in publicCS | filter:myFilter" ng-click="loadSolution(val)"><label>{{val.solutionName}}</label></li>
+									<li ng-repeat="val in publicCS | filter:myFilter | orderBy:'solutionName'" ng-click="loadSolution(val)"><label>{{val.solutionName}}({{val.version}})</label></li>
 									</ul>
 									<!-- <div class="form-group"><label for="usr">Name:</label><input type="text" class="form-control" id="usr" ng-model="solutionName"></div>
 									<div class="form-group"><label for="usr">Description:</label><input ng-model="solutionDescription" type="text" class="form-control" id="usr" ng-model="solutionName"></div>
