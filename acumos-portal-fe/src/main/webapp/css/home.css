@@ -71,7 +71,7 @@ position:relative;
 .hasClass.initialVal .discover, .discover{background-image:url("../images/Homepage_brain.png"); background-repeat:no-repeat; background-position:center 80px; min-height:528px; position:relative; /* width: 100%; */ width:1280px; margin: 0 auto 20px;}
 .discover h3, .explore h3{text-align:center; text-align:center; color:#000; margin-bottom:0px; font-size:36px; font-weight:normal;}
 .discover > .marketplace, .hasClass.initialVal .discover > .marketplace{color:#f49419; width:395px; position:absolute; right:60px; top: 60px; }
-.discover .discover-icon{width:60px; height:59px; float:left;}
+.discover .discover-icon{width:60px; height:59px; float:left; cursor:pointer;}
 .discover .discover-icon img{width:100%;}
 .discover .discover-description, .hasClass.initialVal .discover .discover-description{float: left; padding: 0 0 0 0;}
 .initialVal .discover .discover-description{padding: 0 0 0 15px;}

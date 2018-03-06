@@ -110,7 +110,7 @@
 								<ul class="tabs-left">
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='onboard'}"
-										ng-click="workflowTitle = 'On-Boarding'; tab = 'onboard'" title="On - Boarding">
+										ng-click="workflowTitle = 'On-Boarding'; tab = 'onboard'" alt="On - Boarding" title="On - Boarding">
 											<div class="managelefticon">
 												<!-- <i><img src="/images/status.PNG" alt="" title=""></i> -->
 												<i class="launcherimg"></i>
@@ -128,7 +128,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='share'}"
-										ng-click="workflowTitle = 'Share With Team'; tab = 'share'" title="Share with Team">
+										ng-click="workflowTitle = 'Share With Team'; tab = 'share'" alt="Share with Team" title="Share with Team">
 											<div class="managelefticon">
 												<i class="shareimg"></i>
 											</div>
@@ -142,7 +142,7 @@
 									<li ng-click="(solution.accessType=='OR')? getModelValidation('company'):solution.accessType;">
 										<a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='company'}"
-										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')" title="Publish to Company Marketplace">
+										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')" alt="Publish to Company Marketplace" title="Publish to Company Marketplace">
 											<div class="managelefticon">
 												<i class="companyimg"></i>
 											</div>
@@ -188,7 +188,7 @@
 									<li ng-click="(solution.accessType=='PB')? getModelValidation('public'):solution.accessType;">
 										<a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='public'}"
-										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')" title="Publish to Public Marketplace">
+										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')" alt="Publish to Public Marketplace" title="Publish to Public Marketplace">
 											<div class="managelefticon">
 												<i class="publicimg"></i>
 											</div>
@@ -218,7 +218,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='cloud'}"
-										ng-click="workflowTitle = 'Export/Deploy to Cloud'; tab = 'cloud'" title="Export / Deploy to Cloud">
+										ng-click="workflowTitle = 'Export/Deploy to Cloud'; tab = 'cloud'" alt="Export / Deploy to Cloud" title="Export / Deploy to Cloud">
 											<div class="managelefticon">
 												<i class="cloudimg"></i>
 											</div>
@@ -231,7 +231,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='viewdownload'}"
-										ng-click="workflowTitle = 'View Downloadss'; tab = 'viewdownload'" title="View Downloads">
+										ng-click="workflowTitle = 'View Downloadss'; tab = 'viewdownload'" alt="View Downloads" title="View Downloads">
 											<div class="managelefticon-single">
 												<i class="viewdownimg"></i>
 											</div>
@@ -241,7 +241,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='comments'}"
-										ng-click="workflowTitle = 'Reply to Comments'; tab = 'comments'" title="Reply to Comments">
+										ng-click="workflowTitle = 'Reply to Comments'; tab = 'comments'" alt="Reply to Comments" title="Reply to Comments">
 											<div class="managelefticon-single">
 												<i class="commentimg"></i>
 											</div>
@@ -251,7 +251,7 @@
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='delete'}"
-										ng-click="workflowTitle = 'Delete Model'; tab = 'delete'" title="Delete Model">
+										ng-click="workflowTitle = 'Delete Model'; tab = 'delete'" alt="Delete Model" title="Delete Model">
 											<div class="managelefticon-single">
 												<i class="deleteimg"></i>
 											</div>
@@ -525,7 +525,7 @@
                                                                         Share</button> -->
 											<button ng-click="shareWithMultiple();"
 												ng-disabled="selectedGroups.length < 1"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Share" title="Share">
 												Share</button>
 										</div>
 									</div>
@@ -541,7 +541,7 @@
 										<li>
 											<div class="imageplace"
 												ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
-												<span class="imagecontent model-documentation"> <!-- <img
+												<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation"> <!-- <img
                                                                               src="images/ico_model_documentation.png" alt="" title=""> -->
 												</span>
 											</div>
@@ -552,7 +552,7 @@
 										</li>
 										<li ng-show = "scShow">
 											<div class="imageplace">
-												<span class="imagecontent security-scan">
+												<span class="imagecontent security-scan" alt="Security scan" title="Security scan">
 												</span>
 											</div>
 											<md-tooltip>{{errorSS}}</md-tooltip>
@@ -570,7 +570,7 @@
 										<li ng-show = "lcShow">
 											<div class="imageplace"
 												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' , 'incomplet': lcValidationStatus.validationStatus == 'FA' && lcValidationStatus.validationType == 'LC'}">
-												<span class="imagecontent license-check">
+												<span class="imagecontent license-check" alt="License Check" title="License Check">
 												</span>
 											</div>
 											<md-tooltip>{{errorLC}}</md-tooltip>
@@ -588,7 +588,7 @@
                                                             <li class="progress-status"  ng-class="{'green': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}"></li> -->
 										<li ng-show = "tcShow">
 											<div class="imageplace">
-												<span class="imagecontent text-check"> <!-- <img
+												<span class="imagecontent text-check" alt="Text Check" title="Text Check"> <!-- <img
                                                                               src="images/text-check.png" alt="" title=""> -->
 												</span>
 											</div>
@@ -598,7 +598,7 @@
 										<li class="progress-status" ng-show = "tcShow"></li>
 										<li>
 											<div class="imageplace">
-												<span class="imagecontent yet-not-publish">
+												<span class="imagecontent yet-not-publish" al="Not yet published" title="Not yet published">
 												</span>
 											</div>
 											<div class="publshbutton hide">
@@ -664,8 +664,8 @@
 										<!-- company -->
 										<span>( {{statusCount}}/6 Completed )</span>
 										<div class="pull-right">
-											<button ng-click="showPrerenderedDialog($event)"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ">
+											<button ng-click="showPrerenderedDialog($event);publicPreview=false;"
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary " alt="Preview Model" title="Preview Model">
 												Preview Model</button>
 										</div>
 									</h6>
@@ -807,7 +807,7 @@
 														<h2>
 															<a
 																ng-click="showDCKEditor = !showDCKEditor; copiedCompanyDesc = false;
-																closeOtherPopovers( 'showDCKEditor', showDCKEditor )">Model
+																closeOtherPopovers( 'showDCKEditor', showDCKEditor );previousValueCompany=solutionCompanyDesc;">Model
 																Description </a> |
 															<!-- <span class="red">Not Started</span> -->
 															<span class="green"
@@ -831,7 +831,7 @@
 														<p class="editable-desc" ng-hide="showDCKEditor"
 															ng-bind-html="solutionCompanyDesc" ng-show="solutionCompanyDescLength"></p>
 
-														<div ng-show="showDCKEditor" ng-init="previousValueCompany=solutionCompanyDesc">
+														<div ng-show="showDCKEditor">
 															<div class="popovers model-description">
 																<md-toolbar>
 																<div class="md-toolbar-tools">
@@ -882,7 +882,7 @@
 																<option value="">-- Version --</option>
 															</select>
 															<md-button ng-click="copyFromOtherRevision('org'); "
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 															Copy </md-button>
 														</div>
 														</p>
@@ -1197,7 +1197,7 @@
 																<option value="">-- Version --</option>
 															</select>
 															<md-button ng-click="copyDocsFromOtherRevision('org'); "
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 															Copy </md-button>
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
@@ -1672,13 +1672,13 @@
 									<div class="">
 										<button ng-click="publishtoMarket('OR')"
 											ng-disabled="activePublishBtn == false"
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 											Submit to Publication</button>
 										<button
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
-											ng-click="showPrerenderedDialog($event)">Preview
+											ng-click="showPrerenderedDialog($event);publicPreview=false;" alt="Preview Model" title="Preview Model">Preview
 											Model</button>
-
+ 
 										<!-- preview in Modal box start -->
 
 
@@ -1994,9 +1994,9 @@
 																						style="max-width: 400px; margin: 0 auto; display: block;">
 																				</div>
 
-																				<div ng-if="solutionPublicDesc"
+																				<div ng-if="publicPreview"
 																					ng-bind-html="solutionPublicDesc"></div>
-																				<div ng-if="!solutionPublicDesc"
+																				<div ng-if="!publicPreview"
 																					ng-bind-html="solutionCompanyDesc"></div>
 
 
@@ -2327,7 +2327,7 @@
 									<li>
 										<div class="imageplace"
 											ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
-											<span class="imagecontent model-documentation">
+											<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation">
 											</span>
 										</div>
 										<div class="text">Model Documentation</div>
@@ -2337,7 +2337,7 @@
 									</li>
 									<li ng-show = "scShow">
 										<div class="imageplace">
-											<span class="imagecontent security-scan">
+											<span class="imagecontent security-scan" alt="Security Scan" title="Security Scan">
 											</span>
 										</div>
 										<md-tooltip>{{errorSS}}</md-tooltip>
@@ -2347,7 +2347,7 @@
 										ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}"></li>
 									<li ng-show = "lcShow">
 										<div class="imageplace ">
-											<span class="imagecontent license-check">
+											<span class="imagecontent license-check" alt="License Check" title="License Check">
 											</span>
 										</div>
 										<md-tooltip>{{errorLC}}</md-tooltip>
@@ -2357,7 +2357,7 @@
 									<!-- <li>
                                                                   <div class="imageplace" ng-class="{'active': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}">
                                                                         <span class="imagecontent"> <img
-                                                                              src="images/verify-model.png" alt="" title="">
+                                                                              src="images/verify-model.png" alt="Verify Model" title="Verify Model">
                                                                         </span>
                                                                   </div>
                                                                   <div class="text">Verify Model</div>
@@ -2365,7 +2365,7 @@
                                                             <li class="progress-status" ng-class="{'green': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}"></li> -->
 									<li ng-show = "tcShow">
 										<div class="imageplace">
-											<span class="imagecontent text-check"> <!-- <img
+											<span class="imagecontent text-check" alt="Text Check" title="Text Check"> <!-- <img
                                                                               src="images/text-check.png" alt="" title=""> -->
 											</span>
 										</div>
@@ -2375,7 +2375,7 @@
 									<li class="progress-status" ng-show = "tcShow"></li>
 									<li>
 										<div class="imageplace">
-											<span class="imagecontent yet-not-publish">
+											<span class="imagecontent yet-not-publish" alt="Not yet published" title="Not yet published">
 											</span>
 										</div>
 										<div class="publshbutton hide">
@@ -2413,8 +2413,8 @@
 									Steps To Submit Publication <span>( {{pbstatusCount}}/6
 										Completed )</span>
 									<div class="pull-right">
-										<button ng-click="showPrerenderedDialog($event)"
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ">
+										<button ng-click="showPrerenderedDialog($event);publicPreview=true;"
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary " alt="Preview Model" title="Preview Model">
 											Preview Model</button>
 									</div>
 								</h6>
@@ -2556,7 +2556,7 @@
 												<div class="timeline-label">
 													<h2>
 														<a
-															ng-click="showCKEditor = !showCKEditor; copiedPublicDesc = false; ; closeOtherPopovers( 'showCKEditor', showCKEditor )">Model
+															ng-click="showCKEditor = !showCKEditor; copiedPublicDesc = false;closeOtherPopovers( 'showCKEditor', showCKEditor );previousValuePublic=solutionPublicDesc;">Model
 															Description</a> |
 														<!-- <span class="red">Not Started</span> -->
 														<span class="green"
@@ -2578,7 +2578,7 @@
 														<p class="editable-desc" ng-hide="showCKEditor" ng-show="solutionPublicDescLength "
 															ng-bind-html="solutionPublicDesc"></p>
 
-													<div ng-show="showCKEditor" ng-init="previousValuePublic=solutionPublicDesc">
+													<div ng-show="showCKEditor">
 														<div class="popovers model-description">
 															<md-toolbar>
 															<div class="md-toolbar-tools">
@@ -2630,7 +2630,7 @@
 															<option value="">-- Version --</option>
 														</select>
 														<md-button ng-click="copyFromOtherRevision('public'); "
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 														Copy </md-button>
 													</div>
 													</p>
@@ -2935,7 +2935,7 @@
 														</select>
 														<md-button
 															ng-click="copyDocsFromOtherRevision('public'); "
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 														Copy </md-button>
 													</div>
 													<div class="checkbox" ng-if="!showPublicSolutionDocs">
@@ -3335,11 +3335,11 @@
 								<div class="">
 									<button ng-click="publishtoMarket('PB')"
 										ng-disabled="activePublishBtnPB == false"
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
+										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 										Submit to Publication</button>
 									<button
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
-										ng-click="showPrerenderedDialog($event)">Preview
+										ng-click="showPrerenderedDialog($event);publicPreview=true;" alt="Preview Model" title="Preview Model">Preview
 										Model</button>
 								</div>
 								<div class="clearfix"></div>

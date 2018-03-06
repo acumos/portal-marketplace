@@ -23,43 +23,43 @@
 										    <div class="mdl-cell md-left-container">
 												<span class="admin-title">Dashboard Options</span>
 											      <div class="mdl-tabs__tab-bar">
-											         <a href="#tab1-panel" ng-click='menuName = "Monitoring"' class="mdl-tabs__tab is-active">
+											         <a href="#tab1-panel" ng-click='menuName = "Monitoring"' class="mdl-tabs__tab is-active" alt="Monitoring" title="Monitoring">
 											      	     <span class="tab-box"> 
 															<span class="tab-icons tab-monitoring"></span>
 															<span>Monitoring</span>
 														 </span>
 											         </a>
-											         <a href="#tab2-panel" ng-click='menuName = "User Management"' class="mdl-tabs__tab">
+											         <a href="#tab2-panel" ng-click='menuName = "User Management"' class="mdl-tabs__tab" alt="User Management" title="User Management">
 											      	      <span class="tab-box"> 
 															<span class="tab-icons tab-user_management"></span>
 															<span>User Management</span>
 														 </span>
 											          </a>
-											          <a href="#tab3-panel" class="mdl-tabs__tab">
+											          <a href="#tab3-panel" class="mdl-tabs__tab" alt="Site Content" title="Site Content">
 											      	      <span class="tab-box"> 
 															<span class="tab-icons tab-site_content"></span>
 															<span>Site Content</span>
 														 </span>
 											          </a>
-													  <a href="#tab4-panel" ng-click='menuName = "Site Configuration"' class="mdl-tabs__tab">
+													  <a href="#tab4-panel" ng-click='menuName = "Site Configuration"' class="mdl-tabs__tab" alt="Site Configuration" title="Site Configuration">
 											      	      <span class="tab-box"> 
 															<span class="tab-icons tab-site_configuration"></span>
 															<span>Site Configuration</span>
 														 </span>
 											          </a>
-													  <a href="#tab5-panel"  ng-click='menuName = "Federation"'  class="mdl-tabs__tab ">
+													  <a href="#tab5-panel"  ng-click='menuName = "Federation"'  class="mdl-tabs__tab" alt="Federation" title="Federation">
 											      	      <span class="tab-box"> 
 															<span class="tab-icons tab-federation"></span>
 															<span>Federation</span>
 														 </span>
 											          </a>
-													  <a href="#tab6-panel"  ng-click='menuName = "Requests"'  class="mdl-tabs__tab">									      	     
+													  <a href="#tab6-panel"  ng-click='menuName = "Requests"'  class="mdl-tabs__tab" alt="Requests" title="Requests">									      	     
 											            	<span class="tab-box"> 
 															<span class="tab-icons tab-subscription_requests"></span>
 															<span>Requests</span>
 														 </span>
 											          </a>
-													  <a href="#tab7-panel" ng-click='menuName = "Validation"' class="mdl-tabs__tab">									      	     
+													  <a href="#tab7-panel" ng-click='menuName = "Validation"' class="mdl-tabs__tab" alt="Configure Workflows" title="Configure Workflows">									      	     
 											            	<span class="tab-box"> 
 															<span class="tab-icons tab-validation"></span>
 															<span>Configure Workflows</span>
@@ -145,8 +145,8 @@
 													<div class="admin-box1 admin-tab-heading">
 														<span class="admin-title2">User Management</span>
 														<span>
-															<button class="mdl-button mdl-js-button btn-secondary" ng-click='showPopup()'><span class="admin-btn-add"></span> Add New User</button>
-															<button class="mdl-button mdl-js-button btn-secondary" ng-click='addNewRole()'><span class="admin-btn-add"></span> Add New Role</button>
+															<button class="mdl-button mdl-js-button btn-secondary" ng-click='showPopup()' alt="Add New User" title="Add New User"><span class="admin-btn-add"></span> Add New User</button>
+															<button class="mdl-button mdl-js-button btn-secondary" ng-click='addNewRole()' alt="Add New Role" title="Add New Role"><span class="admin-btn-add"></span> Add New Role</button>
 														</span>
 													</div>
 													<div class="admin-container-row2">
@@ -186,7 +186,7 @@
 																	</md-select>
 															</div>
 														</div>
-														<button ng-click='functionCall = "deleteValue";addRoleFuncConfirm();confirmFuncMsg = "delete"' ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary">Apply</button>
+														<button ng-click='functionCall = "deleteValue";addRoleFuncConfirm();confirmFuncMsg = "delete"' ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary" alt="Apply" title="Apply">Apply</button>
 														<div class="ver-seperator"></div> 
 														<div>															
 															<div class="note-btn-container">
@@ -206,7 +206,7 @@
 																</md-select>
 															</div>		
 														</div> 
-														<button ng-click='functionCall = "updateValue";addRoleFuncConfirm();confirmFuncMsg = "update"'  ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary">Change</button>
+														<button ng-click='functionCall = "updateValue";addRoleFuncConfirm();confirmFuncMsg = "update"'  ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary" alt="Change" title="Change">Change</button>
 														</div>
 														<!-- <div class="ver-seperator"></div> -->
 														<div>
@@ -441,7 +441,7 @@
 															<br />	
 																<div class="text-right admin-sccontainer1">
 																<button type="submit" id="submit" 
-																class="mdl-button mdl-js-button btn-primary">Submit</button>
+																class="mdl-button mdl-js-button btn-primary" alt="Submit" title="Submit">Submit</button>
 															</div>	
 															
 															
@@ -457,7 +457,7 @@
 															
 														</div>
 														<div class="admin-switch-container">
-														<button class="mdl-button mdl-js-button btn-secondary btn-with-icon" ng-click='showPopupPeer();addEditPeer = "add";peerNamePop="";subNamePop="";emailIdPop="";apiUrlPop="";webUrlPop="";descriptionPop="";itsEdit = false;'><span class="admin-btn-add"></span> Add Peer</button>
+														<button class="mdl-button mdl-js-button btn-secondary btn-with-icon" ng-click='showPopupPeer();addEditPeer = "add";peerNamePop="";subNamePop="";emailIdPop="";apiUrlPop="";webUrlPop="";descriptionPop="";itsEdit = false;' alt="Add Peer" title="Add Peer"><span class="admin-btn-add"></span> Add Peer</button>
 															<span class="admin-title3">| Federation</span>
 															 <md-switch ng-model="data.cb1" aria-label="Switch 1" class="md-warn">
 																<span class="text-xsmall text-green" ng-show="data.cb1 == true">Enabled</span>
@@ -469,7 +469,7 @@
 																off
 															  </md-switch> -->
 
-															<a data-target class="admin-help-link"><i class="material-icons">help</i></a>
+															<a data-target class="admin-help-link" alt="Help" title="Help"><i class="material-icons">help</i></a>
 														</div>
 													</div>
 													
@@ -568,7 +568,7 @@
                                         <h2>{{warningMsg}}</h2>
                                         <span flex></span>
                                         <md-button class="md-icon-button" ng-click="closePoup()">
-                                          <i class="material-icons">close</i>
+                                          <i class="material-icons" alt="Close" title="Close">close</i>
                                         </md-button>
                                       </div>
                                     </md-toolbar>
@@ -578,10 +578,10 @@
                                         <p>{{confirmMsg}}</p>
                                         <hr />
                                          <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
                                             Cancel
                                           </md-button>
-                                          <md-button ng-click="deletePeerFunc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+                                          <md-button ng-click="deletePeerFunc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Confirm" title="Confirm">
                                             Confirm
                                           </md-button>
                                         </div>                                
@@ -675,8 +675,8 @@
 																	<td>
 																		<div class="admin-action-container">
 																			<!-- <button class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-activate"></span></button> -->
-																			<button ng-disabled='val.status=="approve" || val.status=="deny"' ng-click='appDelRequest(val,"approve")' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-approve"></span></button>
-																			<button ng-disabled='val.status=="approve" || val.status=="deny"' ng-click='appDelRequest(val,"deny")' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-deny"></span></button>
+																			<button ng-disabled='val.status=="approve" || val.status=="deny"' ng-click='appDelRequest(val,"approve")' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-approve" alt="Approve" title="Approve"></span></button>
+																			<button ng-disabled='val.status=="approve" || val.status=="deny"' ng-click='appDelRequest(val,"deny")' class="mdl-button mdl-js-button mdl-button--icon"><span class="gridicon-deny" alt="Deny" title="Deny"></span></button>
 																		</div>
 																	</td>
 																</tr>
@@ -693,7 +693,7 @@
 												</div> -->
 												
 												<!-- admin validation tab (workflow configuration -->
-												<div class="mdl-tabs__panel is-active" id="tab7-panel">
+												<div class="mdl-tabs__panel" id="tab7-panel">
 													<div class="admin-tab-heading"><span class="admin-title2">Workflow Configuration</span></div>
 														<div class="mdl-grid validation-container">
 														<div class="mdl-cell mdl-cell--12-col" ng-show = "addStep">
@@ -716,7 +716,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>On-boarding Work flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'On-boarding Work Flow');">mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'On-boarding Work Flow');" alt="Edit" title="Edit">mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -819,7 +819,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div>
 																			</div>	
@@ -828,10 +828,10 @@
 																<!-- timeline end -->
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Deactivate Workflow" title="Deactivate Workflow">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignOnBoardingActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignOnBoardingActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')" alt="Assign Workflow" title="Assign Workflow">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -839,7 +839,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Local Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow');" >mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Local Work Flow');" alt="Edit" title="Edit" >mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -914,7 +914,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div></span>
 																			</div>	
@@ -923,10 +923,10 @@
 																<!-- timeline end -->
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Deactivate Workflow" title="Deactivate Workflow">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignLocalActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignLocalActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')" alt="Assign Workflow" title="Assign Workflow">
 																	Assign Workflow
 																  </md-button>
 															</div>												
@@ -934,7 +934,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Publishing to Public Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow');">mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Publishing to Public Work Flow');" alt="Edit" title="Edit">mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -1047,7 +1047,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div>
 																				
@@ -1058,10 +1058,10 @@
 																<!-- timeline end -->
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Deactivate Workflow" title="Deactivate Workflow">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignPublicActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignPublicActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')" alt="Assign Workflow" title="Assign Workflow">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1069,7 +1069,7 @@
 														<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone box-layout">
 															<div class="box-layout-title">
 																<span>Import Federated Model Work Flow</span>
-																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Import Federated Model Work Flow');">mode_edit</a></i>
+																<i class="material-icons"><a ng-click=" showPrerenderedDialog($event, 'editlocalflowDialog', 'Import Federated Model Work Flow');" alt="Edit" title="Edit">mode_edit</a></i>
 															</div>
 															<div class="list-validation">
 																<!-- timeline start -->
@@ -1092,7 +1092,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div>
 																				<div class="list-validation-box">		
@@ -1111,7 +1111,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div>
 																				<div class="list-validation-box">		
@@ -1130,7 +1130,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div>
 																				<div class="list-validation-box">		
@@ -1149,7 +1149,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div>
 																				<div class="list-validation-box">		
@@ -1168,7 +1168,7 @@
 																						</div>			
 																					</article>
 																					<div class="removestepicon">
-																						<i class="material-icons"><a href="">remove_circle</a></i>
+																						<i class="material-icons"><a href="" alt="Remove" title="Remove">remove_circle</a></i>
 																					</div>
 																				</div>
 																			</div>	
@@ -1177,10 +1177,10 @@
 																<!-- timeline end -->																
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Deactivate Workflow" title="Deactivate Workflow">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignFedratedActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
+																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignFedratedActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')" alt="Assign Workflow" title="Assign Workflow">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1206,7 +1206,7 @@
 										<h2>Add New User</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click='closePoup()'>
-										  <i class="material-icons">close</i>
+										  <i class="material-icons" alt="Close" title="Close">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -1352,8 +1352,8 @@
 										
 										
 										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" >Add</button>
+											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">Cancel</button>
+											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Add" title="Add">Add</button>
 										</div>
 									  </div>
 									  </form>
@@ -1372,7 +1372,7 @@
 										<h2>Add Role</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click='closePoup()' >
-										  <i class="material-icons">close</i>
+										  <i class="material-icons" alt="Close" title="Close">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -1402,8 +1402,8 @@
 										
 										
 										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-											<button ng-click='addRole()' ng-disabled='!perList||!roleName' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Add</button>
+											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">Cancel</button>
+											<button ng-click='addRole()' ng-disabled='!perList||!roleName' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Add" title="Add">Add</button>
 										</div>
 									  </div>
 									</md-dialog-content>
@@ -1421,7 +1421,7 @@
 										<h2>Add Peer Details</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click='closePoup()'>
-										  <i class="material-icons">close</i>
+										  <i class="material-icons" alt="Close" title="Close" >close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -1485,11 +1485,11 @@
 										<div class="dialog-btn-container">
 												<div>
 													<!-- <button ng-click='hidePeer = false' ng-hide='!hidePeer' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Previous</button> -->
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">Cancel</button>
 												</div>
 												<div>
 													<!-- <button ng-click='hidePeer = true' ng-hide='!data.peer || hidePeer' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Next</button> -->
-													<button ng-click='addPeer()' ng-disabled="peerForm.$invalid" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
+													<button ng-click='addPeer()' ng-disabled="peerForm.$invalid" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">Done</button>
 												</div>
 											</div>
 										</div>
@@ -1508,7 +1508,7 @@
                                         <h2>{{warningMsg}}</h2>
                                         <span flex></span>
                                         <md-button class="md-icon-button" ng-click="closePoup()">
-                                          <i class="material-icons">close</i>
+                                          <i class="material-icons" alt="Close" title="Close">close</i>
                                         </md-button>
                                       </div>
                                     </md-toolbar>
@@ -1518,10 +1518,10 @@
                                         <p>{{confirmMsg}}</p>
                                         <hr />
                                          <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
                                             Cancel
                                           </md-button>
-                                          <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+                                          <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Confirm" title="Confirm">
                                             Confirm
                                           </md-button>
                                         </div>                                
@@ -1545,7 +1545,7 @@
 										<h2>View/Add Subscriptions for {{peerDetailList.name}}</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click='closePoup()'>
-										  <i class="material-icons">close</i>
+										  <i class="material-icons" alt="Close" title="Close">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -1555,8 +1555,8 @@
 									  			<div class="subscontainerinner1">
 									  				<span class="font600 fedlbl2">Subscription List</span>
 									  				<!-- <button ng-class="mdPrimaryClass?'btn-primary':'btn-secondary'" class="mdl-button mdl-js-button  btn-with-icon" ng-click="mdPrimaryClass=true;subscripDetails1 = true"><span class="admin-btn-add"></span> New Subscription</button> -->
-									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true;categoryValue='';toolKitTypeValue='';modelIDValue='';noData=''"><span class="admin-btn-add"></span> New Subscription</button>
-									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-primary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;backTo()"><!-- <span class="admin-btn-add"></span> --> <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back to Subscription list</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-secondary" ng-hide="subscripDetails1" ng-click="subscripDetails1 = true;categoryValue='';toolKitTypeValue='';modelIDValue='';noData=''" alt="New Subscription" title="New Subscription"><span class="admin-btn-add"></span> New Subscription</button>
+									  				<button class="mdl-button mdl-js-button  btn-with-icon btn-primary" ng-show="subscripDetails1" ng-click="subscripDetails1 = false;backTo()" alt="Back to Subscription list" title="Back to Subscription list"><!-- <span class="admin-btn-add"></span> --> <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back to Subscription list</button>
 									  			</div> 
 									  			<div class="subscontainerinner2" ng-hide="subscripDetails1">
 									  				<span class="font600 fedlbl2">Filter</span>
@@ -1710,7 +1710,7 @@
 																     	</md-select>
 																	</div>
 																</td>															
-																<td><button ng-hide='solutionDetail&&addedToSubs' ng-click="addToSubs()" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td><button ng-hide='solutionDetail&&addedToSubs' ng-click="addToSubs()" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid" alt="Add to Subscription List" title="Add to Subscription List">Add to Subscription List</button></td>
 																<td ng-show='solutionDetail&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
 															</tr>														
@@ -1751,7 +1751,7 @@
 																	     
 																	</div>
 																</td>
-																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
+																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid" alt="Add to Subscription List" title="Add to Subscription List">Add to Subscription List</button></td>
 																<td ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td>
 																<td></td>
 															</tr>														
@@ -1803,7 +1803,7 @@
 															</div>
 															<div>	
 													  			<button ng-hide='addedAllToSubs' ng-click="addAllSolutions()" 
-													  			class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
+													  			class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid" alt="Add to Subscription List" title="Add to Subscription List">
 													  				Add to Subscription List
 													  			</button>
 																<div ng-show='addedAllToSubs'>
@@ -1846,10 +1846,10 @@
 											</div>
 											<div class="dialog-btn-container">
 												<div>													
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">Cancel</button>
 												</div>
 												<div>													
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">Done</button>
 												</div>
 											</div>
 										</md-dialog-content>
@@ -1866,7 +1866,7 @@
 										<h2>{{workFlow}}</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click = "closeValidationPopup()">
-										  <i class="material-icons">close</i>
+										  <i class="material-icons" alt="Close" title="Close">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -2023,8 +2023,8 @@
 											</div>										
 									
 										<div class="dialog-btn-container popovers-cloud-modalfooter">
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup()">Cancel</button>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-paddSteprimary" ng-click = "addStep = 'true';closeValidationPopup();">Done</button>
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup()" alt="Cancel" title="Cancel">Cancel</button>
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-paddSteprimary" ng-click = "addStep = 'true';closeValidationPopup();" alt="Done" title="Done">Done</button>
 										</div>
 									  </div>
 									</md-dialog-content>
@@ -2041,7 +2041,7 @@
 										<h2>Confirm Assign {{workFlow}}</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click = "closeValidationPopup()">
-										  <i class="material-icons">close</i>
+										  <i class="material-icons" alt="Close" title="Close">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -2054,8 +2054,8 @@
 												<p>Please note new workflow will be applicable to all new models which will {{workFlow}} from today onwards.</p> 												
 											</div>	
 										<div class="dialog-btn-container popovers-cloud-modalfooter">
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup();">Cancel</button>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "assignWorkFlow(workFlow);closeValidationPopup();">Confirm</button>
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup();" alt="Cancel" title="Cancel">Cancel</button>
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "assignWorkFlow(workFlow);closeValidationPopup();" alt="Confirm" title="Confirm">Confirm</button>
 										</div>
 									  </div>
 									</md-dialog-content>
