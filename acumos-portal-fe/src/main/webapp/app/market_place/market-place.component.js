@@ -417,11 +417,21 @@ angular
 									caegoryArr.push(checkbox);
 								}
 							}else if(type == 'tag'){
-								if (tagArr.includes(checkbox))
+								/*if (tagArr.includes(checkbox))
 									tagArr = tagArr.filter(val => val != checkbox);
-								else tagArr.push(checkbox);
+								else tagArr.push(checkbox);*/
+								var dupli = false,index=0;
+								angular.forEach(tagArr, function(value,
+										key) {
+									if (value === checkbox) {
+										dupli = true;
+										index = key;
+									}
+								});
+								if(dupli == false)tagArr.push(checkbox);
+								else tagArr.splice(index, 1);
 							}
-
+							console.clear();console.log(tagArr);
 							$scope.categoryFilter = caegoryArr;
 							$scope.tagFilter = tagArr;
 							if (type == 'sortBy') {

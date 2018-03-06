@@ -631,11 +631,22 @@ angular
 								$scope.mlSolutionPublicCount = 0;
 								$scope.mlSolutionCompanyCount = 0;
 								$scope.mlSolutionDeletedCount = 0;
-							} else if(type == 'tag'){
+							} else if(type == 'tag'){/*
 								if (tagArr.includes(checkbox))
 									tagArr = tagArr.filter(val => val != checkbox);
 								else tagArr.push(checkbox);
-							}
+							*/
+								var dupli = false,index=0;
+								angular.forEach(tagArr, function(value,
+										key) {
+									if (value === checkbox) {
+										dupli = true;
+										index = key;
+									}
+								});
+								if(dupli == false)tagArr.push(checkbox);
+								else tagArr.splice(index, 1);
+								}
 							$scope.categoryFilter = caegoryArr;
 							$scope.privacyFilter = privacyUrl;
 							$scope.tagFilter = tagArr;
