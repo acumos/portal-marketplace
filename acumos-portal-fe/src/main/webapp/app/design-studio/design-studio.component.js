@@ -2845,7 +2845,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     $scope.selectOutputMessage = function(p,ev) {
     	$scope.portDets = p;
-    	if(jsonProtoNode.size > 1){
+    	if($('.node').length > 5) {
+    		if(jsonProtoNode.size > 1){
     		angular.forEach(jsonProtoNode, function(value, key){
     			angular.forEach(value.protobuf_json.service.listOfOperations, function(value1, key1){
     				angular.forEach(value1.listOfInputMessages,function(value2,key2){
@@ -2871,6 +2872,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             targetEvent: ev,
             clickOutsideToClose: true
         });
+    	}
     };
     
     $scope.selectedDBOutput = function(){
