@@ -404,10 +404,9 @@
 									<td>{{value.version}}</td>
 									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
 									<td>
-										<button class="mdl-button mdl-js-button btn-grid-action"
-											ng-click="versionDownload(value.artifactId)" alt="Download" title="Download">
+										<md-button class="mdl-button mdl-js-button btn-grid-action" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}" target="_blank">
 											<i class="fa fa-download" aria-hidden="true"></i>
-										</button>
+										</md-button>
 
 									</td>
 								</tr>
@@ -911,9 +910,9 @@
 								Name:</b> - {{value.name}} {{value.version}} </label> <label class="downloadlbl2"><b>Uploaded
 								on</b> - {{value.created | date:'MM/dd/yyyy'}}</label>
 					</div>
-					<button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-						ng-click="download(value.artifactId)">Download</button>
+					<md-button class="md-raised mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}" target="_blank">
+						Download
+					</md-button>
 				</div>
 				<!-- <div class="modal-row1">
 											<div>
