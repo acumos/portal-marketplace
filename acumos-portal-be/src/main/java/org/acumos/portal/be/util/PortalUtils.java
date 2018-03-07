@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
 import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.ValidationTypeCode;
@@ -55,8 +56,13 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.apache.commons.lang.ArrayUtils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class PortalUtils {
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(PortalUtils.class);
+	
+	public static ObjectMapper objectMapper = new ObjectMapper();
 	
 	public PortalUtils() {
 	}
@@ -472,5 +478,14 @@ public class PortalUtils {
     	
   		return mlStepResult;
   		
+  	}
+      
+    public static String mapToJsonString(Map<String, ?> theMap) {
+
+  		try {
+  			return objectMapper.writeValueAsString(theMap);
+  		} catch (JsonProcessingException x) {
+  			throw new IllegalArgumentException("Failed to convert", x);
+  		}
   	}
 }
