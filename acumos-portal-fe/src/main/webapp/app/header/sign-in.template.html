@@ -11,7 +11,7 @@
 										<h2>Sign In</h2>
 										<span flex></span>
 										 <md-button class="md-icon-button" ng-click="handleDismiss()">
-										  <md-icon class="material-icons btn-close-dialog">close</md-icon>
+										  <md-icon class="material-icons btn-close-dialog" alt="Close" title="Close">close</md-icon>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -28,7 +28,7 @@
 										  		 <md-input-container class="md-icon-float md-block">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Username or Email Id</label>
-												      <md-icon class="name"><span class="icon-user"></span></md-icon>
+												      <md-icon class="name"><span class="icon-user" alt="User" title="User"></span></md-icon>
 												      <input class="signin-control" name="userName" ng-model="modalData.name" type="text" required>
 												      <div class="help-inline validation-msgs"
 															ng-class="{validationmsg:!userForm.userName.$valid}">
@@ -40,7 +40,7 @@
 												 <md-input-container class="md-icon-float md-block">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Password</label>
-												      <md-icon class="name"><span class="icon-password"></span></md-icon>
+												      <md-icon class="name"><span class="icon-password" alt="Password" title="Password"></span></md-icon>
 												      <input class="signin-control" name="userPass" ng-model="modalData.value" type="password" required>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!userForm.userPass.$valid}">
@@ -67,7 +67,7 @@
 													<!--<md-button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary"
 													
 													ng-click="signIn()">Sign in</md-button> -->
-													<md-button type="submit" class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="userForm.userName.$invalid || userForm.userPass.$invalid" ng-click = "signin()">Sign in</md-button>
+													<md-button type="submit" class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="userForm.userName.$invalid || userForm.userPass.$invalid" ng-click = "signin()" alt="Sign in" title="Sign in">Sign in</md-button>
 												</div>
 												<div>
 													<button class="mdl-button mdl-js-button btn-fullwidth2 btn-forgotpass"
@@ -81,10 +81,10 @@
 										  <div class="mdl-cell mdl-cell--5-col mdl-cell--3-col-tablet">
 										  	<div class="socbtncontainer">
 										  		<!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("globaluid")'><span class="socbtnicon"><span class="att-icon"></span></span><span class="soctext">Sign In with Global UID</span></button> -->
-										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("github")'><span class="socbtnicon"><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
-										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("facebook")' disabled><span class="socbtnicon"><span class="facebook-icon"></span></span><span class="soctext">Sign In with Facebook</span></button>
-										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("google")'><span class="socbtnicon"><span class="google-icon"></span></span><span class="soctext">Sign In with Google</span></button>
-										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("linkedin")' disabled><span class="socbtnicon"><span class="linkedin-icon"></span></span><span class="soctext">Sign In with LinkedIn</span></button>
+										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("github")' alt="Sign In with Github" title="Sign In with Github"><span class="socbtnicon"><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
+										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("facebook")' disabled alt="Sign In with Facebook" title="Sign In with Facebook"><span class="socbtnicon"><span class="facebook-icon"></span></span><span class="soctext">Sign In with Facebook</span></button>
+										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("google")' alt="Sign In with Google" title="Sign In with Google"><span class="socbtnicon"><span class="google-icon"></span></span><span class="soctext">Sign In with Google</span></button>
+										  		<button disabled class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click='signinAuthenticate("linkedin")' disabled alt="Sign In with LinkedIn" title="Sign In with LinkedIn"><span class="socbtnicon"><span class="linkedin-icon"></span></span><span class="soctext">Sign In with LinkedIn</span></button>
 										  	</div>
 										  	<p class="signintext">
 												By clicking any of the button above you are agree with our <a ui-sref="termsCondition" ng-click="handleDismiss()">Terms and Conditions and Privacy Policy.</a>
@@ -98,7 +98,7 @@
 											<span class="disblock">Sign up now to avail all our services</span>
 									     </div>
 									      <span flex></span>									     
-									      <md-button class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-signup" ng-click="$ctrl.handleDismiss();$root.showAdvancedSignup();">
+									      <md-button class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-signup" ng-click="$ctrl.handleDismiss();$root.showAdvancedSignup();" alt="Sign up" title="Sign up">
 									        Sign up
 									      </md-button>
 									    </div>								

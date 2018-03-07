@@ -7,7 +7,7 @@
 										<h2>Sign up to continue</h2>
 										<span flex></span>
 										<md-button class="md-icon-button" ng-click="handleDismiss()">
-										  <i class="material-icons btn-close-dialog">close</i>
+										  <i class="material-icons btn-close-dialog" alt="Close" title="Close">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
@@ -85,7 +85,7 @@
 												      <label>Password</label>										     
 												      	<div class="password-container1">
 												      		<input name="pwd" class="ok-password pull-left" ng-model="pwd" type="{{inputtype}}" valid-password required  maxlength="20" ng-blur="passwordVisited=true" ng-focus="passwordVisited=false">
-												      		<md-button ng-class="inputtype=='password'?'':'is-focused'" class="mdl-button mdl-js-button btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												      		<md-button ng-class="inputtype=='password'?'':'is-focused'" class="mdl-button mdl-js-button btn-secondary eyebutton" ng-click="showPasswd()"><i class="material-icons btn-view-icon" alt="Show Password" title="Show Password">remove_red_eye</i></md-button>
 												      	</div>											      	
 												     
 												      <div class="help-inline validation-msgs" ng-class="{validationmsg:!signupForm.pwd.$valid}">
@@ -128,7 +128,7 @@
 												      <label>Confirm Password</label>
 												      <div class="password-container1">											     
 												      	<input name="cpwd" ng-model="cpwd" type="{{inputtypeconfirm}}"  valid-password-c required maxlength="20" ng-blur="cpasswordVisited=true" ng-focus="cpasswordVisited=false">
-												        <md-button ng-class="inputtypeconfirm=='password'?'':'is-focused'" class="mdl-button mdl-js-button btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+												        <md-button ng-class="inputtypeconfirm=='password'?'':'is-focused'" class="mdl-button mdl-js-button btn-secondary eyebutton" ng-click="showConfirmPasswd()"><i class="material-icons btn-view-icon" alt="Show Password"  title="Show Password">remove_red_eye</i></md-button>
 												      </div>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
@@ -140,7 +140,7 @@
 												 </md-input-container>
 												 												
 												<div >
-													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="signupForm.$invalid ||(pwd!=cpwd)" ng-click="signUp()">Sign up</button>
+													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="signupForm.$invalid ||(pwd!=cpwd)" ng-click="signUp()" alt="Sign up" title="Sign up">Sign up</button>
 												</div>
 												<div class="signup-txt-mob">
 													<label>Already have an {{$root.siteInstanceName}} ID?</label> <a ng-click=" openlogin()">Sign In</a>
@@ -153,10 +153,10 @@
 										  <div class="mdl-cell mdl-cell--5-col mdl-cell--3-col-tablet">
 										  	<div class="socbtncontainer">
 										  		<!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn"  ng-click = "signupAuthenticate('globaluid')"><span class="socbtnicon"><span class="att-icon"></span></span><span class="soctext">Sign In with Global UID</span></md-button> -->
-										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('github')" disabled><span class="socbtnicon"><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
-										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('facebook')" disabled><span class="socbtnicon" ><span class="facebook-icon"></span></span><span class="soctext">Sign In with Facebook</span></button>
-										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('google')" disabled><span class="socbtnicon"><span class="google-icon"></span></span><span class="soctext">Sign In with Google</span></button>
-										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('linkedin')" disabled><span class="socbtnicon"><span class="linkedin-icon"></span></span><span class="soctext">Sign In with LinkedIn</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('github')" disabled alt="Sign In with Github" title="Sign In with Github" ><span class="socbtnicon" ><span class="github-icon"></span></span><span class="soctext">Sign In with Github</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('facebook')" disabled alt="Sign In with Facebook" title="Sign In with Facebook"><span class="socbtnicon" ><span class="facebook-icon"></span></span><span class="soctext">Sign In with Facebook</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('google')" disabled alt="Sign In with Google" title="Sign In with Google"><span class="socbtnicon"><span class="google-icon"></span></span><span class="soctext">Sign In with Google</span></button>
+										  		<button class="mdl-button mdl-js-button mdl-js-ripple-effect socbtn" ng-click = "signupAuthenticate('linkedin')" disabled alt="Sign In with LinkedIn" title="Sign In with LinkedIn"><span class="socbtnicon"><span class="linkedin-icon"></span></span><span class="soctext">Sign In with LinkedIn</span></button>
 										  	</div>
 										  	<p class="signintext">
 												By signing up, you agree to our <a ui-sref="termsCondition" ng-click="handleDismiss()">Terms and Conditions and Privacy Policy.</a>

@@ -1255,12 +1255,14 @@ angular
 							//$scope.getUsersChips();
 							$scope.allGroupsDetails = []
 							$scope.allGroups.map(function(item) {
-								$scope.allGroupsDetails.push({
-									'firstName' : item.firstName,
-									'lastName' : item.lastName,
-									'userId' : item.userID,
-									'emailId' : item.userEmailId
-								}); // item.lastName
+								if( item.userID != $scope.solution.ownerId){
+									$scope.allGroupsDetails.push({
+										'firstName' : item.firstName,
+										'lastName' : item.lastName,
+										'userId' : item.userID,
+										'emailId' : item.userEmailId
+									}); // item.lastName
+								}
 							});
 							
 							var firstPass = $filter('filter')($scope.allGroupsDetails, search);

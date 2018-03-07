@@ -26,15 +26,15 @@
 				<div class="profile-img-container">
 					<img class="userprofile-img"
 						ng-src="data:image/JPEG;base64,{{userPic}}"
-						src='../images/userprofile/profile_big_img.png'>
+						src='../images/userprofile/profile_big_img.png' alt="User" title="User">
 				</div>
 				<div class="text-center">
-					<a ng-click="uploadPhoto($event)" class="link-blue text-small">Change
+					<a ng-click="uploadPhoto($event)" class="link-blue text-small" alt="Change Photo" title="Change Photo">Change
 						Photo</a>
 				</div>
 				<div class="text-center">
 					<a ng-click="showPrerenderedDialog($event);openChangePassword()"
-						class="link-blue text-small" data-target="#">Change Password</a>
+						class="link-blue text-small" data-target="#" alt="Change Password" title="Change Password">Change Password</a>
 				</div>
 			</div>
 			<div class="profile-container1-right">
@@ -131,7 +131,7 @@
 										Please enter valid e-mail address.</div>
 								</div> --> </md-input-container>
 					<a class="link-blue" href="" ng-click="disableEmail=!disableEmail"><span
-						ng-if="disableEmail">Change Email</span></a> <a class="link-blue"
+						ng-if="disableEmail" alt="Change Email" title="Change Email">Change Email</span></a> <a class="link-blue"
 						href="" ng-class="{disabledLink:!signupFormEmail.uemail.$valid}"
 						ng-if="!disableEmail" ng-click="$parent.saveEmail()">Save
 						Email</a>
@@ -173,10 +173,10 @@
 	<div class="text-right">
 		<button
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-			ng-click="updateDeactivate('deactivate')">Deactivate Account</button>
+			ng-click="updateDeactivate('deactivate')" alt="Deactivate Account" title="Deactivate Account">Deactivate Account</button>
 		<button ng-disabled="signupForm.$invalid"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btn-gap"
-			ng-click="updateDeactivate('update')">Update Account</button>
+			ng-click="updateDeactivate('update')" alt="Update Account" title="Update Account">Update Account</button>
 	</div>
 
 	</md-content> </md-tab> <md-tab label="Notification Preferences"> <md-content
@@ -258,10 +258,10 @@
 	<div class="text-right">
 		<button
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-			ng-click="updateDeactivate('deactivate')">Cancel</button>
+			ng-click="updateDeactivate('deactivate')" alt="Cancel" title="Cancel">Cancel</button>
 		<button ng-disabled="signupForm.$invalid"
 			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btn-gap"
-			ng-click="updateDeactivate('update')">Save</button>
+			ng-click="updateDeactivate('update')" alt="Save" title="Save">Save</button>
 	</div>
 	</md-content> </md-tab> </md-tabs>
 </div>
@@ -275,7 +275,7 @@
 		<h2>Change Password</h2>
 		<span flex></span>
 		<md-button class="md-icon-button" ng-click="closePoup()">
-		<i class="material-icons">close</i> </md-button>
+		<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 	</div>
 	</md-toolbar> <md-dialog-content>
 	<form name="resetPswd">
@@ -301,8 +301,8 @@
 						name="oldPswd" ng-model="oldPswd" required>
 					<md-button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton"
-						ng-click="showPasswd('old')">
-					<i class="material-icons btn-view-icon">remove_red_eye</i></md-button>
+						ng-click="showPasswd('old')" alt="Show Password" title="Show Password">
+					<i class="material-icons btn-view-icon" >remove_red_eye</i></md-button>
 				</div>
 				</md-input-container>
 			</div>
@@ -316,7 +316,7 @@
 						required>
 					<md-button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary eyebutton"
-						ng-click="showPasswd('new')">
+						ng-click="showPasswd('new')" alt="Show Password" title="Show Password">
 					<i class="material-icons btn-view-icon">remove_red_eye</i><!-- {{newPswdShow}} --></md-button>
 				</div>
 
@@ -349,11 +349,11 @@
 	</md-dialog-content>
 	<div class="userprofile-dialog-footer">
 		<md-button ng-click="closePoup()"
-			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 		Cancel </md-button>
 		<md-button ng-click="changePswd();"
 			ng-disabled="resetPswd.oldPswd.$invalid || resetPswd.pwd.$invalid || resetPswd.pwd.cpwd || resetPswd.cpwd.$invalid || matchString || (newPswd!=cpwd)"
-			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Confirm" title="Cancel">
 		Confirm </md-button>
 	</div>
 
@@ -372,7 +372,7 @@
 		<h2>Change Photo</h2>
 		<span flex></span>
 		<md-button class="md-icon-button" ng-click="closePoup()">
-		<i class="material-icons">close</i> </md-button>
+		<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 	</div>
 	</md-toolbar> <md-dialog-content>
 	<form name="uploadImage" enctype="multipart/form-data">
@@ -405,10 +405,10 @@
 	</md-dialog-content>
 	<div class="userprofile-dialog-footer">
 		<md-button ng-click="closePoup();"
-			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 		Cancel </md-button> <!--enableUploadBtn  -->
 		<md-button ng-click="uploadImg()" ng-disabled="uploadImage.fileNew.$invalid || uploadImage.fileNew.$untouched"
-			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Upload" title="Upload">
 		Upload </md-button>
 	</div>
 	</form>
