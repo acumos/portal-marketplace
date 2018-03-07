@@ -1470,7 +1470,8 @@ position:relative;
 .borker-row > div:last-child{width:50%;}
 .borker-row > div:last-child label{margin-left:8px;}
 .borker-row > div:last-child > div > input{width:50%; margin-left:8px; float:left; width: calc(50% - 8px); }
-  
+.imageuploader ~ .mdl-grid{max-height:190px; overflow-x:auto;}
+
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}

@@ -736,7 +736,7 @@
 																	<span flex></span>
 																	<md-button class="md-icon-button"
 																		ng-click="showSolName = !showSolName"> <i
-																		class="material-icons">close</i> </md-button>
+																		class="material-icons" alt="Close" title="Close">close</i> </md-button>
 																</div>
 																</md-toolbar>
 																<md-dialog-content>
@@ -767,11 +767,11 @@
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter ">
 																		<md-button ng-click="showSolName = !showSolName"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Update" title="Update">
 																		Cancel </md-button>
 																		<md-button
 																			ng-click="updateSolution(); showSolName = !showSolName"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-if="solution.name.length<1">Done</span> 
 																		<span ng-if="solution.name.length>=1">Update</span>
 																		</md-button>
@@ -840,7 +840,7 @@
 																	<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																	<md-button class="md-icon-button"
 																		ng-click="showDCKEditor = !showDCKEditor;  ">
-																	<i class="material-icons">close</i> </md-button>
+																	<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 																</div>
 																</md-toolbar>
 																<md-dialog-content>
@@ -852,11 +852,11 @@
 																	<div layout="row" class="popovers-cloud-modalfooter">
 																		<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																		<md-button ng-click="showDCKEditor = !showDCKEditor;solutionCompanyDesc=previousValueCompany"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																		Cancel </md-button>
 																		<md-button
 																			ng-click="updateCompanyDescription();"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 																		<span ng-if="!solutionCompanyDescStatus || !copiedCompanyDesc">Done</span> 
 																		<span ng-if="solutionCompanyDescStatus || copiedCompanyDesc">Update</span>
 																		</md-button>
@@ -971,7 +971,7 @@
 																<h2>Skip this step</h2>
 																<span flex></span>
 																<md-button class="md-icon-button" ng-click="cancel()">
-																<i class="material-icons">close</i> </md-button>
+																<i class="material-icons" >close</i> </md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -1000,7 +1000,7 @@
 																<span flex></span>
 																<md-button class="md-icon-button"
 																	ng-click="showSolCat = !showSolCat;"> <i
-																	class="material-icons">close</i> </md-button>
+																	class="material-icons" alt="Close" title="Close">close</i> </md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -1031,11 +1031,11 @@
 																</div>
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<md-button ng-click="showSolCat = !showSolCat;"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																	Cancel </md-button>
 																	<md-button
 																		ng-click="updateSolution(); showSolCat = !showSolCat"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-if="(!solution.modelTypeName && !solution.tookitTypeName )">Done</span>
 																		<span ng-if="(solution.modelTypeName && solution.tookitTypeName )">Update</span> 
 																	</md-button>
@@ -1096,7 +1096,7 @@
 
 																<md-button class="md-icon-button"
 																	ng-click="showFileUpload = !showFileUpload">
-																<i class="material-icons">close</i> </md-button>
+																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 
 															</div>
 															</md-toolbar>
@@ -1129,7 +1129,7 @@
 																						uploadid="documentuploadid" id="uploadFile"
 																						filename="privatefilename" 
 																						ng-model="solutionFile" accept = ""
-																						upload-image-model="solutionFile" readonly></div>
+																						upload-image-model="solutionFile" readonly alt="Browse" title="Browse"></div>
 																						<div class="upload-image-input files-uploaded">
 																		    			<input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
@@ -1155,7 +1155,7 @@
 																	<md-button ng-click="privatefilename = '';showFileUpload = !showFileUpload; $root.progressBar = 0; solutionFile = ''"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple">
+																		data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
 																	<span class="ng-scope"> Cancel </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
@@ -1163,7 +1163,7 @@
 																		ng-click="updateSolutionFiles('documentuploadid');"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple">
+																		data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																	<span class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> 
@@ -1173,7 +1173,7 @@
 																		ng-click="updateSolutionFiles('documentuploadid'); "
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple">
+																		data-upgraded=",MaterialButton,MaterialRipple" alt="Update" title="Update">
 																	<span class="ng-scope"> Update</span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> 
@@ -1335,7 +1335,7 @@
                                                                                                 </button> -->
 
 																<md-button class="md-icon-button" ng-click="cancel()">
-																<i class="material-icons">close</i> </md-button>
+																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 
 															</div>
 															</md-toolbar>
@@ -1359,14 +1359,14 @@
 																	<md-button ng-click="showSolTags = !showSolTags"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple">
+																		data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
 																	<span class="ng-scope"> Cancel </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
 																	<md-button
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple">
+																		data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																	<span class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
@@ -1454,7 +1454,7 @@
 																<span flex></span>
 																<md-button class="md-icon-button"
 																	ng-click="cancelSolImage(); showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
-																<i class="material-icons">close</i> </md-button>
+																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -1474,7 +1474,7 @@
 																						uploadid="companyuploadid" id="solImage"
 																						filename="filename" fileinput="file"
 																						filepreview="previewImage" ng-model="solImage"
-																						icon="icon" upload-image-model="solImage" readonly></div>
+																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
 																					<input class="mdl-textfield__input"
 																						placeholder="Upload Image" type="text"
 																						ng-model="filename" readonly />
@@ -1532,11 +1532,11 @@
 																class="popovers-cloud-modalfooter fullwidth layout-row">
 																<md-button
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																	ng-click="cancelSolImage(); showImageUpload = !showImageUpload;  previewImage = imgURLdefault;">
+																	ng-click="cancelSolImage(); showImageUpload = !showImageUpload;  previewImage = imgURLdefault;" alt="Cancel" title="Cancel">
 																Cancel </md-button>
 																<md-button
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-																	ng-click="updateSolImage('companyuploadid'); showImageUpload = !showImageUpload">
+																	ng-click="updateSolImage('companyuploadid'); showImageUpload = !showImageUpload" alt="Done" title="Done">
 																	<span ng-show="!showSolutionImage">Done</span> 
 																	<span ng-show="showSolutionImage">Update</span>
 																</md-button>
@@ -1694,7 +1694,7 @@
 													{{versionId}} )</h2>
 												<span flex></span>
 												<md-button class="md-icon-button" ng-click="closeDialog()">
-												<i class="material-icons">close</i> </md-button>
+												<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 											</div>
 											</md-toolbar>
 											<md-dialog-content>
@@ -1936,19 +1936,19 @@
 																		<div class="mdl-cell md-left-container">
 																			<div class="mdl-tabs__tab-bar">
 																				<a href="#tab1-panel"
-																					class="mdl-tabs__tab is-active"> <span
+																					class="mdl-tabs__tab is-active" alt="Description" title="Description"> <span
 																					class="tab-box"> <span
 																						class="tab-icons tab-description"></span> <span>Description</span>
 																				</span>
-																				</a> <a href="#tab2-panel" class="mdl-tabs__tab"> <span
+																				</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
 																					class="tab-box"> <span
 																						class="tab-icons tab-signatures"></span> <span>Signatures</span>
 																				</span>
-																				</a> <a href="#tab3-panel" class="mdl-tabs__tab"> <span
+																				</a> <a href="#tab3-panel" class="mdl-tabs__tab" alt="Documents" title="Documents"> <span
 																					class="tab-box"> <span
 																						class="tab-icons tab-documents"></span> <span>Documents</span>
 																				</span>
-																				</a> <a href="#tab4-panel" class="mdl-tabs__tab"> <span
+																				</a> <a href="#tab4-panel" class="mdl-tabs__tab" alt="Version History" title="Version History"> <span
 																					class="tab-box"> <span
 																						class="tab-icons tab-versionhistory"></span> <span>Version
 																							History</span>
@@ -1957,7 +1957,7 @@
 																			</div>
 																			<div>
 																				<h6 class="sectiontitle4">
-																					Tags <span class="title-icons icon-tags"></span>
+																					Tags <span class="title-icons icon-tags" alt="Tags" title="Tags"></span>
 																				</h6>
 																				<div class="box-inner2 rowcontainer">
 																					<md-chips
@@ -2040,16 +2040,20 @@
 																					</thead>
 																					<tbody>
 																						<!-- ng-repeat = "value in downloadData" -->
-																						<tr ng-repeat="supportingDoc in supportingDocs">
+																						<tr ng-repeat="supportingDoc in supportingDocs" ng-if="publicPreview">
+																						<tr ng-repeat="supportingDoc in supportingPublicDocs" ng-if="!publicPreview">
 																							<td><span class="file-type"><i
 																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
 																								class="link-blue">{{supportingDoc}}</a></td>
 																							<td>{{value.version}}</td>
 																							<td>{{value.created | date:'MM/dd/yyyy'}}</td>
-																							<td><a
-																								href="/site/binaries/content/assets/solutiondocs/solution/public/{{solution.solutionId}}/{{supportingDoc}}">
-																									<i class="fa fa-download" aria-hidden="true"></i>
-																							</a></td>
+																							<td><a ng-if="!publicPreview" 
+																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}" alt="Download" title="Download">
+																									<i class="fa fa-download" aria-hidden="true"></i> </a>
+																								<a ng-if="publicPreview" 
+																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}" alt="Download" title="Download">
+																									<i class="fa fa-download" aria-hidden="true"></i></a>
+																							</td>
 																						</tr>
 																					</tbody>
 																				</table>
@@ -2487,7 +2491,7 @@
 																<span flex></span>
 																<md-button class="md-icon-button"
 																	ng-click="showSolName = !showSolName"> <i
-																	class="material-icons">close</i> </md-button>
+																	class="material-icons" alt="Close" title="Close">close</i> </md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -2517,11 +2521,11 @@
 																</div>
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<md-button ng-click="showSolName = !showSolName"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																	Cancel </md-button>
 																	<md-button
 																		ng-click="updateSolution(); showSolName = !showSolName"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-if="solution.name.length<">Done</span> 
 																		<span ng-if="solution.name.length>=1">Update</span>
 																	</md-button>
@@ -2587,7 +2591,7 @@
 																<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																<md-button class="md-icon-button"
 																	ng-click="showCKEditor = !showCKEditor; ">
-																<i class="material-icons">close</i> </md-button>
+																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -2599,11 +2603,11 @@
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																	<md-button ng-click="showCKEditor = !showCKEditor;solutionPublicDesc=previousValuePublic"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																	Cancel </md-button>
 																	<md-button
 																		ng-click="updatePublicDescription();"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 																		<span ng-if="!solutionPublicDescStatus || !copiedPublicDesc">Done</span>
 																		<span ng-if="solutionPublicDescStatus || copiedPublicDesc">Update</span>
 																	</md-button>
@@ -2648,7 +2652,7 @@
 															<h2>Skip this step</h2>
 															<span flex></span>
 															<md-button class="md-icon-button" ng-click="cancel()">
-															<i class="material-icons">close</i> </md-button>
+															<i class="material-icons"  alt="Close" title="Close">close</i> </md-button>
 														</div>
 														</md-toolbar>
 														<md-dialog-content>
@@ -2659,10 +2663,10 @@
 																you want to skip this step?</div>
 															<div layout="row" class="popovers-cloud-modalfooter">
 																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																Cancel </md-button>
 																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 																Done </md-button>
 															</div>
 														</div>
@@ -2710,7 +2714,7 @@
 															<span flex></span>
 															<md-button class="md-icon-button"
 																ng-click="showSolCat = !showSolCat"> <i
-																class="material-icons">close</i> </md-button>
+																class="material-icons" alt="Close" title="Close">close</i> </md-button>
 														</div>
 														</md-toolbar>
 														<md-dialog-content>
@@ -2741,11 +2745,11 @@
 															</div>
 															<div layout="row" class="popovers-cloud-modalfooter">
 																<md-button ng-click="showSolCat = !showSolCat;"
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																Cancel </md-button>
 																<md-button
 																	ng-click="updateSolution(); showSolCat = !showSolCat"
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																	<span ng-if="(!solution.modelTypeName && !solution.tookitTypeName)">Done</span>
 																	<span ng-if="(solution.modelTypeName && solution.tookitTypeName)">Update</span> 
 																</md-button>
@@ -2834,7 +2838,7 @@
 
 															<md-button class="md-icon-button"
 																ng-click="showFileUpload = !showFileUpload">
-															<i class="material-icons">close</i> </md-button>
+															<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 
 														</div>
 														</md-toolbar>
@@ -2867,11 +2871,11 @@
 																						uploadid="publicDocumentuploadid" id="publicUploadFile"
 																						filename="publicfilename" 
 																						ng-model="solutionFile" accept = ""
-																						upload-image-model="solutionFile" readonly></div>
+																						upload-image-model="solutionFile" readonly alt="Browse" title="Browse"></div>
 																						<div class="upload-image-input files-uploaded">
 																		    			<input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
-																						ng-model="publicfilename" readonly />
+																						ng-model="publicfilename"  readonly />
 																						</div>
 																		 <!-- <input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
@@ -2892,7 +2896,7 @@
 																<md-button ng-click="publicfilename = '';solutionFile = '' ;showFileUpload = !showFileUpload;$root.progressBar = 0"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																	type="button"
-																	data-upgraded=",MaterialButton,MaterialRipple">
+																	data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
 																<span class="ng-scope"> Cancel </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
@@ -2901,7 +2905,7 @@
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid');"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																	type="button"
-																	data-upgraded=",MaterialButton,MaterialRipple">
+																	data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																<span class="ng-scope"> Done </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
@@ -3117,7 +3121,7 @@
 															<span flex></span>
 															<md-button class="md-icon-button"
 																ng-click="cancelSolImage();showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
-															<i class="material-icons">close</i> </md-button>
+															<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 														</div>
 														</md-toolbar>
 														<md-dialog-content>
@@ -3137,7 +3141,7 @@
 																					uploadid="publicuploadid" id="solImage"
 																					filename="filename" fileinput="file"
 																					filepreview="previewImage" ng-model="solImage"
-																					icon="icon" upload-image-model="solImage" readonly></div>
+																					icon="icon" upload-image-model="solImage" readonly alt="Browse" title="Browse"></div>
 																				<input class="mdl-textfield__input"
 																					placeholder="Upload Image" type="text"
 																					ng-model="filename" readonly />
@@ -3196,11 +3200,11 @@
 															class="popovers-cloud-modalfooter fullwidth layout-row ">
 															<md-button
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																ng-click="cancelSolImage(); showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
+																ng-click="cancelSolImage(); showImageUpload = !showImageUpload; previewImage = imgURLdefault;" alt="Cancel" title="Cancel">
 															Cancel </md-button>
 															<md-button
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-																ng-click="updateSolImage('publicuploadid'); showImageUpload = !showImageUpload">
+																ng-click="updateSolImage('publicuploadid'); showImageUpload = !showImageUpload" alt="Done" title="Done">
 																<span ng-show="!showSolutionImage">Done</span>
 																<span ng-show="showSolutionImage">Update</span> 
 															</md-button>
@@ -3437,7 +3441,7 @@
                                          <div layout="row" class="pull-right" ng-hide='checkboxExport!="microsoft"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();">
+												ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
 											Deploy </md-button>
 										</div>
                                          </form>
@@ -3491,13 +3495,13 @@
 										<div layout="row" class="pull-right" ng-hide='checkboxExport!="ripple"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();">
+												ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
 											Deploy </md-button>
 										</div>
 										<div layout="row" class="pull-right" ng-show='checkboxExport=="microsoft"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid || deploy.$invalid">
+												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid || deploy.$invalid" alt="Data Broker" title="Data Broker">
 											Data Broker</md-button>
 										</div>
 									</div>
@@ -3597,9 +3601,9 @@
 										<td data-label="Commenter">John Smith</td>
 										<td data-label="Date">1 min ago</td>
 										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="" title="" /></a></i> <i><a><img
-													src="images/edit.png" alt="" title="" /></a></i> <i><a><img
-													src="images/delete.png" alt="" title="" /></a></i></td>
+													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
+													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
+													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
 									</tr>
 									<tr>
 										<td data-label="Comment">Lipsum.pro offers a faster and
@@ -3607,9 +3611,9 @@
 										<td data-label="Commenter">John Smith</td>
 										<td data-label="Date">1 min ago</td>
 										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="" title="" /></a></i> <i><a><img
-													src="images/edit.png" alt="" title="" /></a></i> <i><a><img
-													src="images/delete.png" alt="" title="" /></a></i></td>
+													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
+													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
+													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
 									</tr>
 									<tr>
 										<td data-label="Comment">Lipsum.pro offers a faster and
@@ -3617,9 +3621,9 @@
 										<td data-label="Commenter">John Smith</td>
 										<td data-label="Date">1 min ago</td>
 										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="" title="" /></a></i> <i><a><img
-													src="images/edit.png" alt="" title="" /></a></i> <i><a><img
-													src="images/delete.png" alt="" title="" /></a></i></td>
+													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
+													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
+													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
 									</tr>
 									<tr>
 										<td data-label="Comment">Lipsum.pro offers a faster and
@@ -3627,9 +3631,9 @@
 										<td data-label="Commenter">John Smith</td>
 										<td data-label="Date">1 min ago</td>
 										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="" title="" /></a></i> <i><a><img
-													src="images/edit.png" alt="" title="" /></a></i> <i><a><img
-													src="images/delete.png" alt="" title="" /></a></i></td>
+													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
+													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
+													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
 									</tr>
 									<tr>
 										<td data-label="Comment">Lipsum.pro offers a faster and
@@ -3637,9 +3641,9 @@
 										<td data-label="Commenter">John Smith</td>
 										<td data-label="Date">1 min ago</td>
 										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="" title="" /></a></i> <i><a><img
-													src="images/edit.png" alt="" title="" /></a></i> <i><a><img
-													src="images/delete.png" alt="" title="" /></a></i></td>
+													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
+													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
+													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
 									</tr>
 								</tbody>
 							</table>
@@ -3653,7 +3657,7 @@
 
 						<button ng-click="activeFalse = false; updateSolution(); "
 							ng-show="isModelActive"
-							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Delete" title="Delete">
 							Delete</button>
 
 						<p ng-show="!isModelActive">Solution is deleted/inactive</p>
