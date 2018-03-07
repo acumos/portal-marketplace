@@ -207,6 +207,7 @@ public class AuthServiceController extends AbstractController {
 				if (!PortalUtils.isEmptyOrNullString(user.getBody().getUsername())) {
 					try {
 						mlpUser = userService.login(user.getBody().getUsername(), user.getBody().getPassword());
+						mlpUser.setLastLogin(new Date(System.currentTimeMillis()));
 						userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 						isValid = true;
 					} catch (Exception e) {
