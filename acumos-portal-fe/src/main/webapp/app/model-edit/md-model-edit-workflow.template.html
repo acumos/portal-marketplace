@@ -459,7 +459,7 @@
 												<md-autocomplete md-search-text="searchText"
 													md-items="item in queryGroups(searchText)"
 													md-selected-item="selectedItem" md-item-text="item"
-													md-item-image="item" md-autoselect="true"
+													md-item-image="item"
 													md-select-on-match="true" md-no-cache="true"
 													md-require-match="true"
 													placeholder="Find a user to share with"> <img
@@ -1069,7 +1069,7 @@
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload; closeOtherPopovers( 'showFileUpload', showFileUpload )"
+															<a ng-click="showFileUpload = !showFileUpload;solutionFile = ''; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 																ng-class="{'disabled-title': company.step4}">Model
 																Documents</a> | <span class="green"
 																ng-show="showSolutionDocs && !company.step4">
@@ -1162,7 +1162,7 @@
 																	<md-button ng-show="!showSolutionDocs"
 																		ng-click="updateSolutionFiles('documentuploadid');"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																		type="button"
+																		type="button" ng-disabled = "!solutionFile"
 																		data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																	<span class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
@@ -2039,14 +2039,27 @@
 																						</tr>
 																					</thead>
 																					<tbody>
-																						<!-- ng-repeat = "value in downloadData" -->
-																						<tr ng-repeat="supportingDoc in supportingDocs" ng-if="publicPreview">
-																						<tr ng-repeat="supportingDoc in supportingPublicDocs" ng-if="!publicPreview">
+																						<tr ng-show="publicPreview!=true" ng-repeat="supportingDoc in supportingDocs" >
 																							<td><span class="file-type"><i
 																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
 																								class="link-blue">{{supportingDoc}}</a></td>
-																							<td>{{value.version}}</td>
-																							<td>{{value.created | date:'MM/dd/yyyy'}}</td>
+																							<td>{{versionId}}</td>
+																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
+																							<td><a ng-if="!publicPreview" 
+																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}" alt="Download" title="Download">
+																									<i class="fa fa-download" aria-hidden="true"></i> </a>
+																								<a ng-if="publicPreview" 
+																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}" alt="Download" title="Download">
+																									<i class="fa fa-download" aria-hidden="true"></i></a>
+																							</td>
+																						</tr>
+
+																						<tr  ng-show="publicPreview==true" ng-repeat="supportingDoc in supportingPublicDocs">
+																							<td><span class="file-type"><i
+																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
+																								class="link-blue">{{supportingDoc}}</a></td>
+																							<td>{{versionId}}</td>
+																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 																							<td><a ng-if="!publicPreview" 
 																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}" alt="Download" title="Download">
 																									<i class="fa fa-download" aria-hidden="true"></i> </a>
@@ -2816,7 +2829,7 @@
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showFileUpload = !showFileUpload; closeOtherPopovers( 'showFileUpload', showFileUpload )"
+														<a ng-click="showFileUpload = !showFileUpload;solutionFile = ''; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 															ng-class="{'disabled-title': public.step4}">Model
 															Documents</a> | <span class="green"
 															ng-show="showPublicSolutionDocs && !public.step4">
@@ -2904,7 +2917,7 @@
 																<md-button ng-show="!showPublicSolutionDocs"
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid');"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																	type="button"
+																	type="button" ng-disabled = "!solutionFile"
 																	data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																<span class="ng-scope"> Done </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span

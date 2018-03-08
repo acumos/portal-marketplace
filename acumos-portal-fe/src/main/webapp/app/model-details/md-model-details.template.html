@@ -58,9 +58,9 @@
 				</ul> -->
 				<div  class="select-control dcl-list" class=".." >
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
-                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-microsoft-azure opacityZero" value="microsoft" alt="" title="Microsoft Azure">Microsoft</md-option>
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()" class="dc-microsoft-azure opacityZero" value="microsoft" alt="" title="Microsoft Azure">Microsoft</md-option>
                         <md-option class="dc-google-cloud opacityZero" value="rackspace" disabled alt="Google Cloud Platform" title="Google Cloud Platform" >Deploy To Cloud</md-option>
-                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');" class="dc-rackspace opacityZero" value="ripple" alt="Rack Space" title="Rack Space">Rack Space</md-option>
+                        <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()" class="dc-rackspace opacityZero" value="ripple" alt="Rack Space" title="Rack Space">Rack Space</md-option>
                         <md-option class="dc-amazon-cloud opacityZero" value="amazon" disabled alt="Amazon Web Services" title="Amazon Web Services" >Deploy To Cloud</md-option>
                     </md-select>
                 </div>
@@ -780,7 +780,7 @@
 				<form name="deployCloud">
 				<div>
 					<md-input-container class="md-icon-float md-block">
-						<label>URL</label> <input type="text" ng-model="brokerURL" required>
+						<label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink">
 						</md-input-container>
 				</div>
 				<div class="borker-row">
@@ -808,11 +808,11 @@
 					</div>
 				</div>
 				</form>
-				</div>
+				</div>			
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>VM
-							Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text"> </md-input-container>
+							Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text" name="vmName"> </md-input-container>
 				</div>
 				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='ripple'">
 					<md-button

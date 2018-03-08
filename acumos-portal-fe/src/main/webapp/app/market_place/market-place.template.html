@@ -10,7 +10,7 @@
 								</ul>
 							</div>
 							<div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--1-col-phone text-right lg-v-self-center">
-								<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary hide-xs" ui-sref="modularResource" ng-click="$root.parentActive = ''">add new model</a>
+								<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary hide-xs" ui-sref="modularResource" ng-click="$root.parentActive = ''" alt="Add New Model" title="Add New Model">add new model</a>
 								<button class="mdl-button mdl-button--fab btn-primary mdl-js-ripple-effect mob-add-button hide-sm hide-md hide-lg hide-xl"><i class="material-icons">add</i></button>
 							</div>
 						</div>						
@@ -31,7 +31,7 @@
 								
 								<div class="sidebar-checkbox-container" ng-class= "autoHeight ? 'fixheightfilter' : 'autoheightfilter'">
 								<!-- <div class="sidebar-checkbox-container autoheightfilter"> -->
-								<label class="disblock margin-b md-subhead">Filter By Category <span class="title-icons filter-catagory"></span></label>
+								<label class="disblock margin-b md-subhead">Filter By Category <span class="title-icons filter-catagory" alt="Filter By Category" title="Filter By Category"></span></label>
 							   
 								<div class="checkbox"  ng-repeat="cat in category">
 								 <md-checkbox aria-label="Checkbox 1" class="text-medium" ng-true-value="'yup'" ng-false-value="'nope'"
@@ -43,7 +43,7 @@
 							<a class="link-sidebar-showmore" ng-click="autoHeight = !autoHeight" ng-show = "!autoHeight" flex>Show Less</a> -->
 							<hr class="sidebar-seperator">
 							<div class="sidebar-tag-container">
-								<label class="disblock md-subhead">Tags <span class="title-icons icon-tags"></span></label>
+								<label class="disblock md-subhead">Tags <span class="title-icons icon-tags" alt="Tags" title="Tags"></span></label>
 								<div class="">
 									<md-chips>
 									  <md-chip ng-repeat="tag in tags" 
@@ -119,7 +119,7 @@
                                            <i class="material-icons">view_list</i>
                                    </button> -->
                                    <div class="grid-view-btn-container">                                   
-                                   <button ng-disabled="Viewtile" ng-class="{'gridlistview-btnactive':Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true">
+                                   <button ng-disabled="Viewtile" ng-class="{'gridlistview-btnactive':Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true" alt="Grid View" title="Grid View">
                                             <i ng-if="Viewtile">
                                             	<img src="images/tile_view_white_icon.png" />
                                             </i>
@@ -127,7 +127,7 @@
                                             	<img src="images/tile_view_black_icon.png" />
                                             </i>
                                    </button>
-                                   <button ng-disabled="!Viewtile" ng-class="{'gridlistview-btnactive':!Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = false">
+                                   <button ng-disabled="!Viewtile" ng-class="{'gridlistview-btnactive':!Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = false" alt="List View" title="List View">
                                            <i ng-if="Viewtile">
                                             	<img src="images/list_view_black_icon.png" />
                                             </i>
@@ -233,11 +233,11 @@
 															<span class="iconspan1"><i class="material-icons">attach_file</i>{{mlsolution.solutionTag == null ? 0 : mlsolution.solutionTag}}</span>
 													</div> -->
 													<div class="md-icons md-icons-tiles">
-															<span><span class="statistics-icons icon-chat"></span> 0</span>
-															<span><span class="statistics-icons icon-view"></span> {{mlsolution.viewCount == null ? 0 : mlsolution.viewCount}}</span>
-															<span><span class="statistics-icons icon-download"></span> {{mlsolution.downloadCount == null ? 0 : mlsolution.downloadCount}}</span>
+															<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span> 0</span>
+															<span><span class="statistics-icons icon-view" alt="View" title="View"></span> {{mlsolution.viewCount == null ? 0 : mlsolution.viewCount}}</span>
+															<span><span class="statistics-icons icon-download" alt="Download" title="Download"></span> {{mlsolution.downloadCount == null ? 0 : mlsolution.downloadCount}}</span>
 															<!-- <span><span class="statistics-icons icon-attachment"></span> {{mlsolution.solutionTag == null ? 0 : mlsolution.solutionTag}}</span> -->
-															<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-disabled = "!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)">
+															<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-disabled = "!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)" alt="Favorite" title="Favorite">
 																<i class="material-icons" ng-class="{'unselected-fav':!mlsolution.selectFav ,'selected-fav':mlsolution.selectFav}">favorite_border</i>
 														 	</button>
 														</div>

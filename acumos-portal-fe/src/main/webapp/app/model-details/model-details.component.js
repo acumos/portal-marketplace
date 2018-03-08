@@ -20,7 +20,12 @@ angular
 						 * $window.location.reload(); $rootScope.load = false; }
 						 */
 						//API for rating the model start
-
+						$scope.clearForm = function(){
+							deploy.reset();
+							deployCloud.brokerlink.value = "";
+							$scope.vmName = "";
+						}
+						
 						var user= JSON.parse(localStorage.getItem("userDetail"));
 						$scope.userDetailsLogged = user;
 						
