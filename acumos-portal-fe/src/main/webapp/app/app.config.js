@@ -64,7 +64,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 				deployStatus:null}
          })
 		.state('modularResource', {
-			url: '/modelerResource',
+			url: '/modelerResource?ONAP',
 			component: 'modelResource'
 		})
 		.state('resetPswd', {

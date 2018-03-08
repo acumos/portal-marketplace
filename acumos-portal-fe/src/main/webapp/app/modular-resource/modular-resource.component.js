@@ -38,7 +38,10 @@ angular.module('modelResource')
 		//template:"<div class=''>{{ content }}</div>",
 		//template:"<button ng-click='authenticate(google)'>Sign in with Google</button>",
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
-		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope){
+		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams){
+			console.clear();console.log($stateParams);
+			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
+			$scope.onap = true;
 			//alert(localStorage.getItem("userDetail"));
 			$rootScope.progressBar = 0;
 			

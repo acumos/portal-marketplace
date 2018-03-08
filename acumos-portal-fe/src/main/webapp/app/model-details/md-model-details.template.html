@@ -33,6 +33,10 @@
 			<div class="md-head-container2">	
 				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						ui-sref="modularResource({ONAP: 'true'})" ng-click="$root.parentActive = ''"
+						>Build for ONAP</button>
+				<button type="button"
+						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
 						ng-hide="solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null "
 						ng-show="loginUserID" alt="Download" title="Download">Download </button>
