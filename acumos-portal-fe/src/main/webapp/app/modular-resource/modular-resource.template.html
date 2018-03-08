@@ -1,5 +1,5 @@
 <!--  <main class="mdl-layout__content initialVal hasClass"> -->
-<div class="page-content" id="page-top">
+<div class="page-content" id="page-top" ng-hide="onap">
 	<section class="pageheadsection gray-bg">
 		<div layout="row" layout-xs="column" layout-fill
 			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
@@ -921,7 +921,158 @@
 	</div>
 </div>
 <!-- </main> -->
-
+<!--  <main class="mdl-layout__content initialVal hasClass"> -->
+<div class="page-content" id="page-top" ng-hide="!onap">
+	<section class="pageheadsection gray-bg">
+		<div layout="row" layout-xs="column" layout-fill
+			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
+			<div
+				class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
+				<div>
+					<!-- <span class="headline mob-disblock">On-Boarding Model</span> -->
+					<span class="headline mob-disblock">Build for ONAP</span>
+				</div>
+				<ul class="c-breadcrumb">
+					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+					<!-- <li><span>On-Boarding Model</span></li> -->
+					<li><span>Build for ONAP</span></li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<div class="md-container-head1">
+		<label>Lorem ipsum dolor sit amet, consectetur adipiscing
+			elit. Nunc ut urna nec magna viverra dictum sed at ante. Nulla
+			lacinia vitae lectus eget convallis. Cras sit amet vulputate diam.
+			Praesent auctor aliquam fermentum. Praesent fringilla accumsan mi, in
+			aliquam nibh maximus ut. Nulla hendrerit massa at consectetur
+			tincidunt.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			Nunc ut urna nec magna viverra dictum sed at ante. Nulla lacinia
+			vitae lectus eget convallis. Cras sit amet vulputate diam. Praesent
+			auctor aliquam fermentum. Praesent fringilla accumsan mi, in aliquam
+			nibh maximus ut. Nulla hendrerit massa at consectetur tincidunt. </label>
+	</div>
+	<div class="page-wrapper2 onap-section">
+		<h4 class="onap-title">ON BOARDING THE ONAP MODEL</h4>
+		<div class="onap-steps-container">
+			<div>
+				<div class="onap-step completed"></div>
+				<div class="text-center">Model Documentation</div>
+			</div>
+			<span class="steps-dots completed"></span>
+			<div>
+				<div class="onap-step"></div>
+				<div class="text-center">Step 2</div>
+			</div>
+			<span class="steps-dots"></span>
+			<div>
+				<div class="onap-step"></div>
+				<div class="text-center">Step 3</div>
+			</div>
+			<span class="steps-dots"></span>
+			<div>
+				<div class="onap-step"></div>
+				<div class="text-center">Step 4</div>
+			</div>
+			<span class="steps-dots"></span>
+			<div>
+				<div class="onap-step"></div>
+				<div class="text-center">Step 5</div>
+			</div>
+			<span class="steps-dots"></span>
+			<div>
+				<div class="onap-step"></div>
+				<div class="text-center">Step 6</div>
+			</div>
+			<span class="steps-dots"></span>
+			<div>
+				<div class="onap-step"></div>
+				<div class="text-center">Not yet onboarded</div>
+			</div>
+		</div>
+		<div class="progress">
+			<div class="progress-bar" style="width:0%;"></div>
+		</div>
+		<div class="onap-steps-outer-container">
+			<h4 class="gridlistheading">STEPS TO ON-BOARD YOUR MODEL (0/4 COMPLETED)</h4>
+			<div class="onap-steps-inner-container">
+				<div class="timeline">
+									<div>
+										<div class="timeline-centered">
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon bg-success">
+														<span class="entypo-feather fa fa-check"></span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Step 1 | <span class="green">Completed on 01/31/2018</span>
+														</h2>
+														<p>Lorem ipsum dolor sit amet, consectetur adipiscing
+			elit. Nunc ut urna nec magna viverra dictum sed at ante.</p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon" ng-if="!solutionCompanyDescStatus &amp;&amp; !copiedCompanyDesc || showDCKEditor" style="">
+														<span class="entypo-suitcase">2</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Step 2 | <span class="red">Not Started</span>
+														</h2>
+														<p>Use their command line to run simplified version </p>
+														<div>
+															<a class="onap-link1">Expand All <i class="material-icons">arrow_drop_down</i></a>
+														</div>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon" ng-if="!solutionCompanyDescStatus &amp;&amp; !copiedCompanyDesc || showDCKEditor" style="">
+														<span class="entypo-suitcase">3</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Step 3 | <span class="red">Not Started</span>
+														</h2>
+														<p>Lorem ipsum dolor sit amet, consectetur adipiscing
+			elit. Nunc ut urna nec magna viverra dictum sed at ante.</p>
+													</div>
+												</div>
+											</article>
+											<article class="timeline-entry">
+												<div class="timeline-entry-inner">
+													<div class="timeline-icon" ng-if="!solutionCompanyDescStatus &amp;&amp; !copiedCompanyDesc || showDCKEditor" style="">
+														<span class="entypo-suitcase">4</span>
+													</div>
+													<div class="timeline-label">
+														<h2>
+															Step 4 | <span class="red">Not Started</span>
+														</h2>														
+														<p>Lorem ipsum dolor sit amet, consectetur adipiscing
+			elit. Nunc ut urna nec magna viverra dictum sed at ante.</p>
+													</div>
+												</div>
+											</article>											
+										</div>
+									</div>
+								</div>
+								
+								<div class="add-to-catalog-container">
+				<button ng-click="addToCatalog()"
+									ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit && user.name && popupAddSubmit )"
+										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
+										Add to Catalog</button>
+			
+			</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
 <style>
 @import url('css/onBoardingCSS.css');
 </style>
