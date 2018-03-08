@@ -92,7 +92,8 @@ public class FederationClientTest {
 		
 		GatewayClient  federationClient = clients.getGatewayClient();
 		assertTrue(federationClient  != null);
-		JsonResponse<MLPPeer> response  = federationClient.ping();		
+		String peerId="test";
+		JsonResponse<MLPPeer> response  = federationClient.ping(peerId);		
 		assertTrue(response == null);				
 	}
 	

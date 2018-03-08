@@ -131,6 +131,7 @@ public enum FederationAPI {
 	public static class Roots {
 
 		public static final String FEDERATION = "/";		
+		
 	}
 
 	public static class Paths {
@@ -138,7 +139,7 @@ public enum FederationAPI {
 		public static final String SOLUTIONS = "/solutions";
 		//public static final String SUBSCRIPTION = "/subscription/{subscriptionId}";
 		public static final String SOLUTION_DETAILS = "/solutions/{solutionId}";
-		public static final String PING = "/ping";		
+		public static final String PING = "/peer/{peerId}/ping";		
 	}	
 	
 	public static class QueryParameters {

@@ -31,7 +31,6 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.client.HttpClient;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Base64Utils;
@@ -58,10 +57,12 @@ public class GatewayClient extends AbstractClient {
 
 	/**
 	 */
-	public JsonResponse<MLPPeer> ping()
+	public JsonResponse<MLPPeer> ping(String peerId)
 			throws HttpStatusCodeException {
 		
-		URI uri = FederationAPI.PING.buildUri(this.baseUrl);
+		//log.debug(EELFLoggerDelegate.debugLogger, API.Roots.LOCAL + "" + API.Paths.PING);		
+		URI uri = FederationAPI.PING.buildUri(this.baseUrl,peerId);
+		
 		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
 		ResponseEntity<JsonResponse<MLPPeer>> response = null;
 		try {
