@@ -32,6 +32,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
@@ -56,6 +57,7 @@ import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -1032,6 +1034,14 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseDetail("Exception Occurred while getAvgRatingsForSol");
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAvgRatingsForSol", e);
 		}
+		return data;
+	}
+	
+	@RequestMapping(value = { APINames.CONVERT_TO_ONAP}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLStepResult>> convertToOnap(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, @PathVariable("userId") String userId) {
+		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
+		catalogService.convertSolutioToONAP(solutionId, revisionId, userId);
 		return data;
 	}
 }
