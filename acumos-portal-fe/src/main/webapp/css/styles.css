@@ -570,7 +570,7 @@ box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1); background: #fff; padding:0;}
 .md-share-with-me {display:inline-block; width: 16px; height: 14px; background: url("../images/general-icons/ico_other_peoples_model_share_with_me.png") no-repeat center center;}
 .md-share-with-others {display:inline-block; width: 16px; height: 14px; background: url("../images/general-icons/ico_my_model_share_with_others.png") no-repeat center center;}
 
-.tilecontainer1 {display: flex; flex-wrap: nowrap; justify-content: space-between; align-content: center;}
+.tilecontainer1 {display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center;}
 
 
 /************MODEL DETAILS PAGE STYLE END**************/
@@ -1346,7 +1346,7 @@ md-switch.md-focused:not([disabled]):not(.md-checked) .md-thumb:before, .md-chec
 .gridicon-approve {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_approveX.png") no-repeat center center;}
 .gridicon-deny {display:inline-block; width: 19px; height: 19px; background: url("../images/general-icons/grid_action_denyX.png") no-repeat center center;}
 
-.gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 8px; }
+.gridcell-sort {display: inline-block; width:10px; height:15px; position:relative; top: 3px; margin-left: 8px;cursor:pointer; }
 .gridcell-sort.deactivate {background: url("../images/general-icons/sortby_deactivate.png") no-repeat center center; }
 .gridcell-sort.ascending {background: url("../images/general-icons/sortby_active_up.png") no-repeat center center; }
 .gridcell-sort.descending {background: url("../images/general-icons/sortby_active_down.png") no-repeat center center; }
@@ -2040,3 +2040,14 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
     #btn_header {position: relative; top: 1px;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
+
+.listview-btnfav {position:relative; top: -4px;}
+
+.listview-title-container {display: flex; justify-content: space-between; align-items: center;width: 400px;}
+.listview-title-container .griditem-title {max-width: 360px;text-overflow: clip !important; overflow: visible !important;}
+.listview-title-container .griditem-title .griditem-title-text {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;
+float: left; max-width: 84%;}
+
+.tilecontainer1 .griditem-title {max-width: 200px;text-overflow: clip !important; overflow: visible !important;}
+.tilecontainer1 .griditem-title .griditem-title-text2 {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;
+float: left; max-width: 65%;}
