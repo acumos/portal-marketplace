@@ -131,4 +131,6 @@ public interface MarketPlaceCatalogService {
 	RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest);
 
 	MLPSolutionWeb getSolutionWebMetadata(String solutionId); 
+	
+	void convertSolutioToONAP(String solutionId, String revisionId, String userId);
 }
