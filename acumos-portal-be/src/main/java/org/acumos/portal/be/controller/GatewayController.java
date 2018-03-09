@@ -35,6 +35,7 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.Clients;
 import org.acumos.portal.be.common.GatewayClient;
+import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
@@ -90,17 +91,23 @@ public class GatewayController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLPPeer> pingGateway(HttpServletRequest request, @PathVariable("peerId") String peerId, HttpServletResponse response) {
 		JsonResponse<MLPPeer> data = new JsonResponse<>();
+		JsonResponse<MLPPeer> peer = null;
 		try {
 			if(peerId != null && peerId != "") {
 				GatewayClient gateway = clients.getGatewayClient();
-				data = gateway.ping(peerId);
+				peer = gateway.ping(peerId);
 			}
-			if (data == null){
+			if (peer == null){
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseBody(peer.getResponseBody());
 			}
 		}catch(Exception e) {
 			data = new JsonResponse<>();
-			data.setStatusCode(400);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+			response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+			data.setResponseCode(String.valueOf(HttpServletResponse.SC_BAD_GATEWAY));
 			data.setResponseDetail(e.getMessage());
 			log.error(EELFLoggerDelegate.errorLogger, "Failed to get Connection",e);
 		}
@@ -122,6 +129,7 @@ public class GatewayController extends AbstractController {
 		JsonResponse<List<MLPSolution>> data = new JsonResponse<>();
 		String selector = null;
 		Map<String, Object> selectorMap = new HashMap<>();
+		JsonResponse<List<MLPSolution>> solutions = null;
 		if(peerSubscription != null) {
 			try {
 				MLPPeerSubscription mlpPeerSubscription = peerSubscription.getBody();
@@ -131,14 +139,18 @@ public class GatewayController extends AbstractController {
 				}
 				if (selectorMap != null && selectorMap.size() > 0) {
 					GatewayClient gateway = clients.getGatewayClient();
-					data = gateway.getSolutions(mlpPeerSubscription.getPeerId(), selector);
+					solutions = gateway.getSolutions(mlpPeerSubscription.getPeerId(), selector);
 				}
-				if (data == null){
+				if (solutions == null){
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseBody(solutions.getResponseBody());
 				}
 			}catch(Exception e) {
 				data = new JsonResponse<>();
-				data.setStatusCode(400);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				data.setResponseDetail(e.getMessage());
 				log.error(EELFLoggerDelegate.errorLogger, "Exception Occured while fetching the solutions",e);
 			}
@@ -160,17 +172,21 @@ public class GatewayController extends AbstractController {
 	public JsonResponse<MLPSolution> getSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId,
 			@PathVariable("peerId") String peerId, HttpServletResponse response) {
 		JsonResponse<MLPSolution> data = new JsonResponse<MLPSolution>();
-		
+		JsonResponse<MLPSolution> solution = null;
 		if(solutionId != null) {
 			try {
 				GatewayClient gateway = clients.getGatewayClient();
-				data = gateway.getSolution(peerId,solutionId);
-				if (data == null){
+				solution = gateway.getSolution(peerId,solutionId);
+				if (solution == null){
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseBody(solution.getResponseBody());
 				}
 			}catch(Exception e) {
 				data = new JsonResponse<>();
-				data.setStatusCode(400);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				data.setResponseDetail(e.getMessage());
 				log.error(EELFLoggerDelegate.errorLogger, "No Solution Found for Dolution Id : " + solutionId, e);
 			}
