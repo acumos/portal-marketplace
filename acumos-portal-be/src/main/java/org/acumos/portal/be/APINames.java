@@ -210,5 +210,10 @@ public class APINames {
 	   public static final String GET_STEP_TYPES = "/stepTypes";
 	   public static final String SEARCH_STEP_RESULT = "/messagingStatus/search/{solutionId}/{revisionId}";
 	   
+	   public static final String CONVERT_TO_ONAP = "/convertToOnap/{solutionId}/{revisionId}/{userId}";
+	   
 	   public static final String BROKER = "/broker";
+	   
+	   public static final String GATEWAY = "/gateway";
+	   public static final String PING = "/ping/{peerId}";
 }

@@ -86,9 +86,8 @@ public class GatewayClient extends AbstractClient {
 	
 	/**
 	 * 
-	 * @param theSelection
-	 *            key-value pairs; ignored if null or empty. Gives special treatment
-	 *            to Date-type values.
+	 * @param jsonString
+	 *            JSON string for selector
 	 * @return List of MLPSolutions from Remote Acumos
 	 * @throws HttpStatusCodeException
 	 *             Throws HttpStatusCodeException is remote acumos is not available
