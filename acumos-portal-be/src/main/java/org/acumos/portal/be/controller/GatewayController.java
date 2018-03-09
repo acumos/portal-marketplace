@@ -47,6 +47,7 @@ import org.apache.http.client.HttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -87,7 +88,7 @@ public class GatewayController extends AbstractController {
 	@ApiOperation(value = "Check the connectivity to gateway instance", response = JsonResponse.class)
 	@RequestMapping(value = {APINames.PING},method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPPeer> pingGateway(HttpServletRequest request, @RequestParam(value = "peerId", required = true) String peerId, HttpServletResponse response) {
+	public JsonResponse<MLPPeer> pingGateway(HttpServletRequest request, @PathVariable("peerId") String peerId, HttpServletResponse response) {
 		JsonResponse<MLPPeer> data = new JsonResponse<>();
 		try {
 			if(peerId != null && peerId != "") {
@@ -156,8 +157,8 @@ public class GatewayController extends AbstractController {
 	@ApiOperation(value = "Get Solution with the provided solutionId", response = JsonResponse.class)
 	@RequestMapping(value = {"{solutionId}/solution/{peerId}"},method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSolution> getSolution(HttpServletRequest request, @RequestParam(value = "solutionId", required = true) String solutionId,
-			@RequestParam(value = "peerId", required = true) String peerId, HttpServletResponse response) {
+	public JsonResponse<MLPSolution> getSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId,
+			@PathVariable("peerId") String peerId, HttpServletResponse response) {
 		JsonResponse<MLPSolution> data = new JsonResponse<MLPSolution>();
 		
 		if(solutionId != null) {
