@@ -191,17 +191,17 @@ public class PortalUtils {
 			mlpAccessType = new MLPAccessType();
 			if(accessType.equals("PB")) {
 				
-				mlpAccessType.setTypeCode("PB");
-				mlpAccessType.setTypeName("Public");
+				mlpAccessType.setCode("PB");
+				mlpAccessType.setName("Public");
 			} else if(accessType.equals("OR")) {
-				mlpAccessType.setTypeCode("OR");
-				mlpAccessType.setTypeName("Organization");
+				mlpAccessType.setCode("OR");
+				mlpAccessType.setName("Organization");
 			} else if(accessType.equals("PR")) {
-				mlpAccessType.setTypeCode("PR");
-				mlpAccessType.setTypeName("Private");
+				mlpAccessType.setCode("PR");
+				mlpAccessType.setName("Private");
 			} else {//Default
-				mlpAccessType.setTypeCode("PR");
-				mlpAccessType.setTypeName("Private");
+				mlpAccessType.setCode("PR");
+				mlpAccessType.setName("Private");
 			}
 		} 
 		return mlpAccessType;

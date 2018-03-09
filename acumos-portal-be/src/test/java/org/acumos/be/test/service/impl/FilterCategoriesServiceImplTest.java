@@ -47,8 +47,8 @@ public class FilterCategoriesServiceImplTest {
 		try{
 			List<MLPModelType> mlpModelTypesList = new  ArrayList<>();
 			MLPModelType mlPModelType = new MLPModelType();
-			mlPModelType.setTypeCode("200");
-			mlPModelType.setTypeName("abc");
+			mlPModelType.setCode("200");
+			mlPModelType.setName("abc");
 			mlpModelTypesList.add(mlPModelType);
 			Mockito.when(impl.getSolutionCategoryTypes()).thenReturn(mlpModelTypesList);
 			if(mlpModelTypesList !=null) {
@@ -65,8 +65,8 @@ public class FilterCategoriesServiceImplTest {
 		try{
 			List<MLPAccessType> mlpAccessTypesList = new ArrayList<>();
 			MLPAccessType mlpAccessType = new MLPAccessType();
-			mlpAccessType.setTypeCode("200");
-			mlpAccessType.setTypeName("xyz");
+			mlpAccessType.setCode("200");
+			mlpAccessType.setName("xyz");
 			mlpAccessTypesList.add(mlpAccessType);
 			Mockito.when(impl.getSolutionAccessTypes()).thenReturn(mlpAccessTypesList);
 			if(mlpAccessTypesList !=null) {
@@ -83,8 +83,8 @@ public class FilterCategoriesServiceImplTest {
 		try{
 			List<MLPToolkitType> mlpToolkitTypesList = new ArrayList<>();
 			MLPToolkitType mlpToolkitType = new MLPToolkitType();
-			mlpToolkitType.setTypeCode("400");
-			mlpToolkitType.setTypeName("test");
+			mlpToolkitType.setCode("400");
+			mlpToolkitType.setName("test");
 			mlpToolkitTypesList.add(mlpToolkitType);
 			Mockito.when(impl.getToolkitTypes()).thenReturn(mlpToolkitTypesList);
 			if(mlpToolkitTypesList !=null) {	

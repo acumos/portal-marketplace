@@ -46,4 +46,5 @@ public interface NotificationService {
 
 	int getNotificationCount();
 
+	void generateNotification(MLPNotification notification, String userId);
 }

@@ -21,6 +21,8 @@
 package org.acumos.portal.be.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.acumos.portal.be.service.NotificationService;
@@ -129,5 +131,31 @@ public class NotificationServiceImpl implements NotificationService {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		Long count = dataServiceRestClient.getNotificationCount();
 		return count.intValue();
+	}
+	
+	@Override
+	public void generateNotification(MLPNotification notification, String userId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "generateNotification");
+		try {
+			if (notification != null) {
+				Calendar cal = Calendar.getInstance();
+				Date startDate = cal.getTime();
+				cal.add(Calendar.YEAR, 1);
+				Date endDate = cal.getTime();
+
+				notification.setStart(startDate);
+				notification.setEnd(endDate);
+				notification.setCreated(startDate);
+				MLNotification mlNotification = createNotification(notification);
+				if (mlNotification.getNotificationId() != null && userId != null) {
+					addNotificationUser(mlNotification.getNotificationId(), userId);
+				}
+			} else {
+				log.error(EELFLoggerDelegate.errorLogger,
+						"Notification message can not be null: generateNotification()");
+			}
+		} catch (Exception e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
+		}
 	}
 }

@@ -59,7 +59,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-
+import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUser;
 
@@ -158,7 +158,8 @@ public class AsyncServicesImpl implements AsyncServices {
 
 				response = httpclient.execute(post);
 				
-
+				MLPNotification notification = new MLPNotification();
+				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
 				if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201) {
 					InputStream instream = response.getEntity().getContent();
 					String result = convertStreamToString(instream);
@@ -185,7 +186,11 @@ public class AsyncServicesImpl implements AsyncServices {
 					}
 					// Temporary solution to notify user, as we dont have intermediate results from
 					// onbaording
-					generateNotification("Solution " + solution.getName() + " Added to Catalog Successfully", userId);
+					//generateNotification("Solution " + solution.getName() + " Added to Catalog Successfully", userId);
+					String notifMsg = "Solution " + solution.getName() + " Added to Catalog Successfully";
+					notification.setMessage(notifMsg);
+					notification.setTitle(notifMsg);
+					notificationService.generateNotification(notification, userId);
 				} else {
 					InputStream instream = response.getEntity().getContent();
 					String result = convertStreamToString(instream);
@@ -196,8 +201,13 @@ public class AsyncServicesImpl implements AsyncServices {
 					log.info((String) resp.get("errorMessage"));
 					// Temporary solution to notify user, as we dont have intermediate results from
 					// onbaording
-					generateNotification("Add To Catalog Failed for solution " + solution.getName()
-							+ ". Please restart the process again to upload the solution", userId);
+					/*generateNotification("Add To Catalog Failed for solution " + solution.getName()
+							+ ". Please restart the process again to upload the solution", userId);*/
+					String notifMsg = "Add To Catalog Failed for solution " + solution.getName()
+					+ ". Please restart the process again to upload the solution";
+					notification.setMessage(notifMsg);
+					notification.setTitle(notifMsg);
+					notificationService.generateNotification(notification, userId);
 					// throw new RuntimeException("Failed : HTTP error code : " +
 					// response.getStatusLine().getStatusCode());
 				}
@@ -215,7 +225,7 @@ public class AsyncServicesImpl implements AsyncServices {
 		return new AsyncResult<HttpResponse>(response);
 	}
 
-	void generateNotification(String msg, String userId) {
+	/*void generateNotification(String msg, String userId) {
 		MLPNotification notification = new MLPNotification();
 		try {
 			if (msg != null) {
@@ -231,7 +241,7 @@ public class AsyncServicesImpl implements AsyncServices {
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
 		}
-	}
+	}*/
 
 	private String convertStreamToString(InputStream is) {
 

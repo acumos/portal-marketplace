@@ -36,6 +36,8 @@ import org.acumos.cds.domain.MLPModelType;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPasswordChangeRequest;
 import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPPeerGroup;
+import org.acumos.cds.domain.MLPPeerSolAccMap;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
@@ -44,6 +46,7 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionDeployment;
 import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.cds.domain.MLPSolutionFavorite;
+import org.acumos.cds.domain.MLPSolutionGroup;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPSolutionValidation;
@@ -56,6 +59,7 @@ import org.acumos.cds.domain.MLPThread;
 import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
+import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.domain.MLPValidationSequence;
 import org.acumos.cds.domain.MLPValidationStatus;
@@ -87,16 +91,16 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public List<MLPAccessType> getAccessTypes() {
 		MLPAccessType mlpAccessType = new MLPAccessType();
-		mlpAccessType.setTypeCode("OR");
-		mlpAccessType.setTypeName("Organization");
+		mlpAccessType.setCode("OR");
+		mlpAccessType.setName("Organization");
 
 		MLPAccessType mlpAccessType1 = new MLPAccessType();
-		mlpAccessType1.setTypeCode("PR");
-		mlpAccessType1.setTypeName("Private");
+		mlpAccessType1.setCode("PR");
+		mlpAccessType1.setName("Private");
 
 		MLPAccessType mlpAccessType2 = new MLPAccessType();
-		mlpAccessType2.setTypeCode("PB");
-		mlpAccessType2.setTypeName("Public");
+		mlpAccessType2.setCode("PB");
+		mlpAccessType2.setName("Public");
 
 		List<MLPAccessType> mlpAccessTypeList = new ArrayList<MLPAccessType>();
 		mlpAccessTypeList.add(mlpAccessType);
@@ -122,20 +126,20 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	public List<MLPModelType> getModelTypes() {
 
 		MLPModelType mlpModelType1 = new MLPModelType();
-		mlpModelType1.setTypeCode("CL");
-		mlpModelType1.setTypeName("Classification");
+		mlpModelType1.setCode("CL");
+		mlpModelType1.setName("Classification");
 
 		MLPModelType mlpModelType2 = new MLPModelType();
-		mlpModelType2.setTypeCode("DT");
-		mlpModelType2.setTypeName("Data Transformer");
+		mlpModelType2.setCode("DT");
+		mlpModelType2.setName("Data Transformer");
 
 		MLPModelType mlpModelType3 = new MLPModelType();
-		mlpModelType3.setTypeCode("PR");
-		mlpModelType3.setTypeName("Prediction");
+		mlpModelType3.setCode("PR");
+		mlpModelType3.setName("Prediction");
 
 		MLPModelType mlpModelType4 = new MLPModelType();
-		mlpModelType4.setTypeCode("RG");
-		mlpModelType4.setTypeName("Regression");
+		mlpModelType4.setCode("RG");
+		mlpModelType4.setName("Regression");
 
 		List<MLPModelType> mlpModelTypeTest = new ArrayList<MLPModelType>();
 		mlpModelTypeTest.add(mlpModelType1);
@@ -148,28 +152,28 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public List<MLPToolkitType> getToolkitTypes() {
 		MLPToolkitType mlpToolKit = new MLPToolkitType();
-		mlpToolKit.setTypeCode("CP");
-		mlpToolKit.setTypeName("Composite Solution");
+		mlpToolKit.setCode("CP");
+		mlpToolKit.setName("Composite Solution");
 
 		MLPToolkitType mlpToolKit1 = new MLPToolkitType();
-		mlpToolKit1.setTypeCode("DS");
-		mlpToolKit1.setTypeName("Design Studio");
+		mlpToolKit1.setCode("DS");
+		mlpToolKit1.setName("Design Studio");
 
 		MLPToolkitType mlpToolKit2 = new MLPToolkitType();
-		mlpToolKit2.setTypeCode("H2");
-		mlpToolKit2.setTypeName("H2O");
+		mlpToolKit2.setCode("H2");
+		mlpToolKit2.setName("H2O");
 
 		MLPToolkitType mlpToolKit3 = new MLPToolkitType();
-		mlpToolKit3.setTypeCode("RC");
-		mlpToolKit3.setTypeName("RCloud");
+		mlpToolKit3.setCode("RC");
+		mlpToolKit3.setName("RCloud");
 
 		MLPToolkitType mlpToolKit4 = new MLPToolkitType();
-		mlpToolKit4.setTypeCode("SK");
-		mlpToolKit4.setTypeName("Scikit-Learn");
+		mlpToolKit4.setCode("SK");
+		mlpToolKit4.setName("Scikit-Learn");
 
 		MLPToolkitType mlpToolKit5 = new MLPToolkitType();
-		mlpToolKit5.setTypeCode("TF");
-		mlpToolKit5.setTypeName("TensorFlow");
+		mlpToolKit5.setCode("TF");
+		mlpToolKit5.setName("TensorFlow");
 
 		List<MLPToolkitType> mlpToolKitList = new ArrayList<>();
 		mlpToolKitList.add(mlpToolKit);
@@ -1132,6 +1136,175 @@ public class MockCommonDataServiceRestClientImpl implements ICommonDataServiceRe
 	@Override
 	public RestPageResponse<MLPStepResult> searchStepResults(Map<String, Object> queryParameters, boolean isOr,
 			RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPSolution> findSolutionsByDate(boolean active, String[] accessTypeCodes,
+			String[] validationStatusCodes, Date date, RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPStepResult getStepResult(long stepResultId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestPageResponse<MLPPeerGroup> getPeerGroups(RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPPeerGroup createPeerGroup(MLPPeerGroup peerGroup) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updatePeerGroup(MLPPeerGroup peerGroup) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deletePeerGroup(Long peerGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPSolutionGroup> getSolutionGroups(RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPSolutionGroup createSolutionGroup(MLPSolutionGroup solutionGroup) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateSolutionGroup(MLPSolutionGroup solutionGroup) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteSolutionGroup(Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPPeer> getPeersInGroup(Long peerGroupId, RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addPeerToGroup(String peerId, Long peerGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropPeerFromGroup(String peerId, Long peerGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPSolution> getSolutionsInGroup(Long solutionGroupId, RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addSolutionToGroup(String solutionId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropSolutionFromGroup(String solutionId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RestPageResponse<MLPPeerSolAccMap> getPeerSolutionGroupMaps(RestPageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void mapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unmapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mapPeerPeerGroups(Long principalGroupId, Long resourceGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unmapPeerPeerGroups(Long principalGroupId, Long resourceGroupId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long checkPeerSolutionAccess(String peerId, String solutionId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<MLPPeer> getPeerAccess(String peerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPUserNotifPref createUserNotificationPreference(MLPUserNotifPref usrNotifPref) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateUserNotificationPreference(MLPUserNotifPref usrNotifPref) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUserNotificationPreference(Long userNotifPrefId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<MLPUserNotifPref> getUserNotificationPreferences(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MLPUserNotifPref getUserNotificationPreference(Long usrNotifPrefId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

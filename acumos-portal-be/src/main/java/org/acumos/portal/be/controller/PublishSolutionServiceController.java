@@ -29,6 +29,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.portal.be.APINames;
@@ -87,26 +88,31 @@ public class PublishSolutionServiceController extends AbstractController {
 			 //publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
 			boolean published = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
 			// code to create notification
+            MLPNotification notificationObj = new MLPNotification();
+            notificationObj.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+            String notificationmsg = null;
 			MLSolution solutionDetail = catalogService.getSolution(solutionId);
 			if (published || ValidationStatusCode.PS.toString().equalsIgnoreCase(solutionDetail.getValidationStatusCode())) {			
-				String notification = null;
-				if (visibility.equals("PB"))
-					notification = solutionDetail.getName() + " published to public marketplace";
-				else if (visibility.equals("OR"))
-					notification = solutionDetail.getName() + " published to company marketplace";
-				else
-					notification = solutionDetail.getName() + " published to marketplace";
-				generateNotification(notification, userId);
+				
+				if (visibility.equals("PB")){
+					notificationmsg = solutionDetail.getName() + " published to public marketplace";
+				}else if (visibility.equals("OR")){
+					notificationmsg = solutionDetail.getName() + " published to company marketplace";
+				}else{
+					notificationmsg = solutionDetail.getName() + " published to marketplace";
+				}
 			}else{
-				String notification = null;
-				if (visibility.equals("PB"))
-					notification = "Failed to publish " +solutionDetail.getName() + " to public marketplace";
-				else if (visibility.equals("OR"))
-					notification = "Failed to publish " +solutionDetail.getName() + " to company marketplace";
-				else
-					notification = "Failed to publish " +solutionDetail.getName() + " to marketplace";
-				generateNotification(notification, userId);
+				if (visibility.equals("PB")){
+					notificationmsg = "Failed to publish " +solutionDetail.getName() + " to public marketplace";
+				}else if (visibility.equals("OR")){
+					notificationmsg = "Failed to publish " +solutionDetail.getName() + " to company marketplace";
+				}else{
+					notificationmsg = "Failed to publish " +solutionDetail.getName() + " to marketplace";
+				}
 			}
+			notificationObj.setMessage(notificationmsg);
+			notificationObj.setTitle(notificationmsg);
+			notificationService.generateNotification(notificationObj, userId);
 		/*if(published){	 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions published Successfully");
@@ -142,23 +148,5 @@ public class PublishSolutionServiceController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while unpublishSolution()", e);
 		}
 		return data;
-	}
-	
-	void generateNotification(String msg, String userId) {
-		MLPNotification notification = new MLPNotification();
-		try {
-			if (msg != null) {
-				notification.setTitle(msg);
-				notification.setMessage(msg);
-				Date startDate = new Date();
-				Date endDate = new Date(startDate.getTime() + (1000 * 60 * 60 * 24));
-				notification.setStart(startDate);
-				notification.setEnd(endDate);
-				MLNotification mlNotification = notificationService.createNotification(notification);
-				notificationService.addNotificationUser(mlNotification.getNotificationId(), userId);
-			}
-		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
-		}
 	}
 }

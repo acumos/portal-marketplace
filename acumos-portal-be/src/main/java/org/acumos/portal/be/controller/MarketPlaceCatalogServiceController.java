@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
@@ -539,11 +540,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 				// code to create notification
 				for (String userID : userIdList) {
-					String notification = null;
+					MLPNotification notification = new MLPNotification();
+					String notifMsg = null;
 					MLSolution solutionDetail = catalogService.getSolution(solutionId);
 					MLPUser mlpUser = userService.findUserByUserId(userID);
-					notification = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();
-					generateNotification(notification, mlpUser.getUserId());
+					notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();				
+					notification.setMessage(notifMsg);
+					notification.setTitle(notifMsg);
+					notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+					notificationService.generateNotification(notification, mlpUser.getUserId());
 				}
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Users access for solution added Successfully");
@@ -574,11 +579,16 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(userId)) {
 				catalogService.dropSolutionUserAccess(solutionId, userId);
 				// code to create notification
-				String notification = null;
+				MLPNotification notification = new MLPNotification();
+				String notificationMsg = null;
 				MLSolution solutionDetail = catalogService.getSolution(solutionId);
-				MLPUser user = userService.findUserByUserId(userId);
-				notification = solutionDetail.getName() + " unshared with " + user.getLoginName();
-				generateNotification(notification, userId);
+				MLPUser user = userService.findUserByUserId(userId);				
+				notificationMsg = solutionDetail.getName() + " unshared with " + user.getLoginName();				
+				notification.setMessage(notificationMsg);
+				notification.setTitle(notificationMsg);
+				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+				notificationService.generateNotification(notification, userId);
+				
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Users access for solution droped Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "dropSolutionUserAccess :  ");
@@ -606,15 +616,19 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			catalogService.incrementSolutionViewCount(solutionId);
-			// code to create notification
-			String notification = null;
+			// code to create notification	
 			MLSolution solution = catalogService.getSolution(solutionId);
 			int viewCount = solution.getViewCount();
 			if (viewCount != 0 && viewCount % 10 == 0) {
-				notification = "View count for " + solution.getName() + " increased by 10";
-				generateNotification(notification, solution.getOwnerId());
+				MLPNotification notification = new MLPNotification();
+				String notificationMsg = null;
+				notificationMsg = "View count for " + solution.getName() + " increased by 10";
+				notification.setMessage(notificationMsg);
+				notification.setTitle(notificationMsg);
+				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+				notificationService.generateNotification(notification, solution.getOwnerId());
 			}
-			data.setResponseBody(solutionDetail);
+			data.setResponseBody(solution);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions fetched Successfully");
 			log.debug(EELFLoggerDelegate.debugLogger, "incrementSolutionViewCount :  ");
@@ -636,10 +650,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			catalogService.createSolutionrating(mlpSolutionRating.getBody());
 			// code to create notification
-			String rating = null;
+			MLPNotification notification = new MLPNotification();
+			String notificationMsg = null;
 			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId());
-			rating = "Ratings updated for " + solution.getName();
-			generateNotification(rating, solution.getOwnerId());
+			notificationMsg = "Ratings updated for " + solution.getName();
+			notification.setMessage(notificationMsg);
+			notification.setTitle(notificationMsg);
+			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notificationService.generateNotification(notification, solution.getOwnerId());
+			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully updated solution rating");
 			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionRating :  ");
@@ -660,10 +679,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			catalogService.updateSolutionRating(mlpSolutionRating.getBody());
 			// code to create notification
-			String notification = null;
+			MLPNotification notification = new MLPNotification();
+			String notificationMsg = null;
 			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId());
-			notification = "Ratings updated for " + solution.getName();
-			generateNotification(notification, solution.getOwnerId());
+			notificationMsg = "Ratings updated for " + solution.getName();
+			notification.setMessage(notificationMsg);
+			notification.setTitle(notificationMsg);
+			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notificationService.generateNotification(notification, solution.getOwnerId());
+			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions fetched Successfully");
 			log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionRating :  ");
@@ -673,24 +697,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateSolutionRating :", e);
 		}
 		return data;
-	}
-
-	void generateNotification(String msg, String userId) {
-		MLPNotification notification = new MLPNotification();
-		try {
-			if (msg != null) {
-				notification.setTitle(msg);
-				notification.setMessage(msg);
-				Date startDate = new Date();
-				Date endDate = new Date(startDate.getTime() + (1000 * 60 * 60 * 24));
-				notification.setStart(startDate);
-				notification.setEnd(endDate);
-				MLNotification mlNotification = notificationService.createNotification(notification);
-				notificationService.addNotificationUser(mlNotification.getNotificationId(), userId);
-			}
-		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
-		}
 	}
 
 	@ApiOperation(value = "Gets models shared for the given userId.", response = MLSolution.class)
@@ -738,10 +744,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			catalogService.createSolutionFavorite(mlpSolutionFavorite.getBody());
 			// code to create notification
+			MLPNotification notification = new MLPNotification();
 			String favorite = null;
 			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
 			favorite = "Favorite created for " + solution.getName();
-			generateNotification(favorite, solution.getOwnerId());
+			notification.setMessage(favorite);
+			notification.setTitle(favorite);
+			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notificationService.generateNotification(notification, solution.getOwnerId());
+			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully created solution favorite");
 			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionFavorite :  ");
@@ -762,10 +773,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			catalogService.deleteSolutionFavorite(mlpSolutionFavorite.getBody());
 			// code to create notification
+			MLPNotification notification = new MLPNotification();
 			String favorite = null;
 			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
-			favorite = "Favorite deleted for " + solution.getName();
-			generateNotification(favorite, solution.getOwnerId());
+			favorite = "Favorite deleted for " + solution.getName();		
+			notification.setMessage(favorite);
+			notification.setTitle(favorite);
+			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notificationService.generateNotification(notification, solution.getOwnerId());
+			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully deleted solution favorite");
 			log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionFavorite :  ");
