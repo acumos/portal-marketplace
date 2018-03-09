@@ -107,6 +107,21 @@ public enum FederationAPI {
 		}
 		return builder;
 	}
+	
+	public UriComponentsBuilder uriBuilder(String theHttpUrl,  Map<String, ?> theParams) {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(theHttpUrl).path(this.path);
+		if (this.query != null) {
+			for (String queryParam : this.query) {
+				for (Map.Entry<String, ?> entry : theParams.entrySet()) {
+					//System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
+					if (queryParam.equals(entry.getKey())) {
+						builder.queryParam(entry.getKey(), entry.getValue());
+					}
+				}
+			}
+		}
+		return builder;
+	}
 
 	/*
 	 * the params include both path and query params.
@@ -121,7 +136,7 @@ public enum FederationAPI {
 	 */
 	public URI buildUri(String theHttpUrl, Map<String, ?> theParamsQuery , Map<String, ?> theParams) {
 		
-		return uriBuilder(theHttpUrl, theParamsQuery.keySet()).buildAndExpand(theParams).encode().toUri();		
+		return uriBuilder(theHttpUrl, theParamsQuery).buildAndExpand(theParams).encode().toUri();		
 	}
 
 	/**

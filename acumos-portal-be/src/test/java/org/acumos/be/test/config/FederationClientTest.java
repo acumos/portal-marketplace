@@ -97,7 +97,7 @@ public class FederationClientTest {
 		assertTrue(response == null);				
 	}
 	
-	/*@Test
+	@Test
 	public void testGetSolutions() {
 		
 		GatewayClient  federationClient = clients.getGatewayClient();
@@ -110,7 +110,7 @@ public class FederationClientTest {
 		//String theSelection = "toolkit:CL";
 		JsonResponse<List<MLPSolution>> response  = federationClient.getSolutions(peerId,theSelection);		
 		assertTrue(response == null);				
-	}*/	
+	}
 	
 	@Test
 	public void testSolution() {
