@@ -281,11 +281,12 @@
 									</div>
 									<div class="mpdetailscontainer">
 										<div class="tilecontainer1">
-											<label class="griditem-title">{{privateSolution.name}}</label>
-											<!-- Shared With/ Shared By Icon -->
-											<span class="md-share-with-me" title="Shared With Me" ng-show="privateSolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="privateSolution.ownerId == loginUserID && privateSolution.ownerListForSol.length > 0"></span> 
-										
+											<label class="griditem-title"><span class="griditem-title-text2">{{privateSolution.name}}</span></label>
+											<div>
+												<!-- Shared With/ Shared By Icon -->
+												<span class="md-share-with-me" title="Shared With Me" ng-show="privateSolution.ownerId != loginUserID"></span>
+												<span class="md-share-with-others" title="Shared With Others" ng-show="privateSolution.ownerId == loginUserID && privateSolution.ownerListForSol.length > 0"></span> 
+											</div>
 										</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
@@ -330,12 +331,14 @@
 									</div>
 								</div>
 								<div class="mp-grid-list-details-cell">
-									<label class="griditem-title">{{privateSolution.name}}
-										<!-- <span class="text-xsmall link-orange">In progress</span> -->
-										<!-- Shared With/ Shared By Icon -->
+									<div class="listview-title-container">
+										<label class="griditem-title"><span class="griditem-title-text">{{privateSolution.name}}</span></label>
+										<div>
+											<!-- Shared With/ Shared By Icon -->
 											<span class="md-share-with-me" title="Shared With Me" ng-show="privateSolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="privateSolution.ownerId == loginUserID && privateSolution.ownerListForSol.length > 0"></span>
-									</label>
+											<span class="md-share-with-others" title="Shared With Others" ng-show="privateSolution.ownerId == loginUserID && privateSolution.ownerListForSol.length > 0"></span>									
+										</div>
+									</div>									
 									<div class="disblock detail-content">
 										<span class="griditem-text2">by
 											{{privateSolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -346,7 +349,7 @@
 									</div>
 									<div class="md-icons">
 										<button
-											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button"
+											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
 											ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
 											<i class="material-icons"
 												ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
@@ -412,12 +415,14 @@
 									</div>
 									<div class="mpdetailscontainer">
 										<div class="tilecontainer1">
-											<label class="griditem-title">{{companySolution.name}}
+											<label class="griditem-title"><span class="griditem-title-text2">{{companySolution.name}}</span>
 												<span class="text-xsmall link-orange">In Process</span>
 											</label>
-											<!-- Shared With/ Shared By Icon -->
-											<span class="md-share-with-me" title="Shared With Me" ng-show="companySolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="companySolution.ownerId == loginUserID && companySolution.ownerListForSol.length > 0"></span>
+											<div>
+												<!-- Shared With/ Shared By Icon -->
+												<span class="md-share-with-me" title="Shared With Me" ng-show="companySolution.ownerId != loginUserID"></span>
+												<span class="md-share-with-others" title="Shared With Others" ng-show="companySolution.ownerId == loginUserID && companySolution.ownerListForSol.length > 0"></span>
+											</div>
 										</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
@@ -482,12 +487,16 @@
 									</div>
 								</div>
 								<div class="mp-grid-list-details-cell">
-									<label class="griditem-title">{{companySolution.name}}
-										<span class="text-xsmall link-orange">In progress</span>
-									</label>
-									<!-- Shared With/ Shared By Icon -->
+									<div class="listview-title-container">
+										<label class="griditem-title"><span class="griditem-title-text">{{companySolution.name}}</span>
+											<span class="text-xsmall link-orange">In progress</span>
+										</label>
+										<div>
+											<!-- Shared With/ Shared By Icon -->
 											<span class="md-share-with-me" title="Shared With Me" ng-show="companySolution.ownerId != loginUserID"></span>
 											<span class="md-share-with-others" title="Shared With Others" ng-show="companySolution.ownerId == loginUserID && companySolution.ownerListForSol.length > 0"></span>
+										</div>									
+									</div>
 									<div class="disblock detail-content">
 										<span class="griditem-text2">by
 											{{companySolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -521,7 +530,7 @@
 											{{companySolution.downloadCount == null ? 0 :
 											companySolution.downloadCount}}</span>
 										<button
-											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button"
+											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
 											ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
 											<i class="material-icons"
 												ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
@@ -612,12 +621,14 @@
 									</div>
 									<div class="mpdetailscontainer">
 									<div class="tilecontainer1">
-										<label class="griditem-title">{{publicSolution.name}}
+										<label class="griditem-title"><span class="griditem-title-text2">{{publicSolution.name}}</span>
 											<span class="text-xsmall link-orange">In Process</span>
 										</label>
-										<!-- Shared With/ Shared By Icon -->
+										<div>
+											<!-- Shared With/ Shared By Icon -->
 											<span class="md-share-with-me" title="Shared With Me" ng-show="publicSolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="publicSolution.ownerId == loginUserID && publicSolution.ownerListForSol.length > 0"></span> 
+											<span class="md-share-with-others" title="Shared With Others" ng-show="publicSolution.ownerId == loginUserID && publicSolution.ownerListForSol.length > 0"></span>
+										</div> 
 									</div>
 										<label class="grid-item-text-container"><span
 											class="griditem-text2 grid-item-lbl">by
@@ -679,12 +690,15 @@
 									</div>
 								</div>
 								<div class="mp-grid-list-details-cell">
-									<label class="griditem-title">{{mlsolution.name}} <span
+									<div class="listview-title-container">
+										<label class="griditem-title"><span class="griditem-title-text">{{mlsolution.name}}</span> <span
 										class="text-xsmall link-orange">In progress</span></label>
-										<!-- Shared With/ Shared By Icon -->
+										<div>
+											<!-- Shared With/ Shared By Icon -->
 											<span class="md-share-with-me" title="Shared With Me" ng-show="mlsolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="mlsolution.ownerId == loginUserID && mlsolution.ownerListForSol.length > 0"></span> 
-										
+											<span class="md-share-with-others" title="Shared With Others" ng-show="mlsolution.ownerId == loginUserID && mlsolution.ownerListForSol.length > 0"></span>
+										</div>									
+									</div>
 									<div class="disblock detail-content">
 										<span class="griditem-text2">by
 											{{mlsolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -716,7 +730,7 @@
 											{{mlsolution.downloadCount == null ? 0 :
 											mlsolution.downloadCount}}</span>
 										<button
-											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button"
+											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
 											ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
 											<i class="material-icons"
 												ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
@@ -778,11 +792,13 @@
 										</div>
 										<div class="mpdetailscontainer">
 										<div class="tilecontainer1">
-											<label class="griditem-title">{{deletedSolution.name}}
+											<label class="griditem-title"><span class="griditem-title-text2">{{deletedSolution.name}}</span>
 											</label> 
+											<div>
 												<!-- Shared With/ Shared By Icon -->
-											<span class="md-share-with-me" title="Shared With Me" ng-show="deletedSolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="deletedSolution.ownerId == loginUserID && deletedSolution.ownerListForSol.length > 0"></span> 
+												<span class="md-share-with-me" title="Shared With Me" ng-show="deletedSolution.ownerId != loginUserID"></span>
+												<span class="md-share-with-others" title="Shared With Others" ng-show="deletedSolution.ownerId == loginUserID && deletedSolution.ownerListForSol.length > 0"></span>
+											</div> 
 										</div>
 											
 											<label class="grid-item-text-container"><span
@@ -843,13 +859,16 @@
 										</div>
 									</div>
 									<div class="mp-grid-list-details-cell">
-										<label class="griditem-title">{{deletedSolution.name}}
-											<span class="text-xsmall link-orange">In progress</span>
-										</label>
-											<!-- Shared With/ Shared By Icon -->
-											<span class="md-share-with-me" title="Shared With Me" ng-show="deletedSolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="deletedSolution.ownerId == loginUserID && deletedSolution.ownerListForSol.length > 0"></span> 
-										
+										<div class="listview-title-container">
+											<label class="griditem-title"><span class="griditem-title-text">{{deletedSolution.name}}</span>
+												<span class="text-xsmall link-orange">In progress</span>
+											</label>
+											<div>
+												<!-- Shared With/ Shared By Icon -->
+												<span class="md-share-with-me" title="Shared With Me" ng-show="deletedSolution.ownerId != loginUserID"></span>
+												<span class="md-share-with-others" title="Shared With Others" ng-show="deletedSolution.ownerId == loginUserID && deletedSolution.ownerListForSol.length > 0"></span> 
+											</div>
+										</div>
 										<div class="disblock detail-content">
 											<span class="griditem-text2">by
 												{{deletedSolution.ownerName}}</span> | <span class="griditem-text2">on
@@ -887,7 +906,7 @@
 												{{deletedSolution.solutionTag == null ? 0 :
 												deletedSolution.solutionTag}}</span>
 											<button
-												class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button"
+												class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
 												ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
 												<i class="material-icons"
 													ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
