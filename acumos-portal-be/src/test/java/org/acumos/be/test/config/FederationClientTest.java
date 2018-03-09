@@ -92,36 +92,34 @@ public class FederationClientTest {
 		
 		GatewayClient  federationClient = clients.getGatewayClient();
 		assertTrue(federationClient  != null);
-		String peerId="test";
+		String peerId="b87b36f0-a600-441d-bd7c-8472bebf81ce";
 		JsonResponse<MLPPeer> response  = federationClient.ping(peerId);		
 		assertTrue(response == null);				
 	}
 	
-	@Test
+	/*@Test
 	public void testGetSolutions() {
 		
 		GatewayClient  federationClient = clients.getGatewayClient();
 		assertTrue(federationClient  != null);
-		Map<String, Object> theSelection = new HashMap<String, Object>();
-		JsonResponse<List<MLPSolution>> response  = federationClient.getSolutions(theSelection);		
+		//Map<String, Object> theSelection = new HashMap<String, Object>();
+		//String selection = "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"SK\"}";
+		//theSelection.put("modelTypeCode", "CL");
+		String peerId="b87b36f0-a600-441d-bd7c-8472bebf81ce";
+		String theSelection = "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"SK\"}";
+		//String theSelection = "toolkit:CL";
+		JsonResponse<List<MLPSolution>> response  = federationClient.getSolutions(peerId,theSelection);		
 		assertTrue(response == null);				
-	}
-	
-	/*@Test
-	public void testDownloadArtifact() {
-		
-		GatewayClient  federationClient = clients.getGatewayClient();
-		assertTrue(federationClient  != null);
-		Resource response  = federationClient.downloadArtifact("122344qqq");		
-		assertTrue(response == null);				
-	}*/
+	}*/	
 	
 	@Test
 	public void testSolution() {
 		
 		GatewayClient  federationClient = clients.getGatewayClient();
 		assertTrue(federationClient  != null);
-		JsonResponse<MLPSolution> response = federationClient.getSolution("122344qqq");		
+		String peerId="b87b36f0-a600-441d-bd7c-8472bebf81ce";
+		String solutionId = "test1c351f5d-3e38-419a-873a-ce2e63bb1d7d";
+		JsonResponse<MLPSolution> response = federationClient.getSolution(peerId,solutionId);		
 		assertTrue(response == null);				
 	}
 

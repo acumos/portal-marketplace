@@ -22,6 +22,7 @@ package org.acumos.portal.be.common;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,9 +61,9 @@ public class GatewayClient extends AbstractClient {
 	public JsonResponse<MLPPeer> ping(String peerId)
 			throws HttpStatusCodeException {
 		
-		//log.debug(EELFLoggerDelegate.debugLogger, API.Roots.LOCAL + "" + API.Paths.PING);		
-		URI uri = FederationAPI.PING.buildUri(this.baseUrl,peerId);
-		
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("peerId", peerId);		
+		URI uri = FederationAPI.PING.buildUri(this.baseUrl,uriParams);		
 		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
 		ResponseEntity<JsonResponse<MLPPeer>> response = null;
 		try {
@@ -92,21 +93,27 @@ public class GatewayClient extends AbstractClient {
 	 * @throws HttpStatusCodeException
 	 *             Throws HttpStatusCodeException is remote acumos is not available
 	 */
-	public JsonResponse<List<MLPSolution>> getSolutions(Map<String, Object> theSelection)
+	public JsonResponse<List<MLPSolution>> getSolutions(String peerId,String jsonString)
 			throws HttpStatusCodeException {
-
+		
+		Map<String, Object> theSelection = PortalUtils.jsonStringToMap(jsonString);		
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("peerId", peerId);
 		String selectorParam = null;
 		try {
 			selectorParam = theSelection == null ? null
+					// : UriUtils.encodeQueryParam(Utils.mapToJsonString(theSelection),"UTF-8");
 					: Base64Utils.encodeToString(PortalUtils.mapToJsonString(theSelection).getBytes("UTF-8"));
 		}
 		catch (Exception x) {
 			throw new IllegalArgumentException("Cannot process the selection argument", x);
 		}
-
+		
 		URI uri = FederationAPI.SOLUTIONS.buildUri(this.baseUrl, selectorParam == null ? Collections.EMPTY_MAP
-				: Collections.singletonMap(FederationAPI.QueryParameters.SOLUTIONS_SELECTOR, selectorParam));
+				: Collections.singletonMap(FederationAPI.QueryParameters.SOLUTIONS_SELECTOR, selectorParam),uriParams);
+		
 		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
+		//System.out.println("uri=" + uri);
 		ResponseEntity<JsonResponse<List<MLPSolution>>> response = null;
 		try {
 			response = restTemplate.exchange(uri, HttpMethod.GET, null,
@@ -124,46 +131,17 @@ public class GatewayClient extends AbstractClient {
 			log.info(EELFLoggerDelegate.debugLogger, uri + " response " + response);
 		}
 		return response == null ? null : response.getBody();
-	}
-	
-	/**
-	 * @param theArtifactId
-	 *            Artifact ID
-	 * @return Resource
-	 * @throws HttpStatusCodeException
-	 *             On failure
-	 */
-	/*public Resource downloadArtifact(String theArtifactId) throws HttpStatusCodeException {
-		URI uri = FederationAPI.ARTIFACT_DOWNLOAD.buildUri(this.baseUrl, theArtifactId);
-		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
-		ResponseEntity<Resource> response = null;
-		try {
-			response = restTemplate.exchange(uri, HttpMethod.GET, null, Resource.class);
-		}
-		catch (HttpStatusCodeException x) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " failed" + ((response == null) ? "" : (" " + response)), x);
-			throw x;
-		}
-		catch (Throwable t) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " unexpected failure.", t);
-		}
-		finally {
-			log.info(EELFLoggerDelegate.debugLogger, uri + " response " + response);
-		}
-
-		if (response == null) {
-			return null;
-		} else {
-			return response.getBody();
-		}
-	} */
+	}	
 	
 	/**
 	 */
-	public JsonResponse<MLPSolution> getSolution(String theSolutionId)
+	public JsonResponse<MLPSolution> getSolution(String peerId,String theSolutionId)
 			throws HttpStatusCodeException {
 
-		URI uri = FederationAPI.SOLUTION_DETAIL.buildUri(this.baseUrl, theSolutionId);
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("peerId", peerId);
+		uriParams.put("solutionId", theSolutionId);
+		URI uri = FederationAPI.SOLUTION_DETAIL.buildUri(this.baseUrl, peerId,theSolutionId);
 		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
 		ResponseEntity<JsonResponse<MLPSolution>> response = null;
 		try {

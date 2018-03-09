@@ -31,8 +31,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 public enum FederationAPI {
 
 	SOLUTIONS(Paths.SOLUTIONS, Queries.SOLUTIONS),
+	//SOLUTIONS(Paths.SOLUTIONS),
 	SOLUTION_DETAIL(Paths.SOLUTION_DETAILS),
-	//SUBSCRIPTION(Paths.SUBSCRIPTION),
 	PING(Paths.PING);
 
 	private String path;
@@ -55,14 +55,14 @@ public enum FederationAPI {
 		return this.query;
 	}
 
-	public Map<String, ?> queryParams(Map<String, ?> theParams) {
+	/*public Map<String, ?> queryParams(Map<String, ?> theParams) {
 		for (String queryParam : this.query) {
 			if (!theParams.containsKey(queryParam)) {
 				theParams.put(queryParam, null);
 			}
 		}
 		return theParams;
-	}
+	}*/
 
 	public String toString() {
 		return this.path;
@@ -84,7 +84,7 @@ public enum FederationAPI {
 			}
 		}
 		return builder;
-	}
+	}	
 
 	/**
 	 * Prepares a URI containing only the query param present in the given
@@ -114,6 +114,15 @@ public enum FederationAPI {
 	public URI buildUri(String theHttpUrl, Map<String, ?> theParams) {
 		return uriBuilder(theHttpUrl, theParams.keySet()).buildAndExpand(theParams).encode().toUri();
 	}
+	
+	
+	/*
+	 * the params include both path and query params.
+	 */
+	public URI buildUri(String theHttpUrl, Map<String, ?> theParamsQuery , Map<String, ?> theParams) {
+		
+		return uriBuilder(theHttpUrl, theParamsQuery.keySet()).buildAndExpand(theParams).encode().toUri();		
+	}
 
 	/**
 	 * Order based version. All query params must be present.
@@ -126,7 +135,7 @@ public enum FederationAPI {
 	 */
 	public URI buildUri(String theHttpUrl, String... theParams) {
 		return uriBuilder(theHttpUrl).buildAndExpand(theParams).encode().toUri();
-	}
+	}	
 
 	public static class Roots {
 
@@ -136,10 +145,9 @@ public enum FederationAPI {
 
 	public static class Paths {
 
-		public static final String SOLUTIONS = "/solutions";
-		//public static final String SUBSCRIPTION = "/subscription/{subscriptionId}";
-		public static final String SOLUTION_DETAILS = "/solutions/{solutionId}";
-		public static final String PING = "/peer/{peerId}/ping";		
+		public static final String SOLUTIONS = "/peer/{peerId}/solutions";
+		public static final String SOLUTION_DETAILS = "/peer/{peerId}/solutions/{solutionId}";
+		public static final String PING = "/peer/{peerId}/ping";
 	}	
 	
 	public static class QueryParameters {

@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,7 @@ import org.acumos.portal.be.transport.UserMasterObject;
 import org.apache.commons.lang.ArrayUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PortalUtils {
@@ -488,4 +490,19 @@ public class PortalUtils {
   			throw new IllegalArgumentException("Failed to convert", x);
   		}
   	}
+    
+    public static Map<String, Object> jsonStringToMap(String jsonString) {
+		Map<String, Object> map = new HashMap<>();
+
+		if (!isEmptyOrNullString(jsonString)) {
+			try {
+				map = objectMapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {
+				});
+			} catch (IOException x) {
+				throw new IllegalArgumentException("Argument not a map", x);
+			}
+		}
+		return map;
+	}
+    
 }
