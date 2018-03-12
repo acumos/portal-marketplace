@@ -340,6 +340,7 @@ angular.module('admin')
                   var strSiteConfig = JSON.stringify(data);
                   var convertedString = strSiteConfig.replace(/"/g, '\"');
 				  var file = $scope.userImage;
+				  $rootScope.coBrandingImage = ""
                   var uploadUrl = "api/users/updateUserImage/"
 						+ userId;
                   var reqObj = {
@@ -362,7 +363,7 @@ angular.module('admin')
                                                 $rootScope.siteInstanceName = $scope.siteConfig.fields[key].data;
                                             }if($scope.siteConfig.fields[key].label == 'Headerlogo'){
                                                 $rootScope.headerImage = $scope.siteConfig.fields[key].data.base64;
-                                            }if($scope.siteConfig.fields[key].label == 'coBrandingLogo'){
+                                            }if($scope.siteConfig.fields[key].label == 'coBrandingLogo' && $scope.siteConfig.fields[key].data){
                                                 $rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
                                             }if($scope.siteConfig.fields[key].label == 'Footerlogo'){   
                                                 $rootScope.footerImage = $scope.siteConfig.fields[key].data.base64;
@@ -390,6 +391,19 @@ angular.module('admin')
                     });
                 //$log.debug($scope.entity);
               }
+			  
+			  
+            		  $scope.removeFile = function(fileLabel){
+            			  angular
+                          .forEach(
+                                  $scope.siteConfig.fields,
+                                  function( value, key) {
+                                  if($scope.siteConfig.fields[key].label == fileLabel){
+                                	  $scope.siteConfig.fields[key].data = "";
+                                  }
+                                  });
+            		  }	
+			  
             	      $scope.peerChange = function(peer){
             	    	  $scope.editPeer = peer;
             	      }
