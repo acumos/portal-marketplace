@@ -9,6 +9,7 @@ angular.module('admin')
 				$scope.orderByField = 'username';$scope.reverseSort = false;
 				$scope.orderByFieldFed = 'name'; $scope.reverseSortFederation = false;
 				$scope.showAllModelsTable = false;
+				$scope.verify = true;
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
 			//Frequency of update
@@ -26,7 +27,78 @@ angular.module('admin')
 					'name': 'Update on demand',
 					'value': '0'
 				}]
-			
+			//Verify check for url in add peer popup
+			$scope.verifyUrl= function(apiUrlPop){console.log($scope.verified)
+				$scope.verify = false;
+				//$scope.verified = !$scope.verified ;
+				var url = "api/gateway/ping/"+$scope.editPeerID;
+				console.clear();console.log(url);
+				/*var json={"request_body": {
+			    	"apiUrl": apiUrlPop,
+	  				}}*/
+                $http({
+                    method : "GET",
+                    url : url
+                }).then(function mySuccess(response) {console.log(response);
+                	if(response.data.status_code == 400){$scope.verified=false;$scope.errorMessage = response.data.response_detail}
+                	else{$scope.verified=true;$scope.successMessage = response.data.response_detail}
+                	debugger;
+                }, function myError(response) {
+                	console.log("Error response", response);
+                	$scope.verified=false;$scope.errorMessage = response.data.response_detail
+                });
+			}
+			$scope.accessType = 
+				[{
+					'name': 'Full Access',
+					'value': 'FA'
+				}, {
+					'name': 'Partial Access',
+					'value': 'PA'
+				}];
+			$scope.AccessValue = "FA";
+			//Browse catelog when category and toolkitype selected
+			$scope.browseForCatTool =function(){
+				$scope.showSolutionTable = true;
+				//allModelsTable && (allSubs == 'true') && showAllModelsTable
+				$scope.showAllModelsTable = true;
+				$scope.allModelsTable = true;
+				
+				//Code for selector
+				var jsonFormate = '',cat='',toolKit='';
+				if($scope.categoryValue){
+          		  cat = '"modelTypeCode":"' +$scope.categoryValue + '"'
+          	  }
+          	  if($scope.toolKitTypeValue){
+          		  toolKit = '"toolKitTypeCode":"' +$scope.toolKitTypeValue 
+          	  }
+          	  if(cat&&toolKit){var catToolkit = '{' + cat + ',' + toolKit + '"}';}
+          	  else if(cat&&!toolKit)var catToolkit = '{' + cat +'}';
+          	  else if(!cat&&toolKit)var catToolkit = '{' + toolKit + '"}';
+          	  
+          	  console.clear();console.log(catToolkit);
+          	  var json={"request_body": {
+          			    	"peerId": $scope.peerIdForSubsList,
+          			    	//"subId": $scope.subId,
+          			    	"selector" : catToolkit,
+          			    	"ownerId" : userId,
+          			    	"scopeType": $scope.AccessValue || "FL",
+          			    	"refreshInterval": freqChangeValue,
+          			    	"accessType": "PB"
+          	  				}}
+          	console.log(json);console.log($scope.publicSolList);
+          	$http({
+                method : "POST",
+                url :  "/api/gateway/solutions",
+                data : json
+            }).then(function mySuccess(response) {
+            	$scope.mlsolutionCatTool = response.data.response_body;
+            	if($scope.publicSolList == "null"){$scope.noSolution = true;}
+            }, function myError(response) {
+            	$scope.noSolution = true;
+            	console.log("Error response", response);
+            });
+			}
 			//Hard coded (delete it)
 			/*$scope.subscription = [{
 			       "requestId": "REQID 12345680",
@@ -539,6 +611,7 @@ angular.module('admin')
                       }
                     //Chane cat and tool
                       $scope.catChange = function(val1,val2){
+                    	  $scope.showAllModelsTable= false;
                     	  $scope.catValue = '';$scope.toolType = '';$scope.noData = false;
                     	  angular.forEach($scope.category, function(value, key) {
                     		  if(value.typeCode == val1)
@@ -553,8 +626,15 @@ angular.module('admin')
                       $scope.allSelect = function(){
                     	  $scope.categoryValue='';$scope.toolKitTypeValue='';$scope.modelIDValue='';
                       }
+                      $scope.browseClear = function(val){
+                    	  if(val=='browse'){$scope.showAllModelsTable = true;
+          				$scope.allModelsTable = true;}
+                    	  else if(val=="clear"){$scope.showAllModelsTable = false;
+            				$scope.allModelsTable = false;}
+                      }
                       //Serch using model id
                       $scope.modelEdit = function(){
+                    	  $scope.showAllModelsTable= false;
                     	  $scope.addedToSubs = false;
                     	  var getSolutionImagesReq = {
 									method : 'GET',
@@ -573,7 +653,7 @@ angular.module('admin')
 														config) {
 													return "No Contents Available"
 												});
-                    	  apiService
+                    	  /*apiService
                     	  .getSolutionDetail($scope.modelIDValue)
                     	  .then(
                     	  		function(response) {
@@ -582,7 +662,19 @@ angular.module('admin')
                     	  		},
                     	  		function(error) {
                     	  			
-                    	  		});
+                    	  		});*/
+                     	 ///GET /gateway/$scope.modelIDValue/solution/$scope.peerIdForSubsList
+                     	 var url = "api/gateway/"+$scope.modelIDValue+"/solution/"+$scope.peerIdForSubsList;
+                     	$http({
+                            method : "GET",
+                            url : url
+                        }).then(function mySuccess(response) {
+                        	$scope.solutionDetail = response.data.response_body;
+            	  			if($scope.solutionDetail == 'null'){$scope.noData = true;}else {$scope.noData = false;}
+                        }, function myError(response) {
+                        	$scope.noData = true;
+                        	console.log("Error response", response);
+                        });
                       }
                       $scope.mdPrimaryClass=false;
                       //Subscription popup
@@ -682,26 +774,13 @@ angular.module('admin')
                       $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
                     	  var check = false;
-                    	  var jsonFormate = '',cat='',toolKit='';
+                    	  var jsonFormate = '',cat='',toolKit='';debugger;
                     	  if(!$scope.categoryValue && !$scope.toolKitTypeValue){
                     		  $scope.categoryValue = $scope.solutionDetail.modelType;
                     		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;
                     		  check = true;
                     	  }
-                    	  /*commented to remove the \ */
-                    	  /*
-                    	  if($scope.categoryValue){
-                    		  cat = '"modelTypeCode\\":\\"' +$scope.categoryValue + '\\"'
-                    	  }
-                    	  if($scope.toolKitTypeValue){
-                    		  toolKit = '"toolKitTypeCode\\":\\"' +$scope.toolKitTypeValue 
-                    	  }
-                    	  if(cat&&toolKit){var catToolkit = '{\\' + cat + ',\\' + toolKit + '\\"}';}
-                    	  else if(cat&&!toolKit)var catToolkit = '{\\' + cat +'}';
-                    	  else if(!cat&&toolKit)var catToolkit = '{\\' + toolKit + '\\"}';
-                    	  console.log("catToolkit ",catToolkit);*/
-                    	  
-                    	  
+                    	                      	  
                     	  // new code 
                     	  if($scope.categoryValue){
                     		  cat = '"modelTypeCode":"' +$scope.categoryValue + '"'
@@ -713,41 +792,31 @@ angular.module('admin')
                     	  else if(cat&&!toolKit)var catToolkit = '{' + cat +'}';
                     	  else if(!cat&&toolKit)var catToolkit = '{' + toolKit + '"}';
                     	  
-                    	  console.clear();console.log($scope);
+                    	  console.clear();console.log(catToolkit);
                     	  var json={"request_body": {
                     			    	"peerId": $scope.peerIdForSubsList,
                     			    	//"subId": $scope.subId,
                     			    	"selector" : catToolkit,
                     			    	"ownerId" : userId,
-                    			    	"scopeType": "FL",
+                    			    	"scopeType": $scope.AccessValue || "FL",
                     			    	"refreshInterval": freqChangeValue,
                     			    	"accessType": "PB"
                     	  				}}
                     	  if(check){$scope.categoryValue='';$scope.toolKitTypeValue='';}
-                    	  console.log("json>> ",json);
+                    	  console.clear();console.log("json>> ",json);
                     	  var url = "api/admin/peer/subcription/create";
                           $http({
                               method : "POST",
                               url : url,
                               data : json
-                          }).then(function mySuccess(response) {
+                          }).then(function mySuccess(response) {console.log("success>> ",response);
                               if(response.data.response_detail ==  "Success"){
-                            	  //$scope.closePoup();
                             	  fetchToolKitType();
                             	  $scope.addedToSubs = true;
-                            	  //$scope.countSubscriptions();
-                      	    	/*$location.hash('myDialog');  
-                                  $anchorScroll(); 
-                                  $scope.msg = "Successfully added to subscription list."; 
-                                  $scope.icon = 'report_problem';
-                                  $scope.styleclass = 'c-success';
-                                  $scope.showAlertMessage = true;
-                                  $timeout(function() {
-                                  	$scope.showAlertMessage = false;
-                                  }, 5000);*/
+                            	  
                               }
                           }, function myError(response) {
-                        	 
+                        	  console.log("success>> ",response);
                           });
                       }
                       //delete subscription
@@ -1267,20 +1336,16 @@ angular.module('admin')
                                           /*Add all models start*/
                                           $scope.addAllSolutions = function(){
                                         	  var addAllSolObj = [];
-                                        	  /*if(freqChangeValue){
-                                        		  $scope.freqChangeValue = freqChangeValue;
-                                        	  }else{
-                                        		  $scope.freqChangeValue = ;
-                                        	  }*/
                                         	  var cat,toolKit,catToolkit;
-                                        	  angular.forEach($scope.publicSolList,function(value, key) {
-                                    		  
+                                        	  //angular.forEach($scope.publicSolList,function(value, key) {  //mlsolutionCatTool
+                                        	  angular.forEach($scope.mlsolutionCatTool,function(value, key) {
+                                        		  alert(angular.toJson(value));
                                     		  cat="";toolKit ="";catToolkit="";
-                                    		  if(value.modelType){
-                                        		  cat = '"modelTypeCode":"' +value.modelType + '"'
+                                    		  if(value.modelTypeCode){
+                                        		  cat = '"modelTypeCode":"' +value.modelTypeCode + '"'
                                         	  }
-                                        	  if(value.tookitType){
-                                        		  toolKit = '"toolKitTypeCode":"' +value.tookitType 
+                                        	  if(value.toolkitTypeCode){
+                                        		  toolKit = '"toolKitTypeCode":"' +value.toolkitTypeCode 
                                         	  }
                                         	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}';
        										addAllSolObj.push(
@@ -1288,25 +1353,21 @@ angular.module('admin')
 		 	    		              					  "accessType" : "PB",
 		 	    		              					  "ownerId" : userId,
 		 	    		              					  /*"peerId" : $scope.peerIdForSubsList,*/
-		 	    		              					  "scopeType" : "FL",
+		 	    		              					  "scopeType" : $scope.AccessValue || "FL",
 		 	    		              					  "tookitType" :value.tookitType,
 		 	    		              					  "modelType": value.modelType,
 		 	    		              					  "refreshInterval": freqChangeValue,
 		 	    		              					  "selector": catToolkit
 	    		                        				 }
        										) 
-       										//console.log(value);
        										});
-                                    	  
-                                    	  console.log(addAllSolObj);  
                                         	  var reqAddObj = {
                                         			  "request_body": 
                                         				  addAllSolObj
                                         			  }
-                                        	  
-                  							console.log(angular.toJson(reqAddObj));
+                  							console.clear();console.log(reqAddObj);
                   							apiService.insertAddAllSolutions($scope.peerIdForSubsList, reqAddObj).then(
-                    									function(response) {
+                    									function(response) {console.log(response);
                     										fetchToolKitType();
                     										if(response.data.response_detail ==  "Success"){
                     			                            	  $scope.addedAllToSubs = true;
@@ -1546,3 +1607,5 @@ angular.module('admin')
 				}
 			}
 		});
+//for search solution : addtosubs
+//for category and toolkittype : addedAllToSubs
