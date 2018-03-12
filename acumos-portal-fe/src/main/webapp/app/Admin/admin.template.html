@@ -428,20 +428,32 @@
                                                                         <div ng-if="field.type=='file'" class="rowcontainer">
                                                                             <label class="disblock">{{field.label}}</label>
                                                                             <div class="disblock">
-                                                                                <input type="{{ field.type }}" dynamic-name="field.name" 
+                                                                                                                                                                                                                       
+                                                                                <input type="{{ field.type }}" dynamic-name="field.name" ng-disabled = "field.label != 'coBrandingLogo'"
                                                                             id="{{field.name}}" data-ng-model="field.data" upload-image-model = "field.data" base-sixty-four-input
-                                                                            />
+                                                                            /> 
                                                                            <div class="help-inline validation-msgs"><span ng-show = "imageError">Image should be max size of 2KB.</span></div>
                                                                             
                                                                             </div>
-                                                                        </div>							
+                                                                            <div class="logopngContainer" ng-show = "field.label == 'coBrandingLogo' && field.data">
+																			  	<ul class="logopngContent">
+																			      <li class="floatLeft">{{field.data.filename}}</li>
+																			      <li class="floatLeft">|</li>
+																			      <li class="floatLeft">{{field.data.filesize}} bytes</li>
+																			    </ul>
+																			    <md-button class="md-icon-button closeIcon" ng-click='removeFile(field.label)' ng-show = "field.label == 'coBrandingLogo'">
+																				  <i class="material-icons">close</i>
+																				</md-button>
+																			</div>
+																			
+                                                                        </div>						
 																</ng-form>
 																						
 															</div>
 															<br />	
 																<div class="text-right admin-sccontainer1">
 																<button type="submit" id="submit" 
-																class="mdl-button mdl-js-button btn-primary">Submit</button>
+																class="mdl-button mdl-js-button btn-primary">Update</button>
 															</div>	
 															
 															
@@ -1639,8 +1651,8 @@
 																</td>
 																<td class="">
 																	<div class="posstatic">
-																		<button class="mdl-button mdl-js-button btn-secondary btn-fed2" ng-click="trigger[$index] = !trigger[$index]">Preview</button>
-																		<button class="mdl-button mdl-js-button btn-primary">Trigger</button>
+																		<button class="mdl-button mdl-js-button btn-secondary btn-fed2" disabled ng-click="trigger[$index] = !trigger[$index]">Preview</button>
+																		<button class="mdl-button mdl-js-button btn-primary" disabled>Trigger</button>
 																			<!-- Fed Preview box Start -->
 																				<div class="preview-box" ng-show="trigger[$index]">
 																					<div class="preview-box-header">

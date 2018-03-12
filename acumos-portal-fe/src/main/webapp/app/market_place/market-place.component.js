@@ -242,7 +242,7 @@ angular
 
 							apiService.insertSolutionDetail(dataObj).then(
 									function(response) {
-										
+										$rootScope.relatedModelType = '';
 										getSolution(response);
 									},
 									function(error) {
