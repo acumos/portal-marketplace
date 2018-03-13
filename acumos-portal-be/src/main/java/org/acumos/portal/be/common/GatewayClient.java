@@ -29,6 +29,7 @@ import java.util.Map;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.client.HttpClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -118,6 +119,8 @@ public class GatewayClient extends AbstractClient {
 			response = restTemplate.exchange(uri, HttpMethod.GET, null,
 					new ParameterizedTypeReference<JsonResponse<List<MLPSolution>>>() {
 					});
+			
+			log.info(JsonUtils.serializer().toPrettyString(response));
 		}
 		catch (HttpStatusCodeException x) {
 			log.error(EELFLoggerDelegate.errorLogger, uri + " failed" + ((response == null) ? "" : (" " + response)), x);

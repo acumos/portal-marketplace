@@ -135,6 +135,8 @@ public class GatewayController extends AbstractController {
 				if (selectorMap != null && selectorMap.size() > 0) {
 					GatewayClient gateway = clients.getGatewayClient();
 					solutions = gateway.getSolutions(mlpPeerSubscription.getPeerId(), selector);
+					
+					log.info(JsonUtils.serializer().toPrettyString(solutions));
 				}
 				if (solutions == null){
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
