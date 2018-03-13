@@ -33,6 +33,7 @@ app.component('notificationModule',{
 			    	};
 				
 				apiService.getNotification(userId,req).then(function(response) {
+					
 				if(response.data!=null && response.data.response_body.length >0 ){
 					angular.forEach(
 							response.data.response_body,
@@ -56,6 +57,7 @@ app.component('notificationModule',{
 						}
 						
 					});*/
+					
 				}else{
 					$rootScope.notificationCount=0;
 					$scope.notificationManageObj=[];
@@ -156,7 +158,18 @@ app.component('notificationModule',{
 			angular.element(document.querySelector("#checkbox-label")).removeClass("is-checked");
        };
        
-       $scope.setSelectAll = function(){
+       $scope.removeSelectAll = function(){
+    	   debugger
+    	   if($scope.selectAll == true){
+    		   $scope.selectAll = false;
+    		   $scope.selectAllStatus = false;
+    	   }
+       }
+       
+       
+       $scope.setSelectAll = function(selected){
+    	   $scope.selectAll = selected;
+    	   $scope.selectAllStatus = true;
     	  /*f($scope.selectAll)
     	  	{$scope.selectAll = false;}
     	  else 
