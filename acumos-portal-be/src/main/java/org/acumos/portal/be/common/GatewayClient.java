@@ -125,6 +125,8 @@ public class GatewayClient extends AbstractClient {
 					})));
 			
 			log.info(JsonUtils.serializer().toPrettyString(response));
+			
+			log.info( "Gateway Content : " + JsonUtils.serializer().toPrettyString(response.getBody().getContent()));
 		}
 		catch (HttpStatusCodeException x) {
 			log.error(EELFLoggerDelegate.errorLogger, uri + " failed" + ((response == null) ? "" : (" " + response)), x);

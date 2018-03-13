@@ -66,6 +66,12 @@ public class JsonResponse<T> implements Serializable {
 	@JsonProperty(value = JSONTags.TAG_RESPONSE_BODY)
 	private T responseBody;
 	
+	/**
+	 * Json property content. It represents the type of generic object.
+	 */
+	@JsonProperty(value = JSONTags.TAG_RESPONSE_CONTENT)
+	private T content;
+	
 	public Boolean getStatus() {
 		return status;
 	}
@@ -110,6 +116,14 @@ public class JsonResponse<T> implements Serializable {
 
 	public void setResponseBody(T responseBody) {
 		this.responseBody = responseBody;
+	}
+
+	public T getContent() {
+		return content;
+	}
+
+	public void setContent(T responseBody) {
+		this.content = responseBody;
 	}
 
 	public int getStatusCode() {
