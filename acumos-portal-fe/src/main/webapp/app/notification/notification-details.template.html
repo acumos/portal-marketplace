@@ -44,7 +44,7 @@
 								<tr>
 								  <th>
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1" id="checkbox-label">
-									  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model = "selectAll" ng-click = "setSelectAll()">
+									  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model = "selectAll" ng-click = "setSelectAll(selectAll)" ng-checked="selectAllStatus" />
 									  <span class="mdl-checkbox__label"></span>
 									</label></th>
 								  <th>Sender Name</th>
@@ -53,10 +53,10 @@
 								</tr>
 							  </thead>
 							  <tbody>
-								<tr ng-repeat="notification in ($parent.filtertedNotification = (notificationManageObj | filter:{message : search}))">
+								<tr ng-repeat="notification in ($parent.filtertedNotification = (notificationManageObj | filter:{message : search})) track by notification.notificationId">
 								<td>
-									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" >
-									  <input type="checkbox" id="checkBox_{{$index}}" class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected">
+									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" id="checkBox_{{$index}}">
+									  <input type="checkbox"  class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected" ng-click="removeSelectAll()">
 									  <span class="mdl-checkbox__label"></span>
 									</label>
 								</td>
