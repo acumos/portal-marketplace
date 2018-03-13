@@ -649,8 +649,8 @@ public class UserServiceController extends AbstractController {
 						} else if (user.getBody().getBulkUpdate().equalsIgnoreCase("active")) {
 							userObj.setActive("Y");
 						} else if (user.getBody().getBulkUpdate().equalsIgnoreCase("inactive")) {
-							userObj.setActive("N");
-						}
+							userObj.setActive("N");	
+						}	
 						userService.updateUser(userObj);
 					}
 				}

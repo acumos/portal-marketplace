@@ -1057,7 +1057,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLStepResult>> convertToOnap(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, @PathVariable("userId") String userId) {
 		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
-		catalogService.convertSolutioToONAP(solutionId, revisionId, userId);
+		catalogService.convertSolutioToONAP(solutionId, revisionId, userId); 
 		return data;
 	}
 }
