@@ -120,13 +120,8 @@ public class GatewayClient extends AbstractClient {
 					new ParameterizedTypeReference<JsonResponse<List<MLPSolution>>>() {
 					});
 			
-			log.info( "Gateway Client : " + JsonUtils.serializer().toPrettyString(restTemplate.exchange(uri, HttpMethod.GET, null,
-					new ParameterizedTypeReference<JsonResponse<List<MLPSolution>>>() {
-					})));
+			log.info( "Response of Get Solutions for Peer : " + JsonUtils.serializer().toString(response));
 			
-			log.info(JsonUtils.serializer().toPrettyString(response));
-			
-			log.info( "Gateway Content : " + JsonUtils.serializer().toPrettyString(response.getBody().getContent()));
 		}
 		catch (HttpStatusCodeException x) {
 			log.error(EELFLoggerDelegate.errorLogger, uri + " failed" + ((response == null) ? "" : (" " + response)), x);

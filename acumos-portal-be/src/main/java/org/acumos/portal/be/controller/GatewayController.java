@@ -96,7 +96,7 @@ public class GatewayController extends AbstractController {
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseBody(peer.getResponseBody());
+				data.setResponseBody(peer.getContent());
 			}
 		}catch(Exception e) {
 			data = new JsonResponse<>();
@@ -142,7 +142,7 @@ public class GatewayController extends AbstractController {
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-					data.setResponseBody(solutions.getResponseBody());
+					data.setResponseBody(solutions.getContent());
 				}
 			}catch(Exception e) {
 				data = new JsonResponse<>();
@@ -178,7 +178,7 @@ public class GatewayController extends AbstractController {
 					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-					data.setResponseBody(solution.getResponseBody());
+					data.setResponseBody(solution.getContent());
 				}
 			}catch(Exception e) {
 				data = new JsonResponse<>();
