@@ -22,6 +22,7 @@ package org.acumos.portal.be.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.acumos.cds.AccessTypeCode;
@@ -67,6 +69,15 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.maven.wagon.ConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -2020,6 +2031,8 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		String metaDataUrl = null;
 		ByteArrayOutputStream byteArrayOutputStream  = null;
 		String name = null;
+		HttpResponse response = null;
+		HttpClient httpclient = new DefaultHttpClient();
 		
 		for(MLPArtifact artifact : revisionArtifacts) {
 			if (artifact.getArtifactTypeCode().equalsIgnoreCase("MD")) {
@@ -2063,9 +2076,27 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				name = (String) metaRuntime.get("name");
 				log.debug("Name ot type of model : " + name);
 			}
+			
+			
 			if ("PYTHON".equalsIgnoreCase(name)) {
+
 				// Call Federation and onboarding for the conversion of model
+
+				HttpPost post = new HttpPost(env.getProperty("onboarding.dcae.model.url"));
+
+				if (!StringUtils.isEmpty(solutionId)) {
+					post.addHeader("solutioId", solutionId);
+				}
+				if (!StringUtils.isEmpty(solutionId)) {
+					post.addHeader("revisionId", revisionId);
+				}
+				try {
+					response = httpclient.execute(post);
+				} catch (Exception e) {
+					log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+				}
 			} 
+			
 		}
 		//return "Solution Converted to ONAP"
 		
