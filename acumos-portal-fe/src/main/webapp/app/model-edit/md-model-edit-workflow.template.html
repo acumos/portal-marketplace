@@ -1471,13 +1471,14 @@
 																				<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																				<div class="upload-image-input">
 																					<div file-upload file=previewImage ng-click = "cancelSolImage()"
-																						uploadid="companyuploadid" id="solImage"
+																						uploadid="companyuploadid" id="solImage" size = 800000
 																						filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
 																						filepreview="previewImage" ng-model="solImage"
 																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
 																					<input class="mdl-textfield__input"
 																						placeholder="Upload Image" type="text"
 																						ng-model="filename" readonly />
+																					
 																				</div>
 																				<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
@@ -1503,6 +1504,7 @@
                                                                                       type="file" id="uploadBtn">
                                                                                 </div>
                                                                              </div> -->
+                                                                             
 																				<div>
 																					<p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
 																				</div>
@@ -3151,7 +3153,7 @@
 																			<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																			<div class="upload-image-input">
 																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
-																					uploadid="publicuploadid" id="solImage"
+																					uploadid="publicuploadid" id="solImage" size = 800000
 																					filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
 																					filepreview="previewImage" ng-model="solImage"
 																					icon="icon" upload-image-model="solImage" readonly alt="Browse" title="Browse"></div>

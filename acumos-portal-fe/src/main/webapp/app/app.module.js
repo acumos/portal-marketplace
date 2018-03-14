@@ -353,7 +353,8 @@ angular
             filename: "=",
             icon: "=",
             accept: "@",
-            uploadid: "@"
+            uploadid: "@",
+            size: "=" //in bytes
           },
         link: function (scope, element) {
 
@@ -368,9 +369,16 @@ angular
                     var reader = new FileReader();
                     reader.onload = function(loadEvent) {
                       scope.$apply(function() {
-                        scope.filepreview = loadEvent.target.result;
-                        scope.filename = scope.fileinput.name;
-                        scope.icon = true;
+                    	console.log(scope.size);
+                    	var size = scope.fileinput.size;
+	                	if(size >= scope.size){
+	    	            	scope.imageError = true;
+	    	            	return true;
+	    	            }else{
+	                    	scope.filepreview = loadEvent.target.result;
+	                        scope.filename = scope.fileinput.name;
+	                        scope.icon = true;
+	    	            }
                       });
                     }
                     reader.readAsDataURL(scope.fileinput);

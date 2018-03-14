@@ -696,9 +696,10 @@
 																						</div>
 																						<div ng-show = "$root.progressBar > 0" > <!-- ng-show="progressVisible" -->
 																				            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-																				               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
-																				            			<span ng-show = "$root.progressBar == 100">Completed</span>
+																				               
 																				            </div>
+																				            <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
+																				            			<span ng-show = "$root.progressBar == 100">Completed</span>
 																				            </div>
 																				         </div>
 																		</div>
