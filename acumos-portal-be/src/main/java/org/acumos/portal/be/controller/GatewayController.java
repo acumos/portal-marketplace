@@ -93,7 +93,7 @@ public class GatewayController extends AbstractController {
 				peer = gateway.ping(peerId);
 			}
 			if (peer == null){
-				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Cannot Establish Connection");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseBody(peer.getContent());

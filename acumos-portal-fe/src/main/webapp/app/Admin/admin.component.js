@@ -1353,7 +1353,6 @@ angular.module('admin')
                                         	  var cat,toolKit,catToolkit;
                                         	  //angular.forEach($scope.publicSolList,function(value, key) {  //mlsolutionCatTool
                                         	  angular.forEach($scope.mlsolutionCatTool,function(value, key) {
-                                        		  alert(angular.toJson(value));
                                     		  cat="";toolKit ="";catToolkit="";
                                     		  if(value.modelTypeCode){
                                         		  cat = '"modelTypeCode":"' +value.modelTypeCode + '"'
