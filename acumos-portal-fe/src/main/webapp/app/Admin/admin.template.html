@@ -473,7 +473,7 @@
 															<span class="admin-title3">| Federation</span>
 															 <md-switch ng-model="data.cb1" aria-label="Switch 1" class="md-warn">
 																<span class="text-xsmall text-green" ng-show="data.cb1 == true">Enabled</span>
-																<span class="text-xsmall" ng-show="data.cb1 == false || data.cb1 == null ">Disabled</span>
+																<span class="text-xsmall text-red" ng-show="data.cb1 == false || data.cb1 == null ">Disabled</span>
 															  </md-switch>
 
 															<!-- <span class="admin-title3">Turn On/Off Federation</span>
@@ -514,7 +514,7 @@
 																  <th ng-click="orderByFieldFed='apiUrl'; reverseSortFederation = !reverseSortFederation">gateway info<span ng-if='orderByFieldFed!="apiUrl"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="apiUrl"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
 																  <th ng-click="orderByFieldFed='contact1'; reverseSortFederation = !reverseSortFederation">Contact<span ng-if='orderByFieldFed!="contact1"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="contact1"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
 																  <th>Subscriptions</th>
-																  <th ng-click="orderByFieldFed='active'; reverseSortFederation = !reverseSortFederation">Status<span ng-if='orderByFieldFed!="active"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="active"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
+																  <th ng-click="orderByFieldFed='statusCode'; reverseSortFederation = !reverseSortFederation">Status<span ng-if='orderByFieldFed!="statusCode"' class="gridcell-sort deactivate"></span><span ng-if='orderByFieldFed=="statusCode"' ng-class="reverseSortFederation?'ascending':'descending'" class="gridcell-sort"></span></th>
 																  <th>Action</th>
 																  <th>self</th>
 																</tr>

@@ -444,6 +444,7 @@ app.component('headerNav',{
           var originatorEv;
           $scope.openMenu = function($mdMenu, ev) {
               originatorEv = ev;
+      		angular.element('.notelist_1').parent().addClass('menu_notification_container');
               $mdMenu.open(ev);
             };
             

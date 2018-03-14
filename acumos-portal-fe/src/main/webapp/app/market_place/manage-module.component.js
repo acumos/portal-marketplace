@@ -94,6 +94,19 @@ angular
 						var companyPrevTotal = 0;
 						var deletedPrevTotal = 0;
 						
+						$scope.favouriteList = function() {
+							if ($scope.loginUserID) {
+								apiService
+										.getFavoriteSolutions($scope.loginUserID)
+										.then(function(response) {
+													$scope.favouriteSolutions = response.data.response_body;
+												},
+											function(error) {
+										});
+							}
+						};
+						$scope.favouriteList();
+						
 						$scope.getPrivateModels=function(){
 							$scope.dataLoading = true;
 							if($scope.searchBox!=null && $scope.searchBox!='')
@@ -139,6 +152,12 @@ angular
 								
 								angular.forEach($scope.mlSolutionPrivate, function(value,key) {
 									$scope.getSolutionImages(value.solutionId);
+									angular.forEach($scope.favouriteSolutions,
+											function(mlsolutionValue,mlsolutionKey) {
+												if (mlsolutionValue.solutionId == value.solutionId) {
+													$scope.mlSolutionPrivate[key].selectFav = true;
+												}
+									});
 								});
 								if(data.response_body.filteredTagSet.length > 0){
 									for(var i=0;i< data.response_body.filteredTagSet.length;i++){
@@ -209,6 +228,12 @@ angular
 								
 								angular.forEach($scope.mlSolutionCompany, function(value,key) {
 									$scope.getSolutionImages(value.solutionId);
+									angular.forEach($scope.favouriteSolutions,
+											function(mlsolutionValue,mlsolutionKey) {
+												if (mlsolutionValue.solutionId == value.solutionId) {
+													$scope.mlSolutionCompany[key].selectFav = true;
+												}
+									});
 								});
 								if(data.response_body.filteredTagSet.length > 0){
 									for(var i=0;i< data.response_body.filteredTagSet.length;i++){
@@ -280,6 +305,12 @@ angular
 								
 								angular.forEach($scope.mlSolutionPublic, function(value,key) {
 									$scope.getSolutionImages(value.solutionId);
+									angular.forEach($scope.favouriteSolutions,
+											function(mlsolutionValue,mlsolutionKey) {
+												if (mlsolutionValue.solutionId == value.solutionId) {
+													$scope.mlSolutionPublic[key].selectFav = true;
+												}
+									});
 								});
 								if(data.response_body.filteredTagSet.length > 0){
 									for(var i=0;i< data.response_body.filteredTagSet.length;i++){
@@ -343,6 +374,12 @@ angular
 								
 								angular.forEach($scope.mlSolutionDelete, function(value,key) {
 									$scope.getSolutionImages(value.solutionId);
+									angular.forEach($scope.favouriteSolutions,
+											function(mlsolutionValue,mlsolutionKey) {
+												if (mlsolutionValue.solutionId == value.solutionId) {
+													$scope.mlSolutionDelete[key].selectFav = true;
+												}
+									});
 								});
 								if(data.response_body.filteredTagSet.length > 0){
 									for(var i=0;i< data.response_body.filteredTagSet.length;i++){
@@ -524,7 +561,7 @@ angular
 							$scope.getPrivateModels();
 							$scope.getCompanyModels();
 							$scope.getPublicModels();
-							$scope.getDeleteModels();						
+							$scope.getDeleteModels();
 						}
 						$scope.imgURL = "https://www.extremetech.com/wp-content/uploads/2015/10/AI.jpg";
 						$scope.isBusy = false;
@@ -659,7 +696,6 @@ angular
 							
 							if(type == 'sortBy'){$scope.sortBy = checkbox.value;}else if(type == 'sortById')$scope.sortById = checkbox.value;
 							getModels();
-							
 						}
 						
 						$scope.selectChip = function(index){
@@ -779,6 +815,12 @@ angular
 													$scope.mlsolutions = response.data.response_body.content;
 													angular.forEach($scope.mlsolutions, function(value,key) {
 														$scope.getSolutionImages(value.solutionId);
+														angular.forEach($scope.favouriteSolutions,
+																function(mlsolutionValue,mlsolutionKey) {
+																	if (mlsolutionValue.solutionId == value.solutionId) {
+																		$scope.mlsolutions[key].selectFav = true;
+																	}
+														});
 													});
 												}
 												
@@ -833,6 +875,12 @@ angular
 																		ratingCount: response.data.response_body.content[i].ratingCount
 
 																	});
+															angular.forEach($scope.favouriteSolutions,
+																	function(mlsolutionValue,mlsolutionKey) {
+																		if (mlsolutionValue.solutionId == response.data.response_body.content[i].solutionId) {
+																			$scope.mlsolutions[$scope.mlsolutions.length].selectFav = true;
+																		}
+															});
 														}
 													}
 
@@ -899,8 +947,18 @@ angular
 							count += 9;
 						}
 						
-						$scope.updateFavorite = function(solutionId, key){
-
+						$scope.updateFavorite = function(solutionId, key, type){
+							var favourite;
+							if(type == 'PR'){
+								favourite = $scope.mlSolutionPrivate[key].selectFav;
+							} else if(type == 'PB'){
+								favourite = $scope.mlSolutionPublic[key].selectFav;
+							} else if(type == 'OR'){
+								favourite = $scope.mlSolutionCompany[key].selectFav;
+							}else if(type == 'D'){
+								favourite = $scope.mlSolutionDelete[key].selectFav;
+							}
+							
 							var dataObj = {
 									  "request_body": {
 										    "solutionId": solutionId,
@@ -909,13 +967,15 @@ angular
 										  "request_from": "string",
 										  "request_id": "string"
 										}
-							if($scope.mlsolutions[key].selectFav){
+							if(favourite){
 								apiService.createFavorite(dataObj)
 								.then(function(response) {
+									$scope.favouriteSolutions.push({'solutionId':solutionId});
 								});
-							}else if(!$scope.mlsolutions[key].selectFav){
+							}else if(!favourite){
 								apiService.deleteFavorite(dataObj)
 								.then(function(response) {
+									$scope.favouriteList();
 								});
 							}
 						};
@@ -957,6 +1017,8 @@ angular
 								});
 						}
 						$scope.getSolutionsCount();
-					}
 
+
+					}
+				
 				});

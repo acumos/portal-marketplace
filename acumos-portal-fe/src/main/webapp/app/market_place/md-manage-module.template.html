@@ -243,7 +243,7 @@
 								class="mp-grid-head-buttons-container"
 								ng-hide="seeAllSelected || mlSolutionPrivate.length < 1">
 									<a class="btnseeall removetop" ng-click="privateNav('SeeAll')" 
-									ng-class="{ removetop: !(pageNumPrivate < 1 || mlSolutionPrivate.length < 4)}">See
+									ng-class="{ removetop: !(pageNumPrivate < 1 || mlSolutionPrivate.length < 4)}" ng-hide="pageNumPrivate < 1 && mlSolutionPrivateCount == solutionsCount.privateModelCount">See
 										All</a> <a href="" ng-click="privateNav('Pre')"
 									class="seeall-icons" ng-hide="pageNumPrivate < 1" ng-class="{disabledClick: privateDataLoaded==true}"> <i
 										class="material-icons" alt="Previous" title="Previous">navigate_before</i>
@@ -303,7 +303,7 @@
 										<div>
 											<button
 												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored pull-right"
-												ng-click="privateSolution.selectFav = !privateSolution.selectFav; updateFavorite(privateSolution.solutionId, $index)" alt="Favorite" title="Favorite">
+												ng-click="privateSolution.selectFav = !privateSolution.selectFav; updateFavorite(privateSolution.solutionId, $index, 'PR')" alt="Favorite" title="Favorite">
 												<i class="material-icons"
 													ng-class="{'unselected-fav':!privateSolution.selectFav ,'selected-fav':privateSolution.selectFav}">favorite_border</i>
 											</button>
@@ -349,10 +349,12 @@
 									</div>
 									<div class="md-icons">
 										<button
-											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
-											ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
+
+											class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored pull-right"
+											ng-click="privateSolution.selectFav = !privateSolution.selectFav; updateFavorite(privateSolution.solutionId, $index, 'PR')" alt="Favorite" title="Favorite">
+
 											<i class="material-icons"
-												ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
+												ng-class="{'unselected-fav':!privateSolution.selectFav ,'selected-fav':privateSolution.selectFav}">favorite_border</i>
 										</button>
 									</div>
 								</div>
@@ -374,7 +376,7 @@
 							({{mlSolutionCompanyCount}}/{{solutionsCount.companyModelCount}})<span
 								class="pull-right"><span
 								class="mp-grid-head-buttons-container"
-								ng-hide="seeAllSelected || mlSolutionPublic.length < 1"><a
+								ng-hide="seeAllSelected || mlSolutionPublic.length < 1 || ( pageNumCompany < 1 && mlSolutionCompanyCount == solutionsCount.companyModelCount )"><a
 									href="" class="btnseeall removetop"
 									ng-click="CompanyNav('SeeAll')"
 									ng-class="{ removetop: !(pageNumPublic < 1 || mlSolutionPublic.length < 4)}">See
@@ -458,11 +460,11 @@
 												{{companySolution.downloadCount == null ? 0 :
 												companySolution.downloadCount}}</span>
 											<button
-												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-												ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
-												<i class="material-icons"
-													ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-											</button>
+													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+													ng-click="companySolution.selectFav = !companySolution.selectFav; updateFavorite(companySolution.solutionId, $index, 'OR')" alt="Favorite" title="Favorite">
+													<i class="material-icons"
+														ng-class="{'unselected-fav':!companySolution.selectFav ,'selected-fav':companySolution.selectFav}">favorite_border</i>
+												</button>
 										</div>
 									</div>
 
@@ -529,12 +531,14 @@
 											class="statistics-icons icon-download" alt="Download" title="Download"></span>
 											{{companySolution.downloadCount == null ? 0 :
 											companySolution.downloadCount}}</span>
-										<button
-											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
-											ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
-											<i class="material-icons"
-												ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-										</button>
+
+											<button
+												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+												ng-click="companySolution.selectFav = !companySolution.selectFav; updateFavorite(companySolution.solutionId, $index, 'OR')" alt="Favorite" title="Favorite">
+												<i class="material-icons"
+													ng-class="{'unselected-fav':!companySolution.selectFav ,'selected-fav':companySolution.selectFav}">favorite_border</i>
+											</button>
+
 									</div>
 								</div>
 							</div>
@@ -555,7 +559,7 @@
 						({{mlSolutionPublicCount}}/{{solutionsCount.publicModelCount}})<span
 							class="pull-right"><span
 							class="mp-grid-head-buttons-container"
-							ng-hide="seeAllSelected || mlSolutionPublic.length < 1"><a
+							ng-hide="seeAllSelected || mlSolutionPublic.length < 1 || ( pageNumPublic < 1 && mlSolutionPublicCount == solutionsCount.publicModelCount )"><a
 								class="btnseeall" ng-click="publicNav('SeeAll')"
 								ng-class="{ removetop: !(pageNumPublic < 1 || publicSolution.length < 4)}">See
 									All</a> <a ng-click="publicNav('Pre')" class="seeall-icons" href=""
@@ -662,12 +666,12 @@
 												class="statistics-icons icon-download" alt="Download" title="Download"></span>
 												{{publicSolution.downloadCount == null ? 0 :
 												publicSolution.downloadCount}}</span>
-											<button
-												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-												ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
-												<i class="material-icons"
-													ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-											</button>
+												<button
+													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+													ng-click="publicSolution.selectFav = !publicSolution.selectFav; updateFavorite(publicSolution.solutionId, $index, 'PB')" alt="Favorite" title="Favorite">
+													<i class="material-icons"
+														ng-class="{'unselected-fav':!publicSolution.selectFav ,'selected-fav':publicSolution.selectFav}">favorite_border</i>
+												</button>
 										</div>
 									</div>
 								</div>
@@ -729,12 +733,14 @@
 											class="statistics-icons icon-download" alt="Download" title="Download"></span>
 											{{mlsolution.downloadCount == null ? 0 :
 											mlsolution.downloadCount}}</span>
-										<button
-											class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
-											ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
-											<i class="material-icons"
-												ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-										</button>
+
+											<button
+												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+												ng-click="publicSolution.selectFav = !publicSolution.selectFav; updateFavorite(publicSolution.solutionId, $index, 'PB')" alt="Favorite" title="Favorite">
+												<i class="material-icons"
+													ng-class="{'unselected-fav':!publicSolution.selectFav ,'selected-fav':publicSolution.selectFav}">favorite_border</i>
+											</button>
+
 									</div>
 								</div>
 							</div>
@@ -755,7 +761,7 @@
 						({{mlSolutionDeletedCount}}/{{solutionsCount.deletedModelCount}})<span
 							class="pull-right"> <span
 							class="mp-grid-head-buttons-container"
-							ng-hide="seeAllSelected || mlSolutionDelete.length < 1"><a
+							ng-hide="seeAllSelected || mlSolutionDelete.length < 1 || ( pageNumDelete < 1 && mlSolutionDeletedCount == solutionsCount.deletedModelCount)"><a
 								class="btnseeall " ng-click="deleteNav('SeeAll')"
 								ng-class="{ removetop: !(pageNumDelete < 1 || mlSolutionDelete.length < 4)}">See
 									All</a> <a ng-click="deleteNav('Pre')" class="seeall-icons" href=""
@@ -837,7 +843,7 @@
 													deletedSolution.downloadCount}}</span>
 												<button
 													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-													ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index)" alt="Favorite" title="Favorite">
+													ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index, 'D')" alt="Favorite" title="Favorite">
 													<i class="material-icons"
 														ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
 												</button>
@@ -905,12 +911,14 @@
 												class="statistics-icons icon-attachment" alt="Attachment" title="Attachment"></span>
 												{{deletedSolution.solutionTag == null ? 0 :
 												deletedSolution.solutionTag}}</span>
-											<button
-												class="mdl-button mdl-js-button mdl-button--icon rating-list-fav-button listview-btnfav"
-												ng-click="selectFav = !selectFav" alt="Favorite" title="Favorite">
-												<i class="material-icons"
-													ng-class="{'unselected-fav':!selectFav ,'selected-fav':selectFav}">favorite_border</i>
-											</button>
+
+												<button
+													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+													ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index, 'D')" alt="Favorite" title="Favorite">
+													<i class="material-icons"
+														ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
+												</button>
+
 										</div>
 									</div>
 								</div>

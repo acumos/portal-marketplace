@@ -440,6 +440,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .onboarding .workflow-right h2, .onboarding .workflow-right h4{font-size: 20px;}
 
 /* icons*/
+.model-documentation{background-image: url(../images/ico_model_documentation.png); background-repeat: no-repeat; background-position: center;}
 .micro-service{background-image: url(../images/ico_create_micro_service.png); background-repeat: no-repeat; background-position: center;}
 .package{background-image: url(../images/ico_package.png); background-repeat: no-repeat; background-position: center;}
 .dockerize{background-image: url(../images/ico_dockerize.png); background-repeat: no-repeat; background-position: center;}
