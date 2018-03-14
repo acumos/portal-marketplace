@@ -23,6 +23,10 @@ app.component('marketFooter',{
 		}
 		$scope.loadCategory();
 		
+		apiService.getDocUrl().then( function(response){
+			$scope.docUrl = response.data.response_body;
+		});
+		
 	},
 
 });
