@@ -1472,6 +1472,23 @@ position:relative;
 .borker-row > div:last-child > div > input{width:50%; margin-left:8px; float:left; width: calc(50% - 8px); }
 .imageuploader ~ .mdl-grid{max-height:190px; overflow-x:auto;}
 
+/***UI editor fonts for model description**/
+.ql-font-monospace{
+	font-family: Monaco, Courier New, monospace;
+}
+.ql-font-serif{
+	 font-family: Georgia, Times New Roman, serif;
+}
+.ql-align-center {
+    text-align: center;
+}
+.ql-align-right {
+    text-align: right;
+}
+.ql-align-justify {
+    text-align: justify;
+}
+
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}
