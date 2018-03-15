@@ -46,6 +46,7 @@ angular
 								};
 							$http(req)
 							.success(function(data, status, headers,config) {
+								debugger;
 								$scope.allUserRatings = data.response_body.content;
 								$scope.ratingCount1 = 0;
 								$scope.ratingCount2 = 0;
@@ -86,7 +87,7 @@ angular
 										};
 									$http(req)
 									.success(function(data, status, headers,config) {
-										
+										debugger;
 										$scope.averageRatings = data.response_body;
 										
 									}).error(function(data, status, headers, config) {
@@ -122,7 +123,7 @@ angular
 										console.log(error);
 									});*/
 							
-							
+							debugger;
 							if(!$scope.mlSolutionGetRating.content || $scope.mlSolutionGetRating.content[0].rating == 0)
 								{
 								//create a new rating for the model. User rates the solution first time.
@@ -228,6 +229,8 @@ angular
 								data : dataObj
 							}).success(function(data, status, headers,config) {
 									$scope.mlSolutionGetRating = data.response_body;
+									$scope.ratingReview = $scope.mlSolutionGetRating.textReview;
+									debugger;
 								}).error(
 									function(data, status, headers,config) {
 										alert("Error: "+status);
@@ -336,7 +339,13 @@ angular
 						})
 								.success(
 										function(data, status, headers, config) {
-											if( !user || data.response_body.ownerId == user[1] ){$scope.cantRate = true;}else $scope.cantRate = false;
+											debugger;
+											if( !user || data.response_body.ownerId == user[1] ){
+												$scope.cantRate = true;
+											}
+											else {
+												$scope.cantRate = false;
+											}
 											$scope.tags = data.response_body.solutionTagList;
 											$scope.modelOwnerId = data.response_body.ownerId;
 											modelType = data.response_body.modelType;
@@ -1384,6 +1393,7 @@ angular
 						};
 
 						$scope.updateRating = function(rating) {
+							debugger;
 							if ($scope.loginUserID != ""
 									&& $scope.loginUserID != $scope.solution.ownerId) {
 								$scope.solution.solutionRating = rating;
