@@ -176,6 +176,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			   $rootScope.sidebarHeader = false;
 			   //$scope.sidebarHeader = false;
 		   }
+		   angular.element('.mdl-textfield').removeClass('is-focused');
+			angular.element('.mdl-textfield').removeClass('is-upgraded');
+			angular.element('.mdl-textfield').removeClass('is-dirty');
+			angular.element('.mdl-textfield__expandable-holder input').val('');
+			$rootScope.valueToSearch = '';
         
     });
 })

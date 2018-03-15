@@ -315,11 +315,11 @@ app.component('headerNav',{
 				$scope.searchText = $rootScope.valueToSearch;
 			}
 
-			if(val){
+			//if(val){
 				$rootScope.$broadcast('scanner-started', {
 					searchValue : val
 				});
-			}
+			//}
 			//}
 		}
 		
@@ -328,6 +328,7 @@ app.component('headerNav',{
 				angular.element('.mdl-textfield').removeClass('is-focused');
 				angular.element('.sidebar-search-container input').val('');
 				$rootScope.valueToSearch = '';
+				$scope.globalSearch(searchText);
 			}else {
 				angular.element('.mdl-textfield').addClass('is-focused');
 			}
