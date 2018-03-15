@@ -281,6 +281,21 @@
 												</div>
 												<div class="mdl-tabs__panel" id="tab4-panel">
 													<div class="admin-tab-heading"><span class="admin-title2">Site Configuration</span></div>
+													
+													<div class="rowcontainer">
+													<form name="uploadImage" enctype="multipart/form-data">
+                                                         <label class="disblock">Co-Branding Logo</label>
+                                                          <div class="disblock">
+                                                               <input type="file" upload-image-model="logoImage" data-ng-model="logoImage" id="logoImage" /> 
+                                                           
+                                                           </div>
+															
+															<button type="button" ng-click='uploadLogoImg()' 
+																class="mdl-button mdl-js-button btn-primary">Upload</button>
+														</form>
+													
+                                                     </div>
+													
 													<!-- Dymanic form Start -->
 													
 													<!-- Dymanic form Start -->								

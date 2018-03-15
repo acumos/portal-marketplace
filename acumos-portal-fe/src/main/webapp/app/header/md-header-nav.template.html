@@ -12,7 +12,11 @@
 			</button>
 			<span ui-sref="home" class="accumos-header-logo"><img
 				src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
-			<!-- <span class="cobranding-header-logo"><img src="../images/header_techm_logo.png" title="Tech Mahindra" /></span> -->
+			<span ui-sref="home" ng-click="$root.parentActive = ''"
+						ng-class="{ active: isActive('/home') }"
+						class="cobranding-header-logo"><img
+						ng-src="{{$root.coBrandingImage}}"
+						 /></span>
 
 		</div>
 		<!-- Navigation -->
@@ -89,12 +93,11 @@
 					<span ui-sref="home" ng-click="$root.parentActive = ''"
 						class="accumos-header-logo"><img
 						src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
-					<!-- <span ui-sref="home" ng-click="$root.parentActive = ''" ng-class="{ active: isActive('/home') }" class="accumos-header-logo"><img ng-src="data:image/PNG;base64,{{$root.headerImage}}" title="Acumos" /></span> -->
 					<span ui-sref="home" ng-click="$root.parentActive = ''"
-						ng-class="{ active: isActive('/home') }"  ng-show = "$root.coBrandingImage"
+						ng-class="{ active: isActive('/home') }"
 						class="cobranding-header-logo"><img
-						ng-src="data:image/PNG;base64,{{$root.coBrandingImage}}"
-						title="Tech Mahindra" /></span>
+						ng-src="{{$root.coBrandingImage}}"
+						 /></span>
 
 
 				</div>

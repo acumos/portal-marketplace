@@ -1576,21 +1576,74 @@ angular.module('admin')
                                               $scope.closeValidationPopup = function(){
                                             	  $mdDialog.hide();  
                                               };
-            	    
+                                           // Upload Image
+                      						$scope.uploadLogoImg = function(){
+                      							var file = $scope.logoImage;
+                      							var fileFormData = new FormData();
+                      							var validFormats = ['jpg','jpeg','png','gif'];
+                      							var fileName = file.name;
+                      							var ext = fileName.split('.').pop();//substr($('#userImage').value.lastIndexOf('.')+1);
+                      				            var size = file.size;
+                      				           
+                      				            if(validFormats.indexOf(ext) == -1 || size >= 800000){
+                      				            	$scope.error = true;
+                      				                //return value;
+                      				            }else{
+                      				            //validImage(true);
+                      				            $scope.error = false;
+                      				            
+                      							fileFormData.append('file', file);
+
+                      							var uploadUrl = "/site/api-manual/Solution/globalImages/coBrandLogo";
+                      							var promise = fileUploadService.uploadFileToUrl(
+                      									file, uploadUrl);
+
+                      							promise
+                      									.then(
+                      											function(response) {
+                      												$scope.getLogoImages();
+                      												alert("Updated successfully.");
+                      											},
+                      											function() {
+                      												$scope.serverResponse = 'An error has occurred';
+                      											})
+                      				            }
+                      				        }
+                      						
+                      					//Get Logo Images
+                      						$scope.getLogoImages = function(){
+                      				          	 var getLogoImagesReq = {
+                      										method : 'GET',
+                      										url : '/site/api-manual/Solution/global/coBrandLogo' 
+                      								};
+
+                      				          	 $http(getLogoImagesReq)
+                      									.success(
+                      											function(data, status, headers,
+                      													config) {
+                      												if(data.response_body.length > 0) {
+                      													$rootScope.coBrandingImage = "/site/binaries/content/gallery/acumoscms/global/coBrandLogo/" + data.response_body[0];
+                      												
+                      												}
+                      											}).error(
+                      													function(data, status, headers,
+                      															config) {
+                      													});
+                      							}
 		}
-}).directive(
+})/*.directive(
 		'uploadImageModel',
 		function($parse) {
 			return {
 				restrict : 'A', // the directive can be used as an
 								// attribute only
 
-				/*
+				
 				 * link is a function that defines functionality of
 				 * directive scope: scope associated with the element
 				 * element: element on which this directive used attrs:
 				 * key value pair of element attributes
-				 */
+				 
 				link : function(scope, element, attrs) {
 					var model = $parse(attrs.uploadImageModel), modelSetter = model.assign; // define
 																							// a
@@ -1618,6 +1671,30 @@ angular.module('admin')
 						});
 					});
 				}
+			}
+		})*/
+		.service('fileUploadService', function($http, $q) {
+
+			this.uploadFileToUrl = function(file, uploadUrl) {
+				// FormData, object of key/value pair for form fields and values
+				var fileFormData = new FormData();
+				fileFormData.append('file', file);
+
+				var deffered = $q.defer();
+				$http.post(uploadUrl, fileFormData, {
+					transformRequest : angular.identity,
+					headers : {
+						'Content-Type' : undefined
+					}
+
+				}).success(function(response) {
+					deffered.resolve(response);
+
+				}).error(function(response) {
+					deffered.reject(response);
+				});
+
+				return deffered.promise;
 			}
 		});
 //for search solution : addtosubs
