@@ -829,7 +829,7 @@
 														</div>
 
 														<p class="editable-desc" ng-hide="showDCKEditor"
-															ng-bind-html="solutionCompanyDesc" ng-show="solutionCompanyDescLength"></p>
+															ng-bind-html="solutionCompanyDesc1" ng-show="solutionCompanyDescLength"></p>
 
 														<div ng-show="showDCKEditor">
 															<div class="popovers model-description">
@@ -857,8 +857,8 @@
 																		<md-button
 																			ng-click="updateCompanyDescription();"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
-																		<span ng-if="!solutionCompanyDescStatus || !copiedCompanyDesc">Done</span> 
-																		<span ng-if="solutionCompanyDescStatus || copiedCompanyDesc">Update</span>
+																		<span ng-if="!solutionCompanyDesc1">Done</span> 
+																		<span ng-if="solutionCompanyDesc1">Update</span>
 																		</md-button>
 																	</div>
 																</div>
@@ -1997,9 +1997,9 @@
 																				</div>
 
 																				<div ng-if="publicPreview"
-																					ng-bind-html="solutionPublicDesc"></div>
+																					ng-bind-html="solutionPublicDesc1"></div>
 																				<div ng-if="!publicPreview"
-																					ng-bind-html="solutionCompanyDesc"></div>
+																					ng-bind-html="solutionCompanyDesc1"></div>
 
 
 																			</div>
@@ -2595,7 +2595,7 @@
 													</div>
 
 														<p class="editable-desc" ng-hide="showCKEditor" ng-show="solutionPublicDescLength "
-															ng-bind-html="solutionPublicDesc"></p>
+															ng-bind-html="solutionPublicDesc1"></p>
 
 													<div ng-show="showCKEditor">
 														<div class="popovers model-description">
@@ -2623,8 +2623,8 @@
 																	<md-button
 																		ng-click="updatePublicDescription();"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
-																		<span ng-if="!solutionPublicDescStatus || !copiedPublicDesc">Done</span>
-																		<span ng-if="solutionPublicDescStatus || copiedPublicDesc">Update</span>
+																		<span ng-if="!solutionPublicDesc1">Done</span>
+																		<span ng-if="solutionPublicDesc1">Update</span>
 																	</md-button>
 																</div>
 															</div>

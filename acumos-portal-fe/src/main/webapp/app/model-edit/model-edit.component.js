@@ -40,7 +40,7 @@ angular
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
-							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval) {
+							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval, $sce) {
 						if($stateParams.deployStatus == true){
 						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
 						}
@@ -356,6 +356,7 @@ angular
 											function(data, status, headers,
 													config) {
 												$scope.solutionCompanyDesc = data.description;
+												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.description);
 												if($scope.solutionCompanyDesc){
 													$scope.solutionCompanyDescStatus = true;
 												}
@@ -378,6 +379,7 @@ angular
 											function(data, status, headers,
 													config) {
 												$scope.solutionPublicDesc = data.description;
+												$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
 												if($scope.solutionPublicDesc){
 													$scope.solutionPublicDescStatus = true;
 												}
@@ -508,20 +510,29 @@ angular
 							// $scope.solutionCompanyDesc =
 							// $scope.solutionEditorCompanyDesc;
 							
+							
 							if($scope.solutionCompanyDesc){
 								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc ? String($scope.solutionCompanyDesc).replace(/<[^>]+>/gm, '') : '';
-								if($scope.solutionCompanyDescString.length > 1){
+								
+								if($scope.solutionCompanyDesc.indexOf('src="') > -1){
+								    var newValue = $scope.solutionCompanyDesc.split('src="')[1].split('"')[0];
+								    $scope.solutionCompanyDescLength = true;
+								}
+								else if($scope.solutionCompanyDescString.length > 1){
 									$scope.solutionCompanyDescLength = true;
-								}else{
+								}
+								else{
 									$scope.solutionCompanyDescLength = false;
 									alert("Enter more text in the description");
 									return
 								}
-							}else{
+							}
+							else{
 								$scope.solutionCompanyDescLength = false;
 								alert("Enter more text in the description");
 								return
 							}
+							
 							
 							if($scope.solutionCompanyDescLength = true){
 								$scope.showDCKEditor = false
@@ -547,7 +558,8 @@ angular
 												$scope.solutionCompanyDescStatus = true;
 												$location.hash('manage-models');
 												$anchorScroll();
-
+												$scope.getSolCompanyDesc();
+												
 												$scope.msg = "Updated: Solution Description";
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
@@ -581,12 +593,16 @@ angular
 							*/
 							
 							if($scope.solutionPublicDesc){
-								$scope.solutionPublicDescString = $scope.solutionPublicDesc.substring($scope.solutionPublicDesc.indexOf(">") + 1);
-								$scope.solutionPublicDescString = $scope.solutionPublicDescString.substring(0, $scope.solutionPublicDescString.indexOf('<'));
-								$scope.solutionPublicDescString = $scope.solutionPublicDescString.replace(/\s+/g, '');
-								if($scope.solutionPublicDescString.length > 1){
+								$scope.solutionPublicDescString = $scope.solutionPublicDesc ? String($scope.solutionPublicDesc).replace(/<[^>]+>/gm, '') : '';
+								
+								if($scope.solutionPublicDesc.indexOf('src="') > -1){
+								    var newPBValue = $scope.solutionPublicDesc.split('src="')[1].split('"')[0];
+								    $scope.solutionPublicDescLength = true;
+								}
+								else if($scope.solutionPublicDescString.length > 1){
 									$scope.solutionPublicDescLength = true;
-								}else{
+								}
+								else{
 									$scope.solutionPublicDescLength = false;
 									alert("Enter more text in the description");
 									return
@@ -619,6 +635,9 @@ angular
 													config) {
 												$scope.solutionPublicDesc = data.description;
 												$scope.solutionPublicDescStatus = true;
+												$location.hash('manage-models');
+												$anchorScroll();
+												$scope.getSolPublicDesc();
 												$scope.msg = "Updated: Solution Description";
 											$scope.icon = '';
 											$scope.styleclass = 'c-success';
