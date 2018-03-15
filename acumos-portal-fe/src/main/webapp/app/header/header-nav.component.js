@@ -386,6 +386,29 @@ app.component('headerNav',{
 				},
 				function(error) {console.log(error);
 		});
+		
+		//Get Logo Images
+		$scope.getLogoImages = function(){
+          	 var getLogoImagesReq = {
+						method : 'GET',
+						url : '/site/api-manual/Solution/global/coBrandLogo' 
+				};
+
+          	 $http(getLogoImagesReq)
+					.success(
+							function(data, status, headers,
+									config) {
+								if(data.response_body.length > 0) {
+									$rootScope.coBrandingImage = "/site/binaries/content/gallery/acumoscms/global/coBrandLogo/" + data.response_body[0];
+								
+								}
+							}).error(
+									function(data, status, headers,
+											config) {
+										$scope.showSolutionImage = false;
+									});
+			}
+			$scope.getLogoImages();
 
 		
 		  // Fix to load the drop downs in header. Dynamically loaded elements are not registered to material UI.
