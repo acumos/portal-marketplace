@@ -7,7 +7,7 @@ angular.module('admin')
 			componentHandler.upgradeAllRegistered();
 			//Sorting
 				$scope.orderByField = 'username';$scope.reverseSort = false;
-				$scope.orderByFieldFed = 'name'; $scope.reverseSortFederation = false;
+				$scope.orderByFieldFed = 'created'; $scope.reverseSortFederation = true;
 				$scope.showAllModelsTable = false;
 				$scope.verify = true;
 			//Bulk Action
