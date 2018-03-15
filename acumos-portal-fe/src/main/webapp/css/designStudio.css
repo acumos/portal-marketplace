@@ -303,3 +303,5 @@ text.edge-label {
 .ds-btn1.btn-deploy[disabled] .ds-icon.icon-deploy {opacity: 0.2;}
 .probe-container {border-right: 1px solid #B9B9B9 !important;position:relative; height: 37px; line-height: 37px; }
 .inputCheckDisabled{cursor: not-allowed;}
+.marginLeft{margin-left: 10px !important;}
+.marginBottom{margin-bottom: 6px !important;}

@@ -306,6 +306,7 @@ color: #671C9D;max-width: 280px; text-overflow: ellipsis; float: left; overflow:
 
 md-dialog .md-actions, md-dialog md-dialog-actions {background:#f1f1f1; padding: 20px;}
 .gridlistview-btn.mdl-button.mdl-js-button[disabled]:hover, .mdl-button.mdl-js-button[disabled]:focus {background: #671C9D !important}
+md-dialog .md-dialog-content {padding: 20px;}
 /********Modal Box Style ends***********/
 
 /*********** Grids style start************/
@@ -355,9 +356,10 @@ md-dialog .md-actions, md-dialog md-dialog-actions {background:#f1f1f1; padding:
 .md-icons {display: flex;justify-content: flex-start; margin-top: 15px; }
 .md-icons > span {margin-right: 20px;}
 
-.md-icons-tiles {display: flex;justify-content: flex-start; margin-top: 15px; align-items: center; }
+.md-icons-tiles {display: flex;justify-content: flex-start; margin-top: 15px; align-items: center;padding: 0 10px; }
 .md-icons-tiles > span {margin-right: 12px; min-width: 45px;}
 .md-icons-tiles > span:last-child {margin-right: 0;}
+.md-icons-tiles button {margin-bottom:0; width: 30px; height: 30px;min-width: 30px !important;}
 
 md-grid-list {margin-bottom: 35px; }
 .mpimgcontainer, .mpdetailscontainer{padding:3px !important;}
@@ -535,7 +537,7 @@ transition: box-shadow 0.3s ease-in-out;
 
 .md-container1 {display:flex; justify-content: flex-start; align-content: center;}
 .version-container {position:relative;border: 1px solid #d5d5d5;border-radius:2px;margin-right: 5px;height: 26px;}
-.version-container button {position:relative;font-size:12px; line-height: 24px !important; height: 26px; padding-left: 8px; padding-right: 8px}
+.version-container button {position:relative;font-size:12px; line-height: 22px !important; height: 26px; padding-left: 8px; padding-right: 8px}
 .version-container button .material-icons {font-size: 20px !important;}
 .version-container .mdl-menu { padding-bottom:0; padding-top:0;width: 135px;border:1px solid #c2c2c2;
 -webkit-box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
@@ -561,7 +563,7 @@ box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1); background: #fff; padding:0;}
 .md-head-container1 {display:flex; justify-content: space-between; align-content: center;flex-wrap: nowrap; }
 .md-head-container2 {display:flex; justify-content: space-between; align-content: center;flex-wrap: nowrap; }
 .md-head-container2 > button, .md-head-container3 > button { margin:0 0 0 10px;}
-.md-head-container3 > button { margin:0 0 0 10px; font-size: 12px; line-height: 24px !important;height: 25px; padding-left: 8px;padding-right: 8px}
+.md-head-container3 > button { margin:0 0 0 10px; font-size: 12px; line-height: 22px !important;height: 25px; padding-left: 8px;padding-right: 8px}
 .md-head-container3 {display:flex; justify-content: flex-start; align-content: center;flex-wrap: nowrap;margin-left: 10px; }
 .md-head-containerinner1 {display:flex; justify-content: space-between; align-content: center;flex-wrap: nowrap;}
 .md-head-containerinner-seperator {border-right: 1px solid #5A5A5A; margin-right: 10px; height: 24px;position:relative; top:1px;}
@@ -932,7 +934,7 @@ md-checkbox.md-checked .md-icon:after {width: 6px; height: 9px; left: 3px;}
 .user-location {width:30%;}
 .user-location md-input-container {width:100%;}
 .user-location2 {width:20%;}
-.btn-gap {margin-left: 9px;}
+.btn-gap {margin-left: 8px !important;}
 .btn-view-icon {color:#8f8f8f;}
 
 .cp-container1 {padding-left:0;}
@@ -1666,7 +1668,7 @@ table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed
 .discussion-reviews-tab md-content {padding: 15px 0;}
 .discussion-row {border-bottom: 1px dotted #bcbcbc;}
 
-.dcl-list {margin-left: 10px; }
+.dcl-list {margin-left: 4px; }
 .dcl-list md-select {padding-left: 8px;}
 
 div[id^="select_container_"] {margin-top: 41px;}
@@ -1740,6 +1742,28 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
        pointer-events: none;
 }
 
+.listview-btnfav {position:relative; top: -4px; width: 30px; height:30px; min-width: 30px;}
+
+.listview-title-container {display: flex; justify-content: space-between; align-items: center;width: 400px;}
+.listview-title-container .griditem-title {max-width: 360px;text-overflow: clip !important; overflow: visible !important;}
+.listview-title-container .griditem-title .griditem-title-text {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;
+float: left; max-width: 84%;}
+
+.tilecontainer1 .griditem-title {max-width: 200px;text-overflow: clip !important; overflow: visible !important;}
+.tilecontainer1 .griditem-title .griditem-title-text2 {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;
+float: left; max-width: 65%;}
+
+.fed-search-container .admin-btn-search {display: inline-block; width: 40px; text-align:center; border-radius: 4px; border: 1px solid #d5d5d5; margin-left: 4px;background: #fff; height: 30px; cursor: pointer; }
+.fed-search-container .admin-btn-search i {line-height: 30px;}
+.fed-search-container .admin-btn-search i:hover { color: #671C9D;}
+.fed-search-container .admin-search-control {background: #fff !important;}
+.fed-search-container .admin-search-control[disabled] {background: #efefef !important;cursor: not-allowed;}
+.admin-btn-search[disabled] {background:#efefef !important;}
+.griditem-title-text {margin-left:0px !important;}
+.md-icons-tiles {display: flex; justify-content: space-between; align-items: center;padding: 0 10px;}
+.md-icons-tiles .mdl-button { height: 30px; width: 30px; margin:0;}
+.mp-grid-list-details-cell .md-icons .mdl-button {position:relative; top: -4px;}
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 360px) {
@@ -1754,8 +1778,8 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 	.marketplace-btn-container .btn-sort {width: 50px; min-width: 50px;}
 	.mp-grid-list-row .griditem-title {max-width: 150px;}
 	.rating span i {width: 15px;}
-	.rating-list-fav-button {margin-bottom:0;}
-	.grid-item {width: 100%; margin-right: 0;}
+	.rating-list-fav-button {margin-bottom:0;}	
+	
 	.password-container1 { flex; flex-wrap: nowrap; justify-content: space-between;}
 	.password-container1 .eyebutton { width: 50px;}
 }
@@ -1847,6 +1871,19 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 	.mob-header-menu-container {margin-bottom: 0;}
 	.header-controls .search-button.mob-header-search-btn {margin-top: -4px !important;}
 	.a-logo-container {padding-left:5px;background: url("../images/general-icons/header_cross_img.png") no-repeat -30px center;}		
+	.mp-grid .grid-item .grid-top-section .rating {padding-left: 5px;}
+	.u-note-row1 {flex-wrap: wrap; flex-direction: column;align-items: left;}
+	.u-note-row1 > div:first-child {margin-bottom: 4px;}	
+	.u-note-row1 > div { margin-right: 0;width: 100%;}
+	.u-note-row1 md-input-container {width: 100%;}
+	.u-note-row1 > div:last-child { margin-bottom: 25px;}
+	.u-note-pref-container .select-control {width: 100%; padding-right:0 !important;}
+	.u-note-btn-container .mdl-button {max-width: 100px;line-height:31px;}
+	.grid-item {width: 100%; margin-right: 0;max-width:100%;}
+	.listview-title-container .griditem-title .griditem-title-text {max-width: 54%;}
+	.tilecontainer1 .griditem-title .griditem-title-text2 {max-width: 87%;}
+	.grid-top-section > div > div .mdl-button {width: 30px; height: 30px; margin:0;}
+	.mob-actions-container1 .mdl-button {color: #671C9D;}
 	
 }
 
@@ -2042,21 +2079,7 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
 
-.listview-btnfav {position:relative; top: -4px;}
 
-.listview-title-container {display: flex; justify-content: space-between; align-items: center;width: 400px;}
-.listview-title-container .griditem-title {max-width: 360px;text-overflow: clip !important; overflow: visible !important;}
-.listview-title-container .griditem-title .griditem-title-text {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;
-float: left; max-width: 84%;}
 
-.tilecontainer1 .griditem-title {max-width: 200px;text-overflow: clip !important; overflow: visible !important;}
-.tilecontainer1 .griditem-title .griditem-title-text2 {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;
-float: left; max-width: 65%;}
 
-.fed-search-container .admin-btn-search {display: inline-block; width: 40px; text-align:center; border-radius: 4px; border: 1px solid #d5d5d5; margin-left: 4px;background: #fff; height: 30px; cursor: pointer; }
-.fed-search-container .admin-btn-search i {line-height: 30px;}
-.fed-search-container .admin-btn-search i:hover { color: #671C9D;}
-.fed-search-container .admin-search-control {background: #fff !important;}
-.fed-search-container .admin-search-control[disabled] {background: #efefef !important;cursor: not-allowed;}
-.admin-btn-search[disabled] {background:#efefef !important;}
 							 

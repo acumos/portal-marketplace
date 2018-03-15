@@ -589,17 +589,20 @@
                                       <div class="md-dialog-content">
                                         <p>{{confirmMsg}}</p>
                                         <hr />
-                                         <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-                                            Cancel
-                                          </md-button>
-                                          <md-button ng-click="deletePeerFunc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-                                            Confirm
-                                          </md-button>
-                                        </div>                                
+                                                                        
                                       </div>
                                       </form>
                                     </md-dialog-content>
+                                    <md-dialog-actions>
+                                    	 <div class="dialog-footer-container1">
+                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">
+                                            Cancel
+                                          </md-button>
+                                          <md-button ng-click="deletePeerFunc()" class="mdl-button mdl-js-button btn-primary">
+                                            Confirm
+                                          </md-button>
+                                        </div>                                    
+                                    </md-dialog-actions>
                                 </md-dialog>
                             </div>
 <!-- Saving old version popup confirmation Modal box end -->
@@ -840,10 +843,10 @@
 																<!-- timeline end -->
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignOnBoardingActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
+																  <md-button class="mdl-button mdl-js-button btn-primary" ng-disabled = "!assignOnBoardingActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'On-boarding Work flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -935,10 +938,10 @@
 																<!-- timeline end -->
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignLocalActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
+																  <md-button class="mdl-button mdl-js-button btn-primary" ng-disabled = "!assignLocalActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Local Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>												
@@ -1070,10 +1073,10 @@
 																<!-- timeline end -->
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignPublicActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
+																  <md-button class="mdl-button mdl-js-button btn-primary" ng-disabled = "!assignPublicActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Publishing to Public Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1189,10 +1192,10 @@
 																<!-- timeline end -->																
 															</div>
 															<div layout="row" class="box-layout-footer">
-																	<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+																	<md-button class="mdl-button mdl-js-button btn-secondary">
 																	Deactivate Workflow
 																  </md-button>
-																  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "!assignFedratedActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
+																  <md-button class="mdl-button mdl-js-button btn-primary" ng-disabled = "!assignFedratedActivate" ng-click = "showPrerenderedDialog($event, 'confirmAssignWorkflow', 'Import Federated Model Work Flow')">
 																	Assign Workflow
 																  </md-button>
 															</div>
@@ -1221,8 +1224,7 @@
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
-									</md-toolbar>
-									
+									</md-toolbar>									
 									<md-dialog-content >
 									<ng-form name = "signupForm" ng-cloak>
 									  <div class="md-dialog-content" ng-model='value'>		
@@ -1361,16 +1363,15 @@
 												</md-select>
 											</div>
 										</div>
-										
-										
-										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" >Add</button>
-										</div>
 									  </div>
 									  </form>
 									</md-dialog-content>
-								  
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button btn-primary" >Add</button>
+										</div>									
+									</md-dialog-actions>								  
 								</md-dialog>
 							</div>
 						<!-- Modal box end -->
@@ -1406,19 +1407,16 @@
 														
 													</ul>
 												</div>
-												
 											</div>
-											
-										</div>
-										
-										
-										
-										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-											<button ng-click='addRole()' ng-disabled='!perList||!roleName' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Add</button>
 										</div>
 									  </div>
 									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+											<button ng-click='addRole()' ng-disabled='!perList||!roleName' class="mdl-button mdl-js-button btn-primary">Add</button>
+										</div>									
+									</md-dialog-actions>
 								  <!-- </form> -->
 								</md-dialog>
 							</div>
@@ -1504,19 +1502,21 @@
 										</div>
 										<div class="adminchkbox-container1">															
 											<md-checkbox class="adminchkbox" ng-model="data.cb1" aria-label="Checkbox 1" ng-true-value="'yup'" ng-false-value="'nope'"><span class="font600">Validation Not Required for incoming models from this peer</span><p class="peerpara1">I confirm that this is a trusted partner for my Acumos so validation process is not required for all incoming models from this peer.</p></md-checkbox>
-										</div>
-										<div class="dialog-btn-container">
-												<div>
-													<!-- <button ng-click='hidePeer = false' ng-hide='!hidePeer' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Previous</button> -->
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-												</div>
-												<div>
-													<!-- <button ng-click='hidePeer = true' ng-hide='!data.peer || hidePeer' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Next</button> -->
-													<button ng-click='addPeer()' ng-disabled="peerForm.$invalid" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
-												</div>
-											</div>
+										</div>										
 										</div>
 									</md-dialog-content>
+									<md-dialog-actions>
+											<div class="dialog-footer-container1">
+												<div>
+													<!-- <button ng-click='hidePeer = false' ng-hide='!hidePeer' class="mdl-button mdl-js-button btn-secondary">Previous</button> -->
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+												</div>
+												<div>
+													<!-- <button ng-click='hidePeer = true' ng-hide='!data.peer || hidePeer' class="mdl-button mdl-js-button btn-secondary">Next</button> -->
+													<button ng-click='addPeer()' ng-disabled="peerForm.$invalid" class="mdl-button mdl-js-button btn-primary">Done</button>
+												</div>
+											</div>
+									</md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -1540,17 +1540,20 @@
                                       <div class="md-dialog-content">
                                         <p>{{confirmMsg}}</p>
                                         <hr />
-                                         <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-                                            Cancel
-                                          </md-button>
-                                          <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-                                            Confirm
-                                          </md-button>
-                                        </div>                                
+                                                                      
                                       </div>
                                       </form>
                                     </md-dialog-content>
+                                    <md-dialog-actions>
+                                    	 <div class="dialog-footer-container1">
+                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">
+                                            Cancel
+                                          </md-button>
+                                          <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button btn-primary">
+                                            Confirm
+                                          </md-button>
+                                        </div>  
+                                    </md-dialog-actions>
                                 </md-dialog>
                             </div>
 <!-- Saving old version popup confirmation Modal box end -->
@@ -1833,8 +1836,8 @@
 																	    	</md-select>
 																	</div>
 																</td> -->
-																<td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="browseForCatTool();addedToSubs=true;addedAllToSubs=false" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Browse Remote Catalog</button></td>
-																<td ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click=";addedToSubs=false;showSolutionTable=false;showSolutionTable=false;noData=false" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Clear Catalog</button></td>
+																<td><div ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="browseForCatTool();addedToSubs=true;addedAllToSubs=false" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Browse Remote Catalog</button></div></td>
+																<td><div ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click=";addedToSubs=false;showSolutionTable=false;showSolutionTable=false;noData=false" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Clear Catalog</button></div></td>
 																<!-- <td ng-hide='(toolKitTypeValue||categoryValue)&&addedToSubs'><button ng-click="addToSubs()" class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Add to Subscription List</button></td>
 																<td ng-show='(toolKitTypeValue||categoryValue)&&addedToSubs'><div class="subs-message1"><span class="subs-added"></span><span>Added</span></div></td> -->
 																<td></td>
@@ -1909,12 +1912,16 @@
 								                   			</div>
 														</div>
 													</div>
-												</div>											
+												</div>										
 											
+											</div>											
 											</div>
-											<div class="dialog-btn-container">
+										</div>
+									</md-dialog-content>
+										<md-dialog-actions>
+												<div class="dialog-footer-container1">
 												<div>													
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
 												</div>
 												<div class="select-control">
 														<md-select ng-model="AccessValue" placeholder="Select Frequency of update" ng-change="freqChange(freqOfUpdatePass)">
@@ -1922,10 +1929,11 @@
 														</md-select>
 												</div>
 												<div>													
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-primary">Done</button>
 												</div>
 											</div>
-										</md-dialog-content>
+										
+										</md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -2093,14 +2101,15 @@
 															</div>                                                             
                                                        </li>                         -->                               
                                                 </ul>
-											</div>										
-									
-										<div class="dialog-btn-container popovers-cloud-modalfooter">
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup()">Cancel</button>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-paddSteprimary" ng-click = "addStep = 'true';closeValidationPopup();">Done</button>
-										</div>
+											</div>
 									  </div>
 									</md-dialog-content>
+									<md-dialog-actions>
+											<div class="dialog-footer-container1">
+											<button class="mdl-button mdl-js-button btn-secondary" ng-click = "closeValidationPopup()">Cancel</button>
+											<button class="mdl-button mdl-js-button btn-paddSteprimary" ng-click = "addStep = 'true';closeValidationPopup();">Done</button>
+										</div>
+									</md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -2126,12 +2135,15 @@
 											<div>	
 												<p>Please note new workflow will be applicable to all new models which will {{workFlow}} from today onwards.</p> 												
 											</div>	
-										<div class="dialog-btn-container popovers-cloud-modalfooter">
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "closeValidationPopup();">Cancel</button>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click = "assignWorkFlow(workFlow);closeValidationPopup();">Confirm</button>
-										</div>
+										
 									  </div>
 									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<button class="mdl-button mdl-js-button btn-secondary" ng-click = "closeValidationPopup();">Cancel</button>
+											<button class="mdl-button mdl-js-button btn-primary" ng-click = "assignWorkFlow(workFlow);closeValidationPopup();">Confirm</button>
+										</div>									
+									</md-dialog-actions>									
 								  </form>
 								</md-dialog>
 							</div>
@@ -2913,8 +2925,8 @@
 										
 										
 										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" >Add</button>
+											<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button btn-primary" >Add</button>
 										</div>
 									  </div>
 									  </form>
@@ -2963,8 +2975,8 @@
 										
 										
 										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
-											<button ng-click='addRole()' ng-disabled='!perList||!roleName' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Add</button>
+											<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+											<button ng-click='addRole()' ng-disabled='!perList||!roleName' class="mdl-button mdl-js-button btn-primary">Add</button>
 										</div>
 									  </div>
 									</md-dialog-content>
@@ -3066,12 +3078,12 @@
 										</div>
 										<div class="dialog-btn-container">
 												<div>
-													<button ng-click='hidePeer = false' ng-hide='!hidePeer' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Previous</button>
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Cancel</button>
+													<button ng-click='hidePeer = false' ng-hide='!hidePeer' class="mdl-button mdl-js-button btn-secondary">Previous</button>
+													<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
 												</div>
 												<div>
-													<button ng-click='hidePeer = true' ng-hide='!data.peer || hidePeer' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Next</button>
-													<button ng-hide='!data.peer || !queryParam' ng-click='addPeer()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">Done</button>
+													<button ng-click='hidePeer = true' ng-hide='!data.peer || hidePeer' class="mdl-button mdl-js-button btn-secondary">Next</button>
+													<button ng-hide='!data.peer || !queryParam' ng-click='addPeer()' class="mdl-button mdl-js-button btn-primary">Done</button>
 												</div>
 											</div>
 										</div>
@@ -3100,10 +3112,10 @@ popup confirmation Modal box start
                                         <p>{{confirmMsg}}</p>
                                         <hr />
                                          <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">
                                             Cancel
                                           </md-button>
-                                          <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+                                          <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button btn-primary">
                                             Confirm
                                           </md-button>
                                         </div>                                

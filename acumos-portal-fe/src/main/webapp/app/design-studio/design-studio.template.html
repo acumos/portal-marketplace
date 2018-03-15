@@ -129,7 +129,7 @@
 											style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
-										<span class="ds-icon icon-input-search"></span>
+										<span class="ds-icon icon-input-search" title="Search"></span>
 									</button></md-icon> </md-input-container>						
 								
 							</div>
@@ -163,7 +163,7 @@
 											style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
-										<span class="ds-icon icon-input-search"></span>
+										<span class="ds-icon icon-input-search" title="Search"></span>
 									</button></md-icon> </md-input-container>	
 							</div>
 							<div class="ds-section-data-inner2">
@@ -185,7 +185,7 @@
 				<div class="ds-container1">
 					<span>
 					<label class="ds-label-title" ng-if="!solutionName"> Untitled
-						<button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1"  ng-click="closeComSol()" ng-disabled="saveState.noSaves">
+						<button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1 marginBottom"  ng-click="closeComSol()" ng-disabled="saveState.noSaves" title="Close">
 							<i class="fa fa-times" aria-hidden="true"></i>
 						</button>
 					</label>
@@ -194,7 +194,7 @@
 							<i class="fa fa-times" aria-hidden="true"></i>
 						</button>
 					</label>
-					<button ng-click='newSolution("new");canvas=true' class="mdl-button mdl-js-button ds-btnnew">
+					<button ng-click='newSolution("new");canvas=true' class="mdl-button mdl-js-button ds-btnnew" title="New">
 							<span class="addnew"></span> New
 						</button>
 					</span>
@@ -205,12 +205,12 @@
 						</div>
 						<button ng-click='showDeleteNodeLink()' id="deleteHide" class="mdl-button mdl-js-button text-small font-semi-bold btn-delete-toggle normaltext-transform bdr-right ds-btn1 btn-delete"><i class="ds-icon icon-delete-toggle" aria-hidden="true"></i>Delete</button>
 						<!-- <span class="btn-divider"> | </span> -->
-						<button ng-click='clearSolution()' class="mdl-button mdl-js-button text-small font-semi-bold bdr-right btn-clear-canvas normaltext-transform" ng-disabled="cleardis"><span class="ds-icon icon-clear-canvas"></span>Clear</button>
-						<button id="validateActive" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-validate" ng-disabled="validationState" ng-click="validateCompSolu()"><span class="ds-icon icon-validate"></span>Validate</button>
-						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-save" ng-disabled='saveState.noSaves'  ng-click="showPrerenderedDialog($event)"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+						<button ng-click='clearSolution()' class="mdl-button mdl-js-button text-small font-semi-bold bdr-right btn-clear-canvas normaltext-transform" ng-disabled="cleardis" title="Clear"><span class="ds-icon icon-clear-canvas"></span>Clear</button>
+						<button id="validateActive" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-validate" ng-disabled="validationState" ng-click="validateCompSolu()"  title="Validate"><span class="ds-icon icon-validate"></span>Validate</button>
+						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-save" ng-disabled='saveState.noSaves'  ng-click="showPrerenderedDialog($event)"  title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
 						<div class="">						 
 							<button type="button" id="demo-menu-lower-right4" ng-disabled="activeInactivedeploy"
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ds-btn1 btn-deploy">
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ds-btn1 btn-deploy" title="Deploy">
 								<span class="ds-icon icon-deploy"></span> Deploy <i class="material-icons">keyboard_arrow_down</i>
 							</button>
 							<ul
@@ -224,10 +224,10 @@
 							</ul>
 						</div> 
 						
-						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-download"><span class="ds-icon icon-download"></span>Download</button>						
+						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-download" title="Download"><span class="ds-icon icon-download"></span>Download</button>						
 						<!-- <button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-run" disabled><span class="ds-icon icon-run-disabled"></span>Run</button> -->						
-						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist"><span class="ds-icon icon-expand-drawer"></span></button>
-						<button ng-click="closeDrawer()" class="mdl-button mdl-js-button ds-btn1 btn-fullscreen"><span class="ds-icon icon-fullscreen"></span></button>
+						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist" title="Collapse Right Panel"><span class="ds-icon icon-expand-drawer"></span></button>
+						<button ng-click="closeDrawer()" class="mdl-button mdl-js-button ds-btn1 btn-fullscreen" title="Full Screen"><span class="ds-icon icon-fullscreen"></span></button>
 					</div>
 				</div>
 				<div class="ds-outer-container2">
@@ -253,7 +253,7 @@
 										<label>Validation Console</label>
 										<span>									
 											<button
-												class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1" ng-click="down = !down">
+												class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1" ng-click="down = !down" title="Close">
 												<i class="fa fa-times" aria-hidden="true"></i>
 											</button>
 										</span>
@@ -435,7 +435,7 @@
 										<md-icon style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
-										<span class="ds-icon icon-input-search"></span>
+										<span class="ds-icon icon-input-search" title="Search"></span>
 									</button></md-icon></md-input-container>
 							</div>
 							
@@ -447,9 +447,9 @@
 							                    </div>
 						                    </div>
 						             </div>  -->
-							<div class="ds-section-data-inner4">							
+							<div class="ds-section-data-inner4 marginLeft">							
 								<ul class="ds-list3" ng-repeat="val in privateCS | filter:searchSol | orderBy:'solutionName'">
-									<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span><button ng-click="showdeletePopup($event,val)" class="mdl-button mdl-js-button"><span class="ds-delete-icon"></span></button> </li>
+									<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span><button ng-click="showdeletePopup($event,val)" class="mdl-button mdl-js-button"><span class="ds-delete-icon" title="Delete"></span></button> </li>
 								</ul>
 							</div>							
 							</div>
@@ -482,16 +482,17 @@
 									</md-toolbar>
 									<md-dialog-content>
 									  <div class="md-dialog-content">
-										<p ng-bind="msg"></p>
-										<div layout="row" class="deploy-cloud-modalfooter">
-										 <span></span>
-										 	<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-									        Ok
-									      </md-button>	
-									      </div>						
+										<p ng-bind="msg"></p>																
 									  </div>
 									</md-dialog-content>
-									
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+										 <span></span>
+										 	<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-primary">
+									        Ok
+									      </md-button>	
+									      </div>
+									</md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -533,19 +534,19 @@
 												      <label>Description</label>												      
 												      
 												       <textarea ng-model="solutionDescription" class="mdl-textfield__input" type="text" rows="1" id="address" required="" maxlength="256"></textarea>
-												 </md-input-container></div>
-										<hr />
-										 <div layout="row" class="deploy-cloud-modalfooter">
-											<md-button ng-click="closeSavePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-									        Close
-									      </md-button>
-										  <md-button ng-disabled="signupSolution.$invalid" ng-click='saveSolution()' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-									        Save
-									      </md-button>
-									    </div>								
+												 </md-input-container></div>	 								
 									  </div>
 									</md-dialog-content>
-									
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeSavePoup()" class="mdl-button mdl-js-button btn-secondary">
+									        Close
+									      </md-button>
+										  <md-button ng-disabled="signupSolution.$invalid" ng-click='saveSolution()' class="mdl-button mdl-js-button btn-primary">
+									        Save
+									      </md-button>
+									    </div>
+									</md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -566,18 +567,20 @@
 									<md-dialog-content>
 									  <div class="md-dialog-content">
 										<p>Are you sure you want to delete the {{solutionToDelete.solutionName}}({{solutionVersion}}) solution?</p>
-										<hr />
-										 <div layout="row" class="deploy-cloud-modalfooter">
-											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-									        Cancel
-									      </md-button>
-										  <md-button ng-click="deleteSolution(solutionToDelete)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-									        Confirm
-									      </md-button>
-									    </div>								
+										
+										 								
 									  </div>
 									</md-dialog-content>
-									
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="deleteSolution(solutionToDelete)" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+									        Confirm
+									      </md-button>
+									    </div>
+									 </md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -598,19 +601,20 @@
 									</md-toolbar>
 									<md-dialog-content>
 									  <div class="md-dialog-content">
-										<p>Are you sure you want to delete the node/link?</p>
-										<hr />
-										 <div layout="row" class="deploy-cloud-modalfooter">
-											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-									        Cancel
-									      </md-button>
-										  <md-button ng-click="deleteNodeEdge()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-									        Confirm
-									      </md-button>
-									    </div>								
+										<p>Are you sure you want to delete the node/link?</p>										
+										 								
 									  </div>
 									</md-dialog-content>
-									
+									<md-dialog-actions>
+											<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="deleteNodeEdge()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+									        Confirm
+									      </md-button>
+									    </div>									
+									</md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -631,23 +635,25 @@
 									<md-dialog-content>
 									  <div class="md-dialog-content">
 										<p>Would you like to save current solution?</p>
-										<hr />
-										 <div layout="row" class="deploy-cloud-modalfooter">
-											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+										
+										 							
+									  </div>
+									</md-dialog-content>
+									<md-dialog-actions>
+											<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 									        Cancel
 									      </md-button>
 									      <span>
-									      <md-button ng-click="SaveSolutionFirst('no')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+									      <md-button ng-click="SaveSolutionFirst('no')" class="mdl-button mdl-js-button btn-primary" title="No">
 									        No
 									      </md-button>
-										  <md-button ng-click="SaveSolutionFirst('yes')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+										  <md-button ng-click="SaveSolutionFirst('yes')" class="mdl-button mdl-js-button btn-primary" title="Yes">
 									        Yes
 									      </md-button>
 									      </span>
-									    </div>								
-									  </div>
-									</md-dialog-content>
-									
+									    </div>	
+									</md-dialog-actions>
 								  </form>
 								</md-dialog>
 							</div>
@@ -670,18 +676,21 @@
 									<form ng-cloak>
 									  <div class="md-dialog-content">
 										<p>Do you want to update a previous version of this solution ?</p>
-										<hr />
-										 <div layout="row" class="deploy-cloud-modalfooter">
-											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-									        Cancel
-									      </md-button>
-										  <md-button ng-click="updateMySolution()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-									        Confirm
-									      </md-button>
-									    </div>								
+										
+																		
 									  </div>
 									  </form>
 									</md-dialog-content>
+									<md-dialog-actions>
+										 <div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="updateMySolution()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+									        Confirm
+									      </md-button>
+									    </div>									
+									</md-dialog-actions>
 								</md-dialog>
 							</div>
 <!-- Saving old version popup confirmation Modal box end -->
@@ -729,30 +738,30 @@
 						</md-input-container>
 					</div>
 				</div>
-				<hr />
-				<div layout="row" class="deploy-cloud-modalfooter">
-					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-						ng-click="closePoup()"> Cancel </md-button>
-					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-						ng-click="authenticateAnddeployToAzure()"> Deploy </md-button>
-				</div>
 			</div>
 			</md-dialog-content>
-
+			<md-dialog-actions>
+				<div class="dialog-footer-container1">
+					<md-button
+						class="mdl-button mdl-js-button btn-secondary"
+						ng-click="closePoup()" title="Cancel"> Cancel </md-button>
+					<md-button
+						class="mdl-button mdl-js-button btn-primary"
+						ng-click="authenticateAnddeployToAzure()" title="Deploy"> Deploy </md-button>
+				</div>
+			</md-dialog-actions>
 		</form>
 		</md-dialog>
 	</div>
 	<!-- popup to write script for Databroker start -->
-<div class="md-dialog-container" id="myDialogScript" style="height:30px;;">
+<div class="md-dialog-container" id="myDialogScript" style="height:30px;">
 							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
 								  
 									<md-toolbar>
 									  <div class="md-toolbar-tools">
 										<h2>Script For DataBroker</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="closePoup()">
+										<md-button class="md-icon-button" ng-click="closePoup()" title="Close">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
@@ -763,18 +772,18 @@
 									 <label class="disblock">Script:</label>
 									 <textarea rows="7" cols="55" id="script" ng-model="scriptText" placeholder="eg: filter : [ /somepath/mood*, sentiment*]"></textarea>
     								 </div>
-										<hr/>
-										 <div layout="row" class="deploy-cloud-modalfooter">
-											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-									        Cancel
-									      </md-button>
-										  <md-button ng-click="saveScript()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-									        Done
-									      </md-button>
-									    </div>								
-									  </div>
 									  </form>
 									</md-dialog-content>
+									<md-dialog-actions>
+										 <div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="saveScript()" class="mdl-button mdl-js-button btn-primary" title="Done">
+									        Done
+									      </md-button>
+									    </div>										
+									</md-dialog-actions>
 								</md-dialog>
 							</div>
 <!-- popup to write script for Databroker end -->
@@ -787,7 +796,7 @@
 									  <div class="md-toolbar-tools">
 										<h2></h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="closePoup()">
+										<md-button class="md-icon-button" ng-click="closePoup()" title="Close">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
@@ -805,18 +814,21 @@
 										<!-- <div ng-repeat="(key,value) in dataBrokerSelectOutput">
 											<input type="radio" data-ng-model="selectedOutput" value="key">{{key}}({{value}})
 										</div> -->
-										<hr />
-										 <div layout="row" class="deploy-cloud-modalfooter">
-											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-									        Cancel
-									      </md-button>
-										  <md-button type="submit" ng-click="selectedDBOutput()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-									        Confirm
-									      </md-button>
-									    </div>								
+										
+										 								
 									  </div>
 									  </form>
 									</md-dialog-content>
+									<md-dialog-actions>
+											<div class="dialog-footer-container1">
+												<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									       	 Cancel
+									      	</md-button>
+										  	<md-button type="submit" ng-click="selectedDBOutput()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+									        	Confirm
+									      </md-button>
+									    </div>
+									</md-dialog-actions>
 								</md-dialog>
 							</div>
 <!-- popup to select output message for Databroker end -->
