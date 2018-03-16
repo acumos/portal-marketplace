@@ -328,7 +328,8 @@ angular.module('modelResource')
 					.getMessagingStatus($scope.userId[1], $scope.trackId ).then(
 							function(reponse) {
 								var data = reponse.data.response_body;
-								var stepfailed = false;
+								$scope.stepfailed = false;
+								$scope.allSuccess = false;
 								var width = 0;
 								for(var i=0 ; i< data.length; i++){
 									var stepName = data[i].name;
@@ -346,7 +347,7 @@ angular.module('modelResource')
 										var onboardingComponent = '.onboarding-web';
 									} else {
 										switch(stepName){
-											case 'CheckCompatibility': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCC = ''; break;
+											case 'CheckCompatibility': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
 											case 'CreateMicroservice': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
 											case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
 											case 'AddToRepository' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
@@ -361,7 +362,7 @@ angular.module('modelResource')
 									if(statusCode == 'FA'){
 										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
 										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
-										stepfailed = true;
+										$scope.stepfailed = true;
 									}else if(statusCode == 'ST'){
 										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
 										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
@@ -377,9 +378,10 @@ angular.module('modelResource')
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 											$scope.errorVM = '';
 											$scope.completedSteps['ViewModel'] = 'ViewModel';
+											$scope.allSuccess = true;
 										}
 										
-										if($scope.completedSteps.indexOf(stepName) == -1 && stepfailed == false){
+										if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
 											width = width+20;
 											angular.element('.progress .progress-bar').css({ "width" : width+'%'});
 											angular.element('.onboardingwebContent').css({ "height" :'100%'});
@@ -391,8 +393,7 @@ angular.module('modelResource')
 								
 						});
 					
-						var allStepsCount = Object.keys($scope.completedSteps);
-						if( ($scope.completedSteps && allStepsCount.length == 5 && $scope.onap == false) || ($scope.completedSteps && allStepsCount.length == 6 && $scope.onap == true) ){
+						if( $scope.allSuccess || $scope.stepfailed ){
 							$interval.cancel($scope.clearInterval);
 						}
 					
