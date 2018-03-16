@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,6 +60,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -357,22 +359,33 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		HttpResponse response = null;
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost post = new HttpPost(env.getProperty("onboarding.push.model.dcae_url"));
-
-		ArrayList<NameValuePair> postParameters;
-		postParameters = new ArrayList<NameValuePair>();
+		
+		URIBuilder builder = null;
+		try {
+			builder = new URIBuilder(env.getProperty("onboarding.push.model.dcae_url"));
+		} catch (URISyntaxException e1) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
+		}
 
 		if (!StringUtils.isEmpty(solutionId)) {
-			postParameters.add(new BasicNameValuePair("solutioId", solutionId));
+			builder.setParameter("solutioId", solutionId);
 			MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
 			if(solution != null) {
 				String solutionName = env.getProperty("dcae.model.name.prefix") + "_" + solution.getName();
-				postParameters.add(new BasicNameValuePair("modName", solutionName));
+				builder.setParameter("modName", solutionName);
 			}
 		}
 		if (!StringUtils.isEmpty(revisionId)) {
-			postParameters.add(new BasicNameValuePair("revisionId", revisionId));
+			builder.setParameter("revisionId", revisionId);
 		}
+		
+		HttpPost post = null;
+		try {
+			post = new HttpPost(builder.build());
+		} catch (URISyntaxException e1) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
+		}
+		
 		if (!StringUtils.isEmpty(userId)) {
 			MLPUser user = userService.findUserByUserId(userId);
 			String jwtToken = user.getAuthToken();
@@ -384,17 +397,14 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		}
 
 		try {
-			post.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+			log.debug(EELFLoggerDelegate.debugLogger, "Call Onboarding URI : " + post.getURI());
 			response = httpclient.execute(post);
 		} catch (UnsupportedEncodingException e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
-			e.printStackTrace();
 		} catch (ClientProtocolException e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
-			e.printStackTrace();
 		} catch (IOException e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
-			e.printStackTrace();
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 		}
