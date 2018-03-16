@@ -276,7 +276,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 		stepResult.setTrackingId(tracking_id);
 		stepResult.setUserId(userId);
-		stepResult.setName("Check Compatibility");
+		stepResult.setName("CheckCompatibility");
 		stepResult.setStatusCode("ST");
 		stepResult.setStepCode("OB");
 		stepResult.setSolutionId(solutionId);
