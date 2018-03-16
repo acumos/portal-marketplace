@@ -352,39 +352,41 @@ angular.module('modelResource')
 											case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
 											case 'AddToRepository' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
 											case 'CreateTOSCA' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-											case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
+											case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = ''; break;
+											default : var counter = -1;
 										}
 										var onboardingComponent = '#onap-onboarding';
 									} 
 									
-									
-									angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
-									if(statusCode == 'FA'){
-										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
-										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
-										$scope.stepfailed = true;
-									}else if(statusCode == 'ST'){
-										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
-										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
-										
-									}else if(statusCode == 'SU'){
-										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
-										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
-										$scope.completedSteps[stepName] = stepName;
-
-										if( (counter === 6 && $scope.onap == false) || (counter === 8 && $scope.onap == true) ) {
-											counter = counter +2;
+									if (counter != -1) {
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
+										if(statusCode == 'FA'){
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
+											$scope.stepfailed = true;
+										}else if(statusCode == 'ST'){
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
+											
+										}else if(statusCode == 'SU'){
 											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
-											$scope.errorVM = '';
-											$scope.completedSteps['ViewModel'] = 'ViewModel';
-											$scope.allSuccess = true;
-										}
-										
-										if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
-											width = width+20;
-											angular.element('.progress .progress-bar').css({ "width" : width+'%'});
-											angular.element('.onboardingwebContent').css({ "height" :'100%'});
+											$scope.completedSteps[stepName] = stepName;
+	
+											if( (counter === 6 && $scope.onap == false) || (counter === 8 && $scope.onap == true) ) {
+												counter = counter +2;
+												angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
+												angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
+												$scope.errorVM = '';
+												$scope.completedSteps['ViewModel'] = 'ViewModel';
+												$scope.allSuccess = true;
+											}
+											
+											if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
+												width = width+20;
+												angular.element('.progress .progress-bar').css({ "width" : width+'%'});
+												angular.element('.onboardingwebContent').css({ "height" :'100%'});
+											}
 										}
 									}
 								}
