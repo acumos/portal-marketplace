@@ -295,7 +295,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			}
 		}
 
-		messagingService.createStepResult(stepResult);
+		//messagingService.createStepResult(stepResult);
 
 		if (metaDataUrl != null && !PortalUtils.isEmptyOrNullString(metaDataUrl)) {
 			NexusArtifactClient artifactClient = getNexusClient();
