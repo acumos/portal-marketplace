@@ -132,5 +132,4 @@ public interface MarketPlaceCatalogService {
 
 	MLPSolutionWeb getSolutionWebMetadata(String solutionId); 
 	
-	void convertSolutioToONAP(String solutionId, String revisionId, String userId);
 }
