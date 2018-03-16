@@ -20,9 +20,12 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,15 +35,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.acumos.cds.AccessTypeCode;
 import org.acumos.cds.ArtifactTypeCode;
+import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPModelType;
+import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
@@ -58,6 +64,7 @@ import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
@@ -67,6 +74,14 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.maven.wagon.ConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -88,6 +103,12 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MarketPlaceCatalogService catalogService;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	private ICommonDataServiceRestClient getClient() {
 		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
@@ -2012,62 +2033,5 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		}
 		return solutionStats;
 	}
-	
-	public void convertSolutioToONAP(String solutionId, String revisionId, String userId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "convertSolutioToONAP");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPArtifact> revisionArtifacts = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, revisionId);
-		String metaDataUrl = null;
-		ByteArrayOutputStream byteArrayOutputStream  = null;
-		String name = null;
-		
-		for(MLPArtifact artifact : revisionArtifacts) {
-			if (artifact.getArtifactTypeCode().equalsIgnoreCase("MD")) {
-				metaDataUrl = artifact.getUri();
-			}
-		}
-		log.info("Nexus Path : " + metaDataUrl);
-		
-		if (metaDataUrl != null && !PortalUtils.isEmptyOrNullString(metaDataUrl)) {
-			RepositoryLocation repositoryLocation = new RepositoryLocation();
-			repositoryLocation.setId("1");
-			repositoryLocation.setUrl(env.getProperty("nexus.url"));
-			repositoryLocation.setUsername("nexus.username");
-			repositoryLocation.setPassword("nexus.password");
 
-			if (!PortalUtils.isEmptyOrNullString(env.getProperty("nexus.proxy"))) {
-					repositoryLocation.setProxy(env.getProperty("nexus.proxy"));
-			}
-
-			log.info("Nexus URI : " + env.getProperty("nexus.url"));
-
-			NexusArtifactClient artifactClient = new NexusArtifactClient(repositoryLocation);
-			try {
-				byteArrayOutputStream = artifactClient.getArtifact(metaDataUrl);
-			} catch (ConnectionException e) {
-				// TODO Auto-generated catch block
-				//Through exception if Solution cannot be converted to ONAP solution
-				log.error(e.getMessage());
-				//return "Solution is not ONAP Compatible";
-			}
-
-			String metaDatajsonString = byteArrayOutputStream.toString();
-			log.debug("  MetaData Json : " + metaDatajsonString);
-			
-			ObjectMapper mapper = new ObjectMapper();
-			Map<String, Object> resp = new HashMap();
-			resp = JsonUtils.serializer().mapFromJson(metaDatajsonString);
-			Map<String, Object> metaRuntime = (Map<String, Object>) resp.get("runtime");
-			
-			if (metaRuntime != null && metaRuntime.size() > 0) {
-				name = (String) metaRuntime.get("name");
-				log.debug("Name ot type of model : " + name);
-			}
-			if ("PYTHON".equalsIgnoreCase(name)) {
-				// Call Federation and onboarding for the conversion of model
-			} 
-		}
-		//return "Solution Converted to ONAP"
-		
-	}
 }

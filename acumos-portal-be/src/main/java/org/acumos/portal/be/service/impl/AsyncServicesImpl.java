@@ -21,12 +21,17 @@
 package org.acumos.portal.be.service.impl;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Future;
@@ -36,6 +41,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.UserServiceController;
 import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLNotification;
@@ -43,30 +49,41 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.maven.wagon.ConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.acumos.cds.MessageSeverityCode;
+import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
+import org.acumos.nexus.client.NexusArtifactClient;
+import org.acumos.nexus.client.RepositoryLocation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class AsyncServicesImpl implements AsyncServices {
+public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServices {
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AsyncServicesImpl.class);
 
@@ -84,6 +101,9 @@ public class AsyncServicesImpl implements AsyncServices {
 	
 	@Autowired
 	private MarketPlaceCatalogService catalogService;
+	
+	@Autowired
+	private MessagingService messagingService;
 
 	@Async
 	public Future<String> initiateAsyncProcess() throws InterruptedException {
@@ -242,6 +262,145 @@ public class AsyncServicesImpl implements AsyncServices {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
 		}
 	}*/
+	
+	// Only Python models are considered to be Compatible with ONAP
+	@Override
+	public Boolean checkONAPCompatible(String solutionId, String revisionId, String userId, String tracking_id) {
+		log.debug(EELFLoggerDelegate.debugLogger, "checkONAPCompatible");
+		
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		
+		MLPStepResult stepResult = new MLPStepResult();
+
+		stepResult.setTrackingId(tracking_id);
+		stepResult.setUserId(userId);
+		stepResult.setName("Check Compatibility");
+		stepResult.setStatusCode("ST");
+		stepResult.setStepCode("OB");
+		stepResult.setSolutionId(solutionId);
+		stepResult.setRevisionId(revisionId);
+
+		List<MLPArtifact> revisionArtifacts = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, revisionId);
+		Boolean isCompatible = false;
+		String metaDataUrl = null;
+		ByteArrayOutputStream byteArrayOutputStream  = null;
+		String name = null;
+
+		for(MLPArtifact artifact : revisionArtifacts) {
+			if (artifact.getArtifactTypeCode().equalsIgnoreCase("MD")) {
+				metaDataUrl = artifact.getUri();
+				stepResult.setArtifactId(artifact.getArtifactId());
+			}
+		}
+
+		messagingService.createStepResult(stepResult);
+
+		if (metaDataUrl != null && !PortalUtils.isEmptyOrNullString(metaDataUrl)) {
+			NexusArtifactClient artifactClient = getNexusClient();
+
+			try {
+				byteArrayOutputStream = artifactClient.getArtifact(metaDataUrl);
+			} catch (ConnectionException e) {
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occured while fetching the aftifact for SolutionId={} and RevisionId ={}",
+						solutionId, revisionId);
+				stepResult.setStatusCode("FA");
+				stepResult.setResult("Cannot Fetch MetaData Json");
+				messagingService.createStepResult(stepResult);
+				return isCompatible;
+			}
+
+			if(byteArrayOutputStream == null) {
+				log.debug(EELFLoggerDelegate.debugLogger, "Artifact not for SolutionId={} and RevisionId ={}",
+						solutionId, revisionId);
+				stepResult.setStatusCode("FA");
+				stepResult.setResult("Cannot Fetch MetaData Json");
+				messagingService.createStepResult(stepResult);
+				return isCompatible;
+			}
+
+			String metaDatajsonString = byteArrayOutputStream.toString();
+			log.debug(EELFLoggerDelegate.debugLogger, "MetaData Json : " + metaDatajsonString);
+			
+			if(PortalUtils.isEmptyOrNullString(metaDatajsonString)) {
+				stepResult.setStatusCode("FA");
+				stepResult.setResult("Cannot Fetch MetaData Json");
+				messagingService.createStepResult(stepResult);
+				return isCompatible;
+			}
+
+			Map<String, Object> resp = JsonUtils.serializer().mapFromJson(metaDatajsonString);
+			Map<String, Object> metaRuntime = (Map<String, Object>) resp.get("runtime");
+			
+			if (metaRuntime != null && metaRuntime.size() > 0) {
+				name = (String) metaRuntime.get("name");
+				log.debug("Type of model : " + name);
+			}
+			if (name != null && "PYTHON".equalsIgnoreCase(name)) {
+				isCompatible = true;
+				stepResult.setStatusCode("SU");
+				messagingService.createStepResult(stepResult);
+			}
+		}
+		
+		if(!isCompatible) {
+			stepResult.setStatusCode("FA");
+			stepResult.setResult("Solution not a Pyhton Model");
+			messagingService.createStepResult(stepResult);
+		}
+
+		return isCompatible;
+	}
+	
+	
+	public HttpResponse convertSolutioToONAP(String solutionId, String revisionId, String userId, String tracking_id) {
+
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		HttpResponse response = null;
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost post = new HttpPost(env.getProperty("onboarding.push.model.dcae_url"));
+
+		ArrayList<NameValuePair> postParameters;
+		postParameters = new ArrayList<NameValuePair>();
+
+		if (!StringUtils.isEmpty(solutionId)) {
+			postParameters.add(new BasicNameValuePair("solutioId", solutionId));
+			MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
+			if(solution != null) {
+				String solutionName = env.getProperty("dcae.model.name.prefix") + "_" + solution.getName();
+				postParameters.add(new BasicNameValuePair("modName", solutionName));
+			}
+		}
+		if (!StringUtils.isEmpty(revisionId)) {
+			postParameters.add(new BasicNameValuePair("revisionId", revisionId));
+		}
+		if (!StringUtils.isEmpty(userId)) {
+			MLPUser user = userService.findUserByUserId(userId);
+			String jwtToken = user.getAuthToken();
+			post.setHeader("Authorization", jwtToken);
+		}
+
+		if (!StringUtils.isEmpty(tracking_id)) {
+			post.addHeader("tracking_id", tracking_id);
+		}
+
+		try {
+			post.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+			response = httpclient.execute(post);
+		} catch (UnsupportedEncodingException e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			e.printStackTrace();
+		} catch (IOException e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			e.printStackTrace();
+		} finally {
+			httpclient.getConnectionManager().shutdown();
+		}
+
+		return response;
+	}
 
 	private String convertStreamToString(InputStream is) {
 
