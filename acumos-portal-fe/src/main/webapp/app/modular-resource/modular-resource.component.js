@@ -38,8 +38,9 @@ angular.module('modelResource')
 		//template:"<div class=''>{{ content }}</div>",
 		//template:"<button ng-click='authenticate(google)'>Sign in with Google</button>",
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
-		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams){
+		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams, $timeout){
 			console.clear();console.log($stateParams);
+			$scope.onap = false;
 			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
 			$scope.onap = true;
 			//alert(localStorage.getItem("userDetail"));
@@ -75,11 +76,13 @@ angular.module('modelResource')
 			  }
 			//added this code to adjust the height of popup
 			$scope.openDrop = function(close){
-				if(close == false){
-					angular.element('.onboardingwebContent').css({'height':angular.element('.onboardingwebContent').height()+180 } ); 
-				}
-				if(close == true){
-					angular.element('.onboardingwebContent').css({'height':angular.element('.onboardingwebContent').height()-90 } ); 
+				if($scope.onap == false) {
+					if(close == false){
+						angular.element('.onboardingwebContent').css({'height':angular.element('.onboardingwebContent').height()+180 } ); 
+					}
+					if(close == true){
+						angular.element('.onboardingwebContent').css({'height':angular.element('.onboardingwebContent').height()-90 } ); 
+					}
 				}
 			}
 			$scope.fileSubmit = false;
@@ -309,29 +312,14 @@ angular.module('modelResource')
 										});
 				}
 			
-			
+			$scope.userId = JSON.parse(localStorage.getItem("userDetail"));
+			$scope.completedSteps = [];
+			$scope.errorCM = ''; $scope.errorPA = ''; $scope.errorDO = ''; $scope.errorAR = ''; $scope.errorVM = '';
+			$scope.errorCC = '';
 			
 			$scope.addToCatalog = function(){
-				/*$scope.addToReqObj = {
-						  "request_body": {
-							    "accessType": "PR",
-							    "activeType": "Y",
-							    "modelToolkitType": $scope.toolkitNameValue,
-							    "name": $scope.user.name,
-							  }
-							}*/
 				
-				$scope.userId = JSON.parse(localStorage.getItem("userDetail"));
 				$scope.statusReult = [];
-				$scope.addToReqObj = {
-						  "request_body": {
-							    "version": $scope.toolkitNameValue,
-							    "name": $scope.user.name,
-							  }
-							}
-				
-				$scope.completedSteps = [];
-				$scope.errorCM = ''; $scope.errorPA = ''; $scope.errorDO = ''; $scope.errorAR = ''; $scope.errorVM = '';
 
 				$scope.showValidationStatus = function(){
 					var counter = 1;
@@ -347,31 +335,46 @@ angular.module('modelResource')
 									var statusCode =  data[i].statusCode;
 									var stepCode = data[i].stepCode;
 
-									switch(stepName){
-										case 'CreateMicroservice': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-										case 'Dockerize' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-										case 'AddToRepository' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
-										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-										case 'ViewModel' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
-									}
-									angular.element(angular.element('.onboarding-web li div')[counter]).removeClass('completed incomplet active');
+									if($scope.onap == false){
+										switch(stepName){
+											case 'CreateMicroservice': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+											case 'Dockerize' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+											case 'AddToRepository' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+											case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+											case 'ViewModel' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
+										}
+										var onboardingComponent = '.onboarding-web';
+									} else {
+										switch(stepName){
+											case 'CheckCompatibility': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCC = ''; break;
+											case 'CreateMicroservice': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+											case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+											case 'AddToRepository' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+											case 'CreateTOSCA' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+											case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
+										}
+										var onboardingComponent = '#onap-onboarding';
+									} 
+									
+									
+									angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
 									if(statusCode == 'FA'){
-										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('incomplet');
-										angular.element(angular.element('.onboarding-web li')[counter+1]).removeClass('green completed');
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
+										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
 										stepfailed = true;
 									}else if(statusCode == 'ST'){
-										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('active');
-										angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('progress-status green')
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
+										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
 										
-									} else if(statusCode == 'SU'){
-										angular.element(angular.element('.onboarding-web li div')[counter]).addClass('completed');
-										angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('green completed');
+									}else if(statusCode == 'SU'){
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
+										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 										$scope.completedSteps[stepName] = stepName;
 
-										if (counter === 6) {
+										if( (counter === 6 && $scope.onap == false) || (counter === 8 && $scope.onap == true) ) {
 											counter = counter +2;
-											angular.element(angular.element('.onboarding-web li div')[counter]).addClass('completed');
-											angular.element(angular.element('.onboarding-web li')[counter+1]).addClass('green completed');
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 											$scope.errorVM = '';
 											$scope.completedSteps['ViewModel'] = 'ViewModel';
 										}
@@ -389,28 +392,70 @@ angular.module('modelResource')
 						});
 					
 						var allStepsCount = Object.keys($scope.completedSteps);
-						if($scope.completedSteps && allStepsCount.length == 5 ){
+						if( ($scope.completedSteps && allStepsCount.length == 5 && $scope.onap == false) || ($scope.completedSteps && allStepsCount.length == 6 && $scope.onap == true) ){
 							$interval.cancel($scope.clearInterval);
 						}
 					
 				} 
 				
-				apiService
-				.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
-				.then(
-						function(response) {
-							$scope.trackId = response.data.response_detail;
-							//alert("Onboarding process started successfully with track id " + $scope.trackId + ". It may take some time to onboard your solution. \nPlease check notification to know the status of your solution.")
-							$scope.catalogResponse = response.data;						
-							
-							$scope.clearInterval = $interval(function(){
-								$scope.showValidationStatus();
-							}, 5000);
-							
-						},
-						function(error) {
-							$scope.catalorError = error.data;
-						});
+				if($scope.onap == false){
+					$scope.addToReqObj = {
+							  "request_body": {
+								    "version": $scope.toolkitNameValue,
+								    "name": $scope.user.name,
+								  }
+								};
+					apiService
+					.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
+					.then(
+							function(response) {
+								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+		                        $anchorScroll(); 
+		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
+		                        $scope.icon = '';
+		                        $scope.styleclass = 'c-warning';
+		                        $scope.showAlertMessage = true;
+		                        $timeout(function() {
+		                        	$scope.showAlertMessage = false;
+		                        }, 3000);
+		                        
+								$scope.trackId = response.data.response_detail;
+								//alert("Onboarding process started successfully with track id " + $scope.trackId + ". It may take some time to onboard your solution. \nPlease check notification to know the status of your solution.")
+								$scope.catalogResponse = response.data;						
+								
+								$scope.clearInterval = $interval(function(){
+									$scope.showValidationStatus();
+								}, 25000);
+								
+							},
+							function(error) {
+								$scope.catalorError = error.data;
+					});
+				} else {
+				    
+					apiService
+					.addToCatalogONAP($stateParams.solutionId,$stateParams.revisionId,$scope.userId[1])
+					.then(
+							function(response) {
+								$scope.trackId = response.data.response_detail;
+								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+		                        $anchorScroll(); 
+		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
+		                        $scope.icon = '';
+		                        $scope.styleclass = 'c-warning';
+		                        $scope.showAlertMessage = true;
+		                        $timeout(function() {
+		                        	$scope.showAlertMessage = false;
+		                        }, 5000);
+								//$scope.trackId = "12345";
+								$scope.clearInterval = $interval(function(){
+									$scope.showValidationStatus();
+								}, 25000);
+								
+							},
+							function(error) {
+					});
+				}
 
 			}
 			$scope.viewModel = function(){
@@ -448,6 +493,7 @@ angular.module('modelResource')
 		    		$scope.uploadModel = $scope.selToolKitT = false;
 		    	}
 		    };
+
 		    
 			}
 });
