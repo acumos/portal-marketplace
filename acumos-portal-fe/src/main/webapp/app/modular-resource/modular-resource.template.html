@@ -1,4 +1,6 @@
 <!--  <main class="mdl-layout__content initialVal hasClass"> -->
+<alert-message msg="msg" icon="icon" styleclass="styleclass"
+            ng-show="showAlertMessage"></alert-message>
 <div class="page-content" id="page-top" ng-hide="onap">
 	<section class="pageheadsection gray-bg">
 		<div layout="row" layout-xs="column" layout-fill
@@ -955,122 +957,140 @@
 	</div>
 	<div class="page-wrapper2 onap-section">
 		<h4 class="onap-title">ON BOARDING THE ONAP MODEL</h4>
-		<div class="onap-steps-container">
-			<div>
-				<div class="onap-step completed"></div>
-				<div class="text-center">Model Documentation</div>
+			 <md-content class="md-padding company-market onboardingwebContent" ng-show="userLoggedIn">
+			<ul class="onboarding-web" id="onap-onboarding">
+			       <li>
+                          <div class="imageplace">
+                                 <span class="imagecontent model-documentation" alt="Check Compatibility" title="Check Compatibility"></span>
+                          </div>
+                          <md-tooltip>{{errorCC}}</md-tooltip>
+                          <div class="text">Check Compatibility</div>
+                          
+                   </li>
+                   <li class="progress-status"></li>
+                   <li>
+                          <div class="imageplace">
+                                 <span class="imagecontent micro-service" alt="Create Micro-service" title="Create Micro-service"></span>
+                          </div>
+                          <md-tooltip>{{errorCM}}</md-tooltip>
+                          <div class="text">Create Micro-service</div>
+                          
+                   </li>
+                   <li class="progress-status"></li>
+
+                   <li>
+                          <div class="imageplace">
+                                 <span class="imagecontent dockerize" alt="Dockerize" title="Dockerize"></span>
+                          </div>
+                          <md-tooltip>{{errorDO}}</md-tooltip>
+                          <div class="text">Dockerize</div>
+                          
+                   </li>
+                   <li class="progress-status"></li>
+                   <li>
+                          <div class="imageplace">
+                                 <span class="imagecontent add-repository" alt="Add to Repository" title="Add to Repository"></span>
+                          </div>
+                          <md-tooltip>{{errorAR}}</md-tooltip>
+                          <div class="text">Add to Repository</div>
+                     </li>
+                   <li class="progress-status"></li>
+                   <li>
+                          <div class="imageplace">
+                                 <span class="imagecontent create-tosca" alt="Create TOSCA" title="Create TOSCA"></span>
+                          </div>
+                          <md-tooltip>{{errorCT}}</md-tooltip>
+                          <div class="text">Create TOSCA</div>
+                          
+                   </li>
+                   <li class="progress-status"></li>
+                   <li>
+                          <div class="imageplace">
+                                 <span class="imagecontent not-yet-onboarded" alt="Not yet onboarded" title="Not yet onboarded"></span>
+                          </div>
+                          <md-tooltip>{{errorVM}}</md-tooltip>
+                          <div class="publshbutton hide">
+                                 <button ng-click="viewModel()"
+                                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">View Model</button>
+                          </div>                                                       
+                          <div class="text">Not yet onboarded</div>
+                          <div class="text-completed">Model is onboarded and available in Private catalog</div>
+                   </li>                                                       
+            </ul>
+            </md-content>
+            <div class="progress">
+				<div class="progress-bar" style="width:0%;"></div>
 			</div>
-			<span class="steps-dots completed"></span>
-			<div>
-				<div class="onap-step"></div>
-				<div class="text-center">Step 2</div>
-			</div>
-			<span class="steps-dots"></span>
-			<div>
-				<div class="onap-step"></div>
-				<div class="text-center">Step 3</div>
-			</div>
-			<span class="steps-dots"></span>
-			<div>
-				<div class="onap-step"></div>
-				<div class="text-center">Step 4</div>
-			</div>
-			<span class="steps-dots"></span>
-			<div>
-				<div class="onap-step"></div>
-				<div class="text-center">Step 5</div>
-			</div>
-			<span class="steps-dots"></span>
-			<div>
-				<div class="onap-step"></div>
-				<div class="text-center">Step 6</div>
-			</div>
-			<span class="steps-dots"></span>
-			<div>
-				<div class="onap-step"></div>
-				<div class="text-center">Not yet onboarded</div>
-			</div>
-		</div>
-		<div class="progress">
-			<div class="progress-bar" style="width:0%;"></div>
-		</div>
+
+
 		<div class="onap-steps-outer-container">
-			<h4 class="gridlistheading">STEPS TO ON-BOARD YOUR MODEL (0/4 COMPLETED)</h4>
+			<h4 class="gridlistheading">ON-BOARD ONAP MODEL</h4>
 			<div class="onap-steps-inner-container">
-				<div class="timeline">
-									<div>
-										<div class="timeline-centered">
-											<article class="timeline-entry">
-												<div class="timeline-entry-inner">
-													<div class="timeline-icon bg-success">
-														<span class="entypo-feather fa fa-check"></span>
+
+						<div class="timeline">
+							<div class="">
+								<!-- <div class="timeline-centered">
+									<article class="timeline-entry">
+										<div class="timeline-entry-inner">
+											 <div ng-if="!modelName || !popupAddSubmit" class="timeline-icon">
+												<span class="entypo-suitcase">1</span>
+											</div>
+											<div class="timeline-icon bg-success"
+												ng-if="modelName&&popupAddSubmit">
+												<span class="entypo-feather fa fa-check"></span>
+											</div>
+											<div class="timeline-label">
+												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;modelName='';openDrop(false); closeOtherPopovers('addModel',addModel)" class="link-heading">
+													 Add Model Information  Model Name</span>| 
+													 <span class="green" class="green"
+																ng-if="modelName&&popupAddSubmit">Completed</span>
+													 <span class="red" ng-if="!modelName || !popupAddSubmit">Not Started</span>
+												</h2>
+												update model name
+												<div class="popovers cont" id="addModel" ng-show="addModel">
+													<md-toolbar>
+													<div class="md-toolbar-tools">
+														<h2>Add Model Information Model Name</h2>
+														<span flex></span>
+														<md-button class="md-icon-button"
+															ng-click="addModel = !addModel;openDrop(true)"> <i
+															class="material-icons" alt="Close" title="Close">close</i> </md-button>
 													</div>
-													<div class="timeline-label">
-														<h2>
-															Step 1 | <span class="green">Completed on 01/31/2018</span>
-														</h2>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-			elit. Nunc ut urna nec magna viverra dictum sed at ante.</p>
-													</div>
-												</div>
-											</article>
-											<article class="timeline-entry">
-												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="!solutionCompanyDescStatus &amp;&amp; !copiedCompanyDesc || showDCKEditor" style="">
-														<span class="entypo-suitcase">2</span>
-													</div>
-													<div class="timeline-label">
-														<h2>
-															Step 2 | <span class="red">Not Started</span>
-														</h2>
-														<p>Use their command line to run simplified version </p>
-														<div>
-															<a class="onap-link1">Expand All <i class="material-icons">arrow_drop_down</i></a>
+													</md-toolbar>
+													<md-dialog-content>
+													<div class="md-dialog-content">
+														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+															<div class="mdl-cell mdl-cell--12-col">
+																<md-input-container class="md-icon-float md-block">
+																<label>Add your Model's Name</label> 
+																<input ng-model="modelName" type="text"> </md-input-container>
+															</div>
+
+															<div class="mdl-cell mdl-cell--6-col">
+															</div>
+														</div>
+														<div layout="row" class="popovers-cloud-modalfooter">
+															<md-button ng-click="addModel = !addModel; modelName='';openDrop(true);"
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
+															Cancel </md-button>
+															<md-button ng-click="addModel = !addModel;popupAddSubmit = true; openDrop(true);"
+																ng-disabled="!modelName || modelName.length <= 0" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
+															Done </md-button>
 														</div>
 													</div>
+													</md-dialog-content>
 												</div>
-											</article>
-											<article class="timeline-entry">
-												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="!solutionCompanyDescStatus &amp;&amp; !copiedCompanyDesc || showDCKEditor" style="">
-														<span class="entypo-suitcase">3</span>
-													</div>
-													<div class="timeline-label">
-														<h2>
-															Step 3 | <span class="red">Not Started</span>
-														</h2>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-			elit. Nunc ut urna nec magna viverra dictum sed at ante.</p>
-													</div>
-												</div>
-											</article>
-											<article class="timeline-entry">
-												<div class="timeline-entry-inner">
-													<div class="timeline-icon" ng-if="!solutionCompanyDescStatus &amp;&amp; !copiedCompanyDesc || showDCKEditor" style="">
-														<span class="entypo-suitcase">4</span>
-													</div>
-													<div class="timeline-label">
-														<h2>
-															Step 4 | <span class="red">Not Started</span>
-														</h2>														
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-			elit. Nunc ut urna nec magna viverra dictum sed at ante.</p>
-													</div>
-												</div>
-											</article>											
-										</div>
-									</div>
+										</div> 
 								</div>
-								
-								<div class="add-to-catalog-container">
-				<button ng-click="addToCatalog()"
-									ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit && user.name && popupAddSubmit )"
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
-										Add to Catalog</button>
-			
-			</div>
-			</div>
-			
+							</article>
+						</div> -->
+						<div>
+						<!-- ng-disabled= "!modelName" -->
+							<button ng-click="addToCatalog()" 
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
+								Add to Catalog</button>
+						</div>
+			</div>	
 		</div>
 	</div>
 </div>
