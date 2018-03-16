@@ -72,6 +72,7 @@ angular.module('AcumosApp')
         var urlMessagingStatus = "api/webBasedOnBoarding/messagingStatus";
         var urladdAllSolutionsAdmin = "api/admin/peer/sub/create";
         var urlMessageStatusWithTrackingId = 'api/webBasedOnBoarding/messagingStatus/search/';
+        var urlForONAP = 'api/webBasedOnBoarding/convertToOnap';
         	
         /**************** ALL GET ******************/
     	this.getAllActiveUser = function (activeStatus) {
@@ -355,7 +356,6 @@ angular.module('AcumosApp')
         }
         
         this.insertAddAllSolutions = function(peeriId, addSolObj){
-        	debugger
         	return $http.post(urladdAllSolutionsAdmin + '/' + peeriId , addSolObj);
         }
         
@@ -437,5 +437,8 @@ angular.module('AcumosApp')
         	return $http.get(urlMessageStatusWithTrackingId + '/' + solutionId + '/' +revisionId);
         };
         
+        this.addToCatalogONAP = function(solutionId, revisionId, userId){
+        	return $http.post(urlForONAP+ '/' + solutionId + '/' + revisionId + '/' + userId);
+        };
         
     }]);
