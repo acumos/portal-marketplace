@@ -25,6 +25,9 @@ import org.springframework.core.env.Environment;
 
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.nexus.client.NexusArtifactClient;
+import org.acumos.nexus.client.RepositoryLocation;
+import org.acumos.portal.be.util.PortalUtils;
 
 public abstract class AbstractServiceImpl {
 
@@ -38,5 +41,20 @@ public abstract class AbstractServiceImpl {
 	
 	public void setEnvironment (Environment env1){
 		env = env1;
+	}
+	
+	public NexusArtifactClient getNexusClient() {
+		RepositoryLocation repositoryLocation = new RepositoryLocation();
+		repositoryLocation.setId("1");
+		repositoryLocation.setUrl(env.getProperty("nexus.url"));
+		repositoryLocation.setUsername(env.getProperty("nexus.username"));
+		repositoryLocation.setPassword(env.getProperty("nexus.password"));
+
+		if (!PortalUtils.isEmptyOrNullString(env.getProperty("nexus.proxy"))) {
+				repositoryLocation.setProxy(env.getProperty("nexus.proxy"));
+		}
+
+		NexusArtifactClient artifactClient = new NexusArtifactClient(repositoryLocation);
+		return artifactClient;
 	}
 }
