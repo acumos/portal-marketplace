@@ -439,4 +439,32 @@ public class WebBasedOnboardingController  extends AbstractController {
 		}
 		return data;
 	}
+	
+	@RequestMapping(value = { APINames.CONVERT_TO_ONAP}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLStepResult>> convertToOnap(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, @PathVariable("userId") String userId) {
+		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
+		Boolean isONAPCompatible = false;
+		String tracking_id = UUID.randomUUID().toString();
+
+		isONAPCompatible = asyncService.checkONAPCompatible(solutionId, revisionId, userId, tracking_id);
+
+		if(isONAPCompatible) {
+			ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);				
+			FutureTask<HttpResponse> futureTask_1 = new FutureTask<HttpResponse>(new Callable<HttpResponse>() {
+				@Override
+				public HttpResponse call() throws FileNotFoundException, ClientProtocolException, InterruptedException, IOException {
+				     return (HttpResponse) asyncService.convertSolutioToONAP(solutionId, revisionId, userId, tracking_id);
+						}
+			});	
+			executor.execute(futureTask_1);
+			executor.shutdown();
+		} else {
+			//Create failed step result
+		}
+
+		data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+		data.setResponseDetail(tracking_id.toString());
+		return data;
+	}
 }

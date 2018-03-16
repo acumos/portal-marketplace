@@ -66,6 +66,11 @@ model.storage.folder.path=./temp
 
 #Documentation URL
 doc.url=https://cognita.atlassian.net/wiki/spaces/CW/pages/7438367/Acumos+Documentation
+
+
+onboarding.push.model.dcae_url=http://localhost:8090/onboarding-app/v2/dcae_models
+dcae.model.name.prefix=ONAP
+
 ###################################################################
 ###########################################################################
 #Dev
