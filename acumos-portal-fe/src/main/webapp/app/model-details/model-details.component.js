@@ -8,7 +8,7 @@ angular
 					templateUrl : './app/model-details/md-model-details.template.html',
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
-							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document) {
+							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce) {
 						/* 
 						 * if ($stateParams == null) { $localStorage.solutionId =
 						 * $scope.solutionId; } else { $localStorage.solutionId =
@@ -20,6 +20,9 @@ angular
 						 * $window.location.reload(); $rootScope.load = false; }
 						 */
 						//API for rating the model start
+						$scope.showPBDescription = false;
+						$scope.showORDescription = true;
+						
 						$scope.clearForm = function(){
 							deploy.reset();
 							deployCloud.brokerlink.value = "";
@@ -46,7 +49,7 @@ angular
 								};
 							$http(req)
 							.success(function(data, status, headers,config) {
-								debugger;
+								 
 								$scope.allUserRatings = data.response_body.content;
 								$scope.ratingCount1 = 0;
 								$scope.ratingCount2 = 0;
@@ -87,7 +90,7 @@ angular
 										};
 									$http(req)
 									.success(function(data, status, headers,config) {
-										debugger;
+										 
 										$scope.averageRatings = data.response_body;
 										
 									}).error(function(data, status, headers, config) {
@@ -123,7 +126,7 @@ angular
 										console.log(error);
 									});*/
 							
-							debugger;
+							 
 							if(!$scope.mlSolutionGetRating.content || $scope.mlSolutionGetRating.content[0].rating == 0)
 								{
 								//create a new rating for the model. User rates the solution first time.
@@ -230,7 +233,7 @@ angular
 							}).success(function(data, status, headers,config) {
 									$scope.mlSolutionGetRating = data.response_body;
 									$scope.ratingReview = $scope.mlSolutionGetRating.textReview;
-									debugger;
+								 
 								}).error(
 									function(data, status, headers,config) {
 										alert("Error: "+status);
@@ -339,7 +342,7 @@ angular
 						})
 								.success(
 										function(data, status, headers, config) {
-											debugger;
+											 
 											if( !user || data.response_body.ownerId == user[1] ){
 												$scope.cantRate = true;
 											}
@@ -390,6 +393,7 @@ angular
 												if(!$scope.solutionPublicDesc){
 													$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 												}
+												 
 												$scope.getPublicSolutionDocuments($scope.solution.accessType);
 											}
 
@@ -1085,6 +1089,7 @@ angular
 						}
 						
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId){
+							 
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = revisionId;
 							$scope.versionId = versionId;
@@ -1095,9 +1100,87 @@ angular
 							if(!$scope.solutionPublicDesc){
 								$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 							}
+							 
 							$scope.getPublicSolutionDocuments($scope.solution.accessType);
 							$scope.getArtifacts();
 						}
+										
+						
+						/***************** get solution descriptions ***********************/
+						
+						$scope.getSolCompanyDesc = function() {
+							var req = {
+								method : 'GET',
+								url : '/site/api-manual/Solution/description/org/'
+										+ $scope.solutionId + "/" + $scope.revisionId,
+							};
+							$http(req)
+									.success(
+											function(data, status, headers,
+													config) {
+												//$scope.solutionCompanyDesc = data.description;
+												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.description);
+												/*if($scope.solutionCompanyDesc){
+													$scope.solutionCompanyDescStatus = true;
+												}*/
+											}).error(
+											function(data, status, headers,
+													config) {
+											});
+						}
+						$scope.getSolCompanyDesc();
+
+						$scope.getSolPublicDesc = function() {
+						
+							var req = {
+								method : 'GET',
+								url : '/site/api-manual/Solution/description/public/'
+										+ $scope.solutionId + "/" + $scope.revisionId,
+							};
+							$http(req)
+									.success(
+											function(data, status, headers,
+													config) {
+												//$scope.solutionPublicDesc = data.description;
+												$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
+												/*if($scope.solutionPublicDesc){
+													$scope.solutionPublicDescStatus = true;
+												}*/
+											}).error(
+											function(data, status, headers,
+													config) {
+											});
+						}
+						$scope.getSolPublicDesc();
+						
+						$scope.getSolutionImages = function(){
+	                       	 var getSolutionImagesReq = {
+										method : 'GET',
+										url : '/site/api-manual/Solution/solutionImages/'+$scope.solutionId
+								};
+
+	                       	 $http(getSolutionImagesReq)
+									.success(
+											function(data, status, headers,
+													config) {
+												if(data.response_body.length > 0) {
+													$scope.showSolutionImage = true;
+													$scope.solutionImageName = data[0];
+													$scope.imgURLdefault = "/site/binaries/content/gallery/acumoscms/solution/" + $scope.solutionId + "/" + data.response_body[0];
+
+													$scope.previewImage = $scope.imgURLdefault;
+												
+												}
+											}).error(
+													function(data, status, headers,
+															config) {
+														$scope.showSolutionImage = false;
+													});
+							}
+							$scope.getSolutionImages();
+							
+							/**********************************END*****************************/
+						
 						
 						// Value for Download Popup
 						function donwloadPopupValue() {
@@ -1380,7 +1463,7 @@ angular
 											
 										},
 										function(data){
-											debugger;
+											 
 											});
 							
 						}
@@ -1393,7 +1476,7 @@ angular
 						};
 
 						$scope.updateRating = function(rating) {
-							debugger;
+							 
 							if ($scope.loginUserID != ""
 									&& $scope.loginUserID != $scope.solution.ownerId) {
 								$scope.solution.solutionRating = rating;
@@ -1475,6 +1558,7 @@ angular
 										.success(
 												function(data, status, headers,
 														config) {
+													 
 													$scope.supportingDocs = [];
 													console.log(" Get Asset File name : " + data.response_body);
 													$scope.supportingDocs = data.response_body;
