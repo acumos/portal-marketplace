@@ -190,6 +190,14 @@ angular
 						$scope.actionFilter = function(action) {
 							alert(action);
 						}
+						//Check for access type
+						var accessTypeFilter = ["OR", "PB"];
+						$scope.accessFilter = function(accessType){
+							accessTypeFilter = [];
+							if(accessType == "all"){accessTypeFilter = ["OR", "PB"]}
+							else accessTypeFilter.push(accessType);
+							$scope.loadMore();
+						}
 						// check
 						var count = 1;
 						$scope.isBusy = false;
@@ -228,7 +236,7 @@ angular
 								"request_body" : {
 									"modelTypeCodes" : $scope.categoryFilter,
 									"active" : true,
-									"accessTypeCodes": ["OR", "PB"],
+									"accessTypeCodes": accessTypeFilter,
 									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
 									"tags" : $scope.tagFilter,
