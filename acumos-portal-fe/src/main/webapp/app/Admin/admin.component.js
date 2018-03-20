@@ -385,7 +385,16 @@ angular.module('admin')
                 												//$scope.serverResponse = 'An error has occurred';
                 											});*/
                                         });
-                                alert("Updated successfully.");
+                               // alert("Updated successfully.");
+                                $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                $anchorScroll(); 
+                                $scope.msg = "Updated successfully."; 
+                                $scope.icon = '';
+                                $scope.styleclass = 'c-success';
+                                $scope.showAlertMessage = true;
+                                $timeout(function() {
+                                	$scope.showAlertMessage = false;
+                                }, 5000);
                             },
                             function(error) {console.log(error);
                     });
