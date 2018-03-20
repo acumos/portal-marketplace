@@ -155,12 +155,15 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 
 .header-search-control.mdl-textfield.is-focused .mdl-textfield__input {-webkit-transition: width 200ms; transition: width 200ms;}
 .icon-header-help {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/ico_help.png') no-repeat left center}
+.icon-logout {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/icon-logout.svg') no-repeat left center}
 .helplink-container a {margin-top: 10px; position:relative; line-height: 44px !important;}
 .help-not-login a {padding-right:10px !important;}
 .mdl-layout__header-row {padding: 0 10px;}
 
 .header-controls .search-button {margin-top: -2px !important;}
-
+.logout-link {display:flex !important; align-items: center; padding-left: 8px !important;}
+.logout-link .icon-logout {position:relative; top: 1px;}
+.header-right1 md-menu > button:first-child {margin-right:0 !important;}
 /*********** header style end  ************/
 
 /*********** Left side navigation style start************/
@@ -374,9 +377,9 @@ md-grid-tile:hover { cursor: pointer; box-shadow:1px 1px 3px #eee;border:1px sol
 .grid-item { width: 22.5%; max-width:275px; padding: 5px; margin-right:20px; margin-bottom: 20px; min-width:230px; border:1px solid #f1f1f1;}
 .grid-item:first-child {margin-left:0;}
 .grid-item:last-child {margin-left:0;}
-.grid-item:hover { box-shadow: 0 5px 30px rgba(0,0,0,0.15);
+.grid-item:hover { box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 transform:scale(1.02);
-transition: box-shadow 0.3s ease-in-out;
+transition: all 0.2s ease-in-out;
 }
 .mpimgcontainer:hover .mpbtncontainer {display: block;}
 
@@ -1437,7 +1440,7 @@ md-menu-content.read-note .notification-text {color: #656565; font-weight: norma
 #btn_header:hover {background: none; color: #ffcc00; opacity: 1;}
 header.header-without-login .mdl-layout__header-row {padding:0;align-items:stretch;}
 
-.a-logo-container.logo-without-login {width: 170px; background-position: -40px center;}
+.a-logo-container.logo-without-login {background-position: -40px center;}
 .logo-without-login .accumos-header-logo img { margin-left:0;}
 .terms-condition {display: block; padding: 20px;}
 .downloadlbl1 {display: block; max-width: 200px; text-overflow:ellipsis; float: left; overflow: hidden;}
@@ -2076,6 +2079,10 @@ float: left; max-width: 65%;}
 /* Chrome 29+ */
 @media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
     #btn_header {position: relative; top: 1px;}
+    .header-right1 .mdl-textfield .search-button {top: 12px;}
+    .header-right1 .mdl-textfield.is-focused {margin-right: 15px !important;}
+    .header-right1 md-menu > button:first-child {min-width: 47px;}
+    .header-right1 md-menu > button:first-child span {margin-right: 2px !important;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
 
