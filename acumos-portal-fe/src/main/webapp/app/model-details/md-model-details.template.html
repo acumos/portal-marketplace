@@ -21,12 +21,14 @@
 									ng-class="{selected: v.version == versionId}">Version - {{v.version}}</li>
 						</ul>
 					</div>
-					<button type="button" ng-if="solution.accessType != 'PR'"
-							class="mdl-button mdl-js-button mdl-js-ripple-effect btn-company"
-							ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'" alt="Company" title="Company">Company</button>
-					<button type="button" ng-if="solution.accessType != 'PR'"
+					<button type="button" ng-show="solution.accessType != 'PR'"
+							class="mdl-button mdl-js-button mdl-js-ripple-effect "
+							ng-class="showORDescription == true ? 'btn-primary': 'btn-secondary'" alt="Company" title="Company" 
+							ng-click="showORDescription = !showORDescription; showPBDescription = false">Company</button>  <!-- solution.accessType == 'OR' || -->
+					<button type="button" ng-show="solution.accessType != 'PR'"
 							class="mdl-button mdl-js-button mdl-js-ripple-effect"
-							ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'" alt="Public" title="Public">Public</button>								
+							ng-class="showPBDescription == true ? 'btn-primary': 'btn-secondary'" alt="Public" title="Public"
+							ng-click="showPBDescription = !showPBDescription; showORDescription = false">Public</button> <!-- solution.accessType == 'PB' || -->
 			</div>
 			</div>
 			
@@ -262,12 +264,14 @@
 
 							<!-- images changed for demo  -->
 							<img
-								ng-src="{{imgURLdefault}}" class="modelimg1"
+								ng-src="{{previewImage}}" class="modelimg1"
 								style="max-width: 400px; margin: 0 auto; display: block;">
 
 						</div>
 						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
-						<div ng-bind-html="solutionPublicDesc"></div>
+						<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
+						<div ng-bind-html="solutionCompanyDesc1" ng-show="showORDescription" ></div>
+						
 						<!-- <h6 class="sectiontitle6">EXAMPLE</h6>
 														<h6 class="sectiontitle7">Tree Example - English</h6>
 														<div class="c-mgcontainer">
