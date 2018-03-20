@@ -944,21 +944,20 @@
 		</div>
 	</section>
 	<div class="md-container-head1">
-		<label>Lorem ipsum dolor sit amet, consectetur adipiscing
-			elit. Nunc ut urna nec magna viverra dictum sed at ante. Nulla
-			lacinia vitae lectus eget convallis. Cras sit amet vulputate diam.
-			Praesent auctor aliquam fermentum. Praesent fringilla accumsan mi, in
-			aliquam nibh maximus ut. Nulla hendrerit massa at consectetur
-			tincidunt.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-			Nunc ut urna nec magna viverra dictum sed at ante. Nulla lacinia
-			vitae lectus eget convallis. Cras sit amet vulputate diam. Praesent
-			auctor aliquam fermentum. Praesent fringilla accumsan mi, in aliquam
-			nibh maximus ut. Nulla hendrerit massa at consectetur tincidunt. </label>
+		<label> Many models in the Acumos catalog can be packaged as ONAP microservices and deployed in an ONAP instance. 
+		 Not all models will be compatible.  For more information, see the <a href="">requirements</a>.</label>
 	</div>
 	<div class="page-wrapper2 onap-section">
 		<h4 class="onap-title">ON BOARDING THE ONAP MODEL</h4>
 			 <md-content class="md-padding company-market onboardingwebContent" ng-show="userLoggedIn">
-			<ul id="onap-onboarding">
+			<ul class="onboarding-web" id="onap-onboarding">
+					<li>
+                         <div class="imageplace">
+                                <span class="imagecontent" alt="User Input" title="User Input"></span>
+                         </div>
+                         <div class="text">User Input</div>
+                   </li>
+                   <li class="progress-status"></li>
 			       <li>
                           <div class="imageplace">
                                  <span class="imagecontent model-documentation" alt="Check Compatibility" title="Check Compatibility"></span>
@@ -970,22 +969,20 @@
                    <li class="progress-status"></li>
                    <li>
                           <div class="imageplace">
-                                 <span class="imagecontent micro-service" alt="Create Micro-service" title="Create Micro-service"></span>
+                                 <span class="imagecontent micro-service" alt="Dockerize to Create Microservice" title="Dockerize to Create Microservice"></span>
                           </div>
                           <md-tooltip>{{errorCM}}</md-tooltip>
-                          <div class="text">Create Micro-service</div>
+                          <div class="text">Dockerize to Create Microservice</div>
                           
                    </li>
                    <li class="progress-status"></li>
-
                    <li>
                           <div class="imageplace">
-                                 <span class="imagecontent dockerize" alt="Dockerize" title="Dockerize"></span>
+                                 <span class="imagecontent create-tosca" alt="Create ONAP Artifacts" title="Create ONAP Artifacts"></span>
                           </div>
-                          <md-tooltip>{{errorDO}}</md-tooltip>
-                          <div class="text">Dockerize</div>
-                          
-                   </li>
+                          <md-tooltip>{{errorCT}}</md-tooltip>
+                          <div class="text">Create ONAP Artifacts</div>
+                    </li>
                    <li class="progress-status"></li>
                    <li>
                           <div class="imageplace">
@@ -993,16 +990,7 @@
                           </div>
                           <md-tooltip>{{errorAR}}</md-tooltip>
                           <div class="text">Add to Repository</div>
-                     </li>
-                   <li class="progress-status"></li>
-                   <li>
-                          <div class="imageplace">
-                                 <span class="imagecontent create-tosca" alt="Create TOSCA" title="Create TOSCA"></span>
-                          </div>
-                          <md-tooltip>{{errorCT}}</md-tooltip>
-                          <div class="text">Create TOSCA</div>
-                          
-                   </li>
+                    </li>
                    <li class="progress-status"></li>
                    <li>
                           <div class="imageplace">

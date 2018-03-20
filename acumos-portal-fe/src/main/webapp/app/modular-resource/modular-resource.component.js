@@ -90,24 +90,7 @@ angular.module('modelResource')
 				//$scope.uploadModel = false;
 				var file = $scope.file;
 				var userId = JSON.parse(localStorage.getItem("userDetail"));
-				/*var fd = file;*/
-				/*var fd = new FormData();
-				fd.append('file', file);
 				
-				console.log(file);*/
-				
-				/*apiService
-				.insertmodelFileUpload(userId, file)
-				.then(
-						function(response) {
-							console.log(response.data.response_body);
-						},
-						function(error) {
-							console.log("Error in uploading file");
-						});*/
-				
-				
-				/*,userId:userId[1]*/
 				var uploadUrl = "api/model/upload/" + userId[1];
 				var promise = modelUploadService.uploadFileToUrl(
 						file, uploadUrl);
@@ -342,19 +325,17 @@ angular.module('modelResource')
 											case 'Dockerize' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
 											case 'AddToRepository' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
 											case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-											case 'ViewModel' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = '';
 										}
 										var onboardingComponent = '.onboarding-web';
 									} else {
 										switch(stepName){
-											case 'CheckCompatibility': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
-											case 'CreateMicroservice': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-											case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-											case 'AddToRepository' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
-											case 'CreateTOSCA' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-											case 'ViewModel' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorVM = data[i].result : $scope.errorVM = ''; break;
+											case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
+											case 'CreateMicroservice': var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+											case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+											case 'AddToRepository' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
 											default : var counter = -1;
 										}
+
 										var onboardingComponent = '#onap-onboarding';
 									} 
 									
@@ -373,8 +354,8 @@ angular.module('modelResource')
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 											$scope.completedSteps[stepName] = stepName;
 	
-											if( (counter === 6 && $scope.onap == false) || (counter === 8 && $scope.onap == true) ) {
-												counter = counter +2;
+											if( ( ( (counter === 6 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) ) && $scope.stepfailed == false ) {
+												counter = counter + 2;
 												angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
 												angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 												$scope.errorVM = '';
@@ -423,8 +404,6 @@ angular.module('modelResource')
 		                        }, 3000);
 		                        
 								$scope.trackId = response.data.response_detail;
-								//alert("Onboarding process started successfully with track id " + $scope.trackId + ". It may take some time to onboard your solution. \nPlease check notification to know the status of your solution.")
-								$scope.catalogResponse = response.data;						
 								
 								$scope.clearInterval = $interval(function(){
 									$scope.showValidationStatus();
@@ -432,7 +411,6 @@ angular.module('modelResource')
 								
 							},
 							function(error) {
-								$scope.catalorError = error.data;
 					});
 				} else {
 				    
