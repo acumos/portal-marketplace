@@ -1,66 +1,71 @@
-==========================================
-Acumos Portal MarketPlace Developers Guide
-==========================================
+.. ===============LICENSE_START=======================================================
+.. Acumos CC-BY-4.0
+.. ===================================================================================
+.. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+.. ===================================================================================
+.. This Acumos documentation file is distributed by AT&T and Tech Mahindra
+.. under the Creative Commons Attribution 4.0 International License (the "License");
+.. you may not use this file except in compliance with the License.
+.. You may obtain a copy of the License at
+..
+.. http://creativecommons.org/licenses/by/4.0
+..
+.. This file is distributed on an "AS IS" BASIS,
+.. WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+.. See the License for the specific language governing permissions and
+.. limitations under the License.
+.. ===============LICENSE_END=========================================================
 
-1. Introduction
----------------
+==================================
+Portal Marketplace Developer Guide
+==================================
 
-This is the developers guide to MarketPlace.
-
-**1.1 What is MarketPlace?**
+What is MarketPlace?
+====================
 
 Acumos provides a toolkit-independent 'App Store', called
 a Marketplace for:
 
-   1. Data-powered decision making and artificial intelligence software
+   #. Data-powered decision making and artificial intelligence software
       models.
 
-   2. It provides a means to securely share AI microservices along with
+   #. It provides a means to securely share AI microservices along with
       information on how they perform, such as ratings, popularity statistics
       and user-provided reviews to apply crowd sourcing to software
       development..
 
-   3. The platform provides integration between model developers and
+   #. The platform provides integration between model developers and
       applications in order to automate the process of user feedback,
       exception handling and software updates..
 
-**1.2 Target Users**
+Target Users
+============
 
-   This guide is targeted towards the open source user community that:
+   This guide is targeted towards the open source user community that intends to understand the functionality of the MarketPlace.
 
-   1. Intends to understand the functionality of the MarketPlace.
+MarketPlace - High level Architecture
+=====================================
 
-**1.3 MarketPlace - High level Architecture**
-
-         .. image:: images/marketplace_architecture.jpg
+         .. image:: images/devguide/marketplace_architecture.jpg
             :alt: MarketPlace High level Architecture
 
-**1.4 MarketPlace Backend APIs**
+MarketPlace Backend APIs
+========================
 
--  .. rubric:: Admin Service
-      :name: admin-service
+- Admin Service
+- Auth Service
+- Market Place Catalog Service
+- Notification Services
+- Oauth User Service
+- Publish Solution Service
+- Push And Pull Solution Service
+- User Role Services
+- User Service Services
+- Validation Status Services
+- Web Based Onboarding Services
 
--  Auth Service
-
--  Market Place Catalog Service
-
--  Notification Services
-
--  Oauth User Service
-
--  Publish Solution Service
-
--  Push And Pull Solution Service
-
--  User Role Services
-
--  User Service Services
-
--  Validation Status Services
-
--  Web Based Onboarding Services
-
-**1.5 MarketPlace Flow Structure:**
+MarketPlace Flow Structure
+==========================
 
    1. **Page Name:** Acumos Home Screen
 
@@ -171,31 +176,30 @@ a Marketplace for:
 
 1.6 User Account Signup Flow :
 
-            .. image:: images/Signup_Flow.jpg
+            .. image:: images/devguide/Signup_Flow.jpg
                :alt: User Account Signup Flow
 
 1.7 User Account Login Flow :
 
-            .. image:: images/Login_Flow.jpg
+            .. image:: images/devguide/Login_Flow.jpg
                :alt: User Account Login Flow
 
 1.8 Market Place Catalog Flow :
 
-            .. image:: images/Catalog_Flow.jpg
+            .. image:: images/devguide/Catalog_Flow.jpg
                :alt: Market Place Catalog Flow
 
 1.9 Model Detail Page Flow :
 
-            .. image:: images/Model_Detail_Page_Flow.jpg
+            .. image:: images/devguide/Model_Detail_Page_Flow.jpg
                :alt: Model Detail Page Flow
 
-2. Market Place Catalog Service
--------------------------------
 
-**2.1 Operation Name**
+Market Place Catalog Service
+============================
 
-    - Solutions
-~~~~~~~~~~~~~~~
+Operation Name - Solutions
+--------------------------
 
 **- Trigger**
 
@@ -316,10 +320,8 @@ Catalog.
 
 }
 
-**2.2 Operation Name**
-
-- Get Solution/Model
-~~~~~~~~~~~~~~~~~~~~
+Operation Name - Get Solution/Model
+-----------------------------------
 
 **- Trigger:**
 
@@ -403,10 +405,8 @@ Catalog.
 
 }
 
-**2.3 Operation Name**
-
-- Share Solution/Model
-~~~~~~~~~~~~~~~~~~~~~~
+Operation Name - Share Solution/Model
+-------------------------------------
 
 **- Trigger:**
 
@@ -479,10 +479,8 @@ Catalog.
 
 }
 
-**2.4 Operation Name**
-
-- Get Rating
-~~~~~~~~~~~~
+Operation Name - Get Rating
+---------------------------
 
 **- Trigger:**
 
@@ -557,10 +555,8 @@ user. <http://localhost:8083/swagger-ui.html#!/market-place-catalog-service-cont
 
 }
 
-**2.5 Operation Name**
-
-- Create Favorite
-~~~~~~~~~~~~~~~~~
+Operation Name - Create Favorite
+--------------------------------
 
 **- Trigger:** 
 
@@ -599,3 +595,35 @@ given by the end users.
     "error_code": "100"
 
     }
+
+
+Project Tools
+=============
+
+This micro service is a Spring-Boot application that for
+Portal Market Backend onthe Acumos platform.
+The first version listens only on localhost (127.0.0.1) & port 8080.
+
+Tools required
+--------------
+
+- JDK 1.8
+- Spring STS 3.8.x (https://spring.io/tools/sts/all)
+- Git Shell (https://git-for-windows.github.io/) or SourceTree (https://www.sourcetreeapp.com/) for Cloning & pushing the code changes.
+- Maven 3.x
+- Proxy setup to download dependencies from open source repositories
+
+
+How to Clone
+------------
+
+1. Open Source or GitShell Command Line Interface
+2. Browse to your preferred directory and run below command:
+
+git clone https://<userid>@gerrit.acumos.org/portal-marketplace.git
+
+Note: replace with your user id.
+3.  Once the repository is cloned.
+You would be able to build the branch Locally by running below command:
+
+ mvn clean install
