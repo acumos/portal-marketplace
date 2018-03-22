@@ -714,8 +714,9 @@ angular.module('admin')
                 	  $http.post(url).success(function(response){
                 		  fetchToolKitType();
                 		  $scope.subId = '';
-                		  $scope.subId = response.response_body[0].subId;
-                		  
+                		  if(response.response_body.length > 0){
+                			  $scope.subId = response.response_body[0].subId;
+                		  }
                 		  $scope.arrSub = [];
                 		  angular.forEach(response.response_body, function(value, key) {
                 			  var catTool = value.selector;
