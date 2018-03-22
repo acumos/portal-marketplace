@@ -21,16 +21,16 @@ angular
 							  $scope.imgURLDT = "images/anomaly.png";
 							  $scope.imgURLPR = "images/topology.png";
 							  $scope.imgURLnull = "images/vmpredict2.png";
-							  
+							  $scope.imageUrls = {};
 							  
 							  /*changes for demo - images shown according to the solution name*/
-								$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
+							  /*$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
 								$scope.imgURLemotion ="images/emotion_classifier.png";
 								$scope.imgURLthreat ="images/threat_analytics.png";
 								$scope.imgURLvideo ="images/video_analytics.png";
 								$scope.imgURLdefault ="images/default-model.png";
 								$scope.imgURLChat = "images/ChatBot.png";
-								$scope.imgURLSensitive = "images/Sensitive.png";
+								$scope.imgURLSensitive = "images/Sensitive.png";*/
 								
 							  $scope.successStories = [];
 							  $scope.banner = [];
@@ -58,11 +58,29 @@ angular
 			  												    from : 'AT&T Site Manager'}*/
 			  												     ];
 							  
-							  $scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4><!-- <h6>the marketplace, the eco-system and the design studio</h6> -->    <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. <!-- <a href="#">Learn More >></a> --></p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>',
+							  /*$scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4><!-- <h6>the marketplace, the eco-system and the design studio</h6> -->    <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. <!-- <a href="#">Learn More >></a> --></p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>',
 			  					  					  '<div class="home-screen1"><div class="slide-content"><div class="slide-text"><h4>Use the Design Studio to make AI the center of your new software.</h4><p>In <span>{{$root.siteInstanceName}}</span>, every model is a Micro-service, so models can be chained together along with data tools to create custom end-to-end solutions.</p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');" >EXPLORE MARKETPLACE</button></div></div><div class="mountain"></div></div>',
 			  					  					  '<div class="home-screen2"><div class="slide-content"><div class="slide-text"><h4><span>{{$root.siteInstanceName}}</span> is an AI Ecosystem</h4><p>Models are easily uploaded and packaged for the catalog. Model users meet modelers in the marketplace to test-drive, train and engage.</p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');">EXPLORE MARKETPLACE</button></div></div><div class="mountain"></div></div>',
 			  					  					  '<div class="home-screen3"><div class="slide-content"><div class="slide-text"><h4>We Speak Machine Learning</h4><p><span>{{$root.siteInstanceName}}</span> support all major AI toolkits.  Models from diﬀerent sources can be combined to create composite solutions. </p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');">EXPLORE MARKETPLACE</div></div><div class="mountain"></div></div>'
-			  					  ];
+			  					  ];*/
+							  $scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4><!-- <h6>the marketplace, the eco-system and the design studio</h6> -->    <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. <!-- <a href="#">Learn More >></a> --></p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" alt="ADD YOUR MODEL NOW"  title=" ADD YOUR MODEL NOW" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" alt="EXPLORE MARKETPLACE"  title=" EXPLORE MARKETPLACE" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>'];
+							  
+							  $scope.getSolutionImages = function(index, solutionId) {
+
+								  $scope.mlsolution.slides[index]['image'] = "images/default-model.png";
+									apiService
+											.getSolutionImage(solutionId)
+											.then(
+													function(response) {
+														if (response.data.response_body.length > 0)
+															$scope.mlsolution.slides[index]['image'] = "/site/binaries/content/gallery/acumoscms/solution/"
+																	+ solutionId
+																	+ "/"
+																	+ response.data.response_body[0];
+													},
+													function(data) {
+													});
+								}
 							  // $scope.mlsolution.slides = [
 							      
 							      //text: ['Nice image','Awesome photograph','That is so cool','I love that'][slides.length % 4],
@@ -127,38 +145,7 @@ angular
 												.forEach(
 														$scope.mlsolution.slides,
 														function( value, key) {
-															/*commented for demo remove later*/
-															/*if (value.modelType === "CL") {
-																value.image = $scope.imgURLCL;
-																// return;
-															}else if(value.modelType === "DT"){
-																value.image = $scope.imgURLDT;
-															}else if(value.modelType === "PR"){
-																value.image = $scope.imgURLPR;
-															}else{
-																value.image = $scope.imgURLnull;
-															}*/
-															
-															/*code added for demo for choosing the image through name*/
-															
-															if (value.name.indexOf('Predictor') > -1) {
-																value.image = $scope.imgURLnull;
-															}else if(value.name.indexOf('Threat') > -1){
-																value.image = $scope.imgURLthreat;
-															}else if(value.name.indexOf('Emotion') > -1){
-																value.image = $scope.imgURLemotion;
-															}else if(value.name.indexOf('Face') > -1){
-																value.image = $scope.imgURLcommercial;
-															}else if(value.name.indexOf('Video') > -1){
-																value.image = $scope.imgURLvideo;
-															}else if(value.name.indexOf('Chat') > -1){
-																value.image = $scope.imgURLChat;
-															}else if(value.name.indexOf('Sentiment') > -1){
-																value.image = $scope.imgURLSensitive;
-															}else{
-																value.image = $scope.imgURLdefault;
-															}
-														
+															$scope.getSolutionImages(key, value.solutionId);
 														});
 										
 											},

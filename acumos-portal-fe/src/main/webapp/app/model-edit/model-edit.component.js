@@ -2289,7 +2289,7 @@ angular
 							count -1;
 						}
 						
-						if($scope.solImage || ($scope.imgURLdefault != 'images/default-model.png' || $scope.imgURLdefault != 'images/img-list-item.png')){
+						if($scope.solImage || ($scope.imgURLdefault != 'images/default-model.png' && $scope.imgURLdefault != 'images/img-list-item.png')){
 							count++;
 							console.log(">>>>>>> imgURLdefault: ",$scope.imgURLdefault)
 						}
