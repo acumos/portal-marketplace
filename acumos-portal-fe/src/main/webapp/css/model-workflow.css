@@ -1488,7 +1488,7 @@ position:relative;
 .ql-align-justify {
     text-align: justify;
 }
-
+.timeline .tag-item > span{ text-align: left; float: left; word-break: break-all;}
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}

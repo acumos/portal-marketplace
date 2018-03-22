@@ -30,12 +30,12 @@ angular
 									// set the model value
 									
 									var size = element[0].files[0].size;
-				                	if(size >= 800000){
+				                	/*if(size >= 800000){
 				    	            	scope.imageError = true;
 				    	            	modelSetter(scope, "");
 				    	            	element.val("");
 				    	            	return true;
-				    	            }
+				    	            }*/
 				    	            scope.imageError = false;
 				    	            modelSetter(scope, element[0].files[0]);
 				    	            //return true;
