@@ -1258,17 +1258,21 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .btn-fed1[disabled] {pointer-events: none;cursor: not-allowed !important;}
 .btn-fed2 { color: #0366d6;position:relative; margin-right: 10px; }
 .btn-fed2:hover {background: #fff;color: #0366d6;}
-.fed-container1 {display:flex; flex-wrap:nowrap;justify-content: space-between;margin-right: 0 !important;}
+.fed-container1 {display: flex;flex-wrap:nowrap;align-items:center; justify-content: flex-end; margin-right: 0; padding-top: 8px;}
+
 .fed-container2 {display:flex; flex-wrap:nowrap;justify-content: flex-end;align-items: center;}
 .fed-container2 .mdl-button { width: 100%;}
 .fed-err-msg {position:absolute;width: 350px;margin-top: -17px;}
 .fed-err-msg span {position:relative; margin-left: 2px; line-height: 15px !important;}
+table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark as Self "] {width: 100% !important;}
+
 /********** Admin page Federation modal box style **********/
 .fedration-subscription {max-height: 80%;width: 750px;}
+.fedration-subscription .md-dialog-content {min-height: 190px;}
 
 .admin-grid1 div {margin-right: 20px;}
 .admin-grid1 div:last-child {margin-right: 0;}
-.subscontainerinner2 .admin-search-container {margin-right:0}
+.subscontainerinner2 .admin-search-container {margin-right:0; padding-right: 0;}
 .subscontainerinner2 .admin-search-control {height:30px;width: 100%;}
 .fedlbl2 {margin-right: 10px;display: inline-block;}
 .fedlbl4 {display: block; width: 100%;}
@@ -1279,12 +1283,12 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .subscontainerinner1 {display: flex;flex-wrap:nowrap;align-items:center;}
 .subscontainerinner2 {display: flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;}
 .btn-with-icon {padding-left: 8px;}
-.fedgridcontainer {margin-top: 15px;border: 1px solid #d5d5d5; border-bottom: none;}
+.fedgridcontainer {margin-top: 8px;border: 1px solid #d5d5d5; border-bottom: none;}
 .btn-with-icon.btn-primary .admin-btn-add {background: url("../images/admin-dashboard/add_new_user_white_ico.png") no-repeat center center;}
 
-.filter-container {display: flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start; background: #f1f1f1;padding: 10px; margin-top: 15px; border-top:1px solid #E4E4E4;border-bottom:1px solid #E4E4E4;}
+.filter-container {display: flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start; background: #f1f1f1;padding: 10px; margin-top: 8px; border-top:1px solid #E4E4E4;border-bottom:1px solid #E4E4E4;}
 .filter-container div {margin-right: 20px;}
-.btn-fedgrid {font-size: 12px; color: #0366d6; font-weight: 600;}
+.btn-fedgrid {font-size: 12px; color: #0366d6; font-weight: 600;margin-right: 8px; margin-left: 1px;}
 .filter-container div:last-child {display: flex;flex-wrap:nowrap;align-items:center; margin-right:0}
 .dialog-btn-container {background:#e5e5e5;}
 
@@ -1296,7 +1300,7 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .admin-img1 {max-width: 150px;}
 
 .fed-view-link {text-overflow: normal; width: 100px; overflow: auto; white-space: normal;}
-.fed-container1 {display: flex;flex-wrap:nowrap;align-items:center; justify-content: flex-end;}
+
 
 .logopngContainer{background-color:#F6F3FA;width:100%;margin:5px 0;border: 1px solid #d5d5d5; height:26px;}
 .logopngContent{display: inline-block;list-style-type: none;margin: 0;padding: 1px 10px;font-size : 12px;}
@@ -1828,11 +1832,12 @@ float: left; max-width: 65%;}
 	.mobheader-icons .mdl-button:first-child {margin-bottom:0;}
 	.mdl-layout__drawer.initialVal {transform: translateX(0px);}
 	.cog-header-logo-mob {color: #fff; font-size: 24px; position:relative; top: 4px;}
+	.mdl-layout__drawer-button {display:none;}
 	
 	.md-mob-grid1 {flex-direction: column;}
 	.md-left-container {width: 100% !important;}	
 	.md-left-container .mdl-tabs__tab-bar {flex-direction: row;justify-content: flex-start !important;overflow-x:auto;height:68px; overflow-y: hidden;margin-bottom:0;}
-	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab .tab-box {display:flex; flex-wrap: nowrap;width: 135px;}
+	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab .tab-box {display:flex; flex-wrap: nowrap; /* width: 135px; */width: auto;}
 	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab[href="#tab5-panel"] {display: none !important;}
 	.mdl-grid--no-spacing > .mdl-cell.md-right-container {width: 100% !important;}
 	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab.is-active {border-right: 1px dashed #DFDFDF !important; border-bottom:5px solid #671C9D;}
