@@ -451,7 +451,9 @@ angular.module('admin')
                                   function(response) {console.log(response.data.response_body);
                                       $scope.toolKitType = response.data.response_body;
                                   },
-                                  function(error) {console.log('Error :' +error);});
+                                  function(error) {
+                                	  console.log('Error :' +error);}
+                              		);
                       }
                       fetchToolKitType();
                       //Category Json
@@ -797,10 +799,15 @@ angular.module('admin')
                       $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
                     	  var check = false;
-                    	  var jsonFormate = '',cat='',toolKit='';debugger;
+                    	  var jsonFormate = '',cat='',toolKit='';
                     	  if(!$scope.categoryValue && !$scope.toolKitTypeValue){
-                    		  $scope.categoryValue = $scope.solutionDetail.modelType;
-                    		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;
+                    		  //changed since code was getting fetched in modelType earlier
+                    		  /*$scope.categoryValue = $scope.solutionDetail.modelType;
+                    		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;*/
+                    		  
+                    		  $scope.categoryValue = $scope.solutionDetail.modelTypeCode;
+                    		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitTypeCode;
+                    		  
                     		  check = true;
                     	  }
                     	                      	  

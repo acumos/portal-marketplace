@@ -80,7 +80,7 @@
 						                     <div ng-show="expanded">
 							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
 							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)"><span class="fa fa-share-alt ds-list-icon2"></span> {{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -95,7 +95,7 @@
 						                     <div ng-show="test">
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)"><span class="fa fa-share-alt ds-list-icon2"></span> {{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -139,7 +139,7 @@
 									
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)"><span class="fa fa-share-alt ds-list-icon"></span> {{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                    
@@ -166,11 +166,11 @@
 										<span class="ds-icon icon-input-search" title="Search"></span>
 									</button></md-icon> </md-input-container>	
 							</div>
-							<div class="ds-section-data-inner2">
+							<div class="ds-section-data-inner5">
 								<div class="ds-list1">
 									<div ng-repeat="cat in palette.categories">
 							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
-								        	<div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								        	<div class="ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)"><span class="fa fa-share-alt ds-list-icon"></span> {{val.solutionName}}({{val.version}})</div>
 							            </div>
 							        </div>
 							     </div>
@@ -240,7 +240,7 @@
 								<div class="canvas-image"></div>
 								<div class="canvas-text text-center">
 									
-									<h5>Drag & Drop your model into canvas to Create or Modify Model</h5>
+									<h5>Drag &amp; Drop your model into canvas to <br /> Create or Modify Model</h5>
 <!-- 									<p class="canvas-para">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> -->
 								</div>
 							
@@ -410,7 +410,7 @@
 										<!-- <div data-toggle="collapse" class="fa fa-folder question ui-link" ng-click="setActionLeft($index)" ng-show="$index!==selectedIndexLeft"><span>{{category.typeName}}</span></div> -->
 										
 							                        <div class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in matchModels track by $index" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="ds-inner-link" ng-repeat = "val in matchModels track by $index" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)"><span class="fa fa-share-alt ds-list-icon"></span> {{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                        </div>
