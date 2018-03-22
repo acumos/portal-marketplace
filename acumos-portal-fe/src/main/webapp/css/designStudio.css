@@ -51,9 +51,10 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 
 .ds-contentsection2 { overflow:auto;}
 .ds-section-data-inner {padding:5px 10px;}
-.ds-section-data-inner2 {padding:5px 10px; height: 150px; overflow:auto;}
-.ds-section-data-inner3 {padding:5px 10px; height: 400px; overflow:auto;}
+.ds-section-data-inner2 {padding:5px 10px; height: 150px; overflow:auto; width: 100%;}
+.ds-section-data-inner3 {padding:5px 10px; height: 400px; overflow:auto;width: 100%;}
 .ds-section-data-inner4 {padding:5px 10px 5px 0; height: 247px; overflow:auto;width:98%;}
+.ds-section-data-inner5 {padding:5px 10px; height: auto; max-height:220px; overflow:auto; width: 100%;}
 .ds-section-data-inner md-input-container {margin: 2px 0;}
 .ds-section-data {}
 
@@ -100,7 +101,7 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 
 .ds-treelist-childtree {margin:0; padding:0 0 0 15px; list-style-type: none;}
 
-.ds-inner-link {font-size: 13px;}
+.ds-inner-link {display: block; font-size: 13px; white-space: normal; margin-bottom: 7px; word-break: break-all; position: relative; margin-left: 8px; line-height: normal;}
 .ds-inner-link:before {left: -7px;position:relative;}
 
 .ds-treelist-childtree li .mdl-button {padding-left:3px; font-weight:normal; width:100%; text-align:left; height:25px; line-height:25px; text-transform:none;text-transform: initial;}
@@ -229,8 +230,6 @@ md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !importa
 
 .ui-link {font-size:600;}
 
-.ds-inner-link {display: block;font-size: 13px; white-space: nowrap; margin-bottom: 7px;}
-
 .ds-header {width:100%;}
 
 #canvas > svg { min-height: 100%; width: 100% !important; height:100% !important; }
@@ -305,3 +304,7 @@ text.edge-label {
 .inputCheckDisabled{cursor: not-allowed;}
 .marginLeft{margin-left: 10px !important;}
 .marginBottom{margin-bottom: 6px !important;}
+
+.canvas-text h5 {line-height: 1.4em;}
+.ds-list-icon {position: absolute;left: -19px;top: 3px;}
+.ds-treelist span.ds-list-icon2 {margin-left: 0 !important; line-height: normal !important;position: absolute;left: -19px;top: 3px;}
