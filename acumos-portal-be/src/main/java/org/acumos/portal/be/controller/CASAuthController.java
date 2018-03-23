@@ -111,7 +111,7 @@ public class CASAuthController extends AbstractController {
 	 * @param service
 	 *            Service from CAS
 	 * @return data 
-	 *            JsonResponse<Object>
+	 *            JsonResponse
 	 */
 	@ApiOperation(value = "Returns the UserObject from CAS", response = JsonResponse.class)
 	@RequestMapping(value = { "serviceValidate" }, method = RequestMethod.GET, produces = APPLICATION_JSON)

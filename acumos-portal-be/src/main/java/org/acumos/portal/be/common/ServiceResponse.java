@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 * This class represents a common format set for the request body sent from the client.
 * Getters and setters encapsulate the fields of a class by making them accessible 
 * only through its public methods and keep the values themselves private.
- * @param <T> Type inside request
 */
 
 @XmlAccessorType(XmlAccessType.FIELD)
