@@ -202,14 +202,14 @@
 					</images>
 				</configuration>
 				<!-- build Docker images in install phase, push in deploy phase -->
-				<executions>
+				<!-- <executions>
 					<execution>
 						<goals>
 							<goal>build</goal>
 							<goal>push</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 		</plugins>
 	</build>

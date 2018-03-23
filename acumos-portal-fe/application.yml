@@ -22,7 +22,7 @@ zuul:
       sensitiveHeaders:
     dsce:
       path: /dsce/**
-      url: http://localhost:8088
+      url: http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8088
       sensitiveHeaders:
     site:
       path: /site/**
@@ -34,14 +34,9 @@ zuul:
       url: http://localhost:9081
       stripPrefix: false
       sensitiveHeaders:
-    openstack:
-      path: /openstack/**
-      url: http://localhost:8007
-      stripPrefix: false
-      sensitiveHeaders:
-    
 spring:
   http:
     multipart:
       max-file-size: 1024MB
       max-request-size: 1024MB
+

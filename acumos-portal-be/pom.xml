@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>1.14.1</version>
+			<version>1.14.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.acumos.acumos-nexus-client</groupId>
@@ -334,14 +334,14 @@
 						</image>
 					</images>
 				</configuration>
-				<executions>
+				<!-- <executions>
 					<execution>
 						<goals>
 							<goal>build</goal>
 							<goal>push</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 		</plugins>
 	</build>
