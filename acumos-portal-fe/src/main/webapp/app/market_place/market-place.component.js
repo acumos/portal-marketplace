@@ -10,6 +10,7 @@ angular
 							$state, $stateParams, $sessionStorage, $rootScope,
 							apiService, $element, $timeout) {
 						$scope.autoHeight = true;
+						$scope.all = true;
 						$scope.tags = [];
 						$scope.selectedChip = [];
 						$scope.sortBy = 'MR';
@@ -191,8 +192,11 @@ angular
 							alert(action);
 						}
 						//Check for access type
-						var accessTypeFilter = ["OR", "PB"];
-						$scope.accessFilter = function(accessType){
+						var accessTypeFilter = ["PB"];$scope.userLoggedIn = false;
+						if (JSON.parse(localStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];$scope.userLoggedIn = true;}
+						
+						
+						$scope.accessFilter = function(accessType){debugger;
 							accessTypeFilter = [];
 							if(accessType == "all"){accessTypeFilter = ["OR", "PB"]}
 							else accessTypeFilter.push(accessType);
@@ -256,7 +260,6 @@ angular
 									function(error) {
 										$scope.status = 'Unable to load data: '
 												+ error.data.error;
-										console.log($scope.status);
 									});
 							count += 9;
 						}
@@ -344,13 +347,9 @@ angular
 																									mlsolutionKey) {
 																								if (response.data.response_body[favKey].solutionId == $scope.mlsolutions[mlsolutionKey].solutionId) {
 																									$scope.mlsolutions[mlsolutionKey].selectFav = true;
-																									console
-																											.log("fav solution");
 																								}
 																							});
 																		});
-														console
-																.log(response.data.response_body);
 													},
 													function(error) {
 														$scope.status = 'Unable to load data: '
@@ -533,12 +532,10 @@ angular
 							if ($scope.mlsolutions[key].selectFav) {
 								apiService.createFavorite(dataObj).then(
 										function(response) {
-											console.log('Favorite created');
 										});
 							} else if (!$scope.mlsolutions[key].selectFav) {
 								apiService.deleteFavorite(dataObj).then(
 										function(response) {
-											console.log('Favorite deleted');
 										});
 							}
 						};
