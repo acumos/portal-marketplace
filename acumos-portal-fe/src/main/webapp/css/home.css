@@ -210,7 +210,7 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
     width: 120px;
     background-repeat: no-repeat;
 }
-
+.discover .onboard a .discover-description:hover{color:#0366d6;}
 /* ---- media query start ----*/
 @media(max-width:2560px){
 .hasClass .discover .community{left: 87px;}
