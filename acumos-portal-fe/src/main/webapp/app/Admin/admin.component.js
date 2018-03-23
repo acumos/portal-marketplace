@@ -373,6 +373,12 @@ angular.module('admin')
 			                                    } else {
 			                                    	$rootScope.enableOnBoarding = false;
 			                                    }
+			                                } if($scope.siteConfig.fields[key].label == 'EnableDCAE'){
+			                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
+			                                    	$rootScope.enableDCAE = true;
+			                                    } else {
+			                                    	$rootScope.enableDCAE = false;
+			                                    }
 			                                }
                                             
 											/*fileUploadService.uploadFileToUrl(

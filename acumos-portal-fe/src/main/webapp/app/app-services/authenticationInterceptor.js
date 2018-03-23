@@ -5,8 +5,9 @@ app.factory('authenticationInterceptor', function ($q, $state, $rootScope) {
       config.headers = config.headers;
       if (localStorage.getItem('auth_token')) {
         config.headers.Authorization = 'Bearer ' + localStorage.getItem('auth_token');
-        config.headers.provider = sessionStorage.getItem('provider');
       }
+      if(sessionStorage.getItem('provider'))
+          config.headers.provider = sessionStorage.getItem('provider');
       return config;
     },
     response: function (response) {

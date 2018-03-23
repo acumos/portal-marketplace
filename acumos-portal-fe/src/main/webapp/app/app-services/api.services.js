@@ -1,5 +1,5 @@
 angular.module('AcumosApp')
-    .service('apiService', ['$http', function ($http) {
+    .service('apiService', ['$http', function ($http, $window) {
 
         var urlModelTypes = '/api/filter/modeltype';
         var urlAllUserCount = '/api/users/userDetails';
@@ -13,6 +13,7 @@ angular.module('AcumosApp')
         var urlSignIn = 'api/auth/login';//'api/auth/jwtToken';
         var urlJwtAuth = 'api/auth/jwtToken';
         var urlSocialSignIn = 'api/oauth/login';
+        var urlCasSignIn = 'api/cas/serviceValidate';
         var urlChangePass = 'api/users/changePassword'
         var urlPutSolutions = '/api/solutions';
         var urlPutPublishSolution = '/api/publish';
@@ -73,6 +74,7 @@ angular.module('AcumosApp')
         var urladdAllSolutionsAdmin = "api/admin/peer/sub/create";
         var urlMessageStatusWithTrackingId = 'api/webBasedOnBoarding/messagingStatus/search/';
         var urlForONAP = 'api/webBasedOnBoarding/convertToOnap';
+        var urlCasEnable = 'api/cas/enabled';
         	
         /**************** ALL GET ******************/
     	this.getAllActiveUser = function (activeStatus) {
@@ -192,10 +194,18 @@ angular.module('AcumosApp')
         	return $http.get(urlGetVersion);
         }
 		
-		 this.getUserProfileImage = function(userID){
-        	return $http.get(urlUserProfileImage + '/' + userID);
+		this.getUserProfileImage = function(userID){
+            return $http.get(urlUserProfileImage + '/' + userID);
         }
         
+		this.casSignIn = function (ticketId) {
+	        return $http.get(urlCasSignIn + '?ticket=' + ticketId + '&service=' + window.location.origin);
+	    }
+		 
+        this.getCasEnable = function () {
+            return $http.get(urlCasEnable);
+        }
+		 
                 
         /**************** ALL PUT ******************/
         this.updateSolutions = function(solution){

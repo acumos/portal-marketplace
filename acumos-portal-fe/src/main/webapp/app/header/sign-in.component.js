@@ -11,63 +11,82 @@ app
                                           value : 'test'
                                     }
 
-                                    $scope.broadcastmessage = ""
+                                    $scope.cas = {
+                            				login : 'false'
+                                    };
+                                    apiService.getCasEnable().then( function(response){
+                                    	$scope.cas.login = response.data.response_body;
+                                    });
+                                    $scope.broadcastmessage = "";
+                                    /*$scope.cas = {
+                                    				login : 'true',
+                                    				validate : {
+                                    							url : window.location.origin
+                                    							}
+                                    			};*/
+                                    
                                     $scope.$on('transfer', function(event, data) {
                                           $scope.broadcastmessage = data.message;
                                     });
                                     
                                     $rootScope.showAdvancedLogin = function(ev) {
-                                        $mdDialog.show({
-                                          controller: signinController,
-                                          templateUrl: './app/header/sign-in.template.html',
-                                          parent: angular.element(document.body),
-                                          targetEvent: ev,
-                                          clickOutsideToClose:true,
-                                          /*controllerAs : '$ctrl',
-                                          resolve : {
-                                                modalData : $ctrl.testData
-                                          }*/
-                                          
-                                        })
-                                        .then(function(answer) {
-                                        	console.info("result");
-                                            //console.info(result);
-                                            
-                                            $scope.userfirstname = productService.test.firstName;
-                                            $scope.userid = productService.test.userId;
-                                            
-                                            $scope.localStore = [];
-                                            $scope.localStore.push($scope.userfirstname, $scope.userid);
-                                            
-                                            console.log("$scope.localStore: ",$scope.localStore);
-                    
-						                    /*$rootScope.$on("signIn",function(){
-						                        $scope.name = productService.getData();
-						                      });*/
-						                    
-						                    /*$scope.$on('transferUsername', function(event,data) {
-						                          console.log('transferUsername');
-						                          $scope.emitedusername = data.username;
-						
-						                    });*/
-                                            localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
-						                    $scope.$emit('transferUp', {
-						                          message : true,
-						                          username : $scope.userfirstname
-						                    });
-						                    
-						                    //$scope.loginUserID = JSON.parse(localStorage.getItem('userDetail'));
-						                    
-						                    localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
-						                    console.log("$scope.localStore: ",$scope.localStore);
-						                    
-						                    //$window.sessionStorage.setItem("acumosUserSession",productService.test.userId);
-						                    
-						                    console.info("close");
-                                          //$scope.status = 'You said the information was "' + answer + '".';
-                                        }, function() {
-                                          //$scope.status = 'You cancelled the dialog.';
-                                        });
+                                    	if($scope.cas.login === 'true'){
+                                    		sessionStorage.setItem('provider', "LFCAS");
+                                    		var retUrl = window.location.origin;
+                                    		$window.open('http://identity.linuxfoundation.org/cas/login?service=' + retUrl , '_self');
+                                    	}else{
+	                                        $mdDialog.show({
+	                                          controller: signinController,
+	                                          templateUrl: './app/header/sign-in.template.html',
+	                                          parent: angular.element(document.body),
+	                                          targetEvent: ev,
+	                                          clickOutsideToClose:true,
+	                                          /*controllerAs : '$ctrl',
+	                                          resolve : {
+	                                                modalData : $ctrl.testData
+	                                          }*/
+	                                          
+	                                        })
+	                                        .then(function(answer) {
+	                                        	console.info("result");
+	                                            //console.info(result);
+	                                            
+	                                            $scope.userfirstname = productService.test.firstName;
+	                                            $scope.userid = productService.test.userId;
+	                                            
+	                                            $scope.localStore = [];
+	                                            $scope.localStore.push($scope.userfirstname, $scope.userid);
+	                                            
+	                                            console.log("$scope.localStore: ",$scope.localStore);
+	                    
+							                    /*$rootScope.$on("signIn",function(){
+							                        $scope.name = productService.getData();
+							                      });*/
+							                    
+							                    /*$scope.$on('transferUsername', function(event,data) {
+							                          console.log('transferUsername');
+							                          $scope.emitedusername = data.username;
+							
+							                    });*/
+	                                            localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+							                    $scope.$emit('transferUp', {
+							                          message : true,
+							                          username : $scope.userfirstname
+							                    });
+							                    
+							                    //$scope.loginUserID = JSON.parse(localStorage.getItem('userDetail'));
+							                    
+							                    localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+							                    console.log("$scope.localStore: ",$scope.localStore);
+							                    
+							                    //$window.sessionStorage.setItem("acumosUserSession",productService.test.userId);
+							                    
+							                    console.info("close");
+	                                          //$scope.status = 'You said the information was "' + answer + '".';
+	                                        }, function() {
+	                                          //$scope.status = 'You cancelled the dialog.';
+	                                        });
+                                    	}
                                       };
                                       
                                                                      

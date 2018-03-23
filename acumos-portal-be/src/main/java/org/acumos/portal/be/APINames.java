@@ -216,4 +216,6 @@ public class APINames {
 	   
 	   public static final String GATEWAY = "/gateway";
 	   public static final String PING = "/ping/{peerId}";
+	   
+	   public static final String CAS = "/cas";
 }

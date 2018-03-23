@@ -5,7 +5,7 @@ app.component('headerNav',{
 	//template : '<div ng-include="getTemplateUrl()"></div>',
 	
 	//templateUrl : '/app/header/header-nav.template.html',
-	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService) {
+	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, productService, jwtHelper) {
 		componentHandler.upgradeAllRegistered();
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
@@ -27,13 +27,82 @@ app.component('headerNav',{
 			$rootScope.$broadcast('toggleHeader');
 		};
 		
-		if (JSON.parse(localStorage.getItem("userDetail"))) {
-			$scope.userDetails = JSON.parse(localStorage
-					.getItem("userDetail"));
-			$scope.userDetails.userName = $scope.userDetails[0];
-			$scope.loginUserID = $scope.userDetails[1];
-		}
+		$scope.cas = {
+				login : 'false'
+        };
+        apiService.getCasEnable().then( function(response){
+        	$scope.cas.login = response.data.response_body;
+        });
 		
+		 var search = $window.location.search     //to check query parameter on url
+         .split(/[&||?]/)
+         .filter(function (x) { return x.indexOf("=") > -1; })
+         .map(function (x) { return x.split(/=/); })
+         .map(function (x) {
+             x[1] = x[1].replace(/\+/g, " ");
+             return x;
+         })
+         .reduce(function (acc, current) {
+             acc[current[0]] = current[1];
+             return acc;
+         }, {});
+
+		 var ticketId = search.ticket;
+		$scope.casLogin = function(ticketId){     //CAS Authorization Login
+        	  apiService.casSignIn(ticketId).then(function successCallback(response) {
+        		  
+        		  var emailId = response.data.content.emailId;
+        		  var username = response.data.content.userName;
+        		  $scope.userData = {"request_body":{"username": username, "emailId": emailId}};
+        		  apiService.getJwtAuth($scope.userData).then(function successCallback(response) {
+        			  
+                	  localStorage.setItem('auth_token', response.data.jwtToken);
+                	  var authToken = jwtHelper.decodeToken(response.data.jwtToken);
+        		  
+                  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
+            		  if(value.name == 'Admin' || value.name == 'admin'){
+            			  localStorage.setItem('userRole', 'Admin');
+            		  }
+            		});
+                  localStorage.setItem('loginPassExpire', '');
+                  
+                  $scope.signinservice = authToken;
+                  productService.setData($scope.signinservice.mlpuser);
+                  
+                  var test = productService.test;
+                  
+                  $scope.userfirstname = productService.test.firstName;
+                  $scope.userid = productService.test.userId;
+                  
+                  $scope.localStore = [];
+                  $scope.localStore.push($scope.userfirstname, $scope.userid);
+                  
+                  $scope.$emit('transferUp', {
+                        message : true,
+                        username : $scope.userfirstname
+                  });
+                  localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+    		  }, function errorCallback(response) {
+    			  
+    		  });
+                  }, function errorCallback(response) {
+	                        console.log("Error: ", response);
+	                        oauthDetails = {};
+	                        $scope.userPassInvalid = true;
+	                  	});
+          };
+		
+          
+          if (JSON.parse(localStorage.getItem("userDetail"))) {
+  			$scope.userDetails = JSON.parse(localStorage
+  					.getItem("userDetail"));
+  			$scope.userDetails.userName = $scope.userDetails[0];
+  			$scope.loginUserID = $scope.userDetails[1];
+  		}else if(ticketId){
+  			 console.log(ticketId);
+  			 $scope.casLogin(ticketId);
+  		 }
+				 
 		$scope.$on('userDetailsChanged', function(a){
 			$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
 			$scope.userDetails.userName = $scope.userDetails[0];
@@ -271,9 +340,7 @@ app.component('headerNav',{
 			localStorage.removeItem("soluId");
 			localStorage.removeItem("solutionId");
 			localStorage.removeItem("auth_token");
-			sessionStorage.removeItem("provider");
-			sessionStorage.clear();
-    		localStorage.clear();
+			
 			$scope.successfulLoginSigninSignup = true;
 			$scope.successfulLogin = false;
 			$rootScope.successfulAdmin = false;
@@ -281,13 +348,18 @@ app.component('headerNav',{
 			$rootScope.sidebarHeader = false;
 			$scope.sidebarHeader = false;
 			$scope.loginUserID = "";
-			//localStorage.setItem("homeRefresh", 'Yes');
-			//localStorage.setItem("pageLoad", true);
-			$state.go("home");
-			$timeout(function() {
-				location.reload();
-			}, 0);
-            
+			if(sessionStorage.getItem("provider") != "LFCAS"){
+				$state.go("home");
+				$timeout(function() {
+					location.reload();
+				}, 0);
+			}else if(sessionStorage.getItem("provider") == "LFCAS"){
+				$window.open('https://identity.linuxfoundation.org/cas/logout?url=' + window.location.origin, '_self');
+				localStorage.removeItem("login");
+			}
+			sessionStorage.removeItem("provider");
+			sessionStorage.clear();
+    		localStorage.clear();
 		}
 		//Emit value from deactivate user
 		$scope.$on("MyLogOutEvent", function(evt,data){ 
@@ -357,6 +429,7 @@ app.component('headerNav',{
 		
 		//get siteInstanceName
 		$rootScope.enableOnBoarding = true;
+		$rootScope.enableDCAE = false;
 		apiService
 		.getSiteConfig("site_config")
 		.then(
@@ -379,6 +452,12 @@ app.component('headerNav',{
 	                                    	$rootScope.enableOnBoarding = true;
 	                                    } else {
 	                                    	$rootScope.enableOnBoarding = false;
+	                                    }
+	                                } if($scope.siteConfig.fields[key].label == 'EnableDCAE'){
+	                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
+	                                    	$rootScope.enableDCAE = true;
+	                                    } else {
+	                                    	$rootScope.enableDCAE = false;
 	                                    }
 	                                }
                                 $window.document.title = $rootScope.siteInstanceName;

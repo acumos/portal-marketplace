@@ -20,11 +20,13 @@
 
 package org.acumos.portal.be.config;
 
+import org.acumos.portal.be.common.ServiceResponse;
 import org.acumos.portal.be.security.AuthenticationTokenFilter;
 import org.acumos.portal.be.security.HttpUnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -68,6 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .antMatchers("/auth/login").permitAll()
+        .antMatchers("/cas/serviceValidate").permitAll()
         .antMatchers("/oauth/login/register").permitAll()
         .antMatchers("/oauth/login").permitAll()
         .antMatchers("/auth/validateToken").permitAll()
@@ -113,6 +116,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/webBasedOnBoarding/broker").permitAll()
         .antMatchers("/downloads/{solutionId}").permitAll()
         .antMatchers("/webBasedOnBoarding/convertToOnap/{solutionId}/{revisionId}/{userId}").permitAll()
+        .antMatchers("/cas/enabled").permitAll()
         .anyRequest().authenticated();
     	
     	// Custom JWT based authentication

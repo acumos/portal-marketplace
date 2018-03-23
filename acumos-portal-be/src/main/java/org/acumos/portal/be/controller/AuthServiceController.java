@@ -63,6 +63,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -189,22 +190,23 @@ public class AuthServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.JWTTOKEN }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public AbstractResponseObject jwtLogin(HttpServletRequest request, @RequestBody JsonRequest<User> user,
-			HttpServletResponse response) {
+			HttpServletResponse response , @RequestHeader(value="provider", required=false) String provider) {
 		log.debug(EELFLoggerDelegate.debugLogger, "login={}", user);
 		AbstractResponseObject responseObject = new AbstractResponseObject();
 		User userObj = null;
 		String jwtToken = null;
+		boolean isValid = false;
+		MLPUser mlpUser = null;
 		List<MLPRole> userAssignedRolesList = new ArrayList<>();
 		// Check if the UserName or emailId is null or not.
-		if (PortalUtils.isEmptyOrNullString(user.getBody().getUsername())) {
+		if (PortalUtils.isEmptyOrNullString(user.getBody().getUsername()) && PortalUtils.isEmptyOrNullString(user.getBody().getEmailId())) {
 			log.debug(EELFLoggerDelegate.errorLogger, "Invalid Parameters");
 			responseObject = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Login Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
 			try {
-				boolean isValid = false;
-				MLPUser mlpUser = null;
-				if (!PortalUtils.isEmptyOrNullString(user.getBody().getUsername())) {
+				
+				if (!PortalUtils.isEmptyOrNullString(user.getBody().getUsername()) && PortalUtils.isEmptyOrNullString(provider)) {
 					try {
 						mlpUser = userService.login(user.getBody().getUsername(), user.getBody().getPassword());
 						mlpUser.setLastLogin(new Date(System.currentTimeMillis()));
@@ -217,29 +219,32 @@ public class AuthServiceController extends AbstractController {
 						response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
 						log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
 					}
-				} /*
-					 * else if (!PortalUtils.isEmptyOrNullString(user.getBody().getEmailId())) {
-					 * mlpUser = userService.findUserByEmail(user.getBody().getEmailId()); isValid =
-					 * true; }
-					 */
+				} else 
+					if (!PortalUtils.isEmptyOrNullString(user.getBody().getEmailId()) && !PortalUtils.isEmptyOrNullString(provider) && "LFCAS".equals(provider)) {
+						 mlpUser = userService.findUserByEmail(user.getBody().getEmailId()); 
+						 mlpUser.setLastLogin(new Date(System.currentTimeMillis()));
+						 userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
+						 isValid = true; 
+					}
 
-				if (!mlpUser.isActive()) {
-					isValid = false;
-					responseObject = new ResponseVO(HttpServletResponse.SC_PRECONDITION_FAILED, "Inactive user");
-					response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
-					return responseObject;
-				}
+					if (!mlpUser.isActive()) {
+						isValid = false;
+						responseObject = new ResponseVO(HttpServletResponse.SC_PRECONDITION_FAILED, "Inactive user");
+						response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+						return responseObject;
+					}
+				
 
-				if (isValid) {
+					if (isValid) {
 					// convert to user
-					userObj = PortalUtils.convertToMLPuser(mlpUser);
-					// responseObject = new User(userObj);
-					// check password expire date
-					Date todaysDate = new Date();
-					responseObject.setLoginPassExpire(false);
-					if (mlpUser.getLoginPassExpire() != null) {
-						if (mlpUser.getLoginPassExpire().compareTo(todaysDate) <= 0) {
-							responseObject.setLoginPassExpire(true);
+						userObj = PortalUtils.convertToMLPuser(mlpUser);
+						// responseObject = new User(userObj);
+						// check password expire date
+						Date todaysDate = new Date();
+						responseObject.setLoginPassExpire(false);
+						if (mlpUser.getLoginPassExpire() != null) {
+							if (mlpUser.getLoginPassExpire().compareTo(todaysDate) <= 0) {
+								responseObject.setLoginPassExpire(true);
 
 						}
 					}
@@ -301,7 +306,6 @@ public class AuthServiceController extends AbstractController {
 										userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 									}
 								} catch (Exception e) {
-									e.printStackTrace();
 								}
 							} else {
 								responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED,

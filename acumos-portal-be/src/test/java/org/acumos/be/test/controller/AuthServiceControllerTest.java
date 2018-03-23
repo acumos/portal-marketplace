@@ -170,14 +170,14 @@ public class AuthServiceControllerTest {
 //		userService.login(username, password);
 //		userService.getUserRole(mlpUser.getUserId());
 		jwtTokenUtil.generateToken(mlpUser, null);
-		AbstractResponseObject abstractobject = authServiceController.jwtLogin(request, user, response);
+		AbstractResponseObject abstractobject = authServiceController.jwtLogin(request, user, response, null);
 		Assert.assertNotNull(abstractobject);
 		
 		user.getBody().setUsername(null);
-		authServiceController.jwtLogin(request, user, response);
+		authServiceController.jwtLogin(request, user, response, null);
 		
 		mlpUser.setActive(false);
-		authServiceController.jwtLogin(request, user, response);
+		authServiceController.jwtLogin(request, user, response, null);
 	}
 	
 	@Test

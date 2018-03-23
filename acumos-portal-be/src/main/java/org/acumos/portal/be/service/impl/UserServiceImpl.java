@@ -76,8 +76,10 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         mlpUser.setLastName(user.getLastName());
         mlpUser.setEmail(user.getEmailId());
         mlpUser.setLoginName(user.getUsername());
-        mlpUser.setLoginHash(user.getPassword());
+        if(!PortalUtils.isEmptyOrNullString(user.getPassword()))
+        	mlpUser.setLoginHash(user.getPassword());
         mlpUser.setActive(true);// Default active as true until we enable emails
+        log.info(EELFLoggerDelegate.debugLogger, " user={}", mlpUser);
         mlpUser = dataServiceRestClient.createUser(mlpUser);
         user = PortalUtils.convertToMLPuser(mlpUser);
         /*} else {

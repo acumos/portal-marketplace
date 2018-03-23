@@ -50,7 +50,7 @@
 			<div class="text-right signupnav hide-xs">
 				<ul ng-show="successfulLoginSigninSignup">
 					<li style="cursor: pointer"><signin-content></signin-content></li>
-					<li style="cursor: pointer"><sign-up></sign-up></li>
+					<li ng-hide="cas.login==='true'" style="cursor: pointer"><sign-up></sign-up></li>
 				</ul>
 			</div>
 			<div class="helplink-container">
