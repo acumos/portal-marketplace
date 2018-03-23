@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-fe</artifactId>
-	<version>1.14.45-SNAPSHOT</version>
+	<version>1.14.46-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Acumos Portal frontend server</name>
 	<description>Acumos Portal AngularJS Front End</description>
@@ -202,14 +202,14 @@
 					</images>
 				</configuration>
 				<!-- build Docker images in install phase, push in deploy phase -->
-				<!-- <executions>
+				<executions>
 					<execution>
 						<goals>
 							<goal>build</goal>
 							<goal>push</goal>
 						</goals>
 					</execution>
-				</executions> -->
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
