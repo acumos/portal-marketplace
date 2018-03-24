@@ -1601,7 +1601,7 @@ angular.module('admin')
                       							var ext = fileName.split('.').pop();//substr($('#userImage').value.lastIndexOf('.')+1);
                       				            var size = file.size;
                       				           
-                      				            if(validFormats.indexOf(ext) == -1 || size >= 20000){
+                      				            if(validFormats.indexOf(ext) == -1 ){
                       				            	$scope.error = true;
                       				                //return value;
                       				            }else{
