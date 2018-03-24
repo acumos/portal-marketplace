@@ -282,7 +282,7 @@ angular
 							if ($scope.pageNumber == 0) {
 								$scope.mlsolutions = response.data.response_body.content
 							}
-							if (response.data.response_body.content.length == 9) {
+							if (response.data.response_body.content.length > 0) {
 								$scope.viewNoMLsolution = 'View More ML Solutions';
 							} else {
 								$scope.viewNoMLsolution = 'No More ML Solutions';
@@ -361,7 +361,7 @@ angular
 								}
 
 							}
-							if (response.data.response_body.content.length == 9) {
+							if (response.data.response_body.content.length > 0) {
 								$scope.pageNumber += 1;
 							}
 							// $scope.pageNumber += 1;
