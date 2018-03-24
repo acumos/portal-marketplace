@@ -1036,8 +1036,8 @@
 																	<md-button
 																		ng-click="updateSolution(); showSolCat = !showSolCat"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
-																		<span ng-if="(!solution.modelTypeName && !solution.tookitTypeName )">Done</span>
-																		<span ng-if="(solution.modelTypeName && solution.tookitTypeName )">Update</span> 
+																		<span ng-show="(!solution.modelTypeName && !solution.tookitTypeName )">Done</span>
+																		<span ng-show="(solution.modelTypeName || solution.tookitTypeName )">Update</span> 
 																	</md-button>
 																</div>
 															</div>
@@ -2765,8 +2765,8 @@
 																<md-button
 																	ng-click="updateSolution(); showSolCat = !showSolCat"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
-																	<span ng-if="(!solution.modelTypeName && !solution.tookitTypeName)">Done</span>
-																	<span ng-if="(solution.modelTypeName && solution.tookitTypeName)">Update</span> 
+																	<span ng-show="(!solution.modelTypeName && !solution.tookitTypeName)">Done</span>
+																	<span ng-show="(solution.modelTypeName || solution.tookitTypeName)">Update</span> 
 																</md-button>
 															</div>
 														</div>

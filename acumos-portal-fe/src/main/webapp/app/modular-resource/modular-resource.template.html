@@ -925,7 +925,10 @@
 </div>
 <!-- </main> -->
 <!--  <main class="mdl-layout__content initialVal hasClass"> -->
-<div class="page-content" id="page-top" ng-hide="!onap">
+<md-content class="md-padding company-market " ng-show="!userLoggedIn">Please
+						<a ng-click="$root.showAdvancedLogin()">login</a> to upload the
+						model using the Web Experience</md-content>
+<div class="page-content" id="page-top" ng-if="onap && userLoggedIn">
 	<section class="pageheadsection gray-bg">
 		<div layout="row" layout-xs="column" layout-fill
 			layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
@@ -948,16 +951,16 @@
 		 Not all models will be compatible.  For more information, see the <a href="">requirements</a>.</label>
 	</div>
 	<div class="page-wrapper2 onap-section">
-		<h4 class="onap-title">ON BOARDING THE ONAP MODEL</h4>
+		<h4 class="onap-title">ON-BOARD THE ONAP MODEL</h4>
 			 <md-content class="md-padding company-market onboardingwebContent" ng-show="userLoggedIn">
 			<ul class="onboarding-web" id="onap-onboarding">
 					<li>
-                         <div class="imageplace">
-                                <span class="imagecontent" alt="User Input" title="User Input"></span>
+                         <div class="imageplace completed">
+                                <span class="imagecontent model-documentation" alt="User Input" title="User Input"></span>
                          </div>
                          <div class="text">User Input</div>
                    </li>
-                   <li class="progress-status"></li>
+                   <li class="progress-status completed"></li>
 			       <li>
                           <div class="imageplace">
                                  <span class="imagecontent model-documentation" alt="Check Compatibility" title="Check Compatibility"></span>
@@ -1012,13 +1015,13 @@
 
 
 		<div class="onap-steps-outer-container">
-			<h4 class="gridlistheading">ON-BOARD ONAP MODEL</h4>
+			<h4 class="gridlistheading">STEPS TO BUILD YOUR ONAP MODEL</h4>
 			<div class="onap-steps-inner-container">
 
 						<div class="timeline">
 							<div class="">
-								<!-- <div class="timeline-centered">
-									<article class="timeline-entry">
+								<div class="timeline-centered">
+									<!-- <article class="timeline-entry">
 										<div class="timeline-entry-inner">
 											 <div ng-if="!modelName || !popupAddSubmit" class="timeline-icon">
 												<span class="entypo-suitcase">1</span>
@@ -1028,17 +1031,17 @@
 												<span class="entypo-feather fa fa-check"></span>
 											</div>
 											<div class="timeline-label">
-												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;modelName='';openDrop(false); closeOtherPopovers('addModel',addModel)" class="link-heading">
-													 Add Model Information  Model Name</span>| 
+												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;modelName='';openDrop(false); closeOtherPopovers('addModel',addModel)" class="link-heading"
+												ng-class="{disabledLink:keepModelName}">
+													 Add Model Name| 
 													 <span class="green" class="green"
 																ng-if="modelName&&popupAddSubmit">Completed</span>
 													 <span class="red" ng-if="!modelName || !popupAddSubmit">Not Started</span>
 												</h2>
-												update model name
 												<div class="popovers cont" id="addModel" ng-show="addModel">
 													<md-toolbar>
 													<div class="md-toolbar-tools">
-														<h2>Add Model Information Model Name</h2>
+														<h2>Add Model Name</h2>
 														<span flex></span>
 														<md-button class="md-icon-button"
 															ng-click="addModel = !addModel;openDrop(true)"> <i
@@ -1068,13 +1071,20 @@
 													</div>
 													</md-dialog-content>
 												</div>
-										</div> 
-								</div>
-							</article>
-						</div> -->
+												<p>Some information can be displayed related to this particular task, such as how to complete this task what are data required.</p>
+										</div>
+										
+								</div><input type="checkbox" ng-model="keepModelName"> Keep Model Name As It Is 
+							</article> -->
+							
+						</div>
 						<div>
-						<!-- ng-disabled= "!modelName" -->
-							<button ng-click="addToCatalog()" 
+
+							<!-- <button ng-click="addToCatalog()" ng-disabled="!modelName && !keepModelName"
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
+								Add to Catalog</button> -->
+								
+								<button ng-click="addToCatalog()"
 								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 								Add to Catalog</button>
 						</div>
