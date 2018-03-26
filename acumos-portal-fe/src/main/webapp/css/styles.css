@@ -1417,7 +1417,7 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 .a-logo-container {display: flex;height: 55px; justify-content: flex-start; align-items: center;background: url("../images/general-icons/header_cross_img.png") no-repeat left center;padding-left: 11px; }
 .accumos-header-logo img {width: 110px; height: 31px;margin-left: 13px;position:relative;cursor:pointer}
 .cobranding-header-logo {margin-left: 10px;position:relative; margin-right: 22px;}
-.cobranding-header-logo img {width: 54px; height: 24px; margin-left: 27px;position:relative;cursor:pointer}
+.cobranding-header-logo img {width: 75%; height: 31px; margin-left: 27px;position:relative;cursor:pointer}
 
 .header-right1 button md-icon {display: none;}
 
