@@ -409,8 +409,8 @@
 			<md-button ng-click="closePoup();"
 				class="mdl-button mdl-js-button btn-secondary" alt="Cancel" title="Cancel">
 			Cancel </md-button> <!--enableUploadBtn  -->
-			<md-button ng-click="uploadImg()" ng-disabled="uploadImage.fileNew.$invalid || uploadImage.fileNew.$untouched"
-				class="mdl-button mdl-js-button btn-primary" alt="Upload" title="Upload">
+			<md-button ng-click="uploadImg()" 
+				class="mdl-button mdl-js-button btn-primary" alt="Upload" title="Upload"> <!--  ng-disabled="uploadImage.fileNew.$invalid || uploadImage.fileNew.$untouched"-->
 			Upload </md-button>
 		</div>
 	</md-dialog-actions>
