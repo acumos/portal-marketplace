@@ -447,8 +447,8 @@ angular.module('AcumosApp')
         	return $http.get(urlMessageStatusWithTrackingId + '/' + solutionId + '/' +revisionId);
         };
         
-        this.addToCatalogONAP = function(solutionId, revisionId, userId){
-        	return $http.post(urlForONAP+ '/' + solutionId + '/' + revisionId + '/' + userId);
+        this.addToCatalogONAP = function(solutionId, revisionId, userId, modelName){
+        	return $http.post(urlForONAP+ '/' + solutionId + '/' + revisionId + '/' + userId + '/' + modelName);
         };
         
     }]);

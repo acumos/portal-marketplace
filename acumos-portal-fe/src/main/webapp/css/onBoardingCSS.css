@@ -441,6 +441,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 
 /* icons*/
 .model-documentation{background-image: url(../images/ico_model_documentation.png); background-repeat: no-repeat; background-position: center;}
+.check_compatibility{background-image: url(../images/ico_check_compatibility.png); background-repeat: no-repeat; background-position: center;}
 .micro-service{background-image: url(../images/ico_create_micro_service.png); background-repeat: no-repeat; background-position: center;}
 .package{background-image: url(../images/ico_package.png); background-repeat: no-repeat; background-position: center;}
 .dockerize{background-image: url(../images/ico_dockerize.png); background-repeat: no-repeat; background-position: center;}
@@ -448,6 +449,8 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .add-repository{background-image: url(../images/ico_add_to_repository.png); background-repeat: no-repeat; background-position: center;}
 .not-yet-onboarded{background-image: url(../images/ico_not_yet_onboarded.png); background-repeat: no-repeat; background-position: center;}
 
+.completed .model-documentation{background-image: url(../images/ico-model-documentation-green.png); background-repeat: no-repeat; background-position: center;}
+.completed .check_compatibility{background-image: url(../images/ico_check_compatibility_green.png); background-repeat: no-repeat; background-position: center;}
 .completed .micro-service{background-image: url(../images/ico_create_micro_service_green.png); background-repeat: no-repeat; background-position: center;}
 .completed .package{background-image: url(../images/ico_package_green.png); background-repeat: no-repeat; background-position: center;}
 .completed .dockerize{background-image: url(../images/ico_dockerize_green.png); background-repeat: no-repeat; background-position: center;}

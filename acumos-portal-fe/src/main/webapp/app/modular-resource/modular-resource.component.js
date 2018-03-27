@@ -43,6 +43,8 @@ angular.module('modelResource')
 			$scope.onap = false;
 			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
 			$scope.onap = true;
+			$scope.keepModelName = false;
+			$scope.model = {};
 			//alert(localStorage.getItem("userDetail"));
 			$rootScope.progressBar = 0;
 			
@@ -414,8 +416,12 @@ angular.module('modelResource')
 					});
 				} else {
 				    
+					if($scope.keepModelName == true){
+						$scope.model.modelName = '';
+					}
+						
 					apiService
-					.addToCatalogONAP($stateParams.solutionId,$stateParams.revisionId,$scope.userId[1])
+					.addToCatalogONAP($stateParams.solutionId,$stateParams.revisionId,$scope.userId[1], $scope.model.modelName)
 					.then(
 							function(response) {
 								$scope.trackId = response.data.response_detail;
