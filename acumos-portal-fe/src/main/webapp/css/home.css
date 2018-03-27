@@ -67,8 +67,8 @@ position:relative;
 .hasClass .slide-content .image-container{margin:15px 0 0 17px; width: 35%;  float:right;}
 .slide-content .image-container img{width:100%;}
  /* discover*/
-.hasClass .discover{background-image:url("../images/Homepage_brain.png"); background-repeat:no-repeat; background-position:center 80px; min-height:528px; position:relative; /* width: 100%; */ width:1280px; margin: 0 auto 20px;}
-.hasClass.initialVal .discover, .discover{background-image:url("../images/Homepage_brain.png"); background-repeat:no-repeat; background-position:center 80px; min-height:528px; position:relative; /* width: 100%; */ width:1280px; margin: 0 auto 20px;}
+.hasClass .discover{background-image:url("../images/Homepage_brain.png"); background-repeat:no-repeat; background-position:center 80px; min-height:560px; position:relative; /* width: 100%; */ width:1280px; margin: 0 auto 20px;}
+.hasClass.initialVal .discover, .discover{background-image:url("../images/Homepage_brain.png"); background-repeat:no-repeat; background-position:center 80px; min-height:560px; position:relative; /* width: 100%; */ width:1280px; margin: 0 auto 20px;}
 .discover h3, .explore h3{text-align:center; text-align:center; color:#000; margin-bottom:0px; font-size:36px; font-weight:normal;}
 .discover > .marketplace, .hasClass.initialVal .discover > .marketplace{color:#f49419; width:395px; position:absolute; right:60px; top: 60px; }
 .discover .discover-icon{width:60px; height:59px; float:left; cursor:pointer;}
