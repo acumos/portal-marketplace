@@ -38,12 +38,12 @@
 						ui-sref="modularResource({ONAP: 'true', solutionId: solutionId, revisionId: revisionId})" ng-click="$root.parentActive = ''"
 						>Build for ONAP</button>
 				<button type="button"
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						class="mdl-button mdl-js-button btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
 						ng-hide="solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null "
 						ng-show="loginUserID" alt="Download" title="Download">Download </button>
 				<button type="button"
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+						class="mdl-button mdl-js-button btn-primary" 
 						ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
 				<!-- <button id="demo-menu-lower-right4" ng-disabled="solution.active == false"

@@ -22,6 +22,8 @@ angular
 							  $scope.imgURLPR = "images/topology.png";
 							  $scope.imgURLnull = "images/vmpredict2.png";
 							  $scope.imageUrls = {};
+							  $scope.mlsolution = [];
+							  $scope.homeSolutions = [];
 							  
 							  /*changes for demo - images shown according to the solution name*/
 							  /*$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
@@ -67,18 +69,25 @@ angular
 			  					  ];*/
 							  $scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4><!-- <h6>the marketplace, the eco-system and the design studio</h6> -->    <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. <!-- <a href="#">Learn More >></a> --></p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" alt="ADD YOUR MODEL NOW"  title=" ADD YOUR MODEL NOW" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" alt="EXPLORE MARKETPLACE"  title=" EXPLORE MARKETPLACE" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>'];
 							  
-							  $scope.getSolutionImages = function(index, solutionId) {
+							  $scope.getSolutionImages = function(index, value) {
 
-								  $scope.mlsolution.slides[index]['image'] = "images/default-model.png";
 									apiService
-											.getSolutionImage(solutionId)
+											.getSolutionImage(value.solutionId)
 											.then(
 													function(response) {
-														if (response.data.response_body.length > 0)
-															$scope.mlsolution.slides[index]['image'] = "/site/binaries/content/gallery/acumoscms/solution/"
-																	+ solutionId
+														$scope.homeSolutions.slides[index] = {};
+														$scope.homeSolutions.slides[index]['solutionId'] = value.solutionId;
+														$scope.homeSolutions.slides[index]['name'] = value.name;
+														$scope.homeSolutions.slides[index]['solutionRating'] = value.solutionRating;
+														if (response.data.response_body.length > 0) {
+																
+																$scope.homeSolutions.slides[index]['image'] = "/site/binaries/content/gallery/acumoscms/solution/"
+																	+ value.solutionId
 																	+ "/"
 																	+ response.data.response_body[0];
+														} else {
+															$scope.homeSolutions.slides[index]['image'] = "images/default-model.png";
+														}
 													},
 													function(data) {
 													});
@@ -147,7 +156,7 @@ angular
 												.forEach(
 														$scope.mlsolution.slides,
 														function( value, key) {
-															$scope.getSolutionImages(key, value.solutionId);
+															$scope.getSolutionImages(key, value);
 														});
 										
 											},
