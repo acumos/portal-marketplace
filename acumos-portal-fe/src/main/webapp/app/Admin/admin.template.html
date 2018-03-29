@@ -286,13 +286,15 @@
 													<form name="uploadImage" enctype="multipart/form-data">
                                                          <label class="disblock">Co-Branding Logo</label>
                                                           <div class="disblock">
-                                                               <input type="file" upload-image-model="logoImage" data-ng-model="logoImage" id="logoImage" /> 
-                                                           
+                                                               <input type="file" upload-logo-model="logoImage" data-ng-model="logoImage" id="logoImage" /> 
+                                                           		<div class="help-inline validation-msgs"><span ng-show = "imageError">Image should be max height of 27px.</span></div>
                                                            </div>
 															
 															<button type="button" ng-click='uploadLogoImg()' 
-																class="mdl-button mdl-js-button btn-primary">Upload</button>
+																class="mdl-button mdl-js-button btn-primary" ng-disabled = "imageError">Upload</button>
 																<div class="help-inline validation-msgs"><span ng-show = "error">Image should be max size of 20KB.</span></div>
+															
+	                                                          
 														</form>
 													
                                                      </div>
@@ -364,8 +366,7 @@
 																			id="{{field.name}}" data-ng-model="field.data"
 																			required class="mdl-textfield__input admin-txtbox1"/>
 																		<!--<span ng-show="myForm.{{field.name}}.$dirty && myForm.{{field.name}}.$error.required">Required!</span>.-->
-																		<span
-																			data-ng-show=" {{'form.'+field.name+'.$dirty && form.'+field.name+'.$error.required'}}">Required!</span>
+																		
 																	</div>
 																</div>	
 																<!-- TEXTAREA FIELDS -->

@@ -379,7 +379,11 @@ angular.module('admin')
 			                                    } else {
 			                                    	$rootScope.enableDCAE = false;
 			                                    }
-			                                }
+			                                }if($scope.siteConfig.fields[key].label == 'Choose Background color' && $scope.siteConfig.fields[key].data && $rootScope.coBrandingImage){
+			                                     $rootScope.coBrandingBg = $scope.siteConfig.fields[key].data;
+			                                 }if($scope.siteConfig.fields[key].label == 'Add tooltip to logo' && $scope.siteConfig.fields[key].data  && $rootScope.coBrandingImage){
+			                                     $rootScope.logoToolTip = $scope.siteConfig.fields[key].data;
+			                                 }
                                             
 											/*fileUploadService.uploadFileToUrl(
                                             		$rootScope.headerImage, uploadUrl).then(
@@ -1594,36 +1598,49 @@ angular.module('admin')
                                               };
                                            // Upload Image
                       						$scope.uploadLogoImg = function(){
-                      							var file = $scope.logoImage;
-                      							var fileFormData = new FormData();
-                      							var validFormats = ['jpg','jpeg','png','gif'];
-                      							var fileName = file.name;
-                      							var ext = fileName.split('.').pop();//substr($('#userImage').value.lastIndexOf('.')+1);
-                      				            var size = file.size;
-                      				           
-                      				            if(validFormats.indexOf(ext) == -1 ){
-                      				            	$scope.error = true;
-                      				                //return value;
-                      				            }else{
-                      				            //validImage(true);
-                      				            $scope.error = false;
-                      				            
-                      							fileFormData.append('file', file);
-
-                      							var uploadUrl = "/site/api-manual/Solution/globalImages/coBrandLogo";
-                      							var promise = fileUploadService.uploadFileToUrl(
-                      									file, uploadUrl);
-
-                      							promise
-                      									.then(
-                      											function(response) {
-                      												$scope.getLogoImages();
-                      												alert("Updated successfully.");
-                      											},
-                      											function() {
-                      												$scope.serverResponse = 'An error has occurred';
-                      											})
-                      				            }
+                      							if($scope.logoImage){
+	                      							var file = $scope.logoImage;
+	                      							var fileFormData = new FormData();
+	                      							var validFormats = ['jpg','jpeg','png','gif'];
+	                      							var fileName = file.name;
+	                      							var ext = fileName.split('.').pop();//substr($('#userImage').value.lastIndexOf('.')+1);
+	                      				            var size = file.size;
+	                      				            
+	                      				           
+	                      				            if(validFormats.indexOf(ext) == -1 || size >= 20000){
+	                      				            	$scope.error = true;
+	                      				                //return value;
+	                      				            }else{
+	                      				            //validImage(true);
+	                      				            $scope.error = false;
+	                      				            
+	                      							fileFormData.append('file', file);
+	
+	                      							var uploadUrl = "/site/api-manual/Solution/globalImages/coBrandLogo";
+	                      							var promise = fileUploadService.uploadFileToUrl(
+	                      									file, uploadUrl);
+	
+	                      							promise
+	                      									.then(
+	                      											function(response) {
+	                      												$scope.getLogoImages();
+	                      												$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                                                        $anchorScroll();
+                                                                        $scope.msg = "Updated successfully.";
+                                                                        $scope.icon = '';
+                                                                        $scope.styleclass = 'c-success';
+                                                                        $scope.showAlertMessage = true;
+                                                                        $timeout(function() {
+                                                                            $scope.showAlertMessage = false;
+                                                                        }, 5000);
+                                                                        
+	                      												//alert("Updated successfully.");
+	                      											},
+	                      											function() {
+	                      												$scope.serverResponse = 'An error has occurred';
+	                      											})
+	                      				            }
+                      							}
                       				        }
                       						
                       					//Get Logo Images

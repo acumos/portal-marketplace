@@ -377,25 +377,30 @@ app.component('headerNav',{
 		
 		$scope.globalSearch = function(val) {
 			componentHandler.upgradeAllRegistered();
+			// used javascript as model is not getting refreshed
+			var val = document.getElementsByName('search')[0].value;
 			$rootScope.valueToSearch = val;
 
 			if(val){
 				var stateName = $state.$current.name;
 				angular.element('.mdl-textfield').addClass('is-focused');
-				if(stateName != 'marketPlace' && stateName != 'manageModule')$window.location.href = '/index.html#/marketPlace';
 				$scope.search = $rootScope.valueToSearch;
 				$scope.searchText = $rootScope.valueToSearch;
+				if(stateName != 'marketPlace' && stateName != 'manageModule')$window.location.href = '/index.html#/marketPlace';
+				
 			}
 
-			//if(val){
+			if(val){
+
 				$rootScope.$broadcast('scanner-started', {
 					searchValue : val
 				});
-			//}
+			}
 			//}
 		}
 		
 		$scope.addSearchFocus = function($event,searchText){ 
+			var searchText = document.getElementsByName('search')[0].value
 			if(searchText == false || searchText == undefined ) {
 				angular.element('.mdl-textfield').removeClass('is-focused');
 				angular.element('.sidebar-search-container input').val('');
@@ -459,7 +464,11 @@ app.component('headerNav',{
 	                                    } else {
 	                                    	$rootScope.enableDCAE = false;
 	                                    }
-	                                }
+	                                }if($scope.siteConfig.fields[key].label == 'Choose Background color' && $scope.siteConfig.fields[key].data  && $rootScope.coBrandingImage){
+	                                     $rootScope.coBrandingBg = $scope.siteConfig.fields[key].data;
+	                                 }if($scope.siteConfig.fields[key].label == 'Add tooltip to logo' && $scope.siteConfig.fields[key].data  && $rootScope.coBrandingImage){
+	                                     $rootScope.logoToolTip = $scope.siteConfig.fields[key].data;
+	                                 }
                                 $window.document.title = $rootScope.siteInstanceName;
                             });
 				},
@@ -542,7 +551,7 @@ app.component('headerNav',{
                 }
             
           }
-
+          
           var originatorEv;
           $scope.openMenu = function($mdMenu, ev) {
               originatorEv = ev;
