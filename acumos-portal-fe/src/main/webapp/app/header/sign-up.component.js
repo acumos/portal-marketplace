@@ -124,16 +124,34 @@ app
                                         $scope.showAlertMessage = true;
                                         $timeout(function() {
                                         	$scope.showAlertMessage = false;
-                                        }, 50000);
+                                        }, 5000);
                         				//$rootScope.showAdvancedLogin();
                         				$scope.successfulLogin = true;
                     				}
                     				else if(response.data.error_code == 202){
-                    					alert("Username Already Exists");
+                    					//alert("Username Already Exists");
+                    					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                        $anchorScroll(); 
+                                        $scope.msg = "Username Already Exists"; 
+                                        $scope.icon = 'report_problem';
+                                        $scope.styleclass = 'c-error';
+                                        $scope.showAlertMessage = true;
+                                        $timeout(function() {
+                                        	$scope.showAlertMessage = false;
+                                        }, 4000);
                     					/*break*/
                     				}
                     				else if(response.data.error_code == 203){
-                    					alert("Email Already Exists");
+                    					//alert("Email Already Exists");
+                    					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                        $anchorScroll(); 
+                                        $scope.msg = "Email Already Exists"; 
+                                        $scope.icon = 'report_problem';
+                                        $scope.styleclass = 'c-error';
+                                        $scope.showAlertMessage = true;
+                                        $timeout(function() {
+                                        	$scope.showAlertMessage = false;
+                                        }, 4000);
                     					/*break*/
                     				}
                     				
