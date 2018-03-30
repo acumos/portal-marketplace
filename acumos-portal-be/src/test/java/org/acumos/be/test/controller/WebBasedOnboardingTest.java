@@ -19,6 +19,9 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import java.util.ArrayList;
@@ -29,13 +32,18 @@ import java.util.concurrent.Future;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPStepStatus;
+import org.acumos.cds.domain.MLPStepType;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
-import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.controller.WebBasedOnboardingController;
 import org.acumos.portal.be.service.AsyncServices;
+import org.acumos.portal.be.service.MessagingService;
+import org.acumos.portal.be.transport.Broker;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.HttpResponse;
@@ -49,7 +57,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -68,6 +75,9 @@ public class WebBasedOnboardingTest {
 	
 	@Mock
 	private AsyncServices asyncService;
+	
+	@Mock
+	MessagingService messagingService;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -125,10 +135,104 @@ public class WebBasedOnboardingTest {
 			logger.info("successfully added the toolkit to catalog ");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.error("Error while adding to catalog ", e);
-			
+			logger.error("Error while adding to catalog ", e);			
 		}
-
 	}
 
+	@Test
+	public void messagingStatus() {
+		String userId="41058105-67f4-4461-a192-f4cb7fdafd34";
+		String trackingId="67f4-4461-a192-f4cb7fdafd34";
+		List<MLStepResult> stepResultList=new ArrayList<>();
+		MLStepResult result=new MLStepResult();
+		result.setTrackingId(trackingId);
+		result.setName("onboarding");
+		result.setResult("success");
+		Mockito.when(messagingService.callOnBoardingStatusList(userId, trackingId)).thenReturn(stepResultList);
+		webBasedController.messagingStatus(userId, trackingId);
+	}
+
+	@Test
+	public void createStepResult() {
+		String trackingId="67f4-4461-a192-f4cb7fdafd34";
+		MLPStepResult result=new MLPStepResult();
+		result.setTrackingId(trackingId);
+		result.setName("onboarding");
+		result.setResult("success");
+		
+		Mockito.when(messagingService.createStepResult(result)).thenReturn(result);
+		webBasedController.createStepResult(result, response);
+	}
+	
+	@Test
+	public void updateStepResult() {
+		String trackingId="67f4-4461-a192-f4cb7fdafd34";
+		MLPStepResult result=new MLPStepResult();
+		result.setTrackingId(trackingId);
+		result.setName("onboarding");
+		result.setResult("success");
+		MessagingService service = mock(MessagingService.class);
+	    doNothing().when(service).updateStepResult(isA(MLPStepResult.class));
+		webBasedController.updateStepResult(result, response);
+	}
+	
+	@Test
+	public void deleteStepResult() {
+		Long stepResultId=6734L;
+		MessagingService service = mock(MessagingService.class);
+	    doNothing().when(service).deleteStepResult(isA(Long.class));
+		webBasedController.deleteStepResult(request, stepResultId, response);
+	}
+	
+	@Test
+	public void getStepStatuses() {
+		List<MLPStepStatus> stepStatusesList= new ArrayList<>();
+		MLPStepStatus status=new MLPStepStatus();
+		status.setCode("success");
+		status.setName("onboard");
+		Mockito.when(messagingService.getStepStatuses()).thenReturn(stepStatusesList);
+		webBasedController.getStepStatuses(request, response);
+	}
+	
+	@Test
+	public void getStepTypes() {
+		List<MLPStepType> stepTypesList= new ArrayList<>();
+		MLPStepType type=new MLPStepType();
+		type.setCode("67f4-4461-a192-f4cb7fdafd34");
+		type.setName("onboard");
+		stepTypesList.add(type);
+		Mockito.when(messagingService.getStepTypes()).thenReturn(stepTypesList);
+		webBasedController.getStepTypes(request, response);
+	}
+	
+	@Test
+	public void findStepresultBySolutionId() {
+		String solutionId="41058105-67f4-4461-a192-f4cb7fdafd34";
+		String revisionId="67f4-4461-a192-f4cb7fdafd34";
+		List<MLPStepResult> stepResultList=new ArrayList<>();
+		MLPStepResult result=new MLPStepResult();
+		result.setTrackingId("67f4-4461-a192-f4cb7fdafd34");
+		result.setName("onboarding");
+		result.setResult("success");
+		stepResultList.add(result);
+		Mockito.when(messagingService.findStepresultBySolutionId(solutionId, revisionId)).thenReturn(stepResultList);
+		webBasedController.findStepresultBySolutionId(solutionId, revisionId);
+	}
+	
+	@Test
+	public void messagingStatusTest() {
+		JsonRequest<Broker> brokerDetail = null;
+		webBasedController.messagingStatus(brokerDetail);
+	}
+	
+	@Test
+	public void convertToOnap() {
+		String solutionId="41058105-67f4-4461-a192-f4cb7fdafd34";
+		String revisionId="67f4-4461-a192-f4cb7fdafd34";
+		String userId="41058105-67f4-4461-a192";
+		String tracking_id="67f4-4461-a192afd34";
+		HttpResponse isONAPCompatible = null;
+		Mockito.when(asyncService.convertSolutioToONAP(solutionId, revisionId, userId, tracking_id)).thenReturn(isONAPCompatible);
+		webBasedController.convertToOnap(solutionId, revisionId, userId);
+	}
 }

@@ -33,6 +33,7 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
@@ -911,6 +912,37 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Failed to execute the testcase");
 
 		}
+	}
+	
+	@Test
+	public void getUserAccessSolutions() {
+		MLSolution mlsolution = getMLSolution();
+		Assert.assertNotNull(mlsolution);
+		MLPSolution solution = PortalUtils.convertToMLPSolution(mlsolution);
+		Assert.assertNotNull(mlsolution);
+		List<MLPSolution> solutionList = new ArrayList<MLPSolution>();
+		solutionList.add(solution);
+		Assert.assertNotNull(solutionList);
+		RestPageResponse<MLPSolution> responseBody = new RestPageResponse<>(solutionList);
+		responseBody.setSize(1);
+		responseBody.setNumberOfElements(1);
+		Assert.assertNotNull(responseBody);
+		String userId = "1213505-67f4-4461-a192-f4cb7fdafd34";
+		Mockito.when(service.getUserAccessSolutions(userId, new RestPageRequest(0, 99))).thenReturn(responseBody);
+		JsonRequest<RestPageRequest> restPageReq = new JsonRequest<>();
+		marketPlaceController.getUserAccessSolutions(userId, restPageReq);
+	}
+	
+
+	@Test
+	public void getAvgRatingsForSol() {
+		MLPSolutionWeb solutionStats = new MLPSolutionWeb();
+		solutionStats.setDownloadCount((long) 4);
+		solutionStats.setRatingCount((long) 5);
+		solutionStats.setViewCount((long) 10);
+		String solutionId = "1213505-67f4-4461-a192-f4cb7fdafd34";
+		Mockito.when(service.getSolutionWebMetadata(solutionId)).thenReturn(solutionStats);
+		marketPlaceController.getAvgRatingsForSol(solutionId);
 	}
 	
 	private MLSolution getMLSolution(){
