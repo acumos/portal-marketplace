@@ -19,18 +19,16 @@
  */
 package org.acumos.be.test.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSiteConfig;
@@ -41,7 +39,8 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.controller.AdminServiceController;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
-import org.acumos.portal.be.service.impl.MockCommonDataServiceRestClientImpl;
+import org.acumos.portal.be.transport.MLRequest;
+import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
@@ -53,17 +52,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AdminServiceControllerTest {
@@ -78,21 +70,18 @@ public class AdminServiceControllerTest {
 	AdminService adminService;
 	@InjectMocks
 	private AdminServiceController adminController;
+	
+	@Mock
+	Environment env;
+
+	final HttpServletResponse response = new MockHttpServletResponse();
+	final HttpServletRequest request = new MockHttpServletRequest();
 
 	@Before
 	public void setUp() throws Exception {
 		mockMvc = standaloneSetup(adminController).build();
-
 	}
 	
-
-	/*final HttpServletResponse response = new MockHttpServletResponse();
-	final HttpServletRequest request = new MockHttpServletRequest();
-
-	@Mock
-	AdminServiceController adminServiceController = new AdminServiceController();*/
-
-
 	@Test
 	public void removePeerTest() {
 
@@ -572,4 +561,50 @@ public class AdminServiceControllerTest {
 		Assert.assertNotNull(data);
 	}
 	
+	@Test
+	public void getDocurl() {
+		adminController.getDocurl(request, response);
+	}
+	
+	@Test
+	public void getAllRequests() {
+		List<MLRequest> requestList = new ArrayList<>();
+		MLRequest req = new MLRequest();
+		req.setSender("senderName");
+		req.setRequestId("ahgk162a");
+		requestList.add(req);
+		RestPageRequest restPageReq = new RestPageRequest();
+		restPageReq.setPage(0);
+		restPageReq.setSize(9);
+		when(adminService.getAllRequests(restPageReq)).thenReturn(requestList);
+		adminController.getAllRequests(restPageReq);
+	}
+	
+	@Test
+	public void updateRequest() {
+		JsonRequest<MLRequest> mlrequest = new JsonRequest<>();
+		MLRequest req = new MLRequest();
+		req.setSender("senderName");
+		req.setRequestId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
+		mlrequest.setBody(req);
+		// when(adminService.updateRequest(mlrequest.getBody())).thenReturn(null);
+		AdminService service = mock(AdminService.class);
+		doNothing().when(service).updateMLRequest(req);
+		adminController.updateRequest(mlrequest);
+	}
+	
+	@Test
+	public void createSubscription() {
+		String peerId = "agf145";
+		JsonRequest<List<MLSolution>> solList = new JsonRequest<>();
+		List<MLSolution> list = new ArrayList<>();
+		MLSolution sol = new MLSolution();
+		sol.setSolutionId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
+		sol.setName("Robot");
+		list.add(sol);
+		solList.setBody(list);
+		AdminService service = mock(AdminService.class);
+		doNothing().when(service).createSubscription(list, peerId);
+		adminController.createSubscription(solList, peerId);
+	}
 }
