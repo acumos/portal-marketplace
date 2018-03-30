@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2627196e_2879fa7a",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "probably should be private",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "feb4472a_ab36fffa",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Also probably should be private",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fff236ba_765702a3",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "both probably should be private",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f154c1e_b5e68d80",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "What assertion can you add here? This isn\u0027t yet a test - a test should check the result of the action",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ed6d0d0_a634fbb4",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Again please add assertion",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48dbeeb3_a5f53023",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Suggest removing code, not commenting out",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0660927d_a1ef65c1",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Assertion",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f374de9b_a874a65b",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Assertion",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dd1cfd7_0ef650c6",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/CASAuthControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "add license please",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ffedf6e_bd019ba2",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/GatewayControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Please add license",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "668025f3_19dab50a",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/GatewayControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "All fields should be private",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b15f0fa2_23527e57",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/GatewayControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "What can you assert here to check that it\u0027s working?",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4055c5e_c287ba0d",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/GatewayControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Suggest removing code, not commenting out",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7a7fcdd_44080642",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/MarketPlaceServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "What can you assert here to check the request did something?",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ddf45c6_b2de558e",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/MarketPlaceServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Please add assertion to check result",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a30f45a7_810af988",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/UserServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "I don\u0027t see an assertion",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00c24b72_1f542615",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/WebBasedOnboardingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "probably should be private like the other fields",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "604e9d03_a4f38cea",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/WebBasedOnboardingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T11:18:49Z",
+      "side": 1,
+      "message": "Every test should assert something about the result of its actions",
+      "revId": "24b3886156b333d8ad4ecc29da2381d6ae6e93c7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
