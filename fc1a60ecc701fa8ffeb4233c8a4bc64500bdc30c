@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3f59eee_2f39484c",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-03-30T13:08:58Z",
+      "side": 1,
+      "message": "This is a good start, checking that you received a non-null response.  Can you check any of its content?",
+      "revId": "fc1a60ecc701fa8ffeb4233c8a4bc64500bdc30c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
