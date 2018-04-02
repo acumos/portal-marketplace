@@ -806,8 +806,12 @@ angular.module('admin')
                     	  var check = false;
                     	  var jsonFormate = '',cat='',toolKit='';debugger;
                     	  if(!$scope.categoryValue && !$scope.toolKitTypeValue){
-                    		  $scope.categoryValue = $scope.solutionDetail.modelType;
-                    		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;
+                    		//changed since code was getting fetched in modelType earlier
+                    		  /*$scope.categoryValue = $scope.solutionDetail.modelType;
+                    		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;*/
+                    		  
+                    		  $scope.categoryValue = $scope.solutionDetail.modelTypeCode;
+                    		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitTypeCode;
                     		  check = true;
                     	  }
                     	                      	  
