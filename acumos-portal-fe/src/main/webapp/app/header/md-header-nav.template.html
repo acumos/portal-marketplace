@@ -4,7 +4,7 @@
 	class="header-without-login">
 	<div class="mdl-layout__header-row">
 		<!-- Title -->
-		<div class="a-logo-container logo-without-login">
+		<div class="a-logo-container logo-without-login" ng-class= "{'logo_white_bg' : $root.coBrandingBg == '1'}">
 			<button id="btn_header"
 				ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
 				class="mdl-button mdl-js-button mdl-button--icon hide-lg hide-xl">
@@ -15,7 +15,8 @@
 			<span ui-sref="home" ng-click="$root.parentActive = ''"
 						ng-class="{ active: isActive('/home') }"
 						class="cobranding-header-logo"><img
-						ng-src="{{$root.coBrandingImage}}"
+						ng-src="{{$root.coBrandingImage}}"  ng-show = "$root.coBrandingImage"
+						alt = "{{$root.logoToolTip}}" ng-attr-title = "{{$root.logoToolTip}}" 
 						 /></span>
 
 		</div>
@@ -84,7 +85,7 @@
 			<div
 				class="mdl-cell mdl-cell--7-col mdl-cell--3-col-tablet mdl-cell--3-col-phone mdl-grid--no-spacing mdl-cell--middle">
 
-				<div class="a-logo-container">
+				<div class="a-logo-container" ng-class= "{'logo_white_bg' : $root.coBrandingBg == '1'}">
 					<button id="btn_header"
 						ng-click="toggleHeaderClass(); toggleHeader = !toggleHeader"
 						class="mdl-button mdl-js-button mdl-button--icon">
@@ -95,8 +96,8 @@
 						src="../images/logo_acumos_white_new.png" title="Acumos" /></span>
 					<span ui-sref="home" ng-click="$root.parentActive = ''"
 						ng-class="{ active: isActive('/home') }"
-						class="cobranding-header-logo"><img
-						ng-src="{{$root.coBrandingImage}}"
+						class="cobranding-header-logo"><img ng-show = "$root.coBrandingImage"
+						ng-src="{{$root.coBrandingImage}}" ng-attr-title = "{{$root.logoToolTip}}" 
 						 /></span>
 
 
@@ -122,7 +123,7 @@
 								</label>
 								<div class="mdl-textfield__expandable-holder">
 									<input class="mdl-textfield__input header-search2"
-										type="search" id="fixed-header-drawer-exp1"
+										type="search" id="fixed-header-drawer-exp1" name="search"
 										placeholder="Search for anything you need" ng-model="searchText"
 										ng-blur="addSearchFocus($event,searchText)">
 								</div>

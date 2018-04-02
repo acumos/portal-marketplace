@@ -220,7 +220,7 @@ angular
         	 var invalidLen = !isBlank && (viewValue.length < 8 || viewValue.length > 20)
         }
        var isWeak = !isBlank && !invalidLen && !/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z])(?=.*[^a-zA-Z0-9])/.test(viewValue);
-       var isLowerCaseLetter = !isBlank && !invalidLen && !/(?=.+[a-z])/.test(viewValue);
+       var isLowerCaseLetter = !isBlank && !invalidLen && !/(?=.*[a-z])/.test(viewValue);
        var isUpperCaseLetter = !isBlank && !invalidLen && !/(?=.*[A-Z])/.test(viewValue);
        var isDigit = !isBlank && !invalidLen && !/(?=.*[0-9])/.test(viewValue);
        var isSpecialChar = !isBlank && !invalidLen && !/(?=.*[^a-zA-Z0-9])/.test(viewValue);
@@ -354,7 +354,8 @@ angular
             icon: "=",
             accept: "@",
             uploadid: "@",
-            size: "=" //in bytes
+            size: "=", //in bytes
+            imageerror: "="
           },
         link: function (scope, element) {
 
@@ -363,7 +364,7 @@ angular
             element.bind('change', function () {
                 scope.$apply(function () {
                 	//scope.fileinput = changeEvent.target.files[0];
-                    
+                	scope.imageerror = false;
                     scope.fileinput = document.getElementById(scope.uploadid).files[0];
                     scope.file = scope.fileinput;
                     var reader = new FileReader();
@@ -372,7 +373,7 @@ angular
                     	console.log(scope.size);
                     	var size = scope.fileinput.size;
 	                	if(size >= scope.size){
-	    	            	scope.imageError = true;
+	    	            	scope.imageerror = true;
 	    	            	return true;
 	    	            }else{
 	                    	scope.filepreview = loadEvent.target.result;
@@ -431,3 +432,79 @@ angular
         }
       }
     });
+//for logo validation
+angular
+.module('AcumosApp').directive(
+		'uploadLogoModel',
+		function($parse) {
+			return {
+				restrict : 'A', // the directive can be used as an
+								// attribute only
+
+				/*
+				 * link is a function that defines functionality of
+				 * directive scope: scope associated with the element
+				 * element: element on which this directive used attrs:
+				 * key value pair of element attributes
+				 */
+				link : function(scope, element, attrs) {
+					var model = $parse(attrs.uploadLogoModel), modelSetter = model.assign; // define
+					scope.imageError = false;																		// a
+																						// setter
+																							// for
+																							// demoFileModel
+
+					// Bind change event on the element
+					element.bind('change', function() {
+						// Call apply on scope, it checks for value
+						// changes and reflect them on UI
+						//scope.$apply(function() {
+							// set the model value
+							angular.forEach(element[0].files, function (item) {
+								var img = new Image();  
+			                    var imgheight = 0;
+			                    var imgwidth = 0;
+			                    var imgurl = (URL || webkitURL).createObjectURL(item);
+
+			                    img.src = imgurl;
+			                    img.onload = function() {
+
+			                        imgheight = img.height;
+			                        imgwidth = img.width;
+			                        //alert("Width: " + imgheight + "  height: " + imgwidth);
+
+			                        var value = {
+			                       // File Name 
+			                        name: item.name,
+			                        //File Size 
+			                        size: item.size,
+			                        //File URL to view 
+			                        url: imgurl,
+			                        // File Input Value 
+			                        _file: item,
+
+			                        width: imgwidth,
+
+			                        height: imgheight,
+
+			                        mystyle: {}
+			                        };
+			                        /*scope.$apply(function () {
+			                            values.push(value);
+			                        }); */     
+			                        if(value.height >= 27){
+			                        	scope.imageError = true;
+			                        }else{
+			                        	var size = element[0].files[0].size;
+										scope.imageError = false;
+					    	            modelSetter(scope, element[0].files[0]);
+			                        }
+			                    };
+							//});
+							
+		    	            //return true;
+						});
+					});
+				}
+			}
+		})
