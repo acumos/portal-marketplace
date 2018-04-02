@@ -345,11 +345,19 @@ public class UserServiceControllerTest {
 		user.setEmailId("user1@emial.com");
 		user.setActive("Y");
 		user.setPassword("password");
+		
 		JsonRequest<User> userReq = new JsonRequest<>();
+		List<String> idList = new ArrayList<>();
+		idList.add("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setUserIdList(idList);
+		user.setBulkUpdate("delete");
+		userReq.setBody(user);
 		String userId = user.getUserId();
 		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
-		userService.findUserByUserId(userId );
-		userService.updateUser(user);
+		when(userService.findUserByUserId(userId)).thenReturn(mlpUser);
+		//doNothing().when(userService.deleteBulkUsers(userId);
+		UserService service = mock(UserService.class);
+	    doNothing().when(service).deleteBulkUsers(userId);
 		JsonResponse<Object> userRes = userServiceController.deleteBulkUsers(request, userReq , response);
 		Assert.assertNotNull(userRes);
 	}
@@ -357,9 +365,8 @@ public class UserServiceControllerTest {
 	@Test
 	public void getUserImageTest() throws Exception{
 		Assert.assertNotNull(userId);
-		MockCommonDataServiceRestClientImpl mockCommonDataService = new MockCommonDataServiceRestClientImpl();
 		userImpl.findUserByUserId(userId);
-		userController.getUserImage(userId);
+		userServiceController.getUserImage(userId);
 		
 		User user = new User();
 		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
@@ -369,31 +376,57 @@ public class UserServiceControllerTest {
 		user.setEmailId("user1@emial.com");
 		user.setActive("Y");
 		user.setPassword("password");
-		JsonRequest<User> userReq = new JsonRequest<>();
 		String userId = user.getUserId();
 		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 		UserService service = mock(UserService.class);
 	    doNothing().when(service).updateUserImage(mlpUser);
 	    MultipartFile file = null;
-	    userController.updateUserImage(request, file, userId, response);
-	}
-	
-	@Test
-	public void userProfileTest() throws MalformedException{
-		MockCommonDataServiceRestClientImpl mockCommonDataService = new MockCommonDataServiceRestClientImpl();
-		String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJyb2xlIjpudWxsLCJjcmVhdGVkIjoxNTA4MTQ4Njk1NTE4LCJleHAiOjE1MDgyMzUwOTUsIm1scHVzZXIiOnsidXNlcklkIjoiNjE1MjUyMTEtNmFhYi00ZmRlLTllM2UtYTE4ZjBjNDhiNWQzIiwiZmlyc3ROYW1lIjoiVmVua2F0IiwibWlkZGxlTmFtZSI6bnVsbCwibGFzdE5hbWUiOm51bGwsIm9yZ05hbWUiOm51bGwsImVtYWlsIjoidmVua3lAdGVjaC5jb20iLCJsb2dpbk5hbWUiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJsb2dpbkhhc2giOm51bGwsImxvZ2luUGFzc0V4cGlyZSI6bnVsbCwiYXV0aFRva2VuIjpudWxsLCJhY3RpdmUiOnRydWUsImxhc3RMb2dpbiI6bnVsbCwicGljdHVyZSI6bnVsbCwiY3JlYXRlZCI6MTUwODE0ODY3ODAwMCwibW9kaWZpZWQiOjE1MDgxNDg2NzgwMDB9fQ.qOce0mapjkXYwNBjLbEfKmiJCnQ9IvuKXkIlmWUFWeGGn1D0VOOf-HI7AzPIvkegnrQfk_MZVG4EZUohBJvGKw";
-		String value = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJyb2xlIjpudWxsLCJjcmVhdGVkIjoxNTA4MTQ4Njk1NTE4LCJleHAiOjE1MDgyMzUwOTUsIm1scHVzZXIiOnsidXNlcklkIjoiNjE1MjUyMTEtNmFhYi00ZmRlLTllM2UtYTE4ZjBjNDhiNWQzIiwiZmlyc3ROYW1lIjoiVmVua2F0IiwibWlkZGxlTmFtZSI6bnVsbCwibGFzdE5hbWUiOm51bGwsIm9yZ05hbWUiOm51bGwsImVtYWlsIjoidmVua3lAdGVjaC5jb20iLCJsb2dpbk5hbWUiOiJWZW5rYXRTcmluaXZhc2FuMTIiLCJsb2dpbkhhc2giOm51bGwsImxvZ2luUGFzc0V4cGlyZSI6bnVsbCwiYXV0aFRva2VuIjpudWxsLCJhY3RpdmUiOnRydWUsImxhc3RMb2dpbiI6bnVsbCwicGljdHVyZSI6bnVsbCwiY3JlYXRlZCI6MTUwODE0ODY3ODAwMCwibW9kaWZpZWQiOjE1MDgxNDg2NzgwMDB9fQ.qOce0mapjkXYwNBjLbEfKmiJCnQ9IvuKXkIlmWUFWeGGn1D0VOOf-HI7AzPIvkegnrQfk_MZVG4EZUohBJvGKw";;
-		jwtTokenUtil.getUsernameFromToken(token);
-		userController.userProfile(request);
+	    JsonResponse data =  userServiceController.updateUserImage(request, file, userId, response);
+	    Assert.assertNotNull(data);
 	}
 	
 	@Test
 	public void getQandAurlTest() throws Exception {
 		String url = "http://localhost:9083";
 		when(env.getProperty("qanda.url", "")).thenReturn(url);
-		userController.getQandAurl(request, response);
+		JsonResponse<String> data =	userServiceController.getQandAurl(request, response);
+	    Assert.assertNotNull(data);
 	}
 	
+	@Test
+	public void updateUserImage() throws Exception {
+		MultipartFile file = null;
+		MLPUser mlpUser = new MLPUser();
+		mlpUser.setUserId(userId);
+		mlpUser.setFirstName("testUser");
+		when(userService.findUserByUserId(userId)).thenReturn(mlpUser);
+		UserService service = mock(UserService.class);
+		doNothing().when(service).updateUserImage(mlpUser);
+		JsonResponse data =  userServiceController.updateUserImage(request, file, userId, response);
+		Assert.assertNotNull(data);
+	}
 	
+	@Test
+	public void getDocurl() throws Exception {
+		JsonResponse<String> data = userServiceController.getDocurl(request, response);
+		Assert.assertNotNull(data);
+	}
 	
+		@Test
+	public void getAllActiveUsers() throws Exception {
+		Boolean activeFlag = true;
+		List<User> users = new ArrayList<>();
+		User user = new User();
+		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user.setFirstName("UserFirstName");
+		user.setLastName("UserLastName");
+		user.setUsername("User1");
+		user.setEmailId("user1@emial.com");
+		user.setActive("Y");
+		user.setPassword("password");
+		users.add(user);	
+		when(userService.getAllUser()).thenReturn(users);
+		JsonResponse<List<User>> data = userServiceController.getAllActiveUsers(request, response, activeFlag);
+		Assert.assertNotNull(data);
+	}
 }
