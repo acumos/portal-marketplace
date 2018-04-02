@@ -1471,7 +1471,7 @@
 																				<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																				<div class="upload-image-input">
 																					<div file-upload file=previewImage ng-click = "cancelSolImage()"
-																						uploadid="companyuploadid" id="solImage" size = 800000
+																						uploadid="companyuploadid" id="solImage" size = 800000 imageerror = "imageerror"
 																						filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
 																						filepreview="previewImage" ng-model="solImage"
 																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
@@ -1480,6 +1480,7 @@
 																						ng-model="filename" readonly />
 																					
 																				</div>
+																				<div class="help-inline validation-msgs"><span ng-show = "imageerror">Image should be max size of 80KB.</span></div>
 																				<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
                                                                                 data-drop="true" 
@@ -1537,7 +1538,7 @@
 																	ng-click="cancelSolImage(); showImageUpload = !showImageUpload;  previewImage = imgURLdefault;" alt="Cancel" title="Cancel">
 																Cancel </md-button>
 																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "imageerror"
 																	ng-click="updateSolImage('companyuploadid'); showImageUpload = !showImageUpload" alt="Done" title="Done">
 																	<span ng-show="!showSolutionImage">Done</span> 
 																	<span ng-show="showSolutionImage">Update</span>
@@ -1928,6 +1929,7 @@
 															<md-content> <span
 																class="md-headline2 mob-disblock"> <img
 																class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}
+															
 															</span>
 															<div class="clearfix" style="margin: 10px 0pxR"></div>
 															</md-content>
@@ -1963,8 +1965,8 @@
 																				</h6>
 																				<div class="box-inner2 rowcontainer">
 																					<md-chips
-																						ng-repeat="tag in solution.solutionTagList">
-																					<md-chip>{{tag.tag}}</md-chip> </md-chips>
+																						ng-repeat="tag in tags1">
+																					<md-chip>{{tag.text}}</md-chip> </md-chips>
 																				</div>
 																			</div>
 																			<hr class="hor-seperator" />
@@ -3153,7 +3155,7 @@
 																			<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																			<div class="upload-image-input">
 																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
-																					uploadid="publicuploadid" id="solImage" size = 800000
+																					uploadid="publicuploadid" id="solImage" size = 800000 imageerror = "imageerror"
 																					filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
 																					filepreview="previewImage" ng-model="solImage"
 																					icon="icon" upload-image-model="solImage" readonly alt="Browse" title="Browse"></div>
@@ -3161,6 +3163,7 @@
 																					placeholder="Upload Image" type="text"
 																					ng-model="filename" readonly />
 																			</div>
+																			<div class="help-inline validation-msgs"><span ng-show = "imageerror">Image should be max size of 80KB.</span></div>
 																			<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
                                                                                 data-drop="true" 
@@ -3218,7 +3221,7 @@
 																ng-click="cancelSolImage(); showImageUpload = !showImageUpload; previewImage = imgURLdefault;" alt="Cancel" title="Cancel">
 															Cancel </md-button>
 															<md-button
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "imageerror"
 																ng-click="updateSolImage('publicuploadid'); showImageUpload = !showImageUpload" alt="Done" title="Done">
 																<span ng-show="!showSolutionImage">Done</span>
 																<span ng-show="showSolutionImage">Update</span> 
