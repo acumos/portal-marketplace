@@ -369,7 +369,7 @@ md-tabs-content-wrapper {
 .timeline-label-steps p {margin-top: 30px !important;margin-bottom: 0px;}
 .mrgTpNon {margin-top:0px;}
 .timeline-label-steps.cont {padding-left: 0px;}
-.onboardpeer{font-size:14px; padding:0 20px 0;  min-height: auto;}
+.onboardpeer{font-size:14px; padding:20px 20px 0;  min-height: auto;}
 md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 158) !important;}
 .onboarding .timeline h6{padding: }
 @keyframes flashicons {
@@ -436,7 +436,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .checkbox{font-size: 13px;margin-top: 7px;margin-bottom:0px;color: #777;}
 
 /* command line page*/
-.onboarding .workflow-right h3{font-size: 17px; line-height: 32px; margin: 24px 0 16px;}
+.onboarding .workflow-right h3{font-size: 17px; line-height: 32px; margin: 24px 0 5px;}
 .onboarding .workflow-right h2, .onboarding .workflow-right h4{font-size: 20px;}
 
 /* icons*/
@@ -510,6 +510,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .is-active .R-cloud{background-image:url("../images/ico_R_active.png");}
 .popovers .progress-bar{margin:5px 0 3px;}
 .onboardsection{margin-bottom: 0px;}
+.onboardsection pre{white-space: normal; word-break: break-word;}
 .onboardtabsection{padding-bottom:0;}
 .vertical-mdl-tabs .mdl-tabs__tab-bar {
     -webkit-flex-direction: column;
@@ -520,7 +521,7 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
     border-bottom: none;
     margin: 0;
 }
-.onboarding .timeline.cont p{margin-left: 0px;} 
+.onboarding .timeline.cont p{margin-left: 0px; word-break: break-word;} 
 
 /* media query start */
 @media(max-width:1024px){

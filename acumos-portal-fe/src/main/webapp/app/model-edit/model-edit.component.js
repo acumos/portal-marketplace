@@ -65,6 +65,7 @@ angular
 											"python", "R"];
 						$scope.previewImage = "images/img-list-item.png";
 						$rootScope.progressBar = 0;
+						$scope.imageerror = false;
 						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
@@ -784,7 +785,7 @@ angular
 									$scope.isTagExists = true; 
 								}
 							});
-							
+
 							if($scope.isTagExists == true){
 								$scope.addTag(tag);
 							}else{
@@ -1773,6 +1774,7 @@ angular
 							$scope.previewImage = $scope.imgURLdefault;
 							$scope.filename = "";
 							$scope.solImage = "";
+							$scope.selectedIcon = "";
 						};
 						
 						/** ***** File upload****** */
