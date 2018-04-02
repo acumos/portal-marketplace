@@ -928,7 +928,7 @@
 </div>
 <!-- </main> -->
 <!--  <main class="mdl-layout__content initialVal hasClass"> -->
-<md-content class="md-padding company-market " ng-show="!userLoggedIn">Please
+<md-content class="md-padding company-market " ng-show="!userLoggedIn && onap">Please
 						<a ng-click="$root.showAdvancedLogin()">login</a> to upload the
 						model using the Web Experience</md-content>
 <div class="page-content" id="page-top" ng-if="onap && userLoggedIn">
@@ -966,7 +966,7 @@
                    <li class="progress-status completed"></li>
 			       <li>
                           <div class="imageplace">
-                                 <span class="imagecontent model-documentation" alt="Check Compatibility" title="Check Compatibility"></span>
+                                 <span class="imagecontent check_compatibility" alt="Check Compatibility" title="Check Compatibility"></span>
                           </div>
                           <md-tooltip>{{errorCC}}</md-tooltip>
                           <div class="text">Check Compatibility</div>
@@ -975,7 +975,7 @@
                    <li class="progress-status"></li>
                    <li>
                           <div class="imageplace">
-                                 <span class="imagecontent micro-service" alt="Dockerize to Create Microservice" title="Dockerize to Create Microservice"></span>
+                                 <span class="imagecontent dockerize" alt="Dockerize to Create Microservice" title="Dockerize to Create Microservice"></span>
                           </div>
                           <md-tooltip>{{errorCM}}</md-tooltip>
                           <div class="text">Dockerize to Create Microservice</div>
@@ -984,7 +984,7 @@
                    <li class="progress-status"></li>
                    <li>
                           <div class="imageplace">
-                                 <span class="imagecontent create-tosca" alt="Create ONAP Artifacts" title="Create ONAP Artifacts"></span>
+                                 <span class="imagecontent package" alt="Create ONAP Artifacts" title="Create ONAP Artifacts"></span>
                           </div>
                           <md-tooltip>{{errorCT}}</md-tooltip>
                           <div class="text">Create ONAP Artifacts</div>
@@ -1024,22 +1024,22 @@
 						<div class="timeline">
 							<div class="">
 								<div class="timeline-centered">
-									<!-- <article class="timeline-entry">
+									<article class="timeline-entry">
 										<div class="timeline-entry-inner">
-											 <div ng-if="!modelName || !popupAddSubmit" class="timeline-icon">
+											 <div ng-if="!model.modelName || !popupAddSubmit" class="timeline-icon">
 												<span class="entypo-suitcase">1</span>
 											</div>
 											<div class="timeline-icon bg-success"
-												ng-if="modelName&&popupAddSubmit">
+												ng-if="model.modelName&&popupAddSubmit">
 												<span class="entypo-feather fa fa-check"></span>
 											</div>
 											<div class="timeline-label">
-												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;modelName='';openDrop(false); closeOtherPopovers('addModel',addModel)" class="link-heading"
+												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;model.modelName='';openDrop(false); closeOtherPopovers('addModel',addModel)" class="link-heading"
 												ng-class="{disabledLink:keepModelName}">
-													 Add Model Name| 
+												 Add Model Name| 
 													 <span class="green" class="green"
-																ng-if="modelName&&popupAddSubmit">Completed</span>
-													 <span class="red" ng-if="!modelName || !popupAddSubmit">Not Started</span>
+																ng-if="model.modelName&&popupAddSubmit">Completed</span>
+													 <span class="red" ng-if="!model.modelName || !popupAddSubmit">Not Started</span>
 												</h2>
 												<div class="popovers cont" id="addModel" ng-show="addModel">
 													<md-toolbar>
@@ -1057,18 +1057,18 @@
 															<div class="mdl-cell mdl-cell--12-col">
 																<md-input-container class="md-icon-float md-block">
 																<label>Add your Model's Name</label> 
-																<input ng-model="modelName" type="text"> </md-input-container>
+																<input ng-model="model.modelName" type="text"> </md-input-container>
 															</div>
 
 															<div class="mdl-cell mdl-cell--6-col">
 															</div>
 														</div>
 														<div layout="row" class="popovers-cloud-modalfooter">
-															<md-button ng-click="addModel = !addModel; modelName='';openDrop(true);"
+															<md-button ng-click="addModel = !addModel; model.modelName='';openDrop(true);"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 															Cancel </md-button>
 															<md-button ng-click="addModel = !addModel;popupAddSubmit = true; openDrop(true);"
-																ng-disabled="!modelName || modelName.length <= 0" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
+																ng-disabled="!model.modelName || model.modelName.length <= 0" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 															Done </md-button>
 														</div>
 													</div>
@@ -1078,18 +1078,18 @@
 										</div>
 										
 								</div><input type="checkbox" ng-model="keepModelName"> Keep Model Name As It Is 
-							</article> -->
+							</article>
 							
 						</div>
 						<div>
 
-							<!-- <button ng-click="addToCatalog()" ng-disabled="!modelName && !keepModelName"
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
-								Add to Catalog</button> -->
-								
-								<button ng-click="addToCatalog()"
+							<button ng-click="addToCatalog()" ng-disabled="!model.modelName && !keepModelName"
 								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 								Add to Catalog</button>
+								
+								<!-- <button ng-click="addToCatalog()"
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
+								Add to Catalog</button> -->
 						</div>
 			</div>	
 		</div>

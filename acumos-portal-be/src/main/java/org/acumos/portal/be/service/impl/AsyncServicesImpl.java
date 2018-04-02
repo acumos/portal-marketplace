@@ -354,7 +354,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	}
 	
 	
-	public HttpResponse convertSolutioToONAP(String solutionId, String revisionId, String userId, String tracking_id) {
+	public HttpResponse convertSolutioToONAP(String solutionId, String revisionId, String userId, String tracking_id, String modName) {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		HttpResponse response = null;
@@ -369,10 +369,14 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 		if (!StringUtils.isEmpty(solutionId)) {
 			builder.setParameter("solutioId", solutionId);
-			MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
-			if(solution != null) {
-				String solutionName = env.getProperty("dcae.model.name.prefix") + "_" + solution.getName();
-				builder.setParameter("modName", solutionName);
+			if(!StringUtils.isEmpty(modName)){
+				builder.setParameter("modName", modName);
+			}else{
+				MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
+				if(solution != null) {
+					String solutionName = env.getProperty("dcae.model.name.prefix") + "_" + solution.getName();
+					builder.setParameter("modName", solutionName);
+				}
 			}
 		}
 		if (!StringUtils.isEmpty(revisionId)) {
