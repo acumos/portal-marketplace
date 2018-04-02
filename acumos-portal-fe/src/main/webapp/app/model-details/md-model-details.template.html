@@ -897,7 +897,7 @@
 
 	<!-- Download Artifact -->
 	<div class="md-dialog-container" id="downloadDialog" style="height: 0;">
-		<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
+		<md-dialog aria-label="Download Dialog" class="cg-dialog-medium">
 		<form ng-cloak>
 			<md-toolbar>
 			<div class="md-toolbar-tools">
@@ -918,7 +918,7 @@
 								Name:</b> - {{value.name}} {{value.version}} </label> <label class="downloadlbl2"><b>Uploaded
 								on</b> - {{value.created | date:'MM/dd/yyyy'}}</label>
 					</div>
-					<md-button class="md-raised mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}" target="_blank">
+					<md-button class="md-raised mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}">
 						Download
 					</md-button>
 				</div>
