@@ -238,9 +238,10 @@ public class WebBasedOnboardingTest {
 		String revisionId="67f4-4461-a192-f4cb7fdafd34";
 		String userId="41058105-67f4-4461-a192";
 		String tracking_id="67f4-4461-a192afd34";
-		HttpResponse isONAPCompatible = null;
-		Mockito.when(asyncService.convertSolutioToONAP(solutionId, revisionId, userId, tracking_id)).thenReturn(isONAPCompatible);
-		JsonResponse<List<MLStepResult>> response = webBasedController.convertToOnap(solutionId, revisionId, userId);
+		String modelName = "Robot";
+		Boolean isONAPCompatible = true;
+		Mockito.when(asyncService.checkONAPCompatible(solutionId, revisionId, userId, tracking_id)).thenReturn(isONAPCompatible);
+		JsonResponse<List<MLStepResult>> response = webBasedController.convertToOnap(solutionId, revisionId, userId,modelName);
 		Assert.assertNotNull(response);
 	}
 }
