@@ -417,7 +417,8 @@ angular.module('modelResource')
 				} else {
 				    
 					if($scope.keepModelName == true){
-						$scope.model.modelName = '';
+						// TODO : This is quick fix. Need to convert to query parameter or passed as body parameter
+						$scope.model.modelName = 'null';
 					}
 						
 					apiService

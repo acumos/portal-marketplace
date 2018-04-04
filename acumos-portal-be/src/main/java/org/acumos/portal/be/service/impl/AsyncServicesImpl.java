@@ -369,11 +369,13 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 		if (!StringUtils.isEmpty(solutionId)) {
 			builder.setParameter("solutioId", solutionId);
-			if(!StringUtils.isEmpty(modName)){
+			if(!StringUtils.isEmpty(modName) && "null".equalsIgnoreCase(modName)){
 				builder.setParameter("modName", modName);
+				log.debug("ONAP model name from user : " + modName);
 			}else{
 				MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
 				if(solution != null) {
+					log.debug("No Solution Name given by user");
 					String solutionName = env.getProperty("dcae.model.name.prefix") + "_" + solution.getName();
 					builder.setParameter("modName", solutionName);
 				}
