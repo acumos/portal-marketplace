@@ -33,18 +33,18 @@
 			</div>
 			
 			<div class="md-head-container2">	
-				<button type="button" ng-show="$root.enableDCAE"
+				<button type="button" ng-if="$root.enableDCAE"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ui-sref="modularResource({ONAP: 'true', solutionId: solutionId, revisionId: revisionId})" ng-click="$root.parentActive = ''"
 						>Build for ONAP</button>
 				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
-						ng-hide="solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null "
-						ng-show="loginUserID" alt="Download" title="Download">Download </button>
+						ng-if="!(solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null) && loginUserID"
+						 alt="Download" title="Download">Download </button>
 				<button type="button"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
-						ng-click="$root.showAdvancedLogin()" ng-hide="loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
+						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
 				<!-- <button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
 							ng-hide="solution.accessType =='PR'"
@@ -750,29 +750,50 @@
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Application
-							Id </label> <input ng-model="applicationId" type="text" required> </md-input-container>
-							<md-input-container class="md-icon-float md-block">
-						<label>Subscription Key </label> <input ng-model="subscriptionKey" required
-							type="text"> </md-input-container>
-							<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Storage
-							Account </label> <input ng-model="storageAccount" type="text" required> </md-input-container>
-					</div>
-					<div class="mdl-cell mdl-cell--4-col">
-						<md-input-container class="md-icon-float md-block">
-						<label>Tenant Id </label> <input ng-model="tenantId" type="text" required>
+							<label>Application Id </label> <input ng-model="applicationId" name="applicationId" type="text" required ng-blur="applicationIdVisited=true" ng-focus="applicationIdVisited=false">
+							<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.applicationId.$valid}">
+								<span ng-show="( !!deploy.applicationId.$error.required && deploy.applicationId.$touched && applicationIdVisited)">Application Id Required.</span>
+							</div>
 						</md-input-container>
 						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Resource
-							Group </label> <input ng-model="resourceGroup" type="text" required> </md-input-container>
+							<label>Subscription Key </label> <input ng-model="subscriptionKey" name="subscriptionKey" required type="text" ng-blur="subscriptionKeyVisited=true" ng-focus="subscriptionKeyVisited=false"> 
+							<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.subscriptionKey.$valid}">
+								<span ng-show="( !!deploy.subscriptionKey.$error.required && deploy.subscriptionKey.$touched && subscriptionKeyVisited)">Subscription Key Required.</span>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-icon-float md-block">
+							 <label>Storage Account </label> <input ng-model="storageAccount" type="text" name="storageAccount" required ng-blur="storageAccountVisited=true" ng-focus="storageAccountVisited=false">
+							<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.storageAccount.$valid}">
+								<span ng-show="( !!deploy.storageAccount.$error.required && deploy.storageAccount.$touched && storageAccountVisited)">Storage Account Required.</span>
+							</div>
+						</md-input-container>
 					</div>
 					<div class="mdl-cell mdl-cell--4-col">
 						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Secret
-							key </label> <input ng-model="secretKey" type="password" autocomplete="new-password" required> </md-input-container>
+							<label>Tenant Id </label> <input ng-model="tenantId" name="tenantId" type="text" required ng-blur="tenantIdVisited=true" ng-focus="tenantIdVisited=false">
+							<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.tenantId.$valid}">
+								<span ng-show="( !!deploy.tenantId.$error.required && deploy.tenantId.$touched && tenantIdVisited)">Tenant Id Required.</span>
+							</div>
+						</md-input-container>
 						<md-input-container class="md-icon-float md-block">
-						<label>Acr Name </label> <input ng-model="acrName" type="text" required>
+							<label>Resource Group </label> <input ng-model="resourceGroup" type="text" required name="resourceGroup" ng-blur="resourceGroupVisited=true" ng-focus="resourceGroupVisited=false">
+							<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.resourceGroup.$valid}">
+								<span ng-show="( !!deploy.resourceGroup.$error.required && deploy.resourceGroup.$touched && resourceGroupVisited)">Resource Group Required.</span>
+							</div>
+						</md-input-container>
+					</div>
+					<div class="mdl-cell mdl-cell--4-col">
+						<md-input-container class="md-icon-float md-block">
+							<label>Secret key </label> <input ng-model="secretKey" type="password" autocomplete="new-password" required name="secretKey" ng-blur="secretKeyVisited=true" ng-focus="secretKeyVisited=false">
+							<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.secretKey.$valid}">
+								<span ng-show="( !!deploy.secretKey.$error.required && deploy.secretKey.$touched && secretKeyVisited)">Secret key Required.</span>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-icon-float md-block">
+							<label>Acr Name </label> <input ng-model="acrName" type="text" required  name="acrName" ng-blur="acrNameVisited=true" ng-focus="acrNameVisited=false">
+							<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.acrName.$valid}">
+								<span ng-show="( !!deploy.acrName.$error.required && deploy.acrName.$touched && acrNameVisited)">Acr Name Required.</span>
+							</div>
 						</md-input-container>
 					</div>
 				</div>
@@ -788,7 +809,10 @@
 				<form name="deployCloud">
 				<div>
 					<md-input-container class="md-icon-float md-block">
-						<label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink">
+						<label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink" ng-blur="brokerlinkVisited=true" ng-focus="brokerlinkVisited=false">
+						<div class="help-inline validation-msgs" ng-class="{validationmsg:!deployCloud.brokerlink.$valid}">
+							<span ng-show="( !!deployCloud.brokerlink.$error.required && deployCloud.brokerlink.$touched && brokerlinkVisited)">URL Required.</span>
+						</div>
 						</md-input-container>
 				</div>
 				<div class="borker-row">
@@ -818,9 +842,14 @@
 				</form>
 				</div>			
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='ripple'">
+					<form name="rackspace">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>VM
-							Name <span class="reqfield">*</span></label> <input ng-model="vmName" type="text" name="vmName"> </md-input-container>
+							Name </label> <input ng-model="vmName" type="text" name="vmName" required ng-blur="vmNameVisited=true" ng-focus="vmNameVisited=false">
+						<div class="help-inline validation-msgs" ng-class="{validationmsg:!rackspace.vmName.$valid}">
+							<span ng-show="( !!rackspace.vmName.$error.required && rackspace.vmName.$touched && vmNameVisited)">VM Name Required.</span>
+						</div> </md-input-container>
+						</form>
 				</div>
 				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='ripple'">
 					<md-button
