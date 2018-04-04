@@ -1138,7 +1138,7 @@
 																			<div  > <!-- ng-show="progressVisible" -->
 														            
 														            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar}}%</span>
+														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
 														            			<span ng-show = "$root.progressBar == 100">Completed</span>
 														            </div>
 														            </div>
@@ -1283,6 +1283,7 @@
                                                                                           <md-chip>{{ctrl.chipText}}</md-chip> </md-chips>
                                                                                           </md-content> -->
 														<tags-input ng-model="tags1"
+															max-length=32
 															replace-spaces-with-dashes="false"
 															on-tag-added="tagAdded($tag)"
 															on-tag-removed="tagRemoved($tag)"> <auto-complete
@@ -2898,7 +2899,7 @@
 																						placeholder="Upload File" type="text"
 																						ng-model="publicfilename" readonly />	 -->
 																			<div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-														               			<div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar}}%</span>
+														               			<div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
 														            			<span ng-show = "$root.progressBar == 100">Completed</span>
 														            			</div>
 														            		</div>
@@ -3036,8 +3037,10 @@
 														<tags-input ng-model="tags1"
 															replace-spaces-with-dashes="false"
 															on-tag-added="tagAdded($tag)"
+															max-length=32
 															on-tag-removed="tagRemoved($tag)"> <auto-complete
-															source="loadAllTags($query)" min-length="0"
+															source="loadAllTags($query)" min-length="0" 
+
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
 													</div>
@@ -3428,32 +3431,58 @@
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label class="md-required">Application
-													Id </label> <input ng-model="applicationId" type="text" required> </md-input-container>
-												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label class="md-required">Secret
-													key </label> <input ng-model="secretKey" type="password" required> </md-input-container>
-												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label class="md-required">Resource
-													Group </label> <input ng-model="resourceGroup" type="text" required>
+													<label class="md-required">Application Id </label>
+													<input ng-model="applicationId" name="applicationId" type="text" required ng-blur="applicationIdVisited=true" ng-focus="applicationIdVisited=false">
+													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.applicationId.$valid}">
+														<span ng-show="( !!deploy.applicationId.$error.required && deploy.applicationId.$touched && applicationIdVisited)">Application Id Required.</span>
+													</div>
 												</md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<!-- Use floating label instead of placeholder --> <label class="md-required">Storage
-													Account </label> <input ng-model="storageAccount" type="text" required>
+													<label class="md-required">Secret key </label>
+													<input ng-model="secretKey" type="password" required  name="secretKey" ng-blur="secretKeyVisited=true" ng-focus="secretKeyVisited=false">
+													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.secretKey.$valid}">
+														<span ng-show="( !!deploy.secretKey.$error.required && deploy.secretKey.$touched && secretKeyVisited)">Secret key Required.</span>
+													</div>
+												</md-input-container>
+												<md-input-container class="md-icon-float md-block">
+													<label class="md-required">Resource Group </label>
+													<input ng-model="resourceGroup" type="text" required name="resourceGroup" ng-blur="resourceGroupVisited=true" ng-focus="resourceGroupVisited=false">
+													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.resourceGroup.$valid}">
+														<span ng-show="( !!deploy.resourceGroup.$error.required && deploy.resourceGroup.$touched && resourceGroupVisited)">Resource Group Required.</span>
+													</div>
+												</md-input-container>
+												<md-input-container class="md-icon-float md-block">
+													<label class="md-required">Storage Account </label>
+													<input ng-model="storageAccount" type="text" required name="storageAccount" required ng-blur="storageAccountVisited=true" ng-focus="storageAccountVisited=false">
+													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.storageAccount.$valid}">
+														<span ng-show="( !!deploy.storageAccount.$error.required && deploy.storageAccount.$touched && storageAccountVisited)">Storage Account Required.</span>
+													</div>
 												</md-input-container>
 											</div>
 
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Tenant Id</label> <input ng-model="tenantId" required
-													type="text"> </md-input-container>
+													<label class="md-required">Tenant Id</label>
+													<input ng-model="tenantId" required type="text" name="tenantId" ng-blur="tenantIdVisited=true" ng-focus="tenantIdVisited=false">
+													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.tenantId.$valid}">
+														<span ng-show="( !!deploy.tenantId.$error.required && deploy.tenantId.$touched && tenantIdVisited)">Tenant Id Required.</span>
+													</div>
+												</md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Subscription Key</label> <input required
-													ng-model="subscriptionKey" type="text"> </md-input-container>
+													<label class="md-required">Subscription Key</label>
+													<input required ng-model="subscriptionKey"  name="subscriptionKey" required type="text" ng-blur="subscriptionKeyVisited=true" ng-focus="subscriptionKeyVisited=false"> 
+													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.subscriptionKey.$valid}">
+														<span ng-show="( !!deploy.subscriptionKey.$error.required && deploy.subscriptionKey.$touched && subscriptionKeyVisited)">Subscription Key Required.</span>
+													</div>
+												</md-input-container>
 												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Acr Name</label> <input ng-model="acrName" required
-													type="text"> </md-input-container>
+													<label class="md-required">Acr Name</label>
+													<input ng-model="acrName" type="text" required  name="acrName" ng-blur="acrNameVisited=true" ng-focus="acrNameVisited=false">
+													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.acrName.$valid}">
+														<span ng-show="( !!deploy.acrName.$error.required && deploy.acrName.$touched && acrNameVisited)">Acr Name Required.</span>
+													</div>
+												</md-input-container>
 											</div>
                                          </div>
                                          <div layout="row" class="pull-right" ng-hide='checkboxExport!="microsoft"'>
@@ -3466,13 +3495,16 @@
                                          <br>
                                          <!--  new section  -->
                                          <form name="deployCloud">
-                                                                          <div ng-hide='checkboxExport!="microsoft"'>
+                                                <div ng-hide='checkboxExport!="microsoft"'>
                                         		<h4 class="gridlistheading broker-heading">
 															Broker</h4>
 												<div>
 													<md-input-container class="md-icon-float md-block">
-														<label>URL</label> <input type="text" ng-model="brokerURL" required>
-														</md-input-container>
+														<label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink" ng-blur="brokerlinkVisited=true" ng-focus="brokerlinkVisited=false">
+														<div class="help-inline validation-msgs" ng-class="{validationmsg:!deployCloud.brokerlink.$valid}">
+															<span ng-show="( !!deployCloud.brokerlink.$error.required && deployCloud.brokerlink.$touched && brokerlinkVisited)">URL Required.</span>
+														</div>
+													</md-input-container>
 												</div>
 												<div class="borker-row">
 													<div>
@@ -3503,12 +3535,15 @@
                                          <!--  new section end -->
                                          
                                          <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show='checkboxExport=="ripple"'>
-                                                   
-                                                       <md-input-container class="md-icon-float md-block">
-                                                                 <label>VM Name</label>
-                                                                  <input type="text" ng-model='vmName'>
-                                                       </md-input-container>
-											
+                                             <form name="rackspace">
+                                                 <md-input-container class="md-icon-float md-block">
+                                                    <label>VM Name</label>
+                                                          <input type="text" ng-model='vmName' name='vmName' ng-blur="vmNameVisited=true" ng-focus="vmNameVisited=false">
+															<div class="help-inline validation-msgs" ng-class="{validationmsg:!rackspace.vmName.$valid}">
+																<span ng-show="( !!rackspace.vmName.$error.required && rackspace.vmName.$touched && vmNameVisited)">VM Name Required.</span>
+															</div>
+                                                 </md-input-container>
+                                              </form>
 										</div>
 										<div layout="row" class="pull-right" ng-hide='checkboxExport!="ripple"'>
 											<md-button
@@ -3547,7 +3582,7 @@
 												ng-click="exportToLocal(value.artifactId)"><img
 													src="images/view-download-1.png" alt="" title="" /></a></td>
 										</tr>
-										<tr>
+										<tr class="removebefore">
 											<td colspan="4" class="mercol">
 												<div>
 													<label>Label : </label><span>{{value.name}}</span>
@@ -3560,6 +3595,7 @@
 												</div>
 											</td>
 										</tr>
+										
 									</tbody>
 								</table>
 							</div>

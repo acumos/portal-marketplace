@@ -19,7 +19,7 @@ angular
 						$scope.seeAllSelected = false;
 						$scope.selectedChip = [];
 						$scope.mlsolutions = [];
-
+						$scope.fieldToSort = { "modified" : "DESC" };
 						if(localStorage.getItem("viewMM")){
 						  if(localStorage.getItem("viewMM") == 'false')$scope.Viewtile = false;else $scope.Viewtile = true;
 						}else $scope.Viewtile = true;
@@ -401,6 +401,7 @@ angular
 							$scope.getCompanyModels();
 							$scope.getPublicModels();
 							$scope.getDeleteModels();
+                                                  	$rootScope.valueToSearch = '';
 						}
 						getModels();
 						
