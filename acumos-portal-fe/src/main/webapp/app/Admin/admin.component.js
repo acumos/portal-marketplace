@@ -1611,7 +1611,7 @@ angular.module('admin')
 	                      				            var size = file.size;
 	                      				            
 	                      				           
-	                      				            if(validFormats.indexOf(ext) == -1 || size >= 20000){
+	                      				            if(validFormats.indexOf(ext) == -1){
 	                      				            	$scope.error = true;
 	                      				                //return value;
 	                      				            }else{

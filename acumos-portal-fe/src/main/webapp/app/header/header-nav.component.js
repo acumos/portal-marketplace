@@ -449,7 +449,7 @@ app.component('headerNav',{
                                  }if($scope.siteConfig.fields[key].label == 'Headerlogo' && $scope.siteConfig.fields[key].data != undefined){
                                      $rootScope.headerImage = $scope.siteConfig.fields[key].data.base64;
                                  }if($scope.siteConfig.fields[key].label == 'coBrandingLogo' && $scope.siteConfig.fields[key].data){
-                                     $rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
+                                     //$rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
                                  }if($scope.siteConfig.fields[key].label == 'Footerlogo'){   
                                      $rootScope.footerImage = $scope.siteConfig.fields[key].data.base64;
 									} if($scope.siteConfig.fields[key].label == 'EnableOnboarding'){

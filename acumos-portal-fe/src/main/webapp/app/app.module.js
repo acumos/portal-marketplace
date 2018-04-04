@@ -433,7 +433,7 @@ angular
       }
     });
 //for logo validation
-angular
+/*angular
 .module('AcumosApp').directive(
 		'uploadLogoModel',
 		function($parse) {
@@ -441,12 +441,12 @@ angular
 				restrict : 'A', // the directive can be used as an
 								// attribute only
 
-				/*
+				
 				 * link is a function that defines functionality of
 				 * directive scope: scope associated with the element
 				 * element: element on which this directive used attrs:
 				 * key value pair of element attributes
-				 */
+				 
 				link : function(scope, element, attrs) {
 					var model = $parse(attrs.uploadLogoModel), modelSetter = model.assign; // define
 					scope.imageError = false;																		// a
@@ -489,9 +489,9 @@ angular
 
 			                        mystyle: {}
 			                        };
-			                        /*scope.$apply(function () {
+			                        scope.$apply(function () {
 			                            values.push(value);
-			                        }); */     
+			                        });      
 			                        if(value.height >= 27){
 			                        	scope.imageError = true;
 			                        }else{
@@ -507,4 +507,4 @@ angular
 					});
 				}
 			}
-		})
+		})*/
