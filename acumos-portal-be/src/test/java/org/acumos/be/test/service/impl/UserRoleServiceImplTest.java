@@ -280,24 +280,4 @@ public class UserRoleServiceImplTest {
 			logger.info("Exception occured while addUserRole: " + e);			 
 		}
 	}
-	
-	
-	/*@Test
-	public void updateUserRole(){ 
-		try{
-			String userId = "1810f833-8698-4233-add4-091e34b8703c";
-			String roleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			String updatedRoleId = "12345678-abcd-90ab-cdef-1234567890ab";
-			 
-			
-			when(env.getProperty("cdms.client.url")).thenReturn("http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8002/ccds/");
-			when(env.getProperty("cdms.client.username")).thenReturn("ccds_client");
-			when(env.getProperty("cdms.client.password")).thenReturn("ccds_client");
-			UserRoleServiceImpl impl = new UserRoleServiceImpl();
-			impl.setEnvironment(env);
-			impl.updateUserRole(userId, roleId, updatedRoleId);
-		} catch (Exception e) {
-			logger.info("Exception occured while updateUserRole: " + e);			 
-		}
-	}*/
 }
