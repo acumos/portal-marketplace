@@ -32,6 +32,7 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 
@@ -175,6 +176,10 @@ public class SaveImageCommand extends DockerCommand
 	}
 	
 	public void getDockerImageStream(HttpServletResponse response) throws DockerException {
+		getDockerImageStream(response, 8);
+	}
+
+	public void getDockerImageStream(HttpServletResponse response, Integer bufferSize) throws DockerException {
 		InputStream inputStream = null;
 		if (imageName == null || imageName.isEmpty())
 		{
@@ -185,16 +190,15 @@ public class SaveImageCommand extends DockerCommand
 		{
 			logger.info(String.format("Started save image '%s' ... ", imageName));
 			inputStream =  client.saveImageCmd(imageName).exec();
-			logger.info(String.format("Got the File : : " + inputStream.available()));
 
 			int bytesRead;
-			 while ((bytesRead = (inputStream).read(new byte[4096])) != -1) {
-				response.getOutputStream().write(new byte[4096], 0, bytesRead);
+			int byteSize = bufferSize * 1024;
+			logger.info("Starting Download with Buffer size as : " + byteSize);
+			 while ((bytesRead = (inputStream).read(new byte[byteSize])) != -1) {
+				response.getOutputStream().write(new byte[byteSize], 0, bytesRead);
 				response.flushBuffer();
 			}
-			
-			//IOUtils.closeQuietly(output);
-			
+
 			logger.info("Finished save image " + imageName );
 		} catch (NotFoundException e)
 		{
@@ -210,7 +214,15 @@ public class SaveImageCommand extends DockerCommand
 			logger.error(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage());
 			throw new DockerException(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage(),
 					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		} 
+		} finally {  
+		     try {
+		    	inputStream.close();
+				response.getOutputStream().close();
+			} catch (IOException e) {
+				logger.error(EELFLoggerDelegate.errorLogger, "Error in Downloading image artifact", e);
+			}
+		}
+
 	}
 	
 	@Override

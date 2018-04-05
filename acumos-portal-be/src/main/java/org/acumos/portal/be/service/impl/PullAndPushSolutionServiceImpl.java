@@ -185,17 +185,18 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
             		   try {
             			   SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null, true);
             			   saveImageCommand.setClient(dockerClient);
-                		   saveImageCommand.getDockerImageStream(response);
+            			   //Keep the default buffer size as 8 if no buffer limit is provided in properties
+            			   Integer buffer = Integer.parseInt(env.getProperty("portal.feature.download_bufferSize", "8"));
+            			   if (buffer <= 0 ) {
+            				   buffer = 8;
+            			   }
+                		   saveImageCommand.getDockerImageStream(response, buffer);
             		   } catch (Exception e) {
-            			   
             			   log.error(EELFLoggerDelegate.errorLogger, "Error in Downloading artifact", e);
-            		   } 
-            		   finally {
-            			   try
-            				{
+            		   } finally {
+            			   try {
             					dockerClient.close();
-            				} catch (IOException e)
-            				{
+            				} catch (IOException e) {
             					log.warn("Fail to close docker client gracefully", e);
             				}
             		   }
