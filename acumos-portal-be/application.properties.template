@@ -58,6 +58,8 @@ portal.getValidation.api=http://localhost:9000/status
 portal.feature.email_service=
 portal.feature.validateModel=false
 portal.feature.cas_enabled=false
+#integer value for allocating buffer size. Actuall value will be calculated as buffer = (download_bufferSize * 1024)
+portal.feature.download_bufferSize=8
 
 #Dashboard Url
 portal.dashboard.url=http://cognita-dev1-logcollector.eastus.cloudapp.azure.com:5601
