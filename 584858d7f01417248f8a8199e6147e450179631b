@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e57c7bc_c8d1128e",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T18:28:43Z",
+      "side": 1,
+      "message": "8 what? bytes? megabytes? gigabytes?",
+      "revId": "584858d7f01417248f8a8199e6147e450179631b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
