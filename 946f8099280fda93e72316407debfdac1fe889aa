@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479fbcce_10aabb19",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T12:51:53Z",
+      "side": 1,
+      "message": "Why do you hard-code a height?  This is why the AT\u0026T logo looks squashed.",
+      "revId": "946f8099280fda93e72316407debfdac1fe889aa",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
