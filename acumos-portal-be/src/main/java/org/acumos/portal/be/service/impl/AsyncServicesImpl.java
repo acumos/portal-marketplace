@@ -241,6 +241,10 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 			// Remove all files once the process is completed
+			log.info("inside finallly callOnboarding ---->>>");
+			log.debug("inside finallly callOnboarding---->>>");
+			log.error("inside finallly callOnboarding---->>>");
+			
 			fileSystemStorageService.deleteAll(userId);
 		}
 
