@@ -44,7 +44,7 @@ angular
 						}
 					}
 				})
-		.service('fileUploadService', function($http, $q) {
+		.service('userImageUploadService', function($http, $q) {
 
 			this.uploadFileToUrl = function(file, uploadUrl) {
 				// FormData, object of key/value pair for form fields and values
@@ -73,7 +73,7 @@ angular
 				{
 					templateUrl : './app/userDetail/userDetail.template.html',
 					controller : function($scope, $http, $location, $rootScope, $timeout,
-							fileUploadService, $q, $window, apiService, $mdDialog, $anchorScroll) {
+							userImageUploadService, $q, $window, apiService, $mdDialog, $anchorScroll) {
 						//$scope.matchString = true;
 						$scope.showAltImage = true;
 						$scope.disableEmail = true;
@@ -501,13 +501,13 @@ angular
 							console.log("User Id : " + userId);
 							var uploadUrl = "api/users/updateUserImage/"
 									+ userId;
-							var promise = fileUploadService.uploadFileToUrl(
+							var promise = userImageUploadService.uploadFileToUrl(
 									file, uploadUrl);
 
 							promise
 									.then(
 											function(response) {
-												console.log(response);
+												//console.log(response); // Commented since used for debugging code when required.
 												$scope.serverResponse = response;
 												$scope.closePoup();
 												getUserImage();
