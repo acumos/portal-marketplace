@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefba99e_8a06e134",
+        "filename": "acumos-portal-fe/src/main/webapp/app/userDetail/userDetail.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T15:17:13Z",
+      "side": 1,
+      "message": "Please remove, don\u0027t comment out.\nAlternately, you might write \"debug\u003dfalse; if (debug) console.log(response);\"",
+      "revId": "eb34c3c277f38cf6bcedf332709d9b4b34e71690",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
