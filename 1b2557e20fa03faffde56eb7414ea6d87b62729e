@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79e1d84b_c3187f0c",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T12:42:04Z",
+      "side": 1,
+      "message": "This must ALWAYS be SNAPSHOT.  Please put back the -SNAPSHOT suffix and never remove it.",
+      "revId": "1b2557e20fa03faffde56eb7414ea6d87b62729e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cac5556_e5c32de1",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T12:42:04Z",
+      "side": 1,
+      "message": "No, you should NOT use a snapshot version of CDS.",
+      "revId": "1b2557e20fa03faffde56eb7414ea6d87b62729e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "256a39e6_73856f36",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T12:42:04Z",
+      "side": 1,
+      "message": "Remove, don\u0027t comment out",
+      "revId": "1b2557e20fa03faffde56eb7414ea6d87b62729e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "422b4665_9f1e3b3c",
+        "filename": "acumos-portal-fe/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T12:42:04Z",
+      "side": 1,
+      "message": "Please restore the -SNAPSHOT suffix",
+      "revId": "1b2557e20fa03faffde56eb7414ea6d87b62729e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
