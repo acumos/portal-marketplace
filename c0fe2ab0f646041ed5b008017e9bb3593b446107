@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7191fe7b_005db9a7",
+        "filename": "acumos-portal-fe/src/main/webapp/app/userDetail/userDetail.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-05T14:08:27Z",
+      "side": 1,
+      "message": "Is this only for debugging?  Perhaps you can add a debug variable then guard this output with if (debug)?  It\u0027s quite distracting for testers and users when the console takes a blizzard of output.",
+      "revId": "c0fe2ab0f646041ed5b008017e9bb3593b446107",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
