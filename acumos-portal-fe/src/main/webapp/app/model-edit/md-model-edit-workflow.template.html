@@ -1473,7 +1473,8 @@
 																				<div class="upload-image-input">
 																					<div file-upload file=previewImage ng-click = "cancelSolImage()"
 																						uploadid="companyuploadid" id="solImage" size = 800000 imageerror = "imageerror"
-																						filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
+																						filename="filename" fileinput="file" accept="image/*"
+																						ngf-select
 																						filepreview="previewImage" ng-model="solImage"
 																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
 																					<input class="mdl-textfield__input"
