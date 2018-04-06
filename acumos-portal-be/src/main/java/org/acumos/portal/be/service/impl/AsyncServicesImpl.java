@@ -129,7 +129,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		File[] fList = directory.listFiles();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response = null;
-
+		MLPNotification notification = new MLPNotification();
+		
 		if (fList != null) {
 			for (File file : fList) {
 				if (file.isFile() && file.getName().contains(".zip") || file.getName().contains(".jar") || file.getName().contains(".bin") || file.getName().contains(".tar") || file.getName().toUpperCase().contains(".R")) {
@@ -180,7 +181,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 				response = httpclient.execute(post);
 				
-				MLPNotification notification = new MLPNotification();
+				//MLPNotification notification = new MLPNotification();
 				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
 				if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201) {
 					InputStream instream = response.getEntity().getContent();
@@ -212,7 +213,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String notifMsg = "Solution " + solution.getName() + " Added to Catalog Successfully";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
-					notificationService.generateNotification(notification, userId);
+					//notificationService.generateNotification(notification, userId);
 				} else {
 					InputStream instream = response.getEntity().getContent();
 					String result = convertStreamToString(instream);
@@ -229,7 +230,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					+ ". Please restart the process again to upload the solution";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
-					notificationService.generateNotification(notification, userId);
+					//notificationService.generateNotification(notification, userId);
 					// throw new RuntimeException("Failed : HTTP error code : " +
 					// response.getStatusLine().getStatusCode());
 				}
@@ -242,7 +243,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			httpclient.getConnectionManager().shutdown();
 			// Remove all files once the process is completed
 			log.info("inside finallly callOnboarding ---->>>");
-			
+			notificationService.generateNotification(notification, userId);
 			
 			fileSystemStorageService.deleteAll(userId);
 		}
