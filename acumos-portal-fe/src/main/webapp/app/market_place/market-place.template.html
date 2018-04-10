@@ -310,7 +310,7 @@
 								</div>
 								<br />
 								<div class="text-center">									
-									<button class="mdl-button mdl-js-button mdl-button--raised btn-primary" ng-click="loadMore()" ng-if='MlSoltionCount' ng-hide="(mlsolutions.length < 1) || viewNoMLsolution=='No More ML Solutions'">
+									<button class="mdl-button mdl-js-button mdl-button--raised btn-primary" ng-click="loadMore()" ng-if="MlSoltionCount && !(mlsolutions.length < 1) && solutionsCount != 0" ng-cloak>
 									  {{viewNoMLsolution}}
 									</button>
 									

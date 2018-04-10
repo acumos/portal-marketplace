@@ -135,7 +135,7 @@
 								ng-click="openMenu($mdMenu, $event)" aria-label="Open Menu">
 							<!-- <md-icon md-menu-origin md-svg-icon="call:portable-wifi-off"></md-icon> -->
 							<span class="material-icons mdl-badge mdl-badge--overlap"
-								ng-if="$root.notificationCount < 1" alt="Notifications" title="Notifications">notifications_none</span> <span
+								ng-if="$root.notificationCount < 1" ng-click="showNotification()" alt="Notifications" title="Notifications">notifications_none</span> <span
 								class="material-icons mdl-badge mdl-badge--overlap"
 								data-badge="{{$root.notificationCount}}"
 								ng-if="$root.notificationCount > 0">notifications_none</span> </md-button> <md-menu-content
