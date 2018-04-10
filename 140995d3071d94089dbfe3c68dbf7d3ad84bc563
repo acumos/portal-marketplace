@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af80cade_dd28b1ec",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-10T14:40:33Z",
+      "side": 1,
+      "message": "Perhaps all these debug output invocations should be done at debug level, not info level?",
+      "revId": "140995d3071d94089dbfe3c68dbf7d3ad84bc563",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
