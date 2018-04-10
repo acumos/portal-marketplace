@@ -355,7 +355,8 @@ angular
             accept: "@",
             uploadid: "@",
             size: "=", //in bytes
-            imageerror: "="
+            imageerror: "=",
+            imagetypeerror : "="
           },
         link: function (scope, element) {
 
@@ -367,6 +368,8 @@ angular
                 	scope.imageerror = false;
                     scope.fileinput = document.getElementById(scope.uploadid).files[0];
                     scope.file = scope.fileinput;
+                    scope.fileType = scope.file.name.split('.').pop();
+                    scope.validFormats = ['jpg','jpeg','png','gif'];
                     var reader = new FileReader();
                     reader.onload = function(loadEvent) {
                       scope.$apply(function() {
@@ -374,6 +377,9 @@ angular
                     	var size = scope.fileinput.size;
 	                	if(size >= scope.size){
 	    	            	scope.imageerror = true;
+	    	            	return true;
+	    	            }else if(scope.validFormats.indexOf(scope.fileType) == -1){
+	    	            	scope.imagetypeerror = true;
 	    	            	return true;
 	    	            }else{
 	                    	scope.filepreview = loadEvent.target.result;

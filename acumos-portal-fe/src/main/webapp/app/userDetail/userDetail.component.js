@@ -84,6 +84,14 @@ angular
 						}
 						getUserDetail();
 						
+						/*check if user is of LF*/
+						$scope.isLfUser = false;
+						$scope.sessionLFCAS = sessionStorage.getItem('provider');
+						if($scope.sessionLFCAS == "LFCAS"){
+							$scope.isLfUser = true;
+						}else{
+							$scope.isLfUser = false;
+						}
 
 						// Get User data
 						
