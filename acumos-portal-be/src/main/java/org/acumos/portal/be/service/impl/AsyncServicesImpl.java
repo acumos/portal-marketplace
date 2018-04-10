@@ -188,7 +188,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String result = convertStreamToString(instream);
 
 					ObjectMapper mapper = new ObjectMapper();
+					log.info("inside callOnboarding if before readValue ---->>>");
 					Map<String, Object> resp = mapper.readValue(result, Map.class);
+					log.info("inside callOnboarding if after readValue ---->>>");
 					Map<String, Object> solutionStr = (Map<String, Object>) resp.get("result");
 					
 					 String newSolutionId = (String) solutionStr.get("solutionId");
@@ -205,7 +207,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					if (StringUtils.isNotEmpty(newSolutionName) && !solution.getName().equals(newSolutionName)) {
 						MLSolution solutionDetail = catalogService.getSolution(newSolutionId);
 						solutionDetail.setName(solution.getName());
+						log.info("inside callOnboarding if before updateSolution ---->>>");
 						catalogService.updateSolution(solutionDetail, newSolutionId);
+						log.info("inside callOnboarding if after updateSolution ---->>>");
 					}
 					// Temporary solution to notify user, as we dont have intermediate results from
 					// onbaording
@@ -213,13 +217,15 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String notifMsg = "Solution " + solution.getName() + " Added to Catalog Successfully";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
-					//notificationService.generateNotification(notification, userId);
+					notificationService.generateNotification(notification, userId);
 				} else {
 					InputStream instream = response.getEntity().getContent();
 					String result = convertStreamToString(instream);
 
 					ObjectMapper mapper = new ObjectMapper();
+					log.info("inside callOnboarding else before readValue ---->>>");
 					Map<String, Object> resp = mapper.readValue(result, Map.class);
+					log.info("inside callOnboarding else after readValue ---->>>");
 					log.info(resp.toString());
 					log.info((String) resp.get("errorMessage"));
 					// Temporary solution to notify user, as we dont have intermediate results from
@@ -230,7 +236,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					+ ". Please restart the process again to upload the solution";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
-					//notificationService.generateNotification(notification, userId);
+					log.info("inside callOnboarding else before generateNotification ---->>>");
+					notificationService.generateNotification(notification, userId);
 					// throw new RuntimeException("Failed : HTTP error code : " +
 					// response.getStatusLine().getStatusCode());
 				}
@@ -243,7 +250,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			httpclient.getConnectionManager().shutdown();
 			// Remove all files once the process is completed
 			log.info("inside finallly callOnboarding ---->>>");
-			notificationService.generateNotification(notification, userId);
+			//notificationService.generateNotification(notification, userId);
 			
 			fileSystemStorageService.deleteAll(userId);
 		}
