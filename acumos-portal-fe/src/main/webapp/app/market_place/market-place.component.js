@@ -128,7 +128,7 @@ angular
 						$scope.pageNumber = 0;
 						$scope.onLoad = function() {
 							// need to be changed at the timeof commit
-							var requestObject = {
+							/*var requestObject = {
 								"request_body" : {
 									"active" : true,
 									"pageRequest" : {
@@ -161,7 +161,7 @@ angular
 												$scope.status = 'Unable to load data: '
 														+ error.data.error;
 												console.log($scope.status);
-											});
+											});*/
 						}
 						$scope.onLoad();
 
@@ -236,6 +236,8 @@ angular
 								$scope.categoryFilter.push($rootScope.relatedModelType);
 							}
 							
+							//added this function to hide the view more button
+							$scope.getSolutionsCount(toBeSearch, accessTypeFilter, fieldToSort);
 							
 							dataObj = {
 								"request_body" : {
@@ -265,6 +267,32 @@ angular
 							count += 9;
 						}
 						
+						$scope.getSolutionsCount = function(toBeSearch, accessTypeFilter, fieldToSort){
+							var dataObjNext = {
+									"request_body" : {
+										"modelTypeCodes" : $scope.categoryFilter,
+										"active" : true,
+										"accessTypeCodes": accessTypeFilter,
+										"nameKeyword" :  toBeSearch,
+										"sortBy" : $scope.sortBy,
+										"tags" : $scope.tagFilter,
+										"pageRequest" : {
+											"fieldToDirectionMap": fieldToSort,
+											"page" : $scope.pageNumber + 1,
+											"size" : 9
+										}
+									}
+								};
+
+								apiService.insertSolutionDetail(dataObjNext).then(
+										function(response) {
+											$scope.solutionsCount = response.data.response_body.content.length;
+										},
+										function(error) {
+											
+								});
+								
+						}
 
 						$scope.loadMore();
 						function getSolution(response) {

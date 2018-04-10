@@ -27,6 +27,9 @@ angular
 							deploy.reset();
 							deployCloud.brokerlink.value = "";
 							$scope.vmName = "";
+							$scope.deploy.$setUntouched();
+							$scope.deployCloud.$setUntouched();
+							$scope.rackspace.$setUntouched();
 						}
 						
 						var user= JSON.parse(localStorage.getItem("userDetail"));
