@@ -1471,10 +1471,9 @@
 																			<div class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
 																				<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																				<div class="upload-image-input">
-																					<div file-upload file=previewImage ng-click = "cancelSolImage()"
+																					<div file-upload file="previewImage" ng-click = "cancelSolImage()"
 																						uploadid="companyuploadid" id="solImage" size = 800000 imageerror = "imageerror"
-																						filename="filename" fileinput="file" accept="image/*"
-																						ngf-select
+																						filename="filename" fileinput="file" accept="image/*" imagetypeerror = "imagetypeerror"
 																						filepreview="previewImage" ng-model="solImage"
 																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
 																					<input class="mdl-textfield__input"
@@ -1482,7 +1481,12 @@
 																						ng-model="filename" readonly />
 																					
 																				</div>
-																				<div class="help-inline validation-msgs"><span ng-show = "imageerror">Image should be max size of 80KB.</span></div>
+																				<div class="help-inline validation-msgs">
+																					<span ng-show = "imageerror">Image should be max size of 800KB.</span>
+																				</div>
+																				<div class="help-inline validation-msgs">
+																					<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
+																				</div>
 																				<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
                                                                                 data-drop="true" 
@@ -1509,7 +1513,7 @@
                                                                              </div> -->
                                                                              
 																				<div>
-																					<p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
+																					<p>JPG, GIF or PNG Max Size 800KB {{iconFile}}</p>
 																				</div>
 																			</div>
 																		</div>
@@ -3160,6 +3164,7 @@
 																			<div class="upload-image-input">
 																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
 																					uploadid="publicuploadid" id="solImage" size = 800000 imageerror = "imageerror"
+																					imagetypeerror = "imagetypeerror"
 																					filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
 																					filepreview="previewImage" ng-model="solImage"
 																					icon="icon" upload-image-model="solImage" readonly alt="Browse" title="Browse"></div>
@@ -3167,7 +3172,12 @@
 																					placeholder="Upload Image" type="text"
 																					ng-model="filename" readonly />
 																			</div>
-																			<div class="help-inline validation-msgs"><span ng-show = "imageerror">Image should be max size of 80KB.</span></div>
+																			<div class="help-inline validation-msgs">
+																				<span ng-show = "imageerror">Image should be max size of 800KB.</span>
+																			</div>
+																			<div class="help-inline validation-msgs">
+																				<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
+																			</div>
 																			<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
                                                                                 data-drop="true" 
@@ -3193,7 +3203,7 @@
                                                                                 </div>
                                                                              </div> -->
 																			<div>
-																				<p>JPG, GIF or PNG Max Size 800K {{iconFile}}</p>
+																				<p>JPG, GIF or PNG Max Size 800KB {{iconFile}}</p>
 																			</div>
 																		</div>
 																	</div>

@@ -66,6 +66,7 @@ angular
 						$scope.previewImage = "images/img-list-item.png";
 						$rootScope.progressBar = 0;
 						$scope.imageerror = false;
+						$scope.imagetypeerror = false;
 						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
@@ -1771,6 +1772,8 @@ angular
 						}
 						
 						$scope.cancelSolImage = function(){
+							$scope.imageerror = false;
+							$scope.imagetypeerror = false;
 							$scope.previewImage = $scope.imgURLdefault;
 							$scope.filename = "";
 							$scope.solImage = "";
