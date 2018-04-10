@@ -258,7 +258,16 @@ angular.module('admin')
             	    apiService.addUser( obj/*, $scope.roleValue*/ )
             	    .then(function(response) {
             	    	if(response.data.error_code == 500){
-            	    		alert("User already exist");
+            	    		//alert("User already exist");
+            	    		$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                            $anchorScroll(); 
+                            $scope.msg = "User already exist."; 
+                            $scope.icon = 'report_problem';
+                            $scope.styleclass = 'c-error';
+                            $scope.showAlertMessage = true;
+                            $timeout(function() {
+                            	$scope.showAlertMessage = false;
+                            }, 5000);
             	    		return;
             	    	}
             	    	userDetailsFetch();

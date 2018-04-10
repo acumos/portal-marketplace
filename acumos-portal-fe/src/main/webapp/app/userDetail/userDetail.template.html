@@ -32,7 +32,7 @@
 					<a ng-click="uploadPhoto($event)" class="link-blue text-small" alt="Change Photo" title="Change Photo">Change
 						Photo</a>
 				</div>
-				<div class="text-center">
+				<div class="text-center" ng-hide="isLfUser">
 					<a ng-click="showPrerenderedDialog($event);openChangePassword()"
 						class="link-blue text-small" data-target="#" alt="Change Password" title="Change Password">Change Password</a>
 				</div>
@@ -130,7 +130,7 @@
 										ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
 										Please enter valid e-mail address.</div>
 								</div> --> </md-input-container>
-					<a class="link-blue" href="" ng-click="disableEmail=!disableEmail"><span
+					<a ng-hide="isLfUser" class="link-blue" href="" ng-click="disableEmail=!disableEmail"><span
 						ng-if="disableEmail" alt="Change Email" title="Change Email">Change Email</span></a> <a class="link-blue"
 						href="" ng-class="{disabledLink:!signupFormEmail.uemail.$valid}"
 						ng-if="!disableEmail" ng-click="$parent.saveEmail()">Save
