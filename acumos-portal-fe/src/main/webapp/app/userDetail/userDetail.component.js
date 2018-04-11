@@ -84,14 +84,6 @@ angular
 						}
 						getUserDetail();
 						
-						/*check if user is of LF*/
-						$scope.isLfUser = false;
-						$scope.sessionLFCAS = sessionStorage.getItem('provider');
-						if($scope.sessionLFCAS == "LFCAS"){
-							$scope.isLfUser = true;
-						}else{
-							$scope.isLfUser = false;
-						}
 
 						// Get User data
 						
@@ -114,8 +106,8 @@ angular
 											function(data, status, headers,
 													config) {
 												if (data.status) {
-													$scope.userImage = data.response_body;
-													$scope.userPic = $scope.userImage;
+													//$scope.userImage = data.response_body;
+													$scope.userPic = data.response_body; //$scope.userImage;
 													$scope.showAltImage = false;
 												}
 											}).error(
@@ -328,7 +320,21 @@ angular
 						}
 						// Update User Detail
 						$scope.imageurl = "images/profile-icon-01-48X48.png";
+						
 						// Update/Deactivate account
+						
+						/*Deactivate Account Confirmation Pop-up*/
+						$scope.dialogDeactivateAccount = function(ev) {
+		                	  $scope.error = false;
+			                	$mdDialog.show({
+			                      contentElement: '#dialogDeactivateAccount',
+			                      parent: angular.element(document.body),
+			                      targetEvent: ev,
+			                      clickOutsideToClose: true
+			                    });
+						};
+						
+						/*Deactivate Account*/
 						$scope.updateDeactivate = function(value) {
 							
 							if (value === "deactivate") {
