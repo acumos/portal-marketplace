@@ -748,7 +748,8 @@
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																			<md-input-container class="md-icon-float md-block">
 																			<!-- Use floating label instead of placeholder --> <label class="md-required">Model
-																				Name </label> <input ng-model="solutionName" type="text">
+																				Name </label> <input ng-model="solutionName" type="text" 
+																				ng-pattern="/^[a-zA-Z0-9_-]*$/">
 																			</md-input-container>
 																			<md-input-container class="md-icon-float md-block">
 																			<!-- Use floating label instead of placeholder --> <label>Model
@@ -2526,7 +2527,8 @@
 																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 																		<md-input-container class="md-icon-float md-block">
 																		<!-- Use floating label instead of placeholder --> <label class="md-required">Model
-																			Name </label> <input ng-model="solutionName" type="text">
+																			Name </label> <input ng-model="solutionName" type="text"
+																			ng-pattern="/^[a-zA-Z0-9_-]*$/">
 																		</md-input-container>
 																		<md-input-container class="md-icon-float md-block">
 																		<!-- Use floating label instead of placeholder --> <label>Model
