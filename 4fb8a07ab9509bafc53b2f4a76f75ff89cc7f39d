@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4285d5f5_4c2c4138",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/sidebar-nav.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-04-11T20:34:51Z",
+      "side": 1,
+      "message": "where is apiService.getQandAUrl() defined. I do not see this commited anywhere",
+      "range": {
+        "startLine": 13,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 24
+      },
+      "revId": "4fb8a07ab9509bafc53b2f4a76f75ff89cc7f39d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
