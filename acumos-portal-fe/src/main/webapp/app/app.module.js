@@ -438,6 +438,25 @@ angular
         }
       }
     });
+
+angular
+.module('AcumosApp').directive('ngEnter',function() {
+
+	  var linkFn = function(scope,element,attrs) {
+	    element.bind("keypress", function(event) {
+	      if(event.which === 13) {
+	        scope.$apply(function() {
+	      scope.$eval(attrs.ngEnter);
+	        });
+	        event.preventDefault();
+	      }
+	    });
+	  };
+
+	  return {
+	    link:linkFn
+	  };
+	});
 //for logo validation
 /*angular
 .module('AcumosApp').directive(
