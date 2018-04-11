@@ -1724,6 +1724,7 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
 .dialog-footer-container1 .mdl-button {margin:0; }
 
 .ud-change-photo {width: 400px; max-height: 80% !important;}
+.ud-deactivate-account {width: 480px; }
 .ud-change-password {width: 450px; max-height: 80% !important;}
 md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 
