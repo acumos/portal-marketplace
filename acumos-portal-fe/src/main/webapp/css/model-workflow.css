@@ -968,8 +968,8 @@ body {
       letter-spacing: 0;
       margin: 0 0 16px;
       line-height: 24px;
-      word-break:break-word;
-      /*word-break: break-all;*/
+      /*word-break:break-word;*/
+     word-break: break-all;
 }
 
 ul li {

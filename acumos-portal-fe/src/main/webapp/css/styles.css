@@ -1771,6 +1771,7 @@ float: left; max-width: 65%;}
 .md-icons-tiles .mdl-button { height: 30px; width: 30px; margin:0;}
 .mp-grid-list-details-cell .md-icons .mdl-button {position:relative; top: -4px;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
+.scroll-table{height:250px; overflow-x:auto; display:block;}
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 360px) {
