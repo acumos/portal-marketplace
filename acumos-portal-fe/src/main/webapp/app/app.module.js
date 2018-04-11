@@ -377,9 +377,11 @@ angular
                     	var size = scope.fileinput.size;
 	                	if(size >= scope.size){
 	    	            	scope.imageerror = true;
+	    	            	scope.imagetypeerror = false;
 	    	            	return true;
 	    	            }else if(scope.validFormats.indexOf(scope.fileType) == -1){
 	    	            	scope.imagetypeerror = true;
+	    	            	scope.imageerror = false;
 	    	            	return true;
 	    	            }else{
 	                    	scope.filepreview = loadEvent.target.result;

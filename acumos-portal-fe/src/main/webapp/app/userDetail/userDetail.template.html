@@ -173,7 +173,7 @@
 	<div class="text-right u-note-btn-container">
 		<button
 			class="mdl-button mdl-js-button btn-secondary"
-			ng-click="updateDeactivate('deactivate')" alt="Deactivate Account" title="Deactivate Account">Deactivate Account</button>
+			ng-click="dialogDeactivateAccount($event)" alt="Deactivate Account" title="Deactivate Account">Deactivate Account</button>
 		<button ng-disabled="signupForm.$invalid"
 			class="mdl-button mdl-js-button btn-primary btn-gap"
 			ng-click="updateDeactivate('update')" alt="Update Account" title="Update Account">Update Account</button>
@@ -409,7 +409,7 @@
 			<md-button ng-click="closePoup();"
 				class="mdl-button mdl-js-button btn-secondary" alt="Cancel" title="Cancel">
 			Cancel </md-button> <!--enableUploadBtn  -->
-			<md-button ng-click="uploadImg()" ng-disabled="uploadImage.fileNew.$invalid || uploadImage.fileNew.$untouched"
+			<md-button ng-click="uploadImg()" ng-disabled="userImage.name == '' || userImage.name == undefined || userImage.name == null"
 				class="mdl-button mdl-js-button btn-primary" alt="Upload" title="Upload">
 			Upload </md-button>
 		</div>
@@ -419,6 +419,47 @@
 	</md-dialog>
 </div>
 <!-- material popup  for change Photo end -->
+
+
+
+<!-- material popup  for deactication account confirmation ends -->
+<div class="md-dialog-container" id="dialogDeactivateAccount" style="height: 0;">
+	<md-dialog aria-label="Deactivate Account" class="ud-deactivate-account">
+	<md-toolbar>
+	<div class="md-toolbar-tools">
+		<h2>Deactivate Account</h2>
+		<span flex></span>
+		<md-button class="md-icon-button" ng-click="closePoup()">
+		<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+	</div>
+	</md-toolbar> <md-dialog-content>
+	<form>
+		<div class="md-dialog-content">
+			<div> 
+				<strong>Are you sure you want to deactivate your account?</strong> 
+			</div>
+			<br />
+			<div>
+				<small>* Only a user with Administrator rights will be able to activate your account.</small>
+			</div>
+		</div>
+	</md-dialog-content>
+	<md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<md-button ng-click="closePoup();"
+				class="mdl-button mdl-js-button btn-secondary" alt="Cancel" title="Cancel">
+			Cancel </md-button> 
+			<md-button ng-click="updateDeactivate('deactivate')"
+				class="mdl-button mdl-js-button btn-primary" alt="Upload" title="Upload">
+			OK </md-button>
+		</div>
+	</md-dialog-actions>
+	
+	</form>
+	</md-dialog>
+</div>
+<!-- material popup  for deactication account confirmation ends -->
+
 
 
 <!-- <!-- main nav end
