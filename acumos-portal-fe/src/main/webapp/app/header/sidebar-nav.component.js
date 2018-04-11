@@ -8,7 +8,10 @@ app.component('sidebarNav',{
 		     return (viewLocation === $location.path());
 		};
 		$scope.showQandAUrl = false;
+		$scope.qAndAUrl = '';
+		
 		apiService.getQandAUrl().then( function(response){
+			$scope.qAndAUrl = response.data.response_body;
 			if(localStorage.getItem("auth_token")!='')
 				$scope.showQandAUrl = true;
 		});
