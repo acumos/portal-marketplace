@@ -191,6 +191,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding if before readValue ---->>>");
 					Map<String, Object> resp = mapper.readValue(result, Map.class);
 					log.info("inside callOnboarding if after readValue ---->>>");
+					log.info("inside callOnboarding if after resp.toString() ---->>>"+resp.toString());
 					Map<String, Object> solutionStr = (Map<String, Object>) resp.get("result");
 					
 					 String newSolutionId = (String) solutionStr.get("solutionId");
@@ -226,6 +227,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding else before readValue ---->>>");
 					Map<String, Object> resp = mapper.readValue(result, Map.class);
 					log.info("inside callOnboarding else after readValue ---->>>");
+					log.info("inside callOnboarding else after resp.toString() ---->>>"+resp.toString());
 					log.info(resp.toString());
 					log.info((String) resp.get("errorMessage"));
 					// Temporary solution to notify user, as we dont have intermediate results from
