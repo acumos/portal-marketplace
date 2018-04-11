@@ -122,6 +122,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	public Future<HttpResponse> callOnboarding(String uuid, String userId, UploadSolution solution, String provider, String access_token)
 			throws InterruptedException, ClientProtocolException, IOException {
 
+			log.info("inside callOnboarding start ---->>>");
 		File directory = new File(env.getProperty("model.storage.folder.name") + File.separator + userId);
 		File modelFile = null;
 		File schemaFile = null;
@@ -180,7 +181,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				post.setEntity(entity);
 
 				response = httpclient.execute(post);
-				
+				log.info("inside callOnboarding response.getStatusLine().getStatusCode() ---->>>"+response.getStatusLine().getStatusCode());
 				//MLPNotification notification = new MLPNotification();
 				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
 				if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201) {
