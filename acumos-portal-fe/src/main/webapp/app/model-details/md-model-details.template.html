@@ -338,16 +338,24 @@
 							<tbody>
 								<!-- ng-repeat = "value in downloadData" -->
 								<tr ng-repeat="supportingDoc in supportingDocs">
-									<td><span class="file-type"><i
-											class="fa fa-file-word-o" aria-hidden="true"></i></span><a
-										class="link-blue">{{supportingDoc}}</a></td>
+									<td><span class="file-type">
+											<i class="fa fa-file-word-o" ng-if="supportingDoc.ext == 'docx'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'png'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'jpg'" aria-hidden="true"></i>
+											<i class="far fa-file-pdf" ng-if="supportingDoc.ext == 'pdf'" aria-hidden="true"></i>
+											<i class="far fa-file-powerpoint" ng-if="supportingDoc.ext == 'pptx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="supportingDoc.ext == 'xlsx'" aria-hidden="true"></i>
+											<i class="far fa-file-alt" ng-if="supportingDoc.ext == 'txt'" aria-hidden="true"></i>
+											<i class="far fa-file-archive" ng-if="supportingDoc.ext == 'zip'" aria-hidden="true"></i>										
+									</span><a
+										class="link-blue">{{supportingDoc.name}}</a></td>
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 									<td><a ng-if="solution.accessType ==='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}" alt="Download" title="Download">
+										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc.name}}" alt="Download" title="Download">
 										<i class="fa fa-download" aria-hidden="true"></i> </a>
 										<a ng-if="solution.accessType !=='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}" alt="Download" title="Download">
+										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc.name}}" alt="Download" title="Download">
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
