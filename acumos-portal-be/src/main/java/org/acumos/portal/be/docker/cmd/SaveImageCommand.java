@@ -26,15 +26,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.springframework.util.FileSystemUtils;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerException;
@@ -181,6 +187,7 @@ public class SaveImageCommand extends DockerCommand
 
 	public void getDockerImageStream(HttpServletResponse response, Integer bufferSize) throws DockerException {
 		InputStream inputStream = null;
+		UUID path = UUID.randomUUID();
 		if (imageName == null || imageName.isEmpty())
 		{
 			throw new IllegalArgumentException("Image Name is not configured");
@@ -188,9 +195,20 @@ public class SaveImageCommand extends DockerCommand
 		final DockerClient client = getClient();
 		try
 		{
+			logger.info(String.format("Pull Image Before It can be saved with name '%s' ... ", imageName));
+			client.pullImageCmd(imageName);
+			
+			String filename = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.length());
+			
+			Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/"));
+			
 			logger.info(String.format("Started save image '%s' ... ", imageName));
-			inputStream =  client.saveImageCmd(imageName).exec();
+			
+			final OutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" + path.toString() + "/" , filename));
+			
+			IOUtils.copy(client.saveImageCmd(imageName).exec(), output);
 
+			inputStream = new FileInputStream("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
 			int bytesRead;
 			int byteSize = bufferSize * 1024;
 			logger.info("Starting Download with Buffer size as : " + byteSize);
@@ -198,6 +216,7 @@ public class SaveImageCommand extends DockerCommand
 				response.getOutputStream().write(new byte[byteSize], 0, bytesRead);
 				response.flushBuffer();
 			}
+
 
 			logger.info("Finished save image " + imageName );
 		} catch (NotFoundException e)
@@ -211,12 +230,21 @@ public class SaveImageCommand extends DockerCommand
 				logger.info(String.format("image '%s' not found, but skipping this error is turned on, let's continue ... ", imageName + " " + imageTag));
 			}
 		} catch (IOException e) {
-			logger.error(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage());
+			logger.error(String.format("Error to save '%s' ", imageName) + " " + e.getMessage());
 			throw new DockerException(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage(),
 					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
 		} finally {  
 		     try {
-		    	inputStream.close();
+		    	 if (inputStream != null) {
+		    		 inputStream.close();
+		    	 }
+		    	 if(client != null  && !PortalUtils.isEmptyOrNullString(imageName)) {
+			    	 logger.info(String.format("Remove image after download complets '%s' ... ", imageName));
+			    	 FileSystemUtils.deleteRecursively(
+				 				Paths.get("/acumosWebOnboarding/" + path.toString() + "/")
+				 						.toFile());
+			    	 //client.removeImageCmd(imageName);
+		    	 }
 				response.getOutputStream().close();
 			} catch (IOException e) {
 				logger.error(EELFLoggerDelegate.errorLogger, "Error in Downloading image artifact", e);
