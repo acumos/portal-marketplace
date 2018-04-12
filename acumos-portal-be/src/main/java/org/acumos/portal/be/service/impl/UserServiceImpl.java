@@ -214,7 +214,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser login(String username, String password) {
-        log.debug(EELFLoggerDelegate.debugLogger, "findUserByUsername ={}", username);
+        log.debug(EELFLoggerDelegate.debugLogger, "login ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         return dataServiceRestClient.loginUser(username, password);
         //PortalRestClienttImpl portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.user.name"), env.getProperty("cdms.client.password"));;
