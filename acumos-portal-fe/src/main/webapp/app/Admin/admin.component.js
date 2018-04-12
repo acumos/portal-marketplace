@@ -258,7 +258,7 @@ angular.module('admin')
             	    apiService.addUser( obj/*, $scope.roleValue*/ )
             	    .then(function(response) {
             	    	if(response.data.error_code == 500){
-            	    		//alert("User already exist");
+            	    		$mdDialog.hide();
             	    		$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                             $anchorScroll(); 
                             $scope.msg = "User already exist."; 
