@@ -30,12 +30,12 @@
 									<!-- <label class="mdl-textfield__label" for="module-search"></label> -->
 								</div>
 							</div>
-							<div>
+<!-- 							<div>
 								<div class="select-control">
-									<md-select ng-model="action.name" placeholder="Sort By - All">  <!-- md-on-open="loadUsers()" -->
+									<md-select ng-model="action.name" placeholder="Sort By - All">  md-on-open="loadUsers()"
 										<md-option  ng-repeat="action in actions" ng-click="filterChange(action,'sortBy')">{{action.name}}</md-option>
 									</md-select>
-							</div>
+							</div> -->
 							</div>					
 						</div>
 						<div class="tbl-notification-container">
@@ -53,7 +53,7 @@
 								</tr>
 							  </thead>
 							  <tbody>
-								<tr ng-repeat="notification in ($parent.filtertedNotification = (notificationManageObj | filter:{message : search})) track by notification.notificationId">
+								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:{message : search})) ) | orderBy : 'start':true" ng-class="{'read-notification': notification.viewed}">
 								<td>
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" id="checkBox_{{$index}}">
 									  <input type="checkbox"  class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected" ng-click="removeSelectAll()">
