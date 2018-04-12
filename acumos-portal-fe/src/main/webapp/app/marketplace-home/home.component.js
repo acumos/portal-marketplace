@@ -6,7 +6,7 @@ angular
 				'marketHome',
 				{
 					templateUrl : './app/marketplace-home/home.template.html',
-					controller : function($scope, $rootScope, apiService, $window, $state, $http) {
+					controller : function($scope, $rootScope, apiService, $window, $state, $http, $mdDialog) {
 						console.log("market-home")
 							  /*if(localStorage.getItem("homeRefresh") == 'Yes'){
 								  localStorage.setItem("homeRefresh",'No');
@@ -330,6 +330,26 @@ angular
 		                        	 															return "No Contents Available"
 		                        	 														});
 		                        	 								}
+		                        	 		                         
+		                        	 		                         
+		                        	 		                         /*Check if LF id is disabld*/
+		                        	 		                        $rootScope.$on('isLFAccDisabledEvent', function (event, data) {
+		                        	 		                         if(data.active == "false"){
+		                        	 		                        	$mdDialog.show({
+		                        	 					                      contentElement: '#myLfDisabled',
+		                        	 					                      parent: angular.element(document.body),
+		                        	 					                      clickOutsideToClose: true
+		                        	 					                    });
+		                        	 		                         }
+		                        	 		                       });
+		                        	 		                        
+		                        	 		                       $scope.closePoup = function(){
+		                        	 			                	  $mdDialog.hide();
+		                        	 			                  }
+		                        	 		                         
+		                        	 		                         
+		                        	 		                         
+		                        	 		                         
 		 						
 								},
 								
