@@ -198,13 +198,14 @@ public class SaveImageCommand extends DockerCommand
 			logger.info(String.format("Pull Image Before It can be saved with name '%s' ... ", imageName));
 			client.pullImageCmd(imageName);
 			
-			String filename = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.length());
+			String filename = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.lastIndexOf(":"));
 			
 			Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/"));
 			
 			logger.info(String.format("Started save image '%s' ... ", imageName));
 			
-			final OutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" + path.toString() + "/" , filename));
+			File file = new File("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
+			final OutputStream output = new FileOutputStream(file);
 			
 			IOUtils.copy(client.saveImageCmd(imageName).exec(), output);
 
