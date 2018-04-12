@@ -22,7 +22,6 @@ p {font-size: 1em;}
 .page-wrapper {padding: 10px 20px 15px 20px;}
 .page-wrapper2 {padding: 0 15px; margin-bottom: 30px;}
 .page-wrapper-terms {padding: 12px 0 0 0; margin-bottom: 30px;}
-
 .bdr {border: 1px solid #b1b1b1;}
 .bdr-top {border-top: 1px solid #b1b1b1;}
 .bdr-right {border-right: 1px solid #b1b1b1;}
@@ -1772,6 +1771,7 @@ float: left; max-width: 65%;}
 .mp-grid-list-details-cell .md-icons .mdl-button {position:relative; top: -4px;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
 .scroll-table{height:250px; overflow-x:auto; display:block;}
+.tbl-notification-list tbody tr.read-notification td {background: #f5f5f5; font-weight: normal;}
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 360px) {

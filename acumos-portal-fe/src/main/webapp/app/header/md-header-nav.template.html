@@ -44,6 +44,7 @@
 					<input class="mdl-textfield__input header-search2" type="text"
 						name="search" ng-model="search" id="fixed-header-drawer-exp"
 						placeholder="Search for anything you need"
+						ng-enter="globalSearch(search)"
 						ng-blur="addSearchFocus($event,search)">
 				</div>
 			</div>
@@ -124,21 +125,20 @@
 									<input class="mdl-textfield__input header-search2"
 										type="search" id="fixed-header-drawer-exp1" name="search"
 										placeholder="Search for anything you need" ng-model="searchText"
+										ng-enter="globalSearch(searchText)"
 										ng-blur="addSearchFocus($event,searchText)">
 								</div>
 							</div>
 						</div>
 						<div>
-							<md-menu md-position-mode="target-right target"> <md-button
+							<md-menu md-position-mode="target-right target" ng-if="$root.notificationCount > 0"> <md-button
 								id="demo-menu-lower-right10"
 								class="mdl-button header-ddl mdl-js-button cg-acitve"
 								ng-click="openMenu($mdMenu, $event)" aria-label="Open Menu">
-							<!-- <md-icon md-menu-origin md-svg-icon="call:portable-wifi-off"></md-icon> -->
-							<span class="material-icons mdl-badge mdl-badge--overlap"
-								ng-if="$root.notificationCount < 1" ng-click="showNotification()" alt="Notifications" title="Notifications">notifications_none</span> <span
+							 <span
 								class="material-icons mdl-badge mdl-badge--overlap"
 								data-badge="{{$root.notificationCount}}"
-								ng-if="$root.notificationCount > 0">notifications_none</span> </md-button> <md-menu-content
+								>notifications_none</span> </md-button> <md-menu-content
 								width="4" ng-show="$root.notificationCount > 0"
 								class="notelist_1"> <md-menu-item
 								ng-repeat="notification in notificationManageObj | orderBy : 'start' : true | limitTo:5">
@@ -154,6 +154,12 @@
 								ng-click="showNotification()"
 								class="mdl-button mdl-js-button btn-secondary btn-readall-msg">Read
 							all Messages</md-button> </md-menu-item> </md-menu-content> </md-menu>
+							
+							<md-menu md-position-mode="target-right target" ng-if="$root.notificationCount < 1"> <md-button
+								id="demo-menu-lower-right10"
+								class="mdl-button header-ddl mdl-js-button cg-acitve"
+								ng-click="showNotification()" aria-label="Open Menu">
+							 <span class="material-icons mdl-badge mdl-badge--overlap">notifications_none</span> </md-button> <md-menu-content></md-menu-content></md-menu>
 						</div>
 						<!-- <button id="demo-menu-lower-right10"
 							class="mdl-button header-ddl mdl-js-button cg-acitve">

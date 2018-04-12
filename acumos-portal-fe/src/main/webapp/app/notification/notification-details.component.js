@@ -42,6 +42,7 @@ app.component('notificationModule',{
 						.push({
 							message : value.message,
 							start : value.start,
+							viewed : value.viewed,
 							notificationId : value.notificationId
 						});
 					});

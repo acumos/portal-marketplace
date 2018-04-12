@@ -1061,8 +1061,8 @@ angular.module('admin')
                                         		  $scope.confirmMsg = "Do you want to update user's Role ?";
                                         		  $scope.warningMsg = "Change Role";
                                         	  }else if($scope.functionCall == 'deleteValue'){
-                                        		  $scope.confirmMsg = "Do you want to Active/Inactive users ?";
-                                        		  $scope.warningMsg = "Active/Inactive Confirmation";
+                                        		  $scope.confirmMsg = "Do you want to " + $scope.activeYN + " users ?";
+                                        		  $scope.warningMsg =  $scope.activeYN[0].toUpperCase() + $scope.activeYN.slice(1) + " Confirmation";
                                         	  }
                                         	  $mdDialog.show({
                                           		  contentElement: '#confirmPopup',
