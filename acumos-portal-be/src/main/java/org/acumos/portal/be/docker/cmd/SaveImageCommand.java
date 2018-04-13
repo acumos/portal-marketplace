@@ -187,7 +187,6 @@ public class SaveImageCommand extends DockerCommand
 
 	public void getDockerImageStream(HttpServletResponse response, Integer bufferSize) throws DockerException {
 		InputStream inputStream = null;
-		OutputStream writeOutput = null;
 		UUID path = UUID.randomUUID();
 		if (imageName == null || imageName.isEmpty())
 		{
@@ -198,36 +197,19 @@ public class SaveImageCommand extends DockerCommand
 		{
 			logger.info(String.format("Pull Image Before It can be saved with name '%s' ... ", imageName));
 			client.pullImageCmd(imageName);
-			
+
 			String filename = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.lastIndexOf(":"));
-			
 			Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/"));
-			
 			logger.info(String.format("Started save image '%s' ... ", imageName));
-			
+
 			File file = new File("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
 			final OutputStream output = new FileOutputStream(file);
-			
-			IOUtils.copy(client.saveImageCmd(imageName).exec(), output);
+			IOUtils.copyLarge(client.saveImageCmd(imageName).exec(), output);
 
 			inputStream = new FileInputStream("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
-			
-			Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/write/"));
-			File writeFile = new File("/acumosWebOnboarding/" + path.toString() + "/write/" + filename + ".tar");
-			writeOutput = new FileOutputStream(writeFile);
-			
-			int bytesRead;
 			int byteSize = bufferSize * 1024;
 			logger.info("Starting Download with Buffer size as : " + byteSize);
-			logger.debug("For debug only write file at path : /acumosWebOnboarding/" + path.toString() + "/write/" + filename + ".tar");
-			 while ((bytesRead = (inputStream).read(new byte[byteSize])) != -1) {
-				response.getOutputStream().write(new byte[byteSize], 0, bytesRead);
-				//write to some other file to compare the saved and buffered file
-				writeOutput.write(new byte[byteSize], 0, bytesRead);
-				writeOutput.flush();
-				response.flushBuffer();
-			}
-
+			IOUtils.copyLarge(inputStream, response.getOutputStream(), new byte[byteSize]);
 
 			logger.info("Finished save image " + imageName );
 		} catch (NotFoundException e)
@@ -248,7 +230,6 @@ public class SaveImageCommand extends DockerCommand
 		     try {
 		    	 if (inputStream != null) {
 		    		 inputStream.close();
-		    		 writeOutput.close();
 		    	 }
 		    	 if(client != null  && !PortalUtils.isEmptyOrNullString(imageName)) {
 			    	 logger.info(String.format("Remove image after download complets '%s' ... ", imageName));
