@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f62aa40_df1987d7",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/docker/cmd/SaveImageCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-04-13T21:02:46Z",
+      "side": 1,
+      "message": "Do you want to store in /tmp as the output file. This operation will use /mount/docker/tmp folder which was getting filled up.May be we can have that as enhancement in future if it is working fine with multiple files.",
+      "range": {
+        "startLine": 212,
+        "startChar": 69,
+        "endLine": 212,
+        "endChar": 84
+      },
+      "revId": "7bc58a8cae717baa3093de3ef4337036146ad54a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
