@@ -45,6 +45,7 @@ import org.springframework.util.FileSystemUtils;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.exception.NotFoundException;
+import com.github.dockerjava.core.command.PullImageResultCallback;
 
 /**
  * This command removes specified Docker container(s).
@@ -196,17 +197,10 @@ public class SaveImageCommand extends DockerCommand
 		try
 		{
 			logger.info(String.format("Pull Image Before It can be saved with name '%s' ... ", imageName));
-			client.pullImageCmd(imageName);
+			client.pullImageCmd(imageName).exec(new PullImageResultCallback()).awaitSuccess();
 
-			//String filename = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.lastIndexOf(":"));
-			//Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/"));
 			logger.info(String.format("Started save image '%s' ... ", imageName));
 
-			//File file = new File("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
-			//final OutputStream output = new FileOutputStream(file);
-			//IOUtils.copyLarge(client.saveImageCmd(imageName).exec(), output);
-
-			//inputStream = new FileInputStream("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
 			int byteSize = bufferSize * 1024;
 			logger.info("Starting Download with Buffer size as : " + byteSize);
 			IOUtils.copyLarge(client.saveImageCmd(imageName).exec(), response.getOutputStream(), new byte[byteSize]);
