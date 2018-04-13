@@ -2094,3 +2094,8 @@ float: left; max-width: 65%;}
 
 .a-logo-container.logo-without-login.logo_white_bg {display:inline-flex;min-width: 250px;background: #fff url("../images/general-icons/header_cross_img.png") no-repeat -40px center;}
 .a-logo-container.logo_white_bg {display:inline-flex;min-width: 250px;background: #fff url("../images/general-icons/header_cross_img.png") no-repeat left center;}
+
+/***********Invalid Profile Image - User Profile*****************/
+.user-profile-image .md-input.ng-invalid.ng-dirty  {
+    border: 1px solid rgba(0,0,0,.12) !important;
+}

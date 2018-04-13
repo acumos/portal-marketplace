@@ -375,13 +375,13 @@ angular
                       scope.$apply(function() {
                     	console.log(scope.size);
                     	var size = scope.fileinput.size;
-	                	if(size >= scope.size){
-	    	            	scope.imageerror = true;
-	    	            	scope.imagetypeerror = false;
-	    	            	return true;
-	    	            }else if(scope.validFormats.indexOf(scope.fileType) == -1){
+	                	if(scope.validFormats.indexOf(scope.fileType) == -1){
 	    	            	scope.imagetypeerror = true;
 	    	            	scope.imageerror = false;
+	    	            	return true;
+	    	            }else if(size >= scope.size){
+	    	            	scope.imageerror = true;
+	    	            	scope.imagetypeerror = false;
 	    	            	return true;
 	    	            }else{
 	                    	scope.filepreview = loadEvent.target.result;
