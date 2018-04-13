@@ -187,6 +187,7 @@ public class SaveImageCommand extends DockerCommand
 
 	public void getDockerImageStream(HttpServletResponse response, Integer bufferSize) throws DockerException {
 		InputStream inputStream = null;
+		OutputStream writeOutput = null;
 		UUID path = UUID.randomUUID();
 		if (imageName == null || imageName.isEmpty())
 		{
@@ -210,11 +211,20 @@ public class SaveImageCommand extends DockerCommand
 			IOUtils.copy(client.saveImageCmd(imageName).exec(), output);
 
 			inputStream = new FileInputStream("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
+			
+			Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/write/"));
+			File writeFile = new File("/acumosWebOnboarding/" + path.toString() + "/write/" + filename + ".tar");
+			writeOutput = new FileOutputStream(writeFile);
+			
 			int bytesRead;
 			int byteSize = bufferSize * 1024;
 			logger.info("Starting Download with Buffer size as : " + byteSize);
+			logger.debug("For debug only write file at path : /acumosWebOnboarding/" + path.toString() + "/write/" + filename + ".tar");
 			 while ((bytesRead = (inputStream).read(new byte[byteSize])) != -1) {
 				response.getOutputStream().write(new byte[byteSize], 0, bytesRead);
+				//write to some other file to compare the saved and buffered file
+				writeOutput.write(new byte[byteSize], 0, bytesRead);
+				writeOutput.flush();
 				response.flushBuffer();
 			}
 
@@ -238,12 +248,14 @@ public class SaveImageCommand extends DockerCommand
 		     try {
 		    	 if (inputStream != null) {
 		    		 inputStream.close();
+		    		 writeOutput.close();
 		    	 }
 		    	 if(client != null  && !PortalUtils.isEmptyOrNullString(imageName)) {
 			    	 logger.info(String.format("Remove image after download complets '%s' ... ", imageName));
-			    	 FileSystemUtils.deleteRecursively(
+			    	 //Commenting temporarily to compare the file size
+			    	 /*FileSystemUtils.deleteRecursively(
 				 				Paths.get("/acumosWebOnboarding/" + path.toString() + "/")
-				 						.toFile());
+				 						.toFile());*/
 			    	 //client.removeImageCmd(imageName);
 		    	 }
 				response.getOutputStream().close();
