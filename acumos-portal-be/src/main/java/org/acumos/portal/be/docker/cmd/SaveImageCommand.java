@@ -187,7 +187,7 @@ public class SaveImageCommand extends DockerCommand
 
 	public void getDockerImageStream(HttpServletResponse response, Integer bufferSize) throws DockerException {
 		InputStream inputStream = null;
-		UUID path = UUID.randomUUID();
+		//UUID path = UUID.randomUUID();
 		if (imageName == null || imageName.isEmpty())
 		{
 			throw new IllegalArgumentException("Image Name is not configured");
@@ -198,18 +198,18 @@ public class SaveImageCommand extends DockerCommand
 			logger.info(String.format("Pull Image Before It can be saved with name '%s' ... ", imageName));
 			client.pullImageCmd(imageName);
 
-			String filename = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.lastIndexOf(":"));
-			Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/"));
+			//String filename = imageName.substring(imageName.lastIndexOf("/") + 1, imageName.lastIndexOf(":"));
+			//Files.createDirectories(Paths.get("/acumosWebOnboarding/" + path.toString() + "/"));
 			logger.info(String.format("Started save image '%s' ... ", imageName));
 
-			File file = new File("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
-			final OutputStream output = new FileOutputStream(file);
-			IOUtils.copyLarge(client.saveImageCmd(imageName).exec(), output);
+			//File file = new File("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
+			//final OutputStream output = new FileOutputStream(file);
+			//IOUtils.copyLarge(client.saveImageCmd(imageName).exec(), output);
 
-			inputStream = new FileInputStream("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
+			//inputStream = new FileInputStream("/acumosWebOnboarding/" + path.toString() + "/" + filename + ".tar");
 			int byteSize = bufferSize * 1024;
 			logger.info("Starting Download with Buffer size as : " + byteSize);
-			IOUtils.copyLarge(inputStream, response.getOutputStream(), new byte[byteSize]);
+			IOUtils.copyLarge(client.saveImageCmd(imageName).exec(), response.getOutputStream(), new byte[byteSize]);
 
 			logger.info("Finished save image " + imageName );
 		} catch (NotFoundException e)
@@ -232,7 +232,7 @@ public class SaveImageCommand extends DockerCommand
 		    		 inputStream.close();
 		    	 }
 		    	 if(client != null  && !PortalUtils.isEmptyOrNullString(imageName)) {
-			    	 logger.info(String.format("Remove image after download complets '%s' ... ", imageName));
+			    	 //logger.info(String.format("Remove image after download complets '%s' ... ", imageName));
 			    	 //Commenting temporarily to compare the file size
 			    	 /*FileSystemUtils.deleteRecursively(
 				 				Paths.get("/acumosWebOnboarding/" + path.toString() + "/")
