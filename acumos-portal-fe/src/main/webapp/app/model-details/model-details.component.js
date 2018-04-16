@@ -1564,7 +1564,13 @@ angular
 													 
 													$scope.supportingDocs = [];
 													console.log(" Get Asset File name : " + data.response_body);
-													$scope.supportingDocs = data.response_body;
+													var fileName="";var fileExtension = '';
+	                                                angular.forEach(data.response_body, function(value, key) {
+	                                                    fileName = value;
+	                                                    fileExtension = fileName.split('.').pop();
+	                                                    $scope.supportingDocs.push({"name":value,"ext":fileExtension});
+	                                                    });
+													//$scope.supportingDocs = data.response_body;
 												}).error(
 														function(data, status, headers,
 																config) {
