@@ -502,6 +502,36 @@ angular
 					}
 
 						// Upload Image
+					 	$scope.extensionError = false;
+					 	$scope.nullFileError = true;
+					 	$scope.sizeError = false;
+					 	$scope.disableUsrImgBtn = true;
+					 	$scope.checkValid = function(){
+					 		var file = $scope.userImage;
+							var fileFormData = new FormData();
+							var validFormats = ['jpg','jpeg','png','gif'];
+							var fileName = file.name;
+							var ext = fileName.split('.').pop(); 
+				            var size = file.size;
+				           
+				            if(validFormats.indexOf(ext) == -1){
+				            	$scope.extensionError = true;
+				            	$scope.disableUsrImgBtn = true;
+				            }else if(fileName == '' || fileName == undefined || fileName == null){
+				            	$scope.nullFileError = true;
+				            	$scope.disableUsrImgBtn = true;
+				            }else if (size >= 800000){
+				            	$scope.sizeError = true;
+				            	$scope.disableUsrImgBtn = true;
+				            }
+			            	else{
+				            	$scope.extensionError = false;
+							 	$scope.nullFileError = false;
+							 	$scope.sizeError = false;
+							 	$scope.disableUsrImgBtn = false;
+				            }
+					 	}
+					 
 						$scope.uploadImg = function(){
 							var file = $scope.userImage;
 							var fileFormData = new FormData();
