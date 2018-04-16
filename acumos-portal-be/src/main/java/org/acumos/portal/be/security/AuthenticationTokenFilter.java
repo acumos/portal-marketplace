@@ -20,10 +20,7 @@
 
 package org.acumos.portal.be.security;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +29,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.acumos.portal.be.common.exception.MalformedException;
@@ -46,7 +42,6 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +57,7 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
 
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
@@ -129,7 +125,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 				String email = (String) profile.get("email");
 				MLPUser mlpUser = userService.findUserByEmail(email);
 				if(mlpUser != null) {
-					List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList("Admin");
+					List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(getRoleAuthority(mlpUser));
     			    UsernamePasswordAuthenticationToken authentication =  new UsernamePasswordAuthenticationToken(new AuthenticatedUserDetails(mlpUser), authToken, authorityList);
     			    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
     			    SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -143,14 +139,11 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 
 	    	    if (username != null && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
 	    	      MLPUser userDetails = this.userService.findUserByUsername(username);
-	    	     // if (this.tokenUtils.validateToken(authToken, userDetails)) {    tokenValidation
-	    	     
 	    			if (this.tokenValidation.tokenRegnerationAndValidation(authToken)) {
-	    				  List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList("Admin");
+	    				List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(getRoleAuthority(userDetails));
 	    			    UsernamePasswordAuthenticationToken authentication =  new UsernamePasswordAuthenticationToken(new AuthenticatedUserDetails(userDetails), authToken, authorityList);
 	    			    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
 	    			    SecurityContextHolder.getContext().setAuthentication(authentication);
-	    			    
 	    			} 
 	    	
 				  } else {
@@ -165,10 +158,19 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 	    	  //response.setHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer");
 	      }
 	    } catch (MalformedException e) {
-			// TODO Auto-generated catch block
 	    	 log.debug("Exception occured while token validation : Token Validation Failed");
 		}
 
 	    chain.doFilter(request, response);
+	  }
+	  
+	  private String getRoleAuthority(MLPUser user) {
+		  String authority = "MLP System User";
+		  List<MLPRole> roles = userService.getUserRole(user.getUserId());
+			if(roles != null) {
+				MLPRole role = roles.get(0);
+				authority = role.getName();
+			}
+		  return authority;
 	  }
 }

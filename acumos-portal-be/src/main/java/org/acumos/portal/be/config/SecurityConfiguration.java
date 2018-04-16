@@ -20,24 +20,21 @@
 
 package org.acumos.portal.be.config;
 
-import org.acumos.portal.be.common.ServiceResponse;
 import org.acumos.portal.be.security.AuthenticationTokenFilter;
 import org.acumos.portal.be.security.HttpUnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -75,16 +72,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/oauth/login").permitAll()
         .antMatchers("/auth/validateToken").permitAll()
         .antMatchers("/users/register").permitAll()
-        .antMatchers("/users/delete").permitAll()
         .antMatchers("/solutions").permitAll()
         .antMatchers("/portal/solutions").permitAll()
         .antMatchers("/solutions/{solutionId}").permitAll()
-        //.antMatchers("/artifacts").permitAll()
-        //.antMatchers("/artifacts/{artifactId}").permitAll()
-        //.antMatchers("/publish/{visibility}").permitAll()
-        //.antMatchers("/models/{userId}").permitAll()
-        //.antMatchers("/unpublish/{visibility}").permitAll()
-        //.antMatchers("/webBasedOnBoarding/addToCatalog/{userId}").permitAll()
         .antMatchers("/webBasedOnBoarding/messagingStatus/{userId}/{trackingId}").permitAll()
         .antMatchers("/webBasedOnBoarding/stepResult/create").permitAll()
         .antMatchers("/auth/jwtToken").permitAll()
@@ -93,30 +83,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/solution/updateViewCount/{solutionId}").permitAll()
         .antMatchers("/filter/accesstype").permitAll()
         .antMatchers("/swagger-ui.html").permitAll()
-        .antMatchers("/model/upload/{userId}").permitAll()
         .antMatchers("/readArtifactSolutions/{artifactId}").permitAll()
         .antMatchers("/getRelatedMySolutions").permitAll()
-        .antMatchers("/users/userAccountDetails").permitAll()
         .antMatchers("/validation/{taskId}").permitAll()
         .antMatchers("/solution/getRating/{solutionId}").permitAll()
         .antMatchers("/thread/{solutionId}/{revisionId}/comments").permitAll()
         .antMatchers("/solutions/{solutionId}/revisions").permitAll()
         .antMatchers("/solutions/{solutionId}/revisions/{revisionId}").permitAll()
         .antMatchers("/validation/{solutionId}/{revisionId}").permitAll()
+        .antMatchers("/solution/avgRating/{solutionId}").permitAll()
+        .antMatchers(HttpMethod.POST, "/users/userAccountDetails").permitAll()
         .antMatchers("/roleCounts").permitAll()
-        .antMatchers("/oauth/login/register").permitAll()
-        .antMatchers("/oauth/login").permitAll()
-        .antMatchers("/admin/config/{configKey}").permitAll()
-        .antMatchers("/user/deleteUser").permitAll()
-        .antMatchers("/users/qAUrl").permitAll()
-        .antMatchers("/users/docs").permitAll()
+        .antMatchers(HttpMethod.GET, "/admin/config/{configKey}").permitAll()
+        .antMatchers(HttpMethod.GET, "/users/qAUrl").permitAll()
+        .antMatchers(HttpMethod.GET, "/users/docs").permitAll()
         .antMatchers("/users/userProfileImage/{userId}").permitAll()  
-        .antMatchers("/admin/version").permitAll()
+        .antMatchers(HttpMethod.GET, "/admin/version").permitAll()
         .antMatchers("/users/forgetPassword").permitAll()
-        .antMatchers("/webBasedOnBoarding/broker").permitAll()
-        .antMatchers("/downloads/{solutionId}").permitAll()
-        .antMatchers("/webBasedOnBoarding/convertToOnap/{solutionId}/{revisionId}/{userId}").permitAll()
-        .antMatchers("/cas/enabled").permitAll()
+        .antMatchers(HttpMethod.GET, "/downloads/{solutionId}").permitAll()
+        .antMatchers(HttpMethod.GET, "/cas/enabled").permitAll()
         .anyRequest().authenticated();
     	
     	// Custom JWT based authentication

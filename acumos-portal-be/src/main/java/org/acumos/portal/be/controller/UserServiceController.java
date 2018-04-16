@@ -52,6 +52,7 @@ import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,9 +74,6 @@ public class UserServiceController extends AbstractController {
 	
 	@Autowired
 	private UserRoleService userRoleService;
-	
-	@Autowired
-	private TokenValidation tokenValidation;
 	
 	@Autowired
 	JwtTokenUtil jwtTokenUtil;
@@ -597,6 +595,7 @@ public class UserServiceController extends AbstractController {
 
 	@ApiOperation(value = "Deacivate multiple users", response = JsonResponse.class)
 	@RequestMapping(value = {APINames.UPADATE_BULK_USER}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@PreAuthorize("hasAuthority('Admin')")
 	@ResponseBody
 	public JsonResponse<Object> updateBulkUsers(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "updateUser={}");
@@ -632,6 +631,7 @@ public class UserServiceController extends AbstractController {
 	
 	@ApiOperation(value = "Delete multiple users", response = JsonResponse.class)
 	@RequestMapping(value = {APINames.DELETE_BULK_USER}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@PreAuthorize("hasAuthority('Admin')")
 	@ResponseBody
 	public JsonResponse<Object> deleteBulkUsers(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "deleteUser={}");
