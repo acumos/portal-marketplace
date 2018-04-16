@@ -333,6 +333,7 @@ angular.module('modelResource')
 										switch(stepName){
 											case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
 											case 'CreateMicroservice': var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+											case 'Dockerize': var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
 											case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
 											case 'AddToRepository' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
 											default : var counter = -1;

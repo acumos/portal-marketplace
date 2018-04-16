@@ -1,4 +1,5 @@
 <span class="header-title"><a ui-sref="home" ng-click="$root.parentActive = ''"><span class="acumos-logo-inner"  style = 'background: url(../images/{{$root.headerImage.name}}) no-repeat 0px 10px'></span></a></span>
+	<!-- Sidebar Desktop View -->
 	<nav class="mdl-navigation cg-sidebar">
 		   <a class="mdl-navigation__link" ng-class="{ active: isActive('/home') }" ui-sref="home" title="Home" ng-click="$root.parentActive = ''">
 		   		<span class="icon-header icon-home"></span>
@@ -36,4 +37,42 @@
 				<span class="headertxtspan">Q And A</span>
 		   </a>
 	</nav>
-
+	
+	<!-- Sidebar Mobile View -->	
+	<nav class="mdl-navigation cg-sidebar Acu-mobile-sidebar">
+		   <a class="mdl-navigation__link" ng-class="{ active: isActive('/home') }" ui-sref="home" title="Home" ng-click="$root.parentActive = '';hamberClick()">
+		   		<span class="icon-header icon-home"></span>
+		   		<span class="headertxtspan">Home</span>
+		   </a>
+			 <!-- || $root.urlPath == 'marketPlace' -->
+			<a class="mdl-navigation__link" ng-class="{ active: (isActive('/marketPlace') ) || $root.parentActive == 'marketplace' }" ng-click="$root.parentActive = 'marketplace';hamberClick()" ui-sref="marketPlace" title="Marketplace">
+				<span class="icon-header icon-marketplace"></span>
+				<span class="headertxtspan" >Marketplace</span>
+			</a>
+			
+			<!-- || $root.urlPath == 'manageModule' -->
+			<a class="mdl-navigation__link" ng-class="{ active: isActive('/manageModule') || $root.parentActive == 'mymodel' }" ng-click="$root.parentActive = 'mymodel';hamberClick()" ui-sref="manageModule" title="My Models">
+				<span class="icon-header icon-manage_model"></span>
+				<span class="headertxtspan">My Models</span>
+			</a>
+				
+				
+		    <a ng-if="$root.enableOnBoarding" class="mdl-navigation__link" ng-class="{ active: isActive('/modelerResource') }" ui-sref="modularResource" title="Modeler Resources"  ng-click="$root.parentActive = '';hamberClick()">
+		    	<span class="icon-header icon-onboarding-model"></span>
+		    	<span class="headertxtspan">ON-BOARDING MODEL</span>
+		    </a> 
+		   <a class="mdl-navigation__link" ng-class="{ active: isActive('/designStudio') }" ui-sref="designStudio" title="Design Studio"  ng-click="$root.parentActive = '';hamberClick()">
+		   		<span class="icon-header icon-design_studio"></span>
+				<span class="headertxtspan">Design Studio</span>
+		   </a>
+		   
+		   <a ng-if='userRoleAdmin' class="mdl-navigation__link" ng-class="{ active: isActive('/admin') }" ui-sref="admin" title="Site Admin" ng-click="$root.parentActive = '';hamberClick()">
+		   		<span class="icon-header icon-site-admin"></span>
+				<span class="headertxtspan">Site Admin</span>
+		   </a>
+		   
+		   <a ng-show="showQandAUrl" class="mdl-navigation__link" ng-class="{ active: isActive('/qanda') }" href='{{qAndAUrl}}' title="Q And A"  ng-click="$root.parentActive = '';hamberClick()" target="_blank">
+		   		<span class="icon-header icon-qa"></span>
+				<span class="headertxtspan">Q And A</span>
+		   </a>
+	</nav>

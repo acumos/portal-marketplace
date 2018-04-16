@@ -33,16 +33,19 @@
 			</div>
 			
 			<div class="md-head-container2">	
-				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active == true "
+				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active && solution.active == true"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ui-sref="modularResource({ONAP: 'true', solutionId: solutionId, revisionId: revisionId})" ng-click="$root.parentActive = ''"
 						>Build for ONAP</button>
+	
 				<button type="button"
+						ng-cloak
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
-						ng-if="!(solution.accessType =='PR' || userDetailsLogged == '' || userDetailsLogged == null) && loginUserID"
-						 alt="Download" title="Download">Download</button>
-				<button type="button"
+						ng-if="(solution.accessType && !(solution.accessType =='PR' )) && loginUserID"
+						alt="Download" title="Download">Download</button>
+						 
+				<button type="button" ng-cloak
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
 						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
@@ -62,7 +65,7 @@
 					<li class="mdl-menu__item dc-amazon-cloud" disabled
 								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
 				</ul> -->
-				<div  class="select-control dcl-list" class=".." ng-show="solution.active == true">
+				<div  class="select-control dcl-list" class=".." ng-show="solution.active == true" ng-cloak>
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
                         <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()" class="dc-microsoft-azure opacityZero" value="microsoft" alt="" title="Microsoft Azure">Microsoft</md-option>
                         <md-option class="dc-google-cloud opacityZero" value="rackspace" disabled alt="Google Cloud Platform" title="Google Cloud Platform" >Deploy To Cloud</md-option>

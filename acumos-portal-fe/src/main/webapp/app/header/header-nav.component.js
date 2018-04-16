@@ -5,7 +5,7 @@ app.component('headerNav',{
 	//template : '<div ng-include="getTemplateUrl()"></div>',
 	
 	//templateUrl : '/app/header/header-nav.template.html',
-	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, productService, jwtHelper) {
+	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, productService, jwtHelper, $anchorScroll) {
 		componentHandler.upgradeAllRegistered();
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
@@ -543,14 +543,27 @@ app.component('headerNav',{
                      }).success(function(data, status, headers,config) {
                          $mdDialog.hide();
                          if(data.error_code === "100"){
-                             alert("Temporary Passpword is send on your email id");
-                                window.location = 'index.html#/home'; 
+                        	 $scope.styleclass = 'c-success';
+                        	 $scope.icon= '';
+                             $scope.msg = "Temporary Password has been sent to your email id.";
                          }
                          else if(data.error_code === "500"){
-                             alert("Email id not exist");
-                                //window.location = 'index.html#/home'; 
+                             $scope.msg = "Email id not exist.";
+                             $scope.styleclass = 'c-warning';
+                             $scope.icon = 'report_problem';
+                         } else { 
+                        	 $scope.msg = "Email id not registered.";
+                        	 $scope.styleclass = 'c-warning';
+                        	 $scope.icon = 'report_problem';
                          }
-                         else alert("Email id not registered");
+                         
+                         $location.hash('mdl-layout__header-row');
+                         $anchorScroll();
+                         $scope.showAlertMessage = true;
+                         $timeout(function() {
+                         	$scope.showAlertMessage = false;
+                         }, 5000);
+                         
                      }).error(function(data, status, headers, config) {
                          
                      });

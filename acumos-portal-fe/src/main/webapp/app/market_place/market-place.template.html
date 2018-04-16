@@ -1,25 +1,28 @@
 <!-- only for demo remove afterwards -->
 <div class="page-content">
-					<section class="pageheadsection">						
+					<section class="pageheadsection mob-pageheadsection1">						
 						<div class="mdl-grid mdl-grid--no-spacing">
-							<div class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-								<span class="headline mob-disblock">Marketplace</span>
+							<div class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+								<div class="mp-header-btn-container">
+									<span class="headline mob-disblock">Marketplace</span>
+									<span class="mpheader-btn-container" ng-if="userLoggedIn==true">
+										<button class="btn-company " ng-click="accessFilter('PB');public=true;company=false;all=false" ng-class="public?'btn-primary':'btn-secondary'">Public</button>
+										<button class="btn-company" ng-click="accessFilter('OR');public=false;company=true;all=false"  ng-class="company?'btn-primary':'btn-secondary'">Company</button>
+										<button class="btn-company" ng-click="accessFilter('all');public=false;company=false;all=true" ng-class="all?'btn-primary':'btn-secondary'">ALL</button>
+									</span>
+								</div>
 								<ul class="c-breadcrumb">
 									<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
 									<li>Marketplace</li>
 								</ul>
-								<ul class="c-breadcrumb" ng-if="userLoggedIn==true">
-									<button class="btn-company " ng-click="accessFilter('PB');public=true;company=false;all=false" ng-class="public?'btn-primary':'btn-secondary'">Public</button>
-									<button class="btn-company" ng-click="accessFilter('OR');public=false;company=true;all=false"  ng-class="company?'btn-primary':'btn-secondary'">Company</button>
-									<button class="btn-company" ng-click="accessFilter('all');public=false;company=false;all=true" ng-class="all?'btn-primary':'btn-secondary'">ALL</button>
-								</ul>
+								<a ng-show="$root.enableOnboarding" class="mdl-button mdl-js-button btn-primary hide-xs" ui-sref="modularResource" ng-click="$root.parentActive = ''" alt="Add New Model" title="Add New Model">add new model</a>
+								<button class="mdl-button mdl-button--fab btn-primary mob-add-button hide-sm hide-md hide-lg hide-xl"><i class="material-icons">add</i></button>
 							</div>
-							<div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--1-col-phone text-right lg-v-self-center">
-								<a ng-show="$root.enableOnboarding" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary hide-xs" ui-sref="modularResource" ng-click="$root.parentActive = ''" alt="Add New Model" title="Add New Model">add new model</a>
-								<button class="mdl-button mdl-button--fab btn-primary mdl-js-ripple-effect mob-add-button hide-sm hide-md hide-lg hide-xl"><i class="material-icons">add</i></button>
-							</div>
+							<!-- <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--1-col-phone text-right lg-v-self-center">
+								
+							</div> -->
 						</div>						
-					</section>
+					</section>					
 					<div class="mdl-grid mdl-grid--no-spacing cg-grid-layout">
 						<div class="mdl-cell mdl-cell--2-col mdl-cell--3-col-tablet mdl-cell--4-col-phone cg-grid-left-container" ng-class=" 'showfilter' ? 'leftbrowse-section' : '' " ng-show="showfilter">
 							<div class="mdl-grid browse-section-container" layout="row">
@@ -104,7 +107,7 @@
 									</div> -->
 									
 									
-							          <md-select ng-model="selectedSolutionId" placeholder="Sort By Id - All" class="btn-sort bdr mdl-button md-no-underline">
+							          <md-select ng-model="selectedSolutionId" placeholder="Sort By - Id" class="btn-sort bdr mdl-button md-no-underline">
 							             <md-select-header class="demo-select-header">
 								            <input ng-model="searchTerm" type="search" >
 								        </md-select-header> 
@@ -145,14 +148,14 @@
 								  </div>							  
 								</div>
 								<div class="mob-actions-container1 hide-sm hide-md hide-lg hide-xl">
-									<button class="mdl-button mdl-js-button mdl-button--primary btn-browse1" ng-click="showfilter = !showfilter"><i class="material-icons">open_in_browser</i></button>
+									<button class="mdl-button mdl-js-button mdl-button--primary btn-browse1" ng-click="showfilter = !showfilter">Browse By</button>
 									<div class="select-control ">
-									    <md-select ng-model="action" placeholder="" class="mdl-button md-no-underline mob-btn-sort">
+									    <md-select ng-model="action" placeholder="Sort By - All" class="mdl-button md-no-underline mob-btn-sort">
 									        <md-option ng-value="action" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
 									    </md-select>
 									</div>
 									<div class="select-control">
-											<md-select ng-model="selectedSolutionId" placeholder="" class="mdl-button md-no-underline mob-btn-sort">
+											<md-select ng-model="selectedSolutionId" placeholder="Sort By - Id" class="mdl-button md-no-underline mob-btn-sort">
 								             <md-select-header class="demo-select-header">
 									            <input ng-model="searchTerm" type="search" >
 									        </md-select-header> 

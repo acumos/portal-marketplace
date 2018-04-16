@@ -1284,13 +1284,15 @@
                                                                                           <md-chip>{{ctrl.chipText}}</md-chip> </md-chips>
                                                                                           </md-content> -->
 														<tags-input ng-model="tags1"
-															max-length=32
 															replace-spaces-with-dashes="false"
 															on-tag-added="tagAdded($tag)"
 															on-tag-removed="tagRemoved($tag)"> <auto-complete
 															source="loadAllTags($query)" min-length="0"
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
+															<div class="help-inline validation-msgs">
+																<span>Tags can have 32 characters only.</span>
+															</div>
 														</p>
 														<!-- <div class="checkbox" ng-if="tags.length<1">
                                                                                           <label> <input type="checkbox"
@@ -3044,12 +3046,13 @@
 														<tags-input ng-model="tags1"
 															replace-spaces-with-dashes="false"
 															on-tag-added="tagAdded($tag)"
-															max-length=32
 															on-tag-removed="tagRemoved($tag)"> <auto-complete
 															source="loadAllTags($query)" min-length="0" 
-
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
+															<div class="help-inline validation-msgs">
+																<span>Tags can have 32 characters only.</span>
+															</div>
 													</div>
 
 													<p>

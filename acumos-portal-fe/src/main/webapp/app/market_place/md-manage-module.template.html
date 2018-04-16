@@ -3,7 +3,7 @@
 </div> -->
 
 <div class="page-content">
-	<section class="pageheadsection">
+	<section class="pageheadsection mob-pageheadsection1">
 		<div class="mdl-grid mdl-grid--no-spacing">
 			<div
 				class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--3-col-phone">
@@ -20,11 +20,11 @@
 			<div
 				class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--1-col-phone text-right lg-v-self-center">
 				<a ng-show="$root.enableOnboarding"
-					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary hide-xs"
+					class="mdl-button mdl-js-button btn-primary hide-xs"
 					ui-sref="modularResource" ng-click="$root.parentActive = ''" alt="Add New Model" title="Add New Model">add
 					new model</a>
 				<button
-					class="mdl-button mdl-button--fab btn-primary mdl-js-ripple-effect mob-add-button hide-sm hide-md hide-lg hide-xl">
+					class="mdl-button mdl-button--fab btn-primary mob-add-button hide-sm hide-md hide-lg hide-xl">
 					<i class="material-icons">add</i>
 				</button>
 			</div>
@@ -87,7 +87,7 @@
 						</div>
 					</div>
 					<!-- <div class="rowcontainer text-right">
-									<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="showfilter = !showfilter"	>Apply</button>
+									<button class="mdl-button mdl-js-button mdl-button--colored" ng-click="showfilter = !showfilter"	>Apply</button>
 									<hr class="hide-lg hide-xl" />
 								</div> -->
 				</div>
@@ -131,7 +131,7 @@
 										class="material-icons">keyboard_arrow_down</i>
 								</button>
 								<ul
-									class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist1"
+									class="mdl-menu mdl-menu--bottom-left mdl-js-menu btn-sorlist1"
 									for="demo-menu-lower-right2">
 									<li class="mdl-menu__item" ng-repeat="action in actions"
 										ng-click="filterChange(action,'sortBy')">{{action.name}}</li>
@@ -193,14 +193,14 @@
 					</div>
 				</div>
 								<div class="mob-actions-container1 hide-sm hide-md hide-lg hide-xl">
-									<button class="mdl-button mdl-js-button mdl-button--primary btn-browse1" ng-click="showfilter = !showfilter"><i class="material-icons">open_in_browser</i></button>
+									<button class="mdl-button mdl-js-button mdl-button--primary btn-browse1" ng-click="showfilter = !showfilter">Browse By</button>
 									<div class="select-control ">
-									    <md-select ng-model="action" placeholder="" class="mdl-button md-no-underline mob-btn-sort">
+									    <md-select ng-model="action" placeholder="Sort By - All" class="mdl-button md-no-underline mob-btn-sort">
 									        <md-option ng-value="action" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
 									    </md-select>
 									</div>
 									<div class="select-control">
-											<md-select ng-model="selectedSolutionId" placeholder="" class="mdl-button md-no-underline mob-btn-sort">
+											<md-select ng-model="selectedSolutionId" placeholder="Sort By - ID" class="mdl-button md-no-underline mob-btn-sort">
 								             <md-select-header class="demo-select-header">
 									            <input ng-model="searchTerm" type="search" >
 									        </md-select-header> 
@@ -362,7 +362,7 @@
 						</div>
 						<div class="text-center" ng-if="seeAllSelected">
 							<button
-								class="mdl-button mdl-js-button mdl-button--raised btn-primary"
+								class="mdl-button mdl-js-button btn-primary"
 								ng-click="privateNav('SeeAll',true)"
 								ng-hide="(mlSolutionPrivate.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionPrivateCount == solutionsCount.privateModelCount">
 								{{viewNoMLsolution}}</button>
@@ -545,7 +545,7 @@
 						</div>
 						<div class="text-center" ng-if="seeAllSelected">
 							<button
-								class="mdl-button mdl-js-button mdl-button--raised btn-primary"
+								class="mdl-button mdl-js-button btn-primary"
 								ng-click="CompanyNav('SeeAll', true)"
 								ng-hide="(mlSolutionCompany.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionCompanyCount == solutionsCount.companyModelCount">
 								{{viewNoMLsolution}}</button>
@@ -748,7 +748,7 @@
 					</div>
 					<div class="text-center" ng-if="seeAllSelected">
 						<button
-							class="mdl-button mdl-js-button mdl-button--raised btn-primary"
+							class="mdl-button mdl-js-button btn-primary"
 							ng-click="publicNav('SeeAll', true)"
 							ng-hide="(mlSolutionPublic.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionPublicCount == solutionsCount.publicModelCount">
 							{{viewNoMLsolution}}</button>
@@ -925,7 +925,7 @@
 							</div>
 							<div class="text-center" ng-if="seeAllSelected">
 								<button
-									class="mdl-button mdl-js-button mdl-button--raised btn-primary"
+									class="mdl-button mdl-js-button btn-primary"
 									ng-click="deleteNav('SeeAll', true)"
 									ng-hide="(mlSolutionDelete.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionDeletedCount == solutionsCount.deletedModelCount">
 									{{viewNoMLsolution}}</button>

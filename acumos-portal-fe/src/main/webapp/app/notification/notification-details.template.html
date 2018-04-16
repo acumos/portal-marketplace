@@ -53,16 +53,16 @@
 								</tr>
 							  </thead>
 							  <tbody>
-								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:{message : search})) ) | orderBy : 'start':true" ng-class="{'read-notification': notification.viewed}">
-								<td>
+								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:{message : search})) ) | orderBy : 'start':true">
+								<td  ng-class="{'read-notification': notification.viewed}">
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" id="checkBox_{{$index}}">
 									  <input type="checkbox"  class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected" ng-click="removeSelectAll()">
 									  <span class="mdl-checkbox__label"></span>
 									</label>
 								</td>
-								  <td class="mdl-data-table__cell--non-numeric">Administrator<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
-								  <td>{{notification.message}}</td>
-								  <td>{{notification.start | date:"MM/dd/yyyy"}}</td>
+								  <td class="mdl-data-table__cell--non-numeric"  ng-class="{'read-notification': notification.viewed}">Administrator<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
+								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.message}}</td>
+								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start | date:"MM/dd/yyyy"}}</td>
 								</tr>
 							  </tbody>
 							</table>
