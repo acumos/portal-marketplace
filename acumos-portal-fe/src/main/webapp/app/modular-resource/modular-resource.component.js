@@ -466,7 +466,7 @@ angular.module('modelResource')
 			 
 			$scope.$watch('toolkitNameValue', function() {$scope.file=null; chkCount();});
 			$scope.$watch('install', function() {chkCount();});
-			$scope.$watch('file', function() {chkCount();});
+			$scope.$watch('file', function() {chkCount(); $scope.filename = $scope.file.name;});
 			$scope.$watch('user', function() {chkCount();});
 			$scope.$watch('popupAddSubmit', function() {chkCount();});
 			

@@ -2345,6 +2345,10 @@ angular
 					$scope.$watch('file', function() {chkCount();});
 					$scope.$watch('user', function() {chkCount();});
 					$scope.$watch('popupAddSubmit', function() {chkCount();});
+					$scope.$watch('solutionFile', function() {
+						$scope.publicfilename = $scope.solutionFile.name;
+						$scope.privatefilename = $scope.solutionFile.name;
+					});
 					
 					$scope.skipStep = function(){
 						if($scope.company){
