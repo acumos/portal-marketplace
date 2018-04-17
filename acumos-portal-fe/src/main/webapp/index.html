@@ -124,7 +124,7 @@
 	</div>
 	
 	<!-- If user logged in - full width container and only top nav -->
-	<div ng-if="$root.sidebarHeader == true" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+	<div ng-show="$root.sidebarHeader == true" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 		 <header-nav class="mdl-layout__header " ng-class="{'initialVal' : toggleHeader}"></header-nav> 
 		<sidebar-nav class="mdl-layout__drawer" ng-class="{'initialVal' : toggleHeader}"></sidebar-nav>
 		<main class="mdl-layout__content hasClass" ng-class="{'initialVal' : toggleHeader}">
