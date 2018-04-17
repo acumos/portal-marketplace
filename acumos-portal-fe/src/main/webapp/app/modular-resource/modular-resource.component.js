@@ -48,6 +48,14 @@ angular.module('modelResource')
 			//alert(localStorage.getItem("userDetail"));
 			$rootScope.progressBar = 0;
 			
+			//for displaying filename
+			$scope.uploadText = "Upload File";
+			//whenever file changes, updates the upload text to whatever the name is
+			//by default it'll display "Upload File"
+			$scope.$watch('file', function() {
+				$scope.uploadText = $scope.file.name;
+			});
+			
 			$scope.activeViewModel = false;
 			if(localStorage.getItem("userDetail")){
 				$scope.userLoggedIn = true;

@@ -68,6 +68,14 @@ angular
 						$scope.imageerror = false;
 						$scope.imagetypeerror = false;
 						
+						//for displaying filename
+						$scope.uploadText = "Upload File";
+						//whenever file changes, updates the upload text to whatever the name is
+						//by default it'll display "Upload File"
+						$scope.$watch('solutionFile', function() {
+							$scope.uploadText = $scope.solutionFile.name;
+						});
+						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
 							localStorage.setItem('solutionId',

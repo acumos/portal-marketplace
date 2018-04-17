@@ -1133,7 +1133,7 @@
 																						upload-image-model="solutionFile" readonly alt="Browse" title="Browse"></div>
 																						<div class="upload-image-input files-uploaded">
 																		    			<input class="mdl-textfield__input"
-																						placeholder="Upload File" type="text"
+																						placeholder='{{uploadText || "Upload File"}}' type="text"
 																						ng-model="privatefilename" readonly />
 																						</div>
 																			<div  > <!-- ng-show="progressVisible" -->
@@ -2901,7 +2901,7 @@
 																						upload-image-model="solutionFile" readonly alt="Browse" title="Browse"></div>
 																						<div class="upload-image-input files-uploaded">
 																		    			<input class="mdl-textfield__input"
-																						placeholder="Upload File" type="text"
+																						placeholder='{{uploadText || "Upload File"}}' type="text"
 																						ng-model="publicfilename"  readonly />
 																						</div>
 																		 <!-- <input class="mdl-textfield__input"

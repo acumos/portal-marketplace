@@ -696,7 +696,7 @@
 																						upload-image-model="file" alt="Browse" title="Browse" readonly></div>
 																						<div class="upload-image-input files-uploaded" >
 																		    				<input class="mdl-textfield__input"
-																							placeholder="Upload File" type="text"
+																							placeholder='{{uploadText || "Upload File"}}' type="text"
 																							ng-model="filename" readonly />
 																						</div>
 																						<div ng-show = "$root.progressBar > 0" > <!-- ng-show="progressVisible" -->
