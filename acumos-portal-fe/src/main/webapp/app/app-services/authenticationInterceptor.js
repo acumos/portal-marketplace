@@ -1,4 +1,4 @@
-app.factory('authenticationInterceptor', function ($q, $state, $rootScope) {
+app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $injector ) {
 	var accessError = false;
   return {
     request: function (config) {
@@ -21,9 +21,19 @@ app.factory('authenticationInterceptor', function ($q, $state, $rootScope) {
     		sessionStorage.removeItem('authToken');
     		sessionStorage.clear();
     		localStorage.clear();
-    		alert("Please sign in to application.");
-    		$rootScope.showAdvancedLogin();
-    		$state.go('home');
+    		//alert("Please sign in to application.");
+    		modalService = $injector.get('$mdDialog'); 
+    		modalService.show({
+    			 templateUrl: '../app/header/sign-in-promt-modal-box.html',
+    			 clickOutsideToClose: true,
+    			 controller : function DialogController($scope ) {
+    				 $scope.closeDialog = function() {
+    					 modalService.hide();
+    					 $rootScope.showAdvancedLogin();
+    			    	 $state.go('home');
+    		     } }
+    			});
+
     		return $q.reject(response);
           }else{
         	  return $q.reject(response);
