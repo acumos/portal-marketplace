@@ -48,7 +48,7 @@
 				
 				<a ng-click="hambergerClicked=!hambergerClicked;menuShow=!menuShow"
 				class="mdl-navigation__link" target="_blank" href="{{docUrl}}">					
-					<span class="icon-header icon-onboarding-model"></span>
+					<span class="icon-header icon-documentation"></span>
 		    		<span class="headertxtspan">DOCUMENTATION</span>
 				</a>
 			<!--  <a class="mdl-navigation__link" ui-sref="designStudio" ui-sref-active="active">DESIGN
@@ -301,7 +301,7 @@
 		 
 					<div class="acu-mob-header-container2 hide-md hide-lg hide-xl">
 						<div
-							class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label">
+							class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label login-searchcontrol1">
 							<label
 								class="mdl-button mdl-js-button mdl-button--icon search-button"
 								for="fixed-header-drawer-exp" ng-click="globalSearch(search)">
@@ -326,20 +326,20 @@
 							</button>
 	
 							<ul
-								class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+								class="mdl-menu mdl-menu--bottom-right mdl-js-menu mob-header-menu-list1"
 								for="demo-menu-lower-right5">
 								<li class="mdl-menu__item user-profile-details"><span><img
 								class="userimg" ng-show="showAltImage"
-								ng-src="images/userprofile/user-profile.png"
+								ng-src="images/userprofile/man.png"
 								title="{{userfirstname}}" /> <img class="userimg"
 								ng-show="!showAltImage"
 								ng-src="data:image/PNG;base64,{{userImage}}"
-								title="{{userfirstname}}" /> {{userDetails.userName}} </span></li>								
+								title="{{userfirstname}}" /></span>{{userDetails.userName}}</li>								
 															 
-								<li class="mdl-menu__item" ui-sref="userDetail">Account Settings</li>
+								<li class="mdl-menu__item" ui-sref="userDetail"><i class="material-icons">settings</i> Account Settings</li>
 					
-								<li class="mdl-menu__item" ng-click="viewNotification(notification.notificationId)">Notifications ({{$root.notificationCount}})</li>								
-								<li class="mdl-menu__item" ng-click="logout()">Logout</li>
+								<li class="mdl-menu__item" ng-click="viewNotification(notification.notificationId)"><i class="material-icons">notifications_none</i> Notifications ({{$root.notificationCount}})</li>								
+								<li class="mdl-menu__item" ng-click="logout()"><span class="icon-logout2" title="Logout"></span> Logout</li>
 							</ul>
 											 
 						</nav>

@@ -158,6 +158,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .header-search-control.mdl-textfield.is-focused .mdl-textfield__input {-webkit-transition: width 200ms; transition: width 200ms;}
 .icon-header-help {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/ico_help.png') no-repeat left center}
 .icon-logout {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/icon-logout.svg') no-repeat left center}
+.icon-logout2 {display:inline-block; width: 21px; height: 21px;background: url('../images/general-icons/icon-logout-black.png') no-repeat left center}
 .helplink-container a {margin-top: 10px; position:relative; line-height: 44px !important;}
 .help-not-login a {padding-right:10px !important;}
 .mdl-layout__header-row {padding: 0 10px;}
@@ -178,6 +179,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link .icon-design_studio {width: 26px; height: 24px; background: url("../images/sidebar-icons/design_studio.png") no-repeat center center;}
 .mdl-navigation__link .icon-site-admin {width: 26px; height: 24px; background: url("../images/sidebar-icons/site_admin.png") no-repeat center center;}
 .mdl-navigation__link .icon-qa {width: 28px; height: 26px; background: url("../images/sidebar-icons/qa.png") no-repeat center center;}
+.mdl-navigation__link .icon-documentation {width: 27px; height: 24px; background: url("../images/sidebar-icons/Documentation.png") no-repeat center center;}
 
 .mdl-navigation__link.active .icon-home {background: url("../images/sidebar-icons/home_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-marketplace {background: url("../images/sidebar-icons/marketplace_selected.png") no-repeat center center;}
@@ -186,6 +188,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link.active .icon-design_studio {background: url("../images/sidebar-icons/design_studio_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-site-admin {background: url("../images/sidebar-icons/site_admin_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-qa {background: url("../images/sidebar-icons/qa_selected.png") no-repeat center center;}
+.mdl-navigation__link.active .icon-documentation {background: url("../images/sidebar-icons/Documentation_active.png") no-repeat center center;}
 
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {padding: 0; height: 54px;}
 .cg-sidebar {padding-top:0 !important;}
@@ -952,7 +955,7 @@ md-input-container .md-placeholder, md-input-container label:not(.md-no-float):n
 .u-note-row1 {display:flex; flex-wrap: nowrap; justify-content: flex-start; align-items: center;}
 .u-note-row1 > div { margin-right: 40px;}
 .u-note-row1.last-row {margin-bottom: 30px;}
-.u-note-row1-inner {display:flex; flex-wrap: nowrap; justify-content: flex-start;align-items: center;}
+.u-note-row1-inner {display:flex; flex-wrap: nowrap; justify-content: flex-start;align-items: center;width: 270px;}
 .u-note-chkbox1 { margin-bottom: 0; width: 150px; }
 .u-note-chkbox2 { margin-bottom: 0; margin-left: 8px !important; position:relative; top: 3px;}
 .u-note-priority-container {width: 200px;align-self: flex-start;}
@@ -1786,6 +1789,7 @@ float: left; max-width: 65%;}
 
 .hidediv {display:none;}
 
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 360px) {
@@ -2220,7 +2224,15 @@ float: left; max-width: 65%;}
 	.mp-header-btn-container {justify-content: space-between; padding-right: 8px;}	
 	
 	.Acu-mobile-sidebar {display: block;}
+	.Acu-desktop-sidebar {display: none;}
 	.dcl-list {width: 100%; margin:0; padding: 3px 0;}
 	.mob-pageheadsection1 {position:static;margin-bottom: 5px;}
 	.mob-pageheadsection1 .mob-add-button {position: fixed; bottom: 20px; right: 15px; z-index: 5000;}
+	.login-searchcontrol1 .search-button {right: 32px;}
+	
+	ul.mob-header-menu-list1 li {display:flex; align-items: center; font-size: 12px;font-weight:600;}
+	ul.mob-header-menu-list1 li:first-child span {font-size: 12px;font-weight:600;}
+	ul.mob-header-menu-list1 li span {transform:scale(0.8);position:relative;left: -4px;}
+	ul.mob-header-menu-list1 li .material-icons {font-size: 20px; margin-right: 10px;color: #525252;}
+	ul.mob-header-menu-list1 li .icon-logout2 {margin-right: 10px; position:relative; top: 2px; left:2px;}
 }

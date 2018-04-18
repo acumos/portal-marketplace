@@ -218,8 +218,10 @@ app
                                               
                                               apiService.getJwtAuth($scope.userData).then(function successCallback(response) {
                                             	  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
+                                            		 
                                             		  if(value.name == 'Admin' || value.name == 'admin'){
                                             			  localStorage.setItem('userRole', 'Admin');
+                                            			  $rootScope.$broadcast('roleCheck');
                                             		  }
                                             		});
                                             	  localStorage.setItem('auth_token', response.data.jwtToken);

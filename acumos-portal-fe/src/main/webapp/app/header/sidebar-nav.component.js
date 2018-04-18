@@ -9,6 +9,7 @@ app.component('sidebarNav',{
 		};
 		$scope.showQandAUrl = false;
 		$scope.qAndAUrl = '';
+		$scope.userRoleAdmin = false;
 		
 		apiService.getQandAUrl().then( function(response){
 			$scope.qAndAUrl = response.data.response_body;
@@ -160,7 +161,11 @@ app.component('sidebarNav',{
 		});
 	*/
 		//Check if user is admin
+
 		if(localStorage.getItem("userRole") == 'Admin')$scope.userRoleAdmin = true;
-		else $scope.userRoleAdmin = false;
+		
+		$scope.$on('roleCheck', function() {
+			$scope.userRoleAdmin = true;
+		});
 	}
 });
