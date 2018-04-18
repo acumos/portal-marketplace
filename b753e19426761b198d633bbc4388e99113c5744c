@@ -33,6 +33,23 @@
       "revId": "b753e19426761b198d633bbc4388e99113c5744c",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701e95c9_ed382358",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/security/AuthenticationTokenFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-18T13:19:10Z",
+      "side": 1,
+      "message": "What if the user has TWO roles?",
+      "revId": "b753e19426761b198d633bbc4388e99113c5744c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
