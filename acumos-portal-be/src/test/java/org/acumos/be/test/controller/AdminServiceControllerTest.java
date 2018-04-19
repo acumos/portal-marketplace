@@ -31,7 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSiteConfig;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JsonRequest;
@@ -39,11 +41,15 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.controller.AdminServiceController;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.service.UserRoleService;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.AdminServiceImpl;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.TransportData;
+import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,6 +79,9 @@ public class AdminServiceControllerTest {
 	
 	@InjectMocks
 	private AdminServiceController adminController;
+	
+	@Mock
+	UserService userService;
 	
 	@Mock
 	private Environment env;
@@ -612,5 +621,77 @@ public class AdminServiceControllerTest {
 		doNothing().when(service).createSubscription(list, peerId);
 		JsonResponse<MLPPeerSubscription> response = adminController.createSubscription(solList, peerId);
 		Assert.assertNotNull(response);
+	}
+	
+
+	@Test
+	public void addUserRoleTest() {
+		try {
+			MLPRole mlpRole = new MLPRole();
+			mlpRole.setName("Admin");
+			Date created = new Date();
+			mlpRole.setCreated(created);
+			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
+			Assert.assertNotNull(mlpRole);
+			User user = new User();
+			user.setActive("Y");
+			user.setFirstName("test-first-name");
+			user.setJwttoken(
+					"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOm51bGwsImNyZWF0ZWQiOjE1MTAxMzgyMzY4NjcsImV4cCI6MTUxMDc0MzAzNiwibWxwdXNlciI6eyJjcmVhdGVkIjoxNTA4MjM0Njk2MDAwLCJtb2RpZmllZCI6MTUwOTk2MDg5NTAwMCwidXNlcklkIjoiNDEwNTgxMDUtNjdmNC00NDYxLWExOTItZjRjYjdmZGFmZDM0IiwiZmlyc3ROYW1lIjoiTWFuaW1vemhpVDEiLCJtaWRkbGVOYW1lIjpudWxsLCJsYXN0TmFtZSI6IlQyIiwib3JnTmFtZSI6bnVsbCwiZW1haWwiOiJNYW5pbW96aGlUMUBnbWFpLmNvbSIsImxvZ2luTmFtZSI6Ik1hbmltb3poaVQxIiwibG9naW5IYXNoIjpudWxsLCJsb2dpblBhc3NFeHBpcmUiOm51bGwsImF1dGhUb2tlbiI6bnVsbCwiYWN0aXZlIjp0cnVlLCJsYXN0TG9naW4iOm51bGwsInBpY3R1cmUiOm51bGx9fQ.bLzIAFVUIPMVE_WD0-BvMupFyHyy90mw_je1PmnvP34swv1ZUW_SL7DBoKeSGnIf_zhtDp8V8d3Q3pAiWMjLyA");
+			user.setEmailId("testemail@test.com");
+			user.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
+			user.setLoginName("test-User-Name");
+			user.setRole(mlpRole.getName());
+			user.setRoleId(mlpRole.getRoleId());
+			List<String> newRoleList = new ArrayList<>();
+			newRoleList.add("Admin");
+			
+			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
+			Assert.assertNotNull(user);
+			String roleId = mlpRole.getRoleId();
+			Assert.assertEquals(roleId, user.getRoleId());
+			JsonRequest<User> userreq = new JsonRequest<>();
+			userreq.setBody(user);
+			JsonResponse<MLPRole> value = new JsonResponse<>();
+			value.setResponseBody(mlpRole);
+			String userId= user.getUserId();
+			
+			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
+			Mockito.doNothing().when(userRoleService).addUserRole(userId, roleId);
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(mlpUser);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(mlpUser);
+			JsonResponse<MLPRole> data = adminController.addUser(request, userreq, response);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("User already exist", data.getResponseDetail());
+			
+
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(mlpUser);
+			data = adminController.addUser(request, userreq, response);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("User already exist", data.getResponseDetail());
+			
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
+			Mockito.when(userService.save(user)).thenReturn(user);
+			
+			data = adminController.addUser(request, userreq, response);
+			Assert.assertNotNull(data);
+			Assert.assertEquals("Error Occurred while addUserRole()", data.getResponseDetail());
+			
+			user.setUserNewRoleList(newRoleList);
+			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
+			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
+			Mockito.when(userService.save(user)).thenReturn(user);
+			
+			data = adminController.addUser(request, userreq, response);
+			Assert.assertNotNull(data);
+
+			logger.info("Successfully added user role");
+			Assert.assertNotNull(value);
+		} catch (Exception e) {
+			
+			logger.info("Eception while fetching addUserRoleTest ", e);
+		}
 	}
 }

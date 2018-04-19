@@ -420,5 +420,52 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.deleteUser(mlpUser);
 	}
+
+    @Override
+    public void generatePassword(MLPUser mlpUser) { 
+        // Generate password
+         String newPassword = RandomStringUtils.random(10, true, true);
+         mlpUser.setLoginHash(newPassword);
+
+         // set expire date 24 hours for new password
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 1);
+        mlpUser.setLoginPassExpire(cal.getTime());
+        mlpUser.setAuthToken(null);
+
+        // Update users password & password expire date
+        dataServiceRestClient.updateUser(mlpUser);
+        
+        //Send mail to user
+        MailData mailData = new MailData();
+        mailData.setSubject("Acumos New User Password");
+        mailData.setFrom("customerservice@acumos.org");
+        mailData.setTemplate("mailTemplate.ftl");
+        List<String> to = new ArrayList<String>();
+        to.add(mlpUser.getEmail());
+        mailData.setTo(to);
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("user", mlpUser);
+        model.put("signature", "Acumos Customer Service");
+        mailData.setModel(model);
+
+        try {
+        	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
+        	
+        		//Use SMTP setup
+                mailservice.sendMail(mailData);
+        		}else {
+        			if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+                    		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet")) 
+            			mailJet.sendMail(mailData);
+        		}
+            } catch (MailException ex) {
+                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+            }
+        }
 }
 

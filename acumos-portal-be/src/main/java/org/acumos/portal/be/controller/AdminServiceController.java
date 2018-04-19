@@ -21,14 +21,21 @@
 package org.acumos.portal.be.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
+import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSiteConfig;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
@@ -39,13 +46,21 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.service.MailJet;
+import org.acumos.portal.be.service.MailService;
+import org.acumos.portal.be.service.UserRoleService;
+import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.TransportData;
+import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,7 +77,19 @@ public class AdminServiceController extends AbstractController {
 
     @Autowired
     AdminService adminService;
-    
+
+    @Autowired
+    UserService userService;
+
+	@Autowired
+	private UserRoleService userRoleService;
+
+    @Autowired
+    MailService mailservice;
+
+    @Autowired
+    MailJet mailJet;
+
     @Autowired
     private Environment env;
 
@@ -556,4 +583,107 @@ public class AdminServiceController extends AbstractController {
            }
            return data;
        }
+
+    @ApiOperation(value = "Get SignUp Enabled", response = JsonResponse.class)
+    @RequestMapping(value = {"/signup/enabled"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<String> isSignUpEnabled(HttpServletRequest request, HttpServletResponse response) {
+		
+		String isSignUpEnabled = env.getProperty("portal.feature.signup_enabled", "true");
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		responseVO.setResponseBody(isSignUpEnabled);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
+    
+
+	@ApiOperation(value = "Add User from Admin", response = MLPRole.class)
+	@RequestMapping(value = { APINames.ADD_USER }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@PreAuthorize("hasAuthority('Admin')")
+	@ResponseBody
+	public JsonResponse<MLPRole> addUser(HttpServletRequest request, @RequestBody JsonRequest<User> user,
+			HttpServletResponse response) {
+		JsonResponse<MLPRole> data = new JsonResponse<>();
+		User userDetails = user.getBody();
+		User newUser = null;
+		try {
+			if (userDetails != null) {
+				boolean isUserExists = false;
+
+				MLPUser mlpUser = userService.findUserByEmail(userDetails.getEmailId());
+				if (mlpUser != null) {
+					isUserExists = true;
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_RESET_EMAILID);
+					data.setResponseDetail("Reset_EmailId");
+				}
+				if (mlpUser == null) {
+					mlpUser = userService.findUserByUsername(userDetails.getUsername());
+					if (mlpUser != null) {
+						isUserExists = true;
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE_RESET_USERNAME);
+						data.setResponseDetail("Reset_UserName");
+					}
+				}
+				if (!isUserExists) {
+					//Create active to true when create from Admin
+					userDetails.setActive("Y");
+					newUser = userService.save(userDetails);
+
+					if (newUser.getUserId() != null && user.getBody().getUserNewRoleList() != null) {
+						for (String roleId : userDetails.getUserNewRoleList()) {
+							userRoleService.addUserRole(newUser.getUserId(), roleId);
+						}
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+						data.setResponseDetail("Role created Successfully");
+						log.debug(EELFLoggerDelegate.debugLogger, "addUserRole :  ");
+						
+						sendCredentialsmail(userDetails);
+					} else {
+						data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+						data.setResponseDetail("Error Occurred while addUserRole()");
+					}
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					data.setResponseDetail("User already exist");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Error occured while creating role");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while creating role :", e);
+		}
+		return data;
+	}
+
+    private void sendCredentialsmail(User mlpUser) { 
+        //Send mail to user
+        MailData mailData = new MailData();
+        mailData.setSubject("Acumos New User Credentials");
+        mailData.setFrom("support@acumos.org");
+        mailData.setTemplate("newuserCredentials.ftl");
+        List<String> to = new ArrayList<String>();
+        to.add(mlpUser.getEmailId());
+        mailData.setTo(to);
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("user", mlpUser);
+        model.put("signature", "Acumos Customer Service");
+        mailData.setModel(model);
+
+        try {
+        	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
+        		//Use SMTP setup
+                mailservice.sendMail(mailData);
+        		}else {
+        			if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
+                    		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet")) 
+            			mailJet.sendMail(mailData);
+        		}
+            } catch (MailException ex) {
+                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+            }
+        }
 }

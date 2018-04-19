@@ -84,4 +84,6 @@ public interface UserService {
 
 	void deleteBulkUsers(String mlpUser);
 
+	void generatePassword(MLPUser mlpUser);
+
 }

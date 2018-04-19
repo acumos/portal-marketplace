@@ -131,7 +131,6 @@ public class APINames {
     public static final String CREATE_ROLE = "/createRole";
     public static final String UPDATE_ROLE = "/updateRole/{roleId}";
     public static final String DELETE_ROLE = "/deleteRole/{roleId}";
-    public static final String ADD_ROLES_USER = "/roles/add";
     public static final String UPDATE_ROLES_USER = "/roles/updateRole";
     public static final String USER_ROLES = "/roles/{userId}"; 
     public static final String USER_ROLE_COUNT = "/roleCounts";
@@ -167,6 +166,8 @@ public class APINames {
     //Request API's for Admin
     public static final String GET_REQUESTS = "/requests";
     public static final String UPDATE_REQUEST = "/request/update";
+
+    public static final String ADD_USER = "/addUser";
 
     // Notifications
     public static final String CREATE_NOTIFICATION = "/notifications/createNotification";

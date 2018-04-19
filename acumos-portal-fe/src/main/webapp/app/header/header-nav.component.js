@@ -33,6 +33,13 @@ app.component('headerNav',{
         apiService.getCasEnable().then( function(response){
         	$scope.cas.login = response.data.response_body;
         });
+        
+        $rootScope.isSignUp = {
+				enabled : 'true'
+        };
+        apiService.isSignUpEnabled().then( function(response){
+        	$rootScope.isSignUp.enabled = response.data.response_body;
+        });
 		
 		 var search = $window.location.search     //to check query parameter on url
          .split(/[&||?]/)

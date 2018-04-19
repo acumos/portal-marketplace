@@ -56,7 +56,7 @@ angular.module('AcumosApp')
         var urlSiteConfig = 'api/admin/config';
         var urlCreateTags = 'api/tags/create'
         var urlSolutionDescription = '/site/api-manual/Solution/description';
-        var urlAddRole =  'api/roles/add';
+        var urlAddUser =  'api/admin/addUser';
         var urlAddPeer = 'api/admin/peer/subcription/create';
         /*var urldeleteUser = '/api/users/user/updateUser';*////user/deleteUser
         var urldeleteUser = '/api/users/user/deleteUser';
@@ -75,6 +75,7 @@ angular.module('AcumosApp')
         var urlMessageStatusWithTrackingId = 'api/webBasedOnBoarding/messagingStatus/search/';
         var urlForONAP = 'api/webBasedOnBoarding/convertToOnap';
         var urlCasEnable = 'api/cas/enabled';
+        var isSignUpEnable = 'api/admin/signup/enabled';
         	
         /**************** ALL GET ******************/
     	this.getAllActiveUser = function (activeStatus) {
@@ -205,7 +206,10 @@ angular.module('AcumosApp')
         this.getCasEnable = function () {
             return $http.get(urlCasEnable);
         }
-		 
+
+        this.isSignUpEnabled = function () {
+            return $http.get(isSignUpEnable);
+        }
                 
         /**************** ALL PUT ******************/
         this.updateSolutions = function(solution){
@@ -424,7 +428,7 @@ angular.module('AcumosApp')
         };
         
         this.addUser = function(reqObj/*, role*/){
-        	return $http.post(urlAddRole /*+ '/' + role*/, reqObj);
+        	return $http.post(urlAddUser /*+ '/' + role*/, reqObj);
         };
         
         this.addPeer = function(reqObj){

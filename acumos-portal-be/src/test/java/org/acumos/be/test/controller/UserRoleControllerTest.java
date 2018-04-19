@@ -429,80 +429,6 @@ public class UserRoleControllerTest {
 	}
 
 	@Test
-	public void addUserRoleTest() {
-		try {
-			MLPRole mlpRole = new MLPRole();
-			mlpRole.setName("Admin");
-			Date created = new Date();
-			mlpRole.setCreated(created);
-			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
-			Assert.assertNotNull(mlpRole);
-			User user = new User();
-			user.setActive("Y");
-			user.setFirstName("test-first-name");
-			user.setJwttoken(
-					"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOm51bGwsImNyZWF0ZWQiOjE1MTAxMzgyMzY4NjcsImV4cCI6MTUxMDc0MzAzNiwibWxwdXNlciI6eyJjcmVhdGVkIjoxNTA4MjM0Njk2MDAwLCJtb2RpZmllZCI6MTUwOTk2MDg5NTAwMCwidXNlcklkIjoiNDEwNTgxMDUtNjdmNC00NDYxLWExOTItZjRjYjdmZGFmZDM0IiwiZmlyc3ROYW1lIjoiTWFuaW1vemhpVDEiLCJtaWRkbGVOYW1lIjpudWxsLCJsYXN0TmFtZSI6IlQyIiwib3JnTmFtZSI6bnVsbCwiZW1haWwiOiJNYW5pbW96aGlUMUBnbWFpLmNvbSIsImxvZ2luTmFtZSI6Ik1hbmltb3poaVQxIiwibG9naW5IYXNoIjpudWxsLCJsb2dpblBhc3NFeHBpcmUiOm51bGwsImF1dGhUb2tlbiI6bnVsbCwiYWN0aXZlIjp0cnVlLCJsYXN0TG9naW4iOm51bGwsInBpY3R1cmUiOm51bGx9fQ.bLzIAFVUIPMVE_WD0-BvMupFyHyy90mw_je1PmnvP34swv1ZUW_SL7DBoKeSGnIf_zhtDp8V8d3Q3pAiWMjLyA");
-			user.setEmailId("testemail@test.com");
-			user.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
-			user.setLoginName("test-User-Name");
-			user.setRole(mlpRole.getName());
-			user.setRoleId(mlpRole.getRoleId());
-			List<String> newRoleList = new ArrayList<>();
-			newRoleList.add("Admin");
-			
-			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
-			Assert.assertNotNull(user);
-			String roleId = mlpRole.getRoleId();
-			Assert.assertEquals(roleId, user.getRoleId());
-			JsonRequest<User> userreq = new JsonRequest<>();
-			userreq.setBody(user);
-			JsonResponse<MLPRole> value = new JsonResponse<>();
-			value.setResponseBody(mlpRole);
-			String userId= user.getUserId();
-			
-			UserRoleService userRoleService = Mockito.mock(UserRoleService.class);
-			Mockito.doNothing().when(userRoleService).addUserRole(userId, roleId);
-			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(mlpUser);
-			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(mlpUser);
-			JsonResponse<MLPRole> data = userRoleController.addUserRole(request, userreq, response);
-			Assert.assertNotNull(data);
-			Assert.assertEquals("User already exist", data.getResponseDetail());
-			
-
-			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
-			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(mlpUser);
-			data = userRoleController.addUserRole(request, userreq, response);
-			Assert.assertNotNull(data);
-			Assert.assertEquals("User already exist", data.getResponseDetail());
-			
-			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
-			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
-			Mockito.when(userService.save(user)).thenReturn(user);
-			
-			data = userRoleController.addUserRole(request, userreq, response);
-			Assert.assertNotNull(data);
-			Assert.assertEquals("Error Occurred while addUserRole()", data.getResponseDetail());
-			
-			user.setUserNewRoleList(newRoleList);
-			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
-			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
-			Mockito.when(userService.save(user)).thenReturn(user);
-			
-			data = userRoleController.addUserRole(request, userreq, response);
-			Assert.assertNotNull(data);
-			Assert.assertEquals("Role created Successfully", data.getResponseDetail());
-			
-//			userRoleService.addUserRole(userId, roleId);
-//		    userRoleController.addUserRole(request, userreq, response);
-		    
-			logger.info("Successfully added user role");
-			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			
-			logger.info("Eception while fetching addUserRoleTest ", e);
-		}
-	}
-	@Test
 	public void updateUserRoleTest() {
 		MLPRole mlpRole = new MLPRole();
 		mlpRole.setName("Admin");
@@ -563,8 +489,6 @@ public class UserRoleControllerTest {
 			logger.info("Error Occurred while getRolesForUserTest()", e);
 		}
 	}
-	
-	
 	
 	@Test
 	public void changeUserRolesTest() {

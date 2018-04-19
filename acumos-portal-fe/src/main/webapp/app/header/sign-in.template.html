@@ -91,7 +91,7 @@
 										  </div>
 										</div>
 										<hr />
-										 <div layout="row" layout-xs="column" class="signupmodalfooter">
+										 <div ng-hide="$root.isSignUp.enabled==='false'" layout="row" layout-xs="column" class="signupmodalfooter">
 									     <div>
 									     	<label class="text-bold">New to {{$root.siteInstanceName}}?</label>
 											<span class="disblock">Sign up now to avail all our services</span>
