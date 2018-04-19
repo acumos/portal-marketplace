@@ -51,5 +51,7 @@ public interface NotificationService {
     List<MLUserNotifPref> getUserNotifPrefByUserId(String userId);
     
     MLUserNotifPref createUserNotificationPreference(MLUserNotifPref mlpUserNotifPref);
+       
+    void updateUserNotificationPreference(MLUserNotifPref mlpUserNotifPref);
 
 }

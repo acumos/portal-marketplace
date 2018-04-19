@@ -515,14 +515,17 @@ public class PortalUtils {
 		mlUserNotifPref.setMsgSeverityCode(mlpUserNotifPref.getMsgSeverityCode());
 		return mlUserNotifPref;
 	}
-
+	
 	public static MLPUserNotifPref convertToMLPUserNotifPref(MLUserNotifPref mlUserNotifPref) {
 		MLPUserNotifPref mlpUserNotifPref = new MLPUserNotifPref();
-		// mlUserNotifPref.setUserNotifPrefId(mlUserNotifPref.getUserNotifPrefId());
+		if (mlUserNotifPref.getUserNotifPrefId() != null) {
+			mlpUserNotifPref.setUserNotifPrefId(mlUserNotifPref.getUserNotifPrefId());
+		}
 		mlpUserNotifPref.setUserId(mlUserNotifPref.getUserId());
 		mlpUserNotifPref.setNotfDelvMechCode(mlUserNotifPref.getNotfDelvMechCode());
 		mlpUserNotifPref.setMsgSeverityCode(mlUserNotifPref.getMsgSeverityCode());
 		return mlpUserNotifPref;
 	}
+
     
 }

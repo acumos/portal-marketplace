@@ -183,6 +183,7 @@ public class APINames {
 
     public static final String USER_NOTIFICATION_PREF = "/notifications/pref/byUserId/{userId}"; 
     public static final String CREATE_NOTIFICATION_PREFERENCES = "/notifications/pref/create";
+    public static final String UPDATE_NOTIFICATION_PREFERENCES = "/notifications/pref/update";
 
 	//Comments
 	   public static final String CREATE_COMMENT = "comments/create";

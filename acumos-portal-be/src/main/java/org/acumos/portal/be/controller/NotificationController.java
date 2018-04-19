@@ -375,7 +375,7 @@ public class NotificationController extends AbstractController {
 	       return data;
 	   }
 	   
-	   @ApiOperation(value = "Create notification Preference", response = MLSolution.class)
+	   @ApiOperation(value = "Create notification Preference", response = MLPUserNotifPref.class)
 	   @RequestMapping(value = { APINames.CREATE_NOTIFICATION_PREFERENCES }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	   @ResponseBody
 	   public JsonResponse<MLUserNotifPref> createUserNotificationPreference(HttpServletRequest request,
@@ -406,5 +406,32 @@ public class NotificationController extends AbstractController {
 	       }
 	       return data;
 	   }
+	   
+	   @ApiOperation(value = "Update Notification Preference", response = MLPUserNotifPref.class)
+	   @RequestMapping(value = { APINames.UPDATE_NOTIFICATION_PREFERENCES }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	   @ResponseBody
+	   public JsonResponse<MLUserNotifPref> updateUserNotificationPreference(HttpServletRequest request,
+			@RequestBody JsonRequest<MLUserNotifPref> mlNotificationPref, HttpServletResponse response) {
+		JsonResponse<MLUserNotifPref> data = new JsonResponse<>();
+		try {
+			if (mlNotificationPref.getBody() != null && mlNotificationPref.getBody().getUserNotifPrefId() != null) {
+				notificationService.updateUserNotificationPreference(mlNotificationPref.getBody());
+				data.setResponseBody(mlNotificationPref.getBody());
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Notification Preference Update Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "Notification Preference Update Successfully :  ");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while updateUserNotificationPreference");
+				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred updateUserNotificationPreference :");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while updateUserNotificationPreference");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateUserNotificationPreference :", e);
+		}
+		return data;
+	}
+
 
 }

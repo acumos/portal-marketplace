@@ -104,6 +104,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/cas/enabled").permitAll()
         .antMatchers("/notifications/pref/create").permitAll()
         .antMatchers("/notifications/pref/byUserId/{userId}").permitAll()
+        .antMatchers("/notifications/pref/update").permitAll()       
         .anyRequest().authenticated();
     	
     	// Custom JWT based authentication

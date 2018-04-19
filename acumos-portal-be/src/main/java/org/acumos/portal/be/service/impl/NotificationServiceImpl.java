@@ -182,5 +182,15 @@ public class NotificationServiceImpl implements NotificationService {
 		mlUserNotifPref = PortalUtils.convertToMLUserNotifPref(mlpUserNotifPref);
 		return mlUserNotifPref;
 	}
+	
+	@Override
+	public void updateUserNotificationPreference(MLUserNotifPref mlUserNotifPref) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateUserNotificationPreference`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPUserNotifPref mlpUserNotifPref = PortalUtils.convertToMLPUserNotifPref(mlUserNotifPref);
+		dataServiceRestClient.updateUserNotificationPreference(mlpUserNotifPref);
+
+	}
+
 
 }
