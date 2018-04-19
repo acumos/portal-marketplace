@@ -25,19 +25,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.acumos.cds.client.CommonDataServiceRestClientImpl;
+import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPUserNotifPref;
+import org.acumos.cds.domain.MLPUserNotification;
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.acumos.cds.client.CommonDataServiceRestClientImpl;
-import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPNotification;
-import org.acumos.cds.domain.MLPUserNotification;
-import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -158,4 +160,27 @@ public class NotificationServiceImpl implements NotificationService {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
 		}
 	}
+	
+	@Override
+	public List<MLUserNotifPref> getUserNotifPrefByUserId(String userId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getUserNotificationPreferences`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLPUserNotifPref> mlpNotificationList = dataServiceRestClient.getUserNotificationPreferences(userId);
+		List<MLUserNotifPref> mlNotificationList = new ArrayList<>(mlpNotificationList.size());
+		for (MLPUserNotifPref mlpUserNotifPref : mlpNotificationList) {
+			mlNotificationList.add(PortalUtils.convertToMLUserNotifPref(mlpUserNotifPref));
+		}
+		return mlNotificationList;
+	}
+
+	@Override
+	public MLUserNotifPref createUserNotificationPreference(MLUserNotifPref mlUserNotifPref) {
+		log.debug(EELFLoggerDelegate.debugLogger, "createUserNotificationPreference`");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPUserNotifPref mlpUserNotifPref = PortalUtils.convertToMLPUserNotifPref(mlUserNotifPref);
+		mlpUserNotifPref = dataServiceRestClient.createUserNotificationPreference(mlpUserNotifPref);
+		mlUserNotifPref = PortalUtils.convertToMLUserNotifPref(mlpUserNotifPref);
+		return mlUserNotifPref;
+	}
+
 }

@@ -180,7 +180,10 @@ public class APINames {
 
 	public static final String RELATED_MY_SOLUTIONS = "/getRelatedMySolutions";
 	public static final String READ_SIGNATURE_TAB = "/readArtifactSolutions/{artifactId}"; 
-	
+
+    public static final String USER_NOTIFICATION_PREF = "/notifications/pref/byUserId/{userId}"; 
+    public static final String CREATE_NOTIFICATION_PREFERENCES = "/notifications/pref/create";
+
 	//Comments
 	   public static final String CREATE_COMMENT = "comments/create";
 	   public static final String UPDATE_COMMENT = "comments/update";

@@ -43,6 +43,7 @@ import org.acumos.cds.domain.MLPSolutionValidation;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
+import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLRole;
@@ -52,6 +53,7 @@ import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.OauthUser;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
@@ -503,6 +505,24 @@ public class PortalUtils {
 			}
 		}
 		return map;
+	}
+    
+	public static MLUserNotifPref convertToMLUserNotifPref(MLPUserNotifPref mlpUserNotifPref) {
+		MLUserNotifPref mlUserNotifPref = new MLUserNotifPref();
+		mlUserNotifPref.setUserNotifPrefId(mlpUserNotifPref.getUserNotifPrefId());
+		mlUserNotifPref.setUserId(mlpUserNotifPref.getUserId());
+		mlUserNotifPref.setNotfDelvMechCode(mlpUserNotifPref.getNotfDelvMechCode());
+		mlUserNotifPref.setMsgSeverityCode(mlpUserNotifPref.getMsgSeverityCode());
+		return mlUserNotifPref;
+	}
+
+	public static MLPUserNotifPref convertToMLPUserNotifPref(MLUserNotifPref mlUserNotifPref) {
+		MLPUserNotifPref mlpUserNotifPref = new MLPUserNotifPref();
+		// mlUserNotifPref.setUserNotifPrefId(mlUserNotifPref.getUserNotifPrefId());
+		mlpUserNotifPref.setUserId(mlUserNotifPref.getUserId());
+		mlpUserNotifPref.setNotfDelvMechCode(mlUserNotifPref.getNotfDelvMechCode());
+		mlpUserNotifPref.setMsgSeverityCode(mlUserNotifPref.getMsgSeverityCode());
+		return mlpUserNotifPref;
 	}
     
 }

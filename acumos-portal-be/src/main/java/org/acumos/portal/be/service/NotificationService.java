@@ -22,11 +22,11 @@ package org.acumos.portal.be.service;
 
 import java.util.List;
 
-import org.acumos.portal.be.transport.MLNotification;
-
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUserNotification;
-import org.acumos.cds.transport.RestPageRequest; 
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.transport.MLUserNotifPref; 
 
 public interface NotificationService {
 
@@ -47,4 +47,9 @@ public interface NotificationService {
 	int getNotificationCount();
 
 	void generateNotification(MLPNotification notification, String userId);
+	
+    List<MLUserNotifPref> getUserNotifPrefByUserId(String userId);
+    
+    MLUserNotifPref createUserNotificationPreference(MLUserNotifPref mlpUserNotifPref);
+
 }

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.APINames;
@@ -35,6 +36,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -345,4 +347,64 @@ public class NotificationController extends AbstractController {
 		}
 		return data;
 	}
+	
+	@ApiOperation(value = "Gets a list of user notification preferences by userId", response = MLPUserNotifPref.class, responseContainer = "List")
+	   @RequestMapping(value = { APINames.USER_NOTIFICATION_PREF }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	   @ResponseBody
+	   public JsonResponse<List<MLUserNotifPref>> getUserNotifPrefByUserId(HttpServletRequest request,
+	           @PathVariable("userId") String userId, HttpServletResponse response) {
+	       JsonResponse<List<MLUserNotifPref>> data = new JsonResponse<>();
+	       try {
+	           List<MLUserNotifPref> mlUserNotifPrefList = notificationService.getUserNotifPrefByUserId(userId);
+	           if (mlUserNotifPrefList != null) {
+	               data.setResponseBody(mlUserNotifPrefList);
+	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+	               data.setResponseDetail("Notification preferences fetched Successfully");
+	               log.debug(EELFLoggerDelegate.debugLogger, "getUserNotificationPreferences: size is {} ",
+	                                   mlUserNotifPrefList.size());
+	          } else {
+	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+	               data.setResponseDetail("No notification preferences for : " + userId);
+	               log.debug(EELFLoggerDelegate.debugLogger, "No notification preferences : " + userId);
+	           }
+	       } catch (Exception e) {
+	           data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+	           data.setResponseDetail("Exception Occurred while getUserNotificationPreferences");
+	           log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserNotificationPreferences", e);
+	       }
+	       return data;
+	   }
+	   
+	   @ApiOperation(value = "Create notification Preference", response = MLSolution.class)
+	   @RequestMapping(value = { APINames.CREATE_NOTIFICATION_PREFERENCES }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	   @ResponseBody
+	   public JsonResponse<MLUserNotifPref> createUserNotificationPreference(HttpServletRequest request,
+	           @RequestBody JsonRequest<MLUserNotifPref> mlNotificationPref, HttpServletResponse response) {
+	       JsonResponse<MLUserNotifPref> data = new JsonResponse<>();
+	       try {
+	           if (mlNotificationPref.getBody() != null) {
+	                   MLUserNotifPref mlNotificationPrefObj = notificationService.createUserNotificationPreference(mlNotificationPref.getBody());
+	               if (mlNotificationPrefObj != null) {
+	                   data.setResponseBody(mlNotificationPrefObj);
+	                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+	                   data.setResponseDetail("Notification Preference created Successfully");
+	                   log.debug(EELFLoggerDelegate.debugLogger, "Notification Preference created Successfully :  ");
+	               } else {
+	                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+	                   data.setResponseDetail("Error occured while createUserNotificationPreference");
+	                   log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createUserNotificationPreference :");
+	               }
+	           } else {
+	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+	               data.setResponseDetail("Error occured while createUserNotificationPreference");
+	               log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createUserNotificationPreference :");
+	           }
+	       } catch (Exception e) {
+	           data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+	           data.setResponseDetail("Exception occured while createNotification");
+	           log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createUserNotificationPreference :", e);
+	       }
+	       return data;
+	   }
+
 }
