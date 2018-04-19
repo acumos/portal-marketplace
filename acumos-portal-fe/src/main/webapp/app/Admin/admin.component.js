@@ -258,6 +258,12 @@ angular.module('admin')
             	    apiService.addUser( obj/*, $scope.roleValue*/ )
             	    .then(function(response) {
             	    	if(response.data.error_code == 500){
+            	    		$scope.value = null;
+                            $scope.data = null;
+                            $scope.signupForm.fname.$touched = false;$scope.signupForm.lname.$touched = false;$scope.signupForm.uname.$touched = false;
+                            $scope.signupForm.email.$touched = false;$scope.signupForm.pwd.$touched = false;$scope.signupForm.cpwd.$touched = false;
+                            $scope.signupForm.pwd.$dirty = false;
+                            
             	    		$mdDialog.hide();
             	    		$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                             $anchorScroll(); 

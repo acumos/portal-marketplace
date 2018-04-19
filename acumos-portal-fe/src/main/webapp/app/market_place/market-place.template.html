@@ -6,9 +6,9 @@
 								<div class="mp-header-btn-container">
 									<span class="headline mob-disblock">Marketplace</span>
 									<span class="mpheader-btn-container" ng-if="userLoggedIn==true">
-										<button class="btn-company " ng-click="accessFilter('PB');public=true;company=false;all=false" ng-class="public?'btn-primary':'btn-secondary'">Public</button>
+										<button class="btn-company" ng-click="accessFilter('all');public=false;company=false;all=true" ng-class="all?'btn-primary':'btn-secondary'">ALL</button>										
 										<button class="btn-company" ng-click="accessFilter('OR');public=false;company=true;all=false"  ng-class="company?'btn-primary':'btn-secondary'">Company</button>
-										<button class="btn-company" ng-click="accessFilter('all');public=false;company=false;all=true" ng-class="all?'btn-primary':'btn-secondary'">ALL</button>
+										<button class="btn-company " ng-click="accessFilter('PB');public=true;company=false;all=false" ng-class="public?'btn-primary':'btn-secondary'">Public</button>										
 									</span>
 								</div>
 								<ul class="c-breadcrumb">
