@@ -29,7 +29,6 @@ import org.acumos.portal.be.controller.UserServiceController;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserService;
-import org.acumos.portal.be.service.impl.MockCommonDataServiceRestClientImpl;
 import org.acumos.portal.be.service.impl.UserServiceImpl;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.User;
