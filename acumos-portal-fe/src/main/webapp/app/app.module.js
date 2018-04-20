@@ -126,6 +126,42 @@ angular
 	    }
 	  }
 	});
+
+angular
+.module('AcumosApp').directive('fileReader', function() {
+	  return {
+	    scope: {
+	      fileReader:"="
+	    },
+	    link: function(scope, element) {
+	      $(element).on('change', function(changeEvent) {
+	        var files = changeEvent.target.files;
+	        if (files.length) {
+	          var r = new FileReader();
+	          r.onload = function(e) {
+	              var contents = e.target.result;
+				  /*if(contents.search('\r\n') != -1){
+					    var data = contents.split('\r\n');
+				  }else{
+					   var data = contents.split('\n');
+					  
+				  }
+				
+				  var col = data[0];
+				  var tabledata = col.split(',');*/
+	              var tabledata = contents;
+	              scope.$apply(function () {
+	                scope.fileReader = tabledata;
+					scope.testing = contents;
+	              });
+	          };
+	          
+	          r.readAsText(files[0]);
+	        }
+	      });
+	    }
+	  };
+	});
 angular.module('AcumosApp').directive('expand', function () {
     return {
         restrict: 'A',

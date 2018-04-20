@@ -14,6 +14,17 @@ DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','
 
 function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams) {
 	componentHandler.upgradeAllRegistered();
+	$scope.datatype = ['int','string','float','boolean','long','byte'];
+	if($scope.dbType === "json"){
+		$('#upload').removeClass('disp');
+		$('#upload').addClass('disp-active');
+	} else if($scope.dbType === "csv"){
+		$('#selectFirstRow').removeClass('disp');
+		$('#selectFirstRow').addClass('disp-active');
+		$('#upload').removeClass('disp');
+		$('upload').addClass('disp-active');
+	} 
+		
 	$scope.checkProbe = function(){
 		alert("Probe has been checked in");
 	}
@@ -27,7 +38,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.showSearch = function(){
         $scope.searchbox = false;
     };
-    
+    $scope.readSolution = false;
     $('#deleteHide').hide();var deleteShow = 0;
     function enanleDisable(){
         var numItems = $('.node').length;
@@ -51,7 +62,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var jsonProtoNode= new Map(); var jsonProtoMap;
     var dataMaps = new Map();
     var extras = false;
-    var dataBrokerOutput = new Map();
+    //var dataBrokerOutput = new Map();
     // document.getElementById("showHide").className = "disnone";
     var operations = []; var messages = [];
     $scope.palette = {categories: []};
@@ -97,12 +108,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
          * var remVrsn = type.replace(/[^0-9\.]+/g, ""); remVrsn =
          * '('+remVrsn +')'; type = type.replace(remVrsn,'');
          */
+        // var res = type.split('').reverse().join('');
+        //res = res.replace(/\(/,'&').split('&');
         var res = type.split("(");
         var getver = res[1].split(")");
         var ver = getver[0];
         // var type = res[0];
         ver = '('+ver+')';
         type = type.replace(ver,'');
+        //type = res[1].split('').reverse().join('');
         console.log(type);
         var typeModel = type+'+'+getver[0];
 
@@ -235,6 +249,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	type = "DataBroker";
             	def.extras = ["script"];
             	$scope.scriptText = null;
+            	$scope.dbType = null;
+    			$scope.fileUrl = null;
+    			$scope.firstRow = null;
             	$scope.selectedOutput = null;
             	break;
             case 'TC':
@@ -523,9 +540,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var qs = querystring.parse();
     var urlBase = baseURL + '/dsce/';
     var options = Object.assign({
-        base:"dsce/dsce/",
+    	base:"dsce/dsce/",
         // base: urlBase,
         //base: 'http://localhost:8088/dsce/',
+    	//base: 'http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8088/dsce/',
         catalog: 'solution/getSolutions',
         typeinfo: 'artifact/fetchJsonTOSCA',
         create: 'solution/createNewCompositeSolution',
@@ -799,6 +817,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     function display_solution(solution) {
         $('#deleteHide').hide();
+        $scope.databroker.$invalid = false;
         $scope.validationState = true;
         $scope.activeInactivedeploy = true;
         $scope.console = null;
@@ -808,7 +827,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $('#consoleMsg').removeClass('console-errormsg');
         //$('#consoleMsg').html('');
         $scope.down = true;
-
+        var script = [];
+        
         _diagram.child('fix-nodes')
             .clearFixes();
         console.log(solution);
@@ -819,11 +839,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var i=0;
         nodes.forEach(function(n) {
             // console.log(n);
+        	script = [];
             var lastChar = n.nodeId.slice(-1);
             var res = n.nodeId.split(lastChar);
           // var properties = n.
-            if(n.properties.length > 0 || n.type.name == "DataBroker"){
-            	var script = ["script"];
+//            if(n.properties.length > 0 || n.type.name == "DataBroker"){
+            if(n.type.name == "DataBroker"){
+            	script = ["script"];
             }
             _ports = _ports.concat(_catalog.ports(n.nodeId, n.type.name,n.requirements, n.capabilities, script));
             var url= build_url(options.protobuf, {
@@ -838,6 +860,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 protoJsonRead.set(res[0],proto);
                 console.log(protoJsonRead);
             });
+            
+            
         });
 
         var node_flat = dc_graph.flat_group.make(nodes, function(d) { return d.nodeId; }),
@@ -855,13 +879,31 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             _diagram.render();
             _rendered = true;
         } else _diagram.redraw();
-
+        
+        
         edges.forEach(function(e){
             var srcPort = _diagram.getPort(e.sourceNodeId, null, e.sourceNodeRequirement),
                 tarPort = _diagram.getPort(e.targetNodeId, null, e.targetNodeCapability);
             wildcardPorts.copyType(e, srcPort, tarPort);
+            console.log(srcPort);
+            console.log(tarPort);
+            nodes.forEach(function(n){
+            	if((n.nodeId === e.sourceNodeId || n.nodeId === e.targetNodeId) && n.type.name === "DataBroker"){
+            		if(srcPort.orig.value.bounds === outbounds){
+                    	targetTableCreate(srcPort);
+                    } else if(tarPort.orig.value.bounds === outbounds){
+                    	targetTableCreate(tarPort);
+                    }
+            	}
+            });
+            
         });
-
+        console.log(_ports);
+        _ports.forEach(function(p){
+        	var tarPort = _diagram.getPort(p.nodeId, null, p.portname);
+        	console.log(tarPort);
+        });
+        $scope.userImage ='';
         nodes.forEach(function(n){
             if(n.type.name === "DataMapper"){
                 var DM = new Map();
@@ -878,9 +920,23 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             
             // need to check the if condition to satisfy the databroker
             if(n.type.name === "DataBroker"){
+            	$scope.nodeIdDB = n.nodeId;
             	angular.forEach(n.properties, function(value, key){
             		if(value.data_broker_map != null){
             			$scope.scriptText = value.data_broker_map.script;
+            			$scope.dbType = value.data_broker_map.data_broker_type;
+            			$scope.fileUrl = value.data_broker_map.target_system_url;
+            			$scope.firstRow = value.data_broker_map.first_row;
+            			if(!$scope.userImage){
+            				$scope.userImageNew =value.data_broker_map.local_system_data_file_path;
+            			}
+            			$scope.readSourceTable = value.data_broker_map.map_inputs;
+            			if($scope.dbType == 'csv'){
+            				$scope.dataShow = $scope.readSourceTable;
+            			}
+            			$scope.checkedRead = true;
+            			$scope.uncheckedRead = false;
+            			$scope.readSolution = true;
             		}
             	});
             }
@@ -1267,14 +1323,25 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         lnodeDetails = lnodes[i];
                     }
                 }
-                var fieldMap = {
+                
+                var dataConnector = {
+            			"databrokerMap": null,
+            			 "fieldMap":{
+                              "input_field_message_name": lport.fullType[0].messageName,
+                              "input_field_tag_id": lnodeDetails.tag,
+                              "map_action": "add",
+                              "output_field_message_name": rport.fullType[0].messageName,
+                              "output_field_tag_id": rnodeDetails.tag
+                          }
+            		};
+               /* var fieldMap = {
                     input_field_message_name: lport.fullType[0].messageName,
                     input_field_tag_id: lnodeDetails.tag,
                     map_action: "add",
                     output_field_message_name: rport.fullType[0].messageName,
                     output_field_tag_id: rnodeDetails.tag
-                };
-                console.log(fieldMap);
+                };*/
+                /*console.log(fieldMap);*/
                 if(_solutionId){
                     params = {
                         userid: get_userId(),
@@ -1290,8 +1357,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     };
                 }
                 console.log(params);
+                /*var dataConnector = {"fieldMap": fieldMap};*/
                 url = build_url(options.modifyNode, params);
-                return $http.post(url,angular.toJson(fieldMap))
+                /*return $http.post(url,angular.toJson(fieldMap))*/
+                return $http.post(url,dataConnector)
                     .then(function(response){
                         $scope.saveState.noSaves = false;
                         _dirty = true;
@@ -1374,6 +1443,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             return _catalog.fModelName(comp) === solutionHover;
         });
         $scope.nodeNameUI=null;
+        $scope.showDataBroker = null;
         $scope.showDataMapper = null;
         $scope.solutionDetails=compsHover[0];
         $scope.showProperties=null;
@@ -1476,7 +1546,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	
             	var res = n.key.slice(0, -1);
             	var nodeDet=_components.get(res);
-                console.log(nodeDet);
+                //console.log(nodeDet);
                 if(/DataMapper/.test(nodeDet.solutionName))
                     return {shape: 'rounded-rect', rx: 0, ry: 0};
                 else{
@@ -1499,7 +1569,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 var nodeName = nodeDet.solutionName;
 
                 if(nodeDet.category === "DS")
-                    return _ionicons["DS"];
+                    if(nodeDet.solutionName == "ZIPDataBroker"){
+                		return _ionicons["Training"];
+                	}else{
+                		return _ionicons["DS"];
+                	}
                 else{
                     if(nodeName.indexOf('Image') > -1 || nodeName.indexOf('image') > -1)
                         return _ionicons["Images"];
@@ -1601,6 +1675,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 /* if(sport.) */
                if(sport.node.orig.value.modelName == "DataBroker" || sport.node.orig.value.type.name == 'DataBroker' || tport.node.orig.value.modelName == "DataBroker" ||tport.node.orig.value.type.name == 'DataBroker' ){
                 	properties = {};
+                	if(sport.orig.value.bounds === outbounds){
+                		targetTableCreate(tport);
+                	} else if(tport.orig.value.bounds === outbounds){
+                		targetTableCreate(sport);
+                	}
                 } else {
                 
                 	if(is_wildcard_type(sport.orig.value.originalType)){
@@ -1838,22 +1917,42 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.showProperties=null;
                     $scope.showLink = null;
                     // detect if node has wildcard ports
-                    var wilds = _ports.filter(function(p) {
+                   /* var wilds = _ports.filter(function(p) {
                         return p.nodeId === nodes[0] && is_wildcard_type(p.originalType);
-                    });
+                    });*/
                     //console.log(wilds);
-                    if(wilds.length) {
-                        $scope.showDataMapper = true;
-                        $scope.solutionDetails = null;
-
-                        $scope.$apply();
-                        display_data_mapper(nodes[0], wilds);
-                    }
-                    else if(comps.length === 1) {
-                        $scope.showDataMapper = null;
-                        //$scope.solutionDetails = true;
-                        $scope.$apply();
-                        display_properties(_catalog.fModelUrl(comps[0]));
+                    switch($scope.solutionDetails.toolKit){
+                    case 'BR': 
+                    	$scope.showDataBroker = true;
+                    	$scope.showDataMapper = false;
+                    	$scope.solutionDetails = null;
+                    	$scope.$apply();
+                    	break;
+                    case 'TC':
+                    	$scope.showDataBroker = false;
+                    	$scope.showDataMapper = false;
+                    	$scope.$apply();
+                    	display_properties(_catalog.fModelUrl(comps[0]));
+                    	break;
+                    default:
+                    	// detect if node has wildcard ports
+                         var wilds = _ports.filter(function(p) {
+                             return p.nodeId === nodes[0] && is_wildcard_type(p.originalType);
+                         });
+                    	if(wilds.length) {
+                    		$scope.showDataBroker = false;
+                    		$scope.showDataMapper = true;
+                    		$scope.solutionDetails = null;
+                    		$scope.$apply();
+                    		display_data_mapper(nodes[0], wilds);
+                    	}
+                    	else if(comps.length === 1) {
+                    		$scope.showDataBroker = false;
+                    		$scope.showDataMapper = null;
+                    		//$scope.solutionDetails = true;
+                    		$scope.$apply();
+                    		display_properties(_catalog.fModelUrl(comps[0]));
+                    	}
                     }
                     $scope.tabChange = 0;
                 } else display_properties(null);
@@ -1891,19 +1990,21 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         
         select_ports_group.on('set_changed.show-info', function(ports) {
             var portType, port_info;
+            console.log(ports);
             if(ports.length>0) {
             	$scope.nodeIdDB = ports[0].node;
                 select_nodes_group.set_changed([], false);
                 select_edges_group.set_changed([], true);
                 var p = _diagram.getPort(ports[0].node, null, ports[0].name);
                 $scope.portDets = p;
+                console.log(p);
                 // console.log(p.orig.value.bounds === inbounds ?
                 // 'input' : 'output', p.orig.value.type);
                 // display matching models for port here
                 if(p.orig.value.bounds === inbounds){
                     portType = "input";
                 } else if(p.orig.value.bounds === outbounds){
-                	if(p.node.orig.value.modelName === "DataBroker"){
+                	if(p.node.orig.value.modelName === "DataBroker" || p.node.orig.value.type.name === "DataBroker"){
                 		if(p.edges.length > 0 || p.orig.value.type !== null)
                 			portType = "output";
                 		else 
@@ -2013,6 +2114,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .onDelete(function(nodes) {
                 console.log(nodes);
                 $scope.NodeName=nodes[0];
+                $scope.removename = nodes[0].slice(0, -1); //check
                 $scope.saveState.noSaves = false;
                 _dirty = true;
                 var url = '';
@@ -2033,6 +2135,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }
                 return $http.post(url)
                     .then(function(response) {
+                    	jsonProtoNode.delete($scope.removename);
                         $('#deleteHide').hide();
                         // after the back-end has accepted the
                         // deletion, we can remove unneeded
@@ -2224,9 +2327,57 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     for(var l=0;l<jsonProtoMap.length;l++){
                         if(operations+'_'+jsonProtoMap[l].messageName === id){
                             $scope.messageDet = jsonProtoMap[l].messageName;
-                            angular.forEach(jsonProtoMap[l].messageargumentList, function(value, key){
+                            /*angular.forEach(jsonProtoMap[l].messageargumentList, function(value, key){
                                 messageJson[i++]=value.role+' '+value.type+' '+value.name+' = '+value.tag;
+                            });*/
+                            angular.forEach(jsonProtoMap[l].messageargumentList, function(value1, key1) {
+                            	//debugger;
+                            	var c=0;var complexJson =[]; var m=0; var s=0;var complexMessage = [];var complexMessageSignature = [];
+                            	if(value1.complexType){
+                            		complexArray++;
+                            		$scope.complexMessageDet = value1.complexType.messageName;
+                            		
+                            		angular.forEach(value1.complexType.messageargumentList, function(value2, key2) {
+                            			
+                            			var a=0;var complexSubJson=[];
+                            			if(value2.complexType){
+                            				angular.forEach(value2.complexType.messageargumentList, function(value3, key3) {
+                            					var temp = value3.tag.split(".");
+                            					value3.tag=temp[temp.length-1];
+                            					complexSubJson[a++] = value3.role+' '+value3.type+' '+value3.name+' = '+value3.tag;
+                            				});
+                            				complexMapArray.push({
+                            					"messageName" : value2.complexType.messageName,
+                            					"message" : complexSubJson
+                            				});
+                            				$scope.complexProtoMap.set(value2.complexType.messageName,complexSubJson);
+                            				/*
+											 * complexProtoMap.push(value2.complexType.messageName);
+											 * angular.forEach(complexProtoMap,function(val,ky){
+											 * 
+											 * });
+											 */
+                            			}
+                            			var temp = value2.tag.split(".");
+                    					value2.tag=temp[temp.length-1];
+                            			complexJson[c++] = value2.role+' '+value2.type+' '+value2.name+' = '+value2.tag;
+                            		});
+                            		complexMapArray.push({
+                    					"messageName" : value1.complexType.messageName,
+                    					"message" : complexJson
+                    				});
+                            		$scope.complexProtoMap.set($scope.complexMessageDet,complexJson);
+//                            		complexProtoMap[i++]= [
+//                            			$scope.complexMessageDet.push(complexJson)
+//                            		];
+//                            		console.log('complexProtoMap - '+angular.toJson(complexProtoMap));
+                            		}
+                            	
+                            	
+                                messageJson[i++]=value1.role+' '+value1.type+' '+value1.name+' = '+value1.tag;
+                                
                             });
+                            
                         }
                     }
 
@@ -2319,6 +2470,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 				 * console.log(complexProtoMap[i]); }
 				 */
                 $scope.messageUI=messageJson;
+                $scope.showDataBroker = null;
                 $scope.showDataMapper = null;
                 if($scope.messageUI){
                     $scope.showProperties=true;
@@ -2550,7 +2702,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $http.post(url)
                 .success(function(response) {
                     // alert("Composite Solution is closed");
-
+                	$scope.showDataBroker = false;
                     $scope.showDataMapper = null;
                     $scope.solutionDetails = null;
                     $scope.showProperties = null;
@@ -2685,13 +2837,23 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             clickOutsideToClose: true
         });
     };
+    
+    $scope.closePoupscript = function(){
+    	$mdDialog.hide();
+       /* $scope.dbType = '';
+        $scope.fileUrl = '';
+        $scope.scriptText = '';
+        $scope.databroker.$setPristine();
+        $scope.databroker.$setUntouched();*/
+    }
     $scope.closePoup = function(){
 
         $mdDialog.hide();
+        
     };
 
     $scope.closeSavePoup = function(){
-        $scope.solutionName = "untitled";
+    	/*$scope.solutionName = "untitled";*/
         $mdDialog.hide();
 
     };
@@ -2779,6 +2941,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     
     $scope.showScript = function(ev) {
+    	
         $mdDialog.show({
             contentElement: '#myDialogScript',
             parent: angular.element(document.body),
@@ -2787,17 +2950,114 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         });
     };
     
+    $scope.showSourceTable = false;
+    $scope.defaultvalue = '';
+
+    $scope.processData = function(){
+    	/*var x = document.getElementById("fileRead").value;
+    	console.log(x);*/
+    	console.log($scope.dbType);
+    	console.log($scope.firstRow);
+    	if($scope.dbType == 'csv'){
+	    	var uploaded=$scope.fileContent;
+	    	var delimeter;
+	    	$scope.errormsg = '';
+	    	
+	    	//get file separator
+	    	if(uploaded.search('\r\n') != -1){
+			    var dataShow = uploaded.split('\r\n');
+			    delimeter = '|';	
+	    	}else if(uploaded.search('\n') != -1){
+			   var dataShow = uploaded.split('\n');
+			   delimeter = ',' ;
+	    	} else {
+	    	
+	    	}
+	    	
+	    	//fetch the first row contain data or field name
+	    	if($scope.firstRow == "contains_field_names"){
+	    		var col = dataShow[0];
+	    		var statusParse = parseError(col);
+	    	}else if($scope.firstRow == "contains_data"){
+	    		var col = dataShow[1];
+	    		var statusParse = parseError(col);
+	    	}else{
+	    		var col = dataShow[0];
+	    	}
+		 
+	    	var tabledata = col.split(delimeter);
+	    	if(statusParse){
+			  $scope.delimeterchar = delimeter;
+			  $scope.dataShow = tabledata;
+			  $scope.readSolution = false;
+			  $scope.saveScript();
+	    	} else {
+	    		//$scope.databroker.$invalid = true;
+	    		$scope.errormsg ="Common file separator(| or , ) is missing , Please upload correct csv file";
+	    	}
+		  
+    } else if($scope.dbType === 'image'){
+    	$scope.dataImage= [
+    	       {
+    	            "Fieldname" : "Mime Type",
+    	            "FieldType" : "String",
+    	        },
+    	        {
+    	            "Fieldname" : "Image Binary",
+    	            "FieldType" : "Byte",
+    	        }
+    	    ]
+    	$scope.readSolution = false;
+    	$scope.saveScript();
+    	
+    }
+    
+    	
+    function parseError(col){
+    	if((col.indexOf("|") == -1 && col.indexOf(",") == -1) ){
+			return false;
+		} else {
+			return true;
+		}
+    	
+    }
+	 // var col = dataShow[0];
+	//  var tabledata = col.split(',');
+		//$scope.dataShow = tabledata;
+    	//console.log($scope.dataShow);
+    	
+    	//$scope.closePoup();
+    	/*$scope.showProperties = false;
+    	$scope.solutionDetails = false;
+    	$scope.showSourceTable = true;*/
+    }
+    
     $scope.saveScript = function(){
-    	if(!$scope.scriptText) {
+    	var scriptInput = $scope.scriptText;
+    	/*if(!$scope.scriptText) {
             // alert("Please fill all mandatory fields");
             set_focus('input-name');
             return;
-        }
+        }*/
     	// Needs to be uncommented and correct values need to be passed
     	var url;
+    	$scope.localurl = '';
+    	 if($scope.userImage){
+    		 $scope.localurl = $scope.userImage.name;
+    	 } else {
+    		 $scope.localurl = null;
+    	 }
     	var data = {
     			"databrokerMap": {
-    			    "script": $scope.scriptText
+    			    "script": $scope.scriptText,
+    			    "csv_file_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, //check
+    			    "data_broker_type": $scope.dbType,
+    			    "first_row": $scope.firstRow?$scope.firstRow:null,
+    			    "local_system_data_file_path":$scope.localurl, //need to complete
+    			    "target_system_url": $scope.fileUrl,
+    			    "map_action": null,
+    			    "map_inputs": null,
+    			    "map_outputs": null
     			  },
     			  "fieldMap":null
     		}
@@ -2830,9 +3090,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         .success(function(result) {
         	console.log(result);
         	if(result.success === 'true'){
-        		$scope.msg = "Script added successfully";
+        		/*$scope.msg = "Script added successfully";*/
+        		$scope.closeSavePoup();
         		$scope.saveState.noSaves = false;
-    			$scope.showpopup();
+        		//$scope.processData();
+    			/*$scope.showpopup();*/
         	}else{
         		$scope.saveState.noSaves = true;
         	}
@@ -2844,10 +3106,28 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         
     }
     $scope.selectOutputMessage = function(p,ev) {
+    	var dataBrokerOutput = new Map();
+    	if($('.node').length > 0){
     	$scope.portDets = p;
-    	if($('.node').length > 5) {
-    		if(jsonProtoNode.size > 1){
+    	if(jsonProtoNode.size > 1){
     		angular.forEach(jsonProtoNode, function(value, key){
+    			angular.forEach(value.protobuf_json.service.listOfOperations, function(value1, key1){
+    				angular.forEach(value1.listOfInputMessages,function(value2,key2){
+                        // console.log(value1);
+    					if(value2.inputMessageName !== "ANY"){
+    						angular.forEach(value.protobuf_json.listOfMessages, function(value3,key3){
+    							if(value3.messageName === value2.inputMessageName){
+    								dataBrokerOutput[value1.operationName+"("+value2.inputMessageName+")"]=value3;
+    							}
+    						});
+    					}
+    						
+    						
+                    });
+    			});
+    		});
+    	} else if(protoJsonRead.size > 1){
+    		angular.forEach(protoJsonRead, function(value, key){
     			angular.forEach(value.protobuf_json.service.listOfOperations, function(value1, key1){
     				angular.forEach(value1.listOfInputMessages,function(value2,key2){
                         // console.log(value1);
@@ -2884,6 +3164,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			$scope.portDets.orig.value.shortname = value.shortname;
     			$scope.portDets.orig.value.fullType = value.fullType;
     		}
+    		console.log($scope.portDets);
     	});
     	/*
 		 * if($scope.selectedOutput !== null){ p.orig.value.type =
@@ -2891,7 +3172,250 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 		 * [dataBrokerOutput[$scope.selectedOutput]]; }
 		 */
     	update_ports();
+    	targetTableCreate($scope.portDets);
     	dc.redrawAll();
     	$scope.closePoup();
     }
+    
+    function targetTableCreate(portDetails){    	
+    	//console.log($scope.portDets.orig.value.fullType[0].messageargumentList);
+    	var targetTable=[];
+    	angular.forEach(portDetails.orig.value.fullType[0].messageargumentList, function(value,key){
+    		if(value.complexType){
+    			angular.forEach(value.complexType.messageargumentList, function(value1,key1){
+    				if(value1.complexType){
+    					angular.forEach(value1.complexType.messageargumentList, function(value2,key2){
+    						targetTable.push({"tag":value2.tag,
+    							"name": value2.name,
+    							"type": value2.type,
+    							"role": value2.role,
+    							"parent": value1.complexType.messageName,
+    							"parentRole": value1.role,
+    							"grandParent": value.complexType.messageName,
+    							"grandParentRole": value.role,
+    							"greatGrandParent": portDetails.orig.value.fullType[0].messageName});
+    					});
+    				} else{
+    					targetTable.push({"tag":value1.tag,
+							"name": value1.name,
+							"type": value1.type,
+							"role": value1.role,
+							"parent": value.complexType.messageName,
+							"parentRole": value.role,
+							"grandParent": portDetails.orig.value.fullType[0].messageName,
+							"greatGrandParent": ""});
+    				}
+    			});
+    		} else{
+    			targetTable.push({"tag":value.tag,
+    								"name": value.name,
+    								"type": value.type,
+    								"role": value.role,
+    								"parent": portDetails.orig.value.fullType[0].messageName,
+    								"grandParent": "",
+    								"greatGrandParent": ""});
+    		}
+    	});
+    	console.log(targetTable);
+    	$scope.targetMapTable = targetTable;
+    	dc.redrawAll();
+    	$scope.closePoup();
+    }
+    
+    $scope.showMappingTable = function(ev) {
+        $mdDialog.show({
+            contentElement: '#myDialogMapping',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+        });
+    };
+    
+    var checkFieldMap = new Map();
+    $scope.mapCheckField = function(d){
+    	checkFieldMap.set(d,this.checkfield?"yes":"no");
+    }
+    
+    var fieldNameMap = new Map();
+    $scope.mapFieldName = function(d){
+    	/*console.log(d);
+    	console.log(this.checkfield);*/
+    	fieldNameMap.set(d,this.data)// need to check
+    }
+    
+    var fieldTypeMap = new Map();
+    $scope.mapFieldType = function(d){
+    	fieldTypeMap.set(d,this.fieldType);
+    };
+    
+    var tagMap = new Map();
+    $scope.mappingTag = function(d){
+    	tagMap.set(d,this.mapTag);
+    };
+    
+    
+    $scope.mappingsSave = function(){
+    	
+    	var targetTableCdump = $scope.targetMapTable;
+    	var mapOutput = []; var mapInput = [];
+    	if($scope.dbType === "csv"){
+    		angular.forEach($scope.dataShow, function(valueData,keyData){
+	    		mapInput.push({"input_field": {
+	    			"name": valueData,
+	    			"type": fieldTypeMap.get(valueData)?fieldTypeMap.get(valueData):"null",
+	    			"checked": checkFieldMap.get(valueData)?"YES":"NO",
+	    			"mapped_to_field": tagMap.get(valueData)?tagMap.get(valueData):"null"
+	    		}});
+	    	});
+    	} else if($scope.dbType === "image"){
+    		angular.forEach($scope.dataImage, function(valueData,keyData){
+    			mapInput.push({"input_field": {
+	    			"name": valueData.Fieldname,
+	    			"type": valueData.FieldType,
+	    			"checked": checkFieldMap.get(valueData)?"YES":"NO",
+	    			"mapped_to_field": tagMap.get(valueData)?tagMap.get(valueData):"null"
+	    		}});
+    		});
+    	}
+    	angular.forEach(targetTableCdump, function(value,key){
+    		if(value.greatGrandParent !== ""){
+	    		mapOutput.push({"output_field": {
+	    			"tag": value.tag,
+	    			"name": value.name,
+	    			"type_and_role_hierarchy_list": [
+	    				{
+	    					"name": value.type,
+	    					"role": value.role
+	    				},
+	    				{
+	    					"name": value.parent,
+	    					"role": value.parentRole
+	    				},
+	    				{
+	    					"name": value.grandParent,
+	    					"role": value.grandParentRole
+	    				},
+	    				{
+	    					"name": value.greatGrandParent,
+	    					"role": "null"
+	    				}
+	    			]
+	    		}});
+    		} else if(value.grandParent !== ""){
+    			mapOutput.push({"output_field": {
+	    			"tag": value.tag,
+	    			"name": value.name,
+	    			"type_and_role_hierarchy_list": [
+	    				{
+	    					"name": value.type,
+	    					"role": value.role
+	    				},
+	    				{
+	    					"name": value.parent,
+	    					"role": value.parentRole
+	    				},
+	    				{
+	    					"name": value.grandParent,
+	    					"role": "null"
+	    				}
+	    			]
+    			}});
+    		} else if(value.parent !== ""){
+    			mapOutput.push({"output_field": {
+	    			"tag": value.tag,
+	    			"name": value.name,
+	    			"type_and_role_hierarchy_list": [
+	    				{
+	    					"name": value.type,
+	    					"role": value.role
+	    				},
+	    				{
+	    					"name": value.parent,
+	    					"role": "null"
+	    				}
+	    			]
+    			}});
+    		} else {
+    			mapOutput.push({"output_field": {
+	    			"tag": value.tag,
+	    			"name": value.name,
+	    			"type_and_role_hierarchy_list": [
+	    				{
+	    					"name": value.type,
+	    					"role": null
+	    				}
+	    			]
+    			}});
+    		}
+    	});
+    	console.log(mapOutput);
+    	var url;
+    	
+    	var data = {
+    			"databrokerMap": {
+    			    "script": null,
+    			    "csv_file_field_separator": null, //check
+    			    "data_broker_type": null,
+    			    "first_row": null,
+    			    "local_system_data_file_path": null, //need to complete
+    			    "target_system_url": null,
+    			    "map_action": null,
+    			    "map_inputs": mapInput,
+    			    "map_outputs": mapOutput
+    			  },
+    			  "fieldMap":null
+    		}
+        if(_solutionId){
+            url = build_url(options.modifyNode, {
+                userid: get_userId(),
+                // cid:_cid,
+                solutionid:_solutionId,
+                nodeid: $scope.nodeIdDB,
+                nodename: name,
+                // version : $scope.solutionVersion,
+                // data_broker_script: $scope.scriptText
+               // dataConnector:data
+
+            });
+        } else {
+            url = build_url(options.modifyNode, {
+                userid: get_userId(),
+                cid:_cid,
+                nodeid: $scope.nodeIdDB,
+                nodename: name,
+                // version : $scope.solutionVersion,
+                // data_broker_script: $scope.scriptText
+                // dataConnector:data
+
+            });
+        }
+        
+    	$http.post(url,data)
+        .success(function(result) {
+        	console.log(result);
+        	if(result.success === 'true'){        		
+        		$scope.saveState.noSaves = false;
+        		$scope.closePoup();
+        	}else{
+        		$scope.saveState.noSaves = true;
+        	}
+        })
+        .error(function(response){
+        	
+        });
+        
+    }
+    //$scope.showFileOption = false;
+    $('#optionshow').hide();
+    $('#myFile').change( function(event) {
+		 var filename = $("#myFile").val().split('.');
+		 var ext = filename[1];
+		 if(ext === 'csv'){
+			 $('#optionshow').show();
+		 } else{
+			 $('#optionshow').hide();
+		 }
+		 
+	   	 
+	});
 }
