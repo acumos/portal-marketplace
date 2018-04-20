@@ -76,11 +76,19 @@ angular.module('AcumosApp')
         var urlForONAP = 'api/webBasedOnBoarding/convertToOnap';
         var urlCasEnable = 'api/cas/enabled';
         var isSignUpEnable = 'api/admin/signup/enabled';
+        
+        var urlGetNotificationPref = 'api/notifications/pref/byUserId'
+        var urlPutNotificationPref = 'api/notifications/pref'
         	
         /**************** ALL GET ******************/
     	this.getAllActiveUser = function (activeStatus) {
             return $http.get(urlGetActiveUsers + '/' + activeStatus);
         };
+        
+        this.getUserNotificationPref = function (userId) {
+            return $http.get(urlGetNotificationPref + '/' + userId);
+        };
+        
         
         this.getRoleCount = function () {
             return $http.get(rolesCount);
@@ -215,6 +223,11 @@ angular.module('AcumosApp')
         this.updateSolutions = function(solution){
         	return $http.put(urlSolutions + '/' + solution.request_body.solutionId, solution);
         }
+        
+        this.updateNotificationPref = function(updateMethod, notification_req_body){
+        	return $http.put(urlPutNotificationPref + '/' +updateMethod, notification_req_body);
+        }
+        
         
         this.updatePublishSolution = function(solutionId, data){
         	return $http.put(urlPublishSolution + '/' + solutionId + '?' + data);

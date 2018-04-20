@@ -605,5 +605,148 @@ angular
 		                	  $mdDialog.hide();
 		                	  angular.element('#userImage').val('');
 		                  }
+		                  
+		                  /**** Notification Preference Start****/
+                          $scope.notificationPriority = [
+                                                             {
+                                                                 "prName": "LO",
+                                                                 "prValue": "Low"
+                                                             },
+                                                             {
+                                                                 "prName": "ME",
+                                                                 "prValue": "Medium"
+                                                            },
+                                                             {
+                                                                "prName": "HI",
+                                                                 "prValue": "High"
+                                                             },
+                                                         ];
+                          
+                          
+                         /* $scope.checkNotificationPriority = function(prVal){
+                              $scope.notificationPriority = prVal;
+                              console.log("$scope.notificationPriority :",$scope.notificationPriority);
+                          }*/
+                          
+                          //get notification pref
+                          $scope.getNotificationPref = function(){
+
+								apiService
+										.getUserNotificationPref(userId)
+										.then(
+												function(response) {
+													
+													if(response.data.response_body.length > 0){
+														$scope.userNotificationPref = response.data.response_body[0];
+													}
+
+												},
+												function(error) {
+													
+												});
+                          }
+                          $scope.getNotificationPref();
+                          
+                          $scope.putNotificationPref = function(){
+                        	  
+                        	  if($scope.userNotificationPref.userNotifPrefId){
+                        		  
+                        		  var notification_req_body = {
+            								"request_body" : {
+            								    "msgSeverityCode": $scope.userNotificationPref.msgSeverityCode,
+            								    "notfDelvMechCode": "EM",
+            								    "userId": userId,
+            								    "userNotifPrefId": $scope.userNotificationPref.userNotifPrefId
+            								}
+            							}
+                        		  
+                        		 apiService
+									.updateNotificationPref('update', notification_req_body)
+									.then(
+											function(response) {
+												
+												if(response.data.error_code == 500){
+													$scope.nofiticationPrefMsg = response.data.response_detail;
+													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+					                                $anchorScroll(); 
+					                                $scope.msg = 'Something Went Wrong'; 
+					                                $scope.icon = 'report_problem';
+					                                $scope.styleclass = 'c-error';
+					                                $scope.showAlertMessage = true;
+					                                $timeout(function() {
+					                                	$scope.showAlertMessage = false;
+					                                }, 2000);
+					                                $scope.getNotificationPref();
+												}else{
+													$scope.nofiticationPrefMsg = response.data.response_detail;
+													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+					                                $anchorScroll(); 
+					                                $scope.msg = $scope.nofiticationPrefMsg; 
+					                                $scope.icon = '';
+					                                $scope.styleclass = 'c-success';
+					                                $scope.showAlertMessage = true;
+					                                $timeout(function() {
+					                                	$scope.showAlertMessage = false;
+					                                }, 2000);
+					                                $scope.getNotificationPref();
+												}
+												
+
+											},
+											function(error) {
+												
+											});
+                        	  }else{
+                        		  
+                        		  var notification_req_body = {
+            								"request_body" : {
+            								    "msgSeverityCode": $scope.userNotificationPref.msgSeverityCode,
+            								    "notfDelvMechCode": "EM",
+            								    "userId": userId
+            								}
+            							}
+                        		  
+                        		  apiService
+									.updateNotificationPref('create', notification_req_body)
+									.then(
+											function(response) {
+												
+												if(response.data){
+													$scope.nofiticationPrefMsg = response.data.response_detail;
+													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+					                                $anchorScroll(); 
+					                                $scope.msg = $scope.nofiticationPrefMsg; 
+					                                $scope.icon = '';
+					                                $scope.styleclass = 'c-success';
+					                                $scope.showAlertMessage = true;
+					                                $timeout(function() {
+					                                	$scope.showAlertMessage = false;
+					                                }, 2000);
+					                                $scope.getNotificationPref();
+												}else{
+													$scope.nofiticationPrefMsg = response.data.response_detail;
+													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+					                                $anchorScroll(); 
+					                                $scope.msg = 'Something Went Wrong'; 
+					                                $scope.icon = 'report_problem';
+					                                $scope.styleclass = 'c-error';
+					                                $scope.showAlertMessage = true;
+					                                $timeout(function() {
+					                                	$scope.showAlertMessage = false;
+					                                }, 2000);
+					                                $scope.getNotificationPref();
+												}
+
+											},
+											function(error) {
+												
+											});
+                        	  }
+                          }
+                          
+                         
+                          
+                          /**** Notification Preference End****/
+
 					}
 				});

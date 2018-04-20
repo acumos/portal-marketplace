@@ -191,12 +191,12 @@
 			<div class="u-note-row1">
 				<div>
 					<md-checkbox class="u-note-chkbox1" aria-label="checked checkbox"
-						ng-model="data.cb4" ng-init="data.cb4=true"> Email </md-checkbox>
+						ng-model="data.cbEmail" ng-init="data.cbEmail=true"> Email </md-checkbox>
 				</div>
 				<div class="u-note-row1-inner">
 					<md-input-container class="md-block" flex-gt-sm>
-					<label>Enter Email ID</label> <input type="text" name="firstName"
-						required /> </md-input-container>
+					<label>Enter Email ID</label> <input type="text" name="firstName" ng-model="user.email"
+						required disabled/> </md-input-container>
 					<!-- <md-checkbox class="u-note-chkbox2" aria-label="checked checkbox"
 						ng-model="data.cb5" ng-init="data.cb5=true"> Use my
 					registered email ID </md-checkbox> -->
@@ -204,13 +204,15 @@
 				<div class="u-note-priority-container">
 					<div class="select-control">
 						<label class="fedlbl4">Set Notification Priority</label>
-						<md-select ng-model="user" md-on-open="loadUsers()"> <md-option
-							ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
-						</md-select>
+						 <md-select ng-model="userNotificationPref.msgSeverityCode" placeholder="Select"><!-- md-on-open="loadUsers()" ng-model="priority.emailprName"--> 
+                            <md-option ng-value="priority.prName" ng-repeat="priority in notificationPriority" ng-click="">
+                            {{priority.prValue}}
+                            </md-option>
+                        </md-select>
 					</div>
 				</div>
 			</div>
-			<div class="u-note-row1">
+			<!-- <div class="u-note-row1">
 				<div>
 					<md-checkbox class="u-note-chkbox1" aria-label="checked checkbox"
 						ng-model="data.cb4" ng-init="data.cb4=true"> Text </md-checkbox>
@@ -252,16 +254,16 @@
 						ng-value="user" ng-repeat="user in users">{{user.name}}</md-option>
 					</md-select>
 				</div>
-			</div>
+			</div> -->
 		</div>		
 	</div>
 	<div class="text-right u-note-btn-container">
 		<button
 			class="mdl-button mdl-js-button btn-secondary"
-			ng-click="updateDeactivate('deactivate')" alt="Cancel" title="Cancel">Cancel</button>
-		<button ng-disabled="signupForm.$invalid"
+			ng-click="getNotificationPref()" alt="Cancel" title="Cancel">Cancel</button>
+		<button ng-disabled="!data.cbEmail"
 			class="mdl-button mdl-js-button btn-primary btn-gap"
-			ng-click="updateDeactivate('update')" alt="Save" title="Save">Save</button>
+			ng-click="putNotificationPref()" alt="Save" title="Save">Save</button>
 	</div>
 	</md-content> </md-tab> </md-tabs>
 </div>
