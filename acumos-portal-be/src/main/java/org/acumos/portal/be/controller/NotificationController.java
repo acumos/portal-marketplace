@@ -37,6 +37,7 @@ import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLUserNotifPref;
+import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,7 +143,7 @@ public class NotificationController extends AbstractController {
 	 * @return List of notifications
 	 */
 	@ApiOperation(value = "Gets a list of Paginated Notifications for Market Place Catalog.", response = MLNotification.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.USER_NOTIFICATIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.MAIL_NOTIFICATIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLPUserNotification>> getUserNotifications(HttpServletRequest request,
 			@PathVariable("userId") String userId, @RequestBody JsonRequest<RestPageRequest> restPageReq,
@@ -433,5 +434,38 @@ public class NotificationController extends AbstractController {
 		return data;
 	}
 
-
+	   /**
+		 * 
+		 * @param request
+		 *            HttpServletRequest
+		 * @param userId
+		 *            userId
+		 * @param restPageReq
+		 *            rest page request
+		 * @param response
+		 *            HttpServletResponse
+		 * @return List of notifications
+		 */
+		@ApiOperation(value = "Sending mail after successful Onboarding")
+		@RequestMapping(value = { APINames.USER_NOTIFICATIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+		@ResponseBody
+		public JsonResponse<MLUserNotifPref> sendMailNotification(HttpServletRequest request,
+				@PathVariable("user") User user, @PathVariable("subject") String subject, @PathVariable("template") String template,@RequestBody JsonRequest<MLUserNotifPref> mlpNotification, HttpServletResponse response) {
+			JsonResponse<MLUserNotifPref> data = new JsonResponse<>();
+			try {
+				if (mlpNotification.getBody() != null) {
+					notificationService.sendMailNotification(user, subject, template);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					log.debug(EELFLoggerDelegate.debugLogger, "Mail Send Successfully :  ");
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					log.error(EELFLoggerDelegate.errorLogger, "Error Occurred while Sending Mail :");
+				}
+			} catch (Exception e) {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+				data.setResponseDetail("Exception occured while sending mail");
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail :", e);
+			}
+			return data;
+		}
 }

@@ -23,7 +23,9 @@ package org.acumos.portal.be.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -32,13 +34,18 @@ import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.service.MailJet;
+import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLUserNotifPref;
+import org.acumos.portal.be.transport.MailData;
+import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,6 +55,12 @@ public class NotificationServiceImpl implements NotificationService {
  
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	MailService mailservice;
+	    
+    @Autowired
+	MailJet mailJet;
 
 	private ICommonDataServiceRestClient getClient() {
 		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
@@ -191,6 +204,37 @@ public class NotificationServiceImpl implements NotificationService {
 		dataServiceRestClient.updateUserNotificationPreference(mlpUserNotifPref);
 
 	}
+	@Override
+	public void sendMailNotification(User user, String subjectKey, String templateKey) {
+		
+		log.debug(EELFLoggerDelegate.debugLogger, "successemail user={}", user);
+		String subject =env.getProperty(subjectKey);
+		String template = env.getProperty(templateKey);
+		MailData mailData = new MailData();
+		mailData.setSubject(subject);
+		mailData.setFrom("customerservice@acumos.org");
+		mailData.setTemplate(template);
+		List<String> to = new ArrayList<String>();
+		to.add(user.getEmailId());
+		mailData.setTo(to);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("user", user);
+		mailData.setModel(model);
 
+		try {
+			if (!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service"))
+					&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
+
+				// Use SMTP setup
+				mailservice.sendMail(mailData);
+			} else {
+				if (!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service"))
+						&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet"))
+					mailJet.sendMail(mailData);
+			}
+		} catch (MailException ex) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+		}
+	}
 
 }
