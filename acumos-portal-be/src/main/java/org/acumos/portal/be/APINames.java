@@ -173,7 +173,8 @@ public class APINames {
     public static final String CREATE_NOTIFICATION = "/notifications/createNotification";
     public static final String ADD_USER_NOTIFICATIONS = "/notifications/create/{notificationId}/user/{userId}";
     public static final String NOTIFICATIONS = "/notifications/notifications";
-    public static final String USER_NOTIFICATIONS = "/notifications/{userId}";    
+    public static final String USER_NOTIFICATIONS = "/notifications/{userId}"; 
+    public static final String MAIL_NOTIFICATIONS = "/notifications/{user}/{subject}/{template}";
     public static final String VIEW_USER_NOTIFICATIONS= "/notifications/view/{notificationId}/user/{userId}";
     public static final String NOTIFICATIONS_COUNT = "/notifications/count";
     public static final String DELETE_NOTIFICATIONS = "/notifications/delete/{notificationId}";
