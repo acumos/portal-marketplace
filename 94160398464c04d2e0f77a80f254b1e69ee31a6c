@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8162d6bd_872de7b5",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "I think it\u0027s a bad idea to commit and publish use of smtp.gmail.com.  For local testing ok, but not for public use.",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c2830a2_a125c19a",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "Please remove this cognita, the link should be docs.acumos.org!",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafb7efd_8d73c2ac",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "Please remove this cognita link",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc3ae19_29c6179b",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "Please remove this cognita link",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f7e87bb_1e9cd8b1",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "Does this change have to be made to Acumos-R?",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c6b60c4_20105686",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "Please make private",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4299f9e0_b62bb2d0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "This should not be hardcoded",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5371171_2bebe2cf",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/UserServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "Why does a generatePasswword method send email?",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44db7e72_26ac9704",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/UserServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "Why are these property keys hardcoded?  Use constants please",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e01f6c_084b970b",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/UserServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "This user name parameter will NOT be populated, please revise",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5488ab_f5a566ce",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/newuserCredentials.ftl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-20T12:20:03Z",
+      "side": 1,
+      "message": "I think this file should have an Acumos license header.",
+      "revId": "94160398464c04d2e0f77a80f254b1e69ee31a6c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
