@@ -26,7 +26,8 @@ import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.transport.MLNotification;
-import org.acumos.portal.be.transport.MLUserNotifPref; 
+import org.acumos.portal.be.transport.MLUserNotifPref;
+import org.acumos.portal.be.transport.User; 
 
 public interface NotificationService {
 
@@ -53,5 +54,6 @@ public interface NotificationService {
     MLUserNotifPref createUserNotificationPreference(MLUserNotifPref mlpUserNotifPref);
        
     void updateUserNotificationPreference(MLUserNotifPref mlpUserNotifPref);
-
+    
+    void sendMailNotification(User user,String subject ,String template);
 }
