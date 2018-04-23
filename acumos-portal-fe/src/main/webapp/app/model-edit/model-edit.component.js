@@ -886,10 +886,10 @@ angular
 								console.log("Tag Error: ",error)
 							});
 						
-						}
-						
+						}					
 
 						$scope.tagRemoved = function(tag) {
+
 							console.log('Removed: ' + tag.text);
 							apiService.deleteTag($scope.solution.solutionId,
 									tag.text).then(function(response) {
@@ -925,7 +925,6 @@ angular
 						$scope.publishtoMarket = function(pub_value) {
 							var userId = sessionStorage.getItem("SessionName");
 							$scope.currentModelAccess = pub_value;
-
 							if (pub_value == 'OR') {
 								var flow= 'company';
 							} else if (pub_value == 'PB') {
@@ -946,12 +945,16 @@ angular
 								$scope.icon = 'report_problem';
 								$scope.styleclass = 'c-warning';
 								$scope.showAlertMessage = true;
-								$scope.getModelValidation(flow);
+	
 								$timeout(function() {
 									$scope.showAlertMessage = false;
 								}, 2500);
-								return
-
+				
+								
+								if( $scope.validationEnabled == true ){
+									$scope.getModelValidation(flow);
+								}
+								 return;
 
 							}
 
@@ -969,7 +972,10 @@ angular
 													data)
 											.then(
 													function(response) {
-														$scope.getModelValidation(flow);
+														if( $scope.validationEnabled == true ){
+															$scope.getModelValidation(flow);
+														}
+														
 														$scope.handleSuccess = true;
 														$timeout(
 																function() {
@@ -2442,6 +2448,16 @@ angular
 	                	
 	                };
 	               
+					$scope.validationEnabled = false;
+					
+                    $scope.getValidationStatus = function(){
+
+                   		apiService.getValidationstatus().then( function(response){
+                 			$scope.validationEnabled = response.data;             			
+                 		});
+                     }  
+               		
+                     $scope.getValidationStatus(); 
 	                	
 					/***** pre populated images for demo purpose according to the name of solution*****/
 					$scope.imgURLCL = "images/alarm.png";

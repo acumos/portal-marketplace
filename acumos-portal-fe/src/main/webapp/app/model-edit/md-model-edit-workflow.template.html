@@ -139,7 +139,7 @@
 												</ul>
 											</div>
 									</a></li>
-									<li ng-click="(solution.accessType=='OR')? getModelValidation('company'):solution.accessType;">
+									<li>
 										<a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='company'}"
 										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')" alt="Publish to Company Marketplace" title="Publish to Company Marketplace">
@@ -185,7 +185,7 @@
                                                                         </ul>
                                                                   </div>
                                                       </a></li> -->
-									<li ng-click="(solution.accessType=='PB')? getModelValidation('public'):solution.accessType;">
+									<li>
 										<a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='public'}"
 										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')" alt="Publish to Public Marketplace" title="Publish to Public Marketplace">
@@ -538,9 +538,9 @@
 								ng-show="tab=='company'" ng-class="{'isActive':tab=='company'}">
 								<div>
 									<ul>
-										<li>
+										<li> 
 											<div class="imageplace"
-												ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
+												ng-class="{'completed': (validationEnabled == true && (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ))}">
 												<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation"> <!-- <img
                                                                               src="images/ico_model_documentation.png" alt="" title=""> -->
 												</span>
@@ -548,7 +548,7 @@
 											<div class="text">Model Documentation</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
+											ng-class="{'completed': (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ) && validationEnabled == true}">
 										</li>
 										<li ng-show = "scShow">
 											<div class="imageplace">
@@ -1274,7 +1274,7 @@
 
 														</h2>
 														<p>Choose tags to help describe your model. Add new
-															tags if needed.</p>
+															tags if needed. Tags can have 32 characters only.</p>
 
 														<!-- <md-content class="editable-desc"
                                                                                                 ng-click="showSolTags = !showSolTags">
@@ -1290,9 +1290,6 @@
 															source="loadAllTags($query)" min-length="0"
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
-															<div class="help-inline validation-msgs">
-																<span>Tags can have 32 characters only.</span>
-															</div>
 														</p>
 														<!-- <div class="checkbox" ng-if="tags.length<1">
                                                                                           <label> <input type="checkbox"
@@ -2356,14 +2353,14 @@
 								<ul>
 									<li>
 										<div class="imageplace"
-											ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
+											ng-class="{'completed': (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ) && validationEnabled == true}">
 											<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation">
 											</span>
 										</div>
 										<div class="text">Model Documentation</div>
 									</li>
 									<li class="progress-status"
-										ng-class="{'completed': modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB'}">
+										ng-class="{'completed': (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ) && validationEnabled == true}">
 									</li>
 									<li ng-show = "scShow">
 										<div class="imageplace">
@@ -3037,7 +3034,7 @@
                                                                                                 on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
 													</h2>
 													<p>Choose tags to help describe your model. Add new
-														tags if needed.</p>
+														tags if needed. Tags can have 32 characters only.</p>
 													<p class="editable-desc"
 														ng-click="showSolTags = !showSolTags"></p>
 
@@ -3050,9 +3047,6 @@
 															source="loadAllTags($query)" min-length="0" 
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
-															<div class="help-inline validation-msgs">
-																<span>Tags can have 32 characters only.</span>
-															</div>
 													</div>
 
 													<p>

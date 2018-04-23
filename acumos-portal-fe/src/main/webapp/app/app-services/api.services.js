@@ -76,9 +76,9 @@ angular.module('AcumosApp')
         var urlForONAP = 'api/webBasedOnBoarding/convertToOnap';
         var urlCasEnable = 'api/cas/enabled';
         var isSignUpEnable = 'api/admin/signup/enabled';
-        
         var urlGetNotificationPref = 'api/notifications/pref/byUserId'
         var urlPutNotificationPref = 'api/notifications/pref'
+        var urlValidationstatusUrl = 'api/auth/validationStatus';
         	
         /**************** ALL GET ******************/
     	this.getAllActiveUser = function (activeStatus) {
@@ -466,6 +466,10 @@ angular.module('AcumosApp')
         
         this.addToCatalogONAP = function(solutionId, revisionId, userId, modelName){
         	return $http.post(urlForONAP+ '/' + solutionId + '/' + revisionId + '/' + userId + '/' + modelName);
+        };
+        
+        this.getValidationstatus = function () {
+            return $http.post(urlValidationstatusUrl);
         };
         
     }]);
