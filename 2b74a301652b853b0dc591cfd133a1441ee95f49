@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ff76d16_eb5dfee4",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-23T15:56:44Z",
+      "side": 1,
+      "message": "Always true, we are just checking object is not null assert. it should be object assert with values which are previously created.",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 40
+      },
+      "revId": "2b74a301652b853b0dc591cfd133a1441ee95f49",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dce45ccb_21bb4971",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-23T15:56:44Z",
+      "side": 1,
+      "message": "No Assert for this.",
+      "range": {
+        "startLine": 344,
+        "startChar": 2,
+        "endLine": 344,
+        "endChar": 24
+      },
+      "revId": "2b74a301652b853b0dc591cfd133a1441ee95f49",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385d7f91_9f4cb13e",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-23T15:56:44Z",
+      "side": 1,
+      "message": "No assert for this test case.",
+      "range": {
+        "startLine": 348,
+        "startChar": 13,
+        "endLine": 348,
+        "endChar": 49
+      },
+      "revId": "2b74a301652b853b0dc591cfd133a1441ee95f49",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b53d2be_fe69af72",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-23T15:56:44Z",
+      "side": 1,
+      "message": "Follow naming conventions",
+      "range": {
+        "startLine": 350,
+        "startChar": 18,
+        "endLine": 350,
+        "endChar": 33
+      },
+      "revId": "2b74a301652b853b0dc591cfd133a1441ee95f49",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c92dc31_6498edd1",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-23T15:56:44Z",
+      "side": 1,
+      "message": "No assert for test case.",
+      "range": {
+        "startLine": 373,
+        "startChar": 13,
+        "endLine": 373,
+        "endChar": 49
+      },
+      "revId": "2b74a301652b853b0dc591cfd133a1441ee95f49",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9d1d609_23b5d3f6",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-23T15:56:44Z",
+      "side": 1,
+      "message": "Follow naming conventions.",
+      "range": {
+        "startLine": 375,
+        "startChar": 18,
+        "endLine": 375,
+        "endChar": 33
+      },
+      "revId": "2b74a301652b853b0dc591cfd133a1441ee95f49",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1ee31f1_53d018b4",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-23T15:56:44Z",
+      "side": 1,
+      "message": "Kindly check the size limitation of property before setting value.",
+      "range": {
+        "startLine": 377,
+        "startChar": 18,
+        "endLine": 377,
+        "endChar": 36
+      },
+      "revId": "2b74a301652b853b0dc591cfd133a1441ee95f49",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
