@@ -272,7 +272,7 @@
 
 						</div>
 						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
-						<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
+						<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription || solution.accessType == 'PR'"></div>
 						<div ng-bind-html="solutionCompanyDesc1" ng-show="showORDescription" ></div>
 						
 						<!-- <h6 class="sectiontitle6">EXAMPLE</h6>

@@ -391,8 +391,16 @@ angular
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												$scope.getComment();
 												$scope.getArtifacts();
-												$scope.getSolPublicDesc();
-												$scope.getSolCompanyDesc();
+												/*$scope.getSolPublicDesc();
+												$scope.getSolCompanyDesc();*/
+												//if solution PR then get public description by default.
+												if($scope.solution.accessType == "PR"){
+													$scope.getSolPublicDesc();
+												}
+												else{
+													$scope.getSolCompanyDesc();
+													$scope.getSolPublicDesc();
+												}
 												if(!$scope.solutionPublicDesc){
 													$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 												}
@@ -420,6 +428,15 @@ angular
 											if (data.response_body.revisions != null) {
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												donwloadPopupValue();
+											}
+											
+											//if solution PR then get public description by default.
+											if($scope.solution.accessType == "PR"){
+												$scope.getSolPublicDesc();
+											}
+											else{
+												$scope.getSolCompanyDesc();
+												$scope.getSolPublicDesc();
 											}
 											
 											//trying for signatures-can be replaced by reading the .proto file and displaying the contents
@@ -932,8 +949,7 @@ angular
 													config) {
 									});
 						}
-						$scope.getSolPublicDesc();
-						$scope.getSolCompanyDesc();
+						
 						if(!$scope.solutionPublicDesc){
 							$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 						}
@@ -1098,8 +1114,16 @@ angular
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
-							$scope.getSolPublicDesc();
-							$scope.getSolCompanyDesc();
+/*							$scope.getSolPublicDesc();
+							$scope.getSolCompanyDesc();*/
+							//if solution PR then get public description by default.
+							if($scope.solution.accessType == "PR"){
+								$scope.getSolPublicDesc();
+							}
+							else{
+								$scope.getSolCompanyDesc();
+								$scope.getSolPublicDesc();
+							}
 							if(!$scope.solutionPublicDesc){
 								$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 							}
@@ -1131,7 +1155,14 @@ angular
 													config) {
 											});
 						}
-						$scope.getSolCompanyDesc();
+						//$scope.getSolCompanyDesc();
+						//if solution PR then get public description by default.
+						/*if($scope.solution.accessType == "PR"){
+							$scope.getSolPublicDesc();
+						}
+						else{
+							$scope.getSolCompanyDesc();
+						}*/
 
 						$scope.getSolPublicDesc = function() {
 						
@@ -1549,9 +1580,17 @@ angular
 						
 							$scope.getPublicSolutionDocuments = function(type){
 								var accessType = 'public';
+								
 								if( type == 'OR' ){
 									accessType = 'org';
 								}
+								
+								/*if( type == 'PR' ){
+									accessType = 'public';
+								}else{
+									
+								}*/
+								
 								
 		                       	 var getSolutionDocumentsReq = {
 											method : 'GET',

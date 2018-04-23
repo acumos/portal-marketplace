@@ -59,4 +59,5 @@ public class AbstractResponseObject {
 	public void setUserAssignedRolesList(List<MLPRole> userAssignedRolesList) {
 		this.userAssignedRolesList = userAssignedRolesList;
 	}
+
 }
