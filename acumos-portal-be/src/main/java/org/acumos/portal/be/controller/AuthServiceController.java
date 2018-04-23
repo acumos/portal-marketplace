@@ -198,6 +198,7 @@ public class AuthServiceController extends AbstractController {
 		boolean isValid = false;
 		MLPUser mlpUser = null;
 		List<MLPRole> userAssignedRolesList = new ArrayList<>();
+		
 		// Check if the UserName or emailId is null or not.
 		if (PortalUtils.isEmptyOrNullString(user.getBody().getUsername()) && PortalUtils.isEmptyOrNullString(user.getBody().getEmailId())) {
 			log.debug(EELFLoggerDelegate.errorLogger, "Invalid Parameters");
@@ -433,5 +434,18 @@ public class AuthServiceController extends AbstractController {
 			}
 		}
 		return responseVO;
+	}
+	
+	@ApiOperation(value = "Provide the Validation status for the application", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.VALIDATION_STATUS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public String validationStatus(){
+
+		log.debug(EELFLoggerDelegate.debugLogger, "provide the Validation status for the application={}");
+
+		String validationAccess = env.getProperty("portal.feature.validateModel");
+				
+		return validationAccess;
+		
 	}
 }

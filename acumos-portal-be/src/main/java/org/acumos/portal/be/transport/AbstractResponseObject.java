@@ -35,6 +35,7 @@ public class AbstractResponseObject {
 	private boolean loginPassExpire;
 	private String JwtToken;
 	private List<MLPRole> userAssignedRolesList;
+	private String validationAccess;
 
 	public boolean isLoginPassExpire() {
 		return loginPassExpire;
@@ -58,5 +59,13 @@ public class AbstractResponseObject {
 
 	public void setUserAssignedRolesList(List<MLPRole> userAssignedRolesList) {
 		this.userAssignedRolesList = userAssignedRolesList;
+	}
+
+	public String getValidationAccess() {
+		return validationAccess;
+	}
+
+	public void setValidationAccess(String validationAccess) {
+		this.validationAccess = validationAccess;
 	}
 }
