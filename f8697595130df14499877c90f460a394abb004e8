@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c4f3770_1ef8050a",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AuthServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-23T22:33:14Z",
+      "side": 1,
+      "message": "This will not work - you have used the {} to indicate a parameter, but supplied no value.",
+      "range": {
+        "startLine": 444,
+        "startChar": 16,
+        "endLine": 444,
+        "endChar": 100
+      },
+      "revId": "f8697595130df14499877c90f460a394abb004e8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14ce764b_07bb5c78",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/AbstractResponseObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-23T22:33:14Z",
+      "side": 1,
+      "message": "Why is this specific field in an abstract response object? it\u0027s just baffling.",
+      "revId": "f8697595130df14499877c90f460a394abb004e8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e5b17eb_e73964d6",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-23T22:33:14Z",
+      "side": 1,
+      "message": "Why hardcode values like this?  Can the server do something better?",
+      "revId": "f8697595130df14499877c90f460a394abb004e8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
