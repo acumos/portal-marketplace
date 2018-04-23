@@ -19,6 +19,9 @@
  */
 package org.acumos.be.test.controller;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +39,7 @@ import org.acumos.portal.be.controller.NotificationController;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.impl.NotificationServiceImpl;
 import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
@@ -43,12 +47,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import static org.mockito.Mockito.*;
 
 public class NotificationControllerTest {
 
@@ -62,12 +64,12 @@ public class NotificationControllerTest {
 	NotificationServiceImpl notificationService;
 	@Mock
 	NotificationService notificationServiceImpl;
-	
+
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 
 	@Test
-	public void createNotificationTest(){
+	public void createNotificationTest() {
 
 		MLPNotification mlpNotification = new MLPNotification();
 		JsonResponse<MLNotification> data = new JsonResponse<>();
@@ -85,21 +87,22 @@ public class NotificationControllerTest {
 		when(notificationService.createNotification(mlpNotification)).thenReturn(value);
 		data = notificationController.createNotification(request, notificationReq, response);
 		data.setResponseBody(value);
-		
+
 		notificationReq.setBody(null);
 		when(notificationService.createNotification(mlpNotification)).thenReturn(value);
 		data = notificationController.createNotification(request, notificationReq, response);
 		data.setResponseBody(value);
-		
-		if(data != null){
-			logger.debug(EELFLoggerDelegate.debugLogger, "Notification created Successfully :  "+data.getResponseBody());
-		}else {
+
+		if (data != null) {
+			logger.debug(EELFLoggerDelegate.debugLogger,
+					"Notification created Successfully :  " + data.getResponseBody());
+		} else {
 			logger.error(EELFLoggerDelegate.errorLogger, "Error Occurred createNotification :");
 		}
 	}
-	
+
 	@Test
-	public void getNotifications(){
+	public void getNotifications() {
 		MLNotification mlNotification = new MLNotification();
 		mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
 		mlNotification.setCount(1);
@@ -114,14 +117,14 @@ public class NotificationControllerTest {
 		notificationres.setResponseBody(mlNotificationList);
 		when(notificationService.getNotifications()).thenReturn(mlNotificationList);
 		notificationres = notificationController.getNotifications();
-		
+
 		when(notificationService.getNotifications()).thenReturn(null);
 		notificationres = notificationController.getNotifications();
-		
+
 	}
-	
+
 	@Test
-	public void getUserNotifications(){
+	public void getUserNotifications() {
 		MLPUserNotification mlpUserNotification = new MLPUserNotification();
 		Date created = new Date();
 		mlpUserNotification.setCreated(created);
@@ -150,174 +153,250 @@ public class NotificationControllerTest {
 		if (restPageRequest.getPage() != null || restPageRequest.getSize() != null) {
 			notifires.setResponseBody(mlpUserNotificationList);
 		}
-		
+
 		when(notificationService.getUserNotifications(userId, restPageRequest)).thenReturn(mlpUserNotificationList);
 		notifires = notificationController.getUserNotifications(request, userId, restPageReq, response);
 		when(notificationService.getUserNotifications(userId, restPageRequest)).thenReturn(null);
-		notifires = notificationController.getUserNotifications(request, userId, restPageReq, response);	
+		notifires = notificationController.getUserNotifications(request, userId, restPageReq, response);
 	}
-	
+
 	@Test
 	public void addNotificationUserTest() {
-		
-			MLNotification mlNotification = new MLNotification();
-			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
-			mlNotification.setCount(1);
-			mlNotification.setMessage("notification");
-			mlNotification.setTitle("Notification");
-			mlNotification.setUrl("http://notify.com");
-			Assert.assertNotNull(mlNotification);
-			List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
-			mlNotificationList.add(mlNotification);
-			Assert.assertNotNull(mlNotificationList);
-			JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
-			notificationres.setResponseBody(mlNotificationList);
 
-			MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
-			mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
-			mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Assert.assertNotNull(mlpNotificationUserMap);
-			String userId = mlpNotificationUserMap.getUserId();
-			String notificationId = mlpNotificationUserMap.getNotificationId();
-			Assert.assertNotNull(userId);
-			Assert.assertNotNull(notificationId);
-			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
-			mockImpl.addNotificationUser(notificationId, userId);
-			notificationController.addNotificationUser(request, notificationId, userId, response);
-			logger.info("Successfully  added notifiaction for particular user : " + notificationres.getResponseBody());
-			Assert.assertNotNull(notificationres);
-		
-			notificationId=null;
-			userId=null;
-			notificationController.addNotificationUser(request, notificationId, userId, response);
+		MLNotification mlNotification = new MLNotification();
+		mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
+		mlNotification.setCount(1);
+		mlNotification.setMessage("notification");
+		mlNotification.setTitle("Notification");
+		mlNotification.setUrl("http://notify.com");
+		Assert.assertNotNull(mlNotification);
+		List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
+		mlNotificationList.add(mlNotification);
+		Assert.assertNotNull(mlNotificationList);
+		JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
+		notificationres.setResponseBody(mlNotificationList);
+
+		MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
+		mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
+		mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		Assert.assertNotNull(mlpNotificationUserMap);
+		String userId = mlpNotificationUserMap.getUserId();
+		String notificationId = mlpNotificationUserMap.getNotificationId();
+		Assert.assertNotNull(userId);
+		Assert.assertNotNull(notificationId);
+		NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
+		mockImpl.addNotificationUser(notificationId, userId);
+		notificationController.addNotificationUser(request, notificationId, userId, response);
+		logger.info("Successfully  added notifiaction for particular user : " + notificationres.getResponseBody());
+		Assert.assertNotNull(notificationres);
+
+		notificationId = null;
+		userId = null;
+		notificationController.addNotificationUser(request, notificationId, userId, response);
 	}
+
 	@Test
 	public void dropNotificationUserTest() {
-		
-			MLNotification mlNotification = new MLNotification();
-			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
-			mlNotification.setCount(1);
-			mlNotification.setMessage("notification");
-			mlNotification.setTitle("Notification");
-			mlNotification.setUrl("http://notify.com");
-			Assert.assertNotNull(mlNotification);
-			List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
-			mlNotificationList.add(mlNotification);
-			Assert.assertNotNull(mlNotificationList);
-			JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
-			notificationres.setResponseBody(mlNotificationList);
 
-			MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
-			mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
-			mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Assert.assertNotNull(mlpNotificationUserMap);
-			String userId = mlpNotificationUserMap.getUserId();
-			String notificationId = mlpNotificationUserMap.getNotificationId();
-			Assert.assertNotNull(userId);
-			Assert.assertNotNull(notificationId);
-			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
-			mockImpl.dropNotificationUser(notificationId, userId);
-			notificationController.dropNotificationUser(request, notificationId, userId, response);
-			logger.info("Successfully  droped notifiaction for particular user : " + notificationres.getResponseBody());
-			Assert.assertNotNull(notificationres);
-			
-			notificationId=null;
-			userId=null;
-			mockImpl.dropNotificationUser(notificationId, userId);	
-			notificationController.dropNotificationUser(request, notificationId, userId, response);
+		MLNotification mlNotification = new MLNotification();
+		mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
+		mlNotification.setCount(1);
+		mlNotification.setMessage("notification");
+		mlNotification.setTitle("Notification");
+		mlNotification.setUrl("http://notify.com");
+		Assert.assertNotNull(mlNotification);
+		List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
+		mlNotificationList.add(mlNotification);
+		Assert.assertNotNull(mlNotificationList);
+		JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
+		notificationres.setResponseBody(mlNotificationList);
+
+		MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
+		mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
+		mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		Assert.assertNotNull(mlpNotificationUserMap);
+		String userId = mlpNotificationUserMap.getUserId();
+		String notificationId = mlpNotificationUserMap.getNotificationId();
+		Assert.assertNotNull(userId);
+		Assert.assertNotNull(notificationId);
+		NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
+		mockImpl.dropNotificationUser(notificationId, userId);
+		notificationController.dropNotificationUser(request, notificationId, userId, response);
+		logger.info("Successfully  droped notifiaction for particular user : " + notificationres.getResponseBody());
+		Assert.assertNotNull(notificationres);
+
+		notificationId = null;
+		userId = null;
+		mockImpl.dropNotificationUser(notificationId, userId);
+		notificationController.dropNotificationUser(request, notificationId, userId, response);
 	}
 
 	@Test
 	public void setNotificationUserViewedTest() {
 
-			MLNotification mlNotification = new MLNotification();
-			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
-			mlNotification.setCount(1);
-			mlNotification.setMessage("notification");
-			mlNotification.setTitle("Notification");
-			mlNotification.setUrl("http://notify.com");
-			Assert.assertNotNull(mlNotification);
-			List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
-			mlNotificationList.add(mlNotification);
-			Assert.assertNotNull(mlNotificationList);
-			JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
-			notificationres.setResponseBody(mlNotificationList);
+		MLNotification mlNotification = new MLNotification();
+		mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
+		mlNotification.setCount(1);
+		mlNotification.setMessage("notification");
+		mlNotification.setTitle("Notification");
+		mlNotification.setUrl("http://notify.com");
+		Assert.assertNotNull(mlNotification);
+		List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
+		mlNotificationList.add(mlNotification);
+		Assert.assertNotNull(mlNotificationList);
+		JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
+		notificationres.setResponseBody(mlNotificationList);
 
-			MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
-			mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
-			mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Assert.assertNotNull(mlpNotificationUserMap);
-			String userId = mlpNotificationUserMap.getUserId();
-			String notificationId = mlpNotificationUserMap.getNotificationId();
-			Assert.assertNotNull(userId);
-			Assert.assertNotNull(notificationId);
-			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
-			mockImpl.setNotificationUserViewed(notificationId, userId);
-			notificationController.setNotificationUserViewed(request, notificationId, userId, response);
-			Assert.assertNotNull(notificationres);
-			
-			notificationId=null;
-			userId=null;
-			mockImpl.setNotificationUserViewed(notificationId, userId);
-			notificationController.setNotificationUserViewed(request, notificationId, userId, response);
+		MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
+		mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
+		mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		Assert.assertNotNull(mlpNotificationUserMap);
+		String userId = mlpNotificationUserMap.getUserId();
+		String notificationId = mlpNotificationUserMap.getNotificationId();
+		Assert.assertNotNull(userId);
+		Assert.assertNotNull(notificationId);
+		NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
+		mockImpl.setNotificationUserViewed(notificationId, userId);
+		notificationController.setNotificationUserViewed(request, notificationId, userId, response);
+		Assert.assertNotNull(notificationres);
+
+		notificationId = null;
+		userId = null;
+		mockImpl.setNotificationUserViewed(notificationId, userId);
+		notificationController.setNotificationUserViewed(request, notificationId, userId, response);
 	}
 
 	@Test
 	public void deleteNotificationTest() {
 
-			MLNotification mlNotification = new MLNotification();
-			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
-			mlNotification.setCount(1);
-			mlNotification.setMessage("notification");
-			mlNotification.setTitle("Notification");
-			mlNotification.setUrl("http://notify.com");
-			Assert.assertNotNull(mlNotification);
-			List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
-			mlNotificationList.add(mlNotification);
-			Assert.assertNotNull(mlNotificationList);
-			JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
-			notificationres.setResponseBody(mlNotificationList);
-			
-			MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
-			mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
-			mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Assert.assertNotNull(mlpNotificationUserMap);
-			String userId = mlpNotificationUserMap.getUserId();
-			Assert.assertNotNull(userId);
-			String notificationId = mlpNotificationUserMap.getNotificationId();
-			Assert.assertNotNull(notificationId);
-			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
-			mockImpl.dropNotificationUser(notificationId, userId);
-			mockImpl.deleteNotification(notificationId);
-			notificationController.deleteNotification(request, notificationId, response);
-			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
-			Assert.assertNotNull(notificationres);
-		
-			notificationId=null;
-			userId=null;
-			mockImpl.dropNotificationUser(notificationId, userId);
-			mockImpl.deleteNotification(notificationId);
-			notificationController.deleteNotification(request, notificationId, response);
+		MLNotification mlNotification = new MLNotification();
+		mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
+		mlNotification.setCount(1);
+		mlNotification.setMessage("notification");
+		mlNotification.setTitle("Notification");
+		mlNotification.setUrl("http://notify.com");
+		Assert.assertNotNull(mlNotification);
+		List<MLNotification> mlNotificationList = new ArrayList<MLNotification>();
+		mlNotificationList.add(mlNotification);
+		Assert.assertNotNull(mlNotificationList);
+		JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
+		notificationres.setResponseBody(mlNotificationList);
+
+		MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
+		mlpNotificationUserMap.setNotificationId(mlNotification.getNotificationId());
+		mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		Assert.assertNotNull(mlpNotificationUserMap);
+		String userId = mlpNotificationUserMap.getUserId();
+		Assert.assertNotNull(userId);
+		String notificationId = mlpNotificationUserMap.getNotificationId();
+		Assert.assertNotNull(notificationId);
+		NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
+		mockImpl.dropNotificationUser(notificationId, userId);
+		mockImpl.deleteNotification(notificationId);
+		notificationController.deleteNotification(request, notificationId, response);
+		logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
+		Assert.assertNotNull(notificationres);
+
+		notificationId = null;
+		userId = null;
+		mockImpl.dropNotificationUser(notificationId, userId);
+		mockImpl.deleteNotification(notificationId);
+		notificationController.deleteNotification(request, notificationId, response);
 	}
 
 	@Test
-	public void getNotificationCountTest(){		
-			MLNotification mlNotification = new MLNotification();
-			mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
-			mlNotification.setCount(1);
-			mlNotification.setMessage("notification");
-			mlNotification.setTitle("Notification");
-			mlNotification.setUrl("http://notify.com");
-			Assert.assertNotNull(mlNotification);
-			JsonResponse<MLNotification> notificationres = new JsonResponse<>();
-			notificationres.setResponseBody(mlNotification);
-			NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
-			mockImpl.getNotificationCount();
-			when(notificationServiceImpl.getNotificationCount());
-			notificationres = notificationController.getNotificationCount();
-			notificationService.getNotificationCount();
-			logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
-			Assert.assertNotNull(notificationres);
-			
+	public void getNotificationCountTest() {
+		MLNotification mlNotification = new MLNotification();
+		mlNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
+		mlNotification.setCount(1);
+		mlNotification.setMessage("notification");
+		mlNotification.setTitle("Notification");
+		mlNotification.setUrl("http://notify.com");
+		Assert.assertNotNull(mlNotification);
+		JsonResponse<MLNotification> notificationres = new JsonResponse<>();
+		notificationres.setResponseBody(mlNotification);
+		NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
+		mockImpl.getNotificationCount();
+		when(notificationServiceImpl.getNotificationCount());
+		notificationres = notificationController.getNotificationCount();
+		notificationService.getNotificationCount();
+		logger.info("Successfully  setNotificationUserViewed: " + notificationres.getResponseBody());
+		Assert.assertNotNull(notificationres);
+
+	}
+
+	@Test
+	public void getUserNotifPrefByUserIdTest() {
+
+		JsonResponse<List<MLNotification>> notificationres = new JsonResponse<>();
+		MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();
+		mlpNotificationUserMap.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		Assert.assertNotNull(mlpNotificationUserMap);
+		String userId = mlpNotificationUserMap.getUserId();
+		Assert.assertNotNull(userId);
+		NotificationServiceImpl mockImpl = mock(NotificationServiceImpl.class);
+		mockImpl.getUserNotifPrefByUserId(userId);
+		notificationController.getUserNotifPrefByUserId(request, userId, response);
+		logger.info("Successfully  getUserNotifPrefByUserId: " + notificationres.getResponseBody());
+		Assert.assertNotNull(mockImpl);
+		userId = null;
+		mockImpl.getUserNotifPrefByUserId(userId);
+		notificationController.getUserNotifPrefByUserId(request, userId, response);
+		Assert.assertNotNull(notificationController);
+	}
+
+	@Test
+	public void createUserNotificationPreferenceTest() {
+		
+		MLUserNotifPref mlpNotification = new MLUserNotifPref();
+		JsonResponse<MLUserNotifPref> data = new JsonResponse<>();
+		mlpNotification.setMsgSeverityCode("LO");
+		mlpNotification.setUserNotifPrefId(123l);
+		mlpNotification.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		mlpNotification.setNotfDelvMechCode("41058105-67f4-4461-a192-f4cb7fdafd34");
+		Assert.assertNotNull(mlpNotification);
+		JsonRequest<MLUserNotifPref> notificationReq = new JsonRequest<>();
+		notificationReq.setBody(mlpNotification);
+		when(notificationService.createUserNotificationPreference(mlpNotification)).thenReturn(mlpNotification);
+		data = notificationController.createUserNotificationPreference(request, notificationReq, response);
+		Assert.assertNotNull(data);
+		Assert.assertNotNull(notificationController);
+		notificationReq.setBody(null);
+		when(notificationService.createUserNotificationPreference(mlpNotification)).thenReturn(mlpNotification);
+		data = notificationController.createUserNotificationPreference(request, notificationReq, response);
+		Assert.assertNotNull(data);
+
+		if (data != null) {
+			logger.debug(EELFLoggerDelegate.debugLogger,
+					"Successfully created User Notification Preference  :  " + data.getResponseBody());
+		} else {
+			logger.error(EELFLoggerDelegate.errorLogger, "Error Occurred createUserNotificationPreference :");
+		}
+	}
+	
+	@Test
+	public void updateUserNotificationPreferenceTest() {
+		
+		MLUserNotifPref mlUserNotifPref = new MLUserNotifPref();
+		JsonResponse<MLUserNotifPref> data = new JsonResponse<>();
+		mlUserNotifPref.setMsgSeverityCode("notification created");
+		mlUserNotifPref.setUserNotifPrefId(123l);
+		mlUserNotifPref.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		mlUserNotifPref.setNotfDelvMechCode("41058105-67f4-4461-a192-f4cb7fdafd34");
+		JsonRequest<MLUserNotifPref> notificationReq = new JsonRequest<>();
+		notificationReq.setBody(mlUserNotifPref);
+		Assert.assertNotNull(mlUserNotifPref);
+		data = notificationController.updateUserNotificationPreference(request, notificationReq, response);
+		Assert.assertNotNull(data);
+		Assert.assertNotNull(notificationController);
+		notificationReq.setBody(null);
+		data = notificationController.updateUserNotificationPreference(request, notificationReq, response);
+		Assert.assertNotNull(data);
+		if (data != null) {
+			logger.debug(EELFLoggerDelegate.debugLogger,
+					"Successfully Updated UserNotification Preference :  " + data.getResponseBody());
+		} else {
+			logger.error(EELFLoggerDelegate.errorLogger, "Error Occurred updateUserNotificationPreference :");
+		}
 	}
 }
