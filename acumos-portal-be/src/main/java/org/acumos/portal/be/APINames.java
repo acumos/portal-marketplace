@@ -124,6 +124,7 @@ public class APINames {
      
     public static final String JWTTOKEN = "/jwtToken";
     public static final String JWTTOKENVALIDATION = "/validateToken";
+    public static final String VALIDATION_STATUS = "/validationStatus";
     
     //Role APIs for MarketPlace user
     public static final String ROLES = "/roles";
