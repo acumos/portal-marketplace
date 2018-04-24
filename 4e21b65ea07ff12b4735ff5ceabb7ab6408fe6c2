@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d04967c_b006604f",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AuthServiceController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "Please move this string to a constant instead of hardcoding",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6197eb4_b3c23b9c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AuthServiceController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "Is all this extra whitespace necessary?",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de14fdd7_d033e6cb",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/AbstractResponseObject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "Please remove this whitespace-only change so that file is simply untouched",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd915a8e_34762809",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "Please clean up this trailing whitespace",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8684aba3_e030acae",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "Please remove code, don\u0027t comment out",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d6184eb_7b6dc726",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "Repeatedly hardcoding PR is bad practice",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb616eca_263acd5a",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "remove code, don\u0027t comment out",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6db527e5_1ced06a4",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "remove code, don\u0027t comment out",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90168c36_f865c4c3",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1588,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:03:13Z",
+      "side": 1,
+      "message": "Remove code, don\u0027t comment out",
+      "revId": "4e21b65ea07ff12b4735ff5ceabb7ab6408fe6c2",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
