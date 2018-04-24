@@ -55,6 +55,7 @@ portal.getValidation.api=http://localhost:9000/status
 
 #FeatureController
 #portal.feature.email=false
+portal.feature.email_from=support@acumos.org
 portal.feature.email_service=
 portal.feature.validateModel=false
 portal.feature.cas_enabled=false
