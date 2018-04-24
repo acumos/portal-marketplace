@@ -20,8 +20,16 @@ angular
 						 * $window.location.reload(); $rootScope.load = false; }
 						 */
 						//API for rating the model start
+						/*$scope.showPBDescription = false;
+						$scope.showORDescription = true;*/
+						
+						$scope.orgVar = "OR";
+						$scope.pubVar = "PB";
+						$scope.priVar = "PR";
+						$scope.showORDescription = false;
 						$scope.showPBDescription = false;
-						$scope.showORDescription = true;
+						$scope.showORDocs = false;
+						$scope.showPBDocs = false;
 						
 						$scope.clearForm = function(){
 							deploy.reset();
@@ -52,8 +60,9 @@ angular
 								};
 							$http(req)
 							.success(function(data, status, headers,config) {
-								 
-								$scope.allUserRatings = data.response_body.content;
+								if(data.response_body){
+									$scope.allUserRatings = data.response_body.content;
+								}
 								$scope.ratingCount1 = 0;
 								$scope.ratingCount2 = 0;
 								$scope.ratingCount3 = 0;
@@ -234,8 +243,10 @@ angular
 								url : url,
 								data : dataObj
 							}).success(function(data, status, headers,config) {
-									$scope.mlSolutionGetRating = data.response_body;
-									$scope.ratingReview = $scope.mlSolutionGetRating.textReview;
+									if(data.response_body){
+										$scope.mlSolutionGetRating = data.response_body;
+										$scope.ratingReview = $scope.mlSolutionGetRating.textReview;
+									}
 								 
 								}).error(
 									function(data, status, headers,config) {
@@ -391,8 +402,16 @@ angular
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												$scope.getComment();
 												$scope.getArtifacts();
-												$scope.getSolPublicDesc();
-												$scope.getSolCompanyDesc();
+												/*$scope.getSolPublicDesc();
+												$scope.getSolCompanyDesc();*/
+												//if solution PR then get public description by default.
+												if($scope.solution.accessType == "PR"){
+													$scope.getSolPublicDesc();
+												}
+												else{
+													$scope.getSolCompanyDesc();
+													$scope.getSolPublicDesc();
+												}
 												if(!$scope.solutionPublicDesc){
 													$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 												}
@@ -420,6 +439,15 @@ angular
 											if (data.response_body.revisions != null) {
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												donwloadPopupValue();
+											}
+											
+											//if solution PR then get public description by default.
+											if($scope.solution.accessType == "PR"){
+												$scope.getSolPublicDesc();
+											}
+											else{
+												$scope.getSolCompanyDesc();
+												$scope.getSolPublicDesc();
 											}
 											
 											//trying for signatures-can be replaced by reading the .proto file and displaying the contents
@@ -678,7 +706,6 @@ angular
 													$scope.CommentName = origComments;
 													
 											}
-											
 										})
 										
 								.error(function(data, status, headers, config) {
@@ -901,7 +928,7 @@ angular
 								console.log(data);
 							})*/
 						}
-						$scope.getSolPublicDesc = function(){
+						/*$scope.getSolPublicDesc = function(){
 							var req = {
 									method : 'GET',
 									url : '/site/api-manual/Solution/description/public/' + $scope.solutionId + '/' + $scope.revisionId,
@@ -931,9 +958,8 @@ angular
 											function(data, status, headers,
 													config) {
 									});
-						}
-						$scope.getSolPublicDesc();
-						$scope.getSolCompanyDesc();
+						}*/
+						
 						if(!$scope.solutionPublicDesc){
 							$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 						}
@@ -1098,8 +1124,16 @@ angular
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
-							$scope.getSolPublicDesc();
-							$scope.getSolCompanyDesc();
+/*							$scope.getSolPublicDesc();
+							$scope.getSolCompanyDesc();*/
+							//if solution PR then get public description by default.
+							if($scope.solution.accessType == "PR"){
+								$scope.getSolPublicDesc();
+							}
+							else{
+								$scope.getSolCompanyDesc();
+								$scope.getSolPublicDesc();
+							}
 							if(!$scope.solutionPublicDesc){
 								$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 							}
@@ -1121,17 +1155,26 @@ angular
 									.success(
 											function(data, status, headers,
 													config) {
+												debugger
 												//$scope.solutionCompanyDesc = data.description;
 												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.description);
 												/*if($scope.solutionCompanyDesc){
 													$scope.solutionCompanyDescStatus = true;
 												}*/
+												
 											}).error(
 											function(data, status, headers,
 													config) {
 											});
 						}
-						$scope.getSolCompanyDesc();
+						//$scope.getSolCompanyDesc();
+						//if solution PR then get public description by default.
+						/*if($scope.solution.accessType == "PR"){
+							$scope.getSolPublicDesc();
+						}
+						else{
+							$scope.getSolCompanyDesc();
+						}*/
 
 						$scope.getSolPublicDesc = function() {
 						
@@ -1145,7 +1188,35 @@ angular
 											function(data, status, headers,
 													config) {
 												//$scope.solutionPublicDesc = data.description;
-												$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
+												debugger
+												if (data.description == "" || data.description == null || data.description == undefined){
+													$scope.getSolCompanyDesc();
+													if($scope.solution.accessType == 'OR'){
+														$scope.showORDescription = true;
+													 }else if($scope.solution.accessType == 'PB' ){
+														 $scope.showPBDescription = true;
+													 }else {
+														 $scope.showORDescription = true;
+															$scope.showPBDescription = false;
+													 }
+													
+												}else{
+													$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
+													
+													if($scope.solution.accessType == 'OR'){
+														$scope.showORDescription = true;
+														$scope.showPBDescription = false;
+														
+													}else if($scope.solution.accessType == 'PB'){
+														$scope.showPBDescription = true;
+														$scope.showORDescription = false;
+													}else{
+														$scope.showPBDescription = true;
+														$scope.showORDescription = false;
+													}
+													
+												}
+												
 												/*if($scope.solutionPublicDesc){
 													$scope.solutionPublicDescStatus = true;
 												}*/
@@ -1548,36 +1619,101 @@ angular
 							$scope.getSolutionImages();
 						
 							$scope.getPublicSolutionDocuments = function(type){
-								var accessType = 'public';
-								if( type == 'OR' ){
-									accessType = 'org';
+								var accessType;
+								$scope.noDocs = false;
+								if( type == $scope.priVar){
+									accessType = 'public';
+									$scope.getPBSolutionDocs(accessType);
+								}else{
+									$scope.getORSolutionDocs('org');
+									$scope.getPBSolutionDocs('public');
+								} 
+		                        
+							}
+							
+								//get both PB and OR solution documents. Toggle docs on click of tabs on top
+							
+								$scope.getPBSolutionDocs = function(accessType){
+									 var accessType = accessType;
+									 var getSolutionDocumentsReq = {
+												method : 'GET',
+												url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
+										};
+			                       	 $http(getSolutionDocumentsReq)
+											.success(
+													function(data, status, headers,
+															config) {
+														debugger
+														 if(data.response_body.length < 1){
+															 $scope.getORSolutionDocs('org'); 
+															 if($scope.solution.accessType == 'OR'){
+																 $scope.showORDocs = true;
+															 }else if($scope.solution.accessType == 'PB' ){
+																 $scope.showPBDocs = true;
+															 }else {
+																 $scope.showORDocs = true;
+																 $scope.showPBDocs = false;
+															 }
+														 }else{
+															 if($scope.solution.accessType == 'OR'){
+																 $scope.showORDocs = true;
+															 }else if($scope.solution.accessType == 'PB'){
+																 $scope.showPBDocs = true;
+															 }else{
+																 $scope.showORDocs = false;
+																 $scope.showPBDocs = true;
+															 }
+															 
+															 $scope.supportingDocsPB = [];
+																console.log(" Get Asset File name : " + data.response_body);
+																var fileName="";var fileExtension = '';
+				                                                angular.forEach(data.response_body, function(value, key) {
+				                                                    fileName = value;
+				                                                    fileExtension = fileName.split('.').pop();
+				                                                    $scope.supportingDocsPB.push({"name":value,"ext":fileExtension});
+			                                                    });
+														 }
+													}).error(
+															function(data, status, headers,
+																	config) {
+																$scope.supportingDocsPB = [];
+																return "No Contents Available"
+													});
 								}
 								
-		                       	 var getSolutionDocumentsReq = {
-											method : 'GET',
-											url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
-									};
-		                       	 $http(getSolutionDocumentsReq)
-										.success(
-												function(data, status, headers,
-														config) {
-													 
-													$scope.supportingDocs = [];
-													console.log(" Get Asset File name : " + data.response_body);
-													var fileName="";var fileExtension = '';
-	                                                angular.forEach(data.response_body, function(value, key) {
-	                                                    fileName = value;
-	                                                    fileExtension = fileName.split('.').pop();
-	                                                    $scope.supportingDocs.push({"name":value,"ext":fileExtension});
-	                                                    });
-													//$scope.supportingDocs = data.response_body;
-												}).error(
-														function(data, status, headers,
-																config) {
-															$scope.supportingDocs = [];
-															return "No Contents Available"
-														});
+								$scope.getORSolutionDocs = function(accessType){
+									 var accessType = accessType;
+									 var getSolutionDocumentsReq = {
+												method : 'GET',
+												url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
+										};
+			                       	 $http(getSolutionDocumentsReq)
+											.success(
+													function(data, status, headers,
+															config) {
+														if(data.response_body.length < 1){
+															$scope.noDocs = true;
+														}else{
+															$scope.supportingDocsOR = [];
+															console.log(" Get Asset File name : " + data.response_body);
+															var fileName="";var fileExtension = '';
+			                                                angular.forEach(data.response_body, function(value, key) {
+			                                                    fileName = value;
+			                                                    fileExtension = fileName.split('.').pop();
+			                                                    $scope.supportingDocsOR.push({"name":value,"ext":fileExtension});
+		                                                    });
+														}
+														
+		                                                
+													}).error(
+															function(data, status, headers,
+																	config) {
+																$scope.supportingDocsOR = [];
+																return "No Contents Available"
+													});
 								}
+							
+							
 							
 								//$scope.getPublicSolutionDocuments();
 								
