@@ -6,6 +6,10 @@ app.component('headerNav',{
 	
 	//templateUrl : '/app/header/header-nav.template.html',
 	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, productService, jwtHelper, $anchorScroll) {
+		$scope.$on('menuClickToggle', function(){
+			$scope.toggleHeaderClass();
+			$rootScope.hambergerClicked=false;
+		})
 		componentHandler.upgradeAllRegistered();
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");

@@ -167,5 +167,8 @@ app.component('sidebarNav',{
 		$scope.$on('roleCheck', function() {
 			$scope.userRoleAdmin = true;
 		});
+		
+		//Hide show of sidebar in mobile device
+		$scope.hamberClick = function(){$rootScope.$broadcast('menuClickToggle');}
 	}
 });

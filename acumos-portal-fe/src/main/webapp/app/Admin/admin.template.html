@@ -276,9 +276,276 @@
 												</div>
 												<div class="mdl-tabs__panel" id="tab3-panel">
 													<div class="admin-tab-heading"><span class="admin-title2">Site Content</span></div>
-													
-													
+													<h6 class="sectiontitle6">Customize Home Page</h6>
+													<div class="sc-container1">
+														<div class="sc-container1-child-left">
+															<div class="sc-child1">
+																<span>Top Carousel</span>
+																<div>
+																	<button class="mdl-button mdl-js-button btn-secondary sc-btn1">Add Slide</button>
+																	<div  class="select-control">
+													                    <md-select ng-model="exportTo" placeholder="Enable/Disable Slides" class="dc-cloud-list">
+													                        <md-option title="Enable">Enable</md-option>
+													                        <md-option title="Disable">Disable</md-option>													                       
+													                    </md-select>
+													                </div>
+																</div>
+															</div>
+															<section class="sc-cell-container">
+																<div class="sc-cell-childtop">
+																	<div>
+																		 <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">																            
+																          </md-checkbox>
+																          <span class="sc-slide-title">Slide 01</span>
+																          <span class="sc-slide-status text-green">Enabled</span>																          
+																	</div>
+																	<div>
+																		<md-button class="sc-link-btn1">Edit</md-button>
+																		<span>|</span>
+																		<md-button class="sc-link-btn1">Delete</md-button>
+																		<span>|</span>
+																		<md-button class="sc-link-btn1">Set order</md-button>
+																		<label class="sc-counter-container"><span class="sc-slide-counter">1</span></label>
+																	</div>
+																</div>
+																<div class="sc-cell-childmiddle">
+																	<div class="sc-img-container">
+																		<img src="../images/default-model.png" />
+																	</div>
+																	<div class="sc-text-container">
+																		<span>Headlines</span>
+																		<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																	</div>
+																</div>
+																<div class="sc-cell-childbottom">
+																	<label class="sc-bottom-text1">Button Names</label>
+																	<div>
+																		<span>Add Your Model Now</span>
+																		<span>Explore Marketplace</span>
+																	</div>
+																</div>
+															</section>
+															<section class="sc-cell-container disabled-container">
+																<div class="sc-cell-childtop">
+																	<div>
+																		 <md-checkbox ng-model="data.cb12" aria-label="Checkbox 2">																            
+																          </md-checkbox>
+																          <span class="sc-slide-title">Slide 02</span>																          
+																          <span class="sc-slide-status text-red">Disabled</span>
+																	</div>
+																	<div>
+																		<md-button class="sc-link-btn1">Edit</md-button>
+																		<span>|</span>
+																		<md-button class="sc-link-btn1">Delete</md-button>
+																		<span>|</span>
+																		<md-button class="sc-link-btn1">Set order</md-button>
+																		<label class="sc-counter-container"><span class="sc-slide-counter">2</span></label>
+																	</div>
+																</div>
+																<div class="sc-cell-childmiddle">
+																	<div class="sc-img-container">
+																		<img src="../images/default-model.png" />
+																	</div>
+																	<div class="sc-text-container">
+																		<span>Headlines</span>
+																		<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																	</div>
+																</div>
+																<div class="sc-cell-childbottom">
+																	<label class="sc-bottom-text1">Button Names</label>
+																	<div>
+																		<span>Add Your Model Now</span>
+																		<span>Explore Marketplace</span>
+																	</div>
+																</div>
+																
+															</section>
+														</div>
+														<div class="sc-container1-child-right">
+															<md-tabs md-dynamic-height md-border-bottom>
+														      <md-tab label="Event Carousel">
+														        <md-content >
+														        	<div class="sc-child1">																		
+																		<div>
+																			<button class="mdl-button mdl-js-button btn-secondary sc-btn1">Add Slide</button>
+																			<div  class="select-control">
+															                    <md-select ng-model="exportTo" placeholder="Enable/Disable Slides" class="dc-cloud-list">
+															                        <md-option title="Enable">Enable</md-option>
+															                        <md-option title="Disable">Disable</md-option>													                       
+															                    </md-select>
+															                </div>
+																		</div>
+																		<div>
+																			<md-switch ng-model="data.cb122" aria-label="Switch 1" class="md-warn">
+																				<span class="text-xsmall text-green" ng-show="data.cb122 == true">Enabled</span>
+																				<span class="text-xsmall text-red" ng-show="data.cb122 == false || data.cb122 == null ">Disabled</span>
+																			 </md-switch>
+																		</div>
+																	</div>
+														          	<section class="sc-cell-container">
+																		<div class="sc-cell-childtop">
+																			<div>
+																				 <md-checkbox ng-model="data.cb111" aria-label="Checkbox 1">																            
+																		          </md-checkbox>
+																		          <span class="sc-slide-title">Slide 01</span>
+																		          <span class="sc-slide-status text-green">Enabled</span>																          
+																			</div>
+																			<div>
+																				<md-button class="sc-link-btn1">Edit</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Delete</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Set order</md-button>
+																				<label class="sc-counter-container"><span class="sc-slide-counter">1</span></label>
+																			</div>
+																		</div>
+																		<div class="sc-cell-childmiddle">
+																			<div class="sc-img-container">
+																				<img src="../images/default-model.png" />
+																			</div>
+																			<div class="sc-text-container">
+																				<span>Headlines</span>
+																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																			</div>
+																		</div>
+																		<div class="sc-cell-childbottom">
+																			<label class="sc-bottom-text1">Button Names</label>
+																			<div>
+																				<span>Not mentioned</span>																				
+																			</div>
+																		</div>
+																	</section>
+																	<section class="sc-cell-container disabled-container">
+																		<div class="sc-cell-childtop">
+																			<div>
+																				 <md-checkbox ng-model="data.cb125" aria-label="Checkbox 2">																            
+																		          </md-checkbox>
+																		          <span class="sc-slide-title">Slide 02</span>																          
+																		          <span class="sc-slide-status text-red">Disabled</span>
+																			</div>
+																			<div>
+																				<md-button class="sc-link-btn1">Edit</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Delete</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Set order</md-button>
+																				<label class="sc-counter-container"><span class="sc-slide-counter">2</span></label>
+																			</div>
+																		</div>
+																		<div class="sc-cell-childmiddle">
+																			<div class="sc-img-container">
+																				<img src="../images/default-model.png" />
+																			</div>
+																			<div class="sc-text-container">
+																				<span>Headlines</span>
+																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																			</div>
+																		</div>
+																		<div class="sc-cell-childbottom">
+																			<label class="sc-bottom-text1">Button Names</label>
+																			<div>
+																				<span>Not mentioned</span>																				
+																			</div>
+																		</div>																
+																	</section>														
+														        </md-content>
+														      </md-tab>
+														      <md-tab label="Success Story Carousel">
+														        <md-content>
+														        		<div class="sc-child1">																		
+																		<div>
+																			<button class="mdl-button mdl-js-button btn-secondary sc-btn1">Add Slide</button>
+																			<div  class="select-control">
+															                    <md-select ng-model="exportTo" placeholder="Enable/Disable Slides" class="dc-cloud-list">
+															                        <md-option title="Enable">Enable</md-option>
+															                        <md-option title="Disable">Disable</md-option>													                       
+															                    </md-select>
+															                </div>
+																		</div>
+																		<div>
+																			<md-switch ng-model="data.cb123" aria-label="Switch 1" class="md-warn">
+																				<span class="text-xsmall text-green" ng-show="data.cb123 == true">Enabled</span>
+																				<span class="text-xsmall text-red" ng-show="data.cb123 == false || data.cb123 == null ">Disabled</span>
+																			 </md-switch>
+																		</div>
+																	</div>
+														          	<section class="sc-cell-container">
+																		<div class="sc-cell-childtop">
+																			<div>
+																				 <md-checkbox ng-model="data.cb133" aria-label="Checkbox 1">																            
+																		          </md-checkbox>
+																		          <span class="sc-slide-title">Slide 01</span>
+																		          <span class="sc-slide-status text-green">Enabled</span>																          
+																			</div>
+																			<div>
+																				<md-button class="sc-link-btn1">Edit</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Delete</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Set order</md-button>
+																				<label class="sc-counter-container"><span class="sc-slide-counter">1</span></label>
+																			</div>
+																		</div>
+																		<div class="sc-cell-childmiddle">
+																			<div class="sc-img-container">
+																				<img src="../images/default-model.png" />
+																			</div>
+																			<div class="sc-text-container">
+																				<span>Headlines</span>
+																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																			</div>
+																		</div>
+																		<div class="sc-cell-childbottom">
+																			<label class="sc-bottom-text1">Button Names</label>
+																			<div>
+																				<span>Not mentioned</span>																				
+																			</div>
+																		</div>
+																	</section>
+																	<section class="sc-cell-container disabled-container">
+																		<div class="sc-cell-childtop">
+																			<div>
+																				 <md-checkbox ng-model="data.cb1221" aria-label="Checkbox 2">																            
+																		          </md-checkbox>
+																		          <span class="sc-slide-title">Slide 02</span>																          
+																		          <span class="sc-slide-status text-red">Disabled</span>
+																			</div>
+																			<div>
+																				<md-button class="sc-link-btn1">Edit</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Delete</md-button>
+																				<span>|</span>
+																				<md-button class="sc-link-btn1">Set order</md-button>
+																				<label class="sc-counter-container"><span class="sc-slide-counter">2</span></label>
+																			</div>
+																		</div>
+																		<div class="sc-cell-childmiddle">
+																			<div class="sc-img-container">
+																				<img src="../images/default-model.png" />
+																			</div>
+																			<div class="sc-text-container">
+																				<span>Headlines</span>
+																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																			</div>
+																		</div>
+																		<div class="sc-cell-childbottom">
+																			<label class="sc-bottom-text1">Button Names</label>
+																			<div>
+																				<span>Not mentioned</span>																				
+																			</div>
+																		</div>																
+																	</section>
+														 		</md-content>
+														      </md-tab>														      
+														    </md-tabs>
+														</div>
+													</div>
+													<div class="sc-button-container">
+														<button type="button" class="mdl-button mdl-js-button btn-primary">Publish Home Page</button>
+														<button type="button" class="mdl-button mdl-js-button btn-secondary">Save As Draft</button>
+													</div>													
 												</div>
+												
 												<div class="mdl-tabs__panel" id="tab4-panel">
 													<div class="admin-tab-heading"><span class="admin-title2">Site Configuration</span></div>
 													

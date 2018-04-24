@@ -598,6 +598,7 @@ box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1); background: #fff; padding:0;}
 
 /******TAB STYLE start*********/
 md-tabs-content-wrapper {border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; min-height: 300px !important;}
+md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active {color: #671C9D !important; font-weight: 600;}
 /******TAB STYLE end*********/
 
 /**********Flex Containers start *********************/
@@ -823,6 +824,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .btn-grid-action:hover {background: none;color: #0366d6;}
 
 a.mdl-tabs__tab.tab5-panel {height:1px;}
+.model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {max-width: 350px; text-overflow: ellipsis; overflow: hidden;}
 /*************progress bar style start **************/
 
 
@@ -1802,6 +1804,100 @@ float: left; max-width: 65%;}
 
 .mdl-textfield .mdl-button:active {background: none;}
 
+/**********Site Content page style start ***********/
+.sc-container1 {display:flex; justify-content: space-between;align-items: flex-start; margin-bottom: 20px;}
+.sc-container1-child-left { width: 49%; border: 1px solid #d5d5d5;}
+.sc-container1-child-right {width: 49%;}
+
+.sc-child1 {display:flex; justify-content: space-between;align-items: center; padding: 10px; border-bottom: 1px solid #d5d5d5;}
+.sc-child1 span {font-weight: 600;}
+.sc-child1 div {display:flex; justify-content: space-between;}	
+.sc-child1 div .select-control {padding-right:0;}
+.sc-child1 div .select-control md-select{font-size: 12px;}
+.sc-btn1 {min-width: 40px; width: 90px; padding-left: 8px; padding-right: 8px;font-size: 12px;}
+.sc-link-btn1 {min-width: 30px; width: auto; margin:0; padding: 3px;font-size: 12px;color:#0366d6; height: 25px;min-height: 25px; line-height: 20px;text-transform: none;}
+.sc-link-btn1:hover {background: none !important;}
+
+.sc-cell-container {border-bottom: 1px solid #d5d5d5; }
+.sc-cell-container:last-child {border-bottom: none; }
+.sc-cell-childtop {display:flex; justify-content: space-between;align-items: center;padding: 0 0 0 10px;margin-bottom: 10px;}
+.sc-cell-childtop > div {display:flex; align-items: center;}
+.sc-cell-childtop md-checkbox {margin-bottom:0; margin-right: 8px;width: 15px;height: 15px;min-width: 15px;
+min-height: 15px;background: #fff;}
+.sc-cell-childtop md-checkbox .md-icon {height: 15px; width: 15px;top: 3px; }	
+.sc-cell-childmiddle {display:flex; padding: 0 10px;}
+.sc-cell-childbottom {background: #f7f7f7;padding: 10px;}
+.sc-cell-childbottom > div > span {margin-right: 35px;font-weight: 600;font-size: 12px;}
+.sc-cell-childbottom > div > span:last-child {margin-right: 0;}
+
+.sc-counter-container {display: flex; width: 35px; margin-left: 5px; height: 35px;margin-bottom: 0; background: #F2F2F2;align-items: center; justify-content:center;}
+.sc-slide-counter {display: inline-block; width: 23px; height: 23px; background: #fff; border-radius: 50%; border: 2px solid #671C9D;text-align:center;color: #671C9D;font-weight:600; font-size: 13px;}
+.sc-img-container { width: 100px; max-height: 100px; position:relative; margin-bottom: 10px;}
+.sc-img-container img { max-width: 100%; max-height: 100%; position:relative;}
+.sc-text-container { padding-left: 10px; }
+.sc-text-container > span {font-size: 14px;font-weight:600;}
+.sc-text-container > p {font-size: 13px; line-height: 16px; margin-bottom: 8px; }
+.sc-text-container > p:last-child {font-size: 12px;line-height: 14px;}
+.sc-bottom-text1 {font-size: 14px; font-weight: 600; margin-bottom: 8px;display: block;}
+
+.sc-slide-title {font-size: 14px; font-weight: 600; color: #671C9D; margin-right: 12px; text-overflow: ellipsis; overflow: hidden; max-width: 85px;white-space: nowrap;}
+.sc-slide-status {font-size: 11px; font-weight: 600;}
+
+.sc-cell-container.disabled-container {background: #eaeaea;}
+.sc-cell-container.disabled-container .sc-cell-childbottom {background: #eaeaea;}
+.sc-cell-container.disabled-container .sc-text-container, 
+.sc-cell-container.disabled-container .sc-cell-childbottom {color: #bababa;}
+.sc-cell-container.disabled-container .sc-img-container img {opacity: 0.3;}
+.sc-cell-container.disabled-container .sc-counter-container {background: #dbdbdb;}
+.sc-cell-container.disabled-container .sc-slide-counter {background: #f2f2f2; border: 2px solid #bababa;text-align:center; color: #bababa;}
+.sc-cell-container.disabled-container .sc-slide-title {color: #999;}
+.sc-child1 md-switch { margin:0;}
+.sc-button-container {border-top: 1px solid #d5d5d5; padding-top: 10px;}
+.sc-button-container button {margin-right: 5px;}
+/**********Site Content page style start ***********/
+/*  add slide for top carousel start*/
+/*---- File upload ----------*/
+.top-carousel-admin{width:700px; max-height: 85%;}
+.top-carousel-admin .add-document .upload-image-input{margin-top:5px;}
+.top-carousel-admin .upload-image-input{border: 1px solid rgba(0,0,0,.12); padding:3px 5px;    margin-top: 3px; }
+.top-carousel-admin .upload-image-input input[type="file"]{ position: absolute; top: 0; left: 0;  z-index: 2; width: 70px; height: 100%;  opacity: 0; cursor: pointer; } 
+.top-carousel-admin .upload-image-input input.mdl-textfield__input{box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666;}
+.top-carousel-admin .upload-field { position: relative;    cursor: pointer;    float: right;   /*  height: 26px; */    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
+    background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
+.top-carousel-admin .modal-note{margin-top:10px;}
+/*drag and drop*/
+.drag-drop{border: 1px dashed #d5d5d5; border-radius: 5px; width:auto; padding:15px; text-align:left;}
+.drag-drop img{display:block; margin:auto;}
+.drag-drop .destext{text-align:center; font-size: 16px; color: #777; padding: 5px 10px;}
+.mdl-button.mdl-js-button[disabled] {background: #e2e0e0; color: #B3B3B3; border-color: #d3d1d1;  cursor: not-allowed;}
+.infographics{display:flex; justify-content:space-between;}
+.infographics md-input-container label{width:auto;}
+.infographics md-switch{margin:0 0 0 5px; float:right; height:20px;}
+ul.aligntext{border-radius:2px; border:1px solid #d5d5d5; float:left; padding: 0px; margin:0 0 10px; background-color:#f1f1f1;}
+ul.aligntext li{list-style-type:none; display:inline; line-height: 10px; float:left; padding: 3px 10px;}
+ul.aligntext li:first-child{border-right:1px solid #d5d5d5; }
+ul.aligntext li a{color:#777;}
+ul.aligntext li.active{background-color:#FFF; }
+ul.aligntext li.active a{color:#4f147a;}
+.mdl-button.primary-name-btn, .mdl-button.primary-name-btn:hover, .mdl-button.primary-name-btn:active{ margin-bottom:2px; border-radius: 4px; min-height: 33px; padding: 0 5px; background-color: #fc0; border: 1px solid #fc0; color: #000; font-size:12px; height:25px;}
+.mdl-button.primary-name-btn i, .mdl-button.primary-add-name-btn i, .mdl-button.primary-explore-btn i{font-size:15px;}
+.mdl-button.primary-add-name-btn, .mdl-button.primary-add-name-btn:hover, .mdl-button.primary-add-name-btn:active{margin-bottom:2px;  border-radius: 4px; min-height: 33px; padding: 0 5px; background-color: #fff; border: 1px solid #fff; color: blue; font-size:12px; height:25px;}
+.mdl-button.primary-explore-btn, .mdl-button.primary-explore-btn:hover, .mdl-button.primary-explore-btn:active{margin-bottom:2px;  border-radius: 4px; min-height: 33px; padding: 0 5px; background-color: #fff; border: 1px solid #000; color: #000; font-size:12px; height:25px;}
+.upload-bg-image .upload-image-input{width: calc(100% - 87px); float:left;}
+.upload-bg-image .upload-image-input ~ span button.btn-secondary{margin-top:5px; font-size: 14px; min-height: 34px; float: right; font-weight:normal; min-width: auto; padding: 0 10px;}
+.modal-note{color:#888;}
+
+.slid-container{width: 25%; height: 100px;margin-top: 5px;float:left; margin-bottom:15px; background: #efefef;}
+.slides{border: 1px solid #adabab;width: 87%;height: 50px;margin: 10px;border-radius: 3px;}
+.SlideImage{width: 29%;margin-left: 8px; margin-top: 6px;}
+.Order-margin{margin-left:10px;}
+.image-caption{color:#671c9d; margin-left:3px;}
+.order-inputs{width: 20px;height: 14px;float: right;margin-right: 17px;margin-top: 3px;text-align: center;}
+.slid-container.active{background: #fff; -webkit-box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);
+-moz-box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);
+box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
+
+/*  add slide for top carousel end*/
 
 /*********** MEDIA QUERIES SECTION START************/
 
