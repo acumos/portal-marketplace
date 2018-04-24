@@ -25,8 +25,10 @@ import java.util.List;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.MLNotification;
-import org.acumos.portal.be.transport.MLUserNotifPref; 
+import org.acumos.portal.be.transport.MLUserNotifPref;
+import org.acumos.portal.be.transport.NotificationRequestObject; 
 
 public interface NotificationService {
 
@@ -53,5 +55,7 @@ public interface NotificationService {
     MLUserNotifPref createUserNotificationPreference(MLUserNotifPref mlpUserNotifPref);
        
     void updateUserNotificationPreference(MLUserNotifPref mlpUserNotifPref);
+
+    void sendUserNotification(NotificationRequestObject notificationRequest) throws AcumosServiceException;
 
 }
