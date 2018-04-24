@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62e50923_f60134c8",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/NotificationService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-04-24T15:54:47Z",
+      "side": 1,
+      "message": "High level comments about above method functionalities are missing here.",
+      "revId": "c821a24a31956970c63a2dda4a5258f86e4ec043",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
