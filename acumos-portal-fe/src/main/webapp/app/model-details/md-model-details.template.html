@@ -24,11 +24,16 @@
 					<button type="button" ng-show="solution.accessType != 'PR'"
 							class="mdl-button mdl-js-button mdl-js-ripple-effect "
 							ng-class="showORDescription == true ? 'btn-primary': 'btn-secondary'" alt="Company" title="Company" 
-							ng-click="showORDescription = !showORDescription; showPBDescription = false">Company</button>  <!-- solution.accessType == 'OR' || -->
+							ng-click="showORDescription = !showORDescription; showORDocs = !showORDocs; showPBDescription = false; showPBDocs = false">Company</button>  <!-- solution.accessType == 'OR' || -->
 					<button type="button" ng-show="solution.accessType != 'PR'"
 							class="mdl-button mdl-js-button mdl-js-ripple-effect"
 							ng-class="showPBDescription == true ? 'btn-primary': 'btn-secondary'" alt="Public" title="Public"
-							ng-click="showPBDescription = !showPBDescription; showORDescription = false">Public</button> <!-- solution.accessType == 'PB' || -->
+							ng-click="showPBDescription = !showPBDescription; showPBDocs = !showPBDocs; showORDescription = false; showORDocs = false">Public</button> <!-- solution.accessType == 'PB' || -->
+							<!-- <br>
+							showORDescription - {{showORDescription}}<br>
+							showORDocs - {{showORDocs}}<br>
+							showPBDescription - {{showPBDescription}}<br>
+							showPBDocs - {{showPBDocs}}<br> -->
 			</div>
 			</div>
 			
@@ -272,8 +277,8 @@
 
 						</div>
 						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
-						<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
-						<div ng-bind-html="solutionCompanyDesc1" ng-show="showORDescription" ></div>
+							<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
+							<div ng-bind-html="solutionCompanyDesc1" ng-show="showORDescription" ></div>
 						
 						<!-- <h6 class="sectiontitle6">EXAMPLE</h6>
 														<h6 class="sectiontitle7">Tree Example - English</h6>
@@ -340,7 +345,7 @@
 							</thead>
 							<tbody>
 								<!-- ng-repeat = "value in downloadData" -->
-								<tr ng-repeat="supportingDoc in supportingDocs">
+								<tr ng-repeat="supportingDoc in supportingDocsPB" ng-show="showPBDocs">
 									<td><span class="file-type">
 											<i class="fa fa-file-word-o" ng-if="supportingDoc.ext == 'docx'" aria-hidden="true"></i>
 											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'png'" aria-hidden="true"></i>
@@ -363,36 +368,63 @@
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
+								
+								
+								<tr ng-repeat="supportingDoc in supportingDocsOR" ng-show="showORDocs">
+									<td><span class="file-type">
+											<i class="fa fa-file-word-o" ng-if="supportingDoc.ext == 'docx'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'png'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'jpg'" aria-hidden="true"></i>
+											<i class="far fa-file-pdf" ng-if="supportingDoc.ext == 'pdf'" aria-hidden="true"></i>
+											<i class="far fa-file-powerpoint" ng-if="supportingDoc.ext == 'pptx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="supportingDoc.ext == 'xlsx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="supportingDoc.ext == 'csv'" aria-hidden="true"></i>
+											<i class="far fa-file-alt" ng-if="supportingDoc.ext == 'txt'" aria-hidden="true"></i>
+											<i class="far fa-file-archive" ng-if="supportingDoc.ext == 'zip'" aria-hidden="true"></i>
+									</span><a
+										class="link-blue">{{supportingDoc.name}}</a></td>
+									<td>{{versionId}}</td>
+									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
+									<td><a ng-if="solution.accessType ==='OR' " 
+										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc.name}}" alt="Download" title="Download">
+										<i class="fa fa-download" aria-hidden="true"></i> </a>
+										<a ng-if="solution.accessType !=='OR' " 
+										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc.name}}" alt="Download" title="Download">
+											<i class="fa fa-download" aria-hidden="true"></i>
+									</a></td>
+								</tr>
+								
+								
 								<!-- <tr>
-																	<td><span class="file-type"><i class="fa fa-file-excel-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 01</a></td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button btn-grid-action">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																	</td>
-																</tr>
-																<tr>
-																	<td><span class="file-type"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 02</a></td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button btn-grid-action">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																	</td>
-																</tr>
-																<tr>
-																	<td><span class="file-type"><i class="fa fa-folder-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Folder</a></td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button btn-grid-action">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																	</td>
-																</tr> -->
+									<td><span class="file-type"><i class="fa fa-file-excel-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 01</a></td>
+									<td>V1.0</td>
+									<td>05/21/2017</td>
+									<td>
+										<button class="mdl-button mdl-js-button btn-grid-action">
+										  <i class="fa fa-download" aria-hidden="true"></i>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td><span class="file-type"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 02</a></td>
+									<td>V1.0</td>
+									<td>05/21/2017</td>
+									<td>
+										<button class="mdl-button mdl-js-button btn-grid-action">
+										  <i class="fa fa-download" aria-hidden="true"></i>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td><span class="file-type"><i class="fa fa-folder-o" aria-hidden="true"></i></span><a class="link-blue" href="#">Folder</a></td>
+									<td>V1.0</td>
+									<td>05/21/2017</td>
+									<td>
+										<button class="mdl-button mdl-js-button btn-grid-action">
+										  <i class="fa fa-download" aria-hidden="true"></i>
+										</button>
+									</td>
+								</tr> -->
 
 
 							</tbody>
@@ -469,15 +501,15 @@
 								<div flex class="text-right" >
 									<ul class="horizontal-list2 md-social-icons">
 										<li><h6 class="sharetitle">Share with</h6></li>
-										<li><span alt="Facebook" title="Facebook"><i class="fab fa-facebook-f"
+										<li><span alt="Facebook" title="Facebook"><i class="fa fa-facebook"
 												aria-hidden="true"></i></span></li>
-										<li><span alt="Linkedin" title="Linkedin"><i class="fab fa-linkedin-in"
+										<li><span alt="Linkedin" title="Linkedin"><i class="fa fa-linkedin"
 												aria-hidden="true"></i></span></li>
-										<li><span alt="Google Plus" title="Google Plus"><i class="fab fa-google-plus-g"
+										<li><span alt="Google Plus" title="Google Plus"><i class="fa fa-google-plus"
 												aria-hidden="true"></i></span></li>
-										<li><span alt="Github" title="Github"><i class="fab fa-github"
+										<li><span alt="Github" title="Github"><i class="fa fa-github"
 												aria-hidden="true"></i></span></li>
-										<li><span alt="Twitter" title="Twitter"><i class="fab fa-twitter"
+										<li><span alt="Twitter" title="Twitter"><i class="fa fa-twitter"
 												aria-hidden="true"></i></span></li>
 									</ul>
 								</div>
@@ -515,28 +547,28 @@
 								<div class="mdl-cell mdl-cell--4-col rating-container-right">
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount5}} </span> <span>5
-											star</span>
+											stars</span>
 										<div class="progress">
 											<div class="determinate" style="width: 100%; background-color: green"></div>
 										</div>
 									</div>
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount4}} </span> <span>4
-											star</span>
+											stars</span>
 										<div class="progress">
 											<div class="determinate" style="width: 80%; background-color: green"></div>
 										</div>
 									</div>
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount3}} </span> <span>3
-											star</span>
+											stars</span>
 										<div class="progress">
 											<div class="determinate" style="width: 60%; background-color: green"></div>
 										</div>
 									</div>
 									<div class="progress-wrapper">
 										<span style="font-weight: bold"> {{ratingCount2}} </span> <span>2
-											star</span>
+											stars</span>
 										<div class="progress">
 											<div class="determinate" style="width: 40%; background-color: orange"></div>
 										</div>
