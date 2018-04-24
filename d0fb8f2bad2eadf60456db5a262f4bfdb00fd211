@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7eb3d886_655a9482",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/NotificationTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-04-24T12:55:04Z",
+      "side": 1,
+      "message": "Templates are in portal. The mail will be sent from portal. Cannot think why it should be in onboarding!",
+      "parentUuid": "f32eb9e4_ecb1d9c9",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89a161d7_ec376668",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/NotificationController.java",
         "patchSetId": 4
@@ -138,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "b66b20be_224a649b",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/NotificationServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-04-24T12:55:04Z",
+      "side": 1,
+      "message": "Currently we don\u0027t have any other option other than email. Will extend this once we have other means of notification",
+      "parentUuid": "1451c2ba_1e72bf6b",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b64588a_1d228d03",
         "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
         "patchSetId": 4
@@ -183,6 +219,24 @@
       "writtenOn": "2018-04-24T10:11:45Z",
       "side": 1,
       "message": "suggest using first and last name if present; otherwise login name",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d189af25_7b5cc8fa",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardingSuccess.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-04-24T12:55:04Z",
+      "side": 1,
+      "message": "Waiting for contents. once we have contents will change.",
+      "parentUuid": "35c70d84_9cbdf849",
       "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
