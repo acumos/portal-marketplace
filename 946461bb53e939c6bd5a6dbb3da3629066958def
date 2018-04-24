@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "393cef93_f34bff42",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-24T09:31:13Z",
+      "side": 1,
+      "message": "Assert outcome of Controller not controller itself.",
+      "range": {
+        "startLine": 349,
+        "startChar": 13,
+        "endLine": 349,
+        "endChar": 49
+      },
+      "revId": "946461bb53e939c6bd5a6dbb3da3629066958def",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "401bb731_46016533",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-24T09:31:13Z",
+      "side": 1,
+      "message": "Follow naming conventions.",
+      "range": {
+        "startLine": 351,
+        "startChar": 18,
+        "endLine": 351,
+        "endChar": 33
+      },
+      "revId": "946461bb53e939c6bd5a6dbb3da3629066958def",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e87d68ef_62d176f0",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-24T09:31:13Z",
+      "side": 1,
+      "message": "Removed this code.",
+      "range": {
+        "startLine": 369,
+        "startChar": 2,
+        "endLine": 374,
+        "endChar": 3
+      },
+      "revId": "946461bb53e939c6bd5a6dbb3da3629066958def",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d6a81f5_fb94b0bc",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/NotificationControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-04-24T09:31:13Z",
+      "side": 1,
+      "message": "check the size of property.",
+      "range": {
+        "startLine": 385,
+        "startChar": 18,
+        "endLine": 385,
+        "endChar": 37
+      },
+      "revId": "946461bb53e939c6bd5a6dbb3da3629066958def",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
