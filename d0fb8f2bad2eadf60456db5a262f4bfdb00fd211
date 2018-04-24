@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "01c1f2cb_58a9d79e",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/NotificationTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-04-24T13:26:48Z",
+      "side": 1,
+      "message": "Onboarding can initiate... but still the templates need to be in portal if portal is sending the email.",
+      "parentUuid": "7eb3d886_655a9482",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89a161d7_ec376668",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/NotificationController.java",
         "patchSetId": 4
