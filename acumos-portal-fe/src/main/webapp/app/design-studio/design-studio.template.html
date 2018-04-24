@@ -28,7 +28,7 @@
 							<md-tab label="Solutions"> 
 							<div class="ds-contentsection1">
 										<md-input-container md-no-float class="md-block ds-search-input">
-										<input ng-model="myFilter.solutionName" type="text"> <md-icon
+										<input ng-model="myFilter" type="text"> <md-icon
 											style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
@@ -45,7 +45,7 @@
 								
 									<!-- <p>Tab 2</p> -->
 									<ul class="ds-list3">
-									<li ng-repeat="val in publicCS | filter:myFilter | orderBy:'solutionName'" ng-click="loadSolution(val)"><label>{{val.solutionName}}({{val.version}})</label></li>
+									<li ng-repeat="val in publicCS | filter:myFilter | orderBy:'solutionName' " ng-click="loadSolution(val)"><label>{{val.solutionName}}({{val.version}})</label></li>
 									</ul>
 									<!-- <div class="form-group"><label for="usr">Name:</label><input type="text" class="form-control" id="usr" ng-model="solutionName"></div>
 									<div class="form-group"><label for="usr">Description:</label><input ng-model="solutionDescription" type="text" class="form-control" id="usr" ng-model="solutionName"></div>
@@ -364,6 +364,23 @@
 											
 										</div>
 										</div>
+							<div class="ds-section-data-inner3" ng-show="showDataBroker" style="position: relative; padding: 0; margin-left: -16px; margin-right: -16px">
+							
+								Source table and Target table are generated and extract the fields from uploaded data file
+								
+								<button ng-click='showMappingTable()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform">Mapping Table</button>
+							</div>
+									<!-- 	<div ng-if="fileContent" class="content" ng-show="showSourceTable">
+      <h5> Source Table</h5>
+	 
+	  <table border="0">
+		
+		<tr ng-repeat="data in dataShow">
+			<td> <input type="checkbox"></td>
+			<td>{{data}}</td>
+		</tr>
+	  </table>
+    </div>  -->
 							<div class="ds-section-data-inner3" ng-show="showLink" >
 							<!-- ng-show="solutionDetails" -->							
 								<ul class="ds-list2 properties-list">
@@ -753,40 +770,115 @@
 		</form>
 		</md-dialog>
 	</div>
-	<!-- popup to write script for Databroker start -->
-<div class="md-dialog-container" id="myDialogScript" style="height:30px;">
-							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
-								  
-									<md-toolbar>
-									  <div class="md-toolbar-tools">
-										<h2>Script For DataBroker</h2>
-										<span flex></span>
-										<md-button class="md-icon-button" ng-click="closePoup()" title="Close">
-										  <i class="material-icons">close</i>
-										</md-button>
-									  </div>
-									</md-toolbar>
-									<md-dialog-content>
-									<form ng-cloak>
-									  <div class="md-dialog-content">
-									 <label class="disblock">Script:</label>
-									 <textarea rows="7" cols="55" id="script" ng-model="scriptText" placeholder="eg: filter : [ /somepath/mood*, sentiment*]"></textarea>
-    								 </div>
-									  </form>
-									</md-dialog-content>
-									<md-dialog-actions>
-										 <div class="dialog-footer-container1">
-											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
-									        Cancel
-									      </md-button>
-										  <md-button ng-click="saveScript()" class="mdl-button mdl-js-button btn-primary" title="Done">
-									        Done
-									      </md-button>
-									    </div>										
-									</md-dialog-actions>
-								</md-dialog>
+
+<!-- Data Broker Modal box start -->
+					<div class="md-dialog-container" id="myDialogScript" style="height: 0;">
+						<md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+						<form name="databroker" ng-cloak>
+							<md-toolbar>
+							<div class="md-toolbar-tools">
+								<h2>Script</h2>
+								<span flex></span>
+								<md-button class="md-icon-button" ng-click="closePoup()">
+								<i class="material-icons">close</i> </md-button>
 							</div>
-<!-- popup to write script for Databroker end -->
+							</md-toolbar>
+							<md-dialog-content>
+							<div class="md-dialog-content">
+								<div class="ds-db-row1">
+									<div class="ds-db-row1-cell ds-db-row1-cell1">
+										<div class="select-control">
+										
+											<label>Data Broker Type <span class="dsreqfield">*</span></label>
+											<md-select ng-model="dbType" name="dbType" placeholder="Select Type" ng-blur="dbTypeVisited=true" ng-focus="dbTypeVisited=false" required ng-change="mapDBType()"> 
+												<md-option value="image">Image File</md-option> 
+												<md-option value="csv">CSV File</md-option> 
+												<md-option value="json">JSON File</md-option> 
+												<md-option value="sql">SQL Database</md-option> 
+											</md-select>
+											<div class="help-inline validation-msgs">
+												<span ng-class="{validationmsg:!databroker.dbType.$valid}"
+													ng-show="!!(databroker.dbType.$dirty && databroker.dbType.$error.required)">Please
+													Select Data Broker Type</span>
+											</div>
+										</div>
+									</div>
+									<div class="ds-db-row1-cell ds-db-row1-cell2">
+										<md-input-container class="md-block" id="fileURL">
+					
+										<label>File/JDBC URL</label> 
+											<input type="text" ng-model="fileUrl" name="fileUrl"
+												ng-value='dbType?dbType =="sql"? "http://":"file://":""'
+												ng-required="true"
+												ng-pattern="/^[-a-zA-Z0-9@:%._\+~#=]{2,256}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/">
+											<span class="modal-note">For a single file specify the complete file path, for a directory which contains the set of files, specify the path up to the directory.</span>
+										<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.fileUrl.$valid}">
+											<span ng-show="!!databroker.fileUrl.$error.required && databroker.fileUrl.$touched ">Please enter File/JDBC URL</span> 
+											<span ng-show="!!databroker.fileUrl.$dirty && databroker.fileUrl.$error.pattern">Please enter valid url</span>
+										</div>
+					
+										</md-input-container>
+									</div>
+								</div>
+								<div class="ds-db-row2">
+									<md-input-container class="md-block" id="enterScript">
+									<label>Enter Script <span class="dsreqfield"></span></label> <textarea
+										rows="4" id="script" ng-model="scriptText" name="scriptText"
+										required></textarea> <span class="modal-note">Enter
+										multi-line commands for Data Broker or SQL Script (for a SQL Data
+										Broker), enter each command in a seperate line, with each line
+										ending in a semi colon character.</span>
+									<div class="help-inline validation-msgs"
+										ng-class="{validationmsg:!databroker.scriptText.$valid}">
+										<span
+											ng-show="!!databroker.scriptText.$error.required && databroker.scriptText.$dirty ">Please
+											enter script</span>
+									</div>
+									</md-input-container>
+								</div>
+								<div class="ds-db-row3">
+									<div class="ds-db-row3-cell ds-db-row3-cell1" id="upload"
+										ng-show="(dbType == 'csv') || (dbType == 'json')">
+										<label class="disblock">Upload Files <span
+											class="dsreqfield">*</span></label>
+											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
+             										accept="csv/json/image/*" file-reader="fileContent"  ng-required="(dbType == 'csv') || (dbType == 'json')"
+             										ngf-model-invalid="errorFile" />
+             										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
+             										<!-- <span  ng-bind="errormsg"></span> -->
+										<div class="help-inline validation-msgs"
+										ng-class="validationmsg">
+										<span ng-class="validationmsg" ng-bind="errormsg"></span> 
+									</div>
+					                     	
+					                     
+									</div>
+					
+									<div class="ds-db-row3-cell ds-db-row3-cell2" id="selectFirstRow"
+										ng-show="dbType == 'csv'">
+										<label class="disblock">Select <span class="dsreqfield">*</span></label>
+										<md-radio-group ng-model="firstRow" ng-required="dbType == 'csv'"> <md-radio-button
+											class="md-primary" value="contains_field_names">First row contains
+										field names</md-radio-button> <md-radio-button value="contains_data">First row
+										contains Data </md-radio-button> </md-radio-group>
+									</div>
+								</div>
+							</div>
+							</md-dialog-content>
+							<md-dialog-actions>
+							<div class="dialog-footer-container1">
+								<md-button ng-click="closePoupscript()"
+									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+								Cancel </md-button>
+								<md-button type="submit" ng-disabled="databroker.$invalid"
+									ng-click="processData()" class="mdl-button mdl-js-button btn-primary"
+									title="Confirm"> Done </md-button>
+							</div>
+							</md-dialog-actions>
+						</form>
+						</md-dialog>
+					</div>
+<!-- Data Broker Modal box end -->
 
 <!-- popup to select output message for Databroker start -->
 <div class="md-dialog-container" id="myDialogSelectOutput" style="height:0;">
@@ -832,5 +924,252 @@
 								</md-dialog>
 							</div>
 <!-- popup to select output message for Databroker end -->
+
+<!-- Mapping Modal box start -->
+							<div class="md-dialog-container" id="myDialogMapping" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-mapping-tables-dialog">
+								  <form name="sourceTargetTable" ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Mapping Tables</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()" title="Close">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="dsmt-container">
+												<div class="dsmt-cell dsmt-left-cell">
+														<div class="dsmt-chitable">
+														<table class="mdl-data-table mdl-js-data-table dsmt-tbl">															
+															  <thead>
+																<tr>
+																  <th></th>															
+																  <th>Field Name</th>
+																  <th>Field Type</th>
+																  <th>Map</th>
+																</tr>
+															  </thead>
+															  <tbody>
+																<tr ng-show="dbType === 'csv' && !readSolution" ng-repeat="data in dataShow">
+																	<td>
+																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField(data)">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="" ng-model="data" ng-blur= "mapFieldName(data)"> 
+																			
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-model="fieldType" name="fieldType" placeholder="Select Type" ng-change="mapFieldType(data)">															
+																				<md-option value="int">int</md-option>
+																				<md-option value="string">string</md-option>
+																				<md-option value="float">float</md-option>
+																				<md-option value="boolean">boolean</md-option>
+																				<md-option value="long">long</md-option>
+																				<md-option value="double">double</md-option>
+																				<md-option value="byte">byte</md-option>
+																			</md-select>
+																		</div>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag(data)">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																																		
+																				<!-- <md-option value="">Tag-1.1</md-option>
+																				<md-option value="">Tag-1.2</md-option>
+																				<md-option value="">Tag-1.1.3</md-option>
+																				<md-option value="">Tag-1.3.1</md-option> -->
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																
+																<tr ng-show="dbType === 'image' && !readSolution" ng-repeat="data in dataImage">
+																	<td>
+																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField(data)">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="{{data.Fieldname}}"> 
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																	 <md-input-container class="md-block">
+																		<input type="text" required value="{{data.FieldType}}"> 
+																		</md-input-container>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag(data)">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																																		
+																				<!-- <md-option value="">Tag-1.1</md-option>
+																				<md-option value="">Tag-1.2</md-option>
+																				<md-option value="">Tag-1.1.3</md-option>
+																				<md-option value="">Tag-1.3.1</md-option> -->
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																
+																<tr ng-show="dbType === 'csv' && readSolution" ng-repeat="data in readSourceTable">
+																	<td>
+																		<md-checkbox ng-if="data.input_field.checked === 'YES'" ng-model="checkedRead" aria-label="Checkbox 1">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																		<md-checkbox ng-if="data.input_field.checked !== 'YES'" ng-model="uncheckedRead" aria-label="Checkbox 1">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="" ng-model="data.input_field.name"> 
+																			
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-model="data.input_field.type" name="fieldType" placeholder="{{data.input_field.type}}">															
+																				<md-option value="int">int</md-option>
+																				<md-option value="string">string</md-option>
+																				<md-option value="float">float</md-option>
+																				<md-option value="boolean">boolean</md-option>
+																				<md-option value="long">long</md-option>
+																				<md-option value="double">double</md-option>
+																				<md-option value="byte">byte</md-option>
+																			</md-select>
+																		</div>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-model="data.input_field.mapped_to_field" name="mapTag" placeholder="{{data.input_field.mapped_to_field}}">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																																		
+																				<!-- <md-option value="">Tag-1.1</md-option>
+																				<md-option value="">Tag-1.2</md-option>
+																				<md-option value="">Tag-1.1.3</md-option>
+																				<md-option value="">Tag-1.3.1</md-option> -->
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																
+																<tr ng-show="dbType === 'image' && readSolution" ng-repeat="data in readSourceTable">
+																	<td>
+																		<md-checkbox ng-if="data.input_field.checked === 'YES'" ng-model="checkedRead" aria-label="Checkbox 1">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																		<md-checkbox ng-if="data.input_field.checked !== 'YES'" ng-model="uncheckedRead" aria-label="Checkbox 1">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="{{data.input_field.name}}"> 
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																	 <md-input-container class="md-block">
+																		<input type="text" required value="{{data.input_field.type}}"> 
+																		</md-input-container>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-model="data.input_field.mapped_to_field" name="mapTag" placeholder="Select Tag">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																																		
+																				<!-- <md-option value="">Tag-1.1</md-option>
+																				<md-option value="">Tag-1.2</md-option>
+																				<md-option value="">Tag-1.1.3</md-option>
+																				<md-option value="">Tag-1.3.1</md-option> -->
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																															
+															  </tbody>
+															</table>
+													</div>
+												</div>
+												<div class="dsmt-cell dsmt-right-cell">
+													<div class="dsmt-chitable">
+													<table class="mdl-data-table mdl-js-data-table dsmt-tbl">																
+															  <thead>
+																<tr>																  												
+																  <th>Tag #</th>
+																  <th>Field Name</th>
+																  <th>Field Type</th>
+																  <th>Parent Type</th>	
+																  <th>Grand Parent Type</th>	
+																  <th>Great Grand Parent Type</th>																  
+																</tr>
+															  </thead>
+															  <tbody>
+																<tr ng-repeat="target in targetMapTable">
+																	<td>{{target.tag}}</td>
+																	<td>{{target.name}}</td>
+																	<td>{{target.type}}
+																		<p>[{{target.role}}]</p>
+																	</td>
+																	<td>{{target.parent}}
+																		<p ng-if='target.grandParent !== ""'>[{{target.parentRole}}]</p></td>
+																	<td>{{target.grandParent}}
+																		<p ng-if='target.greatGrandParent !== ""'>[{{target.grandParentRole}}]</p></td>
+																	<td>{{target.greatGrandParent}}</td>																	
+																</tr>
+																<!-- <tr>
+																	<td>Tag-1.1</td>
+																	<td>sepal_len</td>
+																	<td>String
+																		<p>[]</p>
+																	</td>
+																	<td>DataframeRow
+																		<p>[repeated]</p></td>
+																	<td>Dataframe</td>
+																	<td>-</td>																	
+																</tr>
+																<tr>
+																	<td>Tag-1.1</td>
+																	<td>sepal_len</td>
+																	<td>String
+																		<p>[]</p>
+																	</td>
+																	<td>DataframeRow
+																		<p>[repeated]</p></td>
+																	<td>Dataframe</td>
+																	<td>-</td>																	
+																</tr> -->
+															</tbody>
+														</table>
+												</div>	
+											</div>
+																																				
+										</div>									
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="!sourceTargetTable.$dirty">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						<!-- Mapping Modal box end -->
 </div>
 	
