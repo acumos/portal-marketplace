@@ -16,6 +16,23 @@
       "revId": "c821a24a31956970c63a2dda4a5258f86e4ec043",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2eeea8_4123ff05",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-04-24T16:27:12Z",
+      "side": 1,
+      "message": "Do you need to pass notifyType as a parameter in this method and set it on the MessageType property? In downstream sendUserNotification method you can DB lookup the user preferred delivery mechanism type corresponding to the message severity, thereby avoiding the use of notifyType parameter.",
+      "revId": "c821a24a31956970c63a2dda4a5258f86e4ec043",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
