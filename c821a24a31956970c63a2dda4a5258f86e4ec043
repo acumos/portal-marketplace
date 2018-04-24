@@ -51,6 +51,24 @@
       "revId": "c821a24a31956970c63a2dda4a5258f86e4ec043",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb28d82c_f0bca57d",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2018-04-24T17:15:55Z",
+      "side": 1,
+      "message": "Then this parameter name needs to be appropriately changed to reflect its purpose, like \"onboardingStatus\"",
+      "parentUuid": "b23ea5b6_ff5b3675",
+      "revId": "c821a24a31956970c63a2dda4a5258f86e4ec043",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
