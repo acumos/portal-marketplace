@@ -39,6 +39,7 @@ import java.util.concurrent.Future;
 
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.controller.UserServiceController;
 import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
@@ -47,6 +48,7 @@ import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -213,13 +215,15 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 						catalogService.updateSolution(solutionDetail, newSolutionId);
 						log.info("inside callOnboarding if after updateSolution ---->>>");
 					}
-					// Temporary solution to notify user, as we dont have intermediate results from
-					// onbaording
-					//generateNotification("Solution " + solution.getName() + " Added to Catalog Successfully", userId);
 					String notifMsg = "Solution " + solution.getName() + " Added to Catalog Successfully";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
 					notificationService.generateNotification(notification, userId);
+					
+					//Send notification to user according to preference
+					Map<String, String> notifyBody = new HashMap<String, String>();
+			        notifyBody.put("solutionName", solution.getName());
+					notifyOnboardingStatus(userId, "HI", notifMsg, notifyBody, "ONBD_SUCCESS");
 				} else {
 					InputStream instream = response.getEntity().getContent();
 					String result = convertStreamToString(instream);
@@ -231,18 +235,18 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding else after resp.toString() ---->>>"+resp.toString());
 					log.info(resp.toString());
 					log.info((String) resp.get("errorMessage"));
-					// Temporary solution to notify user, as we dont have intermediate results from
-					// onbaording
-					/*generateNotification("Add To Catalog Failed for solution " + solution.getName()
-							+ ". Please restart the process again to upload the solution", userId);*/
 					String notifMsg = "Add To Catalog Failed for solution " + solution.getName()
 					+ ". Please restart the process again to upload the solution";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
 					log.info("inside callOnboarding else before generateNotification ---->>>");
 					notificationService.generateNotification(notification, userId);
-					// throw new RuntimeException("Failed : HTTP error code : " +
-					// response.getStatusLine().getStatusCode());
+					
+					//Send notification to user according to preference
+					Map<String, String> notifyBody = new HashMap<String, String>();
+			        notifyBody.put("solutionName", solution.getName());
+			        notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
+					notifyOnboardingStatus(userId, "HI", "Add To Catalog Failed for solution " + solution.getName(), notifyBody, "ONBD_FAIL");
 				}
 			}
 		} catch (Exception e) {
@@ -260,24 +264,16 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 		return new AsyncResult<HttpResponse>(response);
 	}
-
-	/*void generateNotification(String msg, String userId) {
-		MLPNotification notification = new MLPNotification();
-		try {
-			if (msg != null) {
-				notification.setTitle("Web Based Onboarding");
-				notification.setMessage(msg);
-				Date startDate = new Date();
-				Date endDate = new Date(startDate.getTime() + (1000 * 60 * 60 * 24));
-				notification.setStart(startDate);
-				notification.setEnd(endDate);
-				MLNotification mlNotification = notificationService.createNotification(notification);
-				notificationService.addNotificationUser(mlNotification.getNotificationId(), userId);
-			}
-		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
-		}
-	}*/
+	
+	private void notifyOnboardingStatus(String userId, String severity, String notifySubject, Map<String, String> notifyBody, String notifyType) throws AcumosServiceException {
+		NotificationRequestObject mailRequest = new NotificationRequestObject();
+        mailRequest.setMessageType(notifyType);
+        mailRequest.setSeverity(severity);
+        mailRequest.setSubject(notifySubject);
+        mailRequest.setUserId(userId);
+        mailRequest.setNotificationData(notifyBody);
+        notificationService.sendUserNotification(mailRequest);
+	}
 	
 	// Only Python models are considered to be Compatible with ONAP
 	@Override

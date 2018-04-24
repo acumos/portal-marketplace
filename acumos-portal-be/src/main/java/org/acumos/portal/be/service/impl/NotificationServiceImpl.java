@@ -23,22 +23,34 @@ package org.acumos.portal.be.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.acumos.cds.NotificationDeliveryMechanismCode;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.domain.MLPUserNotification;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.common.ConfigConstants;
+import org.acumos.portal.be.common.NotificationTemplate;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.service.MailJet;
+import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLUserNotifPref;
+import org.acumos.portal.be.transport.MailData;
+import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,6 +60,12 @@ public class NotificationServiceImpl implements NotificationService {
  
 	@Autowired
 	private Environment env;
+	
+    @Autowired
+    MailService mailservice;
+    
+    @Autowired
+    MailJet mailJet;
 
 	private ICommonDataServiceRestClient getClient() {
 		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
@@ -192,5 +210,82 @@ public class NotificationServiceImpl implements NotificationService {
 
 	}
 
+
+	@Override
+	public void sendUserNotification(NotificationRequestObject notificationRequest) throws AcumosServiceException {
+		
+		log.debug(EELFLoggerDelegate.debugLogger, "Notify User ={}", notificationRequest);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		if (PortalUtils.isEmptyOrNullString(notificationRequest.getUserId())) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "User Id required for sending the notification");
+		}
+		if (PortalUtils.isEmptyOrNullString(notificationRequest.getMessageType())) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Message Type required for sending the notification");
+		}
+		if (PortalUtils.isEmptyOrNullString(notificationRequest.getSeverity())) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Severity required for sending the notification");
+		}
+		String messgeType = notificationRequest.getMessageType();
+		String template = getTemplate(messgeType);
+		
+		if (PortalUtils.isEmptyOrNullString(template)) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "NO template found for message type : " + messgeType);
+		}
+		
+		//Check severity and send the notification accordingly
+		String userId = notificationRequest.getUserId();
+		MLPUser user = null;
+		user = dataServiceRestClient.getUser(userId);
+		List<MLPUserNotifPref> mlpNotificationList = dataServiceRestClient.getUserNotificationPreferences(userId);
+		// TODO : Separate this logic to some factory method to decide if email or other kind of notifications need to e send
+		for (MLPUserNotifPref mlpUserNotifPref : mlpNotificationList) {
+			if (mlpUserNotifPref.getMsgSeverityCode().equals(notificationRequest.getSeverity())) {
+				
+				if(NotificationDeliveryMechanismCode.EM.toString().equals(mlpUserNotifPref.getNotfDelvMechCode())) {
+					MailData mailData = new MailData();
+			        mailData.setSubject(notificationRequest.getSubject());
+			        mailData.setFrom(ConfigConstants.mailfrom);
+			        mailData.setTemplate(template);
+			        List<String> to = new ArrayList<String>();
+			        to.add(user.getEmail());
+			        mailData.setTo(to);
+			        Map<String, Object> model = new HashMap<String, Object>();
+			        model.put("user", user);
+			        model.put("notificationData", notificationRequest.getNotificationData());
+			        mailData.setModel(model);
+
+			        try {
+			        	if(!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service)) 
+			        		&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("smtp")) {
+			        	
+			        		//Use SMTP setup
+			                mailservice.sendMail(mailData);
+			        		}else {
+			        			if(!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service)) 
+			                    		&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("mailjet")) 
+			            			mailJet.sendMail(mailData);
+			        		}
+			            } catch (MailException ex) {
+			                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+			            }
+				}
+			}
+		}
+		
+	}
+	
+	// TODO : Separate this method to factory class to get the template names 
+	private String getTemplate(String messgeType) {
+		String template = null;
+		
+		if ("ONBD_FAIL".equals(messgeType)) {
+			return NotificationTemplate.ONBD_FAIL_TEMPLATE;
+		}
+		if ("ONBD_SUCCESS".equals(messgeType)) {
+			return NotificationTemplate.ONBD_SUCCESS_TEMPLATE;
+		}
+		return template;
+	}
 
 }
