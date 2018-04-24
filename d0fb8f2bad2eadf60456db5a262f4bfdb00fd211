@@ -245,6 +245,52 @@
     },
     {
       "key": {
+        "uuid": "ff89d91f_597aa3ff",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-24T14:33:03Z",
+      "side": 1,
+      "message": "How about: \nYour model solution  \u003c#if notificationData.solutionName??\u003e${notificationData.solutionName} encountered an error during on-boarding to the Acumos platform.",
+      "range": {
+        "startLine": 26,
+        "startChar": 11,
+        "endLine": 26,
+        "endChar": 156
+      },
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b351b584_6d96e45a",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-24T14:33:03Z",
+      "side": 1,
+      "message": "What happens if there is no error message? How is the modeler going to know what went wrong?",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 87
+      },
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba2e3569_6af0a8bb",
         "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
         "patchSetId": 4
@@ -308,6 +354,29 @@
       "writtenOn": "2018-04-24T10:11:45Z",
       "side": 1,
       "message": "How about:\n\nThe acumos system successfully on-boarded your solution named \"xyz\".",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97833c3e_226bdc34",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardingSuccess.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-24T14:33:03Z",
+      "side": 1,
+      "message": "How about: \nYour model solution \u003c#if notificationData.solutionName??\u003e${notificationData.solutionName} has been successfully on-boarded to the Acumos platform.",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 144
+      },
       "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
