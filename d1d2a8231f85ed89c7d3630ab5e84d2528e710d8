@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c2f953d_9bf7db51",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "please remove dead code, don\u0027t comment out",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c53e97d_4b668acd",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "please remove code, don\u0027t comment out",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c2c5364_ae503383",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "Defining constants is great, but they are not used below, is that coming soon?",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b79b1c1_22d465ef",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "Could the constant defined above be used here?",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e92c227_a2c19554",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "What is this? Colin??",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "110f7ed7_6e2c098b",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "Remove, don\u0027t comment out",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4d31d48_6079c0dd",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "remove don\u0027t comment out",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebcef64a_8d1f4d10",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063ed138_4b87e4c6",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "Must remove this debugger invocation!",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91c78673_2bdc9aa7",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1220,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "remove, don\u0027t comment out",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb26a594_aa6a88ac",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1646,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "Must remove this debugger invocation!",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1bdf3dd_3db8a0db",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T20:16:45Z",
+      "side": 1,
+      "message": "remove, don\u0027t comment out",
+      "revId": "d1d2a8231f85ed89c7d3630ab5e84d2528e710d8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
