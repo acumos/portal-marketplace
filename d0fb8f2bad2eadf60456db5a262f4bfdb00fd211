@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdbbb6bf_f5c439f4",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/ConfigConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "This should not be in Java, it should be in config, so other deployments can change it as they need.",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32eb9e4_ecb1d9c9",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/NotificationTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "Onboarding templates should be in Onboarding, not in Portal",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89a161d7_ec376668",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/NotificationController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "You should set the response status here to make sure it\u0027s not 200",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c0caa3c_a111f172",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/NotificationService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "Please fix indentation",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96e062db_34c00983",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "Pls fix indentation",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10182491_f804f64c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e74e8adb_88f4a52c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/NotificationServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "please make private, and fix indentation",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1451c2ba_1e72bf6b",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/NotificationServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "What happens if it\u0027s NOT email?",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b64588a_1d228d03",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "Last name?",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba2e3569_6af0a8bb",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "Thanks?",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35c70d84_9cbdf849",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardingSuccess.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "suggest using first and last name if present; otherwise login name",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7625ee_ad1214ec",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardingSuccess.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "How about:\n\nThe acumos system successfully on-boarded your solution named \"xyz\".",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1233dcdb_1bc5f8d2",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/MailServiceImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T10:11:45Z",
+      "side": 1,
+      "message": "Why are properties hardcoded here?  All keys should be Java constants.",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
