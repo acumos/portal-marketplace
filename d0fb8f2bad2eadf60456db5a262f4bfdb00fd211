@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "0ffb88df_ed2265b6",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/NotificationTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T17:49:40Z",
+      "side": 1,
+      "message": "My basic issue here is that the Portal must not try to store all the possible templates for all notifications from all components.  What if federation wants to notify a user about a request?  What if validation wants to notify a user about a new vulnerability?  The individual components must have their own notification templates that produce content which might go via email, via a Portal web popup box, via a text message, ...",
+      "parentUuid": "01c1f2cb_58a9d79e",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89a161d7_ec376668",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/NotificationController.java",
         "patchSetId": 4
