@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "faa8023f_2c85544c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/ConfigConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T17:49:40Z",
+      "side": 1,
+      "message": "This reply-to email address should not be in code, it should be moved to config so a local deployment can change it appropriately if they choose.  Anyhow support@acumos.org does not appear to be a working email.",
+      "revId": "c821a24a31956970c63a2dda4a5258f86e4ec043",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62e50923_f60134c8",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/NotificationService.java",
         "patchSetId": 5
