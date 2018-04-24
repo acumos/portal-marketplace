@@ -291,6 +291,30 @@
     },
     {
       "key": {
+        "uuid": "35837c67_45751833",
+        "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-04-24T15:07:26Z",
+      "side": 1,
+      "message": "Onboarding has to send some error message generated from the platform. If onboarding went wrong and platform is not generating any error not even the warning then modeler can have no idea what went wrong. Ideally this condition should never happen.",
+      "parentUuid": "b351b584_6d96e45a",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 87
+      },
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba2e3569_6af0a8bb",
         "filename": "acumos-portal-be/src/main/resources/fmtemplates/onboardignFailed.ftl",
         "patchSetId": 4
