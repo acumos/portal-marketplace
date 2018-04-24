@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d5500f60_ab4673af",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/common/NotificationTemplate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T13:22:35Z",
+      "side": 1,
+      "message": "Onboarding should initiate the request for a notification.  Not Portal.  This strange shortcut that totally ignored the original design needs to be removed.",
+      "parentUuid": "7eb3d886_655a9482",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89a161d7_ec376668",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/NotificationController.java",
         "patchSetId": 4
@@ -168,6 +186,24 @@
       "side": 1,
       "message": "Currently we don\u0027t have any other option other than email. Will extend this once we have other means of notification",
       "parentUuid": "1451c2ba_1e72bf6b",
+      "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43cb96e4_281b3155",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/NotificationServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-24T13:22:35Z",
+      "side": 1,
+      "message": "Then add the \"else\" clauses and throw an exception if they are reached, instead of silently doing nothing.",
+      "parentUuid": "b66b20be_224a649b",
       "revId": "d0fb8f2bad2eadf60456db5a262f4bfdb00fd211",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
