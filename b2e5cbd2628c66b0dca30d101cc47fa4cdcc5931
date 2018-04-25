@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62ff9234_fb6408b9",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T18:37:17Z",
+      "side": 1,
+      "message": "This is still almost the cognita host, right? how about making it very clear, something like:\n\nnexus.url\u003dhttp://nexus.group.mycompany.com/repository/repo_acumos_model_maven",
+      "revId": "b2e5cbd2628c66b0dca30d101cc47fa4cdcc5931",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7dd5e1_6b417c2d",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T18:37:17Z",
+      "side": 1,
+      "message": "The Acumos documentation is live and public:\n\nhttp://docs.acumos.org/",
+      "revId": "b2e5cbd2628c66b0dca30d101cc47fa4cdcc5931",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d51f50c_81736b5f",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T18:37:17Z",
+      "side": 1,
+      "message": "Please see suggestion above, mycompany.com/blah/blah",
+      "revId": "b2e5cbd2628c66b0dca30d101cc47fa4cdcc5931",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3650be8_87c79e50",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T18:37:17Z",
+      "side": 1,
+      "message": "The docs are public, please see other comment",
+      "revId": "b2e5cbd2628c66b0dca30d101cc47fa4cdcc5931",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
