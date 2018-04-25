@@ -64,13 +64,13 @@ portal.feature.signup_enabled=true
 portal.feature.download_bufferSize=8
 
 #Dashboard Url
-portal.dashboard.url=http://cognita-dev1-logcollector.eastus.cloudapp.azure.com:5601
+portal.dashboard.url=http://acumos-dev1-logcollector.eastus.cloudapp.azure.com:5601
 
 #model upload storage folder path
 model.storage.folder.path=./temp
 
 #Documentation URL
-doc.url=https://cognita.atlassian.net/wiki/spaces/CW/pages/7438367/Acumos+Documentation
+doc.url=https://acumos.atlassian.net/wiki/spaces/CW/pages/7438367/Acumos+Documentation
 
 
 onboarding.push.model.dcae_url=http://localhost:8090/onboarding-app/v2/dcae_models
