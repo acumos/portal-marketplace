@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95a5b1ab_f4072fe9",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T19:25:51Z",
+      "side": 1,
+      "message": "Could this genuine password possibly be removed please?",
+      "revId": "aaada148ef459d404903b1039974aebfac05ac60",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c02876fe_7096a874",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-25T19:25:51Z",
+      "side": 1,
+      "message": "Would you remove eastus.cloudapp.azure.com please?",
+      "revId": "aaada148ef459d404903b1039974aebfac05ac60",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
