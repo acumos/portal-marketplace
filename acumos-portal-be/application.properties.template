@@ -44,10 +44,10 @@ spring.http.multipart.max-request-size=-1
 
 #Nexus Configuration
 nexus.url=http://mvnrepo.com:8081/repository/repo_acumos_model_maven/
-nexus.username=acumos_model_rw
-nexus.password=not4you
+nexus.username=foo
+nexus.password=bar
 nexus.groupId=com.artifact
-#nexus.proxy=http://one.proxy.att.com:8080
+#nexus.proxy=http://one.proxy.mycompany.com:8080
 
 #Validation API Configuration
 portal.submitValidation.api=http://localhost:9602/status/v1.0/tasks
@@ -55,7 +55,7 @@ portal.getValidation.api=http://localhost:9000/status
 
 #FeatureController
 #portal.feature.email=false
-portal.feature.email_from=support@acumos.org
+portal.feature.email_from=valid_support_email_address@mycompany.com
 portal.feature.email_service=
 portal.feature.validateModel=false
 portal.feature.cas_enabled=false
@@ -64,13 +64,13 @@ portal.feature.signup_enabled=true
 portal.feature.download_bufferSize=8
 
 #Dashboard Url
-portal.dashboard.url=http://cognita-dev1-logcollector.eastus.cloudapp.azure.com:5601
+portal.dashboard.url=http://www.mycompany.com/
 
 #model upload storage folder path
 model.storage.folder.path=./temp
 
 #Documentation URL
-doc.url=https://cognita.atlassian.net/wiki/spaces/CW/pages/7438367/Acumos+Documentation
+doc.url=http://docs.acumos.org/
 
 
 onboarding.push.model.dcae_url=http://localhost:8090/onboarding-app/v2/dcae_models
