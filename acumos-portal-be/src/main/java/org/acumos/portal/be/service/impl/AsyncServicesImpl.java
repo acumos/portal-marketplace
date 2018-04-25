@@ -356,7 +356,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		
 		if(!isCompatible) {
 			stepResult.setStatusCode("FA");
-			stepResult.setResult("Solution not a Pyhton Model");
+			stepResult.setResult("Solution not a Python Model");
 			messagingService.createStepResult(stepResult);
 		}
 

@@ -523,6 +523,8 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 }
 .onboarding .timeline.cont p{margin-left: 0px; word-break: break-word;} 
 
+.md-tooltip{position: relative;}
+
 /* media query start */
 @media(max-width:1024px){
 body,  ul, ol{font-size:12px;}
