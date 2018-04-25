@@ -109,7 +109,6 @@ public class MailServiceImpl implements MailService {
                    freemarkerConfiguration.getTemplate(template),model));
            return content.toString();
         }catch(Exception e){
-            
             log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", e);
         }
         return "";

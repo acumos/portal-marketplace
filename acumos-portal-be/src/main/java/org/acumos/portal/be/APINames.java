@@ -179,6 +179,7 @@ public class APINames {
     public static final String NOTIFICATIONS_COUNT = "/notifications/count";
     public static final String DELETE_NOTIFICATIONS = "/notifications/delete/{notificationId}";
     public static final String DROP_USER_NOTIFICATIONS= "/notifications/drop/{notificationId}/user/{userId}";
+    public static final String SEND_USER_NOTIFICATION = "/notifications/sendUserNotification";
 
 	public static final String RELATED_MY_SOLUTIONS = "/getRelatedMySolutions";
 	public static final String READ_SIGNATURE_TAB = "/readArtifactSolutions/{artifactId}"; 
@@ -186,6 +187,7 @@ public class APINames {
     public static final String USER_NOTIFICATION_PREF = "/notifications/pref/byUserId/{userId}"; 
     public static final String CREATE_NOTIFICATION_PREFERENCES = "/notifications/pref/create";
     public static final String UPDATE_NOTIFICATION_PREFERENCES = "/notifications/pref/update";
+
 
 	//Comments
 	   public static final String CREATE_COMMENT = "comments/create";

@@ -37,6 +37,7 @@ import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLUserNotifPref;
+import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -433,5 +434,23 @@ public class NotificationController extends AbstractController {
 		return data;
 	}
 
-
+	@ApiOperation(value = "Send User Notification", response = String.class)
+	@RequestMapping(value = { APINames.SEND_USER_NOTIFICATION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> sendUserNotification(HttpServletRequest request,
+			@RequestBody JsonRequest<NotificationRequestObject> mlNotification, HttpServletResponse response) {
+		log.debug(EELFLoggerDelegate.debugLogger, "Send User Notification={}", mlNotification);
+		JsonResponse<String> data = new JsonResponse<>();
+		try {
+			if (mlNotification.getBody() != null && mlNotification.getBody().getUserId() != null) {
+				notificationService.sendUserNotification(mlNotification.getBody());
+			} 
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			data.setResponseDetail("Exception occured while sending user notification");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred sending user notification :", e);
+		}
+		return data;
+	}
 }
