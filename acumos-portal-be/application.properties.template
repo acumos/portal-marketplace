@@ -5,9 +5,8 @@
 server.port=8083
 server.contextPath=/
 
-#security.user.name=portal_client
-#security.user.password = ENC(CTQD7Xk5bOIuC4MaqRZtzjW1K4ArjCjr)
-#security.user.password=portal_pass
+#security.user.name=<portal_username>
+#security.user.password=<portal_password>
 management.security.roles=SUPERUSER
 
 
@@ -17,7 +16,7 @@ jwt.auth.secret.key=secret
 
 # CDmS REST endpoints are protected by HTTP Basic Authentication
 #Common Data Source Configuration
-cdms.client.url=http://10.1.0.6:8002/ccds
+cdms.client.url=http://cdmsHost.com:8002/ccds
 cdms.client.username=ccds_client
 cdms.client.password=ccds_client
 
@@ -79,16 +78,16 @@ dcae.model.name.prefix=ONAP
 ###################################################################
 ###########################################################################
 #Dev
-docker.host=acumos-dev1-vm01-core
-docker.port=4243
+docker.host=my_docker_host
+docker.port=9000
 docker.config=/docker_host/.docker
-docker.registry.url=http://acumos-nexus01:8001/
-docker.registry.username=acumos_model_rw
-docker.registry.password=not4you
-docker.registry.email=admin@acumos.org
+docker.registry.url=http://my_docker_registry:8001/
+docker.registry.username=foo
+docker.registry.password=bar
+docker.registry.email=valid_admin@mycompany.com
 docker.tls.verify=false
 docker.api.version=1.23
-docker.imagetag.prefix=acumos-nexus01:8001
+docker.imagetag.prefix=my_docker_imagetags:8001
 docker.max_total_connections=1
 docker.max_per_route_connections=1
 ###########################################################################
