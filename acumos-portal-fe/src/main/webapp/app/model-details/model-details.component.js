@@ -29,19 +29,14 @@ angular
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
 							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce) {
-						/* 
-						 * if ($stateParams == null) { $localStorage.solutionId =
-						 * $scope.solutionId; } else { $localStorage.solutionId =
-						 * $stateParams.solutionId; }
-						 */
-						// $state.reload();
-						/*
-						 * if($rootScope.load == true){
-						 * $window.location.reload(); $rootScope.load = false; }
-						 */
-						//API for rating the model start
+						
+						$scope.orgVar = "OR";
+						$scope.pubVar = "PB";
+						$scope.priVar = "PR";
+						$scope.showORDescription = false;
 						$scope.showPBDescription = false;
-						$scope.showORDescription = true;
+						$scope.showORDocs = false;
+						$scope.showPBDocs = false;
 						
 						$scope.clearForm = function(){
 							deploy.reset();
@@ -72,8 +67,9 @@ angular
 								};
 							$http(req)
 							.success(function(data, status, headers,config) {
-								 
-								$scope.allUserRatings = data.response_body.content;
+								if(data.response_body){
+									$scope.allUserRatings = data.response_body.content;
+								}
 								$scope.ratingCount1 = 0;
 								$scope.ratingCount2 = 0;
 								$scope.ratingCount3 = 0;
@@ -137,17 +133,6 @@ angular
 								  "request_from" : "string",
 								  "request_id" : "string"
 							}
-							
-							/*apiService
-							.createRatingSolution(dataObjRating)
-							.then(
-									function(response) {
-										console.log("Rating response : " + angular.toJson(response))
-										$scope.createRating = response.data.response_body.content;
-									},
-									function(error) {
-										console.log(error);
-									});*/
 							
 							 
 							if(!$scope.mlSolutionGetRating.content || $scope.mlSolutionGetRating.content[0].rating == 0)
@@ -230,9 +215,7 @@ angular
 											console.log(error);
 											$mdDialog.hide();
 										});
-								
 							}
-							
 			               }
 						
 						$scope.getSolutionratings=function(){
@@ -254,18 +237,18 @@ angular
 								url : url,
 								data : dataObj
 							}).success(function(data, status, headers,config) {
-									$scope.mlSolutionGetRating = data.response_body;
-									$scope.ratingReview = $scope.mlSolutionGetRating.textReview;
+									if(data.response_body){
+										$scope.mlSolutionGetRating = data.response_body;
+										$scope.ratingReview = $scope.mlSolutionGetRating.textReview;
+									}
 								 
 								}).error(
 									function(data, status, headers,config) {
 										alert("Error: "+status);
-										console.log(status);
 									});
 							}
 						}; 
 						$scope.getSolutionratings();
-						
 						
 					  //API for rating the model End
 						
@@ -297,8 +280,6 @@ angular
 							$state.go('marketSolutions', {solutionId : solutionId, parentUrl: 'marketSolutions'});
 						}
 						
-						console.log("model: "+$rootScope.urlPath)
-						
 						if($stateParams.parentUrl){
 							$rootScope.routeParentUrl = $stateParams.parentUrl;
 							$window.sessionStorage.setItem("SavedString",$rootScope.routeParentUrl);
@@ -318,7 +299,6 @@ angular
 						componentHandler.upgradeAllRegistered();
 						
 						$rootScope.urlPath = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
-						//alert($rootScope.urlPath)
 						
 						if($rootScope.urlPath == 'manageModule'){
 							$scope.parentUrl = false
@@ -334,7 +314,6 @@ angular
 
 						if ($stateParams.solutionId == ''
 								|| $stateParams.solutionId == null) {
-							console.log("model details solnId is null")
 						} else {
 							localStorage.setItem("solutionId",
 									$stateParams.solutionId);
@@ -348,7 +327,6 @@ angular
 
 						}
 						
-						// $scope.solutionId = $stateParams.solutionId
 						var modelType = '';
 						$scope.apiUrl;
 						if ($stateParams.solutionId == null) {
@@ -411,8 +389,14 @@ angular
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												$scope.getComment();
 												$scope.getArtifacts();
-												$scope.getSolPublicDesc();
-												$scope.getSolCompanyDesc();
+												//if solution PR then get public description by default.
+												if($scope.solution.accessType == $scope.priVar){
+													$scope.getSolPublicDesc();
+												}
+												else{
+													$scope.getSolCompanyDesc();
+													$scope.getSolPublicDesc();
+												}
 												if(!$scope.solutionPublicDesc){
 													$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 												}
@@ -440,6 +424,15 @@ angular
 											if (data.response_body.revisions != null) {
 												$scope.revisionId = $scope.versionList[0].revisionId;
 												donwloadPopupValue();
+											}
+											
+											//if solution PR then get public description by default.
+											if($scope.solution.accessType == $scope.priVar){
+												$scope.getSolPublicDesc();
+											}
+											else{
+												$scope.getSolCompanyDesc();
+												$scope.getSolPublicDesc();
 											}
 											
 											//trying for signatures-can be replaced by reading the .proto file and displaying the contents
@@ -698,7 +691,6 @@ angular
 													$scope.CommentName = origComments;
 													
 											}
-											
 										})
 										
 								.error(function(data, status, headers, config) {
@@ -726,12 +718,6 @@ angular
 										  }
 										 
 										};
-							/*var commentObj = {
-									"author": $scope.loginUserID,
-									"name": $scope.userFullName,
-									"url": $scope.solutionId,
-									"text": $scope.comment
-							}*/
 								apiService.createThread(threadObj).then(function(response) {
 									console.log(response);
 									var commentObj = {
@@ -747,15 +733,6 @@ angular
 										$scope.comment = '';
 									});
 								});
-							/*var url = "/cmnt/api/comments?threadUrl="+ $scope.solutionId +"&threadTitle=";
-							$http({
-								method : 'POST',
-								url : url,
-								data : commentObj
-							}).success(function(data, status, headers,config) {
-								$scope.getComment();
-								$scope.comment = '';
-							});*/
 						}
 						
 						$scope.newcomment = {};
@@ -780,22 +757,6 @@ angular
 									$scope.comment = '';
 								});
 						
-							/*var replyCommentObj = {
-									"author": $scope.loginUserID,
-									"name": $scope.userFullName,
-									"url": $scope.solutionId,
-									"text": $scope.newcomment[key].text,
-									"parentId": parentId
-							}
-							var url = "/cmnt/api/comments?threadUrl="+ $scope.solutionId +"&threadTitle=";
-							$http({
-								method : 'POST',
-								url : url,
-								data : replyCommentObj
-							}).success(function(data, status, headers,config) {
-								$scope.getComment();
-								
-							})*/
 							$scope.newcomment = {};
 						}
 						
@@ -812,7 +773,6 @@ angular
 										  },
 										};
 							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
-								//$scope.totalCommentCount = response.data.response_body.content.CommentsCount;
 								$scope.commentList = [];
 								angular.forEach(response.data.response_body.content,function(value,key) {
 									if(response.data.response_body.content[key].parentId == null){
@@ -837,45 +797,9 @@ angular
 										});
 									}
 								});
-								console.log(response);
-								
 							});
 							
-							/*var url = "/cmnt/api/comments?threadUrl="+ $scope.solutionId +"&threadTitle=";
-							$http({
-								method : 'GET',
-								url : url
-							}).success(function(data, status, headers,config) {
-								$scope.totalCommentCount = data.totalCommentCount;
-								$scope.commentList = data.comments;
-							})*/
 						};
-						
-						/*$scope.getReply = function(){
-							angular.forEach($scope.commentList,function(commentValue,commentKey) {
-								if($scope.commentList[commentKey].commentId == response.data.response_body.content[key].parentId){
-									$scope.commentList[commentKey].replies.push({
-										creationDate : response.data.response_body.content[key].creationDate,
-										text : response.data.response_body.content[key].text,
-										name : "",
-										
-									});
-					
-									var userObject = {
-											  "request_body": {
-												  		    "userId": value.userId
-											  					}};
-									apiService.getUserAccountDetails(userObject).then(function(userDetail){
-										console.log(userDetail);
-											$scope.commentList[key].name = userDetail.data.response_body.loginName,
-											$scope.commentList[key].image = userDetail.data.response_body.picture
-										
-										
-									});
-									}
-								});
-							console.log($scope.commentList);
-						};*/
 						
 						$scope.editComment = function(comment) {
 							var commentObj = {
@@ -888,72 +812,16 @@ angular
 										  },
 										};
 							apiService.updateComment(commentObj).then(function(response) {
-								console.log(response.data);
 								$scope.getComment();
 							});
-							/*var reqObj = {"author":comment.author,
-											"email":comment.emailHash,
-											"url":$stateParams.solutionId,
-											"text":comment.text, 
-											"name":comment.name
-											};
-							
-							var url = "/cmnt/api/comments/"+ comment.id;
-							$http({
-								method : 'PUT',
-								data : reqObj, 
-								url : url
-							}).success(function(data, status, headers,config) {
-								console.log(data);
-							})*/
 						};
 						
 						$scope.deleteComment = function(comment) {
 							apiService.deleteComment(comment.threadId,comment.commentId).then(function(response) {
-								console.log(response.data);
 								$scope.getComment();
 							});
-						    /*var url = "/cmnt/api/comments/"+ commentId;
-							$http({
-								method : 'Delete',
-								url : url
-							}).success(function(data, status, headers,config) {
-								console.log(data);
-							})*/
 						}
-						$scope.getSolPublicDesc = function(){
-							var req = {
-									method : 'GET',
-									url : '/site/api-manual/Solution/description/public/' + $scope.solutionId + '/' + $scope.revisionId,
-							};
-							$http(req)
-							.success(
-									function(data, status, headers,
-											config) {
-										$scope.solutionPublicDesc = data.description;
-									}).error(
-											function(data, status, headers,
-													config) {
-									});
-						}
-						
-						$scope.getSolCompanyDesc = function(){
-							var req = {
-									method : 'GET',
-									url : '/site/api-manual/Solution/description/org/' + $scope.solutionId + '/' + $scope.revisionId,
-							};
-							$http(req)
-							.success(
-									function(data, status, headers,
-											config) {
-										$scope.solutionCompanyDesc = data.description;
-									}).error(
-											function(data, status, headers,
-													config) {
-									});
-						}
-						$scope.getSolPublicDesc();
-						$scope.getSolCompanyDesc();
+
 						if(!$scope.solutionPublicDesc){
 							$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 						}
@@ -961,9 +829,7 @@ angular
 						if (session) {
 							console.log(session);
 						}
-						// console.log($location.path().split('/')[2]);
 						var sol_id = $location.path().split('/')[2]
-						// $scope.getSolution(sol_id);
 
 						// Initialize the default start rating
 						$('#input-2').rating({
@@ -978,7 +844,6 @@ angular
 							}
 						});
 
-						// alert
 						$scope.publishalert = '';
 
 						// show solution download popup based on User logedin
@@ -997,7 +862,7 @@ angular
 
 						}
 
-						// Publish the specific solutio to Market place by
+						// Publish the specific solution to Market place by
 						// specific version
 
 						$scope.solutionsDownload = function(version) {
@@ -1026,21 +891,12 @@ angular
 
 							if (userId === $scope.solution.ownerId) {
 
-								// console.log("I am the Owner");
-								// console.log(pub_value);
-
-								if ($scope.solution.accessType == 'PR') {
+								if ($scope.solution.accessType == $scope.priVar) {
 
 									var data = $.param({
 										visibility : pub_value
 									});
 
-									/*
-									 * $http( { method : 'PUT', url :
-									 * '/api/publish/' +
-									 * $scope.solution.solutionId + '?' + data, })
-									 * .success(
-									 */
 									apiService.putPublishSolution
 											.then(
 													function(response) {
@@ -1049,9 +905,6 @@ angular
 															type : 'success',
 															msg : 'Well done! You successfully publish solution to Market Place.'
 														};
-														// setTimeout(function($scope){
-														// $scope.publishalert='';console.log(publishalert);
-														// }, 3000);
 														setTimeout(
 																function() {
 																	$scope
@@ -1073,9 +926,6 @@ angular
 										type : 'danger',
 										msg : 'This solution already published in the Market place'
 									};
-									// setTimeout(function($scope){
-									// $scope.publishalert='';console.log(publishalert);
-									// }, 3000);
 									setTimeout(function() {
 										$scope.$apply(function() {
 											$scope.publishalert = '';
@@ -1083,7 +933,6 @@ angular
 									}, 3000);
 
 								}
-								// alert("The solution aleady published");
 							} else {
 								alert("Please sign in as owner  to publish solution");
 							}
@@ -1118,8 +967,14 @@ angular
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
-							$scope.getSolPublicDesc();
-							$scope.getSolCompanyDesc();
+							//if solution PR then get public description by default.
+							if($scope.solution.accessType == $scope.priVar){
+								$scope.getSolPublicDesc();
+							}
+							else{
+								$scope.getSolCompanyDesc();
+								$scope.getSolPublicDesc();
+							}
 							if(!$scope.solutionPublicDesc){
 								$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 							}
@@ -1141,18 +996,13 @@ angular
 									.success(
 											function(data, status, headers,
 													config) {
-												//$scope.solutionCompanyDesc = data.description;
 												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.description);
-												/*if($scope.solutionCompanyDesc){
-													$scope.solutionCompanyDescStatus = true;
-												}*/
 											}).error(
 											function(data, status, headers,
 													config) {
 											});
 						}
-						$scope.getSolCompanyDesc();
-
+						
 						$scope.getSolPublicDesc = function() {
 						
 							var req = {
@@ -1164,11 +1014,34 @@ angular
 									.success(
 											function(data, status, headers,
 													config) {
-												//$scope.solutionPublicDesc = data.description;
-												$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
-												/*if($scope.solutionPublicDesc){
-													$scope.solutionPublicDescStatus = true;
-												}*/
+												if (data.description == "" || data.description == null || data.description == undefined){
+													$scope.getSolCompanyDesc();
+													if($scope.solution.accessType == $scope.orgVar){
+														$scope.showORDescription = true;
+													 }else if($scope.solution.accessType == $scope.pubVar ){
+														 $scope.showPBDescription = true;
+													 }else {
+														 $scope.showORDescription = true;
+															$scope.showPBDescription = false;
+													 }
+													
+												}else{
+													$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
+													
+													if($scope.solution.accessType == $scope.orgVar){
+														$scope.showORDescription = true;
+														$scope.showPBDescription = false;
+														
+													}else if($scope.solution.accessType == $scope.pubVar){
+														$scope.showPBDescription = true;
+														$scope.showORDescription = false;
+													}else{
+														$scope.showPBDescription = true;
+														$scope.showORDescription = false;
+													}
+													
+												}
+												
 											}).error(
 											function(data, status, headers,
 													config) {
@@ -1207,11 +1080,6 @@ angular
 						
 						// Value for Download Popup
 						function donwloadPopupValue() {
-							/*
-							 * $http({ method : 'GET', url :
-							 * 'api/solutions/'+$scope.solution.solutionId+'/revisions/'+$scope.revisionId,
-							 * }).success(
-							 */
 							apiService
 									.downloadPopupValue(
 											$scope.solution.solutionId,
@@ -1219,9 +1087,6 @@ angular
 									.then(
 											function(response) {
 												$scope.downloadData = response.data.response_body;
-												
-												// $state.reload();
-												// console.log(data);
 											}, function(error) {
 												// called asynchronously if an
 												// error occurs
@@ -1239,8 +1104,6 @@ angular
 							}
 
 							var url = 'api/downloads/'+$scope.solution.solutionId+'?artifactId='+artifactId+'&revisionId='+$scope.revisionId+'&userId='+$scope.loginUserID;
-							// var url = '
-							// http://localhost:8083/downloads/101?artifactId=201&revisionId=1001';
 							
 							 $http({ method : 'GET', url : url, responseType : "arraybuffer", })
 							 .success(function(data, status, headers, config) { 
@@ -1351,7 +1214,6 @@ angular
                                 if($scope.exportTo == 'microsoft'){
                                       var url = '/azure/singleImageAzureDeployment';
                                       reqObject = {
-                                                  /*'request_body' : {*/
                                                         'acrName': $scope.acrName,
                                                         'client': $scope.applicationId,
                                                         'key': $scope.secretKey,
@@ -1361,9 +1223,7 @@ angular
                                                         'storageAccount': $scope.storageAccount,
                                                         'subscriptionKey':  $scope.subscriptionKey,
                                                         'tenant': $scope.tenantId,
-                                                        //'userId':  $scope.loginUserId[1],
                                                         'imagetag': imageTagUri
-                                                  /*}*/
                                       }
                                 }
                                 else if($scope.exportTo == 'ripple'){
@@ -1372,7 +1232,6 @@ angular
                           'vmName': $scope.vmName,
                           'solutionId': $scope.solution.solutionId,
                           'solutionRevisionId': $scope.revisionId,
-                          //'userId':  $scope.loginUserId[1],
                           'imagetag': imageTagUri
                                       }
                                 }
@@ -1382,7 +1241,6 @@ angular
                                       data: reqObject
                                       
                                 }).then(function(response) {
-                                            //alert("Deployment Started Successfully")
                                 	$mdDialog.hide();
                                 	$location.hash('md-model-detail-template');  // id of a container on the top of the page - where to scroll (top)
 									$anchorScroll(); 							// used to scroll to the id 
@@ -1404,7 +1262,6 @@ angular
                                 if($scope.exportTo == 'microsoft'){
                                       var url = '/azure/compositeSolutionAzureDeployment';
                                       reqObject = {
-                                                  /*'request_body' : {*/
                                                         'acrName': $scope.acrName,
                                                         'client': $scope.applicationId,
                                                         'key': $scope.secretKey,
@@ -1414,8 +1271,6 @@ angular
                                                         'storageAccount': $scope.storageAccount,
                                                         'subscriptionKey':  $scope.subscriptionKey,
                                                         'tenant': $scope.tenantId,
-                                                        //'userId':  $scope.loginUserId[1],
-                                                  /*}*/
                                       }
                                 }
                                 else if($scope.exportTo == 'ripple'){
@@ -1424,7 +1279,6 @@ angular
                           'vmName': $scope.vmName,
                           'solutionId': $scope.solution.solutionId,
                           'solutionRevisionId': $scope.revisionId,
-                          //'userId':  $scope.loginUserId[1],
                           'imagetag': imageTagUri
                                       }
                                 }
@@ -1433,7 +1287,6 @@ angular
                                       url : url,
                                       data: reqObject
                                 }).then(function(response) {
-                                      //alert("Deployment Started Successfully")
                                 	$mdDialog.hide();
                                 	$location.hash('md-model-detail-template');  // id of a container on the top of the page - where to scroll (top)
 									$anchorScroll(); 							// used to scroll to the id 
@@ -1476,7 +1329,6 @@ angular
 							var req = {
 									 method: 'POST',
 									 url: '/azure/compositeSolutionAzureDeployment',
-									 //data: { test: reqObj }
 									 data: reqObj
 									}
 
@@ -1494,8 +1346,6 @@ angular
 						$scope.handleDismiss = function() {
 							console.info("in handle dismiss");
 							$mdDialog.cancel();
-
-							// $ctrl.$dismiss();
 						};
 
 						$scope.updateRating = function(rating) {
@@ -1513,8 +1363,6 @@ angular
 									"request_from" : "string",
 									"request_id" : "string"
 								}
-								/*if ($scope.solution.solutionRating < 1
-										&& $scope.solution.solutionRating > 5) {*/
 									apiService.createRatingSolution(
 											ratingDetails).then(
 											function(response) {
@@ -1522,16 +1370,6 @@ angular
 											}, function(error) {
 												alert(error.response_detail);
 											});
-								/*} else {
-									apiService.updateRatingSolution(
-											ratingDetails).then(
-											function(response) {
-
-											}, function(error) {
-												alert(error.response_detail);
-											});
-								}*/
-
 							}
 						}
 
@@ -1543,8 +1381,6 @@ angular
 						$scope.imgURLChat = "images/ChatBot.png";
 						$scope.imgURLSensitive = "images/Sensitive.png";
 						$scope.imgURLdefault ="images/default-model.png";
-						
-						//$scope.getUserImage($scope.loginUserID);
 						
 						$scope.getSolutionImages = function(){
 	                       	 var getSolutionImagesReq = {
@@ -1568,47 +1404,101 @@ angular
 							$scope.getSolutionImages();
 						
 							$scope.getPublicSolutionDocuments = function(type){
-								var accessType = 'public';
-								if( type == 'OR' ){
-									accessType = 'org';
+								var accessType;
+								$scope.noDocs = false;
+								if( type == $scope.priVar){
+									accessType = 'public';
+									$scope.getPBSolutionDocs(accessType);
+								}else{
+									$scope.getORSolutionDocs('org');
+									$scope.getPBSolutionDocs('public');
+								} 
+		                        
+							}
+							
+								//get both PB and OR solution documents. Toggle docs on click of tabs on top
+								$scope.getPBSolutionDocs = function(accessType){
+									 var accessType = accessType;
+									 var getSolutionDocumentsReq = {
+												method : 'GET',
+												url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
+										};
+			                       	 $http(getSolutionDocumentsReq)
+											.success(
+													function(data, status, headers,
+															config) {
+														 if(data.response_body.length < 1){
+															 $scope.getORSolutionDocs('org'); 
+															 if($scope.solution.accessType == $scope.orgVar){
+																 $scope.showORDocs = true;
+															 }else if($scope.solution.accessType == $scope.pubVar){
+																 $scope.showPBDocs = true;
+															 }else {
+																 $scope.showORDocs = true;
+																 $scope.showPBDocs = false;
+															 }
+														 }else{
+															 if($scope.solution.accessType == $scope.orgVar){
+																 $scope.showORDocs = true;
+															 }else if($scope.solution.accessType == $scope.pubVar){
+																 $scope.showPBDocs = true;
+															 }else{
+																 $scope.showORDocs = false;
+																 $scope.showPBDocs = true;
+															 }
+															 
+															 $scope.supportingDocsPB = [];
+																console.log(" Get Asset File name : " + data.response_body);
+																var fileName="";var fileExtension = '';
+				                                                angular.forEach(data.response_body, function(value, key) {
+				                                                    fileName = value;
+				                                                    fileExtension = fileName.split('.').pop();
+				                                                    $scope.supportingDocsPB.push({"name":value,"ext":fileExtension});
+			                                                    });
+														 }
+													}).error(
+															function(data, status, headers,
+																	config) {
+																$scope.supportingDocsPB = [];
+																return "No Contents Available"
+													});
 								}
 								
-		                       	 var getSolutionDocumentsReq = {
-											method : 'GET',
-											url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
-									};
-		                       	 $http(getSolutionDocumentsReq)
-										.success(
-												function(data, status, headers,
-														config) {
-													 
-													$scope.supportingDocs = [];
-													console.log(" Get Asset File name : " + data.response_body);
-													var fileName="";var fileExtension = '';
-	                                                angular.forEach(data.response_body, function(value, key) {
-	                                                    fileName = value;
-	                                                    fileExtension = fileName.split('.').pop();
-	                                                    $scope.supportingDocs.push({"name":value,"ext":fileExtension});
-	                                                    });
-													//$scope.supportingDocs = data.response_body;
-												}).error(
-														function(data, status, headers,
-																config) {
-															$scope.supportingDocs = [];
-															return "No Contents Available"
-														});
+								$scope.getORSolutionDocs = function(accessType){
+									 var accessType = accessType;
+									 var getSolutionDocumentsReq = {
+												method : 'GET',
+												url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
+										};
+			                       	 $http(getSolutionDocumentsReq)
+											.success(
+													function(data, status, headers,
+															config) {
+														if(data.response_body.length < 1){
+															$scope.noDocs = true;
+														}else{
+															$scope.supportingDocsOR = [];
+															console.log(" Get Asset File name : " + data.response_body);
+															var fileName="";var fileExtension = '';
+			                                                angular.forEach(data.response_body, function(value, key) {
+			                                                    fileName = value;
+			                                                    fileExtension = fileName.split('.').pop();
+			                                                    $scope.supportingDocsOR.push({"name":value,"ext":fileExtension});
+		                                                    });
+														}
+														
+		                                                
+													}).error(
+															function(data, status, headers,
+																	config) {
+																$scope.supportingDocsOR = [];
+																return "No Contents Available"
+													});
 								}
 							
-								//$scope.getPublicSolutionDocuments();
 								
 								$scope.onClickModel = function(id, ownerId){
-									/*if($scope.loginUserID == ownerId){
-										$state.go('marketSolutions',{'solutionId':id})
-										//window.location.href = "#/modelEdit/" + id;
-									}else{
-										window.location.href = "#/marketSolutions/" + id;
-									}*/
-									$scope.updateViewCount = function() {
+									$scope.updateViewCount = function(){
 										$scope.solutionId = id;
 										apiService
 												.updateViewCount($scope.solutionId)
@@ -1625,7 +1515,7 @@ angular
 															$state.go('marketSolutions', {solutionId : id, parentUrl:'mymodel'});
 														});
 
-									}
+									};
 									$scope.updateViewCount();
 								}
 								
@@ -1635,26 +1525,6 @@ angular
 									$rootScope.parentActive = 'marketplace'
 								};
 
-						
-					/*	$scope.getCommentsJson = function(solutionName){
-							console.log(solutionName);
-							switch(solutionName){
-							case "text analyzer":
-								var comments = []; var commentsName = [];
-								commentsName[0] = "Sam Kimberly";
-								comments[0] = "I found this particular model to be very flexible—I’ve applied it to several different usage prediction problems to estimate resource utilization for planning purposes.";
-								commentsName[1] = "Danielle Potarski";
-								comments[1] = "I like the fact that the model trains itself as it goes.";
-								commentsName[2] = "Wayne O’Keefe";
-								comments[2] = "What technique is used to detect seasonality in the data? Or does it assume a fixed cycle period?";
-								$scope.CommentName = comments;
-								console.log($scope.CommentName);
-								$scope.comment = comments;
-								$scope.firstComment = "I found this particular model to be very flexible—I’ve applied it to several different usage prediction problems to estimate resource utilization for planning purposes.";
-								$scope.second
-							} 
-						}*/
-						
 						//API call for related solution
 						
 							function relatedSoltion(){
