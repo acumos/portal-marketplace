@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d62cad4_a12417a1",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-26T13:32:02Z",
+      "side": 1,
+      "message": "Please alter to remove att.com.  I promise this is the last comment :D",
+      "revId": "eda452ed19ee0790bbef3d5395a6c9164a33ddf7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78222b3e_9a691f38",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-26T13:32:02Z",
+      "side": 1,
+      "message": "Last comment, I promise!  Since this is ATT-specific AND it\u0027s commented out, please remove the att part.",
+      "revId": "eda452ed19ee0790bbef3d5395a6c9164a33ddf7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
