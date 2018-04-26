@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fd8e41a_47749fd4",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-26T13:47:11Z",
+      "side": 0,
+      "message": "Perhaps you don\u0027t want to show values here, but it\u0027s valuable to know that this configuration key is being used, so I would not remove the keys entirely.",
+      "revId": "a53f27c32fc9c3a631db424bb06fe9bd3476f71e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce0fafe2_ee764377",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-04-26T13:47:11Z",
+      "side": 0,
+      "message": "Perhaps you don\u0027t want to show values here, but it\u0027s valuable to know that this configuration key is being used, so I would not remove the keys entirely.",
+      "revId": "a53f27c32fc9c3a631db424bb06fe9bd3476f71e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
