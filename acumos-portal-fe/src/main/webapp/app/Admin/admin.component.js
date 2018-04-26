@@ -23,7 +23,7 @@ limitations under the License.
 angular.module('admin')
 	.component('admin',{
 		templateUrl:'./app/Admin/admin.template.html',
-		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state){
+		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state, modelUploadService){
 			componentHandler.upgradeAllRegistered();
 			//Sorting
 				$scope.orderByField = 'username';$scope.reverseSort = false;
@@ -1214,6 +1214,7 @@ angular.module('admin')
                                         	  var obj = {
                                         			  "request_body": {
                                         				  	"bulkUpdate": $scope.activeYN,
+                                        				  	"userId": $scope.userDetail[1],
                                         				    "userIdList": $scope.roleArr
                                         				  }
                                         				}
@@ -1702,6 +1703,34 @@ angular.module('admin')
                       															config) {
                       													});
                       							}
+                      						
+                      			            $scope.addSlide = function(carousel, mode){
+                      			            	
+                      			            	if(carousel == 'top' && mode == 'add'){
+                      			            		$scope.showPrimaryButton = true;
+                          			            	$scope.showSecondaryButton = false;
+                      			            		$scope.popupTitle = 'Add Slide to Top Carousel';
+                      			            	}
+                      			            	
+                      			          	  $mdDialog.show({
+                      			          		  contentElement: '#addslide',
+                      			          		  parent: angular.element(document.body),
+                      			          		  clickOutsideToClose: true
+                      			          	  });
+                      			            }
+                      			          $scope.closeAddslide = function(){
+                      			          	  $mdDialog.hide();
+                      			          }
+                      			          
+                      			        $scope.showSlideAddbuttons = function(){
+                       			        	if($scope.showPrimaryButton == false && $scope.showSecondaryButton == true){
+                      			        		$scope.showPrimaryButton = true;
+                      			        	} else if( $scope.showSecondaryButton == false && $scope.showPrimaryButton == true){
+                      			        		$scope.showSecondaryButton = true;
+                      			        	}
+                    			        }
+                      			          
+                      			        
 		}
 })/*.directive(
 		'uploadImageModel',

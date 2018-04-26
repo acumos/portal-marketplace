@@ -294,7 +294,7 @@ limitations under the License.
 							                   			<strong>No Result Found</strong> 
 						                   			</div>
 												</div>
-												<div class="mdl-tabs__panel" id="tab3-panel">
+												<div class="mdl-tabs__panel" id="tab3-panel" ng-show="false">
 													<div class="admin-tab-heading"><span class="admin-title2">Site Content</span></div>
 													<h6 class="sectiontitle6">Customize Home Page</h6>
 													<div class="sc-container1">
@@ -302,7 +302,7 @@ limitations under the License.
 															<div class="sc-child1">
 																<span>Top Carousel</span>
 																<div>
-																	<button class="mdl-button mdl-js-button btn-secondary sc-btn1">Add Slide</button>
+																	<button class="mdl-button mdl-js-button btn-secondary sc-btn1" ng-click="addSlide('top', 'add')" >Add Slide</button>
 																	<div  class="select-control">
 													                    <md-select ng-model="exportTo" placeholder="Enable/Disable Slides" class="dc-cloud-list">
 													                        <md-option title="Enable">Enable</md-option>
@@ -492,7 +492,7 @@ limitations under the License.
 														          	<section class="sc-cell-container">
 																		<div class="sc-cell-childtop">
 																			<div>
-																				 <md-checkbox ng-model="data.cb133" aria-label="Checkbox 1">																            
+																				 <md-checkbox ng-model="data.cb133" aria-label="Checkbox 1" disabled>																            
 																		          </md-checkbox>
 																		          <span class="sc-slide-title">Slide 01</span>
 																		          <span class="sc-slide-status text-green">Enabled</span>																          
@@ -562,7 +562,6 @@ limitations under the License.
 													</div>
 													<div class="sc-button-container">
 														<button type="button" class="mdl-button mdl-js-button btn-primary">Publish Home Page</button>
-														<button type="button" class="mdl-button mdl-js-button btn-secondary">Save As Draft</button>
 													</div>													
 												</div>
 												
@@ -2417,8 +2416,8 @@ limitations under the License.
 								  </form>
 								</md-dialog>
 							</div>
-						<!-- Modal box Edit Workflow start -->
-						<!-- Assign Workflow Modal box start -->
+
+						<!-- Add slide Modal box start -->
 							<div class="md-dialog-container" id="confirmAssignWorkflow" style="height:0;" >
 							  <md-dialog aria-label="Mango (Fruit)" class="">
 								  <form ng-cloak>
@@ -2451,7 +2450,253 @@ limitations under the License.
 								  </form>
 								</md-dialog>
 							</div>
-						<!-- Assign Workflow Modal box end -->
+							
+							<div class="md-dialog-container" id="addslide" style="height:0;" >
+								<md-dialog aria-label="Add slide" class="top-carousel-admin">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Add Slide to Top Carousel</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closeAddslide()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content top-carousel-admin">
+											<div class="mdl-grid">												
+												<div class="mdl-cell mdl-cell--6-col">													
+														<md-input-container class="md-block">
+															<label>Slide Name</label> 
+															<input type="text" ng-model="slideName" required/>
+														</md-input-container>													
+												</div>
+												<div class="mdl-cell mdl-cell--6-col">
+													<md-input-container class="md-block">
+														<label>Headline</label> 
+														<input type="text" required ng-model="headline" maxlength="60" required md-maxlength="60"/>
+														<!-- <span class="modal-note">60 Characters Only</span> -->
+													</md-input-container>
+												</div>										
+											</div>
+											<div class="mdl-grid">
+												<div class="mdl-cell mdl-cell--12-col">
+													<md-input-container class="md-block">
+													  <label>Supporting content</label>												  
+													  <textarea rows="2" ng-model="supportingContent"  maxlength="140" required md-maxlength="140"></textarea>
+													  <!-- <span class="modal-note">140 Characters Only</span> -->
+													</md-input-container>
+												</div>
+											</div>
+											<div class="mdl-grid">
+												<div class="mdl-cell mdl-cell--6-col add-document ">
+													
+														<label>Main Background</label>	
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+																<div file-upload file=mainBackground 
+																	uploadid="mainBackground"  imageerror = "imageerror"
+																	imagetypeerror = "imagetypeerror"
+																	filename="mainBackground" fileinput="file" accept = "image/png, image/jpeg, image/gif"
+																	filepreview="previewImage" ng-model="mainBackground"
+																	icon="icon" upload-image-model="mainBackground" readonly alt="Browse" title="Browse"></div>
+																<input class="mdl-textfield__input"
+																	placeholder="Upload Image" type="text"
+																	ng-model="mainBackground" readonly />
+															</div>
+															<span>
+															<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																Upload
+															</md-button>
+															</span>
+															
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 2560px X 524px.
+														</span>
+													
+												</div>
+												<div class="mdl-cell mdl-cell--6-col add-document">
+
+														<div class="infographics">
+															<div>
+																<label >Add Infographics</label>
+															</div>
+															<div>
+																<span >
+																	<md-switch ng-model="infographicsEnabled" aria-label="Infographics Enabled" class="md-warn">
+																		<span class="text-xsmall text-green" ng-show="infographicsEnabled == true">Enabled</span>
+																		<span class="text-xsmall text-red" ng-show="infographicsEnabled == false || infographicsEnabled == null ">Disabled</span>
+																	</md-switch>
+																</span>
+															</div>
+														</div>
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+																<div file-upload file=infographics 
+																	uploadid="infographics"  imageerror = "imageerror"
+																	imagetypeerror = "imagetypeerror"
+																	filename="infographics" fileinput="file" accept = "image/png, image/jpeg, image/gif"
+																	filepreview="previewImage" ng-model="infographics"
+																	icon="icon" upload-image-model="infographics" readonly alt="Browse" title="Browse"></div>
+																<input class="mdl-textfield__input"
+																	placeholder="Upload Image" type="text"
+																	ng-model="infographics" readonly />
+																	<div ng-show = "$root.progressBar > 0" > <!-- ng-show="progressVisible" -->
+																			            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
+																			               
+																			            </div>
+																			            <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
+																			            			<span ng-show = "$root.progressBar == 100">Completed</span>
+																			            </div>
+																			         </div>
+															</div>
+																<span>
+																	<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																		Upload
+																	</md-button>
+																</span>
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
+														</span>
+
+												</div>
+											</div>
+											
+											<div class="mdl-grid">
+												<div class="mdl-cell mdl-cell--3-col">													
+														<md-input-container class="md-block">
+															<label>Text Align <span class="dsreqfield">*</span></label> 															
+														</md-input-container>
+														<ul class="aligntext">
+															<li ng-class="{'active': textAlign == 'left'}">
+																<i class="material-icons"><a ng-click="textAlign='left';infoAlign='right'">format_align_left</a></i>
+															</li>
+															<li ng-class="{'active': textAlign == 'right'}">
+																<i class="material-icons"><a ng-click="textAlign='right';infoAlign='left'">format_align_right</a></i>
+															</li>
+														</ul>
+												</div>
+												<div class="mdl-cell mdl-cell--3-col">
+													<md-input-container class="md-block">
+														<label>Infographics Align <span class="dsreqfield">*</span></label>
+													</md-input-container>
+													<ul class="aligntext">
+															<li ng-class="{'active': textAlign == 'right'}">
+																<i class="material-icons"><a ng-click="textAlign='right';infoAlign='left'">format_align_left</a></i>
+															</li>
+															<li ng-class="{'active': textAlign == 'left'}">
+																<i class="material-icons"><a ng-click="textAlign='left';infoAlign='right'">format_align_right</a></i>
+															</li>
+													</ul>
+												</div>
+												<div class="mdl-cell mdl-cell--6-col">
+															<div class="infographics">
+																<div>
+																	<label >Link or Button Name</label>
+																</div>
+																<div>
+																	<span >
+																		<md-switch ng-model="carouselLinkEnabled" aria-label="CarouselLink" class="md-warn">
+																			<span class="text-xsmall text-green" ng-show="carouselLinkEnabled == true">Enabled</span>
+																			<span class="text-xsmall text-red" ng-show="carouselLinkEnabled == false || carouselLinkEnabled == null ">Disabled</span>
+																		</md-switch>
+																	</span>
+																</div>
+															</div>
+															<p class="modal-note">You can only add 1 primary and 1 secondary buttons / link</p>
+															
+															<div class="link-button-container" ng-show="showPrimaryButton==true">
+																<div class="cancelbox" ng-click="showPrimaryButton=false">
+																	<i class="material-icons">cancel</i>
+																</div>
+																<div class="buttonlabel">
+																	<label>Button Label</label> 
+																	<md-button class="mdl-button mdl-js-button primary-name-btn" title="Enter Primary name">
+																		Enter Primary name
+																	</md-button>
+																</div>
+																<div>																	
+																	<div>
+																		<div class="select-control">
+																			<label>Link button to</label> 
+																			<md-select ng-model="primaryButton" placeholder="Select Page" class="md-no-underline admin-ddl">															
+																				<md-option value="onboarding">On Boarding model</md-option>
+																				<md-option value="marketplace">Marketplace</md-option>
+																				<md-option value="designstudio">Design Studio</md-option>
+																				<md-option value="siteadmin">Site Admin</md-option>																			
+																			</md-select>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="link-button-container" ng-show="showSecondaryButton==true;">
+																<div class="cancelbox" ng-click="showSecondaryButton=false">
+																	<i class="material-icons">cancel</i>
+																</div>
+																<div class="buttonlabel">
+																	<label>Button Label</label> 
+																	<md-button class="mdl-button mdl-js-button primary-explore-btn" title="Enter Primary name">
+																		Explore Marketplace
+																	</md-button>
+																</div>
+																<div>																	
+																	<div>
+																		<div class="select-control">
+																			<label>Link button to</label> 
+																			<md-select ng-model="secondaryButton" placeholder="Select Page">																												
+																				<md-option value="onboarding">On Boarding model</md-option>
+																				<md-option value="marketplace">Marketplace</md-option>
+																				<md-option value="designstudio">Design Studio</md-option>
+																				<md-option value="siteadmin">Site Admin</md-option>																			
+																			</md-select>																				
+																		</div>
+																	</div>
+																</div>
+															</div>
+															
+															<md-button class="mdl-button mdl-js-button primary-add-name-btn" ng-show="showSecondaryButton==false||showPrimaryButton==false" title="Add button/link"  ng-click="showSlideAddbuttons()">
+																	<i class="material-icons">add_box</i> Add button/link
+															</md-button>
+												</div>
+											</div>										
+										</div>
+										
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeAddslide()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="addslideDetails()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						<!-- Add slide Modal box end -->
 
 
 
