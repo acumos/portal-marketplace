@@ -33,6 +33,29 @@
       "revId": "eda452ed19ee0790bbef3d5395a6c9164a33ddf7",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e87f4a8_402dc36d",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:03:02Z",
+      "side": 1,
+      "message": "is this a real email address? shouldn\u0027t the from email address be specific to an installed instance? so how about replacing support@acumos.org with a generic \u003cvalid_support_email_address@yourcompany.com\u003e ?",
+      "range": {
+        "startLine": 58,
+        "startChar": 26,
+        "endLine": 58,
+        "endChar": 44
+      },
+      "revId": "eda452ed19ee0790bbef3d5395a6c9164a33ddf7",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
