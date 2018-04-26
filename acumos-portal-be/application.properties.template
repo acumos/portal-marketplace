@@ -70,8 +70,8 @@ portal.dashboard.url=http://cognita-dev1-logcollector.eastus.cloudapp.azure.com:
 model.storage.folder.path=./temp
 
 #Documentation URL
-doc.url=https://cognita.atlassian.net/wiki/spaces/CW/pages/7438367/Acumos+Documentation
-
+#doc.url=https://cognita.atlassian.net/wiki/spaces/CW/pages/7438367/Acumos+Documentation
+doc.url=https://docs.acumos.org
 
 onboarding.push.model.dcae_url=http://localhost:8090/onboarding-app/v2/dcae_models
 dcae.model.name.prefix=ONAP
