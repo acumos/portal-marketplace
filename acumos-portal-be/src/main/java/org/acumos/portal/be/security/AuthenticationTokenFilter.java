@@ -21,6 +21,7 @@
 package org.acumos.portal.be.security;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -165,12 +166,18 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 	  }
 	  
 	  private String getRoleAuthority(MLPUser user) {
-		  String authority = "MLP System User";
+		
+		  List<String> authorityList = new ArrayList<>();
 		  List<MLPRole> roles = userService.getUserRole(user.getUserId());
-			if(roles != null) {
-				MLPRole role = roles.get(0);
-				authority = role.getName();
-			}
+		  for(MLPRole role : roles) {
+			  authorityList.add(role.getName());
+		  }
+		  //this condition should never come
+		  if(authorityList.isEmpty()) {
+			//By default if not roles is assigned then treat as general system users
+			  authorityList.add(RoleAuthorityConstants.MLP_SYSTEM_USER);
+		  }
+		  String authority = String.join(",", authorityList);
 		  return authority;
 	  }
 }

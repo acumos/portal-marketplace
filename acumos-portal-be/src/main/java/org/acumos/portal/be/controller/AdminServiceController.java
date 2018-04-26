@@ -151,7 +151,7 @@ public class AdminServiceController extends AbstractController {
 
     @ApiOperation(value = "Add a new peer", response = MLPPeer.class)
     @RequestMapping(value = { APINames.PEERS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> createPeer(@RequestBody JsonRequest<MLPPeer> peer) {
         log.debug(EELFLoggerDelegate.debugLogger, "createPeer={}", peer);
@@ -197,7 +197,7 @@ public class AdminServiceController extends AbstractController {
 
     @ApiOperation(value = "Update Peer details.", response = JsonResponse.class)
     @RequestMapping(value = { APINames.PEER_DETAILS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> updatePeer(@PathVariable("peerId") String peerId, @RequestBody JsonRequest<MLPPeer> peer) {
         log.debug(EELFLoggerDelegate.debugLogger, "updatePeer={}", peer);
@@ -224,7 +224,7 @@ public class AdminServiceController extends AbstractController {
 
     @ApiOperation(value = "Remove Peer.", response = MLPPeer.class)
     @RequestMapping(value = { APINames.PEER_DETAILS }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> removePeer(@PathVariable("peerId") String peerId) {
         log.debug(EELFLoggerDelegate.debugLogger, "removePeer={}", peerId);
@@ -299,7 +299,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Add a new peer subscription", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_CREATE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<MLPPeerSubscription> createPeerSubscription(@RequestBody JsonRequest<MLPPeerSubscription> peerSub) {
         log.debug(EELFLoggerDelegate.debugLogger, "createPeer={}", peerSub);
@@ -327,7 +327,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Update Peer subscription details.", response = JsonResponse.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_UPDATE }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> updatePeerSubscription(@RequestBody JsonRequest<MLPPeerSubscription> peerSub) {
         log.debug(EELFLoggerDelegate.debugLogger, "updatePeerSubscription={}", peerSub);
@@ -353,7 +353,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Remove Peer Subscription.", response = JsonResponse.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_DELETE }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> deletePeerSubscription(@PathVariable("subId") Long subId) {
         log.debug(EELFLoggerDelegate.debugLogger, "deletePeerSubscription={}", subId);
@@ -406,7 +406,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Create site configuration", response = MLPSiteConfig.class)
     @RequestMapping(value = { APINames.CREATE_SITE_CONFIG}, method = RequestMethod.POST, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<MLPSiteConfig> createSiteConfig(@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig) {
         log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig={}", mlpSiteConfig);
@@ -434,7 +434,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Update site configuration", response = MLPSiteConfig.class)
     @RequestMapping(value = { APINames.UPDATE_SITE_CONFIG}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<MLPSiteConfig> updateSiteConfig(@PathVariable ("configKey") String configKey,@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig) {
         log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig={}", mlpSiteConfig);
@@ -464,7 +464,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Remove Site Configuraion.", response = JsonResponse.class)
     @RequestMapping(value = { APINames.DELETE_SITE_CONFIG }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> deleteSiteConfig(@PathVariable("configKey") String configKey) {
         log.debug(EELFLoggerDelegate.debugLogger, "deleteSiteConfig={}", configKey);
@@ -533,7 +533,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Update Request details.", response = JsonResponse.class)
     @RequestMapping(value = { APINames.UPDATE_REQUEST}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> updateRequest(@RequestBody JsonRequest<MLRequest> mlrequest) {
         log.debug(EELFLoggerDelegate.debugLogger, "updateRequest={}", mlrequest);
@@ -559,7 +559,7 @@ public class AdminServiceController extends AbstractController {
     
     @ApiOperation(value = "Add peer subscription for models", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.CREATE_SUBSCREPTION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
        public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId) {
            log.debug(EELFLoggerDelegate.debugLogger, "createSubscription={}");
@@ -601,7 +601,7 @@ public class AdminServiceController extends AbstractController {
 
 	@ApiOperation(value = "Add User from Admin", response = MLPRole.class)
 	@RequestMapping(value = { APINames.ADD_USER }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-	@PreAuthorize("hasAuthority('Admin')")
+	@PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
 	@ResponseBody
 	public JsonResponse<MLPRole> addUser(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response) {

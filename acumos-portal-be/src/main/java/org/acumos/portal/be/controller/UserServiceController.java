@@ -595,7 +595,7 @@ public class UserServiceController extends AbstractController {
 
 	@ApiOperation(value = "Deacivate multiple users", response = JsonResponse.class)
 	@RequestMapping(value = {APINames.UPADATE_BULK_USER}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
-	@PreAuthorize("hasAuthority('Admin')")
+	@PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
 	@ResponseBody
 	public JsonResponse<Object> updateBulkUsers(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "updateUser={}");
@@ -631,7 +631,7 @@ public class UserServiceController extends AbstractController {
 	
 	@ApiOperation(value = "Delete multiple users", response = JsonResponse.class)
 	@RequestMapping(value = {APINames.DELETE_BULK_USER}, method = RequestMethod.POST, produces = APPLICATION_JSON)
-	@PreAuthorize("hasAuthority('Admin')")
+	@PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
 	@ResponseBody
 	public JsonResponse<Object> deleteBulkUsers(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "deleteUser={}");
