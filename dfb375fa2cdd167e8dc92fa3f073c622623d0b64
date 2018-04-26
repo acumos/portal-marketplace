@@ -1,0 +1,441 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "741630f3_08aa1aa9",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "Would it be possible to add an explanation of why/how this file is used and where the values come from?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 62
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8525e668_4c70f730",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "are these real credentials??? please remove or replace with generic values",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 35
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f61db9ad_23a6301b",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please replace with generic values; for example:\nspring.mail.host\u003d\u003cyour smtp host\u003e\nspring.mail.port\u003d\u003cyour smtp port\u003e",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a76fc42_b340f7e5",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please remove cognita-specific references",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 100
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd2ce47e_df658287",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "are these real? or at least configurable? please replace with generic values - perhaps:\nnexus.username\u003d\u003cyour installation nexus username\u003e\nnexus.password\u003d\u003cyour installation nexus password\u003e",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 22
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96f28d9b_4e02560b",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "nexus_proxy\u003d\u003cyour corporate proxy\u003e",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 41
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b95be45_2d3267b8",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please replace with https://docs.acumos.org",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 87
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b066f66_53a9e59d",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please remove cognita reference",
+      "range": {
+        "startLine": 68,
+        "startChar": 21,
+        "endLine": 68,
+        "endChar": 84
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d47e0c87_504e198e",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please remove corporate proxy data",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66675807_e3378630",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "why are these here? please do not push instance-specific values to gerrit; replace with generic values",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 34
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac75a597_3dea827f",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "would it be possible to add more explanation of the contents of this file? why/how it\u0027s used, where the values come from?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 74
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eed72a2a_c93b9370",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "are these values real? please remove and replace with generic values",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc23fdd9_b4b3940c",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "where does this address come from? will this be the same on every installation of acumos?",
+      "range": {
+        "startLine": 20,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 36
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56e0546b_f91d3333",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "are these real? or at least values that are configurable? Please replace with a generic value. It would also be helpful to add a comment on where to find the value that should be put here",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 22
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f9aad5c_b8338faa",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please remove or change this to:\nnexus.proxy\u003d\u003cyour corp proxy\u003e",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 42
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b551491_73c2578a",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "Please do not push instance-specific values to gerrit. Please replace with with a generic value like \u003cacumos_suppor_email@yourcompany.com\u003e",
+      "range": {
+        "startLine": 54,
+        "startChar": 27,
+        "endLine": 54,
+        "endChar": 44
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15cd95e8_3a677830",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please remove cognita reference",
+      "range": {
+        "startLine": 63,
+        "startChar": 21,
+        "endLine": 63,
+        "endChar": 84
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a19ed03_7dfbef54",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "please remove cognita ref and replace with docs.acumos.org",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 87
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f5f0c71_14067aa5",
+        "filename": "acumos-portal-be/application.properties.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-04-26T15:25:52Z",
+      "side": 1,
+      "message": "why are these here?",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "dfb375fa2cdd167e8dc92fa3f073c622623d0b64",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
