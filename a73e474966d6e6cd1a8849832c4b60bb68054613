@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa7d90a_14d18a5c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1972,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-04-27T18:39:28Z",
+      "side": 1,
+      "message": "Please extract as a constant in property if possible",
+      "revId": "a73e474966d6e6cd1a8849832c4b60bb68054613",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28095cd0_9c44e764",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLSolution.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-04-27T18:39:28Z",
+      "side": 1,
+      "message": "please correct intentation",
+      "revId": "a73e474966d6e6cd1a8849832c4b60bb68054613",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
