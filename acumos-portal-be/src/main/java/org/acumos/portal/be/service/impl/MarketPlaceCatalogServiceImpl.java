@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 import org.acumos.cds.AccessTypeCode;
 import org.acumos.cds.ArtifactTypeCode;
 import org.acumos.cds.MessageSeverityCode;
+import org.acumos.cds.StepStatusCode;
 import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -52,6 +53,7 @@ import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPSolutionWeb;
+import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.cds.domain.MLPUser;
@@ -1940,6 +1942,42 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
 							mlSolution.getSolutionId());
 				}
+				
+				// get latest step Result for solution
+				Boolean onboardingStatusFailed = false;
+				MLPStepResult stepResult = null;
+				Map<String, Object> stepResultCriteria = new HashMap<String, Object>();
+				stepResultCriteria.put("solutionId", mlpSol.getSolutionId());
+				
+				Map<String, String> queryParameters = new HashMap<>();
+				queryParameters.put("startDate", "DESC");
+				//Fetch latest step result for the solution to get the tracking id
+				RestPageResponse<MLPStepResult> stepResultResponse =  dataServiceRestClient.searchStepResults(stepResultCriteria, false, new RestPageRequest(0, 1, queryParameters));
+				List<MLPStepResult> stepResultList = stepResultResponse.getContent();
+				if (stepResultList != null && !PortalUtils.isEmptyList(stepResultList)) {
+					stepResult = stepResultList.get(0);
+					String trackingId = stepResult.getTrackingId();
+					
+					//search all step results with the tracking id 
+					Map<String, String> fieldToDirmap = new HashMap<>();
+					
+					Map<String, Object> trackingResultCriteria = new HashMap<String, Object>();
+					trackingResultCriteria.put("trackingId", trackingId);
+					RestPageResponse<MLPStepResult> trackingStepResult =  dataServiceRestClient.searchStepResults(stepResultCriteria, false, new RestPageRequest(0, 25, fieldToDirmap));
+					List<MLPStepResult> trackingStepResultList = trackingStepResult.getContent();
+					
+					
+					if (trackingStepResultList != null && !PortalUtils.isEmptyList(trackingStepResultList)) {
+						// check if any of the step result is Failed
+						for(MLPStepResult step : trackingStepResultList) {
+							if(StepStatusCode.FA.toString().equals(step.getStatusCode())) {
+								onboardingStatusFailed = true;
+								break;
+							}
+						}
+					}
+				}
+				mlSolution.setOnboardingStatusFailed(onboardingStatusFailed);
 
 				content.add(mlSolution);
 			}
