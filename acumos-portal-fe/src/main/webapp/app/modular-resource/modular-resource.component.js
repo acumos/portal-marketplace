@@ -60,6 +60,17 @@ angular.module('modelResource')
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
 		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams, $timeout){
 			console.clear();console.log($stateParams);
+			
+			//rootscope so it doesn't lose the status even if you go off the on-boarding by web page
+			if($rootScope.onBoardStarted == undefined) {
+				//if undefined(i.e. first time loading screen), set to false
+				$rootScope.onBoardStarted = false;
+			}
+			$scope.onBoardStarted = $rootScope.onBoardStarted;
+			$rootScope.$watch('onBoardStarted', function() {
+				$scope.onBoardStarted = $rootScope.onBoardStarted;
+			})
+			
 			$scope.onap = false;
 			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
 			$scope.onap = true;
@@ -323,6 +334,8 @@ angular.module('modelResource')
 			$scope.errorCC = '';
 			
 			$scope.addToCatalog = function(){
+				//disables the 'add to catalog' button once started
+				$rootScope.onBoardStarted = true;
 				
 				$scope.statusReult = [];
 
@@ -368,6 +381,7 @@ angular.module('modelResource')
 											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
 											$scope.stepfailed = true;
+											$rootScope.onBoardStarted = false;//step fails so re-enable button
 										}else if(statusCode == 'ST'){
 											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
@@ -384,6 +398,7 @@ angular.module('modelResource')
 												$scope.errorVM = '';
 												$scope.completedSteps['ViewModel'] = 'ViewModel';
 												$scope.allSuccess = true;
+												$rootScope.onBoardStarted = false;//onboard done so should re-enable button
 											}
 											
 											if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
@@ -416,15 +431,15 @@ angular.module('modelResource')
 					.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
 					.then(
 							function(response) {
-								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-		                        $anchorScroll(); 
+								$location.hash('top'); // id of a container on the top of the page - where to scroll (top)
 		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = '';
 		                        $scope.styleclass = 'c-warning';
 		                        $scope.showAlertMessage = true;
+		                        $anchorScroll(); 
 		                        $timeout(function() {
 		                        	$scope.showAlertMessage = false;
-		                        }, 3000);
+		                        }, 6000);
 		                        
 								$scope.trackId = response.data.response_detail;
 								
@@ -447,15 +462,15 @@ angular.module('modelResource')
 					.then(
 							function(response) {
 								$scope.trackId = response.data.response_detail;
-								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-		                        $anchorScroll(); 
+								$location.hash('top');  // id of a container on the top of the page - where to scroll (top)
+								$anchorScroll(); 
 		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = '';
 		                        $scope.styleclass = 'c-warning';
 		                        $scope.showAlertMessage = true;
 		                        $timeout(function() {
 		                        	$scope.showAlertMessage = false;
-		                        }, 5000);
+		                        }, 6000);
 								//$scope.trackId = "12345";
 								$scope.clearInterval = $interval(function(){
 									$scope.showValidationStatus();
@@ -489,6 +504,7 @@ angular.module('modelResource')
 			$scope.$watch('file', function() {chkCount(); $scope.filename = $scope.file.name;});
 			$scope.$watch('user', function() {chkCount();});
 			$scope.$watch('popupAddSubmit', function() {chkCount();});
+			
 			
 			/*if a popup is open other should close*/
 			$scope.closeOtherPopovers = function(variableName, variableValue){

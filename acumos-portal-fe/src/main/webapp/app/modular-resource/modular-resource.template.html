@@ -23,8 +23,11 @@ limitations under the License.
 <style>
 @import url('css/onBoardingCSS.css');
 </style>
-<alert-message msg="msg" icon="icon" styleclass="styleclass"
-            ng-show="showAlertMessage"></alert-message>
+
+<div id="top">
+<alert-message id="onBoardedMsg" msg="msg" icon="icon" styleclass="styleclass" ng-show="showAlertMessage">
+</alert-message> 
+</div>
 <div class="page-content" id="page-top" ng-hide="onap">
 	<section class="pageheadsection gray-bg">
 		<div layout="row" layout-xs="column" layout-fill
@@ -879,7 +882,7 @@ limitations under the License.
 								<div>
 									<!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button-->
 									<button ng-click="addToCatalog()"
-									ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit && user.name && popupAddSubmit )"
+									ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit && user.name && popupAddSubmit ) || onBoardStarted"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										Add to Catalog</button>
 								</div>
