@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
@@ -6,7 +7,6 @@
 	<version>1.15.13-SNAPSHOT</version>
 	<name>Acumos Portal backend server</name>
 	<description>Acumos Portal Backend APIs</description>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -14,7 +14,6 @@
 		<!-- silence warning about parent relative path -->
 		<relativePath />
 	</parent>
- 
 	<properties>
 		<encoding>UTF-8</encoding>
 		<!-- Stand-alone RESTFul application -->
@@ -22,20 +21,16 @@
 		<!-- Jenkins invokes mvn with argument -Dbuild.number=${BUILD_NUMBER} -->
 		<build.number>0</build.number>
 		<eelf.version>1.0.0</eelf.version>
-		<!-- tests require database to be running -->
-		<!-- <skipTests>true</skipTests> -->
 		<!-- Not supplied to all jobs; e.g., Javadoc -->
 		<docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
 		<!-- Supplied by Jenkins -->
 		<docker.push.registry>${env.NEXUS3_PUSH_REGISTRY}</docker.push.registry>
 	</properties>
-
 	<!-- Some dependencies are specific to Acumos, but this POM defines no repositories 
 		section. The Jenkins server specifies Acumos repositories. Developers should 
 		ensure their ~/.m2/settings.xml file has the following URLs in both the repositories 
 		and pluginRepositories sections or in a profile: https://nexus.acumos.org/content/repositories/snapshots/ 
 		https://nexus.acumos.org/content/repositories/releases/ -->
-
 	<dependencies>
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
@@ -82,6 +77,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<!-- spring sets version -->
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.vaadin.external.google</groupId>
+					<artifactId>android-json</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -153,16 +154,15 @@
 			<artifactId>httpmime</artifactId>
 			<!-- spring sets the <version>4.3.1</version> -->
 		</dependency>
-        <dependency>
-            <groupId>com.mailjet</groupId>
-            <artifactId>mailjet-client</artifactId>
-            <version>4.0.5</version>
-        </dependency>
-        
-        <!--  AspectJ Dependencies -->
 		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-aop</artifactId>    
+			<groupId>com.mailjet</groupId>
+			<artifactId>mailjet-client</artifactId>
+			<version>4.0.5</version>
+		</dependency>
+		<!-- AspectJ Dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.icegreen</groupId>
@@ -171,13 +171,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>com.github.tomakehurst</groupId>
-		    <artifactId>wiremock</artifactId>
-		    <version>2.6.0</version>
-		    <scope>test</scope>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock</artifactId>
+			<version>2.6.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -213,6 +212,34 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<!-- Generate javadoc jar; see profile for Java 8 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<!-- spring chooses the <version>x</version> -->
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Generate source jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<!-- spring chooses the <version>x</version> -->
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -228,43 +255,44 @@
 						</manifestEntries>
 					</archive>
 				</configuration> -->
-				<executions> 
-						<execution> 
-								<id>jar-with-only-classes</id> 
-								<phase>package</phase> 
-								<goals> 
-										<goal>jar</goal> 
-								</goals> 
-								<configuration> 
-										<classifier>classes</classifier> 
-										<includes> 
-												<include>org/**</include> 
-										</includes> 
-								</configuration> 
-						</execution> 
+				<executions>
+					<execution>
+						<id>jar-with-only-classes</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>classes</classifier>
+							<includes>
+								<include>org/**</include>
+							</includes>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
-			<plugin> 
-					<groupId>org.codehaus.mojo</groupId> 
-					<artifactId>build-helper-maven-plugin</artifactId> 
-					<version>3.0.0</version> 
-					<executions> 
-							<execution> 
-									<goals> 
-											<goal>attach-artifact</goal> 
-									</goals> 
-									<phase>package</phase> 
-									<configuration> 
-											<artifacts> 
-													<artifact> 
-															<file>${project.build.directory}/acumos-portal-be-${project.version}-classes.jar</file> 
-															<type>jar</type> 
-															<classifier>classes</classifier> 
-													</artifact> 
-											</artifacts> 
-									</configuration> 
-							</execution> 
-					</executions> 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<!-- spring chooses very old version 1.10 -->
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/acumos-portal-be-${project.version}-classes.jar</file>
+									<type>jar</type>
+									<classifier>classes</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -278,19 +306,10 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Skip the deploy-jar-to-nexus step -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<!-- Spring sets the <version>2.8</version> -->
-				<configuration>
-					<skip>false</skip>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
+				<version>0.7.9</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>
@@ -319,9 +338,9 @@
 						<image>
 							<name>acumos-portal-be:${project.version}</name>
 							<build>
-								  <from>frolvlad/alpine-oraclejdk8:slim</from>
+								<from>frolvlad/alpine-oraclejdk8:slim</from>
 								<tags>
-								  <tag>${project.version}-b${build.number}</tag>
+									<tag>${project.version}-b${build.number}</tag>
 								</tags>
 								<assembly>
 									<inline>
@@ -356,5 +375,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<!-- No distributionManagement section, jars are not deployed -->
 </project>
