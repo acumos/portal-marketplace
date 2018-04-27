@@ -71,9 +71,24 @@ public class MLSolution {
 	private String commentId;
 	private List<MLPThread> threadList ;
 	private String validationStatusCode;	
-    private Long refreshInterval;
-    private String selector;
+	private Long refreshInterval;
+	private String selector;
+	private boolean onboardingStatusFailed;
 	
+	/**
+	 * @return the onboardingStatusFailed
+	 */
+	public boolean isOnboardingStatusFailed() {
+		return onboardingStatusFailed;
+	}
+
+	/**
+	 * @param onboardingStatusFailed the onboardingStatusFailed to set
+	 */
+	public void setOnboardingStatusFailed(boolean onboardingStatusFailed) {
+		this.onboardingStatusFailed = onboardingStatusFailed;
+	}
+
 	public String getLoginName() {
 		return loginName;
 	}
