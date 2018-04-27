@@ -24,7 +24,7 @@
 		<build.number>0</build.number>
 		<eelf.version>1.0.0</eelf.version>
 		<!-- tests require database to be running -->
-		<skipTests>true</skipTests>
+		<skipTests>false</skipTests>
 		<!-- LF Docker coordinates; pull is a proxy for external -->
 		<docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
 		<!-- Supplied by Jenkins -->
@@ -173,6 +173,116 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+   				<groupId>com.github.searls</groupId>
+   					<artifactId>jasmine-maven-plugin</artifactId>
+					   <version>2.2</version>
+					   <executions>
+					     <execution>
+					       <goals>
+					         <goal>bdd</goal>
+					       </goals>
+					     </execution>
+					   </executions>
+					   <configuration>
+					   		<serverPort>8235</serverPort>
+					      	 <preloadSources>
+					      	 <!-- Dependencies files -->
+					   	 	 <!--  <source>${project.basedir}\src\main\webapp\app\resources\jquery.min.js</source>
+						      <source>${project.basedir}\src\main\webapp\app\resources\bootstrap.min.js</source> -->
+						      <source>${project.basedir}\src\main\webapp\app\resources\angular.min.js</source>
+						      <source>${project.basedir}\src\main\webapp\app\resources\angular-animate.min.js</source>
+						      <source>${project.basedir}\src\main\webapp\app\resources\angular-aria.min.js</source>
+						      <source>${project.basedir}\src\main\webapp\app\resources\angular-material.min.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\angular-messages.min.js</source>
+						      <source>${project.basedir}\src\main\webapp\app\resources\angular-ui-router.min.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\angular-material-icons.min.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\ui-bootstrap-tpls.min.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\angular-mocks.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\ui-carousel.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\satellizer.min.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\angular-jwt.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\ng-infinite-scroll.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\ngStorage.min.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\ng-tags-input.min.js</source>
+						   	 <!--  <source>${project.basedir}\src\main\webapp\app\resources\angular-sanitize.js</source> -->
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\imageupload.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\angular-sanitize.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\ng-quill.min.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\resources\angular-base64-upload.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\js\ng-file-upload.js</source>
+						   		<source>${project.basedir}\src\main\webapp\app\resources\angular-socialshare.min.js</source>
+						   	 <source>${project.basedir}\src\main\webapp\app\resources\rating-stars.min.js</source>
+						   	  
+						   	  <!-- js Files -->
+						   	  <source>${project.basedir}\src\main\webapp\app\app.module.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\userDetail\userDetail.component.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\Admin\admin.module.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\Admin\admin.component.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\header\resetPswd.module.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\header\resetPswd.component.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\modular-resource\modular-resource.module.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\modular-resource\modular-resource.component.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\marketplace-home\home.component.js</source>	
+						   	  <source>${project.basedir}\src\main\webapp\app\header\sign-in.module.js</source>  
+						   	  <source>${project.basedir}\src\main\webapp\app\header\sign-in.component.js</source> 
+						   	  <source>${project.basedir}\src\main\webapp\app\market_place\market-place.component.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\market_place\manage-module.component.js</source>
+						   	  <source>${project.basedir}\src\main\webapp\app\design-studio\design-studio.module.js</source> 
+						   	   <source>${project.basedir}\src\main\webapp\app\design-studio\design-studio.component.js</source> 
+						   		
+						   	<source>${project.basedir}\src\main\webapp\app\header\header-nav.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\model-details\model-details.module.js</source> 
+						   	 <source>${project.basedir}\src\main\webapp\app\model-details\model-details.component.js</source> 
+						   	<source>${project.basedir}\src\main\webapp\app\model-edit\model-edit.module.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\model-edit\model-edit.component.js</source> 
+						   	<source>${project.basedir}\src\main\webapp\app\forgotPswd\forgotPswd.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\peer-configuration\peer-configuration.component.js</source>	
+						   	<source>${project.basedir}\src\main\webapp\app\forgotPswd\forgotPswd.component.js</source>	
+						   	<source>${project.basedir}\src\main\webapp\app\footer\footer.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\notification\notification-details.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\question-answer\question-answer.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\terms-condition\terms-condition.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\error-page\error-404.component.js</source>
+						   	
+						   	<source>${project.basedir}\src\main\webapp\app\app-services\sign-in.service.js</source>
+						   	
+						   	<!-- Spec Files -->
+						   	<source>${project.basedir}\src\main\webapp\app\header\sign-inSpec.component.js</source> 
+						   	<source>${project.basedir}\src\main\webapp\app\header\resetPswdSpec.component.js</source>	
+						   	<source>${project.basedir}\src\main\webapp\app\marketplace-home\homeSpec.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\Admin\admin.spec.component.js</source> 
+						   	<source>${project.basedir}\src\main\webapp\app\market_place\manage-module-spec.component.js</source>
+						   	<source>${project.basedir}\src\main\webapp\app\market_place\market-place-spec.component.js</source>	
+						   	<source>${project.basedir}\src\main\webapp\app\userDetail\userDetail-spec.component.js</source>	
+						   	<source>${project.basedir}\src\main\webapp\app\modular-resource\modular-resource-spec.component.js</source>  
+						   </preloadSources>
+						   <!-- <jsSrcDir>${project.basedir}\src\main\webapp\app\marketplace-home</jsSrcDir> -->
+						   <!-- <jsTestSrcDir>${project.basedir}\src\main\webapp\app\marketplace-home</jsTestSrcDir> --> 
+				   </configuration>
+				</plugin>
+				<plugin>
+				    <groupId>com.github.timurstrekalov</groupId>
+				    <artifactId>saga-maven-plugin</artifactId>
+				    <version>1.5.5</version>
+				    <executions>
+				        <execution>
+				            <phase>verify</phase>
+				            <goals>
+				                <goal>coverage</goal>
+				            </goals>
+				        </execution>
+				    </executions>
+				    <configuration>
+				        <baseDir>http://localhost:8235</baseDir>
+				        <!-- <includes>
+				            **/set1/*-TestRunner.html,
+				            **/set2/*-TestRunner.html
+				        </includes> -->
+				        <outputDir>${project.build.directory}/coverage</outputDir>
+				    </configuration>
+				</plugin>
+				
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>

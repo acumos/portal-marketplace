@@ -7,3 +7,6 @@ logs/
 .project
 .settings
 .springBeans
+/access.log.2018-04-20.log
+/access.log.2018-04-25.log
+/access.log.2018-04-26.log
