@@ -955,19 +955,19 @@
 															  <tbody>
 																<tr ng-show="dbType === 'csv' && !readSolution" ng-repeat="data in dataShow">
 																	<td>
-																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField(data)">
+																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
 																			<!-- {{ data.cb1 }} -->
 																		</md-checkbox>
 																	</td>
 																	<td>
 																		<md-input-container class="md-block">																		
-																			<input type="text" required value="" ng-model="data" ng-blur= "mapFieldName(data)"> 
+																			<input type="text" required value="" ng-model="data" ng-blur= "mapFieldName($index)"> 
 																			
 																		</md-input-container>
 																	</td>															
 																	 <td>
 																		<div class="select-control">																	
-																			<md-select ng-model="fieldType" name="fieldType" placeholder="Select Type" ng-change="mapFieldType(data)">															
+																			<md-select ng-model="fieldType" name="fieldType" placeholder="Select Type" ng-change="mapFieldType($index)">															
 																				<md-option value="int">int</md-option>
 																				<md-option value="string">string</md-option>
 																				<md-option value="float">float</md-option>
@@ -980,7 +980,7 @@
 																	 </td>
 																	 <td>
 																		<div class="select-control">																	
-																			<md-select ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag(data)">
+																			<md-select ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
 																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
 																																		
 																				<!-- <md-option value="">Tag-1.1</md-option>
@@ -994,7 +994,7 @@
 																
 																<tr ng-show="dbType === 'image' && !readSolution" ng-repeat="data in dataImage">
 																	<td>
-																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField(data)">
+																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
 																			<!-- {{ data.cb1 }} -->
 																		</md-checkbox>
 																	</td>
@@ -1010,7 +1010,7 @@
 																	 </td>
 																	 <td>
 																		<div class="select-control">																	
-																			<md-select ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag(data)">
+																			<md-select ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
 																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
 																																		
 																				<!-- <md-option value="">Tag-1.1</md-option>

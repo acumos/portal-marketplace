@@ -249,8 +249,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	type = "DataBroker";
             	def.extras = ["script"];
             	$scope.scriptText = null;
-            	$scope.dbType = null;
-    			$scope.fileUrl = null;
+            	delete $scope.dbType;
+    			delete $scope.fileUrl;
+    			delete $scope.localurl;
+    			delete $scope.userImage;
+    			delete $scope.userImageNew;
     			$scope.firstRow = null;
             	$scope.selectedOutput = null;
             	break;
@@ -2974,21 +2977,21 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	    	
 	    	}
 	    	
-	    	//fetch the first row contain data or field name
-	    	if($scope.firstRow == "contains_field_names"){
-	    		var col = dataShow[0];
-	    		var statusParse = parseError(col);
-	    	}else if($scope.firstRow == "contains_data"){
-	    		var col = dataShow[1];
-	    		var statusParse = parseError(col);
-	    	}else{
-	    		var col = dataShow[0];
-	    	}
-		 
+	    	var col = dataShow[0];
+	    	var statusParse = parseError(col);
+	    			 
 	    	var tabledata = col.split(delimeter);
+	    	$scope.dataShow = [];
 	    	if(statusParse){
 			  $scope.delimeterchar = delimeter;
-			  $scope.dataShow = tabledata;
+			  if($scope.firstRow == "contains_field_names"){
+				  $scope.dataShow = tabledata;
+			  } else if($scope.firstRow == "contains_data"){
+				  for(var a=0;a<tabledata.length;a++){
+					  $scope.dataShow[a] = "C"+(a+1);
+				  }
+			  }
+			  //$scope.dataShow = tabledata;
 			  $scope.readSolution = false;
 			  $scope.saveScript();
 	    	} else {
@@ -3231,15 +3234,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         });
     };
     
-    var checkFieldMap = new Map();
+/*    var checkFieldMap = new Map();
     $scope.mapCheckField = function(d){
     	checkFieldMap.set(d,this.checkfield?"yes":"no");
     }
     
     var fieldNameMap = new Map();
     $scope.mapFieldName = function(d){
-    	/*console.log(d);
-    	console.log(this.checkfield);*/
+    	console.log(d);
+    	console.log(this.checkfield);
     	fieldNameMap.set(d,this.data)// need to check
     }
     
@@ -3251,20 +3254,69 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var tagMap = new Map();
     $scope.mappingTag = function(d){
     	tagMap.set(d,this.mapTag);
+    };*/
+    
+    var checkFieldMap = new Map();
+    $scope.mapCheckField = function(index){
+    	checkFieldMap.set(index,this.checkfield?"yes":"no");
+    }
+    
+    var fieldNameMap = new Map();
+    $scope.mapFieldName = function(index){
+    	fieldNameMap.set(index,this.data)// need to check
+    }
+    
+    var fieldTypeMap = new Map();
+    $scope.mapFieldType = function(index){
+    	fieldTypeMap.set(index,this.fieldType);
     };
     
+    var tagMap = new Map();
+    $scope.mappingTag = function(index){
+    	tagMap.set(index,this.mapTag);
+    };
     
     $scope.mappingsSave = function(){
-    	
-    	var targetTableCdump = $scope.targetMapTable;
     	var mapOutput = []; var mapInput = [];
+/*    	if($scope.readSolution === true){
+    		for(var i=0;i<$scope.dataShow.length;i++){
+    			if(fieldNameMap.get(i) === undefined){
+    				fieldNameMap.set(i,$scope.dataShow[i].name);
+    			}
+    			if(checkFieldMap.get(i) === undefined){
+    				checkFieldMap.set(i,$scope.dataShow[i].checked);
+    			}
+    			if(fieldTypeMap.get(i) === undefined){
+    				fieldTypeMap.set(i,$scope.dataShow[i].type);
+    			}
+    			if(tagMap.get(i) === undefined){
+    				tagMap.set(i,$scope.dataShow[i].tag);
+    			}
+    		}
+    		
+        		angular.forEach($scope.dataShow, function(valueData,keyData){
+    	    		mapInput.push({"input_field": {
+    	    			"name": fieldNameMap.get(keyData),
+    	    			"type": fieldTypeMap.get(keyData),
+    	    			"checked": checkFieldMap.get(keyData) === "yes"?"YES":"NO",
+    	    			"mapped_to_field": tagMap.get(keyData)
+    	    		}});
+    	    	});
+        	
+    	} else{*/
+    	for(var i=0; i < $scope.dataShow.length; i++){
+        	if(fieldNameMap.get(i) === null || fieldNameMap.get(i) === undefined){
+        		fieldNameMap.set(i,$scope.dataShow[i]);
+        	}
+        }
+    	
     	if($scope.dbType === "csv"){
     		angular.forEach($scope.dataShow, function(valueData,keyData){
 	    		mapInput.push({"input_field": {
-	    			"name": valueData,
-	    			"type": fieldTypeMap.get(valueData)?fieldTypeMap.get(valueData):"null",
-	    			"checked": checkFieldMap.get(valueData)?"YES":"NO",
-	    			"mapped_to_field": tagMap.get(valueData)?tagMap.get(valueData):"null"
+	    			"name": fieldNameMap.get(keyData),
+	    			"type": fieldTypeMap.get(keyData)?fieldTypeMap.get(keyData):"null",
+	    			"checked": checkFieldMap.get(keyData) === "yes"?"YES":"NO",
+	    			"mapped_to_field": tagMap.get(keyData)?tagMap.get(keyData):"null"
 	    		}});
 	    	});
     	} else if($scope.dbType === "image"){
@@ -3272,11 +3324,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			mapInput.push({"input_field": {
 	    			"name": valueData.Fieldname,
 	    			"type": valueData.FieldType,
-	    			"checked": checkFieldMap.get(valueData)?"YES":"NO",
-	    			"mapped_to_field": tagMap.get(valueData)?tagMap.get(valueData):"null"
+	    			"checked": checkFieldMap.get(keyData) === "yes"?"YES":"NO",
+	    			"mapped_to_field": tagMap.get(keyData)?tagMap.get(keyData):"null"
 	    		}});
     		});
     	}
+    	var targetTableCdump = $scope.targetMapTable;
     	angular.forEach(targetTableCdump, function(value,key){
     		if(value.greatGrandParent !== ""){
 	    		mapOutput.push({"output_field": {
