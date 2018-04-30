@@ -1831,7 +1831,7 @@ min-height: 15px;background: #fff;}
 .sc-cell-childbottom > div > span:last-child {margin-right: 0;}
 
 .sc-counter-container {display: flex; width: 35px; margin-left: 5px; height: 35px;margin-bottom: 0; background: #F2F2F2;align-items: center; justify-content:center;}
-.sc-slide-counter {display: inline-block; width: 23px; height: 23px; background: #fff; border-radius: 50%; border: 2px solid #671C9D;text-align:center;color: #671C9D;font-weight:600; font-size: 13px;}
+.sc-slide-counter {display: inline-block; width: 18px; height: 18px; line-height:14px; background: #fff; border-radius: 50%; border: 2px solid #671C9D;text-align:center;color: #671C9D;font-weight:600; font-size: 13px;}
 .sc-img-container { width: 100px; max-height: 100px; position:relative; margin-bottom: 10px;}
 .sc-img-container img { max-width: 100%; max-height: 100%; position:relative;}
 .sc-text-container { padding-left: 10px; }
@@ -1858,13 +1858,14 @@ min-height: 15px;background: #fff;}
 /*  add slide for top carousel start*/
 /*---- File upload ----------*/
 .top-carousel-admin{width:700px; max-height: 85%;}
+.top-carousel-admin .mdl-grid{padding:0;}
 .top-carousel-admin .add-document .upload-image-input{margin-top:5px;}
 .top-carousel-admin .upload-image-input{border: 1px solid rgba(0,0,0,.12); padding:3px 5px;    margin-top: 3px; }
 .top-carousel-admin .upload-image-input input[type="file"]{ position: absolute; top: 0; left: 0;  z-index: 2; width: 70px; height: 100%;  opacity: 0; cursor: pointer; } 
-.top-carousel-admin .upload-image-input input.mdl-textfield__input{box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666;}
+.top-carousel-admin .upload-image-input input.mdl-textfield__input{box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666; height:26px;}
 .top-carousel-admin .upload-field { position: relative;    cursor: pointer;    float: right;   /*  height: 26px; */    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
-.top-carousel-admin .modal-note{margin-top:10px;}
+.top-carousel-admin .modal-note{margin-top:10px; font-size:12px;}
 /*drag and drop*/
 .drag-drop{border: 1px dashed #d5d5d5; border-radius: 5px; width:auto; padding:15px; text-align:left;}
 .drag-drop img{display:block; margin:auto;}
@@ -1883,7 +1884,7 @@ ul.aligntext li.active a{color:#4f147a;}
 .mdl-button.primary-name-btn i, .mdl-button.primary-add-name-btn i, .mdl-button.primary-explore-btn i{font-size:15px;}
 .mdl-button.primary-add-name-btn, .mdl-button.primary-add-name-btn:hover, .mdl-button.primary-add-name-btn:active{margin-bottom:2px;  border-radius: 4px; min-height: 33px; padding: 0 5px; background-color: #fff; border: 1px solid #fff; color: blue; font-size:12px; height:25px;}
 .mdl-button.primary-explore-btn, .mdl-button.primary-explore-btn:hover, .mdl-button.primary-explore-btn:active{margin-bottom:2px;  border-radius: 4px; min-height: 33px; padding: 0 5px; background-color: #fff; border: 1px solid #000; color: #000; font-size:12px; height:25px;}
-.upload-bg-image .upload-image-input{width: calc(100% - 87px); float:left;}
+.upload-bg-image .upload-image-input{width: calc(100% - 73px); float:left;}
 .upload-bg-image .upload-image-input ~ span button.btn-secondary{margin-top:5px; font-size: 14px; min-height: 34px; float: right; font-weight:normal; min-width: auto; padding: 0 10px;}
 .modal-note{color:#888;}
 
@@ -1896,14 +1897,17 @@ ul.aligntext li.active a{color:#4f147a;}
 .slid-container.active{background: #fff; -webkit-box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);
 -moz-box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);
 box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
-
-/*  add slide for top carousel end*/
-
+.link-button-container{background-color:#DDD; padding:5px; margin-bottom:2px; display:flex; position:relative;}
+.link-button-container .select-control label{margin-bottom:0px;}
+.link-button-container .buttonlabel{width:137px;}
+.link-button-container .select-control md-select{font-size:12px;}
+.link-button-container .cancelbox{position:absolute; top:5px; right:5px;}
+.link-button-container .cancelbox i{font-size:15px; cursor:pointer;}
+/* partial onboarding related css changes */
 .grid-item {position: relative;}
 .grid-item-error-container {position: absolute; top:0; left:0; height: 100%; width: 100%; background: rgba(0,0,0,0.55);}
 .grid-error-msg {padding: 5px 10px; background: rgba(255,255,255,0.9); color: #ff0000; text-align: center; position: relative; top: 60px; font-size: 13px;}
-.grid-error-icon {display: inline-block; text-align: center; width: 20px; height: 20px; line-height: 20px; border: 1px solid #ff0000; border-radius: 50%; color: #ff0000;position:relative; margin-right: 4px;}
-
+.grid-error-icon {display: inline-block; text-align: center; width: 20px; height: 20px; line-height: 17px; border: 1px solid #ff0000; border-radius: 50%; color: #ff0000;position:relative; margin-right: 4px;}
 
 /*********** MEDIA QUERIES SECTION START************/
 
