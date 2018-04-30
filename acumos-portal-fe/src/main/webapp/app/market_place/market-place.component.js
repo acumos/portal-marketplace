@@ -147,41 +147,7 @@ angular
 						$scope.isBusyOnLoad = false;
 						$scope.pageNumber = 0;
 						$scope.onLoad = function() {
-							// need to be changed at the timeof commit
-							/*var requestObject = {
-								"request_body" : {
-									"active" : true,
-									"pageRequest" : {
-										"page" : 0,
-										"size" : 7
-									}
-								}
-							}
 
-							apiService
-									.insertSolutionDetail(requestObject)
-									.then(
-											function(response) {
-												
-												$scope.solutionIds = [];
-												angular
-														.forEach(
-																response.data.response_body.content,
-																function(value,
-																		key) {
-																	$scope.solutionIds
-																			.push(response.data.response_body.content[key]);
-																	
-																});
-												
-												
-												
-											},
-											function(error) {
-												$scope.status = 'Unable to load data: '
-														+ error.data.error;
-												console.log($scope.status);
-											});*/
 						}
 						$scope.onLoad();
 

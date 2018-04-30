@@ -126,7 +126,7 @@ limitations under the License.
 										</ul>
 									</div> -->
 									
-									
+<!-- 									
 							          <md-select ng-model="selectedSolutionId" placeholder="Sort By - Id" class="btn-sort bdr mdl-button md-no-underline">
 							             <md-select-header class="demo-select-header">
 								            <input ng-model="searchTerm" type="search" >
@@ -139,7 +139,7 @@ limitations under the License.
 								        </md-select-header>
 							          </md-select>
 
-									
+ -->									
 								<!-- 	<button ng-disabled="Viewtile" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true">
                                             <i class="fa fa-th-large" aria-hidden="true"></i>
                                    </button>
@@ -174,19 +174,7 @@ limitations under the License.
 									        <md-option ng-value="action" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
 									    </md-select>
 									</div>
-									<div class="select-control">
-											<md-select ng-model="selectedSolutionId" placeholder="Sort By - Id" class="mdl-button md-no-underline mob-btn-sort">
-								             <md-select-header class="demo-select-header">
-									            <input ng-model="searchTerm" type="search" >
-									        </md-select-header> 
-								            <md-option ng-repeat="(key, solution) in solutionIds | filter : searchTerm" ng-value="solution.solutionId" ng-click="searchChange(key)">
-								              {{solution.solutionId}}
-								            </md-option>
-								             <md-select-header class="demo-select-header">
-									           <a ng-click="viewAllSolutions()" > View All </a>
-									        </md-select-header>
-								          </md-select>
-									</div>
+	
 									<div class="grid-view-btn-container">                                   
 		                                <button ng-disabled="Viewtile" ng-class="{'gridlistview-btnactive':Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true">
 		                                      <i ng-if="Viewtile">

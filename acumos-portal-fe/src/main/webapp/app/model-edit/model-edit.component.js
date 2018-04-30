@@ -231,7 +231,7 @@ angular
 															  const genreA = a.created;
 															  const genreB = b.created;
 
-															  let comparison = 0;
+															  var comparison = 0;
 															  if (genreA < genreB) {
 															    comparison = 1;
 															  } else if (genreA > genreB) {
