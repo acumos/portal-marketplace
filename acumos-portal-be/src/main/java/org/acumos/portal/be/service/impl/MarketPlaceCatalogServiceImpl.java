@@ -1963,7 +1963,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					
 					Map<String, Object> trackingResultCriteria = new HashMap<String, Object>();
 					trackingResultCriteria.put("trackingId", trackingId);
-					RestPageResponse<MLPStepResult> trackingStepResult =  dataServiceRestClient.searchStepResults(stepResultCriteria, false, new RestPageRequest(0, 25, fieldToDirmap));
+					RestPageResponse<MLPStepResult> trackingStepResult =  dataServiceRestClient.searchStepResults(trackingResultCriteria, false, new RestPageRequest(0, 25, fieldToDirmap));
 					List<MLPStepResult> trackingStepResultList = trackingStepResult.getContent();
 					
 					
