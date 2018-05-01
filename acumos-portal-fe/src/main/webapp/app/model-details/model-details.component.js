@@ -1304,28 +1304,59 @@ angular
                                 });
                           }
 						}
+						
+						
+						
+						
 						//Default values
 						$scope.positionM1 = "mime_type";$scope.positionM3 = "image_binary";$scope.positionM2 = 1;$scope.positionM4 = 2;
 						$scope.fieldM1 = "mime_type";$scope.fieldM3 = "image_binary";$scope.fieldM4 = "image_binary";$scope.fieldM2 = "mime_type";
+						
+						
 						//Deploy to Broker
 						$scope.deployCloudVal = function(){
-							var obj1 =  '{'+ $scope.positionM1 + ':' + $scope.positionM2+','+ $scope.positionM3+":" +$scope.positionM4 +'}';
-							var obj2 =  '{'+ $scope.fieldM1 + ':' + $scope.fieldM2+','+ $scope.fieldM3+":" +$scope.fieldM4 +'}';
-							var obj3 = '{"url":"'+$scope.brokerURL+'"}';
-							var reqObj = {
-										  urlAttribute:obj3,
-                                          jsonPosition:obj1,
-                                          jsonMapping : obj2,
-                                          'acrName': $scope.acrName,
-                                          'client': $scope.applicationId,
-                                          'key': $scope.secretKey,
-                                          'rgName': $scope.resourceGroup,
-                                          'solutionId': $scope.solution.solutionId,
-                                          'solutionRevisionId': $scope.revisionId,
-                                          'storageAccount': $scope.storageAccount,
-                                          'subscriptionKey':  $scope.subscriptionKey,
-                                          'tenant': $scope.tenantId,
+							var reqObj;
+							if($scope.dbType=='csv') {
+								reqObj = {
+	                                      'acrName': $scope.acrName,
+	                                      'client': $scope.applicationId,
+	                                      'key': $scope.secretKey,
+	                                      'rgName': $scope.resourceGroup,
+	                                      'solutionId': $scope.solution.solutionId,
+	                                      'solutionRevisionId': $scope.revisionId,
+	                                      'storageAccount': $scope.storageAccount,
+	                                      'subscriptionKey':  $scope.subscriptionKey,
+	                                      'tenant': $scope.tenantId,
+	                                      
+	                                      //fields if dbType == 'csv'
+	                                      'username': $scope.csvUsername,
+	                                      'password': $scope.csvPassword,
+	                                      'host': $scope.csvHost,
+	                                      'port': $scope.csvPort
+	                                      
 									};
+							}
+							else if($scope.dbType=='zip') {
+								var obj1 =  '{'+ $scope.positionM1 + ':' + $scope.positionM2+','+ $scope.positionM3+":" +$scope.positionM4 +'}';
+								var obj2 =  '{'+ $scope.fieldM1 + ':' + $scope.fieldM2+','+ $scope.fieldM3+":" +$scope.fieldM4 +'}';
+								var obj3 = '{"url":"'+$scope.brokerURL+'"}';
+								reqObj = {
+										//zip attributes
+										  urlAttribute:obj3,
+	                                      jsonPosition:obj1,
+	                                      jsonMapping : obj2,
+	                                      
+	                                      'acrName': $scope.acrName,
+	                                      'client': $scope.applicationId,
+	                                      'key': $scope.secretKey,
+	                                      'rgName': $scope.resourceGroup,
+	                                      'solutionId': $scope.solution.solutionId,
+	                                      'solutionRevisionId': $scope.revisionId,
+	                                      'storageAccount': $scope.storageAccount,
+	                                      'subscriptionKey':  $scope.subscriptionKey,
+	                                      'tenant': $scope.tenantId
+									};
+							}
 							var req = {
 									 method: 'POST',
 									 url: '/azure/compositeSolutionAzureDeployment',

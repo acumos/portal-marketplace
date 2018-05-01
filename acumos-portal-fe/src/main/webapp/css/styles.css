@@ -1736,6 +1736,10 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
 .borker-row .md-input {border: 1px solid #d5d5d5; height: 35px;padding-left: 10px;border-radius: 2px; margin-bottom: 10px;}
 .borker-row > div:first-child  > div > input:first-child {width: 200px;}
 .borker-row > div:first-child  > div > input:last-child {width: 100px;}
+
+.db-csv {display:flex; justify-content: flex-start; align-items: center;}
+.db-csv .md-input {border: 1px solid #d5d5d5; height: 35px;padding-left: 10px;padding-right: 10px; margin-right: 10px; border-radius: 2px; margin-bottom: 10px;}
+.db-csv > div  > div > input {width: 200px;}
 .broker-heading {margin-top: 0 !important;} 
 
 

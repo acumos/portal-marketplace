@@ -1695,44 +1695,52 @@ angular
 						$scope.fieldM1 = "mime_type";$scope.fieldM3 = "image_binary";$scope.fieldM4 = "image_binary";$scope.fieldM2 = "mime_type";
 						//Deploy to Broker
 						$scope.deployCloudVal = function(){
-							/*
-							 reqObject = {
-                                                                              'acrName': $scope.acrName,
-                                                                              'client': $scope.applicationId,
-                                                                              'key': $scope.secretKey,
-                                                                              'rgName': $scope.resourceGroup,
-                                                                              'solutionId': $scope.solution.solutionId,
-                                                                              'solutionRevisionId': $scope.revisionId,
-                                                                              'storageAccount': $scope.storageAccount,
-                                                                              'subscriptionKey':  $scope.subscriptionKey,
-                                                                              'tenant': $scope.tenantId,
-                                                                              'userId':  $scope.loginUserId[1],
-                                                            }
-							 */
-							//console.log($scope.brokerURL + $scope.positionM1 + $scope.positionM2 + $scope.positionM3 + $scope.positionM4);
-							//console.log($scope.fieldM1 + $scope.fieldM2 + $scope.fieldM3 + $scope.fieldM4);
-							var obj1 =  '{'+ $scope.positionM1 + ':' + $scope.positionM2+','+ $scope.positionM3+":" +$scope.positionM4 +'}';
-							var obj2 =  '{'+ $scope.fieldM1 + ':' + $scope.fieldM2+','+ $scope.fieldM3+":" +$scope.fieldM4 +'}';
-							var obj3 = '{"url":"'+$scope.brokerURL+'"}';
-							var reqObj = {
-			                          //"request_body": {         
-											urlAttribute:obj3,
-                                          jsonPosition:obj1,
-                                          jsonMapping : obj2,
-                                          //jsonPosition:{"MIME_TYPE":$scope.positionM2, "CONTENT":$scope.positionM4},
-                                          //jsonMapping : {"MIME_TYPE":$scope.fieldM2,"CONTENT":$scope.fieldM4}
-                                          'acrName': $scope.acrName,
-                                          'client': $scope.applicationId,
-                                          'key': $scope.secretKey,
-                                          'rgName': $scope.resourceGroup,
-                                          'solutionId': $scope.solution.solutionId,
-                                          'solutionRevisionId': $scope.revisionId,
-                                          'storageAccount': $scope.storageAccount,
-                                          'subscriptionKey':  $scope.subscriptionKey,
-                                          'tenant': $scope.tenantId,
-                                          'userId':  $scope.loginUserId[1],
-                                          //}
+							
+							var reqObj;
+							if($scope.dbType == 'csv') {
+								reqObj = {
+	                                      'acrName': $scope.acrName,
+	                                      'client': $scope.applicationId,
+	                                      'key': $scope.secretKey,
+	                                      'rgName': $scope.resourceGroup,
+	                                      'solutionId': $scope.solution.solutionId,
+	                                      'solutionRevisionId': $scope.revisionId,
+	                                      'storageAccount': $scope.storageAccount,
+	                                      'subscriptionKey':  $scope.subscriptionKey,
+	                                      'tenant': $scope.tenantId,
+	                                      'userId':  $scope.loginUserId[1],
+	                                      
+	                                      //fields if dbType == 'csv'
+	                                      'username': $scope.csvUsername,
+	                                      'password': $scope.csvPassword,
+	                                      'host': $scope.csvHost,
+	                                      'port': $scope.csvPort
+	                                      
 									};
+							}
+							else if($scope.dbType == 'zip') {
+								var obj1 =  '{'+ $scope.positionM1 + ':' + $scope.positionM2+','+ $scope.positionM3+":" +$scope.positionM4 +'}';
+								var obj2 =  '{'+ $scope.fieldM1 + ':' + $scope.fieldM2+','+ $scope.fieldM3+":" +$scope.fieldM4 +'}';
+								var obj3 = '{"url":"'+$scope.brokerURL+'"}';
+								reqObj = {
+										//Zip json attributes
+									urlAttribute:obj3,
+                                  jsonPosition:obj1,
+                                  jsonMapping : obj2,
+                                  
+                                  'acrName': $scope.acrName,
+                                  'client': $scope.applicationId,
+                                  'key': $scope.secretKey,
+                                  'rgName': $scope.resourceGroup,
+                                  'solutionId': $scope.solution.solutionId,
+                                  'solutionRevisionId': $scope.revisionId,
+                                  'storageAccount': $scope.storageAccount,
+                                  'subscriptionKey':  $scope.subscriptionKey,
+                                  'tenant': $scope.tenantId,
+                                  'userId':  $scope.loginUserId[1],
+                                  //}
+									};
+							}
 							var req = {
 									 method: 'POST',
 									 url: '/azure/compositeSolutionAzureDeployment',

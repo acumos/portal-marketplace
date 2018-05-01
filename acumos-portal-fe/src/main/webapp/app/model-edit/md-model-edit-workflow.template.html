@@ -3528,7 +3528,14 @@ limitations under the License.
                                                 <div ng-hide='checkboxExport!="microsoft"'>
                                         		<h4 class="gridlistheading broker-heading">
 															Broker</h4>
-												<div>
+												<md-input-container>
+													<label>Databroker Type</label>
+											      <md-select ng-model="dbType" placeholder="Databroker type" ng-init="dbType='csv'">
+											           <md-option value="csv">CSV</md-option>
+											           <md-option value="zip">Zip</md-option>
+											      </md-select>
+												</md-input-container>
+												<div ng-show="dbType=='zip'">
 													<md-input-container class="md-icon-float md-block">
 														<label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink" ng-blur="brokerlinkVisited=true" ng-focus="brokerlinkVisited=false">
 														<div class="help-inline validation-msgs" ng-class="{validationmsg:!deployCloud.brokerlink.$valid}">
@@ -3536,7 +3543,7 @@ limitations under the License.
 														</div>
 													</md-input-container>
 												</div>
-												<div class="borker-row">
+												<div ng-show="dbType=='zip'" class="borker-row">
 													<div>
 														<label class="disblock">Position Mappings</label>
 														<div>
@@ -3560,7 +3567,30 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-                                                                          </div>
+												
+												<div ng-show="dbType=='csv'" class="db-csv">
+													<div>
+														<label class="disblock">Username</label>
+														<div>
+															<input class="md-input" type="text" ng-model="csvUsername" required>
+														</div>
+														<label class="disblock">Host</label>
+														<div>
+															<input class="md-input" type="text" ng-model="csvHost" required>
+														</div>
+													</div>
+													<div>
+														<label class="disblock">Password</label>
+														<div>
+															<input class="md-input" type="password" ng-model="csvPassword" required>
+														</div>
+														<label class="disblock">Port</label>
+														<div>
+															<input class="md-input" type="text" ng-model="csvPort" required>
+														</div>
+													</div>
+												</div>
+                                         		</div>
                                           </form>
                                          <!--  new section end -->
                                          
@@ -3584,8 +3614,10 @@ limitations under the License.
 										<div layout="row" class="pull-right" ng-show='checkboxExport=="microsoft"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deployCloudVal()" ng-disabled="deployCloud.$invalid || deploy.$invalid" alt="Data Broker" title="Data Broker">
+												ng-click="deployCloudVal()"  alt="Data Broker" title="Data Broker"
+												ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)">
 											Data Broker</md-button>
+											<!-- ng-disabled="deployCloud.$invalid || deploy.$invalid" -->
 										</div>
 									</div>
 								</div>
