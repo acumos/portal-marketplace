@@ -656,19 +656,19 @@ limitations under the License.
 									</article>
 									<article class="timeline-entry">
 										<div class="timeline-entry-inner">
-											<div ng-if="!file || !fileSubmit" class="timeline-icon">
+											<div ng-if="!file || !fileSubmit || modelUploadError" class="timeline-icon">
 												<span class="entypo-suitcase">3</span>
 											</div>
 											<div class="timeline-icon bg-success"
-												ng-if="file&&fileSubmit">
+												ng-if="file && fileSubmit && modelUploadError == false">
 												<span class="entypo-feather fa fa-check"></span>
 											</div>
 											<div class="timeline-label">
 												<h2><span ng-click="uploadModel = !uploadModel;openDrop(false); closeOtherPopovers('uploadModel',uploadModel)" class="link-heading">
 													 Upload Model Bundle  </span>| 
 													 <span class="green" class="green"
-																ng-if="file&&fileSubmit">Completed</span>
-													 <span class="red" ng-if="!file || !fileSubmit">Not Started</span>
+																ng-if="file && fileSubmit && modelUploadError == false">Completed</span>
+													 <span class="red" ng-if="!file || !fileSubmit || modelUploadError">Not Started</span>
 												</h2>										
 												
 												<!-- update model name -->
@@ -750,6 +750,7 @@ limitations under the License.
 												<p ng-show="!file">Upload your model bundle.</p>
 												<p ng-show="file && !filename" >Uploading file: {{file.name}}</p>
 												<p ng-show="filename" >Uploaded file: {{file.name}}</p>	
+												<small ng-show="modelUploadError" style="color:red">Error Occurred: {{modelUploadErrorMsg}}</small>
 											</div>
 										</div>
 									</article>
