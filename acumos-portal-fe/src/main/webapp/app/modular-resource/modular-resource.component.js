@@ -111,6 +111,7 @@ angular.module('modelResource')
 			$scope.fileSubmit = false;
 			$scope.fileUpload = function(){
 				//$scope.uploadModel = false;
+				$scope.modelUploadError = false;
 				var file = $scope.file;
 				var userId = JSON.parse(localStorage.getItem("userDetail"));
 				
@@ -122,16 +123,29 @@ angular.module('modelResource')
 				promise
 				.then(
 						function(response) {
+							$scope.modelUploadError = false;
 							$scope.fileSubmit = true;
 							$scope.filename = $scope.tempfilename;
 							$rootScope.progressBar = 0;
 							chkCount();
 							$scope.uploadModel = false;
 						},
-						function() {
-							$rootScope.progressBar = 0;
-							$scope.serverResponse = 'An error has occurred';
-							$scope.uploadModel = false;
+						function(error) {
+							if(error.status == 400){
+								$scope.modelUploadError = true;
+								$scope.modelUploadErrorMsg = error.message;
+								$rootScope.progressBar = 0;
+								$scope.uploadModel = false;
+								chkCount();
+								
+							}else{
+								$scope.modelUploadError = true;
+								$rootScope.progressBar = 0;
+								//$scope.serverResponse = 'An error has occurred';
+								$scope.modelUploadErrorMsg = 'An error has occurred';
+								$scope.uploadModel = false;
+								chkCount();
+							}
 						});
 			}
 			
@@ -498,7 +512,7 @@ angular.module('modelResource')
 				var count = 0;
 				if($scope.toolkitNameValue)count++;
 				if($scope.install)count++;
-				if($scope.file && $scope.fileSubmit)count++;
+				if($scope.file && $scope.fileSubmit && $scope.modelUploadError == false)count++;
 				if($scope.user){if(/*$scope.user.pass && $scope.user.name &&*/ $scope.popupAddSubmit)count++;}
 				$scope.statusCount = count;
 				/*if(count === 4){

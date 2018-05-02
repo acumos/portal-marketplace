@@ -200,7 +200,14 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			storageService.store(file, userId);
 
 		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			try {                
+                response.sendError(400, e.getMessage());        
+                
+            } catch (IOException e2) {                
+                e2.printStackTrace();
+            }
+			
+			//response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(EELFLoggerDelegate.errorLogger,
 					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
 		}
