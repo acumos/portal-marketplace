@@ -1913,6 +1913,28 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .grid-error-msg {padding: 5px 10px; background: rgba(255,255,255,0.9); color: #ff0000; text-align: center; position: relative; top: 60px; font-size: 13px;}
 .grid-error-icon {display: inline-block; text-align: center; width: 20px; height: 20px; line-height: 17px; border: 1px solid #ff0000; border-radius: 50%; color: #ff0000;position:relative; margin-right: 4px;}
 
+/******** Pagination style Starts******/
+.pagination-wrapper {display:flex; justify-content: space-between; position:relative; margin-top: 15px;}
+.pagination-left-section {display:flex;flex-wrap: nowrap;align-items: center;}
+.pagination-right-section {display:flex;flex-wrap: nowrap;align-items: center;}
+
+.count-btn-container {margin: 0 5px;}
+.pagination-ddl {width: 80px;}
+.count-btn {min-width: 32px; padding-left:5px;padding-right:5px; margin: 0 2px;}
+.page-stats {color: #8f8f8f;}
+.count-btn.selected-btn {color: #fff; background: #671C9D;border-color: #671C9D;}
+/******** Pagination style Ends******/
+
+/****** text editor style starts*******/
+.ql-size-huge, .model-details-tabwrapper h1 {font-size: 20px !important;}
+.ql-size-large, .model-details-tabwrapper h2 {font-size: 17px !important;}
+.ql-picker-item[data-value="huge"]:before, .ql-picker-item[data-value="1"]:before {font-size: 20px !important;}
+.ql-picker-item[data-value="large"]:before,.ql-picker-item[data-value="2"]:before {font-size: 17px !important;} {font-size: 16px !important;}
+
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .popovers .ql-editor h1 {color: #000;}
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label .popovers .ql-editor h2 {color: #000;}
+/****** text editor style ends*******/
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {

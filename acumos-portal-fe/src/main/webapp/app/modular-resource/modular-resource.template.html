@@ -23,8 +23,7 @@ limitations under the License.
 <style>
 @import url('css/onBoardingCSS.css');
 </style>
-<alert-message msg="msg" icon="icon" styleclass="styleclass"
-            ng-show="showAlertMessage"></alert-message>
+
 <div class="page-content" id="page-top" ng-hide="onap">
 	<section class="pageheadsection gray-bg">
 		<div layout="row" layout-xs="column" layout-fill
@@ -451,6 +450,8 @@ limitations under the License.
 						</div>
 						<!-- On-Boarding By Command Line Section --> </md-content> </md-tab>
 						 <md-tab label="On-Boarding By Web"> 
+						 						<alert-message msg="msg" icon="icon" styleclass="styleclass"
+            ng-show="showAlertMessage"></alert-message>
 						 <div class="mdl-tabs__panel ">
 						 <md-content class="md-padding company-market " ng-show="!userLoggedIn">Please
 						<a ng-click="$root.showAdvancedLogin()">login</a> to upload the
@@ -530,7 +531,7 @@ limitations under the License.
                                                 </ul>
 
 						</div>
-						
+
 						<div class="progress">
 							<div class="progress-bar" style="width:0%;"></div>
 						</div>
@@ -878,10 +879,11 @@ limitations under the License.
 								</div>
 								<div>
 									<!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button-->
+
 									<button ng-click="addToCatalog()"
-									ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit && user.name && popupAddSubmit )"
+										 ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit && user.name && popupAddSubmit ) || ( disableOnboardingButton == true )"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
-										Add to Catalog</button>
+										On-board Model</button>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -974,6 +976,7 @@ limitations under the License.
 		<label> Many models in the Acumos catalog can be packaged as ONAP microservices and deployed in an ONAP instance. Currently, only Python models can be built for use in ONAP; other types of models will fail the compatibility test on step 2.</label>
 	</div>
 	<div class="page-wrapper2 onap-section">
+	
 		<h4 class="onap-title">ON-BOARD THE ONAP MODEL</h4>
 			 <md-content class="md-padding company-market onboardingwebContent" ng-show="userLoggedIn">
 			<ul class="onboarding-web" id="onap-onboarding">
@@ -1031,7 +1034,10 @@ limitations under the License.
                           <div class="text-completed">Model is onboarded and available in Private catalog</div>
                    </li>                                                       
             </ul>
+             <alert-message msg="msg" icon="icon" styleclass="styleclass"
+            ng-show="showAlertMessage" id="onapAlert"></alert-message>
             </md-content>
+           
             <div class="progress">
 				<div class="progress-bar" style="width:0%;"></div>
 			</div>
@@ -1103,13 +1109,9 @@ limitations under the License.
 						</div>
 						<div>
 
-							<button ng-click="addToCatalog()" ng-disabled="!model.modelName && !keepModelName"
+							<button ng-click="addToCatalog()" ng-disabled="(!model.modelName && !keepModelName ) || ( disableOnboardingButton == true )"
 								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
-								Add to Catalog</button>
-								
-								<!-- <button ng-click="addToCatalog()"
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
-								Add to Catalog</button> -->
+								On-board Model</button>
 						</div>
 			</div>	
 		</div>

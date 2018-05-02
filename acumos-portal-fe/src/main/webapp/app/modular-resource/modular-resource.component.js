@@ -59,12 +59,13 @@ angular.module('modelResource')
 		//template:"<button ng-click='authenticate(google)'>Sign in with Google</button>",
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
 		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams, $timeout){
-			console.clear();console.log($stateParams);
+			
 			$scope.onap = false;
 			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
 			$scope.onap = true;
 			$scope.keepModelName = false;
 			$scope.model = {};
+			$scope.disableOnboardingButton = false;
 			//alert(localStorage.getItem("userDetail"));
 			$rootScope.progressBar = 0;
 			
@@ -322,90 +323,106 @@ angular.module('modelResource')
 			$scope.errorCM = ''; $scope.errorPA = ''; $scope.errorDO = ''; $scope.errorAR = ''; $scope.errorVM = '';
 			$scope.errorCC = '';
 			
-			$scope.addToCatalog = function(){
-				
-				$scope.statusReult = [];
+			
+			$scope.showValidationStatus = function(){
+				var counter = 1;
 
-				$scope.showValidationStatus = function(){
-					var counter = 1;
-					
-					apiService
-					.getMessagingStatus($scope.userId[1], $scope.trackId ).then(
-							function(reponse) {
-								var data = reponse.data.response_body;
-								$scope.stepfailed = false;
-								$scope.allSuccess = false;
-								var width = 0;
-								for(var i=0 ; i< data.length; i++){
-									var stepName = data[i].name;
-									var statusCode =  data[i].statusCode;
-									var stepCode = data[i].stepCode;
+				apiService
+				.getMessagingStatus($scope.userId[1], $scope.trackId ).then(
+						function(reponse) {
+							var data = reponse.data.response_body;
+							$rootScope.trackId = $scope.trackId;
+							$scope.stepfailed = false;
+							$scope.allSuccess = false;
+							var width = 0;
+							for(var i=0 ; i< data.length; i++){
+								var stepName = data[i].name;
+								var statusCode =  data[i].statusCode;
+								var stepCode = data[i].stepCode;
 
-									if($scope.onap == false){
-										switch(stepName){
-											case 'CreateMicroservice': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-											case 'Dockerize' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-											case 'AddToRepository' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
-											case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-										}
-										var onboardingComponent = '.onboarding-web';
-									} else {
-										switch(stepName){
-											case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
-											case 'CreateMicroservice': var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-											case 'Dockerize': var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
-											case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-											case 'AddToRepository' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
-											default : var counter = -1;
-										}
+								if($scope.onap == false){
+									switch(stepName){
+										case 'CreateMicroservice': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+										case 'Dockerize' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+										case 'AddToRepository' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+									}
+									var onboardingComponent = '.onboarding-web';
+								} else {
+									switch(stepName){
+										case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
+										case 'CreateMicroservice': var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+										case 'Dockerize': var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCM = data[i].result : $scope.errorCM = ''; break;
+										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
+										case 'AddToRepository' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAR = data[i].result : $scope.errorAR = ''; break;
+										default : var counter = -1;
+									}
 
-										var onboardingComponent = '#onap-onboarding';
-									} 
-									
-									if (counter != -1) {
-										angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
-										if(statusCode == 'FA'){
-											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
-											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
-											$scope.stepfailed = true;
-										}else if(statusCode == 'ST'){
-											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
-											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
-											
-										}else if(statusCode == 'SU'){
+									var onboardingComponent = '#onap-onboarding';
+								} 
+								
+								if (counter != -1) {
+									angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
+									if(statusCode == 'FA'){
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
+										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
+										$scope.stepfailed = true;
+									}else if(statusCode == 'ST'){
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
+										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
+										
+									}else if(statusCode == 'SU'){
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
+										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
+										$scope.completedSteps[stepName] = stepName;
+
+										if( ( ( (counter === 6 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) ) && $scope.stepfailed == false ) {
+											counter = counter + 2;
 											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
-											$scope.completedSteps[stepName] = stepName;
-	
-											if( ( ( (counter === 6 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) ) && $scope.stepfailed == false ) {
-												counter = counter + 2;
-												angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
-												angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
-												$scope.errorVM = '';
-												$scope.completedSteps['ViewModel'] = 'ViewModel';
-												$scope.allSuccess = true;
-											}
-											
-											if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
-												width = width+20;
-												angular.element('.progress .progress-bar').css({ "width" : width+'%'});
-												angular.element('.onboardingwebContent').css({ "height" :'100%'});
-											}
+											$scope.errorVM = '';
+											$scope.completedSteps['ViewModel'] = 'ViewModel';
+											$scope.allSuccess = true;
+										}
+										
+										if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
+											width = width+20;
+											angular.element('.progress .progress-bar').css({ "width" : width+'%'});
+											angular.element('.onboardingwebContent').css({ "height" :'100%'});
 										}
 									}
 								}
-							},
-							function(error) {
-								
-						});
-					
-						if( $scope.allSuccess || $scope.stepfailed ){
-							$interval.cancel($scope.clearInterval);
-						}
-					
-				} 
+							}
+							
+							if( $rootScope.trackId != false && ( $scope.allSuccess != true && $scope.stepfailed != true ) ) {
+								$scope.disableOnboardingButton = true;
+							}
+							
+							if( $scope.allSuccess || $scope.stepfailed ){
+								$scope.disableOnboardingButton = false;
+								$scope.file = '';
+								$interval.cancel($scope.clearInterval);
+							}
+						},
+						function(error) {
+							
+					});
 				
+			} 
+			
+			$scope.addToCatalog = function(){
+				
+				$scope.statusReult = [];
+				$scope.disableOnboardingButton = true;
 				if($scope.onap == false){
+					
+					if($scope.disableOnboardingButton == true ){
+						$rootScope.trackId = false;
+						angular.element(angular.element('li div')).removeClass('completed incomplet active');
+				    	angular.element(angular.element('li')).removeClass('green completed');
+				    	angular.element('.progress .progress-bar').css({ "width" : '0%'});
+					}
+					
 					$scope.addToReqObj = {
 							  "request_body": {
 								    "version": $scope.toolkitNameValue,
@@ -427,7 +444,6 @@ angular.module('modelResource')
 		                        }, 3000);
 		                        
 								$scope.trackId = response.data.response_detail;
-								
 								$scope.clearInterval = $interval(function(){
 									$scope.showValidationStatus();
 								}, 25000);
@@ -447,7 +463,7 @@ angular.module('modelResource')
 					.then(
 							function(response) {
 								$scope.trackId = response.data.response_detail;
-								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+								$location.hash('onapAlert');  // id of a container on the top of the page - where to scroll (top)
 		                        $anchorScroll(); 
 		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = '';
@@ -456,7 +472,7 @@ angular.module('modelResource')
 		                        $timeout(function() {
 		                        	$scope.showAlertMessage = false;
 		                        }, 5000);
-								//$scope.trackId = "12345";
+
 								$scope.clearInterval = $interval(function(){
 									$scope.showValidationStatus();
 								}, 25000);
@@ -467,6 +483,12 @@ angular.module('modelResource')
 				}
 
 			}
+			
+			if( $rootScope.trackId && $rootScope.trackId != false && $scope.onap == false){
+				$scope.trackId = $rootScope.trackId;
+				$scope.showValidationStatus();
+			}
+			
 			$scope.viewModel = function(){
 				$state.go('manageModule');
 			}
@@ -502,7 +524,6 @@ angular.module('modelResource')
 		    		$scope.uploadModel = $scope.selToolKitT = false;
 		    	}
 		    };
-
 		    
 			}
 });
