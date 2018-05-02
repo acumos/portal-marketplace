@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5afc6aac_93364ac6",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/PushAndPullSolutionServiceController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-05-02T15:52:42Z",
+      "side": 1,
+      "message": "Clean this code no Hardcoding of values like 400 and no print stack trace. Also check if you can put in ServletStream if possible to avoid UI issue",
+      "revId": "a3dacd14926fba9fa8fb21131f813de4609a7a38",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86369676_53793832",
+        "filename": "acumos-portal-fe/src/main/webapp/app/modular-resource/modular-resource.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-05-02T15:52:42Z",
+      "side": 1,
+      "message": "Display the error message",
+      "revId": "a3dacd14926fba9fa8fb21131f813de4609a7a38",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
