@@ -146,6 +146,7 @@ angular.module('modelResource')
 				$scope.filename = "";
 				$scope.file = "";
 	           	angular.element('#file').val('');
+	           	$scope.modelUploadError = false;
 	        }
 			
 			$scope.getscikitLearnContent = function(modelName){
@@ -501,9 +502,9 @@ angular.module('modelResource')
 			$scope.statusCount = 0;
 			function chkCount(){
 				var count = 0;
-				if($scope.toolkitNameValue && $scope.modelUploadError == false)count++;
+				if($scope.toolkitNameValue)count++;
 				if($scope.install)count++;
-				if($scope.file && $scope.fileSubmit)count++;
+				if($scope.file && $scope.fileSubmit && $scope.modelUploadError == false)count++;
 				if($scope.user){if(/*$scope.user.pass && $scope.user.name &&*/ $scope.popupAddSubmit)count++;}
 				$scope.statusCount = count;
 				/*if(count === 4){
