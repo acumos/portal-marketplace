@@ -1332,7 +1332,10 @@ angular
 	                                      'username': $scope.csvUsername,
 	                                      'password': $scope.csvPassword,
 	                                      'host': $scope.csvHost,
-	                                      'port': $scope.csvPort
+	                                      'port': $scope.csvPort,
+	                                      
+	                                      //added userId in request parameter
+	                                      'userId' : $scope.loginUserID
 	                                      
 									};
 							}
@@ -1354,7 +1357,10 @@ angular
 	                                      'solutionRevisionId': $scope.revisionId,
 	                                      'storageAccount': $scope.storageAccount,
 	                                      'subscriptionKey':  $scope.subscriptionKey,
-	                                      'tenant': $scope.tenantId
+	                                      'tenant': $scope.tenantId,
+	                                      
+	                                      //added userId in request parameter
+	                                      'userId' : $scope.loginUserID
 									};
 							}
 							var req = {
