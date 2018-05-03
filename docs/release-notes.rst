@@ -20,7 +20,20 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 1.11.5 December 2017
+Version 1.15.16 June 2018
 ============================
-- Update to use latest version of Common Data Service 1.9.0
-- Added labels to show the category for solutions
+* All exposed APIs must be authenticated (ACUMOS-740)
+* Download model nexus image (ACUMOS-54)
+* Developer Challenge Web On-boarding Status Bar is confusing users (ACUMOS-741)
+* Cannot download Docker images from AcumosR (ACUMOS-748)
+* Downloaded artifacts have zero length / Issues with Tar (ACUMOS-593)
+* Sort by ID is not a sort but a list (ACUMOS-586)
+* Success/ Failure message is not displaying on the UI after VM created or timeout (ACUMOS-676)
+* Downloaded artifacts have zero length / Issues with Tar (ACUMOS-593)
+* All Instances - Web on-boarding buttons need to be disabled when selected (ACUMOS-742)
+* Upgrade Portal/Marketplace REST endpoints (ACUMOS-670)
+* Peformance Bench Mark for Model Download (ACUMOS-633)
+* Welcome page change to show challenge specific images and logo (ACUMOS-727)
+* On-Boarding (in-flight) model’s status to show in Portal (ACUMOS-745)
+* Acumos-R Web on-boarding: when users upload a model's zip file, even though the model is uploaded, the UI remains "Not Started” state (CD-2144)
+* UX: Download model is not working (CD-2055)
