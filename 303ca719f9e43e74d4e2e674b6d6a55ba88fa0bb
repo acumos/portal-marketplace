@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3234359f_2184e948",
+        "filename": "acumos-portal-fe/src/main/webapp/app/modular-resource/modular-resource.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-05-03T00:53:01Z",
+      "side": 1,
+      "message": "remove console.log",
+      "revId": "303ca719f9e43e74d4e2e674b6d6a55ba88fa0bb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
