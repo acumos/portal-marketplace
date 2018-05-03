@@ -369,3 +369,6 @@ table.dsmt-tbl tbody tr td md-checkbox.md-checked .md-icon::after {width: 4px; h
 	.ds-mapping-tables-dialog {min-width: 1250px; max-width: 98%;}
 	
 }
+.ds-new-container1 {max-height: 200px;}
+.ds-db-row1-cell1 .select-control md-select[required].ng-invalid:not(.md-no-asterisk) .md-select-value span:first-child:after {content: "";}
+.ds-tab-height{ position:relative;min-heignt:400px !important;}

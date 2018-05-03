@@ -1041,7 +1041,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.validationState =false;
                 $('#consoleMsg').removeClass('console-successmsg');
                 $('#consoleMsg').addClass('console-errormsg');
-                $scope.console = "Invalid composite Solution";
+                $scope.console = result.errorDescription;
             }
             $scope.down = false;
         });
@@ -2814,6 +2814,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             clickOutsideToClose: true
         });
     };
+   /* $scope.saveSolutionDialog = function(ev){
+    	$scope.solutionDescription = "";
+    	$mdDialog.show({
+    		contentElement: '#myDialog',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+    	});
+    };*/
     $scope.showsaveConfirmationPopup = function(ev) {
         $mdDialog.show({
             contentElement: '#myDialogSave',

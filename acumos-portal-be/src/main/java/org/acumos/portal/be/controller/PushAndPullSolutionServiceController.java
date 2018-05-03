@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.StorageService;
@@ -145,13 +146,14 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	 *            HttpServletRequest
 	 * @param response
 	 *            HttpServletResponse
+	 * @throws IOException 
 	 */
 	@ApiOperation(value = "API to Upload the model to the server")
 	@RequestMapping(value = {
 			APINames.UPLOAD_USER_MODEL }, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseBody
 	public void uploadModel(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		log.debug(EELFLoggerDelegate.debugLogger, "uploadModel for user " + userId);
 
@@ -199,7 +201,15 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 
 			storageService.store(file, userId);
 
-		} catch (Exception e) {
+		} catch (StorageException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(e.getMessage());
+			response.flushBuffer();
+			
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
+		}
+		catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(EELFLoggerDelegate.errorLogger,
 					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);

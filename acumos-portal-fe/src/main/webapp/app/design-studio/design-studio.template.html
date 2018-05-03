@@ -69,7 +69,7 @@
 											<span class="ds-icon icon-down-arrow"></span>
 										</button>
 									</div> -->
-									<div class="ds-contentsection2">
+									<div class="ds-contentsection2 ds-new-container1">
 									
 									<div ng-repeat="category in categoryNames">
 									<div class="ds-treelist">
@@ -125,7 +125,7 @@
 							<div class="ds-section-data">
 							<div class="ds-section-data-inner bdr-bottom">	
 								<md-input-container md-no-float class="md-block ds-search-input">
-										<input ng-model="filterDT" type="text"> <md-icon
+										<input ng-model="filterDT.solutionName" type="text"> <md-icon
 											style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
@@ -159,7 +159,7 @@
 							<div class="ds-section-data">
 							<div class="ds-section-data-inner bdr-bottom">							
 								<md-input-container md-no-float class="md-block ds-search-input">
-										<input ng-model="filterDS" type="text"> <md-icon
+										<input ng-model="filterDS.solutionName" type="text"> <md-icon
 											style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
@@ -408,8 +408,8 @@
 							</md-content> 
 							</md-tab>
 
-							<md-tab label="Matching Models"> 
-								<md-content class="md-padding" ng-if="clicked" style="padding:0px">
+							<md-tab label="Matching Models" > 
+								<md-content class="md-padding" ng-if="clicked" style="padding:0px" >			
 								<div class="ds-section-data-inner bdr-bottom">	
 								<md-input-container md-no-float class="md-block ds-search-input">
 										<input ng-model="filterMM" type="text"> <md-icon
@@ -872,7 +872,7 @@
 								Cancel </md-button>
 								<md-button type="submit" ng-disabled="databroker.$invalid"
 									ng-click="processData()" class="mdl-button mdl-js-button btn-primary"
-									title="Confirm"> Done </md-button>
+									title="Done"> Done </md-button>
 							</div>
 							</md-dialog-actions>
 						</form>
