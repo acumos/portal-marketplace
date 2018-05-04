@@ -20,7 +20,7 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 1.15.16 June 2018
+Version 1.15.16 4th May 2018
 ============================
 * All exposed APIs must be authenticated (ACUMOS-740)
 * Download model nexus image (ACUMOS-54)
