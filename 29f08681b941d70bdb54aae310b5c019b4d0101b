@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f994b6da_98e08921",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-04T01:52:59Z",
+      "side": 1,
+      "message": "Thanks for the start, but, uhhh .. this is May not June.\n\nWhy did you delete the notes for version 1.11.5?  That was short but it was ok.",
+      "revId": "29f08681b941d70bdb54aae310b5c019b4d0101b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
