@@ -1,6 +1,6 @@
 /*
 ===============LICENSE_START=======================================================
-Acumos
+Acumos Apache-2.0
 ===================================================================================
 Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
 ===================================================================================
@@ -17,6 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ===============LICENSE_END=========================================================
 */
+
 
 'use strict';
 
