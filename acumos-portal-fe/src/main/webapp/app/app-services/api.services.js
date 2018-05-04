@@ -291,7 +291,10 @@ angular.module('AcumosApp')
         this.updateSiteConfig = function(configKey, reqObj){
         	return $http.put(urlSiteConfig + '/' + configKey, reqObj);
         };
-        
+
+        this.createSiteConfig = function(reqObj){
+        	return $http.post(urlSiteConfig, reqObj);
+        };
 		 this.updateComment = function(dataObj){
         	return $http.put(urlComment + '/update', dataObj);
         };

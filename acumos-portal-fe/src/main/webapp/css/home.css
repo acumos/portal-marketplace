@@ -44,7 +44,7 @@ body, h1, h2, h3, h4, h5, h6, p, .mdl-button{font-family: 'Open Sans', sans-seri
 
 
 .home-screen{
-background-image:url("../images/banner_bg_large.png");
+/* background-image:url("../images/banner_bg_large.png"); */
 background-position:center top;
 background-repeat:no-repeat;
 /* background-color:#F1F1F1; */

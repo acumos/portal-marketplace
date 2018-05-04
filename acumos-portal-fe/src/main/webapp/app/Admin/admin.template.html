@@ -302,30 +302,32 @@ limitations under the License.
 															<div class="sc-child1">
 																<span>Top Carousel</span>
 																<div>
-																	<button class="mdl-button mdl-js-button btn-secondary sc-btn1">Add Slide</button>
+																	<button class="mdl-button mdl-js-button btn-secondary sc-btn1" ng-click='showAddSlidesPopup()'>Add Slide</button>
 																	<div  class="select-control">
-													                    <md-select ng-model="exportTo" placeholder="Enable/Disable Slides" class="dc-cloud-list">
-													                        <md-option title="Enable">Enable</md-option>
-													                        <md-option title="Disable">Disable</md-option>													                       
+													                    <md-select placeholder="Enable/Disable Slides" class="dc-cloud-list" ng-model="changeAction" ng-change='changeCarouselSlides()'>
+													                        <md-option title="Enable" value="true">Enable</md-option>
+													                        <md-option title="Disable" value="false">Disable</md-option>
 													                    </md-select>
 													                </div>
 																</div>
 															</div>
+															<div ng-repeat="(key,item) in carouselConfig" >
 															<section class="sc-cell-container">
 																<div class="sc-cell-childtop">
 																	<div>
-																		 <md-checkbox ng-model="data.cb1" aria-label="Checkbox 1">																            
+																		 <md-checkbox aria-label="Checkbox 1" ng-click="toggleCarouselCheckedList(key)">
 																          </md-checkbox>
-																          <span class="sc-slide-title">Slide 01</span>
-																          <span class="sc-slide-status text-green">Enabled</span>																          
+																          <span class="sc-slide-title">{{item.name}}</span>
+																          <span class="sc-slide-status text-green" ng-show="item.slideEnabled == 'true'">Enabled</span>
+																          <span class="sc-slide-status text-red" ng-show="item.slideEnabled == 'false'">Disabled</span>
 																	</div>
 																	<div>
-																		<md-button class="sc-link-btn1">Edit</md-button>
+																		<md-button class="sc-link-btn1" ng-click="editCarouselSlide(key, item)">Edit</md-button>
 																		<span>|</span>
-																		<md-button class="sc-link-btn1">Delete</md-button>
+																		<md-button class="sc-link-btn1" ng-click="deleteCarouselSlide(key)">Delete</md-button>
 																		<span>|</span>
 																		<md-button class="sc-link-btn1">Set order</md-button>
-																		<label class="sc-counter-container"><span class="sc-slide-counter">1</span></label>
+																		<label class="sc-counter-container"><span class="sc-slide-counter">{{item.number}}</span></label>
 																	</div>
 																</div>
 																<div class="sc-cell-childmiddle">
@@ -333,24 +335,25 @@ limitations under the License.
 																		<img src="../images/default-model.png" />
 																	</div>
 																	<div class="sc-text-container">
-																		<span>Headlines</span>
-																		<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																		<span>{{item.headline}}</span>
+																		<p>{{item.supportingContent}}</p>
 																	</div>
 																</div>
-																<div class="sc-cell-childbottom">
+																<div class="sc-cell-childbottom" ng-hide="{{item.links.primary.address == null && item.links.secondary.address == null}}">
 																	<label class="sc-bottom-text1">Button Names</label>
-																	<div>
-																		<span>Add Your Model Now</span>
-																		<span>Explore Marketplace</span>
+																	<div >
+																		<span>{{item.links.primary.label}}</span>
+																		<span>{{item.links.secondary.label}}</span>
 																	</div>
 																</div>
 															</section>
-															<section class="sc-cell-container disabled-container">
+															</div>
+															<!-- <section class="sc-cell-container disabled-container">
 																<div class="sc-cell-childtop">
 																	<div>
-																		 <md-checkbox ng-model="data.cb12" aria-label="Checkbox 2">																            
+																		 <md-checkbox ng-model="data.cb12" aria-label="Checkbox 2">
 																          </md-checkbox>
-																          <span class="sc-slide-title">Slide 02</span>																          
+																          <span class="sc-slide-title">Slide 02</span>
 																          <span class="sc-slide-status text-red">Disabled</span>
 																	</div>
 																	<div>
@@ -379,7 +382,7 @@ limitations under the License.
 																	</div>
 																</div>
 																
-															</section>
+															</section> -->
 														</div>
 														<div class="sc-container1-child-right">
 															<md-tabs md-dynamic-height md-border-bottom>
@@ -2452,6 +2455,253 @@ limitations under the License.
 								</md-dialog>
 							</div>
 						<!-- Assign Workflow Modal box end -->
+						
+						<!-- Modal Add top-carousel slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="addSlides">
+							  <md-dialog aria-label="Mango (Fruit)" class="top-carousel-admin">
+								  
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2 ng-if="!itsEdit">Add Slide to Top Carousel</h2>
+										<h2 ng-if="itsEdit">Edit {{carouselSlide.name}} for Top Carousel</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									<form name="carouselForm" ng-cloak>
+										<div class="md-dialog-content add-top-carousel">
+											<div class="ds-db-row1">
+												<div class="mdl-cell mdl-cell--6-col" style="float:left">
+														<md-input-container class="md-block">
+															<label>Slide Name</label> 
+															<input type="text" ng-model="carouselSlide.name" tabindex="1" required/>
+														</md-input-container>
+												</div>
+												<div class="mdl-cell mdl-cell--6-col" style="float:left">
+													<md-input-container class="md-block">
+														<label>Headline</label> 
+														<input type="text" ng-model="carouselSlide.headline" tabindex="2" required/>
+														<span class="modal-note">60 Characters Only</span>
+													</md-input-container>
+												</div>
+											</div>
+											<div class="ds-db-row2">
+												<div class="mdl-cell mdl-cell--12-col" style="float:left">
+													<md-input-container class="md-block">
+													  <label>Supporting content</label>
+													  <textarea rows="2" ng-model="carouselSlide.supportingContent" tabindex="3" required></textarea>
+													  <span class="modal-note">140 Characters Only</span>
+													</md-input-container>
+												</div>
+											</div>
+											<div class="ds-db-row3">
+												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+													<md-input-container class="md-block">
+														<label>Main Background</label>
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+																<div ng-model="backGround">
+																	<div class="upload-field">Browse
+																		<input type="file" upload-image-model="carouselSlide.backGround" data-ng-model="carouselSlide.backGround" id="backGround1" />
+																	</div>
+																	<div class="help-inline validation-msgs">
+																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+																	</div>
+																</div>
+																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
+																<input type="file" upload-image-model="carouselSlide.backGround" data-ng-model="carouselSlide.backGround" />
+															</div>
+															<span>
+															<md-button ng-click="uploadbackGroundImg()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																Upload
+															</md-button>
+															</span>
+															
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 2560px X 524px.
+														</span>
+													</md-input-container>
+												</div>
+												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+													<md-input-container class="md-block">
+														<div class="infographics">
+															<div>
+																<label >Add Infographics</label>
+															</div>
+															<div>
+																<span >
+																	<md-switch ng-model="graphicImg" aria-label="Switch 1" class="md-warn">
+																		<span class="text-xsmall text-green" ng-show="carouselSlide.graphicImg == true">Enabled</span>
+																		<span class="text-xsmall text-red" ng-show="carouselSlide.graphicImg == false || carouselSlide.graphicImg == null ">Disabled</span>
+																	</md-switch>
+																</span>
+															</div>
+														</div>
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+															<div>
+																<!-- <div file-upload="" file="previewImage" ng-click="cancelSolImage()" uploadid="companyuploadid" id="solImage" size="800000" imageerror="imageerror" filename="filename" fileinput="file" accept="image/*" imagetypeerror="imagetypeerror" filepreview="previewImage"
+																  icon="icon" upload-image-model="backGround" alt="Browse" title="Browse" readonly="" class="ng-pristine ng-untouched ng-valid ng-empty" role="button" tabindex="0" aria-invalid="false"> -->
+																	<div class="upload-field">Browse
+																		
+																		<input type="file" upload-image-model="carouselSlide.infoGraphic" data-ng-model="carouselSlide.infoGraphic" />
+																	</div>
+																	<!-- <div class="help-inline validation-msgs">
+																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+																	</div> -->
+																</div>
+																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
+																<!-- <input type="file" ngf-select ng-change="checkValid()" ng-model="backGround" name="fileNew" 
+																		class="mdl-textfield__input userprofiletxtbox uploadtxtbox" 
+																		accept="image/*" ngf-max-size="0.8MB" required
+																		ngf-model-invalid="errorFile" /> -->
+																		<input type="file" upload-image-model="carouselSlide.infoGraphic" data-ng-model="carouselSlide.infoGraphic"/>
+															</div>
+																<span>
+																	<md-button ng-click="uploadinfoGraphic()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																		Upload
+																	</md-button>
+																</span>
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
+														</span>
+													</md-input-container>
+												</div>
+											</div>
+											
+											<div class="ds-db-row3"  style="float:left">
+												<div class="mdl-cell mdl-cell--3-col" style="float:left">
+														<md-input-container class="md-block">
+															<label>Text Align <span class="dsreqfield">*</span></label>
+														</md-input-container>
+														<ul class="aligntext">
+															<li>
+																<i class="material-icons"><a href="#">format_align_left</a></i>
+															</li>
+															<li>
+																<i class="material-icons"><a href="#">format_align_right</a></i>
+															</li>
+														</ul>
+												</div>
+												<div class="mdl-cell mdl-cell--3-col" style="float:left">
+													<md-input-container class="md-block">
+														<label>Infographics Align <span class="dsreqfield">*</span></label>
+													</md-input-container>
+													<ul class="aligntext">
+															<li>
+																<i class="material-icons"><a href="#">format_align_left</a></i>
+															</li>
+															<li class="active">
+																<i class="material-icons"><a href="#">format_align_right</a></i>
+															</li>
+													</ul>
+												</div>
+												<div class="mdl-cell mdl-cell--6-col" style="float:left">
+															<div class="infographics">
+																<div>
+																	<label >Link or Button Name</label>
+																</div>
+																<div>
+																	<span >
+																		<md-switch ng-model="carouselSlide.links.enableLink" aria-label="Switch 1" class="md-warn">
+																			<span class="text-xsmall text-green" ng-show="carouselSlide.links.enableLink == true">Enabled</span>
+																			<span class="text-xsmall text-red" ng-show="carouselSlide.links.enableLink == false || carouselSlide.links.enableLink == null ">Disabled</span>
+																		</md-switch>
+																	</span>
+																</div>
+															</div>
+															<p class="modal-note">You can only add 1 primary and 1 secondary buttons / link</p>
+															<div class="link-button-container">
+																<div class="cancelbox">
+																	<i class="material-icons">cancel</i>
+																</div>
+																<div class="buttonlabel">
+																	<label>Button Label</label> 
+																	<input type="text" placeholder="Enter Primary name" ng-model="carouselSlide.links.primary.label">
+																		
+																	</input>
+																</div>
+																<div>
+																	<div>
+																		<div class="select-control">
+																			<label>Link button to</label> 
+																			<md-select ng-model="carouselSlide.links.primary.address" placeholder="Select Page">
+																				<md-option value="modelerResource">On Boarding model</md-option>
+																				<md-option value="home">Marketplace</md-option>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="link-button-container">
+																<div class="cancelbox">
+																	<i class="material-icons">cancel</i>
+																</div>
+																<div class="buttonlabel">
+																	<label>Button Label</label> 
+																	<input type="text" placeholder="Explore Market Place" ng-model="carouselSlide.links.secondary.label">
+																</div>
+																<div>
+																	<div>
+																		<div class="select-control">
+																			<label>Link button to</label> 
+																			<md-select ng-model="carouselSlide.links.secondary.address" placeholder="Select Page">
+																				<md-option value="modelerResource">On Boarding model</md-option>
+																				<md-option value="home">Marketplace</md-option>
+																			</md-select>
+																		</div>
+																	</div>
+																</div>
+																
+															</div>
+															
+															<!-- <md-button class="mdl-button mdl-js-button primary-add-name-btn" title="Add button/link">
+																	<i class="material-icons">add_box</i> Add button/link
+															</md-button> -->
+												</div>
+											</div>
+										</div>
+										</form>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="addCarouselSlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  
+								</md-dialog>
+							</div>
+						</div>
+						<!-- Modal box end -->
+						
 
 
 

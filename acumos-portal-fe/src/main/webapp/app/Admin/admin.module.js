@@ -20,7 +20,7 @@ limitations under the License.
 
 'use strict';
 
-angular.module('admin',['ngMaterial'])
+angular.module('admin',['ngMaterial', 'xeditable'])
 	.config(function() {
 
 //    console.log("modular resorce");
