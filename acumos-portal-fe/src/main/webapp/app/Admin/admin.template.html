@@ -311,8 +311,8 @@ limitations under the License.
 													                </div>
 																</div>
 															</div>
-															<div ng-repeat="(key,item) in carouselConfig" >
-															<section class="sc-cell-container">
+															<div ng-repeat="(key,item) in carouselConfig">
+															<section class="sc-cell-container" ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
 																<div class="sc-cell-childtop">
 																	<div>
 																		 <md-checkbox aria-label="Checkbox 1" ng-click="toggleCarouselCheckedList(key)">
@@ -348,78 +348,45 @@ limitations under the License.
 																</div>
 															</section>
 															</div>
-															<!-- <section class="sc-cell-container disabled-container">
-																<div class="sc-cell-childtop">
-																	<div>
-																		 <md-checkbox ng-model="data.cb12" aria-label="Checkbox 2">
-																          </md-checkbox>
-																          <span class="sc-slide-title">Slide 02</span>
-																          <span class="sc-slide-status text-red">Disabled</span>
-																	</div>
-																	<div>
-																		<md-button class="sc-link-btn1">Edit</md-button>
-																		<span>|</span>
-																		<md-button class="sc-link-btn1">Delete</md-button>
-																		<span>|</span>
-																		<md-button class="sc-link-btn1">Set order</md-button>
-																		<label class="sc-counter-container"><span class="sc-slide-counter">2</span></label>
-																	</div>
-																</div>
-																<div class="sc-cell-childmiddle">
-																	<div class="sc-img-container">
-																		<img src="../images/default-model.png" />
-																	</div>
-																	<div class="sc-text-container">
-																		<span>Headlines</span>
-																		<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
-																	</div>
-																</div>
-																<div class="sc-cell-childbottom">
-																	<label class="sc-bottom-text1">Button Names</label>
-																	<div>
-																		<span>Add Your Model Now</span>
-																		<span>Explore Marketplace</span>
-																	</div>
-																</div>
-																
-															</section> -->
 														</div>
 														<div class="sc-container1-child-right">
 															<md-tabs md-dynamic-height md-border-bottom>
 														      <md-tab label="Event Carousel">
 														        <md-content >
-														        	<div class="sc-child1">																		
+														        	<div class="sc-child1">
 																		<div>
-																			<button class="mdl-button mdl-js-button btn-secondary sc-btn1">Add Slide</button>
+																			<button class="mdl-button mdl-js-button btn-secondary sc-btn1" ng-click='showEventSlidesPopup()'>Add Slide</button>
 																			<div  class="select-control">
-															                    <md-select ng-model="exportTo" placeholder="Enable/Disable Slides" class="dc-cloud-list">
-															                        <md-option title="Enable">Enable</md-option>
-															                        <md-option title="Disable">Disable</md-option>													                       
+															                    <md-select placeholder="Enable/Disable Slides" class="dc-cloud-list" ng-model="changeEventAction" ng-change="changeEventSlides()">
+															                        <md-option value="true">Enable</md-option>
+															                        <md-option value="false">Disable</md-option>
 															                    </md-select>
 															                </div>
 																		</div>
 																		<div>
-																			<md-switch ng-model="data.cb122" aria-label="Switch 1" class="md-warn">
-																				<span class="text-xsmall text-green" ng-show="data.cb122 == true">Enabled</span>
-																				<span class="text-xsmall text-red" ng-show="data.cb122 == false || data.cb122 == null ">Disabled</span>
+																			<md-switch ng-model="eventConfig.enabled" aria-label="Switch 1" class="md-warn" ng-change="disableEventCarousel()">
+																				<span class="text-xsmall text-green" ng-show="eventConfig.enabled == 'true'">Enabled</span>
+																				<span class="text-xsmall text-red" ng-show="eventConfig.enabled == 'false' || eventConfig.enabled == null ">Disabled</span>
 																			 </md-switch>
 																		</div>
 																	</div>
-														          	<section class="sc-cell-container">
+																	<div ng-repeat="(key,item) in eventConfig" ng-if="key != 'enabled'">
+														          	<section class="sc-cell-container" ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
 																		<div class="sc-cell-childtop">
 																			<div>
-																				 <md-checkbox ng-model="data.cb111" aria-label="Checkbox 1">																            
+																				 <md-checkbox aria-label="Checkbox 1" ng-click="toggleEventCheckedList(key)">
 																		          </md-checkbox>
-																		          <span class="sc-slide-title">Slide 01</span>
-																		          <span class="sc-slide-status text-green">Enabled</span>																          
+																		          <span class="sc-slide-title">{{item.name}}</span>
+																		          <span class="sc-slide-status text-green" ng-show="item.slideEnabled == 'true'">Enabled</span>
+																				  <span class="sc-slide-status text-red" ng-show="item.slideEnabled == 'false'">Disabled</span>
 																			</div>
 																			<div>
-																				<md-button class="sc-link-btn1">Edit</md-button>
+																				<md-button class="sc-link-btn1" ng-click="editEventSlide(key, item)">Edit</md-button>
 																				<span>|</span>
-																				<md-button class="sc-link-btn1">Delete</md-button>
+																				<md-button class="sc-link-btn1" ng-click="deleteEventSlide(key)">Delete</md-button>
 																				<span>|</span>
 																				<md-button class="sc-link-btn1">Set order</md-button>
-																				<label class="sc-counter-container"><span class="sc-slide-counter">1</span></label>
+																				<label class="sc-counter-container"><span class="sc-slide-counter">{{item.number}}</span></label>
 																			</div>
 																		</div>
 																		<div class="sc-cell-childmiddle">
@@ -427,137 +394,75 @@ limitations under the License.
 																				<img src="../images/default-model.png" />
 																			</div>
 																			<div class="sc-text-container">
-																				<span>Headlines</span>
-																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
+																				<span>{{item.headline}}</span>
+																				<p>{{item.supportingContent}}</p>
 																			</div>
 																		</div>
 																		<div class="sc-cell-childbottom">
 																			<label class="sc-bottom-text1">Button Names</label>
 																			<div>
-																				<span>Not mentioned</span>																				
+																				<span>Not mentioned</span>
 																			</div>
 																		</div>
 																	</section>
-																	<section class="sc-cell-container disabled-container">
-																		<div class="sc-cell-childtop">
-																			<div>
-																				 <md-checkbox ng-model="data.cb125" aria-label="Checkbox 2">																            
-																		          </md-checkbox>
-																		          <span class="sc-slide-title">Slide 02</span>																          
-																		          <span class="sc-slide-status text-red">Disabled</span>
-																			</div>
-																			<div>
-																				<md-button class="sc-link-btn1">Edit</md-button>
-																				<span>|</span>
-																				<md-button class="sc-link-btn1">Delete</md-button>
-																				<span>|</span>
-																				<md-button class="sc-link-btn1">Set order</md-button>
-																				<label class="sc-counter-container"><span class="sc-slide-counter">2</span></label>
-																			</div>
-																		</div>
-																		<div class="sc-cell-childmiddle">
-																			<div class="sc-img-container">
-																				<img src="../images/default-model.png" />
-																			</div>
-																			<div class="sc-text-container">
-																				<span>Headlines</span>
-																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
-																			</div>
-																		</div>
-																		<div class="sc-cell-childbottom">
-																			<label class="sc-bottom-text1">Button Names</label>
-																			<div>
-																				<span>Not mentioned</span>																				
-																			</div>
-																		</div>																
-																	</section>														
+																	</div>
 														        </md-content>
 														      </md-tab>
 														      <md-tab label="Success Story Carousel">
 														        <md-content>
-														        		<div class="sc-child1">																		
+														        		<div class="sc-child1">
 																		<div>
-																			<button class="mdl-button mdl-js-button btn-secondary sc-btn1">Add Slide</button>
+																			<button class="mdl-button mdl-js-button btn-secondary sc-btn1" ng-click="showStorySlidesPopup()">Add Slide</button>
 																			<div  class="select-control">
-															                    <md-select ng-model="exportTo" placeholder="Enable/Disable Slides" class="dc-cloud-list">
-															                        <md-option title="Enable">Enable</md-option>
-															                        <md-option title="Disable">Disable</md-option>													                       
+															                    <md-select placeholder="Enable/Disable Slides" class="dc-cloud-list" ng-model="changeStoryAction" ng-change="changeStorySlides()">
+															                        <md-option value="true">Enable</md-option>
+															                        <md-option value="false">Disable</md-option>
 															                    </md-select>
 															                </div>
 																		</div>
 																		<div>
-																			<md-switch ng-model="data.cb123" aria-label="Switch 1" class="md-warn">
-																				<span class="text-xsmall text-green" ng-show="data.cb123 == true">Enabled</span>
-																				<span class="text-xsmall text-red" ng-show="data.cb123 == false || data.cb123 == null ">Disabled</span>
+																			<md-switch ng-model="storyConfig.enabled" aria-label="Switch 1" class="md-warn" ng-change="disableStoryCarousel()">
+																				<span class="text-xsmall text-green" ng-show="storyConfig.enabled == true">Enabled</span>
+																				<span class="text-xsmall text-red" ng-show="storyConfig.enabled == false || storyConfig.enabled == null ">Disabled</span>
 																			 </md-switch>
 																		</div>
 																	</div>
-														          	<section class="sc-cell-container">
-																		<div class="sc-cell-childtop">
-																			<div>
-																				 <md-checkbox ng-model="data.cb133" aria-label="Checkbox 1">																            
-																		          </md-checkbox>
-																		          <span class="sc-slide-title">Slide 01</span>
-																		          <span class="sc-slide-status text-green">Enabled</span>																          
+																	<div ng-repeat="(key,item) in storyConfig" ng-if="key != 'enabled'">
+															          	<section class="sc-cell-container" ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
+																			<div class="sc-cell-childtop">
+																				<div>
+																					 <md-checkbox  ng-click="toggleStoryCheckedList(key)" aria-label="Checkbox 1">
+																			          </md-checkbox>
+																			          <span class="sc-slide-title">{{item.name}}</span>
+																			          <span class="sc-slide-status text-green" ng-show="item.slideEnabled == 'true'">Enabled</span>
+																				      <span class="sc-slide-status text-red" ng-show="item.slideEnabled == 'false'">Disabled</span>
+																				</div>
+																				<div>
+																					<md-button class="sc-link-btn1" ng-click="editStorySlide(key, item)">Edit</md-button>
+																					<span>|</span>
+																					<md-button class="sc-link-btn1" ng-click="deleteStorySlide(key, item)">Delete</md-button>
+																					<span>|</span>
+																					<md-button class="sc-link-btn1">Set order</md-button>
+																					<label class="sc-counter-container"><span class="sc-slide-counter">{{item.number}}</span></label>
+																				</div>
 																			</div>
-																			<div>
-																				<md-button class="sc-link-btn1">Edit</md-button>
-																				<span>|</span>
-																				<md-button class="sc-link-btn1">Delete</md-button>
-																				<span>|</span>
-																				<md-button class="sc-link-btn1">Set order</md-button>
-																				<label class="sc-counter-container"><span class="sc-slide-counter">1</span></label>
+																			<div class="sc-cell-childmiddle">
+																				<div class="sc-img-container">
+																					<img src="../images/default-model.png" />
+																				</div>
+																				<div class="sc-text-container">
+																					<span>{{item.headline}}</span>
+																					  <p>{{item.supportingContent}}</p>
+																				</div>
 																			</div>
-																		</div>
-																		<div class="sc-cell-childmiddle">
-																			<div class="sc-img-container">
-																				<img src="../images/default-model.png" />
+																			<div class="sc-cell-childbottom">
+																				<label class="sc-bottom-text1">Button Names</label>
+																				<div>
+																					<span>Not mentioned</span>
+																				</div>
 																			</div>
-																			<div class="sc-text-container">
-																				<span>Headlines</span>
-																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
-																			</div>
-																		</div>
-																		<div class="sc-cell-childbottom">
-																			<label class="sc-bottom-text1">Button Names</label>
-																			<div>
-																				<span>Not mentioned</span>																				
-																			</div>
-																		</div>
-																	</section>
-																	<section class="sc-cell-container disabled-container">
-																		<div class="sc-cell-childtop">
-																			<div>
-																				 <md-checkbox ng-model="data.cb1221" aria-label="Checkbox 2">																            
-																		          </md-checkbox>
-																		          <span class="sc-slide-title">Slide 02</span>																          
-																		          <span class="sc-slide-status text-red">Disabled</span>
-																			</div>
-																			<div>
-																				<md-button class="sc-link-btn1">Edit</md-button>
-																				<span>|</span>
-																				<md-button class="sc-link-btn1">Delete</md-button>
-																				<span>|</span>
-																				<md-button class="sc-link-btn1">Set order</md-button>
-																				<label class="sc-counter-container"><span class="sc-slide-counter">2</span></label>
-																			</div>
-																		</div>
-																		<div class="sc-cell-childmiddle">
-																			<div class="sc-img-container">
-																				<img src="../images/default-model.png" />
-																			</div>
-																			<div class="sc-text-container">
-																				<span>Headlines</span>
-																				<p>"We are moving to a future where AI is at the center of the Software.</p><p>Acumos is the open-source framework for the data scientists to build that future."</p>																		
-																			</div>
-																		</div>
-																		<div class="sc-cell-childbottom">
-																			<label class="sc-bottom-text1">Button Names</label>
-																			<div>
-																				<span>Not mentioned</span>																				
-																			</div>
-																		</div>																
-																	</section>
+																		</section>
+																	</div>
 														 		</md-content>
 														      </md-tab>														      
 														    </md-tabs>
@@ -2599,11 +2504,11 @@ limitations under the License.
 															<label>Text Align <span class="dsreqfield">*</span></label>
 														</md-input-container>
 														<ul class="aligntext">
-															<li>
-																<i class="material-icons"><a href="#">format_align_left</a></i>
+															<li ng-class="carouselSlide.textAling == 'left' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingText('left')" >format_align_left</a></i>
 															</li>
-															<li>
-																<i class="material-icons"><a href="#">format_align_right</a></i>
+															<li ng-class="carouselSlide.textAling == 'right' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingText('right')" >format_align_right</a></i>
 															</li>
 														</ul>
 												</div>
@@ -2612,11 +2517,11 @@ limitations under the License.
 														<label>Infographics Align <span class="dsreqfield">*</span></label>
 													</md-input-container>
 													<ul class="aligntext">
-															<li>
-																<i class="material-icons"><a href="#">format_align_left</a></i>
+															<li ng-class="carouselSlide.infoImageAling == 'left' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingInfoImage('left')" >format_align_left</a></i>
 															</li>
-															<li class="active">
-																<i class="material-icons"><a href="#">format_align_right</a></i>
+															<li ng-class="carouselSlide.infoImageAling == 'right' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingInfoImage('right')">format_align_right</a></i>
 															</li>
 													</ul>
 												</div>
@@ -2702,981 +2607,350 @@ limitations under the License.
 						</div>
 						<!-- Modal box end -->
 						
-
-
-
-<!--OLD HTML  -->
-<!-- <alert-message msg="msg" icon="icon" styleclass="styleclass"
-            ng-show="showAlertMessage"></alert-message>
-<div class="page-content">
-					<section class="pageheadsection gray-bg">						
-						<div layout="row" layout-xs="column" layout-fill layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
-							<div class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
-								<div><span class="headline mob-disblock">Site Admin</span></div>
-								<ul class="c-breadcrumb">
-									<li><a ui-sref="home" href="#">Home</a></li>
-									<li><a ui-sref="admin" href="#">{{menuName}}</a></li>
-									<li>On Boarding Model</li>
-								</ul>
-							</div>
-							<div class="mdl-cell mdl-cell--7-col mdl-cell--4-col-phone mdl-cell--3-col-tablet text-right">
-								
-								
-							</div>
-						</div>												
-					</section>					
-					<div class="page-wrapper3">						
-						<div class="mdl-tabs vertical-mdl-tabs mdl-js-tabs mdl-js-ripple-effect admin-tab1">
-										  <div class="mdl-grid mdl-grid--no-spacing">
-										    <div class="mdl-cell md-left-container">
-												<span class="admin-title">Dashboard Options</span>
-											      <div class="mdl-tabs__tab-bar">
-											         <a href="#tab1-panel" ng-click='menuName = "Monitoring"' class="mdl-tabs__tab is-active">
-											      	     <span class="tab-box"> 
-															<span class="tab-icons tab-monitoring"></span>
-															<span>Monitoring</span>
-														 </span>
-											         </a>
-											         <a href="#tab2-panel" ng-click='menuName = "User Management"' class="mdl-tabs__tab">
-											      	      <span class="tab-box"> 
-															<span class="tab-icons tab-user_management"></span>
-															<span>User Management</span>
-														 </span>
-											          </a>
-											          <a href="#tab3-panel" class="mdl-tabs__tab">
-											      	      <span class="tab-box"> 
-															<span class="tab-icons tab-site_content"></span>
-															<span>Site Content</span>
-														 </span>
-											          </a>
-													  <a href="#tab4-panel" ng-click='menuName = "Site Configuration"' class="mdl-tabs__tab">
-											      	      <span class="tab-box"> 
-															<span class="tab-icons tab-site_configuration"></span>
-															<span>Site Configuration</span>
-														 </span>
-											          </a>
-													  <a href="#tab5-panel"  ng-click='menuName = "Federation"'  class="mdl-tabs__tab ">
-											      	      <span class="tab-box"> 
-															<span class="tab-icons tab-federation"></span>
-															<span>Federation</span>
-														 </span>
-											          </a>
-													  <a href="#tab6-panel"  ng-click='menuName = "Subscription Requests"'  class="mdl-tabs__tab">									      	     
-											            	<span class="tab-box"> 
-															<span class="tab-icons tab-subscription_requests"></span>
-															<span>Subscription Requests</span>
-														 </span>
-											          </a>
-													  <a href="#tab7-panel" ng-click='menuName = "Validation"' class="mdl-tabs__tab">									      	     
-											            	<span class="tab-box"> 
-															<span class="tab-icons tab-validation"></span>
-															<span>Validation</span>
-														 </span>
-											          </a>
-											     </div>
-											</div>
-											<div class="mdl-cell md-right-container">											
-												 <div class="mdl-tabs__panel is-active" id="tab1-panel">
-													<div class="admin-tab-heading"><span class="admin-title2">Monitoring</span></div>
-													<md-tabs md-dynamic-height md-border-bottom>
-														  <md-tab label="Site Monitor">
-															<md-content class="md-padding">
-																
-																<div class="site-monitor-container">
-																	<h6 class="sectiontitle6">USERS</h6>
-																	<div class="mdl-grid mdl-grid--no-spacing">
-																	  <div class="mdl-cell mdl-cell--6-col">
-																		<div class="admin-chart-container1">
-																			<div class="admin-chart-container1-inner">
-																				<div>
-																					<p>Total Logins</p>
-																					<div class="countdata">
-																						<span>{{user}}</span>in week
-																					</div>
-																				</div>
-																				<div>																					
-																				</div>
-																				<div></div>
-																				<div></div>
-																				<div></div>
-																			</div>
-																		</div>
-																	  </div>
-																	  <div class="mdl-cell mdl-cell--6-col">
-																		<div class="admin-right-chart-container"><img src='../images/admin-dashboard/AdminMonitoringGraph.jpg'></div>
-																	  </div>																	  
-																	</div>
-																</div>
-																<div class="site-monitor-container">
-																	<h6 class="sectiontitle6">Modelers</h6>
-																	<div class="mdl-grid mdl-grid--no-spacing">
-																	  <div class="mdl-cell mdl-cell--6-col">
-																		<div class="admin-chart-container1">
-																			<div class="admin-chart-container1-inner">
-																				<div></div>
-																				<div></div>
-																				<div></div>
-																				<div></div>
-																				<div></div>
-																			</div>
-																		</div>
-																	  </div>
-																	  <div class="mdl-cell mdl-cell--6-col">
-																		<div class="admin-right-chart-container"></div>
-																	  </div>																	  
-																	</div>
-																</div>
-																<div class="admin-chart-container2">
-																		<div class="admin-right-chart-container2"></div>
-																		<div class="admin-right-chart-container2"></div>																
-																</div>
-																<div class="admin-chart-container2">
-																		<div class="admin-right-chart-container2"></div>
-																		<div class="admin-right-chart-container2"></div>																
-																</div>																
-															 </md-content>
-														  </md-tab>
-														  <md-tab label="Health Check">
-															<md-content class="md-padding">
-															  <h1 class="md-display-2">Health Check</h1>
-															  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
-															  <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra quam, at semper massa orci nec magna. Donec posuere nec sapien sed laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in tempor tortor. Vivamus faucibus egestas enim, at convallis diam pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
-															  <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
-															</md-content>
-														  </md-tab>														 
-														</md-tabs>
-												</div>
-												<div class="mdl-tabs__panel" id="tab2-panel">
-													<div class="admin-box1 admin-tab-heading">
-														<span class="admin-title2">User Management</span>
-														<span>
-															<button class="mdl-button mdl-js-button btn-secondary" ng-click='showPopup()'><span class="admin-btn-add"></span> Add New User</button>
-															<button class="mdl-button mdl-js-button btn-secondary" ng-click='addNewRole()'><span class="admin-btn-add"></span> Add New Role</button>
-														</span>
-													</div>
-													<div class="admin-container-row2">
-														<span><a ng-click='userFilter("all");select("0")' ng-class="{'admin-selected-link': 0 == selected}">All ({{alluserDetails.length}})</a></span>
-														<span class="admin-container-row1-inner" ng-repeat='role in roles'>
-															<span> | </span>
-															<span><a class="role-link" data-target ng-click='userFilter(role);select($index+1)' ng-class="{'admin-selected-link': $index+1 == selected}">{{role.name}} ({{role.roleCount}})</a> </span>
-														</span>
-														<span>|</span>
-														<span><a data-target>User</a> (5)</span>
-														<span>|</span>
-														<span><a data-target>Site Manager</a> (1)</span>
-														<span>|</span>
-														<span><a data-target>Validation Approver</a> (2)</span>
-													</div>													
-													<div class="admin-button-row1">
-													<div class="admin-container-row1-inner3">
-														<div class="">															
-															<div class="note-btn-container">
-																<button id="demo-menu-lower-right3" class="mdl-button mdl-js-button btn-sort bdr">
-																	<span class="hide-xs">Bulk Actions</span>
-																	<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort</i></span>
-																  <i class="material-icons">keyboard_arrow_down</i>
-																</button>
-																<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist2" for="demo-menu-lower-right3">
-																	<li class="mdl-menu__item">2147584</li>
-																	<li class="mdl-menu__item">2147583</li>
-																	<li class="mdl-menu__item">2147582</li>
-																	<li class="mdl-menu__item">2147581</li> 
-																</ul>
-															</div>		
-														</div>
-														<button ng-click='functionCall = "deleteValue";addRoleFuncConfirm();confirmFuncMsg = "delete"' ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary">Delete</button>
-														<div class="ver-seperator"></div> 
-														<div>															
-															<div class="note-btn-container">
-																<button id="demo-menu-lower-right3" class="mdl-button mdl-js-button btn-sort bdr">
-																	<span class="hide-xs">Change Role To</span>
-																	<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort</i></span>
-																  <i class="material-icons">keyboard_arrow_down</i>
-																</button>
-																<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist2" for="demo-menu-lower-right3">
-																	<li class="mdl-menu__item">2147584</li>
-																	<li class="mdl-menu__item">2147583</li>
-																	<li class="mdl-menu__item">2147582</li>
-																	<li class="mdl-menu__item">2147581</li> 
-																</ul>
-																<md-select ng-model="roleIdSelected" placeholder="Change Role To" ng-disabled='!roleArr.length' class="md-no-underline admin-ddl" multiple="">
-																		<md-option value="{{role.roleId}}" ng-repeat='role in roles'>{{role.name}}</md-option>
-																</md-select>
-															</div>		
-														</div> 
-														<button ng-click='functionCall = "updateValue";addRoleFuncConfirm();confirmFuncMsg = "update"'  ng-disabled='!roleArr.length' class="mdl-button mdl-js-button btn-secondary">Change</button>
-														</div>
-														<div class="ver-seperator"></div>
-														<div>
-															<span class="admin-search-lbl">Search User</span>
-															<div class="mdl-textfield mdl-js-textfield user-mgmt-search-container">
-																	<input class="mdl-textfield__input adminsearchicon" type="text" ng-model='searchUserDetails.username'>
-																	<label class="mdl-textfield__label" for="module-search">Search User</label>
-															</div>
-														</div>
-													</div>
-													<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
-														<colgroup>
-															<col width="7%">
-															<col>
-															<col>
-															<col width="25%">
-														</colgroup>
-													  <thead ng-hide="hideLabel">
-														<tr>
-														  <th>
-															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-															  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input">
-															  <span class="mdl-checkbox__label"></span>
-															</label></th>
-														  <th>User Name</th>
-														  <th>Email</th>
-														  <th>Role</th>
-														</tr>
-													  </thead>
-													  <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))">
-														<tr ng-show = "{{val.active}}">
-										
-															<td>
-																<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox{{$index}}">
-																  <input type="checkbox" id="checkbox{{$index}}" class="mdl-checkbox__input" ng-click='roleCheckbox(selectBox[$index],val)' ng-model='selectBox[$index]' ng-true-value="true" ng-false-value="false" >
-																  <span class="mdl-checkbox__label"></span>
-																</label>
-															</td>
-															  <td class="mdl-data-table__cell--non-numeric">{{val.username}} </td>
-															  <td>{{val.emailId}}</td>
-															  <td>Administrator</td>
-															  <td>
-															  <div ng-repeat='role in val.userAssignedRolesList'>{{role.name}}</div>
-															  	<div>
-																	<md-select ng-model="val.roleId" class="md-no-underline admin-ddl" ng-disabled='!selectBox[$index]'>
-																		<md-option value="{{role.roleId}}" ng-click='changeRoleSelectBox(role.roleId,val)' ng-repeat='role in roles'>{{role.name}}</md-option>
-																		<md-option value="sword">Sword</md-option>
-																		<md-option value="wand">Wand</md-option>
-																		<md-option value="pen">Pen?</md-option>
-																    </md-select>
-																 </div>
-															  </td>
-														</tr>
-														
-													  </tbody>
-													</table>
-													
-													<div class="alert c-info text-center" ng-show="$parent.filtertedUser.length == 0">
-							                   			<strong>No Result Found</strong> 
-						                   			</div>
-												</div>
-												<div class="mdl-tabs__panel" id="tab3-panel">
-													<div class="admin-tab-heading"><span class="admin-title2">Site Content</span></div>
-													
-													
-												</div>
-												<div class="mdl-tabs__panel" id="tab4-panel">
-													<div class="admin-tab-heading"><span class="admin-title2">Site Configuration</span></div>
-													Dymanic form Start
-													
-													Dymanic form Start								
-														<form name="myForm" class="" role="form"
-															ng-submit="submitForm()">
-															<div ng-repeat="field in siteConfig.fields" class="admin-sccontainer1">
-																<ng-form name="form"> TEXT Heading
-																<div ng-if="field.type=='heading'" class="">
-																	<label class="disblock font600">{{field.label}}</label>
-																	<div ng-repeat="subField in field.subFields">
-																		<ng-form name="subForm"> TEXT FIELDS
-																		<div ng-if="subField.type=='text'" class="rowcontainer">
-																			<label class="disblock">{{subField.label}}</label>
-																			<div class="">
-																				<input type="{{ subField.type }}"
-																					dynamic-name="subField.name" id="{{subField.name}}"
-																					data-ng-model="subField.data" class="mdl-textfield__input admin-txtbox1" required />
-																				<span ng-show="myForm.{{field.name}}.$dirty && myForm.{{field.name}}.$error.required">Required!</span>.
-																				<span
-																					data-ng-show=" {{'form.'+subField.name+'.$dirty && form.'+subField.name+'.$error.required'}}">Required!</span>
-																			</div>
-																		</div>
-																		SELECT FIELDS
-																		<div ng-if="subField.type=='select'" class="rowcontainer">
-																			<label class="disblock">{{subField.label}}</label>
-																			<div class="disblock">
-																				<select data-ng-model="subField.data"
-																					ng-options="option.name for option in subField.options"
-																					class="mdl-textfield__input admin-ddl1" required />
-																			</div>
-																		</div>								
-																		RADIO FIELDS
-																		<div ng-if="subField.type=='radio'" class="rowcontainer">
-																			<label class="disblock">{{subField.label}}</label>
-																			<div class="disblock">
-								
-																				<div class="checkbox" ng-repeat="option in subField.options">
-																					<label> <input type="radio"
-																						data-ng-model="subField.data" name="taskGroup"
-																						id="{{option.name}}" value="{{option.id}}">{{option.name}}
-																					</label>
-																				</div>
-																			</div>
-																		</div>								
-																		CHECKBOX FIELDS
-																		<div ng-if="subField.type=='checkbox'" class="rowcontainer">
-																			<label class="disblock">{{subField.label}}</label>
-																			<div class="disblock">
-																				<div class="checkbox" ng-repeat="option in subField.options">
-																					<label> <input type="checkbox"
-																						data-ng-model="option.data" name="taskGroup"
-																						id="{{option.name}}" value="{{option.id}}">{{option.name}}
-																					</label>
-																				</div>								
-																			</div>
-																		</div>								
-																		</ng-form>								
-																	</div>								
-																</div>
-																TEXT FIELDS
-																<div ng-if="field.type=='text'" class="rowcontainer">
-																	<label class="disblock">{{field.label}}</label>
-																	<div class="disblock">
-																		<input type="{{ field.type }}" dynamic-name="field.name"
-																			id="{{field.name}}" data-ng-model="field.data"
-																			required class="mdl-textfield__input admin-txtbox1"/>
-																		<span ng-show="myForm.{{field.name}}.$dirty && myForm.{{field.name}}.$error.required">Required!</span>.
-																		<span
-																			data-ng-show=" {{'form.'+field.name+'.$dirty && form.'+field.name+'.$error.required'}}">Required!</span>
-																	</div>
-																</div>								
-																EMAIL FIELDS
-																<div ng-if="field.type=='email'" class="rowcontainer">
-																	<label class="disblock">{{field.label}}</label>
-																	<div class="disblock">
-																		<input type="{{ field.type }}" dynamic-name="field.name"
-																			data-ng-model="field.data" class="mdl-textfield__input admin-txtbox1" required /> <span
-																			data-ng-show=" {{'form.'+field.name+'.$dirty && form.'+field.name+'.$error.required'}}">Required!</span>
-																		<span
-																			data-ng-show=" {{'form.'+field.name+'.$dirty && form.'+field.name+'.$error.email'}}">Not
-																			email!</span>
-																	</div>
-																</div>								
-																PASSWORD FIELDS
-																<div ng-if="field.type=='password'" class="rowcontainer">
-																	<label class="disblock">{{field.label}}</label>
-																	<div class="disblock">
-																		<input type="{{ field.type }}" dynamic-name="field.name"
-																			data-ng-model="field.data" ng-minlength={{field.min}}
-																			ng-maxlength={{field.max}} class="mdl-textfield__input admin-txtbox1" required /> <span
-																			data-ng-show=" {{'form.'+field.name+'.$dirty && form.'+field.name+'.$error.required'}}">Required!</span>
-																		<span
-																			data-ng-show=" {{'!form.'+field.name+'.required && (form.'+field.name+'.$error.minlength || form.'+field.name+'.$error.maxlength)' }}">Passwords
-																			must be between 8 and 20 characters.</span>
-																	</div>
-																</div>								
-																SELECT FIELDS
-																<div ng-if="field.type=='select'" class="rowcontainer">
-																	<label class="disblock">{{field.label}}</label>
-																	<div class="disblock">
-																		<select data-ng-model="field.data"
-																			ng-options="option.name for option in field.options"
-																			class="mdl-textfield__input admin-ddl1" required />
-																	</div>
-																</div>								
-																RADIO FIELDS
-																<div ng-if="field.type=='radio'" class="rowcontainer">
-																	<label class="disblock">{{field.label}}</label>
-																	<div class="disblock">
-								
-																		<div class="checkbox" ng-repeat="option in field.options">
-																			<label> <input type="radio"
-																				data-ng-model="field.data" name="taskGroup"
-																				id="{{option.name}}" value="{{option.id}}">{{option.name}}
-																			</label>
-																		</div>
-																	</div>
-																</div>								
-																CHECKBOX FIELDS
-																<div ng-if="field.type=='checkbox'" class="rowcontainer">
-																	<label class="disblock">{{field.label}}</label>
-																	<div class="disblock">
-																		<div class="checkbox" ng-repeat="option in field.options">
-																			<label> <input type="checkbox"
-																				data-ng-model="option.data" name="taskGroup"
-																				id="{{option.name}}" value="{{option.id}}">{{option.name}}
-																			</label>
-																		</div>								
-																	</div>
-																</div>
-																File FIELDS
-                                                                        <div ng-if="field.type=='file'" class="rowcontainer">
-                                                                            <label class="disblock">{{field.label}}</label>
-                                                                            <div class="disblock">
-                                                                                <input type="{{ field.type }}" dynamic-name="field.name"
-                                                                            id="{{field.name}}" data-ng-model="field.data" upload-image-model = "field.data"
-                                                                            />
-                                                                            </div>
-                                                                        </div>								
-																</ng-form>
-																						
-															</div>
-															<br />	
-																<div class="text-right admin-sccontainer1">
-																<button type="submit" id="submit" 
-																class="mdl-button mdl-js-button btn-primary">Submit</button>
-															</div>	
-															
-															
-															<br /> <br />
-								
-														</form>											
-													Dymanic form END
-												</div>
-												<div class="mdl-tabs__panel" id="tab5-panel">
-													<div class="admin-tab-heading admin-box2">														
-														<div>
-															<span class="admin-title2">Federation</span>
-															<button class="mdl-button mdl-js-button btn-secondary" ng-click='showPopupPeer()'>Add Peer</button>
-														</div>
-														<div class="admin-switch-container">
-															<span class="admin-title3">Accept Federation Request</span>
-															 <md-switch ng-model="data.cb1" aria-label="Switch 1" class="md-warn">
-																On
-															  </md-switch>
-
-															<span class="admin-title3">Turn On/Off Federation</span>
-															 <md-switch ng-model="data.cb2" aria-label="Switch 2" class="md-warn">
-																off
-															  </md-switch>
-
-															<a data-target class="admin-help-link"><i class="material-icons">help</i></a>
-														</div>
-													</div>
-													
-													<div class="fed-row1">
-														<div class="fedrow-cell1">
-															<span class="font600">Current peers</span> <span>({{peer.length}} active peers)</span>
-														</div>
-														<div class="fed-row2">																												
-															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model = "searchPeerDetails.name">																
-															</div>															
-															<div class="marketplace-btn-container">								  
-																<button id="demo-menu-lower-right2"
-																		class="mdl-button mdl-js-button btn-sort bdr">
-																	<span class="hide-xs"><span class="txtspan1">Sort By</span> - All</span>	
-																	<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort_by_alpha</i></span>	
-																  <i class="material-icons">keyboard_arrow_down</i>
-																</button>
-																<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist1"
-																	for="demo-menu-lower-right2">
-																	<li class="mdl-menu__item" >1111</li>
-																	<li class="mdl-menu__item" >1223</li>
-																	<li class="mdl-menu__item" >1245</li>
-																	<li class="mdl-menu__item" >4554</li>
-																	<li class="mdl-menu__item" >4535</li>
-																  </ul>															
-															 </div>											
-														</div>														
-													</div>
-													<div class="admin-grid-container">
-															<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1">
-																<colgroup>
-																	<col width="15%">
-																	<col width="15%">
-																	<col width="30%">
-																	<col width="15%">
-																	<col width="15%">
-																	<col width="10%">
-																</colgroup>
-															  <thead  ng-hide="hideLabel">
-																<tr>														  
-																  <th>Name</th>
-																  <th>Subscriptions</th>
-																  <th>API and Web URL</th>
-																  <th>Contact</th>
-																  <th>Status</th>
-																  <th>Action</th>
-																</tr>
-															  </thead>
-															  <tbody>
-																<tr ng-repeat='val in peer  | filter: searchPeerDetails.name as filtered'>															
-																	<td><span>{{val.name}}</span></td>
-																	<td>
-																		<label>{{val.description}}</label>
-																		<label>Regression</label>
-																	</td>
-																	<td>
-																		<a class="disblock" data-target>{{val.apiUrl}}</a>
-																		<a class="disblock" data-target>{{val.webUrl}}</a>
-																	</td>
-																	<td>
-																		<label class="disblock">{{val.contact1}}</label>
-																		<label class="disblock">{{val.contact2}}</label>																	
-																	</td>
-																	<td ng-if='val.active'>
-																		<label class="">Active</label>
-																		<label class="">since 08/04/2017</label>
-																	</td>
-																	<td ng-if='!val.active'>
-																		<label class="">Inactive</label>
-																		<label class="">since 08/04/2017</label>
-																	</td>
-																	<td>
-																		<div class="admin-action-container">
-																			<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"><i class="material-icons">done</i></button>
-																			<button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"><i class="material-icons">mode_edit</i></button>
-																			<button ng-click='confirmDelete(val.peerId)' class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"><i class="material-icons">delete</i></button>
-																		</div>
-																	</td>
-																</tr>
-															  </tbody>
-															</table>
-															<div class="alert c-info text-center" ng-if="filtered.length == 0">
-									                   			<strong>No Result Found</strong> 
-								                   			</div>
-														</div>
-												</div>
-												subscription request
-												<div class="mdl-tabs__panel" id="tab6-panel">
-													<div class="admin-tab-heading"><span class="admin-title2">Subscription Requests</span></div>
-													<div class="fed-row1">
-														<div class="fedrow-cell1">
-															<span class="font600">Current peers</span> <span>(0 active peers)</span>
-														</div>
-														<div class="fed-row2">																												
-															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model='searchUserDetails.firstName'">																
-															</div>															
-															<div class="marketplace-btn-container">								  
-																<button id="demo-menu-lower-right4"
-																		class="mdl-button mdl-js-button btn-sort bdr">
-																	<span class="hide-xs"><span class="txtspan1">Sort By</span> - All</span>	
-																	<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort_by_alpha</i></span>	
-																  <i class="material-icons">keyboard_arrow_down</i>
-																</button>
-																<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist1"
-																	for="demo-menu-lower-right4">
-																	<li class="mdl-menu__item" >New</li>
-																	<li class="mdl-menu__item" >Pending</li>
-																	<li class="mdl-menu__item" >Approve</li>
-																	<li class="mdl-menu__item" >Deny</li>																	
-																  </ul>															
-															 </div>											
-														</div>														
-													</div>
-													<div class="admin-grid-container">
-															<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list subscriptiontbl">
-																<colgroup>
-																	<col style="width:12%;">
-																	<col style="width:27%;">
-																	<col style="width:13%;">
-																	<col style="width:10%;">
-																	<col style="width:8%;">
-																	<col style="width:7%;">
-																	<col style="width:22%;">
-																</colgroup>
-															  <thead>
-																<tr>														  
-																  <th >Request Id</th>
-																  <th>Subject</th>
-																  <th>Request Type</th>
-																  <th>Sender</th>
-																  <th>Date</th>
-																  <th>Status</th>
-																  <th></th>
-																</tr>
-															  </thead>
-															  <tbody>
-																<tr>															
-																	<td><a data-target>RQID 12345678</a></td>
-																	<td>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</td>
-																	<td>Registration</td>
-																	<td>Acumos</td>
-																	<td>11/10/2017</td>
-																	<td>Pending</td>
-																	<td>
-																		<button data-upgraded=",MaterialButton" class="mdl-button mdl-js-button btn-secondary approve">Approve</button>
-																		<button data-upgraded=",MaterialButton" class="mdl-button mdl-js-button btn-secondary red">Deny</button>
-																	</td>
-																</tr>
-																<tr>															
-																	<td><a data-target>RQID 12345898</a></td>
-																	<td>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</td>
-																	<td>Registration</td>
-																	<td>Acumos 02</td>
-																	<td>10/10/2017</td>
-																	<td class="green">Approved</td>
-																	<td>
-																		<button data-upgraded=",MaterialButton" class="mdl-button mdl-js-button btn-secondary viewnote">View Note</button>																		
-																	</td>
-																</tr>
-															  </tbody>
-															</table>
-															<div class="alert c-info text-center">
-                                                                   <strong>No Result Found</strong> 
-                                                               </div>
-														</div>
-												</div>
-												subscription request end
-												<div class="mdl-tabs__panel" id="tab7-panel">
-													<div class="admin-tab-heading"><span class="admin-title2">Validation</span></div>
-												</div>
-												
-											 </div>
-										</div>
-									</div>
-								</div>
-							</main>
-				
-
-							
-							Modal box start
-							<div class="md-dialog-container" id="myDialog" style="height:0;">
-							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-admin1">
-								  	<form ng-cloak>
+						<!-- Modal Add  event carousel slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="addEventSlides">
+							  <md-dialog aria-label="Mango (Fruit)" class="top-carousel-admin">
+								  
 									<md-toolbar>
 									  <div class="md-toolbar-tools">
-										<h2>Add New User</h2>
+										<h2 ng-if="!itsEdit">Add Slide to Event Carousel</h2>
+										<h2 ng-if="itsEdit">Edit {{eventCarousel.name}} for Event Carousel</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click='closePoup()'>
+										<md-button class="md-icon-button" ng-click="closePoup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
-									
-									<md-dialog-content >
-									<ng-form name = "signupForm" ng-cloak>
-									  <div class="md-dialog-content" ng-model='value'>		
-									  <div class="admin-row admin-row1">
-											<div>
-												<md-input-container class="md-block"  >
-													<label>First Name</label> 
-													<input type="text" name='fname' ng-model='value.fname' valid-username required/>
-													<div class="help-inline validation-msgs"
-														ng-class="{validationmsg:!signupForm.fname.$valid}">
-														<span ng-show="!!signupForm.fname.$error.isBlank">First
-															Name Required.</span> <span
-															ng-show="!!signupForm.fname.$error.invalidChars">First
-															name must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.fname.$error.invalidLen">First
-															name must be 2-20 characters.</span>
-													</div>
-												</md-input-container>
+									<md-dialog-content>
+									<form name="eventForm" ng-cloak>
+										<div class="md-dialog-content add-top-carousel">
+											<div class="ds-db-row1">
+												<div class="mdl-cell mdl-cell--6-col" style="float:left">
+														<md-input-container class="md-block">
+															<label>Slide Name</label> 
+															<input type="text" ng-model="eventCarousel.name" tabindex="1" required/>
+														</md-input-container>
+												</div>
+												<div class="mdl-cell mdl-cell--6-col" style="float:left">
+													<md-input-container class="md-block">
+														<label>Headline</label> 
+														<input type="text" ng-model="eventCarousel.headline" tabindex="2" required/>
+														<span class="modal-note">60 Characters Only</span>
+													</md-input-container>
+												</div>
 											</div>
-											<div>
-												<md-input-container class="md-block"  >
-													<label>Last Name</label> 
-													<input type="text" name='lname' ng-model='value.lname' required valid-username/>
-													<div class="help-inline validation-msgs"
-														ng-class="{validationmsg:!signupForm.lname.$valid}">
-														<span ng-show="!!signupForm.lname.$error.isBlank">Last
-															Name Required.</span> <span
-															ng-show="!!signupForm.lname.$error.invalidChars">Last
-															name must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.lname.$error.invalidLen">First
-															name must be 2-20 characters.</span>
-													</div>
-												</md-input-container>
+											<div class="ds-db-row2">
+												<div class="mdl-cell mdl-cell--12-col" style="float:left">
+													<md-input-container class="md-block">
+													  <label>Supporting content</label>
+													  <textarea rows="2" ng-model="eventCarousel.supportingContent" tabindex="3" required></textarea>
+													  <span class="modal-note">140 Characters Only</span>
+													</md-input-container>
+												</div>
 											</div>
-										</div>								
-										<div class="admin-row admin-row1">
-											<div>
-												<md-input-container class="md-block" >
-													<label>User Name</label> 
-													<input type="text" name='uname' ng-model='value.username' valid-username required/>
-													<div class="help-inline validation-msgs"
-														ng-class="{validationmsg:!signupForm.uname.$valid}">
-														<span ng-show="!!signupForm.uname.$error.isBlank">Username
-															Required.</span> <span
-															ng-show="!!signupForm.uname.$error.invalidChars">Username
-															must contain letters &amp; special characters not allowed.</span> <span
-															ng-show="!!signupForm.uname.$error.invalidLen">Username
-															must be 2-20 characters.</span>
-															<span ng-show="userExists">Username
-															already exists.</span>
-										</div>
-												</md-input-container>
-											</div>
-											<div>
-												<md-input-container class="md-block"  >
-													<label>Email</label> 
-
-													<input id='emailValue' type="email" name='email' ng-model='value.email' required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" />
-													<div class="help-inline validation-msgs"
-														ng-class="{validationmsg:!signupForm.email.$valid}">
-														<span
-															ng-show="!!(signupForm.email.$dirty && signupForm.email.$error.required)">Email
-															ID Required.</span> <span
-															ng-show="!!(signupForm.email.$dirty && signupForm.email.$error.pattern)">
-															Please Enter Valid Email</span>
-													</div>
-												</md-input-container>
-											</div>
-										</div>										
-										<div class="admin-row admin-row1">
-											<div>
-												<md-input-container class="md-block"  >
-													<label>Password</label> 
-													<input ng-model='value.password'  valid-password required type="password" class="form-control ok-password" ng-class="(joinTeamForm.password.$dirty && joinTeamForm.password.$invalid) ? 'error' : ''" id="password" name="pwd" placeholder="Enter Password" ng-required="true" maxlength="20">
-												</md-input-container>
-												<div class="help-inline validation-msgs"
-														ng-class="{validationmsg:!signupForm.pwd.$valid}">
-														<span ng-show="!!signupForm.pwd.$error.isBlank">Password
-															Required.</span> <span
-															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.isWeak)">Must
-															contain one upper &amp; lower case letter and a non-letter
-															(number & symbol.)</span> <span
-															ng-show="!! (signupForm.pwd.$dirty && signupForm.pwd.$error.invalidLen)">Must
-															be 8-20 characters.</span>
+											<div class="ds-db-row3">
+												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+													<md-input-container class="md-block">
+														<label>Main Background</label>
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+																<div ng-model="backGround">
+																	<div class="upload-field">Browse
+																		<input type="file" upload-image-model="eventCarousel.backGround" data-ng-model="eventCarousel.backGround" id="backGround1" />
+																	</div>
+																	<div class="help-inline validation-msgs">
+																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+																	</div>
+																</div>
+																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
+																<input type="file" upload-image-model="eventCarousel.backGround" data-ng-model="eventCarousel.backGround" />
+															</div>
+															<span>
+															<md-button ng-click="uploadEventBGImg()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																Upload
+															</md-button>
+															</span>
+															
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 2560px X 524px.
+														</span>
+													</md-input-container>
+												</div>
+												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+													<md-input-container class="md-block">
+														<div class="infographics">
+															<div>
+																<label >Add Infographics</label>
+															</div>
+															<div>
+																<span >
+																	<md-switch ng-model="eventIgImg" aria-label="Switch 1" class="md-warn">
+																		<span class="text-xsmall text-green" ng-show="eventCarousel.eventIgImg == true">Enabled</span>
+																		<span class="text-xsmall text-red" ng-show="eventCarousel.eventIgImg == false || eventCarousel.eventIgImg == null ">Disabled</span>
+																	</md-switch>
+																</span>
+															</div>
+														</div>
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+															<div>
+																	<div class="upload-field">Browse
+																		
+																		<input type="file" upload-image-model="eventCarousel.infoGraphic" data-ng-model="eventCarousel.infoGraphic" />
+																	</div>
+																</div>
+																		<input type="file" upload-image-model="eventCarousel.infoGraphic" data-ng-model="eventCarousel.infoGraphic"/>
+															</div>
+																<span>
+																	<md-button ng-click="uploadEventInfoGraphic()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																		Upload
+																	</md-button>
+																</span>
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
+														</span>
+													</md-input-container>
 												</div>
 											</div>
 											
-											<div>
-												<md-input-container class="md-block"  >
-													<label>Confirm Password</label> 
-													<input type="password" ng-model='value.cpassword' name="cpwd" valid-password-c required maxlength="20"/>
-												</md-input-container>
-												<div class="help-inline validation-msgs"
-														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
-														<span ng-show="!!signupForm.cpwd.$error.isBlank">Confirm Password
-															Required.</span> <span
-															ng-show="!!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
-															don't match.</span>
-													</div>
+											<div class="ds-db-row3">
+												<div class="mdl-cell mdl-cell--3-col">
+														<md-input-container class="md-block">
+															<label>Text Align <span class="dsreqfield">*</span></label>
+														</md-input-container>
+														<ul class="aligntext">
+															<li ng-class="eventCarousel.textAling == 'left' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingText('left')" >format_align_left</a></i>
+															</li>
+															<li ng-class="eventCarousel.textAling == 'right' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingText('right')" >format_align_right</a></i>
+															</li>
+														</ul>
 												</div>
-											</div>									
-										<div class="admin-row admin-row2">
-											<div>
-												<div class="strength-meter" ng-if="!signupForm.pwd.$valid && signupForm.pwd.$dirty && value.password">
-													<div class="strength-meter-fill" ng-init="passwordStrength=0" data-strength="{{passwordStrength}}"></div>
-						                        </div>
-						                        <div class="strength-meter" ng-if="!signupForm.pwd.$dirty || !value.password">
-													<div class="strength-meter-fill" ng-init="passwordStrength=null" data-strength="{{passwordStrength}}"></div>
-						                        </div>
-						                        <div class="strength-meter" ng-if="signupForm.pwd.$valid">
-													<div class="strength-meter-fill" data-strength="{{passwordStrength}}"></div>
-						                        </div>												 
-												<p class="text-center font600">Strength indicator</p>
-											</div>
-											<div>
-												<p class="admin-text1">
-													Password should be atleast eight characters long. To make it stronger, use upper case and lower case letters, numbers and symbols like, ! # @ $ * &
-												</p>
+												<div class="mdl-cell mdl-cell--3-col" style="float:left">
+													<md-input-container class="md-block">
+														<label>Infographics Align <span class="dsreqfield">*</span></label>
+													</md-input-container>
+													<ul class="aligntext">
+															<li ng-class="eventCarousel.infoImageAling == 'left' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingInfoImage('left')" >format_align_left</a></i>
+															</li>
+															<li ng-class="eventCarousel.infoImageAling == 'right' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingInfoImage('right')">format_align_right</a></i>
+															</li>
+													</ul>
+												</div>
 											</div>
 										</div>
-										<div class="admin-row admin-row1">
-											<div>
-												<md-checkbox aria-label="checked checkbox" ng-model="data.cb4" ng-init="data.cb4=true">
-													Send this password to the new user by email
-												  </md-checkbox>
-											</div>
-											<div  class="md-block" >
-												<label>Role</label>
-												 <md-select ng-model="roleValue" placeholder="Select" class="md-no-underline admin-ddl" multiple>
-												  <md-option ng-repeat='role in roles' value="{{role.roleId}}" >{{role.name}}</md-option>
-												  <md-option value="sword">Sword</md-option>
-												  <md-option value="wand">Wand</md-option>
-												  <md-option value="pen">Pen?</md-option>
-												</md-select>
-											</div>
-										</div>
-										
-										
-										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
-											<button ng-click='submitFucn()' ng-disabled='signupForm.$invalid || !roleValue' class="mdl-button mdl-js-button btn-primary" >Add</button>
-										</div>
-									  </div>
-									  </form>
+										</form>
 									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="addEventSlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
 								  
 								</md-dialog>
 							</div>
-						Modal box end
+						</div>
+						<!-- Modal box end -->
 						
-						Modal box start Add new Role
-							<div class="md-dialog-container" id="addRole" style="height:0;">
-							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-admin2">
-								  <form ng-cloak>
+						<!-- Modal Add  Story carousel slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="addStorySlides">
+							  <md-dialog aria-label="Mango (Fruit)" class="top-carousel-admin">
+								  
 									<md-toolbar>
 									  <div class="md-toolbar-tools">
-										<h2>Add Role</h2>
+										<h2 ng-if="!itsEdit">Add Slide to Success Stories Carousel</h2>
+										<h2 ng-if="itsEdit">Edit {{storyCarousel.name}} for Success Stories Carousel</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click='closePoup()' >
+										<md-button class="md-icon-button" ng-click="closePoup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
 									<md-dialog-content>
-									  <div class="md-dialog-content">										
-										<div class="admin-row3 admin-row1">
-											<div>
-												<md-input-container class="md-block">
-													<label class='md-required'>Role Name</label> 
-													<input type="text" ng-model='roleName'/>
-												</md-input-container>
-											</div>
-											<div>
-												<md-input-container><label class='md-required'>User Permissions</label> </md-input-container>
-												<div class="admin-peer-list-container">
-													<ul class="permission-list">
-														<li ng-repeat='val in permissionList'><md-checkbox ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}} </md-checkbox></li>
-														<li ng-repeat='val in permissionList'><md-checkbox ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}} </md-checkbox></li>
-														
-													</ul>
+									<form name="storyForm" ng-cloak>
+										<div class="md-dialog-content add-top-carousel">
+											<div class="ds-db-row1">
+												<div class="mdl-cell mdl-cell--6-col" style="float:left">
+														<md-input-container class="md-block">
+															<label>Slide Name</label> 
+															<input type="text" ng-model="successCarousel.name" tabindex="1" required/>
+														</md-input-container>
 												</div>
-												
+												<div class="mdl-cell mdl-cell--6-col" style="float:left">
+													<md-input-container class="md-block">
+														<label>Headline</label> 
+														<input type="text" ng-model="successCarousel.headline" tabindex="2" required/>
+														<span class="modal-note">60 Characters Only</span>
+													</md-input-container>
+												</div>
+											</div>
+											<div class="ds-db-row2">
+												<div class="mdl-cell mdl-cell--12-col" style="float:left">
+													<md-input-container class="md-block">
+													  <label>Supporting content</label>
+													  <textarea rows="2" ng-model="successCarousel.supportingContent" tabindex="3" required></textarea>
+													  <span class="modal-note">140 Characters Only</span>
+													</md-input-container>
+												</div>
+											</div>
+											<div class="ds-db-row3">
+												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+													<md-input-container class="md-block">
+														<label>Main Background</label>
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+																<div ng-model="backGround">
+																	<div class="upload-field">Browse
+																		<input type="file" upload-image-model="successCarousel.backGround" data-ng-model="successCarousel.backGround" id="backGround1" />
+																	</div>
+																	<div class="help-inline validation-msgs">
+																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+																	</div>
+																</div>
+																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
+																<input type="file" upload-image-model="successCarousel.backGround" data-ng-model="successCarousel.backGround" />
+															</div>
+															<span>
+															<md-button ng-click="uploadsuccessBGImg()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																Upload
+															</md-button>
+															</span>
+															
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 2560px X 524px.
+														</span>
+													</md-input-container>
+												</div>
+												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+													<md-input-container class="md-block">
+														<div class="infographics">
+															<div>
+																<label >Add Infographics</label>
+															</div>
+															<div>
+																<span >
+																	<md-switch ng-model="successIgImg" aria-label="Switch 1" class="md-warn">
+																		<span class="text-xsmall text-green" ng-show="successCarousel.eventIgImg == true">Enabled</span>
+																		<span class="text-xsmall text-red" ng-show="successCarousel.eventIgImg == false || successCarousel.eventIgImg == null ">Disabled</span>
+																	</md-switch>
+																</span>
+															</div>
+														</div>
+														<div class="drag-drop">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div>
+																<img src="images/upload-doc-vector.png" alt="" title=""/>
+																<div class="destext">Drag & Drop your file here!</div>
+															</div>
+														</div>
+														<div class="upload-bg-image">
+															<div class="upload-image-input">
+															<div>
+																	<div class="upload-field">Browse
+																		
+																		<input type="file" upload-image-model="successCarousel.infoGraphic" data-ng-model="successCarousel.infoGraphic" />
+																	</div>
+																</div>
+																		<input type="file" upload-image-model="successCarousel.infoGraphic" data-ng-model="successCarousel.infoGraphic"/>
+															</div>
+																<span>
+																	<md-button ng-click="uploadsuccessInfoGraphic()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
+																		Upload
+																	</md-button>
+																</span>
+														</div>
+														<span class="modal-note">
+															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
+														</span>
+													</md-input-container>
+												</div>
 											</div>
 											
-										</div>
-										
-										
-										
-										<div class="dialog-btn-container">
-											<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
-											<button ng-click='addRole()' ng-disabled='!perList||!roleName' class="mdl-button mdl-js-button btn-primary">Add</button>
-										</div>
-									  </div>
-									</md-dialog-content>
-								  </form>
-								</md-dialog>
-							</div>
-						Modal box end
-						
-						Modal box Add Peer start
-							<div class="md-dialog-container" id="addPeer" style="height:0;">
-							  <md-dialog aria-label="Mango (Fruit)" class="admin-add-peer">
-								  <form ng-cloak>
-									<md-toolbar>
-									  <div class="md-toolbar-tools">
-										<h2>Add Peers</h2>
-										<span flex></span>
-										<md-button class="md-icon-button" ng-click='closePoup()'>
-										  <i class="material-icons">close</i>
-										</md-button>
-									  </div>
-									</md-toolbar>
-									<md-dialog-content>
-									  <div class="md-dialog-content">	
-										<div class="stepper-wrapper">
-											<div class="stepper-inner">
-												<div class="stepper-header-wrapper">
-													<div class="stepper-header-inner">
-														<div class="stepper-header-cell peer-cell" ng-class='data.peer&&hidePeer?"completed":"active"'>
-															<span class="icon-add-peer"></span>
-															<span class="stepper-header-text">Add Peer Details</span>
-														</div>													
-														<span class="icon-progress" ng-class='data.peer&&hidePeer?"completed":""'></span>
-														<div class="stepper-header-cell configure-cell" ng-class='data.peer&&hidePeer?"active":""'>
-															<span class="icon-subscription"></span>
-															<span class="stepper-header-text">Configure Subscriptions</span>
-														</div>														
-													</div>
-												</div>
-												<div class="stepper-peers" ng-hide='hidePeer'>
-													<div class="admin-peer-row1">
-														<span>Select Peers (27)</span>
-														<span>|</span>
-														<div>
-															<span>Filter:</span>
-															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model = "search">																
-															</div>
-														</div>
-													</div>
-													<div class="admin-peer-list-container">													
-														<md-radio-group ng-model="data.peer"  class="admin-radio-list">
-														   <md-radio-button ng-click='peerChange(peer)' value="{{peer.peerId}}" ng-repeat='peer in peerList'>{{peer.name}}</md-radio-button>
-														  <md-radio-button value="Peer 2">Peer 2</md-radio-button>
-														  <md-radio-button value="Peer 3">Peer 3</md-radio-button>
-														  <md-radio-button value="Peer 4">Peer 4</md-radio-button>
-														  <md-radio-button value="Peer 5">Peer 5</md-radio-button>
-														  <md-radio-button value="Peer 6">Peer 6</md-radio-button>
-														  <md-radio-button value="Peer 7">Peer 7</md-radio-button>
-														  <md-radio-button value="Peer 8">Peer 8</md-radio-button>
-														  <md-radio-button value="Peer 9">Peer 9</md-radio-button>
-														</md-radio-group>
-													</div>
-												</div>
-												<div class="stepper-category"  ng-show='hidePeer'>
-													<div class="admin-peer-row1">
-														<span>Select categories (27)</span>
-														<span>|</span>
-														<div>
-															<span>Filter:</span>
-															<div class="mdl-textfield mdl-js-textfield admin-search-container">
-																<input class="mdl-textfield__input admin-search-control" type="text" placeholder="Filter" ng-model = "search">																
-															</div>
-														</div>
-													</div>
-													<div class="admin-peer-list-container">													
-														<md-radio-group ng-model="data.cat" class="admin-radio-list">
-														  <md-radio-button value="{{cat.typeCode}}" ng-repeat='cat in category'>{{cat.typeName}}</md-radio-button>
-														  <md-radio-button value="category 2">Regression</md-radio-button>
-														  <md-radio-button value="category 3">Prediction</md-radio-button>
-														  <md-radio-button value="category 4">category 4</md-radio-button>
-														  <md-radio-button value="category 5">category 5</md-radio-button>
-														  <md-radio-button value="category 6">category 6</md-radio-button>
-														  <md-radio-button value="category 7">category 7</md-radio-button>
-														  <md-radio-button value="category 8">category 8</md-radio-button>
-														  <md-radio-button value="category 9">category 9</md-radio-button>
-														</md-radio-group>
-														<ul class="permission-list">
-															<li ng-repeat='cat in category'>
-																<md-checkbox ng-click='categorySelect(cat)'  aria-label="Finished?">
-														  			{{cat.typeName}} 
-																</md-checkbox>
+											<div class="ds-db-row3">
+												<div class="mdl-cell mdl-cell--3-col">
+														<md-input-container class="md-block">
+															<label>Text Align <span class="dsreqfield">*</span></label>
+														</md-input-container>
+														<ul class="aligntext">
+															<li ng-class="successCarousel.textAling == 'left' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingText('left')" >format_align_left</a></i>
+															</li>
+															<li ng-class="successCarousel.textAling == 'right' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingText('right')" >format_align_right</a></i>
 															</li>
 														</ul>
-														
-													</div>
 												</div>
-
+												<div class="mdl-cell mdl-cell--3-col" style="float:left">
+													<md-input-container class="md-block">
+														<label>Infographics Align <span class="dsreqfield">*</span></label>
+													</md-input-container>
+													<ul class="aligntext">
+															<li ng-class="successCarousel.infoImageAling == 'left' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingInfoImage('left')" >format_align_left</a></i>
+															</li>
+															<li ng-class="successCarousel.infoImageAling == 'right' ? 'active' : ''">
+																<i class="material-icons"><a ng-click="alingInfoImage('right')">format_align_right</a></i>
+															</li>
+													</ul>
+												</div>
 											</div>
 										</div>
-										<div class="dialog-btn-container">
-												<div>
-													<button ng-click='hidePeer = false' ng-hide='!hidePeer' class="mdl-button mdl-js-button btn-secondary">Previous</button>
-													<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
-												</div>
-												<div>
-													<button ng-click='hidePeer = true' ng-hide='!data.peer || hidePeer' class="mdl-button mdl-js-button btn-secondary">Next</button>
-													<button ng-hide='!data.peer || !queryParam' ng-click='addPeer()' class="mdl-button mdl-js-button btn-primary">Done</button>
-												</div>
-											</div>
-										</div>
+										</form>
 									</md-dialog-content>
-								  </form>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="addStorySlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  
 								</md-dialog>
 							</div>
-						Modal box end
-						
-Confirmation Popup start
-popup confirmation Modal box start
-                            <div class="md-dialog-container" id="confirmPopup" style="height:0;">
-                              <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
-                                  	<md-toolbar>
-                                      <div class="md-toolbar-tools">
-                                        <h2>{{warningMsg}}</h2>
-                                        <span flex></span>
-                                        <md-button class="md-icon-button" ng-click="closePoup()">
-                                          <i class="material-icons">close</i>
-                                        </md-button>
-                                      </div>
-                                    </md-toolbar>
-                                    <md-dialog-content>
-                                    <form ng-cloak>
-                                      <div class="md-dialog-content">
-                                        <p>{{confirmMsg}}</p>
-                                        <hr />
-                                         <div layout="row" class="deploy-cloud-modalfooter">
-                                            <md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">
-                                            Cancel
-                                          </md-button>
-                                          <md-button ng-click="addRoleFunc(confirmFuncMsg)" class="mdl-button mdl-js-button btn-primary">
-                                            Confirm
-                                          </md-button>
-                                        </div>                                
-                                      </div>
-                                      </form>
-                                    </md-dialog-content>
-                                </md-dialog>
-                            </div>
-Saving old version popup confirmation Modal box end
-Confirmation Popup End -->
+						</div>
+						<!-- Modal box end -->

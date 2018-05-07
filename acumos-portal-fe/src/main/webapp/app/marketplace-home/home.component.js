@@ -83,27 +83,19 @@ angular
 												//alert (angular.toJson(carouselConfig[0]));
 												$scope.banner.slides = [];
 												var index = 0;
-												angular.forEach(carouselConfig, function (value, key) {  
+												angular.forEach(carouselConfig, function (value, key) {
 												      
 												      //alert(angular.toJson($scope.bannerslides));
 												      var infoGraphicsSrc = "";
-												      /*var getinfographicsReq = {
-							             						method : 'GET',
-							             						url : '/site/api-manual/Solution/global/infoGraphic'
-							             				};
-												      
-												      var promise = waitservice.waitForResponse(getinfographicsReq);
-												      promise.then(
-					 											function(data) {
-					 												if(data.response_body.length > 0) {
-					 													alert(data.response_body);
-					 													infoGraphicsSrc = "/site/binaries/content/gallery/acumoscms/global/infoGraphic/" + data.response_body[0];
-						             								}
-					 											}
-					 									);*/
 												      
 												      if(value['slideEnabled'] === true || value['slideEnabled'] === "true"){
-													      var bannerSt = '<div class="home-screen" style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_background_' + key + '/' + value["bgImageUrl"] + ')">' + 
+													      var bannerSt = '<div class='; 
+													                    if(value['textAling'] == 'right'){
+													                    	bannerSt = bannerSt + '"home-screen1" ';
+													                    } else {
+													                    	bannerSt = bannerSt + '"home-screen2" ';
+													                    }
+													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_infoGraphic_' + key + '/' + value["InfoImageUrl"] + ') !important;">' + 
 																	    '<div class="slide-content">' +
 																	        '<div class="slide-text">' +
 																	            '<h4>' + value['headline'] + '</h4>' +
@@ -132,8 +124,8 @@ angular
 													                             }
 	
 													                             bannerSt = bannerSt + '</div> <div class="image-container"><img src="' + infoGraphicsSrc + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
-													      $scope.banner.slides[index] = bannerSt;
-													      index++;
+													                             $scope.banner.slides[index] = bannerSt;
+													                             index++;
 												      }
 												});
 											} else {
@@ -141,12 +133,42 @@ angular
 												$scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4><!-- <h6>the marketplace, the eco-system and the design studio</h6> -->    <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. <!-- <a href="#">Learn More >></a> --></p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" alt="ADD YOUR MODEL NOW"  title=" ADD YOUR MODEL NOW" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" alt="EXPLORE MARKETPLACE"  title=" EXPLORE MARKETPLACE" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>'];
 											}
 											//If all slides are disabled then show default slide
-											if($scope.banner.slides.length == 0)
+											if($scope.banner.slides.length == 0){
 												$scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4><!-- <h6>the marketplace, the eco-system and the design studio</h6> -->    <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. <!-- <a href="#">Learn More >></a> --></p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" alt="ADD YOUR MODEL NOW"  title=" ADD YOUR MODEL NOW" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" alt="EXPLORE MARKETPLACE"  title=" EXPLORE MARKETPLACE" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>'];
+											}
 										},
 										function(error) {
 											console.log(error);
 								});
+							  
+							  $scope.event = {'slides':[]};
+							  apiService
+								.getSiteConfig("event_carousel")
+								.then(
+										function(response) {
+											if(response.data.response_body != null) {
+												$scope.eventConfig = angular.fromJson(response.data.response_body.configValue);
+												//alert (angular.toJson(carouselConfig[0]));
+												
+												var index = 0;
+												angular.forEach($scope.eventConfig, function (value, key) {
+													if(value['slideEnabled'] === true || value['slideEnabled'] === "true"){
+														var storyhtml = '<div class="hackathon-container">' + 
+															'<div class="hackathon-image">' + 
+															'<img src="/site/binaries/content/gallery/acumoscms/global/event_carousel_bg_' + key + '/' + value["bgImageUrl"] +'"/>' + 
+															'</div>' +
+															'<div class="hackathon-text">' + 
+															'<h3>' + value["headline"] + '</h3>' + 
+															'<p>' + value["supportingContent"] + '</p>' +
+															'</div>' + 
+															'</div>';
+														$scope.event.slides[index] = storyhtml;
+							                             index++;
+													}
+													
+												});
+											}
+										});
 							  
 							  $scope.successStories.slides = [{story :'I needed to better position my ads in streaming video to improve my results.  The Acumos Design studio allowed me to quickly insert my video stream to a working model and use it ...',
 			  												   from : 'AT&T Entertainment Exec'},	
@@ -163,7 +185,7 @@ angular
 			  					  					  '<div class="home-screen2"><div class="slide-content"><div class="slide-text"><h4><span>{{$root.siteInstanceName}}</span> is an AI Ecosystem</h4><p>Models are easily uploaded and packaged for the catalog. Model users meet modelers in the marketplace to test-drive, train and engage.</p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');">EXPLORE MARKETPLACE</button></div></div><div class="mountain"></div></div>',
 			  					  					  '<div class="home-screen3"><div class="slide-content"><div class="slide-text"><h4>We Speak Machine Learning</h4><p><span>{{$root.siteInstanceName}}</span> support all major AI toolkits.  Models from diﬀerent sources can be combined to create composite solutions. </p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');">EXPLORE MARKETPLACE</div></div><div class="mountain"></div></div>'
 			  					  ];*/
-							  /*$scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4><!-- <h6>the marketplace, the eco-system and the design studio</h6> -->    <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. <!-- <a href="#">Learn More >></a> --></p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" alt="ADD YOUR MODEL NOW"  title=" ADD YOUR MODEL NOW" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" alt="EXPLORE MARKETPLACE"  title=" EXPLORE MARKETPLACE" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>'];
+							  /*$scope.banner.slides = ['<div class="home-screen3"><div class="slide-content"><div class="slide-text"><h4>Use the Design Studio to make AI the center of your new software.</h4><p>In <span>{{$root.siteInstanceName}}</span>, every model is a Micro-service, so models can be chained together along with data tools to create custom end-to-end solutions.</p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');" >EXPLORE MARKETPLACE</button></div></div><div class="mountain"></div></div>'];
 							  */
 							  $scope.getSolutionImages = function(index, value) {
 

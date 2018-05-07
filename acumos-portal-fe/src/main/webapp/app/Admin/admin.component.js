@@ -212,8 +212,16 @@ angular.module('admin')
              $scope.roleName = '';perValue();
              permissionList = [];$scope.perList = '';
              $scope.carouselSlide = {};
+             $scope.eventCarousel ={};
+             $scope.storyCarousel ={}
              $scope.carouselForm.$setPristine();
              $scope.carouselForm.$setUntouched();
+             
+             $scope.eventForm.$setPristine();
+             $scope.eventForm.$setUntouched();
+             
+             $scope.storyForm.$setPristine();
+             $scope.storyForm.$setUntouched();
              $scope.itsEdit = false;
       	     delete $scope.keyval;
              fetchPeer();fetchCat();$scope.hidePeer = false;$scope.data='';
@@ -262,6 +270,24 @@ angular.module('admin')
             $scope.showAddSlidesPopup = function(ev){
             	  $mdDialog.show({
             		  contentElement: '#addSlides',
+            		  parent: angular.element(document.body),
+            		  targetEvent: ev,
+            		  clickOutsideToClose: true
+            	  });
+              }
+            
+            $scope.showEventSlidesPopup = function(ev){
+          	  $mdDialog.show({
+          		  contentElement: '#addEventSlides',
+          		  parent: angular.element(document.body),
+          		  targetEvent: ev,
+          		  clickOutsideToClose: true
+          	  });
+            }
+            
+            $scope.showStorySlidesPopup = function(ev){
+            	  $mdDialog.show({
+            		  contentElement: '#addStorySlides',
             		  parent: angular.element(document.body),
             		  targetEvent: ev,
             		  clickOutsideToClose: true
@@ -1729,6 +1755,8 @@ angular.module('admin')
 								});
                     }
                     $scope.getCarouselConfig();
+                    $scope.carousel_Info_Aling = 'right';
+                    $scope.carousel_Text_Aling = 'right';
                     $scope.addCarouselSlide = function(){
 						//create json
                 	   var slide = {};
@@ -1753,6 +1781,8 @@ angular.module('admin')
 						slide['name']= slide_name;
 						slide['headline'] = slide_headline;
 						slide['supportingContent']= slide_supportingContent;
+						slide['infoImageAling']= $scope.carousel_Info_Aling;
+						slide['textAling']= $scope.carousel_Text_Aling;
 						
 						slide['graphicImgEnabled'] =  $scope.carouselSlide.graphicImg;
 						slide['slideEnabled'] = "true";
@@ -1864,11 +1894,20 @@ angular.module('admin')
                 	   $scope.carouselSlide = val;
                 	   $scope.carouselBGFileName = val['bgImageUrl'];
                 	   $scope.carouselInfoFileName = val['InfoImageUrl'];
+                	   
+                	   $scope.carousel_Text_Aling = val['textAling'];
+                	   $scope.carousel_Info_Aling = val['infoImageAling'];
                 	   $scope.keyval = key;
                 	   $scope.showAddSlidesPopup();
                    }
-                   //$scope.enableCarouselSlides = [];
-                   
+                   $scope.alingInfoImage = function (alingment){
+                	   $scope.carousel_Info_Aling = alingment;
+                   }
+
+                   $scope.alingText = function (alingment){
+                	   $scope.carousel_Text_Aling = alingment;
+                   }
+
                    $scope.carouselCheckedList = [];
                    $scope.toggleCarouselCheckedList = function (key){
                 	   
@@ -2030,6 +2069,694 @@ angular.module('admin')
 	 				            }
 							}
 				        }
+						
+						
+						//Get Event Carousel For home screen
+	                    $scope.getEventCarousel = function (){
+							apiService
+							.getSiteConfig("event_carousel")
+							.then(
+									function(response) {
+										if(response.data.response_body != null) {
+											$scope.eventConfig = angular.fromJson(response.data.response_body.configValue);
+										}
+									});
+	                    }
+	                    $scope.getEventCarousel();
+	                    
+	                    $scope.addEventSlide = function(){
+							//create json
+	                	   var slide = {};
+	                	   var links = {};
+	                	   var carousel = {};
+	                	   
+	                	   
+	                	   if(typeof $scope.eventConfig === "undefined") {
+	                		   var keys = [];
+	                		   var carousel = {};
+	                		   carousel['enabled'] = "true";
+	                	   } else {
+	                		   var keys = Object.keys($scope.eventConfig);
+	                		   var enabledIndex = keys.indexOf("enabled");
+	                		   keys.splice(enabledIndex, 1);  
+	                		   var carousel = $scope.eventConfig;
+	                	   }
+	                	   
+	                	   if (keys.length == undefined || keys.length == 0)
+	                		   var keyIndex = 0;
+	                		else 
+	                			var keyIndex = parseInt(keys[keys.length -1]) + 1;
+	                	    //return;
+							var slide_name = $scope.eventCarousel.name;
+							var slide_headline = $scope.eventCarousel.headline;
+							var slide_supportingContent = $scope.eventCarousel.supportingContent;
+							slide['name']= slide_name;
+							slide['headline'] = slide_headline;
+							slide['supportingContent']= slide_supportingContent;
+							slide['infoImageAling']= $scope.carousel_Info_Aling;
+							slide['textAling']= $scope.carousel_Text_Aling;
+							
+							slide['graphicImgEnabled'] =  $scope.eventCarousel.graphicImg;
+							slide['slideEnabled'] = "true";
+							
+							if($scope.itsEdit){
+								slide['number'] = $scope.keyval;
+								var keyIndex = $scope.keyval;
+		                	} else {
+		                		slide['number'] = keyIndex + 1;
+		                	}
+							
+							slide['bgImageUrl'] = $scope.eventBGFileName;
+							slide['InfoImageUrl'] = $scope.eventInfoFileName;
+							
+							carousel[keyIndex] = slide;
+							var carouselConfigStr = JSON.stringify(carousel);
+							
+							var convertedString = carouselConfigStr.replace(/"/g, '\"');
+							
+							var reqObj = {
+				                          "request_body": {
+				                              "configKey": "event_carousel",
+				                              "configValue":convertedString,
+				                              "userId": userId
+				                            }
+			                            };
+							//if carouselConfig is not present in DB create a record else update the record
+							
+							//typeof thing === "undefined"
+							if(typeof $scope.eventConfig === "undefined") {
+								apiService
+			                    .createSiteConfig(reqObj)
+			                    .then(
+			                            function(response) {
+			                            	$scope.getEventCarousel();
+			                            	$scope.msg = "Carousel Updated successfully.";
+	                                        $scope.icon = '';
+	                                        $scope.styleclass = 'c-success';
+	                                        $scope.closePoup();
+	                                        $scope.showAlertMessage = true;
+	                                        $scope.itsEdit = false;
+	                                 	    delete $scope.keyval;
+	                                        $timeout(function() {
+	                                            $scope.showAlertMessage = false;
+	                                        }, 5000);
+			                            });
+							} else {
+								apiService
+			                    .updateSiteConfig("event_carousel", reqObj)
+			                    .then(
+			                            function(response) {
+			                            	$scope.msg = "Carousel Updated successfully.";
+	                                        $scope.icon = '';
+	                                        $scope.styleclass = 'c-success';
+	                                        $scope.getEventCarousel();
+	                                        $scope.closePoup();
+	                                        $scope.showAlertMessage = true;
+	                                        $scope.itsEdit = false;
+	                                 	    delete $scope.keyval;
+	                                        $timeout(function() {
+	                                            $scope.showAlertMessage = false;
+	                                        }, 5000);
+			                            });
+							}
+						}
+	                    
+	                    
+	                    $scope.editEventSlide = function (key, val){
+	                 	   $scope.itsEdit = true;
+	                 	   $scope.eventCarousel = val;
+	                 	   $scope.eventBGFileName = val['bgImageUrl'];
+	                 	   $scope.eventInfoFileName = val['InfoImageUrl'];
+	                 	   
+	                 	   $scope.event_Text_Aling = val['textAling'];
+	                 	   $scope.event_Info_Aling = val['infoImageAling'];
+	                 	   $scope.keyval = key;
+	                 	   $scope.showEventSlidesPopup();
+	                    }
+	                    
+	                    
+	                    $scope.deleteEventSlide = function (key){
+	                 	   delete $scope.eventConfig[key];
+	                 	   
+	                 	   var carouselConfigStr = JSON.stringify($scope.eventConfig);
+	 						var convertedString = carouselConfigStr.replace(/"/g, '\"');
+	 						
+	 						var reqObj = {
+	 			                          "request_body": {
+	 			                              "configKey": "event_carousel",
+	 			                              "configValue":convertedString,
+	 			                              "userId": userId
+	 			                            }
+	 		                            };
+	                 	   apiService.updateSiteConfig("event_carousel", reqObj)
+	 	                    .then(
+	 	                            function(response) {
+	 	                            	$scope.getEventCarousel();
+	 	                            	$scope.msg = "Carousel Updated successfully.";
+	                                    $scope.icon = '';
+	                                    $scope.styleclass = 'c-success';
+	                                    $scope.showAlertMessage = true;
+	                                    $timeout(function() {
+	                                        $scope.showAlertMessage = false;
+	                                    }, 5000);
+	 	                            });
+	                    }
+	                    
+	                    $scope.eventCheckedList = [];
+	                    $scope.toggleEventCheckedList = function (key){
+	                 	   
+	                 	   var index = $scope.eventCheckedList.indexOf(key);
+	                 	   if(index == -1){
+	                 		    $scope.eventCheckedList.push(key);
+	                 	   } else {
+	                 		   $scope.eventCheckedList.splice(index, 1);
+	                 	   }
+	                    }
+	                    
+	                    $scope.changeEventSlides = function (){
+	                 	   for (var i=0; i<$scope.eventCheckedList.length; i++){
+	                 		   $scope.eventConfig[$scope.eventCheckedList[i]]['slideEnabled'] = $scope.changeEventAction;
+	                 	   }
+	                 	   var carouselConfigStr = JSON.stringify($scope.eventConfig);
+	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
+	                 	   
+	                 	   var reqObj = {
+	 		                          "request_body": {
+	 		                              "configKey": "event_carousel",
+	 		                              "configValue":convertedString,
+	 		                              "userId": userId
+	 		                            }
+	 	                            };
+	          	   apiService.updateSiteConfig("event_carousel", reqObj)
+	                  .then(
+	                          function(response) {
+	                          	$scope.getEventCarousel();
+	                          	$scope.msg = "Carousel Updated successfully.";
+	                             $scope.icon = '';
+	                             $scope.styleclass = 'c-success';
+	                             $scope.changeEventAction = "Enable/Disable Slides";
+	                             $scope.showAlertMessage = true;
+	                             $timeout(function() {
+	                                 $scope.showAlertMessage = false;
+	                             }, 5000);
+	                          });
+	                 	   
+	                    }
+	                    
+	                    $scope.disableEventCarousel = function() {
+	                    	 var carouselConfigStr = JSON.stringify($scope.eventConfig);
+		 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
+		                 	   
+		                 	   var reqObj = {
+		 		                          "request_body": {
+		 		                              "configKey": "event_carousel",
+		 		                              "configValue":convertedString,
+		 		                              "userId": userId
+		 		                            }
+		 	                            };
+		          	   apiService.updateSiteConfig("event_carousel", reqObj)
+		                  .then(
+		                          function(response) {
+		                          	$scope.getEventCarousel();
+		                          	$scope.msg = "Carousel Updated successfully.";
+		                             $scope.icon = '';
+		                             $scope.styleclass = 'c-success';
+		                             $scope.changeEventAction = "Enable/Disable Slides";
+		                             $scope.showAlertMessage = true;
+		                             $timeout(function() {
+		                                 $scope.showAlertMessage = false;
+		                             }, 5000);
+		                          });
+	                    }
+	                    
+	                 // Upload Image
+						$scope.uploadEventBGImg = function(){
+							if($scope.eventCarousel.backGround){
+								
+								
+								
+								if(typeof $scope.eventConfig === "undefined") {
+			                		   var keys = [];
+			                	   } else {
+			                		   var keys = Object.keys($scope.eventConfig);
+			                		   var enabledIndex = keys.indexOf("enabled");
+			                		   keys.splice(enabledIndex, 1);
+			                	   }
+			                	   if (keys.length == undefined || keys.length == 0)
+			                		   var keyIndex = 1;
+			                		else 
+			                			var keyIndex = parseInt(keys[keys.length -1]) + 1;
+			                	   
+			                	   if($scope.itsEdit){
+										var keyIndex = $scope.keyval;
+				                	} 
+			                	   
+			                	   
+ 							var file = $scope.eventCarousel.backGround;
+ 							var fileFormData = new FormData();
+ 							var validFormats = ['jpg','jpeg','png','gif'];
+ 							var fileName = file.name;
+ 							var ext = fileName.split('.').pop();
+ 				            var size = file.size;
+ 				            $scope.eventBGFileName = fileName;
+ 				            
+ 				           
+ 				            if(validFormats.indexOf(ext) == -1){
+ 				            	$scope.error = true;
+ 				            }else{
+ 				            	$scope.error = false;
+ 				            
+	 							fileFormData.append('file', file);
+	
+	 							var uploadUrl = "/site/api-manual/Solution/globalImages/event_carousel_bg_" + keyIndex;
+	 							var promise = fileUploadService.uploadFileToUrl(
+	 									file, uploadUrl);
+	
+	 							promise
+	 									.then(
+	 											function(response) {
+	 												//$scope.getLogoImages();
+	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+	                                               //$anchorScroll();
+	                                               $scope.msg = "Updated successfully.";
+	                                               $scope.icon = '';
+	                                               $scope.styleclass = 'c-success';
+	                                               $scope.showAlertMessage = true;
+	                                               $timeout(function() {
+	                                                   $scope.showAlertMessage = false;
+	                                               }, 5000);
+	                                               
+	 												//alert("Updated successfully.");
+	 											},
+	 											function() {
+	 												$scope.serverResponse = 'An error has occurred';
+	 											})
+	 				            }
+							}
+				        }
+						
+						$scope.uploadEventInfoGraphic = function(){
+							if($scope.eventCarousel.infoGraphic){
+								
+								if(typeof $scope.eventConfig === "undefined") {
+			                		   var keys = [];
+			                	   } else {
+			                		   var keys = Object.keys($scope.eventConfig);
+			                		   var enabledIndex = keys.indexOf("enabled");
+			                		   keys.splice(enabledIndex, 1);
+			                	   }
+			                	   if (keys.length == undefined || keys.length == 0)
+			                		   var keyIndex = 0;
+			                		else 
+			                			var keyIndex = parseInt(keys[keys.length -1]) + 1;
+			                	   if($scope.itsEdit){
+										var keyIndex = $scope.keyval;
+				                	} 
+			                	   
+ 							var file = $scope.eventCarousel.infoGraphic;
+ 							var fileFormData = new FormData();
+ 							var validFormats = ['jpg','jpeg','png','gif'];
+ 							var fileName = file.name;
+ 							var ext = fileName.split('.').pop();
+ 				            var size = file.size;
+ 				           $scope.eventInfoFileName = fileName;
+ 				            
+ 				           
+ 				            if(validFormats.indexOf(ext) == -1){
+ 				            	$scope.error = true;
+ 				            }else{
+ 				            	$scope.error = false;
+ 				            
+	 							fileFormData.append('file', file);
+	
+	 							var uploadUrl = "/site/api-manual/Solution/globalImages/event_carousel_ig_" + keyIndex;
+	 							var promise = fileUploadService.uploadFileToUrl(
+	 									file, uploadUrl);
+	
+	 							promise
+	 									.then(
+	 											function(response) {
+	 												//$scope.getLogoImages();
+	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+	                                               //$anchorScroll();
+	                                               $scope.msg = "Updated successfully.";
+	                                               $scope.icon = '';
+	                                               $scope.styleclass = 'c-success';
+	                                               $scope.showAlertMessage = true;
+	                                               $timeout(function() {
+	                                                   $scope.showAlertMessage = false;
+	                                               }, 5000);
+	                                               
+	 												//alert("Updated successfully.");
+	 											},
+	 											function() {
+	 												$scope.serverResponse = 'An error has occurred';
+	 											})
+	 				            }
+							}
+				        }
+						
+						
+						//Get Story Carousel For home screen
+	                    $scope.getStoryCarousel = function (){
+							apiService
+							.getSiteConfig("story_carousel")
+							.then(
+									function(response) {
+										if(response.data.response_body != null) {
+											$scope.storyConfig = angular.fromJson(response.data.response_body.configValue);
+										}
+									});
+	                    }
+	                    $scope.getStoryCarousel();
+	                    
+	                    $scope.addStorySlide = function(){
+							//create json
+	                	   var slide = {};
+	                	   var links = {};
+	                	   var carousel = {};
+	                	   
+	                	   
+	                	   if(typeof $scope.storyConfig === "undefined") {
+	                		   var keys = [];
+	                		   var carousel = {};
+	                		   carousel['enabled'] = "true";
+	                	   } else {
+	                		   var keys = Object.keys($scope.storyConfig);
+	                		   var enabledIndex = keys.indexOf("enabled");
+	                		   keys.splice(enabledIndex, 1);  
+	                		   var carousel = $scope.storyConfig;
+	                	   }
+	                	   
+	                	   if (keys.length == undefined || keys.length == 0)
+	                		   var keyIndex = 0;
+	                		else 
+	                			var keyIndex = parseInt(keys[keys.length -1]) + 1;
+	                	    //return;
+							var slide_name = $scope.successCarousel.name;
+							var slide_headline = $scope.successCarousel.headline;
+							var slide_supportingContent = $scope.successCarousel.supportingContent;
+							slide['name']= slide_name;
+							slide['headline'] = slide_headline;
+							slide['supportingContent']= slide_supportingContent;
+							slide['infoImageAling']= $scope.carousel_Info_Aling;
+							slide['textAling']= $scope.carousel_Text_Aling;
+							
+							slide['graphicImgEnabled'] =  $scope.successCarousel.graphicImg;
+							slide['slideEnabled'] = "true";
+							
+							if($scope.itsEdit){
+								slide['number'] = $scope.keyval;
+								var keyIndex = $scope.keyval;
+		                	} else {
+		                		slide['number'] = keyIndex + 1;
+		                	}
+							
+							slide['bgImageUrl'] = $scope.successBGFileName;
+							slide['InfoImageUrl'] = $scope.successInfoFileName;
+							
+							carousel[keyIndex] = slide;
+							var carouselConfigStr = JSON.stringify(carousel);
+							
+							var convertedString = carouselConfigStr.replace(/"/g, '\"');
+							
+							var reqObj = {
+				                          "request_body": {
+				                              "configKey": "story_carousel",
+				                              "configValue":convertedString,
+				                              "userId": userId
+				                            }
+			                            };
+							//if carouselConfig is not present in DB create a record else update the record
+							
+							//typeof thing === "undefined"
+							if(typeof $scope.storyConfig === "undefined") {
+								apiService
+			                    .createSiteConfig(reqObj)
+			                    .then(
+			                            function(response) {
+			                            	$scope.getStoryCarousel();
+			                            	$scope.msg = "Carousel Updated successfully.";
+	                                        $scope.icon = '';
+	                                        $scope.styleclass = 'c-success';
+	                                        $scope.closePoup();
+	                                        $scope.showAlertMessage = true;
+	                                        $scope.itsEdit = false;
+	                                 	    delete $scope.keyval;
+	                                        $timeout(function() {
+	                                            $scope.showAlertMessage = false;
+	                                        }, 5000);
+			                            });
+							} else {
+								apiService
+			                    .updateSiteConfig("story_carousel", reqObj)
+			                    .then(
+			                            function(response) {
+			                            	$scope.msg = "Carousel Updated successfully.";
+	                                        $scope.icon = '';
+	                                        $scope.styleclass = 'c-success';
+	                                        $scope.getStoryCarousel();
+	                                        $scope.closePoup();
+	                                        $scope.showAlertMessage = true;
+	                                        $scope.itsEdit = false;
+	                                 	    delete $scope.keyval;
+	                                        $timeout(function() {
+	                                            $scope.showAlertMessage = false;
+	                                        }, 5000);
+			                            });
+							}
+						}
+
+	                 // Upload Image
+						$scope.uploadsuccessBGImg = function(){
+							if($scope.successCarousel.backGround){
+								
+								
+								
+								if(typeof $scope.storyConfig === "undefined") {
+			                		   var keys = [];
+			                	   } else {
+			                		   var keys = Object.keys($scope.storyConfig);
+			                	   }
+			                	   if (keys.length == undefined || keys.length == 0)
+			                		   var keyIndex = 1;
+			                		else 
+			                			var keyIndex = parseInt(keys[keys.length -1]) + 1;
+			                	   if($scope.itsEdit){
+										var keyIndex = $scope.keyval;
+				                	} 
+			                	   
+			                	   
+ 							var file = $scope.successCarousel.backGround;
+ 							var fileFormData = new FormData();
+ 							var validFormats = ['jpg','jpeg','png','gif'];
+ 							var fileName = file.name;
+ 							var ext = fileName.split('.').pop();
+ 				            var size = file.size;
+ 				            $scope.successBGFileName = fileName;
+ 				            
+ 				           
+ 				            if(validFormats.indexOf(ext) == -1){
+ 				            	$scope.error = true;
+ 				            }else{
+ 				            	$scope.error = false;
+ 				            
+	 							fileFormData.append('file', file);
+	
+	 							var uploadUrl = "/site/api-manual/Solution/globalImages/story_carousel_bg_" + keyIndex;
+	 							var promise = fileUploadService.uploadFileToUrl(
+	 									file, uploadUrl);
+	
+	 							promise
+	 									.then(
+	 											function(response) {
+	 												//$scope.getLogoImages();
+	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+	                                               //$anchorScroll();
+	                                               $scope.msg = "Updated successfully.";
+	                                               $scope.icon = '';
+	                                               $scope.styleclass = 'c-success';
+	                                               $scope.showAlertMessage = true;
+	                                               $timeout(function() {
+	                                                   $scope.showAlertMessage = false;
+	                                               }, 5000);
+	                                               
+	 												//alert("Updated successfully.");
+	 											},
+	 											function() {
+	 												$scope.serverResponse = 'An error has occurred';
+	 											})
+	 				            }
+							}
+				        }
+						
+						$scope.uploadsuccessInfoGraphic = function(){
+							if($scope.successCarousel.infoGraphic){
+								
+								if(typeof $scope.storyConfig === "undefined") {
+			                		   var keys = [];
+			                	   } else {
+			                		   var keys = Object.keys($scope.storyConfig);
+			                	   }
+			                	   if (keys.length == undefined || keys.length == 0)
+			                		   var keyIndex = 0;
+			                		else 
+			                			var keyIndex = parseInt(keys[keys.length -1]) + 1;
+			                	   if($scope.itsEdit){
+										var keyIndex = $scope.keyval;
+				                	} 
+			                	   
+ 							var file = $scope.successCarousel.infoGraphic;
+ 							var fileFormData = new FormData();
+ 							var validFormats = ['jpg','jpeg','png','gif'];
+ 							var fileName = file.name;
+ 							var ext = fileName.split('.').pop();
+ 				            var size = file.size;
+ 				           $scope.successInfoFileName = fileName;
+ 				            
+ 				           
+ 				            if(validFormats.indexOf(ext) == -1){
+ 				            	$scope.error = true;
+ 				            }else{
+ 				            	$scope.error = false;
+ 				            
+	 							fileFormData.append('file', file);
+	
+	 							var uploadUrl = "/site/api-manual/Solution/globalImages/success_carousel_ig_" + keyIndex;
+	 							var promise = fileUploadService.uploadFileToUrl(
+	 									file, uploadUrl);
+	
+	 							promise
+	 									.then(
+	 											function(response) {
+	 												//$scope.getLogoImages();
+	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+	                                               //$anchorScroll();
+	                                               $scope.msg = "Updated successfully.";
+	                                               $scope.icon = '';
+	                                               $scope.styleclass = 'c-success';
+	                                               $scope.showAlertMessage = true;
+	                                               $timeout(function() {
+	                                                   $scope.showAlertMessage = false;
+	                                               }, 5000);
+	                                               
+	 												//alert("Updated successfully.");
+	 											},
+	 											function() {
+	 												$scope.serverResponse = 'An error has occurred';
+	 											})
+	 				            }
+							}
+				        }
+						
+						
+
+	                    $scope.editStorySlide = function (key, val){
+	                 	   $scope.itsEdit = true;
+	                 	   $scope.successCarousel = val;
+	                 	   $scope.successBGFileName = val['bgImageUrl'];
+	                 	   $scope.successInfoFileName = val['InfoImageUrl'];
+	                 	   
+	                 	   $scope.event_Text_Aling = val['textAling'];
+	                 	   $scope.event_Info_Aling = val['infoImageAling'];
+	                 	   $scope.keyval = key;
+	                 	   $scope.showStorySlidesPopup();
+	                    }
+	                    
+	                    
+	                    $scope.deleteStorySlide = function (key){
+	                 	   delete $scope.storyConfig[key];
+	                 	   
+	                 	   var carouselConfigStr = JSON.stringify($scope.storyConfig);
+	 						var convertedString = carouselConfigStr.replace(/"/g, '\"');
+	 						
+	 						var reqObj = {
+	 			                          "request_body": {
+	 			                              "configKey": "story_carousel",
+	 			                              "configValue":convertedString,
+	 			                              "userId": userId
+	 			                            }
+	 		                            };
+	                 	   apiService.updateSiteConfig("story_carousel", reqObj)
+	 	                    .then(
+	 	                            function(response) {
+	 	                            	$scope.getStoryCarousel();
+	 	                            	$scope.msg = "Carousel Updated successfully.";
+	                                    $scope.icon = '';
+	                                    $scope.styleclass = 'c-success';
+	                                    $scope.showAlertMessage = true;
+	                                    $timeout(function() {
+	                                        $scope.showAlertMessage = false;
+	                                    }, 5000);
+	 	                            });
+	                    }
+	                    
+	                    $scope.storyCheckedList = [];
+	                    $scope.toggleStoryCheckedList = function (key){
+	                 	   
+	                 	   var index = $scope.storyCheckedList.indexOf(key);
+	                 	   if(index == -1){
+	                 		    $scope.storyCheckedList.push(key);
+	                 	   } else {
+	                 		   $scope.storyCheckedList.splice(index, 1);
+	                 	   }
+	                    }
+	                    
+	                    $scope.changeStorySlides = function (){
+	                 	   for (var i=0; i<$scope.storyCheckedList.length; i++){
+	                 		   $scope.storyConfig[$scope.storyCheckedList[i]]['slideEnabled'] = $scope.changeStoryAction;
+	                 	   }
+	                 	   var carouselConfigStr = JSON.stringify($scope.storyConfig);
+	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
+	                 	   
+	                 	   var reqObj = {
+	 		                          "request_body": {
+	 		                              "configKey": "story_carousel",
+	 		                              "configValue":convertedString,
+	 		                              "userId": userId
+	 		                            }
+	 	                            };
+	          	   apiService.updateSiteConfig("story_carousel", reqObj)
+	                  .then(
+	                          function(response) {
+	                          	$scope.getStoryCarousel();
+	                          	$scope.msg = "Carousel Updated successfully.";
+	                             $scope.icon = '';
+	                             $scope.styleclass = 'c-success';
+	                             $scope.changeStoryAction = "Enable/Disable Slides";
+	                             $scope.showAlertMessage = true;
+	                             $timeout(function() {
+	                                 $scope.showAlertMessage = false;
+	                             }, 5000);
+	                          });
+	                 	   
+	                    }
+	                    
+	                    $scope.disableStoryCarousel = function() {
+	                    	 var carouselConfigStr = JSON.stringify($scope.storyConfig);
+		 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
+		                 	   
+		                 	   var reqObj = {
+		 		                          "request_body": {
+		 		                              "configKey": "story_carousel",
+		 		                              "configValue":convertedString,
+		 		                              "userId": userId
+		 		                            }
+		 	                            };
+		          	   apiService.updateSiteConfig("story_carousel", reqObj)
+		                  .then(
+		                          function(response) {
+		                          	$scope.getStoryCarousel();
+		                          	$scope.msg = "Carousel Updated successfully.";
+		                             $scope.icon = '';
+		                             $scope.styleclass = 'c-success';
+		                             $scope.changeEventAction = "Enable/Disable Slides";
+		                             $scope.showAlertMessage = true;
+		                             $timeout(function() {
+		                                 $scope.showAlertMessage = false;
+		                             }, 5000);
+		                          });
+	                    }
 		}
 })
 		.service('fileUploadService', function($http, $q) {

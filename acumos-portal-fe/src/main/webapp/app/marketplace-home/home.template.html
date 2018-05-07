@@ -323,8 +323,8 @@ limitations under the License.
 			
 			
 			<!-- hackathon -->
-			<div class="hackathon">
-				<div class="hackathon-container">
+			<div class="hackathon" ng-if="eventConfig.enabled == true">
+				<!-- <div class="hackathon-container">
 					<div class="hackathon-image">
 					 <img src="images/hacathon_graphics.png" alt="Hackathon" title="Hackathon"/>			
 					</div>
@@ -332,7 +332,42 @@ limitations under the License.
 						<h3>Hackathon</h3>
 						<p>An {{$root.siteInstanceName}} Hackathon is coming soon!  Meet new colleagues and expand your {{$root.siteInstanceName}} skills.</p>						
 					</div>
-				</div>
+				</div> -->
+				
+				
+<ui-carousel 
+  					slides="event.slides"
+  					autoplay="true"
+  					slides-to-show="1"
+  				    slides-to-scroll="1"
+  				   	dots="true"
+  				   	active="false"
+  				   	autoplay-speed="8000"
+  				   	on-before-change="onCarouselBeforeChange()">
+  				   	<carousel-item>
+ 					<div  ng-bind-html = "item | to_trusted" compile = "item" ></div>
+ 					</carousel-item>
+ 					<carousel-prev>
+    
+   <span>
+    	<i class="material-icons" alt="Previous" title="Previous">chevron_left</i>
+    	
+    </span>
+   
+  </carousel-prev>
+ 
+  <carousel-next>
+   
+    <span>
+    	<i class="material-icons" alt="Next" title="Next">chevron_right</i>
+    </span>
+    
+  </carousel-next>
+ 					</ui-carousel> 
+				
+				
+				
+				
 			</div>
 			<div class="clearfix"></div>
 			<!-- sucess -->
