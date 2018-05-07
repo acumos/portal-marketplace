@@ -175,7 +175,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mp-header-btn-container {display:flex; }
 .Acu-mobile-sidebar {display: none;}
 .top-menu .icon-header {display:none;}
-.top-menu .mdl-navigation__link .headertxtspan {color: #fff;}
+.top-menu .mdl-navigation__link .headertxtspan {color: #fff;margin-left: 0;}
 .top-menu .mdl-navigation__link.active .headertxtspan {color: #ffcc00;}
 .acu-header-search-btn {display:none;}
 /*********** header style end  ************/
@@ -336,7 +336,7 @@ md-dialog .md-dialog-content {padding: 20px;}
 .md-grid-list.mpgridlist md-grid-tile md-grid-tile-header {height: auto;}
 
 .mp-grid-list {display: block; clear:both;}
-.mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 20px 0; border-bottom: 1px dashed #EFEFEF;}
+.mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 20px 0; border-bottom: 1px dashed #d5d5d5;}
 .mp-grid-list-row:last-child { border-bottom: none; padding-top:10px;}
 .mp-grid-list-image-cell { width: 200px;position:relative; margin-right: 30px;max-height: 200px;}
 .mp-grid-list-details-cell {}
@@ -1467,7 +1467,7 @@ header.header-without-login .mdl-layout__header-row {padding:0;align-items:stret
 .a-logo-container.logo-without-login {background-position: -40px center;}
 .logo-without-login .accumos-header-logo img { margin-left:0;}
 .terms-condition {display: block; padding: 20px;}
-.downloadlbl1 {display: block; max-width: 200px; text-overflow:ellipsis; float: left; overflow: hidden;}
+.downloadlbl1 {display: block; max-width: 200px; text-overflow:ellipsis; float: left; overflow: hidden; white-space: nowrap;}
 .downloadlbl2 {clear: both; display: block; width: 100%;}
 .text-green {color: #009900;}
 .text-red {color: #ff0000;}
@@ -2356,7 +2356,11 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 /* IE10+ */
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {     
    .cg-dialog-sign_up {overflow:hidden;}
-	#btn_header {top: -4px;}   
+	#btn_header {top: -4px;}
+	.header-controls .search-button {top: 10px;} 
+    .header-ddl > .material-icons.mdl-badge {top: 4px;}
+    .admin-button-row1 > div:last-child {display: flex;align-items:center;}
+    .fed-container1 {padding-top:0;}   
 }
 
 /* Chrome 29+ */

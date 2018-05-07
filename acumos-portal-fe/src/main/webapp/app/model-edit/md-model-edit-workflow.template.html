@@ -538,7 +538,7 @@ limitations under the License.
                                                                   <label class="mdl-textfield__label" for="Message">Message
                                                                         (optional) </label>
                                                             </div> -->
-										<div class="mdl-cell pull-right text-right">
+										<div>
 											<!-- <button ng-click="shareWithTeam(asyncSelected)"
                                                                         ng-disabled="!asyncSelected"
                                                                         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary ">
@@ -3515,7 +3515,7 @@ limitations under the License.
 												</md-input-container>
 											</div>
                                          </div>
-                                         <div layout="row" class="pull-right" ng-hide='checkboxExport!="microsoft"'>
+                                         <div layout="row"  ng-hide='checkboxExport!="microsoft"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 												ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
@@ -3605,13 +3605,13 @@ limitations under the License.
                                                  </md-input-container>
                                               </form>
 										</div>
-										<div layout="row" class="pull-right" ng-hide='checkboxExport!="ripple"'>
+										<div layout="row" ng-hide='checkboxExport!="ripple"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 												ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
 											Deploy </md-button>
 										</div>
-										<div layout="row" class="pull-right" ng-show='checkboxExport=="microsoft"'>
+										<div layout="row" ng-show='checkboxExport=="microsoft"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 												ng-click="deployCloudVal()"  alt="Data Broker" title="Data Broker"
