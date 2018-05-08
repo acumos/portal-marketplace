@@ -18,7 +18,7 @@ limitations under the License.
 ===============LICENSE_END=========================================================
 */
 
-app	
+angular.module('myModal',[])	
 		.component(
 				'signUp',
 				{
