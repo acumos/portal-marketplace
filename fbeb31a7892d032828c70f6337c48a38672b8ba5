@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8bbcc62_32cfde85",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/header-nav.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-08T13:49:36Z",
+      "side": 1,
+      "message": "Many files changing from \"app.component\" to \"angular.module\" would you please extend the commit message documenting why this is necessary?",
+      "revId": "fbeb31a7892d032828c70f6337c48a38672b8ba5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
