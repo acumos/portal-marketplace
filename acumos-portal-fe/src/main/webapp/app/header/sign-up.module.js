@@ -20,11 +20,5 @@ limitations under the License.
 
 'use strict';
 
-angular.module('signUp',[]).config(
-		function() {
-			
-		});
-angular.module('myModal',[]).config(
-		function() {
-			
-		});
+angular.module('signUp',[])
+angular.module('myModal',[])
