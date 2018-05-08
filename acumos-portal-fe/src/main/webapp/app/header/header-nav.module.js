@@ -20,5 +20,5 @@ limitations under the License.
 
 'use strict';
 
-angular.module('headerNav',['signInModal'])
+angular.module('headerNav',[])
  

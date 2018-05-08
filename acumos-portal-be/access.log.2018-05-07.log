@@ -1,0 +1,14 @@
+2018-05-07 17:40:43,823|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-1|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-05-07 17:40:47,220|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-1|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-05-07 17:41:57,552|CognitaONM|BruceWayne1@gmail.com|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-05-07 17:41:58,028|CognitaONM|BruceWayne1@gmail.com|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-05-07 18:12:27,755|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-05-07 18:12:28,103|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-05-07 18:16:01,271|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-4|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-05-07 18:16:01,532|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-4|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-05-07 19:28:40,694|CognitaONM|BruceWayne1@gmail.com|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-05-07 19:28:40,801|CognitaONM|BruceWayne1@gmail.com|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-05-07 19:29:01,517|CognitaONM|BruceWayne1@gmail.com|http-nio-127.0.0.1-8083-exec-7|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-05-07 19:29:01,742|CognitaONM|BruceWayne1@gmail.com|http-nio-127.0.0.1-8083-exec-7|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-05-07 19:38:09,577|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-05-07 19:38:09,777|CognitaONM|NeerajSonar1@gmail.com|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
