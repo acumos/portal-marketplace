@@ -101,7 +101,7 @@ angular
 						
 						$scope.getAverageRatings = function(){
 							$stateParams.solutionId
-							
+
 									var req = {
 
 										    method: 'GET',
@@ -111,6 +111,7 @@ angular
 									.success(function(data, status, headers,config) {
 										 
 										$scope.averageRatings = data.response_body;
+										
 										
 									}).error(function(data, status, headers, config) {
 										console.warn("Error: ",data);
@@ -169,6 +170,7 @@ angular
 												}
 												$mdDialog.hide();
 												$scope.getAllRatings();
+												$scope.getAverageRatings();
 											},
 											function(error) {
 												$mdDialog.hide();
@@ -209,6 +211,7 @@ angular
 											}
 											$mdDialog.hide();
 											$scope.getSolutionratings();
+											$scope.getAverageRatings();
 											
 										},
 										function(error) {
