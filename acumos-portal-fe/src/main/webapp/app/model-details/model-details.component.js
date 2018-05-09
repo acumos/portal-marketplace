@@ -1210,8 +1210,6 @@ angular
 									&& $scope.artifactType == 'DI') {
 								imageTagUri = $scope.artifactUri;
 							}
-							console.log($scope.brokerURL + $scope.positionM1 + $scope.positionM2 + $scope.positionM3 + $scope.positionM4);
-							console.log($scope.fieldM1 + $scope.fieldM2 + $scope.fieldM3 + $scope.fieldM4);
 							if($scope.solution.tookitType != "CP") {
                                 var reqObject = '';
                                 if($scope.exportTo == 'microsoft'){
@@ -1226,7 +1224,8 @@ angular
                                                         'storageAccount': $scope.storageAccount,
                                                         'subscriptionKey':  $scope.subscriptionKey,
                                                         'tenant': $scope.tenantId,
-                                                        'imagetag': imageTagUri
+                                                        'imagetag': imageTagUri,
+                                                        'userId':  $scope.loginUserID
                                       }
                                 }
                                 else if($scope.exportTo == 'ripple'){
@@ -1235,7 +1234,8 @@ angular
                           'vmName': $scope.vmName,
                           'solutionId': $scope.solution.solutionId,
                           'solutionRevisionId': $scope.revisionId,
-                          'imagetag': imageTagUri
+                          'imagetag': imageTagUri,
+                          'userId':  $scope.loginUserID
                                       }
                                 }
                                 $http({
@@ -1274,6 +1274,7 @@ angular
                                                         'storageAccount': $scope.storageAccount,
                                                         'subscriptionKey':  $scope.subscriptionKey,
                                                         'tenant': $scope.tenantId,
+                                                        'userId':  $scope.loginUserID
                                       }
                                 }
                                 else if($scope.exportTo == 'ripple'){
@@ -1282,7 +1283,8 @@ angular
                           'vmName': $scope.vmName,
                           'solutionId': $scope.solution.solutionId,
                           'solutionRevisionId': $scope.revisionId,
-                          'imagetag': imageTagUri
+                          'imagetag': imageTagUri,
+                          'userId':  $scope.loginUserID
                                       }
                                 }
                                 $http({
@@ -1307,9 +1309,6 @@ angular
                                 });
                           }
 						}
-						
-						
-						
 						
 						//Default values
 						$scope.positionM1 = "mime_type";$scope.positionM3 = "image_binary";$scope.positionM2 = 1;$scope.positionM4 = 2;
