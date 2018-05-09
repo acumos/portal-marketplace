@@ -20,6 +20,14 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.17, 9th May 2018
+-============================
+* Downloading parts of a model changes name (ACUMOS-589)
+* IST: Star (Ratings) is editable on the model detail screen (ACUMOS-704)
+* IST: Model Details : Document: For any type of document Microsoft word icon is displaying (ACUMOS-604)
+* Need to provide a custom hyper link from a Button in Top Carousel (ACUMOS-824)
+* Success/ Failure message is not displaying on the UI after VM created or timeout (ACUMOS-676
+
 Version 1.15.16 4th May 2018
 ============================
 * All exposed APIs must be authenticated (ACUMOS-740)
