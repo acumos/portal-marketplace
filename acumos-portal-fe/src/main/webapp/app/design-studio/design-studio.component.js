@@ -16,10 +16,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ===============LICENSE_END=========================================================
-*/ 
+*/
 
 'use strict';
-
 angular
     .module('designStudio',['ui.bootstrap'])
     .component(
@@ -43,15 +42,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 		$('#upload').removeClass('disp');
 		$('upload').addClass('disp-active');
 	} 
-		
-	$scope.checkProbe = function(){
-		alert("Probe has been checked in");
-	}
 	$scope.checkboxDisable = true;
 	$scope.activeInactivedeploy = true;
-    $scope.userDetails = JSON.parse(localStorage
-                                    .getItem("userDetail"));
-    if($scope.userDetails == null){alert("Please sign in to application");$state.go('home');return;}
+    $scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+    if($scope.userDetails == null){$scope.msg = "Please sign in to application"; $scope.showpopup(); $state.go('home');return;}
     $scope.validationState = true;
     $scope.searchbox = true;
     $scope.showSearch = function(){
@@ -69,7 +63,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $scope.checkboxDisable = true; 
         }
     }
-
     enanleDisable();
 
     var pathArray = location.href.split( '/' );
@@ -80,9 +73,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var protoJsonRead = new Map();var changeNode = new Object();
     var jsonProtoNode= new Map(); var jsonProtoMap;
     var dataMaps = new Map();
+    var readScriptDetails = null;
     var extras = false;
-    //var dataBrokerOutput = new Map();
-    // document.getElementById("showHide").className = "disnone";
     var operations = []; var messages = [];
     $scope.palette = {categories: []};
     $scope.saveState = {
@@ -93,7 +85,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             opacity: 0.5
         }
     };
-
     $scope.handleDragStart = function(e){
         this.style.opacity = '0.4';
         e.dataTransfer.setData('text/plain', this.innerHTML);
@@ -103,18 +94,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         this.style.opacity = '1.0';
     };
     $scope.handleDragOver = function (e) {
-        // alert('handleDragOver');
-        e.preventDefault(); // Necessary. Allows us to drop.
+    	e.preventDefault(); // Necessary. Allows us to drop.
         e.dataTransfer.dropEffect = 'move';  // See the section
-        // on the
-        // DataTransfer
-        // object.
         return false;
     };
     $scope.handleDrop = function(e){
-
-
-        $scope.canvas = true;
+    	$scope.canvas = true;
         e.preventDefault();
         var bound = _diagram.root().node().getBoundingClientRect();
         var pos = _diagram.invertCoord([e.clientX - bound.left,
@@ -132,13 +117,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var res = type.split("(");
         var getver = res[1].split(")");
         var ver = getver[0];
-        // var type = res[0];
         ver = '('+ver+')';
         type = type.replace(ver,'');
-        //type = res[1].split('').reverse().join('');
-        console.log(type);
         var typeModel = type+'+'+getver[0];
-
         _drawGraphs.nodeCrossfilter().all().forEach(function(n) {
             var nodeType = n.type.name;
             var nodeTypeLength = nodeType.length;
@@ -147,23 +128,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 var number = n.nodeId.match(/[0-9]+$/);
                 if(!number)
                     return; // currently all ids will be type +
-                // number
-                number = number[0];
-
-                var type2 = n.nodeId.slice(0, -number.length);
+                	number = number[0];
+                	var type2 = n.nodeId.slice(0, -number.length);
                 if(type2 === type && +number > max)
                     max = +number;
             } else {
                 var nodeid = n.nodeId.split(nodeType);
                 var number = nodeid[1];
-
                 var type2 = n.nodeId.slice(0, nodeTypeLength);
                 if(type2 === type && +number > max)
                     max = +number;
             }
-
-
-
         });
         var data = {
             nodeId: type + (max+1),
@@ -171,13 +146,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         };
         data.name = data.nodeId;
         $scope.nodeName=data.name;
-        // $scope.nodeNameUI=$scope.nodeName;
         var nodeId = '',nodeVersion = '';
         $http.get(_catalog.fModelUrl(_components.get(type))).success(function(tgif) {
-        	
-            console.log("tgif :");
-            console.log(tgif);
-
             nodeId = _components.get(type).solutionId;
             nodeVersion = _components.get(type).version;
             $scope.solutionDetails=_components.get(type);
@@ -192,8 +162,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 version : nodeVersion
             });
             $http.get(url).success(function(proto){
-                console.log(proto);
-               
                 $scope.protoNode=proto;
                 var protoJson=proto;
                 jsonProtoNode.set($scope.solutionDetails.solutionName,protoJson);
@@ -206,11 +174,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             angular.forEach(tgif.services.calls, function(value, key) {
                 if(value.request.format.length !== 0){
                     check_isValid_calls = value.request.format[0].messageName;
-
                     var reqObj = value.request.format;
-
-                    // console.log(reqObj);
-                    // reqOperation.push(value.config_key);
                     var reqOperation=value.config_key;
                     requirementJson.push({
                         "name": "",
@@ -223,7 +187,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         "target": {"name": "","description": ""},
                         "target_type": "Node"}
                                         );
-                    // console.log(reqObj);
                 }
             });
             //get capabilities
@@ -244,8 +207,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     });
                 }
             });
-
-             console.log("capabiluity"+angular.toJson(capabilityJson));
             var def = {
                 "id": tgif.self.name,
                 "name": tgif.self.name,
@@ -295,14 +256,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     userId: get_userId(),
                     solutionId :  _solutionId,
                     version : nodeVersion
-                    /*
-					 * name: data.name, nodeId: data.id, nodeSolutionId : '',
-					 * nodeVersion : '', nodeSolutionId : nodeId, nodeVersion :
-					 * nodeVersion, // properties: JSON.stringify([]),
-					 * requirements: JSON.stringify(requirementJson), type :
-					 * type, capabilities: JSON.stringify(capabilityJson),
-					 * ndata: JSON.stringify(ndata)
-					 */
+                   
                 });
 
                 nodeDetails = {
@@ -319,20 +273,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
             }
             else if(_cid){
-
-                url = build_url(options.addNode, {
+            	url = build_url(options.addNode, {
                     userId: get_userId(),
                     cid: _cid
-                    /*
-					 * name: data.name, nodeId: data.id, nodeSolutionId : '',
-					 * nodeVersion : '', //nodeIdCnt.toString(), //type:
-					 * JSON.stringify({type: type}), nodeSolutionId : nodeId,
-					 * nodeVersion : nodeVersion, //properties:
-					 * JSON.stringify([]), // properties: JSON.stringify([]),
-					 * requirements: JSON.stringify(requirementJson), type :
-					 * type, capabilities: JSON.stringify(capabilityJson),
-					 * ndata: JSON.stringify(ndata)
-					 */
+                   
                 });
                 nodeDetails = {
                     'name' : data.name,
@@ -346,52 +290,32 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     'properties' : []
                 };
             }
-
-            // Json formating start
-            // Json formating end
-            // console.log(angular.toJson(nodeDetails));
             $http.post(url,nodeDetails)
                 .success(function(response) {
                     $scope.cleardis= false;
-                    // $scope.deleteDis= false;
                     nodeIdCnt++;
                     $scope.checkboxDisable = false;
-                    // console.log(_catalog.ports(data.id,
-                    // def.requirements, def.capabilities));
-                    // console.log(def.requirements);
+                    $scope.activeInactivedeploy = true;
                     _ports = _ports.concat(_catalog.ports(data.nodeId, data.modelName, def.requirements, def.capabilities, def.extras));
-
                     update_ports();
                     _drawGraphs.createNode(pos, data);
                     set_dirty(true);
                 }).error(function(response){
-                    alert("Please click on New to create a new Solution");
+                	$scope.msg = "Please click on New to create a new Solution";
+                	$scope.showpopup();
                 });
         });
     };
 
-    /*
-	 * $http.get(_catalog.fModUrl(_components.get(type))).success(function(proto){
-	 * $scope.nodeProtobuf=proto; $scope.messageName=proto.messages.messageName;
-	 * $scope.argumentList = proto.messages.argumentList;
-	 * 
-	 * angular.forEach($scope.argumentList, function(value, key) {
-	 * $scope.msgDetails=value.firstToken+' '+value.type+' '+value.name+' =
-	 * '+value.tag; });
-	 * 
-	 * });
-	 */
     function reset(){
         $scope.saveState.noSaves = true;
+        _dirty = false;
         $('#deleteHide').hide();
         $scope.cleardis = true;
     }
-    function resetValid(){
-
-    }
+    
     $scope.newSolution = function(parameter) {
-    	
-        if(_dirty && $scope.solutionName != null){$scope.CloseOrNew = 'new';$scope.showsaveConfirmationPopup(); }
+    	if(_dirty && $scope.solutionName != null){$scope.CloseOrNew = 'new';$scope.showsaveConfirmationPopup(); }
         else{
             maybe_save_solution().then(function(cat2) {
                 function new_solution(result) {
@@ -402,8 +326,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.solutionVersion = null;
                     $scope.validationState = true;
                     $scope.saveState.noSaves = true;
+                    _dirty = false;
                     $scope.checkboxDisable = true;
-                   $scope.myCheckbox = false;
+                    $scope.myCheckbox = false;
                     $scope.activeInactivedeploy = true;
                     $scope.console = null;
                     reset();
@@ -417,40 +342,24 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $('#validateActive').removeClass('enabled');
                     $('#consoleMsg').removeClass('console-successmsg');
                     $('#consoleMsg').removeClass('console-errormsg');
-                    //$('#consoleMsg').html('');
                     $scope.down = true;
-
-                    // $scope.deleteState.noDeletes = null;
                     display_solution(_solution);
                     load_catalog();
                     _solutionId = '';
-
                 }
                 var userId = get_userId(),
                     url = build_url(options.create, {userId: userId});
-                /*
-				 * if(parameter == 'new'){ $scope.titlemsg ="New Solution";
-				 * $scope.msg = "Create a new Composite Solution"; $scope.showok =
-				 * true; $scope.showpopup(); // alert("Create a new Composite
-				 * Solution");
-				 *  }
-				 */
                 $(".ds-grid-bg").css("background", "url('../images/grid.png')");
                 $scope.closeDisabledCheck = !$scope.closeDisabledCheck;
                 countComSol += 1;
                 $scope.namedisabled = false;
                 changeNode = new Object();
-                // console.log(changeNode);
                 $http.post(url)
                     .success(new_solution);
             });}
     };
     $scope.loadSolution = function(entry) {
         if(entry.toolKit === 'CP' || entry.toolKit === 'DS') {
-            /*
-			 * var url = build_url(options.read, { userId:get_userId(),
-			 * solutionId: entry.solutionId, version: entry.version });
-			 */
             var url = build_url(options.read, {
                 userId:get_userId(),
                 solutionId: entry.solutionId,
@@ -460,19 +369,29 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $http.get(url)
                 .success(function(result) {
                     console.log(result);
+                    
+                    
+                    //validflag
+                    if(result.validSolution){
+                    	$scope.activeInactivedeploy = false;
+                    	$scope.validationState = true;
+                    }else{
+                    	$scope.activeInactivedeploy = true;
+                    	$scope.validationState = false;
+                    }
+                    
                     if(result.probeIndicator == 'true'){
                     	$scope.myCheckbox = true;
                     }else{
                     	$scope.myCheckbox = false;
                     }
+                    
                     $scope.checkboxDisable = false;
                     $scope.cleardis = false;
-                    // $scope.deleteDis= false;
                     $scope.namedisabled = true;$scope.canvas = true;
                     _solutionId = entry.solutionId;
                     $scope.solutionName = result.cname;
                     $scope.solutionVersion = result.version;
-                    // $scope.storeSolutionName = result.cname;
                     _solution = result;_dirty = true;
                     _solution.nodes.forEach(function(n) {
                         if(n.ndata && n.ndata.fixed && n.ndata.px !== undefined && n.ndata.py !== undefined)
@@ -482,7 +401,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.closeDisabled = false;
                     display_solution(_solution);
                 }).error(function(result){
-                    alert("Cannot load the solution");
+                	$scope.msg = "Cannot load the solution";
+                	$scope.showpopup();
                 });
         }
     };
@@ -493,17 +413,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             return;
 	        duplicateSol = false;
         if(!$scope.solutionName) {
-            // alert("Please fill all mandatory fields");
             set_focus('input-name');
             return;
         }
         if(!$scope.solutionDescription) {
-            // alert("Please fill all mandatory fields");
             set_focus('input-description');
             return;
         }
         if(!$scope.solutionVersion) {
-            // alert("Please fill all mandatory fields");
             set_focus('input-version');
             return;
         }
@@ -515,30 +432,28 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 _dirty = false;
             });
     };
+    
     $scope.deleteSolution = function(val) {
         var url ='';
         url = build_url(options.deleteCompositeSolution, {
             userid:get_userId(),
             solutionid :val.solutionId,  // solutionid :
-            // _solutionId,
             version :  val.version,  // version :
-            // $scope.solutionVersion
         });
         $http.post(url)
             .success(function(result) {
-
-                if(result.success == "true"){
+            	if(result.success == "true"){
                     load_catalog().success(load_initial_solution);
                     $scope.msg= "Solution is deleted successfully";
                     $scope.titlemsg ="Delete Solution";
-                    // alert("Solution is deleted successfully");
+                    $scope.myCheckbox = false;
+                    $scope.checkboxDisable = true;
                     solutionPrPB();$scope.closePoup();
                     $scope.showpopup();
                     if(_solutionId == val.solutionId){
                         $scope.clearSolution();
                         $scope.solutionDetails = false;$scope.solutionDescription = '';
                         _cid = '';_solutionId = '';$scope.solutionName = '';$scope.namedisabled = false;$scope.solutionVersion = '';
-                        // code
                     }
                 }
                 else if(result.success == "false"){
@@ -548,16 +463,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.showpopup();
                 }
             });
-
-        /*
-         * if($scope.solutionName && confirm('Really delete solution "' +
-         * $scope.solutionName + '"?'))
-         * delete_solution($scope.solutionName).then(function(cat2) {
-         * load_catalog(); });
-         */
-
     };
-
 
     var qs = querystring.parse();
     var urlBase = baseURL + '/dsce/';
@@ -594,6 +500,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             return k + '=' + encodeURIComponent(params[k]);
         }).join('&');
     }
+    
     function tgif_reqcap_to_tosca(rc) {
 
         return {
@@ -615,7 +522,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function is_wildcard_type(type) {
     	if(type !== "script"){
     		return type[0].messageName === 'ANY'; // replace with correct
-													// checks on proto-json
     	} else{
     		return false;
     	}
@@ -632,8 +538,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         });
     }
 
-    // var _toolkits = [{"toolkitCode":"CP","toolkitName":"Composite
-    // Solution"},{"toolkitCode":"H2","toolkitName":"H2O"},{"toolkitCode":"RC","toolkitName":"RCloud"},{"toolkitCode":"SK","toolkitName":"Scikit-Learn"},{"toolkitCode":"TF","toolkitName":"TensorFlow"}];
     function acumos_catalog_reader(catalog) {
         var _toolKitNames = null;
         function toolKitName(code) {
@@ -668,11 +572,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             },
             fModelCategory: function(model) {
                 return model.category === 'null' ? "others" : model.category;
-                // return model.toolKit === 'null' ? null :
-                // toolKitName(model.toolKit);
             },
             fModelToolKit: function(model) {
-                // console.log("toolkit"+model.toolKit);
                 return (!model || model.toolKit === 'null') ? null : model.toolKit;
             },
             fModelUrl: function(model) {
@@ -697,7 +598,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 return type.name;
             },
             ports: function(nid, ntype, requirements, capabilities, extras) {
-            	// if(extras.length !==0){
             if(extras != undefined){
 	                return requirements.map((req,i) => ({
 	                    nodeId: nid,
@@ -745,20 +645,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                        bounds: inbounds
 	                    })));
             	}
-            }/*
-				 * , fModUrl: function(model){ return
-				 * build_url(options.protobuf, { userId:get_userId(),
-				 * solutionId: this.fModelId(model), version:
-				 * this.fModelVersion(model) }); }
-				 */
-
+            }
         };
     }
 
     var catalog_readers = {
         'acumos': acumos_catalog_reader
     };
-
 
     function set_focus(id) {
         var element = window.document.getElementById(id);
@@ -791,24 +684,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _dirty = whether;
         if(whether) {
             $scope.saveState.noSaves = false;
-            // $scope.validationState = false;
-            //$scope.deleteState.noDeletes=true;
-
-            // $scope.saveState.descStyle.opacity = 1;
             $scope.saveState.desc = message || 'solution has changes';
         } else {
             $scope.saveState.noSaves = false;
-            //$scope.validationState = false;
-            //$scope.deleteState.noDeletes=true;
-            // $scope.saveState.descStyle.opacity = 0.5;
             $scope.saveState.desc = message || 'solution is saved';
         }
     }
-
-    //
-    // CANVAS
-    //
-
+    
     function redraw_promise(diagram) {
         return new Promise(function(resolve, reject) {
             diagram.on('end', function() {
@@ -840,14 +722,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function display_solution(solution) {
         $('#deleteHide').hide();
         $scope.databroker.$invalid = false;
-        $scope.validationState = true;
-        $scope.activeInactivedeploy = true;
+        //$scope.validationState = true;
         $scope.console = null;
         $('#validateActive').removeClass('active');
         $('#validateActive').removeClass('enabled');
         $('#consoleMsg').removeClass('console-successmsg');
         $('#consoleMsg').removeClass('console-errormsg');
-        //$('#consoleMsg').html('');
         $scope.down = true;
         var script = [];
         
@@ -860,12 +740,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         console.log(nodes);
         var i=0;
         nodes.forEach(function(n) {
-            // console.log(n);
         	script = [];
             var lastChar = n.nodeId.slice(-1);
             var res = n.nodeId.split(lastChar);
-          // var properties = n.
-//            if(n.properties.length > 0 || n.type.name == "DataBroker"){
             if(n.type.name == "DataBroker"){
             	script = ["script"];
             }
@@ -876,14 +753,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 version : n.nodeVersion
             });
             $http.get(url).success(function(proto){
-                console.log(proto);
-                // $scope.protoNode=proto;
-
                 protoJsonRead.set(res[0],proto);
-                console.log(protoJsonRead);
-            });
-            
-            
+             });
         });
 
         var node_flat = dc_graph.flat_group.make(nodes, function(d) { return d.nodeId; }),
@@ -902,7 +773,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             _rendered = true;
         } else _diagram.redraw();
         
-        
         edges.forEach(function(e){
             var srcPort = _diagram.getPort(e.sourceNodeId, null, e.sourceNodeRequirement),
                 tarPort = _diagram.getPort(e.targetNodeId, null, e.targetNodeCapability);
@@ -920,11 +790,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
             
         });
-        console.log(_ports);
-        _ports.forEach(function(p){
-        	var tarPort = _diagram.getPort(p.nodeId, null, p.portname);
-        	console.log(tarPort);
-        });
         $scope.userImage ='';
         nodes.forEach(function(n){
             if(n.type.name === "DataMapper"){
@@ -940,11 +805,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 dataMaps.set(n.nodeId, DM);
             }
             
-            // need to check the if condition to satisfy the databroker
             if(n.type.name === "DataBroker"){
+            	$scope.uploadFileRequired = false;
             	$scope.nodeIdDB = n.nodeId;
             	angular.forEach(n.properties, function(value, key){
             		if(value.data_broker_map != null){
+            			
             			$scope.scriptText = value.data_broker_map.script;
             			$scope.dbType = value.data_broker_map.data_broker_type;
             			$scope.fileUrl = value.data_broker_map.target_system_url;
@@ -956,6 +822,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             			if($scope.dbType == 'csv'){
             				$scope.dataShow = $scope.readSourceTable;
             			}
+            			readScriptDetails = {'dbtype':value.data_broker_map.data_broker_type,'targeturl':value.data_broker_map.target_system_url,'script':value.data_broker_map.script,'firstrow':value.data_broker_map.first_row,'localfile':value.data_broker_map.local_system_data_file_path};
             			$scope.checkedRead = true;
             			$scope.uncheckedRead = false;
             			$scope.readSolution = true;
@@ -998,15 +865,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             var url = build_url(options.save, args);
             return $http.post(url).success(function(result) {
                 // result.duplicate = 'duplicate';
-                if(result.errorCode){alert("Solution not saved");}
-                else if(result.duplicate){alert(result.duplicate); duplicateSol = true;}
+                if(result.errorCode){$scope.msg= "Solution not saved"; $scope.showpopup();}
+                else if(result.duplicate){$scope.msg = result.duplicate; duplicateSol = true; $scope.showpopup();}
                 else if(result.alert){
                     set_dirty(false, 'saved at ' + d3.time.format('%X')(new Date()));
-                    /*
-					 * if(confirm(result.alert +'?')){ $scope.updateOldSol =
-					 * true; $scope.solutionNameSave = name;
-					 * save_solution(name); $scope.updateOldSol = false; }
-					 */
                     solutionNameSave = name;
                     updateOldSol = true;
                     $scope.myDialogOldVersionSave();
@@ -1017,22 +879,19 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     updateOldSol = false;
                     $scope.msg = "Solution saved successfully";
                     $scope.validationState = false;
-                    //    $scope.saveState.noSaves = true;
                     $('#validateActive').removeClass('active');
                     $('#validateActive').addClass('enabled');
                     $scope.showpopup();
-
                     solutionPrPB();
-                    // set_dirty(true, 'saved at ' + d3.time.format('%X')(new
-					// Date()));
                     $scope.saveState.noSaves = true;
+                    _dirty = false;
                     _solutionId = result.solutionId;
                     $scope.solutionIdvalidate = result.solutionId;
                 }
-                // alert(JSON.stringify(result))
             });
         });
     }
+    
     $scope.validateCompSolu = function(){
         var args = {
             userId: get_userId(),
@@ -1082,23 +941,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         return save_solution(_catalog, name);    // this needs to be
         // checked
     }
-    function delete_solution(name) {
-        // not implemented
-    }
-
-    //
-    // PROPERTIES PANE
-    //
-
+    
     function print_value(v) {
         if(!v || ['string','number','boolean'].indexOf(typeof v) !== -1)
             return v.toString();
         else
             return JSON.stringify(v);
     }
+    
     function display_properties(url) {
-
-        /* $scope.showIcon=[]; */
         $scope.initIndex=false;
         $scope.setAction = function(index){
             if(index==$scope.selectedIndex){
@@ -1108,10 +959,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.initIndex=true;
 
             }
-
-            /*
-			 * $scope.initIndex=!$scope.initIndex; $scope.selectedIndex=index;
-			 */
         };
 
         $scope.listNavs=[];
@@ -1130,10 +977,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.navsKeys=keys;
             });
         }
-        /*
-         * else { content.style('visibility', 'hidden'); }
-         */
     }
+    
     function display_data_mapper(nodeId, wilds) {
         console.log(wilds);
         if(wilds.length !== 2) {
@@ -1330,10 +1175,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 dataMaps.get(nodeId).set(source.value.tag, target.value.tag);
                 // call API to modify node accordingly
                 var params, rnodeDetails, lnodeDetails, url;
-                // console.log(edge);
-                /*
-				 * console.log(lnodes); console.log(rnodes); console.log(lport);
-				 */
 
                 for(var j=0;j<rnodes.length;j++){
                     if(rnodes[j].id === edge.targetname){
@@ -1356,14 +1197,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                               "output_field_tag_id": rnodeDetails.tag
                           }
             		};
-               /* var fieldMap = {
-                    input_field_message_name: lport.fullType[0].messageName,
-                    input_field_tag_id: lnodeDetails.tag,
-                    map_action: "add",
-                    output_field_message_name: rport.fullType[0].messageName,
-                    output_field_tag_id: rnodeDetails.tag
-                };*/
-                /*console.log(fieldMap);*/
+              
                 if(_solutionId){
                     params = {
                         userid: get_userId(),
@@ -1379,21 +1213,19 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     };
                 }
                 console.log(params);
-                /*var dataConnector = {"fieldMap": fieldMap};*/
+                
                 url = build_url(options.modifyNode, params);
-                /*return $http.post(url,angular.toJson(fieldMap))*/
+               
                 return $http.post(url,dataConnector)
                     .then(function(response){
                         $scope.saveState.noSaves = false;
+                        $scope.validationState = true;
+                        $scope.activeInactivedeploy = true;
                         _dirty = true;
-                        //console.log(Promise.resolve(edge));
+                       
                         return Promise.resolve(edge);
                     });
-                //return Promise.resolve(edge);
-
-
-                // // return $http promise instead
-            });
+                });
 
         mapper.child('draw-graphs', drawGraphs);
 
@@ -1420,27 +1252,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
                     edgeDetails = mapper.getWholeEdge(eid);
                     dataMaps.get(nodeId).delete(edgeDetails.source.orig.value.tag);
-                    /*
-					 * for(var j=0;j<rnodes.length;j++){ if(rnodes[j].id ===
-					 * edgeDetails.target.orig.key){ rnodeDetails = rnodes[j]; } }
-					 * for(var i=0;i<lnodes.length;i++){ if(lnodes[i].id ===
-					 * edgeDetails.source.orig.key){ lnodeDetails = lnodes[i]; } }
-					 * var fieldMap = { input_field_message_name:
-					 * lport.fullType[0].messageName, input_field_tag_id:
-					 * lnodeDetails.tag, map_action: "delete",
-					 * output_field_message_name: "", output_field_tag_id: "" };
-					 * console.log(fieldMap); if(_solutionId){ params = {
-					 * userid: get_userId(), solutionId: _solutionId, version:
-					 * $scope.solutionVersion, nodeid: lport.nodeId }; } else
-					 * if(_cid){ params = { userid: get_userId(), cid: _cid,
-					 * nodeid: lport.nodeId }; } console.log(params); url =
-					 * build_url(options.modifyNode, params); console.log(url);
-					 */
-                    /* return $http.post(url,angular.toJson(fieldMap)); */
+                    
                 });
                 return Promise.all(promises)
                     .then(function(responses){
                         $scope.saveState.noSaves = false;
+                        $scope.validationState = true;
+                        $scope.activeInactivedeploy = true;
+                        _dirty = true;
                         return Promise.resolve(edges);
                     });
             });
@@ -1452,15 +1271,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             delete_edges: delete_edges
         });
         drawGraphs.conduct(oppositeMatcher);
-
-
         mapper.render();
     }
+    
     $scope.getProperties=function(solutionHover){
-
-
-        // var typeHover =
-        // _diagram.getNode(solutionHover).value.type;
         var compsHover = _catalog.models().filter(function(comp) {
             return _catalog.fModelName(comp) === solutionHover;
         });
@@ -1471,11 +1285,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.showProperties=null;
         $scope.showLink=null;
         if(compsHover[0].toolKit != 'CP'){
-            // $scope.solutionDetails=compsHover[0];
-            if(compsHover.length === 1)
+           if(compsHover.length === 1)
                 display_properties(_catalog.fModelUrl(compsHover[0]));
         } else
-            // $scope.solutionDetails=null;
             $scope.packageName=null;
     };
 
@@ -1514,7 +1326,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 p1.orig.value.type = p2.orig.value.type;
                 p1.orig.value.fullType = p2.orig.value.fullType;
             }
-            else p1.orig.value.type = p1.orig.value.fullType = null;
+            else {
+            	p1.orig.value.type = null;
+            	p1.orig.value.fullType = p1.orig.value.originalType;
+            }
         },
         is_wild: p => is_wildcard_type(p.orig.value.originalType),
         update_ports: update_ports
@@ -1560,12 +1375,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .edgeStroke('#777')
             .nodeShape(function(n){
-               /*
-				 * var lastChar = n.key.slice(-1); //var res = n.key.split("(");
-				 * var res = n.key.split(lastChar); //console.log(res[0]);
-				 * 
-				 */       
-            	
             	var res = n.key.slice(0, -1);
             	var nodeDet=_components.get(res);
                 //console.log(nodeDet);
@@ -1586,8 +1395,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 				 */
             	var res = d.key.slice(0, -1);
             	var nodeDet=_components.get(res);
-               // var nodeDet=_components.get(res[0]);
-                //var nodeDet = _components.get(d.value.type.name);
                 var nodeName = nodeDet.solutionName;
 
                 if(nodeDet.category === "DS")
@@ -1619,7 +1426,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('validate', dc_graph.validate('design canvas'));
         _diagram.child('keyboard', dc_graph.keyboard().disableFocus(true));
         _diagram.content('text-with-icon', dc_graph.with_icon_contents(dc_graph.text_contents(), 35, 35));
-
         _diagram.child('place-ports', dc_graph.place_ports());
 
         var symbolPorts = dc_graph.symbol_port_style()
@@ -1629,9 +1435,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 // colorbrewer qualitative scale
                 d3.shuffle(
                     ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#eebb22','#a65628','#f781bf'] // 8-class
-                    // set1
-                    // ['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e','#e6ab02','#a6761d','#666666']
-                    // // 8-class dark2
+                    
                 )))
             .portBackgroundFill(p => p.value.bounds === inbounds ? 'white' : 'black');
         
@@ -1671,11 +1475,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .usePorts(symbolPorts)
             .conduct(portMatcher)
             .addEdge(function(e, sport, tport) {
-
-
-
-                console.log("e======"+angular.toJson(e));
-                console.log("tport " + tport.name + " " + angular.toJson(tport.orig));
                 // reverse edge if it's going from requirement to
                 // capability
                 if(sport.orig.value.bounds === inbounds) {
@@ -1725,15 +1524,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         }
                     });
 
-
                     properties= {
                         "data_map": {
                             "map_inputs": [],
                             "map_outputs": map_json
                         }
                     };
-                    //properties = [angular.toJson(properties)];
-                    // console.log(properties);
                 }
                 else if(is_wildcard_type(tport.orig.value.originalType)){
                     var requirements = sport.node.orig.value.requirements;
@@ -1756,10 +1552,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                                     "input_fields": input_flds
                                 });
                             });
-
                         }
                     });
-
 
                     properties = {
                         "data_map": {
@@ -1767,8 +1561,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                             "map_outputs": []
                         }
                     };
-                    //properties = [angular.toJson(properties)];
-                    //console.log(angular.toJson(properties));
+                    
                 } else{
                     properties = {};
                 }
@@ -1811,6 +1604,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
                 return $http.post(url,angular.toJson(properties))
                     .then(function(response) {
+                    	$scope.activeInactivedeploy = true;
                         set_dirty(true);
                         return wildcardPorts.copyType(e, sport, tport);
                     });
@@ -1844,19 +1638,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             labelTag: 'name',
             align: 'left'
         }).changeNodeLabel(function(nodeId, text) {
-            // console.log(nodeId);
             var node = _diagram.getNode(nodeId);
-
             $scope.saveState.noSaves = false;
+            $scope.validationState = true;
+            $scope.activeInactivedeploy = true;
             _dirty = true;
-            // changeNode.set(nodeId,node.value);
-
-            // $scope.nodeNameUI = node.value.name;
             return modify_node(nodeId, text, node.value.fixedPos)
                 .then(function(response) {
-
-                    return text;
-
+                		return text;
                 });
         });
         _diagram.child('label-nodes', label_nodes);
@@ -1875,11 +1664,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             if(_solutionId){
                 url = build_url(options.modifyLink, {
                     userid: get_userId(),
-                    // cid:_cid,
                     solutionid:_solutionId,
                     linkid: edgeId,
                     linkname:text,
-                    // version : $scope.solutionVersion,
                 });
             } else {
                 url = build_url(options.modifyLink, {
@@ -1887,13 +1674,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     cid:_cid,
                     linkid: edgeId,
                     linkname:text,
-                    // version : $scope.solutionVersion,
-
                 });
             }
             return $http.post(url).then(function(response) {
                 _dirty = true;
+                $scope.activeInactivedeploy = true;
                 $scope.saveState.noSaves = false;
+                $scope.validationState = true;
+                _dirty = true;
                 return text;
             });
         });
@@ -1911,9 +1699,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var select_ports_group = dc_graph.select_things_group('select-ports-group', 'select-ports');
         select_nodes_group.on('set_changed.show-info', function(nodes) {
         	$scope.showProperties = false;
-            // console.log(nodes);
             if(nodes.length == 0){$('#deleteHide').hide();deleteShow = 0}else {$('#deleteHide').show();deleteShow = 1;};
-            // $scope.deleteState.noDeletes=true;
             setTimeout(function() {
                 if(nodes.length>1)
                     throw new Error('not expecting multiple select');
@@ -1929,8 +1715,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         return _catalog.fModelName(comp) === type;
                     });
                     $scope.solutionDetails=comps[0];
-                    // console.log(changeNode);
-                    // console.log(Object.keys(changeNode).length);
+                    
                     if(Object.keys(changeNode).length !== 0 && changeNode[nodes[0]]){
                         $scope.nodeNameUI = changeNode[nodes[0]];
                     } else{
@@ -1938,11 +1723,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     }
                     $scope.showProperties=null;
                     $scope.showLink = null;
-                    // detect if node has wildcard ports
-                   /* var wilds = _ports.filter(function(p) {
-                        return p.nodeId === nodes[0] && is_wildcard_type(p.originalType);
-                    });*/
-                    //console.log(wilds);
+                   
                     switch($scope.solutionDetails.toolKit){
                     case 'BR': 
                     	$scope.showDataBroker = true;
@@ -1981,9 +1762,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             }, 0);
         });
         select_edges_group.on('set_changed.show-info', function(edges) {
-            // $scope.deleteState.noDeletes=true;
-            /*console.log(edges);*/
-
             if(edges.length === 1) {
                 select_nodes_group.set_changed([], false);
                 select_ports_group.set_changed([], true);
@@ -1996,6 +1774,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         /*console.log(edgeType);*/
                         $scope.linkDetails = edge;
                         $scope.showDataMapper = null;
+                        $scope.showDataBroker = null;
                         $scope.solutionDetails = null;
                         $scope.showProperties = null;
                         $scope.showLink=true;
@@ -2009,20 +1788,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             else {$('#deleteHide').show();}
         });
       
-        
         select_ports_group.on('set_changed.show-info', function(ports) {
             var portType, port_info;
-            console.log(ports);
             if(ports.length>0) {
             	$scope.nodeIdDB = ports[0].node;
                 select_nodes_group.set_changed([], false);
                 select_edges_group.set_changed([], true);
                 var p = _diagram.getPort(ports[0].node, null, ports[0].name);
                 $scope.portDets = p;
-                console.log(p);
-                // console.log(p.orig.value.bounds === inbounds ?
-                // 'input' : 'output', p.orig.value.type);
-                // display matching models for port here
                 if(p.orig.value.bounds === inbounds){
                     portType = "input";
                 } else if(p.orig.value.bounds === outbounds){
@@ -2067,13 +1840,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
                     port_info = '['+ver+']';
                 } else port_info = null;
-                //var keySave = portType+'+'+port_info;
-
-                // console.log(port_info);
-                // display matching models for port here
-                /*var url = '';*/
-                console.log($scope.solutionVersion);
-/*                console.log(nodeVersion);*/
                 var url = build_url(options.getMatchingModels, {
                     userid: get_userId(),
                     solutionid: $scope.nodeSolutionDetails.solutionId,
@@ -2082,8 +1848,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     protobufJsonString: port_info
                 });
 
-                $http.get(url).success(function(data){
-                    // console.log(data);
+                $http.get(url,{cache: true}).success(function(data){
                     var i=0;
                     var matchingModels = [];
 
@@ -2118,12 +1883,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         });
 
         $scope.deleteNodeEdge=function(value){
-            // if(confirm('Do you want to delete the node/link"' +
-            // $scope.solutionName + '"?'))
             delete_nodes.deleteSelection();
             delete_edges.deleteSelection();
-            // alert("Solution is deleted successfully");
             $scope.closePoup();
+            $scope.showDataBroker = false;
+            $scope.showDataMapper = null;
+            $scope.solutionDetails = null;
+            $scope.showProperties = null;
+            $scope.showLink=null;
         };
 
         var delete_nodes = dc_graph.delete_nodes("nodeId")
@@ -2159,11 +1926,21 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     .then(function(response) {
                     	jsonProtoNode.delete($scope.removename);
                         $('#deleteHide').hide();
+                        $scope.validationState = true;
+                        $scope.activeInactivedeploy = true;
                         // after the back-end has accepted the
                         // deletion, we can remove unneeded
                         // ports
                         _ports = _ports.filter(p => p.nodeId !== nodes[0]);
                         update_ports();
+                        console.log(_ports);
+                        /*_ports.forEach(function(p){
+                        	if(p.type == "script"){
+                        		targetTableCreate();
+                        		break;
+                        	}
+                        };*/
+                        /*targetTableCreate($scope.portDets);*/
                         enanleDisable();
                         return nodes;
                     });
@@ -2202,6 +1979,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 return $http.post(url)
                     .then(function(response) {
                         $('#deleteHide').hide();
+                        $scope.activeInactivedeploy = true;
+                        $scope.validationState = true;
                         // after the back-end has accepted the
                         // deletion, we can remove unneeded
                         // ports
@@ -2212,21 +1991,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
         _diagram.child('delete-edges', delete_edges);
 
-        /*
-         * var operations =
-         * [$scope.protoNode.protobuf_json.service.listOfOperations.operatioName];
-         * var messages =
-         * [$scope.protoNode.protobuf_json.service.listOfOperations.listOfInputMessages.inputMessageName,protoNode.protobuf_json.service.listOfOperations.listOfOutputMessages.outPutMessageName]
-         * console.log(operations); console.log(messages);
-         */
-        /*
-		 * var url= build_url(options.protobuf, { userId: get_userId(),
-		 * solutionId : _solutionId, version : $scope.solutionVersion });
-		 * $http.get(url).success(function(proto){ $scope.protoNode=proto; });
-		 */
-
         function input_generate_operation(d) {
-            // console.log(jsonProto);
             operations=[]; messages=[];var i=0;var m=0;
             if(jsonProtoMap){
                 operations = d.orig.value.shortname;
@@ -2235,24 +2000,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }
 
             } else if(jsonProto){
-                /*jsonProto=jsonProto[0];*/
-
-                //console.log(jsonProto);
-
-
                 angular.forEach(jsonProto.protobuf_json.service.listOfOperations, function(value, key) {
-                    // console.log(d.orig.value.shortname);
-                    // console.log(value.operatioName);
                     if(d.orig.value.shortname === value.operationName){
                         operations = value.operationName;
                         angular.forEach(value.listOfInputMessages,function(value1,key1){
-                            // console.log(value1);
                             messages[i++] = [value1.inputMessageName];
                         });
-
                     }
-                    // console.log(operations);
-                    // console.log(messages);
                 });
             }
             var op = operations,
@@ -2271,18 +2025,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     messages[m++] = jsonProtoMap[l].messageName;
                 }
             } else if(jsonProto){
-                /*jsonProto=jsonProto[0];*/
-
-                //console.log(jsonProto);
-
                 angular.forEach(jsonProto.protobuf_json.service.listOfOperations, function(value, key) {
                     if(d.orig.value.shortname === value.operationName){
                         operations = value.operationName;
                         angular.forEach(value.listOfOutputMessages,function(value1,key1){
                             messages[i++] = [value1.outPutMessageName];
                         });
-                        // messages =
-                        // [value.listOfOutputMessages[0].outPutMessageName];
                     }
 
                 });
@@ -2295,7 +2043,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             }).join(', ') + ')';
         }
 
-
         var port_tips = dc_graph.tip()
             .delay(200)
             .clickable(true)
@@ -2306,7 +2053,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 if(is_wildcard_type(d.orig.value.originalType)){
                     jsonProtoMap = d.orig.value.fullType;
                     jsonProto = null;
-                    //console.log(jsonProtoMap);
                 } else{
                     jsonProtoMap = null;
                     angular.forEach(jsonProtoNode,function(value,key){
@@ -2349,9 +2095,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     for(var l=0;l<jsonProtoMap.length;l++){
                         if(operations+'_'+jsonProtoMap[l].messageName === id){
                             $scope.messageDet = jsonProtoMap[l].messageName;
-                            /*angular.forEach(jsonProtoMap[l].messageargumentList, function(value, key){
-                                messageJson[i++]=value.role+' '+value.type+' '+value.name+' = '+value.tag;
-                            });*/
+                           
                             angular.forEach(jsonProtoMap[l].messageargumentList, function(value1, key1) {
                             	//debugger;
                             	var c=0;var complexJson =[]; var m=0; var s=0;var complexMessage = [];var complexMessageSignature = [];
@@ -2373,12 +2117,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                             					"message" : complexSubJson
                             				});
                             				$scope.complexProtoMap.set(value2.complexType.messageName,complexSubJson);
-                            				/*
-											 * complexProtoMap.push(value2.complexType.messageName);
-											 * angular.forEach(complexProtoMap,function(val,ky){
-											 * 
-											 * });
-											 */
+                            				
                             			}
                             			var temp = value2.tag.split(".");
                     					value2.tag=temp[temp.length-1];
@@ -2389,10 +2128,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     					"message" : complexJson
                     				});
                             		$scope.complexProtoMap.set($scope.complexMessageDet,complexJson);
-//                            		complexProtoMap[i++]= [
-//                            			$scope.complexMessageDet.push(complexJson)
-//                            		];
-//                            		console.log('complexProtoMap - '+angular.toJson(complexProtoMap));
+
                             		}
                             	
                             	
@@ -2408,13 +2144,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             		var i = 0;
                     angular.forEach(jsonProto.protobuf_json.listOfMessages, function(value, key) {
                         if(operations+'_'+value.messageName === id){
-                            // console.log(id);
                             $scope.messageDet=value.messageName;
-                            
-                            // console.log(jsonProto);
-                            // console.log(value.messageargumentList);
                             angular.forEach(value.messageargumentList, function(value1, key1) {
-                            	//debugger;
                             	var c=0;var complexJson =[]; var m=0; var s=0;var complexMessage = [];var complexMessageSignature = [];
                             	if(value1.complexType){
                             		complexArray++;
@@ -2434,12 +2165,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                             					"message" : complexSubJson
                             				});
                             				$scope.complexProtoMap.set(value2.complexType.messageName,complexSubJson);
-                            				/*
-											 * complexProtoMap.push(value2.complexType.messageName);
-											 * angular.forEach(complexProtoMap,function(val,ky){
-											 * 
-											 * });
-											 */
+                            				
                             			}
                             			var temp = value2.tag.split(".");
                     					value2.tag=temp[temp.length-1];
@@ -2450,10 +2176,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     					"message" : complexJson
                     				});
                             		$scope.complexProtoMap.set($scope.complexMessageDet,complexJson);
-//                            		complexProtoMap[i++]= [
-//                            			$scope.complexMessageDet.push(complexJson)
-//                            		];
-//                            		console.log('complexProtoMap - '+angular.toJson(complexProtoMap));
+
                             		}
                             	
                             	
@@ -2469,28 +2192,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.complexProtoJson = $scope.complexProtoMap;
                 console.log(complexMapArray);
                 $scope.complexMapArrayUI=complexMapArray;
-                /* angular.forEach(data.items, function(value, key) {}); */
-               /*
-				 * var typeName = '',valueType = '';
-				 * angular.forEach(jsonProto.protobuf_json.listOfMessages[0].messageargumentList,
-				 * function(value, key) { typeName = value.messageName;
-				 * angular.forEach(value, function(value, key) { typeName =
-				 * value.messageName;
-				 * 
-				 * });
-				 * 
-				 * });
-				 */
-               // $scope.getComplexProtoJson =
-				// angular.toJson($scope.complexProtoJson[0]);
-               /*
-				 * for(var key in $scope.getComplexProtoJson) { alert("Key: " +
-				 * key + " value: " + $scope.getComplexProtoJson[key]); }
-				 */
-                /*
-				 * for(i=0; i<= $scope.complexProtoJson.length; i++){
-				 * console.log(complexProtoMap[i]); }
-				 */
                 $scope.messageUI=messageJson;
                 $scope.showDataBroker = null;
                 $scope.showDataMapper = null;
@@ -2511,12 +2212,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('port-tips', port_tips);
 
         function nodeTypeOnHover(d){
-        	/*
-			 * var nodeTypeDisp = d.orig.key; var lastChar =
-			 * nodeTypeDisp.slice(-1); nodeTypeDisp =
-			 * nodeTypeDisp.split(lastChar); var rest = nodeTypeDisp.slice(0,-1)
-			 * console.log('node==========='+ rest); return rest;
-			 */
         	 var nodeTypeDispTest = d.orig.value.name;
         	 return nodeTypeDispTest;
         }
@@ -2575,11 +2270,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.nodeNameUI = name;
         changeNode[nodeId] = name;
         $scope.saveState.noSaves = false;
+        $scope.validationState = true;
+        $scope.activeInactivedeploy = true;
         _dirty = true;
-        //console.log("console"+angular.toJson($http.post(url)));
         return $http.post(url);
-
-    }
+}
 
     $scope.showInput = false;
     $scope.toggleShowInput = function()
@@ -2693,10 +2388,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
          * else $scope.newSolution();
          */
     }
-    // Canvas height/width dynamically
-    // var widthCanvas = ($('#dsgridbg').width())-20,heightCanvas =
-    // ($('#dsgridbg').height())-20;
-    // alert(widthCanvas);alert(heightCanvas);
     initialize_canvas();
     load_catalog().success(load_initial_solution);
     $scope.newSolution('old');
@@ -2723,7 +2414,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
             $http.post(url)
                 .success(function(response) {
-                    // alert("Composite Solution is closed");
                 	$scope.showDataBroker = false;
                     $scope.showDataMapper = null;
                     $scope.solutionDetails = null;
@@ -2779,16 +2469,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.solutionDetails = null;
                 $scope.showProperties = null;
                 $scope.showLink=null;
+                $scope.showDataBroker = null;
 
                 $('#deleteHide').hide();
-                /*
-				 * var empty = {"cname": $scope.solutionName,"version":
-				 * $scope.solutionVersion,"cid": _cid,"solutionId":
-				 * _solutionId,"ctime": '',"mtime": "","nodes": [],"relations":
-				 * []}; display_solution(empty);$scope.solutionDetails = false;
-				 * _cid = '';_solutionId = '';$scope.solutionName =
-				 * '';$scope.namedisabled = false;$scope.solutionVersion = '';
-				 */
+               
 
             })
             .error(function(response){
@@ -2798,15 +2482,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
         var empty = {"cname": $scope.solutionName,"version": $scope.solutionVersion,"cid": _cid,"solutionId": _solutionId,"ctime": '',"mtime": "","nodes": [],"relations": []};
         display_solution(empty);$scope.solutionDetails = false;$scope.solutionDescription = '';
+        $scope.myCheckbox = false;
     };
 
-    // Enable/Disable close/closeAll button
-    /*
-     * $scope.$watch(function(closeDisabled) {
-     *
-     *
-     * });
-     */
     $scope.down=false;
     $scope.closeDrawer =function(){
         if(($scope.left&&$scope.right&&$scope.down) || (!$scope.left&&!$scope.right&&!$scope.down)){
@@ -2833,15 +2511,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             clickOutsideToClose: true
         });
     };
-   /* $scope.saveSolutionDialog = function(ev){
-    	$scope.solutionDescription = "";
-    	$mdDialog.show({
-    		contentElement: '#myDialog',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose: true
-    	});
-    };*/
+  
     $scope.showsaveConfirmationPopup = function(ev) {
         $mdDialog.show({
             contentElement: '#myDialogSave',
@@ -2871,11 +2541,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.closePoupscript = function(){
     	$mdDialog.hide();
-       /* $scope.dbType = '';
-        $scope.fileUrl = '';
-        $scope.scriptText = '';
-        $scope.databroker.$setPristine();
-        $scope.databroker.$setUntouched();*/
+    	if($scope.readSolution === true){
+    		$scope.dbType = readScriptDetails.dbtype;
+    		$scope.fileURL = readScriptDetails.targeturl;
+    		$scope.scriptText = readScriptDetails.script;
+    		$scope.firstRow = readScriptDetails.firstrow;
+    		if(!$scope.userImage){
+				$scope.userImageNew =value.data_broker_map.local_system_data_file_path;
+			}
+    		$scope.dataShow=$scope.readSourceTable;
+    	}
+      
     }
     $scope.closePoup = function(){
 
@@ -2960,10 +2636,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		 if(setProbeStatus == true){
     			 $scope.msg = "Probe added successfully";
     			 $scope.saveState.noSaves = false;
+    			 $scope.validationState = true;
+                 $scope.activeInactivedeploy = true;
+    			 _dirty = true;
                 $scope.showpopup();
     		 } else{
     			 $scope.msg = "Probe removed";
     			 $scope.saveState.noSaves = false;
+    			 $scope.validationState = true;
+                 $scope.activeInactivedeploy = true;
     			 _dirty = true;
                  $scope.showpopup();
     		 }
@@ -2972,7 +2653,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     
     $scope.showScript = function(ev) {
-    	
         $mdDialog.show({
             contentElement: '#myDialogScript',
             parent: angular.element(document.body),
@@ -2995,10 +2675,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	    	$scope.errormsg = '';
 	    	
 	    	//get file separator
-	    	if(uploaded.search('\r\n') != -1){
-			    var dataShow = uploaded.split('\r\n');
+	    	if(uploaded.indexOf('|') != -1){
+			    var dataShow = uploaded.split('\n');
 			    delimeter = '|';	
-	    	}else if(uploaded.search('\n') != -1){
+	    	}else if(uploaded.indexOf(',') != -1){
 			   var dataShow = uploaded.split('\n');
 			   delimeter = ',' ;
 	    	} else {
@@ -3052,25 +2732,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 		}
     	
     }
-	 // var col = dataShow[0];
-	//  var tabledata = col.split(',');
-		//$scope.dataShow = tabledata;
-    	//console.log($scope.dataShow);
-    	
-    	//$scope.closePoup();
-    	/*$scope.showProperties = false;
-    	$scope.solutionDetails = false;
-    	$scope.showSourceTable = true;*/
+	
     }
     
     $scope.saveScript = function(){
     	var scriptInput = $scope.scriptText;
-    	/*if(!$scope.scriptText) {
-            // alert("Please fill all mandatory fields");
-            set_focus('input-name');
-            return;
-        }*/
-    	// Needs to be uncommented and correct values need to be passed
     	var url;
     	$scope.localurl = '';
     	 if($scope.userImage){
@@ -3081,10 +2747,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var data = {
     			"databrokerMap": {
     			    "script": $scope.scriptText,
-    			    "csv_file_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, //check
+    			    "csv_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, //check
     			    "data_broker_type": $scope.dbType,
     			    "first_row": $scope.firstRow?$scope.firstRow:null,
-    			    "local_system_data_file_path":$scope.localurl, //need to complete
+    			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, //need to complete
     			    "target_system_url": $scope.fileUrl,
     			    "map_action": null,
     			    "map_inputs": null,
@@ -3099,9 +2765,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 solutionid:_solutionId,
                 nodeid: $scope.nodeIdDB,
                 nodename: name,
-                // version : $scope.solutionVersion,
-                // data_broker_script: $scope.scriptText
-               // dataConnector:data
+               
 
             });
         } else {
@@ -3110,9 +2774,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 cid:_cid,
                 nodeid: $scope.nodeIdDB,
                 nodename: name,
-                // version : $scope.solutionVersion,
-                // data_broker_script: $scope.scriptText
-                // dataConnector:data
+                
 
             });
         }
@@ -3124,10 +2786,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         		/*$scope.msg = "Script added successfully";*/
         		$scope.closeSavePoup();
         		$scope.saveState.noSaves = false;
+        		$scope.validationState = true;
+                $scope.activeInactivedeploy = true;
+        		_dirty = true;
         		//$scope.processData();
     			/*$scope.showpopup();*/
         	}else{
         		$scope.saveState.noSaves = true;
+        		_dirty = false;
         	}
         })
         .error(function(response){
@@ -3197,11 +2863,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		}
     		console.log($scope.portDets);
     	});
-    	/*
-		 * if($scope.selectedOutput !== null){ p.orig.value.type =
-		 * [dataBrokerOutput[$scope.selectedOutput]]; p.orig.value.fullType =
-		 * [dataBrokerOutput[$scope.selectedOutput]]; }
-		 */
+    	
     	update_ports();
     	targetTableCreate($scope.portDets);
     	dc.redrawAll();
@@ -3302,6 +2964,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var tagMap = new Map();
     $scope.mappingTag = function(index){
     	tagMap.set(index,this.mapTag);
+    	$scope.checkfield[index].selected = true;
     };
     
     $scope.mappingsSave = function(){
@@ -3435,7 +3098,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var data = {
     			"databrokerMap": {
     			    "script": null,
-    			    "csv_file_field_separator": null, //check
+    			    "csv_field_separator": null, //check
     			    "data_broker_type": null,
     			    "first_row": null,
     			    "local_system_data_file_path": null, //need to complete
@@ -3476,9 +3139,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	console.log(result);
         	if(result.success === 'true'){        		
         		$scope.saveState.noSaves = false;
+        		$scope.validationState = true;
+                $scope.activeInactivedeploy = true;
+        		_dirty = true;
         		$scope.closePoup();
         	}else{
         		$scope.saveState.noSaves = true;
+        		_dirty = false;
         	}
         })
         .error(function(response){
@@ -3487,6 +3154,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         
     }
     //$scope.showFileOption = false;
+    $scope.mapDBType = function(dbType){
+        if(dbType === "csv" || dbType === "image" || dbType === "sql"){
+               $scope.fileUrl = "file://";
+               $scope.uploadFileRequired = true;
+        }else{
+               $scope.fileUrl = "http://";
+        }
+     }
+    
+   
     $('#optionshow').hide();
     $('#myFile').change( function(event) {
 		 var filename = $("#myFile").val().split('.');

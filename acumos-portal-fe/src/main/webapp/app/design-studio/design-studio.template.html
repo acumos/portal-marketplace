@@ -48,11 +48,11 @@ limitations under the License.
 							<md-tab label="Solutions"> 
 							<div class="ds-contentsection1">
 										<md-input-container md-no-float class="md-block ds-search-input">
-										<input ng-model="myFilter" type="text"> <md-icon
-											style="display:inline-block;">
+										<input type="text" ng-model="filterPB.solutionName"> 
+										<md-icon style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
-										<span class="ds-icon icon-input-search"></span>
+										<span class="ds-icon icon-input-search"  title="Search"></span>
 									</button></md-icon> </md-input-container>
 										<button class="mdl-button mdl-js-button btn-ds-arrow">
 											<span class="ds-icon icon-up-arrow"></span>
@@ -64,31 +64,16 @@ limitations under the License.
 								<md-content class="md-padding">
 								
 									<!-- <p>Tab 2</p> -->
-									<ul class="ds-list3">
-									<li ng-repeat="val in publicCS | filter:myFilter | orderBy:'solutionName' " ng-click="loadSolution(val)"><label>{{val.solutionName}}({{val.version}})</label></li>
+									<div class="ds-section-data-inner2">
+									<ul class="ds-list3" ng-repeat="val in publicCS | filter:filterPB | orderBy:'solutionName' ">
+									<li><span ng-click="loadSolution(val)"><label>{{val.solutionName}}({{val.version}})</label></span></li>
 									</ul>
-									<!-- <div class="form-group"><label for="usr">Name:</label><input type="text" class="form-control" id="usr" ng-model="solutionName"></div>
-									<div class="form-group"><label for="usr">Description:</label><input ng-model="solutionDescription" type="text" class="form-control" id="usr" ng-model="solutionName"></div>
-									<div class="form-group"><label for="usr">Version:</label><input type="text" ng-model="solutionVersion" class="form-control" id="usr" ng-model="solutionName"></div> -->
+									</div>
 								</md-content> 
 							</md-tab>
 							<md-tab label="Models"> 
 								<md-content>
-									<!-- <div class="ds-contentsection1">
-										<md-input-container md-no-float class="md-block ds-search-input">
-										<input ng-model="myFilter" type="text"> <md-icon
-											style="display:inline-block;">
-										<button
-										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
-										<span class="ds-icon icon-input-search"></span>
-									</button></md-icon> </md-input-container>
-										<button class="mdl-button mdl-js-button btn-ds-arrow">
-											<span class="ds-icon icon-up-arrow"></span>
-										</button>
-										<button class="mdl-button mdl-js-button btn-ds-arrow">
-											<span class="ds-icon icon-down-arrow"></span>
-										</button>
-									</div> -->
+									
 									<div class="ds-contentsection2 ds-new-container1">
 									
 									<div ng-repeat="category in categoryNames">
@@ -227,7 +212,7 @@ limitations under the License.
 						<!-- <span class="btn-divider"> | </span> -->
 						<button ng-click='clearSolution()' class="mdl-button mdl-js-button text-small font-semi-bold bdr-right btn-clear-canvas normaltext-transform" ng-disabled="cleardis" title="Clear"><span class="ds-icon icon-clear-canvas"></span>Clear</button>
 						<button id="validateActive" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-validate" ng-disabled="validationState" ng-click="validateCompSolu()"  title="Validate"><span class="ds-icon icon-validate"></span>Validate</button>
-						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-save" ng-disabled='saveState.noSaves'  ng-click="showPrerenderedDialog($event)"  title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-save" ng-disabled='saveState.noSaves'  ng-click="showPrerenderedDialog()"  title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
 						<div class="">						 
 							<button type="button" id="demo-menu-lower-right4" ng-disabled="activeInactivedeploy"
 								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ds-btn1 btn-deploy" title="Deploy">
@@ -244,7 +229,7 @@ limitations under the License.
 							</ul>
 						</div> 
 						
-						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-download" title="Download"><span class="ds-icon icon-download"></span>Download</button>						
+						<!-- <button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-download" title="Download"><span class="ds-icon icon-download"></span>Download</button> -->						
 						<!-- <button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-run" disabled><span class="ds-icon icon-run-disabled"></span>Run</button> -->						
 						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist" title="Collapse Right Panel"><span class="ds-icon icon-expand-drawer"></span></button>
 						<button ng-click="closeDrawer()" class="mdl-button mdl-js-button ds-btn1 btn-fullscreen" title="Full Screen"><span class="ds-icon icon-fullscreen"></span></button>
@@ -799,7 +784,7 @@ limitations under the License.
 							<div class="md-toolbar-tools">
 								<h2>Script</h2>
 								<span flex></span>
-								<md-button class="md-icon-button" ng-click="closePoup()">
+								<md-button class="md-icon-button" ng-click="closePoupscript()">
 								<i class="material-icons">close</i> </md-button>
 							</div>
 							</md-toolbar>
@@ -810,7 +795,7 @@ limitations under the License.
 										<div class="select-control">
 										
 											<label>Data Broker Type <span class="dsreqfield">*</span></label>
-											<md-select ng-model="dbType" name="dbType" placeholder="Select Type" ng-blur="dbTypeVisited=true" ng-focus="dbTypeVisited=false" required ng-change="mapDBType()"> 
+											<md-select ng-model="dbType" name="dbType" placeholder="Select Type" ng-blur="dbTypeVisited=true" ng-focus="dbTypeVisited=false" required ng-change="mapDBType(dbType)"> 
 												<md-option value="image">Image File</md-option> 
 												<md-option value="csv">CSV File</md-option> 
 												<md-option value="json">JSON File</md-option> 
@@ -818,7 +803,7 @@ limitations under the License.
 											</md-select>
 											<div class="help-inline validation-msgs">
 												<span ng-class="{validationmsg:!databroker.dbType.$valid}"
-													ng-show="!!(databroker.dbType.$dirty && databroker.dbType.$error.required)">Please
+													ng-show="!!(databroker.dbType.$dirty && databroker.dbType.$error.required && databroker.fileUrl.$touched)">Please
 													Select Data Broker Type</span>
 											</div>
 										</div>
@@ -826,9 +811,9 @@ limitations under the License.
 									<div class="ds-db-row1-cell ds-db-row1-cell2">
 										<md-input-container class="md-block" id="fileURL">
 					
-										<label>File/JDBC URL</label> 
+										<label ng-if="dbType == 'sql'">JDBC URL <span class="dsreqfield">*</span></label>
+										<label ng-if="dbType !== 'sql'">File Path <span class="dsreqfield">*</span></label> 
 											<input type="text" ng-model="fileUrl" name="fileUrl"
-												ng-value='dbType?dbType =="sql"? "http://":"file://":""'
 												ng-required="true"
 												ng-pattern="/^[-a-zA-Z0-9@:%._\+~#=]{2,256}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/">
 											<span class="modal-note">For a single file specify the complete file path, for a directory which contains the set of files, specify the path up to the directory.</span>
@@ -851,7 +836,7 @@ limitations under the License.
 									<div class="help-inline validation-msgs"
 										ng-class="{validationmsg:!databroker.scriptText.$valid}">
 										<span
-											ng-show="!!databroker.scriptText.$error.required && databroker.scriptText.$dirty ">Please
+											ng-show="!!databroker.scriptText.$error.required && databroker.scriptText.$dirty && databroker.scriptText.$touched ">Please
 											enter script</span>
 									</div>
 									</md-input-container>
@@ -862,8 +847,9 @@ limitations under the License.
 										<label class="disblock">Upload Files <span
 											class="dsreqfield">*</span></label>
 											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
-             										accept="csv/json/image/*" file-reader="fileContent"  ng-required="(dbType == 'csv') || (dbType == 'json')"
-             										ngf-model-invalid="errorFile" />
+             										accept="csv/json/image/*" file-reader="fileContent" ng-required="{{uploadFileRequired}}" 
+             										ngf-model-invalid="errorFile"/>
+             										
              										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
              										<!-- <span  ng-bind="errormsg"></span> -->
 										<div class="help-inline validation-msgs"
@@ -1000,7 +986,7 @@ limitations under the License.
 																	 </td>
 																	 <td>
 																		<div class="select-control">																	
-																			<md-select ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
+																			<md-select ng-disabled="!checkfield" required ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
 																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
 																																		
 																				<!-- <md-option value="">Tag-1.1</md-option>
@@ -1147,28 +1133,7 @@ limitations under the License.
 																		<p ng-if='target.greatGrandParent !== ""'>[{{target.grandParentRole}}]</p></td>
 																	<td>{{target.greatGrandParent}}</td>																	
 																</tr>
-																<!-- <tr>
-																	<td>Tag-1.1</td>
-																	<td>sepal_len</td>
-																	<td>String
-																		<p>[]</p>
-																	</td>
-																	<td>DataframeRow
-																		<p>[repeated]</p></td>
-																	<td>Dataframe</td>
-																	<td>-</td>																	
-																</tr>
-																<tr>
-																	<td>Tag-1.1</td>
-																	<td>sepal_len</td>
-																	<td>String
-																		<p>[]</p>
-																	</td>
-																	<td>DataframeRow
-																		<p>[repeated]</p></td>
-																	<td>Dataframe</td>
-																	<td>-</td>																	
-																</tr> -->
+																
 															</tbody>
 														</table>
 												</div>	
@@ -1182,7 +1147,7 @@ limitations under the License.
 											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 												Cancel
 											</md-button>
-											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="!sourceTargetTable.$dirty">
+											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid && !sourceTargetTable.$dirty">
 												Done
 											</md-button>
 									    </div>
