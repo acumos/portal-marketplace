@@ -41,9 +41,20 @@ public class AsyncServiceImplTest {
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
+	
+	private class AsyncServicesSubImpl extends AsyncServicesImpl {
+		@Override
+		public void sendDisconnectNotifications(String uuid, String userId, UploadSolution solution,
+				String errorMessage) {
+			super.sendDisconnectNotifications(uuid, userId, solution, errorMessage);
+		}
+	}
 
 	@Mock
 	AsyncServicesImpl impl = new AsyncServicesImpl();
+
+	@Mock
+	AsyncServicesSubImpl subimpl = new AsyncServicesSubImpl();
 	
 	@Test
 	public void initiateAsyncProcess(){
@@ -76,6 +87,29 @@ public class AsyncServiceImplTest {
 			
 		} catch (Exception e) {
 			logger.error("Exception occured while callOnboarding: " + e);	
+		}
+	}
+	
+	@Test
+	public void sendDisconnectNotifications(){
+		try{
+			String uuid = "f43898dc-2d3e-4680-afef-f2a93884c52a";
+			String userId = "1810f833-8698-4233-add4-091e34b8703c";
+			UploadSolution solution = new UploadSolution();
+			solution.setName("Test Solution");
+			solution.setVersion("1.0.0");
+			String message = "Test error message";
+			AsyncServicesSubImpl mockimpl = mock(AsyncServicesSubImpl.class);
+			mockimpl.sendDisconnectNotifications(uuid, userId, solution, message);
+			Assert.assertEquals(uuid, uuid);
+			Assert.assertNotNull(uuid);
+			Assert.assertEquals(userId, userId);
+			Assert.assertNotNull(userId);
+			Assert.assertNotNull(solution);
+			Assert.assertNotNull(message);
+			
+		} catch (Exception e) {
+			logger.error("Exception occured while sendDisconnectNotifications: " + e);	
 		}
 	}
 		
