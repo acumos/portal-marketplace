@@ -339,7 +339,7 @@ limitations under the License.
 																		<p>{{item.supportingContent}}</p>
 																	</div>
 																</div>
-																<div class="sc-cell-childbottom" ng-hide="{{item.links.primary.address == null && item.links.secondary.address == null}}">
+																<div class="sc-cell-childbottom">
 																	<label class="sc-bottom-text1">Button Names</label>
 																	<div >
 																		<span>{{item.links.primary.label}}</span>
@@ -2544,6 +2544,10 @@ limitations under the License.
 																<div class="cancelbox">
 																	<i class="material-icons">cancel</i>
 																</div>
+																<div display="block">
+																<label>       </label> 
+																	<input type="checkbox" ng-model="carouselSlide.links.primary.enabled">
+																</div>
 																<div class="buttonlabel">
 																	<label>Button Label</label> 
 																	<input type="text" placeholder="Enter Primary name" ng-model="carouselSlide.links.primary.label">
@@ -2565,6 +2569,10 @@ limitations under the License.
 																<div class="cancelbox">
 																	<i class="material-icons">cancel</i>
 																</div>
+																<div display="block">
+																<label>       </label> 
+																	<input type="checkbox" ng-model="carouselSlide.links.secondary.enabled">
+																</div>
 																<div class="buttonlabel">
 																	<label>Button Label</label> 
 																	<input type="text" placeholder="Explore Market Place" ng-model="carouselSlide.links.secondary.label">
@@ -2577,6 +2585,32 @@ limitations under the License.
 																				<md-option value="modelerResource">On Boarding model</md-option>
 																				<md-option value="home">Marketplace</md-option>
 																			</md-select>
+																		</div>
+																	</div>
+																</div>
+																
+															</div>
+															<div class="link-button-container">
+																<div display="block">
+																<label>       </label> 
+																	<input type="checkbox" ng-model="carouselSlide.links.external.enabled">
+																</div>
+																<div class="cancelbox">
+																	<i class="material-icons">cancel</i>
+																</div>
+																<div class="buttonlabel">
+																	<label>Button Label</label> 
+																	<input type="text" placeholder="External Link" ng-model="carouselSlide.links.external.label">
+																</div>
+																<div>
+																	<div>
+																		<div class="select-control">
+																			<!-- <md-select ng-model="carouselSlide.links.secondary.address" placeholder="Select Page">
+																				<md-option value="modelerResource">On Boarding model</md-option>
+																				<md-option value="home">Marketplace</md-option>
+																			</md-select> -->
+																			<label>Link button to</label> 
+																			<input type="text" ng-model="carouselSlide.links.external.address" >
 																		</div>
 																	</div>
 																</div>

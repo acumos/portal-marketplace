@@ -1802,11 +1802,20 @@ angular.module('admin')
 						if(!angular.isUndefined($scope.carouselSlide.links.primary)){
 							links['primary']['label'] = $scope.carouselSlide.links.primary.label;
 							links['primary']['address'] = $scope.carouselSlide.links.primary.address;
+							links['primary']['enabled'] = $scope.carouselSlide.links.primary.enabled;
 						}
 						links['secondary'] = {};
 						if(!angular.isUndefined($scope.carouselSlide.links.secondary)){
 							links['secondary']['label'] = $scope.carouselSlide.links.secondary.label;
 							links['secondary']['address'] = $scope.carouselSlide.links.secondary.address;
+							links['secondary']['enabled'] = $scope.carouselSlide.links.secondary.enabled;
+						}
+						
+						links['external'] = {};
+						if(!angular.isUndefined($scope.carouselSlide.links.external)){
+							links['external']['label'] = $scope.carouselSlide.links.external.label;
+							links['external']['address'] = $scope.carouselSlide.links.external.address;
+							links['external']['enabled'] = $scope.carouselSlide.links.external.enabled;
 						}
 						
 						slide['links'] = links;

@@ -100,8 +100,8 @@ angular
 																	        '<div class="slide-text">' +
 																	            '<h4>' + value['headline'] + '</h4>' +
 																	            '<p>' + value['supportingContent']  +'</p>';
-													                             if (value['links']['enableLink']){
-													                            	 if (!angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']['address'])){
+													                             /*if (value['links']['enableLink']){*/
+													                            	 if (!angular.isUndefined(value['links']['primary']) && (value['links']['primary']['enabled']) && !angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']['address'])){
 												                                         if ((value['links']['primary']['address']).includes("modelerResource")) {
 												                                        	 if($rootScope.enableOnBoarding)
 												                                        		 bannerSt = bannerSt + '<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + value['links']['primary']['address'] + '\');" >' + value['links']['primary']['label'] + '</button>';
@@ -110,7 +110,7 @@ angular
 												                                         }
 														                             }
 											                                    
-													                            	 if (!angular.isUndefined(value['links']['secondary']) && !angular.isUndefined(value['links']['primary']['secondary'])){
+													                            	 if (!angular.isUndefined(value['links']['secondary']) && (value['links']['secondary']['enabled']) && !angular.isUndefined(value['links']['secondary']) && !angular.isUndefined(value['links']['secondary']['address'])){
 														                            	 if(value['links']['secondary']['address']) {
 													                                         if ((value['links']['secondary']['address']).includes("modelerResource")) {
 													                                    		 if($rootScope.enableOnBoarding)
@@ -121,7 +121,18 @@ angular
 												                                          }
 													                            	 }
 													                                 
-													                             }
+													                            	 
+													                            	 if (!angular.isUndefined(value['links']['external']) && (value['links']['external']['enabled']) && !angular.isUndefined(value['links']['external']) && !angular.isUndefined(value['links']['external']['address'])){
+														                            	 if(value['links']['external']['address']) {
+													                                         if ((value['links']['external']['address']).includes("modelerResource")) {
+													                                    		 if($rootScope.enableOnBoarding)
+													                                    			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" href=\"' + value['links']['external']['address'] + '" target="_blank">' + value['links']['external']['label'] + '</md-button>';
+													                                         } else {
+													                                        	 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" href=\"' + value['links']['external']['address'] + '" target="_blank">' + value['links']['external']['label'] + '</md-button>';
+													                                         }
+												                                          }
+													                            	 }
+													                             /*}*/
 	
 													                             bannerSt = bannerSt + '</div> <div class="image-container"><img src="' + infoGraphicsSrc + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
 													                             $scope.banner.slides[index] = bannerSt;
