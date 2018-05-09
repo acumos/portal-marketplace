@@ -373,6 +373,7 @@ angular.module('modelResource')
 										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
 										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
 										$scope.stepfailed = true;
+										break;
 									}else if(statusCode == 'ST'){
 										angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
 										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')

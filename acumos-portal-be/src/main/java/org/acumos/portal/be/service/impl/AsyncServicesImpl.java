@@ -28,52 +28,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
-import org.acumos.portal.be.common.JsonRequest;
-import org.acumos.portal.be.common.JsonResponse;
-import org.acumos.portal.be.common.exception.AcumosServiceException;
-import org.acumos.portal.be.controller.UserServiceController;
-import org.acumos.portal.be.service.AsyncServices;
-import org.acumos.portal.be.service.MarketPlaceCatalogService;
-import org.acumos.portal.be.service.MessagingService;
-import org.acumos.portal.be.service.NotificationService;
-import org.acumos.portal.be.service.UserService;
-import org.acumos.portal.be.transport.MLNotification;
-import org.acumos.portal.be.transport.MLSolution;
-import org.acumos.portal.be.transport.NotificationRequestObject;
-import org.acumos.portal.be.transport.UploadSolution;
-import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
-import org.acumos.portal.be.util.JsonUtils;
-import org.acumos.portal.be.util.PortalUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.maven.wagon.ConnectionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Service;
 import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
@@ -82,7 +45,37 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.nexus.client.NexusArtifactClient;
-import org.acumos.nexus.client.RepositoryLocation;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.service.AsyncServices;
+import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.MessagingService;
+import org.acumos.portal.be.service.NotificationService;
+import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.NotificationRequestObject;
+import org.acumos.portal.be.transport.UploadSolution;
+import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.JsonUtils;
+import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NoHttpResponseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.maven.wagon.ConnectionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -217,7 +210,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					}
 					String notifMsg = "Solution " + solution.getName() + " Added to Catalog Successfully";
 					notification.setMessage(notifMsg);
-					notification.setTitle(notifMsg);
+					notification.setTitle("Web Based Onboarding");
 					notificationService.generateNotification(notification, userId);
 					
 					//Send notification to user according to preference
@@ -238,7 +231,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String notifMsg = "Add To Catalog Failed for solution " + solution.getName()
 					+ ". Please restart the process again to upload the solution";
 					notification.setMessage(notifMsg);
-					notification.setTitle(notifMsg);
+					notification.setTitle("Web Based Onboarding");
 					log.info("inside callOnboarding else before generateNotification ---->>>");
 					notificationService.generateNotification(notification, userId);
 					
@@ -249,6 +242,13 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					notifyOnboardingStatus(userId, "HI", "Add To Catalog Failed for solution " + solution.getName(), notifyBody, "ONBD_FAIL");
 				}
 			}
+		// If disconnected from onboarding service, catch related exceptions here
+		} catch (ConnectException|NoHttpResponseException e) {
+			// TODO Auto-generated catch block
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution - No response ", e);
+			
+			sendDisconnectNotifications(uuid, userId, solution, e.getMessage());
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution ", e);
@@ -263,6 +263,63 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		}
 
 		return new AsyncResult<HttpResponse>(response);
+	}
+
+	private void sendDisconnectNotifications(String uuid, String userId, UploadSolution solution,
+			String errorMessage) {
+		// Send a bell notification to the user to alert of failure
+		String notifMsg = "Add To Catalog Failed for solution " + solution.getName()
+			+ ". Please restart the process again to upload the solution.";
+		MLPNotification notification = new MLPNotification();
+		notification.setMessage(notifMsg);
+		notification.setTitle("Web Based Onboarding");
+		notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+		log.info("inside callOnboarding Connect/NoHttpResponse catch before generateNotification ---->>>");
+		notificationService.generateNotification(notification, userId);
+		
+		// Update the on-screen progress tracker status to alert of failure
+		MLPStepResult stepResult = new MLPStepResult();
+		stepResult.setTrackingId(uuid);
+		stepResult.setUserId(userId);
+		stepResult.setName("CreateMicroservice");
+		stepResult.setStatusCode("FA");
+		stepResult.setStepCode("OB");
+		stepResult.setResult("Disconnected from onboarding");
+
+		// If there are existing statuses, use last status for information
+		List<MLStepResult> status = messagingService.callOnBoardingStatusList(userId, uuid);
+		if (status.size() > 0) {
+			MLStepResult lastResult = status.get(status.size()-1);
+			
+			stepResult.setStepCode(lastResult.getStepCode());
+			stepResult.setSolutionId(lastResult.getSolutionId());
+			stepResult.setRevisionId(lastResult.getRevisionId());
+			stepResult.setArtifactId(lastResult.getArtifactId());
+			
+			if (lastResult.getStatusCode().equals("SU")) {
+				switch(lastResult.getName()) {
+					case "CreateMicroservice": stepResult.setName("Dockerize"); break;
+					case "Dockerize": stepResult.setName("AddToRepository"); break;
+					case "AddToRepository": stepResult.setName("CreateTOSCA"); break;
+					case "CreateTOSCA": stepResult.setName("CreateSolution"); break;
+				}
+			} else {
+				stepResult.setName(lastResult.getName());
+			}
+		}
+		
+		messagingService.createStepResult(stepResult);
+		
+		// Email(?) a notification to the user to alert of failure
+		try {
+			//Send notification to user according to preference
+			Map<String, String> notifyBody = new HashMap<String, String>();
+			notifyBody.put("solutionName", solution.getName());
+			notifyBody.put("errorMessage", errorMessage);
+			notifyOnboardingStatus(userId, "HI", "Add To Catalog Failed for solution " + solution.getName(), notifyBody, "ONBD_FAIL");
+		} catch (Exception e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred sending notification during Onboarding catch ", e);
+		}
 	}
 	
 	private void notifyOnboardingStatus(String userId, String severity, String notifySubject, Map<String, String> notifyBody, String messageStatusType) throws AcumosServiceException {
