@@ -969,7 +969,10 @@ body {
       margin: 0 0 16px;
       line-height: 24px;
       /*word-break:break-word;*/
-     word-break: break-all;
+      word-break: break-word; word-wrap: break-word;  overflow-wrap: break-word;
+-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto;
+    /* word-break: break-all;*/  
+     
 }
 
 ul li {
@@ -1490,6 +1493,85 @@ position:relative;
     text-align: justify;
 }
 .timeline .tag-item > span{ text-align: left; float: left; word-break: break-all;}
+/* authors */
+.authors ul{padding:0;}
+.authors ul li{list-style-type:none; display:inline;}
+.authors .mdl-chip{border-radius:3px; background: #f2f2f2;  border: 1px solid #ddd; color: #333; height: 30px;}
+.authors .mdl-chip i{font-size: 17px; color: #333; opacity: 1;}
+.removeformspace{margin:0 -16px;}
+.removeformspace .mdl-grid{padding:0 8px;}
+.authors .mdl-chip.remove{background: #fff;  border: 1px solid #ff0000 ; color: #ff0000;}
+.authors .mdl-chip.remove i{color:#ff0000;}
+.authors .mdl-chip button{opacity: 1;}
+.removeformspace button{margin:0 8px;}
+.authorsimg {
+    background-image: url("../images/ico_manage_authors_inactive.png");
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+}
+.isActive .authorsimg{background-image: url("../images/ico_manage_authors_active.png");}
+
+/* authors end*/
+/* CURRENT DOCUMENTS  */
+.managelefticon-single i.man-documentimg{background-image:url("../images/ico_manage_documents_inactive.png"); background-repeat:no-repeat; margin-top:5px; width:18px; height:21px; display:inline-block;}
+.isActive .managelefticon-single i.man-documentimg{background-image:url("../images/ico_manage_documents_active.png"); margin-top:5px;  } 
+.manage-document .current-cocument{margin-top:20px;}
+.add-document-browse .add-document-browse-left{width:50%; float: left;}
+.add-document-browse-left .browse-field{width:calc(100% - 70px); float:left;}
+.add-document-browse-left .browse-field ~ div button{button:0;}
+.add-document-browse-left .browse-field ~ div button {bottom: 4px; height: 33px; padding: 0 8px; font-weight: normal;
+    margin-left: 5px; border-color: rgba(0,0,0,.12); border-radius: 0px;}
+ .anotheropthion {float: left; margin:5px 15px 0;}
+  .anotheropthion div{    display: inline-block;  width: 34px;  height: 34px; background: #f1f1f1;    border-radius: 50%;
+    border: 2px solid #671C9D;   text-align: center;    color: #671C9D; font-size: 13px; float: left;  line-height: 29px;}
+ .mdl-button.attachbtn{margin-top:5px; color: #671C9D; border-color:#671C9D; bottom:4px; height: 34px; border-radius: 0; }
+ .response md-checkbox{margin-bottom:0px;}
+ .response md-checkbox .md-icon{border-radius: 1px; border-width: 1px; width: 14px;    height: 14px;}
+ .response md-checkbox .md-container{width:14px; height:14px;}
+ .response md-checkbox.md-checked .md-icon:after{left: 3px; height:8px;}
+ .response md-checkbox.md-default-theme:not([disabled]).md-primary.md-checked .md-icon, md-checkbox:not([disabled]).md-primary.md-checked .md-icon{background-color: #671C9D;}
+/* model documents popovers*/
+.dashed-buttons{color: #671C9D;border: 1px solid #671C9D;background-color: white;border-style: dashed;text-transform: none;}
+.text-between-buttons{margin : 7px 20px 0px; color: #671C9D;}
+.checkBox-bottomMargin{margin-right: 12px;margin-bottom: 10px;}
+.heightScroll{max-height: 150px;overflow-y: auto;}
+.nestedpopover-padding{padding: 0px !important;}
+.nestedpopover-margin{margin-top:0px;}
+.nested-popups{width: 444px; margin:12px auto; border-radius: 4px;background-color: rgb(255,255,255);color: rgba(0,0,0,0.87); position:relative; border: 1px solid #CCC;}
+.nested-popups-cloud-modalfooter{display:flex; flex-wrap: nowrap; justify-content:space-between; padding:15px 24px; background-color:#F1F1F1; border-top:1px solid #CCC; margin-top:10px; border-radius: 0px 0px 4px 4px;}
+.nested-popups md-toolbar{border-radius: 4px 4px 0px 0px;}
+.nested-popups::before{content: "";width: 0;    height: 0;    border-left: 7px solid transparent;    border-right: 7px solid transparent;    border-bottom: 12px solid rgba(222, 220, 220, 0.87); position: absolute;z-index: 1000;top: -1%;    margin-top: -11px;    position: absolute;    left: 20px;}
+.nested-popups .mdl-grid.mdl-grid--no-spacing {padding:8px 0px 0px 14px;}
+.nested-popups .deploy-grid > div:first-child {padding-right: 15px;}
+.nested-popups .deploy-grid > div:last-child {padding-left: 15px;}
+.nested-popups .midcontent{max-height:400px; overflow-y:auto;}
+.popover-background{background: rgba(245, 245, 245, 0.87) !important;min-height:39px;}
+.nestedpopover-font{color:black!important;font-size: 14px;}
+.nestedpopover-checkBox{color:#671c9d;}
+.nested-popupsLink{width: 444px;margin:12px auto; border-radius: 4px;background-color: rgb(255,255,255);color: rgba(0,0,0,0.87); position:relative; border: 1px solid #CCC;}
+.nested-popupsLink .mdl-grid.mdl-grid--no-spacing {padding:8px 0px 0px 14px;}
+.nested-popupsLink::before{content: "";width: 0;    height: 0;    border-left: 7px solid transparent;    border-right: 7px solid transparent;    border-bottom: 12px solid rgba(222, 220, 220, 0.87);    position: absolute;    z-index: 1000;top: -1%;    margin-top: -11px;    position: absolute;    right: 54px;}
+.checkBox-margin{margin-bottom:10px;}
+.normal-fontWeight{font-weight: normal;}
+.bottom-line{border-bottom: 1px solid #CCC} 
+.selected-link-file{height:30px;width: 100%; border: 1px solid #CCC;border-radius: 3px;margin: 10px 0px 0px 0px;font-weight: normal;padding:3px 3px 3px 10px;}
+.selected-margins{margin:0px 18px 10px}
+.closeButton{float: right; margin: -8px -5px 0px 0px !important;}
+.closeButtonSize{font-size:20px; color:black;}
+.fontColor{color:#0000FF;}
+.largeLink{width: 81%;float: left;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;};
+/* model documents popovers end*/
+/* editor changes*/
+.company-market .ql-editor ul{display:block;}
+.company-market .ql-editor ul li, .hasClass .company-market .ql-editor ul li{width:100%; margin:0; text-align:left;}
+.midcontent.hide-y-scroll{max-height:300px; height:300px; overflow-y:hidden;}
+#manage-models .ql-editor p{word-break: break-word; word-wrap: break-word;  overflow-wrap: break-word;
+-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto;}
+
+/* editor changes end*/
+
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}
@@ -1646,6 +1728,9 @@ position:relative;
     .response .mdl-data-table th{font-size: 12px;}
     .response .mdl-data-table td{font-size:12px;}    
     .cloud-radio div {width:48%;} 
+    /* manage document*/
+    .add-document-browse-left .browse-field ~ div button{width: 45px; margin-bottom: 0;}
+    .attachbuttondiv button{width: 180px; margin-bottom: 0px;}
 }
 
 @media ( max-width :768px) {
@@ -1669,6 +1754,19 @@ position:relative;
   .model-detail .borker-row > div:last-child{width:100%}
   .model-detail .borker-row > div:last-child label, .model-detail .borker-row > div:last-child > div > input:first-child{margin-left:0px;}
   .model-detail .borker-row > div:last-child > div > input{width: calc(50% - 4px);}
+  /* autohor */
+  .removeformspace .mdl-cell{margin:0 8px;}
+      .removeformspace .mdl-cell:first-child{margin-top:8px;}
+      .removeformspace .mdl-cell:last-child{margin-bottom:8px;}
+ /* manage document*/
+ .add-document-browse{float:left; width:100%;}
+  .add-document-browse .add-document-browse-left{position:relative;width:100%;}
+  .add-document-browse-left .browse-field ~ div button{ width: 65px; top: 5px;}
+ .anotheropthion{width: 100%; margin: 5px auto; display: inline-block;}
+ .anotheropthion div{margin: auto; float:none; display: block;}
+  .attachbuttondiv{float: left; width: 100%; position: relative; margin-top: 38px;}
+  .attachbuttondiv button{width:100%;}
+ .attachbuttondiv .add-document-browse{width:100%;}
 }
 
 @media ( max-width :767px) {
@@ -1761,6 +1859,7 @@ position:relative;
       .hasClass .company-market ul li.progress-status,  .initialVal.hasClass .company-market ul li.progress-status{display:block;}
       .hasClass .company-market ul li, .initialVal.hasClass .company-market ul li{width:16%;}
       .response .mdl-data-table td, .response .mdl-data-table tr.removebefore td:first-of-type{padding-left:15px;}
+  
 }
 @media ( max-width :640px){
 	.hasClass .company-market ul li{width:20%;}
