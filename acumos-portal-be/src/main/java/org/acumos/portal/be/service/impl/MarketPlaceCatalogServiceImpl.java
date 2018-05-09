@@ -1273,15 +1273,24 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	public List<MLPArtifact> getSolutionArtifacts(String solutionId, String revisionId) throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionArtifacts`");
 		List<MLPArtifact> mlpSolutionRevisions = null;
+		List<MLPArtifact> artifactList = new ArrayList<MLPArtifact>();
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			mlpSolutionRevisions = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, revisionId);
+			if(mlpSolutionRevisions != null) {
+				for (MLPArtifact artifact : mlpSolutionRevisions) {
+					String[] st = artifact.getUri().split("/");
+					String name = st[st.length-1];
+					artifact.setName(name);
+					artifactList.add(artifact);
+				}
+			}
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-		return mlpSolutionRevisions;
+		return artifactList;
 	}
 
 	@Override
