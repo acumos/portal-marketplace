@@ -20,7 +20,7 @@ limitations under the License.
 
 'use strict';
 var app = angular.module('AcumosApp', ['ui.router','ngMaterial', 'ngMdIcons','satellizer',
-                                        'ngAnimate', 'ui.bootstrap','marketHome', 
+                                        'ngAnimate', 'ui.bootstrap','marketHome', 'signInModal', 'myModal',
                                         'marketPlace', 'manageModule','designStudio', 'modelResource','headerNav',
                                         'ngAnimate', 'modelDetails','ui.bootstrap','infinite-scroll','ngStorage',
                                         'modelEdit','ngTagsInput','resetPswd','userDetail','forgotPswd', 'ngSanitize',

@@ -14,4 +14,11 @@ This file is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+================================================================================
+This product bundles "Font Awesome" files, which are available under the
+"Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License".
+For details, see https://fontawesome.com/license.
+================================================================================
+
 ============LICENSE_END=========================================================
