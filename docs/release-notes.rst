@@ -20,6 +20,22 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.18, 10th May 2018
+-============================
+* IST: Manage My Model : Attached document is not displaying in model details screen when user did not publish the model. (ACUMOS-649)
+* IST: User Management : Field is not getting clear when user open the popup again (Condition : Username already exist scenario) (ACUMOS-687)
+* IST: Submitted rating is not getting auto refresh (ACUMOS-705)
+* IST2: Page is not getting refresh after user clear the text from header search box (ACUMOS-815)
+* <IST><Build For ONAP> Error notification not proper when onboarding is failed (ACUMOS-664)
+* <IST 2> <Build For ONAP> Added Model Name not displayed after onboarding the model (ACUMOS-749)
+* portal-marketplace: add licences to code and docs (ACUMOS-270)
+* Deactivate-account feature should request confirmation (ACUMOS-576)
+* no feedback for failed model.zip webonboard (ACUMOS-421)
+* new description editor makes input challenging (ACUMOS-717)
+* usage of model sharing screen may be confusing (ACUMOS-739)
+* CSS from CMS is over writing the Acumos CMS (ACUMOS-578)
+* Manage My Model: show description and document (ACUMOS-707)
+
 Version 1.15.17, 9th May 2018
 -============================
 * Downloading parts of a model changes name (ACUMOS-589)
