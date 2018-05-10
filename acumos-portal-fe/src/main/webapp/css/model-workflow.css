@@ -1564,12 +1564,15 @@ position:relative;
 .largeLink{width: 81%;float: left;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;};
 /* model documents popovers end*/
 /* editor changes*/
-.company-market .ql-editor ul{display:block;}
+.ql-container.ql-snow .ql-editor ul{display:block !important;}
+.mdl-tabs__panel.company-market .timeline .popovers .ql-editor ul{flex-wrap: wrap;}
 .company-market .ql-editor ul li, .hasClass .company-market .ql-editor ul li{width:100%; margin:0; text-align:left;}
 .midcontent.hide-y-scroll{max-height:300px; height:300px; overflow-y:hidden;}
+.midcontent .ql-container.ql-snow{height:auto;}
+.midcontent .ql-editor, .ql-container.ql-snow .ql-editor{max-height:300px;}
 #manage-models .ql-editor p{word-break: break-word; word-wrap: break-word;  overflow-wrap: break-word;
 -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto;}
-
+.popovers.model-description .ql-container.ql-snow .ql-editor h2{color: initial;}
 /* editor changes end*/
 
 /*---- media query start ----------*/
