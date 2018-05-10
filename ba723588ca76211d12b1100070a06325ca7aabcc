@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d697accf_54d51c15",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-05-10T18:37:19Z",
+      "side": 1,
+      "message": "Please extarct a method out of it. This will be helpful in JUNITS as well",
+      "revId": "ba723588ca76211d12b1100070a06325ca7aabcc",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
