@@ -82,6 +82,7 @@ MarketPlace Flow Structure
       5. When User open Acumos Page, He/she will be presented with Acumos Home
          Screen with Featured Machine Learning Solutions in catalog Format
          (Tiles)
+      6. Admin Role  is created with name as Admin inside  Role tables in CDS DB.
 
    2. **Page Name:** Model/Solution Landing Page
 
