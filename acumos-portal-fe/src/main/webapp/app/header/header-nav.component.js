@@ -414,6 +414,19 @@ angular.module('headerNav',[])
 		});
 		
 		$scope.globalSearch = function(val) {
+			if(val == undefined) {
+				val = "";
+			}
+			if($rootScope.valueToSearch == undefined) {
+				$rootScope.valueToSearch = "";
+			}
+			//a quick check to make sure the next search is different
+			//done so that it doesn't automatically refresh upon clicking search
+			//on an empty search bar
+			var refreshSearch = true;
+			if($rootScope.valueToSearch == val) {
+				refreshSearch = false;
+			}
 			componentHandler.upgradeAllRegistered();
 			// used javascript as model is not getting refreshed
 			var val = document.getElementsByName('search')[0].value;
@@ -424,17 +437,17 @@ angular.module('headerNav',[])
 				angular.element('.mdl-textfield').addClass('is-focused');
 				$scope.search = $rootScope.valueToSearch;
 				$scope.searchText = $rootScope.valueToSearch;
-				if(stateName != 'marketPlace' && stateName != 'manageModule')$window.location.href = '/index.html#/marketPlace';
+				if(stateName != 'marketPlace' && stateName != 'manageModule') {
+					$window.location.href = '/index.html#/marketPlace';
+				}
 				
 			}
 
-			if(val){
-
+			if(refreshSearch){
 				$rootScope.$broadcast('scanner-started', {
 					searchValue : val
 				});
 			}
-			//}
 		}
 		
 		$scope.addSearchFocus = function($event,searchText){ 
@@ -442,7 +455,7 @@ angular.module('headerNav',[])
 			if(searchText == false || searchText == undefined ) {
 				angular.element('.mdl-textfield').removeClass('is-focused');
 				angular.element('.sidebar-search-container input').val('');
-				$rootScope.valueToSearch = '';
+				
 				$scope.globalSearch(searchText);
 			}else {
 				angular.element('.mdl-textfield').addClass('is-focused');
