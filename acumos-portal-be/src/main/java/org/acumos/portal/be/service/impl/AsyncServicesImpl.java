@@ -379,7 +379,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 		if (!StringUtils.isEmpty(solutionId)) {
 			builder.setParameter("solutioId", solutionId);
-			if(!StringUtils.isEmpty(modName)){
+			if(!StringUtils.isEmpty(modName) && !("null".equalsIgnoreCase(modName))){
 				builder.setParameter("modName", modName);
 				log.debug("ONAP model name from user : " + modName);
 			}else{
