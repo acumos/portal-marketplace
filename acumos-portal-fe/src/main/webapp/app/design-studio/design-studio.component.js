@@ -354,8 +354,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 countComSol += 1;
                 $scope.namedisabled = false;
                 changeNode = new Object();
+                $scope.canvas=false;
                 $http.post(url)
                     .success(new_solution);
+                
             });}
     };
     $scope.loadSolution = function(entry) {
@@ -822,7 +824,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             			if($scope.dbType == 'csv'){
             				$scope.dataShow = $scope.readSourceTable;
             			}
-            			readScriptDetails = {'dbtype':value.data_broker_map.data_broker_type,'targeturl':value.data_broker_map.target_system_url,'script':value.data_broker_map.script,'firstrow':value.data_broker_map.first_row,'localfile':value.data_broker_map.local_system_data_file_path};
+            			readScriptDetails = {'dbtype':value.data_broker_map.data_broker_type,
+            					'targeturl':value.data_broker_map.target_system_url,
+            					'script':value.data_broker_map.script,
+            					'firstrow':value.data_broker_map.first_row,
+            					'localfile':value.data_broker_map.local_system_data_file_path,
+            					'mapInputs':value.data_broker_map.map_inputs};
             			$scope.checkedRead = true;
             			$scope.uncheckedRead = false;
             			$scope.readSolution = true;
@@ -1727,13 +1734,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     switch($scope.solutionDetails.toolKit){
                     case 'BR': 
                     	$scope.showDataBroker = true;
-                    	$scope.showDataMapper = false;
+                    	$scope.showDataMapper = null;
                     	$scope.solutionDetails = null;
                     	$scope.$apply();
                     	break;
                     case 'TC':
-                    	$scope.showDataBroker = false;
-                    	$scope.showDataMapper = false;
+                    	$scope.showDataBroker = null;
+                    	$scope.showDataMapper = null;
                     	$scope.$apply();
                     	display_properties(_catalog.fModelUrl(comps[0]));
                     	break;
@@ -1743,18 +1750,19 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                              return p.nodeId === nodes[0] && is_wildcard_type(p.originalType);
                          });
                     	if(wilds.length) {
-                    		$scope.showDataBroker = false;
+                    		$scope.showDataBroker = null;
                     		$scope.showDataMapper = true;
                     		$scope.solutionDetails = null;
                     		$scope.$apply();
                     		display_data_mapper(nodes[0], wilds);
                     	}
                     	else if(comps.length === 1) {
-                    		$scope.showDataBroker = false;
+                    		$scope.showDataBroker = null;
                     		$scope.showDataMapper = null;
                     		//$scope.solutionDetails = true;
-                    		$scope.$apply();
                     		display_properties(_catalog.fModelUrl(comps[0]));
+                    		$scope.$apply();
+                    		
                     	}
                     }
                     $scope.tabChange = 0;
@@ -1886,7 +1894,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             delete_nodes.deleteSelection();
             delete_edges.deleteSelection();
             $scope.closePoup();
-            $scope.showDataBroker = false;
+            $scope.showDataBroker = null;
             $scope.showDataMapper = null;
             $scope.solutionDetails = null;
             $scope.showProperties = null;
@@ -1934,12 +1942,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         _ports = _ports.filter(p => p.nodeId !== nodes[0]);
                         update_ports();
                         console.log(_ports);
-                        /*_ports.forEach(function(p){
+                        _ports.forEach(function(p){
                         	if(p.type == "script"){
-                        		targetTableCreate();
-                        		break;
+                        		var dbNode = p.nodeId;
+                        		_ports.forEach(function(port){
+                        			if(port.nodeId === p.nodeId && port.bounds === outbounds && port.type === null){
+                        				$scope.targetMapTable = null;
+                        			}
+                        		});
                         	}
-                        };*/
+                        });
                         /*targetTableCreate($scope.portDets);*/
                         enanleDisable();
                         return nodes;
@@ -1986,7 +1998,18 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         // ports
                         _ports = _ports.filter(p => p.edges !== edges[0]);
                         update_ports();
-                        return wildcardPorts.resetTypes(_diagram, edges);
+                        wildcardPorts.resetTypes(_diagram, edges);
+                        _ports.forEach(function(port){
+                        	if(port.type == "script"){
+                        		var dbNode = port.nodeId;
+                        		_ports.forEach(function(dbport){
+                        			if(dbport.nodeId === port.nodeId && dbport.bounds === outbounds && dbport.type === null){
+                        				$scope.targetMapTable = null;
+                        			}
+                        		});
+                        	}
+                        });
+                        return edges;
                     });
             });
         _diagram.child('delete-edges', delete_edges);
@@ -2414,7 +2437,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
             $http.post(url)
                 .success(function(response) {
-                	$scope.showDataBroker = false;
+                	$scope.showDataBroker = null;
                     $scope.showDataMapper = null;
                     $scope.solutionDetails = null;
                     $scope.showProperties = null;
@@ -2424,6 +2447,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.clearSolution();
                     $scope.namedisabled = false;$scope.closeDisabled = true;
                     $scope.solutionName = '';$scope.solutionVersion = '';$scope.solutionDescription = '';_cid = '';_solutionId = '';
+                    $scope.canvas =false;
                     //$(".ds-grid-bg").css("background", "none");
                 })
                 .error(function(response){
@@ -2472,7 +2496,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.showDataBroker = null;
 
                 $('#deleteHide').hide();
-               
+               $scope.canvas=false;
 
             })
             .error(function(response){
@@ -2487,16 +2511,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     $scope.down=false;
     $scope.closeDrawer =function(){
-        if(($scope.left&&$scope.right&&$scope.down) || (!$scope.left&&!$scope.right&&!$scope.down)){
-            $scope.right = !$scope.right;$scope.left=!$scope.left;$scope.down=!$scope.down;
-            angular.element('.ds-grid-bg section').width('100%');angular.element('.ds-grid-bg section').height('100%');
-            angular.element('svg').width('100%');angular.element('svg').height('100%');
-        }
-        else {
-            $scope.right = false;$scope.left = false;$scope.down=false;
-            angular.element('.ds-grid-bg section').width('100%');angular.element('.ds-grid-bg section').height('100%');
-            angular.element('svg').width('100%');angular.element('svg').height('100%');
-        }};
+    	if($scope.left && $scope.right && $scope.down){
+    		$scope.left = $scope.right = $scope.down = false;
+    	} else{
+    		$scope.left = $scope.right = $scope.down = true;
+    	}
+        angular.element('.ds-grid-bg section').width('100%');angular.element('.ds-grid-bg section').height('100%');
+        angular.element('svg').width('100%');angular.element('svg').height('100%');
+        };
     $scope.$watch('closeDisabledCheck', function(newValue, oldValue) {
         $scope.closeAllDisabled = true;$scope.closeDisabled = true;
         if(countComSol == 1 && countComSol != 0)$scope.closeDisabled = false;else $scope.closeDisabled = true;
@@ -2549,10 +2571,18 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		if(!$scope.userImage){
 				$scope.userImageNew =value.data_broker_map.local_system_data_file_path;
 			}
-    		$scope.dataShow=$scope.readSourceTable;
+    		//$scope.dataShow=$scope.readSourceTable;
     	}
       
     }
+    
+    $scope.closeMappingPopup = function(){
+    	$mdDialog.hide();
+    	if($scope.readSolution){
+    		$scope.readSourceTable = readScriptDetails.mapInputs;
+    	}
+    };
+    
     $scope.closePoup = function(){
 
         $mdDialog.hide();
@@ -2681,8 +2711,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	    	}else if(uploaded.indexOf(',') != -1){
 			   var dataShow = uploaded.split('\n');
 			   delimeter = ',' ;
-	    	} else {
-	    	
+	    	}else if(uploaded.indexOf(';') != -1){
+	    		var dataShow = uploaded.split('\n');
+	    		delimeter = ';' ;
 	    	}
 	    	
 	    	var col = dataShow[0];
@@ -2945,10 +2976,38 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.mappingTag = function(d){
     	tagMap.set(d,this.mapTag);
     };*/
+    $scope.readSolutionMapping = function(){
+    	var checkFieldMap = new Map();
+    	var fieldNameMap = new Map(); var fieldTypeMap = new Map(); var tagMap = new Map();
+    	angular.forEach($scope.readSourceTable, function(value,key){
+    		checkFieldMap.set(key,value.input_field.checked);
+    		fieldNameMap.set(key,value.input_field.name);
+    		fieldTypeMap.set(key,value.input_field.type);
+    		tagMap.set(key,value.input_field.mapped_to_field);
+    	});
+    	
+    };
     
     var checkFieldMap = new Map();
     $scope.mapCheckField = function(index){
-    	checkFieldMap.set(index,this.checkfield?"yes":"no");
+    	if($scope.readSolution){
+    		checkFieldMap.set(index,checkFieldMap.get(index) === "YES"?"NO":"YES");
+    		if(checkFieldMap.get(index) === "NO"){
+    			$scope.readSourceTable[index].input_field.type = "null";
+    			$scope.readSourceTable[index].input_field.mapped_to_field = "null";
+    			fieldTypeMap.set(index,null);
+    			tagMap.set(index,null);
+    		}
+    		$scope.readSourceTable[index].input_field.checked = checkFieldMap.get(index);
+    	}else{
+    	checkFieldMap.set(index,this.checkfield?"YES":"NO");
+    	if(!this.checkfield){
+    		fieldTypeMap.set(index,null);
+    		this.fieldType = "Select Type";
+    		tagMap.set(index,null);
+    		this.mapTag = "Select Tag";
+    	}
+    	}
     }
     
     var fieldNameMap = new Map();
@@ -2964,37 +3023,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var tagMap = new Map();
     $scope.mappingTag = function(index){
     	tagMap.set(index,this.mapTag);
-    	$scope.checkfield[index].selected = true;
+    	//$scope.checkfield[index].selected = true;
     };
     
     $scope.mappingsSave = function(){
     	var mapOutput = []; var mapInput = [];
-/*    	if($scope.readSolution === true){
-    		for(var i=0;i<$scope.dataShow.length;i++){
-    			if(fieldNameMap.get(i) === undefined){
-    				fieldNameMap.set(i,$scope.dataShow[i].name);
-    			}
-    			if(checkFieldMap.get(i) === undefined){
-    				checkFieldMap.set(i,$scope.dataShow[i].checked);
-    			}
-    			if(fieldTypeMap.get(i) === undefined){
-    				fieldTypeMap.set(i,$scope.dataShow[i].type);
-    			}
-    			if(tagMap.get(i) === undefined){
-    				tagMap.set(i,$scope.dataShow[i].tag);
-    			}
-    		}
-    		
-        		angular.forEach($scope.dataShow, function(valueData,keyData){
-    	    		mapInput.push({"input_field": {
-    	    			"name": fieldNameMap.get(keyData),
-    	    			"type": fieldTypeMap.get(keyData),
-    	    			"checked": checkFieldMap.get(keyData) === "yes"?"YES":"NO",
-    	    			"mapped_to_field": tagMap.get(keyData)
-    	    		}});
-    	    	});
-        	
-    	} else{*/
+    	if($scope.readSolution){
+    		mapInput = $scope.readSourceTable;        	
+    	} else{
     	for(var i=0; i < $scope.dataShow.length; i++){
         	if(fieldNameMap.get(i) === null || fieldNameMap.get(i) === undefined){
         		fieldNameMap.set(i,$scope.dataShow[i]);
@@ -3006,7 +3042,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	    		mapInput.push({"input_field": {
 	    			"name": fieldNameMap.get(keyData),
 	    			"type": fieldTypeMap.get(keyData)?fieldTypeMap.get(keyData):"null",
-	    			"checked": checkFieldMap.get(keyData) === "yes"?"YES":"NO",
+	    			"checked": checkFieldMap.get(keyData) === "YES"?"YES":"NO",
 	    			"mapped_to_field": tagMap.get(keyData)?tagMap.get(keyData):"null"
 	    		}});
 	    	});
@@ -3015,10 +3051,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			mapInput.push({"input_field": {
 	    			"name": valueData.Fieldname,
 	    			"type": valueData.FieldType,
-	    			"checked": checkFieldMap.get(keyData) === "yes"?"YES":"NO",
+	    			"checked": checkFieldMap.get(keyData) === "YES"?"YES":"NO",
 	    			"mapped_to_field": tagMap.get(keyData)?tagMap.get(keyData):"null"
 	    		}});
     		});
+    	}
     	}
     	var targetTableCdump = $scope.targetMapTable;
     	angular.forEach(targetTableCdump, function(value,key){
@@ -3094,7 +3131,22 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	});
     	console.log(mapOutput);
     	var url;
-    	
+    	if($scope.readSolution){
+    		var data = {
+        			"databrokerMap": {
+        			    "script": null,
+        			    "csv_field_separator": null, //check
+        			    "data_broker_type": null,
+        			    "first_row": null,
+        			    "local_system_data_file_path": null, //need to complete
+        			    "target_system_url": null,
+        			    "map_action": null,
+        			    "map_inputs": $scope.readSourceTable,
+        			    "map_outputs": mapOutput
+        			  },
+        			  "fieldMap":null
+        		};
+    	} else{
     	var data = {
     			"databrokerMap": {
     			    "script": null,
@@ -3108,7 +3160,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			    "map_outputs": mapOutput
     			  },
     			  "fieldMap":null
-    		}
+    		};
+    	}
         if(_solutionId){
             url = build_url(options.modifyNode, {
                 userid: get_userId(),

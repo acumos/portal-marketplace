@@ -373,3 +373,6 @@ table.dsmt-tbl tbody tr td md-checkbox.md-checked .md-icon::after {width: 4px; h
 }
 
 md-select.ng-invalid[required]:not(.md-no-asterisk) .md-select-value span:first-child::after {content: "" !important;}
+
+input.userprofiletxtbox.uploadtxtbox {box-shadow: none !important;} 
+
