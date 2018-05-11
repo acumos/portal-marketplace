@@ -320,6 +320,7 @@ angular.module('admin')
             	    	if(response.data.error_code == 500){
             	    		$scope.value = null;
                             $scope.data = null;
+							$scope.roleValue = '';
                             $scope.signupForm.fname.$touched = false;$scope.signupForm.lname.$touched = false;$scope.signupForm.uname.$touched = false;
                             $scope.signupForm.email.$touched = false;$scope.signupForm.pwd.$touched = false;$scope.signupForm.cpwd.$touched = false;
                             $scope.signupForm.pwd.$dirty = false;
