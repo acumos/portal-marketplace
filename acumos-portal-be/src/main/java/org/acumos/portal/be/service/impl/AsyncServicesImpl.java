@@ -215,7 +215,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 						catalogService.updateSolution(solutionDetail, newSolutionId);
 						log.info("inside callOnboarding if after updateSolution ---->>>");
 					}
-					String notifMsg = "Solution " + solution.getName() + " Added to Catalog Successfully";
+					String notifMsg = "Solution " + solution.getName() + " On-boarded Successfully";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
 					notificationService.generateNotification(notification, userId);
