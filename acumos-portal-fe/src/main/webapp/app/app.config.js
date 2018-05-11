@@ -103,14 +103,6 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			url: '/notificationModule',
 			component: 'notificationModule'
 		})
-		.state('attGlobalLogin', {
-			url: '/attGlobalLogin',
-			component: 'attGlobalLogon'
-		})
-		.state('qanda', {
-			url: '/qanda',
-			component: 'qanda'
-		})
 		.state('termsCondition', {
 			url: '/termsCondition',
 			component: 'termsCondition'
