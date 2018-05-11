@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e77e5395_619653e1",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-11T09:38:16Z",
+      "side": 1,
+      "message": "Please be consistent in indentation- use same as surrounding lines.  Or maybe fix it all up.",
+      "revId": "6ac00b9dca7355f5a9da3486a4cb7f53f7644835",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
