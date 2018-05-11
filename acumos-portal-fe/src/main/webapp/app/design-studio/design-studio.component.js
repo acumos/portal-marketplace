@@ -473,7 +473,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	base:"dsce/dsce/",
         // base: urlBase,
         //base: 'http://localhost:8088/dsce/',
-    	//base: 'http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8088/dsce/',
         catalog: 'solution/getSolutions',
         typeinfo: 'artifact/fetchJsonTOSCA',
         create: 'solution/createNewCompositeSolution',
