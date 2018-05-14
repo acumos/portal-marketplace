@@ -598,10 +598,17 @@ limitations under the License.
 								<div class="mdl-cell mdl-cell--5-col"></div>
 							</div>
 							<hr class="md-hr-rule1" />
-							<div class="discussion-outer-container" ng-hide="solution.active == false">
+							
+						<!-- tabs starts -->
+						<div ng-hide="solution.active == false">
+						<md-tabs md-dynamic-height md-border-bottom class="discussion-reviews-tab">
+						
+						<!-- discussion/review starts -->	      
+					      <md-tab label="Discussion ({{totalCommentCount}})">
+					        <md-content class="">
+							        
+							<div class="discussion-outer-container" >
 								<div class="md-discussion-container">
-									<span class="md-discussion-title">DISCUSSION
-										({{totalCommentCount}})</span>
 									<div class="md-discussion-links-container">
 										<a>Newest</a> <span>|</span> <a>Older</a> <span>|</span> <a>Liked</a>
 									</div>
@@ -735,7 +742,38 @@ limitations under the License.
 										ng-click="postComment()" alt="Post Comments" title="Post Comments">Post Comments</button>
 								</div>
 							</div>
+					        </md-content>
+					      </md-tab>
+					      <!--  rating/reivew  ends -->
+					      
+							<!--  review starts -->
+						 	<md-tab label="Ratings and reviews ({{totalRatingsCount}})">
+						 	<!-- $scope.allUserRatings ... $scope.mlSolutionGetRating ...  -->
+						        <md-content>
+						        	<div class="discussion-row" ng-repeat="usersRating in allUserRatings">
+						        		<div class=""> <!-- reviews-ratings-container removed class -->
+						        			<div class="rating clear_both">
+												<span>
+												 <i class="fa fa-star" ng-class="{'fa-star1': usersRating.rating == null || usersRating.rating < 1}" aria-hidden="true"></i></span> <span><i
+													class="fa fa-star" ng-class="{'fa-star1': usersRating.rating == null || usersRating.rating < 2}" aria-hidden="true"></i></span> <span><i
+													class="fa fa-star" ng-class="{'fa-star1': usersRating.rating == null || usersRating.rating < 3}" aria-hidden="true"></i></span> <span><i
+													class="fa fa-star" ng-class="{'fa-star1': usersRating.rating == null || usersRating.rating < 4}" aria-hidden="true"></i></span> <span><i
+													class="fa fa-star" ng-class="{'fa-star1': usersRating.rating == null || usersRating.rating < 5}" aria-hidden="true"></i>
+												 </span>
+											</div>
+					        			</div>
+						        		<div>
+						        			<label class="discussion-lbl1">By John Doe on {{usersRating.modified | date:'MM/dd/yyyy'}}</label>
+					        			</div>
+						        		<p>{{usersRating.textReview}}</p>
+						        	</div>
+						        </md-content>
+						      </md-tab>							     
+							<!--  review starts ends-->
+							
+						  </md-tabs>	
 						</div>
+						<!-- end tabs -->
 					</div>
 				</div>
 			</div>
