@@ -860,8 +860,8 @@ limitations under the License.
 																	<span flex></span>
 																	<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																	<md-button class="md-icon-button"
-																		ng-click="showDCKEditor = !showDCKEditor;  ">
-																	<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+                                                                        ng-click="showDCKEditor = !showDCKEditor;previousValueCompany?solutionCompanyDesc=previousValueCompany:solutionCompanyDesc=''">
+                                                                    <i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 																</div>
 																</md-toolbar>
 																<md-dialog-content>
@@ -2633,9 +2633,10 @@ limitations under the License.
 																<h2>Model Description</h2>
 																<span flex></span>
 																<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
+															
 																<md-button class="md-icon-button"
-																	ng-click="showCKEditor = !showCKEditor; ">
-																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+                                                                        ng-click="showCKEditor = !showCKEditor;previousValuePublic?solutionPublicDesc=previousValuePublic:solutionPublicDesc=''">
+                                                                    <i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
