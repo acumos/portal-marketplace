@@ -20,7 +20,7 @@ limitations under the License.
 
 <alert-message msg="msg" icon="icon" styleclass="styleclass"
             ng-show="showAlertMessage"></alert-message>
-<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-sign_up">
+<md-dialog aria-label="Sign Up" class="cg-dialog-sign_up">
 								  
 									<md-toolbar>
 									  <div class="md-toolbar-tools">
@@ -69,12 +69,15 @@ limitations under the License.
 												 <md-input-container class="md-block">
 												      <!-- Use floating label instead of placeholder -->
 												      <label>User Name</label>												      
-												      <input name="username" ng-model="username" type="text" valid-name maxlength="30" required ng-blur="usernameVisited=true" ng-focus="usernameVisited=false">
+												      <input name="username" ng-model="username" type="text" valid-name maxlength="25" 
+												      required ng-blur="usernameVisited=true" ng-focus="usernameVisited=false" ng-pattern="/^[a-zA-Z0-9]{2,}$/">
 												      <span class="normalmsg"><span class="normalmsg"><!-- Your Acumos URL: https://acumos.com/ USERNAME --></span></span>
 												 	  <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!signupForm.username.$valid}">
 														<span ng-show="!!signupForm.username.$error.required && signupForm.username.$touched && usernameVisited">Username
 															Required.</span>
+														<span ng-show="!!signupForm.username.$error.pattern && signupForm.username.$touched && usernameVisited">Username
+															cannot contain special characters and should be at least of two characters.</span>
 															<span ng-show="userExists && usernameVisited">Username
 															already exists.</span>
 										</div>	
