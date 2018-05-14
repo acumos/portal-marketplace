@@ -795,7 +795,8 @@ limitations under the License.
 		
 			<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Deploying to Microsoft Azure</h2>
+				<h2 ng-hide="exportTo!='microsoft'">Deploying to Microsoft Azure</h2>
+				<h2 ng-hide="exportTo!='ripple'">Deploying to RackSpace</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="handleDismiss()">
 				<i class="material-icons">close</i> </md-button>
