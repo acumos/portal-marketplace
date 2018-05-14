@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "867e2576_d6a71ae7",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/sign-up.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T15:00:06Z",
+      "side": 1,
+      "message": "Please add id attribute to benefit automated tests",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffac5ada_e0a685fb",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T15:00:06Z",
+      "side": 1,
+      "message": "Please remove, don\u0027t comment out",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1cc4f90_24c742bd",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T15:00:06Z",
+      "side": 1,
+      "message": "please remove don\u0027t comment out",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d0b2b03_12f0f118",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T15:00:06Z",
+      "side": 1,
+      "message": "Why is John Doe hardcoded here?",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cbb30d4_bd20d896",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T15:00:06Z",
+      "side": 1,
+      "message": "Please add an ID attribute to benefit automated test",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ce3c473_ad2822ad",
+        "filename": "acumos-portal-fe/src/main/webapp/app/notification/notification-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-14T15:00:06Z",
+      "side": 1,
+      "message": "Please add unique IDs to benefit automated test of buttons",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
