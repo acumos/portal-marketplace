@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bccc284f_40440f43",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/sign-up.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 36
+      },
+      "writtenOn": "2018-05-15T09:57:43Z",
+      "side": 1,
+      "message": "name attribute can be used.",
+      "parentUuid": "867e2576_d6a71ae7",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffac5ada_e0a685fb",
         "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
         "patchSetId": 2
@@ -64,6 +82,24 @@
       "writtenOn": "2018-05-14T15:00:06Z",
       "side": 1,
       "message": "Why is John Doe hardcoded here?",
+      "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71cd4364_75da3ae9",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 36
+      },
+      "writtenOn": "2018-05-15T09:57:43Z",
+      "side": 1,
+      "message": "Need user name from BE, backend team working on it, till then it\u0027s hardcoded. This will be changed soon.",
+      "parentUuid": "1d0b2b03_12f0f118",
       "revId": "7b3129bc64cc533ad94afa387744bc3f9f9c5125",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
