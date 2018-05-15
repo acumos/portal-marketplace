@@ -74,6 +74,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var jsonProtoNode= new Map(); var jsonProtoMap;
     var dataMaps = new Map();
     var readScriptDetails = null;
+    var scriptEnteredDetails = null;
     var extras = false;
     var operations = []; var messages = [];
     $scope.palette = {categories: []};
@@ -108,17 +109,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
 
         var max = 0;
-        /*
-         * var remVrsn = type.replace(/[^0-9\.]+/g, ""); remVrsn =
-         * '('+remVrsn +')'; type = type.replace(remVrsn,'');
-         */
-        // var res = type.split('').reverse().join('');
-        //res = res.replace(/\(/,'&').split('&');
         var res = type.split("(");
         var getver = res[1].split(")");
         var ver = getver[0];
-        ver = '('+ver+')';
-        type = type.replace(ver,'');
+        var verRemove = '('+ver+')';
+        type = type.replace(verRemove,'');
         var typeModel = type+'+'+getver[0];
         _drawGraphs.nodeCrossfilter().all().forEach(function(n) {
             var nodeType = n.type.name;
@@ -146,13 +141,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         };
         data.name = data.nodeId;
         $scope.nodeName=data.name;
-        var nodeId = '',nodeVersion = '';
+        var nodeId = '',nodeVersion = ver;
         $http.get(_catalog.fModelUrl(_components.get(type))).success(function(tgif) {
             nodeId = _components.get(type).solutionId;
-            nodeVersion = _components.get(type).version;
             $scope.solutionDetails=_components.get(type);
             $scope.showProperties=null;
-            console.log($scope.solutionDetails);
             $scope.packageName= JSON.stringify(tgif.self.name);
             $scope.requireCalls= tgif.services.calls;
             $scope.capabilityProvides=tgif.services.provides;
@@ -223,7 +216,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 px: pos[0],
                 py: pos[1]
             };
-            // based on solutionDetails, we can change this type
             switch($scope.solutionDetails.toolKit){
             case 'BR': 
             	type = "DataBroker";
@@ -331,6 +323,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.myCheckbox = false;
                     $scope.activeInactivedeploy = true;
                     $scope.console = null;
+                    $scope.readSolution = false;
+                    $scope.scriptEntered = false;
                     reset();
                     if (parameter == 'new'){
                         $scope.titlemsg ="New Solution";
@@ -369,10 +363,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
             var changeNode = new Object();
             $http.get(url)
-                .success(function(result) {
-                    console.log(result);
-                    
-                    
+                .success(function(result) {                                       
                     //validflag
                     if(result.validSolution){
                     	$scope.activeInactivedeploy = false;
@@ -471,8 +462,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var urlBase = baseURL + '/dsce/';
     var options = Object.assign({
     	base:"dsce/dsce/",
-        // base: urlBase,
-        //base: 'http://localhost:8088/dsce/',
         catalog: 'solution/getSolutions',
         typeinfo: 'artifact/fetchJsonTOSCA',
         create: 'solution/createNewCompositeSolution',
@@ -723,7 +712,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function display_solution(solution) {
         $('#deleteHide').hide();
         $scope.databroker.$invalid = false;
-        //$scope.validationState = true;
         $scope.console = null;
         $('#validateActive').removeClass('active');
         $('#validateActive').removeClass('enabled');
@@ -734,11 +722,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         
         _diagram.child('fix-nodes')
             .clearFixes();
-        console.log(solution);
         var nodes = solution.nodes || (console.warn('no nodes in composite solution!'), []),
             edges = solution.relations || [];
         _ports = [];
-        console.log(nodes);
         var i=0;
         nodes.forEach(function(n) {
         	script = [];
@@ -778,8 +764,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             var srcPort = _diagram.getPort(e.sourceNodeId, null, e.sourceNodeRequirement),
                 tarPort = _diagram.getPort(e.targetNodeId, null, e.targetNodeCapability);
             wildcardPorts.copyType(e, srcPort, tarPort);
-            console.log(srcPort);
-            console.log(tarPort);
             nodes.forEach(function(n){
             	if((n.nodeId === e.sourceNodeId || n.nodeId === e.targetNodeId) && n.type.name === "DataBroker"){
             		if(srcPort.orig.value.bounds === outbounds){
@@ -809,6 +793,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             if(n.type.name === "DataBroker"){
             	$scope.uploadFileRequired = false;
             	$scope.nodeIdDB = n.nodeId;
+            	$scope.readSolution = true;
             	angular.forEach(n.properties, function(value, key){
             		if(value.data_broker_map != null){
             			
@@ -829,6 +814,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             					'firstrow':value.data_broker_map.first_row,
             					'localfile':value.data_broker_map.local_system_data_file_path,
             					'mapInputs':value.data_broker_map.map_inputs};
+            			$scope.readSolutionMapping();
             			$scope.checkedRead = true;
             			$scope.uncheckedRead = false;
             			$scope.readSolution = true;
@@ -909,7 +895,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.validationState = true;
 
         return $http.post(url).success(function(result) {
-            console.log(result);
             if(result.success == "true"){
             	 
                 $scope.validationState = true;
@@ -944,8 +929,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             deferred.resolve(undefined);
             return deferred.promise;
         }
-        return save_solution(_catalog, name);    // this needs to be
-        // checked
+        return save_solution(_catalog, name);   
     }
     
     function print_value(v) {
@@ -986,7 +970,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     
     function display_data_mapper(nodeId, wilds) {
-        console.log(wilds);
         if(wilds.length !== 2) {
             console.warn('expecting exactly two ports on data mapper');
             return;
@@ -1080,7 +1063,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             bounds: minbounds
         })));
         var nodes = parentNodes.concat(lnodes, rnodes);
-        console.log(nodes);
         var edges=[];
         var sourcenameId, targetnameId;
         var DM = dataMaps.get(nodeId);
@@ -1098,14 +1080,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
         });
 
-        console.log(edges);
         var node_flat = dc_graph.flat_group.make(nodes, n => n.id),
             edge_flat = dc_graph.flat_group.make(edges, e => e.sourcename),
             port_flat = dc_graph.flat_group.make(ports, p => p.nodeId + '/' + p.side);
 
         var sdRegex = /^(source|dest)/;
         var layout = dc_graph.flexbox_layout()
-        //.logStuff(true)
             .addressToKey(function(ad) {
                 switch(ad.length) {
                 case 0: return 'top';
@@ -1151,7 +1131,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
         mapper.child('validate', dc_graph.validate('data mapper'));
         mapper.child('place-ports', dc_graph.place_ports());
-        //mapper.child('troubleshoot', dc_graph.troubleshoot());
 
         var circlePorts = dc_graph.symbol_port_style()
             .portSymbol(null)
@@ -1218,8 +1197,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         nodeid: lport.nodeId
                     };
                 }
-                console.log(params);
-                
+
                 url = build_url(options.modifyNode, params);
                
                 return $http.post(url,dataConnector)
@@ -1383,7 +1361,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .nodeShape(function(n){
             	var res = n.key.slice(0, -1);
             	var nodeDet=_components.get(res);
-                //console.log(nodeDet);
                 if(/DataMapper/.test(nodeDet.solutionName))
                     return {shape: 'rounded-rect', rx: 0, ry: 0};
                 else{
@@ -1395,10 +1372,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .nodeContent('text-with-icon')
             .nodeIcon(function(d) {
-                /*
-				 * var lastChar = d.key.slice(-1); var res =
-				 * d.key.split(lastChar);
-				 */
             	var res = d.key.slice(0, -1);
             	var nodeDet=_components.get(res);
                 var nodeName = nodeDet.solutionName;
@@ -1455,7 +1428,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         
         _diagram
             .portStyle('symbols', symbolPorts)
-            /* .portStyleName('symbols'); */
             .portStyle('letters', letterPorts)  
             .portStyleName(function(p) {
             	return (p.value.type === "script") ? 'letters' : 'symbols';  
@@ -1498,8 +1470,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 e.targetNodeCapability = tport.name;
                 var params, url =  '';
                 var properties, map_json = [];
-                // need to check for databroker
-                /* if(sport.) */
                if(sport.node.orig.value.modelName == "DataBroker" || sport.node.orig.value.type.name == 'DataBroker' || tport.node.orig.value.modelName == "DataBroker" ||tport.node.orig.value.type.name == 'DataBroker' ){
                 	properties = {};
                 	if(sport.orig.value.bounds === outbounds){
@@ -1571,9 +1541,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 } else{
                     properties = {};
                 }
-              }/* else {
-            	  properties = {};
-              }*/
+              }
                 if(_solutionId){
                     params = {
                         userId:get_userId(),
@@ -1758,7 +1726,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	else if(comps.length === 1) {
                     		$scope.showDataBroker = null;
                     		$scope.showDataMapper = null;
-                    		//$scope.solutionDetails = true;
                     		display_properties(_catalog.fModelUrl(comps[0]));
                     		$scope.$apply();
                     		
@@ -1774,11 +1741,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 select_ports_group.set_changed([], true);
                 // getEdge should give you enough info to look
                 // up properties you want for edges
-                // console.log(_diagram.getEdge(edges[0]));
                 setTimeout(function() {
                     var edge = _diagram.getWholeEdge(edges[0]);
                     if(edge !== null){
-                        /*console.log(edgeType);*/
                         $scope.linkDetails = edge;
                         $scope.showDataMapper = null;
                         $scope.showDataBroker = null;
@@ -1806,33 +1771,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 if(p.orig.value.bounds === inbounds){
                     portType = "input";
                 } else if(p.orig.value.bounds === outbounds){
-                	if(p.node.orig.value.modelName === "DataBroker" || p.node.orig.value.type.name === "DataBroker"){
-                		if(p.edges.length > 0 || p.orig.value.type !== null)
-                			portType = "output";
-                		else 
-                			portType = "DBoutput";
-                	}
-                	else {
-                		portType = "output";
-                	}
+                	portType = "output";
                 } else {
                 	portType = "script";
                 }
                 
                 if(portType === "script"){	
-                     	// code for UI for script port and output port of data
-						// broker
                 	$scope.showScript();
-                     	
-                } else if(portType === "DBoutput"){
-                	// code for output port of data broker
-                	$scope.selectOutputMessage(p);
-                	
-                	
                 } else {
                 var selectedNodeId = ports[0].node;
                 var res = selectedNodeId.slice(0,-1);
-              //  var res = selectedNodeId.split(lastChar);
                 var type = res;
                 var comps = _catalog.models().filter(function(comp) {
                     return _catalog.fModelName(comp) === type;
@@ -1867,7 +1815,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                            	}
                         });
                     });
-                    // $scope.matchModels = matchingModels;
                     setTimeout(function() {
                         $scope.matchModels = matchingModels;
                         $scope.tabChange = 1;
@@ -1908,9 +1855,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 return _diagram.nodeDimension();
             })
             .onDelete(function(nodes) {
-                console.log(nodes);
                 $scope.NodeName=nodes[0];
-                $scope.removename = nodes[0].slice(0, -1); //check
+                $scope.removename = nodes[0].slice(0, -1);
                 $scope.saveState.noSaves = false;
                 _dirty = true;
                 var url = '';
@@ -1940,7 +1886,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         // ports
                         _ports = _ports.filter(p => p.nodeId !== nodes[0]);
                         update_ports();
-                        console.log(_ports);
                         _ports.forEach(function(p){
                         	if(p.type == "script"){
                         		var dbNode = p.nodeId;
@@ -1951,7 +1896,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         		});
                         	}
                         });
-                        /*targetTableCreate($scope.portDets);*/
                         enanleDisable();
                         return nodes;
                     });
@@ -1967,7 +1911,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 return _diagram.edgeDimension();
             })
             .onDelete(function(edges) {
-                console.log(edges);
                 $scope.NodeName=edges[0];
                 $scope.saveState.noSaves = false;
                 _dirty = true;
@@ -2070,7 +2013,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .clickable(true)
             .selection(dc_graph.tip.select_port())
             .content(function(d, k) {
-                console.log(d);
 
                 if(is_wildcard_type(d.orig.value.originalType)){
                     jsonProtoMap = d.orig.value.fullType;
@@ -2103,10 +2045,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
             })
             .offset(function() {
-                // I don't entirely understand how d3-tip is
-                // calculating position
-                // this attempts to keep position fixed even
-                // though size of g.port is changing
                 return [this.getBBox().height / 2 - 20, 0];
             })
             .linkCallback(function(id) {
@@ -2119,7 +2057,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                             $scope.messageDet = jsonProtoMap[l].messageName;
                            
                             angular.forEach(jsonProtoMap[l].messageargumentList, function(value1, key1) {
-                            	//debugger;
                             	var c=0;var complexJson =[]; var m=0; var s=0;var complexMessage = [];var complexMessageSignature = [];
                             	if(value1.complexType){
                             		complexArray++;
@@ -2212,7 +2149,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }
                 $scope.complexProtoJson = [];
                 $scope.complexProtoJson = $scope.complexProtoMap;
-                console.log(complexMapArray);
                 $scope.complexMapArrayUI=complexMapArray;
                 $scope.messageUI=messageJson;
                 $scope.showDataBroker = null;
@@ -2242,13 +2178,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .delay(200)
             .selection(dc_graph.tip.select_node())
             .content(function(d, k) {
-                //console.log(d);
                 k(nodeTypeOnHover(d));
 
             })
             .offset(function(){
-                // I don't entirely understand how d3-tip is
-                // calculating position
                 // this attempts to keep position fixed even
                 // though size of g.port is changing
                 return [this.getBBox().height / 2 - 20, 0];
@@ -2270,11 +2203,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         if(_solutionId){
             url = build_url(options.modifyNode, {
                 userid: get_userId(),
-                // cid:_cid,
                 solutionid:_solutionId,
                 nodeid: nodeId,
                 nodename: name,
-                // version : $scope.solutionVersion,
                 ndata: JSON.stringify(ndata)
 
             });
@@ -2284,7 +2215,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 cid:_cid,
                 nodeid: nodeId,
                 nodename: name,
-                // version : $scope.solutionVersion,
                 ndata: JSON.stringify(ndata)
 
             });
@@ -2307,8 +2237,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function load_catalog() {
         return get_catalog()
             .success(function(data) {
-                // console.log(angular.toJson(data));
-
                 angular.forEach(data.items, function(value, key) {
                     if(data.items.solutionName != "Text_Class_09102017_IST2"){
 
@@ -2319,23 +2247,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 
                 _components = d3.map(_catalog.models(), _catalog.fModelName);
 
-                // PALETTE
-                // throw out any models which don't have a category,
-                // to avoid "null drawer"
-                // also throw out composite solutions, for now -
-                // we're unable to load them
-                // (maybe we could display them but it would be a
-                // little misleading)
-                // also throw out iris, because, well, it's iris
                 models = _catalog.models().filter(function(model) {
                     return _catalog.fModelCategory(model) &&
                         _catalog.fModelName(model) !== 'iris';
                 });
-                console.log(models);
-                // unique by name
-                // models = d3.map(models,
-                // _catalog.fModelName).values(
-
+                
                 $scope.palette.categories = d3.nest().key(_catalog.fModelCategory)
                     .sortKeys(d3.ascending)
                     .entries(models);
@@ -2344,7 +2260,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     url : '/api/filter/modeltype'
                 }).success(function(data, status, headers, config) {
                     $scope.categoryNames = data.response_body;
-                    // console.log($scope.categoryNames);
                 }).error(function(data, status, headers, config) {
                     // called asynchronously if an error occurs
                     // or server returns response with an error
@@ -2356,11 +2271,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     url : '/api/filter/toolkitType'
                 }).success(function(data, status, headers, config) {
                     $scope.toolKitTypes = data.response_body;
-                    // console.log($scope.toolKitTypes);
                 }).error(function(data, status, headers, config) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error
-                    // status.
+                	
                 });
 
                 $http({
@@ -2369,12 +2281,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }).success(function(data, status, headers, config) {
                     $scope.accessTypes = data.response_body;
                 }).error(function(data, status, headers, config) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error
-                    // status.
-                    console.log(status);
+                    
                 });
-                /* $scope.showIcon=[]; */
                 $scope.initIndexLeft=false;
                 $scope.showOther = true;
                 $scope.setActionLeft = function(index){
@@ -2386,14 +2294,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         $scope.showOther = false;
 
                     }
-                    /*
-                     * $scope.initIndex=!$scope.initIndex;
-                     * $scope.selectedIndex=index;
-                     */
+                    
                 };
             }).error(function(response){
 
-                console.log("checking the Json.parse Error");
             });
     }
 
@@ -2406,14 +2310,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             catsol = _catalog.models().find(sol => sol.solutionName === options.solutionName);
         if(catsol)
             $scope.loadSolution(catsol);
-        /*
-         * else $scope.newSolution();
-         */
     }
     initialize_canvas();
     load_catalog().success(load_initial_solution);
     $scope.newSolution('old');
-    // Fuction for closing composite solution
+    // Function for closing composite solution
     $scope.closeComSol = function(){
         reset();
 
@@ -2447,10 +2348,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.namedisabled = false;$scope.closeDisabled = true;
                     $scope.solutionName = '';$scope.solutionVersion = '';$scope.solutionDescription = '';_cid = '';_solutionId = '';
                     $scope.canvas =false;
-                    //$(".ds-grid-bg").css("background", "none");
+                    $scope.validationState = true;
+                    jsonProtoNode = new Map();
+                    protoJsonRead = new Map();
+                    $scope.readSolution = false;
+                    $scope.scriptEntered = false;
                 })
                 .error(function(response){
-                    console.log(response)
+
                 });
         }
     };
@@ -2468,8 +2373,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     // Fuction for closing All Open composite solution
     $scope.clearSolution = function(){
 
-
-        // code
         var url = "";
         if(_solutionId){
             url = build_url(options.clearCompositeSolution , {
@@ -2501,11 +2404,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .error(function(response){
                 $('#deleteHide').hide();
                 $scope.cleardis = true;
-                console.log(response)
             });
         var empty = {"cname": $scope.solutionName,"version": $scope.solutionVersion,"cid": _cid,"solutionId": _solutionId,"ctime": '',"mtime": "","nodes": [],"relations": []};
         display_solution(empty);$scope.solutionDetails = false;$scope.solutionDescription = '';
+        jsonProtoNode = new Map();
+        protoJsonRead = new Map();
         $scope.myCheckbox = false;
+        $scope.readSolution = false;
+        $scope.scriptEntered = false;
     };
 
     $scope.down=false;
@@ -2562,17 +2468,28 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.closePoupscript = function(){
     	$mdDialog.hide();
-    	if($scope.readSolution === true){
+    	if($scope.readSolution){
     		$scope.dbType = readScriptDetails.dbtype;
-    		$scope.fileURL = readScriptDetails.targeturl;
+    		$scope.fileUrl = readScriptDetails.targeturl;
     		$scope.scriptText = readScriptDetails.script;
     		$scope.firstRow = readScriptDetails.firstrow;
     		if(!$scope.userImage){
-				$scope.userImageNew =value.data_broker_map.local_system_data_file_path;
+				$scope.userImageNew =readScriptDetails.localfile;
 			}
-    		//$scope.dataShow=$scope.readSourceTable;
+    	} else if($scope.scriptEntered){
+    		$scope.dbType = scriptEnteredDetails.dbtype;
+    		$scope.fileUrl = scriptEnteredDetails.targeturl;
+    		$scope.scriptText = scriptEnteredDetails.script;
+    		$scope.firstRow = scriptEnteredDetails.firstrow;
+    		$scope.userImage = scriptEnteredDetails.localfile;
+
+    	} else{
+    		$scope.dbType = "Select Type";
+    		$scope.fileUrl = "";
+    		$scope.scriptText = "";
+    		$scope.firstRow = "";
+    		$scope.userImage="";
     	}
-      
     }
     
     $scope.closeMappingPopup = function(){
@@ -2589,7 +2506,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
 
     $scope.closeSavePoup = function(){
-    	/*$scope.solutionName = "untitled";*/
         $mdDialog.hide();
 
     };
@@ -2613,7 +2529,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.updateMySolution = function(){
         updateOldSol=true;
         save_solution(solutionNameSave);
-        //updateOldSol = false;
     };
     function solutionPrPB(){
         var tempArr = ['PR','PB','OR'],url = '';
@@ -2634,7 +2549,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     angular.forEach($scope.publicOR, function(value1, key1) {
                         $scope.publicCS.push(value1);
                         console.clear();
-                        console.log($scope.publicCS.length);
                     })
                 })
                 .error(function(response){
@@ -2694,11 +2608,22 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.defaultvalue = '';
 
     $scope.processData = function(){
-    	/*var x = document.getElementById("fileRead").value;
-    	console.log(x);*/
-    	console.log($scope.dbType);
-    	console.log($scope.firstRow);
+    	$scope.scriptEntered = true;
+    	scriptEnteredDetails={'dbtype':$scope.dbType,
+    						'targeturl':$scope.fileUrl,
+    						'script':$scope.scriptText,
+    						'firstrow':$scope.firstRow,
+    						'localfile':$scope.userImage};
     	if($scope.dbType == 'csv'){
+    		if($scope.fileContent !== undefined){
+    			$scope.readSolution = false;
+    			checkFieldMap = new Map();
+        		fieldNameMap = new Map();
+        		fieldTypeMap = new Map();
+        		tagMap = new Map();
+    		} else{
+    			
+    		}
 	    	var uploaded=$scope.fileContent;
 	    	var delimeter;
 	    	$scope.errormsg = '';
@@ -2729,12 +2654,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 					  $scope.dataShow[a] = "C"+(a+1);
 				  }
 			  }
-			  //$scope.dataShow = tabledata;
-			  $scope.readSolution = false;
+
 			  $scope.saveScript();
 	    	} else {
-	    		//$scope.databroker.$invalid = true;
-	    		$scope.errormsg ="Common file separator(| or , ) is missing , Please upload correct csv file";
+	    		$scope.msg ="Common file separator(| or , ) is missing , Please upload correct csv file";
+                $scope.showpopup();
 	    	}
 		  
     } else if($scope.dbType === 'image'){
@@ -2748,14 +2672,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	            "FieldType" : "Byte",
     	        }
     	    ]
-    	$scope.readSolution = false;
     	$scope.saveScript();
     	
     }
-    
     	
     function parseError(col){
-    	if((col.indexOf("|") == -1 && col.indexOf(",") == -1) ){
+    	if((col.indexOf("|") == -1 && col.indexOf(",") == -1 && col.indexOf(";") == -1)){
 			return false;
 		} else {
 			return true;
@@ -2777,10 +2699,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var data = {
     			"databrokerMap": {
     			    "script": $scope.scriptText,
-    			    "csv_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, //check
+    			    "csv_file_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, 
     			    "data_broker_type": $scope.dbType,
     			    "first_row": $scope.firstRow?$scope.firstRow:null,
-    			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, //need to complete
+    			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, 
     			    "target_system_url": $scope.fileUrl,
     			    "map_action": null,
     			    "map_inputs": null,
@@ -2791,12 +2713,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         if(_solutionId){
             url = build_url(options.modifyNode, {
                 userid: get_userId(),
-                // cid:_cid,
                 solutionid:_solutionId,
                 nodeid: $scope.nodeIdDB,
                 nodename: name,
-               
-
             });
         } else {
             url = build_url(options.modifyNode, {
@@ -2804,23 +2723,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 cid:_cid,
                 nodeid: $scope.nodeIdDB,
                 nodename: name,
-                
-
             });
         }
         
     	$http.post(url,data)
         .success(function(result) {
-        	console.log(result);
         	if(result.success === 'true'){
-        		/*$scope.msg = "Script added successfully";*/
         		$scope.closeSavePoup();
         		$scope.saveState.noSaves = false;
         		$scope.validationState = true;
                 $scope.activeInactivedeploy = true;
         		_dirty = true;
-        		//$scope.processData();
-    			/*$scope.showpopup();*/
         	}else{
         		$scope.saveState.noSaves = true;
         		_dirty = false;
@@ -2829,79 +2742,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         .error(function(response){
         	
         });
-        
-        
+            
     }
-    $scope.selectOutputMessage = function(p,ev) {
-    	var dataBrokerOutput = new Map();
-    	if($('.node').length > 0){
-    	$scope.portDets = p;
-    	if(jsonProtoNode.size > 1){
-    		angular.forEach(jsonProtoNode, function(value, key){
-    			angular.forEach(value.protobuf_json.service.listOfOperations, function(value1, key1){
-    				angular.forEach(value1.listOfInputMessages,function(value2,key2){
-                        // console.log(value1);
-    					if(value2.inputMessageName !== "ANY"){
-    						angular.forEach(value.protobuf_json.listOfMessages, function(value3,key3){
-    							if(value3.messageName === value2.inputMessageName){
-    								dataBrokerOutput[value1.operationName+"("+value2.inputMessageName+")"]=value3;
-    							}
-    						});
-    					}
-    						
-    						
-                    });
-    			});
-    		});
-    	} else if(protoJsonRead.size > 1){
-    		angular.forEach(protoJsonRead, function(value, key){
-    			angular.forEach(value.protobuf_json.service.listOfOperations, function(value1, key1){
-    				angular.forEach(value1.listOfInputMessages,function(value2,key2){
-                        // console.log(value1);
-    					if(value2.inputMessageName !== "ANY"){
-    						angular.forEach(value.protobuf_json.listOfMessages, function(value3,key3){
-    							if(value3.messageName === value2.inputMessageName){
-    								dataBrokerOutput[value1.operationName+"("+value2.inputMessageName+")"]=value3;
-    							}
-    						});
-    					}
-    						
-    						
-                    });
-    			});
-    		});
-    	}
-    	
-    	$scope.dataBrokerSelectOutput = dataBrokerOutput;
-        $mdDialog.show({
-            contentElement: '#myDialogSelectOutput',
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose: true
-        });
-    	}
-    };
-    
-    $scope.selectedDBOutput = function(){
-    	
-    	angular.forEach(_ports, function(value,key){
-    		console.log(value.originalType[0]);
-    		if(value.shortname+"("+value.originalType[0].messageName+")" === $scope.selectedOutput){
-    			$scope.portDets.orig.value.type = value.type;
-    			$scope.portDets.orig.value.shortname = value.shortname;
-    			$scope.portDets.orig.value.fullType = value.fullType;
-    		}
-    		console.log($scope.portDets);
-    	});
-    	
-    	update_ports();
-    	targetTableCreate($scope.portDets);
-    	dc.redrawAll();
-    	$scope.closePoup();
-    }
-    
+  
     function targetTableCreate(portDetails){    	
-    	//console.log($scope.portDets.orig.value.fullType[0].messageargumentList);
     	var targetTable=[];
     	angular.forEach(portDetails.orig.value.fullType[0].messageargumentList, function(value,key){
     		if(value.complexType){
@@ -2939,13 +2783,23 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     								"greatGrandParent": ""});
     		}
     	});
-    	console.log(targetTable);
     	$scope.targetMapTable = targetTable;
     	dc.redrawAll();
     	$scope.closePoup();
     }
     
     $scope.showMappingTable = function(ev) {
+    	$scope.disableDone = false;
+    	if($scope.readSolution){
+    		if($scope.targetMapTable === null || $scope.targetMapTable === undefined || $scope.readSourceTable === null || $scope.readSourceTable === undefined){
+        		$scope.disableDone = true;
+        	}
+    	} else {
+    		if($scope.targetMapTable === undefined || $scope.dataShow === undefined){
+        		$scope.disableDone = true;
+        	}
+    	}
+    	
         $mdDialog.show({
             contentElement: '#myDialogMapping',
             parent: angular.element(document.body),
@@ -2954,27 +2808,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         });
     };
     
-/*    var checkFieldMap = new Map();
-    $scope.mapCheckField = function(d){
-    	checkFieldMap.set(d,this.checkfield?"yes":"no");
-    }
-    
-    var fieldNameMap = new Map();
-    $scope.mapFieldName = function(d){
-    	console.log(d);
-    	console.log(this.checkfield);
-    	fieldNameMap.set(d,this.data)// need to check
-    }
-    
-    var fieldTypeMap = new Map();
-    $scope.mapFieldType = function(d){
-    	fieldTypeMap.set(d,this.fieldType);
-    };
-    
-    var tagMap = new Map();
-    $scope.mappingTag = function(d){
-    	tagMap.set(d,this.mapTag);
-    };*/
     $scope.readSolutionMapping = function(){
     	var checkFieldMap = new Map();
     	var fieldNameMap = new Map(); var fieldTypeMap = new Map(); var tagMap = new Map();
@@ -3011,7 +2844,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     var fieldNameMap = new Map();
     $scope.mapFieldName = function(index){
-    	fieldNameMap.set(index,this.data)// need to check
+    	fieldNameMap.set(index,this.data)
     }
     
     var fieldTypeMap = new Map();
@@ -3022,7 +2855,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var tagMap = new Map();
     $scope.mappingTag = function(index){
     	tagMap.set(index,this.mapTag);
-    	//$scope.checkfield[index].selected = true;
     };
     
     $scope.mappingsSave = function(){
@@ -3039,7 +2871,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	if($scope.dbType === "csv"){
     		angular.forEach($scope.dataShow, function(valueData,keyData){
 	    		mapInput.push({"input_field": {
-	    			"name": fieldNameMap.get(keyData),
+	    			"name":fieldNameMap.get(keyData),
 	    			"type": fieldTypeMap.get(keyData)?fieldTypeMap.get(keyData):"null",
 	    			"checked": checkFieldMap.get(keyData) === "YES"?"YES":"NO",
 	    			"mapped_to_field": tagMap.get(keyData)?tagMap.get(keyData):"null"
@@ -3128,16 +2960,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			}});
     		}
     	});
-    	console.log(mapOutput);
     	var url;
     	if($scope.readSolution){
     		var data = {
         			"databrokerMap": {
         			    "script": null,
-        			    "csv_field_separator": null, //check
+        			    "csv_file_field_separator": null,
         			    "data_broker_type": null,
         			    "first_row": null,
-        			    "local_system_data_file_path": null, //need to complete
+        			    "local_system_data_file_path": null,
         			    "target_system_url": null,
         			    "map_action": null,
         			    "map_inputs": $scope.readSourceTable,
@@ -3149,10 +2980,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var data = {
     			"databrokerMap": {
     			    "script": null,
-    			    "csv_field_separator": null, //check
+    			    "csv_file_field_separator": null,
     			    "data_broker_type": null,
     			    "first_row": null,
-    			    "local_system_data_file_path": null, //need to complete
+    			    "local_system_data_file_path": null,
     			    "target_system_url": null,
     			    "map_action": null,
     			    "map_inputs": mapInput,
@@ -3164,14 +2995,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         if(_solutionId){
             url = build_url(options.modifyNode, {
                 userid: get_userId(),
-                // cid:_cid,
                 solutionid:_solutionId,
                 nodeid: $scope.nodeIdDB,
                 nodename: name,
-                // version : $scope.solutionVersion,
-                // data_broker_script: $scope.scriptText
-               // dataConnector:data
-
             });
         } else {
             url = build_url(options.modifyNode, {
@@ -3179,16 +3005,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 cid:_cid,
                 nodeid: $scope.nodeIdDB,
                 nodename: name,
-                // version : $scope.solutionVersion,
-                // data_broker_script: $scope.scriptText
-                // dataConnector:data
-
             });
         }
         
     	$http.post(url,data)
         .success(function(result) {
-        	console.log(result);
         	if(result.success === 'true'){        		
         		$scope.saveState.noSaves = false;
         		$scope.validationState = true;
@@ -3205,9 +3026,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         });
         
     }
-    //$scope.showFileOption = false;
+
     $scope.mapDBType = function(dbType){
-        if(dbType === "csv" || dbType === "image" || dbType === "sql"){
+        if(dbType === "csv" || dbType === "image" || dbType === "json"){
                $scope.fileUrl = "file://";
                $scope.uploadFileRequired = true;
         }else{
@@ -3215,7 +3036,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }
      }
     
-   
     $('#optionshow').hide();
     $('#myFile').change( function(event) {
 		 var filename = $("#myFile").val().split('.');
@@ -3224,8 +3044,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 			 $('#optionshow').show();
 		 } else{
 			 $('#optionshow').hide();
-		 }
-		 
-	   	 
+		 } 	 
 	});
 }
