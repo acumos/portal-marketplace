@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad71cba3_4c8df67b",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-15T09:59:15Z",
+      "side": 1,
+      "message": "Please remove, don\u0027t comment out",
+      "revId": "1a75ab2797741607f49451459ca334f2d5ed1700",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3556cff8_95168e07",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 1913,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-15T09:59:15Z",
+      "side": 1,
+      "message": "Please remove name",
+      "revId": "1a75ab2797741607f49451459ca334f2d5ed1700",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
