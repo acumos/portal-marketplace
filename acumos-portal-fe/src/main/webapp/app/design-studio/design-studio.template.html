@@ -59,7 +59,7 @@ limitations under the License.
 						<md-content class="md-padding"
 							style="padding: 0px;padding-left: 20px;"> <!-- <p>Tab 2</p> -->
 						<div class="ds-section-data-inner2">
-							<ul class="ds-list3" ng-repeat="val in publicCS | filter:myFilter | orderBy:'solutionName' ">
+							<ul class="ds-list3" ng-repeat="val in publicCS | orderBy:'solutionName' | filter:myFilter track by $index ">
 								<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}}({{val.version}})</label></span></li>
 							</ul>
 						</div>
@@ -840,13 +840,14 @@ limitations under the License.
 										<label class="disblock">Upload Files <span
 											class="dsreqfield">*</span></label>
 											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
-             										accept="csv/json/image/*" file-reader="fileContent" ng-required="{{uploadFileRequired}}" 
+             										accept="csv/json/image/*" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json')" 
              										ngf-model-invalid="errorFile"/>
              										
              										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
              										<!-- <span  ng-bind="errormsg"></span> -->
 										<div class="help-inline validation-msgs"
 										ng-class="validationmsg">
+										<span ng-show="readSolution && fileContent === undefined">If you want to make changes to source table, Please re-upload the file</span> 
 										<span ng-class="validationmsg" ng-bind="errormsg"></span> 
 									</div>
 					                     	
@@ -879,7 +880,7 @@ limitations under the License.
 					</div>
 <!-- Data Broker Modal box end -->
 
-<!-- popup to select output message for Databroker start -->
+<!-- <!-- popup to select output message for Databroker start 
 <div class="md-dialog-container" id="myDialogSelectOutput" style="height:0;">
 							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
 								  
@@ -902,9 +903,9 @@ limitations under the License.
 			                                                        {{key}}
 			                                                        </md-radio-button>
 			                                                    </md-radio-group>
-										<!-- <div ng-repeat="(key,value) in dataBrokerSelectOutput">
+										<div ng-repeat="(key,value) in dataBrokerSelectOutput">
 											<input type="radio" data-ng-model="selectedOutput" value="key">{{key}}({{value}})
-										</div> -->
+										</div>
 										
 										 								
 									  </div>
@@ -922,7 +923,7 @@ limitations under the License.
 									</md-dialog-actions>
 								</md-dialog>
 							</div>
-<!-- popup to select output message for Databroker end -->
+popup to select output message for Databroker end -->
 
 <!-- Mapping Modal box start -->
 							<div class="md-dialog-container" id="myDialogMapping" style="height:0;">
@@ -1140,7 +1141,7 @@ limitations under the License.
 											<md-button ng-click="closeMappingPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 												Cancel
 											</md-button>
-											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid && !sourceTargetTable.$dirty">
+											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid || disableDone">
 												Done
 											</md-button>
 									    </div>

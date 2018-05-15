@@ -74,6 +74,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var jsonProtoNode= new Map(); var jsonProtoMap;
     var dataMaps = new Map();
     var readScriptDetails = null;
+    var scriptEnteredDetails = null;
     var extras = false;
     var operations = []; var messages = [];
     $scope.palette = {categories: []};
@@ -117,8 +118,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var res = type.split("(");
         var getver = res[1].split(")");
         var ver = getver[0];
-        ver = '('+ver+')';
-        type = type.replace(ver,'');
+        var verRemove = '('+ver+')';
+        type = type.replace(verRemove,'');
         var typeModel = type+'+'+getver[0];
         _drawGraphs.nodeCrossfilter().all().forEach(function(n) {
             var nodeType = n.type.name;
@@ -146,10 +147,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         };
         data.name = data.nodeId;
         $scope.nodeName=data.name;
-        var nodeId = '',nodeVersion = '';
+        var nodeId = '',nodeVersion = ver;
         $http.get(_catalog.fModelUrl(_components.get(type))).success(function(tgif) {
             nodeId = _components.get(type).solutionId;
-            nodeVersion = _components.get(type).version;
+            //nodeVersion = _components.get(type).version;
             $scope.solutionDetails=_components.get(type);
             $scope.showProperties=null;
             console.log($scope.solutionDetails);
@@ -331,6 +332,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.myCheckbox = false;
                     $scope.activeInactivedeploy = true;
                     $scope.console = null;
+                    $scope.readSolution = false;
+                    $scope.scriptEntered = false;
                     reset();
                     if (parameter == 'new'){
                         $scope.titlemsg ="New Solution";
@@ -473,6 +476,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	base:"dsce/dsce/",
         // base: urlBase,
         //base: 'http://localhost:8088/dsce/',
+    	//base: 'http://cognita-dev1-vm01-core.eastus.cloudapp.azure.com:8088/dsce/',
         catalog: 'solution/getSolutions',
         typeinfo: 'artifact/fetchJsonTOSCA',
         create: 'solution/createNewCompositeSolution',
@@ -809,6 +813,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             if(n.type.name === "DataBroker"){
             	$scope.uploadFileRequired = false;
             	$scope.nodeIdDB = n.nodeId;
+            	$scope.readSolution = true;
             	angular.forEach(n.properties, function(value, key){
             		if(value.data_broker_map != null){
             			
@@ -829,6 +834,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             					'firstrow':value.data_broker_map.first_row,
             					'localfile':value.data_broker_map.local_system_data_file_path,
             					'mapInputs':value.data_broker_map.map_inputs};
+            			$scope.readSolutionMapping();
             			$scope.checkedRead = true;
             			$scope.uncheckedRead = false;
             			$scope.readSolution = true;
@@ -1806,15 +1812,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 if(p.orig.value.bounds === inbounds){
                     portType = "input";
                 } else if(p.orig.value.bounds === outbounds){
-                	if(p.node.orig.value.modelName === "DataBroker" || p.node.orig.value.type.name === "DataBroker"){
+                	/*if(p.node.orig.value.modelName === "DataBroker" || p.node.orig.value.type.name === "DataBroker"){
                 		if(p.edges.length > 0 || p.orig.value.type !== null)
                 			portType = "output";
                 		else 
                 			portType = "DBoutput";
                 	}
-                	else {
-                		portType = "output";
-                	}
+                	else {*/
+                	portType = "output";
                 } else {
                 	portType = "script";
                 }
@@ -1824,11 +1829,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 						// broker
                 	$scope.showScript();
                      	
-                } else if(portType === "DBoutput"){
+                /*} else if(portType === "DBoutput"){
                 	// code for output port of data broker
                 	$scope.selectOutputMessage(p);
                 	
-                	
+                */	
                 } else {
                 var selectedNodeId = ports[0].node;
                 var res = selectedNodeId.slice(0,-1);
@@ -2447,6 +2452,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.namedisabled = false;$scope.closeDisabled = true;
                     $scope.solutionName = '';$scope.solutionVersion = '';$scope.solutionDescription = '';_cid = '';_solutionId = '';
                     $scope.canvas =false;
+                    $scope.validationState = true;
+                    jsonProtoNode = new Map();
+                    protoJsonRead = new Map();
+                    $scope.readSolution = false;
+                    $scope.scriptEntered = false;
                     //$(".ds-grid-bg").css("background", "none");
                 })
                 .error(function(response){
@@ -2505,7 +2515,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
         var empty = {"cname": $scope.solutionName,"version": $scope.solutionVersion,"cid": _cid,"solutionId": _solutionId,"ctime": '',"mtime": "","nodes": [],"relations": []};
         display_solution(empty);$scope.solutionDetails = false;$scope.solutionDescription = '';
+        jsonProtoNode = new Map();
+        protoJsonRead = new Map();
         $scope.myCheckbox = false;
+        $scope.readSolution = false;
+        $scope.scriptEntered = false;
     };
 
     $scope.down=false;
@@ -2562,17 +2576,31 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.closePoupscript = function(){
     	$mdDialog.hide();
-    	if($scope.readSolution === true){
+    	if($scope.readSolution){
     		$scope.dbType = readScriptDetails.dbtype;
-    		$scope.fileURL = readScriptDetails.targeturl;
+    		$scope.fileUrl = readScriptDetails.targeturl;
     		$scope.scriptText = readScriptDetails.script;
     		$scope.firstRow = readScriptDetails.firstrow;
     		if(!$scope.userImage){
-				$scope.userImageNew =value.data_broker_map.local_system_data_file_path;
+				$scope.userImageNew =readScriptDetails.localfile;
 			}
     		//$scope.dataShow=$scope.readSourceTable;
+    	} else if($scope.scriptEntered){
+    		$scope.dbType = scriptEnteredDetails.dbtype;
+    		$scope.fileUrl = scriptEnteredDetails.targeturl;
+    		$scope.scriptText = scriptEnteredDetails.script;
+    		$scope.firstRow = scriptEnteredDetails.firstrow;
+    		$scope.userImage = scriptEnteredDetails.localfile;
+			
+
+    		//console.log(scriptEnteredDetails.firstrow);
+    	} else{
+    		$scope.dbType = "Select Type";
+    		$scope.fileUrl = "";
+    		$scope.scriptText = "";
+    		$scope.firstRow = "";
+    		$scope.userImage="";
     	}
-      
     }
     
     $scope.closeMappingPopup = function(){
@@ -2696,9 +2724,37 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.processData = function(){
     	/*var x = document.getElementById("fileRead").value;
     	console.log(x);*/
+    	$scope.scriptEntered = true;
+    	scriptEnteredDetails={'dbtype':$scope.dbType,
+    						'targeturl':$scope.fileUrl,
+    						'script':$scope.scriptText,
+    						'firstrow':$scope.firstRow,
+    						'localfile':$scope.userImage};
     	console.log($scope.dbType);
     	console.log($scope.firstRow);
+    	/*if($scope.readSolution){
+    		//saving script after reading the solution
+    		if($scope.fileContent === undefined){
+    			if($scope.firstRow !== readScriptDetails.firstrow){
+    				
+  				  $scope.dataShow = tabledata;
+  			  } else if($scope.firstRow == "contains_data"){
+  				  for(var a=0;a<tabledata.length;a++){
+  					  $scope.dataShow[a] = "C"+(a+1);
+  				  }
+  			  }
+    		}
+    	} else{*/
     	if($scope.dbType == 'csv'){
+    		if($scope.fileContent !== undefined){
+    			$scope.readSolution = false;
+    			checkFieldMap = new Map();
+        		fieldNameMap = new Map();
+        		fieldTypeMap = new Map();
+        		tagMap = new Map();
+    		} else{
+    			
+    		}
 	    	var uploaded=$scope.fileContent;
 	    	var delimeter;
 	    	$scope.errormsg = '';
@@ -2713,7 +2769,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	    	}else if(uploaded.indexOf(';') != -1){
 	    		var dataShow = uploaded.split('\n');
 	    		delimeter = ';' ;
-	    	}
+	    	}//else
 	    	
 	    	var col = dataShow[0];
 	    	var statusParse = parseError(col);
@@ -2730,11 +2786,18 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 				  }
 			  }
 			  //$scope.dataShow = tabledata;
-			  $scope.readSolution = false;
+			  //$scope.readSolution = false;
+			 /* if($scope.readSolution){
+				  for(var n=0;n<$scope.dataShow.length;n++){
+					  $scope.readSourceTable[n].input_field.name = $scope.dataShow[n];
+				  }
+			  }*/
 			  $scope.saveScript();
 	    	} else {
 	    		//$scope.databroker.$invalid = true;
-	    		$scope.errormsg ="Common file separator(| or , ) is missing , Please upload correct csv file";
+	    		$scope.msg ="Common file separator(| or , ) is missing , Please upload correct csv file";
+	    		//$scope.closePoup();
+                $scope.showpopup();
 	    	}
 		  
     } else if($scope.dbType === 'image'){
@@ -2748,14 +2811,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	            "FieldType" : "Byte",
     	        }
     	    ]
-    	$scope.readSolution = false;
+    	//$scope.readSolution = false;
     	$scope.saveScript();
     	
     }
     
     	
     function parseError(col){
-    	if((col.indexOf("|") == -1 && col.indexOf(",") == -1) ){
+    	if((col.indexOf("|") == -1 && col.indexOf(",") == -1 && col.indexOf(";") == -1)){
 			return false;
 		} else {
 			return true;
@@ -2777,7 +2840,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var data = {
     			"databrokerMap": {
     			    "script": $scope.scriptText,
-    			    "csv_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, //check
+    			    "csv_file_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, //check
     			    "data_broker_type": $scope.dbType,
     			    "first_row": $scope.firstRow?$scope.firstRow:null,
     			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, //need to complete
@@ -2832,7 +2895,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         
         
     }
-    $scope.selectOutputMessage = function(p,ev) {
+   /* $scope.selectOutputMessage = function(p,ev) {
     	var dataBrokerOutput = new Map();
     	if($('.node').length > 0){
     	$scope.portDets = p;
@@ -2898,7 +2961,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	targetTableCreate($scope.portDets);
     	dc.redrawAll();
     	$scope.closePoup();
-    }
+    }*/
     
     function targetTableCreate(portDetails){    	
     	//console.log($scope.portDets.orig.value.fullType[0].messageargumentList);
@@ -2946,6 +3009,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     
     $scope.showMappingTable = function(ev) {
+    	$scope.disableDone = false;
+    	if($scope.readSolution){
+    		if($scope.targetMapTable === null || $scope.targetMapTable === undefined || $scope.readSourceTable === null || $scope.readSourceTable === undefined){
+        		$scope.disableDone = true;
+        	}
+    	} else {
+    		if($scope.targetMapTable === undefined || $scope.dataShow === undefined){
+        		$scope.disableDone = true;
+        	}
+    	}
+    	
         $mdDialog.show({
             contentElement: '#myDialogMapping',
             parent: angular.element(document.body),
@@ -3039,7 +3113,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	if($scope.dbType === "csv"){
     		angular.forEach($scope.dataShow, function(valueData,keyData){
 	    		mapInput.push({"input_field": {
-	    			"name": fieldNameMap.get(keyData),
+	    			"name":fieldNameMap.get(keyData),
 	    			"type": fieldTypeMap.get(keyData)?fieldTypeMap.get(keyData):"null",
 	    			"checked": checkFieldMap.get(keyData) === "YES"?"YES":"NO",
 	    			"mapped_to_field": tagMap.get(keyData)?tagMap.get(keyData):"null"
@@ -3134,7 +3208,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		var data = {
         			"databrokerMap": {
         			    "script": null,
-        			    "csv_field_separator": null, //check
+        			    "csv_file_field_separator": null, //check
         			    "data_broker_type": null,
         			    "first_row": null,
         			    "local_system_data_file_path": null, //need to complete
@@ -3149,7 +3223,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var data = {
     			"databrokerMap": {
     			    "script": null,
-    			    "csv_field_separator": null, //check
+    			    "csv_file_field_separator": null, //check
     			    "data_broker_type": null,
     			    "first_row": null,
     			    "local_system_data_file_path": null, //need to complete
@@ -3207,7 +3281,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     //$scope.showFileOption = false;
     $scope.mapDBType = function(dbType){
-        if(dbType === "csv" || dbType === "image" || dbType === "sql"){
+        if(dbType === "csv" || dbType === "image" || dbType === "json"){
                $scope.fileUrl = "file://";
                $scope.uploadFileRequired = true;
         }else{
