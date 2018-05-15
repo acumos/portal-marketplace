@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33d48470_829743f2",
+        "filename": "acumos-portal-fe/src/main/webapp/app/userDetail/userDetail.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-15T09:59:15Z",
+      "side": 1,
+      "message": "please remove, don\u0027t comment out.  Git remembers forever.",
+      "revId": "bd9f4f5b26c8c35cbaf9109f2b3e76f6909f41a4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85359f30_beb33924",
+        "filename": "acumos-portal-fe/src/main/webapp/app/userDetail/userDetail.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-15T09:59:15Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "bd9f4f5b26c8c35cbaf9109f2b3e76f6909f41a4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c1b2bc5_c7cae996",
+        "filename": "acumos-portal-fe/src/main/webapp/app/userDetail/userDetail.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-15T09:59:15Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "bd9f4f5b26c8c35cbaf9109f2b3e76f6909f41a4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
