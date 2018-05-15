@@ -36,9 +36,6 @@ limitations under the License.
 				<div class="ds-section" id="top-content-left">
 					<div class="ds-section-heading">
 						<label>Marketplace</label>
-						<!-- <button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1">
-  							<i class="fa fa-times" aria-hidden="true"></i>
-						</button> -->
 					</div>
 					<div class="ds-section-heading-container">					
 						
@@ -57,9 +54,9 @@ limitations under the License.
 								
 							</div>
 						<md-content class="md-padding"
-							style="padding: 0px;padding-left: 20px;"> <!-- <p>Tab 2</p> -->
+							style="padding: 0px;padding-left: 20px;"> 
 						<div class="ds-section-data-inner2">
-							<ul class="ds-list3" ng-repeat="val in publicCS | filter:myFilter | orderBy:'solutionName' ">
+							<ul class="ds-list3" ng-repeat="val in publicCS | orderBy:'solutionName' | filter:myFilter track by $index ">
 								<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}}({{val.version}})</label></span></li>
 							</ul>
 						</div>
@@ -71,8 +68,7 @@ limitations under the License.
 									
 									<div ng-repeat="category in categoryNames">
 									<div class="ds-treelist">
-										<!-- <div data-toggle="collapse" class="fa fa-folder-open question ui-link" ng-click="setActionLeft($index)" ng-show="$index==selectedIndexLeft && initIndexLeft"><span>{{category.typeName}}</span></div> -->
-										<!-- <div data-toggle="collapse" class="fa fa-folder question ui-link" ng-click="setActionLeft($index)" ng-show="$index!==selectedIndexLeft"><span>{{category.typeName}}</span></div> -->
+										
 										<div ng-if="category.typeCode!=='DT' && category.typeCode!=='DS'">
 										<div class="fa fa-folder question ui-link" ng-click="expanded = !expanded" expand ng-class="expanded ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">{{category.typeName}}</span></div> 
 						                     <div ng-show="expanded">
@@ -87,8 +83,6 @@ limitations under the License.
 						            </div>
 						            <div>
 									<div class="ds-treelist">
-										<!-- <div data-toggle="collapse" class="fa fa-folder-open question ui-link" ng-click="setActionLeft($index)" ng-show="($index==selectedIndexLeft && initIndexLeft)"><span class="dslist1">Other</span></div>
-										<div data-toggle="collapse" class="fa fa-folder question ui-link"ng-click="setActionLeft($index)" ng-show="($index!==selectedIndexLeft) || showOther"><span class="dslist1">Other</span></div> -->
 										<div class="fa fa-folder question ui-link" ng-click="test = !test" expand ng-class="test ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">Other</span></div>
 						                     <div ng-show="test">
 							                      <div ng-repeat="cat in palette.categories">
@@ -106,10 +100,6 @@ limitations under the License.
 							
 						</md-tabs>
 						</div>
-					<!-- <div class="ds-section-content">
-						
-						
-					</div> -->
 					
 				</div>
 				<div class="ds-hor-seperator" id="content-resizer-left"></div>
@@ -222,8 +212,6 @@ limitations under the License.
 							</ul>
 						</div> 
 						
-						<!-- <button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-download" title="Download"><span class="ds-icon icon-download"></span>Download</button> -->						
-						<!-- <button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-run" disabled><span class="ds-icon icon-run-disabled"></span>Run</button> -->						
 						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist" title="Collapse Right Panel"><span class="ds-icon icon-expand-drawer"></span></button>
 						<button ng-click="closeDrawer()" class="mdl-button mdl-js-button ds-btn1 btn-fullscreen" title="Full Screen"><span class="ds-icon icon-fullscreen"></span></button>
 					</div>
@@ -239,7 +227,6 @@ limitations under the License.
 								<div class="canvas-text text-center">
 									
 									<h5>Drag &amp; Drop your model into canvas to <br /> Create or Modify Model</h5>
-<!-- 									<p class="canvas-para">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> -->
 								</div>
 							
 							</div>
@@ -258,15 +245,7 @@ limitations under the License.
 									</div>
 									<div class="console-section-data">
 										<div class="console-section-data-inner">
-										<span id="consoleMsg">{{console}}</span>
-											<!-- <span class="console-errormsg">Uncaught type error: Cannot read property</span>
-											<span class="console-successmsg">Success message content displayed here</span>
-											<span class="console-errormsg">Uncaught type error: Cannot read property</span>
-											<span class="console-successmsg">Success message content displayed here</span>
-											<span class="console-errormsg">Uncaught type error: Cannot read property</span>
-											<span class="console-successmsg">Success message content displayed here</span>
-											<span class="console-errormsg">Uncaught type error: Cannot read property</span>
-											<span class="console-successmsg">Success message content displayed here</span> -->										
+										<span id="consoleMsg">{{console}}</span>										
 										</div>
 									</div>									
 								</div>
@@ -285,25 +264,17 @@ limitations under the License.
 							<md-tab label="Properties"> 
 								<md-content class="md-padding">
 							<div class="ds-section-data ds-section-properties">							
-							<div class="ds-section-data-inner3" ng-show="solutionDetails" >
-							<!-- ng-show="solutionDetails" -->							
+							<div class="ds-section-data-inner3" ng-show="solutionDetails" >							
 								<ul class="ds-list2 properties-list">
 									
 									<li>
 										<label class="disblock ds-label1">Node Name:</label>
 										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
-										<!-- <label class="text-semi-bold ds-label2" ng-hide="showInput">{{solutionDetails.solutionName}} <button class="mdl-button mdl-js-button" ng-click="toggleShowInput()">
-											 <i class="material-icons">mode_edit</i>
-										</button></label>-->
 									</li>
 									<li>
 										<label class="disblock ds-label1">Node Type:</label>
 										<label class="disblock text-semi-bold">{{solutionDetails.solutionName}}</label>
 									</li>
-									<!-- <li>
-										<label class="disblock ds-label1">Model Package Nam:</label>
-										<label class="disblock text-semi-bold">{{packageName}}</label>
-									</li> -->
 									<li>
 										<label class="disblock ds-label1">Model Owner:</label>
 										<label class="disblock text-semi-bold">{{solutionDetails.ownerId}}</label>
@@ -327,18 +298,9 @@ limitations under the License.
             									</div>
             								</div>
             							</div>
-										<!-- <label class="disblock ds-label1">Toolkit Type Name:</label>
-										<label class="disblock text-semi-bold">null</label> -->
+
 									</li>
-									<!-- <li>
-										<div class="disblock text-semi-bold" ng-show="showProperties">
-											{{messageDet}} {
-											<div ng-repeat="msg in messageUI" style="padding-left:3em">
-												{{msg}}
-											</div>
-											}
-										</div>		
-									</li> -->
+
 								</ul>
 							</div>
 							<div  class="disblock text-semi-bold" style="padding-left:1em;color:black" ng-show="showProperties">
@@ -368,19 +330,8 @@ limitations under the License.
 								
 								<button ng-click='showMappingTable()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform">Mapping Table</button>
 							</div>
-									<!-- 	<div ng-if="fileContent" class="content" ng-show="showSourceTable">
-      <h5> Source Table</h5>
-	 
-	  <table border="0">
-		
-		<tr ng-repeat="data in dataShow">
-			<td> <input type="checkbox"></td>
-			<td>{{data}}</td>
-		</tr>
-	  </table>
-    </div>  -->
+								
 							<div class="ds-section-data-inner3" ng-show="showLink" >
-							<!-- ng-show="solutionDetails" -->							
 								<ul class="ds-list2 properties-list">
 									
 									<li>
@@ -410,22 +361,17 @@ limitations under the License.
 								<md-content class="md-padding" ng-if="clicked" style="padding:0px" >			
 								<div class="ds-section-data-inner bdr-bottom">	
 								<md-input-container md-no-float class="md-block ds-search-input">
-										<input ng-model="filterMM" type="text"> <md-icon
+										<input ng-model="filterMM.solutionName" type="text"> <md-icon
 											style="display:inline-block;">
 										<button
 										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
 										<span class="ds-icon icon-input-search"></span>
 									</button></md-icon> </md-input-container>						
-								<!-- <md-input-container md-no-float class="md-block ds-search-input">
-										<input type="text"> </md-input-container> -->
 							</div>
 									<div class="ds-section-data-inner2">
 								<div class="ds-treelist">
-										<!-- <div data-toggle="collapse" class="fa fa-folder-open question ui-link" ng-click="setActionLeft($index)" ng-show="$index==selectedIndexLeft && initIndexLeft"><span>{{category.typeName}}</span></div> -->
-										<!-- <div data-toggle="collapse" class="fa fa-folder question ui-link" ng-click="setActionLeft($index)" ng-show="$index!==selectedIndexLeft"><span>{{category.typeName}}</span></div> -->
-										
-							                        <div class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in matchModels track by $index" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+					                        <div class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in matchModels | orderBy:'solutionName'| filter:filterMM" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                        </div>
@@ -453,15 +399,7 @@ limitations under the License.
 										<span class="ds-icon icon-input-search" title="Search"></span>
 									</button></md-icon></md-input-container>
 							</div>
-							
-						                     
-							     <!--                  
-							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-inner-link" ng-repeat = "val in cat.values | filter:myFilter | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
-							                      	</div>
-							                    </div>
-						                    </div>
-						             </div>  -->
+						
 							<div class="ds-section-data-inner4 marginLeft">							
 								<ul class="ds-list3" ng-repeat="val in privateCS | filter:searchSol | orderBy:'solutionName'">
 									<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span><button ng-click="showdeletePopup($event,val)" class="mdl-button mdl-js-button"><span class="ds-delete-icon" title="Delete"></span></button> </li>
@@ -582,8 +520,7 @@ limitations under the License.
 									<md-dialog-content>
 									  <div class="md-dialog-content">
 										<p>Are you sure you want to delete the {{solutionToDelete.solutionName}}({{solutionVersion}}) solution?</p>
-										
-										 								
+							 								
 									  </div>
 									</md-dialog-content>
 									<md-dialog-actions>
@@ -650,8 +587,7 @@ limitations under the License.
 									<md-dialog-content>
 									  <div class="md-dialog-content">
 										<p>Would you like to save current solution?</p>
-										
-										 							
+						 							
 									  </div>
 									</md-dialog-content>
 									<md-dialog-actions>
@@ -691,8 +627,7 @@ limitations under the License.
 									<form ng-cloak>
 									  <div class="md-dialog-content">
 										<p>Do you want to update a previous version of this solution ?</p>
-										
-																		
+																	
 									  </div>
 									  </form>
 									</md-dialog-content>
@@ -840,16 +775,16 @@ limitations under the License.
 										<label class="disblock">Upload Files <span
 											class="dsreqfield">*</span></label>
 											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
-             										accept="csv/json/image/*" file-reader="fileContent" ng-required="{{uploadFileRequired}}" 
+             										accept="csv/json/image/*" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json')" 
              										ngf-model-invalid="errorFile"/>
              										
              										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
              										<!-- <span  ng-bind="errormsg"></span> -->
 										<div class="help-inline validation-msgs"
 										ng-class="validationmsg">
+										<span ng-show="readSolution && fileContent === undefined">If you want to make changes to source table, Please re-upload the file</span> 
 										<span ng-class="validationmsg" ng-bind="errormsg"></span> 
 									</div>
-					                     	
 					                     
 									</div>
 					
@@ -878,51 +813,6 @@ limitations under the License.
 						</md-dialog>
 					</div>
 <!-- Data Broker Modal box end -->
-
-<!-- popup to select output message for Databroker start -->
-<div class="md-dialog-container" id="myDialogSelectOutput" style="height:0;">
-							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
-								  
-									<md-toolbar>
-									  <div class="md-toolbar-tools">
-										<h2></h2>
-										<span flex></span>
-										<md-button class="md-icon-button" ng-click="closePoup()" title="Close">
-										  <i class="material-icons">close</i>
-										</md-button>
-									  </div>
-									</md-toolbar>
-									<md-dialog-content>
-									<form ng-cloak>
-									  <div class="md-dialog-content">
-										<p>Please select the output port for the databroker.</p>
-										<md-radio-group ng-model="selectedOutput"> 
-			                                 <md-radio-button ng-repeat="(key,value) in dataBrokerSelectOutput" 
-			                                                        value="{{key}}">
-			                                                        {{key}}
-			                                                        </md-radio-button>
-			                                                    </md-radio-group>
-										<!-- <div ng-repeat="(key,value) in dataBrokerSelectOutput">
-											<input type="radio" data-ng-model="selectedOutput" value="key">{{key}}({{value}})
-										</div> -->
-										
-										 								
-									  </div>
-									  </form>
-									</md-dialog-content>
-									<md-dialog-actions>
-											<div class="dialog-footer-container1">
-												<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
-									       	 Cancel
-									      	</md-button>
-										  	<md-button type="submit" ng-click="selectedDBOutput()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
-									        	Confirm
-									      </md-button>
-									    </div>
-									</md-dialog-actions>
-								</md-dialog>
-							</div>
-<!-- popup to select output message for Databroker end -->
 
 <!-- Mapping Modal box start -->
 							<div class="md-dialog-container" id="myDialogMapping" style="height:0;">
@@ -981,11 +871,6 @@ limitations under the License.
 																		<div class="select-control">																	
 																			<md-select ng-disabled="!checkfield" ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
 																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
-																																		
-																				<!-- <md-option value="">Tag-1.1</md-option>
-																				<md-option value="">Tag-1.2</md-option>
-																				<md-option value="">Tag-1.1.3</md-option>
-																				<md-option value="">Tag-1.3.1</md-option> -->
 																			</md-select>
 																		</div>
 																	 </td>																 
@@ -994,7 +879,6 @@ limitations under the License.
 																<tr ng-show="dbType === 'image' && !readSolution" ng-repeat="data in dataImage">
 																	<td>
 																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
-																			<!-- {{ data.cb1 }} -->
 																		</md-checkbox>
 																	</td>
 																	<td>
@@ -1011,11 +895,6 @@ limitations under the License.
 																		<div class="select-control">																	
 																			<md-select ng-disabled="!checkfield" required ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
 																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
-																																		
-																				<!-- <md-option value="">Tag-1.1</md-option>
-																				<md-option value="">Tag-1.2</md-option>
-																				<md-option value="">Tag-1.1.3</md-option>
-																				<md-option value="">Tag-1.3.1</md-option> -->
 																			</md-select>
 																		</div>
 																	 </td>																 
@@ -1024,7 +903,6 @@ limitations under the License.
 																<tr ng-show="dbType === 'csv' && readSolution" ng-repeat="data in readSourceTable">
 																	<td>
 																		<md-checkbox ng-if="data.input_field.checked === 'YES'" name="checkfield" ng-model="checkedRead" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
-																			<!-- {{ data.cb1 }} -->
 																		</md-checkbox>
 																		<md-checkbox ng-if="data.input_field.checked !== 'YES'" name="checkfield" ng-model="uncheckedRead" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
 																			<!-- {{ data.cb1 }} -->
@@ -1032,8 +910,7 @@ limitations under the License.
 																	</td>
 																	<td>
 																		<md-input-container class="md-block">																		
-																			<input type="text" required value="" name="fieldName" ng-model="data.input_field.name"> 
-																			
+																			<input type="text" required value="" name="fieldName" ng-model="data.input_field.name"> 	
 																		</md-input-container>
 																	</td>															
 																	 <td>
@@ -1053,11 +930,6 @@ limitations under the License.
 																		<div class="select-control">																	
 																			<md-select ng-disabled="data.input_field.checked !== 'YES'" ng-model="data.input_field.mapped_to_field" name="mapTag" placeholder="{{data.input_field.mapped_to_field}}">
 																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
-																																		
-																				<!-- <md-option value="">Tag-1.1</md-option>
-																				<md-option value="">Tag-1.2</md-option>
-																				<md-option value="">Tag-1.1.3</md-option>
-																				<md-option value="">Tag-1.3.1</md-option> -->
 																			</md-select>
 																		</div>
 																	 </td>																 
@@ -1066,10 +938,8 @@ limitations under the License.
 																<tr ng-show="dbType === 'image' && readSolution" ng-repeat="data in readSourceTable">
 																	<td>
 																		<md-checkbox ng-if="data.input_field.checked === 'YES'" ng-model="checkedRead" aria-label="Checkbox 1">
-																			<!-- {{ data.cb1 }} -->
 																		</md-checkbox>
 																		<md-checkbox ng-if="data.input_field.checked !== 'YES'" ng-model="uncheckedRead" aria-label="Checkbox 1">
-																			<!-- {{ data.cb1 }} -->
 																		</md-checkbox>
 																	</td>
 																	<td>
@@ -1086,11 +956,6 @@ limitations under the License.
 																		<div class="select-control">																	
 																			<md-select ng-model="data.input_field.mapped_to_field" name="mapTag" placeholder="Select Tag">
 																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
-																																		
-																				<!-- <md-option value="">Tag-1.1</md-option>
-																				<md-option value="">Tag-1.2</md-option>
-																				<md-option value="">Tag-1.1.3</md-option>
-																				<md-option value="">Tag-1.3.1</md-option> -->
 																			</md-select>
 																		</div>
 																	 </td>																 
@@ -1140,7 +1005,7 @@ limitations under the License.
 											<md-button ng-click="closeMappingPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 												Cancel
 											</md-button>
-											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid && !sourceTargetTable.$dirty">
+											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid || disableDone">
 												Done
 											</md-button>
 									    </div>
