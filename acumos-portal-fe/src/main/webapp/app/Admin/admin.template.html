@@ -333,7 +333,7 @@ limitations under the License.
 																	</div>
 																	<div class="sc-text-container">
 																		<span>{{item.headline}}</span>
-																		<p>{{item.supportingContent}}</p>
+																		<p ng-bind-html="item.supportingContent"></p>
 																	</div>
 																</div>
 																<div class="sc-cell-childbottom">
@@ -2376,7 +2376,7 @@ limitations under the License.
 									<md-dialog-content>
 									<form name="carouselForm" ng-cloak>
 										<div class="md-dialog-content add-top-carousel">
-											<div class="ds-db-row1">
+											<div class="mdl-grid">
 												<div class="mdl-cell mdl-cell--6-col" style="float:left">
 														<md-input-container class="md-block">
 															<label>Slide Name</label> 
@@ -2391,36 +2391,82 @@ limitations under the License.
 													</md-input-container>
 												</div>
 											</div>
-											<div class="ds-db-row2">
-												<div class="mdl-cell mdl-cell--12-col" style="float:left">
+											<div class="mdl-grid">
+												<div class="mdl-cell mdl-cell--12-col">
 													<md-input-container class="md-block">
 													  <label>Supporting content</label>
-													  <textarea rows="2" ng-model="carouselSlide.supportingContent" tabindex="3" required></textarea>
+													   <ng-quill-editor ng-model="carouselSlide.supportingContent" modules="modulesConfig">	  
+													  </ng-quill-editor>
+													  <!-- <textarea rows="2" ng-model="carouselSlide.supportingContent" tabindex="3" required></textarea> -->
 													  <span class="modal-note">140 Characters Only</span>
 													</md-input-container>
 												</div>
 											</div>
-											<div class="ds-db-row3">
-												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+											<div class="mdl-grid">
+												<div class="mdl-cell mdl-cell--6-col add-document">
 													<md-input-container class="md-block">
-														<label>Main Background</label>
-														<div class="drag-drop">
-															<div class="drag-drop-files hide">
+														<label>Main Background</label>													
+														<div class="drag-drop-CustomFile">
+															<!-- <div class="drag-drop-files hide">
 																<p>doc.pdf</p>
 															</div>
 															<div>
 																<img src="images/upload-doc-vector.png" alt="" title=""/>
 																<div class="destext">Drag & Drop your file here!</div>
-															</div>
+															</div> -->
+															<div class="drag-drop-files hide">
+																			              <p>doc.pdf</p>
+																			       </div>
+																			<div file-droppable filename="filename" file=carouselSlide.backGround>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
 														</div>
+														<div>														
+															<span class="spanOR">OR</span>
+														</div>
+														<div class="drag-drop-CustomColor">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div class="currentColor">
+																<label>Current Color</label>
+																<span class="Custom-colors">#10a6b5</span>
+																<label>Select Color</label>
+																<span ng-repeat = "n in bgColor">
+																<span class="colorChamber" style = "background-color : {{n}}" ng-class="{active : n === carousel_bgColor}" ng-click = "selectBgColor(n)"></span>
+																</span>
+																<!-- <span class="colorChamber background-color-sample2"></span>
+																<span class="colorChamber background-color-sample3"></span>
+																<span class="colorChamber background-color-sample4"></span>
+																<span class="colorChamber background-color-sample5"></span>
+																<span class="colorChamber background-color-sample6"></span>
+																<span class="colorChamber background-color-sample7"></span> -->
+															</div>
+															<hr class="hrMargins"/>
+															<div class="custom-color-chamber">
+																<label>Custom Color</label>
+																<!-- <span class="spanLeft">#</span> -->
+																<input type="text" class="custom-color-textbox" ng-model = "carousel_bgColor"/>
+															</div>
+														</div>														
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 																<div ng-model="backGround">
-																	<div class="upload-field">Browse
+																	<!-- <div class="upload-field">Browse
 																		<input type="file" upload-image-model="carouselSlide.backGround" data-ng-model="carouselSlide.backGround" id="backGround1" />
-																	</div>
+																	</div> -->
+																	<div  file-upload size = "800000" ng-click = "imageSizeError = false"
+																						uploadid="carouselSlideUploadid" id="uploadFile"
+																						filename="filename" file="carouselSlide.backGround"
+																						ng-model="carouselSlide.backGround" accept = ""
+																						alt="Browse" title="Browse" readonly></div>
+																						<input class="mdl-textfield__input disabledClick"
+																							placeholder="Upload File" type="text"
+																							ng-model="carouselSlide.backGround.name" readonly />
 																	<div class="help-inline validation-msgs">
 																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+																		
 																	</div>
 																</div>
 																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
@@ -2438,7 +2484,7 @@ limitations under the License.
 														</span>
 													</md-input-container>
 												</div>
-												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+												<div class="mdl-cell mdl-cell--6-col add-document">
 													<md-input-container class="md-block">
 														<div class="infographics">
 															<div>
@@ -2453,23 +2499,62 @@ limitations under the License.
 																</span>
 															</div>
 														</div>
-														<div class="drag-drop">
+														<div class="drag-drop infograph drag-left">
+															<div class="drag-drop-files hide">
+																<p>doc.pdf</p>
+															</div>
+															<div file-droppable file=carouselSlide.infoGraphic>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
+														</div>
+														<div class="drag-drop infograph drag-right">
 															<div class="drag-drop-files hide">
 																<p>doc.pdf</p>
 															</div>
 															<div>
-																<img src="images/upload-doc-vector.png" alt="" title=""/>
-																<div class="destext">Drag & Drop your file here!</div>
+																<label>You can use</label>
+																<label>Default infographics</label>
+																<div class="sample">
+																	<div class="image-Container">
+																		<img src="../images/Layer_1.png" class="image-size">
+																    </div>
+																    <div class="image-Container">
+																		<img src="../images/Layer_2.png" class="image-size">
+																    </div>
+																    <div class="image-Container">
+																		<img src="../images/Layer_4.png" class="image-size">
+																    </div>
+																    <div class="image-Container">
+																		<img src="../images/Layer_3.png" class="image-size">
+																    </div>
+																    <div class="image-Container">
+																		<img src="../images/Layer_2.png" class="image-size">
+																    </div>																     
+																</div>
+																
 															</div>
-														</div>
+														</div>		
+														</md-input-container>														
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 															<div>
 																<!-- <div file-upload="" file="previewImage" ng-click="cancelSolImage()" uploadid="companyuploadid" id="solImage" size="800000" imageerror="imageerror" filename="filename" fileinput="file" accept="image/*" imagetypeerror="imagetypeerror" filepreview="previewImage"
 																  icon="icon" upload-image-model="backGround" alt="Browse" title="Browse" readonly="" class="ng-pristine ng-untouched ng-valid ng-empty" role="button" tabindex="0" aria-invalid="false"> -->
-																	<div class="upload-field">Browse
+																	<!-- <div class="upload-field">Browse
 																		
 																		<input type="file" upload-image-model="carouselSlide.infoGraphic" data-ng-model="carouselSlide.infoGraphic" />
+																	</div> -->
+																	<div  file-upload uploadid="infographicUploadid" id="uploadFile"
+																						file="carouselSlide.infoGraphic" ng-click = "imageSizeError = false"
+																						ng-model="carouselSlide.infoGraphic" accept = ""
+																						alt="Browse" title="Browse" readonly></div>
+																						<input class="mdl-textfield__input disabledClick"
+																							placeholder="Upload File" type="text"
+																							ng-model="carouselSlide.infoGraphic.name" readonly />
+																	<div class="help-inline validation-msgs">
+																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+																		
 																	</div>
 																	<!-- <div class="help-inline validation-msgs">
 																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
@@ -2491,7 +2576,7 @@ limitations under the License.
 														<span class="modal-note">
 															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
 														</span>
-													</md-input-container>
+													
 												</div>
 											</div>
 											
@@ -2854,10 +2939,10 @@ limitations under the License.
 													</md-input-container>
 												</div>
 											</div>
-											<div class="ds-db-row3">
-												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+											<div class="mdl-grid">
+												<div class="mdl-cell mdl-cell--6-col add-document">
 													<md-input-container class="md-block">
-														<label>Main Background</label>
+														<label>Main Background Image/Color</label>
 														<div class="drag-drop">
 															<div class="drag-drop-files hide">
 																<p>doc.pdf</p>
@@ -2878,7 +2963,7 @@ limitations under the License.
 																	</div>
 																</div>
 																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
-																<input type="file" upload-image-model="successCarousel.backGround" data-ng-model="successCarousel.backGround" />
+																<!-- <input type="file" upload-image-model="successCarousel.backGround" data-ng-model="successCarousel.backGround" /> -->
 															</div>
 															<span>
 															<md-button ng-click="uploadsuccessBGImg()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
@@ -2892,7 +2977,7 @@ limitations under the License.
 														</span>
 													</md-input-container>
 												</div>
-												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+												<div class="mdl-cell mdl-cell--6-col add-document">
 													<md-input-container class="md-block">
 														<div class="infographics">
 															<div>
