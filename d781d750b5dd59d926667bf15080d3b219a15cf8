@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04cd71cc_2738f64c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T19:25:34Z",
+      "side": 1,
+      "message": "Why sleep?",
+      "revId": "d781d750b5dd59d926667bf15080d3b219a15cf8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36389eea_3767de92",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T19:25:34Z",
+      "side": 1,
+      "message": "you always send 3 different notifications for a single event? this does not seem to use the user\u0027s notification preferences, did I understand that correctly?",
+      "range": {
+        "startLine": 268,
+        "startChar": 6,
+        "endLine": 268,
+        "endChar": 7
+      },
+      "revId": "d781d750b5dd59d926667bf15080d3b219a15cf8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebe7c9ae_8f81dee9",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T19:25:34Z",
+      "side": 1,
+      "message": "Thank you for removing the no-op assertions.  What\u0027s left is not much of a test.  Can you check that it has some non-null content?",
+      "revId": "d781d750b5dd59d926667bf15080d3b219a15cf8",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
