@@ -61,6 +61,15 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
     private int totalElements;
     private List<MLPSolution> modelsSharedWithUser;
     private List<MLRequest> requestList;
+    private int pageCount;
+    
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
 
 	public RestPageResponseBE(List<T> content) {
 		super(content);
