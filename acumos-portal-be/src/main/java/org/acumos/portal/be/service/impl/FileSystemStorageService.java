@@ -71,7 +71,7 @@ public class FileSystemStorageService implements StorageService {
 			if (!filename.contains(".zip")) {
 				// This is a security check
 				log.error(EELFLoggerDelegate.errorLogger, "Zip File Required. Original File :  " + filename );
-				throw new StorageException("Zip File Required " + filename);
+				throw new StorageException("Zip File Required. Original File : " + filename);
 			}
 
 			if (!validateFile(file)) {

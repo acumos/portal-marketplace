@@ -154,6 +154,9 @@ limitations under the License.
 														  <md-tab label="Health Check">
 															<md-content class="md-padding">
 															  <h1 class="md-display-2">Health Check</h1>
+															  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
+															  <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra quam, at semper massa orci nec magna. Donec posuere nec sapien sed laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in tempor tortor. Vivamus faucibus egestas enim, at convallis diam pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
+															  <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
 															</md-content>
 														  </md-tab>														 
 														</md-tabs>
@@ -1437,7 +1440,7 @@ limitations under the License.
 									<md-dialog-content >
 									<ng-form name = "signupForm" ng-cloak>
 									  <div class="md-dialog-content" ng-model='value'>		
-									  <div class="admin-row admin-row1">
+									  <div class="admin-row admin-row1 userManagement-addUser">
 											<div>
 												<md-input-container class="md-block"  >
 													<label>First Name</label> 
@@ -1465,7 +1468,7 @@ limitations under the License.
 												</md-input-container>
 											</div>
 										</div>								
-										<div class="admin-row admin-row1">
+										<div class="admin-row admin-row1 userManagement-addUser">
 											<div>
 												<md-input-container class="md-block" >
 													<label>User Name</label> 
@@ -1496,7 +1499,7 @@ limitations under the License.
 												</md-input-container>
 											</div>
 										</div>										
-										<div class="admin-row admin-row1">
+										<div class="admin-row admin-row1 userManagement-addUser">
 											<div>
 												<md-input-container class="md-block">
 													<label>Password</label> 
@@ -1533,7 +1536,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>									
-										<div class="admin-row admin-row2">
+										<div class="admin-row admin-row2 userManagement-addUser">
 											<div>
 												<div class="strength-meter" ng-if="!signupForm.pwd.$valid && signupForm.pwd.$dirty && value.password">
 													<div class="strength-meter-fill" ng-init="passwordStrength=0" data-strength="{{passwordStrength}}"></div>
@@ -1556,7 +1559,7 @@ limitations under the License.
 												</p>
 											</div>
 										</div>
-										<div class="admin-row admin-row1">
+										<div class="admin-row admin-row1 userManagement-addUser">
 											<div>
 												<md-checkbox aria-label="checked checkbox" ng-model="data.cb4" ng-init="data.cb4=true">
 													Send this password to the new user by email
@@ -1600,7 +1603,7 @@ limitations under the License.
 									</md-toolbar>
 									<md-dialog-content>
 									  <div class="md-dialog-content">										
-										<div class="admin-row3 admin-row1">
+										<div class="admin-row3 admin-row1 userManagement-addUser">
 											<div>
 												<md-input-container class="md-block">
 													<label class='md-required'>Role Name</label> 
@@ -1679,7 +1682,7 @@ limitations under the License.
 										  </div>
 										   <div flex="40" layout="column" class="">
 										  	<div class="fed-container1">
-											    <md-input-container class="md-block" flex-gt-sm>
+											    <md-input-container class="md-block fullwidth" flex-gt-sm>
 													<label>API Url</label> 
 													<input type="text"  required ng-model='apiUrlPop'/> 
 												</md-input-container>												
@@ -1694,9 +1697,9 @@ limitations under the License.
 										  </div>
 										  <div flex="20" class="fed-container2">
 										  <label class="disblock">&nbsp;</label> 
-										  		<a class="mdl-button mdl-js-button btn-secondary btn-fed1" ng-disabled="!itsEdit" ng-click="verifyUrl(apiUrlPop)" ng-if="verify">Verify</a>
-												<a flex class="mdl-button mdl-js-button btn-secondary btn-fed1 red-btn" ng-click="verifyUrl(apiUrlPop)" ng-if="!verified&&!verify">Not Verified</a>
-												<a flex class="mdl-button mdl-js-button btn-secondary btn-fed1 green-btn" ng-click="verifyUrl(apiUrlPop)" ng-if="verified&&!verify">Verified</a>
+										  		<a class="mdl-button mdl-js-button btn-secondary btn-fed1 fullwidth btn-height" ng-disabled="!itsEdit" ng-click="verifyUrl(apiUrlPop)" ng-if="verify">Verify</a>
+												<a flex class="mdl-button mdl-js-button btn-secondary btn-fed1 red-btn fullwidth btn-height" ng-click="verifyUrl(apiUrlPop)" ng-if="!verified&&!verify">Not Verified</a>
+												<a flex class="mdl-button mdl-js-button btn-secondary btn-fed1 green-btn fullwidth btn-height" ng-click="verifyUrl(apiUrlPop)" ng-if="verified&&!verify">Verified</a>
 										  </div>										 										  
 										</div>
 										<div layout="row">

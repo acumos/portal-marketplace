@@ -1861,7 +1861,7 @@ min-height: 15px;background: #fff;}
 /**********Site Content page style start ***********/
 /*  add slide for top carousel start*/
 /*---- File upload ----------*/
-.top-carousel-admin{width:700px; max-height: 85%;}
+.top-carousel-admin{/* width:700px; */ width:850px; max-height: 85%;}
 .top-carousel-admin .mdl-grid{padding:0;}
 .top-carousel-admin .add-document .upload-image-input{margin-top:5px;}
 .top-carousel-admin .upload-image-input{border: 1px solid rgba(0,0,0,.12); padding:3px 5px;    margin-top: 3px; }
@@ -1869,7 +1869,7 @@ min-height: 15px;background: #fff;}
 .top-carousel-admin .upload-image-input input.mdl-textfield__input{box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666; height:26px;}
 .top-carousel-admin .upload-field { position: relative;    cursor: pointer;    float: right;   /*  height: 26px; */    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
-.top-carousel-admin .modal-note{margin-top:10px; font-size:12px;}
+.top-carousel-admin .modal-note{margin-top:10px; font-size:12px; line-height: 15px;}
 /*drag and drop*/
 .drag-drop{border: 1px dashed #d5d5d5; border-radius: 5px; width:auto; padding:15px; text-align:left;}
 .drag-drop img{display:block; margin:auto;}
@@ -1903,10 +1903,49 @@ ul.aligntext li.active a{color:#4f147a;}
 box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .link-button-container{background-color:#DDD; padding:5px; margin-bottom:2px; display:flex; position:relative;}
 .link-button-container .select-control label{margin-bottom:0px;}
-.link-button-container .buttonlabel{width:137px;}
+.link-button-container .buttonlabel{/* width:137px; */}
 .link-button-container .select-control md-select{font-size:12px;}
 .link-button-container .cancelbox{position:absolute; top:5px; right:5px;}
 .link-button-container .cancelbox i{font-size:15px; cursor:pointer;}
+#backGround1 ~ .md-errors-spacer{display:none;}
+
+
+/* drag-drop-CustomFile */
+.drag-drop-CustomFile img {    margin: auto;    display: block;}
+.drag-drop-CustomFile .destext{ text-align: center; font-size: 16px;  color: #777;  padding: 5px 10px;}
+.drag-drop.infograph{border: 1px dashed #d5d5d5; border-radius: 5px; width:50%; padding:15px; text-align:left;float:left; height:195px;}
+.drag-drop-CustomFile{border: 1px dashed #d5d5d5;border-radius: 5px; width: 55%;padding: 15px;height: 195px; text-align: left;float: left;}
+.drag-drop-CustomColor{border: 1px dashed #d5d5d5;border-radius: 5px; width: 42%;float:right;height: 195px;}
+.Custom-colors{display: block;width: 78% !important;border: 1px solid #d5d5d5;background-color: #10a6b5;margin-bottom: 3px;color: white;height: 30px;padding: 5px;}
+.colorChamber{display: block;width: 18%;border: 1px solid #d5d5d5;height: 18px;margin: 0px 3px 3px 0px; float:left;}
+.currentColor{height: 129px;padding: 4px 15px 0px 30px; cursor: pointer;}
+.custom-color-chamber{height: 45px; padding: 0px 15px 0px 30px; }
+.custom-color-textbox{width: 65% !important;margin-left: 5px; height: 22px !important; line-height:12px !important; padding-top: 0px !important;}
+.spanLeft{float: left;}
+.spanOR{display: inline-block;text-align: center;width: 33px;height: 33px;line-height: 31px;border-radius: 50%;background: #fff;border: 1px solid #d5d5d5;color: #671c9d;position: absolute;margin: 85px 0px 0px -10px;}
+.hrMargins{margin-top: 5px;margin-bottom: 5px;}
+.popupWidth{width:80% !important;}
+.background-color-sample1{background-image:url("../images/transparent_bg.jpg;"); background-repeat:repeat;}
+.background-color-sample2{background-color: #0366d6;}
+.background-color-sample3{background-color: #10A6B5;}
+.background-color-sample4{background-color: #8529f5;}
+.background-color-sample5{background-color: #7B132A;}
+.background-color-sample6{background-color: #D5305A;}
+.background-color-sample7{background-color: #F49419;}
+.top-carousel-admin1{width: 850px;max-height: 85%;}
+.sample{max-height: 100px;height: 100px;overflow-y: auto;}
+.image-Container{width:60px; height:50px; border: 1px solid #d5d5d5; padding:1px;margin-right: 5px;float:left;    margin-bottom: 5px;}
+.image-size{width: 56px;height: 46px;}
+.drag-drop.infograph.drag-left{border-right:1px solid #d5d5d5;}
+.drag-drop.infograph.drag-right{border-left:1px solid #d5d5d5;}
+.buttonlabel input, .buttoninput{width:100%; height: 31px; border: 1px solid #d5d5d5; padding: 0 5px;}
+.fullwidth{width:100%;}
+.link-button-container.adjmargin{margin-top:-2px;}
+.infographics-align md-radio-group{margin-top:5px; display:block;}
+.infographics-align md-radio-group md-radio-button{margin-bottom: 5px; font-size: 13px; line-height: 21px;}
+.link-button-container .select-control{padding: 0 0px 0 6px;}
+.colorChamber.active{border:2px solid #f77204;}
+/*end*/
 /* partial onboarding related css changes */
 .grid-item {position: relative;}
 .grid-item-error-container {position: absolute; top:0; left:0; height: 100%; width: 100%; background: rgba(0,0,0,0.55);}
@@ -2047,6 +2086,22 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 	ul.mob-header-menu-list1 li .material-icons {font-size: 20px; margin-right: 10px;color: #525252;}
 	ul.mob-header-menu-list1 li .icon-logout2 {margin-right: 10px; position:relative; top: 2px; left:2px;}
 	.header-menu-wologin li a, .header-menu-wologin li a.mdl-navigation__link {color: #525252 !important; font-weight: 600;font-size: 12px;}
+		
+	/*User management responsive  Start*/
+    .userManagement-addUser{display: block;}    
+    .admin-row1 > div {width: 100%;}
+    .admin-row2 > div:first-child {width: 100%;}
+    .admin-row2 > div:last-child {width: 100%;}
+     /*User Management responsive end*/  
+    
+    /* Federation responsive Start*/    
+    .layout, .layout-column, .layout-row{display : block;}
+    .flex-40, .layout-row>.flex-40{max-width:100%;}
+    .admin-grid1 div{margin-right: 0px;}
+    .fullwidth{width:100%}
+    .flex-20, .layout-row>.flex-20{max-width:100%;}
+    .btn-height{height: 35px;}
+	  /*Federation responsive End*/
 }
 
 @media (max-width: 650px) {		
