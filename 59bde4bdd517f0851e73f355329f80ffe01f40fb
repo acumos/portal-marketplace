@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d655a343_baf38d0d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1768,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "please use consistent indentation.  the file has a mix of spaces and tabs.  When you add lines it\u0027s best to match the lines around it, whatever their style.",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04ca3520_413c5b3a",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1770,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "Tiny typo \"t\"",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e2afc95_89534095",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2400,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "pls remove, don\u0027t comment out",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3577a8b_838d9f80",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2410,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "pls remove, don\u0027t comment out",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c597e6d_805cc98c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2439,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "please remove, don\u0027t comment out",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b741c4f7_cdfea9b5",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2456,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "please remove don\u0027t comment out",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "467cd8aa_958e3446",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2544,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "please remove don\u0027t comment out",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9b609b1_dfc5380e",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2560,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "please clean this too?",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a2379db_0eedb847",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2966,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "please remove don\u0027t comment out",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e82f7a6_9560f72d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "Please be consistent with indentation, spaces vs tabs.",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c006990_489aea91",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aac53903_e1f516ac",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca660982_e14a445a",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:34:40Z",
+      "side": 1,
+      "message": "here the line uses tabs, other lines use spaces",
+      "revId": "59bde4bdd517f0851e73f355329f80ffe01f40fb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
