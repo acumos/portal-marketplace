@@ -3,7 +3,7 @@
     <body>
         <p>Dear <#if user.firstName??>${user.firstName},<#else>User,</#if></p>
         <p>
-            Your new Acumos Password is : ${user.loginHash?if_exists}.
+            Your new Acumos Password is : ${user.loginHash?if_exists}
         </p>
 
         <p>Thanks</p>
