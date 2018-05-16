@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d70abbec_7d86fdf5",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2059,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:00:05Z",
+      "side": 1,
+      "message": "please be consistent with indentation.  Eclipse -\u003e Format is a huge help here.",
+      "revId": "bf2dd020c6a1d8863c2879d48664da814ff0c1f6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f1d2eb3_7b7f3b97",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:00:05Z",
+      "side": 1,
+      "message": "Please remove Latin space-filling text.",
+      "revId": "bf2dd020c6a1d8863c2879d48664da814ff0c1f6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fa2fad1_b9360dfd",
+        "filename": "acumos-portal-fe/src/main/webapp/css/ui-carosel.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T14:00:05Z",
+      "side": 1,
+      "message": "Perhaps you will consider fixing the typo in the file name?  carousel not carosel.  Thanks.",
+      "revId": "bf2dd020c6a1d8863c2879d48664da814ff0c1f6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
