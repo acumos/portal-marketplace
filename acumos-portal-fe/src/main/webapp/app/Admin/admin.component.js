@@ -25,6 +25,13 @@ angular.module('admin')
 		templateUrl:'./app/Admin/admin.template.html',
 		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state, $filter){
 			componentHandler.upgradeAllRegistered();
+			//Editor Module configuration
+			$scope.modulesConfig = {
+			    toolbar: [
+			        ['bold', 'italic', 'underline'],        // toggled buttons
+			       	['link']       
+			    ]
+			};
 			//Sorting
 				$scope.orderByField = 'username';$scope.reverseSort = false;
 				$scope.orderByFieldFed = 'created'; $scope.reverseSortFederation = true;
@@ -1758,6 +1765,12 @@ angular.module('admin')
                     $scope.getCarouselConfig();
                     $scope.carousel_Info_Aling = 'right';
                     $scope.carousel_Text_Aling = 'right';
+                    $scope.bgColor = ['#0366d6', '#10A6B5', '#8529f5', '#7B132A', '#D5305A', '#F49419'];
+                    
+                    //Select background color
+                    $scope.selectBgColor = function(color){
+                    	$scope.carousel_bgColor = color;
+                    }
                     $scope.addCarouselSlide = function(){
 						//create json
                 	   var slide = {};
@@ -1784,6 +1797,7 @@ angular.module('admin')
 						slide['supportingContent']= slide_supportingContent;
 						slide['infoImageAling']= $scope.carousel_Info_Aling;
 						slide['textAling']= $scope.carousel_Text_Aling;
+						slide['bgColor']= $scope.carousel_bgColor;
 						
 						slide['graphicImgEnabled'] =  $scope.carouselSlide.graphicImg;
 						slide['slideEnabled'] = "true";
@@ -1958,9 +1972,22 @@ angular.module('admin')
                          });
                 	   
                    }
+				   
+				   //IMage Validation
+                   		$scope.imageSizeError = false;
+                   		$scope.validateImageSize = function(file, height, width){
+                   			if(file.height > height || file.width > width){
+                   				$scope.imageSizeError = true;
+                   				alert("Image size should be less than " + height + "px X " + width + "px.");
+                   				return true;
+                   			}
+                   			$scope.imageSizeError = false;
+                   			return false;
+                   		};
+				   
                         // Upload Image
 						$scope.uploadbackGroundImg = function(){
-							if($scope.carouselSlide.backGround){
+							if($scope.carouselSlide.backGround && !$scope.validateImageSize($scope.carouselSlide.backGround, 2560, 524)){
 								
 								
 								
@@ -2022,7 +2049,7 @@ angular.module('admin')
 				        }
 						
 						$scope.uploadinfoGraphic = function(){
-							if($scope.carouselSlide.infoGraphic){
+							if($scope.carouselSlide.infoGraphic && !$scope.validateImageSize($scope.carouselSlide.infoGraphic, 372, 260)){
 								
 								if(typeof $scope.carouselConfig === "undefined") {
 			                		   var keys = [];
