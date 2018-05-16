@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7429239_0cd48bb6",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2275,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T10:02:14Z",
+      "side": 1,
+      "message": "Error blocks should not be empty",
+      "revId": "fc629468e242f1f03f6f151bb8f437efbf96ffe5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb48a70d_86c9f15c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2284,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T10:02:14Z",
+      "side": 1,
+      "message": "error blocks should not be empty",
+      "revId": "fc629468e242f1f03f6f151bb8f437efbf96ffe5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9737d4d_ae83ff83",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T10:02:14Z",
+      "side": 1,
+      "message": "What is common?  CSV means comma-separated value.  Please reword.",
+      "revId": "fc629468e242f1f03f6f151bb8f437efbf96ffe5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
