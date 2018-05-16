@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d99e416c_236f7a52",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Perhaps this should be a constant since it\u0027s reused at line 233?  Sonar will complain about this also.",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95a16fca_ec6c5fa8",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "remove don\u0027t comment out",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c82a40e8_7306ead4",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Why is this hardcoded? Move to a constant somewhere.",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "800b912c_65036336",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Can you return some indicator indicating failure?",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "485e49bd_c8005a2f",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Don\u0027t catch exceptions, if a test case fails, JUnit needs to know",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4470374_4b837370",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Yeah, this is pretty trivial - remove",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "632109a3_8100a935",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Also not testing anything usefuil",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fc68b1c_257dce2d",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Remove, of course 1 \u003d\u003d 1",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8ab405f_6b033ba7",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dde19b5_264df8b3",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a7a48c2_aa7426a0",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c31fc247_1bc3694d",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:34:56Z",
+      "side": 1,
+      "message": "See above",
+      "revId": "62cd956064437e3e1556ac6f9cae2987161fc493",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
