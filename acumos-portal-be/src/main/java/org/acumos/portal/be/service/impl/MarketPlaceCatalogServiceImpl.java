@@ -2055,7 +2055,8 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 			mlSolutionsRest.setContent(content);
 			mlSolutionsRest.setFilteredTagSet(filteredTagSet);
-			mlSolutionsRest.setTotalElements(content.size());
+			mlSolutionsRest.setPageCount(response.getTotalPages());
+            		mlSolutionsRest.setTotalElements((int)response.getTotalElements());
 		}
 
 		return mlSolutionsRest;
