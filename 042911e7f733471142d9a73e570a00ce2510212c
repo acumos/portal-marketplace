@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67a3f0fa_331a9964",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "please remove code, don\u0027t comment out",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "092e4220_ecb7a474",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46e567d5_7d2b00dc",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "MUST remove cognita URLs",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83e605ab_a1fd8fdf",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Please remove don\u0027t comment out",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92fb86fe_441c2b86",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1832,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0ceddd_914ebc00",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2596,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Pls remove",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97b5d4f2_2745fbaa",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2725,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Pls remove",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7745b89_6c96d128",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Pls remove don\u0027t comment out",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b311242b_5a7acc2d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2772,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68f214d7_291fa1bc",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2793,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dd00c10_c03947da",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2797,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c496b67d_7970728f",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2799,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc54f74b_1a9330e4",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2814,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b522869_de3f09d0",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2898,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47482813_1045becf",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-05-16T00:29:32Z",
+      "side": 1,
+      "message": "Please remove don\u0027t comment out",
+      "revId": "042911e7f733471142d9a73e570a00ce2510212c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
