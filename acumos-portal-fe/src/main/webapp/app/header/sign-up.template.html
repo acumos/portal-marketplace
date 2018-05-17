@@ -77,6 +77,9 @@ limitations under the License.
 															Required.</span>
 															<span ng-show="userExists && usernameVisited">Username
 															already exists.</span>
+															<span
+															ng-show="!!signupForm.username.$error.invalidChars && usernameVisited">User
+															name must contain letters only.</span>
 										</div>	
 												 </md-input-container>
 												  <md-input-container class="md-block">
