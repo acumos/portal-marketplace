@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c84b9d34_945d31df",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-17T16:39:05Z",
+      "side": 1,
+      "message": "Please check aliments for statements in methods.",
+      "range": {
+        "startLine": 879,
+        "startChar": 1,
+        "endLine": 879,
+        "endChar": 2
+      },
+      "revId": "c8f10fc4fdbe74535c1e5462b4080f9e6a1104ae",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8eccf3fe_29bcc404",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-17T16:39:05Z",
+      "side": 1,
+      "message": "Declare MLPUser out side the loop.",
+      "range": {
+        "startLine": 892,
+        "startChar": 16,
+        "endLine": 892,
+        "endChar": 23
+      },
+      "revId": "c8f10fc4fdbe74535c1e5462b4080f9e6a1104ae",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd0e3360_07021a75",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-17T16:39:05Z",
+      "side": 1,
+      "message": "Declare object wherever you used it first.",
+      "range": {
+        "startLine": 898,
+        "startChar": 12,
+        "endLine": 898,
+        "endChar": 28
+      },
+      "revId": "c8f10fc4fdbe74535c1e5462b4080f9e6a1104ae",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c93920ca_a3f70729",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/util/PortalUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-17T16:39:05Z",
+      "side": 1,
+      "message": "Do proper formatting to newly added code.",
+      "range": {
+        "startLine": 533,
+        "startChar": 8,
+        "endLine": 533,
+        "endChar": 24
+      },
+      "revId": "c8f10fc4fdbe74535c1e5462b4080f9e6a1104ae",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
