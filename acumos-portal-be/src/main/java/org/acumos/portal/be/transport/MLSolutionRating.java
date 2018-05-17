@@ -30,6 +30,7 @@ public class MLSolutionRating {
 	private String textReview;
 	private Date created;
 	private Date modified;
+	private String userName;
 	public String getSolutionId() {
 		return solutionId;
 	}
@@ -83,6 +84,12 @@ public class MLSolutionRating {
 		builder.append(modified);
 		builder.append("]");
 		return builder.toString();
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 	

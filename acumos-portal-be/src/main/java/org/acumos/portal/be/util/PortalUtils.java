@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,7 @@ import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.cds.domain.MLPUserNotifPref;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLRole;
@@ -526,6 +528,23 @@ public class PortalUtils {
 		mlpUserNotifPref.setMsgSeverityCode(mlUserNotifPref.getMsgSeverityCode());
 		return mlpUserNotifPref;
 	}
+	
+	public static RestPageResponse<MLSolutionRating> convertToMLSolutionRatingRestPageResponse(List<MLSolutionRating> mlSolutionRatingList, RestPageResponse<MLPSolutionRating> mlpSolutionRating){
+        RestPageResponse<MLSolutionRating> mlSolutionRating = new RestPageResponse<MLSolutionRating>(mlSolutionRatingList);
+        mlSolutionRating.setFirst(mlpSolutionRating.isFirst());
+        mlSolutionRating.setLast(mlpSolutionRating.isLast());
+        mlSolutionRating.setNumber(mlpSolutionRating.getNumber());
+        mlSolutionRating.setNumberOfElements(mlpSolutionRating.getNumberOfElements());
+        mlSolutionRating.setSize(mlpSolutionRating.getSize());
+        mlSolutionRating.setSort(mlpSolutionRating.getSort());
+        mlSolutionRating.setTotalElements(mlpSolutionRating.getTotalElements());
+        mlSolutionRating.setTotalPages(mlpSolutionRating.getTotalPages());
+        mlSolutionRating.setNextPage(mlpSolutionRating.isNextPage());
+        mlSolutionRating.setPreviousPage(mlpSolutionRating.isPreviousPage());
+            
+        return mlSolutionRating;
+        
+    }
 
     
 }
