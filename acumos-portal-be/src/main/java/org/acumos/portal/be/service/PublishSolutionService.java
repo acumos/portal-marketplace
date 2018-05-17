@@ -27,4 +27,6 @@ public interface PublishSolutionService {
 	boolean publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId);
 	
 	boolean unpublishSolution(String solutionId, String accessType, String userId);
+
+	boolean checkUniqueSolName(String solutionId);
 }

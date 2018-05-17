@@ -22,9 +22,13 @@ package org.acumos.portal.be.service.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.transport.MLArtifactValidation;
 import org.acumos.portal.be.transport.MLModelValidation;
@@ -41,7 +45,8 @@ import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
-
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 
 @Service
 public class PublishSolutionServiceImpl extends AbstractServiceImpl implements PublishSolutionService {
@@ -165,6 +170,33 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		}
 		
 		return unpublished;
+	}
+
+	@Override
+	public boolean checkUniqueSolName(String solutionId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
+
+		MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
+		String[] name = { solution.getName() };
+
+		Map<String, String> queryParameters = new HashMap<>();
+		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
+		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
+				accessTypeCodes, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+		List<MLPSolution> searchSolList = searchSolResp.getContent();
+
+		//Consider only those records that have exact match with the solution name
+		List<MLPSolution> filteredSolList = searchSolList.stream()
+				.filter(searchSol -> searchSol.getName().equalsIgnoreCase(solution.getName()))
+				.collect(Collectors.toList());
+
+		if (!filteredSolList.isEmpty()) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

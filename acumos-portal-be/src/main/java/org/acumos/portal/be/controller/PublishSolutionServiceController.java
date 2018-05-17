@@ -83,9 +83,15 @@ public class PublishSolutionServiceController extends AbstractController {
 		JsonResponse<Object> data = new JsonResponse<>();
 		UUID trackingId = UUID.randomUUID();
 		try {
-			// TODO As of now it does not check if User Account already exists.
-			// Need to first check if the account exists in DB
-			 //publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId);
+
+			//Check for the unique name in the market place before publishing.
+			if (!publishSolutionService.checkUniqueSolName(solutionId)) {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Model name is not unique. Please update model name before publishing");
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return data;
+			}
+			
 			boolean published = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
 			// code to create notification
             MLPNotification notificationObj = new MLPNotification();
@@ -113,18 +119,11 @@ public class PublishSolutionServiceController extends AbstractController {
 			notificationObj.setMessage(notificationmsg);
 			notificationObj.setTitle(notificationmsg);
 			notificationService.generateNotification(notificationObj, userId);
-		/*if(published){	 
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Solutions published Successfully");
-		}else{
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-			data.setResponseDetail("Solutions not published");
-		}*/
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail(trackingId.toString());
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Exception Occurred while publishSolution()");
+			data.setResponseDetail("Exception Occurred while Publishing Model");
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while publishSolution()", e);
 		}
 		return data;
