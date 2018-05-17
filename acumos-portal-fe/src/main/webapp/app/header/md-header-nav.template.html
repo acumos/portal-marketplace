@@ -94,7 +94,7 @@ limitations under the License.
 					<button class="mdl-button mdl-js-button btn-secondary acu-header-search-btn"><i class="material-icons" alt="Close" title="Close">close</i> </button>
 				</div>
 			</div>
-			<div class="text-right signupnav hide-xs">
+			<div class="text-right signupnav hide-xs" ng-class="{ noContent : cas.login==='true' || $root.isSignUp.enabled==='false'}">
 				<ul ng-show="successfulLoginSigninSignup">
 					<li style="cursor: pointer"><signin-content></signin-content></li>
 					<li ng-hide="cas.login==='true' || $root.isSignUp.enabled==='false'" style="cursor: pointer"><sign-up></sign-up></li>

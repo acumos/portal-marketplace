@@ -41,6 +41,7 @@ body, h1, h2, h3, h4, h5, h6, p, .mdl-button{font-family: 'Open Sans', sans-seri
 .signupnav ul li{font-size:12px; line-height:55px; display:inline; text-transform:uppercase; margin:0; }
 .signupnav ul li a{color:#FFF; text-decoration:none;}
 .signupnav ul li:first-child::after{content:"|"; padding:0 17px;}
+.noContent ul li:first-child::after{content:'' !important;}
 
 
 .home-screen{
