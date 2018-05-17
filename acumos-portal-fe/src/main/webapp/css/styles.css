@@ -390,7 +390,7 @@ md-grid-tile:hover { cursor: pointer; box-shadow:1px 1px 3px #eee;border:1px sol
 .seeall-icons i {font-size: 34px !important; position: relative; width: 25px; color: #969696;height: 34px; }
 
 .mp-grid {display: flex; flex-wrap: wrap; justify-content:flex-start;width:100%;padding-top:10px;}
-.grid-item { width: 22.5%; max-width:275px; padding: 5px; margin-right:20px; margin-bottom: 20px; min-width:230px; border:1px solid #f1f1f1;}
+.grid-item { width: 22.5%; max-width:275px; padding: 5px; margin-right:20px; margin-bottom: 20px; min-width:230px; border:1px solid #f1f1f1; position: relative;}
 .grid-item:first-child {margin-left:0;}
 .grid-item:last-child {margin-left:0;}
 .grid-item:hover { box-shadow: 0 5px 10px rgba(0,0,0,0.15);
@@ -1945,9 +1945,8 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .link-button-container .select-control{padding: 0 0px 0 6px;}
 .colorChamber.active{border:2px solid #f77204;}
 /*end*/
-/
+
 /* partial onboarding related css changes */
-.grid-item {position: relative;}
 .grid-item-error-container {position: absolute; top:0; left:0; height: 100%; width: 100%; background: rgba(0,0,0,0.55);}
 .grid-error-msg {padding: 5px 10px; background: rgba(255,255,255,0.9); color: #ff0000; text-align: center; position: relative; top: 60px; font-size: 13px;}
 .grid-error-icon {display: inline-block; text-align: center; width: 20px; height: 20px; line-height: 17px; border: 1px solid #ff0000; border-radius: 50%; color: #ff0000;position:relative; margin-right: 4px;}
