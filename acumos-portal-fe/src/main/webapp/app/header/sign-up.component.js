@@ -22,7 +22,7 @@ angular.module('myModal',[])
 		.component(
 				'signUp',
 				{
-					template : '<a ng-click="$root.showAdvancedSignup()" class="no-outline">Sign Up <span class="signUp">Now</span></a>',
+					template : '<a ng-click="$root.showAdvancedSignup()" class="no-outline">  | Sign Up <span class="signUp">Now</span></a>',
 					controller : function($uibModal, $scope, $rootScope, $mdDialog, $location, $anchorScroll) {
 						$ctrl = this;
 						
