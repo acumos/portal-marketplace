@@ -47,6 +47,7 @@ import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -604,7 +605,7 @@ public class MarketPlaceServiceControllerTest {
 			JsonRequest<RestPageRequest> rest = new JsonRequest<>();
 			rest.setBody(pageRequest);
 			RestPageResponse<MLPSolutionRating> mlSolutionRating = new RestPageResponse<MLPSolutionRating>();
-			JsonResponse<RestPageResponse<MLPSolutionRating>> value = new JsonResponse<>();
+			JsonResponse<RestPageResponse<MLSolutionRating>> value = new JsonResponse<>();
 			
 			Mockito.when(service.getSolutionRating(solutionId, pageRequest)).thenReturn(mlSolutionRating);
 			value = marketPlaceController.getSolutionRatings(solutionId, rest);
