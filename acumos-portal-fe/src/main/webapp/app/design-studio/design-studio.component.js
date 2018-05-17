@@ -325,6 +325,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.console = null;
                     $scope.readSolution = false;
                     $scope.scriptEntered = false;
+                    $scope.solutionIdDeploy = null;
+                    $scope.activeInactivedeploy = true;
                     $scope.matchModels = [];
                     reset();
                     if (parameter == 'new'){
@@ -369,6 +371,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     if(result.validSolution){
                     	$scope.activeInactivedeploy = false;
                     	$scope.validationState = true;
+                    	$scope.solutionIdDeploy = result.solutionId;
                     }else{
                     	$scope.activeInactivedeploy = true;
                     	$scope.validationState = false;
@@ -384,6 +387,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.cleardis = false;
                     $scope.namedisabled = true;$scope.canvas = true;
                     _solutionId = entry.solutionId;
+                    
                     $scope.solutionName = result.cname;
                     $scope.solutionVersion = result.version;
                     _solution = result;_dirty = true;
@@ -879,7 +883,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.saveState.noSaves = true;
                     _dirty = false;
                     _solutionId = result.solutionId;
-                    $scope.solutionIdvalidate = result.solutionId;
                 }
             });
         });
@@ -889,7 +892,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var args = {
             userId: get_userId(),
             solutionName: $scope.solutionName,
-            solutionId: $scope.solutionIdvalidate,
+            solutionId: _solutionId,
             version:$scope.solutionVersion
         };                     var url = build_url(options.validate, args);
         $('#validateActive').removeClass('enabled');
@@ -900,7 +903,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	 
                 $scope.validationState = true;
                 $scope.activeInactivedeploy = false;
-                $scope.solutionIdDeploy = $scope.solutionIdvalidate;
+                $scope.solutionIdDeploy = _solutionId;
                 $('#validateActive').removeClass('enabled');
                 $('#validateActive').addClass('active');
                 $('#consoleMsg').addClass('console-successmsg');
@@ -2372,6 +2375,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.readSolution = false;
                     $scope.scriptEntered = false;
                     $scope.matchModels = [];
+                    $scope.solutionIdDeploy = null;
+                    $scope.activeInactivedeploy = true;
                 })
                 .error(function(response){
                 	$scope.msg = "Could not close the solution";
@@ -2432,6 +2437,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.myCheckbox = false;
         $scope.readSolution = false;
         $scope.scriptEntered = false;
+        $scope.solutionIdDeploy = null;
+        $scope.activeInactivedeploy = true;
     };
 
     $scope.down=false;
