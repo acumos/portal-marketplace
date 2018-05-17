@@ -215,7 +215,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 						catalogService.updateSolution(solutionDetail, newSolutionId);
 						log.info("inside callOnboarding if after updateSolution ---->>>");
 					}
-					String notifMsg = "Solution " + solution.getName() + " Added to Catalog Successfully";
+					String notifMsg = "Solution " + solution.getName() + " On-boarded Successfully";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
 					notificationService.generateNotification(notification, userId);
@@ -235,7 +235,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding else after resp.toString() ---->>>"+resp.toString());
 					log.info(resp.toString());
 					log.info((String) resp.get("errorMessage"));
-					String notifMsg = "Add To Catalog Failed for solution " + solution.getName()
+					String notifMsg = "On-boarding Failed for solution " + solution.getName()
 					+ ". Please restart the process again to upload the solution";
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
@@ -246,7 +246,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					Map<String, String> notifyBody = new HashMap<String, String>();
 					notifyBody.put("solutionName", solution.getName());
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
-					notifyOnboardingStatus(userId, "HI", "Add To Catalog Failed for solution " + solution.getName(), notifyBody, "ONBD_FAIL");
+					notifyOnboardingStatus(userId, "HI", "On-boarding Failed for solution " + solution.getName(), notifyBody, "ONBD_FAIL");
 				}
 			}
 		} catch (Exception e) {
