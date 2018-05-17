@@ -95,7 +95,7 @@ angular
 													                    } else {
 													                    	bannerSt = bannerSt + '"home-screen2" ';
 													                    }
-													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_infoGraphic_' + key + '/' + value["InfoImageUrl"] + ') !important;">' + 
+													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_infoGraphic_' + key + '/' + value["InfoImageUrl"] + ') !important;background-color : '+ value['bgColor'] +'">' + 
 																	    '<div class="slide-content">' +
 																	        '<div class="slide-text">' +
 																	            '<h4>' + value['headline'] + '</h4>' +

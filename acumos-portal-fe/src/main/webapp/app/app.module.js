@@ -427,9 +427,15 @@ angular
                     scope.fileType = scope.file.name.split('.').pop();
                     scope.validFormats = ['jpg','jpeg','png','gif'];
                     var reader = new FileReader();
+					var imgpath = new Image();
                     reader.onload = function(loadEvent) {
                       scope.$apply(function() {
                     	console.log(scope.size);
+						imgpath.src = loadEvent.target.result;
+                        imgpath.onload = function(){
+	                              scope.file.width = this.width;
+	                              scope.file.height = this.height;
+	                          };
                     	var size = scope.fileinput.size;
 	                	if(scope.validFormats.indexOf(scope.fileType) == -1){
 	    	            	scope.imagetypeerror = true;
@@ -485,6 +491,16 @@ angular
                     scope.$apply(function(){
                         scope.file = files[0];
                         scope.filename = scope.file.name;
+			var reader = new FileReader();
+                        var imgpath = new Image();
+                        reader.readAsDataURL(files[0]);
+                        reader.onload = function(loadEvent) {
+                        imgpath.src = loadEvent.target.result;
+                              imgpath.onload = function(){
+                                  scope.file.width = this.width;
+                                  scope.file.height = this.height;
+                              };
+                       }
                         
                     })
                 }
