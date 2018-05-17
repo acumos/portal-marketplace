@@ -390,7 +390,7 @@ angular
 													$mdDialog.hide();
 													$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
 					                                $anchorScroll(); 
-					                                $scope.msg = "User deactivated successfully.."; 
+					                                $scope.msg = "User deactivated successfully."; 
 					                                $scope.icon = '';
 					                                $scope.styleclass = 'c-success';
 					                                $scope.showAlertMessage = true;
@@ -399,7 +399,7 @@ angular
 					                                	$rootScope.$broadcast(
 																"MyLogOutEvent",
 																data);
-					                                }, 2000);
+					                                }, 4000);
 													/*$rootScope.$broadcast(
 															"MyLogOutEvent",
 															data);*/
