@@ -38,7 +38,7 @@ angular.module('admin')
 				$scope.showAllModelsTable = false;
 				$scope.verify = true;
 			//Bulk Action
-			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'},{'name':'Delete','value':'delete'}]
+			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'}]
 			//Frequency of update
 			$scope.frequency = 
 				[{
