@@ -1744,37 +1744,7 @@ limitations under the License.
 																	<div class="grid-top-section">
 																		<div class="product-image">
 																			<figure>
-																				<!-- For Demo images according to model-name -->
-																				<img
-																					ng-if="solution.name.indexOf('Predictor') < 0 
-                                                                                     && solution.name.indexOf('Threat') < 0 
-                                                                                     && solution.name.indexOf('Emotion') < 0
-                                                                                     && solution.name.indexOf('Face') < 0
-                                                                                     && solution.name.indexOf('Video') < 0
-                                                                                     && solution.name.indexOf('Chat') < 0
-                                                                                     && solution.name.indexOf('Sentiment') < 0"
-																					ng-src="{{imgURLdefault}}" class="img-rounded">
-
-																				<img ng-if="solution.name.indexOf('Predictor') > -1"
-																					ng-src="{{imgURLnull}}" class="img-rounded">
-
-																				<img ng-if="solution.name.indexOf('Threat') > -1"
-																					ng-src="{{imgURLthreat}}" class="img-rounded">
-
-																				<img ng-if="solution.name.indexOf('Emotion') > -1"
-																					ng-src="{{imgURLemotion}}" class="img-rounded">
-
-																				<img ng-if="solution.name.indexOf('Face') > -1"
-																					ng-src="{{imgURLcommercial}}" class="img-rounded">
-
-																				<img ng-if="solution.name.indexOf('Video') > -1"
-																					ng-src="{{imgURLvideo}}" class="img-rounded">
-
-																				<img ng-if="solution.name.indexOf('Chat') > -1"
-																					ng-src="{{imgURLChat}}" class="img-rounded">
-
-																				<img ng-if="solution.name.indexOf('Sentiment') > -1"
-																					ng-src="{{imgURLSensitive}}" class="img-rounded">
+																				 <img ng-src="{{previewImage}}" class="img-rounded">
 																			</figure>
 																		</div>
 																		<div class="mpdetailscontainer">
