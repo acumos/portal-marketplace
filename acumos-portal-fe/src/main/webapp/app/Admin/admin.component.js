@@ -300,9 +300,11 @@ angular.module('admin')
             		  clickOutsideToClose: true
             	  });
               }
-              	$scope.ok = function () {
-            	  $mdDialog.hide($scope.confirmDelete($scope.peerId));
-            	};
+            
+            
+             $scope.ok = function () {
+              $mdDialog.hide($scope.confirmDelete($scope.peerId));
+             };
             
             //User sign up by admin
             $scope.value = [];
@@ -1765,7 +1767,7 @@ angular.module('admin')
                     $scope.getCarouselConfig();
                     $scope.carousel_Info_Aling = 'right';
                     $scope.carousel_Text_Aling = 'right';
-                    $scope.bgColor = ['#0366d6', '#10A6B5', '#8529f5', '#7B132A', '#D5305A', '#F49419'];
+					$scope.bgColor = ['#0366d6', '#10A6B5', '#8529f5', '#7B132A', '#D5305A', '#F49419'];
                     
                     //Select background color
                     $scope.selectBgColor = function(color){
@@ -1924,6 +1926,7 @@ angular.module('admin')
                 	   $scope.keyval = key;
                 	   $scope.showAddSlidesPopup();
                    }
+                                              
                    $scope.alingInfoImage = function (alingment){
                 	   $scope.carousel_Info_Aling = alingment;
                    }
@@ -1946,6 +1949,12 @@ angular.module('admin')
                    $scope.changeCarouselSlides = function (){
                 	   for (var i=0; i<$scope.carouselCheckedList.length; i++){
                 		   $scope.carouselConfig[$scope.carouselCheckedList[i]]['slideEnabled'] = $scope.changeAction;
+                	   }
+                	   for (var i=0; i<$scope.carouselCheckedList.length; i++){
+                		   if($scope.carouselConfig[i].slideEnabled == 'true'){break;}
+                		   else if(i == $scope.carouselCheckedList.length - 1){
+                			   $scope.carouselConfig[0].slideEnabled = 'true';
+                		   }
                 	   }
                 	   var carouselConfigStr = JSON.stringify($scope.carouselConfig);
 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
@@ -2272,11 +2281,12 @@ angular.module('admin')
 	                    
 	                    $scope.changeEventSlides = function (){
 	                 	   for (var i=0; i<$scope.eventCheckedList.length; i++){
-	                 		   $scope.eventConfig[$scope.eventCheckedList[i]]['slideEnabled'] = $scope.changeEventAction;
+	                 		   $scope.eventConfig[i].slideEnabled = $scope.changeEventAction;
 	                 	   }
+	                       $scope.eventConfig.enabled = !$scope.eventConfig.enabled;
 	                 	   var carouselConfigStr = JSON.stringify($scope.eventConfig);
 	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
-	                 	   
+	 					  
 	                 	   var reqObj = {
 	 		                          "request_body": {
 	 		                              "configKey": "event_carousel",
@@ -2284,19 +2294,19 @@ angular.module('admin')
 	 		                              "userId": userId
 	 		                            }
 	 	                            };
-	          	   apiService.updateSiteConfig("event_carousel", reqObj)
-	                  .then(
-	                          function(response) {
-	                          	$scope.getEventCarousel();
-	                          	$scope.msg = "Carousel Updated successfully.";
-	                             $scope.icon = '';
-	                             $scope.styleclass = 'c-success';
-	                             $scope.changeEventAction = "Enable/Disable Slides";
-	                             $scope.showAlertMessage = true;
-	                             $timeout(function() {
-	                                 $scope.showAlertMessage = false;
-	                             }, 5000);
-	                          });
+				          	   apiService.updateSiteConfig("event_carousel", reqObj)
+				                  .then(
+				                          function(response) {
+				                          	$scope.getEventCarousel();
+				                          	$scope.msg = "Carousel Updated successfully.";
+				                            $scope.icon = '';
+				                            $scope.styleclass = 'c-success';
+				                            $scope.changeEventAction = "Enable/Disable Slides";
+				                            $scope.showAlertMessage = true;
+				                            $timeout(function() {
+				                                 $scope.showAlertMessage = false;
+				                             }, 5000);
+				                          });
 	                 	   
 	                    }
 	                    
@@ -2328,7 +2338,7 @@ angular.module('admin')
 	                    
 	                 // Upload Image
 						$scope.uploadEventBGImg = function(){
-							if($scope.eventCarousel.backGround){
+							if($scope.eventCarousel.backGround && !$scope.validateImageSize($scope.eventCarousel.backGround, 2560, 524)){
 								
 								
 								
@@ -2393,7 +2403,7 @@ angular.module('admin')
 				        }
 						
 						$scope.uploadEventInfoGraphic = function(){
-							if($scope.eventCarousel.infoGraphic){
+							if($scope.eventCarousel.infoGraphic && !$scope.validateImageSize($scope.eventCarousel.infoGraphic, 372, 260)){
 								
 								if(typeof $scope.eventConfig === "undefined") {
 			                		   var keys = [];
@@ -2566,7 +2576,7 @@ angular.module('admin')
 
 	                 // Upload Image
 						$scope.uploadsuccessBGImg = function(){
-							if($scope.successCarousel.backGround){
+							if($scope.successCarousel.backGround && !$scope.validateImageSize($scope.successCarousel.backGround, 2560, 524)){
 								
 								
 								
@@ -2628,7 +2638,7 @@ angular.module('admin')
 				        }
 						
 						$scope.uploadsuccessInfoGraphic = function(){
-							if($scope.successCarousel.infoGraphic){
+							if($scope.successCarousel.infoGraphic && !$scope.validateImageSize($scope.successCarousel.infoGraphic, 372, 260)){
 								
 								if(typeof $scope.storyConfig === "undefined") {
 			                		   var keys = [];
@@ -2741,8 +2751,10 @@ angular.module('admin')
 	                    
 	                    $scope.changeStorySlides = function (){
 	                 	   for (var i=0; i<$scope.storyCheckedList.length; i++){
-	                 		   $scope.storyConfig[$scope.storyCheckedList[i]]['slideEnabled'] = $scope.changeStoryAction;
+	                 		   $scope.storyConfig[i].slideEnabled = $scope.changeStoryAction;
 	                 	   }
+	                 	   $scope.storyConfig.enabled = !$scope.eventConfig.enabled;
+	                 	   
 	                 	   var carouselConfigStr = JSON.stringify($scope.storyConfig);
 	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
 	                 	   

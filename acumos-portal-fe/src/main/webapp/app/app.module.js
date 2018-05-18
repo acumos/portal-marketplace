@@ -309,10 +309,10 @@ angular
 
 		 var validate = function(viewValue, $scope) {
                   var isBlank = viewValue === ''
-        var noMatch = viewValue != scope.signupForm.pwd.$viewValue
+                  
         ctrl.$setValidity('isBlank', !isBlank)
-        ctrl.$setValidity('noMatch', !noMatch)
-        scope.passwordCGood = !isBlank && !noMatch
+        
+        scope.passwordCGood = !isBlank 
                      return viewValue;
                };
                ctrl.$parsers.unshift(validate);
