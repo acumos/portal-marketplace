@@ -26,13 +26,11 @@ package org.acumos.portal.be.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
@@ -56,9 +54,8 @@ import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
-import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
-import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -878,17 +875,28 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return outputString;
 	}
-
+	
 	@ApiOperation(value = "Get ratings for a solution Id", response = MLSolution.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.GET_SOLUTION_RATING }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<RestPageResponse<MLPSolutionRating>> getSolutionRatings(@PathVariable String solutionId,
+    	@RequestMapping(value = { APINames.GET_SOLUTION_RATING }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    	@ResponseBody
+    	public JsonResponse<RestPageResponse<MLSolutionRating>> getSolutionRatings(@PathVariable String solutionId,
 			@RequestBody JsonRequest<RestPageRequest> pageRequest) {
-		RestPageResponse<MLPSolutionRating> mlSolutionRating = null;
-		JsonResponse<RestPageResponse<MLPSolutionRating>> data = new JsonResponse<>();
+		RestPageResponse<MLPSolutionRating> mlpSolutionRating = null;
+		List<MLSolutionRating> mlSolutionRatingList = new ArrayList<MLSolutionRating>();
+		JsonResponse<RestPageResponse<MLSolutionRating>> data = new JsonResponse<>();
 		try {
 			RestPageRequest restpageRequest = pageRequest.getBody();
-			mlSolutionRating = catalogService.getSolutionRating(solutionId, restpageRequest);
+			mlpSolutionRating = catalogService.getSolutionRating(solutionId, restpageRequest);
+			MLPUser mlpUser = null;
+			for (MLPSolutionRating rating : mlpSolutionRating.getContent()) {
+				mlpUser = userService.findUserByUserId(rating.getUserId());
+				MLSolutionRating mlSolRating = PortalUtils.convertToMLSolutionRating(rating);
+				mlSolRating.setUserName(mlpUser.getFirstName().concat(" ").concat(mlpUser.getLastName()));
+				mlSolutionRatingList.add(mlSolRating);
+			}
+
+			RestPageResponse<MLSolutionRating> mlSolutionRating = PortalUtils.convertToMLSolutionRatingRestPageResponse(mlSolutionRatingList, mlpSolutionRating);
+
 			if (mlSolutionRating != null) {
 				data.setResponseBody(mlSolutionRating);
 				data.setStatusCode(200);
