@@ -2431,3 +2431,6 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
     .header-right1 md-menu > button:first-child span {margin-right: 2px !important;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/
+
+sup.ds-text {font-size: 10px !important;}
+sup.ds-text2 {font-size: 12px !important;}

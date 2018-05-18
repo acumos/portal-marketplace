@@ -157,13 +157,14 @@ limitations under the License.
 														ng-class="{validationmsg:!signupForm.cpwd.$valid}">
 														<span ng-show="!!signupForm.cpwd.$error.required && signupForm.cpwd.$touched && cpasswordVisited">Confirm Password
 															Required.</span> <span
-															ng-show="cpasswordVisited && !!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
+															ng-show="cpasswordVisited && !!(pwd!=cpwd)">Passwords
 															don't match.</span>
 													</div>
 												 </md-input-container>
 												 												
 												<div >
-													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" ng-disabled="signupForm.$invalid ||(pwd!=cpwd)" ng-click="signUp()" alt="Sign up" title="Sign up">Sign up</button>
+													<button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary" 
+													ng-disabled="signupForm.$invalid ||(pwd!=cpwd)" ng-click="signUp()" alt="Sign up" title="Sign up">Sign up</button>
 												</div>
 												<div class="signup-txt-mob">
 													<label>Already have an {{$root.siteInstanceName}} ID?</label> <a ng-click=" openlogin()">Sign In</a>
