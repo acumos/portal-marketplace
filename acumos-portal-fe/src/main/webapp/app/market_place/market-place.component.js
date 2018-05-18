@@ -29,12 +29,20 @@ angular
 					controller : function($scope, $compile, $location, $http,
 							$state, $stateParams, $sessionStorage, $rootScope,
 							apiService, $element, $timeout) {
+
+						$scope.setPageStart = 0;
+						$scope.setStartCount = function(val){
+							if(val == "pre"){$scope.setPageStart = $scope.setPageStart-5}
+							if(val == "next"){$scope.setPageStart = $scope.setPageStart+5}
+						}
+
 						$scope.autoHeight = true;
 						$scope.all = true;
 						$scope.tags = [];
 						$scope.selectedChip = [];
 						$scope.sortBy = 'MR';
-
+						$scope.selectedPage = 0;
+						$scope.solutionSize = 10;						
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -105,7 +113,8 @@ angular
 						}, {
 							name : "Older",
 							value : "OLD"
-						} ];
+						}
+	                	];
 
 						$scope.checkBox = [ "Private", "Shared", "Company",
 								"Public" ];
@@ -130,26 +139,11 @@ angular
 						// Rest call for data fetching
 						// API calls
 						var counter = 0;
-						$scope.imgURLCL = "images/alarm.png";
-						$scope.imgURLRG = "images/image-classifier.png";
-						$scope.imgURLDT = "images/anomaly.png";
-						$scope.imgURLPR = "images/topology.png";
-						$scope.imgURLnull = "images/vmpredict2.png";
-
-						$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
-						$scope.imgURLemotion = "images/emotion_classifier.png";
-						$scope.imgURLthreat = "images/threat_analytics.png";
-						$scope.imgURLvideo = "images/video_analytics.png";
-						$scope.imgURLChat = "images/ChatBot.png";
-						$scope.imgURLSensitive = "images/Sensitive.png";
 						$scope.imgURLdefault = "images/default-model.png";
 
 						$scope.isBusyOnLoad = false;
 						$scope.pageNumber = 0;
-						$scope.onLoad = function() {
-
-						}
-						$scope.onLoad();
+						
 
 						if (JSON.parse(localStorage.getItem("userDetail"))) {
 							$scope.userDetails = JSON.parse(localStorage
@@ -175,7 +169,7 @@ angular
 
 						// filter functionality
 						$scope.actionFilter = function(action) {
-							alert(action);
+							
 						}
 						//Check for access type
 						var accessTypeFilter = ["PB"];$scope.userLoggedIn = false;
@@ -183,11 +177,11 @@ angular
 						
 						
 						$scope.accessFilter = function(accessType){
-                                                  	$scope.pageNumber = 0;
+							$scope.setPageStart = 0;
 							accessTypeFilter = [];
 							if(accessType == "all"){accessTypeFilter = ["OR", "PB"]}
 							else accessTypeFilter.push(accessType);
-							$scope.loadMore();
+							$scope.loadMore(0);
 						}
 						// check
 						var count = 1;
@@ -196,34 +190,29 @@ angular
 						var dataObj = {};
 
 						var duplicate = false;
-						$scope.loadMore = function() {
+						$scope.loadMore = function(pageNumber) {
 							var toBeSearch = [];
 							if ($scope.isBusy)
 								return;
 							else
 								$scope.isBusy = true;
-							// $scope.mlsolutions = [];
+							
+							$scope.selectedPage = pageNumber;
 							$scope.dataLoading = true;
 
 							if($scope.searchBox!=null && $scope.searchBox!='')
 								toBeSearch[0] = $scope.searchBox;
 							
-							if ($scope.viewNoMLsolution == 'No More ML Solutions'
-									&& $scope.pageNumber != 0) {
-								return;
-							}
 							$scope.MlSoltionCount = false;
 
 							var fieldToSort = {};
 							
-							if( $scope.sortBy == 'MR' ){
+							if( $scope.sortBy == 'MR' )
 								fieldToSort = { "modified" : "DESC" };
-							}if ($rootScope.relatedModelType) {
+
+							if ($rootScope.relatedModelType) {
 								$scope.categoryFilter.push($rootScope.relatedModelType);
 							}
-							
-							//added this function to hide the view more button
-							$scope.getSolutionsCount(toBeSearch, accessTypeFilter, fieldToSort);
 							
 							dataObj = {
 								"request_body" : {
@@ -235,62 +224,26 @@ angular
 									"tags" : $scope.tagFilter,
 									"pageRequest" : {
 										"fieldToDirectionMap": fieldToSort,
-										"page" : $scope.pageNumber,
-										"size" : 9
+										"page" : pageNumber,
+										"size" : $scope.solutionSize
 									}
 								}
 							}
 
 							apiService.insertSolutionDetail(dataObj).then(
 									function(response) {
+										$scope.totalPages = response.data.response_body.pageCount;
+										$scope.totalElements = response.data.response_body.totalElements;
 										$rootScope.relatedModelType = '';
 										getSolution(response);
 									},
-									function(error) {
-										$scope.status = 'Unable to load data: '
-												+ error.data.error;
-									});
-							count += 9;
-						}
-						
-						$scope.getSolutionsCount = function(toBeSearch, accessTypeFilter, fieldToSort){
-							var dataObjNext = {
-									"request_body" : {
-										"modelTypeCodes" : $scope.categoryFilter,
-										"active" : true,
-										"accessTypeCodes": accessTypeFilter,
-										"nameKeyword" :  toBeSearch,
-										"sortBy" : $scope.sortBy,
-										"tags" : $scope.tagFilter,
-										"pageRequest" : {
-											"fieldToDirectionMap": fieldToSort,
-											"page" : $scope.pageNumber + 1,
-											"size" : 9
-										}
-									}
-								};
+									function(error) {});
 
-								apiService.insertSolutionDetail(dataObjNext).then(
-										function(response) {
-											$scope.solutionsCount = response.data.response_body.content.length;
-										},
-										function(error) {
-											
-								});
-								
 						}
 
-						$scope.loadMore();
+						$scope.loadMore(0);
 						function getSolution(response) {
 							
-							angular
-									.forEach(
-											response.data.response_body.content,
-											function(value, key) {
-												if (response.data.response_body.content[key].active) {
-													$scope.modelCount = $scope.modelCount + 1;
-												}
-											});
 							$scope.isBusy = false;
 							$scope.MlSoltionCount = true;
 							if ($scope.pageNumber == 0) {
@@ -307,38 +260,6 @@ angular
 
 							$scope.dataLoading = false;
 							if (response.data.response_body.content.length >= 0) {
-								for (var i = 0; i < response.data.response_body.content.length; i++) {
-									duplicate = false;
-									angular
-											.forEach(
-													$scope.mlsolutions,
-													function(value, key) {
-														if (value.solutionId === response.data.response_body.content[i].solutionId) {
-															duplicate = true;
-															// return;
-														}
-													});
-									if (!duplicate) {
-										$scope.mlsolutions
-												.push({
-													// id:$scope.mlsolutions[i].id,
-													solutionId : response.data.response_body.content[i].solutionId,
-													solution_name : response.data.response_body.content[i].name,
-													marketplace_sol_id : response.data.response_body.content[i].marketplace_sol_id,
-													name : response.data.response_body.content[i].name,
-													ownerId : response.data.response_body.content[i].ownerId,
-													created : response.data.response_body.content[i].created,
-													active : response.data.response_body.content[i].active,
-													description : response.data.response_body.content[i].description,
-													viewCount : response.data.response_body.content[i].viewCount,
-													downloadCount : response.data.response_body.content[i].downloadCount,
-													solutionRating : response.data.response_body.content[i].ratingAverageTenths,
-													ownerName : response.data.response_body.content[i].ownerName,
-													ratingCount : response.data.response_body.content[i].ratingCount
-												});
-									}
-
-								}
 								angular.forEach($scope.mlsolutions, function(value,key) {
 									$scope.getSolutionImages(value.solutionId);
 								});
@@ -367,17 +288,11 @@ angular
 																		});
 													},
 													function(error) {
-														$scope.status = 'Unable to load data: '
-																+ error.data.error;
-														console
-																.log($scope.status);
 													});
 								}
 
 							}
-							if (response.data.response_body.content.length > 0) {
-								$scope.pageNumber += 1;
-							}
+
 							// $scope.pageNumber += 1;
 							$scope.isBusy = false;
 							// Show deleted solutions on
@@ -400,6 +315,14 @@ angular
 							// Show deleted solutions on
 							// search ends
 							// console.clear()
+							
+							//pagination logic
+
+							$scope.size = new Array( $scope.totalPages );
+							
+						
+							
+							
 						}
 						var privacyArr = [];
 						var caegoryArr = [];
@@ -413,6 +336,7 @@ angular
 						$scope.filterChange = function(checkbox, type) {
 							$scope.mlsolutions = [];
 							$scope.pageNumber = 0;
+							$scope.setPageStart = 0;
 							$scope.modelCount = 0;
 							$scope.isBusy = false;
 					    
@@ -420,7 +344,7 @@ angular
 								if(inputChangedPromise){
 							        $timeout.cancel(inputChangedPromise);
 							    }
-							    inputChangedPromise = $timeout($scope.loadMore(),0);
+							    inputChangedPromise = $timeout($scope.loadMore(0),0);
 							    return;
 							}
 							else if (type == 'caegory') {
@@ -452,8 +376,10 @@ angular
 								});
 								if(dupli == false)tagArr.push(checkbox);
 								else tagArr.splice(index, 1);
+							}else if(checkbox == 'paginationSize'){
+								$scope.solutionSize = type;
 							}
-							console.clear();console.log(tagArr);
+
 							$scope.categoryFilter = caegoryArr;
 							$scope.tagFilter = tagArr;
 							if (type == 'sortBy') {
@@ -461,7 +387,7 @@ angular
 								$scope.selectedAction = checkbox.name;
 							} else if (type == 'sortById')
 								$scope.sortById = checkbox.value;
-							$scope.loadMore();
+							$scope.loadMore(0);
 
 						}
 						
@@ -472,7 +398,7 @@ angular
 						$scope.$on('scanner-started', function(event, args) {
 							$scope.pageNumber = 0;
 							$scope.searchBox = args.searchValue;
-							$scope.loadMore();
+							$scope.loadMore(0);
 						});
 
 						$scope.onClickModel = function(index, id) {

@@ -132,6 +132,7 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
 .tbl-notification-list tbody tr td.read-notification {background: #f5f5f5; font-weight: normal;}
 .notification-btn-container {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items: center;}
 .notification-btn-container button { margin-right: 15px}
+.notification-btn-container button i { font-size: 13px; margin-right: 4px;}
 .scroll-table{height:250px; overflow-x:auto; display:block;} 
 
 .notification-search {border: 1px solid #d5d5d5;padding-right: 40px;width: 100%;border: 1px solid #d5d5d5;padding-left:5px; font-size: 14px;
@@ -706,7 +707,7 @@ md-toolbar {background: #671C9D !important;min-height:39px;}
 .c-md-container button {margin-right: 10px; height:30px; line-height:30px; }
 
 .btn-secondary {background: #fff; color: #2B262D;border:1px solid #d5d5d5;box-shadow: none; webkit-box-shadow:none;font-weight:600; text-transform:none;}
-.md-lbl1 { margin-right:174px; margin-top:0; display:inline-block;font-size:11px;}
+.md-lbl1 { margin-right:3px; margin-top:0; display:inline-block;font-size:11px;}
 .mdl-layout__header {min-height:55px;}
 .pageheadsection {padding: 10px 15px 10px 20px;}
 
@@ -1398,11 +1399,12 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 /************** GRID STYLE ENDS************/
 
 /********* Error 404 page style Start ***************/
-.error-wrapper {background: url("../images/error-page/404_bg.png") no-repeat center center; background-size: cover; position: absolute; width: 100%; height:100%; }
+.error-wrapper {min-height: 600px;background: url("../images/error-page/404_bg.png") no-repeat center center; background-size: cover; position: absolute; width: 100%; height:100%; }
 .error-wrapper-inner {  }
 .error-wrapper-inner-bottom {background: url("../images/error-page/404_mountain.png") no-repeat 0 0; position: absolute; background-size: 100%;width:100%; height:150px;bottom:0;}
 .error-wrapper-inner p {color: #fff;}
 .error-acumos-logo {background: url("../images/error-page/logo_acumos_404.png") no-repeat center center; width: 198px; height: 57px; margin: 15px auto; }
+.error-acumos-logo2 {background: url("../images/error-page/Acumos-error-page-logo.png") no-repeat center center; width: 241px; height: 61px; margin: 15px auto; }
 .error-acumos-img1 {background: url("../images/error-page/404.png") no-repeat center center; width: 354px; height: 204px; margin: 0 auto; background-size: cover;}
 .error-para1 {font-weight:600;font-size: 16px; line-height:16px;}
 .error-para2 {font-size: 14px;}
@@ -1413,7 +1415,11 @@ md-select-header input {width: 100%;height: 30px;padding-left: 10px;}
 .error-link-container a:hover { color: #fff;}
 .error-hor-seperator { border-right: 1px solid #fff; height: 20px; margin: 10px 20px; }
 
+h1.error-heading1 {color: #fff; margin-bottom:5px; padding-bottom: 8px; font-size: 48px; font-weight: 600;font-family: 'Open Sans', sans-serif;}
+p.error-m-para1 {margin:0;font-size: 18px;font-family: 'Open Sans', sans-serif; margin-bottom: 50px;}
+.error-acumos-maintenance-img {background: url("../images/error-page/under_maintainance.png") no-repeat center center; width: 762px; height: 230px; margin: 0 auto; background-size: cover;}
 /********* Error 404 page style End ***************/
+
 .mdl-button--icon.req-download-btn{width: auto; font-size: 10px; border: 1px solid #DDD; border-radius: 3px; padding: 1px 5px; line-height: 15px;
     height: 25px; margin-top: 3px; color: rgb(253,134,56);
 }
@@ -1956,11 +1962,11 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .pagination-left-section {display:flex;flex-wrap: nowrap;align-items: center;}
 .pagination-right-section {display:flex;flex-wrap: nowrap;align-items: center;}
 
-.count-btn-container {margin: 0 5px;}
+.count-btn-container {margin: 0 3px;}
 .pagination-ddl {width: 80px;}
-.count-btn {min-width: 32px; padding-left:5px;padding-right:5px; margin: 0 2px;}
+.count-btn {min-width: 32px; padding-left:5px;padding-right:5px; margin: 0 1px;}
 .page-stats {color: #8f8f8f;}
-.count-btn.selected-btn {color: #fff; background: #671C9D;border-color: #671C9D;}
+.count-btn.selected-btn, .count-btn.selected-btn:focus {color: #fff; background: #671C9D;border-color: #671C9D;}
 
 /******** Pagination style Ends******/
 
@@ -1977,6 +1983,9 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 
 /**** rating style******/
 .read-only-rating1 a.star-button { pointer-events: none;}
+
+sup.ds-text {font-size: 10px !important;}
+sup.ds-text2 {font-size: 12px !important;}
 
 /*********** MEDIA QUERIES SECTION START************/
 
