@@ -368,14 +368,14 @@ limitations under the License.
 																		</div>
 																	</div>
 																	<div ng-repeat="(key,item) in eventConfig" ng-if="key != 'enabled'">
-														          	<section class="sc-cell-container" ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
+														          	<section class="sc-cell-container" ng-class="eventConfig.enabled == false ? 'disabled-container' : ''">
 																		<div class="sc-cell-childtop">
 																			<div>
 																				 <md-checkbox aria-label="Checkbox 1" ng-click="toggleEventCheckedList(key)">
 																		          </md-checkbox>
 																		          <span class="sc-slide-title">{{item.name}}</span>
-																		          <span class="sc-slide-status text-green" ng-show="item.slideEnabled == 'true'">Enabled</span>
-																				  <span class="sc-slide-status text-red" ng-show="item.slideEnabled == 'false'">Disabled</span>
+																		          <span class="sc-slide-status text-green" ng-show="eventConfig.enabled == true">Enabled</span>
+																				  <span class="sc-slide-status text-red" ng-show="eventConfig.enabled == false">Disabled</span>
 																			</div>
 																			<div>
 																				<md-button class="sc-link-btn1" ng-click="editEventSlide(key, item)">Edit</md-button>
@@ -392,7 +392,7 @@ limitations under the License.
 																			</div>
 																			<div class="sc-text-container">
 																				<span>{{item.headline}}</span>
-																				<p>{{item.supportingContent}}</p>
+																				<p ng-bind-html = "item.supportingContent"></p>
 																			</div>
 																		</div>
 																		<div class="sc-cell-childbottom">
@@ -425,14 +425,14 @@ limitations under the License.
 																		</div>
 																	</div>
 																	<div ng-repeat="(key,item) in storyConfig" ng-if="key != 'enabled'">
-															          	<section class="sc-cell-container" ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
+															          	<section class="sc-cell-container" ng-class="storyConfig.enabled == false ? 'disabled-container' : ''">
 																			<div class="sc-cell-childtop">
 																				<div>
 																					 <md-checkbox  ng-click="toggleStoryCheckedList(key)" aria-label="Checkbox 1">
 																			          </md-checkbox>
 																			          <span class="sc-slide-title">{{item.name}}</span>
-																			          <span class="sc-slide-status text-green" ng-show="item.slideEnabled == 'true'">Enabled</span>
-																				      <span class="sc-slide-status text-red" ng-show="item.slideEnabled == 'false'">Disabled</span>
+																			          <span class="sc-slide-status text-green" ng-show="storyConfig.enabled == true">Enabled</span>
+																				      <span class="sc-slide-status text-red" ng-show="storyConfig.enabled == false">Disabled</span>
 																				</div>
 																				<div>
 																					<md-button class="sc-link-btn1" ng-click="editStorySlide(key, item)">Edit</md-button>
@@ -449,7 +449,7 @@ limitations under the License.
 																				</div>
 																				<div class="sc-text-container">
 																					<span>{{item.headline}}</span>
-																					  <p>{{item.supportingContent}}</p>
+																					  <p ng-bind-html = "item.supportingContent"></p>
 																				</div>
 																			</div>
 																			<div class="sc-cell-childbottom">
@@ -2431,24 +2431,21 @@ limitations under the License.
 															</div>
 															<div class="currentColor">
 																<label>Current Color</label>
-																<span class="Custom-colors">#10a6b5</span>
+																<span class="Custom-colors" style = "background-color : {{carouselSlide.bgColor}}">{{carouselSlide.bgColor}}</span>
 																<label>Select Color</label>
 																<span ng-repeat = "n in bgColor">
 																<span class="colorChamber" style = "background-color : {{n}}" ng-class="{active : n === carousel_bgColor}" ng-click = "selectBgColor(n)"></span>
 																</span>
-																
 															</div>
 															<hr class="hrMargins"/>
 															<div class="custom-color-chamber">
 																<label>Custom Color</label>
-																
 																<input type="text" class="custom-color-textbox" ng-model = "carousel_bgColor"/>
 															</div>
 														</div>														
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 																<div ng-model="backGround">
-																	
 																	<div  file-upload size = "800000" ng-click = "imageSizeError = false"
 																						uploadid="carouselSlideUploadid" id="uploadFile"
 																						filename="filename" file="carouselSlide.backGround"
@@ -2462,7 +2459,6 @@ limitations under the License.
 																		
 																	</div>
 																</div>
-																
 																<input type="file" upload-image-model="carouselSlide.backGround" data-ng-model="carouselSlide.backGround" />
 															</div>
 															<span>
@@ -2532,7 +2528,6 @@ limitations under the License.
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 															<div>
-																
 																	<div  file-upload uploadid="infographicUploadid" id="uploadFile"
 																						file="carouselSlide.infoGraphic" ng-click = "imageSizeError = false"
 																						ng-model="carouselSlide.infoGraphic" accept = ""
@@ -2544,10 +2539,8 @@ limitations under the License.
 																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 																		
 																	</div>
-																	
 																</div>
-																
-																		<input type="file" upload-image-model="carouselSlide.infoGraphic" data-ng-model="carouselSlide.infoGraphic"/>
+																	<input type="file" upload-image-model="carouselSlide.infoGraphic" data-ng-model="carouselSlide.infoGraphic"/>
 															</div>
 																<span>
 																	<md-button ng-click="uploadinfoGraphic()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
@@ -2562,7 +2555,7 @@ limitations under the License.
 												</div>
 											</div>
 											
-											<div class="ds-db-row3"  style="float:left">
+											<div class="md-grid"  style="float:left">
 												<div class="mdl-cell mdl-cell--3-col" style="float:left">
 														<md-input-container class="md-block">
 															<label>Text Align <span class="dsreqfield">*</span></label>
@@ -2669,7 +2662,6 @@ limitations under the License.
 																<div>
 																	<div>
 																		<div class="select-control">
-																			
 																			<label>Link button to</label> 
 																			<input type="text" ng-model="carouselSlide.links.external.address" >
 																		</div>
@@ -2717,7 +2709,7 @@ limitations under the License.
 									<md-dialog-content>
 									<form name="eventForm" ng-cloak>
 										<div class="md-dialog-content add-top-carousel">
-											<div class="ds-db-row1">
+											<div class="mdl-grid">
 												<div class="mdl-cell mdl-cell--6-col" style="float:left">
 														<md-input-container class="md-block">
 															<label>Slide Name</label> 
@@ -2732,16 +2724,17 @@ limitations under the License.
 													</md-input-container>
 												</div>
 											</div>
-											<div class="ds-db-row2">
+											<div class="mdl-grid">
 												<div class="mdl-cell mdl-cell--12-col" style="float:left">
 													<md-input-container class="md-block">
 													  <label>Supporting content</label>
-													  <textarea rows="2" ng-model="eventCarousel.supportingContent" tabindex="3" required></textarea>
+													  <ng-quill-editor ng-model="eventCarousel.supportingContent" modules="modulesConfig">	  
+													  </ng-quill-editor>
 													  <span class="modal-note">140 Characters Only</span>
 													</md-input-container>
 												</div>
 											</div>
-											<div class="ds-db-row3">
+											<div class="mdl-grid">
 												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
 													<md-input-container class="md-block">
 														<label>Main Background</label>
@@ -2749,23 +2742,27 @@ limitations under the License.
 															<div class="drag-drop-files hide">
 																<p>doc.pdf</p>
 															</div>
-															<div>
-																<img src="images/upload-doc-vector.png" alt="" title=""/>
-																<div class="destext">Drag & Drop your file here!</div>
-															</div>
+															<div file-droppable filename="filename" file=eventCarousel.backGround>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
 														</div>
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 																<div ng-model="backGround">
-																	<div class="upload-field">Browse
-																		<input type="file" upload-image-model="eventCarousel.backGround" data-ng-model="eventCarousel.backGround" id="backGround1" />
-																	</div>
+																	<div  file-upload size = "800000" ng-click = "imageSizeError = false"
+																						uploadid="eventCarouselUploadid" id="uploadFile"
+																						filename="filename" file="eventCarousel.backGround"
+																						ng-model="eventCarousel.backGround" accept = ""
+																						alt="Browse" title="Browse" readonly></div>
+																						<input class="mdl-textfield__input disabledClick"
+																							placeholder="Upload File" type="text"
+																							ng-model="eventCarousel.backGround.name" readonly />
 																	<div class="help-inline validation-msgs">
 																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 																	</div>
 																</div>
-																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
-																<input type="file" upload-image-model="eventCarousel.backGround" data-ng-model="eventCarousel.backGround" />
+																																
 															</div>
 															<span>
 															<md-button ng-click="uploadEventBGImg()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
@@ -2798,20 +2795,24 @@ limitations under the License.
 															<div class="drag-drop-files hide">
 																<p>doc.pdf</p>
 															</div>
-															<div>
-																<img src="images/upload-doc-vector.png" alt="" title=""/>
-																<div class="destext">Drag & Drop your file here!</div>
-															</div>
+															<div file-droppable file=eventCarousel.infoGraphic>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
 														</div>
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
-															<div>
-																	<div class="upload-field">Browse
+																<div  file-upload uploadid="eventInfographicUploadid" id="uploadFile"
+																						file="eventCarousel.infoGraphic" ng-click = "imageSizeError = false"
+																						ng-model="eventCarousel.infoGraphic" accept = ""
+																						alt="Browse" title="Browse" readonly></div>
+																						<input class="mdl-textfield__input disabledClick"
+																							placeholder="Upload File" type="text"
+																							ng-model="eventCarousel.infoGraphic.name" readonly />
+																<div class="help-inline validation-msgs">
+																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 																		
-																		<input type="file" upload-image-model="eventCarousel.infoGraphic" data-ng-model="eventCarousel.infoGraphic" />
-																	</div>
-																</div>
-																		<input type="file" upload-image-model="eventCarousel.infoGraphic" data-ng-model="eventCarousel.infoGraphic"/>
+																</div>		
 															</div>
 																<span>
 																	<md-button ng-click="uploadEventInfoGraphic()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
@@ -2826,7 +2827,7 @@ limitations under the License.
 												</div>
 											</div>
 											
-											<div class="ds-db-row3">
+											<div class="md-grid">
 												<div class="mdl-cell mdl-cell--3-col">
 														<md-input-container class="md-block">
 															<label>Text Align <span class="dsreqfield">*</span></label>
@@ -2891,7 +2892,7 @@ limitations under the License.
 									<md-dialog-content>
 									<form name="storyForm" ng-cloak>
 										<div class="md-dialog-content add-top-carousel">
-											<div class="ds-db-row1">
+											<div class="md-grid">
 												<div class="mdl-cell mdl-cell--6-col" style="float:left">
 														<md-input-container class="md-block">
 															<label>Slide Name</label> 
@@ -2906,11 +2907,12 @@ limitations under the License.
 													</md-input-container>
 												</div>
 											</div>
-											<div class="ds-db-row2">
-												<div class="mdl-cell mdl-cell--12-col" style="float:left">
+											<div class="md-grid">
+												<div class="mdl-cell mdl-cell--12-col">
 													<md-input-container class="md-block">
 													  <label>Supporting content</label>
-													  <textarea rows="2" ng-model="successCarousel.supportingContent" tabindex="3" required></textarea>
+													  <ng-quill-editor ng-model="successCarousel.supportingContent" modules="modulesConfig">	  
+													  </ng-quill-editor>
 													  <span class="modal-note">140 Characters Only</span>
 													</md-input-container>
 												</div>
@@ -2923,23 +2925,27 @@ limitations under the License.
 															<div class="drag-drop-files hide">
 																<p>doc.pdf</p>
 															</div>
-															<div>
-																<img src="images/upload-doc-vector.png" alt="" title=""/>
-																<div class="destext">Drag & Drop your file here!</div>
-															</div>
+															<div file-droppable filename="filename" file=successCarousel.backGround>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
 														</div>
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 																<div ng-model="backGround">
-																	<div class="upload-field">Browse
-																		<input type="file" upload-image-model="successCarousel.backGround" data-ng-model="successCarousel.backGround" id="backGround1" />
-																	</div>
+																	<div  file-upload size = "800000" ng-click = "imageSizeError = false"
+																						uploadid="successCarouselUploadid" id="uploadFile"
+																						filename="filename" file="successCarousel.backGround"
+																						ng-model="successCarousel.backGround" accept = ""
+																						alt="Browse" title="Browse" readonly></div>
+																						<input class="mdl-textfield__input disabledClick"
+																							placeholder="Upload File" type="text"
+																							ng-model="successCarousel.backGround.name" readonly />
 																	<div class="help-inline validation-msgs">
 																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 																	</div>
 																</div>
-																
-															</div>
+																</div>
 															<span>
 															<md-button ng-click="uploadsuccessBGImg()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
 																Upload
@@ -2969,22 +2975,32 @@ limitations under the License.
 														</div>
 														<div class="drag-drop">
 															<div class="drag-drop-files hide">
-																<p>doc.pdf</p>
-															</div>
-															<div>
-																<img src="images/upload-doc-vector.png" alt="" title=""/>
-																<div class="destext">Drag & Drop your file here!</div>
-															</div>
+																			              <p>doc.pdf</p>
+																			       </div>
+																			<div file-droppable filename="filename" file=successCarousel.infoGraphic>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
 														</div>
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 															<div>
-																	<div class="upload-field">Browse
+																	<div ng-model="backGround">
+																	<div  file-upload size = "800000" ng-click = "imageSizeError = false"
+																						uploadid="successCarouselUploadid" id="uploadFile"
+																						filename="filename" file="successCarousel.infoGraphic"
+																						ng-model="successCarousel.infoGraphic" accept = ""
+																						alt="Browse" title="Browse" readonly></div>
+																						<input class="mdl-textfield__input disabledClick"
+																							placeholder="Upload File" type="text"
+																							ng-model="successCarousel.infoGraphic.name" readonly />
+																	<div class="help-inline validation-msgs">
+																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 																		
-																		<input type="file" upload-image-model="successCarousel.infoGraphic" data-ng-model="successCarousel.infoGraphic" />
 																	</div>
 																</div>
-																		<input type="file" upload-image-model="successCarousel.infoGraphic" data-ng-model="successCarousel.infoGraphic"/>
+																</div>
+																
 															</div>
 																<span>
 																	<md-button ng-click="uploadsuccessInfoGraphic()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
@@ -2999,7 +3015,7 @@ limitations under the License.
 												</div>
 											</div>
 											
-											<div class="ds-db-row3">
+											<div class="md-grid">
 												<div class="mdl-cell mdl-cell--3-col">
 														<md-input-container class="md-block">
 															<label>Text Align <span class="dsreqfield">*</span></label>
@@ -3045,3 +3061,5 @@ limitations under the License.
 							</div>
 						</div>
 						<!-- Modal box end -->
+						
+						
