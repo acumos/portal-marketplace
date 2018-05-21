@@ -1950,9 +1950,9 @@ angular.module('admin')
                 	   for (var i=0; i<$scope.carouselCheckedList.length; i++){
                 		   $scope.carouselConfig[$scope.carouselCheckedList[i]]['slideEnabled'] = $scope.changeAction;
                 	   }
-                	   for (var i=0; i<$scope.carouselCheckedList.length; i++){
+                	   for (var i=0; i< Object.keys($scope.carouselConfig).length; i++){
                 		   if($scope.carouselConfig[i].slideEnabled == 'true'){break;}
-                		   else if(i == $scope.carouselCheckedList.length - 1){
+                		   else if(i == Object.keys($scope.carouselConfig).length - 1){
                 			   $scope.carouselConfig[0].slideEnabled = 'true';
                 		   }
                 	   }
@@ -2753,7 +2753,7 @@ angular.module('admin')
 	                 	   for (var i=0; i<$scope.storyCheckedList.length; i++){
 	                 		   $scope.storyConfig[i].slideEnabled = $scope.changeStoryAction;
 	                 	   }
-	                 	   $scope.storyConfig.enabled = !$scope.eventConfig.enabled;
+	                 	   $scope.storyConfig.enabled = !$scope.storyConfig.enabled;
 	                 	   
 	                 	   var carouselConfigStr = JSON.stringify($scope.storyConfig);
 	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
