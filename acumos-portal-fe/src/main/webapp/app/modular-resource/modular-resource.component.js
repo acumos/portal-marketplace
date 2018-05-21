@@ -459,11 +459,7 @@ angular.module('modelResource')
 					});
 				} else {
 				    
-					if($scope.keepModelName == true){
-						// TODO : This is quick fix. Need to convert to query parameter or passed as body parameter
-						$scope.model.modelName = 'null';
-					}
-						
+					
 					apiService
 					.addToCatalogONAP($stateParams.solutionId,$stateParams.revisionId,$scope.userId[1], $scope.model.modelName)
 					.then(
@@ -530,6 +526,13 @@ angular.module('modelResource')
 		    		$scope.uploadModel = $scope.selToolKitT = false;
 		    	}
 		    };
+
+		    $scope.changeOnapSolutionName = function(setDefaultName){
+				if(setDefaultName == true){
+					// TODO : This is quick fix. Need to convert to query parameter or passed as body parameter
+					$scope.model.modelName = 'null';
+				}
+		    }
 		    
 			}
 });

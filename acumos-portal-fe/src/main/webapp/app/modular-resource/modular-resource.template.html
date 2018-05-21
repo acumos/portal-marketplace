@@ -890,59 +890,7 @@ limitations under the License.
 							</div>
 						</div>
 						</div>
-						<!-- timeline end --> <!-- Sign in Modal box start -->
-						<div class="md-dialog-container" id="myDialog" style="height: 0;">
-							<md-dialog aria-label="Mango (Fruit)"
-								class="cg-dialog-Deploy-to-cloud">
-							<form ng-cloak>
-								<md-toolbar>
-								<div class="md-toolbar-tools">
-									<h2>Deploying to Microsoft Azure</h2>
-									<span flex></span>
-									<md-button class="md-icon-button" ng-click="cancel()">
-									<i class="material-icons">close</i> </md-button>
-								</div>
-								</md-toolbar>
-								<md-dialog-content>
-								<div class="md-dialog-content">
-									<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-										<div class="mdl-cell mdl-cell--6-col">
-											<md-input-container class="md-icon-float md-block">
-											<!-- Use floating label instead of placeholder --> <label>Application
-												Id</label> <input ng-model="user.name" type="text"> </md-input-container>
-											<md-input-container class="md-icon-float md-block">
-											<!-- Use floating label instead of placeholder --> <label>Secret
-												key</label> <input ng-model="user.pass" type="text"> </md-input-container>
-											<md-input-container class="md-icon-float md-block">
-											<!-- Use floating label instead of placeholder --> <label>Resource
-												Group</label> <input ng-model="user.pass" type="text"> </md-input-container>
-										</div>
-										<div class="mdl-cell mdl-cell--6-col">
-											<md-input-container class="md-icon-float md-block">
-											<label>Tenant Id</label> <input ng-model="user.pass"
-												type="text"> </md-input-container>
-											<md-input-container class="md-icon-float md-block">
-											<label>Subscription Key</label> <input ng-model="user.pass"
-												type="text"> </md-input-container>
-											<md-input-container class="md-icon-float md-block">
-											<label>Acr Name</label> <input ng-model="user.pass"
-												type="text"> </md-input-container>
-										</div>
-									</div>
-									<hr />
-									<div layout="row" class="deploy-cloud-modalfooter">
-										<md-button
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
-										Cancel </md-button>
-										<md-button
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-										Deploy </md-button>
-									</div>
-								</div>
-								</md-dialog-content>
-							</form>
-							</md-dialog>
-						</div>
+
 						</md-content> </md-tab> </md-tabs>
 					</div>
 				</div>
@@ -1104,7 +1052,7 @@ limitations under the License.
 												<p>Some information can be displayed related to this particular task, such as how to complete this task what are data required.</p>
 										</div>
 										
-								</div><input type="checkbox" ng-model="keepModelName"> Keep Model Name As It Is 
+								</div><input type="checkbox" ng-model="keepModelName" ng-change="changeOnapSolutionName(keepModelName)" ng-disabled="model.modelName"> Keep Model Name As It Is								
 							</article>
 							
 						</div>
