@@ -368,7 +368,7 @@ limitations under the License.
 																		</div>
 																	</div>
 																	<div ng-repeat="(key,item) in eventConfig" ng-if="key != 'enabled'">
-														          	<section class="sc-cell-container" ng-class="eventConfig.enabled == false ? 'disabled-container' : ''">
+														          	<section class="sc-cell-container" ng-show ="eventConfig.enabled">
 																		<div class="sc-cell-childtop">
 																			<div>
 																				 <md-checkbox aria-label="Checkbox 1" ng-click="toggleEventCheckedList(key)">
@@ -425,7 +425,7 @@ limitations under the License.
 																		</div>
 																	</div>
 																	<div ng-repeat="(key,item) in storyConfig" ng-if="key != 'enabled'">
-															          	<section class="sc-cell-container" ng-class="storyConfig.enabled == false ? 'disabled-container' : ''">
+															          	<section class="sc-cell-container" ng-show="storyConfig.enabled">
 																			<div class="sc-cell-childtop">
 																				<div>
 																					 <md-checkbox  ng-click="toggleStoryCheckedList(key)" aria-label="Checkbox 1">
@@ -2459,6 +2459,7 @@ limitations under the License.
 																		
 																	</div>
 																</div>
+																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
 																<input type="file" upload-image-model="carouselSlide.backGround" data-ng-model="carouselSlide.backGround" />
 															</div>
 															<span>

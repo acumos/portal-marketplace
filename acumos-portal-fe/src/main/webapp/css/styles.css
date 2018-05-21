@@ -2109,6 +2109,11 @@ sup.ds-text2 {font-size: 12px !important;}
     .fullwidth{width:100%}
     .flex-20, .layout-row>.flex-20{max-width:100%;}
     .btn-height{height: 35px;}
+    .displayfull{display: block;}
+    .button-height{height:30px;}
+    .grid-scroll{overflow-x:auto;}
+    .search-button-responsive{width: 100%;padding-left: 0px;margin-bottom: 7px;}
+    .subscontainerinner2 .mdl-textfield.admin-search-container{width:100% !important; padding-left:0px;margin-bottom: 7px;}
      /*Federation responsive End*/
 }
 
