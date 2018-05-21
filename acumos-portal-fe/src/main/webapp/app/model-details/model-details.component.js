@@ -438,71 +438,17 @@ angular
 												$scope.getSolPublicDesc();
 											}
 											
-											//trying for signatures-can be replaced by reading the .proto file and displaying the contents
-											var qs = querystring.parse();
-											var urlBase = baseURL + '/dsce/';
-							                var options = Object.assign({
-							                	base:"dsce/dsce/",
-							                    //base: urlBase,
-							                	//base: 'http://localhost:8088/dsce/',
-							                    protobuf: 'artifact/fetchProtoBufJSON'
-							                }, qs);
-							                
-							                function build_url(verb, params) {
-							                    return options.base + verb + '?' + Object.keys(params).map(function(k) {
-							                        return k + '=' + encodeURIComponent(params[k]);
-							                    }).join('&');
-							                }
-											
-							                var url= build_url(options.protobuf, {
-					                            userId: $scope.solution.ownerId,
-					                            solutionId :  $scope.solution.solutionId,
-					                            version : $scope.versionId
-					                        });
-					                        $http.get(url).success(function(proto){
-					                        	console.log(proto);
-					                        	
-					                        	var i=0; var j=0; var messageJson = [];
-					                        	var operations = new Object(); var messages = new Object();var operationName = null; var messagesName = [];
-					                        	$scope.protoDisplay = proto;
-					                        	
-					                        	angular.forEach(proto.protobuf_json.service.listOfOperations, function(value, key) {
-					                        		messagesName= [];
-					                        		angular.forEach(value.listOfInputMessages,function(value1,key1){
-					                        			messagesName["input"]=value1.inputMessageName;
-					                        			angular.forEach(proto.protobuf_json.listOfMessages, function(value2, key2) {
-					                        				messageJson=[];
-					                        				if(value1.inputMessageName === value2.messageName){
-						                            			angular.forEach(value2.messageargumentList, function(value3, key3) {  
-						                            				messageJson.push(value3.rule+' '+value3.type+' '+value3.name+' = '+value3.tag); 
-						                            			});
-						                            			messages[value2.messageName]= messageJson;
-						                            			
-					                        				} 
-					                        			});
-					                        		});
-					                        		
-						                        	angular.forEach(value.listOfOutputMessages,function(value1,key1){
-						                        		messagesName["output"]= value1.outPutMessageName;
-						                        		angular.forEach(proto.protobuf_json.listOfMessages, function(value2, key2) {
-						                        			messageJson=[];
-							                            	if(value1.outPutMessageName === value2.messageName){
-							                            		angular.forEach(value2.messageargumentList, function(value3, key3) {   
-							                            			messageJson.push(value3.rule+' '+value3.type+' '+value3.name+' = '+value3.tag); 
-							                            		});
-							                            		messages[value2.messageName] = messageJson;
-							                            	}
-							                            });
-						                        	});
-						                        	operationName = value.operationType+" "+value.operatioName;	
-			                                        operations[operationName] = messagesName;
-			                                    });
-					                        	
-					                        	$scope.modelName = proto.protobuf_json.service.name;
-					                        	$scope.operationDisplay = operations;
-					                        	$scope.messageDisplay = messages;
-					                        	
-					                        });
+											var url = 'api/getProtoFile?userId='+$scope.loginUserID+'&solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
+											$http(
+													{
+														method : 'GET',
+														url : url
+													})
+													.then(
+															function successCallback(response) {
+																console.log(response);
+																$scope.modelSignature = response.data;
+															});
 											var solutionName = $scope.solution.name;
 											//comments only for summit demo
 											if(solutionName.indexOf('Predictor') > -1){

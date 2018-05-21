@@ -768,4 +768,22 @@ public class MarketPlaceServiceImplTest {
 		}
 	}
 
+	@Test
+	public void getProtoUrlTest() {
+		try {
+			String result = new String();
+			String userId = "41058105-67f4-4461-a192-f4cb7fdafd34";
+			String solutionId = "1213505-67f4-4461-a192-f4cb7fdafd34";
+			String version = "1";
+			result = "proto file contents";
+			
+			if(result != null) {
+				Mockito.when(impl.getProtoUrl(userId, solutionId, version, "MI", "proto")).thenReturn(result);
+				logger.info("file contents sent successfully");
+				Assert.assertEquals(result, result);
+			}
+		} catch (Exception e) {
+			logger.info("Failed to getProtoUrl" + e);
+		}
+	}
 }

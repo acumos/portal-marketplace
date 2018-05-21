@@ -74,7 +74,7 @@ limitations under the License.
 						                     <div ng-show="expanded">
 							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
 							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -87,7 +87,7 @@ limitations under the License.
 						                     <div ng-show="test">
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -127,7 +127,7 @@ limitations under the License.
 									
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                    
@@ -158,7 +158,7 @@ limitations under the License.
 								<div class="ds-list1">
 									<div ng-repeat="cat in palette.categories">
 							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
-								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
 							            </div>
 							        </div>
 							     </div>
@@ -372,7 +372,7 @@ limitations under the License.
 									<div class="ds-section-data-inner2">
 								<div class="ds-treelist">
 					                        <div class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in matchModels | orderBy:'solutionName'| filter:filterMM" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in matchModels | orderBy:'solutionName'| filter:filterMM" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
 							                      	</div>
 							                    </div>
 						                        </div>

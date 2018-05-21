@@ -1061,4 +1061,37 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 	
+	/**
+	 * @param userId
+	 *            User ID
+	 * @param solutionId
+	 *            Solution ID
+	 * @param version
+	 *            Version
+	 * @return Protobuf file details
+	 * @throws AcumosServiceException 
+	 */
+	@ApiOperation(value = "Get the profobuf file details for specified solutionID and version")
+	@RequestMapping(value = {APINames.GET_PROTO_FILE}, method = RequestMethod.GET, produces = "text/plain")
+	@ResponseBody
+	public String fetchProtoFile(@RequestParam(value = "userId", required = true) String userId,
+			@RequestParam(value = "solutionId", required = true) String solutionId,
+			@RequestParam(value = "version", required = true) String version) throws AcumosServiceException {
+		log.debug(EELFLoggerDelegate.debugLogger,
+				" fetchProtoFile() : Begin");
+
+		String result = "";
+		try {
+			result = catalogService.getProtoUrl(userId, solutionId, version, "MI","proto");
+
+		} catch (Exception e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception in fetchProtoFile() ", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.FILE_NOT_FOUND, e.getMessage());
+		}
+		log.debug(EELFLoggerDelegate.debugLogger,
+				"fetchProtoFile() : End");
+		
+		return result;
+	}
+	
 }

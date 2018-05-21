@@ -42,6 +42,8 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.common.exception.ProtoServiceException;
 import org.acumos.portal.be.controller.MarketPlaceCatalogServiceController;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
@@ -963,5 +965,22 @@ public class MarketPlaceServiceControllerTest {
 		mlpUser.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
 		mlpUser.setLoginName("test-User-Name");
 		return mlpUser;
+	}
+	
+	public void fetchProtoFile() {
+		try {
+			String proto = new String();
+			String userId = "41058105-67f4-4461-a192-f4cb7fdafd34";
+			String solutionId = "1213505-67f4-4461-a192-f4cb7fdafd34";
+			String version = "1";
+			Mockito.when(service.getProtoUrl(userId, solutionId, version, "MI", "proto")).thenReturn(proto);
+			proto = marketPlaceController.fetchProtoFile(userId, solutionId, version);
+			Assert.assertNotNull(proto);
+		} catch (AcumosServiceException e) {
+			logger.info("Failed to execute the testcase");
+		} catch (ProtoServiceException e) {
+			logger.info("Failed to execute the testcase");
+		}
+		
 	}
 }
