@@ -307,6 +307,16 @@ angular.module('admin')
           	  });
             }
             
+            $scope.showOrderStorySlidesPopup = function(ev, changeKey){
+            	$scope.changeOrderfor = changeKey;
+            	$mdDialog.show({
+          		  contentElement: '#changeStoryOrder',
+          		  parent: angular.element(document.body),
+          		  targetEvent: ev,
+          		  clickOutsideToClose: true
+          	  });
+            }
+            
             $scope.showEventSlidesPopup = function(ev){
           	  $mdDialog.show({
           		  contentElement: '#addEventSlides',
@@ -2702,6 +2712,59 @@ angular.module('admin')
 			                            });
 							}
 						}
+	                    
+	                    
+	                    $scope.changeStorySlideOrder = function (ev){
+	                    	
+	                    	var slideEnabled = $scope.storyConfig['enabled'];
+	                    	delete $scope.storyConfig['enabled'];
+	                 	   
+	                 	   $scope.changeOrderfor = parseInt($scope.changeOrderfor, 10);
+	                 	   $scope.order.changeOrderValue = parseInt($scope.order.changeOrderValue, 10);
+	                 	   if(!angular.isNumber($scope.order.changeOrderValue)  || $scope.order.changeOrderValue > Object.keys($scope.storyConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
+	                 		   alert("Provided index out of bound");
+	                 		   return;
+	                 	   }
+	                 	   
+	                 	   var updatedCarouselConfig = [];
+	                 	   for (var i=0; i < Object.keys($scope.storyConfig).length ; i++ ){
+	                 		   updatedCarouselConfig[i] = $scope.storyConfig[i];
+	                 	   }
+	                 	   
+	                 	   var tempvalue = updatedCarouselConfig.splice($scope.changeOrderfor, 1);
+	                 	   updatedCarouselConfig.splice($scope.order.changeOrderValue, 0, tempvalue[0]);
+	                 	   
+	                 	   var toMap = {};
+	                 	   for (var i=0; i < updatedCarouselConfig.length ; i++ ){
+	                 		   toMap[i] = updatedCarouselConfig[i];
+	                 	   }
+	                 	   $scope.storyConfig = toMap;
+	                 	  $scope.storyConfig['enabled'] = slideEnabled;
+	                 	   
+	                 	   
+	                 	   var carouselConfigStr = JSON.stringify($scope.storyConfig);
+	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
+
+	 						var reqObj = {
+	 			                          "request_body": {
+	 			                              "configKey": "story_carousel",
+	 			                              "configValue":convertedString,
+	 			                              "userId": userId
+	 			                            }
+	 		                            };
+	                	   apiService.updateSiteConfig("story_carousel", reqObj)
+	 	                    .then(
+	 	                            function(response) {
+	 	                            	$scope.getEventCarousel();
+	 	                            	$scope.msg = "Carousel Updated successfully.";
+	                                   $scope.icon = '';
+	                                   $scope.styleclass = 'c-success';
+	                                   $scope.showAlertMessage = true;
+	                                   $timeout(function() {
+	                                       $scope.showAlertMessage = false;
+	                                   }, 5000);
+	 	                            });
+	                    }
 
 	                 // Upload Image
 						$scope.uploadsuccessBGImg = function(){

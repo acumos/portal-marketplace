@@ -439,7 +439,7 @@ limitations under the License.
 																					<span>|</span>
 																					<md-button class="sc-link-btn1" ng-click="deleteStorySlide(key, item)">Delete</md-button>
 																					<span>|</span>
-																					<md-button class="sc-link-btn1">Set order</md-button>
+																					<md-button class="sc-link-btn1" ng-click="showOrderStorySlidesPopup($event, key)">Set order</md-button>
 																					<label class="sc-counter-container"><span class="sc-slide-counter">{{key}}</span></label>
 																				</div>
 																			</div>
@@ -3103,7 +3103,7 @@ limitations under the License.
 						</div>
 						<!-- Modal box end -->
 						
-						<!-- Modal Add  Story carousel slide box start -->
+						<!-- Modal Add  Event carousel slide box start -->
 						<div class="page-wrapper2" >
 							<div class="md-dialog-container" id="changeEventOrder" style="height:0;">
 							  <md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
@@ -3140,6 +3140,53 @@ limitations under the License.
 												Cancel
 											</md-button>
 											<md-button type="submit" ng-click="changeEventSlideOrder()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Confirm
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						</div>
+						<!-- Modal box end -->
+						
+						<!-- Modal Add  Story carousel slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="changeStoryOrder" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Set the order of Slide {{storyConfig[changeOrderfor].name}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="cancel()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="ds-db-row1">
+												Please note if you change the order of any slide system will other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
+											</div>
+											<div class="slid-container" ng-repeat="(key,item) in storyConfig" ng-class="changeOrderfor == key ? 'active' : ''" ng-if="key != 'enabled'">
+												<div class="slides">
+													<img src="./images/default-model.png" class="SlideImage">
+													<span class="image-caption"><strong>{{item.name}}</strong></span>
+												</div>
+												<p class="Order-margin">Current Order 
+													<input type="text" ng-if="changeOrderfor != key" class="order-inputs" ng-model="key" disabled />
+													<input type="text" ng-if="changeOrderfor == key" class="order-inputs" ng-model="order.changeOrderValue" ng-init="order.changeOrderValue = key"/>
+												</p>
+											</div>
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="changeStorySlideOrder()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
 												Confirm
 											</md-button>
 									    </div>

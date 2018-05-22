@@ -54,7 +54,7 @@ angular
 								$scope.imgURLChat = "images/ChatBot.png";
 								$scope.imgURLSensitive = "images/Sensitive.png";*/
 								
-							  $scope.successStories = [];
+							  //$scope.successStories = [];
 							  $scope.banner = [];
 							  var slides = $scope.slides = [];
 							  var currIndex = 0;
@@ -189,23 +189,43 @@ angular
 											}
 										});
 							  
-							  $scope.successStories.slides = [{story :'I needed to better position my ads in streaming video to improve my results.  The Acumos Design studio allowed me to quickly insert my video stream to a working model and use it ...',
+							  /*$scope.successStories.slides = [{story :'I needed to better position my ads in streaming video to improve my results.  The Acumos Design studio allowed me to quickly insert my video stream to a working model and use it ...',
 			  												   from : 'AT&T Entertainment Exec'},	
 			  												   {story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',
 			  												    from : 'AT&T Site Manager'},
-			  												    /*{story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',
+			  												    {story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',
 			  												     from : 'AT&T Site Manager'},
 			  												    {story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',
-			  												    from : 'AT&T Site Manager'}*/
-			  												     ];
+			  												    from : 'AT&T Site Manager'}
+			  												     ];*/
 							  
-							  /*$scope.banner.slides = ['<div class="home-screen"><div class="slide-content"><div class="slide-text"><h4>We are Moving to a Future where AI is at the Center of Software.</h4> <p><span>{{$root.siteInstanceName}}</span> is the open-source framework for data scientists to build that future. </p>    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">  ADD YOUR MODEL NOW    </button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');"> <a style="color:#FFF" >EXPLORE MARKETPLACE</a></button></div><div class="image-container"><img src="images/banner_ml_graphics.png" alt="" title=""/></div></div><div class="mountain"></div></div>'
-			  					  					  ,'<div class="home-screen1"><div class="slide-content"><div class="slide-text"><h4>Use the Design Studio to make AI the center of your new software.</h4><p>In <span>{{$root.siteInstanceName}}</span>, every model is a Micro-service, so models can be chained together along with data tools to create custom end-to-end solutions.</p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');" >EXPLORE MARKETPLACE</button></div><div class="image-container"></div><div class="mountain"></div></div>'
-			  					  					  ,'<div class="home-screen2"><div class="slide-content"><div class="slide-text"><h4><span>{{$root.siteInstanceName}}</span> is an AI Ecosystem</h4><p>Models are easily uploaded and packaged for the catalog. Model users meet modelers in the marketplace to test-drive, train and engage.</p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');">EXPLORE MARKETPLACE</button></div></div><div class="mountain"></div></div>'
-			  					  					  ,'<div class="home-screen3"><div class="slide-content"><div class="slide-text"><h4>We Speak Machine Learning</h4><p><span>{{$root.siteInstanceName}}</span> support all major AI toolkits.  Models from diﬀerent sources can be combined to create composite solutions. </p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');">EXPLORE MARKETPLACE</div></div><div class="mountain"></div></div>'
-			  					  ];*/
-							  /*$scope.banner.slides = ['<div class="home-screen3"><div class="slide-content"><div class="slide-text"><h4>Use the Design Studio to make AI the center of your new software.</h4><p>In <span>{{$root.siteInstanceName}}</span>, every model is a Micro-service, so models can be chained together along with data tools to create custom end-to-end solutions.</p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'modelerResource\');" ng-if=\"$root.enableOnBoarding\">ADD YOUR MODEL NOW</button><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-mouseover = "ctrl.active= \'true\'" ng-mouseleave = "ctrl.initUI()" ng-click="ctrl.go(\'marketPlace\');" >EXPLORE MARKETPLACE</button></div></div><div class="mountain"></div></div>'];
-							  */
+							  $scope.successStories = {'slides':[]};
+							  apiService
+								.getSiteConfig("story_carousel")
+								.then(
+										function(response) {
+											if(response.data.response_body != null) {
+												$scope.storyConfig = angular.fromJson(response.data.response_body.configValue);
+												var index = 0;
+												setTimeout(function() {
+												angular.forEach($scope.storyConfig, function (value, key) {
+													if(value['slideEnabled'] === true || value['slideEnabled'] === 'true' && key != 'enabled'){
+														var storyhtml = '<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit"> <div class="success-icon">' + 
+															'<img src="/site/binaries/content/gallery/acumoscms/global/story_carousel_bg/' + value["bgImageUrl"] +'"/>' + 
+															'</div>' +
+															'<div class="success-description">' + 
+															value["supportingContent"]  +
+															'</div></div>';
+														$scope.successStories.slides[index] = storyhtml;
+														$scope.$apply();
+							                             index++;
+													}
+													
+												});
+											},0);
+											}
+										});
+							  
 							  $scope.getSolutionImages = function(index, value) {
 
 									apiService
