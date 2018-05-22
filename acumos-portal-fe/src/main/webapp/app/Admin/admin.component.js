@@ -2007,6 +2007,7 @@ angular.module('admin')
 	                            	$scope.msg = "Carousel Updated successfully.";
                                   $scope.icon = '';
                                   $scope.styleclass = 'c-success';
+                                  $scope.closePoup();
                                   $scope.showAlertMessage = true;
                                   $timeout(function() {
                                       $scope.showAlertMessage = false;
@@ -2403,6 +2404,7 @@ angular.module('admin')
 	                                   $scope.icon = '';
 	                                   $scope.styleclass = 'c-success';
 	                                   $scope.showAlertMessage = true;
+	                                   $scope.closePoup();
 	                                   $timeout(function() {
 	                                       $scope.showAlertMessage = false;
 	                                   }, 5000);
@@ -2759,6 +2761,7 @@ angular.module('admin')
 	 	                            	$scope.msg = "Carousel Updated successfully.";
 	                                   $scope.icon = '';
 	                                   $scope.styleclass = 'c-success';
+	                                   $scope.closePoup();
 	                                   $scope.showAlertMessage = true;
 	                                   $timeout(function() {
 	                                       $scope.showAlertMessage = false;
