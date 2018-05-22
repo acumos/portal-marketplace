@@ -60,8 +60,10 @@ angular
 						                	{name:"Fewest Liked",value:"FL"},
 						                	{name:"Most Downloaded",value:"MD"},
 						                	{name:"Fewest Downloaded",value:"LD"}, 
-						                	{name:"Highest Reach",value:"HR"} 
-						                ];
+						                	{name:"Highest Reach",value:"HR"},
+						                	{name:"Name",value:"name"},
+                                                                        {name:"Created Date",value:"created"},
+                                                                        {name:"Author",value:"ownerName"}];
 						$scope.filterids = [ "001", "002", "003", "004", "005",
 								"006" ];
 
@@ -716,6 +718,16 @@ angular
 							}
 							
 							if(type == 'sortBy'){$scope.sortBy = checkbox.value;}else if(type == 'sortById')$scope.sortById = checkbox.value;
+							
+							if( $scope.sortBy == 'name' ){
+                                                           $scope.fieldToSort = { "name" : "ASC" };
+                                                           }
+                                                    	if( $scope.sortBy == 'created' ){
+                                                           $scope.fieldToSort = { "created" : "DESC" };
+                                                           }
+                                                    	if( $scope.sortBy == 'author' ){
+                                                           $scope.fieldToSort = { "ownerName" : "ASC" };
+                                                           }
 							getModels();
 						}
 						
