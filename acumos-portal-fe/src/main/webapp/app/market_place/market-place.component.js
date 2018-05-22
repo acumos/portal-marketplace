@@ -113,7 +113,19 @@ angular
 						}, {
 							name : "Older",
 							value : "OLD"
-						}
+						},
+						{
+	                           name : "Name",
+	                           value : "name"
+	                    },
+	                    {
+	                           name : "Created Date",
+	                           value : "created"
+	                    },
+	                    {
+	                           name : "Author",
+	                           value : "ownerName"
+	                    }
 	                	];
 
 						$scope.checkBox = [ "Private", "Shared", "Company",
@@ -209,6 +221,15 @@ angular
 							
 							if( $scope.sortBy == 'MR' )
 								fieldToSort = { "modified" : "DESC" };
+							if( $scope.sortBy == 'name' ){
+	                               fieldToSort = { "name" : "ASC" };
+	                           }
+	                        if( $scope.sortBy == 'created' ){
+	                               fieldToSort = { "created" : "DESC" };
+	                           }
+	                        if( $scope.sortBy == 'author' ){
+	                               fieldToSort = { "ownerName" : "ASC" };
+	                           }
 
 							if ($rootScope.relatedModelType) {
 								$scope.categoryFilter.push($rootScope.relatedModelType);
