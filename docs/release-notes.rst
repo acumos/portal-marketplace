@@ -20,6 +20,18 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.21, 22nd May 2018
+============================
+* IST2: UUID is  displaying at wrong place(ACUMOS-892)
+* Marketplace solution pagination feature deficencies(ACUMOS-726)
+* Added description and got a message to add more text (ACUMOS-870)
+* Checkbox & â€œenabledâ€ meaning must match  on Site Content (ACUMOS-825)
+* Set order of slides not working as designed(ACUMOS-827)
+* Need to provide a custom hyper link from a Button in Top Carousel based on new VD	 (ACUMOS-846)
+* IST2 - Site Content does not work (ACUMOS-901)  
+
+
+
 Version 1.15.20, 17th May 2018
 ============================
 * IST2: Signup Issues (ACUMOS-720)
