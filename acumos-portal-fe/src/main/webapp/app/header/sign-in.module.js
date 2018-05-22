@@ -20,5 +20,4 @@ limitations under the License.
 
 'use strict';
 
-angular.module('signinContent',[])
-angular.module('signInModal',[]) 
+angular.module('signInModal',[])

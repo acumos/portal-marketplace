@@ -18,7 +18,7 @@ limitations under the License.
 ===============LICENSE_END=========================================================
 */
 
-angular.module('signInModal',[])
+angular.module('signInModal')
             .component(
                         'signinContent',
                         {

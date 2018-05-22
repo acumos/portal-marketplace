@@ -20,8 +20,7 @@ limitations under the License.
 
 'use strict';
  
-angular
-		.module('manageModule', [ 'infinite-scroll' ])
+angular.module('manageModule')
 		.component(
 				'manageModule',
 				{
