@@ -108,12 +108,24 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var type = e.dataTransfer.getData('text/plain');
 
 
-        var max = 0;
+        var max = 0; var getrev; var revision; var revRemove;
         var res = type.split("(");
         var getver = res[1].split(")");
+        var rev = getver[1].split("[");
+        type = type.replace(rev[0],'');
+        if(rev.length > 1){
+        	getrev = rev[1].split("]");
+        	type = type.replace(getrev[1],'');
+        	revision = getrev[0];
+        	revRemove = '['+revision+']';
+        } else{
+        	revRemove = "<!---->";
+        }
         var ver = getver[0];
         var verRemove = '('+ver+')';
         type = type.replace(verRemove,'');
+        type = type.replace(revRemove,'');
+        type = type.replace('&nbsp;','');
         var typeModel = type+'+'+getver[0];
         _drawGraphs.nodeCrossfilter().all().forEach(function(n) {
             var nodeType = n.type.name;
@@ -141,7 +153,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         };
         data.name = data.nodeId;
         $scope.nodeName=data.name;
-        var nodeId = '',nodeVersion = ver;
+        var nodeId = '',nodeVersion = ver, nodeRevision = revision;
         $http.get(_catalog.fModelUrl(_components.get(type))).success(function(tgif) {
             nodeId = _components.get(type).solutionId;
             $scope.solutionDetails=_components.get(type);
@@ -566,7 +578,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	return model.solutionName+'+'+model.version;
             },
             fModelCategory: function(model) {
-                return model.category === 'null' ? "others" : model.category;
+                return model.category === undefined ? "others" : model.category;
             },
             fModelToolKit: function(model) {
                 return (!model || model.toolKit === 'null') ? null : model.toolKit;
