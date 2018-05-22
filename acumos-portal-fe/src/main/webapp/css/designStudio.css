@@ -22,11 +22,11 @@ md-tabs .md-tab.md-active {border-left:1px solid #C5C5C5; border-top:1px solid #
 /******TAB STYLE end*********/
 
 /**********Design Studio Page style start *********************/
-
+a:link {font-size: 13px !important;}
  .ds-page-wrapper {min-width: 1000px;/* overflow: auto; */}
 
 .ds-outer-container {width:100%; display:flex; flex-wrap: nowrap; align-items: stretch; }
-.ds-outer-container2 {width:100%; display:flex; flex-wrap: nowrap ;align-items: stretch;}
+.ds-outer-container2 {width:100%; display:flex; flex-wrap: nowrap ;align-items: stretch; height: calc(100% - 39px)}
 .ds-leftpanel-title {background: #671C9D; font-size:18px; font-weight: 600; padding: 0 5px 0 10px; display: block;color:#fff; line-height:39px;}
 
 .ds-grid-bg {background: url("../images/grid.png")}
@@ -96,13 +96,13 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 .ds-treelist div .mdl-button .material-icons{font-size:16px;}
 .ds-treelist > div .mdl-button {font-weight:600;}
 
-.ds-treelist span {display:inline-block; margin-left: 6px;line-height: 25px;font-size: 13px;}
+.ds-treelist span {display:inline-block; margin-left: 6px;line-height: 25px;font-size: 13px;font-weight: 600;}
 .ds-treelist div:hover {cursor:pointer;}
 
-.ds-treelist-childtree {margin:0; padding:0 0 0 15px; list-style-type: none;}
+.ds-treelist-childtree {margin:0; padding:0 0 0 5px; list-style-type: none;}
 
-.ds-inner-link {display: block; font-size: 13px; white-space: normal; margin-bottom: 7px; word-break: break-all; position: relative; margin-left: 8px; line-height: normal;}
-.ds-inner-link:before {left: -7px;position:relative;}
+.ds-inner-link {display: block; font-size: 13px; font-family: 'Open Sans', sans-serif;font-weight: 600; white-space: normal; margin-bottom: 7px; word-break: break-all; position: relative; margin-left: 8px; line-height: normal;}
+.ds-inner-link:before {left: -7px;position:relative; font-family: Font Awesome\ 5 Free;}
 
 .ds-treelist-childtree li .mdl-button {padding-left:3px; font-weight:normal; width:100%; text-align:left; height:25px; line-height:25px; text-transform:none;text-transform: initial;}
 .ds-treelist-childtree li .mdl-button:hover {background: none; color: #3f51b5;}

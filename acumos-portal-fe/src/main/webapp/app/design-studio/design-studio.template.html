@@ -53,11 +53,11 @@ limitations under the License.
 									</button></md-icon> </md-input-container>						
 								
 							</div>
-						<md-content class="md-padding"
-							style="padding: 0px;padding-left: 20px;"> 
+						<md-content class=""
+							style="padding: 0px;padding-left: 5px;"> 
 						<div class="ds-section-data-inner2">
 							<ul class="ds-list3" ng-repeat="val in publicCS | orderBy:'solutionName' | filter:myFilter track by $index ">
-								<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}}({{val.version}})</label></span></li>
+								<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span></li>
 							</ul>
 						</div>
 						</md-content> </md-tab>
@@ -74,7 +74,7 @@ limitations under the License.
 						                     <div ng-show="expanded">
 							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
 							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -87,7 +87,7 @@ limitations under the License.
 						                     <div ng-show="test">
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -127,7 +127,7 @@ limitations under the License.
 									
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    
@@ -158,7 +158,7 @@ limitations under the License.
 								<div class="ds-list1">
 									<div ng-repeat="cat in palette.categories">
 							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
-								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							            </div>
 							        </div>
 							     </div>
@@ -262,7 +262,7 @@ limitations under the License.
 						<div class="ds-contentsection-tab">
 							<md-tabs md-dynamic-height md-border-bottom class="ds-tab1" md-selected="tabChange"> 
 							<md-tab label="Properties"> 
-								<md-content class="md-padding">
+								<md-content class="">
 							<div class="ds-section-data ds-section-properties">							
 							<div class="ds-section-data-inner3" ng-show="solutionDetails" >							
 								<ul class="ds-list2 properties-list">
@@ -359,8 +359,8 @@ limitations under the License.
 							</md-tab>
 
 							<md-tab label="Matching Models" > 
-								<md-content class="md-padding" ng-if="clicked" style="padding:0px" >			
-								<div class="ds-section-data-inner bdr-bottom">	
+								<md-content class="" ng-if="clicked" style="padding:0px" >			
+								<div class="ds-section-data-inner bdr-bottom ds-section-matching-models">	
 								<md-input-container md-no-float class="md-block ds-search-input">
 										<input ng-model="filterMM.solutionName" type="text"> <md-icon
 											style="display:inline-block;">
@@ -372,7 +372,7 @@ limitations under the License.
 									<div class="ds-section-data-inner2">
 								<div class="ds-treelist">
 					                        <div class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in matchModels | orderBy:'solutionName'| filter:filterMM" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="loadSolution(val)" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}}({{val.version}})</div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in matchModels | orderBy:'solutionName'| filter:filterMM" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                        </div>

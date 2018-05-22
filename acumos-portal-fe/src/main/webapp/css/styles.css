@@ -1986,7 +1986,7 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 
 sup.ds-text {font-size: 10px !important;}
 sup.ds-text2 {font-size: 12px !important;}
-
+.ds-db-row3-cell .userprofiletxtbox {box-shadow: none !important;border: 1px solid #d5d5d5;font-size: 14px;} 
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
