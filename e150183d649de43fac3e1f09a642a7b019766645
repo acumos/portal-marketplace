@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d68774c_2e88cea9",
+        "filename": "acumos-portal-fe/src/main/webapp/app/market_place/manage-module.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-22T10:23:25Z",
+      "side": 1,
+      "message": "Do formatting for newly added code.",
+      "range": {
+        "startLine": 65,
+        "startChar": 41,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "e150183d649de43fac3e1f09a642a7b019766645",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0f80994_6ca3aee6",
+        "filename": "acumos-portal-fe/src/main/webapp/app/market_place/manage-module.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-22T10:23:25Z",
+      "side": 1,
+      "message": "Do formatting for newly added code.",
+      "range": {
+        "startLine": 723,
+        "startChar": 7,
+        "endLine": 723,
+        "endChar": 9
+      },
+      "revId": "e150183d649de43fac3e1f09a642a7b019766645",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa598567_4bfb6749",
+        "filename": "acumos-portal-fe/src/main/webapp/app/market_place/market-place.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-22T10:23:25Z",
+      "side": 1,
+      "message": "Do formatting for newly added code.",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 6
+      },
+      "revId": "e150183d649de43fac3e1f09a642a7b019766645",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "171f3241_f0d329e3",
+        "filename": "acumos-portal-fe/src/main/webapp/app/market_place/market-place.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2018-05-22T10:23:25Z",
+      "side": 1,
+      "message": "Do formatting for newly added code.",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "e150183d649de43fac3e1f09a642a7b019766645",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
