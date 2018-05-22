@@ -321,10 +321,10 @@ limitations under the License.
 																	<div>
 																		<md-button class="sc-link-btn1" ng-click="editCarouselSlide(key, item)">Edit</md-button>
 																		<span>|</span>
-																		<md-button class="sc-link-btn1" ng-click="deleteCarouselSlide(key)">Delete</md-button>
-																		<span>|</span>
-																		<md-button class="sc-link-btn1">Set order</md-button>
-																		<label class="sc-counter-container"><span class="sc-slide-counter">{{item.number}}</span></label>
+																		<md-button class="sc-link-btn1" ng-if="key != 0" ng-click="deleteCarouselSlide(key)">Delete</md-button>
+																		<span ng-if="key != 0">|</span>
+																		<md-button class="sc-link-btn1" ng-click="showOrderSlidesPopup($event, key)">Set order</md-button>
+																		<label class="sc-counter-container"><span class="sc-slide-counter">{{key}}</span></label>
 																	</div>
 																</div>
 																<div class="sc-cell-childmiddle">
@@ -382,8 +382,8 @@ limitations under the License.
 																				<span>|</span>
 																				<md-button class="sc-link-btn1" ng-click="deleteEventSlide(key)">Delete</md-button>
 																				<span>|</span>
-																				<md-button class="sc-link-btn1">Set order</md-button>
-																				<label class="sc-counter-container"><span class="sc-slide-counter">{{item.number}}</span></label>
+																				<md-button class="sc-link-btn1" ng-click="showOrderEventSlidesPopup($event, key)">Set order</md-button>
+																				<label class="sc-counter-container"><span class="sc-slide-counter">{{key}}</span></label>
 																			</div>
 																		</div>
 																		<div class="sc-cell-childmiddle">
@@ -440,7 +440,7 @@ limitations under the License.
 																					<md-button class="sc-link-btn1" ng-click="deleteStorySlide(key, item)">Delete</md-button>
 																					<span>|</span>
 																					<md-button class="sc-link-btn1">Set order</md-button>
-																					<label class="sc-counter-container"><span class="sc-slide-counter">{{item.number}}</span></label>
+																					<label class="sc-counter-container"><span class="sc-slide-counter">{{key}}</span></label>
 																				</div>
 																			</div>
 																			<div class="sc-cell-childmiddle">
@@ -461,14 +461,14 @@ limitations under the License.
 																		</section>
 																	</div>
 														 		</md-content>
-														      </md-tab>														      
+														      </md-tab>
 														    </md-tabs>
 														</div>
 													</div>
-													<div class="sc-button-container">
+													<!-- <div class="sc-button-container">
 														<button type="button" class="mdl-button mdl-js-button btn-primary">Publish Home Page</button>
 														<button type="button" class="mdl-button mdl-js-button btn-secondary">Save As Draft</button>
-													</div>													
+													</div> -->
 												</div>
 												
 												<div class="mdl-tabs__panel" id="tab4-panel">
@@ -2405,7 +2405,7 @@ limitations under the License.
 											<div class="mdl-grid">
 												<div class="mdl-cell mdl-cell--6-col add-document">
 													<md-input-container class="md-block">
-														<label>Main Background</label>													
+														<label>Main Background</label>
 														<div class="drag-drop-CustomFile">
 															<!-- <div class="drag-drop-files hide">
 																<p>doc.pdf</p>
@@ -2557,32 +2557,16 @@ limitations under the License.
 											</div>
 											
 											<div class="md-grid"  style="float:left">
-												<div class="mdl-cell mdl-cell--3-col" style="float:left">
-														<md-input-container class="md-block">
-															<label>Text Align <span class="dsreqfield">*</span></label>
-														</md-input-container>
-														<ul class="aligntext">
-															<li ng-class="carouselSlide.textAling == 'left' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingText('left')" >format_align_left</a></i>
-															</li>
-															<li ng-class="carouselSlide.textAling == 'right' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingText('right')" >format_align_right</a></i>
-															</li>
-														</ul>
-												</div>
-												<div class="mdl-cell mdl-cell--3-col" style="float:left">
-													<md-input-container class="md-block">
-														<label>Infographics Align <span class="dsreqfield">*</span></label>
-													</md-input-container>
-													<ul class="aligntext">
-															<li ng-class="carouselSlide.infoImageAling == 'left' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingInfoImage('left')" >format_align_left</a></i>
-															</li>
-															<li ng-class="carouselSlide.infoImageAling == 'right' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingInfoImage('right')">format_align_right</a></i>
-															</li>
-													</ul>
-												</div>
+												<div class="mdl-cell mdl-cell--6-col infographics-align" style="float:left">
+							                        <md-input-container class="md-block">
+							                           <label class="md-required">Infographics and text alignment</label>
+							                        </md-input-container>
+							                        <md-radio-group ng-model="carouselSlide.textAling">
+							                           <md-radio-button value="left">Text align left, Infographics align right</md-radio-button>
+							                           <md-radio-button value="right">Text align right, Infographics align left</md-radio-button>
+							                        </md-radio-group>
+							                     </div>
+                     
 												<div class="mdl-cell mdl-cell--6-col" style="float:left">
 															<div class="infographics">
 																<div>
@@ -2590,7 +2574,7 @@ limitations under the License.
 																</div>
 																<div>
 																	<span >
-																		<md-switch ng-model="carouselSlide.links.enableLink" aria-label="Switch 1" class="md-warn">
+																		<md-switch ng-model="carouselSlide.links.enableLink" aria-label="Switch 1" class="md-warn" ng-init="carouselSlide.links.enableLink = 'true'">
 																			<span class="text-xsmall text-green" ng-show="carouselSlide.links.enableLink == true">Enabled</span>
 																			<span class="text-xsmall text-red" ng-show="carouselSlide.links.enableLink == false || carouselSlide.links.enableLink == null ">Disabled</span>
 																		</md-switch>
@@ -2602,53 +2586,62 @@ limitations under the License.
 																<div class="cancelbox">
 																	<i class="material-icons">cancel</i>
 																</div>
-																<div display="block">
-																<label>       </label> 
-																	<input type="checkbox" ng-model="carouselSlide.links.primary.enabled">
-																</div>
 																<div class="buttonlabel">
 																	<label>Button Label</label> 
 																	<input type="text" placeholder="Enter Primary name" ng-model="carouselSlide.links.primary.label">
 																		
 																	</input>
 																</div>
-																<div>
+																<div class="fullwidth">
 																	<div>
 																		<div class="select-control">
 																			<label>Link button to</label> 
 																			<md-select ng-model="carouselSlide.links.primary.address" placeholder="Select Page">
 																				<md-option value="modelerResource">On Boarding model</md-option>
 																				<md-option value="home">Marketplace</md-option>
+																				<md-option value="other">Other</md-option>
 																		</div>
 																	</div>
 																</div>
 															</div>
+															<div class="link-button-container adjmargin" ng-show="carouselSlide.links.primary.address == 'other'">
+									                           <div class="fullwidth">
+									                              <md-input-container>
+									                                 <label class="md-required">URL</label> 
+									                              </md-input-container>
+									                              <input class="buttoninput" type="url" ng-model="carouselSlide.links.primary.url" >
+									                           </div>
+									                        </div>
 															<div class="link-button-container">
 																<div class="cancelbox">
 																	<i class="material-icons">cancel</i>
 																</div>
-																<div display="block">
-																<label>       </label> 
-																	<input type="checkbox" ng-model="carouselSlide.links.secondary.enabled">
-																</div>
 																<div class="buttonlabel">
 																	<label>Button Label</label> 
-																	<input type="text" placeholder="Explore Market Place" ng-model="carouselSlide.links.secondary.label">
+																	<input type="text" placeholder="Explore Market Place" ng-model="carouselSlide.links.secondary.label" />
 																</div>
-																<div>
+																<div class="fullwidth">
 																	<div>
 																		<div class="select-control">
 																			<label>Link button to</label> 
 																			<md-select ng-model="carouselSlide.links.secondary.address" placeholder="Select Page">
 																				<md-option value="modelerResource">On Boarding model</md-option>
 																				<md-option value="home">Marketplace</md-option>
+																				<md-option value="other">Other</md-option>
 																			</md-select>
 																		</div>
 																	</div>
 																</div>
-																
 															</div>
-															<div class="link-button-container">
+															<div class="link-button-container adjmargin" ng-show="carouselSlide.links.secondary.address == 'other'">
+									                           <div class="fullwidth">
+									                              <md-input-container>
+									                                 <label class="md-required">URL</label> 
+									                              </md-input-container>
+									                              <input class="buttoninput" type="url" ng-model="carouselSlide.links.secondary.url" >
+									                           </div>
+									                        </div>
+															<!-- <div class="link-button-container">
 																<div display="block">
 																<label>       </label> 
 																	<input type="checkbox" ng-model="carouselSlide.links.external.enabled">
@@ -2669,7 +2662,7 @@ limitations under the License.
 																	</div>
 																</div>
 																
-															</div>
+															</div> -->
 															
 												</div>
 											</div>
@@ -2736,7 +2729,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="mdl-grid">
-												<div class="mdl-cell mdl-cell--6-col add-document" style="float:left">
+												<div class="mdl-cell mdl-cell--6-col add-document">
 													<md-input-container class="md-block">
 														<label>Main Background</label>
 														<div class="drag-drop">
@@ -2893,7 +2886,7 @@ limitations under the License.
 									<md-dialog-content>
 									<form name="storyForm" ng-cloak>
 										<div class="md-dialog-content add-top-carousel">
-											<div class="md-grid">
+											<div class="mdl-grid">
 												<div class="mdl-cell mdl-cell--6-col" style="float:left">
 														<md-input-container class="md-block">
 															<label>Slide Name</label> 
@@ -2908,8 +2901,8 @@ limitations under the License.
 													</md-input-container>
 												</div>
 											</div>
-											<div class="md-grid">
-												<div class="mdl-cell mdl-cell--12-col">
+											<div class="mdl-grid">
+												<div class="mdl-cell mdl-cell--12-col" style="float:left">
 													<md-input-container class="md-block">
 													  <label>Supporting content</label>
 													  <ng-quill-editor ng-model="successCarousel.supportingContent" modules="modulesConfig">	  
@@ -3017,7 +3010,7 @@ limitations under the License.
 											</div>
 											
 											<div class="md-grid">
-												<div class="mdl-cell mdl-cell--3-col">
+												<div class="mdl-cell mdl-cell--3-col" style="float:left">
 														<md-input-container class="md-block">
 															<label>Text Align <span class="dsreqfield">*</span></label>
 														</md-input-container>
@@ -3063,4 +3056,97 @@ limitations under the License.
 						</div>
 						<!-- Modal box end -->
 						
+						<!-- Modal Add  Story carousel slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="changeorder" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Set the order of Slide {{carouselConfig[changeOrderfor].name}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="cancel()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="ds-db-row1">
+												Please note if you change the order of any slide system will other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
+											</div>
+											<div class="slid-container" ng-repeat="(key,item) in carouselConfig" ng-class="changeOrderfor == item.number ? 'active' : ''">
+												<div class="slides">
+													<img src="./images/default-model.png" class="SlideImage">
+													<span class="image-caption"><strong>{{item.name}}</strong></span>
+												</div>
+												<p class="Order-margin">Current Order 
+													<input type="text" ng-if="changeOrderfor != key" class="order-inputs" ng-model="key" disabled />
+													<input type="text" ng-if="changeOrderfor == key" class="order-inputs" ng-model="order.changeOrderValue" ng-init="order.changeOrderValue = key"/>
+												</p>
+											</div>
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="changeCarouselSlideOrder()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Confirm
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						</div>
+						<!-- Modal box end -->
+						
+						<!-- Modal Add  Story carousel slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="changeEventOrder" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Set the order of Slide {{eventConfig[changeOrderfor].name}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="cancel()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="ds-db-row1">
+												Please note if you change the order of any slide system will other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
+											</div>
+											<div class="slid-container" ng-repeat="(key,item) in eventConfig" ng-class="changeOrderfor == key ? 'active' : ''" ng-if="key != 'enabled'">
+												<div class="slides">
+													<img src="./images/default-model.png" class="SlideImage">
+													<span class="image-caption"><strong>{{item.name}}</strong></span>
+												</div>
+												<p class="Order-margin">Current Order 
+													<input type="text" ng-if="changeOrderfor != key" class="order-inputs" ng-model="key" disabled />
+													<input type="text" ng-if="changeOrderfor == key" class="order-inputs" ng-model="order.changeOrderValue" ng-init="order.changeOrderValue = key"/>
+												</p>
+											</div>
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="changeEventSlideOrder()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Confirm
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						</div>
+						<!-- Modal box end -->
 						

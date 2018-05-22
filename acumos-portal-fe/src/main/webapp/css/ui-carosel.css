@@ -235,7 +235,7 @@ background-position: -30px top;
 /* .carousel-item  */  
 @media(max-width:1024px){
 	.home-screen3, .home-screen2{background-image:none;}
-	.hasClass.initialVal .home-screen1, .home-screen1{/*background-position: -200px top;*/ background-image:none;}
+	.hasClass.initialVal .home-screen1, .home-screen1{background-position: -200px top; background-image:none;}
 	.slide-content .image-container, .hasClass.initialVal .slide-content .image-container{display:none;}
 	.hasClass.initialVal .home-screen1 .slide-content .slide-text{width:100%;}
 	.slide-content .slide-text{/*width:64%;*/ width:100%;}

@@ -37,6 +37,10 @@ angular.module('admin')
 				$scope.orderByFieldFed = 'created'; $scope.reverseSortFederation = true;
 				$scope.showAllModelsTable = false;
 				$scope.verify = true;
+				$scope.carouselConfig = {};
+				$scope.changeOrderfor = 0;
+				
+				$scope.changeOrderValue = 0
 			//Bulk Action
 			$scope.bulkAction = [{'name':'Active User','value':'active'},{'name':'Inactive User','value':'inactive'}]
 			//Frequency of update
@@ -282,6 +286,26 @@ angular.module('admin')
             		  clickOutsideToClose: true
             	  });
               }
+            
+            $scope.showOrderSlidesPopup = function(ev, changeKey){
+            	$scope.changeOrderfor = changeKey;
+            	$mdDialog.show({
+          		  contentElement: '#changeorder',
+          		  parent: angular.element(document.body),
+          		  targetEvent: ev,
+          		  clickOutsideToClose: true
+          	  });
+            }
+            
+            $scope.showOrderEventSlidesPopup = function(ev, changeKey){
+            	$scope.changeOrderfor = changeKey;
+            	$mdDialog.show({
+          		  contentElement: '#changeEventOrder',
+          		  parent: angular.element(document.body),
+          		  targetEvent: ev,
+          		  clickOutsideToClose: true
+          	  });
+            }
             
             $scope.showEventSlidesPopup = function(ev){
           	  $mdDialog.show({
@@ -1797,46 +1821,43 @@ angular.module('admin')
 						slide['name']= slide_name;
 						slide['headline'] = slide_headline;
 						slide['supportingContent']= slide_supportingContent;
-						slide['infoImageAling']= $scope.carousel_Info_Aling;
-						slide['textAling']= $scope.carousel_Text_Aling;
+						slide['textAling']= $scope.carouselSlide.textAling;
 						slide['bgColor']= $scope.carousel_bgColor;
 						
 						slide['graphicImgEnabled'] =  $scope.carouselSlide.graphicImg;
-						slide['slideEnabled'] = "true";
 						
 						if($scope.itsEdit){
 							slide['number'] = $scope.keyval;
+							slide['slideEnabled'] = $scope.carouselSlide.slideEnabled;
 							var keyIndex = $scope.keyval;
 	                	} else {
+	                		slide['slideEnabled'] = "true";
 	                		slide['number'] = keyIndex + 1;
 	                	}
 						
 						slide['bgImageUrl'] = $scope.carouselBGFileName;
 						slide['InfoImageUrl'] = $scope.carouselInfoFileName;
 						
+						
 						links['enableLink'] = $scope.carouselSlide.links.enableLink;
 						links['primary'] = {};
 						if(!angular.isUndefined($scope.carouselSlide.links.primary)){
 							links['primary']['label'] = $scope.carouselSlide.links.primary.label;
 							links['primary']['address'] = $scope.carouselSlide.links.primary.address;
-							links['primary']['enabled'] = $scope.carouselSlide.links.primary.enabled;
+							if($scope.carouselSlide.links.primary.address == 'other') {
+								links['primary']['url'] = $scope.carouselSlide.links.primary.url;
+							}
 						}
 						links['secondary'] = {};
 						if(!angular.isUndefined($scope.carouselSlide.links.secondary)){
 							links['secondary']['label'] = $scope.carouselSlide.links.secondary.label;
 							links['secondary']['address'] = $scope.carouselSlide.links.secondary.address;
-							links['secondary']['enabled'] = $scope.carouselSlide.links.secondary.enabled;
-						}
-						
-						links['external'] = {};
-						if(!angular.isUndefined($scope.carouselSlide.links.external)){
-							links['external']['label'] = $scope.carouselSlide.links.external.label;
-							links['external']['address'] = $scope.carouselSlide.links.external.address;
-							links['external']['enabled'] = $scope.carouselSlide.links.external.enabled;
+							if($scope.carouselSlide.links.secondary.address == 'other') {
+								links['secondary']['url'] = $scope.carouselSlide.links.secondary.url;
+							}
 						}
 						
 						slide['links'] = links;
-						
 						carousel[keyIndex] = slide;
 						var carouselConfigStr = JSON.stringify(carousel);
 						
@@ -1889,7 +1910,18 @@ angular.module('admin')
 					}
                    
                    $scope.deleteCarouselSlide = function (key){
-                	   delete $scope.carouselConfig[key];
+                	   //delete $scope.carouselConfig[key];
+                	   var updatedCarouselConfig = [];
+                	   for (var i=0; i < Object.keys($scope.carouselConfig).length ; i++ ){
+                		   updatedCarouselConfig[i] = $scope.carouselConfig[i];
+                	   }
+                	   
+                	   updatedCarouselConfig.splice(key, 1);
+                	   var toMap = {};
+                	   for (var i=0; i < updatedCarouselConfig.length ; i++ ){
+                		   toMap[i] = updatedCarouselConfig[i];
+                	   }
+                	   $scope.carouselConfig = toMap;
                 	   
                 	   var carouselConfigStr = JSON.stringify($scope.carouselConfig);
 						var convertedString = carouselConfigStr.replace(/"/g, '\"');
@@ -1921,11 +1953,58 @@ angular.module('admin')
                 	   $scope.carouselBGFileName = val['bgImageUrl'];
                 	   $scope.carouselInfoFileName = val['InfoImageUrl'];
                 	   
-                	   $scope.carousel_Text_Aling = val['textAling'];
-                	   $scope.carousel_Info_Aling = val['infoImageAling'];
                 	   $scope.keyval = key;
                 	   $scope.showAddSlidesPopup();
                    }
+                   $scope.order = {};
+                   $scope.changeCarouselSlideOrder = function (ev){
+                	   
+                	   $scope.changeOrderfor = parseInt($scope.changeOrderfor, 10);
+                	   $scope.order.changeOrderValue = parseInt($scope.order.changeOrderValue, 10);
+                	   if(!angular.isNumber($scope.order.changeOrderValue)  || $scope.order.changeOrderValue > Object.keys($scope.carouselConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
+                		   alert("Provided index out of bound");
+                		   return;
+                	   }
+                	   
+                	   var updatedCarouselConfig = [];
+                	   for (var i=0; i < Object.keys($scope.carouselConfig).length ; i++ ){
+                		   updatedCarouselConfig[i] = $scope.carouselConfig[i];
+                	   }
+                	   
+                	   var tempvalue = updatedCarouselConfig.splice($scope.changeOrderfor, 1);
+                	   updatedCarouselConfig.splice($scope.order.changeOrderValue, 0, tempvalue[0]);
+                	   
+                	   var toMap = {};
+                	   for (var i=0; i < updatedCarouselConfig.length ; i++ ){
+                		   toMap[i] = updatedCarouselConfig[i];
+                	   }
+                	   $scope.carouselConfig = toMap;
+                	   
+                	   var carouselConfigStr = JSON.stringify($scope.carouselConfig);
+					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
+
+						var reqObj = {
+			                          "request_body": {
+			                              "configKey": "carousel_config",
+			                              "configValue":convertedString,
+			                              "userId": userId
+			                            }
+		                            };
+               	   apiService.updateSiteConfig("carousel_config", reqObj)
+	                    .then(
+	                            function(response) {
+	                            	$scope.getCarouselConfig();
+	                            	$scope.msg = "Carousel Updated successfully.";
+                                  $scope.icon = '';
+                                  $scope.styleclass = 'c-success';
+                                  $scope.showAlertMessage = true;
+                                  $timeout(function() {
+                                      $scope.showAlertMessage = false;
+                                  }, 5000);
+	                            });
+                   }
+                   
+                   
                                               
                    $scope.alingInfoImage = function (alingment){
                 	   $scope.carousel_Info_Aling = alingment;
@@ -1996,7 +2075,7 @@ angular.module('admin')
 				   
                         // Upload Image
 						$scope.uploadbackGroundImg = function(){
-							if($scope.carouselSlide.backGround && !$scope.validateImageSize($scope.carouselSlide.backGround, 2560, 524)){
+							if($scope.carouselSlide.backGround && !$scope.validateImageSize($scope.carouselSlide.backGround, 524, 2560)){
 								
 								
 								
@@ -2030,7 +2109,7 @@ angular.module('admin')
  				            
 	 							fileFormData.append('file', file);
 	
-	 							var uploadUrl = "/site/api-manual/Solution/globalImages/carousel_background_" + keyIndex;
+	 							var uploadUrl = "/site/api-manual/Solution/carouselImages/carousel_background";
 	 							var promise = fileUploadService.uploadFileToUrl(
 	 									file, uploadUrl);
 	
@@ -2058,7 +2137,7 @@ angular.module('admin')
 				        }
 						
 						$scope.uploadinfoGraphic = function(){
-							if($scope.carouselSlide.infoGraphic && !$scope.validateImageSize($scope.carouselSlide.infoGraphic, 372, 260)){
+							if($scope.carouselSlide.infoGraphic && !$scope.validateImageSize($scope.carouselSlide.infoGraphic, 494, 867)){
 								
 								if(typeof $scope.carouselConfig === "undefined") {
 			                		   var keys = [];
@@ -2089,7 +2168,7 @@ angular.module('admin')
  				            
 	 							fileFormData.append('file', file);
 	
-	 							var uploadUrl = "/site/api-manual/Solution/globalImages/carousel_infoGraphic_" + keyIndex;
+	 							var uploadUrl = "/site/api-manual/Solution/carouselImages/carousel_infoGraphic";
 	 							var promise = fileUploadService.uploadFileToUrl(
 	 									file, uploadUrl);
 	
@@ -2268,6 +2347,58 @@ angular.module('admin')
 	 	                            });
 	                    }
 	                    
+	                    $scope.changeEventSlideOrder = function (ev){
+	                    	
+	                    	var slideEnabled = $scope.eventConfig['enabled'];
+	                    	delete $scope.eventConfig['enabled'];
+	                 	   
+	                 	   $scope.changeOrderfor = parseInt($scope.changeOrderfor, 10);
+	                 	   $scope.order.changeOrderValue = parseInt($scope.order.changeOrderValue, 10);
+	                 	   if(!angular.isNumber($scope.order.changeOrderValue)  || $scope.order.changeOrderValue > Object.keys($scope.eventConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
+	                 		   alert("Provided index out of bound");
+	                 		   return;
+	                 	   }
+	                 	   
+	                 	   var updatedCarouselConfig = [];
+	                 	   for (var i=0; i < Object.keys($scope.eventConfig).length ; i++ ){
+	                 		   updatedCarouselConfig[i] = $scope.eventConfig[i];
+	                 	   }
+	                 	   
+	                 	   var tempvalue = updatedCarouselConfig.splice($scope.changeOrderfor, 1);
+	                 	   updatedCarouselConfig.splice($scope.order.changeOrderValue, 0, tempvalue[0]);
+	                 	   
+	                 	   var toMap = {};
+	                 	   for (var i=0; i < updatedCarouselConfig.length ; i++ ){
+	                 		   toMap[i] = updatedCarouselConfig[i];
+	                 	   }
+	                 	   $scope.eventConfig = toMap;
+	                 	  $scope.eventConfig['enabled'] = slideEnabled;
+	                 	   
+	                 	   
+	                 	   var carouselConfigStr = JSON.stringify($scope.eventConfig);
+	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
+
+	 						var reqObj = {
+	 			                          "request_body": {
+	 			                              "configKey": "event_carousel",
+	 			                              "configValue":convertedString,
+	 			                              "userId": userId
+	 			                            }
+	 		                            };
+	                	   apiService.updateSiteConfig("event_carousel", reqObj)
+	 	                    .then(
+	 	                            function(response) {
+	 	                            	$scope.getEventCarousel();
+	 	                            	$scope.msg = "Carousel Updated successfully.";
+	                                   $scope.icon = '';
+	                                   $scope.styleclass = 'c-success';
+	                                   $scope.showAlertMessage = true;
+	                                   $timeout(function() {
+	                                       $scope.showAlertMessage = false;
+	                                   }, 5000);
+	 	                            });
+	                    }
+	                    
 	                    $scope.eventCheckedList = [];
 	                    $scope.toggleEventCheckedList = function (key){
 	                 	   
@@ -2340,8 +2471,6 @@ angular.module('admin')
 						$scope.uploadEventBGImg = function(){
 							if($scope.eventCarousel.backGround && !$scope.validateImageSize($scope.eventCarousel.backGround, 2560, 524)){
 								
-								
-								
 								if(typeof $scope.eventConfig === "undefined") {
 			                		   var keys = [];
 			                	   } else {
@@ -2375,7 +2504,7 @@ angular.module('admin')
  				            
 	 							fileFormData.append('file', file);
 	
-	 							var uploadUrl = "/site/api-manual/Solution/globalImages/event_carousel_bg_" + keyIndex;
+	 							var uploadUrl = "/site/api-manual/Solution/carouselImages/event_carousel_bg";
 	 							var promise = fileUploadService.uploadFileToUrl(
 	 									file, uploadUrl);
 	
@@ -2436,7 +2565,7 @@ angular.module('admin')
  				            
 	 							fileFormData.append('file', file);
 	
-	 							var uploadUrl = "/site/api-manual/Solution/globalImages/event_carousel_ig_" + keyIndex;
+	 							var uploadUrl = "/site/api-manual/Solution/carouselImages/event_carousel_ig";
 	 							var promise = fileUploadService.uploadFileToUrl(
 	 									file, uploadUrl);
 	
@@ -2576,7 +2705,7 @@ angular.module('admin')
 
 	                 // Upload Image
 						$scope.uploadsuccessBGImg = function(){
-							if($scope.successCarousel.backGround && !$scope.validateImageSize($scope.successCarousel.backGround, 2560, 524)){
+							if($scope.successCarousel.backGround && !$scope.validateImageSize($scope.successCarousel.backGround, 524, 2560)){
 								
 								
 								
@@ -2610,7 +2739,7 @@ angular.module('admin')
  				            
 	 							fileFormData.append('file', file);
 	
-	 							var uploadUrl = "/site/api-manual/Solution/globalImages/story_carousel_bg_" + keyIndex;
+	 							var uploadUrl = "/site/api-manual/Solution/carouselImages/story_carousel_bg";
 	 							var promise = fileUploadService.uploadFileToUrl(
 	 									file, uploadUrl);
 	
@@ -2669,7 +2798,7 @@ angular.module('admin')
  				            
 	 							fileFormData.append('file', file);
 	
-	 							var uploadUrl = "/site/api-manual/Solution/globalImages/success_carousel_ig_" + keyIndex;
+	 							var uploadUrl = "/site/api-manual/Solution/carouselImages/success_carousel_ig";
 	 							var promise = fileUploadService.uploadFileToUrl(
 	 									file, uploadUrl);
 	
