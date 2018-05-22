@@ -21,4 +21,6 @@ limitations under the License.
 'use strict';
 
 angular.module('headerNav',[])
- 
+	.config(function() {
+
+    });
