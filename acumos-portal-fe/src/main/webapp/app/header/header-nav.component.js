@@ -20,7 +20,7 @@ limitations under the License.
 
 'use strict';
 
-angular.module('headerNav',[])
+angular.module('headerNav')
 	.component('headerNav',{
 	templateUrl : 'app/header/md-header-nav.template.html',
 	//template : '<div ng-include="getTemplateUrl()"></div>',
