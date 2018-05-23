@@ -102,7 +102,7 @@ angular
 																	            '<p>' + value['supportingContent']  +'</p>';
 													                             if (value['links']['enableLink']){
 													                            	 if (!angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']['address'])){
-												                                         if ((value['links']['primary']['address']).includes("modelerResource")) {
+												                                         if ((value['links']['primary']['address']).indexOf("modelerResource") != -1) {
 												                                        	 if($rootScope.enableOnBoarding) 
 												                                        		 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + value['links']['primary']['address'] + '\');" >' + value['links']['primary']['label'] + '</md-button>';
 												                                         } else {
@@ -116,7 +116,7 @@ angular
 											                                    
 													                            	 if (!angular.isUndefined(value['links']['secondary']) && !angular.isUndefined(value['links']['secondary']) && !angular.isUndefined(value['links']['secondary']['address'])){
 														                            	 if(value['links']['secondary']['address']) {
-													                                         if ((value['links']['secondary']['address']).includes("modelerResource")) {
+													                                         if ((value['links']['secondary']['address']).indexOf("modelerResource") != -1) {
 													                                    		 if($rootScope.enableOnBoarding)
 													                                    			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + value['links']['secondary']['address'] + '\');" >' + value['links']['secondary']['label'] + '</md-button>';
 													                                         } else {
