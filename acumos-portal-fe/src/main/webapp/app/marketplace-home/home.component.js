@@ -503,10 +503,6 @@ angular
 		                        	 		                       $scope.closePoup = function(){
 		                        	 			                	  $mdDialog.hide();
 		                        	 			                  }
-		                        	 		                         
-		                        	 		                         
-		                        	 		                         
-		                        	 		                         
 		 						
 								},
 								

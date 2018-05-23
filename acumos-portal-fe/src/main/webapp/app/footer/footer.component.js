@@ -22,7 +22,7 @@ limitations under the License.
 
 app.component('marketFooter',{
 	templateUrl : '/app/footer/md-footer.template.html',
-	controller : function(apiService, $scope) { 
+	controller : function(apiService, $scope, $http) { 
 		
 		$scope.loadCategory = function() {
 			apiService
@@ -47,6 +47,23 @@ app.component('marketFooter',{
 			$scope.docUrl = response.data.response_body;
 		});
 		
+		
+         $scope.getCmsfooterContactInfo = function(){
+         	 var req = {
+						method : 'GET',
+						url : '/site/api-manual/Solution/solDescription?path=global/footer&name=contactinfo',
+				};
+         	 $http(req)
+					.success(
+							function(data, status, headers,
+									config) {
+								$scope.contactInfo = data.description;
+							}).error(
+									function(data, status, headers,
+											config) {
+										return "No Contents Available"
+									});
+			}
 	},
 
 });

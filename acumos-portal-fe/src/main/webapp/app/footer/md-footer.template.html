@@ -76,11 +76,8 @@ limitations under the License.
 					<div class="heading">
 						<span>Contact Information</span>
 					</div>
-					<ul class="contact-info">
-						 1 Letterman Drive, Building D, Suite D4700, San Francisco,&nbsp; CA 94129</span></span>
-						<div class="clearfix"></div>
-						<li><i class="material-icons">phone</i>+1 415 723 9709</li>
-					</ul>				
+					<ul class="contact-info" data-ng-init="getCmsfooterContactInfo()" ng-bind-html="contactInfo">
+					</ul>
 				</div>
 			</section>
 			<div class="clearfix"></div>
