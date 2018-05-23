@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ead33299_2f8994b8",
+        "filename": "acumos-portal-fe/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-05-23T12:26:13Z",
+      "side": 1,
+      "message": "change skip test to false",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 2
+      },
+      "revId": "740c8ea0f368f3636d04a8b1c6f1af6537c164d1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
