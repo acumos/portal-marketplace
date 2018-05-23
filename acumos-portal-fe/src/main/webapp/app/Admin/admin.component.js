@@ -1834,7 +1834,7 @@ angular.module('admin')
 						slide['textAling']= $scope.carouselSlide.textAling;
 						slide['bgColor']= $scope.carousel_bgColor;
 						
-						slide['graphicImgEnabled'] =  $scope.carouselSlide.graphicImg;
+						slide['graphicImgEnabled'] =  $scope.carouselSlide.graphicImgEnabled;
 						
 						if($scope.itsEdit){
 							slide['number'] = $scope.keyval;
