@@ -2418,7 +2418,7 @@ limitations under the License.
 																			              <p>doc.pdf</p>
 																			       </div>
 																			<div file-droppable filename="filename" file=carouselSlide.backGround>
-																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <img src="images/upload-doc-vector.png" ng-src = "{{bgImagePreview}}" alt="" title=""/>
 																			              <div class="destext">Drag & Drop your file here!</div>
 																			       </div>
 														</div>
@@ -2449,7 +2449,7 @@ limitations under the License.
 																	<div  file-upload size = "800000" ng-click = "imageSizeError = false"
 																						uploadid="carouselSlideUploadid" id="uploadFile"
 																						filename="filename" file="carouselSlide.backGround"
-																						ng-model="carouselSlide.backGround" accept = ""
+																						ng-model="carouselSlide.backGround" accept = "" filepreview = "bgImagePreview"
 																						alt="Browse" title="Browse" readonly></div>
 																						<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
@@ -2494,7 +2494,7 @@ limitations under the License.
 																<p>doc.pdf</p>
 															</div>
 															<div file-droppable file=carouselSlide.infoGraphic>
-																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <img src="images/upload-doc-vector.png" ng-src = "{{infoImagePreview}}" alt="" title=""/>
 																			              <div class="destext">Drag & Drop your file here!</div>
 																			       </div>
 														</div>
@@ -2507,19 +2507,19 @@ limitations under the License.
 																<label>Default infographics</label>
 																<div class="sample">
 																	<div class="image-Container">
-																		<img src="../images/Layer_1.png" class="image-size">
+																		<img src="../images/Layer_1.png" class="image-size" class="image-size" draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
 																    </div>
 																    <div class="image-Container">
-																		<img src="../images/Layer_2.png" class="image-size">
+																		<img src="../images/Layer_2.png" class="image-size" class="image-size" draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
 																    </div>
 																    <div class="image-Container">
-																		<img src="../images/Layer_4.png" class="image-size">
+																		<img src="../images/Layer_4.png" class="image-size" class="image-size" draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
 																    </div>
 																    <div class="image-Container">
-																		<img src="../images/Layer_3.png" class="image-size">
+																		<img src="../images/Layer_3.png" class="image-size" class="image-size" draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
 																    </div>
 																    <div class="image-Container">
-																		<img src="../images/Layer_2.png" class="image-size">
+																		<img src="../images/Layer_2.png" class="image-size" class="image-size" draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
 																    </div>																     
 																</div>
 																
@@ -2529,7 +2529,7 @@ limitations under the License.
 														<div class="upload-bg-image">
 															<div class="upload-image-input">
 															<div>
-																	<div  file-upload uploadid="infographicUploadid" id="uploadFile"
+																	<div  file-upload uploadid="infographicUploadid" id="uploadFile" filepreview = "infoImagePreview"
 																						file="carouselSlide.infoGraphic" ng-click = "imageSizeError = false"
 																						ng-model="carouselSlide.infoGraphic" accept = ""
 																						alt="Browse" title="Browse" readonly></div>
