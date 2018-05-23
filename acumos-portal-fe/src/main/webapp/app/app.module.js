@@ -128,9 +128,44 @@ angular
 .module('AcumosApp').directive('draggable', function () {
 	  return {
 	    restrict: 'A',
+	    scope: {
+    		imgsrc:"=",
+       		imgpreview : "="
+    		},
 	    link: function (scope, element, attrs) {
-	      element[0].addEventListener('dragstart', scope.handleDragStart, false);
-	      element[0].addEventListener('dragend', scope.handleDragEnd, false);
+	      element.bind('dragover', function (evt) {
+                evt.stopPropagation()
+                evt.preventDefault()
+                var clazz = 'not-available'
+                var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0
+           });
+	    	function srcToFile(src, fileName, mimeType){
+			    return (fetch(src)
+			        .then(function(res){return res.arrayBuffer();})
+			        .then(function(buf){return new File([buf], fileName, {type:mimeType});})
+			    );
+			}
+	      element[0].addEventListener('dragend', function (event) {
+	    	     
+	    	     //scope.imgsrc = event.target.src;
+	    	     srcToFile(event.target.src, event.target.src.split('/').pop(), 'image/png')
+					.then(function(file){
+					    var fd = new FormData();
+					    fd.append('file1', file);
+					    scope.imgsrc = file;
+					    var reader = new FileReader();
+                        var imgpath = new Image();
+                        reader.readAsDataURL(scope.imgsrc);
+                       reader.onload = function(loadEvent) {
+                    	   	  imgpath.src = loadEvent.target.result;
+                    	   	  scope.imgpreview = imgpath.src;
+                              imgpath.onload = function(){
+                                  scope.imgsrc.width = this.width;
+                                  scope.imgsrc.height = this.height;
+                              };
+                       }
+					});
+	    	  }, false);
 	    }
 	  }
 	});
@@ -496,6 +531,7 @@ angular
                         reader.readAsDataURL(files[0]);
                         reader.onload = function(loadEvent) {
                         imgpath.src = loadEvent.target.result;
+						scope.filepreview = imgpath.src;
                               imgpath.onload = function(){
                                   scope.file.width = this.width;
                                   scope.file.height = this.height;
