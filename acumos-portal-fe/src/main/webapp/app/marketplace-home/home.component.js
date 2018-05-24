@@ -91,7 +91,7 @@ angular
 												      if(value['slideEnabled'] === true || value['slideEnabled'] === "true"){
 													      var bannerSt = '<div class='; 
 													                    if(value['textAling'] == 'right'){
-													                    	bannerSt = bannerSt + '"home-screen1" ';
+													                    	bannerSt = bannerSt + '"home-screen-lfimg" ';
 													                    } else {
 													                    	bannerSt = bannerSt + '"home-screen2" ';
 													                    }

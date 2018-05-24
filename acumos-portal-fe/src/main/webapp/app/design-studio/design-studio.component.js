@@ -416,7 +416,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     
                     $scope.solutionName = result.cname;
                     $scope.solutionVersion = result.version;
-                    _solution = result;_dirty = true;
+                    _solution = result;
                     _solution.nodes.forEach(function(n) {
                         if(n.ndata && n.ndata.fixed && n.ndata.px !== undefined && n.ndata.py !== undefined)
                             n.fixedPos = {x: +n.ndata.px, y: +n.ndata.py};

@@ -211,7 +211,15 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
     width: 120px;
     background-repeat: no-repeat;
 }
-.discover .onboard a:hover{color:#0366d6;}
+.discover .onboard a .discover-description:hover{color:#0366d6;}
+/* banner image left text right */
+.home-screen-lfimg{	    /* background-image: url("../images/banner_bg_large.png"); */
+    background-position: center top; background-repeat: no-repeat; background-color: #681F9F; min-height: 553px; position: relative;	
+}
+.home-screen-lfimg .slide-content .slide-text{float: right; width: 58%;}
+.carousel-item .home-screen-lfimg .slide-content .image-container, .carousel-item .home-screen-lfimg .hasClass.initialVal .slide-content .image-container{    
+	float: left; margin: 15px 17px 0 0px; /* width: 32%; */ max-width: 372px; height: 260px;}
+.home-screen-lfimg .hasClass .slide-content .image-container { margin: 15px 17px 0 0px;  width: 35%;  float: left;}
 /* ---- media query start ----*/
 @media(max-width:2560px){
 .hasClass .discover .community{left: 87px;}
