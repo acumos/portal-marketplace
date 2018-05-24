@@ -2503,11 +2503,15 @@ limitations under the License.
 																<p>doc.pdf</p>
 															</div>
 															<div>
-																<label>You can use</label>
-																<label>Default infographics</label>
+																 <div class="defaultextinfo">
+            														You can use Default infographics
+       															 </div>																
+																<!-- <label>You can use</label>
+																<label>Default infographics</label> -->
 																<div class="sample">
 																	<div class="image-Container">
-																		<img src="../images/Layer_1.png" class="image-size" class="image-size" file-draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
+																		<img src="../images/banner_ml_graphics.png" class="image-size" class="image-size" file-draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
+																    	<div class="selected"><i class="material-icons">check_circle</i></div>
 																    </div>
 																    <div class="image-Container">
 																		<img src="../images/Layer_2.png" class="image-size" class="image-size" file-draggable imgsrc = "carouselSlide.infoGraphic" imgpreview = "infoImagePreview">
@@ -2556,7 +2560,7 @@ limitations under the License.
 												</div>
 											</div>
 											
-											<div class="md-grid"  style="float:left">
+											<div class="md-grid">
 												<div class="mdl-cell mdl-cell--6-col infographics-align" style="float:left">
 							                        <md-input-container class="md-block">
 							                           <label class="md-required">Infographics and text alignment</label>
@@ -3077,7 +3081,9 @@ limitations under the License.
 											</div>
 											<div class="slid-container" ng-repeat="(key,item) in carouselConfig" ng-class="changeOrderfor == item.number ? 'active' : ''">
 												<div class="slides">
-													<img src="./images/default-model.png" class="SlideImage">
+													<div class="slidesimgholder">
+														<img src="./images/default-model.png" class="SlideImage">
+													</div>													
 													<span class="image-caption"><strong>{{item.name}}</strong></span>
 												</div>
 												<p class="Order-margin">Current Order 
