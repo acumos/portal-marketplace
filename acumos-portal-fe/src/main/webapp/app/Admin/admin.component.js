@@ -235,6 +235,7 @@ angular.module('admin')
              $scope.storyForm.$setUntouched();
              $scope.itsEdit = false;
       	     delete $scope.keyval;
+      	     delete $scope.deleteKey;
              fetchPeer();fetchCat();$scope.hidePeer = false;$scope.data='';
              
             }
@@ -306,7 +307,36 @@ angular.module('admin')
           		  clickOutsideToClose: true
           	  });
             }
-            
+
+            $scope.confirmDeleteTopCarousel = function(ev, deleteKey){
+            	$scope.deleteKey = deleteKey;
+            	$mdDialog.show({
+          		  contentElement: '#deleteTopCarousel',
+          		  parent: angular.element(document.body),
+          		  targetEvent: ev,
+          		  clickOutsideToClose: true
+          	  });
+            }
+
+            $scope.confirmDeleteEventCarousel = function(ev, deleteKey){
+            	$scope.deleteKey = deleteKey;
+            	$mdDialog.show({
+          		  contentElement: '#deleteEventCarousel',
+          		  parent: angular.element(document.body),
+          		  targetEvent: ev,
+          		  clickOutsideToClose: true
+          	  });
+            }
+
+            $scope.confirmDeleteStoryCarousel = function(ev, deleteKey){
+            	$scope.deleteKey = deleteKey;
+            	$mdDialog.show({
+          		  contentElement: '#deleteStoryCarousel',
+          		  parent: angular.element(document.body),
+          		  targetEvent: ev,
+          		  clickOutsideToClose: true
+          	  });
+            }
             $scope.showOrderStorySlidesPopup = function(ev, changeKey){
             	$scope.changeOrderfor = changeKey;
             	$mdDialog.show({
@@ -1919,8 +1949,9 @@ angular.module('admin')
 						}
 					}
                    
-                   $scope.deleteCarouselSlide = function (key){
+                   $scope.deleteCarouselSlide = function (){
                 	   //delete $scope.carouselConfig[key];
+                	   var key = $scope.deleteKey;
                 	   var updatedCarouselConfig = [];
                 	   for (var i=0; i < Object.keys($scope.carouselConfig).length ; i++ ){
                 		   updatedCarouselConfig[i] = $scope.carouselConfig[i];
@@ -1946,6 +1977,7 @@ angular.module('admin')
                 	   apiService.updateSiteConfig("carousel_config", reqObj)
 	                    .then(
 	                            function(response) {
+	                            	$scope.closePoup();
 	                            	$scope.getCarouselConfig();
 	                            	$scope.msg = "Carousel Updated successfully.";
                                    $scope.icon = '';
@@ -1971,11 +2003,12 @@ angular.module('admin')
                 	   
                 	   $scope.changeOrderfor = parseInt($scope.changeOrderfor, 10);
                 	   $scope.order.changeOrderValue = parseInt($scope.order.changeOrderValue, 10);
-                	   if(!angular.isNumber($scope.order.changeOrderValue)  || $scope.order.changeOrderValue > Object.keys($scope.carouselConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
-                		   alert("Provided index out of bound");
+                	   if(isNaN($scope.order.changeOrderValue) || $scope.order.changeOrderValue > Object.keys($scope.carouselConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
+                		   $scope.topSlideOrderError = true;
                 		   return;
                 	   }
                 	   
+                	   $scope.topSlideOrderError = false;
                 	   var updatedCarouselConfig = [];
                 	   for (var i=0; i < Object.keys($scope.carouselConfig).length ; i++ ){
                 		   updatedCarouselConfig[i] = $scope.carouselConfig[i];
@@ -2130,15 +2163,9 @@ angular.module('admin')
 	 												//$scope.getLogoImages();
 	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
 	                                               //$anchorScroll();
-	                                               $scope.msg = "Updated successfully.";
+	 												$scope.showSuccessBgImage = true;
 	                                               $scope.icon = '';
 	                                               $scope.styleclass = 'c-success';
-	                                               $scope.showAlertMessage = true;
-	                                               $timeout(function() {
-	                                                   $scope.showAlertMessage = false;
-	                                               }, 5000);
-	                                               
-	 												//alert("Updated successfully.");
 	 											},
 	 											function() {
 	 												$scope.serverResponse = 'An error has occurred';
@@ -2186,18 +2213,7 @@ angular.module('admin')
 	 							promise
 	 									.then(
 	 											function(response) {
-	 												//$scope.getLogoImages();
-	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-	                                               //$anchorScroll();
-	                                               $scope.msg = "Updated successfully.";
-	                                               $scope.icon = '';
-	                                               $scope.styleclass = 'c-success';
-	                                               $scope.showAlertMessage = true;
-	                                               $timeout(function() {
-	                                                   $scope.showAlertMessage = false;
-	                                               }, 5000);
-	                                               
-	 												//alert("Updated successfully.");
+	 												$scope.showSuccessinfoImage = true;
 	 											},
 	 											function() {
 	 												$scope.serverResponse = 'An error has occurred';
@@ -2331,7 +2347,9 @@ angular.module('admin')
 	                    }
 	                    
 	                    
-	                    $scope.deleteEventSlide = function (key){
+	                    $scope.deleteEventSlide = function (){
+	                       
+	                       var key = $scope.deleteKey;
 	                 	   delete $scope.eventConfig[key];
 	                 	   
 	                 	   var carouselConfigStr = JSON.stringify($scope.eventConfig);
@@ -2347,6 +2365,7 @@ angular.module('admin')
 	                 	   apiService.updateSiteConfig("event_carousel", reqObj)
 	 	                    .then(
 	 	                            function(response) {
+	 	                            	$scope.closePoup();
 	 	                            	$scope.getEventCarousel();
 	 	                            	$scope.msg = "Carousel Updated successfully.";
 	                                    $scope.icon = '';
@@ -2365,11 +2384,11 @@ angular.module('admin')
 	                 	   
 	                 	   $scope.changeOrderfor = parseInt($scope.changeOrderfor, 10);
 	                 	   $scope.order.changeOrderValue = parseInt($scope.order.changeOrderValue, 10);
-	                 	   if(!angular.isNumber($scope.order.changeOrderValue)  || $scope.order.changeOrderValue > Object.keys($scope.eventConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
-	                 		   alert("Provided index out of bound");
+	                 	   if(isNaN($scope.order.changeOrderValue) || $scope.order.changeOrderValue > Object.keys($scope.eventConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
+	                 		  $scope.eventSlideOrderError = true;
 	                 		   return;
 	                 	   }
-	                 	   
+	                 	  $scope.eventSlideOrderError = false;
 	                 	   var updatedCarouselConfig = [];
 	                 	   for (var i=0; i < Object.keys($scope.eventConfig).length ; i++ ){
 	                 		   updatedCarouselConfig[i] = $scope.eventConfig[i];
@@ -2523,18 +2542,7 @@ angular.module('admin')
 	 							promise
 	 									.then(
 	 											function(response) {
-	 												//$scope.getLogoImages();
-	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-	                                               //$anchorScroll();
-	                                               $scope.msg = "Updated successfully.";
-	                                               $scope.icon = '';
-	                                               $scope.styleclass = 'c-success';
-	                                               $scope.showAlertMessage = true;
-	                                               $timeout(function() {
-	                                                   $scope.showAlertMessage = false;
-	                                               }, 5000);
-	                                               
-	 												//alert("Updated successfully.");
+	 												$scope.showSuccessEventBgImage = true;
 	 											},
 	 											function() {
 	 												$scope.serverResponse = 'An error has occurred';
@@ -2584,18 +2592,7 @@ angular.module('admin')
 	 							promise
 	 									.then(
 	 											function(response) {
-	 												//$scope.getLogoImages();
-	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-	                                               //$anchorScroll();
-	                                               $scope.msg = "Updated successfully.";
-	                                               $scope.icon = '';
-	                                               $scope.styleclass = 'c-success';
-	                                               $scope.showAlertMessage = true;
-	                                               $timeout(function() {
-	                                                   $scope.showAlertMessage = false;
-	                                               }, 5000);
-	                                               
-	 												//alert("Updated successfully.");
+	 												$scope.showSuccessEventInfoImage = true;
 	 											},
 	 											function() {
 	 												$scope.serverResponse = 'An error has occurred';
@@ -2723,11 +2720,11 @@ angular.module('admin')
 	                 	   
 	                 	   $scope.changeOrderfor = parseInt($scope.changeOrderfor, 10);
 	                 	   $scope.order.changeOrderValue = parseInt($scope.order.changeOrderValue, 10);
-	                 	   if(!angular.isNumber($scope.order.changeOrderValue)  || $scope.order.changeOrderValue > Object.keys($scope.storyConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
-	                 		   alert("Provided index out of bound");
+	                 	   if(isNaN($scope.order.changeOrderValue)  || $scope.order.changeOrderValue > Object.keys($scope.storyConfig).length-1 || $scope.order.changeOrderValue < 0 ) {
+	                 		  $scope.storySlideOrderError = true;
 	                 		   return;
 	                 	   }
-	                 	   
+	                 	  $scope.storySlideOrderError = false;
 	                 	   var updatedCarouselConfig = [];
 	                 	   for (var i=0; i < Object.keys($scope.storyConfig).length ; i++ ){
 	                 		   updatedCarouselConfig[i] = $scope.storyConfig[i];
@@ -2812,18 +2809,7 @@ angular.module('admin')
 	 							promise
 	 									.then(
 	 											function(response) {
-	 												//$scope.getLogoImages();
-	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-	                                               //$anchorScroll();
-	                                               $scope.msg = "Updated successfully.";
-	                                               $scope.icon = '';
-	                                               $scope.styleclass = 'c-success';
-	                                               $scope.showAlertMessage = true;
-	                                               $timeout(function() {
-	                                                   $scope.showAlertMessage = false;
-	                                               }, 5000);
-	                                               
-	 												//alert("Updated successfully.");
+	 												$scope.showSuccessStoryBgImage = true;
 	 											},
 	 											function() {
 	 												$scope.serverResponse = 'An error has occurred';
@@ -2871,18 +2857,7 @@ angular.module('admin')
 	 							promise
 	 									.then(
 	 											function(response) {
-	 												//$scope.getLogoImages();
-	 												//$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-	                                               //$anchorScroll();
-	                                               $scope.msg = "Updated successfully.";
-	                                               $scope.icon = '';
-	                                               $scope.styleclass = 'c-success';
-	                                               $scope.showAlertMessage = true;
-	                                               $timeout(function() {
-	                                                   $scope.showAlertMessage = false;
-	                                               }, 5000);
-	                                               
-	 												//alert("Updated successfully.");
+	 												$scope.showSuccessStoryInfoImage = true;
 	 											},
 	 											function() {
 	 												$scope.serverResponse = 'An error has occurred';
@@ -2906,7 +2881,9 @@ angular.module('admin')
 	                    }
 	                    
 	                    
-	                    $scope.deleteStorySlide = function (key){
+	                    $scope.deleteStorySlide = function (){
+	                    	
+	                       var key = $scope.deleteKey;
 	                 	   delete $scope.storyConfig[key];
 	                 	   
 	                 	   var carouselConfigStr = JSON.stringify($scope.storyConfig);
@@ -2922,6 +2899,7 @@ angular.module('admin')
 	                 	   apiService.updateSiteConfig("story_carousel", reqObj)
 	 	                    .then(
 	 	                            function(response) {
+	 	                            	$scope.closePoup();
 	 	                            	$scope.getStoryCarousel();
 	 	                            	$scope.msg = "Carousel Updated successfully.";
 	                                    $scope.icon = '';

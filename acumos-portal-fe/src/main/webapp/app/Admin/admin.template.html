@@ -321,7 +321,7 @@ limitations under the License.
 																	<div>
 																		<md-button class="sc-link-btn1" ng-click="editCarouselSlide(key, item)">Edit</md-button>
 																		<span>|</span>
-																		<md-button class="sc-link-btn1" ng-if="key != 0" ng-click="deleteCarouselSlide(key)">Delete</md-button>
+																		<md-button class="sc-link-btn1" ng-if="key != 0" ng-click="confirmDeleteTopCarousel($event, key)">Delete</md-button>
 																		<span ng-if="key != 0">|</span>
 																		<md-button class="sc-link-btn1" ng-click="showOrderSlidesPopup($event, key)">Set order</md-button>
 																		<label class="sc-counter-container"><span class="sc-slide-counter">{{key}}</span></label>
@@ -380,7 +380,7 @@ limitations under the License.
 																			<div>
 																				<md-button class="sc-link-btn1" ng-click="editEventSlide(key, item)">Edit</md-button>
 																				<span>|</span>
-																				<md-button class="sc-link-btn1" ng-click="deleteEventSlide(key)">Delete</md-button>
+																				<md-button class="sc-link-btn1" ng-click="confirmDeleteEventCarousel($event, key)">Delete</md-button>
 																				<span>|</span>
 																				<md-button class="sc-link-btn1" ng-click="showOrderEventSlidesPopup($event, key)">Set order</md-button>
 																				<label class="sc-counter-container"><span class="sc-slide-counter">{{key}}</span></label>
@@ -437,7 +437,7 @@ limitations under the License.
 																				<div>
 																					<md-button class="sc-link-btn1" ng-click="editStorySlide(key, item)">Edit</md-button>
 																					<span>|</span>
-																					<md-button class="sc-link-btn1" ng-click="deleteStorySlide(key, item)">Delete</md-button>
+																					<md-button class="sc-link-btn1" ng-click="confirmDeleteStoryCarousel($event, key)">Delete</md-button>
 																					<span>|</span>
 																					<md-button class="sc-link-btn1" ng-click="showOrderStorySlidesPopup($event, key)">Set order</md-button>
 																					<label class="sc-counter-container"><span class="sc-slide-counter">{{key}}</span></label>
@@ -2418,7 +2418,8 @@ limitations under the License.
 																			              <p>doc.pdf</p>
 																			       </div>
 																			<div file-droppable filename="filename" file=carouselSlide.backGround>
-																			              <img src="images/upload-doc-vector.png" ng-src = "{{bgImagePreview}}" alt="" title=""/>
+																			              <!-- <img src="images/upload-doc-vector.png" ng-src = "{{bgImagePreview}}" alt="" title=""/> -->
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
 																			              <div class="destext">Drag & Drop your file here!</div>
 																			       </div>
 														</div>
@@ -2454,10 +2455,6 @@ limitations under the License.
 																						<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
 																							ng-model="carouselSlide.backGround.name" readonly />
-																	<div class="help-inline validation-msgs">
-																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
-																		
-																	</div>
 																</div>
 																<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
 																<input type="file" upload-image-model="carouselSlide.backGround" data-ng-model="carouselSlide.backGround" />
@@ -2468,6 +2465,12 @@ limitations under the License.
 															</md-button>
 															</span>
 															
+														</div>
+														<div class="help-inline">
+															<span class="text-green" ng-show="showSuccessBgImage"> Image Uploaded Successfully.</span>
+														</div>
+														<div class="help-inline validation-msgs">
+															<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 														</div>
 														<span class="modal-note">
 															Please upload background image (png,gif,jpeg). Background size should be less than 2560px X 524px.
@@ -2536,10 +2539,6 @@ limitations under the License.
 																						<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
 																							ng-model="carouselSlide.infoGraphic.name" readonly />
-																	<div class="help-inline validation-msgs">
-																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
-																		
-																	</div>
 																</div>
 																	<input type="file" upload-image-model="carouselSlide.infoGraphic" data-ng-model="carouselSlide.infoGraphic"/>
 															</div>
@@ -2549,6 +2548,12 @@ limitations under the License.
 																	</md-button>
 																</span>
 														</div>
+														<div class="help-inline">
+															<span class="text-green" ng-show="showSuccessinfoImage"> Image Uploaded Successfully.</span>
+														</div>
+														<div class="help-inline validation-msgs">
+															<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+														</div>
 														<span class="modal-note">
 															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
 														</span>
@@ -2556,7 +2561,7 @@ limitations under the License.
 												</div>
 											</div>
 											
-											<div class="md-grid"  style="float:left">
+											<div class="md-grid">
 												<div class="mdl-cell mdl-cell--6-col infographics-align" style="float:left">
 							                        <md-input-container class="md-block">
 							                           <label class="md-required">Infographics and text alignment</label>
@@ -2752,9 +2757,6 @@ limitations under the License.
 																						<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
 																							ng-model="eventCarousel.backGround.name" readonly />
-																	<div class="help-inline validation-msgs">
-																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
-																	</div>
 																</div>
 																																
 															</div>
@@ -2764,6 +2766,12 @@ limitations under the License.
 															</md-button>
 															</span>
 															
+														</div>
+														<div class="help-inline">
+															<span class="text-green" ng-show="showSuccessEventBgImage"> Image Uploaded Successfully.</span>
+														</div>
+														<div class="help-inline validation-msgs">
+															<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 														</div>
 														<span class="modal-note">
 															Please upload background image (png,gif,jpeg). Background size should be less than 2560px X 524px.
@@ -2803,16 +2811,18 @@ limitations under the License.
 																						<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
 																							ng-model="eventCarousel.infoGraphic.name" readonly />
-																<div class="help-inline validation-msgs">
-																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
-																		
-																</div>		
 															</div>
 																<span>
 																	<md-button ng-click="uploadEventInfoGraphic()" class="mdl-button mdl-js-button btn-secondary" title="Upload" alt="Upload">
 																		Upload
 																	</md-button>
 																</span>
+														</div>
+														<div class="help-inline">
+															<span class="text-green" ng-show="showSuccessEventInfoImage"> Image Uploaded Successfully.</span>
+														</div>
+														<div class="help-inline validation-msgs">
+															<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 														</div>
 														<span class="modal-note">
 															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
@@ -2822,32 +2832,15 @@ limitations under the License.
 											</div>
 											
 											<div class="md-grid">
-												<div class="mdl-cell mdl-cell--3-col">
-														<md-input-container class="md-block">
-															<label>Text Align <span class="dsreqfield">*</span></label>
-														</md-input-container>
-														<ul class="aligntext">
-															<li ng-class="eventCarousel.textAling == 'left' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingText('left')" >format_align_left</a></i>
-															</li>
-															<li ng-class="eventCarousel.textAling == 'right' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingText('right')" >format_align_right</a></i>
-															</li>
-														</ul>
-												</div>
-												<div class="mdl-cell mdl-cell--3-col" style="float:left">
-													<md-input-container class="md-block">
-														<label>Infographics Align <span class="dsreqfield">*</span></label>
-													</md-input-container>
-													<ul class="aligntext">
-															<li ng-class="eventCarousel.infoImageAling == 'left' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingInfoImage('left')" >format_align_left</a></i>
-															</li>
-															<li ng-class="eventCarousel.infoImageAling == 'right' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingInfoImage('right')">format_align_right</a></i>
-															</li>
-													</ul>
-												</div>
+												<div class="mdl-cell mdl-cell--6-col infographics-align" style="float:left">
+							                        <md-input-container class="md-block">
+							                           <label class="md-required">Infographics and text alignment</label>
+							                        </md-input-container>
+							                        <md-radio-group ng-model="eventCarousel.textAling">
+							                           <md-radio-button value="left">Text align left, Infographics align right</md-radio-button>
+							                           <md-radio-button value="right">Text align right, Infographics align left</md-radio-button>
+							                        </md-radio-group>
+							                     </div>
 											</div>
 										</div>
 										</form>
@@ -2935,9 +2928,6 @@ limitations under the License.
 																						<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
 																							ng-model="successCarousel.backGround.name" readonly />
-																	<div class="help-inline validation-msgs">
-																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
-																	</div>
 																</div>
 																</div>
 															<span>
@@ -2945,7 +2935,12 @@ limitations under the License.
 																Upload
 															</md-button>
 															</span>
-															
+														</div>
+														<div class="help-inline">
+															<span class="text-green" ng-show="showSuccessStoryBgImage"> Image Uploaded Successfully.</span>
+														</div>
+														<div class="help-inline validation-msgs">
+															<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
 														</div>
 														<span class="modal-note">
 															Please upload background image (png,gif,jpeg). Background size should be less than 2560px X 524px.
@@ -2988,10 +2983,6 @@ limitations under the License.
 																						<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
 																							ng-model="successCarousel.infoGraphic.name" readonly />
-																	<div class="help-inline validation-msgs">
-																		<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
-																		
-																	</div>
 																</div>
 																</div>
 																
@@ -3002,6 +2993,12 @@ limitations under the License.
 																	</md-button>
 																</span>
 														</div>
+														<div class="help-inline">
+															<span class="text-green" ng-show="showSuccessStoryInfoImage"> Image Uploaded Successfully.</span>
+														</div>
+														<div class="help-inline validation-msgs">
+															<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image should be max size of 800KB.</span>
+														</div>
 														<span class="modal-note">
 															Please upload background image (png,gif,jpeg). Background size should be less than 372px X 260px.
 														</span>
@@ -3010,32 +3007,15 @@ limitations under the License.
 											</div>
 											
 											<div class="md-grid">
-												<div class="mdl-cell mdl-cell--3-col" style="float:left">
-														<md-input-container class="md-block">
-															<label>Text Align <span class="dsreqfield">*</span></label>
-														</md-input-container>
-														<ul class="aligntext">
-															<li ng-class="successCarousel.textAling == 'left' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingText('left')" >format_align_left</a></i>
-															</li>
-															<li ng-class="successCarousel.textAling == 'right' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingText('right')" >format_align_right</a></i>
-															</li>
-														</ul>
-												</div>
-												<div class="mdl-cell mdl-cell--3-col" style="float:left">
-													<md-input-container class="md-block">
-														<label>Infographics Align <span class="dsreqfield">*</span></label>
-													</md-input-container>
-													<ul class="aligntext">
-															<li ng-class="successCarousel.infoImageAling == 'left' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingInfoImage('left')" >format_align_left</a></i>
-															</li>
-															<li ng-class="successCarousel.infoImageAling == 'right' ? 'active' : ''">
-																<i class="material-icons"><a ng-click="alingInfoImage('right')">format_align_right</a></i>
-															</li>
-													</ul>
-												</div>
+												<div class="mdl-cell mdl-cell--6-col infographics-align" style="float:left">
+							                        <md-input-container class="md-block">
+							                           <label class="md-required">Infographics and text alignment</label>
+							                        </md-input-container>
+							                        <md-radio-group ng-model="successCarousel.textAling">
+							                           <md-radio-button value="left">Text align left, Infographics align right</md-radio-button>
+							                           <md-radio-button value="right">Text align right, Infographics align left</md-radio-button>
+							                        </md-radio-group>
+							                     </div>
 											</div>
 										</div>
 										</form>
@@ -3065,15 +3045,18 @@ limitations under the License.
 									  <div class="md-toolbar-tools">
 										<h2>Set the order of Slide {{carouselConfig[changeOrderfor].name}}</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="cancel()">
+										<md-button class="md-icon-button" ng-click="closePoup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
 									<md-dialog-content>
 										<div class="md-dialog-content">
+											<div class="help-inline validation-msgs">
+												<span ng-show="topSlideOrderError">Provided index out of bound.</span>
+											</div>
 											<div class="ds-db-row1">
-												Please note if you change the order of any slide system will other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
+												Please note if you change the order of any slide, other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
 											</div>
 											<div class="slid-container" ng-repeat="(key,item) in carouselConfig" ng-class="changeOrderfor == item.number ? 'active' : ''">
 												<div class="slides">
@@ -3112,15 +3095,18 @@ limitations under the License.
 									  <div class="md-toolbar-tools">
 										<h2>Set the order of Slide {{eventConfig[changeOrderfor].name}}</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="cancel()">
+										<md-button class="md-icon-button" ng-click="closePoup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
 									<md-dialog-content>
 										<div class="md-dialog-content">
+											<div class="help-inline validation-msgs">
+												<span ng-show="eventSlideOrderError">Provided index out of bound.</span>
+											</div>
 											<div class="ds-db-row1">
-												Please note if you change the order of any slide system will other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
+												Please note if you change the order of any slide, other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
 											</div>
 											<div class="slid-container" ng-repeat="(key,item) in eventConfig" ng-class="changeOrderfor == key ? 'active' : ''" ng-if="key != 'enabled'">
 												<div class="slides">
@@ -3159,15 +3145,18 @@ limitations under the License.
 									  <div class="md-toolbar-tools">
 										<h2>Set the order of Slide {{storyConfig[changeOrderfor].name}}</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="cancel()">
+										<md-button class="md-icon-button" ng-click="closePoup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
 									</md-toolbar>
 									<md-dialog-content>
 										<div class="md-dialog-content">
+											<div class="help-inline validation-msgs">
+												<span ng-show="storySlideOrderError">Provided index out of bound.</span>
+											</div>
 											<div class="ds-db-row1">
-												Please note if you change the order of any slide system will other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
+												Please note if you change the order of any slide, other slides will automatically reorder themselves. So please make sure that you are ordering slides correctly.
 											</div>
 											<div class="slid-container" ng-repeat="(key,item) in storyConfig" ng-class="changeOrderfor == key ? 'active' : ''" ng-if="key != 'enabled'">
 												<div class="slides">
@@ -3197,3 +3186,113 @@ limitations under the License.
 						</div>
 						<!-- Modal box end -->
 						
+						<!-- Modal Delete Top carousel slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="deleteTopCarousel" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Delete {{carouselConfig[deleteKey].name}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="ds-db-row1">
+												Are you sure you would like to delete {{carouselConfig[deleteKey].name}}?
+											</div>
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="deleteCarouselSlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Confirm
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						</div>
+						<!-- Modal box end -->
+						
+						<!-- Modal Delete event slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="deleteEventCarousel" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Delete {{eventConfig[deleteKey].name}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="ds-db-row1">
+												Are you sure you would like to delete {{eventConfig[deleteKey].name}}?
+											</div>
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="deleteEventSlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Confirm
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						</div>
+						<!-- Modal box end -->
+						
+						<!-- Modal Delete event slide box start -->
+						<div class="page-wrapper2" >
+							<div class="md-dialog-container" id="deleteStoryCarousel" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Delete {{storyConfig[deleteKey].name}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="ds-db-row1">
+												Are you sure you would like to delete {{storyConfig[deleteKey].name}}?
+											</div>
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="deleteStorySlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+												Confirm
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						</div>
+						<!-- Modal box end -->
