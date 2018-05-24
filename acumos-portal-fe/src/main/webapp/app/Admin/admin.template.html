@@ -2398,7 +2398,10 @@ limitations under the License.
 													   <ng-quill-editor ng-model="carouselSlide.supportingContent" modules="modulesConfig">	  
 													  </ng-quill-editor>
 													  <!-- <textarea rows="2" ng-model="carouselSlide.supportingContent" tabindex="3" required></textarea> -->
-													  <span class="modal-note">140 Characters Only</span>
+													  <!-- <span class="modal-note">140 Characters Only</span> -->
+													  <span class="modal-note" ng-style="140<carouselSlide.supportingContent.length && {color: 'red'}" ng-bind="140-carouselSlide.supportingContent.length"></span>
+													  <span class="modal-note" ng-style="140<carouselSlide.supportingContent.length && {color: 'red'}">characters left</span>
+													  <span class="modal-note" ng-style="140<carouselSlide.supportingContent.length && {color: 'red'}" ng-show="140<carouselSlide.supportingContent.length">- Character limit exceeded</span>
 													</md-input-container>
 												</div>
 											</div>
@@ -2674,7 +2677,8 @@ limitations under the License.
 											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 												Cancel
 											</md-button>
-											<md-button type="submit" ng-click="addCarouselSlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+											<md-button type="submit" ng-click="addCarouselSlide()" class="mdl-button mdl-js-button btn-primary" title="Confirm"
+											ng-disabled="140<carouselSlide.supportingContent.length">
 												Done
 											</md-button>
 									    </div>
