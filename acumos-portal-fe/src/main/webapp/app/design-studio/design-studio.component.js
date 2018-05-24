@@ -28,10 +28,24 @@ angular
             controller : DSController
         }
     );
-DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams'];
+DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector'];
 
-function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams) {
+function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector) {
 	componentHandler.upgradeAllRegistered();
+	$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+	if($scope.userDetails === null){
+		var modalService = $injector.get('$mdDialog'); 
+		modalService.show({
+			 templateUrl: '../app/header/sign-in-promt-modal-box.html',
+			 clickOutsideToClose: true,
+			 controller : function DialogController($scope ) {
+				 $scope.closeDialog = function() {
+					 modalService.hide();
+					 $rootScope.showAdvancedLogin();
+			    	 $state.go('home');
+		     } }
+			});
+	} else{
 	$scope.datatype = ['int','string','float','boolean','long','byte'];
 	if($scope.dbType === "json"){
 		$('#upload').removeClass('disp');
@@ -506,24 +520,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         return options.base + verb + '?' + Object.keys(params).map(function(k) {
             return k + '=' + encodeURIComponent(params[k]);
         }).join('&');
-    }
-    
-    function tgif_reqcap_to_tosca(rc) {
-
-        return {
-            "capability": {
-                "id": "",
-                "name": `${rc.request.format}+${rc.request.version}+${rc.response.format}+${rc.response.version}`
-            },
-            "id": "",
-            "name": "",
-            "relationship": "",
-            "target": {
-                "description": "",
-                "name": ""
-            },
-            "target_type": "Node"
-        };
     }
 
     function is_wildcard_type(type) {
@@ -1281,9 +1277,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.nodeNameUI=null;
         $scope.showDataBroker = null;
         $scope.showDataMapper = null;
-        $scope.solutionDetails=compsHover[0];
         $scope.showProperties=null;
         $scope.showLink=null;
+        $scope.solutionDetails=compsHover[0];
         if(compsHover[0].toolKit != 'CP'){
            if(compsHover.length === 1)
                 display_properties(_catalog.fModelUrl(compsHover[0]));
@@ -1698,9 +1694,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     select_ports_group.set_changed([], true);
 
                     var selectedNodeId = _diagram.getNode(nodes[0]).key;
-                    var lastChar = selectedNodeId.slice(-1);
-                    var res = selectedNodeId.split(lastChar);
-                    var type = res[0];
+                    var n = selectedNodeId.length;
+                    var type = selectedNodeId.substring(0,n-1);
                     var comps = _catalog.models().filter(function(comp) {
                         return _catalog.fModelName(comp) === type;
                     });
@@ -1716,9 +1711,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                    
                     switch($scope.solutionDetails.toolKit){
                     case 'BR': 
-                    	$scope.showDataBroker = true;
                     	$scope.showDataMapper = null;
                     	$scope.solutionDetails = null;
+                    	$scope.showDataBroker = true;
                     	$scope.$apply();
                     	break;
                     case 'TC':
@@ -1734,12 +1729,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                          });
                     	if(wilds.length) {
                     		$scope.showDataBroker = null;
-                    		$scope.showDataMapper = true;
                     		$scope.solutionDetails = null;
+                    		$scope.showDataMapper = true;
                     		$scope.$apply();
                     		display_data_mapper(nodes[0], wilds);
                     	}
-                    	else if(comps.length === 1) {
+                    	else{
                     		$scope.showDataBroker = null;
                     		$scope.showDataMapper = null;
                     		display_properties(_catalog.fModelUrl(comps[0]));
@@ -2169,6 +2164,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.messageUI=messageJson;
                 $scope.showDataBroker = null;
                 $scope.showDataMapper = null;
+                $scope.solutionDetails=null;
+                $scope.showLink=null;
                 if($scope.messageUI){
                     $scope.showProperties=true;
                 }else
@@ -2177,8 +2174,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 	$scope.complexType =true;
                 }else
                 	$scope.complexType = false;
-                $scope.solutionDetails=null;
-                $scope.showLink=null;
                 $scope.tabChange = 0;
                 $scope.$apply();
             });
@@ -3088,4 +3083,5 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 			 $('#optionshow').hide();
 		 } 	 
 	});
+}
 }
