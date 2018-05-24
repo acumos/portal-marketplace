@@ -20,6 +20,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.23, 24 th May 2018
+============================
+
+* Top Carousel is not being displayed in IE (ACUMOS-920)
+* IST2 - Site Content does not work  -- Important features minus few cosmetics (ACUMOS-901)
+
 Version 1.15.21, 22nd May 2018
 ============================
 * IST2: UUID is  displaying at wrong place(ACUMOS-892)
