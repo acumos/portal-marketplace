@@ -142,6 +142,7 @@ angular
 										    "nameKeyword" :  toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "ownerIds": [	$scope.loginUserID ],
+										    "sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
 										      "page" : $scope.pageNumPrivate,
@@ -218,6 +219,7 @@ angular
 										    "nameKeyword" :  toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "ownerIds": [	$scope.loginUserID ],
+										    "sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
 										      "page" : $scope.pageNumCompany,
@@ -295,6 +297,7 @@ angular
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "ownerIds": [	$scope.loginUserID ],
+										    "sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
 										      "page" : $scope.pageNumPublic,
@@ -364,6 +367,7 @@ angular
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "ownerIds": [	$scope.loginUserID ],
+										    "sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
 										      "page" : $scope.pageNumDelete,

@@ -41,7 +41,6 @@ body, h1, h2, h3, h4, h5, h6, p, .mdl-button{font-family: 'Open Sans', sans-seri
 .signupnav ul li{font-size:12px; line-height:55px; display:inline; text-transform:uppercase; margin:0; }
 .signupnav ul li a{color:#FFF; text-decoration:none;}
 .signupnav ul li:first-child::after{content:"|"; padding:0 17px;}
-.noContent ul li:first-child::after{content:'' !important;}
 
 
 .home-screen{
@@ -64,7 +63,7 @@ position:relative;
 .slide-content .mdl-button.active{background-color:#fc0;  border:2px solid #fc0; color:#000;}
 .slide-content .mdl-button{background-color:transparent; border:2px solid #FFF; color:#FFF; padding:18px 34px; font-size:16px; font-weight:600;}
 .slide-content .slide-text{float:left; width:61%;}
-.slide-content .image-container, .hasClass.initialVal .slide-content .image-container{/* float:left; */ margin:15px 0 0 17px; /* width: 32% */ width: 372px; height: 260px; float:right;}
+.slide-content .image-container, .hasClass.initialVal .slide-content .image-container{/* float:left; */ margin:15px 0 0 17px; /* width: 32% */ max-width: 372px; height: 260px; float:right;}
 .hasClass .slide-content .image-container{margin:15px 0 0 17px; width: 35%;  float:right;}
 .slide-content .image-container img{width:100%;}
  /* discover*/
@@ -211,7 +210,15 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
     width: 120px;
     background-repeat: no-repeat;
 }
-.discover .onboard a:hover{color:#0366d6;}
+.discover .onboard a .discover-description:hover{color:#0366d6;}
+/* banner image left text right */
+.home-screen-lfimg{	    /* background-image: url("../images/banner_bg_large.png"); */
+    background-position: center top; background-repeat: no-repeat; background-color: #681F9F; min-height: 553px; position: relative;	
+}
+.home-screen-lfimg .slide-content .slide-text{float: right; width: 58%;}
+.carousel-item .home-screen-lfimg .slide-content .image-container, .carousel-item .home-screen-lfimg .hasClass.initialVal .slide-content .image-container{    
+	float: left; margin: 15px 17px 0 0px; /* width: 32%; */ max-width: 372px; height: 260px;}
+.home-screen-lfimg .hasClass .slide-content .image-container { margin: 15px 17px 0 0px;  width: 35%;  float: left;}
 /* ---- media query start ----*/
 @media(max-width:2560px){
 .hasClass .discover .community{left: 87px;}
@@ -236,6 +243,25 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .hasClass .discover .desingstudio{right:0px;}
 .hasClass .discover .sdn{right:40px;}
 }
+@media(max-width:1280px){
+	.hasClass .discover, .hasClass.initialVal .discover, .discover{background-size: 40%;}
+	.hasClass .discover{min-height: 495px;}
+	.discover > .marketplace, .hasClass.initialVal .discover > .marketplace{right: 69px;}
+	.discover .desingstudio, .hasClass.initialVal .discover .desingstudio{width: 296px; right: 76px; top: 252px;}
+	.discover .desingstudio .discover-description, .hasClass.initialVal .discover .desingstudio .discover-description{width: 218px;}
+	.discover .sdn, .hasClass.initialVal .discover .sdn{right: 69px; top: 410px; width:350px; }
+	.discover .sdn .discover-description, .hasClass.initialVal .discover .sdn .discover-description{width:270px;}
+	.discover .community, .hasClass.initialVal .discover .community{left:20px;}
+	.discover .onboard, .hasClass.initialVal .discover .onboard{left: 40px; top: 392px;}
+	
+	.hasClass .discover > .marketplace{right: 20px;}
+	.hasClass .discover > .marketplace{width: 369px;}
+	.hasClass .discover .marketplace .discover-description{width: 287px;}
+	.hasClass .discover .desingstudio{right: 19px; top: 218px;}
+	.hasClass .discover .sdn{right: 50px; top: 348px;}
+	.hasClass .discover .community{left: 27px; top: 144px;}
+	.hasClass .discover .onboard{top: 333px;}
+}
 
 @media(max-width:1024px){
 .mdl-layout__header{display:block;}
@@ -245,34 +271,52 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .discover{background-size:40%; width:1000px;}
 .discover .discover-icon{ width: 45px; height: 45px;}
 .discover .discover-description h5{margin: 5px 0 10px 0;}
-.discover > .marketplace, .hasClass.initialVal .discover > .marketplace{width: 349px; right: 0; top:66px;}
-.hasClass .discover > .marketplace{width: 295px; right: 0; top:65px;}
+.discover > .marketplace{right: 19px; width: 350px; top:66px;}
+ .hasClass.initialVal .discover > .marketplace{width: 350px; right: 5px; top:66px;}
+.hasClass .discover > .marketplace{width: 309px; right: 10px; top:65px;}
 
 .discover .marketplace .discover-description { width: 298px;}
-.discover .desingstudio, .hasClass.initialVal .discover .desingstudio{width: 281px; top: 211px;}
-.hasClass .discover .desingstudio{width: 239px; top: 184px;}
+.hasClass .discover .marketplace .discover-description{width: 244px;}
+.discover .marketplace .discover-description, .hasClass.initialVal .discover .marketplace .discover-description{width: 295px;}
+
+.discover .desingstudio{top: 220px; right: 16px; width: 281px;}
+.hasClass.initialVal .discover .desingstudio{width: 281px; top: 211px; right:6px;}
+.hasClass .discover .desingstudio{width: 239px; top: 194px;}
 
 .discover .desingstudio .discover-description {width: 228px;}
-.discover .sdn, .hasClass.initialVal .discover .sdn{right: 0; top: 331px; width: 315px;}
-.hasClass .discover .sdn{right: 0; top: 282px; width: 267px;}
+.hasClass .discover .desingstudio .discover-description{width: 174px;}
+.discover .sdn{right: 18px; top: 347px; width: 315px;}
+.hasClass.initialVal .discover .sdn{right: 6px; top: 335px; width: 315px;}
+.hasClass .discover .sdn{right: 21px; top: 301px; width: 267px;}
+.discover .sdn .discover-description, .hasClass.initialVal .discover .sdn .discover-description{width: 260px;}
 
 .discover .sdn .discover-description {width: 264px;}
-.discover .community, .hasClass.initialVal .discover .community{left: 0px; top: 142px; width: 281px;}
-.hasClass .discover .community{left: 0px; top: 128px; width: 240px;}
+.hasClass .discover .sdn .discover-description{width: 202px;}
+.discover .community{left: 26px; top: 147px; width: 271px;}
+ .hasClass.initialVal .discover .community{left: 16px; top: 142px; width: 271px;}
+.hasClass .discover .community{left: 19px; top: 134px; width: 240px;}
+.discover .community .discover-description, .hasClass.initialVal .discover .community .discover-description{width:216px;}
 
-.discover .community .discover-description{width: 227px;}
-.discover .onboard, .hasClass.initialVal .discover .onboard{left: 0px; top: 316px; width: 339px;}
-.hasClass .discover .onboard{left: 0px; top: 270px; width: 288px;}
+/* .discover .community .discover-description{width: 227px;} */
+.hasClass .discover .community .discover-description{width: 175px;}
+.discover .onboard{left: 30px; top: 332px; width: 329px;}
+.hasClass.initialVal .discover .onboard{left: 16px; top: 321px; width: 329px;}
+.hasClass .discover .onboard{left: 23px; top: 289px; width: 288px;}
+.hasClass .discover .onboard .discover-description{width: 223px;}
+.discover .onboard .discover-description, .hasClass.initialVal .discover .onboard .discover-description{width: 274px;}
+.discover .onboard .discover-description p{width:auto;} 
 
-.discover .onboard .discover-description{width: 284px;}
+/* .discover .onboard .discover-description{width: 284px;} */
 .home-footer ul{padding-right: 55px; margin-bottom: 35px;}
 .home-footer section > div:nth-child(1){width:28%;}
 .home-footer section > div:nth-child(2){width:20%;}
 .home-footer section > div:nth-child(3){width:31%;}
 .home-footer section > div:nth-child(4){width:21%;}
 .hasClass.initialVal .discover, .discover{width:100%;}
-.discover .discover-description{padding: 0 0 0 15px;}
-
+.discover .discover-description{padding: 0 0 0 0px;}
+.hasClass .discover{min-height: 420px;}
+.hasClass.initialVal .discover, .discover{min-height: 453px;}
+.home-screen-lfimg .slide-content .slide-text{width:100%;}
 }
 
 @media(max-width:768px){
@@ -281,9 +325,11 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .acumos-logo{margin-left:24px; padding-right: 20px;}
 .mdl-layout__drawer-button{color:#FFF;}
 .mdl-layout__drawer-button{display:block;}
-.discover, .hasClass .discover{background-image:none; width:auto; padding:0 15px;}
+.discover, .hasClass .discover, .hasClass.initialVal .discover{background-image:none; width:auto; padding:0 15px;}
 .discover h3{margin-bottom:30px;}
-.discover > .marketplace, .discover .desingstudio, .discover .sdn, .discover .community, .discover .onboard, .hasClass .discover > .marketplace, .hasClass .discover .desingstudio, .hasClass .discover .sdn, .hasClass .discover .community, .hasClass .discover .onboard  {position:relative; width: 100%; float: left; top: 0; display:flex; margin-bottom: 10px; }
+.discover > .marketplace, .discover .desingstudio, .discover .sdn, .discover .community, .discover .onboard, .hasClass .discover > .marketplace, .hasClass .discover .desingstudio, .hasClass .discover .sdn, .hasClass .discover .community, .hasClass .discover .onboard,
+.hasClass.initialVal .discover > .marketplace, .hasClass.initialVal .discover .desingstudio, .hasClass.initialVal .discover .sdn, .hasClass.initialVal .discover .community, .hasClass.initialVal .discover .onboard
+  {position:relative; width: 100%; float: left; top: 0; display:flex; margin-bottom: 10px; }
 .discover .marketplace .discover-description, .discover .desingstudio .discover-description, .discover .sdn .discover-description, .discover .community .discover-description, .discover .onboard .discover-description, .discover .onboard .discover-description p{width: auto;} 
 .community.text-right, .onboard.text-right, .discover .onboard .discover-description p {text-align:left;}
 .discover .community .discover-description, .discover .onboard .discover-description{padding: 0 0 0 15px;}
@@ -324,6 +370,10 @@ background-repeat: no-repeat; background-position: 50% 0;  -ms-background-size: 
 .discover-description{width: calc(100% - 45px) !important;}
 .home-footer ul.social-icons{margin-top: 0px;}
 .home-footer ul{margin-bottom: 10px;}
+.discover > .marketplace, .discover .desingstudio, .discover .sdn, .hasClass .discover > .marketplace, .hasClass .discover .desingstudio, .hasClass .discover .sdn, .hasClass.initialVal .discover > .marketplace, .hasClass.initialVal .discover .desingstudio, .hasClass.initialVal .discover .sdn{right:0;}
+.discover .community, .discover .onboard, .hasClass .discover .community, .hasClass .discover .onboard, .hasClass.initialVal .discover .onboard, .hasClass.initialVal .discover .community{left:0;}
+.discover .discover-description, .discover .discover-description, .hasClass.initialVal .discover .discover-description, .hasClass.initialVal .discover .onboard .discover-description, .hasClass.initialVal .discover .community .discover-description{padding: 0 0 0 15px;}
+
 }
 @media(max-width:767px){
 .explore .mdl-grid{padding: 8px 30px;}

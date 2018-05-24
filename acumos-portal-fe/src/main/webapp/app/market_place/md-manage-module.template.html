@@ -142,28 +142,28 @@ limitations under the License.
 					<div
 						class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--3-col-phone text-right">
 						<div class="grid-control-btn-container">
-							<!-- <div class="marketplace-btn-container">
-								<button id="demo-menu-lower-right2"
-									class="mdl-button mdl-js-button btn-sort bdr">
-									<span class="hide-xs"><span class="txtspan1">Sort
-											By</span> - All</span> <span class="hide-sm hide-md hide-lg hide-xl"><i
-										class="material-icons">sort_by_alpha</i></span> <i
-										class="material-icons">keyboard_arrow_down</i>
-								</button>
-								<ul
-									class="mdl-menu mdl-menu--bottom-left mdl-js-menu btn-sorlist1"
-									for="demo-menu-lower-right2">
-									<li class="mdl-menu__item" ng-repeat="action in actions"
-										ng-click="filterChange(action,'sortBy')">{{action.name}}</li>
-								</ul>
+				    <div class="marketplace-btn-container">
+                            <!--    <button id="demo-menu-lower-right2"
+                                    class="mdl-button mdl-js-button btn-sort bdr">
+                                    <span class="hide-xs"><span class="txtspan1">Sort
+                                            By</span> - All</span> <span class="hide-sm hide-md hide-lg hide-xl"><i
+                                        class="material-icons">sort_by_alpha</i></span> <i
+                                        class="material-icons">keyboard_arrow_down</i>
+                                </button>
+                                <ul
+                                    class="mdl-menu mdl-menu--bottom-left mdl-js-menu btn-sorlist1"
+                                    for="demo-menu-lower-right2">
+                                    <li class="mdl-menu__item" ng-repeat="action in actions"
+                                        ng-click="filterChange(action,'sortBy')">{{action.name}}</li>
+                                </ul> -->
 
-							</div> -->
+                      </div>
 
-							<div class="select-control">
-								<md-select ng-model="action.name" placeholder="Sort By - All">  <!-- md-on-open="loadUsers()" -->
-								<md-option  ng-repeat="action in actions" ng-click="filterChange(action,'sortBy')">{{action.name}}</md-option>
-								</md-select>
-							</div>
+                            <div class="select-control">
+                                <md-select ng-model="action" placeholder="Sort By - All" class="btn-sort bdr mdl-button md-no-underline">  <!-- md-on-open="loadUsers()" -->
+                                <md-option  ng-repeat="action in actions" ng-click="filterChange(action,'sortBy')" ng-value="action.name">{{action.name}}</md-option>
+                                </md-select>
+                            </div>
 
 						<!-- 	<div class="marketplace-btn-container">
 								<button id="demo-menu-lower-right3"
