@@ -26,6 +26,23 @@
 		<!-- Supplied by Jenkins -->
 		<docker.push.registry>${env.NEXUS3_PUSH_REGISTRY}</docker.push.registry>
 	</properties>
+	
+	<repositories>
+        <repository>
+          <id>releases</id>
+          <name>releases</name>
+          <url>https://nexus.acumos.org/content/repositories/releases/</url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+	
+	
 	<!-- Some dependencies are specific to Acumos, but this POM defines no repositories 
 		section. The Jenkins server specifies Acumos repositories. Developers should 
 		ensure their ~/.m2/settings.xml file has the following URLs in both the repositories 
