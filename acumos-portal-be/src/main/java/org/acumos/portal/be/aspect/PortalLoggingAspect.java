@@ -56,7 +56,7 @@ public class PortalLoggingAspect  {
 				org.acumos.portal.be.common.JsonRequest<User> user = (org.acumos.portal.be.common.JsonRequest<User>) signatureArg;
 				String username = user.getBody().getUsername();
 				MDC.put("user", username);
-				MDC.put("contextName", "CognitaONM");
+				MDC.put("contextName", "Acumos");
 				log.info(EELFLoggerDelegate.securityLogger, "User Logging in");
 				MDC.remove("user");
 				MDC.remove("contextName");				
@@ -73,7 +73,7 @@ public class PortalLoggingAspect  {
 				org.acumos.portal.be.common.JsonRequest<User> user = (org.acumos.portal.be.common.JsonRequest<User>) signatureArg;
 				String username = user.getBody().getUsername();
 				MDC.put("user", username);
-				MDC.put("contextName", "CognitaONM");												
+				MDC.put("contextName", "Acumos");												
 			}
 		}		
 		if(result instanceof org.acumos.portal.be.transport.ResponseVO) {
