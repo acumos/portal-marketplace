@@ -32,6 +32,8 @@ DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','
 
 function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector) {
 	componentHandler.upgradeAllRegistered();
+	$scope.is_ie = false || !!document.documentMode;
+
 	$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
 	if($scope.userDetails === null){
 		var modalService = $injector.get('$mdDialog'); 
@@ -601,35 +603,35 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 return type.name;
             },
             ports: function(nid, ntype, requirements, capabilities, extras) {
-            if(extras != undefined){
-	                return requirements.map((req,i) => ({
-	                    nodeId: nid,
-	                    portname: req.capability.id+'+'+JSON.stringify(removeMsgNames(req.capability.name))+'+req'+i,
-	                    type: is_wildcard_type(req.capability.name) ? null : JSON.stringify(removeMsgNames(req.capability.name)),
-	                    fullType: req.capability.name,
-	                    originalType: req.capability.name,
-	                    shortname: req.capability.id,
-	                    bounds: outbounds
-	                })).concat(
-	                    capabilities.map((cap,i) => ({
-	                        nodeId: nid,
-	                        portname: cap.target.id+'+'+JSON.stringify(removeMsgNames(cap.target.name))+'+cap'+i,//
-	                        type: is_wildcard_type(cap.target.name) ? null : JSON.stringify(removeMsgNames(cap.target.name)),
-	                        fullType: cap.target.name,
-	                        originalType: cap.target.name,
-	                        shortname: cap.target.id,
-	                        bounds: inbounds
-	                    }))).concat(
-	                    		extras.map((ext,i) => ({
-	                    			nodeId: nid,
-	                    			portname: 'xtra'+i,
-	                    			type: is_wildcard_type(ext) ? null : ext,
-	                    			originalType: ext,
-	                    			bounds: xtrabounds
-	                    		})));
+            if(ntype === "DataBroker"){
+            	return requirements.map(function(req,i){ return {
+                    nodeId: nid,
+                    portname: req.capability.id+'+'+JSON.stringify(removeMsgNames(req.capability.name))+'+req'+i,
+                    type: is_wildcard_type(req.capability.name) ? null : JSON.stringify(removeMsgNames(req.capability.name)),
+                    fullType: req.capability.name,
+                    originalType: req.capability.name,
+                    shortname: req.capability.id,
+                    bounds: outbounds
+                };}).concat(
+                    capabilities.map(function(cap,i) { return {
+                        nodeId: nid,
+                        portname: cap.target.id+'+'+JSON.stringify(removeMsgNames(cap.target.name))+'+cap'+i,//
+                        type: is_wildcard_type(cap.target.name) ? null : JSON.stringify(removeMsgNames(cap.target.name)),
+                        fullType: cap.target.name,
+                        originalType: cap.target.name,
+                        shortname: cap.target.id,
+                        bounds: inbounds
+                    };})).concat(
+                    		extras.map(function(ext,i){ return {
+                    			nodeId: nid,
+                    			portname: 'xtra'+i,
+                    			type: is_wildcard_type(ext) ? null : ext,
+                    			originalType: ext,
+                    			bounds: xtrabounds
+                    		};}));
 	                    
             	} else {
-            		return requirements.map((req,i) => ({
+            		return requirements.map(function(req,i){ return {
 	                    nodeId: nid,
 	                    portname: req.capability.id+'+'+JSON.stringify(removeMsgNames(req.capability.name))+'+req'+i,
 	                    type: is_wildcard_type(req.capability.name) ? null : JSON.stringify(removeMsgNames(req.capability.name)),
@@ -637,8 +639,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                    originalType: req.capability.name,
 	                    shortname: req.capability.id,
 	                    bounds: outbounds
-	                })).concat(
-	                    capabilities.map((cap,i) => ({
+	                };}).concat(
+	                    capabilities.map(function(cap,i) { return {
 	                        nodeId: nid,
 	                        portname: cap.target.id+'+'+JSON.stringify(removeMsgNames(cap.target.name))+'+cap'+i,//
 	                        type: is_wildcard_type(cap.target.name) ? null : JSON.stringify(removeMsgNames(cap.target.name)),
@@ -646,7 +648,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                        originalType: cap.target.name,
 	                        shortname: cap.target.id,
 	                        bounds: inbounds
-	                    })));
+	                    };}));
             	}
             }
         };
@@ -716,7 +718,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         xtrabounds = [-Math.PI/2, -Math.PI/2]; 
     }
     function update_ports() {
-        var port_flat = dc_graph.flat_group.make(_ports, d => d.nodeId + '/' + d.portname);
+        var port_flat = dc_graph.flat_group.make(_ports, function(d) { return (d.nodeId + '/' + d.portname) });
 
         _diagram
             .portDimension(port_flat.dimension).portGroup(port_flat.group);
@@ -1028,7 +1030,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 id: 'top',
                 flexDirection: vertical ? 'column' : 'row',
                 justifyContent: 'space-around',
-                sort: (a,b) => a.node.order - b.node.order
+                sort: function(a,b) { return a.node.order - b.node.order}
             },
             {
                 order: 1,
@@ -1065,15 +1067,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             minbounds = mlbounds;
             moutbounds = mrbounds;
         }
-        var ports = lnodes.map(n => ({
+        var ports = lnodes.map(function(n) { return {
             nodeId: n.id,
             side: 'out',
             bounds: moutbounds
-        })).concat(rnodes.map(n => ({
+        };}).concat(rnodes.map(function(n){ return {
             nodeId: n.id,
             side: 'in',
             bounds: minbounds
-        })));
+        };}));
         var nodes = parentNodes.concat(lnodes, rnodes);
         var edges=[];
         var sourcenameId, targetnameId;
@@ -1092,9 +1094,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
         });
 
-        var node_flat = dc_graph.flat_group.make(nodes, n => n.id),
-            edge_flat = dc_graph.flat_group.make(edges, e => e.sourcename),
-            port_flat = dc_graph.flat_group.make(ports, p => p.nodeId + '/' + p.side);
+        var node_flat = dc_graph.flat_group.make(nodes, function(n){return n.id}),
+    		edge_flat = dc_graph.flat_group.make(edges, function(e){ return e.sourcename}),
+    		port_flat = dc_graph.flat_group.make(ports, function(p){return p.nodeId + '/' + p.side});
 
         var sdRegex = /^(source|dest)/;
         var layout = dc_graph.flexbox_layout()
@@ -1126,19 +1128,19 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .nodeDimension(node_flat.dimension).nodeGroup(node_flat.group)
             .edgeDimension(edge_flat.dimension).edgeGroup(edge_flat.group)
             .portDimension(port_flat.dimension).portGroup(port_flat.group)
-            .nodeShape(n => layout.keyToAddress()(mapper.nodeKey()(n)).length < 2 ? 'nothing' : 'rounded-rect')
+            .nodeShape(function(n) {return layout.keyToAddress()(mapper.nodeKey()(n)).length < 2 ? 'nothing' : 'rounded-rect'})
             .nodeStrokeWidth(0)
             .nodeTitle(null)
             .fitStrategy('zoom')
-            .nodeLabelAlignment(n => /^source/.test(n.key) ? 'right' : 'left')
+            .nodeLabelAlignment(function(n){return /^source/.test(n.key) ? 'right' : 'left'})
             .nodeLabelPadding({x: 10, y: 0})
             .edgesInFront(true)
             .edgeSourcePortName('out')
             .edgeTargetPortName('in')
             .edgeLabel(null)
-            .portNodeKey(p => p.value.nodeId)
-            .portName(p => p.value.side)
-            .portBounds(p => p.value.bounds)
+            .portNodeKey(function(p){return p.value.nodeId})
+            .portName(function(p){ return p.value.side})
+            .portBounds(function(p){return p.value.bounds})
             .portElastic(false);
 
         mapper.child('validate', dc_graph.validate('data mapper'));
@@ -1316,7 +1318,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
   
     // used for copying the messages into "any" port
     var wildcardPorts = dc_graph.wildcard_ports({
-        get_type: p => p.orig.value.type,
+        get_type: function(p){return p.orig.value.type},
         set_type: function(p1, p2) {
             if(p2) {
                 p1.orig.value.type = p2.orig.value.type;
@@ -1327,7 +1329,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	p1.orig.value.fullType = p1.orig.value.originalType;
             }
         },
-        is_wild: p => is_wildcard_type(p.orig.value.originalType),
+        is_wild: function(p) {return is_wildcard_type(p.orig.value.originalType)},
         update_ports: update_ports
     });
 
@@ -1349,7 +1351,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .edgeSource(function(e) { return e.value.sourceNodeId; })
             .edgeTarget(function(e) { return e.value.targetNodeId; })
             .edgeArrowhead(null)
-            .edgeLabel(e => e.value.linkName || '')
+            .edgeLabel(function(e){return e.value.linkName || ''})
             .nodePadding(20)
             .nodeLabel(function(n) { return n.value.name; })
             .nodeLabelPadding({x: 5, y: 0})
@@ -1408,11 +1410,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             })
             .nodeFixed(function(n) { return n.value.fixedPos; })
             .edgeStroke('#777')
-            .portNodeKey(p => p.value.nodeId)
-            .portName(p => p.value.portname)
-            .portBounds(p => p.value.bounds)
-            .edgeSourcePortName(e => e.value.sourceNodeRequirement)
-            .edgeTargetPortName(e => e.value.targetNodeCapability);
+            .portNodeKey(function(p){return p.value.nodeId})
+            .portName(function(p){return p.value.portname})
+            .portBounds(function(p) {return p.value.bounds})
+            .edgeSourcePortName(function(e) {return e.value.sourceNodeRequirement})
+            .edgeTargetPortName(function(e){return e.value.targetNodeCapability});
 
         _diagram.child('validate', dc_graph.validate('design canvas'));
         _diagram.child('keyboard', dc_graph.keyboard().disableFocus(true));
@@ -1420,21 +1422,21 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('place-ports', dc_graph.place_ports());
 
         var symbolPorts = dc_graph.symbol_port_style()
-            .portSymbol(p => p.orig.value.type)
-            .portColor(p => p.orig.value.type)
+            .portSymbol(function(p){return p.orig.value.type})
+            .portColor(function(p){return p.orig.value.type})
             .colorScale(d3.scale.ordinal().range(
                 // colorbrewer qualitative scale
                 d3.shuffle(
                     ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#eebb22','#a65628','#f781bf'] // 8-class
                     
                 )))
-            .portBackgroundFill(p => p.value.bounds === inbounds ? 'white' : 'black');
+            .portBackgroundFill(function(p){return p.value.bounds === inbounds ? 'white' : 'black'});
         
         var letterPorts = dc_graph.symbol_port_style()
     	.content(dc_graph.symbol_port_style.content.letter())  
         .outlineStrokeWidth(1)  
         .symbol('S')  
-        .symbolScale(x => x)  
+        .symbolScale(function(x){return x})  
         .color('black')  
         .colorScale(null); 
         
@@ -1448,11 +1450,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var portMatcher = dc_graph.match_ports(_diagram, symbolPorts);
 
         portMatcher.isValid(
-            (sourcePort, targetPort) =>
-                wildcardPorts.isValid(sourcePort, targetPort) &&
-                sourcePort.orig.value.bounds !== xtrabounds &&  
-                targetPort.orig.value.bounds !== xtrabounds &&  
-                sourcePort.orig.value.bounds !== targetPort.orig.value.bounds);
+        		function(sourcePort, targetPort) {
+                    return wildcardPorts.isValid(sourcePort, targetPort) &&
+                    sourcePort.orig.value.bounds !== xtrabounds &&  
+                    targetPort.orig.value.bounds !== xtrabounds &&  
+                    sourcePort.orig.value.bounds !== targetPort.orig.value.bounds});
 
         _drawGraphs = dc_graph.draw_graphs({
             idTag: 'nodeId',
@@ -1674,7 +1676,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('label-edges', label_edges);
 
         var select_ports = dc_graph.select_ports({
-            outlineFill: p => p.value.bounds === inbounds ? '#cfd' : '#8db',
+            outlineFill: function(p) {return p.value.bounds === inbounds ? '#cfd' : '#8db'},
             outlineStroke: '#4a2',
             outlineStrokeWidth: 2
         }).multipleSelect(false);
@@ -1895,7 +1897,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         // after the back-end has accepted the
                         // deletion, we can remove unneeded
                         // ports
-                        _ports = _ports.filter(p => p.nodeId !== nodes[0]);
+                        _ports = _ports.filter(function(p){return p.nodeId !== nodes[0]});
                         update_ports();
                         _ports.forEach(function(p){
                         	if(p.type == "script"){
@@ -1949,7 +1951,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         // after the back-end has accepted the
                         // deletion, we can remove unneeded
                         // ports
-                        _ports = _ports.filter(p => p.edges !== edges[0]);
+                        _ports = _ports.filter(function(p) {return p.edges !== edges[0]});
                         update_ports();
                         wildcardPorts.resetTypes(_diagram, edges);
                         _ports.forEach(function(port){
@@ -2323,8 +2325,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     
                 };
             }).error(function(response){
-            	$scope.msg = "Could not load the models";
-            	$scope.showpopup();
+            	$scope.palette.categories=[];
             		
             });
     }
@@ -2333,9 +2334,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function load_initial_solution() {
         var catsol;
         if(options.solutionId)
-            catsol = _catalog.models().find(sol => sol.solutionId === options.solutionId);
+            catsol = _catalog.models().find(function(sol){return sol.solutionId === options.solutionId});
         else if(options.solutionName)
-            catsol = _catalog.models().find(sol => sol.solutionName === options.solutionName);
+            catsol = _catalog.models().find(function(sol){return sol.solutionName === options.solutionName});
         if(catsol)
             $scope.loadSolution(catsol);
     }
@@ -2586,8 +2587,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     })
                 })
                 .error(function(response){
-                	$scope.msg = "Could not load the composite solutions";
-                	$scope.showpopup();
+                	$scope.publicCS = [];
                 });
         });
 
@@ -3085,3 +3085,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	});
 }
 }
+
+
+

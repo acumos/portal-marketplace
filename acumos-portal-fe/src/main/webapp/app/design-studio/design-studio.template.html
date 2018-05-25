@@ -30,7 +30,27 @@ limitations under the License.
 							</div>							
 						</div>						
 					</section>
-		<div class="ds-outer-container">					
+
+	<div ng-show="is_ie" class="page-content">
+		<div class="error-wrapper" style="position:relative !important">
+			<div class="error-wrapper-inner text-center">
+				<div class="error-acumos-logo2-DS"></div>
+				<h1 class="error-heading1-DS">We will be back soon !</h1>
+				<p class="error-m-para2">
+					We&apos;re sorry. The Design Studio is not yet available for IE
+					Browsers. Please use Chrome, Firefox or Safari 
+					<span class="author">--- Acumos Developer Challenge Team</span>
+				</p>
+				<div class="error-acumos-maintenance-img-DS">
+					<img src="images/error-page/under_maintainance.png">
+				</div>
+				<div class="error-wrapper-inner-bottom-DS"></div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="!is_ie" class="page-content ds-outer-container">
+							
 			<div flex="20" class="bdr-right posrel ds-left-section" ng-class="left?'ds-left-width':''">
 			<div id="content-left">					
 				<div class="ds-section" id="top-content-left">
@@ -645,7 +665,7 @@ limitations under the License.
 								</md-dialog>
 							</div>
 <!-- Saving old version popup confirmation Modal box end -->
-</div>
+
 <!--Deploy To Cloud Modal -->
 	<div class="md-dialog-container" id="deployCloud" style="height: 0;">
 		<md-dialog aria-label="Mango (Fruit)"
