@@ -394,7 +394,7 @@ angular.module('AcumosApp')
         };
         
         this.deleteComment = function(threadId, commentId){
-        	return $http.post(urlComment + '/delete/' + threadId + '/comment/' + commentId);
+        	return $http.post(urlComment + '/delete/' + threadId + '/' + commentId);
         };
         
         this.getComment = function(solutionId, revisionId, dataObj){
