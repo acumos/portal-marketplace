@@ -608,13 +608,13 @@ limitations under the License.
 							<div class="discussion-outer-container" >
 								<div class="md-discussion-container">
 									<div class="md-discussion-links-container">
-										<a>Newest</a> <span>|</span> <a>Older</a> <span>|</span> <a>Liked</a>
+										<a ng-click="commentNewest=true">Newest</a> <span>|</span> <a ng-click="commentNewest=false">Older</a> <span>|</span> <a>Liked</a>
 									</div>
 								</div>
 							</div>
 							<div class="discussion-outer-container">
 								<div class="discussion-container discussion-container2"
-									ng-repeat="(key, comment) in commentList">
+									ng-repeat="(key, comment) in commentList | orderBy:'+created':commentNewest">
 									<div>
 										<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!comment.image"
 											title="user">
@@ -629,17 +629,19 @@ limitations under the License.
 												class="text-small">{{comment.creationDate}}</span>
 											<button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="edit = true">Edit</button>
+												ng-click="showEditComment = !showEditComment" ng-hide="loginUserID != comment.userId"
+												>Edit</button>
 											<button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deleteComment(comment)">Delete</button>
+												ng-click="deleteComment(comment)" ng-hide="loginUserID != comment.userId"
+												>Delete</button>
 										</div>
-										<p ng-hide="edit">{{comment.text}}</p>
+										<p ng-hide="showEditComment">{{comment.text}}</p>
 										<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "comment.text"
-											ng-show="edit" rows="3" id="comment">{{comment.text}}</textarea>
+											ng-show="showEditComment" rows="3" id="comment">{{comment.text}}</textarea>
 										<button
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-											ng-show="edit" ng-click="edit = false; editComment(comment)">Post</button>
+											ng-show="showEditComment" ng-click="edit = false; editComment(comment)">Post</button>
 										<div>
 											<button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
@@ -647,7 +649,7 @@ limitations under the License.
 											<div class="flex1 discussionformbox" ng-show="replytoComment">
 												<div class="mdl-textfield mdl-js-textfield">
 													<input class="mdl-textfield__input" type="text"
-														ng-model="newcomment[key].text" id="sample3">
+														ng-model="newcomment[key].text">
 												</div>
 												<button
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
@@ -655,7 +657,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="discussion"
-											ng-repeat="(key, reply) in comment.replies">
+											ng-repeat="(key, reply) in comment.replies | orderBy:'+created'">
 											<!-- <div class="flex1 discussionformbox">
 														<div class="mdl-textfield mdl-js-textfield">
 															<input  class="mdl-textfield__input" type="text" ng-model="newcomment[key].text"
@@ -667,8 +669,11 @@ limitations under the License.
 															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
 													</div> -->
 											<div>
-												<img src="images/userprofile/user-profile-black.png" alt=""
-													title="user">
+											<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!reply.image"
+											title="user">
+													<img class="userimg" ng-show="reply.image"
+														ng-src="data:image/PNG;base64,{{reply.image}}"
+														title="{{reply.name}}" />
 											</div>
 											<div class="discussion-details">
 
@@ -677,17 +682,19 @@ limitations under the License.
 														class="text-small">{{reply.creationDate}}</span>
 													<button
 														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-														ng-click="edit = true">Edit</button>
+														ng-click="showEditReply = !showEditReply" ng-hide="loginUserID != reply.userId"
+														>Edit</button>
 													<button
 														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-														ng-click="deleteComment(comment.id)">Delete</button>
+														ng-click="deleteComment(reply)" ng-hide="loginUserID != reply.userId"
+														>Delete</button>
 												</div>
-												<p ng-hide="edit">{{reply.text}}</p>
+												<p ng-hide="showEditReply">{{reply.text}}</p>
 												<textarea class="mdl-textfield__input md-txtarea"
-													type="text" ng-show="edit" rows="1" id="comment">{{reply.text}}</textarea>
+													type="text" ng-show="showEditReply" rows="1" id="comment" ng-model="reply.text">{{reply.text}}</textarea>
 												<button
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-													ng-show="edit" ng-click="edit = false; editComment(reply)">Post</button>
+													ng-show="showEditReply" ng-click="edit = false; editComment(reply)">Post</button>
 												<!-- <button ng-if="reply.replies.length > 0"
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button> -->
 
@@ -695,7 +702,7 @@ limitations under the License.
 													ng-show="replytoComment[key]">
 													<div class="mdl-textfield mdl-js-textfield">
 														<input class="mdl-textfield__input" type="text"
-															ng-model="newcomment[key].text" id="sample3">
+															ng-model="newcomment[key].text" id="newcomment-{{key}}">
 													</div>
 													<button
 														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
