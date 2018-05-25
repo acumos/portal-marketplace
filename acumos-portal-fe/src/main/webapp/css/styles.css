@@ -2442,7 +2442,8 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.header-controls .search-button {top: 10px;} 
     .header-ddl > .material-icons.mdl-badge {top: 4px;}
     .admin-button-row1 > div:last-child {display: flex;align-items:center;}
-    .fed-container1 {padding-top:0;}   
+    .fed-container1 {padding-top:0;}
+    .product-image img {max-width: 200px !important; max-height: 150px !important;}   
 }
 
 /* Chrome 29+ */
