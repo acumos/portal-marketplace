@@ -1573,7 +1573,9 @@ position:relative;
 #manage-models .ql-editor p{word-break: break-word; word-wrap: break-word;  overflow-wrap: break-word;
 -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto;}
 .popovers.model-description .ql-container.ql-snow .ql-editor h2{color: initial;}
-/* editor changes end*/
+.popovers .ql-container.ql-snow .ql-editor h1, .popovers .ql-container.ql-snow .ql-editor h2, .popovers .ql-container.ql-snow .ql-editor h3,
+.popovers .ql-container.ql-snow .ql-editor h1 a, .popovers .ql-container.ql-snow .ql-editor h2 a, .popovers .ql-container.ql-snow .ql-editor h3 a{font-weight:600;}
+/* editor changes end */
 
 /*---- media query start ----------*/
 @media(max-width:2560px){
