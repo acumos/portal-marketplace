@@ -763,7 +763,9 @@ angular
 							$scope.newcomment = {};
 						}
 						
-						
+						$scope.editComment = false;
+						$scope.editReply = false;
+						$scope.commentNewest = false;
 						$scope.getComment = function() {
 							if (localStorage.getItem("userDetail")) {
 								$scope.loginUserID = JSON.parse(localStorage
@@ -776,14 +778,21 @@ angular
 										  },
 										};
 							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
+								$scope.totalCommentCount = response.data.response_body.content.length;
 								$scope.commentList = [];
+								//list of indexes to go through after initial read, only for reply comments(i.e. they have a parentId not null)
+								$scope.replyList = [];
 								angular.forEach(response.data.response_body.content,function(value,key) {
 									if(response.data.response_body.content[key].parentId == null){
+										var commentIndex = key-$scope.replyList.length; //takes into account offset
+										
 										$scope.commentList.push({
-											creationDate : response.data.response_body.content[key].creationDate,
+											created : response.data.response_body.content[key].created,
 											text : response.data.response_body.content[key].text,
 											commentId : response.data.response_body.content[key].commentId,
-											threadId : response.data.response_body.content[key].threadId
+											threadId : response.data.response_body.content[key].threadId,
+											userId : response.data.response_body.content[key].userId,
+											replies: []
 										});
 						
 										var userObject = {
@@ -791,13 +800,45 @@ angular
 													  		    "userId": value.userId
 												  					}};
 										apiService.getUserAccountDetails(userObject).then(function(userDetail){
-											console.log(userDetail);
-												$scope.commentList[key].name = userDetail.data.response_body.loginName
+											console.log("User,", userDetail);
+												$scope.commentList[commentIndex].name = userDetail.data.response_body.loginName;
+												$scope.commentList[commentIndex].firstName = userDetail.data.response_body.firstName;
+												$scope.commentList[commentIndex].lastName = userDetail.data.response_body.lastName;
 									    });
 										apiService.getUserProfileImage(value.userId).then(function(userImage){
-											console.log(userImage);
-												$scope.commentList[key].image = userImage.data.response_body;
+												$scope.commentList[commentIndex].image = userImage.data.response_body;
 										});
+									}
+									else {//it is a reply to a comment(has a parent-id)
+										$scope.replyList.push(key);
+									}
+								});
+								//go through each comment that is a reply to a base comment(i.e. comments with parentId != null)
+								//this comes after initial population so all comments with no parent id(base comments) will be in commentList
+								//, just need to push to replies list
+								angular.forEach($scope.replyList, function(value,key) {
+									var commentReply = response.data.response_body.content[value];
+									
+									var userObject = {
+									  "request_body": {
+										  		    "userId": commentReply.userId
+									  					}};
+									apiService.getUserAccountDetails(userObject).then(function(userDetail){
+										commentReply.name = userDetail.data.response_body.loginName;
+										commentReply.firstName = userDetail.data.response_body.firstName;
+										commentReply.lastName = userDetail.data.response_body.lastName;
+								    });
+									apiService.getUserProfileImage(commentReply.userId).then(function(userImage){
+										commentReply.image = userImage.data.response_body;
+									});
+									
+									//loops through all current comments to find the proper parent comment to add onto its replies
+									for(var commentIndex = 0; commentIndex < $scope.commentList.length; commentIndex++) {
+										if($scope.commentList[commentIndex].commentId == commentReply.parentId) {
+											$scope.commentList[commentIndex].replies.push(commentReply);
+											//found the right comment, so it should break from loop
+											break;
+										}
 									}
 								});
 							});
@@ -810,6 +851,7 @@ angular
 										    "text": comment.text,
 										    "commentId": comment.commentId,
 										    "threadId": comment.threadId,
+										    "parentId": comment.parentId,
 										    "url": $scope.solutionId,
 										    "userId": $scope.loginUserID
 										  },

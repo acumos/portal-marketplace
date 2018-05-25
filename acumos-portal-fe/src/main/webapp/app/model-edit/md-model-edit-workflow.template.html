@@ -3682,60 +3682,45 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td data-label="Comment">Lipsum.pro offers a faster and
-											easier way for designer to generate.</td>
-										<td data-label="Commenter">John Smith</td>
-										<td data-label="Date">1 min ago</td>
+									<tr ng-repeat="(key, comment) in commentList | orderBy:'+created':commentNewest">
+										<td data-label="Comment" >{{comment.text}}</td>
+										<td data-label="Commenter">{{comment.name}}</td>
+										<td data-label="Date">{{comment.created | date:'yyyy-MM-dd'}}</td>
 										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
-													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
-													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
-									</tr>
-									<tr>
-										<td data-label="Comment">Lipsum.pro offers a faster and
-											easier way for designer to generate.</td>
-										<td data-label="Commenter">John Smith</td>
-										<td data-label="Date">1 min ago</td>
-										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
-													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
-													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
-									</tr>
-									<tr>
-										<td data-label="Comment">Lipsum.pro offers a faster and
-											easier way for designer to generate.</td>
-										<td data-label="Commenter">John Smith</td>
-										<td data-label="Date">1 min ago</td>
-										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
-													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
-													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
-									</tr>
-									<tr>
-										<td data-label="Comment">Lipsum.pro offers a faster and
-											easier way for designer to generate.</td>
-										<td data-label="Commenter">John Smith</td>
-										<td data-label="Date">1 min ago</td>
-										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
-													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
-													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
-									</tr>
-									<tr>
-										<td data-label="Comment">Lipsum.pro offers a faster and
-											easier way for designer to generate.</td>
-										<td data-label="Commenter">John Smith</td>
-										<td data-label="Date">1 min ago</td>
-										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="Reply" title="Reply" /></a></i> <i><a><img
-													src="images/edit.png" alt="Edit" title="Edit" /></a></i> <i><a><img
-													src="images/delete.png" alt="Delete" title="Delete" /></a></i></td>
+													src="images/reply4.png" alt="Reply" title="Reply" ng-click="setReply(comment);"/></a></i> <i><a><img
+													src="images/edit.png" alt="Edit" title="Edit" ng-hide="loginUserId[1] != comment.userId" ng-click="setEdit(comment)"/></a></i> <i><a><img
+													src="images/delete.png" alt="Delete" title="Delete" ng-hide="loginUserId[1] != comment.userId" ng-click="deleteComment(comment)"/></a></i></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-
+						<div class="discussion-add-comment" ng-hide="showPostReply == false">
+							<label class="md-lbl2">Reply to Comment</label>
+							<div class="flex1">
+								<div
+									class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
+									<textarea class="mdl-textfield__input md-txtarea" type="text"
+										rows="3" id="replyComment" ng-model="replyCommentText"></textarea>
+								</div>
+							</div>
+							<button
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+								ng-click="postReply()" alt="Post Reply" title="Post Reply">Reply to Comment</button>
+						</div>
+						
+						<div class="discussion-add-comment" ng-hide="showEditComment == false">
+							<label class="md-lbl2">Edit Comment</label>
+							<div class="flex1">
+								<div
+									class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
+									<textarea class="mdl-textfield__input md-txtarea" type="text"
+										rows="3" id="editedComment" ng-model="editedCommentText"></textarea>
+								</div>
+							</div>
+							<button
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+								ng-click="editComment()" alt="Edit Comment" title="Edit Comment">Edit Comment</button>
+						</div>
 					</div>
 					<!-- comments end -->
 					<!-- delete start -->
