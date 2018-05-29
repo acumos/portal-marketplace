@@ -23,24 +23,16 @@ package org.acumos.portal.be.docker.cmd;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.UUID;
+import java.lang.invoke.MethodHandles;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.portal.be.util.EELFLoggerDelegate;
-import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.springframework.util.FileSystemUtils;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerException;
@@ -48,10 +40,12 @@ import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 
 /**
- * This command removes specified Docker container(s).
+ * This command saves specified Docker image(s).
  */
 public class SaveImageCommand extends DockerCommand
 {
+	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(MethodHandles.lookup().lookupClass());
+
 	private final String imageName;
 
 	private final String imageTag;
@@ -122,29 +116,38 @@ public class SaveImageCommand extends DockerCommand
 		final DockerClient client = getClient();
 		try
 		{
-			logger.info(String.format("Started save image '%s' ... ", imageName + " " + imageTag));
+			logger.info("execute: start save of image:tag {}:{}", imageName, imageTag);
+			final InputStream input = client.saveImageCmd(imageName + ":" + imageTag).exec();
 			final OutputStream output = new FileOutputStream(new File(destination , filename));
-			IOUtils.copy(client.saveImageCmd(imageName + ":" + imageTag).exec(), output);
+			long bytes = IOUtils.copyLarge(input, output);
+			IOUtils.closeQuietly(input);
 			IOUtils.closeQuietly(output);
-			logger.info("Finished save image " + imageName + " " + imageTag);
+			logger.info("execute: copied {} bytes of image:tag {}:{}", bytes, imageName, imageTag);
 		} catch (NotFoundException e)
 		{
 			if (!ignoreIfNotFound)
 			{
-				logger.error(String.format("image '%s' not found ", imageName + " " + imageTag));
+				logger.error(String.format("execute: image:tag '%s' not found ", imageName + ":" + imageTag), e);
 				throw e;
 			} else
 			{
-				logger.info(String.format("image '%s' not found, but skipping this error is turned on, let's continue ... ", imageName + " " + imageTag));
+				logger.warn(String.format("execute: image:tag '%s' not found, but skipping this error is turned on", imageName + ":" + imageTag));
 			}
 		} catch (IOException e)
 		{
-			logger.error(String.format("Error to save '%s' ", imageName + " " + imageTag) + " " + e.getLocalizedMessage());
-			throw new DockerException(String.format("Error to save '%s' ", imageName + " " + imageTag) + " " + e.getLocalizedMessage(),
-					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
+			final String msg = String.format("execute failed on image:tag '%s'", imageName + ":" + imageTag);
+			logger.error(msg, e);
+			throw new DockerException(msg, org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR, e);
 		}
 	}
 
+	/**
+	 * Reads the docker image to memory
+	 * 
+	 * @return input stream connected to the in-memory copy
+	 * @throws DockerException
+	 *             In case of failure
+	 */
 	public InputStream getDockerImageStream() throws DockerException {
 		InputStream inputStream = null;
 		if (imageName == null || imageName.isEmpty())
@@ -154,41 +157,58 @@ public class SaveImageCommand extends DockerCommand
 		final DockerClient client = getClient();
 		try
 		{
-			logger.info(String.format("Started save image '%s' ... ", imageName));
-			//inputStream =  client.saveImageCmd(imageName).exec();
+			logger.info("getDockerImageStream.1: save image {}", imageName);
+			final InputStream input = client.saveImageCmd(imageName).exec();
 			final ByteArrayOutputStream output = new ByteArrayOutputStream();
-			//final ByteArrayOutputStream output = new FileOutputStream(new File("/acumosWebOnboarding/" , "dockerImage.tar"));
-			IOUtils.copy(client.saveImageCmd(imageName).exec(), output);
-			inputStream = new ByteArrayInputStream(output.toByteArray());
-			
+			long bytes = IOUtils.copyLarge(input, output);
+			IOUtils.closeQuietly(input);
 			IOUtils.closeQuietly(output);
-			
-			logger.info("Finished save image " + imageName );
+			inputStream = new ByteArrayInputStream(output.toByteArray());
+			logger.info("getDockerImageStream.1: save copied {} bytes of image {}", bytes, imageName);
 		} catch (NotFoundException e)
 		{
 			if (!ignoreIfNotFound)
 			{
-				logger.error(String.format("image '%s' not found ", imageName + " " + imageTag));
+				logger.error(String.format("getDockerImageStream.1: image '%s' not found ", imageName), e);
 				throw e;
 			} else
 			{
-				logger.info(String.format("image '%s' not found, but skipping this error is turned on, let's continue ... ", imageName + " " + imageTag));
+				logger.info(String.format("getDockerImageStream.1 image '%s' not found, but skipping this error is turned on", imageName));
 			}
-		} catch (IOException e) {
-			logger.error(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage());
-			throw new DockerException(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage(),
-					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
+		} catch (IOException e)
+		{
+			final String msg = String.format("getDockerImageStream.1 failed on image '%s'", imageName);
+			logger.error(msg, e);
+			throw new DockerException(msg, org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR, e);
 		} 
 		return inputStream;
 	}
-	
+
+	/**
+	 * Calls {@link #getDockerImageStream(HttpServletResponse, int)} with 8.
+	 * 
+	 * @param response
+	 *            HttpServletResponse
+	 * @throws DockerException
+	 *             In case of failure
+	 */
 	public void getDockerImageStream(HttpServletResponse response) throws DockerException {
 		getDockerImageStream(response, 8);
 	}
 
-	public void getDockerImageStream(HttpServletResponse response, Integer bufferSize) throws DockerException {
-		InputStream inputStream = null;
-		//UUID path = UUID.randomUUID();
+	/**
+	 * Pulls the docker image and streams the content via the docker Save command to
+	 * the response object's output stream.
+	 * 
+	 * @param response
+	 *            HttpServletResponse
+	 * @param bufferSizeKb
+	 *            Buffer size in kilobytes; e.g., value 8 results in buffer size of
+	 *            8 * 1024.
+	 * @throws DockerException
+	 *             In case of failure
+	 */
+	public void getDockerImageStream(HttpServletResponse response, int bufferSizeKb) throws DockerException {
 		if (imageName == null || imageName.isEmpty())
 		{
 			throw new IllegalArgumentException("Image Name is not configured");
@@ -196,49 +216,33 @@ public class SaveImageCommand extends DockerCommand
 		final DockerClient client = getClient();
 		try
 		{
-			logger.info(String.format("Pull Image Before It can be saved with name '%s' ... ", imageName));
+			logger.info("getDockerImageStream.2: start pull of image {}", imageName);
 			client.pullImageCmd(imageName).exec(new PullImageResultCallback()).awaitSuccess();
+			logger.info("getDockerImageStream.2: finish pull of image {}", imageName);
 
-			logger.info(String.format("Started save image '%s' ... ", imageName));
-
-			int byteSize = bufferSize * 1024;
-			logger.info("Starting Download with Buffer size as : " + byteSize);
-			IOUtils.copyLarge(client.saveImageCmd(imageName).exec(), response.getOutputStream(), new byte[byteSize]);
-
-			logger.info("Finished save image " + imageName );
-		} catch (NotFoundException e)
+			int bufferSizeBytes = bufferSizeKb * 1024;
+			logger.info("getDockerImageStream.2: save image {} using buffer size {} bytes", imageName, bufferSizeBytes);
+			final InputStream input = client.saveImageCmd(imageName).exec();
+			long bytes = IOUtils.copyLarge(input, response.getOutputStream(), new byte[bufferSizeBytes]);
+			IOUtils.closeQuietly(input);
+			IOUtils.closeQuietly(response.getOutputStream());
+			logger.info("getDockerImageStream.2: save copied {} bytes of image {}", bytes, imageName);
+		} catch (NotFoundException e) 
 		{
 			if (!ignoreIfNotFound)
 			{
-				logger.error(String.format("image '%s' not found ", imageName + " " + imageTag));
+				logger.error(String.format("getDockerImageStream.2: image '%s' not found ", imageName), e);
 				throw e;
 			} else
 			{
-				logger.info(String.format("image '%s' not found, but skipping this error is turned on, let's continue ... ", imageName + " " + imageTag));
+				logger.info(String.format("getDockerImageStream.2: image '%s' not found, but skipping this error is turned on", imageName));
 			}
-		} catch (IOException e) {
-			logger.error(String.format("Error to save '%s' ", imageName) + " " + e.getMessage());
-			throw new DockerException(String.format("Error to save '%s' ", imageName) + " " + e.getLocalizedMessage(),
-					org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR);
-		} finally {  
-		     try {
-		    	 if (inputStream != null) {
-		    		 inputStream.close();
-		    	 }
-		    	 if(client != null  && !PortalUtils.isEmptyOrNullString(imageName)) {
-			    	 //logger.info(String.format("Remove image after download complets '%s' ... ", imageName));
-			    	 //Commenting temporarily to compare the file size
-			    	 /*FileSystemUtils.deleteRecursively(
-				 				Paths.get("/acumosWebOnboarding/" + path.toString() + "/")
-				 						.toFile());*/
-			    	 //client.removeImageCmd(imageName);
-		    	 }
-				response.getOutputStream().close();
-			} catch (IOException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Error in Downloading image artifact", e);
-			}
+		} catch (IOException e)
+		{
+			final String msg = String.format("getDockerImageStream.2 failed on image '%s'", imageName);
+			logger.error(msg, e);
+			throw new DockerException(msg, org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR, e);
 		}
-
 	}
 	
 	@Override
