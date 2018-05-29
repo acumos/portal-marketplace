@@ -23,7 +23,7 @@ package org.acumos.portal.be;
  
 /**
  *
- * Constants class to list all the REST API endpoints
+ * Constants class to list all the REST API endpoints 
  */
 public class APINames {
 
