@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -2082,4 +2083,109 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		return solutionStats;
 	}
 
+
+	private ByteArrayOutputStream getPayload(String uri) throws AcumosServiceException {
+
+		RepositoryLocation repositoryLocation = new RepositoryLocation();
+	    repositoryLocation.setId("1");
+
+	    repositoryLocation.setUrl(env.getProperty("nexus.url"));
+	    repositoryLocation.setUsername("nexus.username");
+	    repositoryLocation.setPassword("nexus.password");
+	    // if you need a proxy to access the Nexus
+	    if (!PortalUtils.isEmptyOrNullString(env.getProperty("nexus.proxy"))) {
+				repositoryLocation.setProxy(env.getProperty("nexus.proxy"));
+		    }
+		NexusArtifactClient artifactClient = new NexusArtifactClient(repositoryLocation);
+		
+		ByteArrayOutputStream outputStream = null;
+		try {
+			outputStream = artifactClient.getArtifact(uri);
+		} catch (Exception ex) {
+			
+			log.error(EELFLoggerDelegate.errorLogger, " Exception in getPayload() ", ex);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_STREAM_EXCEPTION, ex.getMessage());
+			
+		}
+		return outputStream;
+	}
+	
+	@Override
+	public String getProtoUrl(String userId, String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException {
+		log.debug(EELFLoggerDelegate.debugLogger, "getProtoUrl() : Begin");
+
+		String result = "";
+
+		List<MLPSolutionRevision> mlpSolutionRevisionList;
+		String solutionRevisionId = null;
+		ByteArrayOutputStream byteArrayOutputStream = null;
+		List<MLPArtifact> mlpArtifactList;
+		try {
+			// 1. Get the list of SolutionRevision for the solutionId.
+			mlpSolutionRevisionList = getSolutionRevision(solutionId);
+
+			// 2. Match the version with the SolutionRevision and get the
+			// solutionRevisionId.
+			if (null != mlpSolutionRevisionList && !mlpSolutionRevisionList.isEmpty()) {
+				solutionRevisionId = mlpSolutionRevisionList.stream().filter(mlp -> mlp.getVersion().equals(version))
+						.findFirst().get().getRevisionId();
+				log.debug(EELFLoggerDelegate.debugLogger,
+						" SolutionRevisonId for Version :  {} ", solutionRevisionId );
+			}
+		} catch (NoSuchElementException | NullPointerException e) {
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Error : Exception in getProtoUrl() : Failed to fetch the Solution Revision Id",
+					e);
+			throw new NoSuchElementException("Failed to fetch the Solution Revision Id of the solutionId for the user");
+		} 
+		
+		if (null != solutionRevisionId) {
+			// 3. Get the list of Artifact for the SolutionId and SolutionRevisionId.
+			mlpArtifactList = getSolutionArtifacts(solutionId, solutionRevisionId);
+			String nexusURI = "";
+			if (null != mlpArtifactList && !mlpArtifactList.isEmpty()) {
+				try {
+					nexusURI = mlpArtifactList.stream()
+							.filter(mlpArt -> mlpArt.getArtifactTypeCode().equalsIgnoreCase(artifactType)).findFirst()
+							.get().getUri();
+					for(MLPArtifact mlpArt : mlpArtifactList){
+						if( null != fileExtension ){
+							if(mlpArt.getArtifactTypeCode().equalsIgnoreCase(artifactType) && mlpArt.getName().contains(fileExtension)){
+								nexusURI = mlpArt.getUri();
+								break;
+							}
+						}
+					}
+
+					log.debug(EELFLoggerDelegate.debugLogger, " Nexus URI :  {} ", nexusURI );
+
+					if (null != nexusURI) {
+						byteArrayOutputStream = getPayload(nexusURI);
+						log.debug(EELFLoggerDelegate.debugLogger,
+								" Response in String Format :  {} ", byteArrayOutputStream.toString() );
+						result = byteArrayOutputStream.toString();
+					}
+				} catch (NoSuchElementException | NullPointerException e) {
+					log.error(EELFLoggerDelegate.errorLogger,
+							"Error : Exception in getProtoUrl() : Failed to fetch the artifact URI for artifactType",
+							e);
+					throw new NoSuchElementException(
+							"Could not search the artifact URI for artifactType " + artifactType);
+				} finally {
+					try {
+						if (byteArrayOutputStream != null) {
+							byteArrayOutputStream.close();
+						}
+					} catch (IOException e) {
+						log.error(EELFLoggerDelegate.errorLogger,
+								"Error : Exception in getProtoUrl() : Failed to close the byteArrayOutputStream", e);
+						throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+					}
+				}
+			}
+		}
+		log.debug(EELFLoggerDelegate.debugLogger, "getProtoUrl() : End");
+		
+		return result;
+	}
 }

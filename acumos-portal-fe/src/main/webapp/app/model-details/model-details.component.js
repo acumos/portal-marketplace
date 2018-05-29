@@ -439,7 +439,7 @@ angular
 											}
 											
 											//trying for signatures-can be replaced by reading the .proto file and displaying the contents
-											var qs = querystring.parse();
+											/*var qs = querystring.parse();
 											var urlBase = baseURL + '/dsce/';
 							                var options = Object.assign({
 							                	base:"dsce/dsce/",
@@ -502,7 +502,20 @@ angular
 					                        	$scope.operationDisplay = operations;
 					                        	$scope.messageDisplay = messages;
 					                        	
-					                        });
+					                        });*/
+											
+											var url = 'api/getProtoFile?userId='+$scope.loginUserID+'&solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
+											$http(
+													{
+														method : 'GET',
+														url : url
+													})
+													.then(
+															function successCallback(response) {
+																console.log(response);
+																$scope.modelSignature = response.data;
+															});
+											
 											var solutionName = $scope.solution.name;
 											//comments only for summit demo
 											if(solutionName.indexOf('Predictor') > -1){

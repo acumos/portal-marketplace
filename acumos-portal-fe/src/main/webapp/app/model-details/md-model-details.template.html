@@ -314,7 +314,8 @@ limitations under the License.
 					</div>
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
-						<div ng-show="modelName">
+						<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
+						<!-- <div ng-show="modelName">
 							<div class="message" ng-repeat="(key,val) in messageDisplay">
 								message {{key}} {
 								<div ng-repeat="(key1,val1) in val track by $index">
@@ -326,7 +327,7 @@ limitations under the License.
 							<div class="operation" ng-repeat="(key,val) in operationDisplay">
 								{{key}} ({{val.input}}) returns {{val.output}};</div>
 							}
-						</div>
+						</div> -->
 						<!-- <h6 class="sectiontitle7">Input</h6>
 						<label>*(Required) Image Data API Url, Web (http/https)
 							Url, binary image, base64 encoded image or an array of data API
