@@ -103,7 +103,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/downloads/{solutionId}").permitAll()
         .antMatchers(HttpMethod.GET, "/cas/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/signup/enabled").permitAll()
-
+        .antMatchers(HttpMethod.GET, "/getProtoFile").permitAll()
+        
         .anyRequest().authenticated();
     	
     	// Custom JWT based authentication

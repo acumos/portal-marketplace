@@ -2111,7 +2111,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	}
 	
 	@Override
-	public String getProtoUrl(String userId, String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException {
+	public String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getProtoUrl() : Begin");
 
 		String result = "";
