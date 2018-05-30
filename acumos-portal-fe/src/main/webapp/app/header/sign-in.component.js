@@ -23,7 +23,7 @@ angular.module('signInModal',[])
                         'signinContent',
                         {
                               template : '<a ng-click="$root.showAdvancedLogin()" modal-data="$ctrl.modalData" class="no-outline">Sign In</a>',
-                              controller : function($uibModal, $scope,$rootScope,productService,$window,$mdDialog, apiService) {
+                              controller : function($uibModal, $scope,$rootScope,productService,$window,$mdDialog, apiService, $state) {
                                     
                                     $ctrl = this;
                                     $scope.cas = {
@@ -53,8 +53,6 @@ angular.module('signInModal',[])
 	                                          
 	                                        })
 	                                        .then(function(answer) {
-	                                        	console.info("result");
-	                                            //console.info(result);
 	                                            
 	                                            $scope.userfirstname = productService.test.firstName;
 	                                            $scope.userid = productService.test.userId;
@@ -78,6 +76,9 @@ angular.module('signInModal',[])
 							                    //$window.sessionStorage.setItem("acumosUserSession",productService.test.userId);
 							                    
 							                    console.info("close");
+							                    if($state.current.name == 'modularResource')
+							                    	$state.reload();
+
 	                                          //$scope.status = 'You said the information was "' + answer + '".';
 	                                        }, function() {
 	                                          //$scope.status = 'You cancelled the dialog.';
