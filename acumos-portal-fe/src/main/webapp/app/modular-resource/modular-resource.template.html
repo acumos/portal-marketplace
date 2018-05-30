@@ -739,7 +739,7 @@ limitations under the License.
 																ng-click="closePoup(); openDrop(true);" alt="Cancel" title="Cancel"
 																>
 															Cancel </md-button>
-															<md-button ng-disabled="!file" ng-click="fileUpload();"
+															<md-button ng-disabled="uploading || !file" ng-click="fileUpload();"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 															Done </md-button>
 														</div>

@@ -109,8 +109,9 @@ angular.module('modelResource')
 				}
 			}
 			$scope.fileSubmit = false;
+			$scope.uploading = false;
 			$scope.fileUpload = function(){
-				//$scope.uploadModel = false;
+				$scope.uploading = !$scope.uploading;
 				$scope.modelUploadError = false;
 				var file = $scope.file;
 				var userId = JSON.parse(localStorage.getItem("userDetail"));
@@ -129,12 +130,14 @@ angular.module('modelResource')
 							$rootScope.progressBar = 0;
 							chkCount();
 							$scope.uploadModel = false;
+							$scope.uploading = !$scope.uploading;
 						},
 						function(error) {
 								$scope.modelUploadError = true;
 								$scope.modelUploadErrorMsg = error;
 								$rootScope.progressBar = 0;
 								$scope.uploadModel = false;
+								$scope.uploading = !$scope.uploading;
 								chkCount();
 							
 						});
