@@ -199,7 +199,7 @@ public class JwtTokenUtil {
 
 		try {
 			//expirationDate = new Date(createdDate.getTime() + 100000);
-			expirationDate = new Date(createdDate.getTime() + (1000 * 60 * 60 * 168)); 
+			expirationDate = new Date(createdDate.getTime() + (1000 * 60 * 30)); 
 		} catch (Exception e) {
 
 			
