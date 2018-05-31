@@ -12,6 +12,7 @@ management.security.roles=SUPERUSER
 
 #JWT Token secret key
 jwt.auth.secret.key=secret
+jwt.auth.timeout=1800000
 
 
 # CDmS REST endpoints are protected by HTTP Basic Authentication

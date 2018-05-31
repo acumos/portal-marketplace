@@ -199,7 +199,8 @@ public class JwtTokenUtil {
 
 		try {
 			//expirationDate = new Date(createdDate.getTime() + 100000);
-			expirationDate = new Date(createdDate.getTime() + (1000 * 60 * 60 * 168)); 
+			Integer timeout = Integer.parseInt(env.getProperty("jwt.auth.timeout"));
+			expirationDate = new Date(createdDate.getTime() + timeout);
 		} catch (Exception e) {
 
 			
