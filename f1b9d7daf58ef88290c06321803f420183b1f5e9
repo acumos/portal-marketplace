@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80f64c60_eb8f21fb",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/security/jwt/JwtTokenUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-05-31T18:43:39Z",
+      "side": 1,
+      "message": "Can we make this a configurable parameter so that we can change the timeout from docker compose.",
+      "revId": "f1b9d7daf58ef88290c06321803f420183b1f5e9",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
