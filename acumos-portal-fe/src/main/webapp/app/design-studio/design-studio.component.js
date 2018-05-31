@@ -141,7 +141,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var verRemove = '('+ver+')';
         type = type.replace(verRemove,'');
         type = type.replace(revRemove,'');
-        type = type.replace(' ','');
+        type = type.slice(0,-1);
         var typeModel = type+'+'+getver[0];
         _drawGraphs.nodeCrossfilter().all().forEach(function(n) {
             var nodeType = n.type.name;
