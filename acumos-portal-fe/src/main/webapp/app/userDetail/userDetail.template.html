@@ -20,7 +20,7 @@ limitations under the License.
 
 
 <alert-message msg="msg" icon="icon" styleclass="styleclass"
-            ng-show="showAlertMessage"></alert-message>
+	ng-show="showAlertMessage"></alert-message>
 <div class="page-content">
 	<section class="pageheadsection">
 		<div class="mdl-grid mdl-grid--no-spacing">
@@ -47,15 +47,17 @@ limitations under the License.
 				<div class="profile-img-container">
 					<img class="userprofile-img"
 						ng-src="data:image/JPEG;base64,{{userPic}}"
-						src='../images/userprofile/profile_big_img.png' alt="User" title="User">
+						src='../images/userprofile/profile_big_img.png' alt="User"
+						title="User">
 				</div>
 				<div class="text-center">
-					<a ng-click="uploadPhoto($event)" class="link-blue text-small" alt="Change Photo" title="Change Photo">Change
-						Photo</a>
+					<a ng-click="uploadPhoto($event)" class="link-blue text-small"
+						alt="Change Photo" title="Change Photo">Change Photo</a>
 				</div>
 				<div class="text-center" ng-hide="isLfUser">
 					<a ng-click="showPrerenderedDialog($event);openChangePassword()"
-						class="link-blue text-small" data-target="#" alt="Change Password" title="Change Password">Change Password</a>
+						class="link-blue text-small" data-target="#" alt="Change Password"
+						title="Change Password">Change Password</a>
 				</div>
 			</div>
 			<div class="profile-container1-right">
@@ -80,7 +82,7 @@ limitations under the License.
 								</div>
 								</md-input-container>
 							</div>
-							
+
 						</div>
 
 						<div class="profile-row-1">
@@ -101,12 +103,12 @@ limitations under the License.
 								</md-input-container>
 							</div>
 
-							
+
 						</div>
 
 					</div>
 				</form>
-				
+
 			</div>
 		</div>
 		<hr />
@@ -117,12 +119,9 @@ limitations under the License.
 			<div class="user-contact-settings-container">
 				<div class="user-email">
 					<md-input-container class="md-block"> <label>
-						Email</label> <!-- <input required type="email" name="clientEmail"
-									ng-model="user.email"  minlength="10" maxlength="100"
-									ng-pattern="/^.+@.+\..+$/" 
-									ng-disabled="disableEmail"/> --> <input name="uemail"
-						ng-disabled="disableEmail" ng-model="user.email" type="text"
-						ng-blur="emailVisited=true" ng-focus="emailVisited=false"
+						Email</label> <input name="uemail" ng-disabled="disableEmail"
+						ng-model="user.email" type="text" ng-blur="emailVisited=true"
+						ng-focus="emailVisited=false"
 						ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required />
 					<div class="help-inline validation-msgs"
 						ng-class="{validationmsg:!signupFormEmail.uemail.$valid}">
@@ -137,17 +136,22 @@ limitations under the License.
 										ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
 										Please enter valid e-mail address.</div>
 								</div> --> </md-input-container>
-					<a ng-hide="isLfUser" class="link-blue" href="" ng-click="disableEmail=!disableEmail"><span
-						ng-if="disableEmail" alt="Change Email" title="Change Email">Change Email</span></a> <a class="link-blue"
-						href="" ng-class="{disabledLink:!signupFormEmail.uemail.$valid}"
+					<a ng-hide="isLfUser" class="link-blue" href=""
+						ng-click="disableEmail=!disableEmail"><span
+						ng-if="disableEmail" alt="Change Email" title="Change Email">Change
+							Email</span></a> <a class="link-blue" href=""
+						ng-class="{'disabledLink':!signupFormEmail.uemail.$valid || !signupFormEmail.uemail.$dirty }"
 						ng-if="!disableEmail" ng-click="$parent.saveEmail()">Save
-						Email</a>
+							Email</a>
+
+
 
 				</div>
 			</div>
 		</form>
 		<hr />
 	</div>
+
 	<div id="tab3-panel" class="user-detail-container">
 		<h6 class="sectiontitle6">SOCIAL NETWORK KEYS</h6>
 		<div>
@@ -178,12 +182,13 @@ limitations under the License.
 		<hr />
 	</div>
 	<div class="u-note-btn-container">
-		<button
-			class="mdl-button mdl-js-button btn-secondary"
-			ng-click="dialogDeactivateAccount($event)" alt="Deactivate Account" title="Deactivate Account">Deactivate Account</button>
+		<button class="mdl-button mdl-js-button btn-secondary"
+			ng-click="dialogDeactivateAccount($event)" alt="Deactivate Account"
+			title="Deactivate Account">Deactivate Account</button>
 		<button ng-disabled="signupForm.$invalid"
 			class="mdl-button mdl-js-button btn-primary btn-gap"
-			ng-click="updateDeactivate('update')" alt="Update Account" title="Update Account">Update Account</button>
+			ng-click="updateDeactivate('update')" alt="Update Account"
+			title="Update Account">Update Account</button>
 	</div>
 
 	</md-content> </md-tab> <md-tab label="Notification Preferences"> <md-content
@@ -198,12 +203,13 @@ limitations under the License.
 			<div class="u-note-row1">
 				<div>
 					<md-checkbox class="u-note-chkbox1" aria-label="checked checkbox"
-						ng-model="data.cbEmail" ng-init="data.cbEmail=true"> Email </md-checkbox>
+						ng-model="data.cbEmail" ng-init="data.cbEmail=true">
+					Email </md-checkbox>
 				</div>
 				<div class="u-note-row1-inner">
 					<md-input-container class="md-block" flex-gt-sm>
-					<label>Enter Email ID</label> <input type="text" name="firstName" ng-model="user.email"
-						required disabled/> </md-input-container>
+					<label>Enter Email ID</label> <input type="text" name="firstName"
+						ng-model="user.email" required disabled /> </md-input-container>
 					<!-- <md-checkbox class="u-note-chkbox2" aria-label="checked checkbox"
 						ng-model="data.cb5" ng-init="data.cb5=true"> Use my
 					registered email ID </md-checkbox> -->
@@ -211,11 +217,11 @@ limitations under the License.
 				<div class="u-note-priority-container">
 					<div class="select-control">
 						<label class="fedlbl4">Set Notification Priority</label>
-						 <md-select ng-model="userNotificationPref.msgSeverityCode" placeholder="Select"><!-- md-on-open="loadUsers()" ng-model="priority.emailprName"--> 
-                            <md-option ng-value="priority.prName" ng-repeat="priority in notificationPriority" ng-click="">
-                            {{priority.prValue}}
-                            </md-option>
-                        </md-select>
+						<md-select ng-model="userNotificationPref.msgSeverityCode"
+							placeholder="Select"><!-- md-on-open="loadUsers()" ng-model="priority.emailprName"-->
+						<md-option ng-value="priority.prName"
+							ng-repeat="priority in notificationPriority" ng-click="">
+						{{priority.prValue}} </md-option> </md-select>
 					</div>
 				</div>
 			</div>
@@ -262,11 +268,10 @@ limitations under the License.
 					</md-select>
 				</div>
 			</div> -->
-		</div>		
+		</div>
 	</div>
 	<div class="u-note-btn-container">
-		<button
-			class="mdl-button mdl-js-button btn-secondary"
+		<button class="mdl-button mdl-js-button btn-secondary"
 			ng-click="getNotificationPref()" alt="Cancel" title="Cancel">Cancel</button>
 		<button ng-disabled="!data.cbEmail"
 			class="mdl-button mdl-js-button btn-primary btn-gap"
@@ -308,10 +313,10 @@ limitations under the License.
 					<input class="userprofiletxtbox" type="text"
 						ng-attr-type="{{ showOldPassword ? 'text' : 'password' }}"
 						name="oldPswd" ng-model="oldPswd" required>
-					<md-button
-						class="mdl-button mdl-js-button btn-secondary eyebutton"
-						ng-click="showPasswd('old')" alt="Show Password" title="Show Password">
-					<i class="material-icons btn-view-icon" >remove_red_eye</i></md-button>
+					<md-button class="mdl-button mdl-js-button btn-secondary eyebutton"
+						ng-click="showPasswd('old')" alt="Show Password"
+						title="Show Password"> <i
+						class="material-icons btn-view-icon">remove_red_eye</i></md-button>
 				</div>
 				</md-input-container>
 			</div>
@@ -323,10 +328,10 @@ limitations under the License.
 						ng-attr-type="{{ showNewPassword ? 'text' : 'password' }}"
 						name="pwd" ng-model="newPswd" maxlength="20" valid-password
 						required>
-					<md-button
-						class="mdl-button mdl-js-button btn-secondary eyebutton"
-						ng-click="showPasswd('new')" alt="Show Password" title="Show Password">
-					<i class="material-icons btn-view-icon">remove_red_eye</i><!-- {{newPswdShow}} --></md-button>
+					<md-button class="mdl-button mdl-js-button btn-secondary eyebutton"
+						ng-click="showPasswd('new')" alt="Show Password"
+						title="Show Password"> <i
+						class="material-icons btn-view-icon">remove_red_eye</i><!-- {{newPswdShow}} --></md-button>
 				</div>
 
 				<!-- <p>Must be atleast 8 charactors</p> -->
@@ -355,17 +360,16 @@ limitations under the License.
 			</div>
 
 		</div>
-	</md-dialog-content>
-	<md-dialog-actions>
-		<div class="dialog-footer-container1">
-			<md-button ng-click="closePoup()"
-				class="mdl-button mdl-js-button btn-secondary" alt="Cancel" title="Cancel">
-			Cancel </md-button>
-			<md-button ng-click="changePswd();"
-				ng-disabled="resetPswd.oldPswd.$invalid || resetPswd.pwd.$invalid || resetPswd.pwd.cpwd || resetPswd.cpwd.$invalid || matchString || (newPswd!=cpwd)"
-				class="mdl-button mdl-js-button btn-primary" alt="Confirm" title="Cancel">
-			Confirm </md-button>
-		</div>
+	</md-dialog-content> <md-dialog-actions>
+	<div class="dialog-footer-container1">
+		<md-button ng-click="closePoup()"
+			class="mdl-button mdl-js-button btn-secondary" alt="Cancel"
+			title="Cancel"> Cancel </md-button>
+		<md-button ng-click="changePswd();"
+			ng-disabled="resetPswd.oldPswd.$invalid || resetPswd.pwd.$invalid || resetPswd.pwd.cpwd || resetPswd.cpwd.$invalid || matchString || (newPswd!=cpwd)"
+			class="mdl-button mdl-js-button btn-primary" alt="Confirm"
+			title="Cancel"> Confirm </md-button>
+	</div>
 	</md-dialog-actions>
 	</form>
 	</md-dialog>
@@ -397,35 +401,43 @@ limitations under the License.
 						<!-- <input type="file" upload-image-model="userImage" data-ng-model="userImage"
 							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
 							id="userImage"> -->
-							
-							<input type="file" ngf-select ng-change="checkValid()" ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
-             					accept="image/*" ngf-max-size="65KB" required
-             					ngf-model-invalid="errorFile" />
-							
+
+						<input type="file" ngf-select ng-change="checkValid()"
+							ng-model="userImage" name="fileNew"
+							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
+							accept="image/*" ngf-max-size="65KB" required
+							ngf-model-invalid="errorFile" />
+
 					</div>
 				</div>
-				<div class="help-inline validation-msgs"><span ng-show="uploadImage.fileNew.$error.maxSize">Image size more than 65KB.</span></div>
-				<div class="help-inline validation-msgs"><span ng-show="extensionError">File should be JPG, GIF or PNG</span></div>
-				<span>JPG, GIF or PNG. Max size of 65KB</span>
-				<!-- <div ng-show="imageError" class="validationmsg validation-msgs"><span>Invalid Image</span></div> -->
+				<div class="help-inline validation-msgs">
+					<span ng-show="uploadImage.fileNew.$error.maxSize">Image
+						size more than 65KB.</span>
+				</div>
+				<div class="help-inline validation-msgs">
+					<span ng-show="extensionError">File should be JPG, GIF or
+						PNG</span>
+				</div>
+				<span>JPG, GIF or PNG. Max size of 65KB</span> <!-- <div ng-show="imageError" class="validationmsg validation-msgs"><span>Invalid Image</span></div> -->
 				<!-- <div class="help-inline validation-msgs"><span ng-show = "imageError">Invalid Image.</span></div> -->
-				
-				
+
+
 				</md-input-container>
 			</div>
 		</div>
-	</md-dialog-content>
-	<md-dialog-actions>
-		<div class="dialog-footer-container1">
-			<md-button ng-click="closePoup();"
-				class="mdl-button mdl-js-button btn-secondary" alt="Cancel" title="Cancel">
-			Cancel </md-button> <!--enableUploadBtn  -->
-			<md-button ng-click="uploadImg()" ng-disabled="extensionError == true || nullFileError == true || uploadImage.fileNew.$error.maxSize"
-				class="mdl-button mdl-js-button btn-primary" alt="Upload" title="Upload">
-			Upload </md-button>
-		</div>
+	</md-dialog-content> <md-dialog-actions>
+	<div class="dialog-footer-container1">
+		<md-button ng-click="closePoup();"
+			class="mdl-button mdl-js-button btn-secondary" alt="Cancel"
+			title="Cancel"> Cancel </md-button>
+		<!--enableUploadBtn  -->
+		<md-button ng-click="uploadImg()"
+			ng-disabled="extensionError == true || nullFileError == true || uploadImage.fileNew.$error.maxSize"
+			class="mdl-button mdl-js-button btn-primary" alt="Upload"
+			title="Upload"> Upload </md-button>
+	</div>
 	</md-dialog-actions>
-	
+
 	</form>
 	</md-dialog>
 </div>
@@ -434,9 +446,10 @@ limitations under the License.
 
 
 <!-- material popup  for deactication account confirmation ends -->
-<div class="md-dialog-container" id="dialogDeactivateAccount" style="height: 0;">
-	<md-dialog aria-label="Deactivate Account" class="ud-deactivate-account">
-	<md-toolbar>
+<div class="md-dialog-container" id="dialogDeactivateAccount"
+	style="height: 0;">
+	<md-dialog aria-label="Deactivate Account"
+		class="ud-deactivate-account"> <md-toolbar>
 	<div class="md-toolbar-tools">
 		<h2>Deactivate Account</h2>
 		<span flex></span>
@@ -446,26 +459,26 @@ limitations under the License.
 	</md-toolbar> <md-dialog-content>
 	<form>
 		<div class="md-dialog-content">
-			<div> 
-				<strong>Are you sure you want to deactivate your account?</strong> 
+			<div>
+				<strong>Are you sure you want to deactivate your account?</strong>
 			</div>
 			<br />
 			<div>
-				<small>* Only a user with Administrator rights will be able to reactivate your account.</small>
+				<small>* Only a user with Administrator rights will be able
+					to reactivate your account.</small>
 			</div>
 		</div>
-	</md-dialog-content>
-	<md-dialog-actions>
-		<div class="dialog-footer-container1">
-			<md-button ng-click="closePoup();"
-				class="mdl-button mdl-js-button btn-secondary" alt="Cancel" title="Cancel">
-			Cancel </md-button> 
-			<md-button ng-click="updateDeactivate('deactivate')"
-				class="mdl-button mdl-js-button btn-primary" alt="Upload" title="Upload">
-			OK </md-button>
-		</div>
+	</md-dialog-content> <md-dialog-actions>
+	<div class="dialog-footer-container1">
+		<md-button ng-click="closePoup();"
+			class="mdl-button mdl-js-button btn-secondary" alt="Cancel"
+			title="Cancel"> Cancel </md-button>
+		<md-button ng-click="updateDeactivate('deactivate')"
+			class="mdl-button mdl-js-button btn-primary" alt="Upload"
+			title="Upload"> OK </md-button>
+	</div>
 	</md-dialog-actions>
-	
+
 	</form>
 	</md-dialog>
 </div>
