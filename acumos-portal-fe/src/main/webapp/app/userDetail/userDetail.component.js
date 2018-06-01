@@ -57,6 +57,25 @@ angular
 				    	            	return true;
 				    	            }*/
 				    	            scope.imageError = false;
+				    	            
+				    	            /*Error check for cobranding logo in admin*/
+				    	            scope.coBrandingLogoError = true;
+				    	            var coBrandLogo = element[0].files[0];
+				    	            if(coBrandLogo){
+				    	            	var validFormats = ['jpg','jpeg','png','gif'];
+				    	            	var fileName = coBrandLogo.name;
+              							var ext = fileName.split('.').pop();
+              							
+              							if(validFormats.indexOf(ext) == -1){
+               				            	scope.coBrandingLogoError = true;
+               				            	scope.showBrandingLogoExtError = true;
+               				            }else{
+               				            	scope.coBrandingLogoError = false;
+               				            	scope.showBrandingLogoExtError = false;
+               				            }
+				    	            	
+				    	            }
+				    	            
 				    	            modelSetter(scope, element[0].files[0]);
 				    	            //return true;
 								});
