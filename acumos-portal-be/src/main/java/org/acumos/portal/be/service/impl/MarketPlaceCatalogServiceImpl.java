@@ -2052,6 +2052,14 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 						}
 					});
 				}
+				// sort by Owner Name / Author
+				else if (pageReqPortal.getSortBy().equalsIgnoreCase("ownerName")) {
+					Collections.sort(content, new Comparator<MLSolution>() {
+						public int compare(MLSolution m1, MLSolution m2) {
+							return m1.getOwnerName().compareTo(m2.getOwnerName());
+						}
+					});
+				}
 			}
 
 			mlSolutionsRest.setContent(content);
