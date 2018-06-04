@@ -1569,10 +1569,13 @@ position:relative;
 .company-market .ql-editor ul li, .hasClass .company-market .ql-editor ul li{width:100%; margin:0; text-align:left;}
 .midcontent.hide-y-scroll{max-height:300px; height:300px; overflow-y:hidden;}
 .midcontent .ql-container.ql-snow{height:auto;}
-.midcontent .ql-editor, .ql-container.ql-snow .ql-editor{max-height:300px;}
+.midcontent .ql-editor, .ql-container.ql-snow .ql-editor{max-height:300px; min-height:150px; padding:15px;}
 #manage-models .ql-editor p{word-break: break-word; word-wrap: break-word;  overflow-wrap: break-word;
 -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto;}
 .popovers.model-description .ql-container.ql-snow .ql-editor h2{color: initial;}
+.popovers .ql-container.ql-snow .ql-editor h1, .popovers .ql-container.ql-snow .ql-editor h2, .popovers .ql-container.ql-snow .ql-editor h3,
+.popovers .ql-container.ql-snow .ql-editor h1 a, .popovers .ql-container.ql-snow .ql-editor h2 a, .popovers .ql-container.ql-snow .ql-editor h3 a{font-weight:600;}
+.popovers .ql-container.ql-snow .ql-tooltip{left:25% !important; margin-top: -10px;  padding: 2px 12px;}
 /* editor changes end*/
 
 /*---- media query start ----------*/
@@ -1736,7 +1739,7 @@ position:relative;
     .attachbuttondiv button{width: 180px; margin-bottom: 0px;}
 }
 
-@media ( max-width :768px) {
+@media (max-width :768px) {
 	
 .hasClass .company-market ul li .imagecontent {width: 62px;  height: 62px;  border-radius: 62px;}
 .hasClass .company-market ul li.progress-status {width: 4%;}
@@ -1772,7 +1775,7 @@ position:relative;
  .attachbuttondiv .add-document-browse{width:100%;}
 }
 
-@media ( max-width :767px) {
+@media (max-width :767px) {
       .user_icon i img {
            /* margin-bottom: 5px;*/
       }
@@ -1864,20 +1867,20 @@ position:relative;
       .response .mdl-data-table td, .response .mdl-data-table tr.removebefore td:first-of-type{padding-left:15px;}
   
 }
-@media ( max-width :640px){
+@media (max-width :640px){
 	.hasClass .company-market ul li{width:20%;}
 	.hasClass .company-market ul li.progress-status{display:none;}
 	.company-market ul li .text{text-overflow: ellipsis; overflow-x: hidden;}
 	.md-vertical-seperator ~ .version-container{margin-left: 0px; margin-right: 0px; width: auto; margin-bottom: 8px;}
 	.headline{max-width:100%; width:100%;}
 }
-@media ( max-width :414px){
+@media (max-width :414px){
 	
 	.model-detail .borker-row > div:first-child > div > input:first-child{width: 67%;}
 }
 
 
-@media ( max-width :375px){
+@media (max-width :375px){
 	.company-market ul li .imageplace.completed .imagecontent, .company-market ul li .imageplace.incomplet .imagecontent, .company-market ul li .imageplace.active .imagecontent{border:0px;}
 	.company-market ul li .imagecontent{background-color:transparent; border:0px;}
 	.btn-publish{padding:0 5px; font-size: 10px;}
@@ -1887,7 +1890,7 @@ position:relative;
 	.company-market ul li .text{font-size:12px;}
 	.timeline-version{margin-bottom:15px;}
 }
-@media ( max-width :360px){
+@media (max-width :360px){
 	.btn-publish{padding:0 3px; width: 50px; float: right;}
 	.owner-ver-menu{width: auto; height:30px;}
 	.model-detail .borker-row > div:first-child > div > input:first-child{width: 66%;}
