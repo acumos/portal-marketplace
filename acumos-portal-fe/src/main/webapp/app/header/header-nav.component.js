@@ -203,14 +203,17 @@ angular.module('headerNav',[])
 				}
 			});
 		}
+			
+			$interval(function () {
+				var userId = JSON.parse(localStorage.getItem("userDetail"))[1]
+				if(userId){
+					$scope.page =0;
+					$scope.getNotificationMessage(userId,$scope.page);
+				}
+		    }, 30000);
+
 		
-		$interval(function () {
-			if($scope.loginUserID){
-				$scope.page =0;
-				$scope.getNotificationMessage($scope.loginUserID,$scope.page);
-			}
-	    }, 30000);
-		
+		//$scope.showNotification();
 		/*$scope.getNotificationCount=function (){
 			var req = {
 				    method: 'Get',
@@ -338,9 +341,10 @@ angular.module('headerNav',[])
 
 			$scope.$on('transferUp', function(event, data) {
 				//console.log('on working');
+				var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
 				$scope.emitedmessage = data.message;
 				$scope.userfirstname = data.username;
-
+				$scope.getNotificationMessage( userId, $scope.page);
 				if ($scope.emitedmessage == 'true'
 						|| $scope.emitedmessage == true) {
 					$scope.successfulLogin = true;
