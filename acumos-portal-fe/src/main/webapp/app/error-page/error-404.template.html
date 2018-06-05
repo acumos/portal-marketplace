@@ -32,9 +32,9 @@ limitations under the License.
 				<a ui-sref="home">Home</a>
 				<span class="error-hor-seperator"></span>	
 				<a ui-sref="marketPlace">Marketplace</a>
-				<span class="error-hor-seperator"></span>
-				<a ui-sref="modularResource">On Boarding Model</a>
-				<span class="error-hor-seperator" ng-if="$root.sidebarHeader == true"></span>				
+				<span class="error-hor-seperator" ng-if="$root.enableOnBoarding"></span>
+				<a ui-sref="modularResource" ng-if="$root.enableOnBoarding">On Boarding Model</a>
+				<span class="error-hor-seperator" ng-if="$root.sidebarHeader == true"></span>
 				<a ui-sref="designStudio" ng-if="$root.sidebarHeader == true">Design Studio</a>
 				
 			</div>

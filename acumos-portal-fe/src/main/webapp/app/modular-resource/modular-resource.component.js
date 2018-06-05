@@ -53,6 +53,18 @@ angular.module('modelResource')
 				return deffered.promise;
 			}
 		})
+		.run(
+				function($rootScope, $location) {
+
+					$rootScope.$on("$locationChangeStart", function(event,
+							next, current) {
+						if ($location.path() === "/modelerResource"
+								&& !$rootScope.enableOnBoarding) {
+							$location.path("/404Error");
+						}
+					})
+				})
+		
 	.component('modelResource',{
 
 		//template:"<div class=''>{{ content }}</div>",
@@ -60,7 +72,7 @@ angular.module('modelResource')
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
 		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams, $timeout){
 			
-			$scope.onap = false;
+			$scope.onap = false;	
 			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
 			$scope.onap = true;
 			$scope.keepModelName = false;
