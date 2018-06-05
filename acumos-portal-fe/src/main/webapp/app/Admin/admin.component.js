@@ -20,7 +20,9 @@ limitations under the License.
 
 'use strict';
 
-angular.module('admin')
+angular.module('admin').filter('abs', function() {
+    	return function(num) { return Math.abs(num); }
+    })
 	.component('admin',{
 		templateUrl:'./app/Admin/admin.template.html',
 		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state, $filter){
@@ -233,6 +235,11 @@ angular.module('admin')
              
              $scope.storyForm.$setPristine();
              $scope.storyForm.$setUntouched();
+             
+             $scope.topSCLength = 0;
+             $scope.eventSCLength = 0;
+             $scope.successSCLength = 0;
+             
              $scope.itsEdit = false;
       	     delete $scope.keyval;
       	     delete $scope.deleteKey;
@@ -1838,6 +1845,31 @@ angular.module('admin')
                     $scope.selectBgColor = function(color){
                     	$scope.carousel_bgColor = color;
                     }
+                    
+                    $scope.scCharLimit = 140;
+                    
+                    $scope.topSCLength = 0;
+                    $scope.updateTopSCLength = function (text) {
+                    	$scope.topSCLength = text.length - 1;
+                    }
+                    
+                    $scope.eventSCLength = 0;
+                    $scope.updateEventSCLength = function (text) {
+                    	$scope.eventSCLength = text.length - 1;
+                    }
+                    
+                    $scope.successSCLength = 0;
+                    $scope.updateSuccessSCLength = function (text) {
+                    	$scope.successSCLength = text.length - 1;
+                    }
+                    
+                    $scope.scCharsLeft = function(contentLength) {
+                    	return $scope.scCharLimit - contentLength;
+                    }
+                    $scope.scWithinCharLimit = function(contentLength) {
+                    	return contentLength <= $scope.scCharLimit;
+                    }
+                    
                     $scope.addCarouselSlide = function(){
 						//create json
                 	   var slide = {};

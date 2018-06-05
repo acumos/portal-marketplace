@@ -2668,8 +2668,14 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="carouselSlide.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <!-- <textarea rows="2" ng-model="carouselSlide.supportingContent" tabindex="3" required></textarea> -->
-							<span class="modal-note">140 Characters Only</span> </md-input-container>
+								on-content-changed="updateTopSCLength(text)"
+								modules="modulesConfig"> </ng-quill-editor>
+								<span class="modal-note" ng-style="!scWithinCharLimit(topSCLength) && {color: 'red'}"
+									ng-bind="(!scWithinCharLimit(topSCLength) ? 'Character limit exceeded by ' : '')
+										+ (scCharsLeft(topSCLength) | abs)
+										+ ((scCharsLeft(topSCLength) | abs) == 1 ? ' character' : ' characters')
+										+ (scWithinCharLimit(topSCLength) ? ' left' : '')"></span>
+							</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -2990,7 +2996,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addCarouselSlide()"
+				<md-button type="submit" ng-disabled="!scWithinCharLimit(topSCLength)" ng-click="addCarouselSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3033,8 +3039,14 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="eventCarousel.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <span
-								class="modal-note">140 Characters Only</span> </md-input-container>
+								on-content-changed="updateEventSCLength(text)"
+								modules="modulesConfig"> </ng-quill-editor>
+								<span class="modal-note" ng-style="!scWithinCharLimit(eventSCLength) && {color: 'red'}"
+									ng-bind="(!scWithinCharLimit(eventSCLength) ? 'Character limit exceeded by ' : '')
+										+ (scCharsLeft(eventSCLength) | abs)
+										+ ((scCharsLeft(eventSCLength) | abs) == 1 ? ' character' : ' characters')
+										+ (scWithinCharLimit(eventSCLength) ? ' left' : '')"></span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3159,7 +3171,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addEventSlide()"
+				<md-button type="submit" ng-disabled="!scWithinCharLimit(eventSCLength)" ng-click="addEventSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3203,8 +3215,14 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="successCarousel.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <span
-								class="modal-note">140 Characters Only</span> </md-input-container>
+								on-content-changed="updateSuccessSCLength(text)"
+								modules="modulesConfig"> </ng-quill-editor>
+								<span class="modal-note" ng-style="!scWithinCharLimit(successSCLength) && {color: 'red'}"
+									ng-bind="(!scWithinCharLimit(successSCLength) ? 'Character limit exceeded by ' : '')
+										+ (scCharsLeft(successSCLength) | abs)
+										+ ((scCharsLeft(successSCLength) | abs) == 1 ? ' character' : ' characters')
+										+ (scWithinCharLimit(successSCLength) ? ' left' : '')"></span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3333,7 +3351,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addStorySlide()"
+				<md-button type="submit" ng-disabled="!scWithinCharLimit(successSCLength)" ng-click="addStorySlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
