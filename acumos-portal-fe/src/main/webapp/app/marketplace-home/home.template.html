@@ -23,7 +23,8 @@ limitations under the License.
 -->
 <style>
 	.explore .mdl-card__title img {
-    width: 100%;
+	width: auto;
+    max-width: 100%;
     max-height: 150px;
     min-height: 150px;
 }
@@ -110,7 +111,7 @@ limitations under the License.
 						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						  <div class="mdl-card__title">
 							<figure>
-							<img ng-src="{{item.image}}" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId)" class="img-rounded" width="204" height="156">
+							<img ng-src="{{item.image}}" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId)" class="img-rounded">
 													        
 									</figure>
 						  </div>
