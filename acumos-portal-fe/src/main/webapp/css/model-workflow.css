@@ -1095,8 +1095,13 @@ h1, h2, h3, h4, h5, h6 {
 .response i:first-child {
       padding-left: 0;
 }
+
 .response table label{font-weight:bold; padding-right:5px;}
 .commenttable .mdl-data-table td:last-of-type, .commenttable .mdl-data-table th:last-of-type{width:107px;}
+
+.response table tbody tr{}
+/* first child is the comment part of the table, needs to cap its width if too long*/
+.response table tbody tr td:first-child{max-width:350px;}
 
 /* ul.c-breadcrumb li{margin-left:16px;} */
 

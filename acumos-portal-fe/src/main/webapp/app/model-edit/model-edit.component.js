@@ -88,6 +88,8 @@ angular
 						$scope.imageerror = false;
 						$scope.imagetypeerror = false;
 						
+						
+						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
 							localStorage.setItem('solutionId',
@@ -97,6 +99,156 @@ angular
 						if(localStorage.getItem("userDetail")){
 							$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
 						}
+						
+						$scope.getComment = function() {
+							if (localStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(localStorage
+										.getItem("userDetail"))[1];
+							}
+							var reqObj = {
+									  "request_body": {
+										    "page": 0,
+										    "size": 9
+										  },
+										};
+							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
+								$scope.totalCommentCount = response.data.response_body.content.length;
+								$scope.commentList = [];
+								//list of indexes to go through after initial read, only for reply comments(i.e. they have a parentId not null)
+								$scope.replyList = [];
+								angular.forEach(response.data.response_body.content,function(value,key) {
+									if(response.data.response_body.content[key].parentId == null){
+										var commentIndex = key-$scope.replyList.length; //takes into account offset
+										
+										$scope.commentList.push({
+											created : response.data.response_body.content[key].created,
+											text : response.data.response_body.content[key].text,
+											commentId : response.data.response_body.content[key].commentId,
+											threadId : response.data.response_body.content[key].threadId,
+											userId : response.data.response_body.content[key].userId,
+											replies: []
+										});
+						
+										var userObject = {
+												  "request_body": {
+													  		    "userId": value.userId
+												  					}};
+										apiService.getUserAccountDetails(userObject).then(function(userDetail){
+												$scope.commentList[commentIndex].name = userDetail.data.response_body.loginName
+									    });
+										apiService.getUserProfileImage(value.userId).then(function(userImage){
+												$scope.commentList[commentIndex].image = userImage.data.response_body;
+										});
+									}
+									else {//it is a reply to a comment(has a parent-id)
+										$scope.replyList.push(key);
+									}
+								});
+								//go through each comment that is a reply to a base comment(i.e. comments with parentId != null)
+								//this comes after initial population so all comments with no parent id(base comments) will be in commentList
+								//, just need to push to replies list
+								angular.forEach($scope.replyList, function(value,key) {
+									var commentReply = response.data.response_body.content[value];
+									
+									var userObject = {
+									  "request_body": {
+										  		    "userId": commentReply.userId
+									  					}};
+									apiService.getUserAccountDetails(userObject).then(function(userDetail){
+										commentReply.name = userDetail.data.response_body.loginName
+								    });
+									apiService.getUserProfileImage(commentReply.userId).then(function(userImage){
+										commentReply.image = userImage.data.response_body;
+									});
+									
+									//loops through all current comments to find the proper parent comment to add onto its replies
+									for(var commentIndex = 0; commentIndex < $scope.commentList.length; commentIndex++) {
+										if($scope.commentList[commentIndex].commentId == commentReply.parentId) {
+											$scope.commentList[commentIndex].replies.push(commentReply);
+											//found the right comment, so it should break from loop
+											break;
+										}
+									}
+								});
+							});
+							
+						};
+						
+						//the comment to reply to
+						$scope.commentToReply = {};
+						$scope.showPostReply = false;
+						$scope.showEditComment = false;
+						
+						$scope.setReply = function(comment) {
+							$scope.showEditComment = false;
+							$scope.showPostReply = true;
+							$scope.commentToReply = comment;
+							
+							$location.hash('replyComment');
+							$anchorScroll();
+							
+						}
+						
+						$scope.editedComment = {};
+						$scope.setEdit = function(comment) {
+							$scope.showPostReply = false;
+							$scope.showEditComment = true;
+							
+							$scope.editedComment = comment;
+							$scope.editedCommentText = comment.text;
+							
+							$location.hash('editedComment');
+							$anchorScroll();
+						}
+						
+						
+						$scope.editComment = function() {
+							$scope.showPostReply = false;
+							$scope.showEditComment = false;
+							var commentObj = {
+									  "request_body": {
+										    "text": $scope.editedCommentText,
+										    "commentId": $scope.editedComment.commentId,
+										    "threadId": $scope.editedComment.threadId,
+										    "parentId": $scope.editedComment.parentId,
+										    "url": $scope.solutionId,
+										    "userId": $scope.loginUserID
+										  },
+										};
+							apiService.updateComment(commentObj).then(function(response) {
+								$scope.getComment();
+							});
+						};
+						
+						$scope.newcomment = "";
+						$scope.postReply = function(){
+							$scope.showPostReply = false;
+							$scope.showEditComment = false;
+							if(localStorage.getItem("userDetail")){
+								$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
+							}
+							
+								var commentObj = {
+										  "request_body": {
+											    "text": $scope.replyCommentText,
+											    "threadId": $scope.commentToReply.threadId,
+											    "parentId": $scope.commentToReply.commentId,
+											    "url": $scope.solutionId,
+											    "userId": $scope.loginUserId[1]
+											  },
+											};
+								apiService.createComment(commentObj).then(function(response) {
+									$scope.getComment();
+									$scope.replyCommentText = '';
+								});
+						}
+						
+						$scope.deleteComment = function(comment) {
+							apiService.deleteComment(comment.threadId,comment.commentId).then(function(response) {
+								$scope.getComment();
+							});
+						}
+						
 
 						$scope.solutionId = localStorage.getItem('solutionId');
 						$scope.currentDate = new Date();
@@ -243,6 +395,7 @@ angular
 														if( !$scope.revisionId ){
 															$scope.revisionId = $scope.versionList[0].revisionId;
 															$scope.versionId = $scope.versionList[0].version;
+															$scope.getComment();
 															$scope.solution.created = $scope.versionList[0].modified;
 															$scope.solution.modified = $scope.versionList[0].modified;
 														}
@@ -2328,6 +2481,8 @@ angular
                             $scope.solImage = file;
                             //$scope.filename = $scope.solImage.name +".png";
                         });
+                        
+                        
                 }; 
 				
 				//load src and convert to a File instance object
@@ -2413,8 +2568,10 @@ angular
 					$scope.$watch('user', function() {chkCount();});
 					$scope.$watch('popupAddSubmit', function() {chkCount();});
 					$scope.$watch('solutionFile', function() {
-						$scope.publicfilename = $scope.solutionFile.name;
-						$scope.privatefilename = $scope.solutionFile.name;
+						if($scope.solutionFile) {
+							$scope.publicfilename = $scope.solutionFile.name;
+							$scope.privatefilename = $scope.solutionFile.name;
+						}
 					});
 					
 					$scope.skipStep = function(){
