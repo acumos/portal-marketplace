@@ -1640,10 +1640,27 @@ angular
                                                             data: reqObject
                                                             
                                                       }).then(function(response) {
-                                                                  alert("Deployment Started Successfully")
+                                                            	$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+                            									$anchorScroll(); 							// used to scroll to the id 
+                            									$scope.msg = "Deployment Started Successfully"; 
+                            									$scope.icon = '';
+                            									$scope.styleclass = 'c-success';
+                            									$scope.showAlertMessage = true;
+                            									$timeout(function() {
+                            										$scope.showAlertMessage = false;
+                            									}, 5000);
                                                             },
                                                             function(error) {
-                                                                  console.warn("Error occured")
+                                                            	console.warn("Error occured:", error);
+                                                            	$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+                            									$anchorScroll(); 							// used to scroll to the id 
+                            									$scope.msg = "Deployment Failed: " + error.data.message; 
+                            									$scope.icon = 'report_problem';
+                            									$scope.styleclass = 'c-error';
+                            									$scope.showAlertMessage = true;
+                            									$timeout(function() {
+                            										$scope.showAlertMessage = false;
+                            									}, 5000);
 
                                                             });
                                                       
@@ -1681,11 +1698,27 @@ angular
                                                             url : url,
                                                             data: reqObject
                                                       }).then(function(response) {
-                                                            alert("Deployment Started Successfully")
+                                                          	$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+                          									$anchorScroll(); 							// used to scroll to the id 
+                          									$scope.msg = "Deployment Started Successfully"; 
+                          									$scope.icon = '';
+                          									$scope.styleclass = 'c-success';
+                          									$scope.showAlertMessage = true;
+                          									$timeout(function() {
+                          										$scope.showAlertMessage = false;
+                          									}, 5000);
                                                       },
                                                       function(error) {
-                                                            console.warn("Error occured")
-
+                                                    	  console.warn("Error occured:", error);
+                                                        	$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+                        									$anchorScroll(); 							// used to scroll to the id 
+                        									$scope.msg = "Deployment Failed: " + error.data.message;
+                        									$scope.icon = 'report_problem';
+                        									$scope.styleclass = 'c-error';
+                        									$scope.showAlertMessage = true;
+                        									$timeout(function() {
+                        										$scope.showAlertMessage = false;
+                        									}, 5000);
                                                       });
                                                 }
 
