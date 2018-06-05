@@ -1838,6 +1838,19 @@ angular.module('admin')
                     $scope.selectBgColor = function(color){
                     	$scope.carousel_bgColor = color;
                     }
+                    
+                    $scope.isSlideValid = function(slide) {
+                    	var valid = true;
+                    	valid = valid && slide;
+                    	valid = valid && slide.name && slide.name.length > 0;
+                    	valid = valid && slide.headline && slide.headline.length > 0;
+                    	valid = valid && slide.headline.length <= 60;
+                    	valid = valid && (!slide.supportingContent || slide.supportingContent.length <= 140);
+                    	valid = valid && slide.textAling;
+                    	
+                    	return valid;
+                    }
+                    
                     $scope.addCarouselSlide = function(){
 						//create json
                 	   var slide = {};
