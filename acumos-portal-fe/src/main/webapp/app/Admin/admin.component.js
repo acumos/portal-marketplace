@@ -1750,6 +1750,7 @@ angular.module('admin')
                                             	  $mdDialog.hide();  
                                               };
                                            // Upload Image
+                                            $scope.coBrandingLogoError = true;
                       						$scope.uploadLogoImg = function(){
                       							if($scope.logoImage){
 	                      							var file = $scope.logoImage;
