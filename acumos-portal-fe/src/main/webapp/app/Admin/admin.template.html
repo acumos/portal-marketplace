@@ -2660,7 +2660,9 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="carouselSlide.headline" tabindex="2"
-								required /> <span class="modal-note">60 Characters Only</span> </md-input-container>
+								required />
+								<span class="modal-note">60 Characters Only</span>
+							</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -2668,8 +2670,17 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="carouselSlide.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <!-- <textarea rows="2" ng-model="carouselSlide.supportingContent" tabindex="3" required></textarea> -->
-							<span class="modal-note">140 Characters Only</span> </md-input-container>
+								on-content-changed="updateTopSCLength(text)"
+								modules="modulesConfig"> </ng-quill-editor>
+								<span class="modal-note" ng-style="!scWithinCharLimit(topSCLength) && {color: 'red'}"
+									ng-hide="scWithinCharLimit(topSCLength)">Character limit exceeded by</span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(topSCLength) && {color: 'red'}"
+									ng-bind="(scCharsLeft(topSCLength) | abs)"></span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(topSCLength) && {color: 'red'}"
+									ng-bind="(scCharsLeft(topSCLength) | abs) == 1 ? 'character' : 'characters'"></span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(topSCLength) && {color: 'red'}"
+									ng-show="scWithinCharLimit(topSCLength)">left</span>
+							</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -2990,7 +3001,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addCarouselSlide()"
+				<md-button type="submit" ng-disabled="!scWithinCharLimit(topSCLength)" ng-click="addCarouselSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3025,7 +3036,9 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="eventCarousel.headline" tabindex="2"
-								required /> <span class="modal-note">60 Characters Only</span> </md-input-container>
+								required />
+								<span class="modal-note">60 Characters Only</span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3033,8 +3046,17 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="eventCarousel.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <span
-								class="modal-note">140 Characters Only</span> </md-input-container>
+								on-content-changed="updateEventSCLength(text)"
+								modules="modulesConfig"> </ng-quill-editor>
+								<span class="modal-note" ng-style="!scWithinCharLimit(eventSCLength) && {color: 'red'}"
+									ng-hide="scWithinCharLimit(eventSCLength)">Character limit exceeded by</span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(eventSCLength) && {color: 'red'}"
+									ng-bind="(scCharsLeft(eventSCLength) | abs)"></span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(eventSCLength) && {color: 'red'}"
+									ng-bind="(scCharsLeft(eventSCLength) | abs) == 1 ? 'character' : 'characters'"></span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(eventSCLength) && {color: 'red'}"
+									ng-show="scWithinCharLimit(eventSCLength)">left</span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3159,7 +3181,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addEventSlide()"
+				<md-button type="submit" ng-disabled="!scWithinCharLimit(eventSCLength)" ng-click="addEventSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3194,8 +3216,9 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="successCarousel.headline"
-								tabindex="2" required /> <span class="modal-note">60
-								Characters Only</span> </md-input-container>
+								tabindex="2" required />
+								<span class="modal-note">60 Characters Only</span>
+							</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3203,8 +3226,17 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="successCarousel.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <span
-								class="modal-note">140 Characters Only</span> </md-input-container>
+								on-content-changed="updateSuccessSCLength(text)"
+								modules="modulesConfig"> </ng-quill-editor>
+								<span class="modal-note" ng-style="!scWithinCharLimit(successSCLength) && {color: 'red'}"
+									ng-hide="scWithinCharLimit(successSCLength)">Character limit exceeded by</span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(successSCLength) && {color: 'red'}"
+									ng-bind="(scCharsLeft(successSCLength) | abs)"></span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(successSCLength) && {color: 'red'}"
+									ng-bind="(scCharsLeft(successSCLength) | abs) == 1 ? 'character' : 'characters'"></span>
+								<span class="modal-note" ng-style="!scWithinCharLimit(successSCLength) && {color: 'red'}"
+									ng-show="scWithinCharLimit(successSCLength)">left</span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3333,7 +3365,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addStorySlide()"
+				<md-button type="submit" ng-disabled="!scWithinCharLimit(successSCLength)" ng-click="addStorySlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
