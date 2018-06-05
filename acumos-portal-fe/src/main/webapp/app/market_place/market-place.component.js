@@ -31,10 +31,29 @@ angular
 							apiService, $element, $timeout) {
 
 						$scope.setPageStart = 0;
-						$scope.setStartCount = function(val){
-							if(val == "pre"){$scope.setPageStart = $scope.setPageStart-5}
-							if(val == "next"){$scope.setPageStart = $scope.setPageStart+5}
-						}
+                        $scope.selectedPage = 0;
+                        $scope.setStartCount = function(val){
+                              if(val == "preBunch"){$scope.setPageStart = $scope.setPageStart-5}
+                              if(val == "nextBunch"){$scope.setPageStart = $scope.setPageStart+5}
+                              if(val == "pre"){ 
+                                    if($scope.selectedPage == $scope.setPageStart)
+                                    {
+                                    	$scope.setPageStart = $scope.setPageStart - 1;
+                                    	$scope.selectedPage = $scope.selectedPage - 1;
+                                    }
+                                    else
+                                    	$scope.selectedPage = $scope.selectedPage - 1;
+                                    }
+                              if(val == "next"){
+                                    if($scope.selectedPage == $scope.setPageStart + 4)
+                                          {
+                                          	$scope.setPageStart = $scope.setPageStart + 1;
+                                          	$scope.selectedPage = $scope.selectedPage + 1;
+                                          }
+                                    else
+                                    	$scope.selectedPage = $scope.selectedPage + 1;                                                
+                                    }
+                        }
 
 						$scope.autoHeight = true;
 						$scope.all = true;
@@ -186,6 +205,7 @@ angular
 						
 						$scope.accessFilter = function(accessType){
 							$scope.setPageStart = 0;
+							$scope.selectedPage = 0;
 							accessTypeFilter = [];
 							if(accessType == "all"){accessTypeFilter = ["OR", "PB"]}
 							else accessTypeFilter.push(accessType);
@@ -199,6 +219,7 @@ angular
 
 						var duplicate = false;
 						$scope.loadMore = function(pageNumber) {
+							$scope.SetDataLoaded = true;
 							var toBeSearch = [];
 							if ($scope.isBusy)
 								return;
@@ -252,6 +273,7 @@ angular
 										$scope.totalPages = response.data.response_body.pageCount;
 										$scope.totalElements = response.data.response_body.totalElements;
 										$rootScope.relatedModelType = '';
+										$scope.SetDataLoaded = false;
 										getSolution(response);
 									},
 									function(error) {});
@@ -354,6 +376,7 @@ angular
 							$scope.mlsolutions = [];
 							$scope.pageNumber = 0;
 							$scope.setPageStart = 0;
+							$scope.selectedPage = 0;
 							$scope.modelCount = 0;
 							$scope.isBusy = false;
 					    
