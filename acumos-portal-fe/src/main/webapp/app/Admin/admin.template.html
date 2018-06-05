@@ -2660,7 +2660,12 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="carouselSlide.headline" tabindex="2"
-								required /> <span class="modal-note">60 Characters Only</span> </md-input-container>
+								required />
+								<!-- <span class="modal-note">60 Characters Only</span> -->
+								<span class="modal-note" ng-style="60<carouselSlide.headline.length && {color: 'red'}" ng-bind="60-carouselSlide.headline.length"></span>
+								<span class="modal-note" ng-style="60<carouselSlide.headline.length && {color: 'red'}">characters left</span>
+								<span class="modal-note" ng-style="60<carouselSlide.headline.length && {color: 'red'}" ng-show="60<carouselSlide.headline.length">- Character limit exceeded</span>
+							</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -2669,7 +2674,11 @@ limitations under the License.
 								content</label> <ng-quill-editor
 								ng-model="carouselSlide.supportingContent"
 								modules="modulesConfig"> </ng-quill-editor> <!-- <textarea rows="2" ng-model="carouselSlide.supportingContent" tabindex="3" required></textarea> -->
-							<span class="modal-note">140 Characters Only</span> </md-input-container>
+								<!-- <span class="modal-note">140 Characters Only</span> -->
+								<span class="modal-note" ng-style="140<carouselSlide.supportingContent.length && {color: 'red'}" ng-bind="140-carouselSlide.supportingContent.length"></span>
+								<span class="modal-note" ng-style="140<carouselSlide.supportingContent.length && {color: 'red'}">characters left</span>
+								<span class="modal-note" ng-style="140<carouselSlide.supportingContent.length && {color: 'red'}" ng-show="140<carouselSlide.supportingContent.length">- Character limit exceeded</span>
+							</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -2990,7 +2999,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addCarouselSlide()"
+				<md-button type="submit" ng-disabled="!isSlideValid(carouselSlide)" ng-click="addCarouselSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3025,7 +3034,12 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="eventCarousel.headline" tabindex="2"
-								required /> <span class="modal-note">60 Characters Only</span> </md-input-container>
+								required />
+								<!-- <span class="modal-note">60 Characters Only</span> -->
+								<span class="modal-note" ng-style="60<eventCarousel.headline.length && {color: 'red'}" ng-bind="60-eventCarousel.headline.length"></span>
+								<span class="modal-note" ng-style="60<eventCarousel.headline.length && {color: 'red'}">characters left</span>
+								<span class="modal-note" ng-style="60<eventCarousel.headline.length && {color: 'red'}" ng-show="60<eventCarousel.headline.length">- Character limit exceeded</span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3033,8 +3047,12 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="eventCarousel.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <span
-								class="modal-note">140 Characters Only</span> </md-input-container>
+								modules="modulesConfig"> </ng-quill-editor> 
+								<!-- <span class="modal-note">140 Characters Only</span> -->
+								<span class="modal-note" ng-style="140<eventCarousel.supportingContent.length && {color: 'red'}" ng-bind="140-eventCarousel.supportingContent.length"></span>
+								<span class="modal-note" ng-style="140<eventCarousel.supportingContent.length && {color: 'red'}">characters left</span>
+								<span class="modal-note" ng-style="140<eventCarousel.supportingContent.length && {color: 'red'}" ng-show="140<eventCarousel.supportingContent.length">- Character limit exceeded</span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3159,7 +3177,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addEventSlide()"
+				<md-button type="submit" ng-disabled="!isSlideValid(eventCarousel)" ng-click="addEventSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3194,8 +3212,12 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="successCarousel.headline"
-								tabindex="2" required /> <span class="modal-note">60
-								Characters Only</span> </md-input-container>
+								tabindex="2" required />
+								<!-- <span class="modal-note">60 Characters Only</span> -->
+								<span class="modal-note" ng-style="60<successCarousel.headline.length && {color: 'red'}" ng-bind="60-successCarousel.headline.length"></span>
+								<span class="modal-note" ng-style="60<successCarousel.headline.length && {color: 'red'}">characters left</span>
+								<span class="modal-note" ng-style="60<successCarousel.headline.length && {color: 'red'}" ng-show="60<successCarousel.headline.length">- Character limit exceeded</span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3203,8 +3225,13 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Supporting
 								content</label> <ng-quill-editor
 								ng-model="successCarousel.supportingContent"
-								modules="modulesConfig"> </ng-quill-editor> <span
-								class="modal-note">140 Characters Only</span> </md-input-container>
+								modules="modulesConfig"> </ng-quill-editor>
+								<!-- <span class="modal-note">140 Characters Only</span> -->
+								<span class="modal-note" ng-style="140<successCarousel.supportingContent.length && {color: 'red'}" ng-bind="140-successCarousel.supportingContent.length"></span>
+								<span class="modal-note" ng-style="140<successCarousel.supportingContent.length && {color: 'red'}">characters left</span>
+								<span class="modal-note" ng-style="140<successCarousel.supportingContent.length && {color: 'red'}" ng-show="140<successCarousel.supportingContent.length">- Character limit exceeded</span>
+								
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3333,7 +3360,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-click="addStorySlide()"
+				<md-button type="submit" ng-disabled="!isSlideValid(successCarousel)" ng-click="addStorySlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
