@@ -88,7 +88,12 @@ limitations under the License.
 							<div class="page-wrapper">
 								<div class="mdl-grid mdl-grid--no-spacing grid1 hide-xs">
 								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--1-col-phone mdl-cell--middle">
-									<span class="hide-xs hide-sm showing-text">Showing - <span class="text-colorgray1"><!-- {{modelCount}} -->{{totalElements}} Models</span></span>
+									<div ng-hide = "selectedPage > 0">
+											<span class="hide-xs hide-sm showing-text" >Showing - <span class="text-colorgray1"> 1 to {{solutionSize > totalElements ? totalElements : solutionSize}} of {{totalElements}} Models</span></span>
+									</div>
+									<div ng-hide = "selectedPage == 0">
+											<span class="hide-xs hide-sm showing-text" >Showing - <span class="text-colorgray1"> {{(selectedPage * solutionSize) + 1 }} to {{ ((selectedPage + 1) * solutionSize) < totalElements ? ((selectedPage + 1) * solutionSize) : totalElements}} of {{totalElements}} Models</span></span>
+									</div>
 									  <button class="mdl-button mdl-js-button mdl-button--primary hide-lg hide-md hide-xl btn-sort btn-browseby" ng-click="showfilter = !showfilter">Browse By</button>
 								  </div>
 								  <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--3-col-phone text-right">
@@ -334,28 +339,38 @@ limitations under the License.
 
 									</div> 
 									
-									<span class="page-stats">of {{totalElements}} Models </span>
+									<span class="page-stats"> Models</span>
 					    			
 					    		</div>
-					    		<div class="pagination-right-section">
-					    			<button class="mdl-button mdl-js-button btn-secondary" ng-model="SelectedPagenumber" ng-disabled="setPageStart==0" ng-click="setStartCount('pre');loadMore(setPageStart)">Previous</button>
-					    			<div class="count-btn-container" >
-					    				<button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart == selectedPage}" ng-click="loadMore(setPageStart)">{{setPageStart+1}} </button>
-					    			</div>
-					    			<div class="count-btn-container" ng-hide="totalPages<=(setPageStart+1)">
-					    				<button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+1 == selectedPage}" ng-click="loadMore(setPageStart+1)">{{setPageStart+2}} </button>
-					    			</div>
-					    			<div class="count-btn-container" ng-hide="totalPages<=(setPageStart+2)">
-					    				<button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+2 == selectedPage}" ng-click="loadMore(setPageStart+2)">{{setPageStart+3}} </button>
-					    			</div>
-					    			<div class="count-btn-container" ng-hide="totalPages<=(setPageStart+3)">
-					    				<button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+3 == selectedPage}" ng-click="loadMore(setPageStart+3)">{{setPageStart+4}} </button>
-					    			</div>
-					    			<div class="count-btn-container" ng-hide="(totalPages)<=(setPageStart+4)">
-					    				<button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+4 == selectedPage}" ng-click="loadMore(setPageStart+4)">{{setPageStart+5}} </button>
-					    			</div>
-					    			<button class="mdl-button mdl-js-button btn-secondary" ng-click="setStartCount('next');loadMore(setPageStart);" ng-disabled="(totalPages)<=(setPageStart + 4)">Next</button>
-					    		</div>							    	
+					    	 	<div class="pagination-right-section">
+                                                <div class="count-btn-container" >
+                                                <button class="mdl-button mdl-js-button btn-secondary"  ng-disabled="selectedPage==0" ng-click="setStartCount('pre');loadMore(selectedPage)">Previous</button>
+                                                </div>
+                                                <div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
+                                                <button class="mdl-button mdl-js-button btn-secondary count-btn"   ng-click="setStartCount('preBunch');loadMore(setPageStart)" ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+                                                </div>
+                                                <div class="count-btn-container" >
+                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart == selectedPage}" ng-click="loadMore(setPageStart);">{{setPageStart+1}} </button>
+                                                </div>
+                                                <div class="count-btn-container" ng-hide="totalPages<=(setPageStart+1)">
+                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+1 == selectedPage}" ng-click="loadMore(setPageStart+1);">{{setPageStart+2}} </button>
+                                                </div>
+                                                <div class="count-btn-container" ng-hide="totalPages<=(setPageStart+2)">
+                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+2 == selectedPage}" ng-click="loadMore(setPageStart+2);">{{setPageStart+3}} </button>
+                                                </div>
+                                                <div class="count-btn-container" ng-hide="totalPages<=(setPageStart+3)">
+                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+3 == selectedPage}" ng-click="loadMore(setPageStart+3);">{{setPageStart+4}} </button>
+                                                </div>
+                                                <div class="count-btn-container" ng-hide="(totalPages)<=(setPageStart+4)">
+                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+4 == selectedPage}" ng-click="loadMore(setPageStart+4);">{{setPageStart+5}} </button>
+                                                </div>
+                                                <div class="count-btn-container" ng-hide="(totalPages)<=(setPageStart + 5)">
+                                                <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-click="setStartCount('nextBunch');loadMore(setPageStart);" ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+                                                </div>
+                                                <div class="count-btn-container" >
+                                                <button class="mdl-button mdl-js-button btn-secondary" ng-click="setStartCount('next');loadMore(selectedPage);" ng-disabled="totalPages == (selectedPage + 1)">Next</button>
+                                                </div>
+                                  </div>  							    	
 					    	</div>	
 								
 							</div>
