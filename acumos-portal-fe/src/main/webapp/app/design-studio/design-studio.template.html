@@ -478,7 +478,7 @@ limitations under the License.
 									  <div class="md-toolbar-tools">
 										<h2>Save Solution</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="closePoup()">
+										<md-button class="md-icon-button" ng-click="closeSavePoup()">
 										  <i class="material-icons">close</i>
 										</md-button>
 									  </div>
@@ -728,7 +728,7 @@ limitations under the License.
 <!-- Data Broker Modal box start -->
 					<div class="md-dialog-container" id="myDialogScript" style="height: 0;">
 						<md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
-						<form name="databroker" ng-cloak>
+							<ng-form name="databroker" ng-cloak>
 							<md-toolbar>
 							<div class="md-toolbar-tools">
 								<h2>Script</h2>
@@ -738,7 +738,8 @@ limitations under the License.
 							</div>
 							</md-toolbar>
 							<md-dialog-content>
-							<div class="md-dialog-content">
+							
+							<div class="md-dialog-content" ng-model="dbValue">
 								<div class="ds-db-row1">
 									<div class="ds-db-row1-cell ds-db-row1-cell1">
 										<div class="select-control">
@@ -752,7 +753,7 @@ limitations under the License.
 											</md-select>
 											<div class="help-inline validation-msgs">
 												<span ng-class="{validationmsg:!databroker.dbType.$valid}"
-													ng-show="!!(databroker.dbType.$dirty && databroker.dbType.$error.required && databroker.fileUrl.$touched)">Please
+													ng-show="(databroker.dbType.$dirty && databroker.dbType.$error.required && databroker.fileUrl.$touched)">Please
 													Select Data Broker Type</span>
 											</div>
 										</div>
@@ -764,7 +765,7 @@ limitations under the License.
 										<label ng-if="dbType !== 'sql'">File Path <span class="dsreqfield">*</span></label> 
 											<input type="text" ng-model="fileUrl" name="fileUrl"
 												ng-required="true"
-												ng-pattern="/^[-a-zA-Z0-9@:%._\+~#=]{2,256}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/">
+												ng-pattern="/^[-a-zA-Z0-9@:%._\+~#=]{2,256}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/" ng-blur="changeRead()">
 											<span class="modal-note">For a single file specify the complete file path, for a directory which contains the set of files, specify the path up to the directory.</span>
 										<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.fileUrl.$valid}">
 											<span ng-show="!!databroker.fileUrl.$error.required && databroker.fileUrl.$touched ">Please enter File/JDBC URL</span> 
@@ -778,7 +779,7 @@ limitations under the License.
 									<md-input-container class="md-block" id="enterScript">
 									<label>Enter Script <span class="dsreqfield"></span></label> <textarea
 										rows="4" id="script" ng-model="scriptText" name="scriptText"
-										required></textarea> <span class="modal-note">Enter
+										required ng-blur="changeRead()"></textarea> <span class="modal-note">Enter
 										multi-line commands for Data Broker or SQL Script (for a SQL Data
 										Broker), enter each command in a seperate line, with each line
 										ending in a semi colon character.</span>
@@ -797,13 +798,13 @@ limitations under the License.
 											class="dsreqfield">*</span></label>
 											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
              										accept="csv/json/image/*" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json')" 
-             										ngf-model-invalid="errorFile"/>
+             										ngf-model-invalid="errorFile" ng-blur="changeRead()"/>
              										
              										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
              										<!-- <span  ng-bind="errormsg"></span> -->
 										<div class="help-inline validation-msgs"
 										ng-class="validationmsg">
-										<span ng-show="readSolution && fileContent === undefined">If you want to make changes to source table, Please re-upload the file</span> 
+										<span ng-if="!userImage && userImageNew">If you want to make changes to source table, Please re-upload the file</span> 
 										<span ng-class="validationmsg" ng-bind="errormsg"></span> 
 									</div>
 					                     
@@ -812,25 +813,26 @@ limitations under the License.
 									<div class="ds-db-row3-cell ds-db-row3-cell2" id="selectFirstRow"
 										ng-show="dbType == 'csv'">
 										<label class="disblock">Select <span class="dsreqfield">*</span></label>
-										<md-radio-group ng-model="firstRow" ng-required="dbType == 'csv'"> <md-radio-button
+										<md-radio-group ng-model="firstRow" ng-required="dbType == 'csv'" ng-change="changeRead()"> <md-radio-button
 											class="md-primary" value="contains_field_names">First row contains
 										field names</md-radio-button> <md-radio-button value="contains_data">First row
 										contains Data </md-radio-button> </md-radio-group>
 									</div>
 								</div>
 							</div>
+							
 							</md-dialog-content>
 							<md-dialog-actions>
 							<div class="dialog-footer-container1">
 								<md-button ng-click="closePoupscript()"
 									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 								Cancel </md-button>
-								<md-button type="submit" ng-disabled="databroker.$invalid"
+								<md-button type="submit" ng-disabled="databroker.$invalid || readSolution"
 									ng-click="processData()" class="mdl-button mdl-js-button btn-primary"
 									title="Done"> Done </md-button>
 							</div>
 							</md-dialog-actions>
-						</form>
+						</ng-form>
 						</md-dialog>
 					</div>
 <!-- Data Broker Modal box end -->
