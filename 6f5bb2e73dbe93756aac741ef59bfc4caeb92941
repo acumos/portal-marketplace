@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f330198_f72fd827",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/docker/cmd/SaveImageCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-06-06T21:22:31Z",
+      "side": 1,
+      "message": "Please incude these in finally block if possible due to any exceptions before these lines",
+      "revId": "6f5bb2e73dbe93756aac741ef59bfc4caeb92941",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
