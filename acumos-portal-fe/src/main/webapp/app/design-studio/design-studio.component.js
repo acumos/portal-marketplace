@@ -89,6 +89,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var protoJsonRead = new Map();var changeNode = new Object();
     var jsonProtoNode= new Map(); var jsonProtoMap;
     var dataMaps = new Map();
+    var enteredOk = false;
+    var savedSolution = false;
     var readScriptDetails = null;
     var scriptEnteredDetails = null;
     var extras = false;
@@ -245,6 +247,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 py: pos[1]
             };
             switch($scope.solutionDetails.toolKit){
+            case 'CO':
+            	type = "Collator";
+            	def.extras = [];
+            	break;
+            case 'SP':
+            	type = "Splitter";
+            	def.extras = [];
+            	break;
             case 'BR': 
             	type = "DataBroker";
             	def.extras = ["script"];
@@ -352,6 +362,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.activeInactivedeploy = true;
                     $scope.console = null;
                     $scope.readSolution = false;
+                    enteredOk = false;
+                    savedSolution = false;
                     $scope.scriptEntered = false;
                     $scope.solutionIdDeploy = null;
                     $scope.activeInactivedeploy = true;
@@ -410,7 +422,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     }else{
                     	$scope.myCheckbox = false;
                     }
-                    
+                    savedSolution = true;
                     $scope.checkboxDisable = false;
                     $scope.cleardis = false;
                     $scope.namedisabled = true;$scope.canvas = true;
@@ -456,6 +468,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.namedisabled = true;
                 load_catalog();
                 _dirty = false;
+                savedSolution = true;
             });
     };
     
@@ -872,8 +885,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             var url = build_url(options.save, args);
             return $http.post(url).success(function(result) {
                 // result.duplicate = 'duplicate';
-                if(result.errorCode){$scope.msg= "Solution not saved"; $scope.showpopup();}
-                else if(result.duplicate){$scope.msg = result.duplicate; duplicateSol = true; $scope.showpopup();}
+                if(result.errorCode){
+                	$scope.msg= "Solution not saved"; 
+                	$scope.showpopup();
+                	enteredOk = true;
+                	}
+                else if(result.duplicate){
+                	$scope.msg = result.duplicate; 
+                	duplicateSol = true; 
+                	$scope.showpopup(); 
+                	enteredOk = true;
+                }
                 else if(result.alert){
                     set_dirty(false, 'saved at ' + d3.time.format('%X')(new Date()));
                     solutionNameSave = name;
@@ -1337,8 +1359,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram = dc_graph.diagram('#canvas');
         _diagram // use width and height of parent, <section
         // droppable=true>
-            .width(function(element) { return element.parentNode.getBoundingClientRect().width; })
-            .height(function(element) { return element.parentNode.getBoundingClientRect().height; })
+            /*.width(function(element) { return element.parentNode.getBoundingClientRect().width; })
+            .height(function(element) { return element.parentNode.getBoundingClientRect().height; })*/
+        	.width(null)
+        	.height(null)
             .layoutEngine(layout)
             .timeLimit(500)
             .margins({left: 5, top: 5, right: 5, bottom: 5})
@@ -1375,6 +1399,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .nodeShape(function(n){
             	var res = n.key.slice(0, -1);
             	var nodeDet=_components.get(res);
+            	//check for collator
                 if(/DataMapper/.test(nodeDet.solutionName))
                     return {shape: 'rounded-rect', rx: 0, ry: 0};
                 else{
@@ -1484,6 +1509,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 e.targetNodeCapability = tport.name;
                 var params, url =  '';
                 var properties, map_json = [];
+                //check for collator
                if(sport.node.orig.value.modelName == "DataBroker" || sport.node.orig.value.type.name == 'DataBroker' || tport.node.orig.value.modelName == "DataBroker" ||tport.node.orig.value.type.name == 'DataBroker' ){
                 	properties = {};
                 	if(sport.orig.value.bounds === outbounds){
@@ -1710,7 +1736,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     }
                     $scope.showProperties=null;
                     $scope.showLink = null;
-                   
+                   //check for collator
                     switch($scope.solutionDetails.toolKit){
                     case 'BR': 
                     	$scope.showDataMapper = null;
@@ -2456,8 +2482,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	} else{
     		$scope.left = $scope.right = $scope.down = true;
     	}
-        angular.element('.ds-grid-bg section').width('100%');angular.element('.ds-grid-bg section').height('100%');
-        angular.element('svg').width('100%');angular.element('svg').height('100%');
+        /*angular.element('.ds-grid-bg section').width('100%');angular.element('.ds-grid-bg section').height('100%');*/
+       /* angular.element('svg').width('100%');angular.element('svg').height('100%');*/
+    	setTimeout(function() {
+    		_diagram
+        		.width(null)
+        		.height(null)
+        		.redraw();
+            $scope.$apply();
+        }, 0);
+        
         };
     $scope.$watch('closeDisabledCheck', function(newValue, oldValue) {
         $scope.closeAllDisabled = true;$scope.closeDisabled = true;
@@ -2501,16 +2535,35 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         });
     };
     
-    $scope.closePoupscript = function(){
-    	$mdDialog.hide();
+    $scope.resetScript = function(){
     	if($scope.readSolution){
-    		$scope.dbType = readScriptDetails.dbtype;
-    		$scope.fileUrl = readScriptDetails.targeturl;
-    		$scope.scriptText = readScriptDetails.script;
-    		$scope.firstRow = readScriptDetails.firstrow;
-    		if(!$scope.userImage){
+    		if($scope.dbType === "Select Type" || $scope.dbType === null || $scope.dbType === undefined)
+    			$scope.dbType = "Select Type";
+    		else
+    			$scope.dbType = readScriptDetails.dbtype;
+    		
+    		if($scope.fileUrl === "" || $scope.fileUrl === null || $scope.fileUrl === undefined)
+    			$scope.fileUrl = "";
+    		else
+    			$scope.fileUrl = readScriptDetails.targeturl;
+    		
+    		if($scope.scriptText === "" || $scope.scriptText === null || $scope.scriptText === undefined)
+    			$scope.scriptText = "";
+    		else
+    			$scope.scriptText = readScriptDetails.script;
+    		
+    		if($scope.firstRow === "" || $scope.firstRow === null || $scope.firstRow === undefined)
+    			$scope.firstRow = "";
+    		else 
+    			$scope.firstRow = readScriptDetails.firstrow;
+    		
+    		if($scope.userImage === "" || $scope.userImage === null || $scope.userImage === undefined)
+    			$scope.userImage = "";
+    		else{
+    			$scope.userImage = undefined;
 				$scope.userImageNew =readScriptDetails.localfile;
-			}
+    		}
+    		
     	} else if($scope.scriptEntered){
     		$scope.dbType = scriptEnteredDetails.dbtype;
     		$scope.fileUrl = scriptEnteredDetails.targeturl;
@@ -2526,22 +2579,44 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		$scope.userImage="";
     	}
     }
+    $scope.closePoupscript = function(){
+    	if(readScriptDetails){
+    		$scope.readSolution = true;
+    	}
+    	$scope.resetScript();
+    	
+    	$scope.dbValue = undefined;$scope.dbtype='';
+    	 $scope.databroker.$setPristine();
+         $scope.databroker.$setUntouched();
+         $scope.databroker.$rollbackViewValue();
+         $mdDialog.cancel();
+    	
+    }
     
     $scope.closeMappingPopup = function(){
-    	$mdDialog.hide();
+    	$mdDialog.cancel();
     	if($scope.readSolution){
     		$scope.readSourceTable = readScriptDetails.mapInputs;
     	}
     };
     
     $scope.closePoup = function(){
-
-        $mdDialog.hide();
+    	if(enteredOk){
+    		$scope.solutionName = "";
+    		$scope.showPrerenderedDialog();
+    		enteredOk = false;
+    	}
+        $mdDialog.cancel();
         
     };
 
     $scope.closeSavePoup = function(){
-        $mdDialog.hide();
+    	if(!savedSolution){
+    		$scope.solutionName = "untitled";
+    		$scope.solutionVersion = "";
+    		$scope.solutionDescription = "";
+    	}
+        $mdDialog.cancel();
 
     };
     $scope.showDeleteNodeLink = function(ev){
@@ -3071,7 +3146,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }else{
                $scope.fileUrl = "http://";
         }
+        $scope.readSolution=false;
      }
+    
+    $scope.changeRead = function(){
+    	$scope.readSolution = false;
+    }
     
     $('#optionshow').hide();
     $('#myFile').change( function(event) {
