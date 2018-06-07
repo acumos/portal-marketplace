@@ -332,7 +332,7 @@ public class AdminServiceControllerTest {
 			Assert.assertNotNull(configRes);
 			String configKey = mlpSiteConfig.getConfigKey();
 			Mockito.when(adminService.getSiteConfig(configKey)).thenReturn(mlpSiteConfig);
-			configRes = adminController.getSiteConfiguration(configKey);
+			configRes = adminController.getSiteConfiguration(configKey, mock(HttpServletResponse.class));
 			logger.info("Site Configuration Details :" + configRes.getResponseBody());
 			Assert.assertNotNull(configRes);
 		} catch (Exception e) {
@@ -363,12 +363,12 @@ public class AdminServiceControllerTest {
 			Assert.assertNotNull(configKey);
 			
 			Mockito.when(adminService.getSiteConfig(configKey)).thenReturn(mlpSiteConfig);
-			configRes = adminController.createSiteConfig(mlpSiteConfigReq);
+			configRes = adminController.createSiteConfig(mlpSiteConfigReq, mock(HttpServletResponse.class));
 			logger.info("created Configuration Details :" + configRes.getResponseBody());
 			Assert.assertNotNull(configRes);
 			
 
-			configRes = adminController.createSiteConfig(null);
+			configRes = adminController.createSiteConfig(null, mock(HttpServletResponse.class));
 			Assert.assertNotNull(configRes);
 		} catch (Exception e) {
 			logger.info("failed tot execute the above test case");
@@ -400,7 +400,7 @@ public class AdminServiceControllerTest {
 			AdminService myList = mock(AdminService.class);
 		    doNothing().when(myList).updateSiteConfig(isA(MLPSiteConfig.class));
 		    myList.updateSiteConfig(mlpSiteConfigReq.getBody());
-			configRes = adminController.updateSiteConfig(configKey, mlpSiteConfigReq);
+			configRes = adminController.updateSiteConfig(configKey, mlpSiteConfigReq, mock(HttpServletResponse.class));
 			logger.info("Updated  Configuration Details :" + configRes.getResponseBody());
 			Assert.assertNotNull(configRes);
 		} catch (Exception e) {
@@ -434,7 +434,7 @@ public class AdminServiceControllerTest {
 			AdminService myList = mock(AdminService.class);
 		    doNothing().when(myList).deleteSiteConfig(isA(String.class));
 		    myList.deleteSiteConfig(configKey);
-			configRes = adminController.deleteSiteConfig(configKey);
+			configRes = adminController.deleteSiteConfig(configKey, mock(HttpServletResponse.class));
 			logger.info("Deleted Configuration Details :" + configRes.getResponseBody());
 			Assert.assertNotNull(configRes);
 		} catch (Exception e) {

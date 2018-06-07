@@ -381,7 +381,7 @@ public class AdminServiceController extends AbstractController {
     @ApiOperation(value = "Gets list of Site configuration.", response = MLPSiteConfig.class, responseContainer = "List")
     @RequestMapping(value = { APINames.GET_SITE_CONFIG}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
-    public JsonResponse<MLPSiteConfig> getSiteConfiguration(@PathVariable("configKey") String configKey) {
+    public JsonResponse<MLPSiteConfig> getSiteConfiguration(@PathVariable("configKey") String configKey, HttpServletResponse response) {
         log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
         MLPSiteConfig mlpSiteConfig = null;
         JsonResponse<MLPSiteConfig> data = null;
@@ -394,7 +394,7 @@ public class AdminServiceController extends AbstractController {
                 data.setResponseDetail("SiteConfiguration fetched Successfully");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
             log.error(EELFLoggerDelegate.errorLogger,
@@ -408,7 +408,7 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.CREATE_SITE_CONFIG}, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
-    public JsonResponse<MLPSiteConfig> createSiteConfig(@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig) {
+    public JsonResponse<MLPSiteConfig> createSiteConfig(@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig, HttpServletResponse response) {
         log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig={}", mlpSiteConfig);
         JsonResponse<MLPSiteConfig> data = null;
         MLPSiteConfig siteConfiguration = null;
@@ -424,7 +424,7 @@ public class AdminServiceController extends AbstractController {
             }
             log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig :  ");
         } catch (Exception e) {
-            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception occured while createSiteConfig");
             log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createSiteConfig :", e);
@@ -436,7 +436,7 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.UPDATE_SITE_CONFIG}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
-    public JsonResponse<MLPSiteConfig> updateSiteConfig(@PathVariable ("configKey") String configKey,@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig) {
+    public JsonResponse<MLPSiteConfig> updateSiteConfig(@PathVariable ("configKey") String configKey,@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig, HttpServletResponse response) {
         log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig={}", mlpSiteConfig);
         JsonResponse<MLPSiteConfig> data = null;
         try {
@@ -452,7 +452,7 @@ public class AdminServiceController extends AbstractController {
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception occured while updateSiteConfig");
             log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateSiteConfig :", e);
@@ -466,7 +466,7 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.DELETE_SITE_CONFIG }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
-    public JsonResponse<Object> deleteSiteConfig(@PathVariable("configKey") String configKey) {
+    public JsonResponse<Object> deleteSiteConfig(@PathVariable("configKey") String configKey, HttpServletResponse response) {
         log.debug(EELFLoggerDelegate.debugLogger, "deleteSiteConfig={}", configKey);
         JsonResponse<Object> data = null;
         try {
@@ -476,6 +476,7 @@ public class AdminServiceController extends AbstractController {
                 data.setResponseDetail("Success");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
         }catch(Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_RESPONSE);
             data.setResponseDetail("Failed while deleting site config");
             log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deleteSiteConfig()", e);

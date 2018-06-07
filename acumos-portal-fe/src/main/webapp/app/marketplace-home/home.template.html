@@ -308,16 +308,11 @@ limitations under the License.
 					</div>
 					
 				</div>
-				<div class="onboard text-right">
-				<a ui-sref="modularResource">
+				<div class="onboard text-right" ng-click="navigateTo()">
 					<div class="discover-icon">
 						<img src="images/discover_onboarding_icon.png" alt="Onboard" title="Onboard" />
 					</div>
-					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentOnboard('onboarding-with-toolkit')" ng-bind-html="onboard">
-						<!-- <h5>Onboard with your Preferred Toolkit</h5>
-						<p>With a focus on interoperability, Acumos supports diverse Al toolkits. Onboarding tools are available for TensorFlow, SciKitLearn, RCloud,  H2O and generic java.</p> -->
-					</div>
-				</a>
+					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentOnboard('onboarding-with-toolkit')" ng-bind-html="onboard"></div>
 				</div>
 				<div class="clearfix"></div>
 			</div>

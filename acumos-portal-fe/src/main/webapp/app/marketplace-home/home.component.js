@@ -503,6 +503,12 @@ angular
 		                        	 		                       $scope.closePoup = function(){
 		                        	 			                	  $mdDialog.hide();
 		                        	 			                  }
+		                        	 		                       
+		                        	 		                       $scope.navigateTo = function(){
+		                        	 		                    	   if($rootScope.enableOnBoarding) 
+		                        	 		                    		  $state.go("modularResource");
+		                        	 		                    	   else return false;
+		                        	 		                       }
 		 						
 								},
 								
