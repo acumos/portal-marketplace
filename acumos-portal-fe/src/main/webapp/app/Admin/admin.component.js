@@ -1847,6 +1847,7 @@ angular.module('admin').filter('abs', function() {
                     }
                     
                     $scope.scCharLimit = 140;
+                    $scope.headlineCharLimit = 60;
                     
                     $scope.topSCLength = 0;
                     $scope.updateTopSCLength = function (text) {
@@ -1863,11 +1864,31 @@ angular.module('admin').filter('abs', function() {
                     	$scope.successSCLength = text.length - 1;
                     }
                     
-                    $scope.scCharsLeft = function(contentLength) {
-                    	return $scope.scCharLimit - contentLength;
+                    $scope.scCharsLeft = function(scLength) {
+                    	return $scope.scCharLimit - scLength;
                     }
-                    $scope.scWithinCharLimit = function(contentLength) {
-                    	return contentLength <= $scope.scCharLimit;
+                    $scope.scWithinCharLimit = function(scLength) {
+                    	return scLength <= $scope.scCharLimit;
+                    }
+                    
+                    $scope.headlineCharsLeft = function(slide) {
+                    	return $scope.headlineCharLimit - (slide.headline ? slide.headline.length : 0);
+                    }
+                    $scope.headlineWithinCharLimit = function(slide) {
+                    	return !slide.headline ||
+                    		slide.headline.length <= $scope.headlineCharLimit;
+                    }
+                    
+                    $scope.isSlideValid = function(slide, scLength, isTop) {
+                    	var valid = true && slide;
+                    	valid = valid && slide.name && slide.name.length > 0;
+                    	valid = valid && slide.headline && slide.headline.length > 0;
+                    	valid = valid && $scope.headlineWithinCharLimit(slide);
+                    	valid = valid && (!slide.supportingContent || $scope.scWithinCharLimit(scLength));
+                    	valid = valid && (!slide.graphicImgEnabled || $scope.carouselInfoFileName);
+                    	valid = valid && slide.textAling;
+                    	
+                    	return valid;
                     }
                     
                     $scope.addCarouselSlide = function(){
