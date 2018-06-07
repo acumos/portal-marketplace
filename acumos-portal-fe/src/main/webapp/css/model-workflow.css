@@ -1429,7 +1429,7 @@ position:relative;
 /*---- File upload ----------*/
 .upload-image-input{border: 1px solid rgba(0,0,0,.12); padding:3px 5px;    margin-top: 3px; }
 .upload-image-input input[type="file"]{ position: absolute; top: 0; left: 0;  z-index: 2; width: 70px; height: 100%;  opacity: 0; cursor: pointer; } 
-.upload-image-input input.mdl-textfield__input{box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666;}
+.upload-image-input input.mdl-textfield__input{box-sizing: border-box; min-height:26px; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666;}
 .upload-field { position: relative;    cursor: pointer;    float: right;    height: 26px;    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
 .icon-folder {background-image: url("../images/icon-folder.png"); height: 30px; width: 30px; background-size: cover;
