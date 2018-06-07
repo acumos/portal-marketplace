@@ -2660,7 +2660,13 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="carouselSlide.headline" tabindex="2"
-								required /> <span class="modal-note">60 Characters Only</span> </md-input-container>
+								required />
+								<span class="modal-note" ng-style="!headlineWithinCharLimit(carouselSlide) && {color: 'red'}"
+									ng-bind="(!headlineWithinCharLimit(carouselSlide) ? 'Character limit exceeded by ' : '')
+										+ (headlineCharsLeft(carouselSlide) | abs)
+										+ ((headlineCharsLeft(carouselSlide) | abs) == 1 ? ' character' : ' characters')
+										+ (headlineWithinCharLimit(carouselSlide) ? ' left' : '')"></span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -2996,7 +3002,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-disabled="!scWithinCharLimit(topSCLength)" ng-click="addCarouselSlide()"
+				<md-button type="submit" ng-disabled="!isSlideValid(carouselSlide, topSCLength)" ng-click="addCarouselSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3031,7 +3037,13 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="eventCarousel.headline" tabindex="2"
-								required /> <span class="modal-note">60 Characters Only</span> </md-input-container>
+								required />
+								<span class="modal-note" ng-style="!headlineWithinCharLimit(eventCarousel) && {color: 'red'}"
+									ng-bind="(!headlineWithinCharLimit(eventCarousel) ? 'Character limit exceeded by ' : '')
+										+ (headlineCharsLeft(eventCarousel) | abs)
+										+ ((headlineCharsLeft(eventCarousel) | abs) == 1 ? ' character' : ' characters')
+										+ (headlineWithinCharLimit(eventCarousel) ? ' left' : '')"></span>
+								</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3171,7 +3183,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-disabled="!scWithinCharLimit(eventSCLength)" ng-click="addEventSlide()"
+				<md-button type="submit" ng-disabled="!isSlideValid(eventCarousel, eventSCLength)" ng-click="addEventSlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
@@ -3206,8 +3218,14 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col" style="float: left">
 							<md-input-container class="md-block"> <label>Headline</label>
 							<input type="text" ng-model="successCarousel.headline"
-								tabindex="2" required /> <span class="modal-note">60
-								Characters Only</span> </md-input-container>
+								tabindex="2" required />
+								<span class="modal-note" ng-style="!headlineWithinCharLimit(successCarousel) && {color: 'red'}"
+									ng-bind="(!headlineWithinCharLimit(successCarousel) ? 'Character limit exceeded by ' : '')
+										+ (headlineCharsLeft(successCarousel) | abs)
+										+ ((headlineCharsLeft(successCarousel) | abs) == 1 ? ' character' : ' characters')
+										+ (headlineWithinCharLimit(successCarousel) ? ' left' : '')"></span>
+								</md-input-container>
+							</md-input-container>
 						</div>
 					</div>
 					<div class="mdl-grid">
@@ -3351,7 +3369,7 @@ limitations under the License.
 				<md-button ng-click="closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
-				<md-button type="submit" ng-disabled="!scWithinCharLimit(successSCLength)" ng-click="addStorySlide()"
+				<md-button type="submit" ng-disabled="!isSlideValid(successCarousel, successSCLength)" ng-click="addStorySlide()"
 					class="mdl-button mdl-js-button btn-primary" title="Confirm">
 				Done </md-button>
 			</div>
