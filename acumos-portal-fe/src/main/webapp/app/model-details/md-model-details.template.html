@@ -139,9 +139,13 @@ limitations under the License.
 			</div>
 		</div>
 
-		<div class="header-stats" ng-if="solution.accessType == 'PR'">
+		<div class="header-stats" ng-if="solution.accessType == 'PR' && solution.active == true">
 			<span
 				style="color: rgb(255, 87, 34); text-transform: uppercase; padding-right: 20px; font-weight: bold; font-size: 12px; padding-top: 5px;">Status: Unpublished</span>
+		</div>
+		<div class="header-stats" ng-if="solution.active == false">
+			<span
+				style="color: rgb(255, 87, 34); text-transform: uppercase; padding-right: 20px; font-weight: bold; font-size: 12px; padding-top: 5px;">Status: Deleted</span>
 		</div>
 
 		<div class="header-stats" ng-if="solution.accessType != 'PR'">
