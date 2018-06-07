@@ -2143,7 +2143,13 @@ angular.module('admin').filter('abs', function() {
                    		$scope.validateImageSize = function(file, height, width){
                    			if(file.height > height || file.width > width){
                    				$scope.imageSizeError = true;
-                   				alert("Image size should be less than " + height + "px X " + width + "px.");
+                   				$scope.msg = "Image size should be less than " + height +"px X " + width +"px.";
+                   				$scope.icon = 'report_problem';
+                   				$scope.styleclass = "c-error";
+                   				$scope.invalidImage = true;
+                   				$timeout(function() {
+                   					$scope.invalidImage = false;
+                   				}, 5000);
                    				return true;
                    			}
                    			$scope.imageSizeError = false;
