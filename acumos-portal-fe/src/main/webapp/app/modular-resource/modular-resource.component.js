@@ -22,6 +22,21 @@ limitations under the License.
 
 angular.module('modelResource')
 
+.service('syncGetService', function($http, $q) {
+
+					this.waitForResponse = function(req) {
+						var deffered = $q.defer();
+						$http(req).success(function(data) {
+							deffered.resolve(data);
+
+						}).error(function(response) {
+							deffered.reject(response);
+						});
+
+						return deffered.promise;
+					}
+				})
+
 	.service('modelUploadService', function($http, $q) {
 
 			this.uploadFileToUrl = function(file, uploadUrl) {
@@ -54,15 +69,51 @@ angular.module('modelResource')
 			}
 		})
 		.run(
-				function($rootScope, $location) {
+				function($rootScope, $location, $http, syncGetService) {
 
-					$rootScope.$on("$locationChangeStart", function(event,
-							next, current) {
-						if ($location.path() === "/modelerResource"
-								&& !$rootScope.enableOnBoarding) {
-							$location.path("/404Error");
-						}
-					})
+					$rootScope
+							.$on(
+									"$locationChangeStart",
+									function(event, next, current) {
+										// On refresh if enableOnBoarding is undefined then fetch the site_config and populate it again
+										// The modeler resource page will display for a second and then it will redirect to 404.
+										// TODO: instead of redirecting to 404 there should be Access denied page that tells the user that this resource is not accessible.
+										if ($rootScope.enableOnBoarding === undefined) {
+											var promise = syncGetService
+													.waitForResponse({
+														url : "api/admin/config/site_config",
+														method : "GET"
+													});
+											promise
+													.then(function(response) {
+														var siteConfig = angular
+																.fromJson(response.response_body.configValue);
+														if (siteConfig !== undefined) {
+															angular
+																	.forEach(
+																			siteConfig.fields,
+																			function(
+																					value,
+																					key) {
+																				if (siteConfig.fields[key].label == 'EnableOnboarding') {
+																					if (siteConfig.fields[key].data.name == 'Enabled') {
+																						$rootScope.enableOnBoarding = true;
+																					} else {
+																						$rootScope.enableOnBoarding = false;
+																						if ($location
+																								.path() === "/modelerResource")
+																							$location
+																									.path("/404Error");
+																					}
+																				}
+																			});
+														}
+													});
+										} else if ($location.path() === "/modelerResource"
+												&& !$rootScope.enableOnBoarding) {
+											$location.path("/404Error");
+										}
+									})
 				})
 		
 	.component('modelResource',{
