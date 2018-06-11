@@ -149,12 +149,14 @@ angular.module('headerNav')
 		$scope.getNotificationMessage=function (userId, page){
 			var req = {
 			    	  "request_body": {
+			    		  "fieldToDirectionMap": { "modified" : "DESC" },
 				    	    "page": page,
 				    	    "size": 20
 				    	 },
 				    	  "request_from": "string",
 				    	  "request_id": "string"
 				    	};
+			
 			//$rootScope.notificationCount=0;
 			//$scope.notificationObj = [];
 			apiService.getNotification(userId,req).then(function(response) {
@@ -162,6 +164,7 @@ angular.module('headerNav')
 					$rootScope.notificationCount=0;
 					$scope.notificationManageObj=[];
 				}
+				var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
 				if(response.data!=null && response.data.response_body.length >0 ){
 					/*angular.forEach(
 							response.data.response_body,
@@ -173,7 +176,7 @@ angular.module('headerNav')
 							notificationId : value.notificationId
 						});
 					});*/
-					$scope.totalCount = response.data.response_body.length;
+					
 					
 					angular.forEach(response.data.response_body,function(value,key){
 						
@@ -188,12 +191,12 @@ angular.module('headerNav')
 						}
 						
 					});
-					
+					$scope.totalCount = $scope.notificationManageObj.length;
 					if($scope.totalCount == 20){
 						$scope.page = $scope.page + 1;
 						$scope.totalCount = 0;
 						$scope.moreNotif = true;
-						$scope.getNotificationMessage($scope.loginUserID,$scope.page);
+						$scope.getNotificationMessage(userId,$scope.page);
 					}else{
 						$scope.moreNotif = false;
 					}
@@ -207,7 +210,7 @@ angular.module('headerNav')
 			$interval(function () {
 				var userId = JSON.parse(localStorage.getItem("userDetail"))[1]
 				if(userId){
-					$scope.page =0;
+					$scope.page = 0;
 					$scope.getNotificationMessage(userId,$scope.page);
 				}
 		    }, 30000);
