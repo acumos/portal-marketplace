@@ -1580,7 +1580,7 @@ position:relative;
 .popovers.model-description .ql-container.ql-snow .ql-editor h2{color: initial;}
 .popovers .ql-container.ql-snow .ql-editor h1, .popovers .ql-container.ql-snow .ql-editor h2, .popovers .ql-container.ql-snow .ql-editor h3,
 .popovers .ql-container.ql-snow .ql-editor h1 a, .popovers .ql-container.ql-snow .ql-editor h2 a, .popovers .ql-container.ql-snow .ql-editor h3 a{font-weight:600;}
-.popovers .ql-container.ql-snow .ql-tooltip{left:25% !important; margin-top: -10px;  padding: 2px 12px;}
+.popovers .ql-container.ql-snow .ql-tooltip{margin-top: -10px;  padding: 2px 12px;}
 /* editor changes end*/
 
 /*---- media query start ----------*/

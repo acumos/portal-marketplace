@@ -9945,7 +9945,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'position',
 	    value: function position(reference) {
-	      var left = reference.left + reference.width / 2 - this.root.offsetWidth / 2;
+	      /* Original code of the plugin. Changed the calculations accordingly.
+	       * var left = reference.left + reference.width / 2 - this.root.offsetWidth / 2;
+	       * */
+	      var left = reference.left;
 	      var top = reference.bottom + this.quill.root.scrollTop;
 	      this.root.style.left = left + 'px';
 	      this.root.style.top = top + 'px';

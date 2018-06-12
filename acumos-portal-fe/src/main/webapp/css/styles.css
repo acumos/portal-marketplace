@@ -1960,7 +1960,7 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .link-button-container .select-control{padding: 0 0px 0 6px;}
 .colorChamber.active{border:2px solid #f77204;}
 .defaultextinfo{font-size:12px; margin-bottom:10px; line-height:16px;}
-.add-top-carousel .ql-tooltip.ql-editing{left: 25% !important; margin-top: -10px; padding: 2px 12px;}
+.add-top-carousel .ql-tooltip.ql-editing{margin-top: -10px; padding: 2px 12px;}
 /*end*/
 
 /* partial onboarding related css changes */
