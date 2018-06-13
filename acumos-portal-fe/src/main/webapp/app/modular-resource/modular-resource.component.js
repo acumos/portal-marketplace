@@ -502,7 +502,7 @@ angular.module('modelResource')
 					.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
 					.then(
 							function(response) {
-								$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+								$location.hash('webonboarding');  // id of a container on the top of the page - where to scroll (top)
 		                        $anchorScroll(); 
 		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = '';
@@ -528,7 +528,7 @@ angular.module('modelResource')
 					.then(
 							function(response) {
 								$scope.trackId = response.data.response_detail;
-								$location.hash('onapAlert');  // id of a container on the top of the page - where to scroll (top)
+								$location.hash('onap-onboarding');  // id of a container on the top of the page - where to scroll (top)
 		                        $anchorScroll(); 
 		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = '';
