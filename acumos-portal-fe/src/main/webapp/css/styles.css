@@ -36,7 +36,7 @@ p {font-size: 1em;}
 .pageheadsection {padding: 15px 15px;}
 .reqfield {color: #ff0000;}
 /*********** Common CSS classes end  ************/
-
+.comments-btn {height:20px !important; line-height:15px !important;}
 /*********** Icons section start ************/
 
 .title-icons {display: inline-block; float:right; margin-right: 15px; top: 5px; position:relative;}

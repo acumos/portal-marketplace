@@ -28,7 +28,7 @@ angular
 					templateUrl : './app/model-details/md-model-details.template.html',
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
-							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce) {
+							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce, $filter) {
 						
 						$scope.orgVar = "OR";
 						$scope.pubVar = "PB";
@@ -715,6 +715,7 @@ angular
 						$scope.editReply = false;
 						$scope.commentNewest = false;
 						$scope.getComment = function() {
+							
 							if (localStorage.getItem("userDetail")) {
 								$scope.loginUserID = JSON.parse(localStorage
 										.getItem("userDetail"))[1];
@@ -733,22 +734,31 @@ angular
 								angular.forEach(response.data.response_body.content,function(value,key) {
 									if(response.data.response_body.content[key].parentId == null){
 										var commentIndex = key-$scope.replyList.length; //takes into account offset
+										var pushComment = {
+												created : response.data.response_body.content[key].created,
+												text : response.data.response_body.content[key].text,
+												commentId : response.data.response_body.content[key].commentId,
+												threadId : response.data.response_body.content[key].threadId,
+												userId : response.data.response_body.content[key].userId,
+												createdString: moment(response.data.response_body.content[key].created, "x").calendar(),
+												replies: []
+											}
 										
-										$scope.commentList.push({
-											created : response.data.response_body.content[key].created,
-											text : response.data.response_body.content[key].text,
-											commentId : response.data.response_body.content[key].commentId,
-											threadId : response.data.response_body.content[key].threadId,
-											userId : response.data.response_body.content[key].userId,
-											replies: []
-										});
+										//if the format is something other than MM/dd/YYYY, then add it to the end
+										//for example: Today at 3:24am - 12.25.2015
+										if(pushComment.createdString.length > 10) {
+											pushComment.createdString += " - " + $filter('date')(pushComment.created, "MM.dd.y");
+										}	
+										else {
+											pushComment.createdString = $filter('date')(pushComment.created, "EEEE 'at' h:mm a - MM.dd.y");
+										}
+										$scope.commentList.push(pushComment);
 						
 										var userObject = {
 												  "request_body": {
 													  		    "userId": value.userId
 												  					}};
 										apiService.getUserAccountDetails(userObject).then(function(userDetail){
-											console.log("User,", userDetail);
 												$scope.commentList[commentIndex].name = userDetail.data.response_body.loginName;
 												$scope.commentList[commentIndex].firstName = userDetail.data.response_body.firstName;
 												$scope.commentList[commentIndex].lastName = userDetail.data.response_body.lastName;
@@ -779,7 +789,13 @@ angular
 									apiService.getUserProfileImage(commentReply.userId).then(function(userImage){
 										commentReply.image = userImage.data.response_body;
 									});
-									
+									commentReply.createdString = moment(commentReply.created, "x").calendar();
+									if(commentReply.createdString.length > 10) {
+										commentReply.createdString += " - " + $filter('date')(commentReply.created, "MM.dd.y");
+									}
+									else {
+										commentReply.createdString = $filter('date')(commentReply.created, "EEEE 'at' h:mm a - MM.dd.y");
+									}
 									//loops through all current comments to find the proper parent comment to add onto its replies
 									for(var commentIndex = 0; commentIndex < $scope.commentList.length; commentIndex++) {
 										if($scope.commentList[commentIndex].commentId == commentReply.parentId) {

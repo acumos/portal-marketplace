@@ -617,7 +617,11 @@ limitations under the License.
 							<div class="discussion-outer-container" >
 								<div class="md-discussion-container">
 									<div class="md-discussion-links-container">
-										<a ng-click="commentNewest=true">Newest</a> <span>|</span> <a ng-click="commentNewest=false">Older</a> <span>|</span> <a>Liked</a>
+										<a ng-click="commentNewest=true" ng-style="commentNewest && {'font-weight':'bold', 'color':'black'}">Newest</a> 
+										<span>|</span> 
+										<a ng-click="commentNewest=false" ng-style="!commentNewest && {'font-weight':'bold', 'color':'black'}">Older</a> 
+										<span>|</span> 
+										<a>Liked</a>
 									</div>
 								</div>
 							</div>
@@ -634,17 +638,18 @@ limitations under the License.
 									</div>
 									<div class="discussion-details" ng-if = "comment.parentId == null">
 										<div>
-											<label class="dis-name">{{comment.name}}</label> | <span class="dis-name">
-												{{comment.firstName}} {{comment.lastName}}</span> | <span
-												class="text-small">on {{comment.created | date:'medium'}}</span>
+											<label class="dis-name">{{comment.firstName}} {{comment.lastName}}</label>  | 
+											<span class="text-small">{{comment.createdString}}</span>
 											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+												class="comments-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 												ng-click="showEditComment = !showEditComment" ng-hide="loginUserID != comment.userId"
-												>Edit</button>
+												> <img src="images/edit.png"/>
+												Edit</button>
 											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+												class="comments-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 												ng-click="deleteComment(comment)" ng-hide="loginUserID != comment.userId"
-												>Delete</button>
+												> <img src="images/delete.png"/>
+												Delete</button>
 										</div>
 										<p ng-hide="showEditComment">{{comment.text}}</p>
 										<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "comment.text"
@@ -688,17 +693,18 @@ limitations under the License.
 											<div class="discussion-details">
 
 												<div>
-													<label class="dis-name">{{reply.name}}</label> | <span class="dis-name">
-												{{reply.firstName}} {{reply.lastName}}</span> | <span
-												class="text-small">on {{reply.created | date:'medium'}}</span>
+													<label class="dis-name">{{reply.firstName}} {{reply.lastName}}</label> | 
+												<span class="text-small">{{reply.createdString}}</span>
 													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+														class="comments-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 														ng-click="showEditReply = !showEditReply" ng-hide="loginUserID != reply.userId"
-														>Edit</button>
+>														<img src="images/edit.png"/>
+														Edit</button>
 													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+														class="comments-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
 														ng-click="deleteComment(reply)" ng-hide="loginUserID != reply.userId"
-														>Delete</button>
+														><img src="images/delete.png"/>
+														Delete</button>
 												</div>
 												<p ng-hide="showEditReply">{{reply.text}}</p>
 												<textarea class="mdl-textfield__input md-txtarea"
