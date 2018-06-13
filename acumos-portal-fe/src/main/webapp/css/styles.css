@@ -804,8 +804,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .rating-container1 div {margin-bottom: 5px; margin-top: 5px;}
 .progress-wrapper {display: flex; margin-bottom: 10px;}
 .progress-wrapper span { width: 45px;position:relative; top:-2px;}
-.progress-wrapper span:first-child { display: none;}
-
+.progress-wrapper span:first-child { min-width: 50px;}
 .star-rating-title {font-size:36px; line-height: 41px;font-weight:600;margin-right: 5px;}
 .fa-star1{color: #b9b9b9 !important;}
 
@@ -1694,7 +1693,7 @@ table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed
 
 .n-rating1 {display: flex; flex-wrap: nowrap; justify-content:flex-end;align-items:center;position: relative;right: -5px;}
 .n-rating1 .jk-rating-stars-container {position:relative; top: 3px;}
-.ratingtxt1 {font-size: 11px;float: left; position: relative; top: -7px;margin-left: 19px;}
+.ratingtxt1 {font-size: 11px;float: right; position: relative; top: -7px;margin-left: 19px;}
 .ratingtxt2 {display: block; clear:both; width: 100%;}
 .rating-container-right .progress-wrapper .progress {width: 180px; margin-right: 15px;margin-left: 10px;}
 

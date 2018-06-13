@@ -525,23 +525,23 @@ limitations under the License.
 						<div class="rating-container"> 
 							<div class="mdl-grid rating-container-inner">
 								<div class="mdl-cell mdl-cell--5-col rating-container-left">
-									<div class="text-right rating-container1">
+								<!-- 	 <div class="text-right rating-container1">
 										<div>
-											<!-- <span class="star-rating-title">21</span>  -->
+											
 											<h6 class="sectiontitle5 rate-title" ng-show="cantRate || !cantRate">{{averageRatings.ratingAverageTenths}}</h6>
-											<!-- <h6 class="sectiontitle5 rate-title" ng-show="cantRate">Ratings</h6> -->
+											<h6 class="sectiontitle5 rate-title" ng-show="cantRate">Ratings</h6>
 											<jk-rating-stars rating="averageRatings.ratingAverageTenths" class="staticRating read-only-rating1"></jk-rating-stars>
 										</div>
 										<div>
 											<label class="font300">Out of 5 ratings</label>
 										</div>
 										<div>
-											<!-- <label class="font600">{{mlSolutionGetRating.rating}} ratings</label> -->
+											<label class="font600">{{mlSolutionGetRating.rating}} ratings</label>
 											<label class="font600">Total {{totalRatingsCount}} ratings</label>
 										</div>
-										<!-- <div>
+										<div>
 											<label class="font600">51 reviews</label>
-										</div> -->
+										</div>
 										<div>
 											<button 
 												ng-disabled="cantRate"
@@ -549,43 +549,59 @@ limitations under the License.
 												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary" alt="Rate This Model" title="Rate This Model">Rate
 												This Model</button>
 										</div>
-									</div>
+									</div> -->
+									
+									 <div class="text-right rating-container1">
+                                        <div class="n-rating1">
+                                            <span class="star-rating-title" ng-show="cantRate || !cantRate">{{averageRatings.ratingAverageTenths}}  </span>
+                                            <jk-rating-stars rating="averageRatings.ratingAverageTenths" class="staticRating read-only-rating1"></jk-rating-stars>                                            
+                                        </div>
+                                        <label class="ratingtxt1">Out of 5 stars</label>
+                                        <label class="font600 ratingtxt2">{{totalRatingsCount}} ratings and reviews</label>
+                                        <div>
+                                            <button 
+                                                ng-disabled="cantRate"
+                                                ng-click="$root.showPrerenderedDialog($event, '#rateModelPopup')"
+                                                class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Rate
+                                                This Model</button>
+                                        </div>
+                                    </div>
 								</div>
 								<div class="mdl-cell mdl-cell--4-col rating-container-right">
 									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount5}} </span> <span>5
-											star</span>
+										<span>5 star</span>
 										<div class="progress">
 											<div class="determinate" style="width: 100%; background-color: green"></div>
 										</div>
+										<span style="font-weight: bold"> {{ratingCount5}} </span> 
 									</div>
 									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount4}} </span> <span>4
-											star</span>
+										<span>4 star</span>
 										<div class="progress">
 											<div class="determinate" style="width: 80%; background-color: green"></div>
 										</div>
+										<span style="font-weight: bold"> {{ratingCount4}} </span> 
 									</div>
 									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount3}} </span> <span>3
-											star</span>
+										<span>3 star</span>
 										<div class="progress">
 											<div class="determinate" style="width: 60%; background-color: green"></div>
 										</div>
+										<span style="font-weight: bold"> {{ratingCount3}} </span> 
 									</div>
 									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount2}} </span> <span>2
-											star</span>
+										<span>2 star</span>
 										<div class="progress">
 											<div class="determinate" style="width: 40%; background-color: orange"></div>
 										</div>
+										<span style="font-weight: bold"> {{ratingCount2}} </span> 
 									</div>
 									<div class="progress-wrapper">
-										<span style="font-weight: bold"> {{ratingCount1}} </span> <span>1
-											star</span>
+										<span>1 star</span>
 										<div class="progress">
 											<div class="determinate" style="width: 20%; background-color: red"></div>
 										</div>
+										<span style="font-weight: bold"> {{ratingCount1}} </span> 
 									</div>
 								</div>
 								<div class="mdl-cell mdl-cell--5-col"></div>
@@ -1133,10 +1149,19 @@ limitations under the License.
 			<md-dialog-content>
 			<div class="md-dialog-content">
 			<div class="text-center"><label class="font600">Rate This Model</label></div>
-				<div class="text-center ratethis-container"><jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars></div>
-				<div class="text-center"><label class="text-small">Liked It</label></div>
-			
-			
+				<div class="text-center ratethis-container"><jk-rating-stars rating="mlSolutionGetRating.rating"></jk-rating-stars></div>				
+				<div ng-switch="mlSolutionGetRating.rating">
+				<div class="text-center" ng-switch-when="1"><label class="text-small">
+				 Hated It</label></div>
+				<div class="text-center" ng-switch-when="2"><label class="text-small">
+				 DisLiked It</label></div>
+				 <div class="text-center" ng-switch-when="3"><label class="text-small">
+				 It's OK</label></div>
+				 <div class="text-center" ng-switch-when="4"><label class="text-small">
+				 Liked It</label></div>
+				 <div class="text-center" ng-switch-when="5"><label class="text-small">
+				 Loved It</label></div>
+			     </div>							
 			<br/>
 			<label class="disblock">Review this model</label>
 			<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "ratingReview"
