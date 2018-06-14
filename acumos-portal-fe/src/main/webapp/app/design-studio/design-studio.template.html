@@ -76,7 +76,7 @@ limitations under the License.
 						<md-content class=""
 							style="padding: 0px;padding-left: 5px;"> 
 						<div class="ds-section-data-inner2">
-							<ul class="ds-list3" ng-repeat="val in publicCS | orderBy:'solutionName' | filter:myFilter track by $index ">
+							<ul class="ds-list3" ng-repeat="val in publicCS | orderBy:'solutionName' | filter:myFilter">
 								<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span></li>
 							</ul>
 						</div>
@@ -192,16 +192,16 @@ limitations under the License.
 			<div flex class="">
 				<div class="ds-container1">
 					<span>
-					<label class="ds-label-title" ng-if="!solutionName"> Untitled
-						<button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1 marginBottom"  ng-click="closeComSol()" ng-disabled="saveState.noSaves" title="Close">
-							<i class="fa fa-times" aria-hidden="true"></i>
-						</button>
-					</label>
-					<label class="ds-label-title" ng-if="solutionName"><span ng-bind="solutionName"></span>
-						<button class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1"  ng-click="closeComSol()">
-							<i class="fa fa-times" aria-hidden="true"></i>
-						</button>
-					</label>
+					<span class="ds-label-container1">
+							<label class="ds-label-title" ng-if="!solutionName">Untitled</label>
+							<label class="ds-label-title" ng-if="solutionName"><span ng-bind="solutionName"></span></label>
+							<button ng-if="solutionName" class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1 marginBottom"  ng-click="closeComSol()">
+									<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+							<button ng-if="!solutionName" class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1 marginBottom"  ng-click="closeComSol()" ng-disabled="saveState.noSaves" title="Close">
+									<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+					</span>
 					<button ng-click='newSolution("new");canvas=true' class="mdl-button mdl-js-button ds-btnnew" title="New">
 							<span class="addnew"></span> New
 						</button>
@@ -349,7 +349,31 @@ limitations under the License.
 							
 								Source table and Target table are generated and extract the fields from uploaded data file
 								
-								<button ng-click='showMappingTable()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform">Mapping Table</button>
+								<button ng-click='showMappingTable()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" style="background: #E8E5EC;color:#671C9D">Mapping Table</button>
+							</div>
+							
+							<div class="ds-section-data-inner3" ng-show = "showCollator">
+								<ul class="ds-list2 properties-list">
+									<li>
+										<label class="disblock ds-label1">Node Name:</label>
+										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
+									</li>
+								</ul>
+								<button ng-click='showCollatorSelection()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" style="background: #E8E5EC;color:#671C9D">Collator Scheme Selector</button>
+								<button ng-click='showCollatorMap()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" disabled>Collator Map</button>
+								
+							</div>
+							
+							<div class="ds-section-data-inner3" ng-show = "showSplitter">
+								<ul class="ds-list2 properties-list">
+									<li>
+										<label class="disblock ds-label1">Node Name:</label>
+										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
+									</li>
+								</ul>
+								<button ng-click='showSplitterSelection()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" style="background: #E8E5EC;color:#671C9D">Splitter Scheme Selector</button>
+								<button ng-click='showSplitterMap()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" disabled>Splitter Map</button>
+								
 							</div>
 								
 							<div class="ds-section-data-inner3" ng-show="showLink" >
@@ -1037,5 +1061,91 @@ limitations under the License.
 								</md-dialog>
 							</div>
 						<!-- Mapping Modal box end -->
+						
+						<!-- Schema selection for Collator Start -->
+						<div class="md-dialog-container" id="myDialogCollatorSelector" style="height: 0;">
+						<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+							<ng-form name="collatorSelector" ng-cloak>
+							<md-toolbar>
+							<div class="md-toolbar-tools">
+								<h2>Collator Selection</h2>
+								<span flex></span>
+								<md-button class="md-icon-button" ng-click="closePopupCollatorSelector()">
+								<i class="material-icons">close</i> </md-button>
+							</div>
+							</md-toolbar>
+							<md-dialog-content>
+							
+							<div class="md-dialog-content" >
+								<div class="ds-db-row1">
+									
+									<div class="ds-db-row1-cell" id="selectCollateSchema">
+										<label class="disblock">Select the Collator Scheme: <span class="dsreqfield">*</span></label>
+										<md-radio-group ng-model="collateScheme" ng-change="changeRead()"> 
+											<md-radio-button class="md-primary" value="Array-based">Array-Based Collation</md-radio-button>
+											<md-radio-button value="parameter_based_collation" disabled>Parameter-Based Collation</md-radio-button> 
+										</md-radio-group>
+									</div>
+								</div>
+							</div>
+							
+							</md-dialog-content>
+							<md-dialog-actions>
+							<div class="dialog-footer-container1">
+								<md-button ng-click="closePopupCollatorSelector()"
+									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+								Cancel </md-button>
+								<md-button type="submit" ng-disabled="collatorSelector.$invalid || readSolution"
+									ng-click="processCollatorSelection()" class="mdl-button mdl-js-button btn-primary"
+									title="Done"> Done </md-button>
+							</div>
+							</md-dialog-actions>
+						</ng-form>
+						</md-dialog>
+					</div>
+			<!-- Schema selection for Collator end -->
+			
+			<!-- Schema selection for Collator Start -->
+						<div class="md-dialog-container" id="myDialogSplitterSelector" style="height: 0;">
+						<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+							<ng-form name="splitterSelector" ng-cloak>
+							<md-toolbar>
+							<div class="md-toolbar-tools">
+								<h2>Splitter Selection</h2>
+								<span flex></span>
+								<md-button class="md-icon-button" ng-click="closePopupSplitterSelector()">
+								<i class="material-icons">close</i> </md-button>
+							</div>
+							</md-toolbar>
+							<md-dialog-content>
+							
+							<div class="md-dialog-content" >
+								<div class="ds-db-row1">
+									
+									<div class="ds-db-row1-cell" id="selectSplitterSchema">
+										<label class="disblock">Select the Splitter Scheme: <span class="dsreqfield">*</span></label>
+										<md-radio-group ng-model="splitScheme" ng-change="changeRead()"> 
+											<md-radio-button class="md-primary" value="Copy-based">Copy-Based Splitting</md-radio-button>
+											<md-radio-button value="parameter_based_splitting" disabled>Parameter-Based Splitting</md-radio-button> 
+										</md-radio-group>
+									</div>
+								</div>
+							</div>
+							
+							</md-dialog-content>
+							<md-dialog-actions>
+							<div class="dialog-footer-container1">
+								<md-button ng-click="closePopupSplitterSelector()"
+									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+								Cancel </md-button>
+								<md-button type="submit" ng-disabled="splitterSelector.$invalid || readSolution"
+									ng-click="processSplitterSelection()" class="mdl-button mdl-js-button btn-primary"
+									title="Done"> Done </md-button>
+							</div>
+							</md-dialog-actions>
+						</ng-form>
+						</md-dialog>
+					</div>
+			<!-- Schema selection for Splitter end -->
 </div>
 	

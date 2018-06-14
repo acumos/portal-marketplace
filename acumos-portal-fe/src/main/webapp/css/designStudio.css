@@ -62,8 +62,9 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 
 
 
-.ds-btnclose1 {width: 25px; height:25px; border-radius: 3px; z-index: 999;font-size: 12px;}
+.ds-btnclose1 {width: 25px; height:25px; border-radius: 3px; z-index: 999;font-size: 12px;background: none;}
 .ds-btnclose1 .fa-times {font-size: 12px; color:#c2c2c2;}
+.mdl-button.ds-btnclose1.mdl-js-button[disabled] {background: none !important;}
 
 .ds-btnsearch1 {width: 14px; height:14px; border-radius: 3px; z-index: 999; min-width:10px;}
 .ds-btnsearch1 .icon-input-search {top:-10px;}
@@ -115,8 +116,7 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 .ds-section[disabled] button, .ds-section[disabled] button:hover {cursor: not-allowed;color: rgba(0,0,0,.26);}
 
 
-.ds-label-title {background: #F1F1F1; height:30px; line-height:30px;position:relative; margin-top:8px;font-size:12px; padding-left: 20px;
- margin-left:7px; border-left: 1px solid #D8D8D8; border-top: 1px solid #D8D8D8;border-right: 1px solid #D8D8D8; display:inline-block;}
+.ds-label-title {position:relative; font-size:12px;margin-left:7px; display:inline-block;}
 
 .ds-left-section {padding-right:8px;}
 .ds-right-section {padding-left:8px;}
@@ -163,7 +163,7 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 .ds-section-content-data { height: 184px;}
 
 .ds-btnnew {border:1px solid #661B9C; color:#661B9C; font-size:12px; text-transform: none;font-weight:600; 
-height: 25px; line-height: 25px; padding:0;border-radius:0; min-width:50px; text-align:center;position:relative; left: 5px; top:-4px; }
+height: 25px; line-height: 25px; padding:0;border-radius:0; min-width:50px; text-align:center;position:relative; left: 5px; top: 5px; }
 .ds-btnnew .addnew {width:9px; height:9px; display:inline-block; background: url("../images/ds-icons/plus_icon.png")}
 
 .ds-delete-icon {width:12px; height:13px; display:inline-block; background: url("../images/ds-icons/mysolution_delete_icon.png")}
@@ -361,6 +361,7 @@ table.dsmt-tbl tbody tr td md-checkbox.md-checked .md-icon::after {width: 4px; h
 .ds-new-container1 {max-height: 200px;}
 .ds-db-row1-cell1 .select-control md-select[required].ng-invalid:not(.md-no-asterisk) .md-select-value span:first-child:after {content: "";}
 
+.ds-label-container1 {margin-left: 15px;display: inline-block;height: 30px; position:relative; top: 9px;background: #F1F1F1;border-left: 1px solid #D8D8D8; border-top: 1px solid #D8D8D8;border-right: 1px solid #D8D8D8;}
 /******* Mapping Tables modal box style start *********/
 @media (width: 1024px) and (orientation: landscape) {
 	.ds-mapping-tables-dialog {min-width: 1000px; max-height: 85%; max-width: 98
@@ -376,3 +377,4 @@ md-select.ng-invalid[required]:not(.md-no-asterisk) .md-select-value span:first-
 
 input.userprofiletxtbox.uploadtxtbox {box-shadow: none !important;} 
 
+#ds-property-button {background: #E8E5EC !important;color:#671C9D !important;}
