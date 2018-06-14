@@ -93,6 +93,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var savedSolution = false;
     var readScriptDetails = null;
     var scriptEnteredDetails = null;
+    var collateDetails = null;
+    var splitDetails = null;
     var extras = false;
     var operations = []; var messages = [];
     $scope.palette = {categories: []};
@@ -166,15 +168,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             }
         });
         var data = {
+        	nodeVersion: ver,
             nodeId: type + (max+1),
             type: {"name": type}
         };
         data.name = data.nodeId;
         $scope.nodeName=data.name;
         var nodeId = '',nodeVersion = ver, nodeRevision = revision;
-        $http.get(_catalog.fModelUrl(_components.get(type))).success(function(tgif) {
-            nodeId = _components.get(type).solutionId;
-            $scope.solutionDetails=_components.get(type);
+        $http.get(_catalog.fModelUrl(_components.get(type+'+'+nodeVersion))).success(function(tgif) {
+            nodeId = _components.get(type+'+'+nodeVersion).solutionId;
+            $scope.solutionDetails=_components.get(type+'+'+nodeVersion);
             $scope.showProperties=null;
             $scope.packageName= JSON.stringify(tgif.self.name);
             $scope.requireCalls= tgif.services.calls;
@@ -250,10 +253,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             case 'CO':
             	type = "Collator";
             	def.extras = [];
+            	$scope.collateScheme = null;
             	break;
             case 'SP':
             	type = "Splitter";
             	def.extras = [];
+            	$scope.splitScheme = null;
             	break;
             case 'BR': 
             	type = "DataBroker";
@@ -849,6 +854,26 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             		}
             	});
             }
+            
+            if(n.type.name === "Collator"){
+            	$scope.readSolution = true;
+            	angular.forEach(n.properties, function(value, key){
+            		if(value.collator_map !== null){
+            			$scope.collateScheme = value.collator_map.collator_type;
+            			collateDetails = value.collator_map.collator_type;
+            		}
+            	});
+            }
+            
+            if(n.type.name === "Splitter"){
+            	$scope.readSolution = true;
+            	angular.forEach(n.properties, function(value, key){
+            		if(value.splitter_map !== null){
+            			$scope.splitScheme = value.splitter_map.splitter_type;
+            			splitDetails = value.splitter_map.splitter_type;
+            		}
+            	});
+            }
         });
     }
 
@@ -1216,7 +1241,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                               "map_action": "add",
                               "output_field_message_name": rport.fullType[0].messageName,
                               "output_field_tag_id": rnodeDetails.tag
-                          }
+                          },
+                          "collatorMap": null,
+            			  "splitterMap": null
             		};
               
                 if(_solutionId){
@@ -1301,6 +1328,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.nodeNameUI=null;
         $scope.showDataBroker = null;
         $scope.showDataMapper = null;
+        $scope.showCollator = null;
+    	$scope.showSplitter = null;
         $scope.showProperties=null;
         $scope.showLink=null;
         $scope.solutionDetails=compsHover[0];
@@ -1338,22 +1367,86 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             }
         });
   
+    function makeRepeatedComplexType(msg) {
+    		return {
+    			messageName : "collateOutput",
+    			messageargumentList : [{
+    				role: "repeated",
+    				name: "prediction",
+    				tag: "1",
+    				type: msg.messageName,
+    				complexType: {"messageName": msg.messageName,
+    								"messageargumentList": msg.messageargumentList}
+    			}]
+			};
+    } 
+    
     // used for copying the messages into "any" port
     var wildcardPorts = dc_graph.wildcard_ports({
         get_type: function(p){return p.orig.value.type},
         set_type: function(p1, p2) {
-            if(p2) {
-                p1.orig.value.type = p2.orig.value.type;
-                p1.orig.value.fullType = p2.orig.value.fullType;
-            }
-            else {
-            	p1.orig.value.type = null;
-            	p1.orig.value.fullType = p1.orig.value.originalType;
-            }
+        	if(p1.node.orig.value.type.name === "Collator"){
+        		if(p1.orig.value.bounds === outbounds){
+        			_ports.forEach(function(port){
+            			if(port.nodeId === p1.node.orig.key && port.bounds !== p1.orig.value.bounds){
+            				if(p2) {
+                                p1.orig.value.type = p2.orig.value.type;
+                                p1.orig.value.fullType = p2.orig.value.fullType;
+                                port.type = JSON.stringify(removeMsgNames([p2.orig.value.originalType[0].messageargumentList[0].complexType]));
+                                port.fullType = [p2.orig.value.originalType[0].messageargumentList[0].complexType];
+                            } else {
+                            	p1.orig.value.type = null;
+                            	p1.orig.value.fullType = p1.orig.value.originalType;
+                            }
+            			} 
+        			});
+        		} else {
+        			_ports.forEach(function(port){
+            			if(port.nodeId === p1.node.orig.key && port.bounds !== p1.orig.value.bounds){
+            				
+            				if(p2) {
+            					var portMsg = makeRepeatedComplexType(p2.orig.value.originalType[0]);
+                                p1.orig.value.type = p2.orig.value.type;
+                                p1.orig.value.fullType = p2.orig.value.fullType;
+                                port.type = JSON.stringify(removeMsgNames([portMsg]));
+                                port.fullType = [portMsg];
+                            } else {
+                            	p1.orig.value.type = null;
+                            	p1.orig.value.fullType = p1.orig.value.originalType;
+                            }
+            			}
+        			});
+        		}
+        	} else if(p1.node.orig.value.type.name === "Splitter"){
+        		_ports.forEach(function(port){
+        			if(port.nodeId === p1.node.orig.key && port.bounds !== p1.orig.value.bounds){
+        				if(p2) {
+                            p1.orig.value.type = p2.orig.value.type;
+                            p1.orig.value.fullType = p2.orig.value.fullType;
+                            port.type = p2.orig.value.type;
+                            port.fullType = p2.orig.value.fullType;
+                        } else {
+                        	p1.orig.value.type = null;
+                        	p1.orig.value.fullType = p1.orig.value.originalType;
+                        }
+        			}
+        		});
+        	} else{
+	        	if(p2) {
+	                p1.orig.value.type = p2.orig.value.type;
+	                p1.orig.value.fullType = p2.orig.value.fullType;
+	            }
+	            else {
+	            	p1.orig.value.type = null;
+	            	p1.orig.value.fullType = p1.orig.value.originalType;
+	            }
+        	}
         },
         is_wild: function(p) {return is_wildcard_type(p.orig.value.originalType)},
         update_ports: update_ports
     });
+    
+    //used for copying the message but displaying 
 
     function initialize_canvas() {
         _diagram = dc_graph.diagram('#canvas');
@@ -1398,10 +1491,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .edgeStroke('#777')
             .nodeShape(function(n){
             	var res = n.key.slice(0, -1);
-            	var nodeDet=_components.get(res);
-            	//check for collator
-                if(/DataMapper/.test(nodeDet.solutionName))
-                    return {shape: 'rounded-rect', rx: 0, ry: 0};
+            	var nodeDet=_components.get(res+'+'+n.value.nodeVersion);
+            	if(nodeDet.toolKit === "CO" || nodeDet.toolKit === "SP" || nodeDet.toolKit === "BR" || /DataMapper/.test(nodeDet.solutionName))
+            		return {shape: 'rounded-rect', rx: 0, ry: 0};
                 else{
                     if(nodeDet.category === "DS" || nodeDet.category === "DT")
                         return {shape: 'ellipse'};
@@ -1412,7 +1504,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .nodeContent('text-with-icon')
             .nodeIcon(function(d) {
             	var res = d.key.slice(0, -1);
-            	var nodeDet=_components.get(res);
+            	var nodeDet=_components.get(res+'+'+d.value.nodeVersion);
                 var nodeName = nodeDet.solutionName;
 
                 if(nodeDet.category === "DS")
@@ -1476,10 +1568,59 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
         portMatcher.isValid(
         		function(sourcePort, targetPort) {
-                    return wildcardPorts.isValid(sourcePort, targetPort) &&
-                    sourcePort.orig.value.bounds !== xtrabounds &&  
-                    targetPort.orig.value.bounds !== xtrabounds &&  
-                    sourcePort.orig.value.bounds !== targetPort.orig.value.bounds});
+        			if(targetPort.node.orig.value.type.name === "Collator"){
+        				var m = sourcePort.orig.value.originalType[0].messageargumentList[0];
+        				if(targetPort.orig.value.bounds === outbounds){  					
+        					if(m.complexType && m.role === "repeated"){
+    							return wildcardPorts.isValid(sourcePort, targetPort) &&
+			                        sourcePort.orig.value.bounds !== xtrabounds &&  
+			                        targetPort.orig.value.bounds !== xtrabounds &&  
+			                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
+			                        targetPort.edges.length === 0;
+    						}
+        				} else {
+        					if(m.complexType === undefined && m.role !== "repeated"){
+	        					return wildcardPorts.isValid(sourcePort, targetPort) &&
+		    		                sourcePort.orig.value.bounds !== xtrabounds &&  
+		    		                targetPort.orig.value.bounds !== xtrabounds &&  
+		    		                sourcePort.orig.value.bounds !== targetPort.orig.value.bounds;
+	        						}
+	        				}
+        			} else if(sourcePort.node.orig.value.type.name === "Collator"){
+        				var m = targetPort.orig.value.originalType[0].messageargumentList[0];
+        				if(sourcePort.orig.value.bounds === outbounds){  					
+        					if(m.complexType && m.role === "repeated"){
+    							return wildcardPorts.isValid(sourcePort, targetPort) &&
+			                        sourcePort.orig.value.bounds !== xtrabounds &&  
+			                        targetPort.orig.value.bounds !== xtrabounds &&  
+			                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
+			                        sourcePort.edges.length === 0;
+    						}
+        				} else {
+        					if(m.complexType === undefined && m.role !== "repeated"){
+	        					return wildcardPorts.isValid(sourcePort, targetPort) &&
+		    		                sourcePort.orig.value.bounds !== xtrabounds &&  
+		    		                targetPort.orig.value.bounds !== xtrabounds &&  
+		    		                sourcePort.orig.value.bounds !== targetPort.orig.value.bounds;
+	        				}
+	        			}
+        			} else if(targetPort.node.orig.value.type.name === "Splitter" && targetPort.orig.value.bounds === inbounds){
+        				return wildcardPorts.isValid(sourcePort, targetPort) &&
+	                        sourcePort.orig.value.bounds !== xtrabounds &&  
+	                        targetPort.orig.value.bounds !== xtrabounds &&  
+	                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
+	                        targetPort.edges.length === 0;
+        			} else if(sourcePort.node.orig.value.type.name === "Splitter" && sourcePort.orig.value.bounds === inbounds){
+        				return wildcardPorts.isValid(sourcePort, targetPort) &&
+	                        sourcePort.orig.value.bounds !== xtrabounds &&  
+	                        targetPort.orig.value.bounds !== xtrabounds &&  
+	                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
+	                        sourcePort.edges.length === 0;
+        			} else {
+	                    return wildcardPorts.isValid(sourcePort, targetPort) &&
+		                    sourcePort.orig.value.bounds !== xtrabounds &&  
+		                    targetPort.orig.value.bounds !== xtrabounds &&  
+		                    sourcePort.orig.value.bounds !== targetPort.orig.value.bounds}});
 
         _drawGraphs = dc_graph.draw_graphs({
             idTag: 'nodeId',
@@ -1509,7 +1650,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 e.targetNodeCapability = tport.name;
                 var params, url =  '';
                 var properties, map_json = [];
-                //check for collator
+
                if(sport.node.orig.value.modelName == "DataBroker" || sport.node.orig.value.type.name == 'DataBroker' || tport.node.orig.value.modelName == "DataBroker" ||tport.node.orig.value.type.name == 'DataBroker' ){
                 	properties = {};
                 	if(sport.orig.value.bounds === outbounds){
@@ -1517,6 +1658,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 	} else if(tport.orig.value.bounds === outbounds){
                 		targetTableCreate(sport);
                 	}
+                } else if(sport.node.orig.value.type.name === "Collator" || sport.node.orig.value.type.name === "Splitter" || tport.node.orig.value.type.name === "Collator" || tport.node.orig.value.type.name === "Splitter"){
+                	properties = {};
                 } else {
                 
                 	if(is_wildcard_type(sport.orig.value.originalType)){
@@ -1720,8 +1863,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 else if(nodes.length === 1) {
                     select_edges_group.set_changed([], false);
                     select_ports_group.set_changed([], true);
-
+             
                     var selectedNodeId = _diagram.getNode(nodes[0]).key;
+                    $scope.nodeIdDB = selectedNodeId;
                     var n = selectedNodeId.length;
                     var type = selectedNodeId.substring(0,n-1);
                     var comps = _catalog.models().filter(function(comp) {
@@ -1736,19 +1880,39 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     }
                     $scope.showProperties=null;
                     $scope.showLink = null;
-                   //check for collator
+
                     switch($scope.solutionDetails.toolKit){
                     case 'BR': 
                     	$scope.showDataMapper = null;
                     	$scope.solutionDetails = null;
+                    	$scope.showCollator = null;
+                    	$scope.showSplitter = null;
                     	$scope.showDataBroker = true;
                     	$scope.$apply();
                     	break;
                     case 'TC':
                     	$scope.showDataBroker = null;
                     	$scope.showDataMapper = null;
+                    	$scope.showCollator = null;
+                    	$scope.showSplitter = null;
                     	$scope.$apply();
                     	display_properties(_catalog.fModelUrl(comps[0]));
+                    	break;
+                    case 'CO':
+                    	$scope.showDataBroker = null;
+                    	$scope.solutionDetails = null;
+                    	$scope.showDataMapper = null;
+                    	$scope.showSplitter = null;
+                    	$scope.showCollator = true;
+                    	$scope.$apply();
+                    	break;
+                    case 'SP':
+                    	$scope.showDataBroker = null;
+                    	$scope.solutionDetails = null;
+                    	$scope.showDataMapper = null;
+                    	$scope.showCollator = null;
+                    	$scope.showSplitter = true;
+                    	$scope.$apply();
                     	break;
                     default:
                     	// detect if node has wildcard ports
@@ -1758,6 +1922,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	if(wilds.length) {
                     		$scope.showDataBroker = null;
                     		$scope.solutionDetails = null;
+                    		$scope.showCollator = null;
+                        	$scope.showSplitter = null;
                     		$scope.showDataMapper = true;
                     		$scope.$apply();
                     		display_data_mapper(nodes[0], wilds);
@@ -1765,6 +1931,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	else{
                     		$scope.showDataBroker = null;
                     		$scope.showDataMapper = null;
+                    		$scope.showCollator = null;
+                        	$scope.showSplitter = null;
                     		display_properties(_catalog.fModelUrl(comps[0]));
                     		$scope.$apply();
                     		
@@ -1788,6 +1956,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         $scope.showDataBroker = null;
                         $scope.solutionDetails = null;
                         $scope.showProperties = null;
+                        $scope.showCollator = null;
+                    	$scope.showSplitter = null;
                         $scope.showLink=true;
                         $scope.$apply();
                     }
@@ -1881,6 +2051,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $scope.closePoup();
             $scope.showDataBroker = null;
             $scope.showDataMapper = null;
+            $scope.showCollator = null;
+        	$scope.showSplitter = null;
             $scope.solutionDetails = null;
             $scope.showProperties = null;
             $scope.showLink=null;
@@ -2052,7 +2224,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .clickable(true)
             .selection(dc_graph.tip.select_port())
             .content(function(d, k) {
-
+            	console.log(d);
                 if(is_wildcard_type(d.orig.value.originalType)){
                     jsonProtoMap = d.orig.value.fullType;
                     jsonProto = null;
@@ -2192,6 +2364,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.messageUI=messageJson;
                 $scope.showDataBroker = null;
                 $scope.showDataMapper = null;
+                $scope.showCollator = null;
+            	$scope.showSplitter = null;
                 $scope.solutionDetails=null;
                 $scope.showLink=null;
                 if($scope.messageUI){
@@ -2284,7 +2458,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 });
                 _catalog = catalog_readers[options.catformat](data);
                 
-                _components = d3.map(_catalog.models(), _catalog.fModelName);
+                _components = d3.map(_catalog.models(), _catalog.fModelKey);
                 
                 // PALETTE
                 // throw out any models which don't have a category,
@@ -2394,6 +2568,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     reset();
                 	$scope.showDataBroker = null;
                     $scope.showDataMapper = null;
+                    $scope.showCollator = null;
+                	$scope.showSplitter = null;
                     $scope.solutionDetails = null;
                     $scope.showProperties = null;
                     $scope.showLink=null;
@@ -2451,6 +2627,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .success(function(response) {
                 $scope.cleardis= true;
                 $scope.showDataMapper = null;
+                $scope.showCollator = null;
+            	$scope.showSplitter = null;
                 $scope.solutionDetails = null;
                 $scope.showProperties = null;
                 $scope.showLink=null;
@@ -2602,7 +2780,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.closePoup = function(){
     	if(enteredOk){
-    		$scope.solutionName = "";
     		$scope.showPrerenderedDialog();
     		enteredOk = false;
     	}
@@ -2655,7 +2832,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     else if(tempArr[key] == 'OR'){
                         $scope.publicOR = data.items
                     }
-                    else $scope.privateCS = data.items;
+                    else {
+                    	$scope.privateCS = data.items;
+                    	$scope.publicOR = [];
+                    }
                     angular.forEach($scope.publicOR, function(value1, key1) {
                         $scope.publicCS.push(value1);
                         console.clear();
@@ -2818,7 +2998,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			    "map_inputs": null,
     			    "map_outputs": null
     			  },
-    			  "fieldMap":null
+    			  "fieldMap":null,
+    			  "collatorMap": null,
+    			  "splitterMap": null
     		}
         if(_solutionId){
             url = build_url(options.modifyNode, {
@@ -2839,11 +3021,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	$http.post(url,data)
         .success(function(result) {
         	if(result.success === 'true'){
-        		$scope.closeSavePoup();
         		$scope.saveState.noSaves = false;
         		$scope.validationState = true;
                 $scope.activeInactivedeploy = true;
         		_dirty = true;
+        		$scope.closePoup();
         	}else{
         		$scope.saveState.noSaves = true;
         		_dirty = false;
@@ -3085,7 +3267,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         			    "map_inputs": $scope.readSourceTable,
         			    "map_outputs": mapOutput
         			  },
-        			  "fieldMap":null
+        			  "fieldMap":null,
+        			  "collatorMap": null,
+        			  "splitterMap": null
         		};
     	} else{
     	var data = {
@@ -3100,7 +3284,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			    "map_inputs": mapInput,
     			    "map_outputs": mapOutput
     			  },
-    			  "fieldMap":null
+    			  "fieldMap":null,
+    			  "collatorMap": null,
+    			  "splitterMap": null
     		};
     	}
         if(_solutionId){
@@ -3163,6 +3349,158 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 			 $('#optionshow').hide();
 		 } 	 
 	});
+    
+    $scope.showCollatorSelection = function(ev) {
+    	if(!$scope.readSolution && ($scope.collateScheme === "" || $scope.collateScheme === null || $scope.collateScheme === undefined))
+    		$scope.collateScheme = "array_based_collation";	
+        $mdDialog.show({
+            contentElement: '#myDialogCollatorSelector',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+        });
+    };
+    
+    $scope.showSplitterSelection = function(ev) {
+    	if(!$scope.readSolution && ($scope.splitScheme === "" || $scope.splitScheme === null || $scope.splitScheme === undefined))
+    		$scope.splitScheme = "copy_based_splitting";
+        $mdDialog.show({
+            contentElement: '#myDialogSplitterSelector',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
+        });
+    };
+    
+    $scope.closePopupCollatorSelector = function(){
+    	if($scope.readSolution){
+    		$scope.collateScheme = collateDetails;
+    	} else if($scope.collateSelect){
+    		$scope.collateScheme = $scope.collateSelectedDetails;
+    	} else{
+    		$scope.collateScheme = "";
+    	}
+    	$scope.collatorSelector.$setPristine();
+         $scope.collatorSelector.$setUntouched();
+         $mdDialog.cancel();	
+    };
+    
+    $scope.closePopupSplitterSelector = function(){
+    	if($scope.readSolution){
+    		$scope.splitScheme = splitterDetails;
+    	} else if($scope.splitSelect){
+    		$scope.splitScheme = $scope.splitSelectedDetails;
+    	} else{
+    		$scope.splitScheme = "";
+    	}
+    	$scope.collatorSelector.$setPristine();
+        $scope.splitterSelector.$setUntouched();
+        $mdDialog.cancel();	
+    };
+    
+    $scope.processCollatorSelection = function(){
+    	var url;
+    	$scope.collateSelect = true;
+    	$scope.collateSelectedDetails = $scope.collateScheme;
+    	if($scope.collateScheme === "array_based_collation"){
+    		var data = {
+        			"databrokerMap": null,
+        			  "fieldMap":null,
+        			  "collatorMap": {
+        				  "collator_type": $scope.collateScheme,
+        				  "output_message_signature": null,
+        				  "map_inputs": null,
+        				  "map_outputs": null
+        			  },
+        			  "splitterMap": null
+        		}
+            if(_solutionId){
+                url = build_url(options.modifyNode, {
+                    userid: get_userId(),
+                    solutionid:_solutionId,
+                    nodeid: $scope.nodeIdDB,
+                    nodename: name,
+                });
+            } else {
+                url = build_url(options.modifyNode, {
+                    userid: get_userId(),
+                    cid:_cid,
+                    nodeid: $scope.nodeIdDB,
+                    nodename: name,
+                });
+            }
+            
+        	$http.post(url,data)
+            .success(function(result) {
+            	if(result.success === 'true'){
+            		$scope.saveState.noSaves = false;
+            		$scope.validationState = true;
+                    $scope.activeInactivedeploy = true;
+            		_dirty = true;
+            		$scope.closePoup();
+            	}else{
+            		$scope.saveState.noSaves = true;
+            		_dirty = false;
+            	}
+            })
+            .error(function(response){
+            	$scope.msg = "Could not save the Collator scheme details";
+            	$scope.showpopup();
+            });
+    	}
+    };
+    
+    $scope.processSplitterSelection = function(){
+    	var url;
+    	$scope.splitSelect = true;
+    	$scope.splitSelectedDetails = $scope.splitScheme;
+    	if($scope.splitScheme === "copy_based_splitting"){
+    		var data = {
+        			"databrokerMap": null,
+        			  "fieldMap":null,
+        			  "collatorMap": null,
+        			  "splitterMap": {
+        				  "splitter_type": $scope.splitScheme,
+        				  "input_message_signature": null,
+        				  "map_inputs": null,
+        				  "map_outputs": null
+        			  }
+        		}
+            if(_solutionId){
+                url = build_url(options.modifyNode, {
+                    userid: get_userId(),
+                    solutionid:_solutionId,
+                    nodeid: $scope.nodeIdDB,
+                    nodename: name,
+                });
+            } else {
+                url = build_url(options.modifyNode, {
+                    userid: get_userId(),
+                    cid:_cid,
+                    nodeid: $scope.nodeIdDB,
+                    nodename: name,
+                });
+            }
+            
+        	$http.post(url,data)
+            .success(function(result) {
+            	if(result.success === 'true'){
+            		$scope.saveState.noSaves = false;
+            		$scope.validationState = true;
+                    $scope.activeInactivedeploy = true;
+            		_dirty = true;
+            		$scope.closePoup();
+            	}else{
+            		$scope.saveState.noSaves = true;
+            		_dirty = false;
+            	}
+            })
+            .error(function(response){
+            	$scope.msg = "Could not save splitter scheme details";
+            	$scope.showpopup();
+            });
+    	}
+    };
 }
 }
 
