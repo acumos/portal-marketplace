@@ -1,0 +1,42 @@
+2018-06-13 14:36:41,607|Acumos|rohit|http-nio-127.0.0.1-8083-exec-12|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 14:36:44,501|Acumos|rohit|http-nio-127.0.0.1-8083-exec-12|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 15:48:55,877|Acumos|rohit|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 15:50:03,695|Acumos|rohit|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 16:11:12,373|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-4|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:11:14,668|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-4|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 16:24:07,455|Acumos|acumos|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:25:15,187|Acumos|acumos|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 16:25:36,297|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-13|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:43:08,739|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-6|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:43:16,686|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-6|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 16:43:17,326|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-13|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 16:43:56,900|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-10|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:43:57,873|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:44:07,853|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-2|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:44:33,715|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-10|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 16:44:34,264|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 16:44:37,056|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-2|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 16:45:28,566|Acumos|techmdev|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:45:34,420|Acumos|techmdev|http-nio-127.0.0.1-8083-exec-3|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 16:46:23,255|Acumos|acumos|http-nio-127.0.0.1-8083-exec-1|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:46:27,716|Acumos|acumos|http-nio-127.0.0.1-8083-exec-1|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 16:46:54,816|Acumos|acumos|http-nio-127.0.0.1-8083-exec-5|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:46:55,276|Acumos|acumos|http-nio-127.0.0.1-8083-exec-5|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 16:47:08,199|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-4|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 16:47:11,105|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-4|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 17:31:51,451|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-1|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 17:31:54,245|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-1|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 17:32:28,089|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-6|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 17:32:30,878|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-6|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 17:33:08,995|Acumos|rohit|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 17:33:09,552|Acumos|rohit|http-nio-127.0.0.1-8083-exec-9|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| Login  Failed. Invalid Password.
+2018-06-13 17:33:18,928|Acumos|rohit|http-nio-127.0.0.1-8083-exec-5|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 17:33:21,686|Acumos|rohit|http-nio-127.0.0.1-8083-exec-5|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 17:37:50,610|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-2|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 17:37:53,330|Acumos|acumosuser|http-nio-127.0.0.1-8083-exec-2|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 17:38:21,910|Acumos|rohit|http-nio-127.0.0.1-8083-exec-11|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 17:38:24,686|Acumos|rohit|http-nio-127.0.0.1-8083-exec-11|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 19:33:49,649|Acumos|techmdev|http-nio-127.0.0.1-8083-exec-10|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 19:33:52,488|Acumos|techmdev|http-nio-127.0.0.1-8083-exec-10|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully
+2018-06-13 19:34:20,606|Acumos|techmdev|http-nio-127.0.0.1-8083-exec-7|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logging in
+2018-06-13 19:34:23,408|Acumos|techmdev|http-nio-127.0.0.1-8083-exec-7|INFO||org.acumos.portal.be.aspect.PortalLoggingAspect| User Logged Successfully

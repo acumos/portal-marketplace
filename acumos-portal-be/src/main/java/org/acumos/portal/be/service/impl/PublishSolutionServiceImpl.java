@@ -176,9 +176,17 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	public boolean checkUniqueSolName(String solutionId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
+		String[] accessTypeCodes = { };
 
 		MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
+		if(solution.getAccessTypeCode().equals(CommonConstants.PUBLIC)){
+			accessTypeCodes[0] = CommonConstants.ORGANIZATION;
+		}else if(solution.getAccessTypeCode().equals(CommonConstants.ORGANIZATION)){
+			accessTypeCodes[0] = CommonConstants.PUBLIC;
+		}else {
+			accessTypeCodes[0]= CommonConstants.PUBLIC;
+			accessTypeCodes[1]= CommonConstants.ORGANIZATION;
+		}
 		String[] name = { solution.getName() };
 
 		Map<String, String> queryParameters = new HashMap<>();

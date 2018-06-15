@@ -1873,7 +1873,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
 				pageReqPortal.getOwnerIds(), pageReqPortal.getAccessTypeCodes(), pageReqPortal.getModelTypeCodes(),
 				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
-
+		  
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
 		Set<String> filteredTagSet = new HashSet<>();

@@ -71,6 +71,10 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.maven.wagon.ConnectionException;
+import org.apache.maven.wagon.ResourceDoesNotExistException;
+import org.apache.maven.wagon.TransferFailedException;
+import org.apache.maven.wagon.authentication.AuthenticationException;
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
@@ -382,6 +386,18 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				stepResult.setResult("Cannot Fetch MetaData Json");
 				messagingService.createStepResult(stepResult);
 				return isCompatible;
+			} catch (AuthenticationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ResourceDoesNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransferFailedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (AuthorizationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
 			if(byteArrayOutputStream == null) {

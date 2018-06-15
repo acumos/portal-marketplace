@@ -128,13 +128,13 @@ angular.module('myModal',[])
                     					$mdDialog.hide();
                     					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                         $anchorScroll(); 
-                                        $scope.msg = "Signed-Up successfully\nPlease Sign In to log into the portal."; 
+                                        $scope.msg = "Signed-Up successfully\n Please Sign In to log into the portal."; 
                                         $scope.icon = '';
                                         $scope.styleclass = 'c-success';
                                         $scope.showAlertMessage = true;
                                         $timeout(function() {
                                         	$scope.showAlertMessage = false;
-                                        }, 5000);
+                                        }, 400000);
                         				//$rootScope.showAdvancedLogin();
                         				$scope.successfulLogin = true;
                     				}
