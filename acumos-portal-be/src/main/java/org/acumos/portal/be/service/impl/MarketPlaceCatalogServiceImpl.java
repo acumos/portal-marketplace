@@ -1964,6 +1964,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				//Fetch latest step result for the solution to get the tracking id
 				RestPageResponse<MLPStepResult> stepResultResponse =  dataServiceRestClient.searchStepResults(stepResultCriteria, false, new RestPageRequest(0, 1, queryParameters));
 				List<MLPStepResult> stepResultList = stepResultResponse.getContent();
+				String errorStatusDetails = null;
 				if (stepResultList != null && !PortalUtils.isEmptyList(stepResultList)) {
 					stepResult = stepResultList.get(0);
 					String trackingId = stepResult.getTrackingId();
@@ -1982,13 +1983,16 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 						for(MLPStepResult step : trackingStepResultList) {
 							if(StepStatusCode.FA.toString().equals(step.getStatusCode())) {
 								onboardingStatusFailed = true;
+								errorStatusDetails=step.getResult();
 								break;
 							}
 						}
 					}
 				}
 				mlSolution.setOnboardingStatusFailed(onboardingStatusFailed);
-
+				if(errorStatusDetails!=null) {
+					mlSolution.setErrorDetails(errorStatusDetails);
+					}
 				content.add(mlSolution);
 			}
 
