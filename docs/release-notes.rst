@@ -20,14 +20,18 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.30, 18 th June 2018
+================================
+* IST2/DC - unable to publish model to Public if published to company(ACUMOS-1133)
+
 Version 1.15.23, 24 th May 2018
-============================
+===============================
 
 * Top Carousel is not being displayed in IE (ACUMOS-920)
 * IST2 - Site Content does not work  -- Important features minus few cosmetics (ACUMOS-901)
 
 Version 1.15.21, 22nd May 2018
-============================
+==============================
 * IST2: UUID is  displaying at wrong place(ACUMOS-892)
 * Marketplace solution pagination feature deficencies(ACUMOS-726)
 * Added description and got a message to add more text (ACUMOS-870)
@@ -39,7 +43,7 @@ Version 1.15.21, 22nd May 2018
 
 
 Version 1.15.20, 17th May 2018
-============================
+==============================
 * IST2: Signup Issues (ACUMOS-720)
 * IST2: Icon are not displaying in the notification screen (ACUMOS-836)
 * Remove hardcoded cloudapp.azure.com host names (ACUMOS-342)
@@ -57,7 +61,7 @@ Version 1.15.20, 17th May 2018
 
 
 Version 1.15.18, 10th May 2018
-============================
+==============================
 * IST: Manage My Model : Attached document is not displaying in model details screen when user did not publish the model. (ACUMOS-649)
 * IST: User Management : Field is not getting clear when user open the popup again (Condition : Username already exist scenario) (ACUMOS-687)
 * IST: Submitted rating is not getting auto refresh (ACUMOS-705)
@@ -73,7 +77,7 @@ Version 1.15.18, 10th May 2018
 * Manage My Model: show description and document (ACUMOS-707)
 
 Version 1.15.17, 9th May 2018
-============================
+=============================
 * Downloading parts of a model changes name (ACUMOS-589)
 * IST: Star (Ratings) is editable on the model detail screen (ACUMOS-704)
 * IST: Model Details : Document: For any type of document Microsoft word icon is displaying (ACUMOS-604)
