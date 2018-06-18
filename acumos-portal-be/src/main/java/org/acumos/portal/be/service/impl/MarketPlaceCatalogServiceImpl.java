@@ -62,6 +62,7 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
+import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
@@ -2187,5 +2188,36 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		log.debug(EELFLoggerDelegate.debugLogger, "getProtoUrl() : End");
 		
 		return result;
+	}
+	
+	@Override
+	public boolean checkUniqueSolName(String solutionId, String solName) {
+		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
+
+		MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
+		String[] name = { solName };
+		Map<String, String> queryParameters = new HashMap<>();
+		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
+		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
+				accessTypeCodes, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+		List<MLPSolution> searchSolList = searchSolResp.getContent();
+
+		//removing the same solutionId from the list
+				List<MLPSolution> filteredSolList1 = searchSolList.stream()
+						.filter(searchSol -> !searchSol.getSolutionId().equalsIgnoreCase(solution.getSolutionId()))
+						.collect(Collectors.toList());
+
+		//Consider only those records that have exact match with the solution name
+		List<MLPSolution> filteredSolList = filteredSolList1.stream()
+				.filter(searchSol -> searchSol.getName().equalsIgnoreCase(solName))
+				.collect(Collectors.toList());
+
+		if (!filteredSolList.isEmpty()) {
+			return false;
+		}
+
+		return true;
 	}
 }
