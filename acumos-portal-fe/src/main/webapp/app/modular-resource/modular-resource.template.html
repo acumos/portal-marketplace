@@ -701,7 +701,7 @@ limitations under the License.
 																				<i class="material-icons">attach_file</i> <input
 																					type="file" id="uploadBtn">
 																			</div>-->
-																			<div class="drag-drop"  id = "private-dropbox">
+																			<div class="drag-drop"  id = "private-dropbox" ng-hide="uploadingFile">
 																			       <div class="drag-drop-files hide">
 																			              <p>doc.pdf</p>
 																			       </div>
@@ -711,7 +711,7 @@ limitations under the License.
 																			       </div>
 																			</div>
 																			
-																			<div  file-upload file="file" 
+																			<div  file-upload file="file" ng-hide="uploadingFile"
 																						uploadid="bundleuploadid" id="uploadFile"
 																						filename="filename" fileinput="file"
 																						ng-model="file" accept = ""
@@ -739,7 +739,7 @@ limitations under the License.
 																ng-click="closePoup(); openDrop(true);" alt="Cancel" title="Cancel"
 																>
 															Cancel </md-button>
-															<md-button ng-disabled="!file" ng-click="fileUpload();"
+															<md-button ng-disabled="!file || uploadingFile" ng-click="fileUpload();"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 															Done </md-button>
 														</div>

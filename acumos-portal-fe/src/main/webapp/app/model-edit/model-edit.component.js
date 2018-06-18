@@ -22,15 +22,30 @@ limitations under the License.
 angular
 		.module('modelEdit')
 		.service('modelUploadService', function($http, $q, $rootScope) {
+			
+			var self = this;
+			var cancelFunc = function(reason) {};
+			
+			self.cancelUpload = function(reason) {
+				self.cancelFunc(reason);
+			}
 
-			this.uploadFileToUrl = function(file, uploadUrl) {
+			self.uploadFileToUrl = function(file, uploadUrl) {
 				// FormData, object of key/value pair for form fields and values
 				var fileFormData = new FormData();
 				fileFormData.append('file', file);
 
 				var deffered = $q.defer();
+				var canceller = $q.defer();
+				
+				self.cancelFunc = function(reason) {
+					canceller.resolve(reason);
+					deffered.reject(reason);
+				}
+				
 				$http.post(uploadUrl, fileFormData, {
 					transformRequest : angular.identity,
+					timeout : canceller.promise,
 					headers : {
 						'Content-Type' : undefined
 					},uploadEventHandlers: {
