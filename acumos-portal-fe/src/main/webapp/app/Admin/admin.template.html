@@ -1768,7 +1768,7 @@ limitations under the License.
 			<button ng-click='closePoup()'
 				class="mdl-button mdl-js-button btn-secondary">Cancel</button>
 			<button ng-click='submitFucn()'
-				ng-disabled='signupForm.$invalid || !roleValue'
+				ng-disabled='signupForm.$invalid || !roleValue.length>0'
 				class="mdl-button mdl-js-button btn-primary">Add</button>
 		</div>
 		</md-dialog-actions> </md-dialog>
