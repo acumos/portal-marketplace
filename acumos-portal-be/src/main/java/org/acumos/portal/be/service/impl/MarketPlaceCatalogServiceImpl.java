@@ -62,6 +62,7 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
+import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
@@ -2195,5 +2196,40 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		log.debug(EELFLoggerDelegate.debugLogger, "getProtoUrl() : End");
 		
 		return result;
+	}
+	
+	@Override
+	public boolean checkUniqueSolName(String solutionId, String solName) {
+		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
+
+		/*MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
+		if(solution.getAccessTypeCode().equals(CommonConstants.PUBLIC)){
+			accessTypeCodes =new String[] { CommonConstants.ORGANIZATION, CommonConstants.PUBLIC };
+		}else if(solution.getAccessTypeCode().equals(CommonConstants.ORGANIZATION)){
+			accessTypeCodes = new String[] {CommonConstants.ORGANIZATION, CommonConstants.PUBLIC };
+		}else {
+			accessTypeCodes= new String[] {CommonConstants.PUBLIC};
+			accessTypeCodes= new String[] {CommonConstants.ORGANIZATION};
+		}*/
+		String[] name = { solName };
+
+		Map<String, String> queryParameters = new HashMap<>();
+		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
+		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
+				accessTypeCodes, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+		List<MLPSolution> searchSolList = searchSolResp.getContent();
+
+		//Consider only those records that have exact match with the solution name
+		List<MLPSolution> filteredSolList = searchSolList.stream()
+				.filter(searchSol -> searchSol.getName().equalsIgnoreCase(solName))
+				.collect(Collectors.toList());
+
+		if (!filteredSolList.isEmpty()) {
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -133,5 +133,7 @@ public interface MarketPlaceCatalogService {
 	MLPSolutionWeb getSolutionWebMetadata(String solutionId); 
 	
 	String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException;
+
+	boolean checkUniqueSolName(String solutionId, String solName);
 	
 }

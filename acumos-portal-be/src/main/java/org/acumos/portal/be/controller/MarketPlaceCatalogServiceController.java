@@ -254,6 +254,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			if (mlSolution.getBody() != null) {
+				
+				//Check for the unique name in the market place before publishing.
+				if (!catalogService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+					data.setResponseDetail("Model name is not unique. Please update model name before publishing");
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return data;
+				}
+				
 				catalogService.updateSolution(mlSolution.getBody(), solutionId);
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
