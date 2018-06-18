@@ -20,6 +20,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.30, 18 th June 2018
+============================
+* IST2/DC - unable to publish model to Public if published to company(ACUMOS-1133)
+
 Version 1.15.23, 24 th May 2018
 ============================
 
