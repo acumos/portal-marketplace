@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eddcce88_a5c3bd3b",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-06-18T19:41:26Z",
+      "side": 1,
+      "message": "Please extend the \"\u003d\" to the end of the line above",
+      "range": {
+        "startLine": 24,
+        "startChar": 27,
+        "endLine": 24,
+        "endChar": 28
+      },
+      "revId": "2724f9f4b178df0f238ab8112d655f2e667ca45f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "592d44e6_05fe5bef",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-06-18T19:41:26Z",
+      "side": 1,
+      "message": "Please extend the \"\u003d\" to the end of the line above",
+      "range": {
+        "startLine": 28,
+        "startChar": 27,
+        "endLine": 28,
+        "endChar": 28
+      },
+      "revId": "2724f9f4b178df0f238ab8112d655f2e667ca45f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22d98877_4b052b3f",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-06-18T19:41:26Z",
+      "side": 1,
+      "message": "Please extend the \"\u003d\" to the end of the line above",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 28
+      },
+      "revId": "2724f9f4b178df0f238ab8112d655f2e667ca45f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
