@@ -414,6 +414,7 @@ angular
 
 						$scope.updateSolution = function() {
 							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
+							$scope.solution.PrevSolname = $scope.solution.name;
 							$scope.solution.name = $scope.solutionName;
 							$scope.solution.solutionId = $scope.popupSolutionId;
 							/*if ($scope.revisionsVersion) {
@@ -515,13 +516,20 @@ angular
 												$scope.loadData();
 												
 											},
-											function(error) {
-												$timeout(function() {
-													$scope.handleError = true;
-												}, 2000);
+											function(response) {
+												$location.hash('manage-models');
+												$anchorScroll();
+												$scope.msg = response.data.response_detail;
+												$scope.icon = 'report_problem';
+												$scope.styleclass = 'c-warning';
+												$scope.solutionName = $scope.solution.PrevSolname;
+												$scope.solution.name = $scope.solution.PrevSolname;
+												$scope.showAlertMessage = true;
+												$timeout(
+														function() {
+															$scope.showAlertMessage = false;
+														}, 2500);
 												$scope.handleError = false;
-												$scope.status = 'Unable to load data: '
-														+ error.data.error;
 											});
 						}
 						
