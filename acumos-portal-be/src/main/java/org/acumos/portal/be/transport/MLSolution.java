@@ -74,7 +74,7 @@ public class MLSolution {
 	private Long refreshInterval;
 	private String selector;
 	private boolean onboardingStatusFailed;
-	
+	private String errorDetails;
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -505,5 +505,12 @@ public class MLSolution {
 
 	public void setSelector(String selector) {
 		this.selector = selector;
+	}
+	public String getErrorDetails() {
+		return errorDetails;
+	}
+
+	public void setErrorDetails(String errorDetails) {
+		this.errorDetails = errorDetails;
 	}
 }
