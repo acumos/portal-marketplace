@@ -428,7 +428,7 @@ transition: all 0.2s ease-in-out;
 .jk-rating-stars-container a:first-child {display: none;}
 .star-button.star-off .material-icons {color: #b9b9b9;font-size: 18px;}
 .star-button.star-on .material-icons {color: #f86234;font-size: 18px;}
-.rating-container1 div {justify-content: flex-end;}
+.rating-container1 div {justify-content: center;}
 .newrating-container {display:flex; justify-content: space-between;}
 
 .mp-grid-list figure {position: relative; height: 100%;text-align: center;display:grid;}
@@ -575,11 +575,13 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);clip: auto !important;	}
 .md-intro-container h6 {margin-right: 30px;}
 .md-intro-container button {margin-right: 10px;}
 
-.md-version-ddl1 {list-style-type: none; margin:0; border:1px solid #e5e5e5; position:absolute; z-index:5;width: 150px;top: 27px;-webkit-box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
+.md-version-ddl1 {list-style-type: none; margin:0; border:1px solid #e5e5e5; position:absolute; z-index:5;width: 170px;top: 27px;-webkit-box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
 -moz-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1);
 box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1); background: #fff; padding:0;}
-.md-version-ddl1 li {border-bottom: 1px solid #d5d5d5; padding: 5px 5px 5px 10px; margin:0;background: #fff;}
+.md-version-ddl1 li {border-bottom: 1px solid #d5d5d5; padding: 8px 5px 8px 10px; margin:0;background: #fff;}
 .md-version-ddl1 li:last-child {border-bottom: none;}
+.md-version-ddl1 li:hover {background: rgb(238,238,238);cursor:normal;}
+.md-version-ddl1 li.selected:hover {background-color: rgb(238,238,238);cursor:normal;}
 .md-version-ddl1 li.selected {background: url("../images/ds-icons/validate_icon.png") no-repeat 95% center; background-color: #fff;}
 
 .md-head-container1 {display:flex; justify-content: space-between; align-content: center;flex-wrap: nowrap; }
@@ -798,14 +800,17 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .discussion-container {border-bottom-style: dashed;}
 .discussion-container2 {border-bottom:none;}
 
-.rating-container-left { border-right: 1px solid #dfdfdf; padding-right: 50px; }
+.rating-container-left { border-right: 1px solid #dfdfdf; }
 .rating-container-right { padding-top:20px; padding-left:20px; }
-.rating-container1 {width: 175px;float:right;}
+.rating-container1 {width: 175px;float:right;margin-right:50px;margin-top: 15px; }
 .rating-container1 div {margin-bottom: 5px; margin-top: 5px;}
 .progress-wrapper {display: flex; margin-bottom: 10px;}
 .progress-wrapper span { width: 45px;position:relative; top:-2px;}
 .progress-wrapper span:first-child { min-width: 50px;}
-.star-rating-title {font-size:36px; line-height: 41px;font-weight:600;margin-right: 5px;}
+
+.n-rating1 span, .n-rating1 div, .n-rating1 label {text-align: center;}
+
+.star-rating-title {font-size:36px; line-height: 41px;font-weight:600;}
 .fa-star1{color: #b9b9b9 !important;}
 
 .md-tbl1 {width:100%; border: none; margin: 20px 0 30px 0;}
@@ -1691,9 +1696,9 @@ transition: box-shadow 0.3s ease-in-out;
 table tbody tr.disabledRow .disabledRowChild   {color: #ccc; cursor: not-allowed; pointer-events: none;}
 .ds-btn1.btn-deploy[disabled] .ds-icon.icon-deploy {opacity: 0.2;}
 
-.n-rating1 {display: flex; flex-wrap: nowrap; justify-content:flex-end;align-items:center;position: relative;right: -5px;}
+.n-rating1 {display: flex; flex-wrap: wrap;flex-direction:column; justify-content:center;position: relative;}
 .n-rating1 .jk-rating-stars-container {position:relative; top: 3px;}
-.ratingtxt1 {font-size: 11px;float: right; position: relative; top: -7px;margin-left: 19px;}
+.ratingtxt1 {font-size: 11px;margin-bottom: 0;}
 .ratingtxt2 {display: block; clear:both; width: 100%;}
 .rating-container-right .progress-wrapper .progress {width: 180px; margin-right: 15px;margin-left: 10px;}
 
@@ -1959,7 +1964,7 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .link-button-container .select-control{padding: 0 0px 0 6px;}
 .colorChamber.active{border:2px solid #f77204;}
 .defaultextinfo{font-size:12px; margin-bottom:10px; line-height:16px;}
-.add-top-carousel .ql-tooltip.ql-editing{margin-top: -10px; padding: 2px 12px;}
+.add-top-carousel .ql-tooltip.ql-editing{left: 25% !important; margin-top: -10px; padding: 2px 12px;}
 /*end*/
 
 /* partial onboarding related css changes */

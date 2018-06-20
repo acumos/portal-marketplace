@@ -524,7 +524,7 @@ limitations under the License.
 						</div>
 						<div class="rating-container"> 
 							<div class="mdl-grid rating-container-inner">
-								<div class="mdl-cell mdl-cell--5-col rating-container-left">
+								<div class="mdl-cell mdl-cell--6-col rating-container-left">
 								<!-- 	 <div class="text-right rating-container1">
 										<div>
 											
@@ -551,20 +551,18 @@ limitations under the License.
 										</div>
 									</div> -->
 									
-									 <div class="text-right rating-container1">
+									 <div class="rating-container1">
                                         <div class="n-rating1">
-                                            <span class="star-rating-title" ng-show="cantRate || !cantRate">{{averageRatings.ratingAverageTenths}}  </span>
+                                            <span class="star-rating-title" ng-show="cantRate || !cantRate">{{averageRatings.ratingAverageTenths}}</span>
+                                            <label class="ratingtxt1">Out of 5 stars</label>
                                             <jk-rating-stars rating="averageRatings.ratingAverageTenths" class="staticRating read-only-rating1"></jk-rating-stars>                                            
-                                        </div>
-                                        <label class="ratingtxt1">Out of 5 stars</label>
-                                        <label class="font600 ratingtxt2">{{totalRatingsCount}} ratings and reviews</label>
-                                        <div>
-                                            <button 
+                                        	<label class="font600 ratingtxt2">{{totalRatingsCount}} ratings and reviews</label>
+                                        	<button 
                                                 ng-disabled="cantRate"
                                                 ng-click="$root.showPrerenderedDialog($event, '#rateModelPopup')"
                                                 class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary">Rate
                                                 This Model</button>
-                                        </div>
+                                        </div>                                       
                                     </div>
 								</div>
 								<div class="mdl-cell mdl-cell--4-col rating-container-right">

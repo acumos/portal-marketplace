@@ -222,7 +222,7 @@ angular
                                 	$scope.showAlertMessage = false;
                                 }, 2000);
 								$scope.oldPswd = '';
-								$scope.newPswd = '';
+								$scope.newPswd = false;
 								$scope.cpwd = '';
 								return;
 							} else
@@ -288,7 +288,7 @@ angular
 													$scope.closePoup();
 													
 													$scope.oldPswd = '';
-													$scope.newPswd = '';
+													$scope.newPswd = false;
 													$scope.cpwd = '';
 
 												},

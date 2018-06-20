@@ -510,7 +510,7 @@ angular.module('modelResource')
 		                        $scope.showAlertMessage = true;
 		                        $timeout(function() {
 		                        	$scope.showAlertMessage = false;
-		                        }, 3000);
+		                        }, 8000);
 		                        
 								$scope.trackId = response.data.response_detail;
 								$scope.clearInterval = $interval(function(){
@@ -536,7 +536,7 @@ angular.module('modelResource')
 		                        $scope.showAlertMessage = true;
 		                        $timeout(function() {
 		                        	$scope.showAlertMessage = false;
-		                        }, 5000);
+		                        }, 8000);
 
 								$scope.clearInterval = $interval(function(){
 									$scope.showValidationStatus();

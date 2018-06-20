@@ -728,7 +728,7 @@ angular.module('manageModule')
                         	if( $scope.sortBy == 'created' ){
                                $scope.fieldToSort = { "created" : "DESC" };
                             }
-                        	if( $scope.sortBy == 'author' ){
+                        	if( $scope.sortBy == 'ownerName' ){
                                $scope.fieldToSort = { "ownerName" : "ASC" };
                             }
 							getModels();

@@ -4,7 +4,7 @@ app:
   name: Acumos_Portal
 
 server:
-  port: 8085
+  port: 8084
   address: 127.0.0.1
 
 zuul:
@@ -15,7 +15,7 @@ zuul:
     api:
       path: /api/**
       sensitiveHeaders:
-      url: http://localhost:8083
+      url: http://localhost:8086
     cmnt:
       path: /cmnt/**
       url: http://localhost:8087
