@@ -36,38 +36,6 @@ angular.module('modelResource')
 						return deffered.promise;
 					}
 				})
-
-	.service('modelUploadService', function($http, $q) {
-
-			this.uploadFileToUrl = function(file, uploadUrl) {
-				// FormData, object of key/value pair for form fields and values
-				var fileFormData = new FormData();
-				fileFormData.append('file', file);
-
-				var deffered = $q.defer();
-				$http.post(uploadUrl, fileFormData, {
-					transformRequest : angular.identity,
-					headers : {
-						'Content-Type' : undefined
-					},uploadEventHandlers: {
-				        progress: function (e) {
-			                  if (e.lengthComputable) {
-			                     $rootScope.progressBar = (e.loaded / e.total) * 100;
-			                     $rootScope.progressCounter = $rootScope.progressBar;
-			                  }
-			        }
-			    }
-
-				}).success(function(response) {
-					deffered.resolve(response);
-
-				}).error(function(response) {
-					deffered.reject(response);
-				});
-
-				return deffered.promise;
-			}
-		})
 		.run(
 				function($rootScope, $location, $http, syncGetService) {
 
@@ -172,6 +140,7 @@ angular.module('modelResource')
 				}
 			}
 			$scope.fileSubmit = false;
+			$scope.uploadingFile = false;
 			$scope.fileUpload = function(){
 				//$scope.uploadModel = false;
 				$scope.modelUploadError = false;
@@ -182,7 +151,7 @@ angular.module('modelResource')
 				var promise = modelUploadService.uploadFileToUrl(
 						file, uploadUrl);
 				$scope.tempfilename = file.name;
-				$scope.filename = '';
+				$scope.uploadingFile = true;
 				promise
 				.then(
 						function(response) {
@@ -192,18 +161,23 @@ angular.module('modelResource')
 							$rootScope.progressBar = 0;
 							chkCount();
 							$scope.uploadModel = false;
+							$scope.uploadingFile = false;
 						},
 						function(error) {
 								$scope.modelUploadError = true;
 								$scope.modelUploadErrorMsg = error;
+								$scope.filename = '';
 								$rootScope.progressBar = 0;
 								$scope.uploadModel = false;
 								chkCount();
-							
+								$scope.uploadingFile = false;
 						});
 			}
 			
 			$scope.closePoup = function(){
+				if ($scope.uploadingFile && $rootScope.progressBar < 100){
+					modelUploadService.cancelUpload("Upload cancelled by user");
+				}
 				$scope.uploadModel = !$scope.uploadModel;
 				$scope.file = false;
 				$scope.filename = "";
