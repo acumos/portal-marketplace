@@ -399,10 +399,10 @@ limitations under the License.
 							({{mlSolutionCompanyCount}}/{{solutionsCount.companyModelCount}})<span
 								class="pull-right"><span
 								class="mp-grid-head-buttons-container"
-								ng-hide="seeAllSelected || mlSolutionPublic.length < 1 || ( pageNumCompany < 1 && mlSolutionCompanyCount == solutionsCount.companyModelCount )"><a
+								ng-hide="seeAllSelected || mlSolutionCompany.length < 1 || ( pageNumCompany < 1 && mlSolutionCompanyCount == solutionsCount.companyModelCount )"><a
 									href="" class="btnseeall removetop"
 									ng-click="CompanyNav('SeeAll')"
-									ng-class="{ removetop: !(pageNumPublic < 1 || mlSolutionPublic.length < 4)}">See
+									ng-class="{ removetop: !(pageNumCompany < 1 || mlSolutionCompany.length < 4)}">See
 										All</a> <a href="" ng-click="CompanyNav('Pre');"
 									class="seeall-icons" ng-hide="pageNumCompany < 1" ng-class="{disabledClick:companyDataLoaded==true}"><i
 									class="material-icons" alt="Previous" title="Previous">navigate_before</i></a><a href=""

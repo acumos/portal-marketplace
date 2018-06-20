@@ -690,9 +690,6 @@ angular
 						$scope.solutionCompanyDescLength = false;
 
 						$scope.updateCompanyDescription = function() {
-							// $scope.solutionCompanyDesc =
-							// $scope.solutionEditorCompanyDesc;
-							
 							
 							if($scope.solutionCompanyDesc){
 								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc ? String($scope.solutionCompanyDesc).replace(/<[^>]+>/gm, '') : '';
@@ -701,13 +698,13 @@ angular
 								    var newValue = $scope.solutionCompanyDesc.split('src="')[1].split('"')[0];
 								    $scope.solutionCompanyDescLength = true;
 								}
-								else if($scope.solutionCompanyDescString.length > 1){
-									$scope.solutionCompanyDescLength = true;
+								else if($scope.solutionCompanyDescString.replace(/\s/g, "") == ""){
+									$scope.solutionCompanyDescLength = false;
+									alert("Enter text in the description");
+									return
 								}
 								else{
-									$scope.solutionCompanyDescLength = false;
-									alert("Enter more text in the description");
-									return
+									$scope.solutionCompanyDescLength = true;
 								}
 							}
 							else{
@@ -764,16 +761,6 @@ angular
 						}
 
 						$scope.updatePublicDescription = function() {
-							/*
-							if($scope.solutionPublicDesc){
-								$scope.solutionPublicDescString = $scope.solutionPublicDesc.substring($scope.solutionPublicDesc.indexOf(">") + 1);
-								if($scope.solutionPublicDescString.length > 1){
-									$scope.solutionPublicDescLength = true;
-								}else{
-									alert("Enter more description")
-								}
-							}
-							*/
 							
 							if($scope.solutionPublicDesc){
 								$scope.solutionPublicDescString = $scope.solutionPublicDesc ? String($scope.solutionPublicDesc).replace(/<[^>]+>/gm, '') : '';
@@ -782,13 +769,13 @@ angular
 								    var newPBValue = $scope.solutionPublicDesc.split('src="')[1].split('"')[0];
 								    $scope.solutionPublicDescLength = true;
 								}
-								else if($scope.solutionPublicDescString.length > 1){
-									$scope.solutionPublicDescLength = true;
+								else if($scope.solutionPublicDescString.replace(/\s/g, "") == "" ){
+									$scope.solutionPublicDescLength = false;
+									alert("Enter text in the description");
+									return
 								}
 								else{
-									$scope.solutionPublicDescLength = false;
-									alert("Enter more text in the description");
-									return
+									$scope.solutionPublicDescLength = true;
 								}
 							}else{
 								$scope.solutionPublicDescLength = false;
