@@ -124,8 +124,7 @@ angular.module('myModal',[])
                     				if(response.data.error_code == 100){
                     					/*$timeout(function() {
                         					alert("Signed-Up successfully\nPlease Sign In to log into the portal.");
-                        				},0);*/
-                    					$mdDialog.hide();
+                        				},0);*/                    					
                     					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                         $anchorScroll(); 
                                         $scope.msg = "Signed-Up successfully\nPlease Sign In to log into the portal."; 
@@ -134,6 +133,7 @@ angular.module('myModal',[])
                                         $scope.showAlertMessage = true;
                                         $timeout(function() {
                                         	$scope.showAlertMessage = false;
+											$mdDialog.hide();
                                         }, 5000);
                         				//$rootScope.showAdvancedLogin();
                         				$scope.successfulLogin = true;
