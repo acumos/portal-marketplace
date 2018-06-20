@@ -666,9 +666,12 @@ limitations under the License.
 											<div class="timeline-label">
 												<h2><span ng-click="uploadModel = !uploadModel;openDrop(false); closeOtherPopovers('uploadModel',uploadModel)" class="link-heading">
 													 Upload Model Bundle  </span>| 
-													 <span class="green" class="green"
-																ng-if="file && fileSubmit && modelUploadError == false">Completed</span>
-													 <span class="red" ng-if="!file || !fileSubmit || modelUploadError">Not Started</span>
+											 		<span class="green" class="green"
+														ng-if="file && fileSubmit && modelUploadError == false">Completed
+												 	</span>
+											 		<span class="red" ng-if="!file || !fileSubmit || modelUploadError">
+													 	Not Started
+												 	</span>
 												</h2>										
 												
 												<!-- update model name -->
@@ -725,8 +728,11 @@ limitations under the License.
 																				            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
 																				               
 																				            </div>
-																				            <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
-																				            			<span ng-show = "$root.progressBar == 100">Completed</span>
+																				            <div class="">
+																				            	<span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">
+																				            		{{$root.progressBar| number : 0}}%
+																			            		</span>
+																		            			<span ng-show = "$root.progressBar == 100">Completed</span>
 																				            </div>
 																				         </div>
 																		</div>
