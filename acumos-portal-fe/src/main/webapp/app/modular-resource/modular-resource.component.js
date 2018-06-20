@@ -182,6 +182,7 @@ angular.module('modelResource')
 				$scope.file = false;
 				$scope.filename = "";
 				$scope.file = "";
+				$scope.fileSubmit = false;
 	           	angular.element('#file').val('');
 	           	$scope.modelUploadError = false;
 	        }

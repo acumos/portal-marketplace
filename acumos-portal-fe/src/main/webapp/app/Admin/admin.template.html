@@ -1710,7 +1710,7 @@ limitations under the License.
 						<span
 							ng-show="!!signupForm.cpwd.$error.required && signupForm.cpwd.$touched && cpasswordVisited">Confirm
 							Password Required.</span> <span
-							ng-show="cpasswordVisited && !!(signupForm.cpwd.$dirty && signupForm.cpwd.$error.noMatch)">Passwords
+							ng-show="cpasswordVisited && !!(value.password!=value.cpassword)">Passwords
 							don't match.</span>
 					</div>
 				</div>
