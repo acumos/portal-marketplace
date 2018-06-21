@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "6cbc3452_3c2d97c4",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2018-06-21T16:03:41Z",
+      "side": 1,
+      "message": "for every response, $scope.msg changes, titlemsg changes for some cases and after they are set, we need to call the showpopup().",
+      "parentUuid": "0d557177_f2135b47",
+      "range": {
+        "startLine": 195,
+        "startChar": 13,
+        "endLine": 197,
+        "endChar": 32
+      },
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86ea0a26_ce5b69e8",
         "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
         "patchSetId": 2
