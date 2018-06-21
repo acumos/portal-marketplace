@@ -599,7 +599,7 @@ limitations under the License.
 		                                            </md-dialog-content>
 												</div>
 												<p ng-show="!toolkitNameValue">
-													<strong>Select a toolkit type.</strong> 
+													Select a toolkit type.
 												</p>
 											</div>
 										</div>
@@ -754,9 +754,9 @@ limitations under the License.
 												</div>
 												<!-- update model name end -->
 												<p ng-show="!file">Upload your model bundle.</p>
-												<p ng-show="file && !filename" >Uploading file: {{file.name}}</p>
-												<p ng-show="filename" >Uploaded file: {{file.name}}</p>	
-												<small ng-show="modelUploadError" style="color:red">Error Occurred: {{modelUploadErrorMsg}}</small>
+												<p ng-show="file && !filename" ><strong>Uploading File:</strong> {{file.name}}</p>
+												<p ng-show="filename" ><strong>Uploaded File:</strong> {{file.name}}</p>	
+												<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
 											</div>
 										</div>
 									</article>
@@ -826,10 +826,10 @@ limitations under the License.
 												</div>
 												<!-- update model name end -->
 
-												<p ng-if='!user.pass || !user.name'>Some information can be displayed related to this particular task, such as how to complete this task what are data required.</p>
-												<p ng-if='user.pass && user.name'>Model Name: {{user.name}}</p>
-												<p ng-if='user.pass && user.name'>Model Version: {{user.pass}}</p>
-												<p ng-if='user.pass && user.name'>Model ID: {{user.pass}}</p>
+												<p ng-if='!user.name'>Enter a name for the model. Letters, numbers and underscores are permitted. Spaces and special characters are prohibited.</p>
+												<p ng-if='user.name'><strong>Model Name:</strong> {{user.name}}</p>
+												<!-- <p ng-if='user.pass && user.name'>Model Version: {{user.pass}}</p>
+												<p ng-if='user.pass && user.name'>Model ID: {{user.pass}}</p> -->
 												<!--p>
                                   <div class="checkbox">
                                     <label>
