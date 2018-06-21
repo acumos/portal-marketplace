@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2821c66c_09bff165",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-06-21T15:33:46Z",
+      "side": 1,
+      "message": "Can you please create a constant? so that it can be injected everywhere and changed at one place if required.",
+      "range": {
+        "startLine": 64,
+        "startChar": 53,
+        "endLine": 64,
+        "endChar": 60
+      },
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d557177_f2135b47",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-06-21T15:33:46Z",
+      "side": 1,
+      "message": "Can you please create a function of these three lines with parameters for reuse? As these three lines are used repeatedly used at every response.",
+      "range": {
+        "startLine": 195,
+        "startChar": 13,
+        "endLine": 197,
+        "endChar": 32
+      },
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86ea0a26_ce5b69e8",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-06-21T15:33:46Z",
+      "side": 1,
+      "message": "Can you please create a constant? so that it can be injected everywhere and changed at one place if required.",
+      "range": {
+        "startLine": 1565,
+        "startChar": 21,
+        "endLine": 1565,
+        "endChar": 30
+      },
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7d9d86_8277e492",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-06-21T15:33:46Z",
+      "side": 1,
+      "message": "Can you please create a constant? so that it can be injected everywhere and changed at one place if required.",
+      "range": {
+        "startLine": 1567,
+        "startChar": 21,
+        "endLine": 1567,
+        "endChar": 28
+      },
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ae0e688_edd608fb",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-06-21T15:33:46Z",
+      "side": 1,
+      "message": "Please remove commented code.",
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a2785f8_cab6c875",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1625,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-06-21T15:33:46Z",
+      "side": 1,
+      "message": "Can you please create a constant? so that it can be injected everywhere and changed at one place if required.",
+      "range": {
+        "startLine": 1625,
+        "startChar": 55,
+        "endLine": 1625,
+        "endChar": 65
+      },
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "608d4c73_241c1787",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-06-21T15:33:46Z",
+      "side": 1,
+      "message": "Can you please create a constant? so that it can be injected everywhere and changed at one place if required.",
+      "range": {
+        "startLine": 1734,
+        "startChar": 62,
+        "endLine": 1734,
+        "endChar": 72
+      },
+      "revId": "7b2095a2c737fdcdfff1820a097cd26d0f5fe123",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
