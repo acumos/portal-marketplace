@@ -760,16 +760,20 @@ limitations under the License.
 																</div>
 																</md-toolbar>
 																<md-dialog-content>
-																<div class="md-dialog-content">
+																<form name="ORmodelNameForm">
+																<div class="md-dialog-content ">
 																	<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																		<p>If you are uploading new version of previous
 																			model then use the same model name.</p>
 																		<div
-																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone validation-msgs">
 																			<md-input-container class="md-icon-float md-block">
 																			<!-- Use floating label instead of placeholder --> <label class="md-required">Model
-																				Name </label> <input ng-model="solutionName" type="text" 
+																				Name </label> <input ng-model="solutionName" type="text" name="OrModelName"
 																				ng-pattern="/^[a-zA-Z0-9_-]*$/">
+																				<span  ng-show="ORmodelNameForm.OrModelName.$error.pattern">
+																					Model Name can consists of alphanumeric, hyphen and dash only.
+																				</span>
 																			</md-input-container>
 																			<md-input-container class="md-icon-float md-block">
 																			<!-- Use floating label instead of placeholder --> <label>Model
@@ -791,6 +795,7 @@ limitations under the License.
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Update" title="Update">
 																		Cancel </md-button>
 																		<md-button
+																			ng-disabled="ORmodelNameForm.OrModelName.$error.pattern"
 																			ng-click="updateSolution(); showSolName = !showSolName"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-if="solution.name.length<1">Done</span> 
@@ -799,6 +804,7 @@ limitations under the License.
 																	
 																	</div>
 																</div>
+																</form>
 																</md-dialog-content>
 															</div>
 															<!-- update model name end -->
@@ -2508,16 +2514,20 @@ limitations under the License.
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
+															<form name="PBmodelNameForm">
 															<div class="md-dialog-content">
 																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																	<p>If you are uploading new version of previous
 																		model then use the same model name.</p>
 																	<div
-																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone validation-msgs">
 																		<md-input-container class="md-icon-float md-block">
 																		<!-- Use floating label instead of placeholder --> <label class="md-required">Model
-																			Name </label> <input ng-model="solutionName" type="text"
+																			Name </label> <input ng-model="solutionName" type="text" name="PbModelName"
 																			ng-pattern="/^[a-zA-Z0-9_-]*$/">
+																				<span  ng-show="PBmodelNameForm.PbModelName.$error.pattern">
+																					Model Name can consists of alphanumeric, hyphen and dash only.
+																				</span>
 																		</md-input-container>
 																		<md-input-container class="md-icon-float md-block">
 																		<!-- Use floating label instead of placeholder --> <label>Model
@@ -2537,7 +2547,7 @@ limitations under the License.
 																	<md-button ng-click="showSolName = !showSolName"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																	Cancel </md-button>
-																	<md-button
+																	<md-button nd-disabled="PBmodelNameForm.PbModelName.$error.pattern"
 																		ng-click="updateSolution(); showSolName = !showSolName"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-if="solution.name.length<">Done</span> 
@@ -2545,6 +2555,7 @@ limitations under the License.
 																	</md-button>
 																</div>
 															</div>
+															</form>
 															</md-dialog-content>
 														</div>
 														<!-- update model name end -->

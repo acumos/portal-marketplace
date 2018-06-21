@@ -1,6 +1,11 @@
 /********* manage model page*******************/
 /* vertical tab */
 /*Vertical Tabs*/
+.validation-msgs span {
+    color: #ff0000 !important;
+    font-size: 12px;
+}
+
 .workflow-leftheader {
       /* width: 28%; */
       width:320px;

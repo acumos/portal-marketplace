@@ -789,14 +789,18 @@ limitations under the License.
 													</md-toolbar>
 													<md-dialog-content>
 													<div class="md-dialog-content">
+													<form name="modelNameForm">
 														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-															<div class="mdl-cell mdl-cell--12-col">
+														
+															<div class="mdl-cell mdl-cell--12-col validation-msgs">
 																<md-input-container class="md-icon-float md-block">
-																<!-- Use floating label instead of placeholder --> <label>Add your Model's Name</label> 
-																<input ng-model="user.name" type="text"> </md-input-container>
-																<!-- <md-input-container class="md-icon-float md-block">
-																Use floating label instead of placeholder <label>Model
-																	ID</label> <input ng-model="user.pass" type="text"> </md-input-container> -->
+																<label>Add your Model's Name</label> 
+																<input ng-model="user.name" type="text" name="addModelName"
+																ng-pattern="/^[a-zA-Z0-9_-]*$/"> 
+																</md-input-container>
+																<span  ng-show="modelNameForm.addModelName.$error.pattern">
+																	Model Name can consists of alphanumeric, hyphen and dash only.
+																</span>
 															</div>
 
 															<div class="mdl-cell mdl-cell--6-col">
@@ -816,6 +820,7 @@ limitations under the License.
 																ng-disabled="!user.name || user.name.length <= 0" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 															Done </md-button>
 														</div>
+														</form>
 													</div>
 													</md-dialog-content>
 												</div>
