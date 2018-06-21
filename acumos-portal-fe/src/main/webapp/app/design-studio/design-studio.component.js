@@ -61,7 +61,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	$scope.checkboxDisable = true;
 	$scope.activeInactivedeploy = true;
     $scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
-    if($scope.userDetails == null){$scope.msg = "Please sign in to application"; $scope.showpopup(); $state.go('home');return;}
+    if($scope.userDetails == null){$scope.titlemsg = "Alert";$scope.msg = "Please sign in to application"; $scope.showpopup(); $state.go('home');return;}
     $scope.validationState = true;
     $scope.searchbox = true;
     $scope.showSearch = function(){
@@ -170,9 +170,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var data = {
         	nodeVersion: ver,
             nodeId: type + (max+1),
-            type: {"name": type}
+            type: {"name": type},
+            name: type + (max+1)
         };
-        data.name = data.nodeId;
         $scope.nodeName=data.name;
         var nodeId = '',nodeVersion = ver, nodeRevision = revision;
         $http.get(_catalog.fModelUrl(_components.get(type+'+'+nodeVersion))).success(function(tgif) {
@@ -191,6 +191,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $scope.protoNode=proto;
                 var protoJson=proto;
                 jsonProtoNode.set($scope.solutionDetails.solutionName,protoJson);
+            }).error(function(response){
+            	$scope.titlemsg = "Alert";
+            	$scope.msg = "Failed to fetch the ProtoBuf JSON for "+type+" ("+nodeVersion+")";
+            	$scope.showpopup();
             });
 
             var requirementJson=[], capabilityJson=[];
@@ -336,9 +340,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     _drawGraphs.createNode(pos, data);
                     set_dirty(true);
                 }).error(function(response){
+                	$scope.titlemsg = "Alert";
                 	$scope.msg = "Please click on New to create a new Solution";
                 	$scope.showpopup();
                 });
+        }).error(function(response){
+        	$scope.titlemsg = "Alert";
+        	$scope.msg = "Failed to fetch the TOSCA details for "+type+" ("+nodeVersion+")";
+        	$scope.showpopup();
         });
     };
 
@@ -444,6 +453,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.closeDisabled = false;
                     display_solution(_solution);
                 }).error(function(result){
+                	$scope.titlemsg = "Alert";
                 	$scope.msg = "Cannot load the solution";
                 	$scope.showpopup();
                 });
@@ -629,7 +639,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     fullType: req.capability.name,
                     originalType: req.capability.name,
                     shortname: req.capability.id,
-                    bounds: outbounds
+                    bounds: outbounds,
+                    nodeType: ntype
                 };}).concat(
                     capabilities.map(function(cap,i) { return {
                         nodeId: nid,
@@ -638,14 +649,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         fullType: cap.target.name,
                         originalType: cap.target.name,
                         shortname: cap.target.id,
-                        bounds: inbounds
+                        bounds: inbounds,
+                        nodeType: ntype
                     };})).concat(
                     		extras.map(function(ext,i){ return {
                     			nodeId: nid,
                     			portname: 'xtra'+i,
                     			type: is_wildcard_type(ext) ? null : ext,
                     			originalType: ext,
-                    			bounds: xtrabounds
+                    			bounds: xtrabounds,
+                    			nodeType: ntype
                     		};}));
 	                    
             	} else {
@@ -656,7 +669,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                    fullType: req.capability.name,
 	                    originalType: req.capability.name,
 	                    shortname: req.capability.id,
-	                    bounds: outbounds
+	                    bounds: outbounds,
+	                    nodeType: ntype
 	                };}).concat(
 	                    capabilities.map(function(cap,i) { return {
 	                        nodeId: nid,
@@ -665,7 +679,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                        fullType: cap.target.name,
 	                        originalType: cap.target.name,
 	                        shortname: cap.target.id,
-	                        bounds: inbounds
+	                        bounds: inbounds,
+	                        nodeType: ntype
 	                    };}));
             	}
             }
@@ -911,11 +926,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             return $http.post(url).success(function(result) {
                 // result.duplicate = 'duplicate';
                 if(result.errorCode){
+                	$scope.titlemsg = "Alert";
                 	$scope.msg= "Solution not saved"; 
                 	$scope.showpopup();
                 	enteredOk = true;
                 	}
                 else if(result.duplicate){
+                	$scope.titlemsg = "Alert";
                 	$scope.msg = result.duplicate; 
                 	duplicateSol = true; 
                 	$scope.showpopup(); 
@@ -1482,7 +1499,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             .edgeArrowhead(null)
             .edgeLabel(function(e){return e.value.linkName || ''})
             .nodePadding(20)
-            .nodeLabel(function(n) { return n.value.name; })
+            .nodeLabel(function(n) {
+            	if(n.value.name === "") 
+            		return n.value.nodeId;
+            	else
+            		return n.value.name; })
             .nodeLabelPadding({x: 5, y: 0})
             .nodeTitle(null)
             .nodeStrokeWidth(1)
@@ -1537,6 +1558,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 }
 
             })
+            .nodeFill(function(n) {
+            	var res = n.key.slice(0, -1);
+            	var nodeDet=_components.get(res+'+'+n.value.nodeVersion);
+            	if(nodeDet.toolKit === "CO" || nodeDet.toolKit === "SP" || nodeDet.toolKit === "BR" || /DataMapper/.test(nodeDet.solutionName))
+            		return "#C29DD6";
+            	else 
+            		return 'white';
+            })
             .nodeFixed(function(n) { return n.value.fixedPos; })
             .edgeStroke('#777')
             .portNodeKey(function(p){return p.value.nodeId})
@@ -1567,13 +1596,26 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         .symbol('S')  
         .symbolScale(function(x){return x})  
         .color('black')  
-        .colorScale(null); 
+        .colorScale(null)
+        .portBackgroundFill('white');
+        
+        /*var starPorts = dc_graph.symbol_port_style()
+        .content(dc_graph.symbol_port_style.content.letter())
+        .portSymbol('?')
+        .symbolScale(function(x){return x})
+        .color('black')
+        .colorScale(null)
+        .portBackgroundFill(function(p){return p.value.bounds === inbounds ? 'white' : 'black'});*/
         
         _diagram
             .portStyle('symbols', symbolPorts)
-            .portStyle('letters', letterPorts)  
+            .portStyle('letters', letterPorts)
+            /*.portStyle('star', starPorts)*/
             .portStyleName(function(p) {
-            	return (p.value.type === "script") ? 'letters' : 'symbols';  
+            	/*if((p.value.nodeType === "Collator" && p.value.bounds === inbounds) || (p.value.nodeType === "Splitter" && p.value.bounds === outbounds))
+            		return 'star';
+            	else */
+            		return (p.value.type === "script") ? 'letters' : 'symbols';  
             	});  
 
         var portMatcher = dc_graph.match_ports(_diagram, symbolPorts);
@@ -1670,9 +1712,46 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 	} else if(tport.orig.value.bounds === outbounds){
                 		targetTableCreate(sport);
                 	}
-                } else if(sport.node.orig.value.type.name === "Collator" || sport.node.orig.value.type.name === "Splitter" || tport.node.orig.value.type.name === "Collator" || tport.node.orig.value.type.name === "Splitter"){
+                } else if(sport.node.orig.value.type.name === "Collator"){
+                	if(sport.orig.value.bounds === outbounds){
+                		properties = {
+                                "data_map":null,
+                                "data_broker_map": null,
+                                "collator_map": {
+                                	"collator_type": null,
+                                	"output_message_signature": JSON.stringify(tport.orig.value.originalType[0]),
+                                	"map_inputs": null,
+                                	"map_outputs": null
+                                },
+                                "splitter_map": null
+
+                		};
+                	} else{
+                		properties = {};
+                	}
+                } else if(tport.node.orig.value.type.name === "Collator"){
                 	properties = {};
-                } else {
+                } else if(tport.node.orig.value.type.name === "Splitter") {
+                	if(tport.orig.value.bounds === inbounds){
+                		properties = {
+                                "data_map":null,
+                                "data_broker_map": null,
+                                "collator_map": null,
+                                "splitter_map": {
+                                	"splitter_type": null,
+                                	"input_message_signature": JSON.stringify(sport.orig.value.originalType[0]),
+                                	"map_inputs": null,
+                                	"map_outputs": null
+                                }
+
+                		};
+                	} else{
+                		properties = {};
+                	}
+                } else if(sport.node.orig.value.type.name === "Splitter"){
+                	properties = {};
+                }
+                else {
                 
                 	if(is_wildcard_type(sport.orig.value.originalType)){
                     var capabilities = tport.node.orig.value.capabilities;
@@ -1699,7 +1778,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         "data_map": {
                             "map_inputs": [],
                             "map_outputs": map_json
-                        }
+                        },
+                        "data_broker_map": null,
+                        "collator_map": null,
+                        "splitter_map": null
                     };
                 }
                 else if(is_wildcard_type(tport.orig.value.originalType)){
@@ -1730,7 +1812,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         "data_map": {
                             "map_inputs": map_json,
                             "map_outputs": []
-                        }
+                        },
+                        "data_broker_map": null,
+                        "collator_map": null,
+                        "splitter_map": null
                     };
                     
                 } else{
@@ -2395,7 +2480,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('port-tips', port_tips);
 
         function nodeTypeOnHover(d){
-        	 var nodeTypeDispTest = d.orig.value.name;
+        	 var nodeTypeDispTest; 
+        	 if(d.orig.value.name === "")
+        		 nodeTypeDispTest = d.orig.value.nodeId;
+        	 else
+        		 nodeTypeDispTest = d.orig.value.name;
         	 return nodeTypeDispTest;
         }
       
@@ -2603,6 +2692,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.activeInactivedeploy = true;
                 })
                 .error(function(response){
+                	$scope.titlemsg = "Alert";
                 	$scope.msg = "Could not close the solution";
                 	$scope.showPopup();
                 });
@@ -2803,7 +2893,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     $scope.closeSavePoup = function(){
     	if(!savedSolution){
-    		$scope.solutionName = "untitled";
+    		$scope.solutionName = undefined;
     		$scope.solutionVersion = "";
     		$scope.solutionDescription = "";
     	}
@@ -2881,6 +2971,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var url = build_url(options.setProbe, args);
     	 return $http.post(url).success(function(result) {
     		 if(setProbeStatus == true){
+    			 $scope.titlemsg = "Alert";
     			 $scope.msg = "Probe added successfully";
     			 $scope.saveState.noSaves = false;
     			 $scope.validationState = true;
@@ -2888,6 +2979,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			 _dirty = true;
                 $scope.showpopup();
     		 } else{
+    			 $scope.titlemsg = "Alert";
     			 $scope.msg = "Probe removed";
     			 $scope.saveState.noSaves = false;
     			 $scope.validationState = true;
@@ -2961,6 +3053,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
 			  $scope.saveScript();
 	    	} else {
+	    		$scope.titlemsg = "Alert";
 	    		$scope.msg ="CSV file field separator(| or , ) is missing , Please upload correct csv file";
                 $scope.showpopup();
 	    	}
@@ -3046,6 +3139,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	}
         })
         .error(function(response){
+        	$scope.titlemsg = "Alert";
         	$scope.msg = "Could not save the script details";
         	$scope.showpopup();
         });
@@ -3333,6 +3427,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	}
         })
         .error(function(response){
+        	$scope.titlemsg = "Alert";
         	$scope.msg = "Could not save the mapping details";
         	$scope.showpopup();
         });
@@ -3458,6 +3553,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	}
             })
             .error(function(response){
+            	$scope.titlemsg = "Alert";
             	$scope.msg = "Could not save the Collator scheme details";
             	$scope.showpopup();
             });
@@ -3510,6 +3606,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	}
             })
             .error(function(response){
+            	$scope.titlemsg = "Alert";
             	$scope.msg = "Could not save splitter scheme details";
             	$scope.showpopup();
             });

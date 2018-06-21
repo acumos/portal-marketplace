@@ -82,6 +82,16 @@ limitations under the License.
 						</div>
 						</md-content> </md-tab>
 							<md-tab label="Models"> 
+							<div class="ds-section-data-inner bdr-bottom">	
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="modelFilter.solutionName" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search" title="Search"></span>
+									</button></md-icon> </md-input-container>						
+								
+							</div>
 								<md-content>
 									
 									<div class="ds-contentsection2 ds-new-container1">
@@ -94,7 +104,7 @@ limitations under the License.
 						                     <div ng-show="expanded">
 							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
 							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -107,7 +117,7 @@ limitations under the License.
 						                     <div ng-show="test">
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -246,7 +256,7 @@ limitations under the License.
 								<div class="canvas-image"></div>
 								<div class="canvas-text text-center">
 									
-									<h5>Drag &amp; Drop your model into canvas to <br /> Create or Modify Model</h5>
+									<h5>Drag &amp; Drop the models from the left hand panel onto canvas <br /> to create a Composite Solution</h5>
 								</div>
 							
 							</div>
@@ -1083,7 +1093,7 @@ limitations under the License.
 										<label class="disblock">Select the Collator Scheme: <span class="dsreqfield">*</span></label>
 										<md-radio-group ng-model="collateScheme" ng-change="changeRead()"> 
 											<md-radio-button class="md-primary" value="Array-based">Array-Based Collation</md-radio-button>
-											<md-radio-button value="parameter_based_collation" disabled>Parameter-Based Collation</md-radio-button> 
+											<md-radio-button value="Parameter-Based" disabled>Parameter-Based Collation</md-radio-button> 
 										</md-radio-group>
 									</div>
 								</div>
@@ -1105,7 +1115,7 @@ limitations under the License.
 					</div>
 			<!-- Schema selection for Collator end -->
 			
-			<!-- Schema selection for Collator Start -->
+			<!-- Schema selection for Splitter Start -->
 						<div class="md-dialog-container" id="myDialogSplitterSelector" style="height: 0;">
 						<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
 							<ng-form name="splitterSelector" ng-cloak>
