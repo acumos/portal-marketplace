@@ -20,6 +20,28 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.32, 21 th June 2018
+================================
+* IST2/DC - Delete company/public model fails with message Model Name Not Unique (ACUMOS-1187)
+* IST2: Site Content : Validation message is displaying as a popup for invalid image (ACUMOS-1050)
+* The model name under "Model Name" when publishing model doesn't like sapces (ACUMOS-1115)
+* Upload Model Bundle status displayed as 'Completed' before clicking on Done button on file popup for mentioned steps (ACUMOS-1166)
+* Site Content : No error message is displaying when user input nothing and click on done button on add slide popup (ACUMOS-1049)
+* Site Content : Character count should increment/decrements when user delete /add some text (ACUMOS-1047)
+* Web-onboarding status message is scrolled off and vanishes after short time (ACUMOS-1012)
+* My Models/Manage My Model: Different versions not getting selected from drop down by clicking on it (ACUMOS-1126)
+* Successfully Signup Message is not displaying for long time (ACUMOS-1140)
+* Admin: Add user : Validation is not working when user select and deselect role before creating the user (ACUMOS-1152)
+* Solution is getting closed if clicks on solution title tab (ACUMOS-933)
+* Validation pop-up not showing if user ask to update the solution name or version (ACUMOS-934)
+* Solution is reflecting twice in solution palette once publish to company market place. (ACUMOS-1106)
+* Initial Implementation : Design Studio UI to support message splitting (broadcast and parameter splitting capability) (ACUMOS-1017)
+* Initial Implementation : Able to connect multiple model and combine the inputs from models in to single output message using DS tool : "Collator" (ACUMOS-972)
+* DS left nav bar missing search/filter for models (ACUMOS-1168)
+* Reword the Drag and Drop text on the Design Studio canvas (ACUMOS-1185)
+* DS name of splitter node lost on save and reload (ACUMOS-1170)
+* Solution name showing as 'untitled'  (ACUMOS-1151)
+
 Version 1.15.30, 18 th June 2018
 ================================
 * IST2/DC - unable to publish model to Public if published to company(ACUMOS-1133)
