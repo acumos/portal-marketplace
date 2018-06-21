@@ -2225,8 +2225,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				accessTypeCodes, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 		List<MLPSolution> searchSolList = searchSolResp.getContent();
 
+		//removing the same solutionId from the list
+		List<MLPSolution> filteredSolList1 = searchSolList.stream()
+				.filter(searchSol -> !searchSol.getSolutionId().equalsIgnoreCase(solutionId))
+				.collect(Collectors.toList());
+		
 		//Consider only those records that have exact match with the solution name
-		List<MLPSolution> filteredSolList = searchSolList.stream()
+		List<MLPSolution> filteredSolList = filteredSolList1.stream()
 				.filter(searchSol -> searchSol.getName().equalsIgnoreCase(solName))
 				.collect(Collectors.toList());
 
