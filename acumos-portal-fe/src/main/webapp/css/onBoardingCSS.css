@@ -11,6 +11,10 @@
     font-size: 13px;
 }
 
+.validation-msgs span {
+    color: #ff0000 !important;
+    font-size: 12px;
+}
 /********* Common CSS *******************/
 
 
