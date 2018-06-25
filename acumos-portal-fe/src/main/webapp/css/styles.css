@@ -2468,5 +2468,6 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
     .header-right1 .mdl-textfield.is-focused {margin-right: 15px !important;}
     .header-right1 md-menu > button:first-child {min-width: 47px;}
     .header-right1 md-menu > button:first-child span {margin-right: 2px !important;}
+    .mp-grid-list figure {display:block;}
 }
 /*********** MEDIA QUERIES SECTION END  ************/

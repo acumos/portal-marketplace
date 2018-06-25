@@ -793,6 +793,21 @@ angular
 							
 						};
 						
+						$scope.scrollToComment = function(view){
+							$scope.view = view;
+							debugger
+							if($scope.view == 'edit'){
+								$location.hash('editComment');
+								$anchorScroll();
+								angular.element('#editComment').focus();
+							}
+							else{
+								$location.hash('discussionTab');
+								$anchorScroll();
+							}
+							
+						}
+						
 						$scope.editComment = function(comment) {
 							var commentObj = {
 									  "request_body": {

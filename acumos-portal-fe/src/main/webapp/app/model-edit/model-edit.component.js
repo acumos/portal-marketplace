@@ -705,7 +705,7 @@ angular
 						$scope.solutionCompanyDescLength = false;
 
 						$scope.updateCompanyDescription = function() {
-							
+							debugger
 							if($scope.solutionCompanyDesc){
 								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc ? String($scope.solutionCompanyDesc).replace(/<[^>]+>/gm, '') : '';
 								
@@ -775,8 +775,13 @@ angular
 											});
 						}
 
+						var quill = new Quill('#editor', {
+						    theme: 'snow'
+						  });
+						
 						$scope.updatePublicDescription = function() {
-							
+							debugger
+							var delta = quill.getContents();
 							if($scope.solutionPublicDesc){
 								$scope.solutionPublicDescString = $scope.solutionPublicDesc ? String($scope.solutionPublicDesc).replace(/<[^>]+>/gm, '') : '';
 								
