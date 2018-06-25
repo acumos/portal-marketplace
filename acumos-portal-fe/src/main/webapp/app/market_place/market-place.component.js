@@ -133,15 +133,15 @@ angular
 							name : "Older",
 							value : "OLD"
 						},{
-                                                       name : "Name",
-                                                       value : "name"
-                                                },{
-                                                       name : "Created Date",
-                                                       value : "created"
-                                                },{
-                                                       name : "Author",
-                                                       value : "ownerName"
-                                                }];
+		                    name : "Name",
+		                    value : "name"
+		                },{
+		                    name : "Created Date",
+		                    value : "created"
+		                },{
+		                    name : "Author",
+		                    value : "ownerName"
+		                }];
 
 						$scope.checkBox = [ "Private", "Shared", "Company",
 								"Public" ];
