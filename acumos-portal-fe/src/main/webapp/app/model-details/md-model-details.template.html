@@ -165,13 +165,13 @@ limitations under the License.
 			</div>
 			<!-- <div class="header-stat-star"><a href="#"><i class="material-icons">star_rate</i> {{solution.solutionRating}}</a></div> -->
 			<div>
-				<a class="link-blue text-medium"><span
+				<a class="link-blue text-medium" ng-click="scrollToComment('view')"><span
 					class="statistics-icons icon-chat-blue md-icons1" alt="Comment" title="Comment"></span>
 					{{totalCommentCount}} <span class="header-stat-lg">Comments</span></a>
 			</div>
 			<div ng-show="solution.active == true">|</div>
 			<div ng-show="solution.active == true">
-				<a class="link-write-comments link-blue text-medium">Write
+				<a class="link-write-comments link-blue text-medium" ng-click="scrollToComment('edit')">Write
 					Comments</a>
 			</div>
 			<div>|</div>
@@ -614,7 +614,7 @@ limitations under the License.
 						<md-tabs md-dynamic-height md-border-bottom class="discussion-reviews-tab">
 						
 						<!-- discussion/review starts -->	      
-					      <md-tab label="Discussion ({{totalCommentCount}})">
+					      <md-tab label="Discussion ({{totalCommentCount}})" id="discussionTab">
 					        <md-content class="">
 							<div class="discussion-outer-container" >
 								<div class="md-discussion-container">
@@ -748,10 +748,10 @@ limitations under the License.
 								<div class="discussion-add-comment" ng-hide="solution.active == false">
 									<label class="md-lbl2">Add Comments</label>
 									<div class="flex1">
-										<div
+										<div 
 											class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
 											<textarea class="mdl-textfield__input md-txtarea" type="text"
-												rows="3" id="comment" ng-model="comment"></textarea>
+												rows="3" id="editComment" ng-model="comment"></textarea>
 											<!-- <label class="mdl-textfield__label" for="sample3">Add comment here...</label> -->
 										</div>
 									</div>
