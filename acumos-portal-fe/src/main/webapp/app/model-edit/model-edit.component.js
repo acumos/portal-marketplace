@@ -703,10 +703,10 @@ angular
 						
 						$scope.solutionPublicDescLength = false;
 						$scope.solutionCompanyDescLength = false;
-
-						$scope.updateCompanyDescription = function() {
-							
+						$scope.checkCompDescrLength = function()
+						{
 							if($scope.solutionCompanyDesc){
+
 								$scope.solutionCompanyDescString = $scope.solutionCompanyDesc ? String($scope.solutionCompanyDesc).replace(/<[^>]+>/gm, '') : '';
 								
 								if($scope.solutionCompanyDesc.indexOf('src="') > -1){
@@ -715,25 +715,25 @@ angular
 								}
 								else if($scope.solutionCompanyDescString.replace(/\s/g, "") == ""){
 									$scope.solutionCompanyDescLength = false;
-									alert("Enter text in the description");
-									return
 								}
 								else{
-									$scope.solutionCompanyDescLength = true;
+									$scope.solutionCompanyDescLength = true;									
 								}
 							}
 							else{
-								$scope.solutionCompanyDescLength = false;
-								alert("Enter more text in the description");
-								return
+								$scope.solutionCompanyDescLength = false;								
 							}
+							
+						}
+						
+						$scope.updateCompanyDescription = function() {
 							
 							
 							if($scope.solutionCompanyDescLength = true){
 								$scope.showDCKEditor = false
 							}else{
 								$scope.showDCKEditor = true
-							}
+							} 
 							
 							var solution = {
 								"description" : $scope.solutionCompanyDesc,
@@ -772,11 +772,12 @@ angular
 												 
 												alert(data.error);
 												$scope.solutionCompanyDesc = '';
+												$scope.solutionCompanyDescLength = false;
 											});
 						}
-
-						$scope.updatePublicDescription = function() {
-							
+						
+						$scope.checkPubDescrLength = function()
+						{
 							if($scope.solutionPublicDesc){
 								$scope.solutionPublicDescString = $scope.solutionPublicDesc ? String($scope.solutionPublicDesc).replace(/<[^>]+>/gm, '') : '';
 								
@@ -785,24 +786,25 @@ angular
 								    $scope.solutionPublicDescLength = true;
 								}
 								else if($scope.solutionPublicDescString.replace(/\s/g, "") == "" ){
-									$scope.solutionPublicDescLength = false;
-									alert("Enter text in the description");
-									return
+									$scope.solutionPublicDescLength = false ;
 								}
 								else{
-									$scope.solutionPublicDescLength = true;
+									$scope.solutionPublicDescLength = true;																		
 								}
 							}else{
-								$scope.solutionPublicDescLength = false;
-								alert("Enter more text in the description");
-								return
+								$scope.solutionPublicDescLength = false;								
+								
 							}
+						}
+
+						$scope.updatePublicDescription = function() {
 							
+
 							if($scope.solutionPublicDescLength = true){
 								$scope.showCKEditor = false
 							}else{
 								$scope.showCKEditor = true
-							}
+							} 
 							
 							var solution = {
 								"description" : $scope.solutionPublicDesc,
@@ -839,6 +841,7 @@ angular
 													config) {
 												alert(data.error);
 												$scope.solutionPublicDesc = '';
+												$scope.solutionPublicDescLength = false;
 											});
 						}
 

@@ -457,8 +457,12 @@ limitations under the License.
 							<tbody>
 								<tr ng-repeat="value in downloadData">
 									<td>
-										<!-- <a class="link-blue" href="#"> --><!-- Version name -->
-										{{value.name}}<!-- </a> --> <span class="font600"></span>
+										<!-- <a class="link-blue" href="#"> --><!-- Version name 
+										{{value.name}}<!-- </a>  <span class="font600"></span> -->
+										
+										<label class="a-tooltip"><span class="a-tooltipval">{{value.name}}</span>
+											<span class="a-tooltiptext">{{value.name}}</span>
+										</label>					
 									</td>
 									<td>{{value.version}}</td>
 									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
@@ -569,37 +573,37 @@ limitations under the License.
 									<div class="progress-wrapper">
 										<span>5 star</span>
 										<div class="progress">
-											<div class="determinate" style="width: 100%; background-color: green"></div>
+											<div class="determinate" style="background-color: green" ng-style='{"width": perratingCount5 + "%"}'></div>
 										</div>
 										<span style="font-weight: bold"> {{ratingCount5}} </span> 
 									</div>
 									<div class="progress-wrapper">
 										<span>4 star</span>
 										<div class="progress">
-											<div class="determinate" style="width: 80%; background-color: green"></div>
+											<div class="determinate" style="background-color: green" ng-style='{"width": perratingCount4 + "%"}'></div>
 										</div>
 										<span style="font-weight: bold"> {{ratingCount4}} </span> 
 									</div>
 									<div class="progress-wrapper">
 										<span>3 star</span>
 										<div class="progress">
-											<div class="determinate" style="width: 60%; background-color: green"></div>
+											<div class="determinate" style="background-color: green" ng-style='{"width": perratingCount3 + "%"}'></div>
 										</div>
 										<span style="font-weight: bold"> {{ratingCount3}} </span> 
 									</div>
 									<div class="progress-wrapper">
 										<span>2 star</span>
 										<div class="progress">
-											<div class="determinate" style="width: 40%; background-color: orange"></div>
+											<div class="determinate" style="background-color: orange" ng-style='{"width": perratingCount2 + "%"}'></div>
 										</div>
 										<span style="font-weight: bold"> {{ratingCount2}} </span> 
 									</div>
 									<div class="progress-wrapper">
 										<span>1 star</span>
 										<div class="progress">
-											<div class="determinate" style="width: 20%; background-color: red"></div>
+											<div class="determinate" style="background-color: red" ng-style='{"width": perratingCount1 + "%"}'></div>
 										</div>
-										<span style="font-weight: bold"> {{ratingCount1}} </span> 
+										<span style="font-weight: bold"> {{ratingCount1}}</span> 
 									</div>
 								</div>
 								<div class="mdl-cell mdl-cell--5-col"></div>
@@ -1088,14 +1092,21 @@ limitations under the License.
 			<div class="md-dialog-content">
 				<p class="wrap_text">Please choose any version of
 					{{solution.name}} from below.</p>
-				<div class="modal-row1" ng-repeat="value in downloadData">
+		
+
+				<div class="modal-row1 modal-row-new1" ng-repeat="value in downloadData">
 					<div>
-						<label><b>Version {{value.version}}</b> - <span
-							class="txt-orange text-small">Latest</span> </label> <label class="downloadlbl1"><b>File
-								Name:</b> - {{value.name}} {{value.version}} </label> <label class="downloadlbl2"><b>Uploaded
-								on</b> - {{value.created | date:'MM/dd/yyyy'}}</label>
+						<label><span class="font600">Version {{value.version}}</span> - <span
+							class="txt-orange text-small">Latest</span> </label> 
+							<label class="downloadlbl1" class="tooltip"><span class="font600">File
+												Name:</span></label>
+							<label class="a-tooltip"><span class="a-tooltipval">{{value.name}} {{value.version}}</span>
+							<span class="a-tooltiptext">{{value.name}} {{value.version}}</span>
+							</label>
+							<label class="downloadlbl2"><span class="font600">Uploaded
+							on</span> - {{value.created | date:'MM/dd/yyyy'}}</label>
 					</div>
-					<md-button class="md-raised mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}">
+					<md-button class="md-raised mdl-js-button btn-secondary" ng-click="getModelDetails()" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}">
 						Download
 					</md-button>
 				</div>
@@ -1120,7 +1131,7 @@ limitations under the License.
 
 			</md-dialog-content>
 			<md-dialog-actions>
-			<div class="modeldetails-dialog-footer">
+			<div class="dialog-footer-container1">
 				<span></span>
 				<button ng-click="handleDismiss()"
 					class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary text-tranformnone">Close</button>

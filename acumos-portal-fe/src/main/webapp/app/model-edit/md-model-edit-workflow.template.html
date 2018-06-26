@@ -866,7 +866,7 @@ limitations under the License.
 																	<span flex></span>
 																	<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																	<md-button class="md-icon-button"
-                                                                        ng-click="showDCKEditor = !showDCKEditor;previousValueCompany?solutionCompanyDesc=previousValueCompany:solutionCompanyDesc=''">
+                                                                        ng-click="showDCKEditor = !showDCKEditor;previousValueCompany?solutionCompanyDesc=previousValueCompany:solutionCompanyDesc='';solutionCompanyDescLength = false">
                                                                     <i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 																</div>
 																</md-toolbar>
@@ -874,15 +874,16 @@ limitations under the License.
 																<div class="md-dialog-content">
 																	<div
 																		class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
-																		<ng-quill-editor ng-model="solutionCompanyDesc"></ng-quill-editor>
+																		<ng-quill-editor ng-model="solutionCompanyDesc" ng-change="checkCompDescrLength()"></ng-quill-editor>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
 																		<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
-																		<md-button ng-click="showDCKEditor = !showDCKEditor;solutionCompanyDesc=previousValueCompany"
+																		<md-button ng-click="showDCKEditor = !showDCKEditor;solutionCompanyDesc=previousValueCompany;solutionCompanyDescLength = false"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																		Cancel </md-button>
 																		<md-button
 																			ng-click="updateCompanyDescription();"
+																			ng-disabled="!solutionCompanyDescLength"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 																		<span ng-if="!solutionCompanyDesc1">Done</span> 
 																		<span ng-if="solutionCompanyDesc1">Update</span>
@@ -2616,7 +2617,7 @@ limitations under the License.
 																<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 															
 																<md-button class="md-icon-button"
-                                                                        ng-click="showCKEditor = !showCKEditor;previousValuePublic?solutionPublicDesc=previousValuePublic:solutionPublicDesc=''">
+                                                                        ng-click="showCKEditor = !showCKEditor;previousValuePublic?solutionPublicDesc=previousValuePublic:solutionPublicDesc='';solutionPublicDescLength = false">
                                                                     <i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 															</div>
 															</md-toolbar>
@@ -2624,15 +2625,16 @@ limitations under the License.
 															<div class="md-dialog-content">
 																<div
 																	class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
-																	<ng-quill-editor ng-model="solutionPublicDesc"></ng-quill-editor>
+																	<ng-quill-editor ng-model="solutionPublicDesc" ng-change="checkPubDescrLength()"></ng-quill-editor>
 																</div>
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
-																	<md-button ng-click="showCKEditor = !showCKEditor;solutionPublicDesc=previousValuePublic"
+																	<md-button ng-click="showCKEditor = !showCKEditor;solutionPublicDesc=previousValuePublic;solutionPublicDescLength = false"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																	Cancel </md-button>
 																	<md-button
 																		ng-click="updatePublicDescription();"
+																		ng-disabled="!solutionPublicDescLength"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
 																		<span ng-if="!solutionPublicDesc1">Done</span>
 																		<span ng-if="solutionPublicDesc1">Update</span>

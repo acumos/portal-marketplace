@@ -75,7 +75,12 @@ angular
 								$scope.ratingCount3 = 0;
 								$scope.ratingCount4 = 0;
 								$scope.ratingCount5 = 0;
-								$scope.totalRatingsCount = 0;
+								$scope.perratingCount1 = 0;
+								$scope.perratingCount2 = 0;
+								$scope.perratingCount3 = 0;
+								$scope.perratingCount4 = 0;
+								$scope.perratingCount5 = 0;
+
 								
 								angular.forEach($scope.allUserRatings, function(value, key) {									
                     				if(value.rating == 1){
@@ -92,6 +97,13 @@ angular
                     			});
 								
 								$scope.totalRatingsCount = $scope.ratingCount1 + $scope.ratingCount2 + $scope.ratingCount3 + $scope.ratingCount4 + $scope.ratingCount5;
+								
+								$scope.perratingCount1 = $scope.ratingCount1/$scope.totalRatingsCount * 100;
+								$scope.perratingCount2 = $scope.ratingCount2/$scope.totalRatingsCount * 100;
+								$scope.perratingCount3 = $scope.ratingCount3/$scope.totalRatingsCount * 100;
+								$scope.perratingCount4 = $scope.ratingCount4/$scope.totalRatingsCount * 100;
+								$scope.perratingCount5 = $scope.ratingCount5/$scope.totalRatingsCount * 100;
+								
 							}).error(function(data, status, headers, config) {
 								
 							});
@@ -339,7 +351,7 @@ angular
 							$scope.apiUrl = '/api/solutions/'
 									+ $stateParams.solutionId
 						}
-						
+					$scope.getModelDetails = function() {
 						$http({
 							method : 'GET',
 							url : $scope.apiUrl,
@@ -650,7 +662,8 @@ angular
 									// status.
 									console.log(status);
 								});
-
+						}
+					 $scope.getModelDetails();
 						// };
 						
 						$scope.totalCommentCount = 0;
