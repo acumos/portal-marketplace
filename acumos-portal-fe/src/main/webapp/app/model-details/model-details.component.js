@@ -38,6 +38,9 @@ angular
 						$scope.showORDocs = false;
 						$scope.showPBDocs = false;
 						
+						$location.hash('md-model-detail-template');  
+						$anchorScroll(); 
+						
 						$scope.clearForm = function(){
 							deploy.reset();
 							deployCloud.brokerlink.value = "";
