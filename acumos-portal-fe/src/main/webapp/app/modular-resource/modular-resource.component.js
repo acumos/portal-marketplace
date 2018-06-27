@@ -469,8 +469,8 @@ angular.module('modelResource')
 					
 					$scope.addToReqObj = {
 							  "request_body": {
-								    "version": $scope.toolkitNameValue,
-								    "name": $scope.user.name,
+								    /*"version": $scope.toolkitNameValue,
+								    "name": $scope.user.name,*/
 								  }
 								};
 					apiService
@@ -539,7 +539,6 @@ angular.module('modelResource')
 				if($scope.toolkitNameValue)count++;
 				if($scope.install)count++;
 				if($scope.file && $scope.fileSubmit && $scope.modelUploadError == false)count++;
-				if($scope.user){if(/*$scope.user.pass && $scope.user.name &&*/ $scope.popupAddSubmit)count++;}
 				$scope.statusCount = count;
 				/*if(count === 4){
 					$scope.activeViewModel = true;
@@ -549,8 +548,6 @@ angular.module('modelResource')
 			$scope.$watch('toolkitNameValue', function() {$scope.file=null; chkCount();});
 			$scope.$watch('install', function() {chkCount();});
 			$scope.$watch('file', function() {chkCount(); $scope.filename = $scope.file.name;});
-			$scope.$watch('user', function() {chkCount();});
-			$scope.$watch('popupAddSubmit', function() {chkCount();});
 			
 			/*if a popup is open other should close*/
 			$scope.closeOtherPopovers = function(variableName, variableValue){

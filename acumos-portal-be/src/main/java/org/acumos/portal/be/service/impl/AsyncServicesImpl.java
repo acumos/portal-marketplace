@@ -118,7 +118,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	public Future<HttpResponse> callOnboarding(String uuid, String userId, UploadSolution solution, String provider, String access_token)
 			throws InterruptedException, ClientProtocolException, IOException {
 
-			log.info("inside callOnboarding start ---->>>");
+			log.info("CallOnboarding service start");
 		File directory = new File(env.getProperty("model.storage.folder.name") + File.separator + userId);
 		File modelFile = null;
 		File schemaFile = null;
@@ -191,32 +191,16 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding if after resp.toString() ---->>>"+resp.toString());
 					Map<String, Object> solutionStr = (Map<String, Object>) resp.get("result");
 					
-					 String newSolutionId = (String) solutionStr.get("solutionId");
-					 String newSolutionName = (String) solutionStr.get("name");
-					log.info(resp.toString());
+					log.info("Response From Onboarding : {}", resp.toString());
 					
-					
-					log.debug(resp.toString());
-					log.debug(newSolutionId);
-					log.debug(newSolutionName);
-					
-					//String newSolutionId = (String) solutionMap.get("solutionId");
-					//String newSolutionName = (String) solutionMap.get("name");
-					if (StringUtils.isNotEmpty(newSolutionName) && !solution.getName().equals(newSolutionName)) {
-						MLSolution solutionDetail = catalogService.getSolution(newSolutionId);
-						solutionDetail.setName(solution.getName());
-						log.info("inside callOnboarding if before updateSolution ---->>>");
-						catalogService.updateSolution(solutionDetail, newSolutionId);
-						log.info("inside callOnboarding if after updateSolution ---->>>");
-					}
-					String notifMsg = "Solution " + solution.getName() + " On-boarded Successfully";
+					String notifMsg = "Solution " + solutionStr.get("name") + " On-boarded Successfully";
 					notification.setMessage(notifMsg);
 					notification.setTitle(NOTIFICATION_TITLE);
 					notificationService.generateNotification(notification, userId);
 					
 					//Send notification to user according to preference
 					Map<String, String> notifyBody = new HashMap<String, String>();
-					notifyBody.put("solutionName", solution.getName());
+					notifyBody.put("solutionName", (String) solutionStr.get("name"));
 					notifyOnboardingStatus(userId, "HI", notifMsg, notifyBody, "ONBD_SUCCESS");
 				} else {
 					InputStream instream = response.getEntity().getContent();
@@ -229,7 +213,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding else after resp.toString() ---->>>"+resp.toString());
 					log.info(resp.toString());
 					log.info((String) resp.get("errorMessage"));
-					String notifMsg = "On-boarding Failed for solution " + solution.getName()
+					String notifMsg = "On-boarding Failed"
 					+ ". Please restart the process again to upload the solution";
 					notification.setMessage(notifMsg);
 					notification.setTitle(NOTIFICATION_TITLE);
@@ -238,9 +222,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					
 					//Send notification to user according to preference
 					Map<String, String> notifyBody = new HashMap<String, String>();
-					notifyBody.put("solutionName", solution.getName());
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
-					notifyOnboardingStatus(userId, "HI", "On-boarding Failed for solution " + solution.getName(), notifyBody, "ONBD_FAIL");
+					notifyOnboardingStatus(userId, "HI", "On-boarding Failed for solution ", notifyBody, "ONBD_FAIL");
 				}
 			}
 		// If disconnected from onboarding service, catch related exceptions here
@@ -272,9 +255,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		try {
 			//Send notification to user according to preference
 			Map<String, String> notifyBody = new HashMap<String, String>();
-			notifyBody.put("solutionName", solution.getName());
 			notifyBody.put("errorMessage", errorMessage);
-			notifyOnboardingStatus(userId, "HI", "Add To Catalog Failed for solution " + solution.getName(), notifyBody, "ONBD_FAIL");
+			notifyOnboardingStatus(userId, "HI", "Add To Catalog Failed for solution ", notifyBody, "ONBD_FAIL");
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred sending notification email ", e);
 		}
@@ -315,7 +297,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	}
 
 	public MLNotification sendBellNotification(String userId, UploadSolution solution) {
-		String notifMsg = "Add To Catalog Failed for solution " + solution.getName()
+		String notifMsg = "Add To Catalog Failed for solution "
 			+ ". Please restart the process again to upload the solution.";
 		MLPNotification notification = new MLPNotification();
 		notification.setMessage(notifMsg);

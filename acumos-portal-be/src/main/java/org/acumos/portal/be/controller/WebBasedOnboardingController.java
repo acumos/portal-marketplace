@@ -75,7 +75,6 @@ public class WebBasedOnboardingController  extends AbstractController {
 	private MessagingService messagingService;
 	
 	
-	//@Async
 	@ApiOperation(value = "adding Solution for Market Place Catalog.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.ADD_TO_CATALOG}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -90,7 +89,7 @@ public class WebBasedOnboardingController  extends AbstractController {
 			if (restPageReq != null) {
 				UploadSolution solution = restPageReq.getBody();
 				//this will just call the async service and 
-				//futher that async service will proceed untill the task is not completed.
+				//futher that async service will proceed until the task is not completed.
 				//restPageReq.getBody() will get( modelType, modelToolkitType, name) which required to proceed
 				//String provider = request.getHeader("provider");
 				String access_token = authorization;
@@ -104,69 +103,10 @@ public class WebBasedOnboardingController  extends AbstractController {
 				executor.execute(futureTask_1);
 				executor.shutdown();
 				
-				/*Callable<Integer> task = new Callable<Integer>() {
-		            public Integer call() {
-		                // fake computation time
-		                try {
-		                    Thread.sleep(5000);
-		                } catch (InterruptedException ex) {
-		                    ex.printStackTrace();
-		                }
-		                
-		                //asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
-		 
-		                return asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
-		            }
-		        }; 
-				
-				
-				Callable<String> callableTask = () -> {
-				    TimeUnit.MILLISECONDS.sleep(300);
-				    return "Task's execution";
-				};
-				
-				Future<HttpResponse> future = executor.submit(new Callable());
-		        try {
-		        	future = asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
-		        } catch (InterruptedException | ExecutionException e) {
-		            e.printStackTrace();
-		        }				
-				//executor.submit(task)
-				//asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
-*/				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail(uuid);
 			}
-			/*if (mlSolutions != null) {
-				
-				data.setResponseBody(mlSolutions);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions OnBoarded Successfully");
-			}*/
-		} /*catch (FileNotFoundException e) {
-			
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("FileNotFoundException Occurred OnBoarding Solutions for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred OnBoarding Solutions for Market Place Catalog",
-					e);
-		}catch (ClientProtocolException e) {
-			
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("ClientProtocolException Occurred OnBoarding Solutions for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred OnBoarding Solutions for Market Place Catalog",
-					e);
-		}catch (InterruptedException e) {
-			
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("InterruptedException Occurred OnBoarding Solutions for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred OnBoarding Solutions for Market Place Catalog",
-					e);
-		}catch (ConnectException e) {
-			
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("ConnectException Occurred OnBoarding Solutions for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred OnBoarding Solutions for Market Place Catalog",
-					e);
-		}*/catch (Exception e) {
+		} catch (Exception e) {
 			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred OnBoarding Solutions for Market Place Catalog");
@@ -175,9 +115,8 @@ public class WebBasedOnboardingController  extends AbstractController {
 		}
 		return data;
 	}
-	
-	
-	
+
+
 	@ApiOperation(value = "getting message for the OnBoarded Solution.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.MESSAGING_STATUS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
