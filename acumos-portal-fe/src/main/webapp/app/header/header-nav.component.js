@@ -239,10 +239,11 @@ angular.module('headerNav')
 		}
 		
 		$scope.viewNotification=function (notificationId){
+			var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
 			
 			var req = {
 				    method: 'PUT',
-				    url: '/api/notifications/view/'+notificationId+'/user/'+$scope.loginUserID
+				    url: '/api/notifications/view/'+notificationId+'/user/'+userId
 				};
 			$http(req).success(function(data, status, headers,config) {
 				if(data!=null){
@@ -258,8 +259,9 @@ angular.module('headerNav')
 		}
 		
 		$scope.deleteNotification=function (notificationId){
+			var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
 			apiService
-			.deleteNotifications(notificationId, $scope.loginUserID)
+			.deleteNotifications(notificationId, userId)
 			.then(function(response) {
 				$scope.page =0;
 				//$scope.notificationManageObj=[];
