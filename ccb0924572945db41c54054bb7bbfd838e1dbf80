@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23db7268_f5f45352",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-27T19:31:53Z",
+      "side": 1,
+      "message": "Vikas would you please add a few release notes for 1.15.24 .. 1.15.29?  You could use the weekly build notes https://wiki.acumos.org/display/REL/Weekly+Builds",
+      "revId": "ccb0924572945db41c54054bb7bbfd838e1dbf80",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
