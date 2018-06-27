@@ -208,7 +208,7 @@ h6 {margin:0;padding:0}
 .sectiontitle9 {color: #671C9D;margin-bottom:0; border-bottom: none;}
 
 .sharetitle {font-weight: 600;font-size: 14px;line-height: 32px; padding: 5px 0 5px 8px; }
-.rate-title {padding-bottom:0; position:relative; top:7px;max-width: 95%; text-overflow: ellipsis; overflow: hidden;white-space: nowrap;}
+.rate-title {padding-bottom:8px; position:relative; top:7px;max-width: 95%; text-overflow: ellipsis; overflow: hidden;white-space: nowrap;}
 .txt-black1 {color: #000000;}
 .txt-black2 {color: #050009;}
 .txt-black3 {color: #2e2f2f;}
@@ -313,6 +313,7 @@ md-dialog .md-dialog-content {padding: 20px;}
 .mp-grid-list-details-cell .detail-content span { margin-right: 8px; margin-left: 9px;}
 .mp-grid-list-details-cell .detail-content span:first-child { margin-left:0;}
 .detail-content {margin-bottom: 8px; clear:both;}
+.mp-grid-list-row:hover {box-shadow: 3px 3px 10px rgba(0,0,0,0.15); transform: scale(1.02);transition: all 0.2s ease-in-out;}	
 
 .mpimgcontainer {width: 94%; height: 100px; display: block; clear:both; position: relative;}
 .mpimage1 {width: 100%; height: 100%; display: block;}
@@ -1754,7 +1755,7 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 .drag-drop{border: 1px dashed #d5d5d5; border-radius: 5px; width:auto; padding:15px; text-align:left;}
 .drag-drop img{display:block; margin:auto;}
 .drag-drop .destext{text-align:center; font-size: 16px; color: #777; padding: 5px 10px;}
-.mdl-button.mdl-js-button[disabled] {background: #e2e0e0; color: #B3B3B3; border-color: #d3d1d1;  cursor: not-allowed;}
+.mdl-button.mdl-js-button[disabled] {color: #B3B3B3; border-color: #d3d1d1;  cursor: not-allowed;}
 .infographics{display:flex; justify-content:space-between;}
 .infographics md-input-container label{width:auto;}
 .infographics md-switch{margin:0 0 0 5px; float:right; height:20px;}
@@ -1877,14 +1878,14 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 .a-tooltip .a-tooltiptext {visibility: hidden; width: 280px; background-color: #2e2f2f; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s;}
 .a-tooltip .a-tooltiptext::after {content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 6px; border-style: solid; border-color: #2e2f2f transparent transparent transparent;}
 .a-tooltip:hover .a-tooltiptext {visibility: visible; opacity: 1;}
-.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; max-width:90%;width: 80%;}
+.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; max-width:200px;width: 80%;}
 .modal-row1.modal-row-new1 > div > label {border: none !important;}
 .modal-row1.modal-row-new1 > div {max-width: 375px !important;}
 
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {overflow: visible !important;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child .a-tooltip .a-tooltiptext {white-space: normal;}
 /**************Tooltip style end****************/
-
+	
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
@@ -1914,7 +1915,8 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.marketplace-btn-container .btn-sort {width: 50px; min-width: 50px;}
 	.mp-grid-list-row .griditem-title {max-width: 150px;}
 	.rating span i {width: 15px;}
-	.rating-list-fav-button {margin-bottom:0;}	
+	.rating-list-fav-button {margin-bottom:0;}
+	
 	
 	.password-container1 { display:flex; flex-wrap: nowrap; justify-content: space-between;}
 	.password-container1 .eyebutton { width: 50px;}
