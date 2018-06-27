@@ -538,7 +538,7 @@ limitations under the License.
 						<div class="clearfix"></div>
 						<div class="timeline">
 							<h6>
-								Step To On-Board Your Model <span>( {{statusCount}}/4 Completed )</span>
+								Step To On-Board Your Model <span>( {{statusCount}}/3 Completed )</span>
 								<!--div class="pull-right">
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button>
                           </div-->
@@ -754,81 +754,6 @@ limitations under the License.
 											</div>
 										</div>
 									</article>
-									<article class="timeline-entry">
-										<div class="timeline-entry-inner">
-											<div ng-if="!user.name || !popupAddSubmit" class="timeline-icon">
-												<span class="entypo-suitcase">4</span>
-											</div>
-											<div class="timeline-icon bg-success"
-												ng-if="user.name&&popupAddSubmit">
-												<span class="entypo-feather fa fa-check"></span>
-											</div>
-											<div class="timeline-label">
-												<h2><span ng-click="addModel = !addModel;popupAddSubmit = false;user='';openDrop(false); closeOtherPopovers('addModel',addModel)" class="link-heading">
-													 <!-- Add Model Information  --> Model Name</span>| 
-													 <span class="green" class="green"
-																ng-if="user.name&&popupAddSubmit">Completed</span>
-													 <span class="red" ng-if="!user.name || !popupAddSubmit">Not Started</span>
-												</h2>
-												<!-- update model name -->
-												<div class="popovers cont" id="addModel" ng-show="addModel">
-													<md-toolbar>
-													<div class="md-toolbar-tools">
-														<h2><!-- Add Model Information --> Model Name</h2>
-														<span flex></span>
-														<md-button class="md-icon-button"
-															ng-click="addModel = !addModel;openDrop(true)"> <i
-															class="material-icons" alt="Close" title="Close">close</i> </md-button>
-													</div>
-													</md-toolbar>
-													<md-dialog-content>
-													<div class="md-dialog-content">
-														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-															<div class="mdl-cell mdl-cell--12-col">
-																<md-input-container class="md-icon-float md-block">
-																<!-- Use floating label instead of placeholder --> <label>Add your Model's Name</label> 
-																<input ng-model="user.name" type="text"> </md-input-container>
-																<!-- <md-input-container class="md-icon-float md-block">
-																Use floating label instead of placeholder <label>Model
-																	ID</label> <input ng-model="user.pass" type="text"> </md-input-container> -->
-															</div>
-
-															<div class="mdl-cell mdl-cell--6-col">
-																<!-- <md-input-container class="md-icon-float md-block">
-																<label>Model Version</label> <input ng-model="user.pass"
-																	type="text"> </md-input-container> -->
-																	<!-- <md-input-container class="md-icon-float md-block">
-																	<label>Model
-																	ID</label> <input ng-model="user.pass" type="text"> </md-input-container> -->
-															</div>
-														</div>
-														<div layout="row" class="popovers-cloud-modalfooter">
-															<md-button ng-click="addModel = !addModel; user.pass= '';user.name='';openDrop(true);"
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
-															Cancel </md-button>
-															<md-button ng-click="addModel = !addModel;popupAddSubmit = true; openDrop(true);"
-																ng-disabled="!user.name || user.name.length <= 0" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
-															Done </md-button>
-														</div>
-													</div>
-													</md-dialog-content>
-												</div>
-												<!-- update model name end -->
-
-												<p ng-if='!user.pass || !user.name'>Some information can be displayed related to this particular task, such as how to complete this task what are data required.</p>
-												<p ng-if='user.pass && user.name'>Model Name: {{user.name}}</p>
-												<p ng-if='user.pass && user.name'>Model Version: {{user.pass}}</p>
-												<p ng-if='user.pass && user.name'>Model ID: {{user.pass}}</p>
-												<!--p>
-                                  <div class="checkbox">
-                                    <label>
-                                      <input type="checkbox">
-                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
-                                  </div>
-                                  </p-->
-											</div>
-										</div>
-									</article>
 									<!--article class="timeline-entry">
                               <div class="timeline-entry-inner">
                                 <div class="timeline-icon"> <span class="entypo-suitcase">5</span> </div>
@@ -882,7 +807,7 @@ limitations under the License.
 									<!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button-->
 
 									<button ng-click="addToCatalog()"
-										 ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit && user.name && popupAddSubmit ) || ( disableOnboardingButton == true )"
+										 ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit) || ( disableOnboardingButton == true )"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 								</div>
