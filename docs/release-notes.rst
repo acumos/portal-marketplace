@@ -20,6 +20,20 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.33, 28 th June 2018
+================================
+* ISt2: Manage my model : Reply to Comment : Delete comment is not working (ACUMOS-1118)
+* <IST2> <Marketplace> Not able to add edit delete comment after adding 10 comments (ACUMOS-1139)
+* MyModels shows description for private, not for public model thumb nails (ACUMOS-1219)
+* IST2 The model name under "Model Name" when publishing model doesn't like spaces (ACUMOS-1115)
+* Web on-boarding feature does not show model name after it is entered (ACUMOS-1200)
+* <IST2><Marketplace> My Models/Manage My Model: Different versions not getting selected from drop down by clicking on it (ACUMOS-1126)
+* simplified rating process for models (ACUMOS-984)
+* <IST2> Marketplace> Download pop-up: Unable to identify the file names and types on pop-up (ACUMOS-1116)
+* IST2: Error Model : When user change the view the error model is displaying without error (ACUMOS-1150)
+* IST2: Comment box and Write Comment hyper link in the header on model description page is not working (ACUMOS-1120)
+* Web on-boarding behavior differs from command line for models/revisions (ACUMOS-1215)
+
 Version 1.15.32, 21 th June 2018
 ================================
 * IST2/DC - Delete company/public model fails with message Model Name Not Unique (ACUMOS-1187)
@@ -45,6 +59,49 @@ Version 1.15.32, 21 th June 2018
 Version 1.15.30, 18 th June 2018
 ================================
 * IST2/DC - unable to publish model to Public if published to company(ACUMOS-1133)
+
+Version 1.15.29, 14 th June 2018
+================================
+* Rating: Rating Count is not displaying on the right hand side sub screen (ACUMOS-1067)
+* Ratings:  legends value is not changing while changing the  rating (ACUMOS-1064)
+* Web-onboarding status message is scrolled off and vanishes after short time (ACUMOS-1012)
+* No validation for 140 characters in the Supporting content (ACUMOS-913)
+* Hyper link label name is going of the screen on Add slide to top carousel (ACUMOS-912)
+* All exposed APIs must be authenticated (ACUMOS-740)
+* Deleted Model : Status of the deleted model should be deleted (ACUMOS-1046)
+* simplified rating process for models (ACUMOS-984)
+
+Version 1.15.28, 11 th June 2018
+================================
+* Getting 404 Error while accessing the application (ACUMOS-1069)
+* Notification count is increasing (ACUMOS-1061)
+
+Version 1.15.26, 07 th June 2018
+================================
+* Button is enabled without inputting the value. (ACUMOS-967)
+* User session time out does not exist. (ACUMOS-966)
+* Portal comments display - no name, no date/time, unauthorized edit (ACUMOS-960)
+* <Web onboarding> Need to refresh after login from web (ACUMOS-955)
+* Site Config: Link or Button Name : Marketplace link is not working (ACUMOS-937)
+* Deploy to Azure : Deployment start message is displaying as a popup (ACUMOS-936)
+* LF - Onboarding is available (ACUMOS-929)
+* There is a cognita reference in PortalLoggingAspect.java (ACUMOS-917)
+* Hyper link label name is going of the screen on Add slide to top carousel (ACUMOS-912)
+* Showing dropdown is not  displaying like 25-50 model when user go to next set (ACUMOS-911)
+* Notification not displayed after on-boarding a model (ACUMOS-902)
+* Comments , Reply to comments  and Share with social networking is not working as expected (ACUMOS-865)
+* IST/Dev Challenge - Portal BE has 400 error in logs (ACUMOS-857)
+* Rating : Review Message is not displaying which user is giving while submitting the rating (ACUMOS-837)
+* Signup Issues (ACUMOS-720)
+* new description editor makes input challenging (ACUMOS-717)
+* Deactivate-account feature should request confirmation (ACUMOS-576)
+* Need new VD for pagination for previous and next button (ACUMOS-916)
+
+Version 1.15.25, 01 th June 2018
+================================
+* Acumos model signatures showing "undefined" in the GUI (ACUMOS-814)
+* omitting part of model signature (ACUMOS-885)
+* Drag and Drop not working in DEV challenge (ACUMOS-997)
 
 Version 1.15.23, 24 th May 2018
 ===============================
