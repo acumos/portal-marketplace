@@ -645,7 +645,7 @@ limitations under the License.
 												>Edit</button>
 											<button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deleteComment(comment)" ng-hide="loginUserID != comment.userId"
+												ng-click="deleteComment(comment)" ng-hide="loginUserID != comment.userId || comment.replies.length>0"
 												>Delete</button>
 										</div>
 										<p ng-hide="showEditComment">{{comment.text}}</p>

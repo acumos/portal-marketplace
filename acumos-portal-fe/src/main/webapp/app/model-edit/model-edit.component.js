@@ -123,7 +123,7 @@ angular
 							var reqObj = {
 									  "request_body": {
 										    "page": 0,
-										    "size": 9
+										    "size": 0
 										  },
 										};
 							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
@@ -175,7 +175,7 @@ angular
 									apiService.getUserProfileImage(commentReply.userId).then(function(userImage){
 										commentReply.image = userImage.data.response_body;
 									});
-									
+
 									//loops through all current comments to find the proper parent comment to add onto its replies
 									for(var commentIndex = 0; commentIndex < $scope.commentList.length; commentIndex++) {
 										if($scope.commentList[commentIndex].commentId == commentReply.parentId) {
