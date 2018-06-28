@@ -738,7 +738,7 @@ angular
 							var reqObj = {
 									  "request_body": {
 										    "page": 0,
-										    "size": 9
+										    "size": 0
 										  },
 										};
 							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {

@@ -3702,7 +3702,7 @@ limitations under the License.
 										<td data-label="Action"><i><a><img
 													src="images/reply4.png" alt="Reply" title="Reply" ng-click="setReply(comment);"/></a></i> <i><a><img
 													src="images/edit.png" alt="Edit" title="Edit" ng-hide="loginUserId[1] != comment.userId" ng-click="setEdit(comment)"/></a></i> <i><a><img
-													src="images/delete.png" alt="Delete" title="Delete" ng-hide="loginUserId[1] != comment.userId" ng-click="deleteComment(comment)"/></a></i></td>
+													src="images/delete.png" alt="Delete" title="Delete" ng-hide="loginUserId[1] != comment.userId || comment.replies.length>0" ng-click="deleteComment(comment)"/></a></i></td>
 									</tr>
 								</tbody>
 							</table>
