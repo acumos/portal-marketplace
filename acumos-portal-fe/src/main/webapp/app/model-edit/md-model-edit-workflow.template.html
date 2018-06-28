@@ -795,7 +795,7 @@ limitations under the License.
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Update" title="Update">
 																		Cancel </md-button>
 																		<md-button
-																			ng-disabled="ORmodelNameForm.OrModelName.$error.pattern"
+																			ng-disabled="ORmodelNameForm.OrModelName.$error.pattern || solutionName==''"
 																			ng-click="updateSolution(); showSolName = !showSolName"
 																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
 																		<span ng-if="solution.name.length<1">Done</span> 
@@ -874,7 +874,7 @@ limitations under the License.
 																<div class="md-dialog-content">
 																	<div
 																		class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
-																		<ng-quill-editor ng-model="solutionCompanyDesc" ng-change="checkCompDescrLength()"></ng-quill-editor>
+																		<ng-quill-editor ng-model="solutionCompanyDesc" on-content-changed="checkCompDescrLength()"></ng-quill-editor>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
 																		<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
@@ -2525,7 +2525,7 @@ limitations under the License.
 																		<md-input-container class="md-icon-float md-block">
 																		<!-- Use floating label instead of placeholder --> <label class="md-required">Model
 																			Name </label> <input ng-model="solutionName" type="text" name="PbModelName"
-																			ng-pattern="/^[a-zA-Z0-9_-]*$/">
+																			ng-pattern="/^[a-zA-Z0-9_-]*$/" >
 																				<span  ng-show="PBmodelNameForm.PbModelName.$error.pattern">
 																					Model Name can consists of alphanumeric, hyphen and underscore characters only.
 																				</span>
@@ -2548,12 +2548,15 @@ limitations under the License.
 																	<md-button ng-click="showSolName = !showSolName"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
 																	Cancel </md-button>
-																	<md-button nd-disabled="PBmodelNameForm.PbModelName.$error.pattern"
-																		ng-click="updateSolution(); showSolName = !showSolName"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
-																		<span ng-if="solution.name.length<">Done</span> 
+																	
+																	<md-button
+																			ng-disabled="PBmodelNameForm.PbModelName.$error.pattern || solutionName==''"
+																			ng-click="updateSolution(); showSolName = !showSolName"
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
+																		<span ng-if="solution.name.length<1">Done</span> 
 																		<span ng-if="solution.name.length>=1">Update</span>
-																	</md-button>
+																		</md-button>
+																		
 																</div>
 															</div>
 															</form>
@@ -2625,7 +2628,7 @@ limitations under the License.
 															<div class="md-dialog-content">
 																<div
 																	class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
-																	<ng-quill-editor ng-model="solutionPublicDesc" ng-change="checkPubDescrLength()"></ng-quill-editor>
+																	<ng-quill-editor ng-model="solutionPublicDesc" on-content-changed="checkPubDescrLength()"></ng-quill-editor>
 																</div>
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
