@@ -47,6 +47,7 @@ import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPModelType;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
@@ -1989,6 +1990,15 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 							}
 						}
 					}
+				}
+				try {
+					RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
+	                pageResponse = dataServiceRestClient.getSolutionRevisionComments(mlSolution.getSolutionId(),stepResult.getRevisionId(),pageReqPortal.getPageRequest());
+	                int commentCout = pageResponse.getContent().size();
+	                mlSolution.setCommentCout(commentCout);
+				} catch (Exception e) {
+					log.error(EELFLoggerDelegate.errorLogger, "No SolutionId={} & No RevisionId={} found",
+							mlSolution.getSolutionId());
 				}
 				mlSolution.setOnboardingStatusFailed(onboardingStatusFailed);
 				if(errorStatusDetails!=null) {
