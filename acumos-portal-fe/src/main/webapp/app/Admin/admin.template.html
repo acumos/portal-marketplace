@@ -2645,7 +2645,7 @@ limitations under the License.
 				<h2 ng-if="itsEdit">Edit {{carouselSlide.name}} for Top
 					Carousel</h2>
 				<span flex></span>
-				<md-button class="md-icon-button" ng-click="closePoup()">
+				<md-button class="md-icon-button" ng-click="getCarouselConfig();closePoup();">
 				<i class="material-icons">close</i> </md-button>
 			</div>
 			</md-toolbar> <md-dialog-content>
@@ -3001,7 +3001,7 @@ limitations under the License.
 			</form>
 			</md-dialog-content> <md-dialog-actions>
 			<div class="dialog-footer-container1">
-				<md-button ng-click="closePoup()"
+				<md-button ng-click="getCarouselConfig();closePoup();"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
 				<md-button type="submit" ng-disabled="!isSlideValid(carouselSlide, topSCLength, 'true')" ng-click="addCarouselSlide()"
@@ -3024,7 +3024,7 @@ limitations under the License.
 				<h2 ng-if="itsEdit">Edit {{eventCarousel.name}} for Event
 					Carousel</h2>
 				<span flex></span>
-				<md-button class="md-icon-button" ng-click="closePoup()">
+				<md-button class="md-icon-button" ng-click="getEventCarousel();closePoup();">
 				<i class="material-icons">close</i> </md-button>
 			</div>
 			</md-toolbar> <md-dialog-content>
@@ -3184,7 +3184,7 @@ limitations under the License.
 			</form>
 			</md-dialog-content> <md-dialog-actions>
 			<div class="dialog-footer-container1">
-				<md-button ng-click="closePoup()"
+				<md-button ng-click="getEventCarousel();closePoup()"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
 				<md-button type="submit" ng-disabled="!isSlideValid(eventCarousel, eventSCLength, 'false')" ng-click="addEventSlide()"
@@ -3207,7 +3207,7 @@ limitations under the License.
 				<h2 ng-if="itsEdit">Edit {{storyCarousel.name}} for Success
 					Stories Carousel</h2>
 				<span flex></span>
-				<md-button class="md-icon-button" ng-click="closePoup()">
+				<md-button class="md-icon-button" ng-click="getStoryCarousel();closePoup();">
 				<i class="material-icons">close</i> </md-button>
 			</div>
 			</md-toolbar> <md-dialog-content>
@@ -3372,7 +3372,7 @@ limitations under the License.
 			</form>
 			</md-dialog-content> <md-dialog-actions>
 			<div class="dialog-footer-container1">
-				<md-button ng-click="closePoup()"
+				<md-button ng-click="getStoryCarousel();closePoup();"
 					class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 				Cancel </md-button>
 				<md-button type="submit" ng-disabled="!isSlideValid(successCarousel, successSCLength, 'false')" ng-click="addStorySlide()"

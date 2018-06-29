@@ -332,6 +332,11 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="mp-grid-list" ng-show="!Viewtile">
+						
+						<div class="alert c-info" ng-if="mlSolutionPrivate.length < 1">
+								<strong>No Result found</strong>
+							</div>
+							
 							<div class="mp-grid-list-row"
 								ng-repeat="privateSolution in mlSolutionPrivate">
 								<!--  mlsolution in mlsolutions | filter:(!searchResults || '') && {active:''}-->
@@ -492,6 +497,9 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="mp-grid-list" ng-show="!Viewtile">
+						<div class="alert c-info" ng-if="mlSolutionCompany.length < 1">
+								<strong>No Result found</strong>
+							</div>
 							<div class="mp-grid-list-row"
 								ng-repeat="companySolution in mlSolutionCompany">
 								<!-- mlsolution in mlSolutionCompany | filter: {accessType:'OR'} | filter: {active:true}  -->
@@ -700,6 +708,10 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="mp-grid-list" ng-show="!Viewtile">
+						
+						<div class="alert c-info" ng-if="mlSolutionPublic.length < 1">
+								<strong>No Result found</strong>
+							</div>
 							<div class="mp-grid-list-row"
 								ng-repeat="mlsolution in mlSolutionPublic">
 								<div class="mp-grid-list-image-cell">
@@ -876,6 +888,10 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="mp-grid-list" ng-show="!Viewtile">
+							<div class="alert c-info" ng-if="mlSolutionDelete.length < 1">
+									<strong>No Result found</strong>
+								</div>
+								
 								<div class="mp-grid-list-row"
 									ng-repeat="deletedSolution in mlSolutionDelete">
 									<div class="mp-grid-list-image-cell">
