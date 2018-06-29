@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>1.14.3-SNAPSHOT</version>
+			<version>1.14.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.acumos.acumos-nexus-client</groupId>
