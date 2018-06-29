@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a4c9ae0_d9a62797",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1995,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-29T12:13:41Z",
+      "side": 1,
+      "message": "Don\u0027t create a new empty object here",
+      "range": {
+        "startLine": 1995,
+        "startChar": 50,
+        "endLine": 1995,
+        "endChar": 74
+      },
+      "revId": "dedf8f5dc20da6366220a3f8a9dbfa5d9fb6940c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b2066d0_e1cf1ab3",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1996,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-29T12:13:41Z",
+      "side": 1,
+      "message": "Fix indentation",
+      "revId": "dedf8f5dc20da6366220a3f8a9dbfa5d9fb6940c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "420619d3_8105b48f",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-29T12:13:41Z",
+      "side": 1,
+      "message": "Typo cout/count",
+      "range": {
+        "startLine": 1997,
+        "startChar": 21,
+        "endLine": 1997,
+        "endChar": 32
+      },
+      "revId": "dedf8f5dc20da6366220a3f8a9dbfa5d9fb6940c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e35e1d5c_6371f186",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MarketPlaceCatalogServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2001,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-29T12:13:41Z",
+      "side": 1,
+      "message": "Include the exception  (\"e\") in the logger invocation",
+      "revId": "dedf8f5dc20da6366220a3f8a9dbfa5d9fb6940c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f17a696_73cf5428",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLSolution.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-29T12:13:41Z",
+      "side": 1,
+      "message": "Typo cout/count",
+      "range": {
+        "startLine": 78,
+        "startChar": 13,
+        "endLine": 78,
+        "endChar": 24
+      },
+      "revId": "dedf8f5dc20da6366220a3f8a9dbfa5d9fb6940c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3238c32_ef6a16da",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLSolution.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-29T12:13:41Z",
+      "side": 1,
+      "message": "Typo cout/count",
+      "range": {
+        "startLine": 532,
+        "startChar": 12,
+        "endLine": 532,
+        "endChar": 26
+      },
+      "revId": "dedf8f5dc20da6366220a3f8a9dbfa5d9fb6940c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "354ad08c_96daed47",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLSolution.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-06-29T12:13:41Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 536,
+        "startChar": 13,
+        "endLine": 536,
+        "endChar": 27
+      },
+      "revId": "dedf8f5dc20da6366220a3f8a9dbfa5d9fb6940c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
