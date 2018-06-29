@@ -29,9 +29,9 @@ import java.util.List;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPThread;
-  
+
 /**
- *	MLSolution Class to hold the Machine Learning Solution Information
+ * MLSolution Class to hold the Machine Learning Solution Information
  */
 public class MLSolution {
 
@@ -47,7 +47,7 @@ public class MLSolution {
 	private Date modified;
 	private String tookitType;
 	private String tookitTypeName;
-    private List<MLPSolutionRevision> revisions;
+	private List<MLPSolutionRevision> revisions;
 	private String loginName;
 	private int pageNo;
 	private int size;
@@ -69,12 +69,14 @@ public class MLSolution {
 	private List<User> ownerListForSol;
 	private String threadId;
 	private String commentId;
-	private List<MLPThread> threadList ;
-	private String validationStatusCode;	
+	private List<MLPThread> threadList;
+	private String validationStatusCode;
 	private Long refreshInterval;
 	private String selector;
 	private boolean onboardingStatusFailed;
 	private String errorDetails;
+	private int commentCout;
+
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -83,7 +85,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param onboardingStatusFailed the onboardingStatusFailed to set
+	 * @param onboardingStatusFailed
+	 *            the onboardingStatusFailed to set
 	 */
 	public void setOnboardingStatusFailed(boolean onboardingStatusFailed) {
 		this.onboardingStatusFailed = onboardingStatusFailed;
@@ -112,7 +115,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param solutionId the solutionId to set
+	 * @param solutionId
+	 *            the solutionId to set
 	 */
 	public void setSolutionId(String solutionId) {
 		this.solutionId = solutionId;
@@ -126,7 +130,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -140,7 +145,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -154,7 +160,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param ownerId the ownerId to set
+	 * @param ownerId
+	 *            the ownerId to set
 	 */
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
@@ -168,7 +175,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param ownerName the ownerName to set
+	 * @param ownerName
+	 *            the ownerName to set
 	 */
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
@@ -182,7 +190,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param metadata the metadata to set
+	 * @param metadata
+	 *            the metadata to set
 	 */
 	public void setMetadata(String metadata) {
 		this.metadata = metadata;
@@ -196,7 +205,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param active the active to set
+	 * @param active
+	 *            the active to set
 	 */
 	public void setActive(boolean active) {
 		this.active = active;
@@ -210,7 +220,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param accessType the accessType to set
+	 * @param accessType
+	 *            the accessType to set
 	 */
 	public void setAccessType(String accessType) {
 		this.accessType = accessType;
@@ -224,7 +235,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param created the created to set
+	 * @param created
+	 *            the created to set
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -238,7 +250,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param modified the modified to set
+	 * @param modified
+	 *            the modified to set
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -252,7 +265,8 @@ public class MLSolution {
 	}
 
 	/**
-	 * @param revisions the revisions to set
+	 * @param revisions
+	 *            the revisions to set
 	 */
 	public void setRevisions(List<MLPSolutionRevision> revisions) {
 		this.revisions = revisions;
@@ -506,11 +520,20 @@ public class MLSolution {
 	public void setSelector(String selector) {
 		this.selector = selector;
 	}
+
 	public String getErrorDetails() {
 		return errorDetails;
 	}
 
 	public void setErrorDetails(String errorDetails) {
 		this.errorDetails = errorDetails;
+	}
+
+	public int getCommentCout() {
+		return commentCout;
+	}
+
+	public void setCommentCout(int commentCout) {
+		this.commentCout = commentCout;
 	}
 }
