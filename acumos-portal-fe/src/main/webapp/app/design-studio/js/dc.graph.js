@@ -1,5 +1,5 @@
 /*!
- *  dc.graph 0.6.0-beta.2
+ *  dc.graph 0.6.0-beta.11
  *  http://dc-js.github.io/dc.graph.js/
  *  Copyright 2015-2016 AT&T Intellectual Property & the dc.graph.js Developers
  *  https://github.com/dc-js/dc.graph.js/blob/master/AUTHORS
@@ -28,7 +28,7 @@
  * instance whenever it is appropriate.  The getter forms of functions do not participate in function
  * chaining because they return values that are not the diagram.
  * @namespace dc_graph
- * @version 0.6.0-beta.2
+ * @version 0.6.0-beta.11
  * @example
  * // Example chaining
  * diagram.width(600)
@@ -38,7 +38,7 @@
  */
 
 var dc_graph = {
-    version: '0.6.0-beta.2',
+    version: '0.6.0-beta.11',
     constants: {
         CHART_CLASS: 'dc-graph'
     }
@@ -322,6 +322,16 @@ Math.hypot = Math.hypot || function() {
   }
   return Math.sqrt(y);
 };
+
+// outputs the array with adjacent identical lines collapsed to one
+function uniq(a) {
+    var ret = [];
+    a.forEach(function(x, i) {
+        if(i === 0 || x !== a[i-1])
+            ret.push(x);
+    });
+    return ret;
+}
 
 // https://tc39.github.io/ecma262/#sec-array.prototype.find
 if (!Array.prototype.find) {
@@ -711,7 +721,7 @@ dc_graph.shape_presets = {
 };
 
 dc_graph.available_shapes = function() {
-    var shapes = Object.keys(dc_graph_shapes_);
+    var shapes = Object.keys(dc_graph.shape_presets);
     return shapes.slice(0, shapes.length-1); // not including polygon
 };
 
@@ -758,6 +768,13 @@ function shape_changed(diagram) {
     };
 }
 
+function node_label_padding(diagram, n) {
+    var nlp = diagram.nodeLabelPadding.eval(n);
+    if(typeof nlp === 'number' || typeof nlp === 'string')
+        return {x: +nlp, y: +nlp};
+    else return nlp;
+}
+
 function fit_shape(shape, diagram) {
     return function(content) {
         content.each(function(n) {
@@ -770,7 +787,7 @@ function fit_shape(shape, diagram) {
                 if(content && diagram.content(content).padding)
                     padding = diagram.content(content).padding(n);
                 else {
-                    var padding2 = diagram.nodeLabelPadding.eval(n);
+                    var padding2 = node_label_padding(diagram, n);
                     padding = {
                         x: padding2.x*2,
                         y: padding2.y*2
@@ -1221,8 +1238,9 @@ dc_graph.text_contents = function() {
                     return [];
                 else if(typeof lines === 'string')
                     lines = [lines];
-                var first = lines.length%2 ? 0.3 - (lines.length-1)/2 : 1-lines.length/2;
-                return lines.map(function(line, i) { return {node: n, line: line, yofs: (i==0 ? first : 1) + 'em'}; });
+                var lineHeight = _contents.parent().nodeLineHeight();
+                var first = 1 - ((lines.length - 1) * lineHeight + 1)/2;
+                return lines.map(function(line, i) { return {node: n, line: line, yofs: (i==0 ? first : lineHeight) + 'em'}; });
             });
             tspan.enter().append('tspan');
             tspan.attr({
@@ -1283,7 +1301,7 @@ dc_graph.with_icon_contents = function(contents, width, height) {
             contents.parent(parent);
         }),
         padding: function(n) {
-            var padding = _contents.parent().nodeLabelPadding.eval(n);
+            var padding = node_label_padding(_contents.parent(), n);
             return {
                 x: padding.x * 3,
                 y: padding.y * 3
@@ -1307,7 +1325,7 @@ dc_graph.with_icon_contents = function(contents, width, height) {
                 href: _contents.parent().nodeIcon.eval,
                 x: function(n) {
                     var totwid = width + contents.textbox(d3.select(this.parentNode)).width;
-                    return -totwid/2 - _contents.parent().nodeLabelPadding.eval(n).x;
+                    return -totwid/2 - node_label_padding(_contents.parent(), n).x;
                 },
                 y: -height/2
             });
@@ -1795,7 +1813,30 @@ dc_graph.diagram = function (parent, chartGroup) {
      **/
     _diagram.nodePadding = property(6);
 
-    _diagram.nodeLabelPadding = property({x: 0, y: 0});
+
+    /**
+     * Set or get the padding, in pixels, for a node's label. If an object, should contain fields
+     * `x` and `y`. If a number, will be applied to both x and y.
+     * @method nodeLabelPadding
+     * @memberof dc_graph.diagram
+     * @instance
+     * @param {Function|Number|Object} [nodeLabelPadding=0]
+     * @return {Function|Number}
+     * @return {dc_graph.diagram}
+     **/
+    _diagram.nodeLabelPadding = property(0);
+
+    /**
+     * Set or get the line height for nodes with multiple lines of text, in ems.
+     * @method nodeLineHeight
+     * @memberof dc_graph.diagram
+     * @instance
+     * @param {Function|Number} [nodeLineHeight=1]
+     * @return {Function|Number}
+     * @return {dc_graph.diagram}
+     **/
+    _diagram.nodeLineHeight = property(1);
+
     /**
      * Set or get the function which will be used to retrieve the label text to display in each
      * node. By default, looks for a field `label` or `name` inside the `value` field.
@@ -2257,6 +2298,8 @@ dc_graph.diagram = function (parent, chartGroup) {
      **/
     _diagram.edgeOrdering = property(null);
 
+    _diagram.edgeSort = property(null);
+
     _diagram.cascade = cascade(_diagram);
 
     /**
@@ -2583,22 +2626,22 @@ dc_graph.diagram = function (parent, chartGroup) {
 
     _diagram.selectAllNodes = function(selector) {
         selector = selector || '.node';
-        return _nodeLayer.selectAll(selector).filter(function(n) {
+        return _nodeLayer && _nodeLayer.selectAll(selector).filter(function(n) {
             return !n.deleted;
-        });
+        }) || d3.selectAll('.foo-this-does-not-exist');
     };
 
     _diagram.selectAllEdges = function(selector) {
         selector = selector || '.edge';
-        return _edgeLayer.selectAll(selector).filter(function(e) {
+        return _edgeLayer && _edgeLayer.selectAll(selector).filter(function(e) {
             return !e.deleted;
-        });
+        }) || d3.selectAll('.foo-this-does-not-exist');
     };
 
     _diagram.selectAllDefs = function(selector) {
-        return _defs.selectAll(selector).filter(function(def) {
+        return _defs && _defs.selectAll(selector).filter(function(def) {
             return !def.deleted;
-        });
+        }) || d3.selectAll('.foo-this-does-not-exist');
     };
 
     _diagram.isRunning = function() {
@@ -2818,6 +2861,13 @@ dc_graph.diagram = function (parent, chartGroup) {
                 edgeArrow(e, 'head', null);
             })
             .remove();
+
+        if(_diagram.edgeSort()) {
+            edge.sort(function(a, b) {
+                var as = _diagram.edgeSort.eval(a), bs = _diagram.edgeSort.eval(b);
+                return as < bs ? -1 : bs < as ? 1 : 0;
+            });
+        }
 
         // another wider copy of the edge just for hover events
         var edgeHover = _edgeLayer.selectAll('.edge-hover')
@@ -3171,7 +3221,10 @@ dc_graph.diagram = function (parent, chartGroup) {
                 return name ? 'url(#' + arrow_id + ')' : null;
             })
             .each(function(e) {
-                d3.selectAll('#' + _diagram.arrowId(e, 'head') + ',#' + _diagram.arrowId(e, 'tail'))
+                var fillEdgeStroke = _diagram.edgeStroke.eval(e);
+                d3.selectAll('#' + _diagram.arrowId(e, 'head'))
+                    .attr('fill', _diagram.edgeStroke.eval(e));
+                d3.selectAll('#' + _diagram.arrowId(e, 'tail'))
                     .attr('fill', _diagram.edgeStroke.eval(e));
             });
 
@@ -3449,6 +3502,18 @@ dc_graph.diagram = function (parent, chartGroup) {
         }
     }
 
+    // determine pre-transition orientation that won't spin a lot going to new orientation
+    function unsurprising_orient(oldorient, neworient) {
+        var oldang = +oldorient.slice(0, -3),
+            newang = +neworient.slice(0, -3);
+        if(Math.abs(oldang - newang) > Math.PI) {
+            if(newang > oldang)
+                oldang += 2*Math.PI;
+            else oldang -= 2*Math.PI;
+        }
+        return oldang + 'rad';
+    }
+
     function draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter, textPaths, textPathsEnter, animatePositions) {
         console.assert(edge.data().every(has_source_and_target));
 
@@ -3549,6 +3614,7 @@ dc_graph.diagram = function (parent, chartGroup) {
                 .each(function(e) {
                     if(_diagram.edgeArrowhead.eval(e))
                         d3.select('#' + _diagram.arrowId(e, 'head'))
+                            .attr('orient', unsurprising_orient(e.pos.old.orienthead, e.pos.new.orienthead))
                             .transition().duration(_diagram.stagedDuration())
                             .delay(_diagram.stagedDelay(false))
                             .attr('orient', function() {
@@ -3556,6 +3622,7 @@ dc_graph.diagram = function (parent, chartGroup) {
                             });
                     if(_diagram.edgeArrowtail.eval(e))
                         d3.select('#' + _diagram.arrowId(e, 'tail'))
+                            .attr('orient', unsurprising_orient(e.pos.old.orienttail, e.pos.new.orienttail))
                             .transition().duration(_diagram.stagedDuration())
                             .delay(_diagram.stagedDelay(false))
                             .attr('orient', function() {
@@ -3677,7 +3744,8 @@ dc_graph.diagram = function (parent, chartGroup) {
 
         if(_diagram.legend())
             _diagram.legend().render();
-        return _diagram.redraw();
+        _diagram.redraw();
+        return this;
     };
 
     /**
@@ -4217,8 +4285,12 @@ dc_graph.diagram = function (parent, chartGroup) {
 
 dc_graph.spawn_engine = function(layout, args, worker) {
     args = args || {};
-    return dc_graph.engines.instantiate(layout, args, worker)
-        || dc_graph.engines.instantiate(dc_graph._default_engine, args, worker);
+    var engine = dc_graph.engines.instantiate(layout, args, worker);
+    if(!engine) {
+        console.warn('layout engine ' + layout + ' not found; using default ' + dc_graph._default_engine);
+        engine = dc_graph.engines.instantiate(dc_graph._default_engine, args, worker);
+    }
+    return engine;
 };
 
 dc_graph._engines = [
@@ -4266,7 +4338,7 @@ dc_graph._default_engine = 'cola';
 dc_graph.engines = {
     entry_pred: function(layoutName) {
         return function(e) {
-            return e.name === layoutName || e.names && e.names.includes(layoutName);
+            return e.name && e.name === layoutName || e.names && e.names.includes(layoutName);
         };
     },
     get: function(layoutName) {
@@ -4322,7 +4394,7 @@ dc_graph.engines = {
         if(entry.name)
             this.unregister(entry.name);
         else if(entry.names)
-            this.names.forEach(function(layoutName) {
+            entry.names.forEach(function(layoutName) {
                 that.unregister(layoutName);
             });
         else {
@@ -5130,7 +5202,7 @@ dc_graph.graphviz_layout = function(id, layout, server) {
                 .post('layouttool=' + layout + '&' + encodeURIComponent(_dotString), process_response);
         }
         else {
-            var result = Viz(_dotString, {format: 'json', engine: layout});
+            var result = Viz(_dotString, {format: 'json', engine: layout, totalMemory: 1 << 25});
             result = JSON.parse(result);
             process_response(null, result);
         }
@@ -5244,6 +5316,11 @@ dc_graph.d3_force_layout = function(id) {
             v1.width = v.width;
             v1.height = v.height;
             v1.id = v.dcg_nodeKey;
+            if(v.dcg_nodeFixed) {
+                v1.fixed = true;
+                v1.x = v.dcg_nodeFixed.x;
+                v1.y = v.dcg_nodeFixed.y;
+            } else v1.fixed = false;
         });
 
         _wedges = regenerate_objects(_edges, edges, null, function(e) {
@@ -5379,8 +5456,8 @@ dc_graph.d3_force_layout = function(id) {
                 var next_mid = {x: mid.x-next.x, y: mid.y-next.y};
                 // 3. the 'correct' vector: the angle between pvec and prev_mid(next_mid) should
                 //    be an obtuse angle
-                pvecPrev = _angle(prev_mid, pvecPrev) >= Math.PI/2.0 ? pvecPrev : {x: -pvecPrev.x, y: -pvecPrev.x};
-                pvecNext = _angle(next_mid, pvecNext) >= Math.PI/2.0 ? pvecNext : {x: -pvecNext.x, y: -pvecNext.x};
+                pvecPrev = _angle(prev_mid, pvecPrev) >= Math.PI/2.0 ? pvecPrev : {x: -pvecPrev.x, y: -pvecPrev.y};
+                pvecNext = _angle(next_mid, pvecNext) >= Math.PI/2.0 ? pvecNext : {x: -pvecNext.x, y: -pvecNext.y};
 
                 // modify positions of prev and next
                 updateNode(prev, angle, pvecPrev, _options.angleForce);
@@ -5502,6 +5579,10 @@ dc_graph.d3v4_force_layout = function(id) {
             v1.width = v.width;
             v1.height = v.height;
             v1.id = v.dcg_nodeKey;
+            if(v.dcg_nodeFixed) {
+                v1.fx = v.dcg_nodeFixed.x;
+                v1.fy = v.dcg_nodeFixed.y;
+            } else v1.fx = v1.fy = null;
         });
 
         _wedges = regenerate_objects(_edges, edges, null, function(e) {
@@ -5513,6 +5594,7 @@ dc_graph.d3v4_force_layout = function(id) {
             e1.dcg_edgeLength = e.dcg_edgeLength;
         });
 
+        _simulation.force('straighten', null);
         _simulation.nodes(_wnodes);
         _simulation.force('link').links(_wedges);
     }
@@ -5543,15 +5625,18 @@ dc_graph.d3v4_force_layout = function(id) {
         });
     }
     function installForces(paths) {
-        if(paths === null) {
+        if(paths)
+            paths = paths.filter(function(path) {
+                return path.nodes.every(function(nk) { return _nodes[nk]; });
+            });
+        if(paths === null || !paths.length) {
             _simulation.force('charge').strength(_options.initialCharge);
-            _simulation.force('angle', null);
         } else {
             var nodesOnPath;
             if(_options.fixOffPathNodes) {
                 nodesOnPath = d3.set();
                 paths.forEach(function(path) {
-                    path.forEach(function(nid) {
+                    path.nodes.forEach(function(nid) {
                         nodesOnPath.add(nid);
                     });
                 });
@@ -5569,9 +5654,12 @@ dc_graph.d3v4_force_layout = function(id) {
             });
 
             _simulation.force('charge').strength(_options.chargeForce);
-            _simulation.force('angle', function(alpha) {
-                angleForces(alpha, paths, _options.angleForce);
-            });
+            _simulation.force('straighten', d3v4.forceStraightenPaths()
+                              .id(function(n) { return n.dcg_nodeKey; })
+                              .angleForce(_options.angleForce)
+                              .pathNodes(function(p) { return p.nodes; })
+                              .pathStrength(function(p) { return p.strength; })
+                              .paths(paths));
         }
     };
 
@@ -5582,63 +5670,6 @@ dc_graph.d3v4_force_layout = function(id) {
             dispatchState('tick');
         }
         dispatchState('end');
-    }
-
-    function angleForces(alpha, paths, k) {
-        function _dot(v1, v2) { return  v1.x*v2.x + v1.y*v2.y; };
-        function _len(v) { return Math.sqrt(v.x*v.x + v.y*v.y); };
-        function _angle(v1, v2) {
-            var a = _dot(v1, v2) / (_len(v1)*_len(v2));
-            a = Math.min(a, 1);
-            a = Math.max(a, -1);
-            return Math.acos(a);
-        };
-        // perpendicular unit length vector
-        function _pVec(v) {
-            var xx = -v.y/v.x, yy = 1;
-            var length = _len({x: xx, y: yy});
-            return {x: xx/length, y: yy/length};
-        };
-
-        function updateNode(node, angle, pVec, k) {
-            node.x += pVec.x*(Math.PI-angle)*k;
-            node.y += pVec.y*(Math.PI-angle)*k;
-        }
-
-        paths.forEach(function(path) {
-            if(path.length < 3) return; // at least 3 nodes (and 2 edges):  A->B->C
-            for(var i = 1; i < path.length-1; ++i) {
-                var current = _nodes[path[i]];
-                var prev = _nodes[path[i-1]];
-                var next = _nodes[path[i+1]];
-
-                // calculate the angle
-                var vPrev = {x: prev.x - current.x, y: prev.y - current.y};
-                var vNext = {x: next.x - current.x, y: next.y - current.y};
-
-                var angle = _angle(vPrev, vNext); // angle in [0, PI]
-
-                var pvecPrev = _pVec(vPrev);
-                var pvecNext = _pVec(vNext);
-
-                // make sure the perpendicular vector is in the
-                // direction that makes the angle more towards 180 degree
-                // 1. calculate the middle point of node 'prev' and 'next'
-                var mid = {x: (prev.x+next.x)/2.0, y: (prev.y+next.y)/2.0};
-                // 2. calculate the vectors: 'prev' pointing to 'mid', 'next' pointing to 'mid'
-                var prev_mid = {x: mid.x-prev.x, y: mid.y-prev.y};
-                var next_mid = {x: mid.x-next.x, y: mid.y-next.y};
-                // 3. the 'correct' vector: the angle between pvec and prev_mid(next_mid) should
-                //    be an obtuse angle
-                pvecPrev = _angle(prev_mid, pvecPrev) >= Math.PI/2.0 ? pvecPrev : {x: -pvecPrev.x, y: -pvecPrev.x};
-                pvecNext = _angle(next_mid, pvecNext) >= Math.PI/2.0 ? pvecNext : {x: -pvecNext.x, y: -pvecNext.x};
-
-                // modify positions of prev and next
-                updateNode(prev, angle, pvecPrev, k);
-                updateNode(next, angle, pvecNext, k);
-            }
-
-        });
     }
 
     var graphviz = dc_graph.graphviz_attrs(), graphviz_keys = Object.keys(graphviz);
@@ -5696,6 +5727,7 @@ dc_graph.d3v4_force_layout = function(id) {
         populateLayoutNode: function() {},
         populateLayoutEdge: function() {}
     });
+    engine.pathStraightenForce = engine.angleForce;
     return engine;
 };
 
@@ -6371,7 +6403,19 @@ dc_graph.troubleshoot = function() {
 The dc_graph.legend will show labeled examples of nodes (and someday edges), within the frame of a dc_graph.diagram.
 **/
 dc_graph.legend = function() {
-    var _legend = {}, _items;
+    var _legend = {}, _items, _included = [];
+    var _dispatch = d3.dispatch('filtered');
+    var _totals, _counts;
+
+    function apply_filter() {
+        if(_legend.dimension()) {
+            _legend.dimension().filterFunction(function(k) {
+                return !_included.length || _included.includes(k);
+            });
+            _legend.redraw();
+            _legend.parent().redraw();
+        }
+    }
 
     /**
      #### .x([value])
@@ -6400,9 +6444,33 @@ dc_graph.legend = function() {
     /**
      #### .nodeHeight([value])
      Set or get legend node height. Default: 30.
-     **/
+    **/
     _legend.nodeHeight = property(40);
 
+    /**
+     #### .noLabel([value])
+     Remove node labels, since legend labels are displayed outside of nodes instead. Default: true
+    **/
+    _legend.noLabel = property(true);
+
+    _legend.counter = property(null);
+
+    _legend.replaceFilter = function(filter) {
+        if(filter && filter.length === 1)
+            _included = filter[0];
+        else
+            _included = [];
+        return _legend;
+    };
+
+    _legend.filters = function() {
+        return _included;
+    };
+
+    _legend.on = function(type, f) {
+        _dispatch.on(type, f);
+        return _legend;
+    };
 
     /**
      #### .exemplars([object])
@@ -6413,7 +6481,16 @@ dc_graph.legend = function() {
      **/
     _legend.exemplars = property({});
 
-    _legend.parent = property(null);
+    _legend.parent = property(null).react(function(p) {
+        if(p)
+            p.on('data.legend', on_data);
+        else _legend.parent().on('data.legend', null);
+    });
+
+    function on_data(diagram, nodes, wnodes, edges, wedges, ports, wports) {
+        if(_legend.counter())
+            _counts = _legend.counter()(wnodes.map(get_original), wedges.map(get_original), wports.map(get_original));
+    }
 
     _legend.redraw = function() {
         var legend = _legend.parent().svg()
@@ -6436,16 +6513,50 @@ dc_graph.legend = function() {
             });
         node.select('text.legend-label')
             .attr('transform', 'translate(' + (_legend.nodeWidth()/2+_legend.gap()) + ',0)')
+            .attr('pointer-events', _legend.dimension() ? 'auto' : 'none')
             .text(function(n) {
-                return n.name;
+                return n.name + (_legend.counter() && _counts ? (' (' + (_counts[n.name] || 0) + (_counts[n.name] !== _totals[n.name] ? '/' + (_totals[n.name] || 0) : '') + ')') : '');
             });
         _legend.parent()
             ._enterNode(nodeEnter)
             ._updateNode(node);
+        if(_legend.noLabel())
+            node.selectAll('.node-label').remove();
+
+        if(_legend.dimension()) {
+            node.attr('cursor', 'pointer')
+                .on('click.legend', function(d) {
+                    var key = _legend.parent().nodeKey.eval(d);
+                    if(!_included.length)
+                        _included = _items.map(_legend.parent().nodeKey.eval);
+                    if(_included.includes(key))
+                        _included = _included.filter(function(x) { return x !== key; });
+                    else
+                        _included.push(key);
+                    apply_filter();
+                    _dispatch.filtered(_legend, key);
+                });
+        } else {
+            node.attr('cursor', 'auto')
+                .on('click.legend', null);
+        }
+        node.transition().duration(1000)
+            .attr('opacity', function(d) {
+                return (!_included.length || _included.includes(_legend.parent().nodeKey.eval(d))) ? 1 : 0.25;
+            });
+    };
+
+    _legend.countBaseline = function() {
+        if(_legend.counter)
+            _totals = _legend.counter()(
+                _legend.parent().nodeGroup().all(),
+                _legend.parent().edgeGroup().all(),
+                _legend.parent().portGroup() && _legend.parent().portGroup().all());
     };
 
     _legend.render = function() {
         var exemplars = _legend.exemplars();
+        _legend.countBaseline();
         if(exemplars instanceof Array) {
             _items = exemplars.map(function(v) { return {name: v.name, orig: {key: v.key, value: v.value}, cola: {}}; });
         }
@@ -6456,6 +6567,15 @@ dc_graph.legend = function() {
         }
         _legend.redraw();
     };
+
+    /* enables filtering */
+    _legend.dimension = property(null)
+        .react(function(v) {
+            if(!v) {
+                _included = [];
+                apply_filter();
+            }
+        });
 
     return _legend;
 };
@@ -6845,6 +6965,7 @@ dc_graph.tip = function(options) {
     var _namespace = options.namespace || 'tip';
     var _d3tip = null;
     var _showTimeout, _hideTimeout;
+    var _dispatch = d3.dispatch('tipped');
 
     function init(parent) {
         if(!_d3tip) {
@@ -6967,6 +7088,24 @@ dc_graph.tip = function(options) {
         k(_behavior.parent() ? _behavior.parent().nodeTitle.eval(n) : '');
     });
 
+    _behavior.on = function(event, f) {
+        return _dispatch.on(event, f);
+    };
+
+    _behavior.displayTip = function(filter, n) {
+        var found = _behavior.selection().select(_behavior.parent(), _behavior.parent().selectAllNodes(), _behavior.parent().selectAllEdges(), null)
+            .filter(filter);
+        if(found.size() > 0) {
+            var action = fetch_and_show_content('content');
+            var which = (n || 0) % found.size();
+            action.call(found[0][which], d3.select(found[0][which]).datum());
+            _dispatch.tipped(d3.select(found[0][which]).datum());
+        }
+    };
+    _behavior.hideTip = function() {
+        if(_d3tip)
+            hide_tip();
+    };
     _behavior.selection = property(dc_graph.tip.select_node_and_edge());
     _behavior.showDelay = _behavior.delay = property(0);
     _behavior.hideDelay = property(200);
@@ -7014,7 +7153,7 @@ dc_graph.tip.select_node_and_edge = function() {
         select: function(diagram, node, edge, ehover) {
             // hack to merge selections, not supported d3v3
             var selection = diagram.selectAll('.foo-this-does-not-exist');
-            selection[0] = node[0].concat(ehover[0]);
+            selection[0] = node[0].concat(ehover ? ehover[0] : []);
             return selection;
         },
         exclude: function(element) {
@@ -7516,6 +7655,7 @@ dc_graph.move_nodes = function(options) {
     var fix_nodes_group = dc_graph.fix_nodes_group('fix-nodes-group');
     var _selected = [], _startPos = null, _downNode, _moveStarted;
     var _brush, _drawGraphs, _selectNodes, _restoreBackgroundClick;
+    var _maybeSelect = null;
 
     function isUnion(event) {
         return event.shiftKey;
@@ -7531,8 +7671,9 @@ dc_graph.move_nodes = function(options) {
             _selected = selection;
         };
     }
-    function for_each_selected(f) {
-        _selected.forEach(function(key) {
+    function for_each_selected(f, selected) {
+        selected = selected || _selected;
+        selected.forEach(function(key) {
             var n = _behavior.parent().getWholeNode(key);
             f(n, key);
         });
@@ -7547,16 +7688,22 @@ dc_graph.move_nodes = function(options) {
             // if the node under the mouse is not in the selection, need to
             // make that node selected
             var key = diagram.nodeKey.eval(n);
-            if(_selected.indexOf(key)<0)
-                select_nodes_group.set_changed([key]);
+            var selected = _selected;
+            if(_selected.indexOf(key)<0) {
+                selected = [key];
+                _maybeSelect = key;
+            }
+            else _maybeSelect = null;
             for_each_selected(function(n) {
                 n.original_position = [n.cola.x, n.cola.y];
-            });
+            }, selected);
             if(_brush)
                 _brush.deactivate();
         });
         function mouse_move() {
             if(_startPos) {
+                if(_maybeSelect)
+                    select_nodes_group.set_changed([_maybeSelect]);
                 var pos = dc_graph.event_coords(diagram);
                 var dx = pos[0] - _startPos[0],
                     dy = pos[1] - _startPos[1];
@@ -8050,6 +8197,7 @@ dc_graph.label_things = function(options) {
     function edit_label_listener(diagram) {
         return function(thing, eventOptions) {
             var box = options.thing_box(thing);
+            options.hide_thing_label(thing, true);
             dc_graph.edit_text(
                 diagram.g(),
                 {
@@ -8060,7 +8208,10 @@ dc_graph.label_things = function(options) {
                     accept: function(text) {
                         return options.accept(thing, text);
                     },
-                    finally: grab_focus
+                    finally: function() {
+                        options.hide_thing_label(thing, false);
+                        grab_focus();
+                    }
                 });
         };
     }
@@ -8139,6 +8290,10 @@ dc_graph.label_nodes = function(options) {
             return _behavior.parent().nodeKey.eval(n) === key;
         });
     };
+    options.hide_thing_label = function(node, whether) {
+        var contents = _behavior.parent().content(_behavior.parent().nodeContent.eval(node.datum()));
+        contents.selectContent(node).attr('visibility', whether ? 'hidden' : 'visible');
+    };
     options.thing_box = function(node, eventOptions) {
         var contents = _behavior.parent().content(_behavior.parent().nodeContent.eval(node.datum())),
             box = contents.textbox(node);
@@ -8179,6 +8334,10 @@ dc_graph.label_edges = function(options) {
             return _behavior.parent().edgeKey.eval(e) === key;
         });
     };
+    options.hide_thing_label = function(edge, whether) {
+        var label = _behavior.parent().selectAll('#' + _behavior.parent().edgeId(edge.datum()) + '-label textPath');
+        label.attr('visibility', whether ? 'hidden' : 'visible');
+    };
     options.thing_box = function(edge, eventOptions) {
         var points = edge.datum().pos.new.path.points,
             x = (points[0].x + points[1].x)/2,
@@ -8204,27 +8363,98 @@ dc_graph.label_edges = function(options) {
     return _behavior;
 };
 
-dc_graph.highlight_neighbors = function(props) {
-    function clear_all_highlights(edge) {
-        edge.each(function(e) {
-            e.dcg_highlighted = false;
-        });
-    }
+dc_graph.register_highlight_things_group = function(thingsgroup) {
+    window.chart_registry.create_type('highlight-things', function() {
+        return d3.dispatch('highlight');
+    });
 
+    return window.chart_registry.create_group('highlight-things', thingsgroup);
+};
+
+dc_graph.highlight_things = function(includeprops, excludeprops, thingsgroup) {
+    var highlight_things_group = dc_graph.register_highlight_things_group(thingsgroup || 'highlight-things-group');
+    var _active, _nodeset = {}, _edgeset = {};
+
+    function highlight(nodeset, edgeset) {
+        _active = nodeset || edgeset;
+        _nodeset = nodeset;
+        _edgeset = edgeset;
+        var transdur;
+        if(_behavior.durationOverride() !== undefined) {
+            transdur = _behavior.parent().transitionDuration();
+            _behavior.parent().transitionDuration(_behavior.durationOverride());
+        }
+        _behavior.parent().refresh();
+        if(_behavior.durationOverride() !== undefined)
+            _behavior.parent().transitionDuration(transdur);
+    }
+    function add_behavior(diagram) {
+        diagram.cascade(150, true, node_edge_conditions(
+            function(n) {
+                return _nodeset[_behavior.parent().nodeKey.eval(n)];
+            }, function(e) {
+                return _edgeset[_behavior.parent().edgeKey.eval(e)];
+            }, includeprops));
+        diagram.cascade(160, true, node_edge_conditions(
+            function(n) {
+                return _active && !_nodeset[_behavior.parent().nodeKey.eval(n)];
+            }, function(e) {
+                return _active && !_edgeset[_behavior.parent().edgeKey.eval(e)];
+            }, excludeprops));
+    }
+    function remove_behavior(diagram) {
+        diagram.cascade(150, false, includeprops);
+        diagram.cascade(160, false, excludeprops);
+    }
+    var _behavior = dc_graph.behavior('highlight-things', {
+        add_behavior: add_behavior,
+        remove_behavior: remove_behavior,
+        parent: function(p) {
+            highlight_things_group.on('highlight.highlight-things', p ? highlight : null);
+        }
+    });
+    _behavior.durationOverride = property(undefined);
+    return _behavior;
+};
+
+dc_graph.register_highlight_neighbors_group = function(neighborsgroup) {
+    window.chart_registry.create_type('highlight-neighbors', function() {
+        return d3.dispatch('highlight_node');
+    });
+
+    return window.chart_registry.create_group('highlight-neighbors', neighborsgroup);
+};
+
+dc_graph.highlight_neighbors = function(includeprops, excludeprops, neighborsgroup, thingsgroup) {
+    var highlight_neighbors_group = dc_graph.register_highlight_neighbors_group(neighborsgroup || 'highlight-neighbors-group');
+    var highlight_things_group = dc_graph.register_highlight_things_group(thingsgroup || 'highlight-things-group');
+
+    function highlight_node(nodeid) {
+        var diagram = _behavior.parent();
+        var nodeset = {}, edgeset = {};
+        if(nodeid) {
+            nodeset[nodeid] = true;
+            _behavior.parent().selectAllEdges().each(function(e) {
+                if(diagram.nodeKey.eval(e.source) === nodeid) {
+                    edgeset[diagram.edgeKey.eval(e)] = true;
+                    nodeset[diagram.nodeKey.eval(e.target)] = true;
+                }
+                if(diagram.nodeKey.eval(e.target) === nodeid) {
+                    edgeset[diagram.edgeKey.eval(e)] = true;
+                    nodeset[diagram.nodeKey.eval(e.source)] = true;
+                }
+            });
+            highlight_things_group.highlight(nodeset, edgeset);
+        }
+        else highlight_things_group.highlight(null, null);
+    }
     function add_behavior(diagram, node, edge) {
-        diagram.cascade(100, true, node_edge_conditions(null, function(e) {
-            return e.dcg_highlighted;
-        }, props));
         node
             .on('mouseover.highlight-neighbors', function(n) {
-                edge.each(function(e) {
-                    e.dcg_highlighted = e.source === n || e.target === n;
-                });
-                diagram.refresh(node, edge);
+                highlight_neighbors_group.highlight_node(_behavior.parent().nodeKey.eval(n));
             })
             .on('mouseout.highlight-neighbors', function(n) {
-                clear_all_highlights(edge);
-                diagram.refresh(node, edge);
+                highlight_neighbors_group.highlight_node(null);
             });
     }
 
@@ -8232,18 +8462,89 @@ dc_graph.highlight_neighbors = function(props) {
         node
             .on('mouseover.highlight-neighbors', null)
             .on('mouseout.highlight-neighbors', null);
-        clear_all_highlights(edge);
-        diagram.cascade(100, false, props);
+        highlight_neighbors_group.highlight_node(null);
     }
 
-    return dc_graph.behavior('highlight-neighbors', {
+    var _behavior = dc_graph.behavior('highlight-neighbors', {
         add_behavior: add_behavior,
         remove_behavior: function(diagram, node, edge) {
             remove_behavior(diagram, node, edge);
+        },
+        parent: function(p) {
+            highlight_neighbors_group.on('highlight_node.highlight', p ? highlight_node : null);
+            if(!p.child('highlight-things'))
+                p.child('highlight-things',
+                        dc_graph.highlight_things(includeprops, excludeprops)
+                          .durationOverride(_behavior.durationOverride()));
         }
     });
+    _behavior.durationOverride = property(undefined);
+    return _behavior;
 };
 
+
+dc_graph.highlight_radius = function(options) {
+    options = options || {};
+    var select_nodes_group = dc_graph.select_things_group(options.select_nodes_group || 'select-nodes-group', 'select-nodes');
+    var highlight_things_group = dc_graph.register_highlight_things_group(options.select_things_group || 'highlight-things-group');
+    var _graph, _selection = [];
+
+    function recurse(n, r, nodeset, edgeset) {
+        nodeset[n.key()] = true;
+        if(r) {
+            n.outs().filter(function(e) {
+                return !edgeset[e.key()];
+            }).forEach(function(e) {
+                edgeset[e.key()] = true;
+                recurse(e.target(), r-1, nodeset, edgeset);
+            });
+            n.ins().filter(function(e) {
+                return !edgeset[e.key()];
+            }).forEach(function(e) {
+                edgeset[e.key()] = true;
+                recurse(e.source(), r-1, nodeset, edgeset);
+            });
+        }
+    }
+    function selection_changed(nodes) {
+        _selection = nodes;
+        console.assert(_graph);
+        var nodeset = {}, edgeset = {};
+        nodes.forEach(function(nkey) {
+            recurse(_graph.node(nkey), _behavior.radius(), nodeset, edgeset);
+        });
+        if(!Object.keys(nodeset).length && !Object.keys(edgeset).length)
+            nodeset = edgeset = null;
+        highlight_things_group.highlight(nodeset, edgeset);
+    }
+
+    function on_data(diagram, nodes, wnodes, edges, wedges, ports, wports) {
+        _graph = metagraph.graph(wnodes, wedges, {
+            nodeKey: diagram.nodeKey.eval,
+            edgeKey: diagram.edgeKey.eval,
+            edgeSource: diagram.edgeSource.eval,
+            edgeTarget: diagram.edgeTarget.eval
+        });
+        var sel2 = _selection.filter(function(nk) {
+            return !!_graph.node(nk);
+        });
+        if(sel2.length < _selection.length)
+            window.setTimeout(function() {
+                select_nodes_group.set_changed(sel2);
+            }, 0);
+    }
+    var _behavior = {
+        parent: function(p) {
+            if(p) {
+                p.on('data.fix-nodes', on_data);
+            } else if(_behavior.parent())
+                _behavior.parent().on('data.fix-nodes', null);
+            select_nodes_group.on('set_changed', selection_changed);
+        }
+    };
+    _behavior.radius = property(1);
+    return _behavior;
+};
 
 dc_graph.register_highlight_paths_group = function(pathsgroup) {
     window.chart_registry.create_type('highlight-paths', function() {
@@ -8409,32 +8710,31 @@ dc_graph.highlight_paths = function(pathprops, hoverprops, selectprops, pathsgro
 };
 
 
-dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, pathsgroup) {
+dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectprops, pathsgroup) {
     var highlight_paths_group = dc_graph.register_highlight_paths_group(pathsgroup || 'highlight-paths-group');
     pathprops = pathprops || {};
     hoverprops = hoverprops || {};
-    var _paths = null;
+    var _paths = null, _hoverpaths = null, _selected = null;
     var _anchor;
     var _layer = null;
     var _savedPositions = null;
 
     function paths_changed(nop, eop, paths) {
-        // clear old paths
-        _layer.selectAll('.spline-edge').remove();
-        _layer.selectAll('.spline-edge-hover').remove();
-
         _paths = paths;
 
         var engine = _behavior.parent().layoutEngine(),
             localPaths = paths.filter(pathIsPresent);
         if(localPaths.length) {
-            // layout engine wants just array of array of nodeids
-            var nidpaths = localPaths.map(function(path) {
-                return pathreader.elementList.eval(path).filter(function(elem) {
-                    return pathreader.elementType.eval(elem) === 'node';
-                }).map(function(elem) {
-                    return pathreader.nodeKey.eval(elem);
-                });
+            var nidpaths = localPaths.map(function(lpath) {
+                var strength = pathreader.pathStrength.eval(lpath);
+                if(typeof strength !== 'number')
+                    strength = 1;
+                if(_selected && _selected.indexOf(lpath) !== -1)
+                    strength *= _behavior.selectedStrength();
+                return {
+                    nodes: path_keys(lpath),
+                    strength: strength
+                };
             });
             engine.paths(nidpaths);
         } else {
@@ -8442,7 +8742,26 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, pathsgr
             if(_savedPositions)
                 engine.restorePositions(_savedPositions);
         }
+        if(_selected)
+            _selected = _selected.filter(function(p) { return localPaths.indexOf(p) !== -1; });
         _behavior.parent().redraw();
+    }
+
+    function select_changed(sp) {
+        if(sp !== _selected) {
+            _selected = sp;
+            paths_changed(null, null, _paths);
+        }
+    }
+
+    function path_keys(path, unique) {
+        unique = unique !== false;
+        var keys = pathreader.elementList.eval(path).filter(function(elem) {
+            return pathreader.elementType.eval(elem) === 'node';
+        }).map(function(elem) {
+            return pathreader.nodeKey.eval(elem);
+        });
+        return unique ? uniq(keys) : keys;
     }
 
     // check if entire path is present in this view
@@ -8454,25 +8773,12 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, pathsgr
     }
 
     // get the positions of nodes on path
-    function getNodePosition(path) {
-        var plist = [];
-
-        pathreader.elementList.eval(path).forEach(function(element) {
-            var key, node;
-            switch(pathreader.elementType.eval(element)) {
-            case 'node':
-                key = pathreader.nodeKey.eval(element);
-                node = _behavior.parent().getWholeNode(key);
-                if(node !== null) {
-                    plist.push({'x': node.cola.x, 'y': node.cola.y});
-                }
-                break;
-            case 'edge':
-                break;
-            }
+    function getNodePositions(path, old) {
+        return path_keys(path, false).map(function(key) {
+            var node = _behavior.parent().getWholeNode(key);
+            return {x: old && node.prevX !== undefined ? node.prevX : node.cola.x,
+                    y: old && node.prevY !== undefined ? node.prevY : node.cola.y};
         });
-
-        return plist;
     };
 
     // insert fake nodes to avoid sharp turns
@@ -8557,93 +8863,308 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, pathsgr
         return new_path_coord;
     }
 
-    // convert original path data into <d>
-    function genPath(p, lineTension) {
-        lineTension = lineTension || 0.6;
+    // helper functions
+    var vecDot = function(v0, v1) { return v0.x*v1.x+v0.y*v1.y; };
+    var vecMag = function(v) { return Math.sqrt(v.x*v.x + v.y*v.y); };
+    var l2Dist = function(p1, p2) {
+        return Math.sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y));
+    };
 
-        var path_coord = getNodePosition(p);
-        if(pathprops.insertDummyNodes) {
-            path_coord = insertDummyNodes(path_coord);
+    function drawCardinalSpline(points, lineTension, avoidSharpTurn, angleThreshold) {
+      var c = lineTension || 0;
+      avoidSharpTurn = avoidSharpTurn !== false;
+      angleThreshold = angleThreshold || 0.02;
+
+      // get the path without self loops
+      var path_list = [points[0]];
+      for(var i = 1; i < points.length; i ++) {
+        if(l2Dist(points[i], path_list[path_list.length-1]) > 1e-6) {
+          path_list.push(points[i]);
+        }
+      }
+
+      // repeat first and last node
+      points = [path_list[0]];
+      points = points.concat(path_list);
+      points.push(path_list[path_list.length-1]);
+
+      // a segment is a list of three points: [c0, c1, p1],
+      // representing the coordinates in "C x0,y0,x1,y1,x,y" in svg:path
+      var segments = []; // control points
+      for(var i = 1; i < points.length-2; i ++) {
+        // generate svg:path
+        var m_0_x = (1-c)*(points[i+1].x - points[i-1].x)/2;
+        var m_0_y = (1-c)*(points[i+1].y - points[i-1].y)/2;
+
+        var m_1_x = (1-c)*(points[i+2].x - points[i].x)/2;
+        var m_1_y = (1-c)*(points[i+2].y - points[i].y)/2;
+
+        var p0 = points[i];
+        var p1 = points[i+1];
+        var c0 = p0;
+        if(i !== 1) {
+          c0 = {x: p0.x+(m_0_x/3), y:p0.y+(m_0_y/3)};
+        }
+        var c1 = p1;
+        if(i !== points.length-3) {
+          c1 = {x: p1.x-(m_1_x/3), y:p1.y-(m_1_y/3)};
         }
 
-        var line = d3.svg.line()
-            .interpolate("cardinal")
-            .x(function(d) { return d.x; })
-            .y(function(d) { return d.y; })
-            .tension(lineTension);
+        // detect special case by calculating the angle
+        if(avoidSharpTurn) {
+          var v0 = {x:points[i-1].x - points[i].x, y:points[i-1].y - points[i].y};
+          var v1 = {x:points[i+1].x - points[i].x, y:points[i+1].y - points[i].y};
+          var acosValue = vecDot(v0,v1) / (vecMag(v0)*vecMag(v1));
+          acosValue = Math.max(-1, Math.min(1, acosValue));
+          var angle = Math.acos( acosValue );
 
-        return line(path_coord);
+          if(angle <= angleThreshold ){
+            var m_x = (1-c)*(points[i].x - points[i-1].x)/2;
+            var m_y = (1-c)*(points[i].y - points[i-1].y)/2;
+            var k = 2;
+
+            var cp1 = {x: p0.x+k*(-m_y/3), y:p0.y+k*(m_x/3)};
+            var cp2 = {x: p0.x-k*(-m_y/3), y:p0.y-k*(m_x/3)};
+            // CP_1CP_2
+            var vCP = {x: cp1.x-cp2.x, y:cp1.y-cp2.y}; // vector cp1->cp2
+            var vPN = {x: points[i-2].x - points[i+2].x, y:points[i-2].y-points[i+2].y}; // vector Previous->Next
+            if(vecDot(vCP, vPN) > 0) {
+              c0 = cp1;
+              segments[segments.length-1][1] = cp2;
+            } else {
+              c0 = cp2;
+              segments[segments.length-1][1] = cp1;
+            }
+          }
+        }
+
+        segments.push([c0,c1,p1]);
+      }
+
+      var path_d = "M"+points[0].x+","+points[0].y;
+      for(var i = 0; i < segments.length; i ++) {
+        var s = segments[i];
+        path_d += "C"+s[0].x+","+s[0].y;
+        path_d += ","+s[1].x+","+s[1].y;
+        path_d += ","+s[2].x+","+s[2].y;
+      }
+      return path_d;
+    }
+
+    function drawDedicatedLoops(points, lineTension, avoidSharpTurn, angleThreshold) {
+      // get loops as segments
+      var p1 = 0, p2 = 1;
+      var seg_list = []; // (start, end)
+      while(p1 < points.length-1 && p2 < points.length) {
+        if(l2Dist(points[p1], points[p2]) < 1e-6) {
+          var repeated = points[p2];
+          while(p2 < points.length && l2Dist(points[p2], repeated) < 1e-6) p2++;
+          seg_list.push({'start': Math.max(0, p1-1), 'end': Math.min(points.length-1, p2)});
+          p1 = p2;
+          p2 = p1+1;
+        } else {
+          p1++;
+          p2++;
+        }
+      }
+
+      var loopCurves = "";
+      for(var i = 0; i < seg_list.length; i ++) {
+        var segment = seg_list[i];
+        var loopCount = segment.end - segment.start - 2;
+        var anchorPoint = points[segment.start+1];
+
+        // the vector from previous node to next node
+        var vec_pre_next = {
+          x: points[segment.end].x-points[segment.start].x,
+          y: points[segment.end].y-points[segment.start].y
+        };
+
+        // when previous node and next node are the same node, we need to handle
+        // them differently.
+        // e.g. for a loop segment A->B->B->A, we use the perpendicular vector perp_AB
+        // instead of vector AA(which is vec_pre_next in this case).
+        if(vecMag(vec_pre_next) == 0) {
+          vec_pre_next = {
+            x: -(points[segment.end].y-anchorPoint.y),
+            y: points[segment.end].x-anchorPoint.x
+          };
+        }
+
+        // unit length vector
+        var vec_pre_next_unit = {
+          x: vec_pre_next.x / vecMag(vec_pre_next),
+          y: vec_pre_next.y / vecMag(vec_pre_next)
+        };
+        var vec_pre_next_perp = {
+          x: -vec_pre_next.y / vecMag(vec_pre_next),
+          y: vec_pre_next.x / vecMag(vec_pre_next)
+        };
+
+        var insertP;
+        for(var j = 0; j < loopCount; j ++) {
+          var c1,c2,c3,c4;
+
+          // change the control points every time this loop appears
+          var cp_k = 15+2*j;
+
+          // calculate c1 and c4, their tangent match the tangent at anchorPoint
+          c1 = {
+            x: anchorPoint.x + cp_k*vec_pre_next_unit.x,
+            y: anchorPoint.y + cp_k*vec_pre_next_unit.y
+          };
+
+          c4 = {
+            x: anchorPoint.x - cp_k*vec_pre_next_unit.x,
+            y: anchorPoint.y - cp_k*vec_pre_next_unit.y
+          };
+
+          // change the location of inserted virtual point every time this loop appears
+          var control_k = 25+5*j;
+          var insertP1 = {
+            x: anchorPoint.x+vec_pre_next_perp.x*control_k,
+            y: anchorPoint.y+vec_pre_next_perp.y*control_k
+          };
+          var insertP2 = {
+            x: anchorPoint.x-vec_pre_next_perp.x*control_k,
+            y: anchorPoint.y-vec_pre_next_perp.y*control_k
+          };
+          var vec_i_to_next = {
+            x: points[segment.end].x - anchorPoint.x,
+            y: points[segment.end].y - anchorPoint.y
+          };
+          var vec_i_to_insert = {
+            x: insertP1.x - anchorPoint.x,
+            y: insertP1.y - anchorPoint.y
+          };
+          insertP = insertP1;
+          if(vecDot(vec_i_to_insert, vec_i_to_next) > 0) {
+            insertP = insertP2;
+          }
+
+          // calculate c2 and c3 based on insertP
+          c2 = {
+            x: insertP.x + cp_k*vec_pre_next_unit.x,
+            y: insertP.y + cp_k*vec_pre_next_unit.y
+          };
+
+          c3 = {
+            x: insertP.x - cp_k*vec_pre_next_unit.x,
+            y: insertP.y - cp_k*vec_pre_next_unit.y
+          };
+
+          var curve = "M"+anchorPoint.x+","+anchorPoint.y;
+          curve += "C"+c1.x+","+c1.y+","+c2.x+","+c2.y+","+insertP.x+","+insertP.y;
+          curve += "C"+c3.x+","+c3.y+","+c4.x+","+c4.y+","+anchorPoint.x+","+anchorPoint.y;
+
+          loopCurves += curve;
+        }
+      }
+      return loopCurves;
+    }
+
+    // convert original path data into <d>
+    function genPath(originalPoints, old, lineTension, avoidSharpTurn, angleThreshold) {
+      // get coordinates
+      var path_coord = getNodePositions(originalPoints, old);
+      if(path_coord.length < 2) return "";
+
+      var result = "";
+      // process the points and treat them differently:
+      // 1. sub-path without self loop
+      result += drawCardinalSpline(path_coord, lineTension, avoidSharpTurn, angleThreshold);
+
+      // 2. a list of loop segments
+      result += drawDedicatedLoops(path_coord, lineTension, avoidSharpTurn, angleThreshold);
+
+      return result;
     }
 
     // draw the spline for paths
-    function drawSpline(paths, pathprops) {
+    function drawSpline(paths) {
         if(paths === null) {
             _savedPositions = _behavior.parent().layoutEngine().savePositions();
             return;
         }
 
+        paths = paths.filter(pathIsPresent);
+        var hoverpaths = _hoverpaths || [],
+            selected = _selected || [];
+
         // edge spline
-        var edge = _layer.selectAll(".spline-edge").data(paths);
+        var edge = _layer.selectAll(".spline-edge").data(paths, function(path) { return path_keys(path).join(','); });
+        edge.exit().remove();
         var edgeEnter = edge.enter().append("svg:path")
             .attr('class', 'spline-edge')
             .attr('id', function(d, i) { return "spline-path-"+i; })
-            .attr('d', function(d) { return genPath(d, pathprops.lineTension); })
-            .attr('stroke', pathprops.edgeStroke || 'black')
             .attr('stroke-width', pathprops.edgeStrokeWidth || 1)
-            .attr('opacity', pathprops.edgeOpacity || 1)
-            .attr('fill', 'none');
+            .attr('fill', 'none')
+            .attr('d', function(d) { return genPath(d, true, pathprops.lineTension, _behavior.avoidSharpTurns()); });
+        edge
+            .attr('stroke', function(p) {
+                return selected.indexOf(p) !== -1 && selectprops.edgeStroke ||
+                    hoverpaths.indexOf(p) !== -1 && hoverprops.edgeStroke ||
+                    pathprops.edgeStroke || 'black';
+            })
+            .attr('opacity', function(p) {
+                return selected.indexOf(p) !== -1 && selectprops.edgeOpacity ||
+                    hoverpaths.indexOf(p) !== -1 && hoverprops.edgeOpacity ||
+                    pathprops.edgeOpacity || 1;
+            });
+        function path_order(p) {
+            return hoverpaths.indexOf(p) !== -1 ? 2 :
+                selected.indexOf(p) !== -1 ? 1 :
+                0;
+        }
+        edge.sort(function(a, b) {
+            return path_order(a) - path_order(b);
+        });
+        _layer.selectAll('.spline-edge-hover')
+            .each(function() {this.parentNode.appendChild(this);});
+        edge.transition().duration(_behavior.parent().transitionDuration())
+            .attr('d', function(d) { return genPath(d, false, pathprops.lineTension, _behavior.avoidSharpTurns()); });
 
         // another wider copy of the edge just for hover events
         var edgeHover = _layer.selectAll('.spline-edge-hover')
-            .data(paths);
+            .data(paths, function(path) { return path_keys(path).join(','); });
+        edgeHover.exit().remove();
         var edgeHoverEnter = edgeHover.enter().append('svg:path')
             .attr('class', 'spline-edge-hover')
-            .attr('d', function(d) { return genPath(d); })
+            .attr('d', function(d) { return genPath(d, true, pathprops.lineTension, _behavior.avoidSharpTurns()); })
             .attr('opacity', 0)
             .attr('stroke', 'green')
-            .attr('stroke-width', hoverprops.edgeStrokeWidth || 5)
+            .attr('stroke-width', (pathprops.edgeStrokeWidth || 1) + 4)
             .attr('fill', 'none')
-            .on('mouseover', function(d, i) {
-                highlight_paths_group.hover_changed([paths[i]]);
+            .on('mouseover', function(d) {
+                highlight_paths_group.hover_changed([d]);
              })
-            .on('mouseout', function(d, i) {
+            .on('mouseout', function(d) {
                 highlight_paths_group.hover_changed(null);
              })
-            .on('click', function(d, i) {
-                highlight_paths_group.select_changed([paths[i]]);
+            .on('click', function(d) {
+                var selected = _selected && _selected.slice(0) || [],
+                    i = selected.indexOf(d);
+                if(i !== -1)
+                    selected.splice(i, 1);
+                else if(d3.event.shiftKey)
+                    selected.push(d);
+                else
+                    selected = [d];
+                highlight_paths_group.select_changed(selected);
              });
+        edgeHover.transition().duration(_behavior.parent().transitionDuration())
+            .attr('d', function(d) { return genPath(d, false, pathprops.lineTension, _behavior.avoidSharpTurns()); });
     };
 
-    function draw_hovered(hoversplines) {
-        if(hoversplines === null) {
-            d3.selectAll('.spline-edge').attr('stroke', 'black');
-        } else {
-            for(var i = 0; i < hoversplines.length; i ++) {
-                var path_id = _paths.indexOf(hoversplines[i]);
-                var sel_path = d3.select("#spline-path-"+path_id).attr('stroke', hoverprops.edgeStroke);
-                sel_path.each(function() {this.parentNode.appendChild(this);});
-            }
-        }
-    }
-
     function add_behavior(diagram, node, edge, ehover) {
-        // create the layer if it's null
-        if(_layer === null) {
-            _layer = _behavior.parent().select('g.draw').selectAll('g.spline-layer').data([0]);
-            _layer.enter().append('g').attr('class', 'spline-layer');
-        }
+        _layer = _behavior.parent().select('g.draw').selectAll('g.spline-layer').data([0]);
+        _layer.enter().append('g').attr('class', 'spline-layer');
 
-        drawSpline(_paths, pathprops);
-
+        drawSpline(_paths);
     }
 
     function remove_behavior(diagram, node, edge, ehover) {
     }
-
-    highlight_paths_group
-        .on('hover_changed.draw-spline-paths', function(hpaths) {
-            draw_hovered(hpaths);
-        });
 
     var _behavior = dc_graph.behavior('draw-spline-paths', {
         laterDraw: true,
@@ -8655,9 +9176,17 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, pathsgr
         parent: function(p) {
             if(p)
                 _anchor = p.anchorName();
-            highlight_paths_group.on('paths_changed.spline-' + _anchor, p ? paths_changed : null);
+            highlight_paths_group
+                .on('paths_changed.draw-spline-paths-' + _anchor, p ? paths_changed : null)
+                .on('select_changed.draw-spline-paths-' + _anchor, p ? select_changed : null)
+                .on('hover_changed.draw-spline-paths-' + _anchor, p ? function(hpaths) {
+                    _hoverpaths = hpaths;
+                    drawSpline(_paths);
+                } : null);
         }
     });
+    _behavior.selectedStrength = property(1);
+    _behavior.avoidSharpTurns = property(true);
 
     return _behavior;
 };
@@ -10317,6 +10846,37 @@ dc_graph.convert_adjacency_list = function(nodes, namesIn, namesOut) {
 };
 
 
+// collapse edges between same source and target
+dc_graph.deparallelize = function(group, sourceTag, targetTag) {
+    return {
+        all: function() {
+            var ST = {};
+            group.all().forEach(function(kv) {
+                var source = kv.value[sourceTag],
+                    target = kv.value[targetTag];
+                var dir = source < target;
+                var min = dir ? source : target, max = dir ? target : source;
+                ST[min] = ST[min] || {};
+                var entry = ST[min][max] = ST[min][max] || {in: 0, out: 0, original: kv};
+                if(dir)
+                    ++entry.in;
+                else
+                    ++entry.out;
+            });
+            var ret = [];
+            Object.keys(ST).forEach(function(source) {
+                Object.keys(ST[source]).forEach(function(target) {
+                    var entry = ST[source][target];
+                    entry[sourceTag] = source;
+                    entry[targetTag] = target;
+                    ret.push({key: entry.original.key, value: entry});
+                });
+            });
+            return ret;
+        }
+    };
+};
+
 dc_graph.path_reader = function(pathsgroup) {
     var highlight_paths_group = dc_graph.register_highlight_paths_group(pathsgroup || 'highlight-paths-group');
     var _intervals, _intervalTree, _time;
@@ -10341,6 +10901,7 @@ dc_graph.path_reader = function(pathsgroup) {
     var reader = {
         pathList: property(identity, false),
         timeRange: property(null, false),
+        pathStrength: property(null, false),
         elementList: property(identity, false),
         elementType: property(null, false),
         nodeKey: property(null, false),
@@ -10402,7 +10963,7 @@ dc_graph.path_reader = function(pathsgroup) {
 
 dc_graph.path_selector = function(parent, reader, pathsgroup, chartgroup) {
     var highlight_paths_group = dc_graph.register_highlight_paths_group(pathsgroup || 'highlight-paths-group');
-    var root = d3.select(parent);
+    var root = d3.select(parent).append('svg');
     var paths_ = [];
     var hovered = null, selected = null;
 
@@ -10434,61 +10995,96 @@ dc_graph.path_selector = function(parent, reader, pathsgroup, chartgroup) {
     // and allow customization rather than hardcoding everything
     // in fact, you can't even reliably overlap attributes without that (so we don't)
 
-    function draw_paths(paths) {
-        var p2 = root.selectAll('span.path-selector').data(paths);
-        p2.enter()
-            .append('span')
-            .attr('class', 'path-selector')
-            .style({
-                'border-width': '1px',
-                'border-style': 'solid',
-                'border-color': 'grey',
-                'border-radius': '4px',
-                'display': 'inline-block',
-                padding: '4px',
-                cursor: 'pointer',
-                margin: '5px'
-            });
-        p2.exit().transition(1000).attr('opacity', 0).remove();
-        p2.text(function(p, i) {
-            return 'path ' + (i+1) + ' (' + reader.elementList.eval(p).length + ')';
-        })
-            .on('mouseover', function(p) {
-                highlight_paths_group.hover_changed([p]);
-            })
-            .on('mouseout', function(p) {
-                highlight_paths_group.hover_changed(null);
-            })
-            .on('click', function(p) {
-                highlight_paths_group.select_changed(toggle_paths(selected, [p]));
-            });
-        var no_paths = root.selectAll('span.no-paths').data(paths.length === 0 ? [0] : []);
-        no_paths.exit().remove();
-        no_paths.enter()
-          .append('span')
-            .attr('class', 'no-paths');
-        no_paths
-            .classed('error', !!selector.error_text())
-            .text(selector.error_text() || (selector.queried() ? selector.zero_text() : selector.default_text()));
+    function draw_paths(diagram, paths) {
+        if(paths.length === 0) return;
+        var xpadding = 30;
+        var space = 30;
+        var radius = 8;
+        // set the height of SVG accordingly
+        root.attr('height', 20*(paths.length+1))
+          .attr('width', xpadding+(space+2*radius)*(paths.length/2+1)+20);
+
+        root.selectAll('.path-selector').remove();
+
+        var pathlist = root.selectAll('g.path-selector').data(paths);
+        pathlist.enter()
+          .append('g')
+          .attr('class', 'path-selector')
+          .attr("transform", function(path, i) { return "translate(0, " + i*20 + ")"; })
+          .each(function(path_data, i) {
+            var nodes = path_data.element_list.filter(function(d) { return d.element_type === 'node'; });
+            // line
+            var line = d3.select(this).append('line');
+            line.attr('x1', xpadding+space)
+              .attr('y1', radius+1)
+              .attr('x2', xpadding+space*nodes.length)
+              .attr('y2', radius+1)
+              .attr('opacity', 0.4)
+              .attr('stroke-width', 5)
+              .attr('stroke', '#bdbdbd');
+
+            // dots
+            var path = d3.select(this).selectAll('circle').data(nodes);
+            path.enter()
+              .append('circle')
+              .attr('cx', function(d, i) { return xpadding+space*(i+1); })
+              .attr('cy', radius+1)
+              .attr('r', radius)
+              .attr('opacity', 0.4)
+              .attr('fill', function(d) {
+                // TODO path_selector shouldn't know the data structure of orignal node objects
+                var regeneratedNode = {key:d.property_map.ecomp_uid, value:d.property_map};
+                return diagram.nodeStroke()(regeneratedNode);
+              });
+
+            // label
+            var text = d3.select(this).append('text');
+            text.text('Path '+i)
+              .attr('class', 'path_label')
+              .attr('x', 0)
+              .attr('y', radius*1.7)
+              .on('mouseover', function() {
+                  highlight_paths_group.hover_changed([path_data]);
+              })
+              .on('mouseout', function() {
+                  highlight_paths_group.hover_changed(null);
+              })
+              .on('click', function() {
+                  highlight_paths_group.select_changed(toggle_paths(selected, [path_data]));
+              });
+          });
+        pathlist.exit().transition(1000).attr('opacity', 0).remove();
     }
 
     function draw_hovered() {
-        var is_hovered = contains_path(hovered);
-        root.selectAll('span.path-selector')
-            .style({
-                'border-color': function(p, i) { return is_hovered(p) ? '#e41a1c' : 'grey'; },
-                'border-width': function(p, i) { return (is_hovered(p) ? 2 : 1) + 'px'; },
-                padding: function(p, i) { return (is_hovered(p) ? 3 : 4) + 'px'; }
-            });
+      var is_hovered = contains_path(hovered);
+      root.selectAll('g.path-selector')
+        .each(function(d, i) {
+          var textColor = is_hovered(d) ? '#e41a1c' : 'black';
+          var lineColor = is_hovered(d) ? 'black' : '#bdbdbd';
+          var opacity = is_hovered(d) ? '1' : '0.4';
+          d3.select(this).select('.path_label').attr('fill', textColor);
+          d3.select(this).selectAll('line')
+            .attr('stroke', lineColor)
+            .attr('opacity', opacity);
+          d3.select(this).selectAll('circle').attr('opacity', opacity);
+        });
     }
 
     function draw_selected() {
         var is_selected = contains_path(selected);
-        root.selectAll('span.path-selector')
-            .style({
-                'background-color': function(p, i) { return is_selected(p) ? '#1c1ae6' : 'white'; },
-                'color': function(p, i) { return is_selected(p) ? 'white' : 'black'; }
-            });
+        root.selectAll('g.path-selector')
+          .each(function(d, i) {
+            var textWeight = is_selected(d) ? 'bold' : 'normal';
+            var lineColor = is_selected(d) ? 'black' : '#bdbdbd';
+            var opacity = is_selected(d) ? '1' : '0.4';
+            d3.select(this).select('.path_label')
+              .attr('font-weight', textWeight);
+            d3.select(this).selectAll('line')
+              .attr('stroke', lineColor)
+              .attr('opacity', opacity);
+            d3.select(this).selectAll('circle').attr('opacity', opacity);
+          });
     }
 
     highlight_paths_group
@@ -10511,7 +11107,7 @@ dc_graph.path_selector = function(parent, reader, pathsgroup, chartgroup) {
         error_text: property(null),
         queried: property(false),
         redraw: function() {
-            draw_paths(paths_);
+            draw_paths(diagram, paths_);
             draw_hovered();
             draw_selected();
         },

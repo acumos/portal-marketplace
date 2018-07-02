@@ -218,7 +218,7 @@ md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !importa
 /**********Flex Containers end *********************/
 
 
-#canvas {position:absolute;left:0;right:0;top:0;bottom:0;width: 100%; height: 100%;}
+#canvas {/* position:absolute;left:0;right:0;top:0;bottom:0; */width: 100%; height: 100%;}
 
 .ds-grid-bg {position:relative; min-height: 600px;}
 .ds-grid-bg section {position: absolute; z-index:6; min-width:100%; min-height:100%;}
@@ -232,7 +232,7 @@ md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !importa
 
 .ds-header {width:100%;}
 
-/* #canvas > svg { min-height: 100%; width: 100% !important; height:100% !important; } */
+#canvas > svg { min-height: 100%; width: 100% !important; height:100% !important; }
 
 .mdl-button--icon.grid-icon1 {background: #e8d3ff;}
 .mdl-button--icon.grid-icon1:hover {background: #d8b5ff;}
@@ -362,7 +362,22 @@ table.dsmt-tbl tbody tr td md-checkbox.md-checked .md-icon::after {width: 4px; h
 .ds-db-row1-cell1 .select-control md-select[required].ng-invalid:not(.md-no-asterisk) .md-select-value span:first-child:after {content: "";}
 
 .ds-label-container1 {margin-left: 15px;display: inline-block;height: 30px; position:relative; top: 9px;background: #F1F1F1;border-left: 1px solid #D8D8D8; border-top: 1px solid #D8D8D8;border-right: 1px solid #D8D8D8;}
+
+.ds-btncontainer1 {text-align: center; padding-top: 8px;}
+/* .ds-btncontainer1 button:first-child {margin-bottom: 8px;} */
 /******* Mapping Tables modal box style start *********/
+
+/****** split table style start **********/
+table.ds-table1.mdl-data-table {white-space: normal;border-collapse: collapse !important;}
+table.ds-table1.mdl-data-table th {line-height: 18px;}
+table.mdl-data-table.ds-table1 {width: 100%;border: 1px solid #d7d4db !important}
+table.mdl-data-table.ds-table1 thead tr th, table.mdl-data-table.ds-table1 tbody tr td { border: 1px solid #d7d4db !important; position: static;}
+table.mdl-data-table.ds-table1 thead tr:first-child th { background: #F6F3FA; text-align:center !important;}
+table.mdl-data-table.ds-table1 thead tr:last-child th { padding-top: 5px; padding-bottom: 5px;}
+table.mdl-data-table.ds-table1 thead tr th span {margin-bottom: 0;font-weight:600;display: inline-block;}
+table.mdl-data-table.ds-table1 tbody tr {position: static;}
+/******* Mapping Tables modal box style end *********/
+
 @media (width: 1024px) and (orientation: landscape) {
 	.ds-mapping-tables-dialog {min-width: 1000px; max-height: 85%; max-width: 98
 	table.dsmt-tbl tbody tr td .select-control {padding-left: 0; width: 86px !important; max-width: 86px !important;}
@@ -376,5 +391,3 @@ table.dsmt-tbl tbody tr td md-checkbox.md-checked .md-icon::after {width: 4px; h
 md-select.ng-invalid[required]:not(.md-no-asterisk) .md-select-value span:first-child::after {content: "" !important;}
 
 input.userprofiletxtbox.uploadtxtbox {box-shadow: none !important;} 
-
-#ds-property-button {background: #E8E5EC !important;color:#671C9D !important;}
