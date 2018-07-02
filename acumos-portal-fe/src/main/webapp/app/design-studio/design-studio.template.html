@@ -256,7 +256,7 @@ limitations under the License.
 								<div class="canvas-image"></div>
 								<div class="canvas-text text-center">
 									
-									<h5>Drag &amp; Drop the models from the left panel onto the canvas <br /> to create a Composite Solution</h5>
+									<h5>Drag &amp; Drop the models from the left panel onto the canvas to create a Composite Solution</h5>
 								</div>
 							
 							</div>
@@ -311,7 +311,7 @@ limitations under the License.
 									</li>
 									<li>
 										<label class="disblock ds-label1">Model Provider:</label>
-										<label class="disblock text-semi-bold">ATT</label>
+										<label class="disblock text-semi-bold">{{solutionDetails.onBoarder}}</label>
 									</li>
 									<li>
 										<div ng-switch on="solutionDetails.toolKit">
@@ -369,9 +369,12 @@ limitations under the License.
 										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
 									</li>
 								</ul>
-								<button ng-click='showCollatorSelection()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" style="background: #E8E5EC;color:#671C9D">Collator Scheme Selector</button>
-								<button ng-click='showCollatorMap()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" disabled>Collator Map</button>
-								
+								<label ng-if="!collateSelect">Note: Please select the Collator Scheme to add a link between Collator and other models.</label>
+								<br/>
+								<div class="ds-btncontainer1">
+									<button ng-click='showCollatorSelection()' class="mdl-button mdl-js-button text-small btn-primary">Collator Scheme Selector</button>
+									<button ng-click='showCollatorMap()' class="mdl-button mdl-js-button text-small btn-primary" ng-disabled="!enableCollateMap" >Collator Map</button>
+								</div>
 							</div>
 							
 							<div class="ds-section-data-inner3" ng-show = "showSplitter">
@@ -381,9 +384,12 @@ limitations under the License.
 										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
 									</li>
 								</ul>
-								<button ng-click='showSplitterSelection()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" style="background: #E8E5EC;color:#671C9D">Splitter Scheme Selector</button>
-								<button ng-click='showSplitterMap()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" disabled>Splitter Map</button>
-								
+								<label ng-if="!splitSelect">Note: Please select the Splitter Scheme to add a link between Splitter and other models.</label>
+								<br/>
+								<div class="ds-btncontainer1">
+									<button ng-click='showSplitterSelection()' class="mdl-button mdl-js-button text-small btn-primary">Splitter Scheme Selector</button>
+									<button ng-click='showSplitterMap()' class="mdl-button mdl-js-button text-small btn-primary" ng-disabled = "!enableSplitMap">Splitter Map</button>
+								</div>
 							</div>
 								
 							<div class="ds-section-data-inner3" ng-show="showLink" >
@@ -541,7 +547,7 @@ limitations under the License.
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Description</label>												      
 												      
-												       <textarea ng-model="solutionDescription" class="mdl-textfield__input" type="text" rows="1" id="address" required="" maxlength="256"></textarea>
+												       <textarea ng-model="solutionDescription" class="mdl-textfield__input" type="text" rows="1" id="address" maxlength="256"></textarea>
 												 </md-input-container></div>	 								
 									  </div>
 									</md-dialog-content>
@@ -1093,7 +1099,7 @@ limitations under the License.
 										<label class="disblock">Select the Collator Scheme: <span class="dsreqfield">*</span></label>
 										<md-radio-group ng-model="collateScheme" ng-change="changeRead()"> 
 											<md-radio-button class="md-primary" value="Array-based">Array-Based Collation</md-radio-button>
-											<md-radio-button value="Parameter-Based" disabled>Parameter-Based Collation</md-radio-button> 
+											<md-radio-button value="Parameter-based">Parameter-Based Collation</md-radio-button> 
 										</md-radio-group>
 									</div>
 								</div>
@@ -1136,7 +1142,7 @@ limitations under the License.
 										<label class="disblock">Select the Splitter Scheme: <span class="dsreqfield">*</span></label>
 										<md-radio-group ng-model="splitScheme" ng-change="changeRead()"> 
 											<md-radio-button class="md-primary" value="Copy-based">Copy-Based Splitting</md-radio-button>
-											<md-radio-button value="parameter_based_splitting" disabled>Parameter-Based Splitting</md-radio-button> 
+											<md-radio-button value="Parameter-based">Parameter-Based Splitting</md-radio-button> 
 										</md-radio-group>
 									</div>
 								</div>
@@ -1157,5 +1163,315 @@ limitations under the License.
 						</md-dialog>
 					</div>
 			<!-- Schema selection for Splitter end -->
+			
+			<!-- Mapping Table for Collator start -->
+						<div class="md-dialog-container" id="myDialogCollatorMap" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-mapping-tables-dialog">
+								  <form name="sourceTargetTable" ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Collator Mapping Table</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closeMappingPopup()" title="Close">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="dsmt-container">
+												<div class="dsmt-cell">
+														<div class="dsmt-chitable">
+															<table class="mdl-data-table ds-table1" cellpadding="0" cellspacing="0" >
+																<thead>
+																	<tr>
+																		<th colspan="5"><span>Source Messages</span></th>
+																		<th colspan="2"><span>Mapping Area</span></th>
+																		<th colspan="4"><span>Target Message</span></th>
+																	</tr>
+																	<tr>
+																		<th><span>Data Source Name</span></th>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type Name</span></th>
+																		<th><span>Parameter Role</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Target Tag Mapping - Map a source field to target field</span></th>
+																		<th><span>Error Indicator</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type</span></th>
+																		<th><span>Parameter Role</span></th>
+																	</tr>
+																</thead>
+																<tbody ng-if="!readSolution">
+																	<tr ng-if="collateSourceMapTable.length >= collateTargetMapTable.length" ng-repeat="source in collateSourceMapTable">
+																		<td>{{source.modelName}}</td>
+																		<td>{{source.name}}</td>
+																		<td>{{source.type}}</td>
+																		<td>{{source.role}}</td>
+																		<td>{{source.tag}}</td>
+																		<td>
+																		<div class="select-control">																	
+																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
+																		 <label ng-if="collateErrorMap.get($index) === undefined">False</label>
+																		</td>
+																		<td>{{collateTargetMapTable[$index].tag}}</td>
+																		<td>{{collateTargetMapTable[$index].name}}</td>
+																		<td>{{collateTargetMapTable[$index].type}}</td>
+																		<td>{{collateTargetMapTable[$index].role}}</td>
+																	</tr>
+																	<tr ng-if="collateSourceMapTable.length < collateTargetMapTable.length" ng-repeat="target in collateTargetMapTable">
+																		<td>{{collateSourceMapTable[$index].modelName}}</td>
+																		<td>{{collateSourceMapTable[$index].name}}</td>
+																		<td>{{collateSourceMapTable[$index].type}}</td>
+																		<td>{{collateSourceMapTable[$index].role}}</td>
+																		<td>{{collateSourceMapTable[$index].tag}}</td>
+																		<td>
+																		<div ng-if="collateSourceMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="collateSourceMapTable[$index].tag && collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
+																		<label ng-if="collateSourceMapTable[$index].tag && collateErrorMap.get($index) === undefined">False</label>
+																		</td>
+																		<td>{{target.tag}}</td>
+																		<td>{{target.name}}</td>
+																		<td>{{target.type}}</td>
+																		<td>{{target.role}}</td>
+																	</tr>
+																</tbody>
+																
+																<tbody ng-if="readSolution">
+																	<tr ng-if="readCollateSourceTable.length >= readCollateTargetTable.length" ng-repeat="source in readCollateSourceTable">
+																		<td>{{source.input_field.source_name}}</td>
+																		<td>{{source.input_field.parameter_name}}</td>
+																		<td>{{source.input_field.parameter_type}}</td>
+																		<td>{{source.input_field.parameter_role}}</td>
+																		<td>{{source.input_field.parameter_tag}}</td>
+																		<td>
+																		<div class="select-control">																	
+																			<md-select ng-model="source.input_field.mapped_to_field" name="collateMapTag" placeholder="{{source.input_field.mapped_to_field}}">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.output_field.parameter_tag}}" ng-repeat="targetMap in readCollateTargetTable">{{targetMap.output_field.parameter_tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
+																		 <label ng-if="collateErrorMap.get($index) === undefined">False</label>
+																		</td>
+																		<td>{{readCollateTargetTable[$index].output_field.parameter_tag}}</td>
+																		<td>{{readCollateTargetTable[$index].output_field.parameter_name}}</td>
+																		<td>{{readCollateTargetTable[$index].output_field.parameter_type}}</td>
+																		<td>{{readCollateTargetTable[$index].output_field.parameter_role}}</td>
+																	</tr>
+																	<tr ng-if="readCollateSourceTable.length < readCollateTargetTable.length" ng-repeat="target in readCollateTargetTable">
+																		<td>{{readCollateSourceTable[$index].input_field.source_name}}</td>
+																		<td>{{readCollateSourceTable[$index].input_field.parameter_name}}</td>
+																		<td>{{readCollateSourceTable[$index].input_field.parameter_type}}</td>
+																		<td>{{readCollateSourceTable[$index].input_field.parameter_role}}</td>
+																		<td>{{readCollateSourceTable[$index].input_field.parameter_tag}}</td>
+																		<td>
+																		<div ng-if="readCollateSourceTable[$index].input_field.parameter_tag" class="select-control">																	
+																			<md-select ng-model="readCollateSourceTable[$index].input_field.mapped_to_field" name="collateMapTag" placeholder="{{readCollateSourceTable[$index].input_field.mapped_to_field}}">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.output_field.parameter_tag}}" ng-repeat="targetMap in readCollateTargetTable">{{targetMap.output_field.parameter_tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="readCollateSourceTable[$index].input_field.parameter_tag && collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
+																		<label ng-if="readCollateSourceTable[$index].input_field.parameter_tag && collateErrorMap.get($index) === undefined">False</label>
+																		</td>
+																		<td>{{target.output_field.parameter_tag}}</td>
+																		<td>{{target.output_field.parameter_name}}</td>
+																		<td>{{target.output_field.parameter_type}}</td>
+																		<td>{{target.output_field.parameter_role}}</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>	
+											</div>
+																																				
+										</div>									
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeMappingPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="collateMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid || disableDone">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+					<!-- Mapping Table for Collator end -->
+					
+					<!-- Mapping Table for Splitter start -->
+						<div class="md-dialog-container" id="myDialogSplitterMap" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-mapping-tables-dialog">
+								  <form name="sourceTargetTable" ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Splitter Mapping Table</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closeMappingPopup()" title="Close">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="dsmt-container">
+												<div class="dsmt-cell">
+														<div class="dsmt-chitable">
+															<table class="mdl-data-table ds-table1" cellpadding="0" cellspacing="0" >
+																<thead>
+																	<tr>
+																		<th colspan="4"><span>Source Message</span></th>
+																		<th colspan="2"><span>Mapping Area</span></th>
+																		<th colspan="5"><span>Target Messages</span></th>
+																	</tr>
+																	<tr>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type Name</span></th>
+																		<th><span>Parameter Role</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Source Tag Mapping - Copy a source field to target field</span></th>
+																		<th><span>Error Indicator</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type</span></th>
+																		<th><span>Parameter Role</span></th>
+																		<th><span>Target Model Name</span></th>
+																	</tr>
+																</thead>
+																<tbody ng-if="!readSolution">
+																	<tr ng-if="splitSourceMapTable.length >= splitTargetMapTable.length" ng-repeat="source in splitSourceMapTable">
+																		<td>{{source.name}}</td>
+																		<td>{{source.type}}</td>
+																		<td>{{source.role}}</td>
+																		<td>{{source.tag}}</td>
+																		<td>
+																		<div ng-if="splitTargetMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td>
+																		<label ng-if="splitTargetMapTable[$index].tag && splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
+																		<label ng-if="splitTargetMapTable[$index].tag && splitErrorMap.get($index) === undefined">False</label>
+																		</td>
+																		<td>{{splitTargetMapTable[$index].tag}}</td>
+																		<td>{{splitTargetMapTable[$index].name}}</td>
+																		<td>{{splitTargetMapTable[$index].type}}</td>
+																		<td>{{splitTargetMapTable[$index].role}}</td>
+																		<td>{{splitTargetMapTable[$index].modelName}}</td>
+																	</tr>
+																	<tr ng-if="splitSourceMapTable.length < splitTargetMapTable.length" ng-repeat="target in splitTargetMapTable">
+																		<td>{{splitSourceMapTable[$index].name}}</td>
+																		<td>{{splitSourceMapTable[$index].type}}</td>
+																		<td>{{splitSourceMapTable[$index].role}}</td>
+																		<td>{{splitSourceMapTable[$index].tag}}</td>
+																		<td>
+																		<div class="select-control">																	
+																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
+																		 <label ng-if="splitErrorMap.get($index) === undefined">False</label>
+																		 </td>
+																		<td>{{target.tag}}</td>
+																		<td>{{target.name}}</td>
+																		<td>{{target.type}}</td>
+																		<td>{{target.role}}</td>
+																		<td>{{target.modelName}}</td>
+																	</tr>
+																</tbody>
+																<tbody ng-if="readSolution">
+																	<tr ng-if="readSplitSourceTable.length >= readSplitTargetTable.length" ng-repeat="source in readSplitSourceTable">
+																		
+																		<td>{{source.input_field.parameter_name}}</td>
+																		<td>{{source.input_field.parameter_type}}</td>
+																		<td>{{source.input_field.parameter_role}}</td>
+																		<td>{{source.input_field.parameter_tag}}</td>
+																		<td>
+																		<div ng-if="readSplitTargetTable[$index].output_field.parameter_tag" class="select-control">																	
+																			<md-select ng-model="readSplitTargetTable[$index].output_field.mapped_to_field" name="splitMapTag" placeholder="{{readSplitTargetTable[$index].output_field.mapped_to_field}}">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.input_field.parameter_tag}}" ng-repeat="sourceMap in readSplitSourceTable">{{sourceMap.input_field.parameter_tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="readSplitTargetTable[$index].output_field.parameter_tag && splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
+																		 <label ng-if="readSplitTargetTable[$index].output_field.parameter_tag && splitErrorMap.get($index) === undefined">False</label>
+																		</td>
+																		<td>{{readSplitTargetTable[$index].output_field.parameter_tag}}</td>
+																		<td>{{readSplitTargetTable[$index].output_field.parameter_name}}</td>
+																		<td>{{readSplitTargetTable[$index].output_field.parameter_type}}</td>
+																		<td>{{readSplitTargetTable[$index].output_field.parameter_role}}</td>
+																		<td>{{readSplitTargetTable[$index].output_field.target_name}}</td>
+																	</tr>
+																	<tr ng-if="readSplitSourceTable.length < readSplitTargetTable.length" ng-repeat="target in readSplitTargetTable">
+																
+																		<td>{{readSplitSourceTable[$index].input_field.parameter_name}}</td>
+																		<td>{{readSplitSourceTable[$index].input_field.parameter_type}}</td>
+																		<td>{{readSplitSourceTable[$index].input_field.parameter_role}}</td>
+																		<td>{{readSplitSourceTable[$index].input_field.parameter_tag}}</td>
+																		<td>
+																		<div class="select-control">																	
+																			<md-select ng-model="target.output_field.mapped_to_field" name="splitMapTag" placeholder="{{target.output_field.mapped_to_field}}">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.input_field.parameter_tag}}" ng-repeat="sourceMap in readSplitSourceTable">{{sourceMap.input_field.parameter_tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
+																		<label ng-if="splitErrorMap.get($index) === undefined">False</label>
+																		</td>
+																		<td>{{target.output_field.parameter_tag}}</td>
+																		<td>{{target.output_field.parameter_name}}</td>
+																		<td>{{target.output_field.parameter_type}}</td>
+																		<td>{{target.output_field.parameter_role}}</td>
+																		<td>{{target.output_field.target_role}}</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>	
+											</div>
+																																				
+										</div>									
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeMappingPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="splitMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid || disableDone">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+					<!-- Mapping Table for Splitter end -->
 </div>
 	
