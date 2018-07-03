@@ -357,8 +357,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 			try {
 				byteArrayOutputStream = artifactClient.getArtifact(metaDataUrl);
-			} catch (ConnectionException e) {
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occured while fetching the aftifact for SolutionId={} and RevisionId ={}",
+			} catch (Exception e) {
+				log.error(EELFLoggerDelegate.errorLogger, "Failed to get artifact for SolutionId={} and RevisionId ={}",
 						solutionId, revisionId);
 				stepResult.setStatusCode("FA");
 				stepResult.setResult("Cannot Fetch MetaData Json");
