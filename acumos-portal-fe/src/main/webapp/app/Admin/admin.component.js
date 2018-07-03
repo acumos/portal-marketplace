@@ -2131,6 +2131,15 @@ angular.module('admin').filter('abs', function() {
                 		   if($scope.carouselConfig[i].slideEnabled == 'true'){break;}
                 		   else if(i == Object.keys($scope.carouselConfig).length - 1){
                 			   $scope.carouselConfig[0].slideEnabled = 'true';
+                			   $scope.showWarningMessage = false;
+							   $scope.warning = "By default, one slide should be enable.";
+                               $scope.icon = '';
+                               $scope.styleclass = 'c-success';
+                               $scope.changeAction = "Enable/Disable Slides";
+                               $scope.showWarningMessage = true;
+                               $timeout(function() {
+                                   $scope.showWarningMessage = false;
+                               }, 5000);
                 		   }
                 	   }
                 	   var carouselConfigStr = JSON.stringify($scope.carouselConfig);
