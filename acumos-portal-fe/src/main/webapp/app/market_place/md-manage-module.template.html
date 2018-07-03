@@ -334,12 +334,16 @@ limitations under the License.
 						<div class="mp-grid-list" ng-show="!Viewtile">
 						
 						<div class="alert c-info" ng-if="mlSolutionPrivate.length < 1">
-								<strong>No Result found</strong>
-							</div>
+							<strong>No Result found</strong>
+						</div>
 							
-							<div class="mp-grid-list-row"
+							<div class="mp-grid-list-row posrel"
 								ng-repeat="privateSolution in mlSolutionPrivate">
-								<!--  mlsolution in mlsolutions | filter:(!searchResults || '') && {active:''}-->
+								
+								<div class="grid-item-error-container" ng-show="privateSolution.onboardingStatusFailed">
+									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+								</div>
+								
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">
 										<figure>
@@ -348,9 +352,7 @@ limitations under the License.
 												class="img-rounded">
 
 										</figure>
-										<div class="grid-item-error-container" ng-show="privateSolution.onboardingStatusFailed">
-											<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
-										</div>
+										
 									</div>
 									<div class="mpbtncontainer">
 										<md-button class="text-small" alt="Anomoly detection" title="Anomoly detection">anomoly detection</md-button>
@@ -500,9 +502,13 @@ limitations under the License.
 						<div class="alert c-info" ng-if="mlSolutionCompany.length < 1">
 								<strong>No Result found</strong>
 							</div>
-							<div class="mp-grid-list-row"
+							<div class="mp-grid-list-row posrel"
 								ng-repeat="companySolution in mlSolutionCompany">
-								<!-- mlsolution in mlSolutionCompany | filter: {accessType:'OR'} | filter: {active:true}  -->
+								
+								<div class="grid-item-error-container" ng-show="companySolution.onboardingStatusFailed">
+									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+								</div>
+								
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">
 										<figure>
@@ -510,9 +516,7 @@ limitations under the License.
 												ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId)"
 												class="img-rounded">
 										</figure>
-										<div class="grid-item-error-container" ng-show="companySolution.onboardingStatusFailed">
-											<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
-										</div>
+										
 									</div>
 									<div class="mpbtncontainer">
 										<md-button class="text-small" alt="Anomoly Detection" title="Anomoly Detection">anomoly detection</md-button>
@@ -712,8 +716,13 @@ limitations under the License.
 						<div class="alert c-info" ng-if="mlSolutionPublic.length < 1">
 								<strong>No Result found</strong>
 							</div>
-							<div class="mp-grid-list-row"
+							<div class="mp-grid-list-row posrel"
 								ng-repeat="mlsolution in mlSolutionPublic">
+								
+								<div class="grid-item-error-container" ng-show="public.onboardingStatusFailed">
+									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+								</div>
+										
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">
 										<figure>
@@ -721,9 +730,7 @@ limitations under the License.
 												ng-click="onClickModel(mlsolution.solutionId, mlsolution.ownerId)"
 												class="img-rounded">
 										</figure>
-										<div class="grid-item-error-container" ng-show="public.onboardingStatusFailed">
-											<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
-										</div>
+										
 									</div>
 									<div class="mpbtncontainer">
 										<md-button class="text-small" alt="Anomoly Detection" title="Anomoly Detection">anomoly detection</md-button>
@@ -892,8 +899,13 @@ limitations under the License.
 									<strong>No Result found</strong>
 								</div>
 								
-								<div class="mp-grid-list-row"
+								<div class="mp-grid-list-row posrel"
 									ng-repeat="deletedSolution in mlSolutionDelete">
+									
+									<div class="grid-item-error-container" ng-show="deletedSolution.onboardingStatusFailed">
+										<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+									</div>
+											
 									<div class="mp-grid-list-image-cell">
 										<div class="mpimage1">
 											<figure>
@@ -901,9 +913,6 @@ limitations under the License.
 													ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId)"
 													class="img-rounded">
 											</figure>
-											<div class="grid-item-error-container" ng-show="deletedSolution.onboardingStatusFailed">
-											<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
-										</div>
 										</div>
 									</div>
 									<div class="mp-grid-list-details-cell">
