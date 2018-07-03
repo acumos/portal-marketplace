@@ -126,8 +126,12 @@ angular
 									.success(function(data, status, headers,config) {
 										 
 										$scope.averageRatings = data.response_body;
-										
-										
+										if($scope.averageRatings !== null)
+											{
+												var starPercentage = ($scope.averageRatings.ratingAverageTenths / 5) * 100;
+												var starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);																						
+												angular.element(document.querySelector(".stars-inner"))[0].style.width= starPercentageRounded + "%";
+											}
 									}).error(function(data, status, headers, config) {
 										console.warn("Error: ",data);
 									});
@@ -1716,4 +1720,7 @@ function linkFunc(scope, element, attrs, ctrl) {
 			renderValue();
 		}
 	});
+	
+	
+
 }
