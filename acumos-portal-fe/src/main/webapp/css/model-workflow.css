@@ -1587,6 +1587,7 @@ position:relative;
 .popovers .ql-container.ql-snow .ql-editor h1 a, .popovers .ql-container.ql-snow .ql-editor h2 a, .popovers .ql-container.ql-snow .ql-editor h3 a{font-weight:600;}
 .popovers .ql-container.ql-snow .ql-tooltip{margin-top: -10px;  padding: 2px 12px;}
 /* editor changes end*/
+.response.commenttable{max-height:520px; overflow-y:auto;}
 
 /*---- media query start ----------*/
 @media(max-width:2560px){
