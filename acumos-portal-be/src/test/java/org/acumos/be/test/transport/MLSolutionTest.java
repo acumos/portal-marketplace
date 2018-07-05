@@ -68,7 +68,7 @@ public class MLSolutionTest {
 		 String threadId= "th1001";
 		 String commentId="cm2001";
 		 List<MLPThread> threadList = new ArrayList<MLPThread>();
-		 int solutionRatingAvg=3;
+		  float solutionRatingAvg=3;
 				
 		MLPSolutionRevision mlPSolutionRevision = new MLPSolutionRevision();
 		mlPSolutionRevision.setCreated(new Date());

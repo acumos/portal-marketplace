@@ -1,4 +1,4 @@
-<!--   
+<!--  
 ===============LICENSE_START=======================================================
 Acumos Apache-2.0
 ===================================================================================
@@ -459,7 +459,7 @@ limitations under the License.
 											ng-if="mlsolution.active != ''">New</span></label>
 										</div>
 									<div>
-										<div class="rating clear_both">
+									<!-- 	<div class="rating clear_both">
 											<span><i class="fa fa-star"
 												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 1}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
@@ -471,26 +471,32 @@ limitations under the License.
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
 												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 5}"
 												aria-hidden="true"></i></span>
-										</div>
+										</div> -->
 
-										<div class="md-icons-tiles">
-											<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
-												0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
-												{{companySolution.viewCount == null ? 0 :
-												companySolution.viewCount}}</span> <span><span
-												class="statistics-icons icon-download" alt="Download" title="Download"></span>
-												{{companySolution.downloadCount == null ? 0 :
-												companySolution.downloadCount}}</span>
-											<button
+										<div class="stars-outer">
+											<div class="stars-inner"
+												ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div></div>
+
+											<div class="md-icons-tiles">
+												<span><span class="statistics-icons icon-chat"
+													alt="Comment" title="Comment"></span> 0</span> <span><span
+													class="statistics-icons icon-view" alt="View" title="View"></span>
+													{{companySolution.viewCount == null ? 0 :
+													companySolution.viewCount}}</span> <span><span
+													class="statistics-icons icon-download" alt="Download"
+													title="Download"></span> {{companySolution.downloadCount ==
+													null ? 0 : companySolution.downloadCount}}</span>
+												<button
 													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-													ng-click="companySolution.selectFav = !companySolution.selectFav; updateFavorite(companySolution.solutionId, $index, 'OR')" alt="Favorite" title="Favorite">
+													ng-click="companySolution.selectFav = !companySolution.selectFav; updateFavorite(companySolution.solutionId, $index, 'OR')"
+													alt="Favorite" title="Favorite">
 													<i class="material-icons"
 														ng-class="{'unselected-fav':!companySolution.selectFav ,'selected-fav':companySolution.selectFav}">favorite_border</i>
 												</button>
+											</div>
 										</div>
-									</div>
 
-								</div>
+									</div>
 								<div class="grid-item-error-container" ng-show="companySolution.onboardingStatusFailed">
 									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
 								</div>
@@ -538,7 +544,7 @@ limitations under the License.
 											ng-if="companySolution.active != ''">New</span>
 									</div>
 									<div>
-										<div class="rating clear_both">
+									<!-- 	<div class="rating clear_both">
 											<span><i class="fa fa-star"
 												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 1}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
@@ -550,10 +556,12 @@ limitations under the License.
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
 												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 5}"
 												aria-hidden="true"></i></span>
-										</div>
-
-									</div>
-									<div class="md-icons">
+										</div>  -->
+											<div class="stars-outer">
+												<div class="stars-inner"
+													ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div>
+											</div>
+											<div class="md-icons">
 										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
 											0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
 											{{companySolution.viewCount == null ? 0 :
@@ -672,7 +680,7 @@ limitations under the License.
 											ng-if="mlsolution.active != ''">New</span></label>
 									</div>
 									<div>
-										<div class="rating clear_both">
+									<!-- 	<div class="rating clear_both">
 											<span><i class="fa fa-star"
 												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 1}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
@@ -684,24 +692,29 @@ limitations under the License.
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
 												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 5}"
 												aria-hidden="true"></i></span>
-										</div>
-										<div class="md-icons-tiles">
-											<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
-												0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
-												{{publicSolution.viewCount == null ? 0 :
-												publicSolution.viewCount}}</span> <span><span
-												class="statistics-icons icon-download" alt="Download" title="Download"></span>
-												{{publicSolution.downloadCount == null ? 0 :
-												publicSolution.downloadCount}}</span>
-												<button
-													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-													ng-click="publicSolution.selectFav = !publicSolution.selectFav; updateFavorite(publicSolution.solutionId, $index, 'PB')" alt="Favorite" title="Favorite">
-													<i class="material-icons"
-														ng-class="{'unselected-fav':!publicSolution.selectFav ,'selected-fav':publicSolution.selectFav}">favorite_border</i>
-												</button>
-										</div>
-									</div>
-								</div>
+										</div>  -->
+												<div class="stars-outer">
+													<div class="stars-inner"
+														ng-style="getAvgRating(publicSolution.solutionRatingAvg)"></div></div>
+													<div class="md-icons-tiles">
+														<span><span class="statistics-icons icon-chat"
+															alt="Comment" title="Comment"></span> 0</span> <span><span
+															class="statistics-icons icon-view" alt="View"
+															title="View"></span> {{publicSolution.viewCount == null ?
+															0 : publicSolution.viewCount}}</span> <span><span
+															class="statistics-icons icon-download" alt="Download"
+															title="Download"></span> {{publicSolution.downloadCount
+															== null ? 0 : publicSolution.downloadCount}}</span>
+														<button
+															class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+															ng-click="publicSolution.selectFav = !publicSolution.selectFav; updateFavorite(publicSolution.solutionId, $index, 'PB')"
+															alt="Favorite" title="Favorite">
+															<i class="material-icons"
+																ng-class="{'unselected-fav':!publicSolution.selectFav ,'selected-fav':publicSolution.selectFav}">favorite_border</i>
+														</button>
+													</div>
+												</div>
+											</div>
 								<div class="grid-item-error-container" ng-show="public.onboardingStatusFailed">
 									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
 								</div>
@@ -748,7 +761,7 @@ limitations under the License.
 											ng-if="mlsolution.active != ''">New</span>
 									</div>
 									<div>
-										<div class="rating clear_both">
+									<!-- 	<div class="rating clear_both">
 											<span><i class="fa fa-star"
 												ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}"
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
@@ -760,8 +773,14 @@ limitations under the License.
 												aria-hidden="true"></i></span> <span><i class="fa fa-star"
 												ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}"
 												aria-hidden="true"></i></span>
+										</div>  -->
+
+											<div class="stars-outer">
+												<div class="stars-inner"
+													ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
+											</div>
+
 										</div>
-									</div>
 									<div class="md-icons">
 										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
 											0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
@@ -852,7 +871,7 @@ limitations under the License.
 												ng-if="mlsolution.active != ''">New</span></label>
 											</div>
 										<div class="clear_both">
-											<div class="rating clear_both">
+										<!-- 	<div class="rating clear_both">
 												<span> <i class="fa fa-star"
 													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 1}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
@@ -864,24 +883,30 @@ limitations under the License.
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
 													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 5}"
 													aria-hidden="true"></i> </span>
-											</div>
-											<div class="md-icons-tiles">
-												<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
-													0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
-													{{deletedSolution.viewCount == null ? 0 :
-													deletedSolution.viewCount}}</span> <span><span
-													class="statistics-icons icon-download" alt="Download" title="Download"></span>
-													{{deletedSolution.downloadCount == null ? 0 :
-													deletedSolution.downloadCount}}</span>
-												<button
-													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-													ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index, 'D')" alt="Favorite" title="Favorite">
-													<i class="material-icons"
-														ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
-												</button>
-											</div>
-										</div>
-									</div>
+											</div>  -->
+														<div class="stars-outer">
+															<div class="stars-inner"
+																ng-style="getAvgRating(deletedSolution.solutionRatingAvg)"></div></div>
+															<div class="md-icons-tiles">
+																<span><span class="statistics-icons icon-chat"
+																	alt="Comment" title="Comment"></span> 0</span> <span><span
+																	class="statistics-icons icon-view" alt="View"
+																	title="View"></span> {{deletedSolution.viewCount ==
+																	null ? 0 : deletedSolution.viewCount}}</span> <span><span
+																	class="statistics-icons icon-download" alt="Download"
+																	title="Download"></span>
+																	{{deletedSolution.downloadCount == null ? 0 :
+																	deletedSolution.downloadCount}}</span>
+																<button
+																	class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+																	ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index, 'D')"
+																	alt="Favorite" title="Favorite">
+																	<i class="material-icons"
+																		ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
+																</button>
+															</div>
+														</div>
+													</div>
 									<div class="grid-item-error-container" ng-show="deletedSolution.onboardingStatusFailed">
 										<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
 									</div>
@@ -925,8 +950,8 @@ limitations under the License.
 												ng-if="mlsolution.active != ''">New</span>
 										</div>
 
-										<div>
-											<div class="rating clear_both">
+									<!-- 	<div>
+										 	<div class="rating clear_both">
 												<span><i class="fa fa-star"
 													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 1}"
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
@@ -938,31 +963,38 @@ limitations under the License.
 													aria-hidden="true"></i></span> <span><i class="fa fa-star"
 													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 5}"
 													aria-hidden="true"></i></span>
-											</div>
-										</div>
+											</div> 
+										</div>    -->
+														<div class="stars-outer">
+															<div class="stars-inner"
+																ng-style="getAvgRating(deletedSolution.solutionRatingAvg)"></div>
+																</div>
+															<div class="md-icons">
+																<span><span class="statistics-icons icon-chat"
+																	alt="Comment" title="Comment"></span> 0</span> <span><span
+																	class="statistics-icons icon-view" alt="View"
+																	title="View"></span> {{deletedSolution.viewCount ==
+																	null ? 0 : deletedSolution.viewCount}}</span> <span><span
+																	class="statistics-icons icon-download" alt="Download"
+																	title="Download"></span>
+																	{{deletedSolution.downloadCount == null ? 0 :
+																	deletedSolution.downloadCount}}</span> <span><span
+																	class="statistics-icons icon-attachment"
+																	alt="Attachment" title="Attachment"></span>
+																	{{deletedSolution.solutionTag == null ? 0 :
+																	deletedSolution.solutionTag}}</span>
 
-										<div class="md-icons">
-											<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
-												0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
-												{{deletedSolution.viewCount == null ? 0 :
-												deletedSolution.viewCount}}</span> <span><span
-												class="statistics-icons icon-download" alt="Download" title="Download"></span>
-												{{deletedSolution.downloadCount == null ? 0 :
-												deletedSolution.downloadCount}}</span> <span><span
-												class="statistics-icons icon-attachment" alt="Attachment" title="Attachment"></span>
-												{{deletedSolution.solutionTag == null ? 0 :
-												deletedSolution.solutionTag}}</span>
+																<button
+																	class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+																	ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index, 'D')"
+																	alt="Favorite" title="Favorite">
+																	<i class="material-icons"
+																		ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
+																</button>
 
-												<button
-													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-													ng-click="deletedSolution.selectFav = !deletedSolution.selectFav; updateFavorite(deletedSolution.solutionId, $index, 'D')" alt="Favorite" title="Favorite">
-													<i class="material-icons"
-														ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
-												</button>
-
-										</div>
-									</div>
-								</div>
+															</div>
+														</div>
+													</div>
 							</div>
 							<div class="text-center" ng-if="seeAllSelected">
 								<button

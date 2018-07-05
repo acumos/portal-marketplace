@@ -1917,7 +1917,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
 					mlSolution.setViewCount(solutionStats.getViewCount().intValue());
 					mlSolution.setSolutionRating(solutionStats.getRatingCount().intValue());
-					mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue() / 10);
+					mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().floatValue() / 10);
 				} catch (Exception e) {
 					log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
 							mlSolution.getSolutionId());
