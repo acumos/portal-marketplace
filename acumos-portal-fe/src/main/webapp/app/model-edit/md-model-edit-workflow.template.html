@@ -1041,7 +1041,7 @@ limitations under the License.
 																			<label class="md-required">Select Category</label> <md-select
 																				ng-model="categoryname"> <md-option
 																				ng-repeat="category in allCategory"
-																				value="{{category.typeCode}}">{{category.typeName}}</md-option>
+																				value="{{category.code}}">{{category.name}}</md-option>
 																			</md-select> </md-input-container>
 																		</div>
 																		<div layout="row"
@@ -1050,8 +1050,8 @@ limitations under the License.
 																			<label class="md-required">Select Toolkit Type</label> <md-select
 																				ng-model="toolkitname"> <md-option
 																				ng-repeat="toolkitType in alltoolkitType"
-																				ng-if="toolkitType.typeCode != 'DS' && toolkitType.typeCode != 'CP'"
-																				value="{{toolkitType.typeCode}}">{{toolkitType.typeName}}</md-option>
+																				ng-if="toolkitType.code != 'DS' && toolkitType.code != 'CP'"
+																				value="{{toolkitType.code}}">{{toolkitType.name}}</md-option>
 																			</md-select> </md-input-container>
 																		</div>
 																	</div>
@@ -2758,7 +2758,7 @@ limitations under the License.
 																		<label class="md-required">Select Category</label> <md-select
 																			ng-model="categoryname"> <md-option
 																			ng-repeat="category in allCategory"
-																			value="{{category.typeCode}}">{{category.typeName}}</md-option>
+																			value="{{category.code}}">{{category.name}}</md-option>
 																		</md-select> </md-input-container>
 																	</div>
 																	<div layout="row"
@@ -2767,8 +2767,8 @@ limitations under the License.
 																		<label class="md-required">Select Toolkit Type</label> <md-select
 																			ng-model="toolkitname"> <md-option
 																			ng-repeat="toolkitType in alltoolkitType"
-																			ng-if="toolkitType.typeCode != 'DS' && toolkitType.typeCode != 'CP'"
-																			value="{{toolkitType.typeCode}}">{{toolkitType.typeName}}</md-option>
+																			ng-if="toolkitType.code != 'DS' && toolkitType.code != 'CP'"
+																			value="{{toolkitType.code}}">{{toolkitType.name}}</md-option>
 																		</md-select> </md-input-container>
 																	</div>
 																</div>
