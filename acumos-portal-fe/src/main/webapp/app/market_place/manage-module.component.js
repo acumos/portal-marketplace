@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ===============LICENSE_END=========================================================
 */
- 
+
 'use strict';
  
 angular.module('manageModule')
@@ -28,7 +28,7 @@ angular.module('manageModule')
 					templateUrl : './app/market_place/md-manage-module.template.html',
 					controller : function($scope, $compile, $location, $http, $q,
 							$sessionStorage, $localStorage, $rootScope,
-							$timeout, $state, apiService) {
+							$timeout, $state, apiService, $window) {
 						$scope.autoHeight = true;
 						$scope.hidePrivate = true;
 						$scope.hidePublic = true;
@@ -983,6 +983,15 @@ angular.module('manageModule')
 							count += 9;
 						}
 						
+						$scope.getAvgRating = function(avgRatingValue){							   
+							    if(avgRatingValue !== null)
+								{
+									var starPercentage = (avgRatingValue / 5) * 100;
+									const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
+									return {"width" : + starPercentageRounded + "%"};										
+								}
+							  }
+						 
 						$scope.updateFavorite = function(solutionId, key, type){
 							var favourite;
 							if(type == 'PR'){

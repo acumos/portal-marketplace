@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ===============LICENSE_END=========================================================
 */
- 
+
 'use strict';
 
 angular
@@ -28,7 +28,7 @@ angular
 					templateUrl : '/app/market_place/market-place.template.html',
 					controller : function($scope, $compile, $location, $http,
 							$state, $stateParams, $sessionStorage, $rootScope,
-							apiService, $element, $timeout) {
+							apiService, $element, $timeout, $window) {
 
 						$scope.setPageStart = 0;
                         $scope.selectedPage = 0;
@@ -499,6 +499,15 @@ angular
 							// $state.go('marketSolutions', {solutionId : id});
 							// }
 						}
+						
+						 $scope.getAvgRating = function(avgRatingValue){								
+							    if(avgRatingValue !== null)
+								{
+									var starPercentage = (avgRatingValue / 5) * 100;
+									const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
+									return {"width" : + starPercentageRounded + "%"};										
+								}
+							  } 
 
 						$scope.updateFavorite = function(solutionId, key) {
 							// $scope.selectFav = !$scope.selectFav;
