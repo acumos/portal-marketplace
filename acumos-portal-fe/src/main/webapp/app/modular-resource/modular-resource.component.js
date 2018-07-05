@@ -454,6 +454,19 @@ angular.module('modelResource')
 				
 			} 
 			
+			$scope.clearExistingNotifications = function(){
+				$rootScope.trackId = false;
+				angular.element(angular.element('li div')).removeClass('completed incomplet active');
+		    	angular.element(angular.element('li')).removeClass('green completed');
+		    	angular.element('.progress .progress-bar').css({ "width" : '0%'});
+			}
+
+			$scope.$watchGroup(['toolkitNameValue','install','file','fileSubmit'], function(newValues, oldValues) {
+				if(newValues[0].length>=1 && newValues[1] && newValues[2] && newValues[3]){
+					$scope.clearExistingNotifications();
+				}
+			});
+			
 			$scope.addToCatalog = function(){
 				
 				$scope.statusReult = [];
@@ -461,10 +474,7 @@ angular.module('modelResource')
 				if($scope.onap == false){
 					
 					if($scope.disableOnboardingButton == true ){
-						$rootScope.trackId = false;
-						angular.element(angular.element('li div')).removeClass('completed incomplet active');
-				    	angular.element(angular.element('li')).removeClass('green completed');
-				    	angular.element('.progress .progress-bar').css({ "width" : '0%'});
+						$scope.clearExistingNotifications();
 					}
 					
 					$scope.addToReqObj = {
