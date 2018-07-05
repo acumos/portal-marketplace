@@ -60,7 +60,7 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 
 .ds-section-properties {min-height: 400px;}
 
-
+.ds-selected-model {color: #0366d6;}
 
 .ds-btnclose1 {width: 25px; height:25px; border-radius: 3px; z-index: 999;font-size: 12px;background: none;}
 .ds-btnclose1 .fa-times {font-size: 12px; color:#c2c2c2;}
@@ -262,6 +262,10 @@ text.edge-label {
 #top-content-left, #bottom-content-left, #tab-content-5 {
     -moz-user-select: none;
     user-select: none;
+    /* border: 2px; 
+    width: 328px; 
+    resize: vertical;  
+    overflow: auto; */
 }
 
 /* CSS for data mapper */

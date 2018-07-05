@@ -107,6 +107,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.collateTags = [];
     $scope.collateSchemes = [];
     $scope.collateErrors = [];
+    $scope.splitSourceTables = [];
+    $scope.splitTargetTables = [];
+    $scope.splitTags = [];
+    $scope.splitSchemes = [];
+    $scope.splitErrors = [];
     $scope.palette = {categories: []};
     $scope.saveState = {
         desc: "solution is unchanged",
@@ -185,6 +190,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         };
         $scope.nodeName=data.name;
         var nodeId = '',nodeVersion = ver, nodeRevision = revision;
+        if(revision !== undefined)
+        	$scope.selectedIndex = type+ver+revision;
+        else
+        	$scope.selectedIndex = type+ver;
         $http.get(_catalog.fModelUrl(_components.get(type+'+'+nodeVersion))).success(function(tgif) {
             nodeId = _components.get(type+'+'+nodeVersion).solutionId;
             $scope.solutionDetails=_components.get(type+'+'+nodeVersion);
@@ -203,7 +212,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 jsonProtoNode.set($scope.solutionDetails.solutionName,protoJson);
             }).error(function(response){
             	$scope.titlemsg = ALERT;
-            	$scope.msg = "Cannot drop this item onto the canvas because an error occurred.  Please check with a system administrator.  Error details: Failed to fetch the ProtoBuf JSON for "+type+" ("+nodeVersion+")";
+            	$scope.msg = "Cannot drop this item onto the canvas, Error details: Failed to fetch the ProtoBuf JSON for "+type+" ("+nodeVersion+")";
             	$scope.showpopup();
             });
 
@@ -278,6 +287,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	type = "Splitter";
             	def.extras = [];
             	$scope.splitScheme = null;
+            	$scope.splitSchemes[data.nodeId] = [];
+            	$scope.splitSourceTables[data.nodeId] = [];
+            	$scope.splitTargetTables[data.nodeId] = [];
+            	$scope.splitTags[data.nodeId] = [];
+            	$scope.splitErrors[data.nodeId] = [];
             	break;
             case 'BR': 
             	type = "DataBroker";
@@ -361,7 +375,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 });
         }).error(function(response){
         	$scope.titlemsg = ALERT;
-        	$scope.msg = "Cannot drop this item onto the canvas because an error occurred.  Please check with a system administrator.  Error details: Failed to fetch the TOSCA details for "+type+" ("+nodeVersion+")";
+        	$scope.msg = "Cannot drop this item onto the canvas, Error details: Failed to fetch the TOSCA details for "+type+" ("+nodeVersion+")";
         	$scope.showpopup();
         });
     };
@@ -401,13 +415,21 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.splitScheme = null;
                     $scope.splitSelect = false;
                     $scope.collateSourceMapTable = null;
-                    $scope.collateSourceTable = [];
+                    $scope.collateSourceTables = [];
                     $scope.collateTargetMapTable = null;
-                    $scope.collateTargetTable = [];
+                    $scope.collateTargetTables = [];
                     $scope.splitSourceMapTable = null;
-                    $scope.splitSourceTable = [];
+                    $scope.splitSourceTables = [];
                     $scope.splitTargetMapTable = null;
-                    $scope.splitTargetTable = [];
+                    $scope.splitTargetTables = [];
+                    $scope.collateSchemes = [];
+                	$scope.collateTags = [];
+                	$scope.collateErrors = [];
+                	$scope.splitSchemes = [];
+                	$scope.splitTags = [];
+                	$scope.splitErrors = [];
+                    $scope.collateErrorMap = new Map();
+                    $scope.splitErrorMap = new Map();
                     $scope.solutionIdDeploy = null;
                     $scope.activeInactivedeploy = true;
                     $scope.matchModels = [];
@@ -498,10 +520,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             set_focus('input-name');
             return;
         }
-        /*if(!$scope.solutionDescription) {
-            set_focus('input-description');
-            return;
-        }*/
+       
         if(!$scope.solutionVersion) {
             set_focus('input-version');
             return;
@@ -892,11 +911,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             		if(value.collator_map !== null){
             			$scope.collateSchemes[n.nodeId] = value.collator_map.collator_type;
             			if($scope.collateSchemes[n.nodeId] === "Parameter-based"){
-            				//$scope.enableCollateMap = true;
-            				$scope.collateSourceTables[n.nodeId] = value.collator_map.map_inputs;
-            				$scope.collateTargetTables[n.nodeId] = value.collator_map.map_outputs;
-	            			/*createCollateSourceRead(value.collator_map.map_inputs);
-	            			createCollateTargetRead(value.collator_map.map_outputs);*/
+	            			createCollateSourceRead(value.collator_map.map_inputs,n.nodeId);
+	            			createCollateTargetRead(value.collator_map.map_outputs,n.nodeId);
 	            			readCollatorMapping(value.collator_map.map_inputs,n.nodeId);
             			}
             			collateDetails = value.collator_map.collator_type;
@@ -908,16 +924,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	$scope.readSolution = true;
             	angular.forEach(n.properties, function(value, key){
             		if(value.splitter_map !== null){
-            			$scope.splitScheme = value.splitter_map.splitter_type;
-            			if($scope.splitScheme === null)
-            				$scope.splitSelect = false;
-            			else
-            				$scope.splitSelect = true;
-            			if($scope.splitScheme === "Parameter-based"){
-            				$scope.enableSplitMap = true;
-            				$scope.readSplitSourceTable = value.splitter_map.map_inputs;
-            				$scope.readSplitTargetTable = value.splitter_map.map_outputs;
-            				readSplitterMapping(value.splitter_map.map_outputs);
+            			$scope.splitSchemes[n.nodeId] = value.splitter_map.splitter_type;
+            			if($scope.splitSchemes[n.nodeId] === "Parameter-based"){
+            				createSplitSourceRead(value.splitter_map.map_inputs, n.nodeId);
+            				createSplitTargetRead(value.splitter_map.map_outputs, n.nodeId);
+            				readSplitterMapping(value.splitter_map.map_outputs, n.nodeId);
             			}
             			splitDetails = value.splitter_map.splitter_type;
             		}
@@ -1391,7 +1402,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         mapper.render();
     }
     
-    $scope.getProperties=function(solutionHover){
+    $scope.getProperties=function(solutionHover,clickVersion,clickRevision){
+    	
         var compsHover = _catalog.models().filter(function(comp) {
             return _catalog.fModelName(comp) === solutionHover;
         });
@@ -1402,7 +1414,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	$scope.showSplitter = null;
         $scope.showProperties=null;
         $scope.showLink=null;
-        $scope.solutionDetails=compsHover[0];
+        compsHover.forEach(function(n){
+        	if(n.solutionName === solutionHover && n.version === clickVersion && n.solutionRevisionId === clickRevision)
+        		$scope.solutionDetails=n;
+        });
+        
+        $scope.selectedIndex = $scope.solutionDetails.solutionName+$scope.solutionDetails.version+$scope.solutionDetails.solutionRevisionId;
         if(compsHover[0].toolKit != 'CP'){
            if(compsHover.length === 1)
                 display_properties(_catalog.fModelUrl(compsHover[0]));
@@ -2161,6 +2178,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                    		$scope.collateSourceMapTable = $scope.collateSourceTables[$scope.nodeIdDB];
 	                    	if($scope.collateTargetTables[$scope.nodeIdDB] !== undefined)
 	                    		$scope.collateTargetMapTable = $scope.collateTargetTables[$scope.nodeIdDB];
+	                    	collateTagMap = $scope.collateTags[$scope.nodeIdDB];
 	                    	$scope.collateErrorMap = $scope.collateErrors[$scope.nodeIdDB];
                     	} else{
                     		$scope.collateScheme = $scope.collateSchemes[$scope.nodeIdDB];
@@ -2175,9 +2193,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                    		$scope.enableCollateMap = false;
 	                    	}
                     		if($scope.collateSourceTables[$scope.nodeIdDB] !== undefined)
-	                    		$scope.readCollateSourceTable = $scope.collateSourceTables[$scope.nodeIdDB];
+	                    		$scope.collateSourceMapTable = $scope.collateSourceTables[$scope.nodeIdDB];
 	                    	if($scope.collateTargetTables[$scope.nodeIdDB] !== undefined)
-	                    		$scope.readCollateTargetTable = $scope.collateTargetTables[$scope.nodeIdDB];
+	                    		$scope.collateTargetMapTable = $scope.collateTargetTables[$scope.nodeIdDB];
+	                    	$scope.readCollateTagMap = $scope.collateTags[$scope.nodeIdDB];
+	                    	collateTagMap = $scope.collateTags[$scope.nodeIdDB];
 	                    	$scope.collateErrorMap = $scope.collateErrors[$scope.nodeIdDB];
                     	}
                     	$scope.$apply();
@@ -2188,6 +2208,44 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	$scope.showDataMapper = null;
                     	$scope.showCollator = null;
                     	$scope.showSplitter = true;
+                    	if(!$scope.readSolution){
+	                    	$scope.splitScheme = $scope.splitSchemes[$scope.nodeIdDB];
+	                    	if($scope.splitScheme.length !== 0 ){
+	                    		$scope.splitSelect = true;
+	                    		if($scope.splitScheme !== "Copy-based")
+	                    			$scope.enableSplitMap = true;
+	                    		else
+	                    			$scope.enableSplitMap = false;
+	                    	} else{
+	                    		$scope.splitSelect = false;
+	                    		$scope.enableSplitMap = false;
+	                    	}
+	                    	if($scope.splitSourceTables[$scope.nodeIdDB] !== undefined)
+	                    		$scope.splitSourceMapTable = $scope.splitSourceTables[$scope.nodeIdDB];
+	                    	if($scope.splitTargetTables[$scope.nodeIdDB] !== undefined)
+	                    		$scope.splitTargetMapTable = $scope.splitTargetTables[$scope.nodeIdDB];
+	                    	splitTagMap = $scope.splitTags[$scope.nodeIdDB];
+	                    	$scope.splitErrorMap = $scope.splitErrors[$scope.nodeIdDB];
+                    	} else{
+                    		$scope.splitScheme = $scope.splitSchemes[$scope.nodeIdDB];
+                    		if($scope.splitScheme.length !== 0 ){
+	                    		$scope.splitSelect = true;
+	                    		if($scope.splitScheme !== "Copy-based")
+	                    			$scope.enableSplitMap = true;
+	                    		else
+	                    			$scope.enableSplitMap = false;
+	                    	} else{
+	                    		$scope.splitSelect = false;
+	                    		$scope.enableSplitMap = false;
+	                    	}
+                    		if($scope.splitSourceTables[$scope.nodeIdDB] !== undefined)
+	                    		$scope.splitSourceMapTable = $scope.splitSourceTables[$scope.nodeIdDB];
+	                    	if($scope.splitTargetTables[$scope.nodeIdDB] !== undefined)
+	                    		$scope.splitTargetMapTable = $scope.splitTargetTables[$scope.nodeIdDB];
+	                    	$scope.readSplitTagMap = $scope.splitTags[$scope.nodeIdDB];
+	                    	splitTagMap = $scope.splitTags[$scope.nodeIdDB];
+	                    	$scope.splitErrorMap = $scope.splitErrors[$scope.nodeIdDB];
+                    	}
                     	$scope.$apply();
                     	break;
                     default:
@@ -2385,7 +2443,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         	
                         	if(p.nodeType === "Collator"){
                         		if(p.bounds === outbounds && p.type === null){
-                        			//collateTargetTable = [];
                         			$scope.collateTargetTables[p.nodeId] = [];
                         		}
                         		
@@ -2406,11 +2463,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         	
                         	if(p.nodeType === "Splitter"){
                         		if(p.bounds === inbounds && p.type === null){
-                        			splitSourceTable = [];
-                        			$scope.splitSourceTable = [];
+                        			$scope.splitSourceTables[p.nodeId] = [];
                         		}
                                 var splitLength = 0;
                         		var index = -1;
+                        		splitTargetTable = $scope.splitTargetTables[p.nodeId];
                                 splitTargetTable.forEach(function(s){
                                 	if(s.modelName === nodes[0]){
                                 		if(index > splitTargetTable.indexOf(s) || index === -1)
@@ -2420,7 +2477,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                                 	}
                                 });
                                 splitTargetTable.splice(index,splitLength);
-                                $scope.splitTargetMapTable = splitTargetTable;
+                                $scope.splitTargetTables[p.nodeId] = splitTargetTable;
                         	}
                         });
                         
@@ -2483,7 +2540,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         	
                         	if(port.nodeType === "Collator"){
                         		if(port.bounds === outbounds && port.type === null){
-                        			//collateTargetTable = [];
                         			$scope.collateTargetTables[port.nodeId] = [];
                         		}
                         		var collateLength = 0;
@@ -2503,11 +2559,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         	
                         	if(port.nodeType === "Splitter"){
                         		if(port.bounds === inbounds && port.type === null){
-                        			splitSourceTable = [];
-                        			$scope.splitSourceMapTable = [];
+                        			$scope.splitSourceTables[port.nodeId] = [];
                         		}
                         		var splitLength = 0;
                                 var index = -1;
+                                splitSourceTable = $scope.splitTargetTables[port.nodeId];
                                 splitTargetTable.forEach(function(s){
                                 	if(s.modelName === edge.orig.value.targetNodeId){
                                 		if(index > splitTargetTable.indexOf(s) || index === -1)
@@ -2517,7 +2573,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                                 	}
                                 });
                                 splitTargetTable.splice(index,splitLength);
-                                $scope.splitTargetMapTable = splitTargetTable;
+                                $scope.splitTargetTables[port.nodeId] = splitTargetTable;
                         	}
                         });
                         return edges;
@@ -3729,9 +3785,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 		 } 	 
 	});
     
-    $scope.showCollatorSelection = function(ev) {
-    	/*if(!$scope.readSolution && ($scope.collateScheme === "" || $scope.collateScheme === null || $scope.collateScheme === undefined))
-    		$scope.collateScheme = "Array-based";*/	
+    $scope.showCollatorSelection = function(ev) {	
         $mdDialog.show({
             contentElement: '#myDialogCollatorSelector',
             parent: angular.element(document.body),
@@ -3741,8 +3795,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
     
     $scope.showSplitterSelection = function(ev) {
-    	/*if(!$scope.readSolution && ($scope.splitScheme === "" || $scope.splitScheme === null || $scope.splitScheme === undefined))
-    		$scope.splitScheme = "Copy-based";*/
         $mdDialog.show({
             contentElement: '#myDialogSplitterSelector',
             parent: angular.element(document.body),
@@ -3857,6 +3909,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	var url;
     	$scope.splitSelect = true;
     	$scope.splitSelectedDetails = $scope.splitScheme;
+    	$scope.splitSchemes[$scope.nodeIdDB] = $scope.splitScheme;
     	if($scope.splitScheme === "Copy-based"){
     		$scope.enableSplitMap = false;
     	} else if($scope.splitScheme === "Parameter-based"){
@@ -3919,10 +3972,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     								"type": value.type,
     								"role": value.role});
     	});
-    	$scope.collateTargetMapTable = collateTargetTable;
+
     	$scope.collateTargetTables[inputPort.node.orig.key] = collateTargetTable;
     	if($scope.collateSourceMapTable === null){
-    		$scope.collateSourceMapTable = [];
     		$scope.collateSourceTables[inputPort.node.orig.key] = [];
     	}
     	
@@ -3933,32 +3985,34 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	collateSourceTable = $scope.collateSourceTables[outputPort.node.orig.key];
     	angular.forEach(inputPort.orig.value.originalType[0].messageargumentList, function(value, key){
     		collateSourceTable.push({"modelName": inputPort.orig.value.nodeId,
+    								"messageSignature": JSON.stringify(inputPort.orig.value.originalType[0]),
     								"tag": value.tag,
     								"name": value.name,
     								"type": value.type,
     								"role": value.role});
     	});
-    	//$scope.collateSourceMapTable =collateSourceTable;
+
     	$scope.collateSourceTables[outputPort.node.orig.key] = collateSourceTable;
-    	if($scope.collateTargetMapTable === null){
-    		$scope.collateTargetMapTable = [];
-    		$scope.collateTargetTables[inputPort.node.orig.key] = [];
+    	if($scope.collateTargetTables[outputPort.node.orig.key] === null){
+    		$scope.collateTargetTables[outputPort.node.orig.key] = [];
     	}
     }
     
     var splitTargetTable=[];
     function createSplitTargetTable(outputPort,inputPort){
-    	
+    	splitTargetTable = $scope.splitTargetTables[inputPort.node.orig.key];
     	angular.forEach(outputPort.orig.value.originalType[0].messageargumentList, function(value,key){
     		splitTargetTable.push({"modelName": outputPort.orig.value.nodeId,
+    								"messageSignature": JSON.stringify(outputPort.orig.value.originalType[0]),
     								"tag": value.tag,
     								"name": value.name,
     								"type": value.type,
     								"role": value.role});
     	});
-    	$scope.splitTargetMapTable = splitTargetTable;
-    	if($scope.splitSourceMapTable === null)
-    		$scope.splitSourceMapTable = [];    	
+
+    	$scope.splitTargetTables[inputPort.node.orig.key] = splitTargetTable;
+    	if($scope.splitSourceTables[inputPort.node.orig.key] === null)
+    		$scope.splitSourceTables[inputPort.node.orig.key] = [];    	
     }
     
     var splitSourceTable = [];
@@ -3970,24 +4024,25 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     								"type": value.type,
     								"role": value.role});
     	});
-    	$scope.splitSourceMapTable = splitSourceTable;
-    	if($scope.splitTargetMapTable === null)
-    		$scope.splitTargetMapTable = [];
+    	$scope.splitSourceTables[outputPort.node.orig.key] = splitSourceTable;
+    	if($scope.splitTargetTables[outputPort.node.orig.key] === null)
+    		$scope.splitTargetTables[outputPort.node.orig.key] = [];
     }
     
-    function createCollateSourceRead(mapInput){
+    function createCollateSourceRead(mapInput,nodeId){
     	collateSourceTable = [];
     	angular.forEach(mapInput, function(value,key){
     		collateSourceTable.push({"modelName": value.input_field.source_name,
+    								"messageSignature": value.input_field.message_signature,
 									"tag": value.input_field.parameter_tag,
 									"name": value.input_field.parameter_name,
 									"type": value.input_field.parameter_type,
 									"role": value.input_field.parameter_role});
     	});
-    	$scope.collateSourceMapTable = collateSourceTable;
+    	$scope.collateSourceTables[nodeId] = collateSourceTable;
     }
     
-    function createCollateTargetRead(mapOutput){
+    function createCollateTargetRead(mapOutput,nodeId){
     	collateTargetTable = [];
     	angular.forEach(mapOutput, function(value,key){
     		collateTargetTable.push({"tag": value.output_field.parameter_tag,
@@ -3995,34 +4050,56 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 									"type": value.output_field.parameter_type,
 									"role": value.output_field.parameter_role});
     	});
-    	$scope.collateTargetMapTable = collateTargetTable;
+    	$scope.collateTargetTables[nodeId] = collateTargetTable;
     }
     
     function readCollatorMapping(mapInput,nodeId){
-    	collateTagMap = new Map();
+    	collateTagMap = [];
     	collateErrorIndicator = new Map();
     	angular.forEach(mapInput, function(value,key){
-    		collateTagMap.set(key,value.input_field.mapped_to_field);
-    		/*$scope.collateTagMapRead = collateTagMap;*/
-    		
+    		collateTagMap[key]=value.input_field.mapped_to_field;    		
     		collateErrorIndicator.set(key,value.input_field.error_indicator);
-    		/*$scope.collateErrorMap = collateErrorIndicator;*/
     	});
     	$scope.collateTags[nodeId] = collateTagMap;
     	$scope.collateErrors[nodeId] = collateErrorIndicator;
     }
     
-    function readSplitterMapping(mapOutput){
-    	splitTagMap = new Map();
-    	splitErrorIndicator = new Map();
-    	angular.forEach(mapOutput, function(value, key){
-    		splitTagMap.set(key, value.output_field.mapped_to_field);
-    		splitErrorIndicator.set(key, value.output_field.error_indicator);
+    function createSplitSourceRead(mapInput,nodeId){
+    	splitSourceTable = [];
+    	angular.forEach(mapInput, function(value,key){
+    		splitSourceTable.push({"tag": value.input_field.parameter_tag,
+									"name": value.input_field.parameter_name,
+									"type": value.input_field.parameter_type,
+									"role": value.input_field.parameter_role});
     	});
-    	$scope.splitErrorMap = splitErrorIndicator;
+    	$scope.splitSourceTables[nodeId] = splitSourceTable;
     }
     
-    var collateTagMap = new Map();
+    function createSplitTargetRead(mapOutput,nodeId){
+    	splitTargetTable = [];
+    	angular.forEach(mapOutput, function(value,key){
+    		splitTargetTable.push({"modelName": value.output_field.target_name,
+    							    "messageSignature": value.output_field.message_signature,    			
+    							    "tag": value.output_field.parameter_tag,
+									"name": value.output_field.parameter_name,
+									"type": value.output_field.parameter_type,
+									"role": value.output_field.parameter_role});
+    	});
+    	$scope.splitTargetTables[nodeId] = splitTargetTable;
+    }
+    
+    function readSplitterMapping(mapOutput,nodeId){
+    	splitTagMap = [];
+    	splitErrorIndicator = new Map();
+    	angular.forEach(mapOutput, function(value, key){
+    		splitTagMap[key] = value.output_field.mapped_to_field;
+    		splitErrorIndicator.set(key, value.output_field.error_indicator);
+    	});
+    	$scope.splitTags[nodeId] = splitTagMap;
+    	$scope.splitErrors[nodeId] = splitErrorIndicator;
+    }
+    
+    var collateTagMap = [];
     var collateErrorIndicator = new Map();
     
     $scope.collateMappingTag = function(index){
@@ -4077,16 +4154,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var splitErrorIndicator = new Map();
     
     $scope.splitMappingTag = function(index){
-        splitTagMap.set(index,this.splitMapTag);
+    	splitTagMap = $scope.splitTags[$scope.nodeIdDB];
+        splitTagMap[index] = this.splitMapTag;
         var occurrences = { };
         var splitErrorIndicator = new Map();
         
-        for (var i = 0, j = splitTagMap.size; i < j; i++) {
-        	if(splitTagMap.get(i) !== undefined)
-        		occurrences[splitTagMap.get(i)] = (occurrences[splitTagMap.get(i)] || 0) + 1;
+        for (var i = 0, j = splitTagMap.length; i < j; i++) {
+        	if(splitTagMap[i] !== undefined)
+        		occurrences[splitTagMap[i]] = (occurrences[splitTagMap[i]] || 0) + 1;
         }
         
-        angular.forEach(splitTargetTable, function(value,key){
+        angular.forEach($scope.splitTargetMapTable, function(value,key){
         	/*angular.forEach(occurrences, function(value1,key1){
         		if(value1 > 1){
         			angular.forEach(splitTargetTable, function(value4,key4){
@@ -4096,15 +4174,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         			
         		} else{*/
         			var keepGoing = true;
-        			angular.forEach(splitSourceTable, function(value2,key2){
+        			angular.forEach($scope.splitSourceMapTable, function(value2,key2){
         				
         				if(keepGoing){
-        					if(splitTagMap.get(key) === value2.tag && value.role === value2.role && value.type === value2.type){
+        					if(splitTagMap[key] === value2.tag && value.role === value2.role && value.type === value2.type){
         						keepGoing = false;
-        						angular.forEach(splitTargetTable, function(value3,key3){
+        						angular.forEach($scope.splitTargetMapTable, function(value3,key3){
         							if(value.modelName === value3.modelName){
         								splitErrorIndicator.set(key, "True");
-        								if(splitTagMap.get(key3) === undefined)
+        								if(splitTagMap[key3] === undefined)
         									splitErrorIndicator.set(key3, "True");
         								
         							}	
@@ -4119,7 +4197,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	
         	
         });
-       
+        $scope.splitTags[$scope.nodeIdDB] = splitTagMap;
+        $scope.splitErrors[$scope.nodeIdDB] = splitErrorIndicator;
         $scope.splitErrorMap = splitErrorIndicator;
         
     };
@@ -4127,23 +4206,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.collateMappingsSave = function(){
     	var url;
     	var collateMapInputs = []; var collateMapOutputs = [];
-    	if($scope.readSolution){
-    		angular.forEach($scope.readCollateSourceTable, function(value,key){
-    			collateMapInputs.push({ "input_field": {
-					"source_name": value.input_field.source_name,
-					"parameter_name": value.input_field.parameter_name,
-					"parameter_type": value.input_field.parameter_type,
-					"parameter_role": value.input_field.parameter_role,
-					"parameter_tag": value.input_field.parameter_tag,
-					"mapped_to_field": value.input_field.mapped_to_field,
-					"error_indicator": $scope.collateErrorMap.get(key) === "True" ? true : false }});
-    		});
-    		collateMapOutputs = $scope.readCollateTargetTable;
-    	} else{
-    	
 	    	angular.forEach($scope.collateSourceMapTable, function(value,key){
 	    		collateMapInputs.push({ "input_field": {
 	    							"source_name": value.modelName,
+	    							"message_signature": value.messageSignature,
 	    							"parameter_name": value.name,
 	    							"parameter_type": value.type,
 	    							"parameter_role": value.role,
@@ -4159,7 +4225,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	    							  "parameter_type": value1.type,
 	    							  "parameter_role": value1.role	}});
 	    	});
-    	}
+    	
     	var data = {
     			"databrokerMap": null,
     			  "fieldMap":null,
@@ -4220,11 +4286,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	angular.forEach($scope.splitTargetMapTable, function(value1,key1){
     		splitMapOutputs.push({"output_field": {
     							  "target_name": value1.modelName,
+    							  "message_signature": value1.messageSignature,
     							  "parameter_tag": value1.tag,
     							  "parameter_name": value1.name,
     							  "parameter_type": value1.type,
     							  "parameter_role": value1.role,
-    							  "mapped_to_field": splitTagMap.get(key1) ? splitTagMap.get(key1):null,
+    							  "mapped_to_field": splitTagMap[key1] ? splitTagMap[key1]:null,
     		    				  "error_indicator": $scope.splitErrorMap.get(key1) === "True" ? true : false }});
     	});
     	

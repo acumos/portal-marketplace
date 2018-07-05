@@ -99,12 +99,12 @@ limitations under the License.
 									<div ng-repeat="category in categoryNames">
 									<div class="ds-treelist">
 										
-										<div ng-if="category.typeCode!=='DT' && category.typeCode!=='DS'">
-										<div class="fa fa-folder question ui-link" ng-click="expanded = !expanded" expand ng-class="expanded ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">{{category.typeName}}</span></div> 
+										<div ng-if="category.code!=='DT' && category.code!=='DS'">
+										<div class="fa fa-folder question ui-link" ng-click="expanded = !expanded" expand ng-class="expanded ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">{{category.name}}</span></div> 
 						                     <div ng-show="expanded">
 							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
-							                        <div ng-if="category.typeCode==cat.key" class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+							                        <div ng-if="category.code==cat.key" class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -117,7 +117,7 @@ limitations under the License.
 						                     <div ng-show="test">
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -132,7 +132,7 @@ limitations under the License.
 						</div>
 					
 				</div>
-				<div class="ds-hor-seperator" id="content-resizer-left"></div>
+				<!-- <div class="ds-hor-seperator" id="content-resizer-left"></div> -->
 				<div class="ds-section" id="bottom-content-left">
 							<div class="ds-section-heading">
 								<label>Data Transform Tools</label>
@@ -157,7 +157,7 @@ limitations under the License.
 									
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    
@@ -188,7 +188,7 @@ limitations under the License.
 								<div class="ds-list1">
 									<div ng-repeat="cat in palette.categories">
 							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
-								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							            </div>
 							        </div>
 							     </div>
@@ -1203,7 +1203,7 @@ limitations under the License.
 																		<th><span>Parameter Role</span></th>
 																	</tr>
 																</thead>
-																<tbody ng-if="!readSolution">
+																<tbody>
 																	<tr ng-if="collateSourceMapTable.length >= collateTargetMapTable.length" ng-repeat="source in collateSourceMapTable">
 																		<td>{{source.modelName}}</td>
 																		<td>{{source.name}}</td>
@@ -1211,8 +1211,15 @@ limitations under the License.
 																		<td>{{source.role}}</td>
 																		<td>{{source.tag}}</td>
 																		<td>
-																		<div class="select-control">																	
+																		<div ng-if="!readSolution" class="select-control">																	
 																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																			
+																		</div>
+																		<div ng-if="readSolution" class="select-control">																	
+																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="{{readCollateTagMap[$index]}}" ng-change="collateMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
 																			</md-select>
@@ -1233,8 +1240,14 @@ limitations under the License.
 																		<td>{{collateSourceMapTable[$index].role}}</td>
 																		<td>{{collateSourceMapTable[$index].tag}}</td>
 																		<td>
-																		<div ng-if="collateSourceMapTable[$index].tag" class="select-control">																	
+																		<div ng-if="!readSolution && collateSourceMapTable[$index].tag" class="select-control">																	
 																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		<div ng-if="readSolution && collateSourceMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="{{readCollateTagMap[$index]}}" ng-change="collateMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
 																			</md-select>
@@ -1249,53 +1262,7 @@ limitations under the License.
 																		<td>{{target.role}}</td>
 																	</tr>
 																</tbody>
-																
-																<tbody ng-if="readSolution">
-																	<tr ng-if="readCollateSourceTable.length >= readCollateTargetTable.length" ng-repeat="source in readCollateSourceTable">
-																		<td>{{source.input_field.source_name}}</td>
-																		<td>{{source.input_field.parameter_name}}</td>
-																		<td>{{source.input_field.parameter_type}}</td>
-																		<td>{{source.input_field.parameter_role}}</td>
-																		<td>{{source.input_field.parameter_tag}}</td>
-																		<td>
-																		<div class="select-control">																	
-																			<md-select ng-model="source.input_field.mapped_to_field" name="collateMapTag" placeholder="{{source.input_field.mapped_to_field}}">
-																					<md-option value="null">Select Tag</md-option>
-																					<md-option value="{{targetMap.output_field.parameter_tag}}" ng-repeat="targetMap in readCollateTargetTable">{{targetMap.output_field.parameter_tag}}</md-option>	
-																			</md-select>
-																		</div>
-																		</td>
-																		<td><label ng-if="collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
-																		 <label ng-if="collateErrorMap.get($index) === undefined">False</label>
-																		</td>
-																		<td>{{readCollateTargetTable[$index].output_field.parameter_tag}}</td>
-																		<td>{{readCollateTargetTable[$index].output_field.parameter_name}}</td>
-																		<td>{{readCollateTargetTable[$index].output_field.parameter_type}}</td>
-																		<td>{{readCollateTargetTable[$index].output_field.parameter_role}}</td>
-																	</tr>
-																	<tr ng-if="readCollateSourceTable.length < readCollateTargetTable.length" ng-repeat="target in readCollateTargetTable">
-																		<td>{{readCollateSourceTable[$index].input_field.source_name}}</td>
-																		<td>{{readCollateSourceTable[$index].input_field.parameter_name}}</td>
-																		<td>{{readCollateSourceTable[$index].input_field.parameter_type}}</td>
-																		<td>{{readCollateSourceTable[$index].input_field.parameter_role}}</td>
-																		<td>{{readCollateSourceTable[$index].input_field.parameter_tag}}</td>
-																		<td>
-																		<div ng-if="readCollateSourceTable[$index].input_field.parameter_tag" class="select-control">																	
-																			<md-select ng-model="readCollateSourceTable[$index].input_field.mapped_to_field" name="collateMapTag" placeholder="{{readCollateSourceTable[$index].input_field.mapped_to_field}}">
-																					<md-option value="null">Select Tag</md-option>
-																					<md-option value="{{targetMap.output_field.parameter_tag}}" ng-repeat="targetMap in readCollateTargetTable">{{targetMap.output_field.parameter_tag}}</md-option>	
-																			</md-select>
-																		</div>
-																		</td>
-																		<td><label ng-if="readCollateSourceTable[$index].input_field.parameter_tag && collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
-																		<label ng-if="readCollateSourceTable[$index].input_field.parameter_tag && collateErrorMap.get($index) === undefined">False</label>
-																		</td>
-																		<td>{{target.output_field.parameter_tag}}</td>
-																		<td>{{target.output_field.parameter_name}}</td>
-																		<td>{{target.output_field.parameter_type}}</td>
-																		<td>{{target.output_field.parameter_role}}</td>
-																	</tr>
-																</tbody>
+														
 															</table>
 														</div>	
 											</div>
@@ -1357,15 +1324,21 @@ limitations under the License.
 																		<th><span>Target Model Name</span></th>
 																	</tr>
 																</thead>
-																<tbody ng-if="!readSolution">
+																<tbody>
 																	<tr ng-if="splitSourceMapTable.length >= splitTargetMapTable.length" ng-repeat="source in splitSourceMapTable">
 																		<td>{{source.name}}</td>
 																		<td>{{source.type}}</td>
 																		<td>{{source.role}}</td>
 																		<td>{{source.tag}}</td>
 																		<td>
-																		<div ng-if="splitTargetMapTable[$index].tag" class="select-control">																	
+																		<div ng-if="!readSolution && splitTargetMapTable[$index].tag" class="select-control">																	
 																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		<div ng-if="readSolution && splitTargetMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="{{readSplitTagMap[$index]}}" ng-change="splitMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
 																			</md-select>
@@ -1387,8 +1360,14 @@ limitations under the License.
 																		<td>{{splitSourceMapTable[$index].role}}</td>
 																		<td>{{splitSourceMapTable[$index].tag}}</td>
 																		<td>
-																		<div class="select-control">																	
+																		<div ng-if="!readSolution" class="select-control">																	
 																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		<div ng-if="readSolution" class="select-control">																	
+																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="{{readSplitTagMap[$index]}}" ng-change="splitMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
 																			</md-select>
@@ -1404,54 +1383,7 @@ limitations under the License.
 																		<td>{{target.modelName}}</td>
 																	</tr>
 																</tbody>
-																<tbody ng-if="readSolution">
-																	<tr ng-if="readSplitSourceTable.length >= readSplitTargetTable.length" ng-repeat="source in readSplitSourceTable">
-																		
-																		<td>{{source.input_field.parameter_name}}</td>
-																		<td>{{source.input_field.parameter_type}}</td>
-																		<td>{{source.input_field.parameter_role}}</td>
-																		<td>{{source.input_field.parameter_tag}}</td>
-																		<td>
-																		<div ng-if="readSplitTargetTable[$index].output_field.parameter_tag" class="select-control">																	
-																			<md-select ng-model="readSplitTargetTable[$index].output_field.mapped_to_field" name="splitMapTag" placeholder="{{readSplitTargetTable[$index].output_field.mapped_to_field}}">
-																					<md-option value="null">Select Tag</md-option>
-																					<md-option value="{{sourceMap.input_field.parameter_tag}}" ng-repeat="sourceMap in readSplitSourceTable">{{sourceMap.input_field.parameter_tag}}</md-option>	
-																			</md-select>
-																		</div>
-																		</td>
-																		<td><label ng-if="readSplitTargetTable[$index].output_field.parameter_tag && splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
-																		 <label ng-if="readSplitTargetTable[$index].output_field.parameter_tag && splitErrorMap.get($index) === undefined">False</label>
-																		</td>
-																		<td>{{readSplitTargetTable[$index].output_field.parameter_tag}}</td>
-																		<td>{{readSplitTargetTable[$index].output_field.parameter_name}}</td>
-																		<td>{{readSplitTargetTable[$index].output_field.parameter_type}}</td>
-																		<td>{{readSplitTargetTable[$index].output_field.parameter_role}}</td>
-																		<td>{{readSplitTargetTable[$index].output_field.target_name}}</td>
-																	</tr>
-																	<tr ng-if="readSplitSourceTable.length < readSplitTargetTable.length" ng-repeat="target in readSplitTargetTable">
 																
-																		<td>{{readSplitSourceTable[$index].input_field.parameter_name}}</td>
-																		<td>{{readSplitSourceTable[$index].input_field.parameter_type}}</td>
-																		<td>{{readSplitSourceTable[$index].input_field.parameter_role}}</td>
-																		<td>{{readSplitSourceTable[$index].input_field.parameter_tag}}</td>
-																		<td>
-																		<div class="select-control">																	
-																			<md-select ng-model="target.output_field.mapped_to_field" name="splitMapTag" placeholder="{{target.output_field.mapped_to_field}}">
-																					<md-option value="null">Select Tag</md-option>
-																					<md-option value="{{sourceMap.input_field.parameter_tag}}" ng-repeat="sourceMap in readSplitSourceTable">{{sourceMap.input_field.parameter_tag}}</md-option>	
-																			</md-select>
-																		</div>
-																		</td>
-																		<td><label ng-if="splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
-																		<label ng-if="splitErrorMap.get($index) === undefined">False</label>
-																		</td>
-																		<td>{{target.output_field.parameter_tag}}</td>
-																		<td>{{target.output_field.parameter_name}}</td>
-																		<td>{{target.output_field.parameter_type}}</td>
-																		<td>{{target.output_field.parameter_role}}</td>
-																		<td>{{target.output_field.target_role}}</td>
-																	</tr>
-																</tbody>
 															</table>
 														</div>	
 											</div>
