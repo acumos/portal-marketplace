@@ -143,7 +143,7 @@ public class MarketPlaceServiceImplTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void getSearchSolutionTest() {
 		try {
 			JsonRequest<RestPageRequestBE> restPageReqBe = new JsonRequest<>();
@@ -179,9 +179,9 @@ public class MarketPlaceServiceImplTest {
 		} catch (Exception e) {
 			logger.info("Failed to fetch solutions " + e);
 		}
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void getAllMySolutionsTest() {
 		try {
 
@@ -221,7 +221,7 @@ public class MarketPlaceServiceImplTest {
 		} catch (Exception e) {
 			logger.info("Failed to fetch solutions " + e);
 		}
-	}
+	}*/
 
 	@Test
 	public void updateSolutionTest() throws AcumosServiceException {

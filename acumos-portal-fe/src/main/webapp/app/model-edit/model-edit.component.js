@@ -349,6 +349,7 @@ angular
 						});
 						
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId, modifiedDate){
+							$scope.version = $scope.versionList.filter(versions => versions.revisionId == revisionId)[0];
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = revisionId;
 							$scope.versionId = versionId;
@@ -410,6 +411,7 @@ angular
 														if( !$scope.revisionId ){
 															$scope.revisionId = $scope.versionList[0].revisionId;
 															$scope.versionId = $scope.versionList[0].version;
+															$scope.version = $scope.versionList[0];
 															$scope.getComment();
 															$scope.solution.created = $scope.versionList[0].modified;
 															$scope.solution.modified = $scope.versionList[0].modified;
@@ -593,7 +595,7 @@ angular
 							}
 							var solution = {
 								"request_body" : {
-									"accessType" : $scope.solution.accessType,
+									//"accessType" : $scope.solution.accessType,
 									"active" : $scope.solution.active,
 									"created" : $scope.solution.created,
 									// "description" :
@@ -1117,10 +1119,10 @@ angular
 								var flow= 'public';
 							}
 
-							if ($scope.currentModelAccess == $scope.solution.accessType) {
-								if ($scope.solution.accessType == 'OR') {
+							if ($scope.currentModelAccess == $scope.version.accessTypeCode) {
+								if ($scope.version.accessTypeCode == 'OR') {
 									$scope.accessName = 'Company/Organization';
-								} else if ($scope.solution.accessType == 'PB') {
+								} else if ($scope.version.accessTypeCode == 'PB') {
 									$scope.accessName = 'Public';
 								}
 
@@ -1145,8 +1147,8 @@ angular
 							}
 
 							if ($scope.solution.ownerId) {
-								if ($scope.solution.accessType == 'PR'
-										|| $scope.solution.accessType == 'OR'  || $scope.solution.accessType == 'PB') {
+								if ($scope.version.accessTypeCode == 'PR'
+										|| $scope.version.accessTypeCode == 'OR'  || $scope.version.accessTypeCode == 'PB') {
 									var data = $.param({
 										visibility : pub_value,
 										userId : $scope.solution.ownerId,

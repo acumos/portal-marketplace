@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.service.impl;
 
+import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.ValidationStatusService;
 import org.acumos.portal.be.transport.MLArtifactValidationStatus;
@@ -53,6 +54,7 @@ import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPSolutionValidation;
 
 @Service
@@ -212,9 +214,10 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 		if(isAllPassed) {
 			MLPSolution mlpSolution = client.getSolution(mlModelValidationStatus.getSolutionId());
 			if(mlpSolution != null ) {
-				mlpSolution.setAccessTypeCode(visibility);
-				mlpSolution.setValidationStatusCode(ValidationStatusCode.PS.name());		
-				client.updateSolution(mlpSolution);
+				MLPSolutionRevision mlpSolutionRevision = client.getSolutionRevision(mlModelValidationStatus.getSolutionId(), mlModelValidationStatus.getRevisionId());
+				mlpSolutionRevision.setAccessTypeCode(visibility);
+				mlpSolutionRevision.setValidationStatusCode(CommonConstants.STATUS_PASSED);
+				client.updateSolutionRevision(mlpSolutionRevision);
 				log.debug(EELFLoggerDelegate.debugLogger, "determinStatusAndPublishModel =Model Published successfully: {}", mlpSolution.toString());
 				/*try {
 					MLPSolution solutionDetail = client.getSolution(mlModelValidationStatus.getSolutionId());

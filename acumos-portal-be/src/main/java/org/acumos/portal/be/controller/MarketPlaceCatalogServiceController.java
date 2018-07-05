@@ -99,7 +99,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
+	/*
 	 * @param request
 	 *            HttpServletRequest
 	 * @param response
@@ -109,7 +109,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	 *            modelType and modelToolkitType
 	 * @return Paginated Response with List of the MLP Solutions
 	 */
-	@ApiOperation(value = "Gets a list of Published Solutions for Market Place Catalog.", response = RestPageResponseBE.class)
+	/*@ApiOperation(value = "Gets a list of Published Solutions for Market Place Catalog.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> getSolutionsList(HttpServletRequest request,
@@ -133,7 +133,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					e);
 		}
 		return data;
-	}
+	}*/
 
 	@ApiOperation(value = "Gets a Solution Detail for the given SolutionId. Same API can be used for both Solution Owner view as well as General user. API will return isOwner as true if the user is owner of the solution", response = MLSolution.class)
 	@RequestMapping(value = { APINames.SOLUTIONS_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -160,7 +160,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
-	@ApiOperation(value = "Gets a All Solutions for the User for Manage Models Screen.", response = MLSolution.class, responseContainer = "List")
+	/*@ApiOperation(value = "Gets a All Solutions for the User for Manage Models Screen.", response = MLSolution.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.MANAGE_MY_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> getAllMySolutions(HttpServletRequest request,
@@ -186,7 +186,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					"Exception Occurred Fetching Solutions for a User for Manage My Models", e);
 		}
 		return data;
-	}
+	}*/
 
 	@ApiOperation(value = "Get search solution according to queryparamters sent.", response = MLSolution.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.SEARCH_SOLUTION }, method = RequestMethod.GET, produces = APPLICATION_JSON)

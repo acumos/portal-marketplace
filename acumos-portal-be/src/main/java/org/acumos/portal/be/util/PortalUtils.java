@@ -115,10 +115,10 @@ public class PortalUtils {
 		mlSolution.setOwnerId(mlpSolution.getOwnerId());
 		mlSolution.setCreated(mlpSolution.getCreated());
 		mlSolution.setModified(mlpSolution.getModified());
-		if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
+		/*if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
 			mlSolution.setAccessType(mlpSolution.getAccessTypeCode());
 		if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
-			mlSolution.setAccessType(mlpSolution.getAccessTypeCode());
+			mlSolution.setAccessType(mlpSolution.getAccessTypeCode());*/
 		mlSolution.setActive(mlpSolution.isActive());
 		mlSolution.setDescription(mlpSolution.getDescription());
 		if(mlpSolution.getMetadata()!=null)
@@ -128,7 +128,7 @@ public class PortalUtils {
 		}*/
 		mlSolution.setTookitType(mlpSolution.getToolkitTypeCode());
 		mlSolution.setModelType(mlpSolution.getModelTypeCode());
-		mlSolution.setValidationStatusCode(mlpSolution.getValidationStatusCode());
+		/*mlSolution.setValidationStatusCode(mlpSolution.getValidationStatusCode());*/
 		return mlSolution;
 	}
 	
@@ -150,9 +150,9 @@ public class PortalUtils {
 		if (mlSolution.getModified() != null) {
 			mlpSolution.setModified(mlSolution.getModified());
 		}
-		if (!PortalUtils.isEmptyOrNullString(mlSolution.getAccessType())) {
+		/*if (!PortalUtils.isEmptyOrNullString(mlSolution.getAccessType())) {
 			mlpSolution.setAccessTypeCode(mlSolution.getAccessType());
-		}
+		}*/
 
 		mlpSolution.setActive(mlSolution.isActive());
 

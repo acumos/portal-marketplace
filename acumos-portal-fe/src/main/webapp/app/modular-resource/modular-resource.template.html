@@ -588,10 +588,10 @@ limitations under the License.
 			                                                        ng-model="toolkitNameValue" ng-change="changeModel();"> 
 			                                                        <md-radio-button
 			                                                        ng-repeat="val in alltoolkitType" 
-			                                                        ng-if = "val.typeCode != 'DS' && val.typeCode != 'CP'"
-			                                                        value="{{val.typeName}}"
-			                                                        ><span ng-if = "val.typeCode != 'RC'">{{val.typeName}}</span>
-			                                                         <span ng-if = "val.typeCode == 'RC'">R</span>
+			                                                        ng-if = "val.code != 'DS' && val.code != 'CP'"
+			                                                        value="{{val.name}}"
+			                                                        ><span ng-if = "val.code != 'RC'">{{val.name}}</span>
+			                                                         <span ng-if = "val.code == 'RC'">R</span>
 			                                                        </md-radio-button>
 			                                                    </md-radio-group>
 		                                                    </div>

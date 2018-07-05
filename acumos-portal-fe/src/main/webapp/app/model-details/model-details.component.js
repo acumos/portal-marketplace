@@ -37,6 +37,7 @@ angular
 						$scope.showPBDescription = false;
 						$scope.showORDocs = false;
 						$scope.showPBDocs = false;
+						$scope.version;
 						
 						$location.hash('md-model-detail-template');  
 						$anchorScroll(); 
@@ -409,10 +410,11 @@ angular
 												
 												$scope.versionId = $scope.versionList[0].version;
 												$scope.revisionId = $scope.versionList[0].revisionId;
+												$scope.version = $scope.versionList[0];
 												$scope.getComment();
 												$scope.getArtifacts();
 												//if solution PR then get public description by default.
-												if($scope.solution.accessType == $scope.priVar){
+												if($scope.version.accessTypeCode == $scope.priVar){
 													$scope.getSolPublicDesc();
 												}
 												else{
@@ -423,7 +425,7 @@ angular
 													$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 												}
 												 
-												$scope.getPublicSolutionDocuments($scope.solution.accessType);
+												$scope.getPublicSolutionDocuments($scope.version.accessTypeCode);
 											}
 
 											if (JSON.parse(localStorage
@@ -445,17 +447,18 @@ angular
 											$stateParams.solutionId = $scope.solution.solutionId
 											if (data.response_body.revisions != null) {
 												$scope.revisionId = $scope.versionList[0].revisionId;
+												$scope.version = $scope.versionList[0];
 												donwloadPopupValue();
 											}
 											
 											//if solution PR then get public description by default.
-											if($scope.solution.accessType == $scope.priVar){
+											/*if($scope.solution.accessType == $scope.priVar){
 												$scope.getSolPublicDesc();
 											}
 											else{
 												$scope.getSolCompanyDesc();
 												$scope.getSolPublicDesc();
-											}
+											}*/
 											
 																						
 											var url = 'api/getProtoFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
@@ -919,7 +922,7 @@ angular
 
 							if (userId === $scope.solution.ownerId) {
 
-								if ($scope.solution.accessType == $scope.priVar) {
+								if ($scope.version.accessTypeCode == $scope.priVar) {
 
 									var data = $.param({
 										visibility : pub_value
@@ -989,14 +992,14 @@ angular
 						}
 						
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId){
-							 
+							$scope.version = $scope.versionList.filter(versions => versions.revisionId == revisionId)[0];
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = revisionId;
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();
 							//if solution PR then get public description by default.
-							if($scope.solution.accessType == $scope.priVar){
+							if($scope.version.accessTypeCode == $scope.priVar){
 								$scope.getSolPublicDesc();
 							}
 							else{
@@ -1007,7 +1010,7 @@ angular
 								$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
 							}
 							 
-							$scope.getPublicSolutionDocuments($scope.solution.accessType);
+							$scope.getPublicSolutionDocuments($scope.version.accessTypeCode);
 							$scope.getArtifacts();
 						}
 										
@@ -1015,11 +1018,13 @@ angular
 						/***************** get solution descriptions ***********************/
 						
 						$scope.getSolCompanyDesc = function() {
+							
 							var req = {
 								method : 'GET',
 								url : '/site/api-manual/Solution/description/org/'
 										+ $scope.solutionId + "/" + $scope.revisionId,
 							};
+							$scope.solutionCompanyDesc1 = "";
 							$http(req)
 									.success(
 											function(data, status, headers,
@@ -1032,22 +1037,24 @@ angular
 						}
 						
 						$scope.getSolPublicDesc = function() {
-						
 							var req = {
 								method : 'GET',
 								url : '/site/api-manual/Solution/description/public/'
 										+ $scope.solutionId + "/" + $scope.revisionId,
 							};
+							$scope.solutionPublicDesc1 = "";
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
 												if (data.description == "" || data.description == null || data.description == undefined){
 													$scope.getSolCompanyDesc();
-													if($scope.solution.accessType == $scope.orgVar){
+													if($scope.version.accessTypeCode == $scope.orgVar){
 														$scope.showORDescription = true;
-													 }else if($scope.solution.accessType == $scope.pubVar ){
+														$scope.showPBDescription = false;
+													 }else if($scope.version.accessTypeCode == $scope.pubVar ){
 														 $scope.showPBDescription = true;
+														 $scope.showORDescription = false;
 													 }else {
 														 $scope.showORDescription = true;
 															$scope.showPBDescription = false;
@@ -1056,11 +1063,11 @@ angular
 												}else{
 													$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
 													
-													if($scope.solution.accessType == $scope.orgVar){
+													if($scope.version.accessTypeCode == $scope.orgVar){
 														$scope.showORDescription = true;
 														$scope.showPBDescription = false;
 														
-													}else if($scope.solution.accessType == $scope.pubVar){
+													}else if($scope.version.accessTypeCode == $scope.pubVar){
 														$scope.showPBDescription = true;
 														$scope.showORDescription = false;
 													}else{
@@ -1493,16 +1500,16 @@ angular
 															config) {
 														 if(data.response_body.length < 1){
 															 $scope.getORSolutionDocs('org'); 
-															 if($scope.solution.accessType == $scope.orgVar){
+															 if($scope.version.accessTypeCode == $scope.orgVar){
 																 $scope.showORDocs = true;
-															 }else if($scope.solution.accessType == $scope.pubVar){
+															 }else if($scope.version.accessTypeCode == $scope.pubVar){
 																 $scope.showPBDocs = true;
 															 }else {
 																 $scope.showORDocs = true;
 																 $scope.showPBDocs = false;
 															 }
 														 }else{
-															 if($scope.solution.accessType == $scope.orgVar){
+															 if($scope.version.accessTypeCode == $scope.orgVar){
 																 $scope.showORDocs = true;
 															 }else if($scope.solution.accessType == $scope.pubVar){
 																 $scope.showPBDocs = true;

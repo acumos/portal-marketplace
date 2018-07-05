@@ -169,11 +169,11 @@ limitations under the License.
 											<div class="managelefttext">
 												<article>Publish to Company Marketplace</article>
 
-												<ul class="green" ng-if="solution.accessType=='OR'">
+												<ul class="green" ng-if="version.accessTypeCode=='OR'">
 													<li>Completed on {{solution.modified |
 														date:'MM/dd/yyyy' }}</li>
 												</ul>
-												<ul class="red" ng-if="solution.accessType!='OR'">
+												<ul class="red" ng-if="version.accessTypeCode!='OR'">
 													<li>Not Started</li>
 												</ul>
 
@@ -214,11 +214,11 @@ limitations under the License.
 											</div>
 											<div class="managelefttext">
 												<article>Publish to Public Marketplace</article>
-												<ul class="green" ng-if="solution.accessType=='PB'">
+												<ul class="green" ng-if="version.accessTypeCode=='PB'">
 													<li>Completed on {{solution.modified |
 														date:'MM/dd/yyyy' }}</li>
 												</ul>
-												<ul class="red" ng-if="solution.accessType!='PB'">
+												<ul class="red" ng-if="version.accessTypeCode!='PB'">
 													<li>Not started</li>
 												</ul>
 
@@ -560,7 +560,7 @@ limitations under the License.
 									<ul>
 										<li> 
 											<div class="imageplace"
-												ng-class="{'completed': (validationEnabled == true && (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ))}">
+												ng-class="{'completed': (validationEnabled == true && (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ))}">
 												<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation"> <!-- <img
                                                                               src="images/ico_model_documentation.png" alt="" title=""> -->
 												</span>
@@ -568,7 +568,7 @@ limitations under the License.
 											<div class="text">Model Documentation</div>
 										</li>
 										<li class="progress-status"
-											ng-class="{'completed': (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ) && validationEnabled == true}">
+											ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
 										</li>
 										<li ng-show = "scShow">
 											<div class="imageplace">
@@ -1767,7 +1767,7 @@ limitations under the License.
 
 																			<!--  <p class="disblock mp-para">**** {{mlsolution.modelType}} ****</p>   -->
 																		</div>
-																		<div ng-show="solution.accessType!='PR'"> 
+																		<div ng-show="version.accessTypeCode!='PR'"> 
 																			<div class="rating clear_both">
 																				<span><i class="fa fa-star"
 																					ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 1}"
@@ -1981,14 +1981,14 @@ limitations under the License.
 																				<div class="md-intro-container">
 																					<h6 class="sectiontitle9">INTRODUCTION</h6>
 																					<button type="button"
-																						ng-if="solution.accessType != 'PR'"
+																						ng-if="version.accessTypeCode != 'PR'"
 																						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-company"
-																						ng-class="solution.accessType == 'OR' ? 'btn-primary': 'btn-secondary'">Company
+																						ng-class="version.accessTypeCode == 'OR' ? 'btn-primary': 'btn-secondary'">Company
 																						Marketplace</button>
 																					<button type="button"
-																						ng-if="solution.accessType != 'PR'"
+																						ng-if="version.accessTypeCode != 'PR'"
 																						class="mdl-button mdl-js-button mdl-js-ripple-effect"
-																						ng-class="solution.accessType == 'PB' ? 'btn-primary': 'btn-secondary'">Public
+																						ng-class="version.accessTypeCode == 'PB' ? 'btn-primary': 'btn-secondary'">Public
 																						Marketplace</button>
 																				</div>
 
@@ -2350,14 +2350,14 @@ limitations under the License.
 								<ul>
 									<li>
 										<div class="imageplace"
-											ng-class="{'completed': (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ) && validationEnabled == true}">
+											ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
 											<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation">
 											</span>
 										</div>
 										<div class="text">Model Documentation</div>
 									</li>
 									<li class="progress-status"
-										ng-class="{'completed': (modelDocumentation == true || solution.accessType=='OR' || solution.accessType=='PB' ) && validationEnabled == true}">
+										ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
 									</li>
 									<li ng-show = "scShow">
 										<div class="imageplace">

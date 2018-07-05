@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-be</artifactId>
-	<version>1.15.34-SNAPSHOT</version>
+	<version>1.15.35-SNAPSHOT</version>
 	<name>Acumos Portal backend server</name>
 	<description>Acumos Portal Backend APIs</description>
 	<parent>
@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>1.14.4</version>
+			<version>1.15.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.acumos.acumos-nexus-client</groupId>

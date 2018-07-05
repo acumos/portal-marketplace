@@ -65,9 +65,9 @@ public interface MarketPlaceCatalogService {
 
 	List<MLSolution> getSearchSolution(String search) throws AcumosServiceException;
 
-	RestPageResponseBE<MLSolution> getSearchSolution(JsonRequest<RestPageRequestBE> restPageReqBe) throws AcumosServiceException;
+	//RestPageResponseBE<MLSolution> getSearchSolution(JsonRequest<RestPageRequestBE> restPageReqBe) throws AcumosServiceException;
 
-	RestPageResponseBE<MLSolution> getAllMySolutions(String userId, JsonRequest<RestPageRequestBE> restPageReqBe) throws AcumosServiceException;
+	//RestPageResponseBE<MLSolution> getAllMySolutions(String userId, JsonRequest<RestPageRequestBE> restPageReqBe) throws AcumosServiceException;
 	
 	/**
 	 * @param solutionId : SolutionId for which Solution Revision Needs to be returned

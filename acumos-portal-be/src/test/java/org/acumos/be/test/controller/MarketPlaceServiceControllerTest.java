@@ -92,7 +92,7 @@ public class MarketPlaceServiceControllerTest {
 
 	}
 	
-	@Test
+	/*@Test
 	public void getSolutionsListTest() {
 		try {
 			MLSolution mlsolution = getMLSolution();
@@ -119,7 +119,7 @@ public class MarketPlaceServiceControllerTest {
 		} catch (Exception e) {
 			logger.info("Failed to execute the testcase");
 		}
-	}
+	}*/
 
 	@Test
 	public void getSolutionsDetailsTest() {
@@ -141,7 +141,7 @@ public class MarketPlaceServiceControllerTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void getAllMySolutionsTest() {
 		try {
 			MLSolution mlsolution = getMLSolution();
@@ -172,9 +172,9 @@ public class MarketPlaceServiceControllerTest {
 		} catch (Exception e) {
 			logger.info("Failed to execute the testcase");
 		}
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void getSearchSolutionsTest() {
 		try {
 			MLSolution mlsolution = getMLSolution();
@@ -205,7 +205,7 @@ public class MarketPlaceServiceControllerTest {
 		} catch (Exception e) {
 			logger.info("Failed to execute the testcase");
 		}
-	}
+	}*/
 
 	@Test
 	public void getPaginatedListTest() {

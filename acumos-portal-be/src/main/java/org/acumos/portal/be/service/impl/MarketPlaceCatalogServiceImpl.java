@@ -41,12 +41,14 @@ import java.util.stream.Collectors;
 
 import org.acumos.cds.AccessTypeCode;
 import org.acumos.cds.ArtifactTypeCode;
+import org.acumos.cds.CodeNameType;
 import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.StepStatusCode;
 import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPModelType;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
@@ -223,26 +225,26 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			MLPSolution mlpSolution = dataServiceRestClient.getSolution(solutionId);
 			if (mlpSolution != null) {
 				mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
-				List<MLPToolkitType> toolkitTypeList = dataServiceRestClient.getToolkitTypes();
+				List<MLPCodeNamePair> toolkitTypeList = dataServiceRestClient.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
 				if (toolkitTypeList.size() > 0) {
-					for (MLPToolkitType toolkitType : toolkitTypeList) {
-						if (toolkitType.getTypeCode() != null) {
-							if (toolkitType.getTypeCode().equalsIgnoreCase(mlpSolution.getToolkitTypeCode())) {
-								mlSolution.setTookitTypeName(toolkitType.getTypeName());
-								break;
-							}
-						}
-					}
+					for (MLPCodeNamePair toolkitType : toolkitTypeList) {
+						if (toolkitType.getCode() != null) {
+							if (toolkitType.getCode().equalsIgnoreCase(mlpSolution.getToolkitTypeCode())) {
+								mlSolution.setTookitTypeName(toolkitType.getName());
+ 								break;
+ 							}
+ 						}
+ 					}
 				}
-				List<MLPModelType> modelTypeList = dataServiceRestClient.getModelTypes();
+				List<MLPCodeNamePair> modelTypeList = dataServiceRestClient.getCodeNamePairs(CodeNameType.MODEL_TYPE);
 				if (modelTypeList.size() > 0) {
-					for (MLPModelType modelType : modelTypeList) {
-						if (modelType.getTypeCode() != null) {
-							if (modelType.getTypeCode().equalsIgnoreCase(mlpSolution.getModelTypeCode())) {
-								mlSolution.setModelTypeName(modelType.getTypeName());
-								break;
-							}
-						}
+					for (MLPCodeNamePair modelType : modelTypeList) {
+						if (modelType.getCode() != null) {
+							if (modelType.getCode().equalsIgnoreCase(mlpSolution.getModelTypeCode())) {
+								mlSolution.setModelTypeName(modelType.getName());
+ 								break;
+ 							}
+ 						}
 					}
 				}
 
@@ -250,25 +252,8 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				if (mlpUser != null) {
 					mlSolution.setOwnerName(mlpUser.getFirstName().concat(" " + mlpUser.getLastName()));
 				}
-				/*
-				 * CountTransport t =
-				 * dataServiceRestClient.getSolutionDownloadCount(solutionId); if(t!=null){ int
-				 * downloadCount = (int)t.getCount();
-				 * mlSolution.setDownloadCount(downloadCount); }
-				 */
 
-				/*
-				 * try { RestPageResponse<MLPSolutionRating> ratingListPaged =
-				 * dataServiceRestClient.getSolutionRatings(solutionId, null);
-				 * List<MLPSolutionRating> ratingList = null; if(ratingListPaged != null &&
-				 * !PortalUtils.isEmptyList(ratingListPaged.getContent())) { ratingList =
-				 * ratingListPaged.getContent(); if(ratingList.size()>0){ int solutionRating =
-				 * ratingList.get(0).getRating(); mlSolution.setSolutionRating(solutionRating);
-				 * } } } catch (Exception e) { log.error(EELFLoggerDelegate.errorLogger,
-				 * "No ratings found for SolutionId={}", solutionId); }
-				 */
-
-				// code for download count, rating count
+				// fetch download count, rating count
 				try {
 					MLPSolutionWeb solutionStats = dataServiceRestClient
 							.getSolutionWebMetadata(mlSolution.getSolutionId());
@@ -288,6 +273,8 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
 				if (revisionList.size() > 0) {
 					mlSolution.setRevisions(revisionList);
+					//Add the access Type code for the latest revision for the categorization while display
+					mlSolution.setAccessType(revisionList.get(0).getAccessTypeCode());
 				}
 				//Set co-owners list for model
 				try {
@@ -327,7 +314,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	public List<MLSolution> getSearchSolution(String search) throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSearchedSolutions");
 		List<MLSolution> mlSolutions = null;
-		try {
+		/*try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			Map<String, Object> queryParameters = new HashMap<>();
 			MLPSolution mlpSolution = new MLPSolution();
@@ -350,11 +337,11 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
-		}
+		}*/
 		return mlSolutions;
 	}
 
-	@Override
+	/*@Override
 	public RestPageResponseBE<MLSolution> getSearchSolution(JsonRequest<RestPageRequestBE> restPageReqBe)
 			throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSearchedSolutions");
@@ -393,12 +380,12 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					}
 					// TODO Need to revisit the Sorting logic once Common Data
 					// Service Client
-					/*
+					
 					 * if(!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody
 					 * ().getSortingOrder())) { queryParameters.put("sort",
 					 * restPageReqBe.getBody().getSortingOrder());
 					 * pageRequest.setFieldToDirectionMap(queryParameters); }
-					 */
+					 
 
 					// 1. Check if searchTerm exists, if yes then use
 					// findSolutionsBySearchTerm
@@ -466,10 +453,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 								.collect(Collectors.toList());
 					}
 
-					/*
+					
 					 * for(int k=0;k<filteredMLPSolutionsTemp.size()&& index<9;k++){
 					 * filteredMLPSolutions.add(index, filteredMLPSolutionsTemp.get(k)); index++; }
-					 */
+					 
 
 					for (int k = 0; k < filteredMLPSolutionsTemp.size() && index < 9; k++) {
 						if (filteredMLPSolutions.size() > 0) {
@@ -615,13 +602,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 								}
 							});
 						}
-						/*
+						
 						 * for ( MLPSolutionStats mlpSolutionStats : mlpSolutionStatsList) { MLPSolution
 						 * mlpSolution = dataServiceRestClient.getSolution(mlpSolutionStats.
 						 * getSolutionId()); //mlSolution =
 						 * PortalUtils.convertToMLSolution(mlpSolution);
 						 * originalSolutionsList.add(mlpSolution); }
-						 */
+						 
 					}
 
 					mlSolutionsRest.setAllTagsSet(tagSetForSolutions);
@@ -635,10 +622,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return mlSolutionsRest;
-	}
+	}*/
 
 	// @Override
-	public RestPageResponseBE<MLSolution> getFilteredSearchSolution(JsonRequest<RestPageRequestBE> restPageReqBe)
+	/*public RestPageResponseBE<MLSolution> getFilteredSearchSolution(JsonRequest<RestPageRequestBE> restPageReqBe)
 			throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSearchedSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -676,12 +663,12 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					}
 					// TODO Need to revisit the Sorting logic once Common Data
 					// Service Client
-					/*
+					
 					 * if(!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody
 					 * ().getSortingOrder())) { queryParameters.put("sort",
 					 * restPageReqBe.getBody().getSortingOrder());
 					 * pageRequest.setFieldToDirectionMap(queryParameters); }
-					 */
+					 
 
 					// 1. Check if searchTerm exists, if yes then use
 					// findSolutionsBySearchTerm
@@ -749,10 +736,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 								.collect(Collectors.toList());
 					}
 
-					/*
+					
 					 * for(int k=0;k<filteredMLPSolutionsTemp.size()&& index<9;k++){
 					 * filteredMLPSolutions.add(index, filteredMLPSolutionsTemp.get(k)); index++; }
-					 */
+					 
 
 					for (int k = 0; k < filteredMLPSolutionsTemp.size() && index < 9; k++) {
 						if (filteredMLPSolutions.size() > 0) {
@@ -876,13 +863,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 								}
 							});
 						}
-						/*
+						
 						 * for ( MLPSolutionStats mlpSolutionStats : mlpSolutionStatsList) { MLPSolution
 						 * mlpSolution = dataServiceRestClient.getSolution(mlpSolutionStats.
 						 * getSolutionId()); //mlSolution =
 						 * PortalUtils.convertToMLSolution(mlpSolution);
 						 * originalSolutionsList.add(mlpSolution); }
-						 */
+						 
 					}
 
 					mlSolutionsRest.setAllTagsSet(tagSetForSolutions);
@@ -896,7 +883,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return mlSolutionsRest;
-	}
+	}*/
 
 	@Override
 	public MLSolution deleteSolution(MLSolution mlSolution) {
@@ -909,7 +896,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	 * JsonRequest<RestPageRequestBE> restPageReqBe) {
 	 */
 
-	@Override
+	/*@Override
 	public RestPageResponseBE<MLSolution> getAllMySolutions(String userId, JsonRequest<RestPageRequestBE> restPageReqBe)
 			throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSearchedSolutions");
@@ -935,13 +922,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				while (restPageReqBe.getBody().getSize().intValue() != filteredMLPSolutions.size()) {
 					pageSize = pageSize + restPageReqBe.getBody().getPage();
 
-					/*
+					
 					 * if(restPageReqBe.getBody().getPage()!=null) { pageRequest.setPage(pageSize);
 					 * } else { //default to 0 pageRequest.setPage(0); }
 					 * if(restPageReqBe.getBody().getSize()!=null &&
 					 * restPageReqBe.getBody().getSize() > 0) {
 					 * pageRequest.setSize(restPageReqBe.getBody().getSize()); }
-					 */
+					 
 
 					// code addition to display models as per timestamp
 					queryParameters.put("created", "DESC");
@@ -1028,11 +1015,11 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 								.collect(Collectors.toList());
 					}
 
-					/*
+					
 					 * for(int k=0;k<filteredMLPSolutionsTemp.size()&& index<9;k++){
 					 * filteredMLPSolutions.add(index, filteredMLPSolutionsTemp.get(k)); index++;
 					 * if(filteredMLPSolutionsTemp.size()==index) break; }
-					 */
+					 
 
 					for (int k = 0; k < filteredMLPSolutionsTemp.size() && index < 9; k++) {
 						if (filteredMLPSolutions.size() > 0) {
@@ -1185,13 +1172,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 								}
 							});
 						}
-						/*
+						
 						 * for ( MLPSolutionStats mlpSolutionStats : mlpSolutionStatsList) { MLPSolution
 						 * mlpSolution = dataServiceRestClient.getSolution(mlpSolutionStats.
 						 * getSolutionId()); //mlSolution =
 						 * PortalUtils.convertToMLSolution(mlpSolution);
 						 * originalSolutionsList.add(mlpSolution); }
-						 */
+						 
 					}
 					mlSolutionsRest.setContent(content);
 				}
@@ -1204,7 +1191,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return mlSolutionsRest;
-	}
+	}*/
 
 	/*
 	 * @Override public List<MLSolution> searchSolution(String searchTerm){
@@ -1826,20 +1813,20 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				.collect(Collectors.toList());
 
 		// shared models for user added
-		mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(userId,
+		/*mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(userId,
 				new RestPageRequest(0, 1000, queryParameters));
 		if (mlpSolutionsShareRest != null) {
 			for (MLPSolution mlpSolution : mlpSolutionsShareRest) {
 				originalSolutionsList.add(mlpSolution);
 			}
-		}
+		}*/
 
 		if (originalSolutionsList != null) {
 			int prModelCnt = 0;
 			int pbModelCnt = 0;
 			int orModelCnt = 0;
 			int deletedModelCnt = 0;
-			for (MLPSolution mlpsol : originalSolutionsList) {
+			/*for (MLPSolution mlpsol : originalSolutionsList) {
 				if (mlpsol.getAccessTypeCode().equals("PR") && mlpsol.isActive())
 					prModelCnt++;
 				if (mlpsol.getAccessTypeCode().equals("PB") && mlpsol.isActive())
@@ -1848,7 +1835,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					orModelCnt++;
 				if (!mlpsol.isActive())
 					deletedModelCnt++;
-			}
+			}*/
 			mlSolutionsRest.setPrivateModelCount(prModelCnt);
 			mlSolutionsRest.setPublicModelCount(pbModelCnt);
 			mlSolutionsRest.setCompanyModelCount(orModelCnt);
@@ -1869,10 +1856,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal) {
 		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		
+		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
-				pageReqPortal.getOwnerIds(), pageReqPortal.getAccessTypeCodes(), pageReqPortal.getModelTypeCodes(),
+				pageReqPortal.getOwnerIds(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
 				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
@@ -1884,7 +1871,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			List<MLPSolution> mlpSolList = response.getContent();
 			filteredSolList.addAll(mlpSolList);
 			// To show shared models with user in MyModel
-			if (pageReqPortal.getOwnerIds() != null) {
+			/*if (pageReqPortal.getOwnerIds() != null) {
 				RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
 				String ownerId[]=pageReqPortal.getOwnerIds();
 				mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(ownerId[0],
@@ -1904,7 +1891,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
                         }
                     }
 				}
-			}
+			}*/
 
 			for (MLPSolution mlpSol : filteredSolList) {
 				MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
@@ -1953,7 +1940,13 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
 							mlSolution.getSolutionId());
 				}
-				
+
+				//To categorize the solution on display fetch latest revision and add the access type code 
+				MLPSolutionRevision revision = getLatestSolRevision(mlpSol.getSolutionId(), accessTypeCodes);
+				if (revision != null) {
+					mlSolution.setAccessType(revision.getAccessTypeCode());
+				}
+
 				// get latest step Result for solution
 				Boolean onboardingStatusFailed = false;
 				MLPStepResult stepResult = null;
@@ -2074,6 +2067,32 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		}
 
 		return mlSolutionsRest;
+	}
+
+	private MLPSolutionRevision getLatestSolRevision(String solutionId, String[] accessTypeCode) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getLatestSolRevision");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		
+		List<String> category = Arrays.asList(accessTypeCode);
+		
+		MLPSolutionRevision revision = null;
+		List<MLPSolutionRevision> revisions = dataServiceRestClient.getSolutionRevisions(solutionId);
+		if (revisions != null) {
+			//Sort revision according to created date
+			Collections.sort(revisions, new Comparator<MLPSolutionRevision>() {
+				public int compare(MLPSolutionRevision m1, MLPSolutionRevision m2) {
+					return m2.getCreated().compareTo(m1.getCreated());
+				}
+			});
+			//fetch the latest revision according to accessTypeCode
+			for(MLPSolutionRevision solutionRevision : revisions) {
+				if(category.contains(solutionRevision.getAccessTypeCode())) {
+					revision = solutionRevision;
+					break;
+				}
+			}
+		}
+		return revision;
 	}
 
 	@Override

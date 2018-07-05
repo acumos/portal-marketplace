@@ -117,12 +117,12 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 								}
 							}
 						} else {
-							updateSolution(mlpSolution2, accessType);
+							updateSolution(mlpSolution2, revisionId, accessType);
 							isPublished = true;
 						}
 					}
 				} else {
-					updateSolution(mlpSolution2, accessType);
+					updateSolution(mlpSolution2, revisionId, accessType);
 					isPublished = true;
 				}
 			}
@@ -133,20 +133,22 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		return isPublished;
 	}
 
-	private void updateSolution(MLPSolution mlpSolution, String accessType) {
-		PortalRestClienttImpl portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-		mlpSolution.setAccessTypeCode(accessType);
-		mlpSolution.setValidationStatusCode(ValidationStatusCode.PS.name());		
-		portalRestClienttImpl.updateSolution(mlpSolution);
+	private void updateSolution(MLPSolution mlpSolution, String revisionId, String accessType) {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(mlpSolution.getSolutionId(), revisionId);
+		mlpSolutionRevision.setAccessTypeCode(accessType);
+		mlpSolutionRevision.setValidationStatusCode(CommonConstants.STATUS_PASSED);
+		dataServiceRestClient.updateSolutionRevision(mlpSolutionRevision);
 	}
 	
 	@Override
 	public boolean unpublishSolution(String solutionId, String accessType, String userId) {
+		//TODO: Need to revisit the un-publish the solution revision. Currently this service is not being used in portal.
 		log.debug(EELFLoggerDelegate.debugLogger, "unpublishModelBySolutionId ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		PortalRestClienttImpl portalRestClienttImpl = null;
 		MLPSolution mlpSolution = new MLPSolution();
-		mlpSolution.setAccessTypeCode(accessType);
+		/*mlpSolution.setAccessTypeCode(accessType);*/
 		mlpSolution.setSolutionId(solutionId);
 		mlpSolution.setOwnerId(userId);
 		
@@ -159,7 +161,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
 			if(mlpSolution2 != null && mlpSolution2.getOwnerId().equalsIgnoreCase(userId)) {
 				portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-				mlpSolution2.setAccessTypeCode(accessType);
+				/*mlpSolution2.setAccessTypeCode(accessType);*/
 				portalRestClienttImpl.updateSolution(mlpSolution2);
 				unpublished = true;
 			}
@@ -176,11 +178,6 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	public boolean checkUniqueSolName(String solutionId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		
-		
-		
-		
-		
 		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
 
 		MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
