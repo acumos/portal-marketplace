@@ -22,6 +22,30 @@
       "revId": "a7bb949d6a49aa5c2a3f78bf4884b08263c6aa1f",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6394235f_20232840",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-05T01:13:51Z",
+      "side": 1,
+      "message": "He has left project",
+      "parentUuid": "c7d29ff7_88582f5d",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 36
+      },
+      "revId": "a7bb949d6a49aa5c2a3f78bf4884b08263c6aa1f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
