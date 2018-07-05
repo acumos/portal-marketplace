@@ -53,24 +53,24 @@ limitations under the License.
 			</div>
 			<div class="md-head-container2">	
 				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active && solution.active == true"
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						class="mdl-button mdl-js-button btn-primary"
 						ui-sref="modularResource({ONAP: 'true', solutionId: solutionId, revisionId: revisionId})" ng-click="$root.parentActive = ''"
 						>Build for ONAP</button>
 	
 				<button type="button"
 						ng-cloak
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						class="mdl-button mdl-js-button btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
 						ng-if="(solution.accessType && !(solution.accessType =='PR' )) && loginUserID"
 						alt="Download" title="Download">Download</button>
 						 
 				<button type="button" ng-cloak
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+						class="mdl-button mdl-js-button btn-primary"
 						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
 				<!-- <button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
 							ng-hide="solution.accessType =='PR'"
-							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">
+							class="mdl-button mdl-js-button btn-secondary">
 							<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
 				</button>
 				<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
@@ -553,13 +553,17 @@ limitations under the License.
 												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary" alt="Rate This Model" title="Rate This Model">Rate
 												This Model</button>
 										</div>
-									</div> -->
-									
-									 <div class="rating-container1">
-                                        <div class="n-rating1">
+									</div> -->									
+									<div class="">
+                                        <div class="new-rating-container">
+<!--                                         <div class="rating-container1"> -->
+<!--                                         <div class="n-rating1"> -->
                                             <span class="star-rating-title" ng-show="cantRate || !cantRate">{{averageRatings.ratingAverageTenths}}</span>
                                             <label class="ratingtxt1">Out of 5 stars</label>
-                                            <jk-rating-stars rating="averageRatings.ratingAverageTenths" class="staticRating read-only-rating1"></jk-rating-stars>                                            
+											<div class="stars-outer">
+												<div class="stars-inner"></div>
+											</div>
+											<!--   <jk-rating-stars rating="averageRatings.ratingAverageTenths" class="staticRating read-only-rating1"></jk-rating-stars> -->                                            
                                         	<label class="font600 ratingtxt2">{{totalRatingsCount}} ratings and reviews</label>
                                         	<button 
                                                 ng-disabled="cantRate"
@@ -640,11 +644,11 @@ limitations under the License.
 												{{comment.firstName}} {{comment.lastName}}</span> | <span
 												class="text-small">on {{comment.created | date:'medium'}}</span>
 											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+												class="mdl-button mdl-js-button btn-primary"
 												ng-click="showEditComment = !showEditComment" ng-hide="loginUserID != comment.userId"
 												>Edit</button>
 											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+												class="mdl-button mdl-js-button btn-primary"
 												ng-click="deleteComment(comment)" ng-hide="loginUserID != comment.userId || comment.replies.length>0"
 												>Delete</button>
 										</div>
@@ -652,11 +656,11 @@ limitations under the License.
 										<textarea class="mdl-textfield__input md-txtarea" type="text" ng-model = "comment.text"
 											ng-show="showEditComment" rows="3" id="comment">{{comment.text}}</textarea>
 										<button
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+											class="mdl-button mdl-js-button btn-primary"
 											ng-show="showEditComment" ng-click="edit = false; editComment(comment)">Post</button>
 										<div>
 											<button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+												class="mdl-button mdl-js-button btn-secondary"
 												ng-click="replytoComment = !replytoComment">Reply</button>
 											<div class="flex1 discussionformbox" ng-show="replytoComment">
 												<div class="mdl-textfield mdl-js-textfield">
@@ -664,7 +668,7 @@ limitations under the License.
 														ng-model="newcomment[key].text">
 												</div>
 												<button
-													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+													class="mdl-button mdl-js-button btn-primary"
 													ng-click="postReply(key, comment)">Post</button>
 											</div>
 										</div>
@@ -678,7 +682,7 @@ limitations under the License.
 																Reply here...</label>
 														</div> 
 														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+															class="mdl-button mdl-js-button btn-primary" ng-click="postReply(key, reply.id)">Post</button>
 													</div> -->
 											<div>
 											<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!reply.image"
@@ -694,11 +698,11 @@ limitations under the License.
 												{{reply.firstName}} {{reply.lastName}}</span> | <span
 												class="text-small">on {{reply.created | date:'medium'}}</span>
 													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+														class="mdl-button mdl-js-button btn-primary"
 														ng-click="showEditReply = !showEditReply" ng-hide="loginUserID != reply.userId"
 														>Edit</button>
 													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+														class="mdl-button mdl-js-button btn-primary"
 														ng-click="deleteComment(reply)" ng-hide="loginUserID != reply.userId"
 														>Delete</button>
 												</div>
@@ -706,10 +710,10 @@ limitations under the License.
 												<textarea class="mdl-textfield__input md-txtarea"
 													type="text" ng-show="showEditReply" rows="1" id="comment" ng-model="reply.text">{{reply.text}}</textarea>
 												<button
-													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+													class="mdl-button mdl-js-button btn-primary"
 													ng-show="showEditReply" ng-click="edit = false; editComment(reply)">Post</button>
 												<!-- <button ng-if="reply.replies.length > 0"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button> -->
+												class="mdl-button mdl-js-button btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button> -->
 
 												<div class="flex1 discussionformbox"
 													ng-show="replytoComment[key]">
@@ -718,7 +722,7 @@ limitations under the License.
 															ng-model="newcomment[key].text" id="newcomment-{{key}}">
 													</div>
 													<button
-														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+														class="mdl-button mdl-js-button btn-primary"
 														ng-click="postReply(key, reply.id)">Post</button>
 												</div>
 
@@ -734,7 +738,7 @@ limitations under the License.
 																Reply here...</label>
 														</div> 
 														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+															class="mdl-button mdl-js-button btn-primary" ng-click="postReply(key, reply.id)">Post</button>
 													</div> -->
 											</div>
 
@@ -756,7 +760,7 @@ limitations under the License.
 										</div>
 									</div>
 									<button id="postCommentsBtn"
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+										class="mdl-button mdl-js-button btn-primary"
 										ng-disabled="!comment"
 										ng-click="postComment()" alt="Post Comments" title="Post Comments">Post Comments</button>
 								</div>
@@ -812,22 +816,22 @@ limitations under the License.
 													 <div >
 														<label class="dis-name">{{reply.name}}</label> | <span
 															class="text-small">{{reply.creationDate}}</span>
-														<button	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="edit = true">Edit</button>
-														<button	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="deleteComment(comment.id)">Delete</button>
+														<button    class="mdl-button mdl-js-button btn-secondary btn-reply1 btn-small" ng-click="edit = true"><i class="material-icons">mode_edit</i> Edit</button>
+                                                        <button    class="mdl-button mdl-js-button btn-secondary btn-reply1 btn-small" ng-click="deleteComment(comment.id)"><span class="btn-trash-icon"></span>Delete</button>
 													</div>
 													<p ng-hide="edit">{{reply.text}}</p>
 													<textarea class="mdl-textfield__input md-txtarea" type="text" ng-show="edit"
-														rows="1" id="comment">{{reply.text}}</textarea><button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-show="edit" ng-click="edit = false; editComment(reply)">Post</button>
-													<button ng-if="reply.replies.length > 0"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button>
-												
+														rows="1" id="comment">{{reply.text}}</textarea>
+													<div class="reply-btn-container1">
+                                                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-show="edit" ng-click="edit = false; editComment(reply)">Post</button>
+                                                            <button ng-if="reply.replies.length > 0" class="mdl-button mdl-js-button btn-secondary" ng-click="replytoComment[key] = !replytoComment[key]">Reply</button>
+                                                        </div>												
 														<div class="flex1 discussionformbox" ng-show="replytoComment[key]">
 														<div class="mdl-textfield mdl-js-textfield">
 															<input class="mdl-textfield__input" type="text" ng-model="newcomment[key].text" id="sample3">
 														</div> 
 														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+															class="mdl-button mdl-js-button btn-primary" ng-click="postReply(key, reply.id)">Post</button>
 													</div>
 												
 
@@ -842,7 +846,7 @@ limitations under the License.
 																Reply here...</label>
 														</div> 
 														<button
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="postReply(key, reply.id)">Post</button>
+															class="mdl-button mdl-js-button btn-primary" ng-click="postReply(key, reply.id)">Post</button>
 													</div>
 	</script>
 	</script>
@@ -916,7 +920,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div layout="row" class="pull-right">
-						<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						<md-button class="mdl-button mdl-js-button btn-primary"
 								ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();">Deploy
 						</md-button>
 				</div>
@@ -1004,18 +1008,18 @@ limitations under the License.
 				</div>
 				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='ripple'">
 					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+						class="mdl-button mdl-js-button btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>
 					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						class="mdl-button mdl-js-button btn-primary"
 						ng-click="authenticateAnddeployToAzure()" ng-disabled="!vmName"> Deploy </md-button>
 				</div>
 				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='microsoft'">
 					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+						class="mdl-button mdl-js-button btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>
 					<md-button
-						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+						class="mdl-button mdl-js-button btn-primary"
 						ng-click="deployCloudVal()" ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)"> Data Broker </md-button>
 						<!-- ng-disabled="deployCloud.$invalid || deploy.$invalid" -->
 				</div>
@@ -1066,7 +1070,7 @@ limitations under the License.
 				<br />
 
 				<button
-					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+					class="mdl-button mdl-js-button btn-secondary"
 					ng-click="handleDismiss()">Close</button>
 
 
@@ -1116,7 +1120,7 @@ limitations under the License.
 												<label><b>File Name:</b> - Name-of-solution-V1.9 </label>
 												<label><b>Uploaded on</b> - 05/01/2017</label>
 											</div>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary">Download</button>										
+											<button class="mdl-button mdl-js-button btn-secondary">Download</button>										
 										</div>
 										<div class="modal-row1">
 											<div>
@@ -1124,7 +1128,7 @@ limitations under the License.
 												<label><b>File Name:</b> - Name-of-solution-V1.7 </label>
 												<label><b>Uploaded on</b> - 01/01/2017</label>
 											</div>
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click = "">Download</button>										
+											<button class="mdl-button mdl-js-button btn-secondary" ng-click = "">Download</button>										
 										</div> -->
 			</div>
 
@@ -1181,10 +1185,10 @@ limitations under the License.
 				<!-- <button ng-click="handleDismiss()"
 					class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary text-tranformnone">Close</button> -->
 				<div class="dialog-footer-container1">
-					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple" type="button" ng-click="handleDismiss()" data-upgraded=",MaterialButton,MaterialRipple">
+					<button class="mdl-button mdl-js-button btn-secondary md-button md-ink-ripple" type="button" ng-click="handleDismiss()" data-upgraded=",MaterialButton,MaterialRipple">
 						<span> Cancel</span>
 					</button>
-					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple" type="button" ng-click="onItemRating(mlSolutionGetRating.rating)" data-upgraded=",MaterialButton,MaterialRipple">
+					<button class="mdl-button mdl-js-button btn-primary md-button md-ink-ripple" type="button" ng-click="onItemRating(mlSolutionGetRating.rating)" data-upgraded=",MaterialButton,MaterialRipple">
 						<span> Submit </span>
 						<div class="md-ripple-container"></div>
 					</button>
@@ -1198,3 +1202,4 @@ limitations under the License.
 		</md-dialog>
 	</div>
 	<!-- Rating Model Ends -->
+	
