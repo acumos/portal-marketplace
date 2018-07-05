@@ -1,0 +1,63 @@
+---
+project: 'portal-marketplace'
+project_creation_date: '2017-11-17'
+project_category: ''
+lifecycle_state: 'Incubation'
+project_lead: &acumos_portal-marketplace_ptl
+    name: 'Mukesh Mantan'
+    email: 'MM00542237@TechMahindra.com'
+    company: 'TechMahindra'
+    id: 'MM00542237'
+    timezone: 'America/Chicago'
+primary_contact: *acumos_portal-marketplace_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.acumos.org/projects/ACUMOS'
+    key: 'ACUMOS'
+mailing_list:
+    type: 'groups.io'
+    url: 'https://lists.acumos.org'
+    tag: '<[sub-project_name]>'
+realtime_discussion:
+    type: 'irc'
+    server: 'freenode.net'
+    channel: '#acumos'
+meetings:
+    - type: 'zoom'
+      agenda: ''
+      url: 'https://zoom.us/j/336374368'
+      server: 'n/a'
+      channel: 'n/a'
+      repeats: 'weekly'
+      time: '11:30 ET'
+repositories:
+    - 'portal-marketplace'
+committers:
+    - <<: *acumos_portal-marketplace_ptl
+    - name: 'Aimee Ukasick'
+      email: 'aimeeu@research.att.com'
+      company: 'ATT'
+      id: 'aimeeu'
+      timezone: 'America/Chicago'
+    - name: 'Vikas Raikwar'
+      email: 'VR00122945@techmahindra.com'
+      company: 'TechMahindra'
+      id: 'VR00122945'
+      timezone: 'America/Chicago'
+    - name: 'Raphael Sarmiento'
+      email: 'RS0C74398@TechMahindra.com'
+      company: 'TechMahindra'
+      id: 'rksarmiento'
+      timezone: 'America/Los_Angeles'
+    - name: 'Vineet Tripathi'
+      email: 'vt00325492@techmahindra.com'
+      company: 'TechMahindra'
+      id: 'vt402f'
+      timezone: 'Asia/Kolkata'
+    - name: 'Chris Lott'
+      email: 'cl778h@att.com'
+      id: 'cl778h'
+      company: 'AT&T Labs-Research'
+      timezone: 'America/New_York'
+tsc:
+    approval: 'https://lists.acumos.org/g/tscgeneral'
