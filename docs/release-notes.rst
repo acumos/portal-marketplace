@@ -20,6 +20,17 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.35, 6 th July 2018
+================================
+* IST2: No error message is displaying when user disable single remaining slide	(ACUMOS-1048)
+* IST2: Avg Rating should display till one decimal place (ACUMOS-1068)
+* IST2: Site Content: Save is happening when user click on Quit and cancel button on the Supporting content popup (ACUMOS-1142)
+* <IST2> <Marketplace> Web Onboarding: Page not getting refreshed even after selecting all steps (ACUMOS-1125)
+* Upgrade to acumos-nexus-client version 2.2.0	(ACUMOS-1282)
+* IST2 | Sorting results are incorrect for Status column in federation screen (ACUMOS-320)
+* IST2 | Regression | Deploy To cloud drop down option is active even if user is not signed in	(ACUMOS-926)
+
+
 Version 1.15.33, 28 th June 2018
 ================================
 * ISt2: Manage my model : Reply to Comment : Delete comment is not working (ACUMOS-1118)
