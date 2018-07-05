@@ -68,23 +68,8 @@ limitations under the License.
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
-				<!-- <button id="demo-menu-lower-right4" ng-disabled="solution.active == false"
-							ng-hide="solution.accessType =='PR'"
-							class="mdl-button mdl-js-button btn-secondary">
-							<span>Deploy to Cloud</span> <i class="material-icons">keyboard_arrow_down</i>
-				</button>
-				<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
-							for="demo-menu-lower-right4">
-					<li class="mdl-menu__item dc-microsoft-azure"
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-					<li class="mdl-menu__item dc-google-cloud" disabled
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-					<li class="mdl-menu__item dc-rackspace" disabled
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-					<li class="mdl-menu__item dc-amazon-cloud" disabled
-								ng-click="$root.showPrerenderedDialog($event, '#myDialog')"></li>
-				</ul> -->
-				<div  class="select-control dcl-list" class=".." ng-show="solution.active == true" ng-cloak>
+				
+				<div class="select-control dcl-list" ng-show="solution.active == true && loginUserID" ng-cloak>
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
                         <md-option ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()" class="dc-microsoft-azure opacityZero" value="microsoft" alt="" title="Microsoft Azure">Microsoft</md-option>
                         <md-option class="dc-google-cloud opacityZero" value="rackspace" disabled alt="Google Cloud Platform" title="Google Cloud Platform" >Deploy To Cloud</md-option>
@@ -92,6 +77,11 @@ limitations under the License.
                         <md-option class="dc-amazon-cloud opacityZero" value="amazon" disabled alt="Amazon Web Services" title="Amazon Web Services" >Deploy To Cloud</md-option>
                     </md-select>
                 </div>
+                <button type="button" ng-cloak
+						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary"
+						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
+						In To Deploy to Cloud
+				</button>
 			</div>
 		</div>
 		<div class="md-head-container2">
