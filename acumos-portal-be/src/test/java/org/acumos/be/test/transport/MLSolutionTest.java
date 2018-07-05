@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ===============LICENSE_END=========================================================
- */
+ */ 
 package org.acumos.be.test.transport;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class MLSolutionTest {
 		 String threadId= "th1001";
 		 String commentId="cm2001";
 		 List<MLPThread> threadList = new ArrayList<MLPThread>();
-		 int solutionRatingAvg=3;
+		 float solutionRatingAvg=3;
 				
 		MLPSolutionRevision mlPSolutionRevision = new MLPSolutionRevision();
 		mlPSolutionRevision.setCreated(new Date());
@@ -125,7 +125,7 @@ public class MLSolutionTest {
 		Assert.assertEquals(publicModelCount, mlRole.getPublicModelCount());
 		Assert.assertEquals(companyModelCount, mlRole.getCompanyModelCount());
 		Assert.assertEquals(deletedModelCount, mlRole.getDeletedModelCount());
-		Assert.assertEquals(solutionRatingAvg, mlRole.getSolutionRatingAvg());
+		Assert.assertEquals(solutionRatingAvg, mlRole.getSolutionRatingAvg(), 3);
 		Assert.assertEquals(threadId, mlRole.getThreadId());
 		Assert.assertEquals(commentId, mlRole.getCommentId());
 		Assert.assertNotNull(mlRole.getOwnerListForSol());
