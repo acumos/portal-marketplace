@@ -231,21 +231,20 @@ limitations under the License.
 													     <!-- <p class="disblock mp-para" ng-bind-html="mlsolution.description">{{mlsolution.description}}</p>		 -->									      														      		
 													   	<!--  <p class="disblock mp-para">**** {{mlsolution.modelType}} ****</p>	 -->										  			
 													</div>
-													<div class="rating clear_both">
-														
-															<span>
-															 <i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
-																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i>
-															 </span>
-															 <!--  requwested download commented -->
-															<!-- <button class="mdl-button mdl-js-button mdl-button--icon req-download-btn" ng-disabled="!loginUserID" ng-click="mlsolution.selectFav = !mlsolution.selectFav; updateFavorite(mlsolution.solutionId, $index)" ">
-																Request To download
-														 	</button> -->
-																
-													</div>
+									<div class="stars-outer">
+										<div class="stars-inner"
+											ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
+									</div>
+									<!-- 													<div class="rating clear_both">														 -->
+<!-- 															<span> -->
+<!-- 															 <i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}" aria-hidden="true"></i></span> <span><i -->
+<!-- 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i -->
+<!-- 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i -->
+<!-- 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i -->
+<!-- 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i> -->
+<!-- 															 </span>																												 -->
+<!-- 													</div> -->
+
 													<!-- <div class="md-icons">									
 														<span class="iconspan1">
 															<i class="material-icons">chat_bubble</i>0</span> 
@@ -292,17 +291,20 @@ limitations under the License.
 																<span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span> |
 																<!-- <span class="text-small" ng-bind-html="mlsolution.description">{{mlsolution.description}}</span> -->
 															</div>
-												    <div>
-												    	<div class="rating clear_both">
+												    <!-- <div>
+												   	<div class="rating clear_both">
 															<span><i class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}" aria-hidden="true"></i></span> <span><i
 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 2}" aria-hidden="true"></i></span> <span><i
 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 3}" aria-hidden="true"></i></span> <span><i
 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 4}" aria-hidden="true"></i></span> <span><i
 																class="fa fa-star" ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}" aria-hidden="true"></i></span>																
 																
-														</div>												    	 
-													</div>
-													<!-- <div class="md-icons">									
+														</div>	  -->
+												<div class="stars-outer">
+													<div class="stars-inner"
+														ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
+												</div>
+									<!-- <div class="md-icons">									
 														<span class="iconspan1">
 															<i class="material-icons">chat_bubble</i>0</span> 
 															<span class="iconspan1"><i class="material-icons">visibility</i> {{mlsolution.viewCount == null ? 0 : mlsolution.viewCount}}</span> 

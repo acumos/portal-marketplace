@@ -56,7 +56,7 @@ public class MLSolution {
 	private String modelTypeName;
 	private int downloadCount;
 	private int solutionRating;
-	private int solutionRatingAvg;
+	private float solutionRatingAvg;
 	private String solutionTag;
 	private List<MLPTag> solutionTagList;
 	private int viewCount;
@@ -443,11 +443,11 @@ public class MLSolution {
 		DeletedModelCount = deletedModelCount;
 	}
 
-	public int getSolutionRatingAvg() {
+	public float getSolutionRatingAvg() {
 		return solutionRatingAvg;
 	}
 
-	public void setSolutionRatingAvg(int solutionRatingAvg) {
+	public void setSolutionRatingAvg(float solutionRatingAvg) {
 		this.solutionRatingAvg = solutionRatingAvg;
 	}
 
