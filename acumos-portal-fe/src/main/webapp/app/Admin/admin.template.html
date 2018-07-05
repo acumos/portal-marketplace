@@ -860,6 +860,14 @@ limitations under the License.
 											ng-if='orderByFieldFed=="statusCode"'
 											ng-class="reverseSortFederation?'ascending':'descending'"
 											class="gridcell-sort"></span></th>
+										<th ng-click="orderByFieldFed='modified'; reverseSortFederation = !reverseSortFederation">
+											Date
+											<span ng-if='orderByFieldFed!="modified"'
+											class="gridcell-sort deactivate"></span>
+											<span ng-if='orderByFieldFed=="modified"'
+											ng-class="reverseSortFederation?'ascending':'descending'"
+											class="gridcell-sort"></span>
+										</th>
 										<th>Action</th>
 										<th>self</th>
 									</tr>
@@ -889,15 +897,14 @@ limitations under the License.
 										</label> <a class="fed-view-link text-small" data-target
 											ng-click="mdPrimaryClass=false;subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add</a>
 										</td>
-										<!-- <td ng-if='val.active'>
-																		<label class="">Active</label>
-																		<label class="">since 08/04/2017</label>
-																	</td> -->
 										<td><label ng-if='val.statusCode == "AC"'
 											class="text-green">Active</label> <label
 											ng-if='val.statusCode == "IN"' class="disabledRowChild">Inactive</label>
-											<label class="text-xsmall disabledRowChild">since
-												{{val.created | date : "dd.MM.y"}}</label> <!-- <label class="">since 08/04/2017</label> -->
+										</td>
+										<td>
+											<label class="text-xsmall disabledRowChild">
+												{{val.modified | date : "dd.MM.y"}}
+											</label>
 										</td>
 										<td>
 											<div class="admin-action-container">
