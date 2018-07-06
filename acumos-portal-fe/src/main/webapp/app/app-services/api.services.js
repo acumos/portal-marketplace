@@ -81,7 +81,6 @@ angular.module('AcumosApp')
         /*var urldeleteUser = '/api/users/user/updateUser';*////user/deleteUser
         var urldeleteUser = '/api/users/user/deleteUser';
         var rolesCount = '/api/roles/count';
-        var urlSolutionsCount = "api/solutions/count";
         var urlSearchSolution = "api/searchSolutions";
         var urlGetVersion	= "api/admin/version";
 		 var urlComment = "api/comments";
@@ -213,10 +212,6 @@ angular.module('AcumosApp')
         
         this.updateUserRoleNew = function(userDetails){
         	return $http.put(updateUserRoleNew, userDetails);
-        }
-        
-        this.getSolutionsCount = function(userID){
-        	return $http.get(urlSolutionsCount + '/' + userID);
         }
         
         this.getVersion = function(){

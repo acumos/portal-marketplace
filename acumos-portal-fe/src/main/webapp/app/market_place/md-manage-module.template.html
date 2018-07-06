@@ -121,15 +121,15 @@ limitations under the License.
 						class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--1-col-phone mdl-cell--middle">
 						<span class="hide-xs hide-sm showing-text">Showing -
 						<span
-							class="text-colorgray1" ng-show="hidePrivate&&hidePublic&&hideCompany&&hideDelete">{{solutionsCount.privateModelCount
-								+ solutionsCount.companyModelCount +
-								solutionsCount.publicModelCount +
-								solutionsCount.deletedModelCount}} Models
+							class="text-colorgray1" ng-show="hidePrivate&&hidePublic&&hideCompany&&hideDelete">{{totalPrivateSolCount
+								+ totalCompanySolCount +
+								totalPublicSolCount +
+								totalDeletedSolCount}} Models
 						</span>
-						<span class="text-colorgray1" ng-show="hidePrivate&&!hidePublic&&!hideCompany&&!hideDelete">{{solutionsCount.privateModelCount}} Models</span>
-						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&hideCompany&&!hideDelete">{{solutionsCount.companyModelCount}} Models</span>
-						<span class="text-colorgray1" ng-show="!hidePrivate&&hidePublic&&!hideCompany&&!hideDelete">{{solutionsCount.publicModelCount}} Models</span>
-						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&!hideCompany&&hideDelete">{{solutionsCount.deletedModelCount}} Models</span>
+						<span class="text-colorgray1" ng-show="hidePrivate&&!hidePublic&&!hideCompany&&!hideDelete">{{totalPrivateSolCount}} Models</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&hideCompany&&!hideDelete">{{totalCompanySolCount}} Models</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&hidePublic&&!hideCompany&&!hideDelete">{{totalPublicSolCount}} Models</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&!hideCompany&&hideDelete">{{totalDeletedSolCount}} Models</span>
 						<md-chips ng-model="filterOptions" name="filterOptions"
 							readonly="true" md-removable="true" ng-click='removeFilter()'>
 						<md-chip-template> <strong>{{$chip}}</strong> </md-chip-template>
@@ -258,7 +258,7 @@ limitations under the License.
 					<div class="grid-container" ng-if="hidePrivate">
 						<h4 class="gridlistheading">
 							My Unpublished Models
-							({{mlSolutionPrivateCount}}/{{solutionsCount.privateModelCount}})<span
+							({{mlSolutionPrivateCount}}/{{totalPrivateSolCount}})<span
 								class="pull-right"> <span
 								class="mp-grid-head-buttons-container"
 								ng-hide="seeAllSelected || mlSolutionPrivate.length < 1">
@@ -398,7 +398,7 @@ limitations under the License.
 					<div class="grid-container" ng-if="hideCompany">
 						<h4 class="gridlistheading">
 							My Models: Published to Company Marketplace
-							({{mlSolutionCompanyCount}}/{{solutionsCount.companyModelCount}})<span
+							({{mlSolutionCompanyCount}}/{{totalCompanySolCount}})<span
 								class="pull-right"><span
 								class="mp-grid-head-buttons-container"
 								ng-hide="seeAllSelected || mlSolutionCompany.length < 1 || ( pageNumCompany < 1 && mlSolutionCompanyCount == solutionsCount.companyModelCount )"><a
@@ -594,7 +594,7 @@ limitations under the License.
 				<div class="grid-container" ng-if="hidePublic">
 					<h4 class="gridlistheading">
 						My Models: Published to Public Marketplace
-						({{mlSolutionPublicCount}}/{{solutionsCount.publicModelCount}})<span
+						({{mlSolutionPublicCount}}/{{totalPublicSolCount}})<span
 							class="pull-right"><span
 							class="mp-grid-head-buttons-container"
 							ng-hide="seeAllSelected || mlSolutionPublic.length < 1 || ( pageNumPublic < 1 && mlSolutionPublicCount == solutionsCount.publicModelCount )"><a
@@ -813,7 +813,7 @@ limitations under the License.
 				<div class="grid-container" ng-if="hideDelete">
 					<h4 class="gridlistheading">
 						My Deleted Models
-						({{mlSolutionDeletedCount}}/{{solutionsCount.deletedModelCount}})<span
+						({{mlSolutionDeletedCount}}/{{totalDeletedSolCount}})<span
 							class="pull-right"> <span
 							class="mp-grid-head-buttons-container"
 							ng-hide="seeAllSelected || mlSolutionDelete.length < 1 || ( pageNumDelete < 1 && mlSolutionDeletedCount == solutionsCount.deletedModelCount)"><a

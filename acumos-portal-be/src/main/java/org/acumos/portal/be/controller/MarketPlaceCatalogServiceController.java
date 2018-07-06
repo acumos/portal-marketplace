@@ -942,37 +942,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
-	/**
-	 * @param request
-	 *            HttpServletRequest
-	 * @param userId
-	 *            user ID
-	 * @param response
-	 *            HttpServletResponse
-	 * @return List of Paginated ML Solutions in JSON format.
-	 */
-	@ApiOperation(value = "Gets solution count.", response = MLSolution.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.SOLUTIONS_COUNT }, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public RestPageResponseBE<MLSolution> getSolutionCount(HttpServletRequest request,
-			@PathVariable("userId") String userId, HttpServletResponse response) {
-
-		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
-		RestPageResponseBE<MLSolution> mlSolutions = null;
-		try {
-			mlSolutions = catalogService.getSolutionCount(userId);
-			data.setResponseBody(mlSolutions);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("count fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "count fetched Successfully :  ");
-		} catch (Exception e) {
-			data.setErrorCode(e.getLocalizedMessage());
-			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions count", e);
-		}
-		return mlSolutions;
-	}
-
 	@ApiOperation(value = "Get ratings for a solution by user", response = MLSolution.class, responseContainer = "List")
 	@RequestMapping(value = {
 			APINames.GET_SOLUTION_RATING_USER }, method = RequestMethod.POST, produces = APPLICATION_JSON)

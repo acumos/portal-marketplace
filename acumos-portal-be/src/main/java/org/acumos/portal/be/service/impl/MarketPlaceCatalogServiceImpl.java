@@ -1795,56 +1795,6 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	}
 
 	@Override
-	public RestPageResponseBE<MLSolution> getSolutionCount(String userId) {
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		Map<String, String> queryParameters = new HashMap<>();
-		queryParameters.put("created", "DESC");
-		RestPageResponse<MLPSolution> mlpSolutionsRest = null;
-		List<MLPSolution> originalSolutionsList = new ArrayList<MLPSolution>();
-		List<MLSolution> content = new ArrayList<>();
-		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
-		RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
-
-		mlpSolutionsRest = dataServiceRestClient.getSolutions(new RestPageRequest(0, 2000, queryParameters));
-
-		originalSolutionsList = mlpSolutionsRest.getContent().stream()
-				.filter(mlpSolution -> (!PortalUtils.isEmptyOrNullString(mlpSolution.getOwnerId())
-						&& userId.equalsIgnoreCase(mlpSolution.getOwnerId())))
-				.collect(Collectors.toList());
-
-		// shared models for user added
-		/*mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(userId,
-				new RestPageRequest(0, 1000, queryParameters));
-		if (mlpSolutionsShareRest != null) {
-			for (MLPSolution mlpSolution : mlpSolutionsShareRest) {
-				originalSolutionsList.add(mlpSolution);
-			}
-		}*/
-
-		if (originalSolutionsList != null) {
-			int prModelCnt = 0;
-			int pbModelCnt = 0;
-			int orModelCnt = 0;
-			int deletedModelCnt = 0;
-			/*for (MLPSolution mlpsol : originalSolutionsList) {
-				if (mlpsol.getAccessTypeCode().equals("PR") && mlpsol.isActive())
-					prModelCnt++;
-				if (mlpsol.getAccessTypeCode().equals("PB") && mlpsol.isActive())
-					pbModelCnt++;
-				if (mlpsol.getAccessTypeCode().equals("OR") && mlpsol.isActive())
-					orModelCnt++;
-				if (!mlpsol.isActive())
-					deletedModelCnt++;
-			}*/
-			mlSolutionsRest.setPrivateModelCount(prModelCnt);
-			mlSolutionsRest.setPublicModelCount(pbModelCnt);
-			mlSolutionsRest.setCompanyModelCount(orModelCnt);
-			mlSolutionsRest.setDeletedModelCount(deletedModelCnt);
-		}
-		return mlSolutionsRest;
-	}
-
-	@Override
 	public MLPSolutionRating getUserRatings(String solutionId, String userId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionUserAccess");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();

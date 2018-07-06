@@ -105,6 +105,11 @@ angular.module('manageModule')
 						$scope.mlSolutionCompanyCount = 0;
 						$scope.mlSolutionDeletedCount = 0;
 						
+						$scope.totalPrivateSolCount = 0;
+						$scope.totalCompanySolCount = 0;
+						$scope.totalPublicSolCount = 0;
+						$scope.totalDeletedSolCount = 0;
+						
 						var privatePrevCounter = 0;
 						var publicPrevCounter = 0;
 						var companyPrevCounter = 0;
@@ -158,6 +163,7 @@ angular.module('manageModule')
 								$scope.privateDataLoaded = false;
 								
 								$scope.mlSolutionPrivate = $scope.getUniqueSolutions(data.response_body.content);
+								$scope.totalPrivateSolCount = data.response_body.totalElements;
 
 								if($scope.mlSolutionPrivate.length != 0){
 									privatePrevCounter = $scope.mlSolutionPrivate.length;
@@ -236,6 +242,7 @@ angular.module('manageModule')
 
 								
 								$scope.mlSolutionCompany = $scope.getUniqueSolutions(data.response_body.content);
+								$scope.totalCompanySolCount = data.response_body.totalElements;
 								if($scope.mlSolutionCompany.length != 0){
 									companyPrevCounter = $scope.mlSolutionCompany.length;
 								}
@@ -314,6 +321,7 @@ angular.module('manageModule')
 								$scope.publicDataLoaded = false;
 								
 								$scope.mlSolutionPublic = $scope.getUniqueSolutions(data.response_body.content);
+								$scope.totalPublicSolCount = data.response_body.totalElements;
 								if($scope.mlSolutionPublic.length != 0){
 									publicPrevCounter = $scope.mlSolutionPublic.length;
 								}
@@ -383,6 +391,7 @@ angular.module('manageModule')
 
 								$scope.deleteDataLoaded = false;
 								$scope.mlSolutionDelete = $scope.getUniqueSolutions(data.response_body.content);
+								$scope.totalDeletedSolCount = data.response_body.totalElements;
 
 								if($scope.mlSolutionDelete.length != 0){
 									deletedPrevCounter = $scope.mlSolutionDelete.length;
@@ -1048,22 +1057,5 @@ angular.module('manageModule')
 							//$scope.loadMore();
 							// do what you want to do
 						});
-						
-						
-						$scope.getSolutionsCount = function(){
-							apiService
-							.getSolutionsCount($scope.loginUserID)
-							.then(
-									function(response) {
-										$scope.solutionsCount = response.data;
-										
-									},function(error) {
-										$scope.status = 'Unable to load data: '+ error.data.error;
-								});
-						}
-						$scope.getSolutionsCount();
-
-
 					}
-				
 				});

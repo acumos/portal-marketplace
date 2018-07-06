@@ -121,8 +121,6 @@ public interface MarketPlaceCatalogService {
 	RestPageResponse<MLPSolutionRating> getSolutionRating(String solutionId, RestPageRequest pageRequest) throws AcumosServiceException;
 
 	MLPTag createTag(MLPTag body) throws AcumosServiceException;	
-	
-	RestPageResponseBE<MLSolution> getSolutionCount(String userId);
 
 	MLPSolutionRating getUserRatings(String solutionId, String userId); 
 	

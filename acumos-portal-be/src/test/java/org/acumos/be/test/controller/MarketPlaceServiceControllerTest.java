@@ -846,26 +846,7 @@ public class MarketPlaceServiceControllerTest {
 
 		}
 	}
-	
-	@Test
-	public void getSolutionCountTest() {
-		try {
-			List test = new ArrayList<>();
-			RestPageResponseBE<MLSolution> data = new RestPageResponseBE<MLSolution>(test);	
-			data.setPrivateModelCount(12);
-			data.setPublicModelCount(34);
-			data.setCompanyModelCount(45);
-			data.setDeletedModelCount(32);
-			String userId = "1213505-67f4-4461-a192-f4cb7fdafd34";
-			Mockito.when(service.getSolutionCount(userId)).thenReturn(data);
-			data = marketPlaceController.getSolutionCount(request, userId, response);
-			Assert.assertNotNull(data);
-		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
 
-		}
-	}
-	
 	@Test
 	public void getUserRatingsTest() {
 		try {
