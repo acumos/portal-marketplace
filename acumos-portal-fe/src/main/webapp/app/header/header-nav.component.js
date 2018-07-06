@@ -506,29 +506,29 @@ angular.module('headerNav')
                     .forEach(
                             $scope.siteConfig.fields,
                             function( value, key) {
-                            	 if($scope.siteConfig.fields[key].label == 'siteInstanceName'){
+                            	 if($scope.siteConfig.fields[key].name == 'siteInstanceName'){
                                      $rootScope.siteInstanceName = $scope.siteConfig.fields[key].data;
-                                 }if($scope.siteConfig.fields[key].label == 'Headerlogo' && $scope.siteConfig.fields[key].data != undefined){
+                                 }if($scope.siteConfig.fields[key].name == 'Headerlogo' && $scope.siteConfig.fields[key].data != undefined){
                                      $rootScope.headerImage = $scope.siteConfig.fields[key].data.base64;
-                                 }if($scope.siteConfig.fields[key].label == 'coBrandingLogo' && $scope.siteConfig.fields[key].data){
+                                 }if($scope.siteConfig.fields[key].name == 'coBrandingLogo' && $scope.siteConfig.fields[key].data){
                                      //$rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
-                                 }if($scope.siteConfig.fields[key].label == 'Footerlogo'){   
+                                 }if($scope.siteConfig.fields[key].name == 'Footerlogo'){   
                                      $rootScope.footerImage = $scope.siteConfig.fields[key].data.base64;
-									} if($scope.siteConfig.fields[key].label == 'EnableOnboarding'){
+									} if($scope.siteConfig.fields[key].name == 'EnableOnboarding'){
 	                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
 	                                    	$rootScope.enableOnBoarding = true;
 	                                    } else {
 	                                    	$rootScope.enableOnBoarding = false;
 	                                    }
-	                                } if($scope.siteConfig.fields[key].label == 'EnableDCAE'){
+	                                } if($scope.siteConfig.fields[key].name == 'EnableDCAE'){
 	                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
 	                                    	$rootScope.enableDCAE = true;
 	                                    } else {
 	                                    	$rootScope.enableDCAE = false;
 	                                    }
-	                                }if($scope.siteConfig.fields[key].label == 'Choose Background color' && $scope.siteConfig.fields[key].data  && $rootScope.coBrandingImage){
+	                                }if($scope.siteConfig.fields[key].name == 'Choose Background color' && $scope.siteConfig.fields[key].data  && $rootScope.coBrandingImage){
 	                                     $rootScope.coBrandingBg = $scope.siteConfig.fields[key].data;
-	                                 }if($scope.siteConfig.fields[key].label == 'Add tooltip to logo' && $scope.siteConfig.fields[key].data  && $rootScope.coBrandingImage){
+	                                 }if($scope.siteConfig.fields[key].name == 'Add tooltip to logo' && $scope.siteConfig.fields[key].data  && $rootScope.coBrandingImage){
 	                                     $rootScope.logoToolTip = $scope.siteConfig.fields[key].data;
 	                                 }
                                 $window.document.title = $rootScope.siteInstanceName;
