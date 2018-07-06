@@ -33,7 +33,7 @@ angular
     );
 DSController.$inject = ['$scope','$http','$filter','$q','$window'];
 
-function DSController($scope,$http,$filter,$q,$window) {
+function DSController($scope,$http,$filter,$q,$window, browserStorageService) {
 	var pathArray = location.href.split( '/' );
 	var protocol = pathArray[0];
 	var host = pathArray[2];
@@ -471,7 +471,7 @@ function DSController($scope,$http,$filter,$q,$window) {
                 }
 
                 function get_userId() {
-                    var userDetail = localStorage.getItem("userDetail");
+                    var userDetail = browserStorageService.getUserDetail();
                     if(!userDetail)
                         return null;
                     if(typeof userDetail === 'string')

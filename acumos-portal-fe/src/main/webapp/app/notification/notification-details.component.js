@@ -25,7 +25,7 @@ app.component('notificationModule',{
 	//template : '<div ng-include="getTemplateUrl()"></div>',
 	
 	//templateUrl : '/app/header/header-nav.template.html',
-	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, apiService) {
+	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, apiService, browserStorageService) {
 		$scope.loginUserID='';
 		$scope.totalCount = 0;
 		$scope.page = 0;
@@ -34,9 +34,9 @@ app.component('notificationModule',{
 		$scope.selectAll = false;
 		
 		
-		if (JSON.parse(localStorage.getItem("userDetail"))) {
-			$scope.userDetails = JSON.parse(localStorage
-					.getItem("userDetail"));
+		if (JSON.parse(browserStorageService.getUserDetail())) {
+			$scope.userDetails = JSON.parse(browserStorageService
+					.getUserDetail());
 			$scope.userDetails.userName = $scope.userDetails[0];
 			$scope.loginUserID = $scope.userDetails[1];
 		}

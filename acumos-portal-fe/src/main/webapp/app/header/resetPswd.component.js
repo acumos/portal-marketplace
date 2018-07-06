@@ -26,15 +26,15 @@ angular
 				'resetPswd',
 				{
 					templateUrl : '/app/header/resetPswd.template.html',
-					controller : function($scope,$compile, $location, $http) {
+					controller : function($scope,$compile, $location, $http, browserStorageService) {
 						//$scope.userid = sessionStorage.getItem("SessionName");
 					
 					$scope.changePswd = function(){
 						if($scope.resetPswd.$invalid){return}
 						//API CALL
-						$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
-						//var userId = localStorage.getItem("userDetail");
-						//console.log(localStorage.getItem("userDetail"));
+						$scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
+						//var userId = sessionStorage.getItem("userDetail");
+						//console.log(sessionStorage.getItem("userDetail"));
 						var req = {
 							    method: 'PUT',
 							    url: '/api/users/changePassword',
