@@ -28,7 +28,7 @@ angular.module('manageModule')
 					templateUrl : './app/market_place/md-manage-module.template.html',
 					controller : function($scope, $compile, $location, $http, $q,
 							$sessionStorage, $localStorage, $rootScope,
-							$timeout, $state, apiService, $window) {
+							$timeout, $state, apiService, $window, browserStorageService) {
 						$scope.autoHeight = true;
 						$scope.hidePrivate = true;
 						$scope.hidePublic = true;
@@ -66,9 +66,9 @@ angular.module('manageModule')
 						$scope.filterids = [ "001", "002", "003", "004", "005",
 								"006" ];
 
-						if (JSON.parse(localStorage.getItem("userDetail"))) {
-							$scope.userDetails = JSON.parse(localStorage
-									.getItem("userDetail"));
+						if (JSON.parse(browserStorageService.getUserDetail())) {
+							$scope.userDetails = JSON.parse(browserStorageService
+									.getUserDetail());
 							$scope.userDetails.userName = $scope.userDetails[0];
 							$scope.loginUserID = $scope.userDetails[1];
 						}
@@ -760,8 +760,8 @@ angular.module('manageModule')
 							$scope.updateViewCount();
 						}
 						
-						if( JSON.parse(localStorage.getItem("userDetail")) ){
-				            $scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+						if( JSON.parse(browserStorageService.getUserDetail()) ){
+				            $scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
 				            $scope.userDetails.userName = $scope.userDetails[0];
 				            $scope.loginUserID = $scope.userDetails[1];
 						}
