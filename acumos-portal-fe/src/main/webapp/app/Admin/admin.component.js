@@ -39,7 +39,6 @@ angular.module('admin').filter('abs', function() {
 				$scope.orderByFieldFed = 'created'; $scope.reverseSortFederation = true;
 				$scope.showAllModelsTable = false;
 				$scope.verify = true;
-				$scope.carouselConfig = {};
 				$scope.changeOrderfor = 0;
 				
 				$scope.changeOrderValue = 0
