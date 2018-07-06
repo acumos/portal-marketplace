@@ -19,11 +19,69 @@ limitations under the License.
 */
 
 angular.module('signInModal')
+			.service('browserStorageService', function() {
+				this.setUserDetail = function(detail) {
+					if (sessionStorage.getItem('rm')) {
+						localStorage.setItem('userDetail', detail);
+					} else {
+						sessionStorage.setItem('userDetail', detail);
+					}
+				}
+				
+				this.setUserRole = function(role) {
+					if (sessionStorage.getItem('rm')) {
+						localStorage.setItem('userRole', role);
+					} else {
+						sessionStorage.setItem('userRole', role);
+					}
+				}
+				
+				this.setAuthToken = function(token) {
+					if (sessionStorage.getItem('rm')) {
+						localStorage.setItem('auth_token', token);
+					} else {
+						sessionStorage.setItem('auth_token', token);
+					}
+				}
+				
+				this.getUserDetail = function() {
+					return sessionStorage.getItem('userDetail') ?
+						sessionStorage.getItem('userDetail') :
+						localStorage.getItem('userDetail');
+				}
+				
+				this.getUserRole = function() {
+					return sessionStorage.getItem('userRole') ?
+						sessionStorage.getItem('userRole') :
+						localStorage.getItem('userRole');
+				}
+				
+				this.getAuthToken = function() {
+					return sessionStorage.getItem('auth_token') ?
+						sessionStorage.getItem('auth_token') :
+						localStorage.getItem('auth_token');
+				}
+				
+				this.removeUserDetail = function() {
+					sessionStorage.removeItem('userDetail');
+					localStorage.removeItem('userDetail');
+				}
+				
+				this.clearUserRole = function() {
+					sessionStorage.setItem('userRole', "");
+					localStorage.setItem('userRole', "");
+				}
+				
+				this.removeAuthToken = function() {
+					sessionStorage.removeItem('auth_token');
+					localStorage.removeItem('auth_token');
+				}
+			})
             .component(
                         'signinContent',
                         {
                               template : '<a ng-click="$root.showAdvancedLogin()" modal-data="$ctrl.modalData" class="no-outline">Sign In</a>',
-                              controller : function($uibModal, $scope,$rootScope,productService,$window,$mdDialog, apiService, $state) {
+                              controller : function($uibModal, $scope,$rootScope,productService,$window,$mdDialog, apiService, $state, browserStorageService) {
                                     
                                     $ctrl = this;
                                     $scope.cas = {
@@ -61,16 +119,18 @@ angular.module('signInModal')
 	                                            $scope.localStore.push($scope.userfirstname, $scope.userid);
 	                                            
 	                                            console.log("$scope.localStore: ",$scope.localStore);
-	                    
-	                                            localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
-							                    $scope.$emit('transferUp', {
+	                                            
+//	                                            sessionStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+	                                            browserStorageService.setUserDetail(JSON.stringify($scope.localStore));
+	                                            $scope.$emit('transferUp', {
 							                          message : true,
 							                          username : $scope.userfirstname
 							                    });
 							                    
-							                    //$scope.loginUserID = JSON.parse(localStorage.getItem('userDetail'));
+							                    //$scope.loginUserID = JSON.parse(sessionStorage.getItem('userDetail'));
 							                    
-							                    localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+//							                    sessionStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+	                                            browserStorageService.setUserDetail(JSON.stringify($scope.localStore));
 							                    console.log("$scope.localStore: ",$scope.localStore);
 							                    
 							                    //$window.sessionStorage.setItem("acumosUserSession",productService.test.userId);
@@ -93,6 +153,7 @@ angular.module('signInModal')
                                     	  $scope.signin = function() {
 
                                                 $scope.userData = {"request_body":{"username": $scope.modalData.name, "password": $scope.modalData.value}}
+                                                sessionStorage.setItem('rm', $scope.modalData.cb1 ? "remember" : "");
                                                 $scope.login();
 
                                           };
@@ -102,7 +163,7 @@ angular.module('signInModal')
                                                 $auth.authenticate(provider).
                               	                  then(function(response) {
                               	                    console.log(response);
-                              	                  localStorage.setItem('auth_token', response.access_token);
+                              	                  browserStorageService.setAuthToken(response.access_token);
                               	                    
                               	                    console.log("Success: ", response);
                               	                    $scope.socialsigninresponse = response;
@@ -159,11 +220,12 @@ angular.module('signInModal')
                                             	  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
                                             		 
                                             		  if(value.name == 'Admin' || value.name == 'admin'){
-                                            			  localStorage.setItem('userRole', 'Admin');
+//                                            			  sessionStorage.setItem('userRole', 'Admin');
+                                            			  browserStorageService.setUserRole('Admin');
                                             			  $rootScope.$broadcast('roleCheck');
                                             		  }
                                             		});
-                                            	  localStorage.setItem('auth_token', response.data.jwtToken);
+                                            	  browserStorageService.setAuthToken(response.data.jwtToken);
                                             	  var authToken = jwtHelper.decodeToken(response.data.jwtToken);
                                                   if(response.data.jwtToken != ""){
 	                                                  if(authToken.loginPassExpire == true){
@@ -208,7 +270,7 @@ angular.module('signInModal')
                                           $scope.socialLogin = function(){
                                         	  apiService.insertSocialSignIn($scope.userData).then(function successCallback(response) {
                                         		  console.log(response);
-                                        		  //localStorage.setItem('auth_token', response.data.jwtToken);
+                                        		  //sessionStorage.setItem('auth_token', response.data.jwtToken);
                                                   if(response.data.loginPassExpire == true){
                                                         
                                                         $('.modal').hide();
@@ -219,7 +281,7 @@ angular.module('signInModal')
                                                   }
                                                   angular.forEach(response.data.userAssignedRolesList, function(value, key) {
                                             		  if(value.name == 'Admin' || value.name == 'admin'){
-                                            			  localStorage.setItem('userRole', 'Admin');
+                                            			  browserStorageService.setUserRole('Admin');
                                             		  }
                                             		});
                                                   localStorage.setItem('loginPassExpire', '');

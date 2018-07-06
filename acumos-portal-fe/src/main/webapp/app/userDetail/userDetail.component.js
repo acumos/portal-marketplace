@@ -112,14 +112,14 @@ angular
 				{
 					templateUrl : './app/userDetail/userDetail.template.html',
 					controller : function($scope, $http, $location, $rootScope, $timeout,
-							userImageUploadService, $q, $window, apiService, $mdDialog, $anchorScroll) {
+							userImageUploadService, $q, $window, apiService, $mdDialog, $anchorScroll, browserStorageService) {
 						//$scope.matchString = true;
 						$scope.showAltImage = true;
 						$scope.disableEmail = true;
 						
-						if(localStorage.getItem("userDetail")){
-							var userName = JSON.parse(localStorage.getItem("userDetail"))[0];
-							var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
+						if(browserStorageService.getUserDetail()){
+							var userName = JSON.parse(browserStorageService.getUserDetail())[0];
+							var userId = JSON.parse(browserStorageService.getUserDetail())[1];
 						}
 						getUserDetail();
 						
@@ -469,10 +469,10 @@ angular
 					                                }, 2000);
 													if( $scope.user.firstName != $scope.userCopy.firstName ){
 
-														if (JSON.parse(localStorage.getItem("userDetail"))) {
-															var userDetails = JSON.parse(localStorage.getItem("userDetail"))
+														if (JSON.parse(browserStorageService.getUserDetail())) {
+															var userDetails = JSON.parse(browserStorageService.getUserDetail())
 															userDetails[0] = $scope.user.firstName;
-															localStorage.setItem("userDetail", JSON.stringify(userDetails));
+															sessionStorage.setItem("userDetail", JSON.stringify(userDetails));
 														}
 														
 														$rootScope.$broadcast('userDetailsChanged');

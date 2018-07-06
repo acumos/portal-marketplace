@@ -30,11 +30,11 @@ angular
     );
 DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector'];
 
-function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector) {
+function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector, browserStorageService) {
 	componentHandler.upgradeAllRegistered();
 	$scope.is_ie = false || !!document.documentMode;
 
-	$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+	$scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
 	if($scope.userDetails === null){
 		var modalService = $injector.get('$mdDialog'); 
 		modalService.show({
@@ -65,7 +65,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	const SPLITTER = "Splitter";
 	$scope.checkboxDisable = true;
 	$scope.activeInactivedeploy = true;
-    $scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+    $scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
     if($scope.userDetails == null){$scope.titlemsg = ALERT;$scope.msg = "Please sign in to application"; $scope.showpopup(); $state.go('home');return;}
     $scope.validationState = true;
     $scope.searchbox = true;
@@ -746,7 +746,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
 
     function get_userId() {
-        var userDetail = localStorage.getItem("userDetail");
+        var userDetail = browserStorageService.getUserDetail();
         if(!userDetail)
             return null;
         if(typeof userDetail === 'string')

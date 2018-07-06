@@ -26,7 +26,7 @@ angular
 				'marketHome',
 				{
 					templateUrl : './app/marketplace-home/home.template.html',
-					controller : function($scope, $rootScope, apiService, $window, $state, $http, $mdDialog, waitservice) {
+					controller : function($scope, $rootScope, apiService, $window, $state, $http, $mdDialog, waitservice, browserStorageService) {
 						console.log("market-home")
 							  /*if(localStorage.getItem("homeRefresh") == 'Yes'){
 								  localStorage.setItem("homeRefresh",'No');
@@ -59,7 +59,7 @@ angular
 							  var slides = $scope.slides = [];
 							  var currIndex = 0;
 							  var accessTypeFilter = ["PB"];
-							  if (JSON.parse(localStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];}
+							  if (JSON.parse(browserStorageService.getUserDetail())) {accessTypeFilter = ["OR", "PB"];}
 							  var dataObj = {
                                       "request_body" : {
                                           "sortBy" : "MR",
@@ -188,16 +188,6 @@ angular
 												});
 											}
 										});
-							  
-							  /*$scope.successStories.slides = [{story :'I needed to better position my ads in streaming video to improve my results.  The Acumos Design studio allowed me to quickly insert my video stream to a working model and use it ...',
-			  												   from : 'AT&T Entertainment Exec'},	
-			  												   {story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',
-			  												    from : 'AT&T Site Manager'},
-			  												    {story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',
-			  												     from : 'AT&T Site Manager'},
-			  												    {story :'I used the Threat Analytics model in Acumos.  I replaced the alerting component with one that let me immediately shut down servers if the threat prediction exceeded my threshold.  So easy to use!',
-			  												    from : 'AT&T Site Manager'}
-			  												     ];*/
 							  
 							  $scope.successStories = {'slides':[]};
 							  apiService
