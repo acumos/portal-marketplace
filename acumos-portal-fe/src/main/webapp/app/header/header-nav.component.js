@@ -26,7 +26,7 @@ angular.module('headerNav')
 	//template : '<div ng-include="getTemplateUrl()"></div>',
 	
 	//templateUrl : '/app/header/header-nav.template.html',
-	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, productService, jwtHelper, $anchorScroll) {
+	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, productService, jwtHelper, $anchorScroll, browserStorageService) {
 		$scope.$on('menuClickToggle', function(){
 			$scope.toggleHeaderClass();
 			$rootScope.hambergerClicked=false;
@@ -131,9 +131,9 @@ angular.module('headerNav')
           };
 		
           
-          if (JSON.parse(localStorage.getItem("userDetail"))) {
-  			$scope.userDetails = JSON.parse(localStorage
-  					.getItem("userDetail"));
+          if (JSON.parse(browserStorageService.getUserDetail())) {
+  			$scope.userDetails = JSON.parse(browserStorageService
+  					.getUserDetail());
   			$scope.userDetails.userName = $scope.userDetails[0];
   			$scope.loginUserID = $scope.userDetails[1];
   		}else if(ticketId){
@@ -142,7 +142,7 @@ angular.module('headerNav')
   		 }
 				 
 		$scope.$on('userDetailsChanged', function(a){
-			$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+			$scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
 			$scope.userDetails.userName = $scope.userDetails[0];
 		})
 		var notificationCount = 0;
@@ -165,7 +165,7 @@ angular.module('headerNav')
 					$scope.page = 0;
 					$scope.notificationManageObj=[];
 				}
-				var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
+				var userId = JSON.parse(browserStorageService.getUserDetail())[1];
 				if(response.data!=null && response.data.response_body.length >0 ){
 					/*angular.forEach(
 							response.data.response_body,
@@ -209,7 +209,7 @@ angular.module('headerNav')
 		}
 		
 			$interval(function () {
-				var userId = JSON.parse(localStorage.getItem("userDetail"))[1]
+				var userId = JSON.parse(browserStorageService.getUserDetail())[1]
 				
 				if(userId){
 					$scope.page = 0;
@@ -239,7 +239,7 @@ angular.module('headerNav')
 		}
 		
 		$scope.viewNotification=function (notificationId){
-			var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
+			var userId = JSON.parse(browserStorageService.getUserDetail())[1];
 			
 			var req = {
 				    method: 'PUT',
@@ -259,7 +259,7 @@ angular.module('headerNav')
 		}
 		
 		$scope.deleteNotification=function (notificationId){
-			var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
+			var userId = JSON.parse(browserStorageService.getUserDetail())[1];
 			apiService
 			.deleteNotifications(notificationId, userId)
 			.then(function(response) {
@@ -308,16 +308,16 @@ angular.module('headerNav')
 			$rootScope.successfulAdmin = false;
 			$scope.showAltImage = true;
 			
-			if (localStorage.getItem("userDetail") == ""
-					|| localStorage.getItem("userDetail") == undefined) {
-			} else if (JSON.parse(localStorage.getItem("userDetail"))) {
-				$scope.userDetails = JSON.parse(localStorage
-						.getItem("userDetail"));
+			if (browserStorageService.getUserDetail() == ""
+					|| browserStorageService.getUserDetail() == undefined) {
+			} else if (JSON.parse(browserStorageService.getUserDetail())) {
+				$scope.userDetails = JSON.parse(browserStorageService
+						.getUserDetail());
 				$scope.userDetails.userName = $scope.userDetails[0];
 				$scope.userDetails.userId = $scope.userDetails[1];
 				$scope.userAdmin = $scope.userDetails[2];
-				console.log("GET LOCAL: ", JSON.parse(localStorage
-						.getItem("userDetail")));
+				console.log("GET LOCAL: ", JSON.parse(browserStorageService
+						.getUserDetail()));
 				$scope.successfulLogin = true;
 				$scope.successfulLoginMsg = true;
 				$scope.successfulLoginSigninSignup = false;
@@ -348,7 +348,7 @@ angular.module('headerNav')
 
 			$scope.$on('transferUp', function(event, data) {
 				//console.log('on working');
-				var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
+				var userId = JSON.parse(browserStorageService.getUserDetail())[1];
 				$scope.emitedmessage = data.message;
 				$scope.userfirstname = data.username;
 				$scope.getNotificationMessage( userId, $scope.page);
@@ -383,12 +383,13 @@ angular.module('headerNav')
 		
 		$scope.logout = function() {
 		//$window.location.reload();
-			localStorage.setItem("userDetail", "");
-			localStorage.setItem("userRole", "");
-			localStorage.removeItem("userDetail");
+//			sessionStorage.setItem("userDetail", "");
+//			sessionStorage.setItem("userRole", "");
+			browserStorageService.clearUserRole();
+			browserStorageService.removeUserDetail();
 			localStorage.removeItem("soluId");
 			localStorage.removeItem("solutionId");
-			localStorage.removeItem("auth_token");
+			browserStorageService.removeAuthToken();
 			
 			$scope.successfulLoginSigninSignup = true;
 			$scope.successfulLogin = false;

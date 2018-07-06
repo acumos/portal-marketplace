@@ -25,7 +25,7 @@ angular.module('admin').filter('abs', function() {
     })
 	.component('admin',{
 		templateUrl:'./app/Admin/admin.template.html',
-		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state, $filter){
+		controller:function($scope, apiService, fileUploadService, $mdDialog, $http, $timeout, $location, $anchorScroll,  $uibModal, $rootScope, $state, $filter, browserStorageService){
 			componentHandler.upgradeAllRegistered();
 			//Editor Module configuration
 			$scope.modulesConfig = {
@@ -145,14 +145,14 @@ angular.module('admin').filter('abs', function() {
 			//Hard coded (delete it)
 			$scope.freqOfUpdate = 'hr';
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
-			$scope.userDetail = JSON.parse(localStorage
-					.getItem("userDetail"));
+			$scope.userDetail = JSON.parse(browserStorageService
+					.getUserDetail());
 			if($scope.userDetail != undefined){
 				var userName = $scope.userDetail[0],userId = $scope.userDetail[1];
 			}
 		
 			$scope.checkAdmin = function(){
-				if(localStorage.getItem("userRole") == 'Admin' || localStorage.getItem("userRole") == 'admin'){
+				if(browserStorageService.getUserRole() == 'Admin' || browserStorageService.getUserRole() == 'admin'){
 					
 				}else{
 					$state.go('404Error');

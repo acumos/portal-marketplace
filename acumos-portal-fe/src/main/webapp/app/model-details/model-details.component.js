@@ -28,7 +28,7 @@ angular
 					templateUrl : './app/model-details/md-model-details.template.html',
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
-							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce) {
+							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce, browserStorageService) {
 						
 						$scope.orgVar = "OR";
 						$scope.pubVar = "PB";
@@ -51,7 +51,7 @@ angular
 							$scope.rackspace.$setUntouched();
 						}
 						
-						var user= JSON.parse(localStorage.getItem("userDetail"));
+						var user= JSON.parse(browserStorageService.getUserDetail());
 						$scope.userDetailsLogged = user;
 						
 						$scope.showAlertMessage = false;
@@ -330,9 +330,9 @@ angular
 						}
 						
 						$scope.loginUserID = "";
-						if (localStorage.getItem("userDetail")) {
-							$scope.loginUserID = JSON.parse(localStorage
-									.getItem("userDetail"))[1];
+						if (browserStorageService.getUserDetail()) {
+							$scope.loginUserID = JSON.parse(browserStorageService
+									.getUserDetail())[1];
 						}
 
 						if ($stateParams.solutionId == ''
@@ -428,17 +428,17 @@ angular
 												$scope.getPublicSolutionDocuments($scope.version.accessTypeCode);
 											}
 
-											if (JSON.parse(localStorage
-													.getItem("userDetail"))) {
+											if (JSON.parse(browserStorageService
+													.getUserDetail())) {
 												$scope.userDetails = JSON
-														.parse(localStorage
-																.getItem("userDetail"));
+														.parse(browserStorageService
+																.getUserDetail());
 												$scope.userName = $scope.userDetails[0];
 												$scope.loginUserID = $scope.userDetails[1];
 											}
 
-											if (JSON.parse(localStorage
-													.getItem("userDetail"))
+											if (JSON.parse(browserStorageService
+													.getUserDetail())
 													&& $scope.solution.ownerId == $scope.loginUserID) {
 												$scope.isUser = true
 											} else {
@@ -678,9 +678,9 @@ angular
 						
 						$scope.totalCommentCount = 0;
 						$scope.postComment = function() {
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
-										.getItem("userDetail"))[1];
+							if (browserStorageService.getUserDetail()) {
+								$scope.loginUserID = JSON.parse(browserStorageService
+										.getUserDetail())[1];
 								$scope.userFullName = $scope.userDetails[0];
 							}
 							
@@ -711,9 +711,9 @@ angular
 						
 						$scope.newcomment = {};
 						$scope.postReply = function(key, comment){
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
-										.getItem("userDetail"))[1];
+							if (browserStorageService.getUserDetail()) {
+								$scope.loginUserID = JSON.parse(browserStorageService
+										.getUserDetail())[1];
 								$scope.userFullName = $scope.userDetails[0];
 							}
 							
@@ -738,9 +738,9 @@ angular
 						$scope.editReply = false;
 						$scope.commentNewest = false;
 						$scope.getComment = function() {
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
-										.getItem("userDetail"))[1];
+							if (browserStorageService.getUserDetail()) {
+								$scope.loginUserID = JSON.parse(browserStorageService
+										.getUserDetail())[1];
 							}
 							var reqObj = {
 									  "request_body": {
@@ -1133,9 +1133,9 @@ angular
 						$scope.download = function(artifactId) {
 							
 							$scope.loginUserID = "";
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
-										.getItem("userDetail"))[1];
+							if (browserStorageService.getUserDetail()) {
+								$scope.loginUserID = JSON.parse(browserStorageService
+										.getUserDetail())[1];
 							}
 
 							var url = 'api/downloads/'+$scope.solution.solutionId+'?artifactId='+artifactId+'&revisionId='+$scope.revisionId+'&userId='+$scope.loginUserID;
@@ -1166,9 +1166,9 @@ angular
 						$scope.versionDownload = function(artifactId) {
 							
 							$scope.loginUserID = "";
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
-										.getItem("userDetail"))[1];
+							if (browserStorageService.getUserDetail()) {
+								$scope.loginUserID = JSON.parse(browserStorageService
+										.getUserDetail())[1];
 							}
 
 							var url = 'api/downloads/'+$scope.solution.solutionId+'?artifactId='+artifactId+'&revisionId='+$scope.revisionId+'&userId='+$scope.loginUserID;
