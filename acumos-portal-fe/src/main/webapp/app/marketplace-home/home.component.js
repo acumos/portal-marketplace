@@ -26,7 +26,7 @@ angular
 				'marketHome',
 				{
 					templateUrl : './app/marketplace-home/home.template.html',
-					controller : function($scope, $rootScope, apiService, $window, $state, $http, $mdDialog, waitservice) {
+					controller : function($scope, $rootScope, apiService, $window, $state, $http, $mdDialog, waitservice, browserStorageService) {
 						console.log("market-home")
 							  /*if(localStorage.getItem("homeRefresh") == 'Yes'){
 								  localStorage.setItem("homeRefresh",'No');
@@ -59,7 +59,7 @@ angular
 							  var slides = $scope.slides = [];
 							  var currIndex = 0;
 							  var accessTypeFilter = ["PB"];
-							  if (JSON.parse(localStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];}
+							  if (JSON.parse(browserStorageService.getUserDetail())) {accessTypeFilter = ["OR", "PB"];}
 							  var dataObj = {
                                       "request_body" : {
                                           "sortBy" : "MR",
