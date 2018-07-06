@@ -117,9 +117,9 @@ angular
 						$scope.showAltImage = true;
 						$scope.disableEmail = true;
 						
-						if(localStorage.getItem("userDetail")){
-							var userName = JSON.parse(localStorage.getItem("userDetail"))[0];
-							var userId = JSON.parse(localStorage.getItem("userDetail"))[1];
+						if(sessionStorage.getItem("userDetail")){
+							var userName = JSON.parse(sessionStorage.getItem("userDetail"))[0];
+							var userId = JSON.parse(sessionStorage.getItem("userDetail"))[1];
 						}
 						getUserDetail();
 						
@@ -469,10 +469,10 @@ angular
 					                                }, 2000);
 													if( $scope.user.firstName != $scope.userCopy.firstName ){
 
-														if (JSON.parse(localStorage.getItem("userDetail"))) {
-															var userDetails = JSON.parse(localStorage.getItem("userDetail"))
+														if (JSON.parse(sessionStorage.getItem("userDetail"))) {
+															var userDetails = JSON.parse(sessionStorage.getItem("userDetail"))
 															userDetails[0] = $scope.user.firstName;
-															localStorage.setItem("userDetail", JSON.stringify(userDetails));
+															sessionStorage.setItem("userDetail", JSON.stringify(userDetails));
 														}
 														
 														$rootScope.$broadcast('userDetailsChanged');

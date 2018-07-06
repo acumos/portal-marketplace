@@ -66,8 +66,8 @@ angular.module('manageModule')
 						$scope.filterids = [ "001", "002", "003", "004", "005",
 								"006" ];
 
-						if (JSON.parse(localStorage.getItem("userDetail"))) {
-							$scope.userDetails = JSON.parse(localStorage
+						if (JSON.parse(sessionStorage.getItem("userDetail"))) {
+							$scope.userDetails = JSON.parse(sessionStorage
 									.getItem("userDetail"));
 							$scope.userDetails.userName = $scope.userDetails[0];
 							$scope.loginUserID = $scope.userDetails[1];
@@ -760,8 +760,8 @@ angular.module('manageModule')
 							$scope.updateViewCount();
 						}
 						
-						if( JSON.parse(localStorage.getItem("userDetail")) ){
-				            $scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+						if( JSON.parse(sessionStorage.getItem("userDetail")) ){
+				            $scope.userDetails = JSON.parse(sessionStorage.getItem("userDetail"));
 				            $scope.userDetails.userName = $scope.userDetails[0];
 				            $scope.loginUserID = $scope.userDetails[1];
 						}

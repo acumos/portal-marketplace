@@ -33,7 +33,7 @@ app.component('sidebarNav',{
 		
 		apiService.getQandAUrl().then( function(response){
 			$scope.qAndAUrl = response.data.response_body;
-			if(localStorage.getItem("auth_token")!='')
+			if(sessionStorage.getItem("auth_token")!='')
 				$scope.showQandAUrl = true;
 		});
 		/* if(localStorage.getItem("HeaderNameVar")=="manageModule"){
@@ -60,15 +60,15 @@ app.component('sidebarNav',{
 			$scope.successfulAdmin = false;
 			$scope.showAltImage = true;
 			
-			if (localStorage.getItem("userDetail") == ""
-					|| localStorage.getItem("userDetail") == undefined) {
-			} else if (JSON.parse(localStorage.getItem("userDetail"))) {
-				$scope.userDetails = JSON.parse(localStorage
+			if (sessionStorage.getItem("userDetail") == ""
+					|| sessionStorage.getItem("userDetail") == undefined) {
+			} else if (JSON.parse(sessionStorage.getItem("userDetail"))) {
+				$scope.userDetails = JSON.parse(sessionStorage
 						.getItem("userDetail"));
 				$scope.userDetails.userName = $scope.userDetails[0];
 				$scope.userDetails.userId = $scope.userDetails[1];
 				$scope.userAdmin = $scope.userDetails[2];
-				console.log("GET LOCAL: ", JSON.parse(localStorage
+				console.log("GET LOCAL: ", JSON.parse(sessionStorage
 						.getItem("userDetail")));
 				$scope.successfulLogin = true;
 				$scope.successfulLoginMsg = true;
@@ -141,8 +141,8 @@ app.component('sidebarNav',{
 		$scope.login();
 		
 		$scope.logout = function() {
-			localStorage.setItem("userDetail", "");
-			localStorage.removeItem("userDetail");
+			sessionStorage.setItem("userDetail", "");
+			sessionStorage.removeItem("userDetail");
 			localStorage.removeItem("soluId");
 			localStorage.removeItem("solutionId");
 			sessionStorage.removeItem("provider");
@@ -182,7 +182,7 @@ app.component('sidebarNav',{
 	*/
 		//Check if user is admin
 
-		if(localStorage.getItem("userRole") == 'Admin')$scope.userRoleAdmin = true;
+		if(sessionStorage.getItem("userRole") == 'Admin')$scope.userRoleAdmin = true;
 		
 		$scope.$on('roleCheck', function() {
 			$scope.userRoleAdmin = true;

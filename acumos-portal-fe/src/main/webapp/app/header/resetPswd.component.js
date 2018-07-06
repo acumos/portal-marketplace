@@ -32,9 +32,9 @@ angular
 					$scope.changePswd = function(){
 						if($scope.resetPswd.$invalid){return}
 						//API CALL
-						$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
-						//var userId = localStorage.getItem("userDetail");
-						//console.log(localStorage.getItem("userDetail"));
+						$scope.userDetails = JSON.parse(sessionStorage.getItem("userDetail"));
+						//var userId = sessionStorage.getItem("userDetail");
+						//console.log(sessionStorage.getItem("userDetail"));
 						var req = {
 							    method: 'PUT',
 							    url: '/api/users/changePassword',

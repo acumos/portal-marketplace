@@ -59,7 +59,7 @@ angular
 							  var slides = $scope.slides = [];
 							  var currIndex = 0;
 							  var accessTypeFilter = ["PB"];
-							  if (JSON.parse(localStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];}
+							  if (JSON.parse(sessionStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];}
 							  var dataObj = {
                                       "request_body" : {
                                           "sortBy" : "MR",

@@ -97,11 +97,11 @@ angular.module('modelResource')
 			$scope.keepModelName = false;
 			$scope.model = {};
 			$scope.disableOnboardingButton = false;
-			//alert(localStorage.getItem("userDetail"));
+			//alert(sessionStorage.getItem("userDetail"));
 			$rootScope.progressBar = 0;
 			
 			$scope.activeViewModel = false;
-			if(localStorage.getItem("userDetail")){
+			if(sessionStorage.getItem("userDetail")){
 				$scope.userLoggedIn = true;
 			}else $scope.userLoggedIn = false;
 			$scope.loadToolkitType = function() {
@@ -145,7 +145,7 @@ angular.module('modelResource')
 				//$scope.uploadModel = false;
 				$scope.modelUploadError = false;
 				var file = $scope.file;
-				var userId = JSON.parse(localStorage.getItem("userDetail"));
+				var userId = JSON.parse(sessionStorage.getItem("userDetail"));
 				
 				var uploadUrl = "api/model/upload/" + userId[1];
 				var promise = modelUploadService.uploadFileToUrl(
@@ -362,7 +362,7 @@ angular.module('modelResource')
 										});
 				}
 			
-			$scope.userId = JSON.parse(localStorage.getItem("userDetail"));
+			$scope.userId = JSON.parse(sessionStorage.getItem("userDetail"));
 			$scope.completedSteps = [];
 			$scope.errorCM = ''; $scope.errorPA = ''; $scope.errorDO = ''; $scope.errorAR = ''; $scope.errorVM = '';
 			$scope.errorCC = '';

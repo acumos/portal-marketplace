@@ -61,9 +61,9 @@ angular.module('myModal',[])
 			                          username : $scope.userfirstname
 			                    });
 			                    
-			                    //$scope.loginUserID = JSON.parse(localStorage.getItem('userDetail'));
+			                    //$scope.loginUserID = JSON.parse(sessionStorage.getItem('userDetail'));
 			                    
-			                    localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+			                    sessionStorage.setItem('userDetail', JSON.stringify($scope.localStore));
 			                    console.log("$scope.localStore: ",$scope.localStore);
 			                    
 			                    //$window.sessionStorage.setItem("acumosUserSession",productService.test.userId);

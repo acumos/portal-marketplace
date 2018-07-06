@@ -51,7 +51,7 @@ angular
 							$scope.rackspace.$setUntouched();
 						}
 						
-						var user= JSON.parse(localStorage.getItem("userDetail"));
+						var user= JSON.parse(sessionStorage.getItem("userDetail"));
 						$scope.userDetailsLogged = user;
 						
 						$scope.showAlertMessage = false;
@@ -330,8 +330,8 @@ angular
 						}
 						
 						$scope.loginUserID = "";
-						if (localStorage.getItem("userDetail")) {
-							$scope.loginUserID = JSON.parse(localStorage
+						if (sessionStorage.getItem("userDetail")) {
+							$scope.loginUserID = JSON.parse(sessionStorage
 									.getItem("userDetail"))[1];
 						}
 
@@ -428,16 +428,16 @@ angular
 												$scope.getPublicSolutionDocuments($scope.version.accessTypeCode);
 											}
 
-											if (JSON.parse(localStorage
+											if (JSON.parse(sessionStorage
 													.getItem("userDetail"))) {
 												$scope.userDetails = JSON
-														.parse(localStorage
+														.parse(sessionStorage
 																.getItem("userDetail"));
 												$scope.userName = $scope.userDetails[0];
 												$scope.loginUserID = $scope.userDetails[1];
 											}
 
-											if (JSON.parse(localStorage
+											if (JSON.parse(sessionStorage
 													.getItem("userDetail"))
 													&& $scope.solution.ownerId == $scope.loginUserID) {
 												$scope.isUser = true
@@ -678,8 +678,8 @@ angular
 						
 						$scope.totalCommentCount = 0;
 						$scope.postComment = function() {
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
+							if (sessionStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(sessionStorage
 										.getItem("userDetail"))[1];
 								$scope.userFullName = $scope.userDetails[0];
 							}
@@ -711,8 +711,8 @@ angular
 						
 						$scope.newcomment = {};
 						$scope.postReply = function(key, comment){
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
+							if (sessionStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(sessionStorage
 										.getItem("userDetail"))[1];
 								$scope.userFullName = $scope.userDetails[0];
 							}
@@ -738,8 +738,8 @@ angular
 						$scope.editReply = false;
 						$scope.commentNewest = false;
 						$scope.getComment = function() {
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
+							if (sessionStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(sessionStorage
 										.getItem("userDetail"))[1];
 							}
 							var reqObj = {
@@ -1133,8 +1133,8 @@ angular
 						$scope.download = function(artifactId) {
 							
 							$scope.loginUserID = "";
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
+							if (sessionStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(sessionStorage
 										.getItem("userDetail"))[1];
 							}
 
@@ -1166,8 +1166,8 @@ angular
 						$scope.versionDownload = function(artifactId) {
 							
 							$scope.loginUserID = "";
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
+							if (sessionStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(sessionStorage
 										.getItem("userDetail"))[1];
 							}
 

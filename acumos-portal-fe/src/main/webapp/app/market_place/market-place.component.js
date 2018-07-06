@@ -172,8 +172,8 @@ angular
 						$scope.pageNumber = 0;
 						
 
-						if (JSON.parse(localStorage.getItem("userDetail"))) {
-							$scope.userDetails = JSON.parse(localStorage
+						if (JSON.parse(sessionStorage.getItem("userDetail"))) {
+							$scope.userDetails = JSON.parse(sessionStorage
 									.getItem("userDetail"));
 							$scope.userDetails.userName = $scope.userDetails[0];
 							$scope.loginUserID = $scope.userDetails[1];
@@ -200,7 +200,7 @@ angular
 						}
 						//Check for access type
 						var accessTypeFilter = ["PB"];$scope.userLoggedIn = false;
-						if (JSON.parse(localStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];$scope.userLoggedIn = true;}
+						if (JSON.parse(sessionStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];$scope.userLoggedIn = true;}
 						
 						
 						$scope.accessFilter = function(accessType){

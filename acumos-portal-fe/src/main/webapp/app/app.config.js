@@ -178,7 +178,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 
     	 	//console.log('#######app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
     	 	//$scope.sidebarHeader = false;
-		   if (localStorage.getItem("userDetail")) {
+		   if (sessionStorage.getItem("userDetail")) {
 				//console.log("Yes");
 				$rootScope.sidebarHeader = true;
 				//$scope.sidebarHeader = true;

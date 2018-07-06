@@ -145,14 +145,14 @@ angular.module('admin').filter('abs', function() {
 			//Hard coded (delete it)
 			$scope.freqOfUpdate = 'hr';
 			$scope.menuName = 'Monitoring';    $scope.allSelected = true;
-			$scope.userDetail = JSON.parse(localStorage
+			$scope.userDetail = JSON.parse(sessionStorage
 					.getItem("userDetail"));
 			if($scope.userDetail != undefined){
 				var userName = $scope.userDetail[0],userId = $scope.userDetail[1];
 			}
 		
 			$scope.checkAdmin = function(){
-				if(localStorage.getItem("userRole") == 'Admin' || localStorage.getItem("userRole") == 'admin'){
+				if(sessionStorage.getItem("userRole") == 'Admin' || sessionStorage.getItem("userRole") == 'admin'){
 					
 				}else{
 					$state.go('404Error');

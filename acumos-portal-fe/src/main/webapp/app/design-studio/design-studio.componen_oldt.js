@@ -471,7 +471,7 @@ function DSController($scope,$http,$filter,$q,$window) {
                 }
 
                 function get_userId() {
-                    var userDetail = localStorage.getItem("userDetail");
+                    var userDetail = sessionStorage.getItem("userDetail");
                     if(!userDetail)
                         return null;
                     if(typeof userDetail === 'string')

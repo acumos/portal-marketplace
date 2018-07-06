@@ -34,7 +34,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	componentHandler.upgradeAllRegistered();
 	$scope.is_ie = false || !!document.documentMode;
 
-	$scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+	$scope.userDetails = JSON.parse(sessionStorage.getItem("userDetail"));
 	if($scope.userDetails === null){
 		var modalService = $injector.get('$mdDialog'); 
 		modalService.show({
@@ -65,7 +65,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	const SPLITTER = "Splitter";
 	$scope.checkboxDisable = true;
 	$scope.activeInactivedeploy = true;
-    $scope.userDetails = JSON.parse(localStorage.getItem("userDetail"));
+    $scope.userDetails = JSON.parse(sessionStorage.getItem("userDetail"));
     if($scope.userDetails == null){$scope.titlemsg = ALERT;$scope.msg = "Please sign in to application"; $scope.showpopup(); $state.go('home');return;}
     $scope.validationState = true;
     $scope.searchbox = true;
@@ -746,7 +746,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
 
     function get_userId() {
-        var userDetail = localStorage.getItem("userDetail");
+        var userDetail = sessionStorage.getItem("userDetail");
         if(!userDetail)
             return null;
         if(typeof userDetail === 'string')

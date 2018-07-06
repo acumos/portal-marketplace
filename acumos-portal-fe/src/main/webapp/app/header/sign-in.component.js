@@ -62,15 +62,15 @@ angular.module('signInModal')
 	                                            
 	                                            console.log("$scope.localStore: ",$scope.localStore);
 	                    
-	                                            localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+	                                            sessionStorage.setItem('userDetail', JSON.stringify($scope.localStore));
 							                    $scope.$emit('transferUp', {
 							                          message : true,
 							                          username : $scope.userfirstname
 							                    });
 							                    
-							                    //$scope.loginUserID = JSON.parse(localStorage.getItem('userDetail'));
+							                    //$scope.loginUserID = JSON.parse(sessionStorage.getItem('userDetail'));
 							                    
-							                    localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
+							                    sessionStorage.setItem('userDetail', JSON.stringify($scope.localStore));
 							                    console.log("$scope.localStore: ",$scope.localStore);
 							                    
 							                    //$window.sessionStorage.setItem("acumosUserSession",productService.test.userId);
@@ -102,7 +102,7 @@ angular.module('signInModal')
                                                 $auth.authenticate(provider).
                               	                  then(function(response) {
                               	                    console.log(response);
-                              	                  localStorage.setItem('auth_token', response.access_token);
+                              	                  sessionStorage.setItem('auth_token', response.access_token);
                               	                    
                               	                    console.log("Success: ", response);
                               	                    $scope.socialsigninresponse = response;
@@ -159,11 +159,11 @@ angular.module('signInModal')
                                             	  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
                                             		 
                                             		  if(value.name == 'Admin' || value.name == 'admin'){
-                                            			  localStorage.setItem('userRole', 'Admin');
+                                            			  sessionStorage.setItem('userRole', 'Admin');
                                             			  $rootScope.$broadcast('roleCheck');
                                             		  }
                                             		});
-                                            	  localStorage.setItem('auth_token', response.data.jwtToken);
+                                            	  sessionStorage.setItem('auth_token', response.data.jwtToken);
                                             	  var authToken = jwtHelper.decodeToken(response.data.jwtToken);
                                                   if(response.data.jwtToken != ""){
 	                                                  if(authToken.loginPassExpire == true){
@@ -208,7 +208,7 @@ angular.module('signInModal')
                                           $scope.socialLogin = function(){
                                         	  apiService.insertSocialSignIn($scope.userData).then(function successCallback(response) {
                                         		  console.log(response);
-                                        		  //localStorage.setItem('auth_token', response.data.jwtToken);
+                                        		  //sessionStorage.setItem('auth_token', response.data.jwtToken);
                                                   if(response.data.loginPassExpire == true){
                                                         
                                                         $('.modal').hide();
@@ -219,7 +219,7 @@ angular.module('signInModal')
                                                   }
                                                   angular.forEach(response.data.userAssignedRolesList, function(value, key) {
                                             		  if(value.name == 'Admin' || value.name == 'admin'){
-                                            			  localStorage.setItem('userRole', 'Admin');
+                                            			  sessionStorage.setItem('userRole', 'Admin');
                                             		  }
                                             		});
                                                   localStorage.setItem('loginPassExpire', '');

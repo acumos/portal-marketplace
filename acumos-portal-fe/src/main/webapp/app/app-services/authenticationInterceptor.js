@@ -23,8 +23,8 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
   return {
     request: function (config) {
       config.headers = config.headers;
-      if (localStorage.getItem('auth_token')) {
-        config.headers.Authorization = 'Bearer ' + localStorage.getItem('auth_token');
+      if (sessionStorage.getItem('auth_token')) {
+        config.headers.Authorization = 'Bearer ' + sessionStorage.getItem('auth_token');
       }
       if(sessionStorage.getItem('provider'))
           config.headers.provider = sessionStorage.getItem('provider');

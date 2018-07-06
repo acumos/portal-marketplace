@@ -111,13 +111,13 @@ angular
 									$scope.solutionId);
 						}
 						
-						if(localStorage.getItem("userDetail")){
-							$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
+						if(sessionStorage.getItem("userDetail")){
+							$scope.loginUserId = JSON.parse(sessionStorage.getItem("userDetail"));
 						}
 						
 						$scope.getComment = function() {
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
+							if (sessionStorage.getItem("userDetail")) {
+								$scope.loginUserID = JSON.parse(sessionStorage
 										.getItem("userDetail"))[1];
 							}
 							var reqObj = {
@@ -239,8 +239,8 @@ angular
 						$scope.postReply = function(){
 							$scope.showPostReply = false;
 							$scope.showEditComment = false;
-							if(localStorage.getItem("userDetail")){
-								$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
+							if(sessionStorage.getItem("userDetail")){
+								$scope.loginUserId = JSON.parse(sessionStorage.getItem("userDetail"));
 							}
 							
 								var commentObj = {
@@ -1671,8 +1671,8 @@ angular
 						}
 
 						$scope.exportToLocal = function(artifactId) {
-							if(localStorage.getItem("userDetail")){
-								$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
+							if(sessionStorage.getItem("userDetail")){
+								$scope.loginUserId = JSON.parse(sessionStorage.getItem("userDetail"));
 							}
 							var url = '/api/downloads/'
 									+ $scope.solution.solutionId
