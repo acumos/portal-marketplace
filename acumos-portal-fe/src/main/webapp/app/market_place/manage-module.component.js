@@ -373,6 +373,7 @@ angular.module('manageModule')
 									  "request_body": {
 										    "active": false,
 										    "nameKeyword" :  toBeSearch,
+											"accessTypeCodes": [ "PR", "PB", "OR" ],
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "ownerIds": [	$scope.loginUserID ],
