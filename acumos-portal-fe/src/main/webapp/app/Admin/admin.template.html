@@ -897,9 +897,11 @@ limitations under the License.
 										</label> <a class="fed-view-link text-small" data-target
 											ng-click="mdPrimaryClass=false;subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add</a>
 										</td>
-										<td><label ng-if='val.statusCode == "AC"'
-											class="text-green">Active</label> <label
-											ng-if='val.statusCode == "IN"' class="disabledRowChild">Inactive</label>
+										<td>
+											<label ng-if='val.statusCode == "AC"' class="text-green">{{val.StatusName}}</label> 
+											<label ng-if='val.statusCode == "IN"' class="disabledRowChild">{{val.StatusName}}</label>
+											
+											
 										</td>
 										<td>
 											<label class="text-xsmall disabledRowChild">
@@ -995,21 +997,6 @@ limitations under the License.
 										type="text" placeholder="Filter"
 										ng-model='searchUserDetails.firstName'">
 								</div>
-								<!-- <div class="marketplace-btn-container">								  
-																<button id="demo-menu-lower-right4"
-																		class="mdl-button mdl-js-button btn-sort bdr">
-																	<span class="hide-xs"><span class="txtspan1">Sort By</span> - All</span>	
-																	<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort_by_alpha</i></span>	
-																  <i class="material-icons">keyboard_arrow_down</i>
-																</button>
-																<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist1"
-																	for="demo-menu-lower-right4">
-																	<li class="mdl-menu__item" >New</li>
-																	<li class="mdl-menu__item" >Pending</li>
-																	<li class="mdl-menu__item" >Approve</li>
-																	<li class="mdl-menu__item" >Deny</li>																	
-																  </ul>															
-															 </div>	 -->
 							</div>
 						</div>
 						<div class="admin-grid-container">
