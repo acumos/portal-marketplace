@@ -48,6 +48,7 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -915,13 +916,13 @@ public class MarketPlaceServiceControllerTest {
 
 	@Test
 	public void getAvgRatingsForSol() {
-		MLPSolutionWeb solutionStats = new MLPSolutionWeb();
+		MLSolutionWeb solutionStats = new MLSolutionWeb();
 		solutionStats.setDownloadCount((long) 4);
 		solutionStats.setRatingCount((long) 5);
 		solutionStats.setViewCount((long) 10);
 		String solutionId = "1213505-67f4-4461-a192-f4cb7fdafd34";
 		Mockito.when(service.getSolutionWebMetadata(solutionId)).thenReturn(solutionStats);
-		JsonResponse<MLPSolutionWeb> data = marketPlaceController.getAvgRatingsForSol(solutionId);
+		JsonResponse<MLSolutionWeb> data = marketPlaceController.getAvgRatingsForSol(solutionId);
 		Assert.assertNotNull(data);
 	}
 	

@@ -41,6 +41,7 @@ import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionValidation;
+import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
@@ -54,6 +55,7 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.OauthUser;
@@ -546,5 +548,17 @@ public class PortalUtils {
 		return mlSolutionRating;
 	}
 
-    
+public static MLSolutionWeb convertToMLSolutionWeb(MLPSolutionWeb mlpSolutionweb) {
+        
+        MLSolutionWeb mlSolutionWeb = new MLSolutionWeb();    
+        mlSolutionWeb.setSolutionId(mlpSolutionweb.getSolutionId());
+        mlSolutionWeb.setViewCount(mlpSolutionweb.getViewCount());
+        mlSolutionWeb.setDownloadCount(mlpSolutionweb.getDownloadCount());
+        mlSolutionWeb.setLastDownload(mlpSolutionweb.getLastDownload());
+        mlSolutionWeb.setRatingCount(mlpSolutionweb.getRatingCount());
+        mlSolutionWeb.setRatingAverageTenths(mlpSolutionweb.getRatingAverageTenths());
+        mlSolutionWeb.setFeatured(mlpSolutionweb.isFeatured()); 
+
+        return mlSolutionWeb;
+    }
 }
