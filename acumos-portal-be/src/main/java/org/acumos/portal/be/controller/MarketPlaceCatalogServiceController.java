@@ -56,6 +56,7 @@ import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -1017,12 +1018,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ApiOperation(value = "Get avg ratings for a solution Id", response = MLPSolutionWeb.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
-		JsonResponse<MLPSolutionWeb> data = new JsonResponse<>();
+	public JsonResponse<MLSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
+		JsonResponse<MLSolutionWeb> data = new JsonResponse<>();
 		try {
-			MLPSolutionWeb  solutionStats  = catalogService.getSolutionWebMetadata(solutionId);
-			if (solutionStats != null) {
-				data.setResponseBody(solutionStats);
+			MLSolutionWeb  mlSolutionWeb  = catalogService.getSolutionWebMetadata(solutionId);
+			if (mlSolutionWeb != null) {
+				data.setResponseBody(mlSolutionWeb);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solution ratings fetched Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");

@@ -29,6 +29,7 @@ import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.User;
 
 import org.acumos.cds.domain.MLPArtifact;
@@ -128,7 +129,7 @@ public interface MarketPlaceCatalogService {
 	
 	RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest);
 
-	MLPSolutionWeb getSolutionWebMetadata(String solutionId); 
+	MLSolutionWeb getSolutionWebMetadata(String solutionId); 
 	
 	String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException;
 

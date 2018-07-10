@@ -75,6 +75,7 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -2054,15 +2055,17 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	}
 
 	@Override
-	public MLPSolutionWeb getSolutionWebMetadata(String solutionId) {
+	public MLSolutionWeb getSolutionWebMetadata(String solutionId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionWebMetadata");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPSolutionWeb solutionStats = dataServiceRestClient.getSolutionWebMetadata(solutionId);
-		if (solutionStats.getRatingAverageTenths() != null) {
-			Long avgRating = solutionStats.getRatingAverageTenths() / 10;
-			solutionStats.setRatingAverageTenths(avgRating);
-		}
-		return solutionStats;
+		MLPSolutionWeb mlpSolutionweb = dataServiceRestClient.getSolutionWebMetadata(solutionId);
+				
+		MLSolutionWeb mlSolutionweb = PortalUtils.convertToMLSolutionWeb(mlpSolutionweb);
+		float avgRating = mlSolutionweb.getRatingAverageTenths() / 10;
+		mlSolutionweb.setRatingAverageTenths(avgRating);
+		
+		
+		return mlSolutionweb;
 	}
 
 
