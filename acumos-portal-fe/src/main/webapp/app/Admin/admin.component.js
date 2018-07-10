@@ -203,13 +203,19 @@ angular.module('admin').filter('abs', function() {
 					function(response) {
 						$scope.isSelfTrue = false;
 						$scope.activeCount = 0;
+						$scope.peer2 =[];
 						$scope.peer = response.data.response_body.content;
 						angular.forEach($scope.peer, function(value, key) {
-                            if(value.statusCode == "AC"){
-                            	$scope.activeCount = $scope.activeCount+1;
-                            }
-                          });
-						//$scope.countSubscriptions();
+                                                if(value.statusCode == "AC"){
+                                                    $scope.activeCount = $scope.activeCount+1;
+                                                    value["StatusName"] = "Active";
+                                                }else if(value.statusCode == "IN"){
+                                                    value["StatusName"] = "Inactive";
+                                                }
+                                                $scope.peer2.push(value);
+
+                                              	});
+						$scope.peer = $scope.peer2;
 					},
 					function(error) {console.log(error);});
 			}
@@ -603,6 +609,7 @@ angular.module('admin').filter('abs', function() {
                           .getModelTypes()
                           .then(
                                   function(response) {
+                                	  debugger
                                       $scope.category = response.data.response_body;
                                   },
                                   function(error) {console.log('Error :' +error);});
