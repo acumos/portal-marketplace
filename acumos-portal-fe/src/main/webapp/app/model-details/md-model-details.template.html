@@ -197,10 +197,10 @@ limitations under the License.
 								<span>Documents</span>
 						</span>
 
-						</a> <a href="#tab4-panel" class="mdl-tabs__tab" alt="Version History" title="Version History"> <span
+						</a> <a href="#tab4-panel" class="mdl-tabs__tab" alt="Model Artifacts" title="Model Artifacts"> <span
 							class="tab-box"> <span
-								class="tab-icons tab-versionhistory"></span> <span>Version
-									History</span>
+								class="tab-icons tab-versionhistory"></span> <span>Model Artifacts
+									</span>
 						</span>
 						</a>
 
@@ -428,7 +428,7 @@ limitations under the License.
 						</table>
 					</div>
 					<div class="mdl-tabs__panel" id="tab4-panel">
-						<h6 class="sectiontitle6">VERSION HISTORY OF SOLUTION</h6>
+						<h6 class="sectiontitle6">MODEL ARTIFACTS</h6>
 						<table class="mdl-data-table mdl-js-data-table md-tbl1">
 							<colgroup>
 								<col />
@@ -438,7 +438,7 @@ limitations under the License.
 							</colgroup>
 							<thead>
 								<tr>
-									<th>Version Name</th>
+									<th>Artifact Name</th>
 									<th>Version</th>
 									<th>Modified on</th>
 									<th>Action</th>
@@ -1100,7 +1100,7 @@ limitations under the License.
 							<label class="downloadlbl2"><span class="font600">Uploaded
 							on</span> - {{value.created | date:'MM/dd/yyyy'}}</label>
 					</div>
-					<md-button class="md-raised mdl-js-button btn-secondary" ng-click="getModelDetails()" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}">
+					<md-button class="md-raised mdl-js-button btn-secondary" ng-click="getModelDetails()" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}" target="_blank">
 						Download
 					</md-button>
 				</div>
