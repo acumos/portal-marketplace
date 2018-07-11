@@ -116,17 +116,11 @@ limitations under the License.
 									</figure>
 						  </div>
 						  <div class="mdl-card__supporting-text">
-							{{item.name}}
-							<div>
-							<span class="rating header-stat-lg">
-								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating == null || item.solutionRating < 1}" aria-hidden="true"></i></span>
-								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 2}" aria-hidden="true"></i></span>
-								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 3}" aria-hidden="true"></i></span>
-								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 4}" aria-hidden="true"></i></span>
-								<span><i class="material-icons fa fa-star" ng-class="{'fa-star1': item.solutionRating < 5}" aria-hidden="true"></i></span>
-							</span>
-							</div> 
-							
+						  <div class="disblock detail-content">{{item.name}}</div>
+							<div class="stars-outer">
+								<div class="stars-inner"
+									ng-style="item.solutionRating"></div>
+							</div>
 						  </div>
 						</div>
 					<!-- </div> -->

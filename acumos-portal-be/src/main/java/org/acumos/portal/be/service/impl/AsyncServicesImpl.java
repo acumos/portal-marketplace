@@ -319,7 +319,12 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
         mailRequest.setNotificationData(notifyBody);
         notificationService.sendUserNotification(mailRequest);
 	}
-	
+
+	@Override
+	public Boolean checkONAPCompatible(String solutionId, String revisionId) {
+		return checkONAPCompatible(solutionId, revisionId, null, null);
+	}
+
 	// Only Python models are considered to be Compatible with ONAP
 	@Override
 	public Boolean checkONAPCompatible(String solutionId, String revisionId, String userId, String tracking_id) {
@@ -329,13 +334,15 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		
 		MLPStepResult stepResult = new MLPStepResult();
 
-		stepResult.setTrackingId(tracking_id);
-		stepResult.setUserId(userId);
-		stepResult.setName("CheckCompatibility");
-		stepResult.setStatusCode("ST");
-		stepResult.setStepCode("OB");
-		stepResult.setSolutionId(solutionId);
-		stepResult.setRevisionId(revisionId);
+		if(tracking_id != null) {
+			stepResult.setTrackingId(tracking_id);
+			stepResult.setUserId(userId);
+			stepResult.setName("CheckCompatibility");
+			stepResult.setStatusCode("ST");
+			stepResult.setStepCode("OB");
+			stepResult.setSolutionId(solutionId);
+			stepResult.setRevisionId(revisionId);
+		}
 
 		List<MLPArtifact> revisionArtifacts = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, revisionId);
 		Boolean isCompatible = false;
@@ -360,18 +367,22 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			} catch (Exception e) {
 				log.error(EELFLoggerDelegate.errorLogger, "Failed to get artifact for SolutionId={} and RevisionId ={}",
 						solutionId, revisionId);
-				stepResult.setStatusCode("FA");
-				stepResult.setResult("Cannot Fetch MetaData Json");
-				messagingService.createStepResult(stepResult);
+				if(tracking_id != null) {
+					stepResult.setStatusCode("FA");
+					stepResult.setResult("Cannot Fetch MetaData Json");
+					messagingService.createStepResult(stepResult);
+				}
 				return isCompatible;
 			}
 
 			if(byteArrayOutputStream == null) {
 				log.debug(EELFLoggerDelegate.debugLogger, "Artifact not for SolutionId={} and RevisionId ={}",
 						solutionId, revisionId);
-				stepResult.setStatusCode("FA");
-				stepResult.setResult("Cannot Fetch MetaData Json");
-				messagingService.createStepResult(stepResult);
+				if(tracking_id != null) {
+					stepResult.setStatusCode("FA");
+					stepResult.setResult("Cannot Fetch MetaData Json");
+					messagingService.createStepResult(stepResult);
+				}
 				return isCompatible;
 			}
 
@@ -379,9 +390,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			log.debug(EELFLoggerDelegate.debugLogger, "MetaData Json : " + metaDatajsonString);
 			
 			if(PortalUtils.isEmptyOrNullString(metaDatajsonString)) {
-				stepResult.setStatusCode("FA");
-				stepResult.setResult("Cannot Fetch MetaData Json");
-				messagingService.createStepResult(stepResult);
+				if(tracking_id != null) {
+					stepResult.setStatusCode("FA");
+					stepResult.setResult("Cannot Fetch MetaData Json");
+					messagingService.createStepResult(stepResult);
+				}
 				return isCompatible;
 			}
 
@@ -394,12 +407,14 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			}
 			if (name != null && "PYTHON".equalsIgnoreCase(name)) {
 				isCompatible = true;
-				stepResult.setStatusCode(STEP_SUCCESS);
-				messagingService.createStepResult(stepResult);
+				if(tracking_id != null) {
+					stepResult.setStatusCode(STEP_SUCCESS);
+					messagingService.createStepResult(stepResult);
+				}
 			}
 		}
 		
-		if(!isCompatible) {
+		if(!isCompatible && tracking_id != null) {
 			stepResult.setStatusCode("FA");
 			stepResult.setResult("Solution not a Python Model");
 			messagingService.createStepResult(stepResult);

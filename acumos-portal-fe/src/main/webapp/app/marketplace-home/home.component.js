@@ -227,15 +227,13 @@ angular
 										});
 							  
 							  $scope.getSolutionImages = function(index, value) {
+									//$scope.homeSolutions.slides[index] = {};
+									$scope.homeSolutions.slides[index]['image'] = "images/default-model.png";
 
 									apiService
 											.getSolutionImage(value.solutionId)
 											.then(
 													function(response) {
-														$scope.homeSolutions.slides[index] = {};
-														$scope.homeSolutions.slides[index]['solutionId'] = value.solutionId;
-														$scope.homeSolutions.slides[index]['name'] = value.name;
-														$scope.homeSolutions.slides[index]['solutionRating'] = value.solutionRating;
 														if (response.data.response_body.length > 0) {
 																
 																$scope.homeSolutions.slides[index]['image'] = "/site/binaries/content/gallery/acumoscms/solution/"
@@ -243,7 +241,7 @@ angular
 																	+ "/"
 																	+ response.data.response_body[0];
 														} else {
-															$scope.homeSolutions.slides[index]['image'] = "images/default-model.png";
+															$scope.mlsolution.slides[index]['image'] = "images/default-model.png";
 														}
 													},
 													function(data) {
@@ -308,10 +306,10 @@ angular
 									.insertSolutionDetail(dataObj)
 									.then(
 											function(response) {
-												$scope.mlsolution.slides = response.data.response_body.content;
+												$scope.homeSolutions.slides = response.data.response_body.content;
 												angular
 												.forEach(
-														$scope.mlsolution.slides,
+														$scope.homeSolutions.slides,
 														function( value, key) {
 															$scope.getSolutionImages(key, value);
 														});

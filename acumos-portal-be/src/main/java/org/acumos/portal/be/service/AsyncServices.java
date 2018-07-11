@@ -37,5 +37,7 @@ public interface AsyncServices {
 
 	Boolean checkONAPCompatible(String solutioId, String revisionId, String userId, String tracking_id);
 
+	Boolean checkONAPCompatible(String solutioId, String revisionId);
+
 	HttpResponse convertSolutioToONAP(String solutionId, String revisionId, String userId, String tracking_id,String modName);
 }

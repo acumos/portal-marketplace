@@ -37,6 +37,7 @@ angular
 						$scope.showPBDescription = false;
 						$scope.showORDocs = false;
 						$scope.showPBDocs = false;
+						$rootScope.isONAPCompatible = false;
 						$scope.version;
 						
 						$location.hash('md-model-detail-template');  
@@ -53,6 +54,11 @@ angular
 						
 						var user= JSON.parse(localStorage.getItem("userDetail"));
 						$scope.userDetailsLogged = user;
+						
+						if (localStorage.getItem("userDetail")) {
+							$scope.auth = localStorage
+									.getItem("auth_token");
+						}
 						
 						$scope.showAlertMessage = false;
 						
@@ -460,210 +466,11 @@ angular
 												$scope.getSolPublicDesc();
 											}*/
 											
-																						
-											var url = 'api/getProtoFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
-											$http(
-													{
-														method : 'GET',
-														url : url
-													})
-													.then(
-															function successCallback(response) {
-																console.log(response);
-																$scope.modelSignature = response.data;
-															});
+											$scope.checkOnapCompatibility();
+											
+											$scope.getProtoFile();
 											
 											var solutionName = $scope.solution.name;
-											//comments only for summit demo
-											if(solutionName.indexOf('Predictor') > -1){
-												var origComments = {
-														"Sam Kimberly": {
-															"time": "9:38am",
-															"message": "I found this particular model to be very flexible—I’ve applied it to several different usage prediction problems to estimate resource utilization for planning purposes"
-														},
-														"Danielle Potarski": {
-															"time": "2:13pm",
-															"message": "I like the fact that the model trains itself as it goes."
-														},
-														"Wayne O’Keefe": {
-															"time": "4:45pm",
-															"message": "What technique is used to detect seasonality in the data? Or does it assume a fixed cycle period?"
-														}	
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Video') > -1){
-												var origComments = {
-														"Lenore Cassals": {
-															"time": "9:23am",
-															"message": "Very nice! Can I use this to monitor a video feed looking for specific images?",
-															"reply": {
-																"Jim Smith": {
-																	"time": "1:32pm",
-																	"message": "Yes! You could pipeline this into a second model that recognizes whatever you are looking for. My emotion classifier model works in this fashion." 
-																}		
-															}
-														},
-														"Stuart Arbiter": {
-															"time": "4:21pm",
-															"message": "I’m going to train this with my own collection of domain-specific images for a factory inspection/training task." 
-														}
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Threat') > -1){
-												var origComments = {
-														"Serena Pleake": {
-															"time": "9:38am",
-															"message": "I’m the Chief Security Officer for my company, and we deployed this pretty easily. It’s being used in all our data centers to monitor intrusions and other anomalies."
-														},
-														"Lane Toomey": {
-															"time": "11:14am",
-															"message": "Do you have to be an R expert to use this?",
-															"reply": {
-																"Jim Smith": {
-																	"time": "3:33pm",
-																	"message": "Not really—since it creates a fully self-contained microservice, you don’t need to know anything about the implementation, if you don’t want to look under the hood."
-																},
-																"Laura Toomey": {
-																	"time": "5:12pm",
-																	"message": "What about retraining?"
-																}
-															}
-														}
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Emotion') > -1){
-												var origComments = {
-														"Bryan Jones": {
-															"time": "9:38am",
-															"message": "Is this showing the emotions of the image itself, or the evoked emotions of someone seeing the image?",
-															"reply": {
-																"Jim Smith": {
-																	"time": "9:55am",
-																	"message": "The latter. It works by creating a feature vector over the space of recognized image classes, and then pipelining that into an emotion classifier."
-																}
-															}
-														},
-														"Charles Stoddard": {
-															"time": "12:23pm",
-															"message": "I’m planning to retrain this model using images captured from movies and television, and then use it to predict genres of films." 
-														}
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Face') > -1){
-												var origComments = {
-														"Bryan Jones": {
-															"time": "9:38am",
-															"message": "I found this model useful in my application where I had to capture and publish security cam records without compromising the privacy of people captured on camera."
-														},
-														"Charles Stoddard": {
-															"time": "12:38pm",
-															"message": "Mapping sites use this kind of thing when showing images of people, yes? Can we also recognize other features we want to blur, such as license plates",
-															"reply": {
-																"Jim Smith": {
-																	"time": "3:34pm",
-																	"message": "Yes, though our current model doesn’t do that. You’re welcome to train and sub in a license-plate detector; then adding the blurring step should accomplish what you are after."
-																}
-															}
-														},
-														"Albert Davis": {
-															"time": "4:02pm",
-															"message": "If I want to use my own face-detection module (better (?) than what OpenCV provides), how much work would it be to substitute that? I notice the current OpenCV-based detector has some trouble when faces are small or not facing the camera.",
-															"reply": {
-																"Jim Smith": {
-																	"time": "5:22pm",
-																	"message": "See the answer above to the person who asked about recognizing license plates"
-																}
-															}
-														}
-															
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Defect') > -1){
-												var origComments = {
-														"Ginny Vogel": {
-															"time": "9:38am",
-															"message": "This model is great! Worked right out of the box for me. I’m going to recommend it to the other user groups in my company."
-														},
-														"Tim Fowler": {
-															"time": "1:21pm",
-															"message": "Look at the other models by the same author—they are all very well documented and work flawlessly."
-														}
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Chat') > -1){
-												var origComments = {
-														"Toni Melville": {
-															"time": "9:38am",
-															"message": "I have a chat system that is a little different from what is described here. How easy would it be to use this model in my own system?",
-															"reply": {
-																"Laura Dempsey": {
-																	"time": "10:28am",
-																	"message": "You would need to write an adapter, but it should be possible."
-																}
-															}
-														},
-														"Steve Slocum": {
-															"time": "3:12pm",
-															"message": "Is there a way to automate testing of the ChatBot? Seems like a difficult problem." 
-														}
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Entellio') > -1){
-												var origComments = {
-														"Dee James": {
-															"time": "9:38am",
-															"message": "This uses a Long-Short Hybrid model, yes? How does it perform on retrieval tasks?"
-														},
-														"Louis Wilson": {
-															"time": "12:02pm",
-															"message": "I love word2vec! I’ve used it many times, and I’m interested to see how you’ve use it here."
-														}
-													};
-													$scope.CommentName = origComments;
-													
-											}else if(solutionName.indexOf('Sentiment') > -1){
-												var origComments = {
-														"Jill Stemple": {
-															"time": "9:38am",
-															"message": "I am planning to use this model, but trained on our large corpus of customer survey verbatims (from Retail and online interactions). We have over 3 million records / month. Will things break when we train?",
-															"reply": {
-																"Colin Alphonso": {
-																	"time": "10:12am",
-																	"message": "Should still work—may take a while. If you train on fancy hardware (GPU-optimized) it won’t take too long."
-																}
-															}
-														},
-														"Bethany Teller": {
-															"time": "12:15pm",
-															"message": "Thanks! Wish me luck.",
-															"reply": {
-																"Colin Alphonso": {
-																	"time": "1:24pm",
-																	"message": "Good luck! "
-																}
-															}
-														},
-														"Quentin Timony": {
-															"time": "3:38pm",
-															"message": "Why do you list matplotlib among the prerequisites? The microservice doesn’t actually do any plotting, right?",
-															"reply": {
-																"Colin Alphonso": {
-																	"time": "5:43pm",
-																	"message": "That’s true—we don’t. But you will likely want to use it to display the output."
-																}
-															}
-														}
-													};
-													$scope.CommentName = origComments;
-													
-											}
 										})
 										
 								.error(function(data, status, headers, config) {
@@ -675,7 +482,38 @@ angular
 						}
 					 $scope.getModelDetails();
 						// };
+					 
+					 $scope.checkOnapCompatibility = function (){
+						 if($rootScope.enableDCAE && $scope.loginUserID) {
+								var check_onap_url = 'api/webBasedOnBoarding/checkOnapCompatible/' + $scope.solution.solutionId + '/'+$scope.revisionId;
+								$http(
+										{
+											method : 'GET',
+											url : check_onap_url
+										})
+										.then(
+												function successCallback(response) {
+													$rootScope.isONAPCompatible = (response.data.response_detail === "true");
+												},function errorCallback(response) {
+													//Do nothing
+											});
+							}
+					 }
 						
+					$scope.getProtoFile = function(){
+						 $scope.modelSignature = "";
+						 var url = 'api/getProtoFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
+							$http(
+									{
+										method : 'GET',
+										url : url
+									})
+									.then(
+											function successCallback(response) {
+												console.log(response);
+												$scope.modelSignature = response.data;
+											});
+					}
 						$scope.totalCommentCount = 0;
 						$scope.postComment = function() {
 							if (localStorage.getItem("userDetail")) {
@@ -1012,6 +850,8 @@ angular
 							 
 							$scope.getPublicSolutionDocuments($scope.version.accessTypeCode);
 							$scope.getArtifacts();
+							$scope.checkOnapCompatibility();
+							$scope.getProtoFile();
 						}
 										
 						
