@@ -408,7 +408,7 @@ angular
 															  return comparison; }
 														);
 														
-														if( !$scope.revisionId ){
+														if( !$scope.revisionId || ( $scope.solution.accessTypeCode ==  'OR' || $scope.solution.accessTypeCode ==  'PB')){
 															$scope.revisionId = $scope.versionList[0].revisionId;
 															$scope.versionId = $scope.versionList[0].version;
 															$scope.version = $scope.versionList[0];
