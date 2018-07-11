@@ -180,7 +180,6 @@ app.component('notificationModule',{
        };
        
        $scope.removeSelectAll = function(){
-    	   debugger
     	   if($scope.selectAll == true){
     		   $scope.selectAll = false;
     		   $scope.selectAllStatus = false;
@@ -205,6 +204,46 @@ app.component('notificationModule',{
        	  }
     	  
        };
+       
+       //get Admin user.
+       $scope.userDetailsFetch = function(){
+    	   $scope.adminDetails = [];
+			apiService
+			.getAllUserCount()
+			.then(
+					function(response) {
+						$scope.userDetails = response.data.response_body;
+						angular.forEach($scope.userDetails,function(value,key){
+							if(value.active == "true"){
+								if(value.userAssignedRolesList[0].name == "Admin"){
+									if($scope.adminDetails.length < 1){
+										$scope.adminDetails.push({
+											created : value.created,
+											firstName : value.firstName,
+											emailId : value.emailId,
+											lastName : value.lastName
+										});
+									}else if($scope.adminDetails[0].created > value.created){
+										$scope.adminDetails1 = [];
+										$scope.adminDetails1.push({
+											created : value.created,
+											firstName : value.firstName,
+											emailId : value.emailId,
+											lastName : value.lastName
+										});
+										$scope.adminDetails = $scope.adminDetails1;
+									}
+								}
+							}
+						});
+						console.log("$scope.adminDetails : ",$scope.adminDetails);
+					},
+					function(error) {
+						console.log(error);
+					});
+			}
+			$scope.userDetailsFetch();
+			
 
 	},
 
