@@ -435,7 +435,7 @@ angular.module('manageModule')
 							$scope.getCompanyModels();
 							$scope.getPublicModels();
 							$scope.getDeleteModels();
-                                                  	$rootScope.valueToSearch = '';
+                            $rootScope.valueToSearch = '';
 						}
 						getModels();
 						
@@ -452,6 +452,7 @@ angular.module('manageModule')
 								}
 								$scope.getPublicModels();
 							}else if(NavName=='SeeAll'){
+								$scope.defaultSize = '9';
 								$scope.seeAllSelected = true;
 								$scope.hidePrivate = false;
 								$scope.hidePublic = true;
@@ -484,6 +485,7 @@ angular.module('manageModule')
 								}
 								$scope.getCompanyModels();
 							}else if(NavName=='SeeAll'){
+								$scope.defaultSize = '9';
 								$scope.seeAllSelected = true;
 								$scope.hidePrivate = false;
 								$scope.hidePublic = false;
@@ -516,6 +518,7 @@ angular.module('manageModule')
 								}
 								$scope.getPrivateModels();		
 							}else if(NavName=='SeeAll'){
+								$scope.defaultSize = '9';
 								$scope.seeAllSelected = true;
 								$scope.hidePrivate = true;
 								$scope.hidePublic = false;
@@ -550,6 +553,7 @@ angular.module('manageModule')
 								}
 								$scope.getDeleteModels();	
 							}else if(NavName=='SeeAll'){
+								$scope.defaultSize = '9';
 								$scope.seeAllSelected = true;
 								$scope.hidePrivate = false;
 								$scope.hidePublic = false;
@@ -575,6 +579,7 @@ angular.module('manageModule')
 							$scope.hideCompany = true;
 							$scope.hideDelete = true;
 							$scope.seeAllSelected = false;
+							$scope.defaultSize = 4;
 							$scope.pageNumPrivate = 0;
 							$scope.pageNumPublic = 0;
 							$scope.pageNumCompany = 0;
@@ -641,6 +646,10 @@ angular.module('manageModule')
 							$scope.mlSolutionPublicCount = 0;
 							$scope.mlSolutionCompanyCount = 0;
 							$scope.mlSolutionDeletedCount = 0;
+							$scope.pageNumPrivate = 0;
+							$scope.pageNumPublic = 0;
+							$scope.pageNumCompany = 0;
+							$scope.pageNumDelete = 0;
 							if(checkbox == 'yes'){
 								$scope.activeType = false;
 							}else if(checkbox == 'no' )$scope.activeType = true;

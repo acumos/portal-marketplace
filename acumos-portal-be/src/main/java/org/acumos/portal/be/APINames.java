@@ -220,6 +220,7 @@ public class APINames {
 	   public static final String SEARCH_STEP_RESULT = "/messagingStatus/search/{solutionId}/{revisionId}";
 	   
 	   public static final String CONVERT_TO_ONAP = "/convertToOnap/{solutionId}/{revisionId}/{userId}/{modName}";
+	   public static final String CHECK_ONAP_COMPATIBLE = "/checkOnapCompatible/{solutionId}/{revisionId}";
 	   
 	   public static final String BROKER = "/broker";
 	   

@@ -170,7 +170,7 @@ limitations under the License.
 												<article>Publish to Company Marketplace</article>
 
 												<ul class="green" ng-if="version.accessTypeCode=='OR'">
-													<li>Completed on {{solution.modified |
+													<li>Completed on {{version.modified |
 														date:'MM/dd/yyyy' }}</li>
 												</ul>
 												<ul class="red" ng-if="version.accessTypeCode!='OR'">
@@ -215,7 +215,7 @@ limitations under the License.
 											<div class="managelefttext">
 												<article>Publish to Public Marketplace</article>
 												<ul class="green" ng-if="version.accessTypeCode=='PB'">
-													<li>Completed on {{solution.modified |
+													<li>Completed on {{version.modified |
 														date:'MM/dd/yyyy' }}</li>
 												</ul>
 												<ul class="red" ng-if="version.accessTypeCode!='PB'">
@@ -2010,22 +2010,7 @@ limitations under the License.
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab2-panel">
 																				<h6 class="sectiontitle6">SIGNATURE</h6>
-																				<div ng-show="modelName">
-																					<div class="message"
-																						ng-repeat="(key,val) in messageDisplay">
-																						message {{key}} {
-																						<div
-																							ng-repeat="(key1,val1) in val track by $index">
-																							{{val1}};</div>
-																						}
-
-																					</div>
-																					service {{modelName}}{
-																					<div class="operation"
-																						ng-repeat="(key,val) in operationDisplay">
-																						{{key}} ({{val.input}}) returns {{val.output}};</div>
-																					}
-																				</div>
+																				<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab3-panel">
 																				<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
@@ -2108,11 +2093,11 @@ limitations under the License.
 																							<td>{{value.version}}</td>
 																							<td>{{value.created | date:'MM/dd/yyyy'}}</td>
 																							<td>
-																								<button
-																									class="mdl-button mdl-js-button btn-grid-action"
-																									ng-click="exportToLocal(value.artifactId)"> <!--$root.showPrerenderedDialog($event, '#downloadConfirm')  -->
+																								<md-button 
+																									class="mdl-button mdl-js-button btn-grid-action" 
+																									href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" target="_blank">
 																									<i class="fa fa-download" aria-hidden="true"></i>
-																								</button>
+																								</md-button>
 
 																							</td>
 																						</tr>

@@ -86,6 +86,10 @@ public class MessagingServiceImpl implements MessagingService{
 		RestPageRequest pageRequest = new RestPageRequest();
 		Map<String,Object> queryParam = new HashMap<String, Object>();
 		queryParam.put("trackingId", trackingId);
+		//To fetch the step results while on-boarding solution. By default CDS sends 20 records. Where as convert to onap produces more that 20 step results
+		// Setting a random value fo 200 to fetch all the step results
+		pageRequest.setPage(0);
+		pageRequest.setSize(200);
 		RestPageResponse<MLPStepResult> pageResponse = dataServiceRestClient.searchStepResults(queryParam, false, pageRequest);
 		
 		for(int i=0; i< pageResponse.getContent().size(); i++){

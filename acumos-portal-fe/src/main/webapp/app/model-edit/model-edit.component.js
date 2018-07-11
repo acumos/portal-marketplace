@@ -356,6 +356,7 @@ angular
 							angular.element('.md-version-ddl1').hide();
 							$scope.completedOnDate = modifiedDate;
 							$scope.loadData();
+							$scope.getProtoFile();
 						}
 						
 						$scope.loadData = function() {
@@ -385,7 +386,7 @@ angular
 														$scope.solution.created = $scope.completedOnDate;
 														$scope.solution.modified = $scope.completedOnDate;
 													}
-													if ($scope.solution.revisions != null) {												
+													if ($scope.solution.revisions != null) {
 														var counter = 0;
 														var length = $scope.solution.revisions.length;
 														//**adding list of versions
@@ -407,7 +408,7 @@ angular
 															  }
 															  return comparison; }
 														);
-														
+														$scope.version = $scope.versionList.filter(versions => versions.revisionId == $scope.revisionId)[0];
 														if( !$scope.revisionId ){
 															$scope.revisionId = $scope.versionList[0].revisionId;
 															$scope.versionId = $scope.versionList[0].version;
@@ -416,70 +417,7 @@ angular
 															$scope.solution.created = $scope.versionList[0].modified;
 															$scope.solution.modified = $scope.versionList[0].modified;
 														}
-														
-														var pathArray = location.href.split( '/' );
-														var protocol = pathArray[0];
-														var host = pathArray[2];
-														var baseURL = protocol + '//' + host;
-														
-														var qs = querystring.parse();
-														var urlBase = baseURL + '/dsce/';
-										                var options = Object.assign({
-										                	base:"dsce/dsce/",
-										                    //base: urlBase,
-										                	//base: 'http://localhost:8088/dsce/',
-										                    protobuf: 'artifact/fetchProtoBufJSON'
-										                }, qs);
-										                
-										               var url= build_url(options.protobuf, {
-										                    userId: $scope.solution.ownerId,
-										                    solutionId :  $scope.solution.solutionId,
-										                    version : $scope.versionId
-										                });
-										                $http.get(url).success(function(proto){
-										                	console.log(proto);
-										                	
-										                	var i=0; var j=0; var messageJson = [];
-										                	var operations = new Object(); var messages = new Object();var operationName = null; var messagesName = [];
-										                	$scope.protoDisplay = proto;
-										                	
-										                	angular.forEach(proto.protobuf_json.service.listOfOperations, function(value, key) {
-										                		messagesName= [];
-										                		angular.forEach(value.listOfInputMessages,function(value1,key1){
-										                			messagesName["input"]=value1.inputMessageName;
-										                			angular.forEach(proto.protobuf_json.listOfMessages, function(value2, key2) {
-										                				messageJson=[];
-										                				if(value1.inputMessageName === value2.messageName){
-										                        			angular.forEach(value2.messageargumentList, function(value3, key3) {  
-										                        				messageJson.push(value3.rule+' '+value3.type+' '+value3.name+' = '+value3.tag); 
-										                        			});
-										                        			messages[value2.messageName]= messageJson;
-										                        			
-										                				} 
-										                			});
-										                		});
-										                		
-										                    	angular.forEach(value.listOfOutputMessages,function(value1,key1){
-										                    		messagesName["output"]= value1.outPutMessageName;
-										                    		angular.forEach(proto.protobuf_json.listOfMessages, function(value2, key2) {
-										                    			messageJson=[];
-										                            	if(value1.outPutMessageName === value2.messageName){
-										                            		angular.forEach(value2.messageargumentList, function(value3, key3) {   
-										                            			messageJson.push(value3.rule+' '+value3.type+' '+value3.name+' = '+value3.tag); 
-										                            		});
-										                            		messages[value2.messageName] = messageJson;
-										                            	}
-										                            });
-										                    	});
-									                        	operationName = value.operationType+" "+value.operatioName;	
-						                                        operations[operationName] = messagesName;
-						                                    });
-								                        	
-								                        	$scope.modelName = proto.protobuf_json.service.name;
-								                        	$scope.operationDisplay = operations;
-								                        	$scope.messageDisplay = messages;
-								                        	
-										                });
+														$scope.getProtoFile();
 													}
 													$scope.solutionEditorCompanyDesc = $scope.solution.description;
 													$scope.isModelActive = $scope.solution.active;
@@ -535,7 +473,21 @@ angular
 											});
 							$scope.publishalert = '';
 						}
-						
+
+						$scope.getProtoFile = function(){
+							 $scope.modelSignature = "";
+							 var url = 'api/getProtoFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
+								$http(
+										{
+											method : 'GET',
+											url : url
+										})
+										.then(
+												function successCallback(response) {
+													console.log(response);
+													$scope.modelSignature = response.data;
+												});
+						}
 
 						$scope.getSolCompanyDesc = function() {
 							var req = {
@@ -1670,6 +1622,11 @@ angular
 
 						}
 
+						if (localStorage.getItem("userDetail")) {
+							$scope.auth = localStorage
+									.getItem("auth_token");
+							$scope.loginUserID = JSON.parse(localStorage.getItem("userDetail"))[1];
+						}
 						$scope.exportToLocal = function(artifactId) {
 							if(localStorage.getItem("userDetail")){
 								$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));

@@ -263,12 +263,12 @@ limitations under the License.
 								class="mp-grid-head-buttons-container"
 								ng-hide="seeAllSelected || mlSolutionPrivate.length < 1">
 									<a class="btnseeall removetop" ng-click="privateNav('SeeAll')" 
-									ng-class="{ removetop: !(pageNumPrivate < 1 || mlSolutionPrivate.length < 4)}" ng-hide="pageNumPrivate < 1 && mlSolutionPrivateCount == solutionsCount.privateModelCount">See
+									ng-class="{ removetop: !(pageNumPrivate < 1 || mlSolutionPrivate.length < 4)}" ng-hide="pageNumPrivate < 1 && mlSolutionPrivateCount == totalPrivateSolCount">See
 										All</a> <a href="" ng-click="privateNav('Pre')"
 									class="seeall-icons" ng-hide="pageNumPrivate < 1" ng-class="{disabledClick: privateDataLoaded==true}"> <i
 										class="material-icons" alt="Previous" title="Previous">navigate_before</i>
 								</a> <a href="" ng-click="privateNav('Next')" class="seeall-icons" ng-class="{disabledClick: privateDataLoaded==true}"
-									ng-hide="mlSolutionPrivateCount == solutionsCount.privateModelCount">
+									ng-hide="mlSolutionPrivateCount == totalPrivateSolCount">
 										<i class="material-icons" alt="Next" title="Next">navigate_next</i>
 								</a>
 							</span>
@@ -389,7 +389,7 @@ limitations under the License.
 							<button
 								class="mdl-button mdl-js-button btn-primary"
 								ng-click="privateNav('SeeAll',true)"
-								ng-hide="(mlSolutionPrivate.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionPrivateCount == solutionsCount.privateModelCount">
+								ng-hide="(mlSolutionPrivate.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionPrivateCount == totalPrivateSolCount">
 								{{viewNoMLsolution}}</button>
 						</div>
 					</div>
@@ -401,7 +401,7 @@ limitations under the License.
 							({{mlSolutionCompanyCount}}/{{totalCompanySolCount}})<span
 								class="pull-right"><span
 								class="mp-grid-head-buttons-container"
-								ng-hide="seeAllSelected || mlSolutionCompany.length < 1 || ( pageNumCompany < 1 && mlSolutionCompanyCount == solutionsCount.companyModelCount )"><a
+								ng-hide="seeAllSelected || mlSolutionCompany.length < 1 || ( pageNumCompany < 1 && mlSolutionCompanyCount == totalCompanySolCount )"><a
 									href="" class="btnseeall removetop"
 									ng-click="CompanyNav('SeeAll')"
 									ng-class="{ removetop: !(pageNumCompany < 1 || mlSolutionCompany.length < 4)}">See
@@ -410,7 +410,7 @@ limitations under the License.
 									class="material-icons" alt="Previous" title="Previous">navigate_before</i></a><a href=""
 									ng-click="CompanyNav('Next');" class="seeall-icons"
 									ng-class="{disabledClick:companyDataLoaded==true}"								
-									ng-hide="mlSolutionCompanyCount == solutionsCount.companyModelCount"><i
+									ng-hide="mlSolutionCompanyCount == totalCompanySolCount"><i
 										class="material-icons" alt="Next" title="Next">navigate_next</i></a> </span></span>
 						</h4>
 						<div class="posrel" ng-if="mlSolutionCompany.length < 1">
@@ -585,7 +585,7 @@ limitations under the License.
 							<button
 								class="mdl-button mdl-js-button btn-primary"
 								ng-click="CompanyNav('SeeAll', true)"
-								ng-hide="(mlSolutionCompany.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionCompanyCount == solutionsCount.companyModelCount">
+								ng-hide="(mlSolutionCompany.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionCompanyCount == totalCompanySolCount">
 								{{viewNoMLsolution}}</button>
 						</div>
 					</div>
@@ -597,14 +597,14 @@ limitations under the License.
 						({{mlSolutionPublicCount}}/{{totalPublicSolCount}})<span
 							class="pull-right"><span
 							class="mp-grid-head-buttons-container"
-							ng-hide="seeAllSelected || mlSolutionPublic.length < 1 || ( pageNumPublic < 1 && mlSolutionPublicCount == solutionsCount.publicModelCount )"><a
+							ng-hide="seeAllSelected || mlSolutionPublic.length < 1 || ( pageNumPublic < 1 && mlSolutionPublicCount == totalPublicSolCount )"><a
 								class="btnseeall" ng-click="publicNav('SeeAll')"
 								ng-class="{ removetop: !(pageNumPublic < 1 || publicSolution.length < 4)}">See
 									All</a> <a ng-click="publicNav('Pre')" class="seeall-icons" href=""
 									 ng-class="{disabledClick: publicDataLoaded==true}"
 								ng-hide="pageNumPublic < 1"><i class="material-icons" alt="Previous" title="Previous">navigate_before</i></a><a
 								ng-click="publicNav('Next');" class="seeall-icons" href=""
-								ng-hide="mlSolutionPublicCount == solutionsCount.publicModelCount"  ng-class="{disabledClick: publicDataLoaded==true}"><i
+								ng-hide="mlSolutionPublicCount == totalPublicSolCount"  ng-class="{disabledClick: publicDataLoaded==true}"><i
 									class="material-icons" alt="Next" title="Next">navigate_next</i></a> </span></span>
 					</h4>
 					<div class="posrel" ng-if="publicSolution.length < 1">
@@ -805,7 +805,7 @@ limitations under the License.
 						<button
 							class="mdl-button mdl-js-button btn-primary"
 							ng-click="publicNav('SeeAll', true)"
-							ng-hide="(mlSolutionPublic.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionPublicCount == solutionsCount.publicModelCount">
+							ng-hide="(mlSolutionPublic.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionPublicCount == totalPublicSolCount">
 							{{viewNoMLsolution}}</button>
 					</div>
 				</div>
@@ -816,7 +816,7 @@ limitations under the License.
 						({{mlSolutionDeletedCount}}/{{totalDeletedSolCount}})<span
 							class="pull-right"> <span
 							class="mp-grid-head-buttons-container"
-							ng-hide="seeAllSelected || mlSolutionDelete.length < 1 || ( pageNumDelete < 1 && mlSolutionDeletedCount == solutionsCount.deletedModelCount)"><a
+							ng-hide="seeAllSelected || mlSolutionDelete.length < 1 || ( pageNumDelete < 1 && mlSolutionDeletedCount == totalDeletedSolCount)"><a
 								class="btnseeall " ng-click="deleteNav('SeeAll')"
 								ng-class="{ removetop: !(pageNumDelete < 1 || mlSolutionDelete.length < 4)}">See
 									All</a> <a ng-click="deleteNav('Pre')" class="seeall-icons" href=""
@@ -824,7 +824,7 @@ limitations under the License.
 								ng-hide="pageNumDelete < 1"><i class="material-icons" alt="Previous" title="Previous">navigate_before</i></a><a
 								ng-click="deleteNav('Next')" class="seeall-icons" href=""
 								ng-class="{disabledClick: deleteDataLoaded==true}"
-								ng-hide="mlSolutionDeletedCount == solutionsCount.deletedModelCount"><i
+								ng-hide="mlSolutionDeletedCount == totalDeletedSolCount"><i
 									class="material-icons" alt="Next" title="Next">navigate_next</i></a> </span>
 						</span>
 					</h4>
@@ -1000,7 +1000,7 @@ limitations under the License.
 								<button
 									class="mdl-button mdl-js-button btn-primary"
 									ng-click="deleteNav('SeeAll', true)"
-									ng-hide="(mlSolutionDelete.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionDeletedCount == solutionsCount.deletedModelCount">
+									ng-hide="(mlSolutionDelete.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionDeletedCount == totalDeletedSolCount">
 									{{viewNoMLsolution}}</button>
 							</div>
 						</div>

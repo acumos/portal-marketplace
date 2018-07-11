@@ -1821,28 +1821,6 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		if (response.getContent() != null) {
 			List<MLPSolution> mlpSolList = response.getContent();
 			filteredSolList.addAll(mlpSolList);
-			// To show shared models with user in MyModel
-			/*if (pageReqPortal.getOwnerIds() != null) {
-				RestPageResponse<MLPSolution> mlpSolutionsShareRest = null;
-				String ownerId[]=pageReqPortal.getOwnerIds();
-				mlpSolutionsShareRest = dataServiceRestClient.getUserAccessSolutions(ownerId[0],
-						new RestPageRequest(0, 1000));
-				mlSolutionsRest.setModelsSharedWithUser(mlpSolutionsShareRest.getContent());
-				if (mlpSolutionsShareRest != null) {
-					List<String> accessTypeCodes = pageReqPortal.getAccessTypeCodes()!= null? new ArrayList<String>(Arrays.asList(pageReqPortal.getAccessTypeCodes())) : null; 
-                    for (MLPSolution mlpSolution : mlpSolutionsShareRest.getContent()) {
-                        if(accessTypeCodes != null){
-                            if(accessTypeCodes.contains(mlpSolution.getAccessTypeCode()) && mlpSolution.isActive()){
-                                filteredSolList.add(mlpSolution);
-                            }
-                        }else {
-                            if(!mlpSolution.isActive()){
-                                filteredSolList.add(mlpSolution);
-                            }
-                        }
-                    }
-				}
-			}*/
 
 			for (MLPSolution mlpSol : filteredSolList) {
 				MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
@@ -2014,7 +1992,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			mlSolutionsRest.setContent(content);
 			mlSolutionsRest.setFilteredTagSet(filteredTagSet);
 			mlSolutionsRest.setPageCount(response.getTotalPages());
-            		mlSolutionsRest.setTotalElements((int)response.getTotalElements());
+			mlSolutionsRest.setTotalElements((int)response.getTotalElements());
 		}
 
 		return mlSolutionsRest;
@@ -2024,6 +2002,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		log.debug(EELFLoggerDelegate.debugLogger, "getLatestSolRevision");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		
+		//for inactive solutions no accessTypeCode is required
+		if(accessTypeCode == null) {
+			accessTypeCode = new String[]{};
+		}
 		List<String> category = Arrays.asList(accessTypeCode);
 		
 		MLPSolutionRevision revision = null;
@@ -2042,6 +2024,10 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					break;
 				}
 			}
+		}
+		//for deleted solutions no access type code is required from the front end. So assign the latest version
+		if(revision == null && revisions != null) {
+			revision = revisions.get(0);
 		}
 		return revision;
 	}
