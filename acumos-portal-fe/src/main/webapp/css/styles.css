@@ -1902,6 +1902,9 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {overflow: visible !important;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child .a-tooltip .a-tooltiptext {white-space: normal;}
 /**************Tooltip style end****************/
+/* fed table */
+.fedtbl table{display: block; overflow: auto;}
+.fedtbl table.admin-tbl1 thead tr th{min-width: 75px;}
 	
 /*********** MEDIA QUERIES SECTION START************/
 
