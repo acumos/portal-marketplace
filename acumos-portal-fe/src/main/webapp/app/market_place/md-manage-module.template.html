@@ -581,13 +581,13 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="text-center" ng-if="seeAllSelected">
-							<button
-								class="mdl-button mdl-js-button btn-primary"
-								ng-click="CompanyNav('SeeAll', true)"
-								ng-hide="(mlSolutionCompany.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionCompanyCount == totalCompanySolCount">
-								{{viewNoMLsolution}}</button>
-						</div>
+					</div>
+					<div class="text-center" ng-if="seeAllSelected">
+						<button
+							class="mdl-button mdl-js-button btn-primary"
+							ng-click="CompanyNav('SeeAll', true)"
+							ng-hide="(mlSolutionCompany.length < 1) || viewNoMLsolution=='No More ML Solutions' || mlSolutionCompanyCount == totalCompanySolCount">
+							{{viewNoMLsolution}}</button>
 					</div>
 				</div>
 
