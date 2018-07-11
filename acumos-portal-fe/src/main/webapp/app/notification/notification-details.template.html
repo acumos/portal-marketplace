@@ -81,7 +81,7 @@ limitations under the License.
 									  <span class="mdl-checkbox__label"></span>
 									</label>
 								</td>
-								  <td class="mdl-data-table__cell--non-numeric"  ng-class="{'read-notification': notification.viewed}">Administrator<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
+								  <td class="mdl-data-table__cell--non-numeric"  ng-class="{'read-notification': notification.viewed}">{{adminDetails[0].firstName}} {{adminDetails[0].lastName}}<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
 								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.message}}</td>
 								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start | date:"MM/dd/yyyy"}}</td>
 								</tr>
