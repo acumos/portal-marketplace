@@ -88,6 +88,8 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 	    authToken = httpRequest.getHeader("jwtToken");
 	    if(authToken == null )
 	    	authToken = httpRequest.getHeader("Authorization");
+	    if(authToken == null)
+	    	authToken = request.getParameter("jwtToken");
 	    
 	    String provider = httpRequest.getHeader("provider");
 	    if(provider == null) {

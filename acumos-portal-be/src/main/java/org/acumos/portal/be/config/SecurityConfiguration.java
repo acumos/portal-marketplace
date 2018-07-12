@@ -100,7 +100,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/users/userProfileImage/{userId}").permitAll()  
         .antMatchers(HttpMethod.GET, "/admin/version").permitAll()
         .antMatchers("/users/forgetPassword").permitAll()
-        .antMatchers(HttpMethod.GET, "/downloads/{solutionId}").permitAll()
         .antMatchers(HttpMethod.GET, "/cas/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/signup/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/getProtoFile").permitAll()

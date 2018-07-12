@@ -2101,11 +2101,11 @@ limitations under the License.
 																							<td>{{value.version}}</td>
 																							<td>{{value.created | date:'MM/dd/yyyy'}}</td>
 																							<td>
-																								<button
-																									class="mdl-button mdl-js-button btn-grid-action"
-																									ng-click="exportToLocal(value.artifactId)"> <!--$root.showPrerenderedDialog($event, '#downloadConfirm')  -->
+																								<md-button 
+																									class="mdl-button mdl-js-button btn-grid-action" 
+																									href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" target="_blank">
 																									<i class="fa fa-download" aria-hidden="true"></i>
-																								</button>
+																								</md-button>
 
 																							</td>
 																						</tr>
@@ -3611,9 +3611,11 @@ limitations under the License.
 											<td data-label="Name">{{value.name}}</td>
 											<td data-label="Type">{{value.artifactTypeCode}}</td>
 											<td data-label="Version">{{value.version}}</td>
-											<td data-label="Action"><a href
-												ng-click="exportToLocal(value.artifactId)"><img
-													src="images/view-download-1.png" alt="" title="" /></a></td>
+											<td data-label="Action"><md-button 
+																									class="mdl-button mdl-js-button btn-grid-action" 
+																									href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" target="_blank">
+																									<i class="fa fa-download" aria-hidden="true"></i>
+																								</md-button></td>
 										</tr>
 										<tr class="removebefore">
 											<td colspan="4" class="mercol">

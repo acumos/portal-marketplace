@@ -50,7 +50,12 @@ angular
 						
 						var user= JSON.parse(localStorage.getItem("userDetail"));
 						$scope.userDetailsLogged = user;
-						
+
+						if (localStorage.getItem("userDetail")) {
+							$scope.auth = localStorage
+									.getItem("auth_token");
+						}
+
 						$scope.showAlertMessage = false;
 						
 						$scope.getAllRatings = function(){

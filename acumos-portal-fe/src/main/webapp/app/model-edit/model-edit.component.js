@@ -1510,6 +1510,12 @@ angular
 
 						}
 
+						if (localStorage.getItem("userDetail")) {
+							$scope.auth = localStorage
+									.getItem("auth_token");
+							$scope.loginUserID = JSON.parse(localStorage.getItem("userDetail"))[1];
+						}
+
 						$scope.exportToLocal = function(artifactId) {
 							if(localStorage.getItem("userDetail")){
 								$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
