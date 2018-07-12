@@ -52,7 +52,7 @@ limitations under the License.
 			</div>
 			</div>
 			<div class="md-head-container2">	
-				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active && solution.active == true"
+				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active && solution.active == true && $root.isONAPCompatible"
 						class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 						ui-sref="modularResource({ONAP: 'true', solutionId: solutionId, revisionId: revisionId})" ng-click="$root.parentActive = ''"
 						>Build for ONAP</button>

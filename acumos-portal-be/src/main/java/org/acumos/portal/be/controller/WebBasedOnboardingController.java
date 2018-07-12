@@ -407,4 +407,18 @@ public class WebBasedOnboardingController  extends AbstractController {
 		data.setResponseDetail(tracking_id.toString());
 		return data;
 	}
+
+	@RequestMapping(value = { APINames.CHECK_ONAP_COMPATIBLE}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> checkONAPCompatible(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId) {
+		JsonResponse<String> data = new JsonResponse<>();
+		Boolean isONAPCompatible = false;
+
+		isONAPCompatible = asyncService.checkONAPCompatible(solutionId, revisionId);
+
+
+		data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+		data.setResponseDetail(isONAPCompatible.toString());
+		return data;
+	}
 }

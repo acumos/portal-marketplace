@@ -37,6 +37,7 @@ angular
 						$scope.showPBDescription = false;
 						$scope.showORDocs = false;
 						$scope.showPBDocs = false;
+						$rootScope.isONAPCompatible = false;
 						
 						$scope.clearForm = function(){
 							deploy.reset();
@@ -642,6 +643,7 @@ angular
 													$scope.CommentName = origComments;
 													
 											}
+											$scope.checkOnapCompatibility();
 										})
 										
 								.error(function(data, status, headers, config) {
@@ -652,6 +654,23 @@ angular
 								});
 
 						// };
+						
+						$scope.checkOnapCompatibility = function (){
+							 if($rootScope.enableDCAE && $scope.loginUserID) {
+									var check_onap_url = 'api/webBasedOnBoarding/checkOnapCompatible/' + $scope.solution.solutionId + '/'+$scope.revisionId;
+									$http(
+											{
+												method : 'GET',
+												url : check_onap_url
+											})
+											.then(
+													function successCallback(response) {
+														$rootScope.isONAPCompatible = (response.data.response_detail === "true");
+													},function errorCallback(response) {
+														//Do nothing
+												});
+								}
+						 }
 						
 						$scope.totalCommentCount = 0;
 						$scope.postComment = function() {
@@ -932,6 +951,7 @@ angular
 							 
 							$scope.getPublicSolutionDocuments($scope.solution.accessType);
 							$scope.getArtifacts();
+							$scope.checkOnapCompatibility();
 						}
 										
 						
