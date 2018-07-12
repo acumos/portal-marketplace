@@ -20,6 +20,27 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.36, 11 th July 2018
+================================
+* IST2: Published Option : Completed is not displaying when user  published a model (ACUMOS-1335)
+* IST2 : Deleted Model is not displaying in the my model section (ACUMOS-1334)
+* Portal shows zero total available in my models page when some are present (ACUMOS-1331)
+* Portal allows download of solution artifacts without login (ACUMOS-1278)
+* changing version in portal does not update signature for a model (ACUMOS-1274)
+* PM My Models search always includes shared models  (ACUMOS-1143)
+* IST2:Unpublished model is displaying when user filtered with the tags (ACUMOS-1108)
+* IST2: Preview Model : Undefined tags is showing when user open the signature from preview model (ACUMOS-1107)
+* IST2: Versioning of Model is not working  (ACUMOS-868)
+* <IST2> <DCAE> Build For ONAP buttons should be disabled for Java and ONAP models (ACUMOS-629)
+* <IST> <Marketplace> <DCAE> On Build For ONAP, on clicking Add to Catalog all steps are not getting completed (ACUMOS-564)
+* Support Multiple version of Solution in Public/Company/Private(ACUMOS-23)
+* IST2: Notification: Only Administrator is coming in the Sender Name(ACUMOS-969)
+* IST2: <Marketplace> Downloaded count is not updating after downloading the file unless refreshing the browser page(ACUMOS-1134)
+* Relabel Portal tab in model details from "Version History" to "Associated Artifacts" or something(ACUMOS-1281)
+* Sorting results are incorrect for Status column in federation screen(ACUMOS-320)
+* IST2:Unpublished model is displaying when user filtered with the tags(ACUMOS-1108)
+
+
 Version 1.15.35, 6 th July 2018
 ================================
 * IST2: No error message is displaying when user disable single remaining slide (ACUMOS-1048)
