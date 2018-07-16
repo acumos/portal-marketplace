@@ -1096,11 +1096,12 @@ limitations under the License.
 					<div>
 						<label><span class="font600">Version {{value.version}}</span> - <span
 							class="txt-orange text-small">Latest</span> </label> 
-							<label class="downloadlbl1" class="tooltip"><span class="font600">File
-												Name:</span></label>
-							<label class="a-tooltip"><span class="a-tooltipval">{{value.name}} {{value.version}}</span>
-							<span class="a-tooltiptext">{{value.name}} {{value.version}}</span>
+							<div class="md-tooltip-container">
+								<label class="md-downloadlbl1 font600" class="tooltip">File Name:</label>
+								<label class="a-tooltip"><span class="a-tooltipval">{{value.name}} {{value.version}}</span>
+								<span class="a-tooltiptext">{{value.name}} {{value.version}}</span>
 							</label>
+							</div>
 							<label class="downloadlbl2"><span class="font600">Uploaded
 							on</span> - {{value.created | date:'MM/dd/yyyy'}}</label>
 					</div>
