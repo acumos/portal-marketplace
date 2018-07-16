@@ -276,7 +276,7 @@ md-input-container.md-default-theme:not(.md-input-focused):not(.md-input-invalid
 .cg-dialog-medium {width: 600px;}
 
 .modal-row1 {display: flex; justify-content: space-between; align-items: center; background: #f2f2f2; padding: 8px 12px; margin-bottom:8px;}
-.modal-row1 > div {width: 250px;}
+.modal-row1 > div {width: 78%;}
 .modal-row1 > div > label {display: block}
 
 
@@ -1891,16 +1891,19 @@ sup.ds-text2 {font-size: 12px !important;}
 md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not([disabled]):focus .md-select-value {border-bottom: none !important;}
 
 /**************Tooltip style start**************/
-.a-tooltip {position: relative;display: inline-block;}
+.a-tooltip {position: relative;display: inline-block;width: 335px;}
 .a-tooltip .a-tooltiptext {visibility: hidden; width: 280px; background-color: #2e2f2f; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s;}
 .a-tooltip .a-tooltiptext::after {content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 6px; border-style: solid; border-color: #2e2f2f transparent transparent transparent;}
 .a-tooltip:hover .a-tooltiptext {visibility: visible; opacity: 1;}
-.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; max-width:200px;width: 80%;}
+.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; width: 99%;white-space: nowrap;}
 .modal-row1.modal-row-new1 > div > label {border: none !important;}
-.modal-row1.modal-row-new1 > div {max-width: 375px !important;}
+.modal-row1.modal-row-new1 > div {}
 
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {overflow: visible !important;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child .a-tooltip .a-tooltiptext {white-space: normal;}
+
+.md-tooltip-container {display: flex;}
+.md-downloadlbl1 {display: block; white-space: nowrap;}
 /**************Tooltip style end****************/
 /* fed table */
 .fedtbl table{display: block; overflow: auto;}
