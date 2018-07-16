@@ -102,8 +102,7 @@ angular
 						$rootScope.progressBar = 0;
 						$scope.imageerror = false;
 						$scope.imagetypeerror = false;
-						
-						
+						$scope.docerror = false;
 						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
@@ -1990,7 +1989,16 @@ angular
 												$rootScope.progressBar = 0;
 											})
 											.catch(function() {
-												alert("Error in uploading the file");
+												$location.hash('manage-models');
+												$anchorScroll();
+												$scope.msg = "Error in uploading the file ";
+												$scope.icon = 'report_problem';
+												$scope.styleclass = 'c-error';
+												$scope.showAlertMessage = true;
+												$timeout(
+														function() {
+															$scope.showAlertMessage = false;
+														}, 2000);
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
 											});
@@ -2015,7 +2023,16 @@ angular
 												$scope.showFileUpload = !$scope.showFileUpload;
 											})
 											.catch(function() {
-												alert("Error in uploading the file");
+												$location.hash('manage-models');
+												$anchorScroll();
+												$scope.msg = "Error in uploading the file ";
+												$scope.icon = 'report_problem';
+												$scope.styleclass = 'c-error';
+												$scope.showAlertMessage = true;
+												$timeout(
+														function() {
+															$scope.showAlertMessage = false;
+														}, 2000);
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
 											});
@@ -2667,7 +2684,20 @@ angular
 				    $scope.$on('$destroy', function () {
 				    	angular.element($scope.idTab + ' li div').removeClass('completed incomplet active');
 				    	angular.element($scope.idTab + ' li').removeClass('green completed');
-		            });	
+		            });
+				    
+					$scope.closeUploadPopup = function(){
+						if ($scope.showSolutionDocs && $rootScope.progressBar < 100){
+							modelUploadService.cancelUpload("Upload cancelled by user");
+						}
+						$scope.privatefilename = '';
+						$scope.publicfilename = '';
+						$scope.solutionFile = '';
+						$scope.showFileUpload = !$scope.showFileUpload;
+						$rootScope.progressBar = 0;
+						$scope.docerror = false;
+					}
+				    
 					}
 
 				});

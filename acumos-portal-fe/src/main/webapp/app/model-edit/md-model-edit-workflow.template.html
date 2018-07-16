@@ -1123,7 +1123,7 @@ limitations under the License.
                                                                                                 </button> -->
 
 																<md-button class="md-icon-button"
-																	ng-click="showFileUpload = !showFileUpload">
+																	ng-click="closeUploadPopup()">
 																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 
 															</div>
@@ -1157,19 +1157,25 @@ limitations under the License.
 																						uploadid="documentuploadid" id="uploadFile"
 																						filename="privatefilename" 
 																						ng-model="solutionFile" accept = ""
-																						upload-image-model="solutionFile" readonly alt="Browse" title="Browse"></div>
+																						upload-image-model="solutionFile" size=10000000 docerror="docerror" readonly alt="Browse" title="Browse">
+																						
+																						</div>
 																						<div class="upload-image-input files-uploaded">
 																		    			<input class="mdl-textfield__input disabledClick"
 																						placeholder="Upload File" type="text"
 																						ng-model="privatefilename" readonly />
 																						</div>
 																			<div  > <!-- ng-show="progressVisible" -->
-														            
+														            		
 														            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-														               <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
-														            			<span ng-show = "$root.progressBar == 100">Completed</span>
 														            </div>
+														            <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
+														            	<span ng-show = "$root.progressBar == 100">Completed</span>
 														            </div>
+														            
+														            <div class="help-inline validation-msgs">
+																		<span ng-show="docerror">Document should be of max size 10MB.</span>
+																	</div>
 														         </div>
 																		</div>
 																	</form>
@@ -1180,7 +1186,7 @@ limitations under the License.
 																	<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																	<md-button ng-click="privatefilename = '';showFileUpload = !showFileUpload; $root.progressBar = 0; solutionFile = ''"
+																	<md-button ng-click="closeUploadPopup();"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
 																		data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
@@ -1190,7 +1196,7 @@ limitations under the License.
 																	<md-button ng-show="!showSolutionDocs"
 																		ng-click="updateSolutionFiles('documentuploadid');"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																		type="button" ng-disabled = "!solutionFile"
+																		type="button" ng-disabled = "!solutionFile || docerror == true"
 																		data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																	<span class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
@@ -2853,7 +2859,7 @@ limitations under the License.
                                                                                                 </button> -->
 
 															<md-button class="md-icon-button"
-																ng-click="showFileUpload = !showFileUpload">
+																ng-click="closeUploadPopup()">
 															<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
 
 														</div>
@@ -2887,7 +2893,7 @@ limitations under the License.
 																						uploadid="publicDocumentuploadid" id="publicUploadFile"
 																						filename="publicfilename" 
 																						ng-model="solutionFile" accept = ""
-																						upload-image-model="solutionFile" readonly alt="Browse" title="Browse"></div>
+																						upload-image-model="solutionFile" size=10000000 docerror="docerror" readonly alt="Browse" title="Browse"></div>
 																						<div class="upload-image-input files-uploaded">
 																		    			<input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
@@ -2897,10 +2903,13 @@ limitations under the License.
 																						placeholder="Upload File" type="text"
 																						ng-model="publicfilename" readonly />	 -->
 																			<div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-														               			<div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
+																			</div>
+														               		<div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
 														            			<span ng-show = "$root.progressBar == 100">Completed</span>
-														            			</div>
 														            		</div>
+														            		 <div class="help-inline validation-msgs">
+																				<span ng-show="docerror">Document should be of max size 10MB.</span>
+																			 </div>
 																	</div>
 																</form>
 															</div>
@@ -2909,7 +2918,7 @@ limitations under the License.
 																<!-- <md-button class="md-icon-button" ng-click="cancel()">
                                                                                                 <i class="material-icons">close</i> </md-button>
                                                                                                 -->
-																<md-button ng-click="publicfilename = '';solutionFile = '' ;showFileUpload = !showFileUpload;$root.progressBar = 0"
+																<md-button ng-click="closeUploadPopup()"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																	type="button"
 																	data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
@@ -2920,7 +2929,7 @@ limitations under the License.
 																<md-button ng-show="!showPublicSolutionDocs"
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid');"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																	type="button" ng-disabled = "!solutionFile"
+																	type="button" ng-disabled = "!solutionFile || docerror == true"
 																	data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																<span class="ng-scope"> Done </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
