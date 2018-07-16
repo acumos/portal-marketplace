@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,6 +62,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -83,6 +85,9 @@ public class MarketPlaceServiceControllerTest {
 	private PushAndPullSolutionService pushAndPullSolutionService;
 	
 	private MockMvc mockMvc;
+	
+	@Mock
+	private Environment env;
 	
 	@InjectMocks
 	private MarketPlaceCatalogServiceController marketPlaceController;
@@ -945,5 +950,11 @@ public class MarketPlaceServiceControllerTest {
 		mlpUser.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
 		mlpUser.setLoginName("test-User-Name");
 		return mlpUser;
+	}
+	
+	@Test
+	public void getCloudEnabledList(){
+		JsonResponse<Map<String, String>> responseVO = marketPlaceController.getCloudEnabledList(request, response);
+		Assert.assertNotNull(responseVO);
 	}
 }

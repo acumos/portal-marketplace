@@ -26,7 +26,9 @@ package org.acumos.portal.be.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,6 +65,7 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,6 +96,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@Autowired
 	private PushAndPullSolutionService pushAndPullSolutionService;
 
+	@Autowired
+    private Environment env;
+	
 	/**
 	 * 
 	 */
@@ -1068,5 +1074,28 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				"fetchProtoFile() : End");
 		
 		return result;
+	}
+	
+	
+	@ApiOperation(value = "Get Cloud Enables or not for that model", response = JsonResponse.class)
+    @RequestMapping(value = {APINames.CLOUD_ENABLED_LIST}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<Map<String, String>> getCloudEnabledList(HttpServletRequest request, HttpServletResponse response) {
+		
+		String cloudEnabledAzure = env.getProperty("portal.feature.cloud_enabled_Azure", "false");
+		String cloudEnabledRackspace = env.getProperty("portal.feature.cloud_enabled_rackspace", "false");
+		String cloudEnabledAWS = env.getProperty("portal.feature.cloud_enabled_AWS", "false");
+				
+		JsonResponse<Map<String, String>> responseVO = new JsonResponse<Map<String, String>>();
+		Map<String, String>  cloudEnabledList = new HashMap<>();
+		cloudEnabledList.put("cloudEnabledAzure", cloudEnabledAzure);
+		cloudEnabledList.put("cloudEnabledRackspace", cloudEnabledRackspace);
+		cloudEnabledList.put("cloudEnabledAWS", cloudEnabledAWS);
+		
+		responseVO.setResponseBody(cloudEnabledList);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
 	}
 }
