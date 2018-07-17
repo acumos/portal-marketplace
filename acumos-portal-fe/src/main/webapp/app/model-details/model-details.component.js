@@ -994,8 +994,10 @@ angular
 									  })[0].click(); 
 									  anchor.remove(); 
 								 }
-							  $rootScope.showPrerenderedDialog("", '#downloadConfirm'); 
+						      $scope.getModelDetails();
+							  //$rootScope.showPrerenderedDialog("", '#downloadConfirm'); 
 							  $mdDialog.hide();
+							
 							  })
 							  .error(function(data, status, headers, config) {
 								  $rootScope.showPrerenderedDialog("", '#downloadConfirm');
