@@ -1,3 +1,23 @@
+/*
+===============LICENSE_START=======================================================
+Acumos  Apache-2.0
+===================================================================================
+Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+===================================================================================
+This Acumos software file is distributed by AT&T and Tech Mahindra
+under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+This file is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+===============LICENSE_END=========================================================
+*/
+
 body.md-default-theme, body, html.md-default-theme, html {background:#fff;}
 html,body, button,input, select, textarea,.mdl-button {font-family: 'Open Sans', sans-serif;} 
 p {font-size: 1em;}
@@ -306,8 +326,8 @@ md-dialog .md-dialog-content {padding: 20px;}
 .md-grid-list.mpgridlist md-grid-tile md-grid-tile-header {height: auto;}
 
 .mp-grid-list {display: block; clear:both;}
-.mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 20px 0; border-bottom: 1px dashed #d5d5d5;margin-bottom:15px;}
-.mp-grid-list-row:last-child { border-bottom: none; padding-top:10px;}
+.mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 10px; border: 1px dashed #d5d5d5; max-width: 70%;margin: 10px 0;}
+.mp-grid-list-row:last-child {padding-top:10px;}
 .mp-grid-list-image-cell { width: 200px;position:relative; margin-right: 30px;max-height: 200px;}
 .mp-grid-list-details-cell {}
 .mp-grid-list-details-cell .detail-content span { margin-right: 8px; margin-left: 9px;}
@@ -1680,9 +1700,9 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 
 .listview-btnfav {position:relative; top: -4px; width: 30px; height:30px; min-width: 30px;}
 
-.listview-title-container {display: flex; justify-content: space-between; align-items: center;width: 400px;}
-.listview-title-container .griditem-title {max-width: 360px;text-overflow: clip !important; overflow: visible !important;}
-.listview-title-container .griditem-title .griditem-title-text {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;float: left; max-width: 84%;}
+.listview-title-container {display: flex; justify-content: space-between; align-items: center;width: 340px;}
+.listview-title-container .griditem-title {max-width: 340px;text-overflow: clip !important; overflow: visible !important;}
+.listview-title-container .griditem-title .griditem-title-text {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;float: left; max-width: 98%;}
 
 .tilecontainer1 .griditem-title {max-width: 200px;text-overflow: clip !important; overflow: visible !important;}
 .tilecontainer1 .griditem-title .griditem-title-text2 {margin-left:0;text-overflow: ellipsis; overflow: hidden;white-space: nowrap;float: left; max-width: 65%;}

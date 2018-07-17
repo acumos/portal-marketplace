@@ -2173,7 +2173,7 @@ limitations under the License.
 										ng-disabled="modelIDValue || allSubs=='true'"
 										placeholder="Select Category"> <md-option
 										ng-selected="true" value="">Select Category</md-option> <md-option
-										ng-repeat="cat in category" ng-value="cat.typeCode">{{cat.typeName}}</md-option>
+										ng-repeat="cat in category" ng-value="cat.code">{{cat.name}}</md-option>
 									</md-select>
 								</div>
 
@@ -2186,8 +2186,8 @@ limitations under the License.
 										ng-disabled="modelIDValue || allSubs=='true'"
 										placeholder="Select toolkit"> <md-option
 										ng-selected="true" value="">Select toolkit</md-option> <md-option
-										ng-repeat="tool in toolKitType" ng-value="tool.typeCode">
-									{{tool.typeName}}</md-option> </md-select>
+										ng-repeat="tool in toolKitType" ng-value="tool.code">
+									{{tool.name}}</md-option> </md-select>
 								</div>
 							</div>
 							<div>
