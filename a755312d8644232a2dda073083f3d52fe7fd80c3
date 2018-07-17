@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27d8ee8d_f842bee7",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/sidebar-nav.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-07-17T19:38:07Z",
+      "side": 1,
+      "message": "Please remove the large commented sections.",
+      "revId": "a755312d8644232a2dda073083f3d52fe7fd80c3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c396fee_23095699",
+        "filename": "acumos-portal-fe/src/main/webapp/app/marketplace-home/home.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2018-07-17T19:38:07Z",
+      "side": 1,
+      "message": "Please remove this section that contain some AT\u0026T tags",
+      "range": {
+        "startLine": 192,
+        "startChar": 9,
+        "endLine": 200,
+        "endChar": 26
+      },
+      "revId": "a755312d8644232a2dda073083f3d52fe7fd80c3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
