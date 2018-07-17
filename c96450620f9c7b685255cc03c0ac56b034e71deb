@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0804590_3eca6ef9",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-07-17T13:15:23Z",
+      "side": 1,
+      "message": "For large image file this will not work. Using JS will store the complete 1.5GB in memory and once it is downloaded completely then it will give a popup to save. This will lead to memory issue.",
+      "range": {
+        "startLine": 1108,
+        "startChar": 87,
+        "endLine": 1108,
+        "endChar": 97
+      },
+      "revId": "c96450620f9c7b685255cc03c0ac56b034e71deb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
