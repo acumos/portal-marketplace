@@ -2130,6 +2130,8 @@ angular.module('admin').filter('abs', function() {
                    }
                    
                    $scope.changeCarouselSlides = function (){
+					    var singleSlideFlag = false;
+                	   if($scope.carouselCheckedList.length == 1){singleSlideFlag = true;}
                 	   for (var i=0; i<$scope.carouselCheckedList.length; i++){
                 		   $scope.carouselConfig[$scope.carouselCheckedList[i]]['slideEnabled'] = $scope.changeAction;
                 	   }
@@ -2162,14 +2164,16 @@ angular.module('admin').filter('abs', function() {
                  .then(
                          function(response) {
                          	$scope.getCarouselConfig();
+                         	$scope.changeAction = "Enable/Disable Slides";
+                         	if(!singleSlideFlag){
                          	$scope.msg = "Carousel Updated successfully.";
                             $scope.icon = '';
                             $scope.styleclass = 'c-success';
-                            $scope.changeAction = "Enable/Disable Slides";
                             $scope.showAlertMessage = true;
                             $timeout(function() {
                                 $scope.showAlertMessage = false;
                             }, 5000);
+                         	}
                          });
                 	   
                    }

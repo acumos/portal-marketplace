@@ -458,6 +458,7 @@ angular
             uploadid: "@",
             size: "=", //in bytes
             imageerror: "=",
+            docerror: "=",
             imagetypeerror : "="
           },
         link: function (scope, element) {
@@ -474,6 +475,14 @@ angular
                     scope.validFormats = ['jpg','jpeg','png','gif'];
                     var reader = new FileReader();
 					var imgpath = new Image();
+                	var size = scope.fileinput.size;
+                	if( scope.docerror === false ){
+                		if(size >= scope.size){
+                			scope.docerror = true;
+                		} else {
+                			scope.docerror = false;
+                		}
+                	}
                     reader.onload = function(loadEvent) {
                       scope.$apply(function() {
                     	console.log(scope.size);
@@ -482,7 +491,6 @@ angular
 	                              scope.file.width = this.width;
 	                              scope.file.height = this.height;
 	                          };
-                    	var size = scope.fileinput.size;
 	                	if(scope.validFormats.indexOf(scope.fileType) == -1){
 	    	            	scope.imagetypeerror = true;
 	    	            	scope.imageerror = false;
@@ -496,6 +504,7 @@ angular
 	                        scope.filename = scope.fileinput.name;
 	                        scope.icon = true;
 	    	            }
+	                	
                       });
                     }
                     reader.readAsDataURL(scope.fileinput);
