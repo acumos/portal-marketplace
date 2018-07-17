@@ -991,6 +991,29 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
+	@ApiOperation(value = "findUserSolutions", response = MLSolution.class, responseContainer = "List")
+	@RequestMapping(value = { APINames.USER_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE<MLSolution>> findUserSolutions(HttpServletRequest request,
+			@RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal, HttpServletResponse response) {
+		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+		RestPageResponseBE<MLSolution> mlSolutions = null;
+		try {
+			mlSolutions = catalogService.findUserSolutions(restPageReqPortal.getBody());
+			if (mlSolutions != null) {
+				data.setResponseBody(mlSolutions);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Solutions fetched Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions: size is {} ", mlSolutions.getSize());
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions", e);
+		}
+		return data;
+	}
+
 	@ApiOperation(value = "Get solutions shared for userId", response = User.class)
 	@RequestMapping(value = {
 			APINames.USER_ACCESS_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)

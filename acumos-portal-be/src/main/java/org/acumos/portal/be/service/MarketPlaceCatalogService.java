@@ -124,13 +124,15 @@ public interface MarketPlaceCatalogService {
 	MLPTag createTag(MLPTag body) throws AcumosServiceException;	
 
 	MLPSolutionRating getUserRatings(String solutionId, String userId); 
-	
+
 	RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageRequestPortal); 
-	
+
+	RestPageResponseBE<MLSolution> findUserSolutions(RestPageRequestPortal pageRequestPortal); 
+
 	RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest);
 
 	MLSolutionWeb getSolutionWebMetadata(String solutionId); 
-	
+
 	String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException;
 
 	boolean checkUniqueSolName(String solutionId, String solName);

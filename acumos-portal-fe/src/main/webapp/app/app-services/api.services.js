@@ -27,6 +27,7 @@ angular.module('AcumosApp')
         var urlToolkitTypes = '/api/filter/toolkitType';  
         var urlSolutions = '/api/solutions';
         var urlPortalSolutions = '/api/portal/solutions';
+        var urlUserSolutions = '/api/user/solutions';
         var urlPublishSolution = '/api/publish';
        	var urlSignUp = 'api/users/register';
         var urlSocialSignUp = 'api/oauth/login/register';
@@ -325,6 +326,10 @@ angular.module('AcumosApp')
         
         this.insertSolutionDetail = function (solutionDetails) {
             return $http.post(urlPortalSolutions, solutionDetails);
+        };
+        
+        this.fetchUserSolutions = function (solutionDetails) {
+            return $http.post(urlUserSolutions, solutionDetails);
         };
         
         this.getPeers = function (dataObj) {

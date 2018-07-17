@@ -1815,182 +1815,214 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
+
+		if (response.getContent() != null) {
+			mlSolutionsRest = fetchDetailsForSolutions(response.getContent(), pageReqPortal);
+			mlSolutionsRest.setPageCount(response.getTotalPages());
+			mlSolutionsRest.setTotalElements((int)response.getTotalElements());
+		}
+		return mlSolutionsRest;
+	}
+
+	private RestPageResponseBE<MLSolution> fetchDetailsForSolutions(List<MLPSolution> mlpSolList, RestPageRequestPortal pageReqPortal) {
+		log.debug(EELFLoggerDelegate.debugLogger, "fetchDetailsForSolution");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLSolution> content = new ArrayList<>();
+		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
 		Set<String> filteredTagSet = new HashSet<>();
 		List<MLPSolution> filteredSolList = new ArrayList<>();
 
-		if (response.getContent() != null) {
-			List<MLPSolution> mlpSolList = response.getContent();
-			filteredSolList.addAll(mlpSolList);
+		//List<MLPSolution> mlpSolList = response.getContent();
+		filteredSolList.addAll(mlpSolList);
 
-			for (MLPSolution mlpSol : filteredSolList) {
-				MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
+		for (MLPSolution mlpSol : filteredSolList) {
+			MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
 
-				// set rating, view, download count for model
-				try {
-					MLPSolutionWeb solutionStats = dataServiceRestClient
-							.getSolutionWebMetadata(mlSolution.getSolutionId());
-					mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
-					mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
-					mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-					mlSolution.setSolutionRating(solutionStats.getRatingCount().intValue());
-					mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().floatValue() / 10);
-				} catch (Exception e) {
-					log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
-							mlSolution.getSolutionId());
+			// set rating, view, download count for model
+			try {
+				MLPSolutionWeb solutionStats = dataServiceRestClient
+						.getSolutionWebMetadata(mlSolution.getSolutionId());
+				mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
+				mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
+				mlSolution.setViewCount(solutionStats.getViewCount().intValue());
+				mlSolution.setSolutionRating(solutionStats.getRatingCount().intValue());
+				mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().floatValue() / 10);
+			} catch (Exception e) {
+				log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
+						mlSolution.getSolutionId());
+			}
+
+			// add tags for models
+			List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(mlSolution.getSolutionId());
+			if (tagList.size() > 0) {
+				for (MLPTag tag : tagList) {
+					filteredTagSet.add(tag.getTag());
 				}
+				mlSolution.setSolutionTagList(tagList);
+			}
 
-				// add tags for models
-				List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(mlSolution.getSolutionId());
-				if (tagList.size() > 0) {
-					for (MLPTag tag : tagList) {
-						filteredTagSet.add(tag.getTag());
+			// set owner name for model
+			MLPUser userDetails = userService.findUserByUserId(mlSolution.getOwnerId());
+			mlSolution.setOwnerName(userDetails.getFirstName() + " " + userDetails.getLastName());
+
+			// get shared users for model
+			try {
+				List<User> users = null;
+				List<MLPUser> mlpUsersList = dataServiceRestClient
+						.getSolutionAccessUsers(mlSolution.getSolutionId());
+				if (!PortalUtils.isEmptyList(mlpUsersList)) {
+					users = new ArrayList<>();
+					for (MLPUser mlpusers : mlpUsersList) {
+						User user = PortalUtils.convertToMLPuser(mlpusers);
+						users.add(user);
 					}
-					mlSolution.setSolutionTagList(tagList);
 				}
+				mlSolution.setOwnerListForSol(users);
+			} catch (Exception e) {
+				log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
+						mlSolution.getSolutionId());
+			}
 
-				// set owner name for model
-				MLPUser userDetails = userService.findUserByUserId(mlSolution.getOwnerId());
-				mlSolution.setOwnerName(userDetails.getFirstName() + " " + userDetails.getLastName());
+			//To categorize the solution on display fetch latest revision and add the access type code 
+			MLPSolutionRevision revision = getLatestSolRevision(mlpSol.getSolutionId(), pageReqPortal.getAccessTypeCodes());
+			if (revision != null) {
+				mlSolution.setAccessType(revision.getAccessTypeCode());
+			}
 
-				// get shared users for model
-				try {
-					List<User> users = null;
-					List<MLPUser> mlpUsersList = dataServiceRestClient
-							.getSolutionAccessUsers(mlSolution.getSolutionId());
-					if (!PortalUtils.isEmptyList(mlpUsersList)) {
-						users = new ArrayList<>();
-						for (MLPUser mlpusers : mlpUsersList) {
-							User user = PortalUtils.convertToMLPuser(mlpusers);
-							users.add(user);
-						}
-					}
-					mlSolution.setOwnerListForSol(users);
-				} catch (Exception e) {
-					log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
-							mlSolution.getSolutionId());
-				}
-
-				//To categorize the solution on display fetch latest revision and add the access type code 
-				MLPSolutionRevision revision = getLatestSolRevision(mlpSol.getSolutionId(), accessTypeCodes);
-				if (revision != null) {
-					mlSolution.setAccessType(revision.getAccessTypeCode());
-				}
-
-				// get latest step Result for solution
-				Boolean onboardingStatusFailed = false;
-				MLPStepResult stepResult = null;
-				Map<String, Object> stepResultCriteria = new HashMap<String, Object>();
-				stepResultCriteria.put("solutionId", mlpSol.getSolutionId());
+			// get latest step Result for solution
+			Boolean onboardingStatusFailed = false;
+			MLPStepResult stepResult = null;
+			Map<String, Object> stepResultCriteria = new HashMap<String, Object>();
+			stepResultCriteria.put("solutionId", mlpSol.getSolutionId());
+			
+			Map<String, String> queryParameters = new HashMap<>();
+			queryParameters.put("startDate", "DESC");
+			//Fetch latest step result for the solution to get the tracking id
+			RestPageResponse<MLPStepResult> stepResultResponse =  dataServiceRestClient.searchStepResults(stepResultCriteria, false, new RestPageRequest(0, 1, queryParameters));
+			List<MLPStepResult> stepResultList = stepResultResponse.getContent();
+			String errorStatusDetails = null;
+			if (stepResultList != null && !PortalUtils.isEmptyList(stepResultList)) {
+				stepResult = stepResultList.get(0);
+				String trackingId = stepResult.getTrackingId();
 				
-				Map<String, String> queryParameters = new HashMap<>();
-				queryParameters.put("startDate", "DESC");
-				//Fetch latest step result for the solution to get the tracking id
-				RestPageResponse<MLPStepResult> stepResultResponse =  dataServiceRestClient.searchStepResults(stepResultCriteria, false, new RestPageRequest(0, 1, queryParameters));
-				List<MLPStepResult> stepResultList = stepResultResponse.getContent();
-				String errorStatusDetails = null;
-				if (stepResultList != null && !PortalUtils.isEmptyList(stepResultList)) {
-					stepResult = stepResultList.get(0);
-					String trackingId = stepResult.getTrackingId();
-					
-					//search all step results with the tracking id 
-					Map<String, String> fieldToDirmap = new HashMap<>();
-					
-					Map<String, Object> trackingResultCriteria = new HashMap<String, Object>();
-					trackingResultCriteria.put("trackingId", trackingId);
-					RestPageResponse<MLPStepResult> trackingStepResult =  dataServiceRestClient.searchStepResults(trackingResultCriteria, false, new RestPageRequest(0, 25, fieldToDirmap));
-					List<MLPStepResult> trackingStepResultList = trackingStepResult.getContent();
-					
-					
-					if (trackingStepResultList != null && !PortalUtils.isEmptyList(trackingStepResultList)) {
-						// check if any of the step result is Failed
-						for(MLPStepResult step : trackingStepResultList) {
-							if(StepStatusCode.FA.toString().equals(step.getStatusCode())) {
-								onboardingStatusFailed = true;
-								errorStatusDetails=step.getResult();
-								break;
-							}
+				//search all step results with the tracking id 
+				Map<String, String> fieldToDirmap = new HashMap<>();
+				
+				Map<String, Object> trackingResultCriteria = new HashMap<String, Object>();
+				trackingResultCriteria.put("trackingId", trackingId);
+				RestPageResponse<MLPStepResult> trackingStepResult =  dataServiceRestClient.searchStepResults(trackingResultCriteria, false, new RestPageRequest(0, 25, fieldToDirmap));
+				List<MLPStepResult> trackingStepResultList = trackingStepResult.getContent();
+				
+				
+				if (trackingStepResultList != null && !PortalUtils.isEmptyList(trackingStepResultList)) {
+					// check if any of the step result is Failed
+					for(MLPStepResult step : trackingStepResultList) {
+						if(StepStatusCode.FA.toString().equals(step.getStatusCode())) {
+							onboardingStatusFailed = true;
+							errorStatusDetails=step.getResult();
+							break;
 						}
 					}
 				}
-				mlSolution.setOnboardingStatusFailed(onboardingStatusFailed);
-				if(errorStatusDetails!=null) {
-					mlSolution.setErrorDetails(errorStatusDetails);
+			}
+			mlSolution.setOnboardingStatusFailed(onboardingStatusFailed);
+			if(errorStatusDetails!=null) {
+				mlSolution.setErrorDetails(errorStatusDetails);
+				}
+			content.add(mlSolution);
+		}
+
+		if (pageReqPortal.getSortBy() != null) {
+			// sort by Most Downloaded
+			if (pageReqPortal.getSortBy().equalsIgnoreCase("MD")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution ms1, MLSolution ms2) {
+						return (int) (ms2.getDownloadCount() - ms1.getDownloadCount());
 					}
-				content.add(mlSolution);
+				});
+				// sort by Least Downloaded
+			} else if (pageReqPortal.getSortBy().equalsIgnoreCase("FD")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution ms1, MLSolution ms2) {
+						return (int) (ms1.getDownloadCount() - ms2.getDownloadCount());
+					}
+				});
+				// sort by Highest Reach
+			} else if (pageReqPortal.getSortBy().equalsIgnoreCase("HR")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution ms1, MLSolution ms2) {
+						return (int) (ms2.getViewCount() - ms1.getViewCount());
+					}
+				});
+				// sort by Lowest Reach
+			} else if (pageReqPortal.getSortBy().equalsIgnoreCase("LR")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution ms1, MLSolution ms2) {
+						return (int) (ms1.getViewCount() - ms2.getViewCount());
+					}
+				});
+				// sort by Most Like
+			} else if (pageReqPortal.getSortBy().equalsIgnoreCase("ML")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution ms1, MLSolution ms2) {
+						return (int) (ms2.getSolutionRating() - ms1.getSolutionRating());
+					}
+				});
+				// sort by Fiewest like
+			} else if (pageReqPortal.getSortBy().equalsIgnoreCase("FL")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution ms1, MLSolution ms2) {
+						return (int) (ms1.getSolutionRating() - ms2.getSolutionRating());
+					}
+				});
 			}
-
-			if (pageReqPortal.getSortBy() != null) {
-				// sort by Most Downloaded
-				if (pageReqPortal.getSortBy().equalsIgnoreCase("MD")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution ms1, MLSolution ms2) {
-							return (int) (ms2.getDownloadCount() - ms1.getDownloadCount());
-						}
-					});
-					// sort by Least Downloaded
-				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("FD")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution ms1, MLSolution ms2) {
-							return (int) (ms1.getDownloadCount() - ms2.getDownloadCount());
-						}
-					});
-					// sort by Highest Reach
-				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("HR")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution ms1, MLSolution ms2) {
-							return (int) (ms2.getViewCount() - ms1.getViewCount());
-						}
-					});
-					// sort by Lowest Reach
-				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("LR")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution ms1, MLSolution ms2) {
-							return (int) (ms1.getViewCount() - ms2.getViewCount());
-						}
-					});
-					// sort by Most Like
-				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("ML")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution ms1, MLSolution ms2) {
-							return (int) (ms2.getSolutionRating() - ms1.getSolutionRating());
-						}
-					});
-					// sort by Fiewest like
-				} else if (pageReqPortal.getSortBy().equalsIgnoreCase("FL")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution ms1, MLSolution ms2) {
-							return (int) (ms1.getSolutionRating() - ms2.getSolutionRating());
-						}
-					});
-				}
-				// sort for Older
-				else if (pageReqPortal.getSortBy().equalsIgnoreCase("OLD")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution m1, MLSolution m2) {
-							return m1.getModified().compareTo(m2.getModified());
-						}
-					});
-				}
-				// sort by Most Recent
-				else if (pageReqPortal.getSortBy().equalsIgnoreCase("MR")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution m1, MLSolution m2) {
-							return m2.getModified().compareTo(m1.getModified());
-						}
-					});
-				}
-				// sort by Owner Name / Author
-				else if (pageReqPortal.getSortBy().equalsIgnoreCase("ownerName")) {
-					Collections.sort(content, new Comparator<MLSolution>() {
-						public int compare(MLSolution m1, MLSolution m2) {
-							return m1.getOwnerName().compareTo(m2.getOwnerName());
-						}
-					});
-				}
+			// sort for Older
+			else if (pageReqPortal.getSortBy().equalsIgnoreCase("OLD")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution m1, MLSolution m2) {
+						return m1.getModified().compareTo(m2.getModified());
+					}
+				});
 			}
+			// sort by Most Recent
+			else if (pageReqPortal.getSortBy().equalsIgnoreCase("MR")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution m1, MLSolution m2) {
+						return m2.getModified().compareTo(m1.getModified());
+					}
+				});
+			}
+			// sort by Owner Name / Author
+			else if (pageReqPortal.getSortBy().equalsIgnoreCase("ownerName")) {
+				Collections.sort(content, new Comparator<MLSolution>() {
+					public int compare(MLSolution m1, MLSolution m2) {
+						return m1.getOwnerName().compareTo(m2.getOwnerName());
+					}
+				});
+			}
+		}
 
-			mlSolutionsRest.setContent(content);
-			mlSolutionsRest.setFilteredTagSet(filteredTagSet);
+		mlSolutionsRest.setContent(content);
+		mlSolutionsRest.setFilteredTagSet(filteredTagSet);
+
+		return mlSolutionsRest;
+	}
+
+	@Override
+	public RestPageResponseBE<MLSolution> findUserSolutions(RestPageRequestPortal pageReqPortal) {
+		log.debug(EELFLoggerDelegate.debugLogger, "findUserSolutions");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findUserSolutions(
+				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
+				pageReqPortal.getUserId(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
+				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
+
+		List<MLSolution> content = new ArrayList<>();
+		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
+
+		if (response.getContent() != null) {
+			mlSolutionsRest = fetchDetailsForSolutions(response.getContent(), pageReqPortal);
 			mlSolutionsRest.setPageCount(response.getTotalPages());
 			mlSolutionsRest.setTotalElements((int)response.getTotalElements());
 		}
