@@ -147,7 +147,7 @@ angular.module('manageModule')
 										    "tags" : $scope.tagFilter,
 										    "nameKeyword" :  toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
-										    "ownerIds": [	$scope.loginUserID ],
+										    "userId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
@@ -157,7 +157,7 @@ angular.module('manageModule')
 										  }
 										};
 							
-							apiService.insertSolutionDetail(dataObj).then(function(response) {
+							apiService.fetchUserSolutions(dataObj).then(function(response) {
 								var data = response.data;
 								privatePrevTotal = privatePrevCounter;
 								$scope.privateDataLoaded = false;
@@ -225,7 +225,7 @@ angular.module('manageModule')
 										    "tags" : $scope.tagFilter,
 										    "nameKeyword" :  toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
-										    "ownerIds": [	$scope.loginUserID ],
+										    "userId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
@@ -235,7 +235,7 @@ angular.module('manageModule')
 										  }
 										};
 							
-							apiService.insertSolutionDetail(dataObj).then(function(response) {
+							apiService.fetchUserSolutions(dataObj).then(function(response) {
 								var data = response.data;
 								companyPrevTotal = companyPrevCounter;
 								$scope.companyDataLoaded = false;
@@ -304,7 +304,7 @@ angular.module('manageModule')
 										    "nameKeyword" :  toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
-										    "ownerIds": [	$scope.loginUserID ],
+										    "iserId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
@@ -314,7 +314,7 @@ angular.module('manageModule')
 										  }
 										};
 							
-							apiService.insertSolutionDetail(dataObj).then(function(response) {
+							apiService.fetchUserSolutions(dataObj).then(function(response) {
 								var data = response.data;
 							
 								publicPrevTotal = publicPrevCounter;
@@ -375,7 +375,7 @@ angular.module('manageModule')
 										    "nameKeyword" :  toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
-										    "ownerIds": [	$scope.loginUserID ],
+										    "userId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
@@ -385,7 +385,7 @@ angular.module('manageModule')
 										  }
 										};
 							
-							apiService.insertSolutionDetail(dataObj).then(function(response) {
+							apiService.fetchUserSolutions(dataObj).then(function(response) {
 								publicPrevTotal = deletedPrevCounter;
 								var data = response.data;
 
@@ -847,7 +847,7 @@ angular.module('manageModule')
 										    "nameKeyword" :  toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
-										    "ownerIds": [ $scope.loginUserID ],
+										    "userId": $scope.loginUserID,
 										    "sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
@@ -859,7 +859,7 @@ angular.module('manageModule')
 							if($scope.activeType == false){
 								delete(dataObj.request_body.accessTypeCodes);
 							}
-							apiService.insertSolutionDetail(dataObj).then(function(response) {
+							apiService.fetchUserSolutions(dataObj).then(function(response) {
 
 											angular.forEach(response.data.response_body.content,function(value,key) {
 												if(response.data.response_body.content[key].active){$scope.modelCount = $scope.modelCount+1;}

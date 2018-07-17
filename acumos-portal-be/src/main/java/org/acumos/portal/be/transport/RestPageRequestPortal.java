@@ -40,6 +40,7 @@ public class RestPageRequestPortal {
 	private String sortBy;
 	private String sortById;
 	private String[] ownerIds;
+	private String userId;
 	
 	/**
 	 * @return the ownerIds
@@ -118,5 +119,17 @@ public class RestPageRequestPortal {
 	}
 	public void setSortById(String sortById) {
 		this.sortById = sortById;
+	}
+	/**
+	 * @return the userId
+	 */
+	public String getUserId() {
+		return userId;
+	}
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}		
 }
