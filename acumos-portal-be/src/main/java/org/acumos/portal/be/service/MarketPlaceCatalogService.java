@@ -53,7 +53,9 @@ public interface MarketPlaceCatalogService {
 	RestPageResponse<MLPSolution> getAllPaginatedSolutions(Integer page, Integer size, String sortingOrder) throws AcumosServiceException;
 	
 	MLSolution getSolution(String solutionId) throws AcumosServiceException;
-	
+
+	MLSolution getSolution(String solutionId, String loginUserId) throws AcumosServiceException;
+
 	List<MLSolution> getAllSolutions() throws AcumosServiceException;
 	
 	//List<MLSolution> getAllMySolutions(String userId);

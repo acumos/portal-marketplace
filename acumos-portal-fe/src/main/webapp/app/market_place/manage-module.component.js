@@ -46,7 +46,6 @@ angular.module('manageModule')
 						$scope.$watch('Viewtile', function() {
 							   localStorage.setItem("viewMM", $scope.Viewtile);
 							});
-						
 						$rootScope.urlPath = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
 						if ($rootScope.urlPath == 'manageModule') {
 							$scope.parentUrl = false
@@ -304,7 +303,7 @@ angular.module('manageModule')
 										    "nameKeyword" :  toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
-										    "iserId": $scope.loginUserID,
+										    "userId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
 										    "pageRequest": {
 										      "fieldToDirectionMap": $scope.fieldToSort,
@@ -756,7 +755,7 @@ angular.module('manageModule')
 							$scope.selectedChip[index] = !$scope.selectedChip[index];
 						};
 						
-						$scope.onClickModel = function(id, ownerId){
+						$scope.onClickModel = function(id, ownerId, revisionId){
 
 							$scope.updateViewCount = function() {
 								$scope.solutionId = id;
@@ -766,12 +765,12 @@ angular.module('manageModule')
 												function(response) {
 													$scope.status = response.status;
 													$scope.detail = response.data.response_detail;
-													$state.go('marketSolutions', {solutionId : id, parentUrl:'mymodel' });
+													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel' });
 												},
 												function(error) {
 													$scope.status = 'Unable to load data: '
 															+ error.data.error;
-													$state.go('marketSolutions', {solutionId : id, parentUrl:'mymodel'});
+													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel'});
 												});
 
 							}

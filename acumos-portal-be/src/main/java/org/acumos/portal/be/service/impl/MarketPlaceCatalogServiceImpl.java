@@ -216,9 +216,9 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		}
 		return mlSolutions;
 	}
-
+	
 	@Override
-	public MLSolution getSolution(String solutionId) throws AcumosServiceException {
+	public MLSolution getSolution(String solutionId, String loginUserId) throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolution");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLSolution mlSolution = null;
@@ -271,15 +271,11 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				if (tagList.size() > 0) {
 					mlSolution.setSolutionTagList(tagList);
 				}
-				List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
-				if (revisionList.size() > 0) {
-					mlSolution.setRevisions(revisionList);
-					//Add the access Type code for the latest revision for the categorization while display
-					mlSolution.setAccessType(revisionList.get(0).getAccessTypeCode());
-				}
+
+				List<User> users = null;
 				//Set co-owners list for model
 				try {
-					List<User> users = null;
+					
 					List<MLPUser> mlpUsersList = dataServiceRestClient
 							.getSolutionAccessUsers(mlSolution.getSolutionId());
 					if (!PortalUtils.isEmptyList(mlpUsersList)) {
@@ -294,6 +290,35 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
 							mlSolution.getSolutionId());
 				}
+
+				List<String> co_owners_Id = new ArrayList<String>();
+				if(users != null) {
+					co_owners_Id = users.stream().map(User :: getUserId).collect(Collectors.toList());
+				}
+				List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
+				List<MLPSolutionRevision> filterRevisionList = new ArrayList<>();
+				if (revisionList.size() > 0) {
+					//filter the private versions if loggedIn User is not the owner of solution
+					List<String> accessCodes = new ArrayList<String>();
+					accessCodes.add(CommonConstants.PUBLIC);
+					if (loginUserId != null) {
+						//if logged In user is owner/co-owner then add private revisions
+						if (loginUserId.equals(mlpSolution.getOwnerId()) || co_owners_Id.contains(loginUserId)) {
+							accessCodes.add(CommonConstants.PRIVATE);
+							accessCodes.add(CommonConstants.ORGANIZATION);
+						} else {
+							//if user is logged in but he not the owner/co-owner then add Company revisions
+							accessCodes.add(CommonConstants.ORGANIZATION);
+						}
+					}
+
+					filterRevisionList = revisionList.stream().filter(revision -> accessCodes.contains(revision.getAccessTypeCode())).collect(Collectors.toList());
+					if(filterRevisionList.size() > 0) {
+						mlSolution.setRevisions(filterRevisionList);
+						//Add the access Type code for the latest revision for the categorization while display
+						mlSolution.setAccessType(filterRevisionList.get(0).getAccessTypeCode());
+					}
+				}
 			}
 		} catch (ArithmeticException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.ARITHMATIC_EXCEPTION, e.getMessage());
@@ -303,6 +328,11 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 		return mlSolution;
+	}
+
+	@Override
+	public MLSolution getSolution(String solutionId) throws AcumosServiceException {
+		return getSolution(solutionId, null);
 	}
 
 	@Override
@@ -1887,6 +1917,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			MLPSolutionRevision revision = getLatestSolRevision(mlpSol.getSolutionId(), pageReqPortal.getAccessTypeCodes());
 			if (revision != null) {
 				mlSolution.setAccessType(revision.getAccessTypeCode());
+				mlSolution.setLatestRevisionId(revision.getRevisionId());
 			}
 
 			// get latest step Result for solution

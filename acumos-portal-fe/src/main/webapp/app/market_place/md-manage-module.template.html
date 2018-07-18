@@ -119,17 +119,17 @@ limitations under the License.
 				<div class="mdl-grid mdl-grid--no-spacing grid1 hide-xs">
 					<div
 						class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--1-col-phone mdl-cell--middle">
-						<span class="hide-xs hide-sm showing-text">Showing -
+						<span class="hide-xs hide-sm showing-text">
 						<span
 							class="text-colorgray1" ng-show="hidePrivate&&hidePublic&&hideCompany&&hideDelete">{{totalPrivateSolCount
 								+ totalCompanySolCount +
 								totalPublicSolCount +
-								totalDeletedSolCount}} Models
+								totalDeletedSolCount}} Models Available
 						</span>
-						<span class="text-colorgray1" ng-show="hidePrivate&&!hidePublic&&!hideCompany&&!hideDelete">{{totalPrivateSolCount}} Models</span>
-						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&hideCompany&&!hideDelete">{{totalCompanySolCount}} Models</span>
-						<span class="text-colorgray1" ng-show="!hidePrivate&&hidePublic&&!hideCompany&&!hideDelete">{{totalPublicSolCount}} Models</span>
-						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&!hideCompany&&hideDelete">{{totalDeletedSolCount}} Models</span>
+						<span class="text-colorgray1" ng-show="hidePrivate&&!hidePublic&&!hideCompany&&!hideDelete">{{totalPrivateSolCount}} Models Available</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&hideCompany&&!hideDelete">{{totalCompanySolCount}} Models Available</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&hidePublic&&!hideCompany&&!hideDelete">{{totalPublicSolCount}} Models Available</span>
+						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&!hideCompany&&hideDelete">{{totalDeletedSolCount}} Models Available</span>
 						<md-chips ng-model="filterOptions" name="filterOptions"
 							readonly="true" md-removable="true" ng-click='removeFilter()'>
 						<md-chip-template> <strong>{{$chip}}</strong> </md-chip-template>
@@ -294,7 +294,7 @@ limitations under the License.
 									<div class="product-image">
 										<figure>
 											<img ng-src="{{imageUrls[privateSolution.solutionId]}}"
-												ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId)"
+												ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
 												class="img-rounded">
 										</figure>
 										<!-- <span class="img-ctag"><i class="material-icons">copyright</i> </span> -->
@@ -346,7 +346,7 @@ limitations under the License.
 									<div class="mpimage1">
 										<figure>
 											<img ng-src="{{imageUrls[privateSolution.solutionId]}}"
-												ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId)"
+												ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
 												class="img-rounded">
 
 										</figure>										
@@ -432,7 +432,7 @@ limitations under the License.
 												<div class="mpimage1"> -->
 										<figure>
 											<img ng-src="{{imageUrls[companySolution.solutionId]}}"
-												ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId)"
+												ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)"
 												class="img-rounded">
 										</figure>
 										<!-- </div>
@@ -514,7 +514,7 @@ limitations under the License.
 									<div class="mpimage1">
 										<figure>
 											<img ng-src="{{imageUrls[companySolution.solutionId]}}"
-												ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId)"
+												ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)"
 												class="img-rounded">
 										</figure>
 									</div>
@@ -626,7 +626,7 @@ limitations under the License.
 														<div class="mpimage1"> -->
 										<figure>
 											<img ng-src="{{imageUrls[publicSolution.solutionId]}}"
-												ng-click="onClickModel(publicSolution.solutionId, publicSolution.ownerId)"
+												ng-click="onClickModel(publicSolution.solutionId, publicSolution.ownerId, publicSolution.latestRevisionId)"
 												class="img-rounded">
 
 
@@ -732,7 +732,7 @@ limitations under the License.
 									<div class="mpimage1">
 										<figure>
 											<img ng-src="{{imageUrls[mlsolution.solutionId]}}"
-												ng-click="onClickModel(mlsolution.solutionId, mlsolution.ownerId)"
+												ng-click="onClickModel(mlsolution.solutionId, mlsolution.ownerId, mlsolution.latestRevisionId)"
 												class="img-rounded">
 										</figure>
 									</div>
@@ -844,7 +844,7 @@ limitations under the License.
 										<div class="product-image">
 											<figure>
 												<img ng-src="{{imageUrls[deletedSolution.solutionId]}}"
-													ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId)"
+													ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId, deletedSolution.latestRevisionId)"
 													class="img-rounded">
 											</figure>
 											<!-- <span class="img-ctag"><i class="material-icons">copyright</i> </span> -->
@@ -924,7 +924,7 @@ limitations under the License.
 										<div class="mpimage1">
 											<figure>
 												<img ng-src="{{imageUrls[deletedSolution.solutionId]}}"
-													ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId)"
+													ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId, deletedSolution.latestRevisionId)"
 													class="img-rounded">
 											</figure>
 										</div>

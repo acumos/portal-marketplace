@@ -233,6 +233,7 @@ angular
 													function(response) {
 														$scope.homeSolutions.slides[index] = {};
 														$scope.homeSolutions.slides[index]['solutionId'] = value.solutionId;
+														$scope.homeSolutions.slides[index]['revisionId'] = value.latestRevisionId;
 														$scope.homeSolutions.slides[index]['name'] = value.name;
 														$scope.homeSolutions.slides[index]['solutionRating'] = value.solutionRating;
 														if (response.data.response_body.length > 0) {
@@ -242,11 +243,11 @@ angular
 																	+ "/"
 																	+ response.data.response_body[0];
 														} else {
-															$scope.homeSolutions.slides[index]['image'] = "images/default-model.png";
+															$scope.homeSolutions.slides[index]['image'] = "/images/default-model.png";
 														}
 													},
 													function(data) {
-														$scope.homeSolutions.slides[index]['image'] = "images/default-model.png";
+														$scope.homeSolutions.slides[index]['image'] = "/images/default-model.png";
 													});
 								}
 							  // $scope.mlsolution.slides = [

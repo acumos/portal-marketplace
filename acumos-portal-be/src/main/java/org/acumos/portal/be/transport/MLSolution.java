@@ -75,6 +75,7 @@ public class MLSolution {
 	private String selector;
 	private boolean onboardingStatusFailed;
 	private String errorDetails;
+	private String latestRevisionId;
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -512,5 +513,19 @@ public class MLSolution {
 
 	public void setErrorDetails(String errorDetails) {
 		this.errorDetails = errorDetails;
+	}
+
+	/**
+	 * @return the latestRevisionId
+	 */
+	public String getLatestRevisionId() {
+		return latestRevisionId;
+	}
+
+	/**
+	 * @param latestRevisionId the latestRevisionId to set
+	 */
+	public void setLatestRevisionId(String latestRevisionId) {
+		this.latestRevisionId = latestRevisionId;
 	}
 }

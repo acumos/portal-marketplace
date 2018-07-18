@@ -144,7 +144,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			solutionDetail = catalogService.getSolution(solutionId);
+			solutionDetail = catalogService.getSolution(solutionId, (String) request.getAttribute("loginUserId"));
 			if (solutionDetail != null) {
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1085,7 +1085,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception in fetchProtoFile() ", e);
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.FILE_NOT_FOUND, e.getMessage());
+			//throw new AcumosServiceException(AcumosServiceException.ErrorCode.FILE_NOT_FOUND, e.getMessage());
 		}
 		log.debug(EELFLoggerDelegate.debugLogger,
 				"fetchProtoFile() : End");

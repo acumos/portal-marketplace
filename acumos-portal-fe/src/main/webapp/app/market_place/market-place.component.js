@@ -441,7 +441,7 @@ angular
 							$scope.loadMore(0);
 						});
 
-						$scope.onClickModel = function(index, id) {
+						$scope.onClickModel = function(index, id, revisionId) {
 							/*
 							 * if ($scope.loginUserID ==
 							 * $scope.mlsolutions[index].ownerId) {
@@ -463,6 +463,7 @@ angular
 																	'marketSolutions',
 																	{
 																		solutionId : id,
+																		revisionId : revisionId,
 																		parentUrl : 'marketplace'
 																	});
 
@@ -478,6 +479,7 @@ angular
 																	'marketSolutions',
 																	{
 																		solutionId : id,
+																		revisionId : revisionId,
 																		parentUrl : 'marketplace'
 																	});
 

@@ -80,6 +80,8 @@ angular
 						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
 						}
 						else {$scope.workflowTitle='On-Boarding';$scope.tab='onboard'}
+						
+						$scope.revisionId = $stateParams.revisionId;
 
 						$scope.status;
 						$scope.activePublishBtn = false;
@@ -415,6 +417,9 @@ angular
 															$scope.getComment();
 															$scope.solution.created = $scope.versionList[0].modified;
 															$scope.solution.modified = $scope.versionList[0].modified;
+														} else {
+															$scope.revisionId = $scope.version.revisionId;
+															$scope.versionId = $scope.version.version;
 														}
 														$scope.getProtoFile();
 													}

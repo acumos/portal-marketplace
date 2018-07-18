@@ -88,10 +88,10 @@ limitations under the License.
 							<div class="page-wrapper">
 								<div class="mdl-grid mdl-grid--no-spacing grid1 hide-xs">
 								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--1-col-phone mdl-cell--middle">
-									<div ng-hide = "selectedPage > 0">
-											<span class="hide-xs hide-sm showing-text" >Showing - <span class="text-colorgray1"> 1 to {{solutionSize > totalElements ? totalElements : solutionSize}} of {{totalElements}} Models</span></span>
+									<div ng-hide="totalElements != 0">
+											<span class="hide-xs hide-sm showing-text" >Showing - <span class="text-colorgray1"> 0 Models</span></span>
 									</div>
-									<div ng-hide = "selectedPage == 0">
+									<div ng-hide="totalElements == 0">
 											<span class="hide-xs hide-sm showing-text" >Showing - <span class="text-colorgray1"> {{(selectedPage * solutionSize) + 1 }} to {{ ((selectedPage + 1) * solutionSize) < totalElements ? ((selectedPage + 1) * solutionSize) : totalElements}} of {{totalElements}} Models</span></span>
 									</div>
 									  <button class="mdl-button mdl-js-button mdl-button--primary hide-lg hide-md hide-xl btn-sort btn-browseby" ng-click="showfilter = !showfilter">Browse By</button>
@@ -216,7 +216,7 @@ limitations under the License.
 											        	<!-- <div class="mpimage1"> -->
 											        	   <figure>
 																<img ng-src="{{imageUrls[mlsolution.solutionId]}}"
-																	ng-click="onClickModel($index, mlsolution.solutionId)"
+																	ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)"
 																	class="img-rounded">
 															</figure>
 											        	<!-- </div> -->
@@ -274,7 +274,7 @@ limitations under the License.
 													<div class="mpimage1">
 														 <figure>
 																<img ng-src="{{imageUrls[mlsolution.solutionId]}}"
-																	ng-click="onClickModel($index, mlsolution.solutionId)"
+																	ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)"
 																	class="img-rounded">
 								                         </figure>
 													</div>

@@ -68,10 +68,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 		})
 		// marketSolutions
 		.state('marketSolutions', {
-			url: '/marketSolutions?solutionId',
+			url: '/marketSolutions?solutionId&revisionId',
 			component: 'modelDetails',
 			params: {
-				solutionId: null,
+				solutionId : null,
+				revisionId : null,
 				parentUrl: null
 				}
 			//template: '<model-details></model-details>'
@@ -81,6 +82,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			url: '/modelEdit',
 			component: 'modelEdit',
 			params: {solutionId: null,
+				revisionId: null,
 				deployStatus:null}
          })
 		.state('modularResource', {

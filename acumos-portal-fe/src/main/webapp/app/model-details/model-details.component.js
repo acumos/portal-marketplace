@@ -43,6 +43,7 @@ angular
 						$location.hash('md-model-detail-template');  
 						$anchorScroll(); 
 						
+						$scope.revisionId = $stateParams.revisionId;
 						$scope.clearForm = function(){
 							deploy.reset();
 							deployCloud.brokerlink.value = "";
@@ -92,7 +93,7 @@ angular
 								$scope.perratingCount5 = 0;
 
 								
-								angular.forEach($scope.allUserRatings, function(value, key) {									
+								angular.forEach($scope.allUserRatings, function(value, key) {
                     				if(value.rating == 1){
                     					$scope.ratingCount1 = $scope.ratingCount1+1
                     				}else if(value.rating == 2){
@@ -144,9 +145,6 @@ angular
 									});
 						}
 						$scope.getAverageRatings();
-						
-						
-						$scope.revisionId;
 						
 						$scope.onItemRating = function(rating){
 							
@@ -273,7 +271,7 @@ angular
 								 
 								}).error(
 									function(data, status, headers,config) {
-										alert("Error: "+status);
+										console.log("Error: "+status);
 									});
 							}
 						}; 
@@ -413,10 +411,15 @@ angular
 													  }
 													  return comparison; }
 												);
-												
-												$scope.versionId = $scope.versionList[0].version;
-												$scope.revisionId = $scope.versionList[0].revisionId;
-												$scope.version = $scope.versionList[0];
+												if($stateParams.revisionId){
+													$scope.version = $scope.versionList.filter(versions => versions.revisionId == $stateParams.revisionId)[0];
+													$scope.revisionId = $scope.version.revisionId;
+													$scope.versionId = $scope.version.version;
+												} else {
+													$scope.versionId = $scope.versionList[0].version;
+													$scope.revisionId = $scope.versionList[0].revisionId;
+													$scope.version = $scope.versionList[0];
+												}
 												$scope.getComment();
 												$scope.getArtifacts();
 												//if solution PR then get public description by default.
@@ -452,8 +455,13 @@ angular
 											}
 											$stateParams.solutionId = $scope.solution.solutionId
 											if (data.response_body.revisions != null) {
-												$scope.revisionId = $scope.versionList[0].revisionId;
-												$scope.version = $scope.versionList[0];
+												if($stateParams.revisionId){
+													$scope.version = $scope.versionList.filter(versions => versions.revisionId == $stateParams.revisionId)[0];
+													$scope.revisionId = $scope.version.revisionId;
+												} else {
+													$scope.revisionId = $scope.versionList[0].revisionId;
+													$scope.version = $scope.versionList[0];
+												}
 												donwloadPopupValue();
 											}
 											
@@ -1068,10 +1076,10 @@ angular
 
 											},
 											function errorCallback(response) {
-												alert("Error: "
+												/*alert("Error: "
 														+ response.status
 														+ "Detail: "
-														+ response.data.response_detail);
+														+ response.data.response_detail);*/
 											});
 
 						}
@@ -1279,7 +1287,7 @@ angular
 											function(response) {
 
 											}, function(error) {
-												alert(error.response_detail);
+												//alert(error.response_detail);
 											});
 							}
 						}

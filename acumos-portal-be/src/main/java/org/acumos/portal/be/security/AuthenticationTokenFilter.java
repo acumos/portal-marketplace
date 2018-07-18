@@ -143,6 +143,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 	    	    if (username != null && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
 	    	      MLPUser userDetails = this.userService.findUserByUsername(username);
 	    			if (this.tokenValidation.tokenRegnerationAndValidation(authToken)) {
+	    				request.setAttribute("loginUserId", userDetails.getUserId());
 	    				List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(getRoleAuthority(userDetails));
 	    			    UsernamePasswordAuthenticationToken authentication =  new UsernamePasswordAuthenticationToken(new AuthenticatedUserDetails(userDetails), authToken, authorityList);
 	    			    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
