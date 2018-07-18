@@ -27,6 +27,7 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.transport.MLComment;
 
 public interface ThreadService {
 	MLPComment getComment(String threadId, String commentId) throws AcumosServiceException;
@@ -55,6 +56,6 @@ public interface ThreadService {
 	
 	RestPageResponseBE<MLPThread> getSolutionRevisionThreads(String solutionId, String revisionId, RestPageRequest pageRequest) throws AcumosServiceException;
 	
-	RestPageResponseBE<MLPComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException;
+	RestPageResponseBE<MLComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException;
 
 }

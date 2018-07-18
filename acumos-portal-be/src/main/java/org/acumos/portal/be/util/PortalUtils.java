@@ -32,6 +32,7 @@ import java.util.Map;
 import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.ValidationTypeCode;
 import org.acumos.cds.domain.MLPAccessType;
+import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
@@ -47,6 +48,7 @@ import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLRole;
@@ -548,7 +550,7 @@ public class PortalUtils {
 		return mlSolutionRating;
 	}
 
-public static MLSolutionWeb convertToMLSolutionWeb(MLPSolutionWeb mlpSolutionweb) {
+	public static MLSolutionWeb convertToMLSolutionWeb(MLPSolutionWeb mlpSolutionweb) {
         
         MLSolutionWeb mlSolutionWeb = new MLSolutionWeb();    
         mlSolutionWeb.setSolutionId(mlpSolutionweb.getSolutionId());
@@ -560,5 +562,19 @@ public static MLSolutionWeb convertToMLSolutionWeb(MLPSolutionWeb mlpSolutionweb
         mlSolutionWeb.setFeatured(mlpSolutionweb.isFeatured()); 
 
         return mlSolutionWeb;
+    }
+	
+	public static MLComment convertToMLComment(MLPComment mlpComment) {
+        
+		MLComment mlComment = new MLComment();    
+		mlComment.setCommentId(mlpComment.getCommentId());
+		mlComment.setParentId(mlpComment.getParentId());
+		mlComment.setText(mlpComment.getText());
+		mlComment.setThreadId(mlpComment.getText());
+		mlComment.setUserId(mlpComment.getUserId()); 
+		mlComment.setCreated(mlpComment.getCreated()); 
+		mlComment.setModified(mlpComment.getModified()); 
+
+        return mlComment;
     }
 }
