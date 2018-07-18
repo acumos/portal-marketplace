@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe04fe0c_ac0b14f0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/ThreadServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-07-18T17:06:33Z",
+      "side": 1,
+      "message": "Why are we using \"test\" here?",
+      "range": {
+        "startLine": 308,
+        "startChar": 50,
+        "endLine": 308,
+        "endChar": 54
+      },
+      "revId": "a3afc7f9c9581be120a13e09b7550ffc01cd1437",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cee155d_00e976e6",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/ThreadServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-07-18T17:06:33Z",
+      "side": 1,
+      "message": "Correct the formatting.",
+      "range": {
+        "startLine": 315,
+        "startChar": 25,
+        "endLine": 315,
+        "endChar": 30
+      },
+      "revId": "a3afc7f9c9581be120a13e09b7550ffc01cd1437",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91531b0d_ac286511",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/ThreadServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-07-18T17:06:33Z",
+      "side": 1,
+      "message": "Please consider this as well\n\nTaking the difference between two dates will be mush simpler. Like \ndiffInMillis \u003d currentDate.getMillis() - modifiedDate.getMillis();\n\nAnd then convert millss to minutes and thentake the decision of what string or date format need to be used.",
+      "range": {
+        "startLine": 316,
+        "startChar": 33,
+        "endLine": 316,
+        "endChar": 40
+      },
+      "revId": "a3afc7f9c9581be120a13e09b7550ffc01cd1437",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "347d1411_16897773",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/ThreadServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-07-18T17:06:33Z",
+      "side": 1,
+      "message": "Modified or created date can never be a future date.",
+      "range": {
+        "startLine": 345,
+        "startChar": 43,
+        "endLine": 345,
+        "endChar": 44
+      },
+      "revId": "a3afc7f9c9581be120a13e09b7550ffc01cd1437",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b887c1e8_138cb5b5",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/transport/MLComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-07-18T17:06:33Z",
+      "side": 1,
+      "message": "Add the license text.",
+      "range": {
+        "startLine": 1,
+        "startChar": 38,
+        "endLine": 1,
+        "endChar": 39
+      },
+      "revId": "a3afc7f9c9581be120a13e09b7550ffc01cd1437",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
