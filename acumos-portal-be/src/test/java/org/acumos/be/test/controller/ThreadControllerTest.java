@@ -34,6 +34,7 @@ import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.controller.ThreadController;
 import org.acumos.portal.be.service.ThreadService;
 import org.acumos.portal.be.service.impl.ThreadServiceImpl;
+import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Rule;
 import org.junit.Test;
@@ -503,7 +504,7 @@ public class ThreadControllerTest {
 			JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
 			restPageReq.setBody(pageRequest);
 			threadService.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
-			JsonResponse<RestPageResponseBE<MLPComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq);
+			JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq);
 			if(mlpthreadRes != null){
 				logger.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionCommentsTest :  ");
 			}
@@ -521,7 +522,7 @@ public class ThreadControllerTest {
 		String solutionId = null;
 		String revisionId = null;
 		threadService.getSolutionRevisionComments(solutionId, revisionId, body);
-		JsonResponse<RestPageResponseBE<MLPComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq);
+		JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq);
 		
 	}
 }
