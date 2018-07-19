@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6ab1b0b_b6e3ab92",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-19T13:49:26Z",
+      "side": 1,
+      "message": "Please fix the identation in this file as expected",
+      "revId": "792d976cad390fd0aa00baccd88d8fdc03202590",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
