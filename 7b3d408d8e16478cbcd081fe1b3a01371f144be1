@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca959cfc_70482f64",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-19T00:21:26Z",
+      "side": 1,
+      "message": "Please improve it in some other commits to setErrorCode.",
+      "revId": "7b3d408d8e16478cbcd081fe1b3a01371f144be1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
