@@ -111,12 +111,11 @@ public class APINames {
     
     //publish APIs for Catalog Solutions
     public static final String PUBLISH = "/publish/{solutionId}";
-    public static final String UNPUBLISH = "/unpublish/{solutionId}";
-    
+    public static final String UNPUBLISH = "/unpublish/{solutionId}";    
     public static final String MODEL_VALIDATION = "/validation/{solutionId}/{revisionId}";
-    public static final String MODEL_VALIDATION_UPDATE = "/validation/{taskId}";
-    
+    public static final String MODEL_VALIDATION_UPDATE = "/validation/{taskId}";    
     public static final String MANAGE_MY_SOLUTIONS = "/models/{userId}";
+    public static final String CLOUD_ENABLED_LIST= "/cloudEnabled";
     
     //Solutions APIs for MarketPlace Catalog
     public static final String DOWNLOADS = "/downloads";

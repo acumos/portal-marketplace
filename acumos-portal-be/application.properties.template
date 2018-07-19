@@ -80,6 +80,10 @@ portal.feature.cas_enabled=false
 portal.feature.signup_enabled=true
 #integer value for allocating buffer size. Actuall value will be calculated as buffer = (download_bufferSize * 1024)
 portal.feature.download_bufferSize=8
+portal.feature.cloud_enabled_Azure = true
+portal.feature.cloud_enabled_GCP = true
+portal.feature.cloud_enabled_rackspace = true
+portal.feature.cloud_enabled_AWS = true
 
 #Dashboard Url
 portal.dashboard.url=http://www.mycompany.com/
