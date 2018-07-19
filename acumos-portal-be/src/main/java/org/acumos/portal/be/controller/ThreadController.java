@@ -35,6 +35,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
+import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -362,14 +363,14 @@ public class ThreadController extends AbstractController {
 	@ApiOperation(value = "Gets a list of comments according to solution and revision id's", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.GET_COMMENT_SOLUTIONREVISION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponseBE<MLPComment>> getSolutionRevisionComments(@PathVariable String solutionId,@PathVariable String revisionId, @RequestBody JsonRequest<RestPageRequest> restPageReq) {
+	public JsonResponse<RestPageResponseBE<MLComment>> getSolutionRevisionComments(@PathVariable String solutionId,@PathVariable String revisionId, @RequestBody JsonRequest<RestPageRequest> restPageReq) {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
-		RestPageResponseBE<MLPComment> mlpComment = null;
-		JsonResponse<RestPageResponseBE<MLPComment>> data = new JsonResponse<>();
+		RestPageResponseBE<MLComment> mlComment = null;
+		JsonResponse<RestPageResponseBE<MLComment>> data = new JsonResponse<>();
 		try {
-			mlpComment = threadService.getSolutionRevisionComments(solutionId, revisionId, restPageReq.getBody());
-			    if(mlpComment != null){
-			    	data.setResponseBody(mlpComment);
+			mlComment = threadService.getSolutionRevisionComments(solutionId, revisionId, restPageReq.getBody());
+			    if(mlComment != null){
+			    	data.setResponseBody(mlComment);
 			    	data.setStatusCode(100);
 			    	data.setStatus(true);
 			    	data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);

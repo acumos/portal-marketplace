@@ -33,8 +33,13 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
+import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -284,17 +289,64 @@ public class ThreadServiceImpl implements ThreadService{
 		return threadResponse;
 		
 	}
-	
-	public  RestPageResponseBE<MLPComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException{
-		List<MLPComment> commentList = new ArrayList<MLPComment>();
-		RestPageResponseBE<MLPComment> commentResponse = new RestPageResponseBE<>(commentList);
+		
+	public  RestPageResponseBE<MLComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException{
+		//List<MLPComment> mlpCommentList = new ArrayList<MLPComment>();
+		List<MLComment> content = new ArrayList<MLComment>();
+		RestPageResponseBE<MLComment> commentResponse = new RestPageResponseBE<>(content);
 		try {
 			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
 			pageResponse = dataServiceRestClient.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
-			for (MLPComment mlpComment : pageResponse.getContent()) {
-				commentResponse.getContent().add(mlpComment);
+			List<MLComment> mlcommentList = new ArrayList<MLComment>();
+			for(MLPComment mlpComment : pageResponse.getContent()){
+				mlcommentList.add(PortalUtils.convertToMLComment(mlpComment));
+			}
+			for (MLComment mlComment : mlcommentList) {
+				//---------------------------------------
+				StringBuilder stringDate = new StringBuilder("");				 
+				DateTime today = new DateTime();				
+				// from JDK to Joda
+			    DateTime dt = new DateTime(mlComment.getModified());
+				//today.minus(dt);			    
+				DateTime in = new DateTime();
+				//DateTime in2 = new DateTime(in.getMillis());	
+				if(dt.isBeforeNow()){				 
+			        if(dt.getYear() == in.getYear()){
+			        	if(dt.getMonthOfYear() == in.getMonthOfYear()){
+			        		if(dt.getDayOfMonth() == in.getDayOfMonth()){		    		        
+			    		        if(dt.getHourOfDay() > 1 && dt.getHourOfDay() < 24){
+			    		        	// > 1 & < 24 hours (Same Date)	<timestamp> ( example “AT 1:35 PM” )
+			    		        	stringDate = new StringBuilder("AT "+dt.toString(DateTimeFormat.shortTime()));
+			    		        	if(dt.getMinuteOfHour() > 0 && dt.getMinuteOfHour() < 59){
+				    		        	// >0 & < 59 mins	xx Minutes ago
+			    		        		stringDate = new StringBuilder(dt.getMinuteOfHour() + " Minutes ago");
+			    		        		if(dt.getSecondOfMinute() > 0 && dt.getSecondOfMinute() < 59){
+					    		        	// <1 mins  	Few Seconds ago
+			    		        			stringDate = new StringBuilder("Few Seconds ago");
+					    		        }
+				    		        }
+			    		        }
+			        		}else if(dt.getDayOfMonth() - in.getDayOfMonth() == -1){
+			        			//days are not equal
+			        			//Next Day	Yesterday AT “AT 1:35 PM”
+			        			stringDate = new StringBuilder("Yesterday AT "+dt.toString(DateTimeFormat.shortTime()));
+			        		}else{
+			        			//Example “07/08/2018 1:35 PM”
+			        			stringDate = new StringBuilder(dt.toString(DateTimeFormat.shortDateTime()));
+			        		}
+			        	}
+			        } 
+			        if(stringDate.toString().equals("test")){
+			        	stringDate = new StringBuilder(dt.toString(DateTimeFormat.shortDateTime()));
+			        }
+				}else{
+					stringDate = new StringBuilder("Future Date");		
+				}
+			    //--------------------------------------
+				mlComment.setStringDate(stringDate.toString());				 
+				commentResponse.getContent().add(mlComment);
 			}
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
@@ -304,5 +356,4 @@ public class ThreadServiceImpl implements ThreadService{
 			return commentResponse;
 		
 	}
-
 }
