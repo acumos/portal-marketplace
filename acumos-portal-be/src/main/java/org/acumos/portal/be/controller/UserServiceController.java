@@ -704,5 +704,17 @@ public class UserServiceController extends AbstractController {
 	        }
 	        return responseVO;
 	    }
+	@ApiOperation(value = "Get the User Image Size", response = JsonResponse.class)
+	   @RequestMapping(value = {"/imagesize"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	   @ResponseBody
+	    public JsonResponse<String> getImageSize(HttpServletRequest request, HttpServletResponse response) {	        
+	        String imageSize = env.getProperty("image.size", "");
+	        JsonResponse<String> responseVO = new JsonResponse<String>();
+	        responseVO.setResponseBody(imageSize);
+	        responseVO.setStatus(true);
+	        responseVO.setResponseDetail("Success");
+	        responseVO.setStatusCode(HttpServletResponse.SC_OK);
+	        return responseVO;
+	    }
 }
 

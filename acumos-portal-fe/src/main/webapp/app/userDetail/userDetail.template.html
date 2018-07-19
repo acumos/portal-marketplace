@@ -401,24 +401,24 @@ limitations under the License.
 						<!-- <input type="file" upload-image-model="userImage" data-ng-model="userImage"
 							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
 							id="userImage"> -->
-
+						
 						<input type="file" ngf-select ng-change="checkValid()"
 							ng-model="userImage" name="fileNew"
 							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
-							accept="image/*" ngf-max-size="65KB" required
+							accept="image/*" ngf-max-size={{imageSize}} required
 							ngf-model-invalid="errorFile" />
 
 					</div>
 				</div>
 				<div class="help-inline validation-msgs">
 					<span ng-show="uploadImage.fileNew.$error.maxSize">Image
-						size more than 65KB.</span>
+						size more than {{imageSize}}.</span>
 				</div>
 				<div class="help-inline validation-msgs">
 					<span ng-show="extensionError">File should be JPG, GIF or
 						PNG</span>
 				</div>
-				<span>JPG, GIF or PNG. Max size of 65KB</span> <!-- <div ng-show="imageError" class="validationmsg validation-msgs"><span>Invalid Image</span></div> -->
+				<span>JPG, GIF or PNG. Max size of {{imageSize}}</span> <!-- <div ng-show="imageError" class="validationmsg validation-msgs"><span>Invalid Image</span></div> -->
 				<!-- <div class="help-inline validation-msgs"><span ng-show = "imageError">Invalid Image.</span></div> -->
 
 
