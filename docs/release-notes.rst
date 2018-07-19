@@ -20,6 +20,24 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.37, 19 th July 2018
+================================
+* portal-marketplace: Fix RST compile warnings (ACUMOS-1320)
+* IST2: Versioning   of Model is not working (ACUMOS-868)
+* IST2: No error message is displaying when user disable single remaining slide (ACUMOS-1048)
+* IST2: Manage my Model : Issue in the document step during publishing model. (ACUMOS-1220)
+* IST2: Sharing of Model is not working (ACUMOS-1361)
+* IST2: Site Content : Add Slide : Main Background : Drag & Drop your file here! going out of the box (ACUMOS-1395)
+* <IST2><Marketplace> On clicking Previous and Next buttons multiple times, appropriate page is not displayed on screen (ACUMOS-1404)
+* <User guide> <Portal and Marketplace> No separate UI page is provided in the guide for "Build For ONAP" feature. (ACUMOS-1406)
+* <User guide> <Portal and Marketplace > Inappropriate button displayed as "Add to Catalog" on web onboarding steps (ACUMOS-1407)
+* portal-marketplace: add licences to code and docs (ACUMOS-270)
+* Portal show Download button on private model (ACUMOS-1280)
+* Cannot upload large zip file as model document when publishing to marketplace (ACUMOS-1285)
+* Portal downloads dialog truncates file names unnecesarily, difficult to read (ACUMOS-1353)
+* IST2 - Unable to add subscription (ACUMOS-1341)
+
+
 Version 1.15.36, 11 th July 2018
 ================================
 * IST2: Published Option : Completed is not displaying when user  published a model (ACUMOS-1335)
