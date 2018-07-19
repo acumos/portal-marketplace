@@ -71,34 +71,34 @@ import javax.servlet.http.HttpServletResponse;
 public class UserServiceControllerTest {
 
 	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(UserServiceControllerTest.class);
-    final HttpServletResponse response = new MockHttpServletResponse();
+	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 
 
 	@InjectMocks
 	UserServiceController userServiceController ;
-	
+
 	@Mock
 	private UserService userService;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Mock
 	private UserServiceImpl userImpl;
-	
+
 	@Mock
 	private UserServiceController userController;
-	
+
 	@Mock
 	private JwtTokenUtil jwtTokenUtil;
-	
+
 	@Mock
 	private Environment env;
-	
+
 
 	String userId = "601f8aa5-5978-44e2-996e-2dbfc321ee73";
-	
+
 	@Test
 	public void createUserTest() {	
 		try{
@@ -114,7 +114,7 @@ public class UserServiceControllerTest {
 			value =userServiceController.createUser(request, userReq, response);
 			logger.info("successfully  created user ");
 			Assert.assertNotNull(value);
-		
+
 			Mockito.when(userService.findUserByUsername(userReq.getBody().getUsername())).thenReturn(mlpUser);
 			value =userServiceController.createUser(request, userReq, response);
 			userReq.setBody(null);
@@ -141,7 +141,7 @@ public class UserServiceControllerTest {
 			logger.info("successfully  updated  user details");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			
+
 			logger.debug("Error while updating user profile ", e);
 		}
 	}
@@ -164,7 +164,7 @@ public class UserServiceControllerTest {
 			logger.info("forgetPasswordTest");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			
+
 			logger.debug("Error while changing the password ", e);
 		}
 	}
@@ -191,7 +191,7 @@ public class UserServiceControllerTest {
 			logger.info("Successfully changed user profile password");
 			Assert.assertNotNull(valuepass);
 		} catch (Exception e) {
-			
+
 			logger.debug("Error while changeUserPasswordTest ", e);
 		}
 	}
@@ -206,7 +206,7 @@ public class UserServiceControllerTest {
 			userReq.setBody(user);
 			userReq.getBody();
 			Assert.assertNotNull(userReq);
-			
+
 			MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 			Assert.assertNotNull(mlpUser);
 			JsonResponse<MLPUser> value = new JsonResponse<>();
@@ -217,7 +217,7 @@ public class UserServiceControllerTest {
 			logger.info("Successfully fectched user details ");
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			
+
 			logger.debug("Error while getUserAccountDetailsTest : ", e);
 		}
 	}
@@ -252,13 +252,13 @@ public class UserServiceControllerTest {
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
-			
+
 			User user = getUser();
 
 			String userId = user.getUserId();
-			
+
 			Assert.assertEquals(userId, user.getUserId());
-			
+
 			List<MLPRole> mlprolelist = new ArrayList<MLPRole>();
 			mlprolelist.add(mlRole);
 			Assert.assertNotNull(mlprolelist);
@@ -273,7 +273,7 @@ public class UserServiceControllerTest {
 			logger.debug("Error while getUserRoleTest : ", e);
 		}
 	}
-	
+
 	private User getUser(){
 		User user = new User();
 		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
@@ -293,7 +293,7 @@ public class UserServiceControllerTest {
 		mlpUser.setLoginName("test-User-Name");
 		return mlpUser;
 	}
-	
+
 	@Test
 	public void updateBulkUser(){
 		User user = new User();
@@ -304,7 +304,7 @@ public class UserServiceControllerTest {
 		user.setEmailId("user1@emial.com");
 		user.setActive("Y");
 		user.setPassword("password");
-		
+
 		JsonRequest<User> userReq = new JsonRequest<>();
 		List<String> userIdList = new ArrayList<>();
 		userIdList.add(user.getUserId());
@@ -314,26 +314,26 @@ public class UserServiceControllerTest {
 		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 		Mockito.when(userService.findUserByUserId(userId )).thenReturn(mlpUser);
 		UserService myList = mock(UserService.class);
-	    doNothing().when(myList).updateBulkUsers(mlpUser);
-//		userService.findUserByUserId(userId );
-//		userService.updateBulkUsers(mlpUser);
+		doNothing().when(myList).updateBulkUsers(mlpUser);
+		//		userService.findUserByUserId(userId );
+		//		userService.updateBulkUsers(mlpUser);
 		JsonResponse<Object> userRes = userServiceController.updateBulkUsers(request, userReq , response);
 		Assert.assertNotNull(userRes);
 		Assert.assertEquals("Users deactivated succesfuly", userRes.getResponseDetail());
-		
+
 		user.setUserIdList(null);
 		userReq.setBody(user);
 		mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 		Mockito.when(userService.findUserByUserId(userId )).thenReturn(mlpUser);
 		myList = mock(UserService.class);
-	    doNothing().when(myList).updateBulkUsers(mlpUser);
-//		userService.findUserByUserId(userId );
-//		userService.updateBulkUsers(mlpUser);
+		doNothing().when(myList).updateBulkUsers(mlpUser);
+		//		userService.findUserByUserId(userId );
+		//		userService.updateBulkUsers(mlpUser);
 		userRes = userServiceController.updateBulkUsers(request, userReq , response);
 		Assert.assertNotNull(userRes);
 		Assert.assertEquals("UserId not found", userRes.getResponseDetail());
 	}
-	
+
 	@Test
 	public void deleteBulkUser(){
 		User user = new User();
@@ -344,7 +344,7 @@ public class UserServiceControllerTest {
 		user.setEmailId("user1@emial.com");
 		user.setActive("Y");
 		user.setPassword("password");
-		
+
 		JsonRequest<User> userReq = new JsonRequest<>();
 		List<String> idList = new ArrayList<>();
 		idList.add("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
@@ -356,17 +356,17 @@ public class UserServiceControllerTest {
 		when(userService.findUserByUserId(userId)).thenReturn(mlpUser);
 		//doNothing().when(userService.deleteBulkUsers(userId);
 		UserService service = mock(UserService.class);
-	    doNothing().when(service).deleteBulkUsers(userId);
+		doNothing().when(service).deleteBulkUsers(userId);
 		JsonResponse<Object> userRes = userServiceController.deleteBulkUsers(request, userReq , response);
 		Assert.assertNotNull(userRes);
 	}
-	
+
 	@Test
 	public void getUserImageTest() throws Exception{
 		Assert.assertNotNull(userId);
 		userImpl.findUserByUserId(userId);
 		userServiceController.getUserImage(userId);
-		
+
 		User user = new User();
 		user.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 		user.setFirstName("UserFirstName");
@@ -378,20 +378,20 @@ public class UserServiceControllerTest {
 		String userId = user.getUserId();
 		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user);
 		UserService service = mock(UserService.class);
-	    doNothing().when(service).updateUserImage(mlpUser);
-	    MultipartFile file = null;
-	    JsonResponse data =  userServiceController.updateUserImage(request, file, userId, response);
-	    Assert.assertNotNull(data);
+		doNothing().when(service).updateUserImage(mlpUser);
+		MultipartFile file = null;
+		JsonResponse data =  userServiceController.updateUserImage(request, file, userId, response);
+		Assert.assertNotNull(data);
 	}
-	
+
 	@Test
 	public void getQandAurlTest() throws Exception {
 		String url = "http://localhost:9083";
 		when(env.getProperty("qanda.url", "")).thenReturn(url);
 		JsonResponse<String> data =	userServiceController.getQandAurl(request, response);
-	    Assert.assertNotNull(data);
+		Assert.assertNotNull(data);
 	}
-	
+
 	@Test
 	public void updateUserImage() throws Exception {
 		MultipartFile file = null;
@@ -404,14 +404,14 @@ public class UserServiceControllerTest {
 		JsonResponse data =  userServiceController.updateUserImage(request, file, userId, response);
 		Assert.assertNotNull(data);
 	}
-	
+
 	@Test
 	public void getDocurl() throws Exception {
 		JsonResponse<String> data = userServiceController.getDocurl(request, response);
 		Assert.assertNotNull(data);
 	}
-	
-		@Test
+
+	@Test
 	public void getAllActiveUsers() throws Exception {
 		Boolean activeFlag = true;
 		List<User> users = new ArrayList<>();
@@ -426,6 +426,13 @@ public class UserServiceControllerTest {
 		users.add(user);	
 		when(userService.getAllUser()).thenReturn(users);
 		JsonResponse<List<User>> data = userServiceController.getAllActiveUsers(request, response, activeFlag);
+		Assert.assertNotNull(data);
+	}
+	@Test
+	public void getImageSizeTest() throws Exception {
+		String imageSize = "800KB";
+		when(env.getProperty("image.size", "")).thenReturn(imageSize);
+		JsonResponse<String> data =    userServiceController.getImageSize(request, response);
 		Assert.assertNotNull(data);
 	}
 }

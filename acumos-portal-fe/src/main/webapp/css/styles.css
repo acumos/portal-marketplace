@@ -53,6 +53,7 @@ p {font-size: 1em;}
 .gray-bg {background: rgb(242,242,242)}
 .pageheadsection {padding: 15px 15px;}
 .reqfield {color: #ff0000;}
+.a-overlay {display: none; width: 100%; position:absolute; top:0; left:0; height: 100%; z-index: 8500; background: rgba(0,0,0,0.7) url("../images/ajax-loader.gif") no-repeat center center}
 /*********** Common CSS classes end  ************/
 
 /*********** Icons section start ************/
@@ -1787,7 +1788,7 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 .top-carousel-admin .upload-image-input input.mdl-textfield__input{box-sizing: border-box; width: calc(100% - 85px); border:none; line-height:26px; font-size: 14px; padding: 0; color:#666; height:26px;}
 .top-carousel-admin .upload-field { position: relative;    cursor: pointer;    float: right;   /*  height: 26px; */    line-height: 14px;    padding: 5px 10px;    border-radius: 3px;
     background: #fff;    color: #2B262D;    border: 1px solid #B1B1B1;}
-.top-carousel-admin .modal-note{margin-top:10px; font-size:12px; line-height: 15px;}
+.top-carousel-admin .modal-note{padding-top:5px; font-size:12px; line-height: 15px;clear:both; display: block;}
 /*drag and drop*/
 .drag-drop{border: 1px dashed #d5d5d5; border-radius: 5px; width:auto; padding:15px; text-align:left;}
 .drag-drop img{display:block; margin:auto;}
@@ -1806,7 +1807,7 @@ ul.aligntext li.active a{color:#4f147a;}
 .mdl-button.primary-name-btn i, .mdl-button.primary-add-name-btn i, .mdl-button.primary-explore-btn i{font-size:15px;}
 .mdl-button.primary-add-name-btn, .mdl-button.primary-add-name-btn:hover, .mdl-button.primary-add-name-btn:active{margin-bottom:2px;  border-radius: 4px; min-height: 33px; padding: 0 5px; background-color: #fff; border: 1px solid #fff; color: blue; font-size:12px; height:25px;}
 .mdl-button.primary-explore-btn, .mdl-button.primary-explore-btn:hover, .mdl-button.primary-explore-btn:active{margin-bottom:2px;  border-radius: 4px; min-height: 33px; padding: 0 5px; background-color: #fff; border: 1px solid #000; color: #000; font-size:12px; height:25px;}
-.upload-bg-image .upload-image-input{width: calc(100% - 73px); float:left;}
+.upload-bg-image .upload-image-input{width: calc(100% - 79px); float:left;}
 .upload-bg-image .upload-image-input ~ span button.btn-secondary{margin-top:5px; font-size: 14px; min-height: 34px; float: right; font-weight:normal; min-width: auto; padding: 0 10px;}
 .modal-note{color:#888;}
 
@@ -1871,6 +1872,7 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .colorChamber.active{border:2px solid #f77204;}
 .defaultextinfo{font-size:12px; margin-bottom:10px; line-height:16px;}
 .add-top-carousel .ql-tooltip.ql-editing{left: 25% !important; margin-top: -10px; padding: 2px 12px;}
+.sa-dragdropimg {width: 88% !important;}
 /*end*/
 
 /* partial onboarding related css changes */

@@ -346,7 +346,7 @@ limitations under the License.
 					    		</div>
 					    	 	<div class="pagination-right-section">
                                                 <div class="count-btn-container" >
-                                                <button class="mdl-button mdl-js-button btn-secondary"  ng-disabled="selectedPage==0" ng-click="setStartCount('pre');loadMore(selectedPage)">Previous</button>
+                                                <button class="mdl-button mdl-js-button btn-secondary"  ng-disabled="selectedPage==0" ng-class="{disabledClick:SetDataLoaded==true;}"  ng-click="setStartCount('pre');loadMore(selectedPage)">Previous</button>
                                                 </div>
                                                 <div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
                                                 <button class="mdl-button mdl-js-button btn-secondary count-btn"   ng-click="setStartCount('preBunch');loadMore(setPageStart)" ng-class="{disabledClick:SetDataLoaded==true}">...</button>
@@ -370,7 +370,7 @@ limitations under the License.
                                                 <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-click="setStartCount('nextBunch');loadMore(setPageStart);" ng-class="{disabledClick:SetDataLoaded==true}">...</button>
                                                 </div>
                                                 <div class="count-btn-container" >
-                                                <button class="mdl-button mdl-js-button btn-secondary" ng-click="setStartCount('next');loadMore(selectedPage);" ng-disabled="totalPages == (selectedPage + 1)">Next</button>
+                                                <button class="mdl-button mdl-js-button btn-secondary" ng-click="setStartCount('next');loadMore(selectedPage);" ng-class="{disabledClick:SetDataLoaded==true;}" ng-disabled="totalPages == (selectedPage + 1)">Next</button>
                                                 </div>
                                   </div>  							    	
 					    	</div>	

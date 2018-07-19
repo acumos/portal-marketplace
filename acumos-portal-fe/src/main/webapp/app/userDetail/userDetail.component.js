@@ -142,6 +142,27 @@ angular
 				            $anchorScroll();
 				        }   
 						
+						// get Image Size
+						 function getImageSize(){
+							var req = {
+								method : 'Get',
+								url : '/api/users/imagesize'
+							};
+							$http(req)
+									.success(
+											function(data, status, headers,
+													config) {
+												if (data.status) {													
+													$scope.imageSize = data.response_body;													
+												}
+											}).error(
+											function(data, status, headers,
+													config) {
+
+											});
+						}
+						getImageSize();
+						
 						// get User image
 						 function getUserImage (){
 							var req = {
@@ -163,6 +184,7 @@ angular
 
 											});
 						}
+						 
 						 
 						 function getUserDetail() {
 							var req = {
