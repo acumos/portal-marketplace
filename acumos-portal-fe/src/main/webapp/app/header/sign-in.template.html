@@ -20,7 +20,7 @@ limitations under the License.
 
 
 							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-sign_in" id="sign-in-dialog">
-								  <form name="userForm" ng-cloak novalidate>
+								  <form name="userForm" ng-cloak novalidate autocomplete="off">
 									<md-toolbar>
 									  <div class="md-toolbar-tools">
 										<h2>Sign In</h2>
@@ -44,7 +44,7 @@ limitations under the License.
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Username or Email Id</label>
 												      <md-icon class="name"><span class="icon-user" alt="User" title="User"></span></md-icon>
-												      <input class="signin-control" name="userName" ng-model="modalData.name" type="text" required>
+												      <input class="signin-control" name="userName" ng-model="modalData.name" type="text" autocomplete="off" required>
 												      <div class="help-inline validation-msgs"
 															ng-class="{validationmsg:!userForm.userName.$valid}">
 															<span
@@ -56,7 +56,7 @@ limitations under the License.
 												      <!-- Use floating label instead of placeholder -->
 												      <label>Password</label>
 												      <md-icon class="name"><span class="icon-password" alt="Password" title="Password"></span></md-icon>
-												      <input class="signin-control" name="userPass" ng-model="modalData.value" type="password" required>
+												      <input class="signin-control" name="userPass" ng-model="modalData.value" type="password" autocomplete="off" required>
 												      <div class="help-inline validation-msgs"
 														ng-class="{validationmsg:!userForm.userPass.$valid}">
 													    <span
