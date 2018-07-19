@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcdd0d13_71322363",
+        "filename": "acumos-portal-fe/src/main/webapp/app/userDetail/userDetail.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-19T13:40:04Z",
+      "side": 1,
+      "message": "Remove this function",
+      "range": {
+        "startLine": 159,
+        "startChar": 11,
+        "endLine": 162,
+        "endChar": 14
+      },
+      "revId": "d0e9d6d54d433d637421cd0754dabb7eda906791",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
