@@ -76,6 +76,7 @@ public class MLSolution {
 	private boolean onboardingStatusFailed;
 	private String errorDetails;
 	private String latestRevisionId;
+	private long commentsCount;
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -528,4 +529,11 @@ public class MLSolution {
 	public void setLatestRevisionId(String latestRevisionId) {
 		this.latestRevisionId = latestRevisionId;
 	}
+	public long getCommentsCount() {
+       	     return commentsCount;
+    	}
+
+        public void setCommentsCount(long commentsCount) {
+            this.commentsCount = commentsCount;
+        }
 }
