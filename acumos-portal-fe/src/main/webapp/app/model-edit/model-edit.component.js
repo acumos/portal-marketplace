@@ -75,7 +75,7 @@ angular
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
-							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval, $sce) {
+							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval, $sce, browserStorageService) {
 						if($stateParams.deployStatus == true){
 						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
 						}
@@ -112,14 +112,14 @@ angular
 									$scope.solutionId);
 						}
 						
-						if(localStorage.getItem("userDetail")){
-							$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
+						if(browserStorageService.getUserDetail()){
+							$scope.loginUserId = JSON.parse(browserStorageService.getUserDetail());
 						}
 						
 						$scope.getComment = function() {
-							if (localStorage.getItem("userDetail")) {
-								$scope.loginUserID = JSON.parse(localStorage
-										.getItem("userDetail"))[1];
+							if (browserStorageService.getUserDetail()) {
+								$scope.loginUserID = JSON.parse(browserStorageService
+										.getUserDetail())[1];
 							}
 							var reqObj = {
 									  "request_body": {
@@ -240,8 +240,8 @@ angular
 						$scope.postReply = function(){
 							$scope.showPostReply = false;
 							$scope.showEditComment = false;
-							if(localStorage.getItem("userDetail")){
-								$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
+							if(browserStorageService.getUserDetail()){
+								$scope.loginUserId = JSON.parse(browserStorageService.getUserDetail());
 							}
 							
 								var commentObj = {
@@ -1632,8 +1632,8 @@ angular
 							$scope.loginUserID = JSON.parse(localStorage.getItem("userDetail"))[1];
 						}
 						$scope.exportToLocal = function(artifactId) {
-							if(localStorage.getItem("userDetail")){
-								$scope.loginUserId = JSON.parse(localStorage.getItem("userDetail"));
+							if(browserStorageService.getUserDetail()){
+								$scope.loginUserId = JSON.parse(browserStorageService.getUserDetail());
 							}
 							var url = '/api/downloads/'
 									+ $scope.solution.solutionId

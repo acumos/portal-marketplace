@@ -28,7 +28,7 @@ angular
 					templateUrl : '/app/market_place/market-place.template.html',
 					controller : function($scope, $compile, $location, $http,
 							$state, $stateParams, $sessionStorage, $rootScope,
-							apiService, $element, $timeout, $window) {
+							apiService, $element, $timeout, $window, browserStorageService) {
 
 						$scope.setPageStart = 0;
                         $scope.selectedPage = 0;
@@ -172,9 +172,9 @@ angular
 						$scope.pageNumber = 0;
 						
 
-						if (JSON.parse(localStorage.getItem("userDetail"))) {
-							$scope.userDetails = JSON.parse(localStorage
-									.getItem("userDetail"));
+						if (JSON.parse(browserStorageService.getUserDetail())) {
+							$scope.userDetails = JSON.parse(browserStorageService
+									.getUserDetail());
 							$scope.userDetails.userName = $scope.userDetails[0];
 							$scope.loginUserID = $scope.userDetails[1];
 						}
@@ -200,7 +200,7 @@ angular
 						}
 						//Check for access type
 						var accessTypeFilter = ["PB"];$scope.userLoggedIn = false;
-						if (JSON.parse(localStorage.getItem("userDetail"))) {accessTypeFilter = ["OR", "PB"];$scope.userLoggedIn = true;}
+						if (JSON.parse(browserStorageService.getUserDetail())) {accessTypeFilter = ["OR", "PB"];$scope.userLoggedIn = true;}
 						
 						
 						$scope.accessFilter = function(accessType){

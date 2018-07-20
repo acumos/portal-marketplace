@@ -164,7 +164,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 	    
 	    /*socialProvider.setGoogleKey("719388764800-sm4ddoku49cl88dl47h0s031968lvd6l.apps.googleusercontent.com");*/
 	    
-}).run(function($rootScope, $state, $location) {
+}).run(function($rootScope, $state, $location, browserStorageService) {
     $rootScope.$state = $state;
     $rootScope.$on("$locationChangeStart", function(event, next, current) { 
         /*if($location.path() === "/home"){
@@ -180,7 +180,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 
     	 	//console.log('#######app.config.js->$rootScope.sidebarHeader: ' + $rootScope.sidebarHeader)
     	 	//$scope.sidebarHeader = false;
-		   if (localStorage.getItem("userDetail")) {
+		   if (browserStorageService.getUserDetail()) {
 				//console.log("Yes");
 				$rootScope.sidebarHeader = true;
 				//$scope.sidebarHeader = true;
