@@ -478,7 +478,7 @@ limitations under the License.
 
 											<div class="md-icons-tiles">
 												<span><span class="statistics-icons icon-chat"
-													alt="Comment" title="Comment"></span> 0</span> <span><span
+													alt="Comment" title="Comment"></span> {{companySolution.commentsCount}}</span> <span><span
 													class="statistics-icons icon-view" alt="View" title="View"></span>
 													{{companySolution.viewCount == null ? 0 :
 													companySolution.viewCount}}</span> <span><span
@@ -560,7 +560,7 @@ limitations under the License.
 													ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div>
 											</div>
 											<div class="md-icons">
-										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
+										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment">{{companySolution.commentsCount}}</span>
 											0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
 											{{companySolution.viewCount == null ? 0 :
 											companySolution.viewCount}}</span> <span><span
@@ -696,7 +696,7 @@ limitations under the License.
 														ng-style="getAvgRating(publicSolution.solutionRatingAvg)"></div></div>
 													<div class="md-icons-tiles">
 														<span><span class="statistics-icons icon-chat"
-															alt="Comment" title="Comment"></span> 0</span> <span><span
+															alt="Comment" title="Comment"></span> {{publicSolution.commentsCount}}</span> <span><span
 															class="statistics-icons icon-view" alt="View"
 															title="View"></span> {{publicSolution.viewCount == null ?
 															0 : publicSolution.viewCount}}</span> <span><span
@@ -780,7 +780,7 @@ limitations under the License.
 
 										</div>
 									<div class="md-icons">
-										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>
+										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment">{{mlsolution.commentsCount}}</span>
 											0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
 											{{mlsolution.viewCount == null ? 0 : mlsolution.viewCount}}</span> <span><span
 											class="statistics-icons icon-download" alt="Download" title="Download"></span>
@@ -887,7 +887,7 @@ limitations under the License.
 																ng-style="getAvgRating(deletedSolution.solutionRatingAvg)"></div></div>
 															<div class="md-icons-tiles">
 																<span><span class="statistics-icons icon-chat"
-																	alt="Comment" title="Comment"></span> 0</span> <span><span
+																	alt="Comment" title="Comment"></span> {{deletedSolution.commentsCount}}</span> <span><span
 																	class="statistics-icons icon-view" alt="View"
 																	title="View"></span> {{deletedSolution.viewCount ==
 																	null ? 0 : deletedSolution.viewCount}}</span> <span><span
@@ -969,7 +969,7 @@ limitations under the License.
 																</div>
 															<div class="md-icons">
 																<span><span class="statistics-icons icon-chat"
-																	alt="Comment" title="Comment"></span> 0</span> <span><span
+																	alt="Comment" title="Comment"></span> {{deletedSolution.commentsCount}}</span> <span><span
 																	class="statistics-icons icon-view" alt="View"
 																	title="View"></span> {{deletedSolution.viewCount ==
 																	null ? 0 : deletedSolution.viewCount}}</span> <span><span
