@@ -32,6 +32,7 @@ limitations under the License.
 					</section>
 
 	<div ng-show="is_ie" class="page-content">
+	 
 		<div class="error-wrapper" style="position:relative !important">
 			<div class="error-wrapper-inner text-center">
 				<div class="error-acumos-logo2-DS"></div>
@@ -50,7 +51,7 @@ limitations under the License.
 	</div>
 
 	<div ng-show="!is_ie" class="page-content ds-outer-container">
-							
+		 <!-- <img id="mySpinner" class="loading" src="images/Loading_icon.gif" ng-show="loading" /> -->
 			<div flex="20" class="bdr-right posrel ds-left-section" ng-class="left?'ds-left-width':''">
 			<div id="content-left">					
 				<div class="ds-section" id="top-content-left">
@@ -77,7 +78,7 @@ limitations under the License.
 							style="padding: 0px;padding-left: 5px;"> 
 						<div class="ds-section-data-inner2">
 							<ul class="ds-list3" ng-repeat="val in publicCS | orderBy:'solutionName' | filter:myFilter">
-								<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span></li>
+								<li><span ng-click="loadSolution(val)" class="readSolutions" ng-class="{'ds-selected-model': val.solutionName+val.version === selectedIndex}">{{val.solutionName}} ({{val.version}})</label></span></li>
 							</ul>
 						</div>
 						</md-content> </md-tab>
@@ -104,7 +105,7 @@ limitations under the License.
 						                     <div ng-show="expanded">
 							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
 							                        <div ng-if="category.code==cat.key" class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -117,7 +118,7 @@ limitations under the License.
 						                     <div ng-show="test">
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    </div>
@@ -157,7 +158,7 @@ limitations under the License.
 									
 							                      <div ng-repeat="cat in palette.categories">
 							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
-								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							                      	</div>
 							                    </div>
 						                    
@@ -188,7 +189,7 @@ limitations under the License.
 								<div class="ds-list1">
 									<div ng-repeat="cat in palette.categories">
 							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
-								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
 							            </div>
 							        </div>
 							     </div>
@@ -262,6 +263,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="console-outer-container" ng-class="down?'console-container-hide':''">
+							<div class="ds-version-container">Composition Engine 0.0.33-SNAPSHOT</div>
 							<div class="bottom-drawer-handle" ng-init="down='true'" ng-click="down = !down"><span class="bottom-handle"><i class="material-icons">keyboard_arrow_up</i></span></div>
 								<div class="ds-section" ng-hide="down">
 									<div class="ds-section-heading">
@@ -463,7 +465,7 @@ limitations under the License.
 						
 							<div class="ds-section-data-inner4 marginLeft">							
 								<ul class="ds-list3" ng-repeat="val in privateCS | filter:searchSol | orderBy:'solutionName'">
-									<li><span ng-click="loadSolution(val)" class="readSolutions">{{val.solutionName}} ({{val.version}})</label></span><button ng-click="showdeletePopup($event,val)" class="mdl-button mdl-js-button"><span class="ds-delete-icon" title="Delete"></span></button> </li>
+									<li><span ng-click="loadSolution(val)" class="readSolutions" ng-class="{'ds-selected-model': val.solutionName+val.version === selectedIndex}">{{val.solutionName}} ({{val.version}})</label></span><button ng-click="showdeletePopup($event,val)" class="mdl-button mdl-js-button"><span class="ds-delete-icon" title="Delete"></span></button> </li>
 								</ul>
 							</div>							
 							</div>
@@ -837,14 +839,15 @@ limitations under the License.
 										<label class="disblock">Upload Files <span
 											class="dsreqfield">*</span></label>
 											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
-             										accept="csv/json/image/*" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json')" 
-             										ngf-model-invalid="errorFile" ng-blur="changeRead()"/>
+             										accept=".{{dbType}}" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json')" 
+             										ngf-model-invalid="errorFile" ng-change="checkFileName()"/>
              										
              										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
              										<!-- <span  ng-bind="errormsg"></span> -->
 										<div class="help-inline validation-msgs"
 										ng-class="validationmsg">
 										<span ng-if="!userImage && userImageNew">If you want to make changes to source table, Please re-upload the file</span> 
+										<span ng-if="enableScript">File is invalid. Upload a valid file with csv extensions</span>
 										<span ng-class="validationmsg" ng-bind="errormsg"></span> 
 									</div>
 					                     
@@ -867,7 +870,7 @@ limitations under the License.
 								<md-button ng-click="closePoupscript()"
 									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 								Cancel </md-button>
-								<md-button type="submit" ng-disabled="databroker.$invalid || readSolution"
+								<md-button type="submit" ng-disabled="userImage ? (databroker.$invalid || (readSolution || enableScript)) : (databroker.$invalid || readSolution)"
 									ng-click="processData()" class="mdl-button mdl-js-button btn-primary"
 									title="Done"> Done </md-button>
 							</div>
@@ -1196,7 +1199,7 @@ limitations under the License.
 																		<th><span>Parameter Role</span></th>
 																		<th><span>Parameter Tag #</span></th>
 																		<th><span>Target Tag Mapping - Map a source field to target field</span></th>
-																		<th><span>Error Indicator</span></th>
+																		<th><span>Error Validator</span></th>
 																		<th><span>Parameter Tag #</span></th>
 																		<th><span>Parameter Name</span></th>
 																		<th><span>Parameter Type</span></th>
@@ -1272,7 +1275,7 @@ limitations under the License.
 									</md-dialog-content>
 									<md-dialog-actions>
 										<div class="dialog-footer-container1">
-											<md-button ng-click="closeMappingPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+											<md-button ng-click="closeMappingCollatorPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 												Cancel
 											</md-button>
 											<md-button type="submit" ng-click="collateMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid || disableDone">
@@ -1316,7 +1319,7 @@ limitations under the License.
 																		<th><span>Parameter Role</span></th>
 																		<th><span>Parameter Tag #</span></th>
 																		<th><span>Source Tag Mapping - Copy a source field to target field</span></th>
-																		<th><span>Error Indicator</span></th>
+																		<th><span>Error Validator</span></th>
 																		<th><span>Parameter Tag #</span></th>
 																		<th><span>Parameter Name</span></th>
 																		<th><span>Parameter Type</span></th>
@@ -1393,7 +1396,7 @@ limitations under the License.
 									</md-dialog-content>
 									<md-dialog-actions>
 										<div class="dialog-footer-container1">
-											<md-button ng-click="closeMappingPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+											<md-button ng-click="closeMappingSplitterPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 												Cancel
 											</md-button>
 											<md-button type="submit" ng-click="splitMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid || disableDone">

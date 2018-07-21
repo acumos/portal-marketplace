@@ -189,9 +189,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             name: type + (max+1)
         };
         $scope.nodeName=data.name;
-        var nodeId = '',nodeVersion = ver, nodeRevision = revision;
-        if(revision !== undefined)
-        	$scope.selectedIndex = type+ver+revision;
+        var nodeId = '',nodeVersion = ver;
+        if(revision !== undefined){
+        	var nodeRevision = revision.slice(0,4);
+        	$scope.selectedIndex = type+ver+nodeRevision;
+        }
         else
         	$scope.selectedIndex = type+ver;
         $http.get(_catalog.fModelUrl(_components.get(type+'+'+nodeVersion))).success(function(tgif) {
@@ -375,7 +377,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 });
         }).error(function(response){
         	$scope.titlemsg = ALERT;
-        	$scope.msg = "Cannot drop this item onto the canvas, Error details: Failed to fetch the TOSCA details for "+type+" ("+nodeVersion+")";
+        	$scope.msg = "Cannot drop this item onto the canvas" + "\n Error details: "+response;
         	$scope.showpopup();
         });
     };
@@ -407,6 +409,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.readSolution = false;
                     enteredOk = false;
                     savedSolution = false;
+                    $scope.selectedIndex = null;
                     $scope.scriptEntered = false;
                     $scope.enableCollateMap = false;
                     $scope.collateSelect = false;
@@ -471,12 +474,20 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });
             var changeNode = new Object();
             $http.get(url)
-                .success(function(result) {                                       
+                .success(function(result) {  
+                	var cdump = JSON.parse(result.payload);
                     //validflag
+                	if(result.error){
+                		$scope.clearSolution();
+                		$scope.titlemsg = ALERT;
+                    	$scope.msg = result.error;
+                    	$scope.showpopup();
+                	} else{
+                	$scope.selectedIndex = cdump.cname+cdump.version;
                     if(result.validSolution){
                     	$scope.activeInactivedeploy = false;
                     	$scope.validationState = true;
-                    	$scope.solutionIdDeploy = result.solutionId;
+                    	$scope.solutionIdDeploy = cdump.solutionId;
                     }else{
                     	$scope.activeInactivedeploy = true;
                     	$scope.validationState = false;
@@ -493,9 +504,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.namedisabled = true;$scope.canvas = true;
                     _solutionId = entry.solutionId;
                     
-                    $scope.solutionName = result.cname;
-                    $scope.solutionVersion = result.version;
-                    _solution = result;
+                    $scope.solutionName = cdump.cname;
+                    $scope.solutionVersion = cdump.version;
+                    $scope.solutionDescription = result.description;
+                    _solution = cdump;
                     _solution.nodes.forEach(function(n) {
                         if(n.ndata && n.ndata.fixed && n.ndata.px !== undefined && n.ndata.py !== undefined)
                             n.fixedPos = {x: +n.ndata.px, y: +n.ndata.py};
@@ -503,6 +515,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $(".ds-grid-bg").css("background", "url('../images/grid.png')");
                     $scope.closeDisabled = false;
                     display_solution(_solution);
+                	}
                 }).error(function(result){
                 	$scope.titlemsg = ALERT;
                 	$scope.msg = "Cannot load the solution";
@@ -772,7 +785,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $scope.saveState.noSaves = false;
             $scope.saveState.desc = message || 'solution has changes';
         } else {
-            $scope.saveState.noSaves = false;
+            $scope.saveState.noSaves = true;
             $scope.saveState.desc = message || 'solution is saved';
         }
     }
@@ -911,11 +924,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             		if(value.collator_map !== null){
             			$scope.collateSchemes[n.nodeId] = value.collator_map.collator_type;
             			if($scope.collateSchemes[n.nodeId] === "Parameter-based"){
-	            			createCollateSourceRead(value.collator_map.map_inputs,n.nodeId);
-	            			createCollateTargetRead(value.collator_map.map_outputs,n.nodeId);
+            				$scope.collateTargetTables[n.nodeId] = [];
+            				$scope.collateSourceTables[n.nodeId] = [];
 	            			readCollatorMapping(value.collator_map.map_inputs,n.nodeId);
+	            			
+	            			collateDetails = { "collatorType": value.collator_map.collator_type,
+    								"mapInputs": value.collator_map.map_inputs,
+    								"mapOutputs": value.collator_map.map_outputs};
             			}
-            			collateDetails = value.collator_map.collator_type;
+            			
             		}
             	});
             }
@@ -926,11 +943,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             		if(value.splitter_map !== null){
             			$scope.splitSchemes[n.nodeId] = value.splitter_map.splitter_type;
             			if($scope.splitSchemes[n.nodeId] === "Parameter-based"){
-            				createSplitSourceRead(value.splitter_map.map_inputs, n.nodeId);
-            				createSplitTargetRead(value.splitter_map.map_outputs, n.nodeId);
+            				$scope.splitTargetTables[n.nodeId] = [];
+            				$scope.splitSourceTables[n.nodeId] = [];
             				readSplitterMapping(value.splitter_map.map_outputs, n.nodeId);
+            			
+            			splitDetails = {"splitterType" : value.splitter_map.splitter_type,
+            							"mapInputs" : value.splitter_map.map_inputs,
+            							"mapOutputs" : value.splitter_map.map_outputs};
             			}
-            			splitDetails = value.splitter_map.splitter_type;
             		}
             	});
             }
@@ -948,6 +968,26 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     } else if(tarPort.orig.value.bounds === outbounds){
                     	targetTableCreate(tarPort);
                     }
+            	}
+            	
+            	if(n.nodeId === e.sourceNodeId && n.type.name === "Collator"){
+            		if(srcPort.orig.value.bounds === outbounds)
+            			createCollateTargetTable(tarPort,srcPort);
+            	}
+            	
+            	if(n.nodeId === e.targetNodeId && n.type.name === "Collator"){
+            		if(tarPort.orig.value.bounds === inbounds)
+            			createCollateSourceTable(srcPort,tarPort);
+            	}
+            	
+            	if(n.nodeId === e.sourceNodeId && n.type.name === "Splitter"){
+            		if(srcPort.orig.value.bounds === outbounds)
+            			createSplitTargetTable(tarPort,srcPort);
+            	}
+            	
+            	if(n.nodeId === e.targetNodeId && n.type.name === "Splitter"){
+            		if(tarPort.orig.value.bounds === inbounds)
+            			createSplitSourceTable(srcPort,tarPort);
             	}
             	
             });
@@ -991,7 +1031,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 // result.duplicate = 'duplicate';
                 if(result.errorCode){
                 	$scope.titlemsg = ALERT;
-                	$scope.msg= "Solution not saved"; 
+                	$scope.msg= "Solution not saved "; 
                 	$scope.showpopup();
                 	enteredOk = true;
                 	}
@@ -1032,7 +1072,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             solutionName: $scope.solutionName,
             solutionId: _solutionId,
             version:$scope.solutionVersion
-        };                     var url = build_url(options.validate, args);
+        };                     
+        var url = build_url(options.validate, args);
         $('#validateActive').removeClass('enabled');
         $scope.validationState = true;
 
@@ -1048,7 +1089,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 $('#consoleMsg').removeClass('console-errormsg');
                 $scope.console = "Valid composite Solution";
             } else {
-            	 $scope.activeInactivedeploy = true;
+            	$scope.activeInactivedeploy = true;
                 $scope.validationState =false;
                 $('#consoleMsg').removeClass('console-successmsg');
                 $('#consoleMsg').addClass('console-errormsg');
@@ -1083,16 +1124,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     function display_properties(url) {
         $scope.initIndex=false;
-        $scope.setAction = function(index){
-            if(index==$scope.selectedIndex){
-                $scope.selectedIndex=-1;
-            } else{
-                $scope.selectedIndex=index;
-                $scope.initIndex=true;
-
-            }
-        };
-
         $scope.listNavs=[];
         $scope.navsKeys=[];
         var content = d3.select('#properties-content');
@@ -1419,7 +1450,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         		$scope.solutionDetails=n;
         });
         
-        $scope.selectedIndex = $scope.solutionDetails.solutionName+$scope.solutionDetails.version+$scope.solutionDetails.solutionRevisionId;
+        $scope.selectedIndex = $scope.solutionDetails.solutionName+$scope.solutionDetails.version+$scope.solutionDetails.solutionRevisionId.substring(0,4);
         if(compsHover[0].toolKit != 'CP'){
            if(compsHover.length === 1)
                 display_properties(_catalog.fModelUrl(compsHover[0]));
@@ -1539,7 +1570,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	            }
             	}
         	} else if(p1.node.orig.value.type.name === "Splitter"){
-        		if($scope.splitScheme === "Copy-based" && $scope.readSolution === false){
+        		if($scope.splitSchemes[p1.node.orig.key] === "Copy-based" && $scope.readSolution === false){
 	        		_ports.forEach(function(port){
 	        			if(port.nodeId === p1.node.orig.key && port.bounds !== p1.orig.value.bounds){
 	        				if(p2) {
@@ -1553,7 +1584,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                        }
 	        			}
 	        		});
-        		} else if($scope.splitScheme === "Parameter-based"){
+        		} else if($scope.splitSchemes[p1.node.orig.key] === "Parameter-based"){
         			if(p1.orig.value.bounds === inbounds){
 	        			if(p2) {
 	    	                p1.orig.value.type = p2.orig.value.type;
@@ -2864,10 +2895,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     {
         $scope.showInput = !$scope.showInput;
     };
-
+    
+    $scope.loading = true;
     function load_catalog() {
+    	
         return get_catalog()
             .success(function(data) {
+            	$scope.loading = false;
                 angular.forEach(data.items, function(value, key) {
                     if(data.items.solutionName != "Text_Class_09102017_IST2"){
 
@@ -2990,6 +3024,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 	$scope.showSplitter = null;
                     $scope.solutionDetails = null;
                     $scope.showProperties = null;
+                    $scope.selectedIndex = null;
                     $scope.showLink=null;
                     $scope.myCheckbox = false;
                     $scope.checkboxDisable = true;
@@ -3030,9 +3065,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         else if(val == 'no' && $scope.CloseOrNew == 'new'){_dirty = false;$scope.newSolution('new');$scope.closePoup();}
     };
 
-    // Fuction for closing All Open composite solution
+    window.onbeforeunload = function(){if(_dirty) return 'Unsaved';}
+    
+    // Function for closing All Open composite solution
     $scope.clearSolution = function(){
-
+    	if(_dirty){$scope.CloseOrNew = 'closeSol';$scope.showsaveConfirmationPopup();}
+        else {
         var url = "";
         if(_solutionId){
             url = build_url(options.clearCompositeSolution , {
@@ -3072,6 +3110,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         jsonProtoNode = new Map();
         protoJsonRead = new Map();
         $scope.myCheckbox = false;
+        $scope.selectedIndex = null;
         $scope.readSolution = false;
         $scope.scriptEntered = false;
         $scope.collateScheme = null;
@@ -3082,6 +3121,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.splitSelect = false;
         $scope.solutionIdDeploy = null;
         $scope.activeInactivedeploy = true;
+        }
     };
 
     $scope.down=false;
@@ -3318,6 +3358,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     
     $scope.showScript = function(ev) {
+    	if($scope.userImage !== undefined || $scope.userImage === ""){
+	        var fileName = $scope.userImage.name;
+	        if(fileName !== undefined){
+		        if (fileName.split(".")[1].toUpperCase() !== "CSV")
+		            $scope.enableScript = true;
+		        else
+		        	$scope.enableScript = false;
+	        } else
+	        	$scope.enableScript = false;
+        } else
+        	$scope.enableScript = false;
         $mdDialog.show({
             contentElement: '#myDialogScript',
             parent: angular.element(document.body),
@@ -3329,6 +3380,22 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.showSourceTable = false;
     $scope.defaultvalue = '';
 
+    $scope.checkFileName = function(){
+    	
+        $scope.readSolution = false;
+        if($scope.userImage !== undefined || $scope.userImage === ""){
+	        var fileName = $scope.userImage.name;
+	        if(fileName !== undefined){
+		        if (fileName.split(".")[1].toUpperCase() !== "CSV")
+		            $scope.enableScript = true;
+		        else
+		        	$scope.enableScript = false;
+	        } else
+	        	$scope.enableScript = false;
+        } else
+        	$scope.enableScript = false;
+    }
+    
     $scope.processData = function(){
     	$scope.scriptEntered = true;
     	scriptEnteredDetails={'dbtype':$scope.dbType,
@@ -3823,7 +3890,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.closePopupCollatorSelector = function(){
     	if($scope.readSolution){
-    		$scope.collateScheme = collateDetails;
+    		$scope.collateScheme = collateDetails.collatorType;
     	} else if($scope.collateSelect){
     		$scope.collateScheme = $scope.collateSelectedDetails;
     	} else{
@@ -3845,6 +3912,20 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	$scope.collatorSelector.$setPristine();
         $scope.splitterSelector.$setUntouched();
         $mdDialog.cancel();	
+    };
+    
+    $scope.closeMappingCollatorPopup = function(){
+    	$mdDialog.cancel();
+    	if($scope.readSolution){
+    		readCollatorMapping(collateDetails.mapInputs, $scope.nodeIdDB);
+    	}
+    };
+    
+    $scope.closeMappingSplitterPopup = function(){
+    	$mdDialog.cancel();
+    	if($scope.readSolution){
+    		readSplitterMapping(splitDetails.mapOututs, $scope.nodeIdDB);
+    	}
     };
     
     $scope.processCollatorSelection = function(){
@@ -3974,7 +4055,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	});
 
     	$scope.collateTargetTables[inputPort.node.orig.key] = collateTargetTable;
-    	if($scope.collateSourceMapTable === null){
+    	if($scope.collateSourceTables[inputPort.node.orig.key] === null){
     		$scope.collateSourceTables[inputPort.node.orig.key] = [];
     	}
     	
@@ -4156,46 +4237,41 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.splitMappingTag = function(index){
     	splitTagMap = $scope.splitTags[$scope.nodeIdDB];
         splitTagMap[index] = this.splitMapTag;
-        var occurrences = { };
         var splitErrorIndicator = new Map();
         
-        for (var i = 0, j = splitTagMap.length; i < j; i++) {
-        	if(splitTagMap[i] !== undefined)
-        		occurrences[splitTagMap[i]] = (occurrences[splitTagMap[i]] || 0) + 1;
-        }
-        
-        angular.forEach($scope.splitTargetMapTable, function(value,key){
-        	/*angular.forEach(occurrences, function(value1,key1){
-        		if(value1 > 1){
-        			angular.forEach(splitTargetTable, function(value4,key4){
-        				if(key1 === splitTagMap.get(key4) && value.modelName === splitTargetTable[key4].modelName)
-            				splitErrorIndicator.set(key4, "False");
-        			});
-        			
-        		} else{*/
-        			var keepGoing = true;
-        			angular.forEach($scope.splitSourceMapTable, function(value2,key2){
-        				
-        				if(keepGoing){
-        					if(splitTagMap[key] === value2.tag && value.role === value2.role && value.type === value2.type){
-        						keepGoing = false;
-        						angular.forEach($scope.splitTargetMapTable, function(value3,key3){
-        							if(value.modelName === value3.modelName){
-        								splitErrorIndicator.set(key, "True");
-        								if(splitTagMap[key3] === undefined)
-        									splitErrorIndicator.set(key3, "True");
-        								
-        							}	
-        						});
-        					} else{
-        						if(splitErrorIndicator.get(key) === undefined)
-        							splitErrorIndicator.set(key, "False");
-        					}
-        				}
-        			});
+	    for(var st = 0; st < splitTagMap.length-1 ; st++){
+	    	for(var stm = st+1;stm <splitTagMap.length;stm++){
+	       		if(splitTagMap[st] === splitTagMap[stm]){
+	        		if($scope.splitTargetMapTable[st].modelName === $scope.splitTargetMapTable[stm].modelName){
+		        		splitErrorIndicator.set(st, "False");
+		        		splitErrorIndicator.set(stm, "False");
+	        		} 
+	        	}
+	        }
+	    }
+	    angular.forEach($scope.splitTargetMapTable, function(value,key){
+	       	if(splitErrorIndicator.get(key) === undefined){
+        		var keepGoing = true;
+        		angular.forEach($scope.splitSourceMapTable, function(value2,key2){
         		
-        	
-        	
+        			if(keepGoing){
+        				if(splitTagMap[key] === value2.tag && value.role === value2.role && value.type === value2.type){
+        					keepGoing = false;
+        					angular.forEach($scope.splitTargetMapTable, function(value3,key3){
+        						if(value.modelName === value3.modelName){
+        							splitErrorIndicator.set(key, "True");
+        							if(splitTagMap[key3] === undefined)
+        								splitErrorIndicator.set(key3, "True");
+        								
+       							}	
+       						});
+       					} else{
+       						if(splitErrorIndicator.get(key) === undefined)
+       							splitErrorIndicator.set(key, "False");
+       					}
+       				}
+       			});
+        	}
         });
         $scope.splitTags[$scope.nodeIdDB] = splitTagMap;
         $scope.splitErrors[$scope.nodeIdDB] = splitErrorIndicator;
