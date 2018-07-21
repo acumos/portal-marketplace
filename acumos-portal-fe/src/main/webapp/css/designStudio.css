@@ -80,7 +80,7 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 
 .ds-section-properties {min-height: 400px;}
 
-.ds-selected-model {color: #0366d6;}
+.ds-selected-model {color: #0366d6 !important;}
 
 .ds-btnclose1 {width: 25px; height:25px; border-radius: 3px; z-index: 999;font-size: 12px;background: none;}
 .ds-btnclose1 .fa-times {font-size: 12px; color:#c2c2c2;}
@@ -402,6 +402,8 @@ table.mdl-data-table.ds-table1 thead tr th span {margin-bottom: 0;font-weight:60
 table.mdl-data-table.ds-table1 tbody tr {position: static;}
 /******* Mapping Tables modal box style end *********/
 
+.ds-version-container {position: absolute; display: inline-block; right: 15px; margin-top: -27px; color: #656565; font-size: 11px;z-index: 2000;}
+/* .loading {position: absolute; display: inline-block;} */
 @media (width: 1024px) and (orientation: landscape) {
 	.ds-mapping-tables-dialog {min-width: 1000px; max-height: 85%; max-width: 98
 	table.dsmt-tbl tbody tr td .select-control {padding-left: 0; width: 86px !important; max-width: 86px !important;}
