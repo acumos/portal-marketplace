@@ -412,7 +412,7 @@ angular
 													  return comparison; }
 												);
 												if($stateParams.revisionId){
-													$scope.version = $scope.versionList.filter(versions => versions.revisionId == $stateParams.revisionId)[0];
+													$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
 													$scope.revisionId = $scope.version.revisionId;
 													$scope.versionId = $scope.version.version;
 												} else {
@@ -456,7 +456,7 @@ angular
 											$stateParams.solutionId = $scope.solution.solutionId
 											if (data.response_body.revisions != null) {
 												if($stateParams.revisionId){
-													$scope.version = $scope.versionList.filter(versions => versions.revisionId == $stateParams.revisionId)[0];
+													$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
 													$scope.revisionId = $scope.version.revisionId;
 												} else {
 													$scope.revisionId = $scope.versionList[0].revisionId;
@@ -838,7 +838,7 @@ angular
 						}
 						
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId){
-							$scope.version = $scope.versionList.filter(versions => versions.revisionId == revisionId)[0];
+							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = revisionId;
 							$scope.versionId = versionId;

@@ -350,7 +350,7 @@ angular
 						});
 						
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId, modifiedDate){
-							$scope.version = $scope.versionList.filter(versions => versions.revisionId == revisionId)[0];
+							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = revisionId;
 							$scope.versionId = versionId;
@@ -409,7 +409,7 @@ angular
 															  }
 															  return comparison; }
 														);
-														$scope.version = $scope.versionList.filter(versions => versions.revisionId == $scope.revisionId)[0];
+														$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
 														if( !$scope.revisionId ){
 															$scope.revisionId = $scope.versionList[0].revisionId;
 															$scope.versionId = $scope.versionList[0].version;
