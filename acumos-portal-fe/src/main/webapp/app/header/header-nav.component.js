@@ -145,8 +145,9 @@ angular.module('headerNav')
 			$scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
 			$scope.userDetails.userName = $scope.userDetails[0];
 		})
+		
 		var notificationCount = 0;
-		$scope.getNotificationMessage=function (userId, page){
+		$scope.getNotificationMessage=function (userId, page,methodCallFlag){
 			var req = {
 			    	  "request_body": {
 				    	    "page": page,
@@ -156,29 +157,23 @@ angular.module('headerNav')
 				    	  "request_id": "string"
 				    	};
 			
-			//$rootScope.notificationCount=0;
-			//$scope.notificationObj = [];
 			apiService.getNotification(userId,req).then(function(response) {
-				if (!$scope.moreNotif){
+				// Kept as comment to verify changes working. Will be removed later.
+				/*if (!$scope.moreNotif){
 					$rootScope.notificationCount = notificationCount;
 					notificationCount = 0;
 					$scope.page = 0;
 					$scope.notificationManageObj=[];
 				}
+				}*/
 				var userId = JSON.parse(browserStorageService.getUserDetail())[1];
+
 				if(response.data!=null && response.data.response_body.length >0 ){
-					/*angular.forEach(
-							response.data.response_body,
-					function( value, key) {
-						$scope.notificationManageObj
-						.push({
-							message : value.message,
-							start : value.start,
-							notificationId : value.notificationId
-						});
-					});*/
-					
-					
+					if(methodCallFlag){
+						$rootScope.notificationCount = 0;
+						notificationCount = 0;
+						$scope.notificationManageObj=[];
+					}
 					angular.forEach(response.data.response_body,function(value,key){
 						
 						if(response.data.response_body[key].viewed == null){
@@ -193,49 +188,38 @@ angular.module('headerNav')
 						
 					});
 					$scope.totalCount = response.data.response_body.length;
+					$rootScope.notificationCount = notificationCount;
 					if($scope.totalCount == 20){
 						$scope.page = $scope.page + 1;
 						$scope.totalCount = 0;
 						$scope.moreNotif = true;
-						$scope.getNotificationMessage(userId,$scope.page);
+						$scope.getNotificationMessage(userId,$scope.page,false);
 					}else{
 						$scope.moreNotif = false;
 					}
 				}else{
-					$rootScope.notificationCount = notificationCount;
-					$scope.notificationManageObj=[];
+					if($scope.page == 0){
+						$rootScope.notificationCount = 0;	
+					}else{
+						$rootScope.notificationCount = notificationCount;
+					}
+					
+					//$scope.notificationManageObj=[];
 				}
 			});
 		}
 		
 			$interval(function () {
 				var userId = JSON.parse(browserStorageService.getUserDetail())[1]
-				
 				if(userId){
 					$scope.page = 0;
-					$scope.getNotificationMessage(userId,$scope.page);
+					$scope.getNotificationMessage(userId,$scope.page,true);
 				}
-		    }, 30000);
+		    }, 3000);
 
-		
-		//$scope.showNotification();
-		/*$scope.getNotificationCount=function (){
-			var req = {
-				    method: 'Get',
-				    url: '/api/notifications/count'
-				};
-			$http(req).success(function(data, status, headers,config) {
-				if(data!=null){
-					$scope.notificationCount=data.response_body.count;
-				  }
-			}).error(function(data, status, headers, config) {
-				
-			});
-		}*/
 		
 		if($scope.loginUserID!=null && $scope.loginUserID!=''){
 			$scope.getNotificationMessage($scope.loginUserID, $scope.page);
-			//$scope.getNotificationCount();
 		}
 		
 		$scope.viewNotification=function (notificationId){
