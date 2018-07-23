@@ -47,17 +47,13 @@ app.component('notificationModule',{
 		    	  "request_body": {
 			    	    "page": page,
 			    	    "size": 20
-			    	 },
-			    	  "request_from": "string",
-			    	  "request_id": "string"
+			    	 } 
 			    	};
 				
 				apiService.getNotification(userId,req).then(function(response) {
 					
-				if(response.data!=null && response.data.response_body.length >0 ){
-					angular.forEach(
-							response.data.response_body,
-					function( value, key) {
+				if(response.data != null && response.data.response_body.length > 0 ){
+					angular.forEach(response.data.response_body,function( value, key) {
 						$scope.notificationManageObj
 						.push({
 							message : value.message,
@@ -66,22 +62,15 @@ app.component('notificationModule',{
 							notificationId : value.notificationId
 						});
 					});
-					//$scope.notificationManageObj=response.data.response_body;
 					$scope.totalCount = response.data.response_body.length;
 					if($scope.totalCount == 20){
 						$scope.page = $scope.page + 1;
 						$scope.getNotificationMessage($scope.loginUserID,$scope.page);
 					}
-					/*angular.forEach(data.response_body,function(value,key){
-						if(data.response_body[key].viewed == null){
-							$rootScope.notificationCount = $rootScope.notificationCount + 1;
-						}
-						
-					});*/
-					
 				}else{
-					$rootScope.notificationCount=0;
-					$scope.notificationManageObj=[];
+					
+					/*$rootScope.notificationCount=0;
+					$scope.notificationManageObj=[];*/
 				}
 			});
 			
@@ -93,7 +82,6 @@ app.component('notificationModule',{
 			$scope.notificationManageObj=[];
 			$scope.getNotificationMessage($scope.loginUserID, $scope.page);
 		}
-		
 		
         $scope.viewNotification=function (notificationId){
 			var req = {
@@ -110,73 +98,71 @@ app.component('notificationModule',{
 				
 			});
 		}
-		/*$scope.markRead=function(){
-			
-			for (var i = 0; i < $scope.notificationManageObj.length; i++) {
-                if ($scope.notificationManageObj[i].Selected) {
-                    var fruitId = $scope.notificationManageObj[i].notificationId;
-                    var fruitName = $scope.notificationManageObj[i].title;
-                   // var message += "Value: " + fruitId + " Text: " + fruitName + "\n";
-                    //alert("message=="+fruitId+"===="+fruitName);
-                }
-            }
-			//$scope.viewNotification($scope.loginUserID);
-		};*/
 		
 		$scope.markRead = function(){
+			$scope.methodCallCounter = 0;
+			$scope.methodResponseCounter = 0;
 			for (var i = 0; i < $scope.notificationManageObj.length; i++) {
-                if ($scope.notificationManageObj[i].Selected) {
-                	if ($scope.notificationManageObj[i].viewed != null)
-                	{
-                	$anchorScroll(); 							// used to scroll to the id 
-					$scope.msg = "Already marked as read."; 
-					$scope.icon = 'report_problem';
-					$scope.styleclass = 'c-success';
-					$scope.showReadAlertMessage = true;
-					$timeout(function() {
-						$scope.showReadAlertMessage = false;
-					}, 2500);
-                }else{
-                    var notificationId = $scope.notificationManageObj[i].notificationId;
-                    var notificationName = $scope.notificationManageObj[i].title;
-					
-					apiService
-					.markReadNotifications(notificationId, $scope.loginUserID)
-					.then(function(response) {
-						$rootScope.notificationCount = $rootScope.notificationCount - 1;
-						$scope.notificationManageObj=[];
-						$scope.page = 0;
-						$scope.getNotificationMessage($scope.loginUserID, $scope.page);
-						
-					});
-                }
-                	
+                if ($scope.notificationManageObj[i].Selected){
+                	if ($scope.notificationManageObj[i].viewed != null){
+	                	$anchorScroll(); 							// used to scroll to the id 
+						$scope.msg = "Already marked as read."; 
+						$scope.icon = 'report_problem';
+						$scope.styleclass = 'c-success';
+						$scope.showReadAlertMessage = true;
+						$timeout(function() {
+							$scope.showReadAlertMessage = false;
+						}, 2500);
+                	}else{
+	                    var notificationId = $scope.notificationManageObj[i].notificationId;
+	                    var notificationName = $scope.notificationManageObj[i].title;
+	                    $scope.methodCallCounter = $scope.methodCallCounter + 1;
+						apiService
+						.markReadNotifications(notificationId, $scope.loginUserID)
+						.then(function(response) {
+							$rootScope.notificationCount = $rootScope.notificationCount - 1;
+							$scope.methodResponseCounter = $scope.methodResponseCounter + 1;
+							if($scope.methodResponseCounter == $scope.methodCallCounter){
+								$scope.refreshNotification();
+							}
+							
+							
+						});
+                	}
 					$scope.notificationManageObj[i].Selected = false;
                 }
             }
+			$scope.removeSelectAll();
 			$scope.selectAll= false;
 			angular.element(document.querySelector("#checkbox-label")).removeClass("is-checked");
 		
        };
 		
 		$scope.trashNotification = function(){
+			$scope.trashMethodCallCounter = 0;
+			$scope.trashMethodResponseCounter = 0;
+			
 			for (var i = 0; i < $scope.notificationManageObj.length; i++) {
                 if ($scope.notificationManageObj[i].Selected) {
                     var notificationId = $scope.notificationManageObj[i].notificationId;
                     var notificationName = $scope.notificationManageObj[i].title;
-					
+                    $scope.trashMethodCallCounter = $scope.trashMethodCallCounter + 1;
 					apiService
 					.deleteNotifications(notificationId, $scope.loginUserID)
 					.then(function(response) {
 						$scope.notificationManageObj=[];
 						$rootScope.notificationCount = $rootScope.notificationCount-1;
-						$scope.page = 0;
-						$scope.getNotificationMessage($scope.loginUserID, $scope.page);
+						$scope.trashMethodResponseCounter = $scope.trashMethodResponseCounter + 1;
+						if($scope.trashMethodResponseCounter == $scope.trashMethodCallCounter){
+							$scope.refreshNotification();
+						}
 					});
                 }
             }
+			$scope.removeSelectAll();
 			$scope.selectAll= false;
 			angular.element(document.querySelector("#checkbox-label")).removeClass("is-checked");
+			
        };
        
        $scope.removeSelectAll = function(){
