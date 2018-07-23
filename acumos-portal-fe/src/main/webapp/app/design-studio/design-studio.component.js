@@ -28,7 +28,7 @@ angular
             controller : DSController
         }
     );
-DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector'];
+DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector','browserStorageService'];
 
 function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector, browserStorageService) {
 	componentHandler.upgradeAllRegistered();
@@ -484,7 +484,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	$scope.showpopup();
                 	} else{
                 	$scope.selectedIndex = cdump.cname+cdump.version;
-                    if(result.validSolution){
+                    if(cdump.validSolution){
                     	$scope.activeInactivedeploy = false;
                     	$scope.validationState = true;
                     	$scope.solutionIdDeploy = cdump.solutionId;
@@ -493,7 +493,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	$scope.validationState = false;
                     }
                     
-                    if(result.probeIndicator == 'true'){
+                    if(cdump.probeIndicator == 'true'){
                     	$scope.myCheckbox = true;
                     }else{
                     	$scope.myCheckbox = false;
