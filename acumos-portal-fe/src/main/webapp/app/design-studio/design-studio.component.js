@@ -28,7 +28,7 @@ angular
             controller : DSController
         }
     );
-DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector'];
+DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector','browserStorageService'];
 
 function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector, browserStorageService) {
 	componentHandler.upgradeAllRegistered();
