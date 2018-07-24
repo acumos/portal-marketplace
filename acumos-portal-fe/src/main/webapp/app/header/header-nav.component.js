@@ -215,7 +215,7 @@ angular.module('headerNav')
 					$scope.page = 0;
 					$scope.getNotificationMessage(userId,$scope.page,true);
 				}
-		    }, 3000);
+		    }, 30000);
 
 		
 		if($scope.loginUserID!=null && $scope.loginUserID!=''){

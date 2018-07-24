@@ -1609,6 +1609,9 @@ position:relative;
 /* editor changes end*/
 .response.commenttable{max-height:520px; overflow-y:auto;}
 
+#solImage{position: absolute; width: 65%;}
+#solImage .upload-txtbox{width: 100%;}
+
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}
