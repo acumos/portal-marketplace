@@ -549,6 +549,9 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 
 .md-tooltip{position: relative;}
 
+#uploadFile {position:relative;}
+#uploadFile .upload-txtbox{width: 100%; height:33px;}
+
 /* media query start */
 @media(max-width:1024px){
 body,  ul, ol{font-size:12px;}
