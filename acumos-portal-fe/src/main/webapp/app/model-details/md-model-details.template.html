@@ -61,7 +61,7 @@ limitations under the License.
 						ng-cloak
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
-						ng-if="(version.accessTypeCode && !(version.accessTypeCode =='PR' )) && loginUserID"
+						ng-if="loginUserID"
 						alt="Download" title="Download">Download</button>
 						 
 				<button type="button" ng-cloak
