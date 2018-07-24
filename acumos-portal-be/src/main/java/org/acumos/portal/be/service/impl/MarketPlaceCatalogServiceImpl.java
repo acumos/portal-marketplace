@@ -1918,6 +1918,8 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 			if (revision != null) {
 				mlSolution.setAccessType(revision.getAccessTypeCode());
 				mlSolution.setLatestRevisionId(revision.getRevisionId());
+				long Count=dataServiceRestClient.getSolutionRevisionCommentCount(mlpSol.getSolutionId(), revision.getRevisionId());
+                		mlSolution.setCommentsCount(Count);
 			}
 
 			// get latest step Result for solution
