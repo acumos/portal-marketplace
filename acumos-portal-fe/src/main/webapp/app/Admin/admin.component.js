@@ -2136,7 +2136,7 @@ angular.module('admin').filter('abs', function() {
                 		   $scope.carouselConfig[$scope.carouselCheckedList[i]]['slideEnabled'] = $scope.changeAction;
                 	   }
                 	   for (var i=0; i< Object.keys($scope.carouselConfig).length; i++){
-                		   if($scope.carouselConfig[i].slideEnabled == 'true'){break;}
+						   if($scope.carouselConfig[i].slideEnabled == 'true'){singleSlideFlag = false;break;}
                 		   else if(i == Object.keys($scope.carouselConfig).length - 1){
                 			   $scope.carouselConfig[0].slideEnabled = 'true';
                 			   $scope.showWarningMessage = false;
@@ -2145,6 +2145,7 @@ angular.module('admin').filter('abs', function() {
                                $scope.styleclass = 'c-success';
                                $scope.changeAction = "Enable/Disable Slides";
                                $scope.showWarningMessage = true;
+							   singleSlideFlag = true;
                                $timeout(function() {
                                    $scope.showWarningMessage = false;
                                }, 5000);
