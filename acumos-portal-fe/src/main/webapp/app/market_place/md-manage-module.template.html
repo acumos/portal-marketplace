@@ -66,7 +66,7 @@ limitations under the License.
 			<div class="">
 				<div class="sidebar-search-container">
 					<input class="searchicon" type="text" id="module-search"
-						ng-change="filterChange('searchBox','searchFilter')"
+						ng-change="filterChange('searchBox','searchFilter')" ng-model-options="{ debounce: 2000 }"
 						ng-model="searchBox" placeholder="Search here">
 				</div>
 				<!-- <hr class="sidebar-seperator"> -->

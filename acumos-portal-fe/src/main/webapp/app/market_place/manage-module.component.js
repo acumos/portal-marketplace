@@ -74,7 +74,7 @@ angular.module('manageModule')
 						/*Start call for Sections*/
 						var check = 0;
 						var dataObj = {};
-						var toBeSearch = [];
+
 						$scope.pageNumber = 0;
 						$scope.categoryFilter = [];
 						$scope.privacyFilter = '';
@@ -134,8 +134,7 @@ angular.module('manageModule')
 						
 						$scope.getPrivateModels=function(){
 							$scope.dataLoading = true;
-							if($scope.searchBox!=null && $scope.searchBox!='')
-								toBeSearch[0] = $scope.searchBox;
+
 							$scope.privateDataLoaded = true;
 							dataObj = {
 									  "request_body": {
@@ -144,7 +143,7 @@ angular.module('manageModule')
 										    ],
 										    "active": true,
 										    "tags" : $scope.tagFilter,
-										    "nameKeyword" :  toBeSearch,
+										    "nameKeyword" :  $scope.toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
@@ -170,7 +169,7 @@ angular.module('manageModule')
 								
 								if($scope.prOperator == 'Add' || $scope.prOperator == undefined){
 									$scope.mlSolutionPrivateCount = $scope.mlSolutionPrivate.length + $scope.mlSolutionPrivateCount;
-									if(toBeSearch.length > 0){
+									if($scope.toBeSearch.length > 0){
 										$scope.mlSolutionPrivateCount = $scope.mlSolutionPrivate.length;
 									}
 								}else if($scope.prOperator == 'Subtract'){
@@ -212,8 +211,6 @@ angular.module('manageModule')
 						
 						$scope.getCompanyModels=function(){
 							$scope.companyDataLoaded = true;
-							if($scope.searchBox!=null && $scope.searchBox!='')
-								toBeSearch[0] = $scope.searchBox;
 
 							dataObj = {
 									  "request_body": {
@@ -222,7 +219,7 @@ angular.module('manageModule')
 										    ],
 										    "active": true,
 										    "tags" : $scope.tagFilter,
-										    "nameKeyword" :  toBeSearch,
+										    "nameKeyword" :  $scope.toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
 											"sortBy": $scope.sortBy,
@@ -248,7 +245,7 @@ angular.module('manageModule')
 								
 								if($scope.cpOperator == 'Add' || $scope.cpOperator == undefined){
 									$scope.mlSolutionCompanyCount = $scope.mlSolutionCompany.length + $scope.mlSolutionCompanyCount;
-									if(toBeSearch.length > 0){
+									if($scope.toBeSearch.length > 0){
 										$scope.mlSolutionCompanyCount = $scope.mlSolutionCompany.length;
 									}
 								}else if($scope.cpOperator == 'Subtract'){
@@ -291,16 +288,14 @@ angular.module('manageModule')
 						$scope.getPublicModels=function(){
 							$scope.dataLoading = true;
 							$scope.publicDataLoaded = true;
-							if($scope.searchBox!=null && $scope.searchBox!='')
-								toBeSearch[0] = $scope.searchBox;
-							
+		
 							dataObj = {
 									  "request_body": {
 										    "accessTypeCodes": [
 										      "PB"
 										    ],
 										    "active": true,
-										    "nameKeyword" :  toBeSearch,
+										    "nameKeyword" :  $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
@@ -327,7 +322,7 @@ angular.module('manageModule')
 								
 								if($scope.pbOperator == 'Add' || $scope.pbOperator == undefined){
 									$scope.mlSolutionPublicCount = $scope.mlSolutionPublic.length + $scope.mlSolutionPublicCount;
-									if(toBeSearch.length > 0){
+									if($scope.toBeSearch.length > 0){
 										$scope.mlSolutionPublicCount = $scope.mlSolutionPublic.length;
 									}
 								}else if($scope.pbOperator == 'Subtract'){
@@ -365,13 +360,11 @@ angular.module('manageModule')
 						};
 						$scope.getDeleteModels=function(){
 							$scope.dataLoading = true;
-							if($scope.searchBox!=null && $scope.searchBox!='')
-							toBeSearch[0] = $scope.searchBox;
 							$scope.deleteDataLoaded = true;
 							dataObj = {
 									  "request_body": {
 										    "active": false,
-										    "nameKeyword" :  toBeSearch,
+										    "nameKeyword" :  $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
@@ -398,7 +391,7 @@ angular.module('manageModule')
 								  
 								if($scope.dlOperator == 'Add' || $scope.dlOperator == undefined){
 									$scope.mlSolutionDeletedCount = $scope.mlSolutionDelete.length + $scope.mlSolutionDeletedCount;
-									if(toBeSearch.length > 0){
+									if($scope.toBeSearch.length > 0){
 										$scope.mlSolutionDeletedCount = $scope.mlSolutionDelete.length;
 									}
 								}else if($scope.dlOperator == 'Subtract'){
@@ -430,11 +423,16 @@ angular.module('manageModule')
 						//uncomment this to fetch section wise solutions and comment loadMore() calling*/
 						/*for fetching section wise data*/
 						function getModels(){
+							if($scope.searchBox!=null && $scope.searchBox!='')
+								 $scope.toBeSearch[0] = $scope.searchBox;
+							else 
+								 $scope.toBeSearch = [];		
 							$scope.getPrivateModels();
 							$scope.getCompanyModels();
 							$scope.getPublicModels();
 							$scope.getDeleteModels();
                             $rootScope.valueToSearch = '';
+						
 						}
 						getModels();
 						
@@ -813,7 +811,7 @@ angular.module('manageModule')
 						$scope.isBusy = false;
 						var check = 0;
 						var dataObj = {};
-						var toBeSearch = [];
+
 						var duplicate = false;
 						$scope.imageUrls = {};
 						
@@ -834,8 +832,7 @@ angular.module('manageModule')
 								return;
 
 							$scope.dataLoading = true;							
-							if($scope.searchBox!=null && $scope.searchBox!='')
-								toBeSearch[0] = $scope.searchBox;
+
 							if($scope.viewNoMLsolution == 'No More ML Solutions' && $scope.pageNumber != 0){return;}
 							$scope.MlSoltionCount = false;
 							
@@ -843,7 +840,7 @@ angular.module('manageModule')
 									  "request_body": {
 										    "accessTypeCodes": [$scope.privacyFilter],
 										    "active": $scope.activeType,
-										    "nameKeyword" :  toBeSearch,
+										    "nameKeyword" :  $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
 										    "modelTypeCodes": $scope.categoryFilter,
 										    "userId": $scope.loginUserID,
