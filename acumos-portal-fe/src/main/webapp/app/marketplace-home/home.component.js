@@ -95,11 +95,12 @@ angular
 													                    } else {
 													                    	bannerSt = bannerSt + '"home-screen2" ';
 													                    }
+													                   
 													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_background/' + value["bgImageUrl"] + ') !important;background-color : '+ value['bgColor'] +'">' + 
 																	    '<div class="slide-content">' +
 																	        '<div class="slide-text">' +
 																	            '<h4>' + value['headline'] + '</h4>' +
-																	            '<p>' + value['supportingContent']  +'</p>';
+																	            '<p ng-if="supportingContent">' + value['supportingContent']  +'</p>';
 													                             if (value['links']['enableLink']){
 													                            	 if (!angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']['address'])){
 												                                         if ((value['links']['primary']['address']).indexOf("modelerResource") != -1) {
