@@ -38,7 +38,7 @@ limitations under the License.
 						<ul class="md-version-ddl1">
 							<li ng-repeat="v in versionList"
 									ng-click="loadVersionDetails(solution.solutionId, v.revisionId, v.version)"
-									ng-class="{selected: v.version == versionId}">Version - {{v.version}}</li>
+									ng-class="{selected: v.revisionId == revisionId}">Version - {{v.version}}</li>
 						</ul>
 					</div>
 					<button type="button" ng-show="version.accessTypeCode != 'PR' && loginUserID"
@@ -120,7 +120,7 @@ limitations under the License.
 						date:'MM/dd/yyyy'}} </span>|
 					<button
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
-						ui-sref="modelEdit({solutionId:'{{solutionId}}', revisionId:'{{revisionId}}'})"
+						ui-sref="modelEdit({solutionId:solutionId, revisionId:revisionId})"
 						ng-disabled="editModel" alt="Manage My Model" title="Manage My Model">
 						<i class="material-icons">mode_edit</i> Manage My Model
 					</button>

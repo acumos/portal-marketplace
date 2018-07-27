@@ -104,6 +104,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/cas/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/signup/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/getProtoFile").permitAll()
+        .antMatchers(HttpMethod.GET, "/solution/{solutionId}/revision/{revisionId}/authors").permitAll()
         
         .anyRequest().authenticated();
     	

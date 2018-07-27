@@ -56,9 +56,9 @@ angular
 						var user= JSON.parse(browserStorageService.getUserDetail());
 						$scope.userDetailsLogged = user;
 						
-						if (localStorage.getItem("userDetail")) {
-							$scope.auth = localStorage
-									.getItem("auth_token");
+						if (browserStorageService.getUserDetail()) {
+							$scope.auth = browserStorageService
+									.getAuthToken();
 						}
 						
 						$scope.showAlertMessage = false;
@@ -411,8 +411,8 @@ angular
 													  }
 													  return comparison; }
 												);
-												if($stateParams.revisionId){
-													$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
+												if($scope.revisionId){
+													$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $scope.revisionId;})[0];
 													$scope.revisionId = $scope.version.revisionId;
 													$scope.versionId = $scope.version.version;
 												} else {
@@ -455,12 +455,14 @@ angular
 											}
 											$stateParams.solutionId = $scope.solution.solutionId
 											if (data.response_body.revisions != null) {
-												if($stateParams.revisionId){
-													$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
+												if($scope.revisionId){
+													$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $scope.revisionId;})[0];
 													$scope.revisionId = $scope.version.revisionId;
+													$stateParams.revisionId = $scope.revisionId;
 												} else {
 													$scope.revisionId = $scope.versionList[0].revisionId;
 													$scope.version = $scope.versionList[0];
+													$stateParams.revisionId = $scope.revisionId;
 												}
 												donwloadPopupValue();
 											}
@@ -838,9 +840,10 @@ angular
 						}
 						
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId){
-							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
+							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == revisionId;})[0];
 							$scope.solution.solutionId = solutionId; 
-							$scope.revisionId = revisionId;
+							$scope.revisionId = $scope.version.revisionId;
+							$stateParams.revisionId = $scope.version.revisionId;
 							$scope.versionId = versionId;
 							angular.element('.md-version-ddl1').hide();
 							donwloadPopupValue();

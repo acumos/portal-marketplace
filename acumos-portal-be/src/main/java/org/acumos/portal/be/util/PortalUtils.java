@@ -47,7 +47,9 @@ import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.cds.domain.MLPUserNotifPref;
+import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLNotification;
@@ -116,7 +118,7 @@ public class PortalUtils {
 		MLSolution mlSolution = new MLSolution();	
 		mlSolution.setSolutionId(mlpSolution.getSolutionId());
 		mlSolution.setName(mlpSolution.getName());
-		mlSolution.setOwnerId(mlpSolution.getOwnerId());
+		mlSolution.setOwnerId(mlpSolution.getUserId());
 		mlSolution.setCreated(mlpSolution.getCreated());
 		mlSolution.setModified(mlpSolution.getModified());
 		/*if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
@@ -146,7 +148,7 @@ public class PortalUtils {
 			mlpSolution.setName(mlSolution.getName());
 		}
 		if (!PortalUtils.isEmptyOrNullString(mlSolution.getOwnerId())) {
-			mlpSolution.setOwnerId(mlSolution.getOwnerId());
+			mlpSolution.setUserId(mlSolution.getOwnerId());
 		}
 		if (mlSolution.getCreated() != null) {
 			mlpSolution.setCreated(mlSolution.getCreated());
@@ -577,4 +579,14 @@ public class PortalUtils {
 
         return mlComment;
     }
+	
+	public static List<Author> convertToAuthor(AuthorTransport[] authorTransport) {
+		List<Author> authorList = new ArrayList<>();
+		
+		for (AuthorTransport authorT : authorTransport) {
+			Author portalAuthor = new Author(authorT.getName(), authorT.getContact());
+			authorList.add(portalAuthor);
+		}
+		return authorList;
+	}
 }

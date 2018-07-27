@@ -20,15 +20,19 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.acumos.portal.be.common.CommonConstants;
+import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.transport.MLArtifactValidation;
 import org.acumos.portal.be.transport.MLModelValidation;
@@ -40,9 +44,14 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.transport.RestPageRequest;
@@ -55,6 +64,9 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private AdminService adminService;
 
 	public PublishSolutionServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -77,7 +89,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		boolean isPublished = false; 
 		try{
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
-			if(mlpSolution2 != null && mlpSolution2.getOwnerId().equalsIgnoreCase(userId)) {
+			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				//Invoke the Validation API if the validation with Backend is enabled.
 				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.validateModel")) && env.getProperty("portal.feature.validateModel").equalsIgnoreCase("true")) {
 					MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
@@ -136,9 +148,33 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	private void updateSolution(MLPSolution mlpSolution, String revisionId, String accessType) {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(mlpSolution.getSolutionId(), revisionId);
+		
+		mlpSolutionRevision.setPublisher(getSiteInstanceName());
 		mlpSolutionRevision.setAccessTypeCode(accessType);
 		mlpSolutionRevision.setValidationStatusCode(CommonConstants.STATUS_PASSED);
 		dataServiceRestClient.updateSolutionRevision(mlpSolutionRevision);
+	}
+	
+	private String getSiteInstanceName() {
+		String siteInstanceName = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			MLPSiteConfig siteConfig = adminService.getSiteConfig(CommonConstants.SITE_CONFIG);
+			String configStr = siteConfig.getConfigValue();
+
+			Map<String, Object> resp = mapper.readValue(configStr, Map.class);
+			List<Map<String, String>> fields = (List<Map<String, String>>) resp.get(CommonConstants.FIELDS);
+			for(Map<String, String> field : fields) {
+				if(field.get(CommonConstants.NAME).equals(CommonConstants.SITE_INSTANCE_NAME)) {
+					siteInstanceName = field.get(CommonConstants.DATA);
+				}
+			}
+
+		} catch (Exception e) {
+			log.error(EELFLoggerDelegate.errorLogger, "getSiteInstanceName");
+			//Log error and do nothing. Return the null value in site name cannot be found
+		} 
+		return siteInstanceName;
 	}
 	
 	@Override
@@ -150,7 +186,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		MLPSolution mlpSolution = new MLPSolution();
 		/*mlpSolution.setAccessTypeCode(accessType);*/
 		mlpSolution.setSolutionId(solutionId);
-		mlpSolution.setOwnerId(userId);
+		mlpSolution.setUserId(userId);
 		
 		MLPSolution mlpSolution2 = null;
 		
@@ -159,7 +195,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		try{
 			//Unpublish the Solution
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
-			if(mlpSolution2 != null && mlpSolution2.getOwnerId().equalsIgnoreCase(userId)) {
+			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
 				/*mlpSolution2.setAccessTypeCode(accessType);*/
 				portalRestClienttImpl.updateSolution(mlpSolution2);
@@ -186,7 +222,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		Map<String, String> queryParameters = new HashMap<>();
 		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
 		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-				accessTypeCodes, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+				accessTypeCodes, null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 		List<MLPSolution> searchSolList = searchSolResp.getContent();
 
 		//removing the same solutionId from the list

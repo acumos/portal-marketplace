@@ -80,9 +80,8 @@ angular
 						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
 						}
 						else {$scope.workflowTitle='On-Boarding';$scope.tab='onboard'}
-						
-						$scope.revisionId = $stateParams.revisionId;
 
+						$scope.revisionId = $stateParams.revisionId;
 						$scope.status;
 						$scope.activePublishBtn = false;
 						$scope.activePublishBtnPB = false;
@@ -350,7 +349,7 @@ angular
 						});
 						
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId, modifiedDate){
-							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
+							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == revisionId;})[0];
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = revisionId;
 							$scope.versionId = versionId;
@@ -409,7 +408,7 @@ angular
 															  }
 															  return comparison; }
 														);
-														$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $stateParams.revisionId;})[0];
+														$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == $scope.revisionId;})[0];
 														if( !$scope.revisionId ){
 															$scope.revisionId = $scope.versionList[0].revisionId;
 															$scope.versionId = $scope.versionList[0].version;
@@ -452,6 +451,7 @@ angular
 													$scope.getSolPublicDesc();
 													$scope.getPublicSolutionDocuments();
 													$scope.getCompanySolutionDocuments();
+													$scope.getAuthorList();
 												} else {
 													// alert("Error Fetching
 													// Data");
@@ -537,6 +537,88 @@ angular
 											});
 						}
 						//$scope.getSolPublicDesc();
+						
+						
+						$scope.getAuthorList = function(tag,ev){
+							apiService.getAuthors($scope.solutionId, $scope.revisionId).then(function(response) {
+								$scope.AuthorsTag = response.data.response_body;
+							});
+						}
+						//$scope.getAuthorList();	
+						
+						
+						$scope.tagRemoved1 = function(tag,ev){
+							$scope.deleteuser = tag.name;
+							 	$scope.removeauthor = tag;
+					        	  $mdDialog.show({
+					        		  contentElement: '#confirmPopupDeleteAuthor',
+					        		  parent: angular.element(document.body),
+					        		  targetEvent: ev,
+					        		  clickOutsideToClose: true
+					        	  });
+					        	  return false;
+					          }
+						$scope.deleteAuthor = function(){
+					    	var obj = {
+				    				"request_body": {
+							  			name: $scope.removeauthor.name,
+							  			contact: $scope.removeauthor.contact
+				    				}
+					        };
+			    		
+					    	apiService.removeAuthor($scope.solutionId, $scope.revisionId, obj).then(function successCallback(response) {
+					    		$scope.AuthorsTag = response.data.response_body;
+					    	},
+					    	function errorCallback(response) {
+					    		$scope.msg = "Error while removing Author";
+								$scope.icon = 'report_problem';
+								$scope.styleclass = 'c-error';
+								$scope.showAlertMessage = true;
+								$timeout(
+										function() {
+											$scope.showAlertMessage = false;
+										}, 8000);
+					    	});
+					  
+					    	
+					    	$mdDialog.hide();
+                        };
+						  $scope.closePoup = function(){
+						              	  $mdDialog.hide();
+						              	  $scope.result = true;
+						              	  return false;
+						                }
+						    
+						  $scope.setAuthor = function(){
+						    	//console.log($scope.AuthorsTag);
+						    	var vart = $scope.AddAuthor.$valid;
+						    	if($scope.AddAuthor.$valid) {
+						    		var obj = {
+							    				"request_body": {
+										  			name: $scope.Author.Name,
+										  			contact: $scope.Author.cntinfo
+							    				}
+								        };
+						    		
+						    	apiService.addAuthor($scope.solutionId, $scope.revisionId, obj).then(function successCallback(response) {
+						    		$scope.AuthorsTag = response.data.response_body;
+						    		$scope.Author.Name = "";
+							    	$scope.Author.cntinfo= "";
+							    	$scope.AddAuthor.cntinfo.$touched = false;
+							    	$scope.AddAuthor.Name.$touched = false;
+						    	},
+						    	function errorCallback(response) {
+						    		$scope.msg = "Error while adding Author :  " + response.data.response_detail;
+									$scope.icon = 'report_problem';
+									$scope.styleclass = 'c-error';
+									$scope.showAlertMessage = true;
+									$timeout(
+											function() {
+												$scope.showAlertMessage = false;
+											}, 8000);
+						    	});
+						    	}
+							}
 
 						$scope.updateSolution = function() {
 							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
@@ -728,7 +810,6 @@ angular
 											function(data, status, headers,
 													config) {
 												 
-												alert(data.error);
 												$scope.solutionCompanyDesc = '';
 												$scope.solutionCompanyDescLength = false;
 											});
@@ -797,7 +878,6 @@ angular
 											}).error(
 											function(data, status, headers,
 													config) {
-												alert(data.error);
 												$scope.solutionPublicDesc = '';
 												$scope.solutionPublicDescLength = false;
 											});
@@ -859,11 +939,9 @@ angular
 													}).error(
 													function(data, status, headers,
 															config) {
-														alert("Failed to create description");
 													});
 											
 										} else {
-											alert("No description Found for Selected Version")
 										}
 									},
 									function(error) {
@@ -894,7 +972,6 @@ angular
 											}).error(
 											function(data, status, headers,
 													config) {
-												alert("Failed to create description");
 											});
 						}
 						
