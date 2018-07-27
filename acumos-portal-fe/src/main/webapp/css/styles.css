@@ -2031,7 +2031,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.dcl-list {width: 100%; margin:0; padding: 3px 0;}
 	.mob-pageheadsection1 {position:static;margin-bottom: 5px;}
 	.mob-pageheadsection1 .mob-add-button {position: fixed; bottom: 20px; right: 15px; z-index: 5000;}
-	.login-searchcontrol1 .search-button {right: 32px;}
+	.login-searchcontrol1 .search-button {right: 38px;}
 	
 	ul.mob-header-menu-list1 li {display:flex; align-items: center; font-size: 12px;font-weight:600;}
 	ul.mob-header-menu-list1 li:first-child span {font-size: 12px;font-weight:600;}
@@ -2097,7 +2097,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.userprofile-dialog-footer > .mdl-button {min-width: 85px; width: 85px;}
 	
 	.mdl-layout__header .mdl-layout__header-row {padding: 0 10px;}
-	#btn_header {width:30px;margin-bottom:0;top:0 !important;}
+	#btn_header {width:28px;margin-bottom:0;top:0 !important;min-width: 28px;}
 	.header-search-control {position:absolute; right: 40px;padding:0;top: -5px;}
 	.mobheader-icons .mdl-button:first-child {margin-bottom:0;}
 	.mdl-layout__drawer.initialVal {transform: translateX(0px);}
@@ -2108,7 +2108,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.md-left-container {width: 100% !important;}	
 	.md-left-container .mdl-tabs__tab-bar {flex-direction: row;justify-content: flex-start !important;overflow-x:auto;height:68px; overflow-y: hidden;margin-bottom:0;}
 	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab .tab-box {display:flex; flex-wrap: nowrap; /* width: 135px; */width: auto;}
-	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab[href="#tab5-panel"] {display: none !important;}
+	
 	.mdl-grid--no-spacing > .mdl-cell.md-right-container {width: 100% !important;}
 	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab.is-active {border-right: 1px dashed #DFDFDF !important; border-bottom:5px solid #671C9D;}
 	.md-left-container .mdl-tabs__tab-bar .mdl-tabs__tab.is-active:before { border-top: 6px solid #671C9D !important; border-right: 6px solid transparent !important; border-left: 6px solid transparent !important;border-bottom: none !important;	right: 50%; top: 65px; margin-right: -3px;}
@@ -2131,14 +2131,17 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.btn-browse1 {padding: 0 !important; min-width: 40px !important;width: 58px !important;border: none;}
 
 	.mob-actions-container1 .mdl-button {margin-bottom: 0;}
-	.mob-actions-container1 .grid-view-btn-container {margin-left:0;}
-	.accumos-header-logo {transform:scale(0.98);}
-	.accumos-header-logo img {transform: scale(0.85); margin-left: 0 !important;}	
+	.mob-actions-container1 .grid-view-btn-container {margin-left:0;}	
+	.accumos-header-logo {transform:scale(0.95);position: relative; margin-left: -9px;}
+	.accumos-header-logo img {transform: scale(0.85); margin-left: 0 !important;}
+	.a-logo-container.logo-without-login {background-position: -49px center !important;}
+	.cobranding-header-logo img {margin-left: -13px; height: 21px;}
+	.headerlist-icon-login {margin-left: 9px;}	
 	
 	.mob-add-button {margin-bottom:0;}
 	.mob-header-menu-container {margin-bottom: 0;}
 	.header-controls .search-button.mob-header-search-btn {margin-top: -4px !important;}
-	.a-logo-container {padding-left:5px;background: url("../images/general-icons/header_cross_img.png") no-repeat -30px center;}		
+	.a-logo-container {padding-left:5px;background: url("../images/general-icons/header_cross_img.png") no-repeat -49px center;}		
 	.mp-grid .grid-item .grid-top-section .rating {padding-left: 5px;}
 	.u-note-row1 {flex-wrap: wrap; flex-direction: column;align-items: left;}
 	.u-note-row1 > div:first-child {margin-bottom: 4px;}	
