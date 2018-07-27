@@ -537,7 +537,73 @@ angular
 											});
 						}
 						//$scope.getSolPublicDesc();
-
+						
+						
+							$scope.getAuthorList = function(tag,ev){	
+							
+								$scope.AuthorsTag = [
+								                     {
+								                         "name": "Dany",
+								                         "contact": "dany@gmail.com"
+								                       },
+								                       {
+								                         "name": "John",
+								                         "contact": "john@gmail.com"
+								                       },
+								                       {
+								                         "name": "Martha",
+								                         "contact": "martha@gmail.com"
+								                       }
+									                ];										
+						}												
+						$scope.getAuthorList();	
+						
+						 
+						$scope.tagRemoved1 = function(tag,ev){								
+							$scope.deleteuser = tag.name;
+							 	$scope.removeauthor = tag;
+						    	console.log(tag);
+					        	  $mdDialog.show({
+					        		  contentElement: '#confirmPopupDeleteAuthor',
+					        		  parent: angular.element(document.body),
+					        		  targetEvent: ev,
+					        		  clickOutsideToClose: true
+					        	  });
+					        	  return false;
+					          }					    					   					    
+						  $scope.closePoup = function(){					    	
+						              	  $mdDialog.hide();
+						              	  $scope.result = true;
+						              	  return false;						              	  
+						                }
+						    
+						  $scope.setAuthor = function(){						    	
+							  	
+						    	//console.log($scope.AuthorsTag);
+						    	var vart = $scope.AddAuthor.$valid;
+						    	if($scope.AddAuthor.$valid)
+						    	{
+						    		var obj = {
+								  			name: $scope.Author.Name,
+								  			contact: $scope.Author.cntinfo
+								        };
+								  
+							    $scope.AuthorsTag.push(obj);							   
+						    	$scope.Author.Name = "";
+						    	$scope.Author.cntinfo= "";
+						    	$scope.AddAuthor.cntinfo.$touched = false;
+						    	$scope.AddAuthor.Name.$touched = false;
+						    	}
+							}
+						  
+						   $scope.deleteAuthor = function(){
+						    	console.log($scope.AuthorsTag);						    	
+						    	$scope.AuthorsTag.splice($scope.removeauthor.contact , 1);
+						    	console.log($scope.AuthorsTag);
+						    	$mdDialog.hide();   
+	                        };
+	                        
+	                        
 						$scope.updateSolution = function() {
 							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
 							$scope.solution.PrevSolname = $scope.solution.name;
