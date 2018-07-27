@@ -26,6 +26,7 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
@@ -39,6 +40,7 @@ import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
+import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.cds.transport.RestPageResponse;
@@ -138,5 +140,11 @@ public interface MarketPlaceCatalogService {
 	String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException;
 
 	boolean checkUniqueSolName(String solutionId, String solName);
+
+	List<Author> getSolutionRevisionAuthors(String solutionId, String revisionId);
+
+	List<Author> addSolutionRevisionAuthors(String solutionId, String revisionId, Author author) throws AcumosServiceException;
+
+	List<Author> removeSolutionRevisionAuthors(String solutionId, String revisionId, Author author) throws AcumosServiceException;;
 	
 }
