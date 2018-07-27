@@ -46,7 +46,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 @Service
-public class ThreadServiceImpl implements ThreadService{
+public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadService{
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate
 			.getLogger(ThreadServiceImpl.class);
@@ -55,14 +55,7 @@ public class ThreadServiceImpl implements ThreadService{
 	@Autowired
 	private Environment env;
 
-	private ICommonDataServiceRestClient getClient() {
-		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
-				env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-		return client;
-	}
-	
-	
-	
+
 	public ThreadServiceImpl() {
 		// TODO Auto-generated constructor stub
 	}

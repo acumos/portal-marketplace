@@ -56,6 +56,7 @@ import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLSolutionWeb;
@@ -1120,5 +1121,67 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		responseVO.setResponseDetail("Success");
 		responseVO.setStatusCode(HttpServletResponse.SC_OK);
 		return responseVO;
+	}
+
+	@ApiOperation(value = "Get Authors of Solution Revision", response = Author.class, responseContainer = "List")
+	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/authors" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<Author>> getAuthors(@PathVariable String solutionId, @PathVariable String revisionId, HttpServletResponse response) {
+		JsonResponse<List<Author>> data = new JsonResponse<>();
+		
+		
+		try {
+			List<Author> authors = catalogService.getSolutionRevisionAuthors(solutionId, revisionId);
+			data.setResponseBody(authors);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Author fetched Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "getAuthors: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while fetching Authors");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Authors", e);
+	}
+		return data;
+	}
+
+	@ApiOperation(value = "Add Authors of Solution Revision", response = Author.class, responseContainer = "List")
+	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/authors" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<Author>> addAuthors(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
+		JsonResponse<List<Author>> data = new JsonResponse<>();
+		try {
+			List<Author> authors = catalogService.addSolutionRevisionAuthors(solutionId, revisionId, authorReq.getBody());
+			data.setResponseBody(authors);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Author added Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "addAuthors: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while addAuthors", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Remove Author from Solution Revision", response = Author.class, responseContainer = "List")
+	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/removeAuthor" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<Author>> removeAuthor(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
+		JsonResponse<List<Author>> data = new JsonResponse<>();
+		try {
+			List<Author> authors = catalogService.removeSolutionRevisionAuthors(solutionId, revisionId, authorReq.getBody());
+			data.setResponseBody(authors);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Author removed Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "removeAuthor: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while removeAuthor", e);
+		}
+		return data;
 	}
 }

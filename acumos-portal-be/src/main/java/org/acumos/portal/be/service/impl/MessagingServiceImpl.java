@@ -43,18 +43,14 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MessagingServiceImpl implements MessagingService{
+public class MessagingServiceImpl extends AbstractServiceImpl implements MessagingService{
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MarketPlaceCatalogServiceImpl.class);
 
 	@Autowired
 	private Environment env;
 
-	private ICommonDataServiceRestClient getClient() {
-		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
-				env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-		return client;
-	}
+
 	
 	/*@Override
 	public MLStepResult callOnBoardingStatus(String userId, String trackingId) {

@@ -113,7 +113,7 @@ public class GatewayControllerTest {
 		MLPPeerSubscription sub=new MLPPeerSubscription();
 		sub.setSubId(1234L);
 		sub.setPeerId("1ce7-41e8-a364-93f5b57deb14");
-		sub.setOwnerId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
+		sub.setUserId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
 		String selector="{modelTypeCode:CL,toolkitTypeCode:DS}";
 		sub.setSelector(selector);
 		peerSubscription.setBody(sub);
@@ -121,7 +121,7 @@ public class GatewayControllerTest {
 		List<MLPSolution> solList = new ArrayList<>();
 		MLPSolution sol = new MLPSolution();
 		sol.setSolutionId("4e1c2a84-c597-499b-a9be-3b5e563ec100");
-		sol.setOwnerId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
+		sol.setUserId("1a8e8b73-1ce7-41e8-a364-93f5b57deb14");
 		sol.setName("Robot");
 		solList.add(sol);
 		JsonResponse<List<MLPSolution>> solutions = new JsonResponse<>();

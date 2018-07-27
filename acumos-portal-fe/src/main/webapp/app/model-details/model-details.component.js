@@ -56,9 +56,9 @@ angular
 						var user= JSON.parse(browserStorageService.getUserDetail());
 						$scope.userDetailsLogged = user;
 						
-						if (localStorage.getItem("userDetail")) {
-							$scope.auth = localStorage
-									.getItem("auth_token");
+						if (browserStorageService.getUserDetail()) {
+							$scope.auth = browserStorageService
+									.getAuthToken();
 						}
 						
 						$scope.showAlertMessage = false;

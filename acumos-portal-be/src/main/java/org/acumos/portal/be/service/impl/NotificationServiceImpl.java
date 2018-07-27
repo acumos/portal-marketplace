@@ -54,7 +54,7 @@ import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NotificationServiceImpl implements NotificationService {
+public class NotificationServiceImpl extends AbstractServiceImpl implements NotificationService {
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(NotificationServiceImpl.class);
  
@@ -67,11 +67,6 @@ public class NotificationServiceImpl implements NotificationService {
 	@Autowired
 	private MailJet mailJet;
 
-	private ICommonDataServiceRestClient getClient() {
-		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
-				env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-		return client;
-	}
 
 	/*
 	 * No

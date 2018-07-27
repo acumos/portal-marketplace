@@ -261,7 +261,7 @@ public class MarketPlaceServiceImplTest {
 			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
 
 			mlpSolRev.setRevisionId("90361063-3ee0-434b-85da-208a8be6856d");
-			mlpSolRev.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+			mlpSolRev.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
 			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
 			String solutionId = mlpSolRev.getSolutionId();
 
@@ -289,12 +289,12 @@ public class MarketPlaceServiceImplTest {
 			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
 
 			mlpSolRev.setRevisionId("90361063-3ee0-434b-85da-208a8be6856d");
-			mlpSolRev.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+			mlpSolRev.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
 			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
 
 			MLPArtifact mockMLPArtifact = new MLPArtifact();
 			mockMLPArtifact.setArtifactId("4cbf491b-c687-459f-9d81-e150d1a0b972");
-			mockMLPArtifact.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
+			mockMLPArtifact.setUserId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
 
 			List<MLPArtifact> artifactList = new ArrayList<>();
 			artifactList.add(mockMLPArtifact);
