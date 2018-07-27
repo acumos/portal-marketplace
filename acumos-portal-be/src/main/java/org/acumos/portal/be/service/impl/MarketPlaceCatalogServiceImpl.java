@@ -60,6 +60,7 @@ import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.cds.domain.MLPUser;
+import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.nexus.client.NexusArtifactClient;
@@ -72,6 +73,7 @@ import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
@@ -101,7 +103,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Service to Support Market Place Catalog and Manage models modules
  */
 @Service
-public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService {
+public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implements MarketPlaceCatalogService {
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MarketPlaceCatalogServiceImpl.class);
 
@@ -116,12 +118,6 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 	
 	@Autowired
 	private NotificationService notificationService;
-
-	private ICommonDataServiceRestClient getClient() {
-		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
-				env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-		return client;
-	}
 
 	/*
 	 * No
@@ -165,7 +161,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				for (MLPSolution mlpSolution : mlpSolutions) {
 					MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
 					// Identify the OwnerName for each solution
-					MLPUser user = dataServiceRestClient.getUser(mlpSolution.getOwnerId());
+					MLPUser user = dataServiceRestClient.getUser(mlpSolution.getUserId());
 					if (user != null) {
 						mlSolution.setOwnerName(user.getFirstName());
 						mlSolutions.add(mlSolution);
@@ -202,7 +198,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 				mlSolutions = new ArrayList<>();
 				for (MLPSolution mlpSolution : mlpSolutions) {
 					MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
-					MLPUser user = dataServiceRestClient.getUser(mlpSolution.getOwnerId());
+					MLPUser user = dataServiceRestClient.getUser(mlpSolution.getUserId());
 					if (user != null) {
 						mlSolution.setOwnerName(user.getFirstName());
 						mlSolutions.add(mlSolution);
@@ -249,7 +245,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					}
 				}
 
-				MLPUser mlpUser = dataServiceRestClient.getUser(mlpSolution.getOwnerId());
+				MLPUser mlpUser = dataServiceRestClient.getUser(mlpSolution.getUserId());
 				if (mlpUser != null) {
 					mlSolution.setOwnerName(mlpUser.getFirstName().concat(" " + mlpUser.getLastName()));
 				}
@@ -303,7 +299,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 					accessCodes.add(CommonConstants.PUBLIC);
 					if (loginUserId != null) {
 						//if logged In user is owner/co-owner then add private revisions
-						if (loginUserId.equals(mlpSolution.getOwnerId()) || co_owners_Id.contains(loginUserId)) {
+						if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId)) {
 							accessCodes.add(CommonConstants.PRIVATE);
 							accessCodes.add(CommonConstants.ORGANIZATION);
 						} else {
@@ -1744,7 +1740,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 
 						MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
 						// Identify the OwnerName for each solution
-						MLPUser user = dataServiceRestClient.getUser(mlpSol.getOwnerId());
+						MLPUser user = dataServiceRestClient.getUser(mlpSol.getUserId());
 						if (user != null) {
 
 							// Lets loop through other solutions
@@ -1841,7 +1837,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
 				pageReqPortal.getOwnerIds(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
-				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
+				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -2119,6 +2115,60 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		return mlSolutionweb;
 	}
 
+	@Override
+	public List<Author> getSolutionRevisionAuthors(String solutionId, String revisionId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionAuthors");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+		AuthorTransport[] authorTransport =  revision.getAuthors();
+		List<Author> authors = PortalUtils.convertToAuthor(authorTransport);
+		return authors;
+	}
+
+	@Override
+	public List<Author> addSolutionRevisionAuthors(String solutionId, String revisionId, Author author) {
+		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionRevisionAuthors");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		AuthorTransport newAuthor = new AuthorTransport(author.getName(), author.getContact());
+		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+		AuthorTransport[] authorTransport =  revision.getAuthors();
+		for (AuthorTransport authorT : authorTransport) {
+			if (newAuthor.equals(authorT)) {
+				throw new IllegalArgumentException("Author already exists in the list.");
+			}
+		}
+		ArrayList<AuthorTransport> authorTransportList = new ArrayList<AuthorTransport>(Arrays.asList(authorTransport));
+		authorTransportList.add(newAuthor);
+
+		return updateRevisionAuthors(revision, authorTransportList);
+	}
+
+	@Override
+	public List<Author> removeSolutionRevisionAuthors(String solutionId, String revisionId, Author author) {
+		log.debug(EELFLoggerDelegate.debugLogger, "removeSolutionRevisionAuthors");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		AuthorTransport removeAuthor = new AuthorTransport(author.getName(), author.getContact());
+		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+		AuthorTransport[] authorTransport =  revision.getAuthors();
+		
+		ArrayList<AuthorTransport> authorTransportList = new ArrayList<AuthorTransport>();
+		for (AuthorTransport authorT : authorTransport) {
+			if (!removeAuthor.equals(authorT)) {
+				authorTransportList.add(authorT);
+			}
+		}
+
+		return updateRevisionAuthors(revision, authorTransportList);
+	}
+
+	private List<Author> updateRevisionAuthors(MLPSolutionRevision revision, ArrayList<AuthorTransport> authorTransportList) {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		AuthorTransport[] authorData= authorTransportList.toArray(new AuthorTransport[0]);
+		revision.setAuthors(authorData);
+		dataServiceRestClient.updateSolutionRevision(revision);
+		List<Author> authors = PortalUtils.convertToAuthor(authorData);
+		return authors;
+	}
 
 	private ByteArrayOutputStream getPayload(String uri) throws AcumosServiceException {
 
@@ -2245,7 +2295,7 @@ public class MarketPlaceCatalogServiceImpl implements MarketPlaceCatalogService 
 		Map<String, String> queryParameters = new HashMap<>();
 		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
 		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-				accessTypeCodes, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+				accessTypeCodes, null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 		List<MLPSolution> searchSolList = searchSolResp.getContent();
 
 		//removing the same solutionId from the list

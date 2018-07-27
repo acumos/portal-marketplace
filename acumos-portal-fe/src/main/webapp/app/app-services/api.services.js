@@ -234,7 +234,10 @@ angular.module('AcumosApp')
         this.isSignUpEnabled = function () {
             return $http.get(isSignUpEnable);
         }
-                
+
+        this.getAuthors = function (solutionId , revisionId) {
+            return $http.get("/api/solution/" + solutionId + "/revision/" + revisionId + "/authors");
+        }
         /**************** ALL PUT ******************/
         this.updateSolutions = function(solution){
         	return $http.put(urlSolutions + '/' + solution.request_body.solutionId, solution);
@@ -294,7 +297,14 @@ angular.module('AcumosApp')
 		 this.updateComment = function(dataObj){
         	return $http.put(urlComment + '/update', dataObj);
         };
-		
+
+        this.addAuthor = function (solutionId , revisionId, obj) {
+            return $http.put("/api/solution/" + solutionId + "/revision/" + revisionId + "/authors", obj);
+        }
+        
+        this.removeAuthor = function (solutionId , revisionId, obj) {
+            return $http.put("/api/solution/" + solutionId + "/revision/" + revisionId + "/removeAuthor", obj);
+        }
         /**************** ALL POST ******************/
         this.postGlobalUserDetails = function(){
         	return $http.put(urlPostGlobalLogin);

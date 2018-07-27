@@ -1531,9 +1531,11 @@ position:relative;
 .removeformspace{margin:0 -16px;}
 .removeformspace .mdl-grid{padding:0 8px;}
 .authors .mdl-chip.remove{background: #fff;  border: 1px solid #ff0000 ; color: #ff0000;}
+.authors .tag-item.remove{background: #fff;}
 .authors .mdl-chip.remove i{color:#ff0000;}
 .authors .mdl-chip button{opacity: 1;}
 .removeformspace button{margin:0 8px;}
+.authors ul li:last-child{background: #fff;}
 .authorsimg {
     background-image: url("../images/ico_manage_authors_inactive.png");
     background-repeat: no-repeat;
@@ -1543,6 +1545,8 @@ position:relative;
 }
 .isActive .authorsimg{background-image: url("../images/ico_manage_authors_active.png");}
 
+.authors tags-input .tags{box-shadow: 0 0px;} 
+.authors .informationtext{ margin-bottom: 0px; padding-left: 2px; padding-top: 10px;}
 /* authors end*/
 /* CURRENT DOCUMENTS  */
 .managelefticon-single i.man-documentimg{background-image:url("../images/ico_manage_documents_inactive.png"); background-repeat:no-repeat; margin-top:5px; width:18px; height:21px; display:inline-block;}

@@ -276,7 +276,7 @@ public class MarketPlaceServiceControllerTest {
 			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
 
 			mlpSolRev.setRevisionId("REV2");
-			mlpSolRev.setOwnerId(mlsolution.getOwnerId());
+			mlpSolRev.setUserId(mlsolution.getOwnerId());
 			mlpSolRev.setVersion("v.0.0");
 			mlpSolRev.setDescription("test data for revision");
 			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
@@ -305,7 +305,7 @@ public class MarketPlaceServiceControllerTest {
 			MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
 
 			mlpSolRev.setRevisionId("REV2");
-			mlpSolRev.setOwnerId(mlsolution.getOwnerId());
+			mlpSolRev.setUserId(mlsolution.getOwnerId());
 			mlpSolRev.setVersion("v.0.0");
 			mlpSolRev.setDescription("test data for revision");
 			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
@@ -315,7 +315,7 @@ public class MarketPlaceServiceControllerTest {
 			mockMLPArtifact.setArtifactTypeCode("MI");
 			mockMLPArtifact.setDescription("Test data");
 			mockMLPArtifact.setName("Test Artifact data");
-			mockMLPArtifact.setOwnerId(mlsolution.getOwnerId());
+			mockMLPArtifact.setUserId(mlsolution.getOwnerId());
 			Assert.assertNotNull(mockMLPArtifact);
 			String solutionId = mlpSolRev.getSolutionId();
 			Assert.assertNotNull(solutionId);

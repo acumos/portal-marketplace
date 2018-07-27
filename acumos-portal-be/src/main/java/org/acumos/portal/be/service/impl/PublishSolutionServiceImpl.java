@@ -77,7 +77,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		boolean isPublished = false; 
 		try{
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
-			if(mlpSolution2 != null && mlpSolution2.getOwnerId().equalsIgnoreCase(userId)) {
+			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				//Invoke the Validation API if the validation with Backend is enabled.
 				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.validateModel")) && env.getProperty("portal.feature.validateModel").equalsIgnoreCase("true")) {
 					MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
@@ -150,7 +150,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		MLPSolution mlpSolution = new MLPSolution();
 		/*mlpSolution.setAccessTypeCode(accessType);*/
 		mlpSolution.setSolutionId(solutionId);
-		mlpSolution.setOwnerId(userId);
+		mlpSolution.setUserId(userId);
 		
 		MLPSolution mlpSolution2 = null;
 		
@@ -159,7 +159,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		try{
 			//Unpublish the Solution
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
-			if(mlpSolution2 != null && mlpSolution2.getOwnerId().equalsIgnoreCase(userId)) {
+			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
 				/*mlpSolution2.setAccessTypeCode(accessType);*/
 				portalRestClienttImpl.updateSolution(mlpSolution2);
@@ -186,7 +186,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		Map<String, String> queryParameters = new HashMap<>();
 		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
 		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-				accessTypeCodes, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+				accessTypeCodes, null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 		List<MLPSolution> searchSolList = searchSolResp.getContent();
 
 		//removing the same solutionId from the list
