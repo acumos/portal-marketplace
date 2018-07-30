@@ -40,17 +40,13 @@ import org.acumos.cds.domain.MLPToolkitType;
 import org.acumos.cds.domain.MLPAccessType;
 
 @Service
-public class FilterCategoriesServiceImpl implements FilterCategoriesService {
+public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements FilterCategoriesService {
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(FilterCategoriesServiceImpl.class);
 	
 	@Autowired
 	private Environment env;
 	
-	private ICommonDataServiceRestClient getClient() {
-		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-		return client;
-	}
 	
 	@Override
 	public List<MLPModelType> getSolutionCategoryTypes() {
