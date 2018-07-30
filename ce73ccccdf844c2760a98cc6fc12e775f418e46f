@@ -33,6 +33,159 @@
       "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f70d968_7aed6dd5",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/md-model-edit-workflow.template.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "Is this block properly commnented",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5974a75_3be9008b",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/md-model-edit-workflow.template.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "Please remove this commented section",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d08e8c52_9156b0aa",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "Remove console.log",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae054f5f_15ad2334",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "Clean up these 3 lines",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "479fb5b4_0438140c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "This can be removed",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c41a1038_ff61d551",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "This can be removed",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1526673e_6120a854",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "This part can be removed",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47e9203d_aa20f16c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "Please remove commented section",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4efc097_95f12fa0",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T19:28:31Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
