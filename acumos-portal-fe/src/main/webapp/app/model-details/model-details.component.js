@@ -609,6 +609,7 @@ angular
 											commentId : response.data.response_body.content[key].commentId,
 											threadId : response.data.response_body.content[key].threadId,
 											userId : response.data.response_body.content[key].userId,
+											stringDate : response.data.response_body.content[key].stringDate,
 											replies: []
 										});
 						
