@@ -1988,22 +1988,15 @@ angular
 							promise
 									.then(
 											function(response) {
+												$scope.modelUploadError = false;
 												$scope.supportingDocs.push(response.response_body);
 												$scope.showSolutionDocs = true;
 												$scope.showFileUpload = !$scope.showFileUpload;
 												$rootScope.progressBar = 0;
 											})
-											.catch(function() {
-												$location.hash('manage-models');
-												$anchorScroll();
-												$scope.msg = "Error in uploading the file ";
-												$scope.icon = 'report_problem';
-												$scope.styleclass = 'c-error';
-												$scope.showAlertMessage = true;
-												$timeout(
-														function() {
-															$scope.showAlertMessage = false;
-														}, 2000);
+											.catch(function(error) {
+												$scope.modelUploadError = true;
+												$scope.modelUploadErrorMsg = error;
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
 											});
@@ -2020,24 +2013,15 @@ angular
 							promise
 									.then(
 											function(response) {
-												console.log(response.response_body);
+												$scope.modelUploadErrorPublic = false;
 												$scope.supportingPublicDocs.push(response.response_body);
-												// $scope.closePoup();
 												$scope.showPublicSolutionDocs = true;
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
 											})
-											.catch(function() {
-												$location.hash('manage-models');
-												$anchorScroll();
-												$scope.msg = "Error in uploading the file ";
-												$scope.icon = 'report_problem';
-												$scope.styleclass = 'c-error';
-												$scope.showAlertMessage = true;
-												$timeout(
-														function() {
-															$scope.showAlertMessage = false;
-														}, 2000);
+											.catch(function(error) {
+												$scope.modelUploadErrorPublic = true;
+												$scope.modelUploadErrorMsgPublic = error;
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
 											});
@@ -2692,7 +2676,7 @@ angular
 		            });
 				    
 					$scope.closeUploadPopup = function(){
-						if ($scope.showSolutionDocs && $rootScope.progressBar < 100){
+						 if (($scope.privatefilename || $scope.publicfilename) && $rootScope.progressBar < 85){
 							modelUploadService.cancelUpload("Upload cancelled by user");
 						}
 						$scope.privatefilename = '';

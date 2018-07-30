@@ -1097,7 +1097,7 @@ limitations under the License.
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload;solutionFile = ''; closeOtherPopovers( 'showFileUpload', showFileUpload )"
+															<a ng-click="showFileUpload = !showFileUpload;solutionFile = ''; modelUploadError=false;closeOtherPopovers( 'showFileUpload', showFileUpload )"
 																ng-class="{'disabled-title': company.step4}">Model
 																Documents</a> | <span class="green"
 																ng-show="showSolutionDocs && !company.step4">
@@ -1216,6 +1216,7 @@ limitations under the License.
 															</div>
 															</md-dialog-content>
 														</div>
+														
 														<!-- add cocument popover end -->
 														<div class="uploaded-file" ng-show="showSolutionDocs">
 															<md-chips ng-model="supportingDocs"
@@ -1240,6 +1241,7 @@ limitations under the License.
 																ng-model="$parent.company.skipStep"> Skip
 															</label>
 														</div>
+														<small ng-show="modelUploadError" class="red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
 														<!-- -company.dismiss {{company.dismiss}}- </br>
                                                                                     -company.close {{company.close}}- </br>
                                                                                     -company.skipStep {{company.skipStep}}- -->
@@ -2838,7 +2840,7 @@ limitations under the License.
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showFileUpload = !showFileUpload;solutionFile = ''; closeOtherPopovers( 'showFileUpload', showFileUpload )"
+														<a ng-click="showFileUpload = !showFileUpload;solutionFile = '';modelUploadErrorPublic=false; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 															ng-class="{'disabled-title': public.step4}">Model
 															Documents</a> | <span class="green"
 															ng-show="showPublicSolutionDocs && !public.step4">
@@ -3004,6 +3006,7 @@ limitations under the License.
 														</div>
 														</md-dialog-content>
 													</div>
+													<small ng-show="modelUploadErrorPublic" class="red"><strong>Error Occurred:</strong> {{modelUploadErrorMsgPublic}}</small>
 													<!-- update model documents popover end -->
 													<!-- <p>
                                                                                     <div class="checkbox">
