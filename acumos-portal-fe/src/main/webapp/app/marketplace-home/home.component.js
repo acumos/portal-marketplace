@@ -95,11 +95,12 @@ angular
 													                    } else {
 													                    	bannerSt = bannerSt + '"home-screen2" ';
 													                    }
+													                   
 													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_background/' + value["bgImageUrl"] + ') !important;background-color : '+ value['bgColor'] +'">' + 
 																	    '<div class="slide-content">' +
 																	        '<div class="slide-text">' +
 																	            '<h4>' + value['headline'] + '</h4>' +
-																	            '<p>' + value['supportingContent']  +'</p>';
+																	            '<p ng-if=" value[\'supportingContent\']">' + value['supportingContent']  +'</p>';
 													                             if (value['links']['enableLink']){
 													                            	 if (!angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']['address'])){
 												                                         if ((value['links']['primary']['address']).indexOf("modelerResource") != -1) {
@@ -178,7 +179,7 @@ angular
 															'</div>' +
 															'<div class="hackathon-text">' + 
 															'<h3>' + value["headline"] + '</h3>' + 
-															'<p>' + value["supportingContent"] + '</p>' +
+															'<p ng-if=" value[\'supportingContent\']">' + value["supportingContent"] + '</p>' +
 															'</div>' + 
 															'</div>';
 														$scope.event.slides[index] = storyhtml;
@@ -203,7 +204,7 @@ angular
 														var storyhtml = '<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit"> <div class="success-icon">' + 
 															'<img src="/site/binaries/content/gallery/acumoscms/global/story_carousel_bg/' + value["bgImageUrl"] +'"/>' + 
 															'</div>' +
-															'<div class="success-description">' + 
+															'<div class="success-description" ng-if=" value[\'supportingContent\']">' + 
 															value["supportingContent"]  +
 															'</div></div>';
 														$scope.successStories.slides[index] = storyhtml;
