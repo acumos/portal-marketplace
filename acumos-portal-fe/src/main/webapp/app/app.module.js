@@ -476,7 +476,7 @@ angular
                     var reader = new FileReader();
 					var imgpath = new Image();
                 	var size = scope.fileinput.size;
-                	if( scope.docerror === false ){
+                	if( scope.docerror != null ){
                 		if(size >= scope.size){
                 			scope.docerror = true;
                 		} else {
