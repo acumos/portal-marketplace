@@ -159,7 +159,8 @@ background: #F1F1F1; line-height:34px;height:34px; border-bottom: 1px solid #C5C
 .right-drawer-handle {z-index:1;background:#C2C2C2; width:8px; position:absolute; top: 0; height:100%; left:0; cursor:col-resize;}
 
 .ds-hor-seperator {z-index:50;height: 5px; position:relative; z-index:500; background: #6E6E6E url("../images/ds-icons/panel_dragger_icon.png") no-repeat center center; cursor:row-resize;}
-
+.ds-hor-seperator1 {z-index:50;height: 5px; position:relative; z-index:500; background: #6E6E6E url("../images/ds-icons/panel_dragger_icon.png") no-repeat center center; cursor:row-resize;}
+.ds-hor-seperator2 {z-index:50;height: 5px; position:relative; z-index:500; background: #6E6E6E url("../images/ds-icons/panel_dragger_icon.png") no-repeat center center; cursor:row-resize;}
 .mdl-mini-footer {padding-top:0; padding-bottom:0; background: #06000A;}
 .mdl-mini-footer--link-list a, .mdl-mini-footer__link-list a {color: #81817F;font-size: 12px;}
 .mdl-mini-footer .mdl-logo, .mdl-mini-footer__link-list li {color: #81817F; font-size: 12px;}
@@ -238,10 +239,10 @@ md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !importa
 /**********Flex Containers end *********************/
 
 
-#canvas {/* position:absolute;left:0;right:0;top:0;bottom:0; */width: 100%; height: 100%;}
+#canvas {position:absolute;left:0;right:0;top:0;bottom:0;/* width: 100%; height: 100%; */}
 
 .ds-grid-bg {position:relative; min-height: 600px;}
-.ds-grid-bg section {position: absolute; z-index:6; min-width:100%; min-height:100%;}
+.ds-grid-bg section {position: absolute; left:0;right:0;top:0;bottom:0; z-index:6; min-width:100%; min-height:100%;}
 .canvas-outer-container {position:absolute; z-index: 5;width:100%}
 
 .ds-right-width , .ds-left-width{width:7px !important; max-width: 7px !important;overflow:hidden;}
@@ -252,7 +253,7 @@ md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !importa
 
 .ds-header {width:100%;}
 
-#canvas > svg { min-height: 100%; width: 100% !important; height:100% !important; }
+#canvas > svg {min-height: 100%; width: 100% !important; height:100% !important; }
 
 .mdl-button--icon.grid-icon1 {background: #e8d3ff;}
 .mdl-button--icon.grid-icon1:hover {background: #d8b5ff;}
@@ -404,6 +405,9 @@ table.mdl-data-table.ds-table1 tbody tr {position: static;}
 
 .ds-version-container {position: absolute; display: inline-block; right: 15px; margin-top: -27px; color: #656565; font-size: 11px;z-index: 2000;}
 /* .loading {position: absolute; display: inline-block;} */
+.material-icons.dsicon-true {color: #009900 !important; font-size: 20px;}
+.material-icons.dsicon-false {color: #ff0000 !important; font-size: 20px;}
+
 @media (width: 1024px) and (orientation: landscape) {
 	.ds-mapping-tables-dialog {min-width: 1000px; max-height: 85%; max-width: 98
 	table.dsmt-tbl tbody tr td .select-control {padding-left: 0; width: 86px !important; max-width: 86px !important;}

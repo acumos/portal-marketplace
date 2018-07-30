@@ -51,7 +51,7 @@ limitations under the License.
 	</div>
 
 	<div ng-show="!is_ie" class="page-content ds-outer-container">
-		 <!-- <img id="mySpinner" class="loading" src="images/Loading_icon.gif" ng-show="loading" /> -->
+	<div class="a-overlay" id="loading"></div>
 			<div flex="20" class="bdr-right posrel ds-left-section" ng-class="left?'ds-left-width':''">
 			<div id="content-left">					
 				<div class="ds-section" id="top-content-left">
@@ -133,7 +133,7 @@ limitations under the License.
 						</div>
 					
 				</div>
-				<!-- <div class="ds-hor-seperator" id="content-resizer-left"></div> -->
+				<div class="ds-hor-seperator" id="content-resizer-left"></div>
 				<div class="ds-section" id="bottom-content-left">
 							<div class="ds-section-heading">
 								<label>Data Transform Tools</label>
@@ -166,7 +166,7 @@ limitations under the License.
 							</div>							
 							</div>
 							</div>
-							<div class="ds-hor-seperator"></div>
+							<div class="ds-hor-seperator2" id="content-resizer-left"></div>
 						</div>
 				<div class="ds-section">
 							<div class="ds-section-heading">
@@ -263,7 +263,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="console-outer-container" ng-class="down?'console-container-hide':''">
-							<div class="ds-version-container">Composition Engine 0.0.33-SNAPSHOT</div>
+							<div class="ds-version-container">Composition Engine 0.0.33</div>
 							<div class="bottom-drawer-handle" ng-init="down='true'" ng-click="down = !down"><span class="bottom-handle"><i class="material-icons">keyboard_arrow_up</i></span></div>
 								<div class="ds-section" ng-hide="down">
 									<div class="ds-section-heading">
@@ -291,7 +291,7 @@ limitations under the License.
 					<div class="ds-section-heading-container">					
 						
 					</div> 
-						<div class="ds-contentsection-tab">
+						<div class="ds-contentsection-tab1">
 							<md-tabs md-dynamic-height md-border-bottom class="ds-tab1" md-selected="tabChange"> 
 							<md-tab label="Properties"> 
 								<md-content class="">
@@ -443,7 +443,7 @@ limitations under the License.
 
 								</md-tabs>							
 							</div>
-							<div class="ds-hor-seperator" id="content-resizer"></div>
+							<div class="ds-hor-seperator1" id="content-resizer"></div>
 						
 						<div class="ds-section" id="bottom-content">
 							<div class="ds-section-heading">
@@ -1228,8 +1228,8 @@ limitations under the License.
 																			</md-select>
 																		</div>
 																		</td>
-																		<td><label ng-if="collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
-																		 <label ng-if="collateErrorMap.get($index) === undefined">False</label>
+																		<td><label ng-if= "collateErrorMap.get($index) === 'True' || collateErrorMap.get($index) === 'true'"><i class="material-icons dsicon-true">done</i></label>
+																			<label ng-if="collateErrorMap.get($index) === 'False' || collateErrorMap.get($index) === 'false' || collateErrorMap.get($index) === undefined || collateErrorMap.get($index) === null"><i class="material-icons dsicon-false">close</i></label>
 																		</td>
 																		<td>{{collateTargetMapTable[$index].tag}}</td>
 																		<td>{{collateTargetMapTable[$index].name}}</td>
@@ -1256,8 +1256,8 @@ limitations under the License.
 																			</md-select>
 																		</div>
 																		</td>
-																		<td><label ng-if="collateSourceMapTable[$index].tag && collateErrorMap.get($index)">{{collateErrorMap.get($index)}}</label>
-																		<label ng-if="collateSourceMapTable[$index].tag && collateErrorMap.get($index) === undefined">False</label>
+																		<td><label ng-if="collateSourceMapTable[$index].tag && (collateErrorMap.get($index) === 'True' || collateErrorMap.get($index) === 'true')"><i class="material-icons dsicon-true">done</i></label>
+																		<label ng-if="collateSourceMapTable[$index].tag && (collateErrorMap.get($index) === 'False' || collateErrorMap.get($index) === 'false' || collateErrorMap.get($index) === undefined || collateErrorMap.get($index) === null)"><i class="material-icons dsicon-false">close</i></label>
 																		</td>
 																		<td>{{target.tag}}</td>
 																		<td>{{target.name}}</td>
@@ -1348,8 +1348,8 @@ limitations under the License.
 																		</div>
 																		</td>
 																		<td>
-																		<label ng-if="splitTargetMapTable[$index].tag && splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
-																		<label ng-if="splitTargetMapTable[$index].tag && splitErrorMap.get($index) === undefined">False</label>
+																		<label ng-if="splitTargetMapTable[$index].tag && (splitErrorMap.get($index) === 'True' || splitErrorMap.get($index) === 'true')"><i class="material-icons dsicon-true">done</i></label>
+																		<label ng-if="splitTargetMapTable[$index].tag && (splitErrorMap.get($index) === undefined || splitErrorMap.get($index) === 'false' || splitErrorMap.get($index) === 'False' || splitErrorMap.get($index) === null"><i class="material-icons dsicon-false">close</i></label>
 																		</td>
 																		<td>{{splitTargetMapTable[$index].tag}}</td>
 																		<td>{{splitTargetMapTable[$index].name}}</td>
@@ -1376,8 +1376,8 @@ limitations under the License.
 																			</md-select>
 																		</div>
 																		</td>
-																		<td><label ng-if="splitErrorMap.get($index)">{{splitErrorMap.get($index)}}</label>
-																		 <label ng-if="splitErrorMap.get($index) === undefined">False</label>
+																		<td><label ng-if="splitErrorMap.get($index) === 'True' || splitErrorMap.get($index) === 'true'"><i class="material-icons dsicon-true">done</i></label>
+																		 <label ng-if="splitErrorMap.get($index) === undefined || splitErrorMap.get($index) === 'False' || splitErrorMap.get($index) === 'false' || splitErrorMap.get($index) === null"><i class="material-icons dsicon-false">close</i></label>
 																		 </td>
 																		<td>{{target.tag}}</td>
 																		<td>{{target.name}}</td>
