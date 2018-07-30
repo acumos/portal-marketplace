@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11e1c026_0624ac82",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1627,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T20:11:11Z",
+      "side": 1,
+      "message": "Please remove the commented code",
+      "revId": "3f0997c9d62edc068faeef0fb9d89c503090547a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9302b7a4_3adcbaf9",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T20:11:11Z",
+      "side": 1,
+      "message": "Can you explain why it is null",
+      "revId": "3f0997c9d62edc068faeef0fb9d89c503090547a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d985277_8b5bd9cc",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 3139,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T20:11:11Z",
+      "side": 1,
+      "message": "This can be removed",
+      "revId": "3f0997c9d62edc068faeef0fb9d89c503090547a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bc6a097_219b4091",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 3141,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T20:11:11Z",
+      "side": 1,
+      "message": "Any idea why it moved from 0 to 1000",
+      "revId": "3f0997c9d62edc068faeef0fb9d89c503090547a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
