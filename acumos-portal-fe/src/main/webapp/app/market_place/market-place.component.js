@@ -275,6 +275,9 @@ angular
 										$rootScope.relatedModelType = '';
 										$scope.SetDataLoaded = false;
 										getSolution(response);
+										$scope.loadpage = $scope.selectedPage;
+										$scope.startPageSize = $scope.loadpage * $scope.solutionSize + 1; 
+										$scope.endPageSize = (($scope.loadpage + 1) * $scope.solutionSize) < $scope.totalElements ? (($scope.loadpage + 1) * $scope.solutionSize) : $scope.totalElements; 										
 									},
 									function(error) {});
 
