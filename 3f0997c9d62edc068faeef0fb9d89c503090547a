@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ee5e0a51_eb3aba85",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1725,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2018-07-30T20:19:25Z",
+      "side": 1,
+      "message": "The width and height should be given as null here, as the canvas acquires the div dimensions from the dc.graph.",
+      "parentUuid": "9302b7a4_3adcbaf9",
+      "revId": "3f0997c9d62edc068faeef0fb9d89c503090547a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d985277_8b5bd9cc",
         "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2018-07-30T20:11:11Z",
       "side": 1,
       "message": "Any idea why it moved from 0 to 1000",
+      "revId": "3f0997c9d62edc068faeef0fb9d89c503090547a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c0e082f_efe0f9f0",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 3141,
+      "author": {
+        "id": 90
+      },
+      "writtenOn": "2018-07-30T20:19:25Z",
+      "side": 1,
+      "message": "For the canvas to get the div dimensions, it is taking time. So changed the timeout.",
+      "parentUuid": "1bc6a097_219b4091",
       "revId": "3f0997c9d62edc068faeef0fb9d89c503090547a",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
