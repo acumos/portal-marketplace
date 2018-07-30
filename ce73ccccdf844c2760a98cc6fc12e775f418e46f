@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b92116d6_1a560ec2",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MessagingServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T18:50:54Z",
+      "side": 1,
+      "message": "Please remove unused code",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cef7c60f_a6fee97b",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/MessagingServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-07-30T18:50:54Z",
+      "side": 1,
+      "message": "This block code can be removed",
+      "revId": "ce73ccccdf844c2760a98cc6fc12e775f418e46f",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
