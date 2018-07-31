@@ -2753,13 +2753,14 @@ angular
 		            });
 				    
 					$scope.closeUploadPopup = function(){
-						 if (($scope.privatefilename || $scope.publicfilename) && $rootScope.progressBar < 85){
+						if (($scope.privatefilename || $scope.publicfilename) && $rootScope.progressBar < 85){
 							modelUploadService.cancelUpload("Upload cancelled by user");
-						}
+						} else {
+							$scope.showFileUpload = !$scope.showFileUpload;
+						} 
 						$scope.privatefilename = '';
 						$scope.publicfilename = '';
-						$scope.solutionFile = '';
-						$scope.showFileUpload = !$scope.showFileUpload;
+						$scope.solutionFile = '';						
 						$rootScope.progressBar = 0;
 						$scope.docerror = false;
 					}
