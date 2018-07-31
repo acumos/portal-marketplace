@@ -22,10 +22,8 @@ package org.acumos.portal.be.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPComment;
-import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPThread;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -37,9 +35,9 @@ import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
+import org.joda.time.Minutes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -47,7 +45,10 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadService{
-
+	
+	private static final String FEW_SECONDS_AGO = "Few Seconds Ago";
+    private static final String MINUTES_AGO = "Minutes Ago";
+    private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm a";
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate
 			.getLogger(ThreadServiceImpl.class);
 	
@@ -297,48 +298,32 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 				mlcommentList.add(PortalUtils.convertToMLComment(mlpComment));
 			}
 			for (MLComment mlComment : mlcommentList) {
-				//---------------------------------------
-				StringBuilder stringDate = new StringBuilder("");				 
-				DateTime today = new DateTime();				
-				// from JDK to Joda
-			    DateTime dt = new DateTime(mlComment.getModified());
-				//today.minus(dt);			    
-				DateTime in = new DateTime();
-				//DateTime in2 = new DateTime(in.getMillis());	
-				if(dt.isBeforeNow()){				 
-			        if(dt.getYear() == in.getYear()){
-			        	if(dt.getMonthOfYear() == in.getMonthOfYear()){
-			        		if(dt.getDayOfMonth() == in.getDayOfMonth()){		    		        
-			    		        if(dt.getHourOfDay() > 1 && dt.getHourOfDay() < 24){
-			    		        	// > 1 & < 24 hours (Same Date)	<timestamp> ( example “AT 1:35 PM” )
-			    		        	stringDate = new StringBuilder("AT "+dt.toString(DateTimeFormat.shortTime()));
-			    		        	if(dt.getMinuteOfHour() > 0 && dt.getMinuteOfHour() < 59){
-				    		        	// >0 & < 59 mins	xx Minutes ago
-			    		        		stringDate = new StringBuilder(dt.getMinuteOfHour() + " Minutes ago");
-			    		        		if(dt.getSecondOfMinute() > 0 && dt.getSecondOfMinute() < 59){
-					    		        	// <1 mins  	Few Seconds ago
-			    		        			stringDate = new StringBuilder("Few Seconds ago");
-					    		        }
-				    		        }
-			    		        }
-			        		}else if(dt.getDayOfMonth() - in.getDayOfMonth() == -1){
-			        			//days are not equal
-			        			//Next Day	Yesterday AT “AT 1:35 PM”
-			        			stringDate = new StringBuilder("Yesterday AT "+dt.toString(DateTimeFormat.shortTime()));
-			        		}else{
-			        			//Example “07/08/2018 1:35 PM”
-			        			stringDate = new StringBuilder(dt.toString(DateTimeFormat.shortDateTime()));
-			        		}
-			        	}
-			        } 
-			        if(stringDate.toString().equals("test")){
-			        	stringDate = new StringBuilder(dt.toString(DateTimeFormat.shortDateTime()));
-			        }
-				}else{
-					stringDate = new StringBuilder("Future Date");		
+				String stringDate = null;
+				DateTime currDate = DateTime.now();
+				DateTime commentTime = new DateTime(mlComment.getModified().getTime());
+				if (currDate.isAfter(commentTime)) {
+					int minutes = Minutes.minutesBetween(commentTime, currDate).getMinutes();
+					int hours = Hours.hoursBetween(commentTime, currDate).getHours();
+					
+					if (minutes < 1) {
+						stringDate = FEW_SECONDS_AGO;
+					} else if (minutes < 59) {
+						stringDate = minutes + " " + MINUTES_AGO;
+					} else if (hours > 1 && hours < 24) {
+						Interval today = new Interval(currDate.withTimeAtStartOfDay(),
+								currDate.plusDays(1).withTimeAtStartOfDay());
+						boolean happensToday = today.contains(commentTime);
+						if (happensToday) {
+							stringDate = "AT " + commentTime.toString("hh:mm a");
+						}else {
+							stringDate = "Yesterday " + commentTime.toString("hh:mm a");
+						}
+
+					} else {
+						stringDate = commentTime.toString(TIMESTAMP_FORMAT);
+					}
 				}
-			    //--------------------------------------
-				mlComment.setStringDate(stringDate.toString());				 
+				mlComment.setStringDate(stringDate);				 
 				commentResponse.getContent().add(mlComment);
 			}
 		} catch (IllegalArgumentException e) {
@@ -346,7 +331,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		} catch (HttpClientErrorException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
-			return commentResponse;
-		
+		return commentResponse;
+
 	}
 }
