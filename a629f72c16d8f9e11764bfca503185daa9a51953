@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff9cca2a_f5551e4f",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-07-31T12:24:22Z",
+      "side": 1,
+      "message": ".mobile-msg-wrapper seems to be defined twice?",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 19
+      },
+      "revId": "a629f72c16d8f9e11764bfca503185daa9a51953",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7719bf6_39af929e",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-07-31T12:24:22Z",
+      "side": 1,
+      "message": "How is this related to mobile friendly?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 32
+      },
+      "revId": "a629f72c16d8f9e11764bfca503185daa9a51953",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a8280e0_a70c88f3",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 1939,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-07-31T12:24:22Z",
+      "side": 1,
+      "message": "This has nothing to do with mobile warning - don\u0027t combine fixes in a single Gerrit review like this",
+      "range": {
+        "startLine": 1939,
+        "startChar": 0,
+        "endLine": 1939,
+        "endChar": 46
+      },
+      "revId": "a629f72c16d8f9e11764bfca503185daa9a51953",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25f2571_42092c3e",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 2278,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-07-31T12:24:22Z",
+      "side": 1,
+      "message": "Is this for mobile (un-)friendly warning?",
+      "range": {
+        "startLine": 2278,
+        "startChar": 0,
+        "endLine": 2278,
+        "endChar": 57
+      },
+      "revId": "a629f72c16d8f9e11764bfca503185daa9a51953",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca9252c6_bd7c2ca5",
+        "filename": "acumos-portal-fe/src/main/webapp/css/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 2305,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-07-31T12:24:22Z",
+      "side": 1,
+      "message": "Is this a second definition of .mobile-msg-wrapper, or a refinement?",
+      "range": {
+        "startLine": 2305,
+        "startChar": 3,
+        "endLine": 2305,
+        "endChar": 21
+      },
+      "revId": "a629f72c16d8f9e11764bfca503185daa9a51953",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
