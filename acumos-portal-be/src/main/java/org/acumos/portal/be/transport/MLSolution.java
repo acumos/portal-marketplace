@@ -77,6 +77,7 @@ public class MLSolution {
 	private String errorDetails;
 	private String latestRevisionId;
 	private long commentsCount;
+	private String publisher;
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -536,4 +537,18 @@ public class MLSolution {
         public void setCommentsCount(long commentsCount) {
             this.commentsCount = commentsCount;
         }
+
+		/**
+		 * @return the publisher
+		 */
+		public String getPublisher() {
+			return publisher;
+		}
+
+		/**
+		 * @param publisher the publisher to set
+		 */
+		public void setPublisher(String publisher) {
+			this.publisher = publisher;
+		}
 }

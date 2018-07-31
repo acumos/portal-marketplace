@@ -1914,6 +1914,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			if (revision != null) {
 				mlSolution.setAccessType(revision.getAccessTypeCode());
 				mlSolution.setLatestRevisionId(revision.getRevisionId());
+				mlSolution.setPublisher(revision.getPublisher());
 				long Count=dataServiceRestClient.getSolutionRevisionCommentCount(mlpSol.getSolutionId(), revision.getRevisionId());
                 		mlSolution.setCommentsCount(Count);
 			}
