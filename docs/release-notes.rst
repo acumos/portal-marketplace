@@ -20,6 +20,26 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.38, 31 st July 2018
+================================
+* IST2: Need new VD to show the solution ID	(ACUMOS-910)
+* IST2: No error message is displaying when user disable single remaining slide	(ACUMOS-1048)
+* IST2: : Comment count is not displaying in the model box in market place and manage my model section	(ACUMOS-1119)
+* IST2: User is not getting signout when he close the browser and open again. (ACUMOS-1305)
+* IST2: Notification : Mark as read / Move to Thrash : Multiple Selection : Page is not loading	(ACUMOS-1396)
+* IST2: Site Content : Null / Undefined is displaying on home page if user kept blank Supporting content field	(ACUMOS-1397)
+* Share with Team : Version No and Model ID also need to display after model name.	(ACUMOS-1444)
+* <IST2><Marketplace> On clicking Previous and Next buttons multiple times, appropriate page is not displayed on screen	(ACUMOS-1404)
+* Portal show Download button on private model	(ACUMOS-1280)
+* Portal notification screen shows no table even tho I have 500+ notifications	(ACUMOS-1405)
+* Portal search feature does not re-fetch result when search string is cleared	(ACUMOS-1410)
+* Portal display solution ID on manage-my-model page also	(ACUMOS-1439)
+* Portal bell notification count increases and decreases in a loop forever	(ACUMOS-1441)
+* Publishing to both company and public marketplace is not functioning as per design	(ACUMOS-382)
+* IST2 : In web on boarding for upload Model Bundle popup only Browse button is enable ,overall upload file field should be enable.	(ACUMOS-1306)
+* Model authorship feature with new VD  (ACUMOS-907)
+
+
 Version 1.15.37, 19 th July 2018
 ================================
 * portal-marketplace: Fix RST compile warnings (ACUMOS-1320)
