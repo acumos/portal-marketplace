@@ -75,7 +75,7 @@ public class MLSolutionTest {
 		mlPSolutionRevision.setDescription("fafaf");
 		mlPSolutionRevision.setMetadata("sfsfs");
 		mlPSolutionRevision.setModified(new Date());
-		mlPSolutionRevision.setUserId("83d5259f-48b7-4fe1-9fd6-d1166f8f3691");
+		mlPSolutionRevision.setOwnerId("83d5259f-48b7-4fe1-9fd6-d1166f8f3691");
 		mlPSolutionRevision.setRevisionId("fsf24");
 		mlPSolutionRevision.setSolutionId("02a87750-7ba3-4ea7-8c20-c1286930f57c");
 		mlPSolutionRevision.setVersion("1.2");

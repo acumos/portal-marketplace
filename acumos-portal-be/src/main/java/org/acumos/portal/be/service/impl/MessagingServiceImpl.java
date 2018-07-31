@@ -43,14 +43,39 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MessagingServiceImpl extends AbstractServiceImpl implements MessagingService{
+public class MessagingServiceImpl implements MessagingService{
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MarketPlaceCatalogServiceImpl.class);
 
 	@Autowired
 	private Environment env;
 
+	private ICommonDataServiceRestClient getClient() {
+		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"),
+				env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
+		return client;
+	}
+	
+	/*@Override
+	public MLStepResult callOnBoardingStatus(String userId, String trackingId) {
 
+		MLStepResult messageStatus = new MLStepResult();
+		log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		
+		RestPageRequest pageRequest = new RestPageRequest();
+		RestPageResponse<MLPStepResult> pageResponse = dataServiceRestClient.getStepResults(pageRequest);
+		//messageStatus = pageResponse.set	 
+		
+		for(int i=0; i< pageResponse.getContent().size(); i++){
+			messageStatus = PortalUtils.convertToMLStepResult(pageResponse.getContent().get(i));
+			
+		}
+		
+
+		return messageStatus;
+	}	*/
+	
 	@Override
 	public List<MLStepResult> callOnBoardingStatusList(String userId, String trackingId) {
 
@@ -70,7 +95,15 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		for(int i=0; i< pageResponse.getContent().size(); i++){
 			messageStatus.add(PortalUtils.convertToMLStepResult(pageResponse.getContent().get(i)));
 		}
-
+		
+		/*List<MLStepResult> messageStatusFilter = new ArrayList<>();
+		for(MLStepResult mlStepResult : messageStatus){
+			if(mlStepResult.getTrackingId()!=null && mlStepResult.getTrackingId().equals(trackingId)){
+				messageStatusFilter.add(mlStepResult);
+			}
+			
+			
+		}*/
 		return messageStatus;
 	}
 	
@@ -130,6 +163,13 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		RestPageResponse<MLPStepResult> stepResultList = dataServiceRestClient.searchStepResults(queryParams, false,
 				pageRequest);
 		List<MLPStepResult> mlpStepResultList = stepResultList.getContent();
+		/*
+		 * for(MLPStepResult mlpStepResult : mlpStepResultList) {
+		 * if(mlpStepResult != null) {
+		 * if(!PortalUtils.isEmptyOrNullString(mlpStepResult.getSolutionId()) &&
+		 * mlpStepResult.getSolutionId().equalsIgnoreCase(solutionId)) {
+		 * stepResult = mlpStepResult; break; } } }
+		 */
 		return mlpStepResultList;
 	}
 }

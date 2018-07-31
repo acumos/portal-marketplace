@@ -280,7 +280,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
             sub.setAccessType(sol.getAccessType());
             sub.setPeerId(peerId);
             sub.setScopeType("FL");
-            sub.setUserId(sol.getOwnerId());
+            sub.setOwnerId(sol.getOwnerId());
             if (sol.getRefreshInterval() != null){
                 sub.setRefreshInterval(sol.getRefreshInterval());
             }

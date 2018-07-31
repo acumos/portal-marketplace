@@ -156,7 +156,7 @@ public class PushAndPullSolutionServiceControllerTest {
 		MLPSolutionRevision mlpSolRev = new MLPSolutionRevision();
 		MLSolution mlsolution = getMLSolution();
 		mlpSolRev.setRevisionId("REV2");
-		mlpSolRev.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+		mlpSolRev.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 		mlpSolRev.setVersion("v.0.0");
 		mlpSolRev.setDescription("test data for revision");
 		mlpSolRev.setSolutionId(mlsolution.getSolutionId());
@@ -169,7 +169,7 @@ public class PushAndPullSolutionServiceControllerTest {
 		mockMLPArtifact.setArtifactTypeCode("MI");
 		mockMLPArtifact.setDescription("Test data");
 		mockMLPArtifact.setName("Test Artifact data");
-		mockMLPArtifact.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		mockMLPArtifact.setOwnerId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 		return mockMLPArtifact;
 		
 	}
