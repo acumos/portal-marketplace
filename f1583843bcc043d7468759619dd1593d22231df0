@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2421df92_a0067a41",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/ThreadServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-07-31T15:18:07Z",
+      "side": 1,
+      "message": "What if the hours value is 1 and minutes is 50 (less than 59). This will always execute the first two if blocks only. The rest of the code will never reach.",
+      "range": {
+        "startLine": 310,
+        "startChar": 16,
+        "endLine": 310,
+        "endChar": 23
+      },
+      "revId": "f1583843bcc043d7468759619dd1593d22231df0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
