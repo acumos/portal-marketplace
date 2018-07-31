@@ -4,6 +4,7 @@ html,body, button,input, select, textarea,.mdl-button {
   } 
 p {font-size: 1em;}
 /*********** Common CSS classes start  **********/
+.mobile-msg-wrapper {display: none;}
 .validation-msgs span {color:#ff0000 !important; font-size: 12px;}
 .disblock {display:block}
 .text-left {text-align:left}
@@ -1996,6 +1997,13 @@ sup.ds-text {font-size: 10px !important;}
 sup.ds-text2 {font-size: 12px !important;}
 .ds-db-row3-cell .userprofiletxtbox {box-shadow: none !important;border: 1px solid #d5d5d5;font-size: 14px;} 
 md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not([disabled]):focus .md-select-value {border-bottom: none !important;}
+
+/**** Comments pagination code start ********/
+.comment-pagination-container-outer {background: #e6e6e6; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;padding: 15px 0;}
+.comment-pagination-container-inner {border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;text-align: center;height: 15px;}
+.comment-pagination-message {display: inline-block; position:relative; height: 23px; background: #e6e6e6; top: -7px; line-height: 25px; min-width: 140px;font-weight: 600;font-size: 13px;}
+/**** Comments pagination code Ends ********/
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
@@ -2265,6 +2273,9 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.rating-container-right .progress-wrapper span {width: 85px;}
 	.rating-container-right .progress-wrapper span + span {margin-right:15px;}
 	
+	.a-logo-container.logo-without-login {background-position: -10px center;}
+	.mdl-textfield--expandable .mdl-button--icon {top: 12px;}
+	.gridlistview-btnactive img, .gridlistview-btn img {margin-top: -1px;}
 }	
 
 @media (width: 1024px) and (orientation: landscape) {	 
@@ -2327,9 +2338,18 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.md-container-head1 > div {margin-right: 15px;}
 	.mp-grid-list-image-cell {width: 140px;}
 	
-	
+	.a-logo-container.logo-without-login {background-position: -10px center;}
+	.mdl-textfield--expandable .mdl-button--icon {top: 8px;}
+	.socbtncontainer .mdl-button.mdl-js-button {margin-bottom: 8px; display: flex; align-items: center; height: 45px;}
+	.mdl-button.btn-signup {max-width: 280px !important; width: 280px;}
+	.eyebutton {max-width: 30px !important; width: 30px !important;}
+	.gridlistview-btnactive img, .gridlistview-btn img {margin-top: -1px;}
 }
-	
+
+@media (min-width: 700px) {
+	.gridlistview-btn {width: 36px !important;}
+	.btn-browseby {max-width: 100px !important;}
+}
 
 @media (max-width: 960px) {	
 	.product-image {padding-top:15px;}
@@ -2347,7 +2367,11 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.a-logo-container {height: 55px;}
 	.mdl-layout__header-row {padding:0 !important;}
  
-	
+	.mobile-msg-wrapper {display :block;background: rgba(0,0,0,0.35); position: fixed; top: 0px; left: 0; width: 100%; height: 100%; z-index: 9999; text-align:center; }
+	.mobile-msg {display: block; width: 80%; max-width: 285px; height: 120px; margin: auto;background: #fff;position:relative; top: 100px; border-radius: 7px;padding-top: 10px;
+	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,.6) !important; -moz-box-shadow: 0 2px 5px rgba(0,0,0,.6) !important; box-shadow: 0 2px 5px rgba(0,0,0,.6) !important; z-index: 50;}	
+	.mobile-msg h2 {margin-bottom: 0px;font-size: 26px;margin-top: 5px;}
+	.mobile-msg h5 {margin-top: 5px;font-size: 18px;line-height: 28px;}
 }
 
 @media (min-width: 960px) {
@@ -2384,6 +2408,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.fedration-subscription {width: 1110px; }
 	.griditem-title {max-width: 450px; }
 	.acu-sidebar-overlay {display: none !important;}	
+	
 	
 }
 @media (min-width: 1030px) {
