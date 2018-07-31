@@ -637,7 +637,7 @@ limitations under the License.
 										<div>
 											<label class="dis-name">{{comment.name}}</label> | <span class="dis-name">
 												{{comment.firstName}} {{comment.lastName}}</span> | <span
-												class="text-small">on {{comment.created | date:'medium'}}</span>
+												class="text-small">on {{comment.stringDate}}</span>
 											<button
 												class="mdl-button mdl-js-button btn-primary"
 												ng-click="showEditComment = !showEditComment" ng-hide="loginUserID != comment.userId"
