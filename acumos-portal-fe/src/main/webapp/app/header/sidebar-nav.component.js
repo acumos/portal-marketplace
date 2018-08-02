@@ -39,7 +39,7 @@ app.component('sidebarNav',{
 
 		//Check if user is admin
 
-		if(browserStorageService.getUserRole() == 'Admin')$scope.userRoleAdmin = true;
+		if(browserStorageService.getUserRole() == 'Admin' || browserStorageService.getUserRole() == 'admin')$scope.userRoleAdmin = true;
 		
 		$scope.$on('roleCheck', function() {
 			$scope.userRoleAdmin = true;
