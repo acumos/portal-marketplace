@@ -1096,7 +1096,7 @@ angular
 							}
 							if($scope.solution.tookitType != "CP") {
                                 var reqObject = '';
-                                if($scope.exportTo == 'microsoft'){
+                                if($scope.exportTo == 'azure'){
                                       var url = '/azure/singleImageAzureDeployment';
                                       reqObject = {
                                                         'acrName': $scope.acrName,
@@ -1112,7 +1112,7 @@ angular
                                                         'userId':  $scope.loginUserID
                                       }
                                 }
-                                else if($scope.exportTo == 'ripple'){
+                                else if($scope.exportTo == 'rackspace'){
                                       var url =  '/openstack/singleImageOpenstackDeployment';
                                       reqObject ={
                           'vmName': $scope.vmName,
@@ -1146,7 +1146,7 @@ angular
                                 
                           } else {
                                 var reqObject = '';
-                                if($scope.exportTo == 'microsoft'){
+                                if($scope.exportTo == 'azure'){
                                       var url = '/azure/compositeSolutionAzureDeployment';
                                       reqObject = {
                                                         'acrName': $scope.acrName,
@@ -1161,7 +1161,7 @@ angular
                                                         'userId':  $scope.loginUserID
                                       }
                                 }
-                                else if($scope.exportTo == 'ripple'){
+                                else if($scope.exportTo == 'rackspace'){
                                       var url = "/openstack/compositeSolutionOpenstackDeployment";
                                       reqObject ={
                           'vmName': $scope.vmName,
@@ -1506,6 +1506,52 @@ angular
 									}
 								}
 							}
+							
+							/*read cloud enabled from the properties file*/
+							$scope.enableDeployToCloud = function(){
+						        apiService
+						        .getCloudEnabled()
+						        .then(
+						                function(response) {
+						                    if(response.status == 200){
+						                        $scope.checkDeployToCloudResponse = JSON.parse(response.data.response_body);
+						                        
+						                        /*$scope.checkDeployToCloudResponse = 
+						                            [  
+						                               {  
+						                                  'cloudEnabled':'false',
+						                                  'cloudName':'azure',
+						                                  'cloudDisplayText':'Microsoft Azure',
+						                                  'imageUrl':'/images/deploy-cloud/microsoft_azure.png'
+						                               },
+						                               {  
+						                                  'cloudEnabled':'false',
+						                                  'cloudName':'rackspace',
+						                                  'cloudDisplayText':'Rackspace',
+						                                  'imageUrl':'/images/deploy-cloud/rackspace.png'
+						                               },
+						                               {  
+						                                  'cloudEnabled':'true',
+						                                  'cloudName':'gcp',
+						                                  'cloudDisplayText':'Google Cloud Platform',
+						                                  'imageUrl':'/images/deploy-cloud/google_cloud_platform.png'
+						                               },
+						                               {  
+						                                  'cloudEnabled':'true',
+						                                  'cloudName':'aws',
+						                                  'cloudDisplayText':'Amazon Web Service',
+						                                  'imageUrl':'/images/deploy-cloud/amazon.png'
+						                               }
+						                            ]*/
+						                    }
+						                },
+						                function(error) {
+						                    console.log(error);
+						                });
+						    };
+						    $scope.enableDeployToCloud();
+							
+							
 					}
 
 				});

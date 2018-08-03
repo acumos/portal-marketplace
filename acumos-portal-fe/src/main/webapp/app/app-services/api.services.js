@@ -99,8 +99,13 @@ angular.module('AcumosApp')
         var urlGetNotificationPref = 'api/notifications/pref/byUserId'
         var urlPutNotificationPref = 'api/notifications/pref'
         var urlValidationstatusUrl = 'api/auth/validationStatus';
+        var urlGetCloudEnabledUrl = 'api/cloudEnabled';
         	
         /**************** ALL GET ******************/
+        this.getCloudEnabled = function () {
+            return $http.get(urlGetCloudEnabledUrl);
+        };
+        
     	this.getAllActiveUser = function (activeStatus) {
             return $http.get(urlGetActiveUsers + '/' + activeStatus);
         };

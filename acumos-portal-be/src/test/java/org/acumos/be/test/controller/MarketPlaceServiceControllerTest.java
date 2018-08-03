@@ -954,7 +954,7 @@ public class MarketPlaceServiceControllerTest {
 	
 	@Test
 	public void getCloudEnabledList(){
-		JsonResponse<Map<String, String>> responseVO = marketPlaceController.getCloudEnabledList(request, response);
+		JsonResponse<String> responseVO = marketPlaceController.getCloudEnabledList(request, response);
 		Assert.assertNotNull(responseVO);
 	}
 }
