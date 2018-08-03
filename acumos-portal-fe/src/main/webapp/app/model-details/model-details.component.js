@@ -1096,7 +1096,7 @@ angular
 							}
 							if($scope.solution.tookitType != "CP") {
                                 var reqObject = '';
-                                if($scope.exportTo == 'microsoft'){
+                                if($scope.exportTo == 'azure'){
                                       var url = '/azure/singleImageAzureDeployment';
                                       reqObject = {
                                                         'acrName': $scope.acrName,
@@ -1112,7 +1112,7 @@ angular
                                                         'userId':  $scope.loginUserID
                                       }
                                 }
-                                else if($scope.exportTo == 'ripple'){
+                                else if($scope.exportTo == 'rackspace'){
                                       var url =  '/openstack/singleImageOpenstackDeployment';
                                       reqObject ={
                           'vmName': $scope.vmName,
@@ -1146,7 +1146,7 @@ angular
                                 
                           } else {
                                 var reqObject = '';
-                                if($scope.exportTo == 'microsoft'){
+                                if($scope.exportTo == 'azure'){
                                       var url = '/azure/compositeSolutionAzureDeployment';
                                       reqObject = {
                                                         'acrName': $scope.acrName,
@@ -1161,7 +1161,7 @@ angular
                                                         'userId':  $scope.loginUserID
                                       }
                                 }
-                                else if($scope.exportTo == 'ripple'){
+                                else if($scope.exportTo == 'rackspace'){
                                       var url = "/openstack/compositeSolutionOpenstackDeployment";
                                       reqObject ={
                           'vmName': $scope.vmName,
@@ -1506,6 +1506,25 @@ angular
 									}
 								}
 							}
+							
+							/*read cloud enabled from the properties file*/
+							$scope.enableDeployToCloud = function(){
+						        apiService
+						        .getCloudEnabled()
+						        .then(
+						                function(response) {
+						                    if(response.status == 200){
+						                        $scope.checkDeployToCloudResponse = JSON.parse(response.data.response_body);
+						                       
+						                    }
+						                },
+						                function(error) {
+						                    console.log(error);
+						                });
+						    };
+						    $scope.enableDeployToCloud();
+							
+							
 					}
 
 				});
