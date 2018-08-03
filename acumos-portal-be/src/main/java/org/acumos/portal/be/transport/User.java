@@ -52,7 +52,11 @@ public class User extends AbstractResponseObject {
 	private List<MLPRole> userAssignedRolesList;
 	private Map<String,List<String>> userRolesList;
 	private String bulkUpdate;
+	private String apiTokenHash;
+
+
 	
+
 	public String getBulkUpdate() {
 		return bulkUpdate;
 	}
@@ -282,4 +286,13 @@ public class User extends AbstractResponseObject {
 	public void setUserRolesList(Map<String, List<String>> userRolesList) {
 		this.userRolesList = userRolesList;
 	}
-}
+	
+	public String getApiTokenHash() {
+		return apiTokenHash;
+	}
+
+	public void setApiTokenHash(String apiTokenHash) {
+		this.apiTokenHash = apiTokenHash;
+	}
+	
+	}

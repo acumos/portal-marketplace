@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
@@ -79,15 +80,12 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         if(!PortalUtils.isEmptyOrNullString(user.getPassword()))
         	mlpUser.setLoginHash(user.getPassword());
         mlpUser.setActive(true);// Default active as true until we enable emails
+        String tokenKeyString = UUID.randomUUID().toString()+user.getUsername();
+        mlpUser.setApiTokenHash(tokenKeyString.replace("-",""));
         log.info(EELFLoggerDelegate.debugLogger, " user={}", mlpUser);
         mlpUser = dataServiceRestClient.createUser(mlpUser);
         user = PortalUtils.convertToMLPuser(mlpUser);
-        /*} else {
-            log.error(EELFLoggerDelegate.errorLogger, "save user={}", user);
-            throw new UserServiceException(HttpServletResponse.SC_RESET_CONTENT, "Failsdreryeyed");
-        }*/
-        
-        
+          
         //Send new user account created notification
         MailData mailData = new MailData();
         mailData.setSubject("New User Account Notification");

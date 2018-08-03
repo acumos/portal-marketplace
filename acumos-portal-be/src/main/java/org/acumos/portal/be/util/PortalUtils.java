@@ -110,6 +110,7 @@ public class PortalUtils {
         user.setJwttoken(mlpUser.getAuthToken());
         user.setPassword(mlpUser.getLoginHash());
         user.setPicture(ArrayUtils.toPrimitive((mlpUser.getPicture())));
+        user.setApiTokenHash(mlpUser.getApiTokenHash());
         return user;
     }
 	
