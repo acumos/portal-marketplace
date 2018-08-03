@@ -220,6 +220,7 @@ angular
 						var duplicate = false;
 						$scope.loadMore = function(pageNumber) {
 							$scope.SetDataLoaded = true;
+							$rootScope.setLoader = true;
 							var toBeSearch = [];
 							if ($scope.isBusy)
 								return;
@@ -272,14 +273,19 @@ angular
 									function(response) {
 										$scope.totalPages = response.data.response_body.pageCount;
 										$scope.totalElements = response.data.response_body.totalElements;
-										$rootScope.relatedModelType = '';
-										$scope.SetDataLoaded = false;
+										$rootScope.relatedModelType = '';										
 										getSolution(response);
 										$scope.loadpage = $scope.selectedPage;
 										$scope.startPageSize = $scope.loadpage * $scope.solutionSize + 1; 
-										$scope.endPageSize = (($scope.loadpage + 1) * $scope.solutionSize) < $scope.totalElements ? (($scope.loadpage + 1) * $scope.solutionSize) : $scope.totalElements; 										
+										$scope.endPageSize = (($scope.loadpage + 1) * $scope.solutionSize) < $scope.totalElements ? (($scope.loadpage + 1) * $scope.solutionSize) : $scope.totalElements;
+										$scope.SetDataLoaded = false;
+										$rootScope.setLoader = false;										
 									},
-									function(error) {});
+									function(error) {
+										$rootScope.setLoader = false;
+										console.log(error);
+										
+									});
 
 						}
 

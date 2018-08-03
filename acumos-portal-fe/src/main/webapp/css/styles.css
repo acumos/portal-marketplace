@@ -55,6 +55,7 @@ p {font-size: 1em;}
 .pageheadsection {padding: 15px 15px;}
 .reqfield {color: #ff0000;}
 .a-overlay {display: none; width: 100%; position:absolute; top:0; left:0; height: 100%; z-index: 8500; background: rgba(0,0,0,0.7) url("../images/ajax-loader.gif") no-repeat center center}
+.a-overlay1 {width: 100%; position:absolute; top:0; left:0; height: 100%; z-index: 8500; background: rgba(0,0,0,0.7) url("../images/ajax-loader.gif") no-repeat center center}
 
 
 #uploadFile {position:relative;}
@@ -335,7 +336,7 @@ md-dialog .md-dialog-content {padding: 20px;}
 .mp-grid-list {display: block; clear:both;}
 .mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 10px; border: 1px dashed #d5d5d5; max-width: 70%;margin: 10px 0;}
 .mp-grid-list-row:last-child {padding-top:10px;}
-.mp-grid-list-image-cell { width: 200px;position:relative; margin-right: 30px;max-height: 200px; min-height: 180px;}
+.mp-grid-list-image-cell { width: 160px;position:relative; margin-right: 30px;max-height: 138px; min-height: 100px;}
 .mp-grid-list-details-cell {}
 .mp-grid-list-details-cell .detail-content span { margin-right: 8px; margin-left: 9px;}
 .mp-grid-list-details-cell .detail-content span:first-child { margin-left:0;}
@@ -1923,7 +1924,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 .a-tooltip .a-tooltiptext {visibility: hidden; width: 280px; background-color: #2e2f2f; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s;}
 .a-tooltip .a-tooltiptext::after {content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 6px; border-style: solid; border-color: #2e2f2f transparent transparent transparent;}
 .a-tooltip:hover .a-tooltiptext {visibility: visible; opacity: 1;}
-.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; width: 99%;white-space: nowrap;}
+.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; width: 90%;white-space: nowrap;top: 5px;}
 .modal-row1.modal-row-new1 > div > label {border: none !important;}
 .modal-row1.modal-row-new1 > div {}
 
@@ -1942,7 +1943,12 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 .comment-pagination-container-inner {border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;text-align: center;height: 15px;}
 .comment-pagination-message {display: inline-block; position:relative; height: 23px; background: #e6e6e6; top: -7px; line-height: 25px; min-width: 140px;font-weight: 600;font-size: 13px;}
 /**** Comments pagination code Ends ********/
-	
+
+/********* info message style start*********/
+.a-info-message {padding: 20px; background: #f2f2f2; margin: 50px 20px;}
+.a-info-message p:last-child {margin:0;}
+/********* info message style end*********/
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
@@ -2147,7 +2153,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 	.accumos-header-logo img {transform: scale(0.85); margin-left: 0 !important;}
 	.a-logo-container.logo-without-login {background-position: -49px center !important;}
 	.cobranding-header-logo img {margin-left: -13px; height: 21px;}
-	.headerlist-icon-login {margin-left: 9px;}	
+	.acu-mob-header-container2 {justify-content: flex-end;}
 	
 	.mob-add-button {margin-bottom:0;}
 	.mob-header-menu-container {margin-bottom: 0;}

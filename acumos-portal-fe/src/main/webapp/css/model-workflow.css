@@ -1536,6 +1536,7 @@ position:relative;
 .authors .mdl-chip button{opacity: 1;}
 .removeformspace button{margin:0 8px;}
 .authors ul li:last-child{background: #fff;}
+.authors ul + input{display: none;}
 .authorsimg {
     background-image: url("../images/ico_manage_authors_inactive.png");
     background-repeat: no-repeat;
