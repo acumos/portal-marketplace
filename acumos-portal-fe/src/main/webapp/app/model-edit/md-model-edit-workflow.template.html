@@ -581,7 +581,7 @@ limitations under the License.
 								<div class="md-dialog-container" id="confirmPopupDeleteAuthor"
 									style="height: 0;">
 									<md-dialog aria-label="Delete Peer"
-										class="cg-dialog-Deploy-to-cloud"> <md-toolbar>
+										> <md-toolbar>
 									<div class="md-toolbar-tools">
 										<h2>Delete Author</h2>
 										<span flex></span>
@@ -591,9 +591,7 @@ limitations under the License.
 									</md-toolbar> <md-dialog-content>
 									<form ng-cloak>
 										<div class="md-dialog-content">
-											<p>Would you like to delete author {{deleteuser}}.</p>
-											<hr />
-
+											<p>Would you like to delete author '{{deleteuser}}' ?</p>											
 										</div>
 									</form>
 									</md-dialog-content> <md-dialog-actions>
@@ -612,7 +610,7 @@ limitations under the License.
 
 								<div>
 									<p class="informationtext">
-									Please add additional names of one or more authors of this
+									Please add additional names of one or more author of this
 									model.
 									</p>
 									<ng-form name = "AddAuthor" class="" >
@@ -651,7 +649,7 @@ limitations under the License.
 										<div layout="row" class="pull-right mdl-grid">
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												alt="Add authors and publisher" ng-click="setAuthor()" title="Add authors and publisher"> Add authors and publisher
+												alt="Add author and publisher" ng-click="setAuthor()" disabled="disabled" ng-disabled="AddAuthor.$invalid" title="Add author and publisher"> Add author and publisher
 											</md-button>
 										</div>
 									</form>
@@ -1424,14 +1422,22 @@ limitations under the License.
                                                                                           Static chips are transcluded
                                                                                           <md-chip>{{ctrl.chipText}}</md-chip> </md-chips>
                                                                                           </md-content> -->
-														<tags-input ng-model="tags1"
-															replace-spaces-with-dashes="false"
-															on-tag-added="tagAdded($tag)"
-															on-tag-removed="tagRemoved($tag)"> <auto-complete
-															source="loadAllTags($query)" min-length="0"
-															max-results-to-show="10" load-on-focus="true"
-															load-on-empty="true"></auto-complete> </tags-input>
-														</p>
+														<form name="publictags1">
+															<tags-input ng-model="tags1" name="pubtag"
+																replace-spaces-with-dashes="false"
+																on-tag-added="tagAdded($tag)" min-tags="1" min-length="0" allow-leftover-text=false
+																required ng-blur="pubtagVisited=true" ng-focus="pubtagVisited=false"
+																on-tag-removed="tagRemoved($tag)"> <auto-complete
+																source="loadAllTags($query)" min-length="0"
+																max-results-to-show="10" load-on-focus="true"
+																load-on-empty="true"></auto-complete> </tags-input>
+															<div class="help-inline validation-msgs"
+																ng-class="{validationmsg:!publictags1.pubtag.$valid}">
+																<span
+																	ng-show="!!publictags1.pubtag.$error.required && publictags1.pubtag.$touched && pubtagVisited">Minimum one tag is required.</span>
+															</div>
+														</form>
+														
 														<!-- <div class="checkbox" ng-if="tags.length<1">
                                                                                           <label> <input type="checkbox"
                                                                                                 ng-model="$parent.company.step5" ng-click="skipStep()">
@@ -3148,16 +3154,23 @@ limitations under the License.
 													<p class="editable-desc"
 														ng-click="showSolTags = !showSolTags"></p>
 
-													<div class="">
+													<form name="companytags1">
 														<!-- showSolTags ng-enter="updateTag(tags)" -->
 														<tags-input ng-model="tags1"
-															replace-spaces-with-dashes="false"
-															on-tag-added="tagAdded($tag)"
-															on-tag-removed="tagRemoved($tag)"> <auto-complete
+															replace-spaces-with-dashes="false" name="cmptag"
+															on-tag-added="tagAdded($tag)" 
+															on-tag-removed="tagRemoved($tag)" min-tags="1" min-length="0" allow-leftover-text=false
+															required ng-blur="cmptagVisited=true" ng-focus="cmptagVisited=false"> <auto-complete
 															source="loadAllTags($query)" min-length="0" 
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
-													</div>
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!companytags1.cmptag.$valid}">
+															<span
+																ng-show="!!companytags1.cmptag.$error.required && companytags1.cmptag.$touched && cmptagVisited">Minimum
+																one tag is required.</span>
+														</div>
+													</form>
 
 													<p>
 														<!-- <div class="checkbox">
