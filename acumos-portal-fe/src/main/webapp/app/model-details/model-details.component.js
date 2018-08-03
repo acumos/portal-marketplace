@@ -381,6 +381,10 @@ angular
 											$scope.modelOwnerId = data.response_body.ownerId;
 											modelType = data.response_body.modelType;
 											$scope.solution = data.response_body;
+											$scope.noOfComments = angular.copy($scope.solution.commentsCount);
+											if($scope.noOfComments > 10){
+												$scope.noOfComments -=10; 
+											}
 											$scope.firstRate = data.response_body.solutionRating;
 											$scope.ratingCount = data.response_body.ratingCount;
 											console.log($scope.solution);
@@ -524,7 +528,7 @@ angular
 												$scope.modelSignature = response.data;
 											});
 					}
-						$scope.totalCommentCount = 0;
+
 						$scope.postComment = function() {
 							if (browserStorageService.getUserDetail()) {
 								$scope.loginUserID = JSON.parse(browserStorageService
@@ -551,7 +555,12 @@ angular
 												  },
 												};
 									apiService.createComment(commentObj).then(function(response) {
+										//reset page number to the first page of comments
+										$scope.pageNumber = 0;
+										$scope.moreComments = false;
 										$scope.getComment();
+										$scope.noOfComments +=1;
+										$scope.solution.commentsCount +=1;
 										$scope.comment = '';
 									});
 								});
@@ -564,7 +573,7 @@ angular
 										.getUserDetail())[1];
 								$scope.userFullName = $scope.userDetails[0];
 							}
-							
+							$scope.moreComments = false;
 								var commentObj = {
 										  "request_body": {
 											    "text": $scope.newcomment[key].text,
@@ -581,10 +590,15 @@ angular
 						
 							$scope.newcomment = {};
 						}
-						
+						$scope.commentList = [];
+						//list of indexes to go through after initial read, only for reply comments(i.e. they have a parentId not null)
+						$scope.replyList = [];
+						$scope.moreComments = false;
 						$scope.editComment = false;
 						$scope.editReply = false;
-						$scope.commentNewest = false;
+						$scope.commentsOrder = 'DESC';
+						$scope.size = 10;
+						$scope.pageNumber = 0;
 						$scope.getComment = function() {
 							if (browserStorageService.getUserDetail()) {
 								$scope.loginUserID = JSON.parse(browserStorageService
@@ -592,15 +606,18 @@ angular
 							}
 							var reqObj = {
 									  "request_body": {
-										    "page": 0,
-										    "size": 0
+										    "fieldToDirectionMap": {"created": $scope.commentsOrder},
+										    "page": $scope.pageNumber,
+										    "size": $scope.size
 										  },
 										};
-							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
-								$scope.totalCommentCount = response.data.response_body.content.length;
+							if( $scope.moreComments == false){
 								$scope.commentList = [];
-								//list of indexes to go through after initial read, only for reply comments(i.e. they have a parentId not null)
 								$scope.replyList = [];
+							}
+							
+							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
+								
 								angular.forEach(response.data.response_body.content,function(value,key) {
 									if(response.data.response_body.content[key].parentId == null){
 										var commentIndex = key-$scope.replyList.length; //takes into account offset
@@ -698,6 +715,10 @@ angular
 						
 						$scope.deleteComment = function(comment) {
 							apiService.deleteComment(comment.threadId,comment.commentId).then(function(response) {
+								if($scope.noOfComments>0){
+									$scope.noOfComments -=1;
+								}	
+								$scope.solution.commentsCount -=1;
 								$scope.getComment();
 							});
 						}
@@ -1483,6 +1504,17 @@ angular
 							$scope.scrolltoId = function(id){
 								$location.hash(id);
 								$anchorScroll();
+							}
+							
+							$scope.resetCommentFilter = function(direction){
+								$scope.commentsOrder=direction;
+								$scope.pageNumber=0;
+								$scope.moreComments=false;
+								$scope.noOfComments = angular.copy($scope.solution.commentsCount);
+								if($scope.noOfComments > 10){
+									$scope.noOfComments -=10; 
+								}
+								$scope.getComment();
 							}
 							
 							$scope.disableEdit = function(){

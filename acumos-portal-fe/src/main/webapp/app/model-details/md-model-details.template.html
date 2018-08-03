@@ -158,7 +158,7 @@ limitations under the License.
 			<div>
 				<a class="link-blue text-medium" ng-click="scrollToComment('view')"><span
 					class="statistics-icons icon-chat-blue md-icons1" alt="Comment" title="Comment"></span>
-					{{totalCommentCount}} <span class="header-stat-lg">Comments</span></a>
+					{{solution.commentsCount}} <span class="header-stat-lg">Comments</span></a>
 			</div>
 			<div ng-show="solution.active == true">|</div>
 			<div ng-show="solution.active == true">
@@ -613,18 +613,18 @@ limitations under the License.
 						<md-tabs md-dynamic-height md-border-bottom class="discussion-reviews-tab">
 						
 						<!-- discussion/review starts -->	      
-					      <md-tab label="Discussion ({{totalCommentCount}})" id="discussionTab">
+					      <md-tab label="Discussion ({{solution.commentsCount}})" id="discussionTab">
 					        <md-content class="">
 							<div class="discussion-outer-container" >
 								<div class="md-discussion-container">
 									<div class="md-discussion-links-container">
-										<a ng-click="commentNewest=true">Newest</a> <span>|</span> <a ng-click="commentNewest=false">Older</a> <span>|</span> <a>Liked</a>
+										<a ng-click="resetCommentFilter('DESC')">Newest</a> <span>|</span> <a ng-click="resetCommentFilter('ASC')">Older</a> <span>|</span> <a>Liked</a>
 									</div>
 								</div>
 							</div>
 							<div class="discussion-outer-container">
 								<div class="discussion-container discussion-container2"
-									ng-repeat="(key, comment) in commentList | orderBy:'+created':commentNewest">
+									ng-repeat="(key, comment) in commentList">
 									<div>
 										<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!comment.image"
 											title="user">
@@ -744,6 +744,12 @@ limitations under the License.
 								</div>
 
 								<br />
+								
+								<div class="comment-pagination-container-outer" ng-show="noOfComments>0 && noOfComments!=solution.commentsCount" ng-click="moreComments=true;noOfComments=noOfComments-10;moreComments=true;pageNumber=pageNumber+1;getComment()">
+		                            <div class="comment-pagination-container-inner">
+		                                <span class="comment-pagination-message" >{{noOfComments}} older comments</span>
+		                            </div>
+		                        </div>
 								<div class="discussion-add-comment" ng-hide="solution.active == false">
 									<label class="md-lbl2">Add Comments</label>
 									<div class="flex1">

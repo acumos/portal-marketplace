@@ -315,6 +315,15 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						mlSolution.setAccessType(filterRevisionList.get(0).getAccessTypeCode());
 					}
 				}
+				List<MLPSolutionRevision> revisions=mlSolution.getRevisions();
+				if(revisions.size()>0){
+				       for(MLPSolutionRevision mlprevision : revisions ){
+				               if(mlprevision.getRevisionId()!=null){
+				                       long Count=dataServiceRestClient.getSolutionRevisionCommentCount(solutionId, mlprevision.getRevisionId());
+				                       mlSolution.setCommentsCount(Count);
+				               }
+				       }
+				}
 			}
 		} catch (ArithmeticException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.ARITHMATIC_EXCEPTION, e.getMessage());
