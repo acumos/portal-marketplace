@@ -442,6 +442,7 @@ limitations under the License.
 									<th>Artifact Name</th>
 									<th>Version</th>
 									<th>Modified on</th>
+									<th>Size</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -457,6 +458,7 @@ limitations under the License.
 									</td>
 									<td>{{value.version}}</td>
 									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
+									<td>{{value.size | formatBytes:1}}</td>
 									<td>
 										<md-button ng-cloak ng-if="!loginUserID" class="mdl-button mdl-js-button btn-grid-action" ng-click="$root.showAdvancedLogin()">
 											<i class="fa fa-download" aria-hidden="true"></i>

@@ -40,6 +40,7 @@ angular.module('headerNav')
 		$scope.loginUserID='';
 		$scope.page = 0;
 		$scope.moreNotif = false;
+		$rootScope.setLoader = false;
 		
 		$rootScope.parentActive = '';
 		$rootScope.toggleHeader = true; 
