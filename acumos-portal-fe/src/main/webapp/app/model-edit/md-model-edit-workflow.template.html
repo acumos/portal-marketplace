@@ -3504,7 +3504,24 @@ limitations under the License.
 							<div class="ViewDescriptionContainer">
 								<h6 class="sectiontitle">Export To Cloud</h6>
 								<div class="mdl-grid cloud-radio">
-									<div
+									<div ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
+                                         class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone deploy-to-cloud-input" 
+                                         ng-class='checkboxExport=="{{deployVal.cloudName}}"?"active":""'>
+                                        
+                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option{{$index}}"> 
+                                            <input type="radio" id="option{{$index}}" name="{{deployVal.cloudName}}"
+                                           		class="mdl-radio__button cloud-radio-btn" 
+                                            	ng-model="$parent.checkboxExport" value='{{deployVal.cloudName}}'
+                                            	ng-disabled="deployVal.cloudEnabled=='false'">
+                                            	 
+                                            	<span class="mdl-radio__label">
+                                            		<img ng-src="{{deployVal.imageUrl}}" alt="{{deployVal.cloudDisplayText}}">
+                                           		</span>
+                                        </label>
+                                        
+                                    </div>
+									
+									<!-- <div
 										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone" ng-class='checkboxExport=="microsoft"?"active":""'>
 										<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
 											for="option1"> <input type="radio" id="option1"
@@ -3543,11 +3560,12 @@ limitations under the License.
 												src="images/amazon_web_services_logo.png" alt="" /></span>
 										</label>
 									</div>
+									 -->
 								</div>
 								<div class="tab-content">
 									<div class="md-dialog-content">
 									<form name="deploy">
-										<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide='checkboxExport!="microsoft"'>
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide='checkboxExport!="azure"'>
 											<div
 												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 												<md-input-container class="md-icon-float md-block">
@@ -3605,7 +3623,7 @@ limitations under the License.
 												</md-input-container>
 											</div>
                                          </div>
-                                         <div layout="row"  ng-hide='checkboxExport!="microsoft"'>
+                                         <div layout="row"  ng-hide='checkboxExport!="azure"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 												ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
@@ -3615,7 +3633,7 @@ limitations under the License.
                                          <br>
                                          <!--  new section  -->
                                          <form name="deployCloud">
-                                                <div ng-hide='checkboxExport!="microsoft"'>
+                                                <div ng-hide='checkboxExport!="azure"'>
                                         		<h4 class="gridlistheading broker-heading">
 															Broker</h4>
 												<md-input-container>
@@ -3684,7 +3702,7 @@ limitations under the License.
                                           </form>
                                          <!--  new section end -->
                                          
-                                         <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show='checkboxExport=="ripple"'>
+                                         <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show='checkboxExport=="rackspace"'>
                                              <form name="rackspace">
                                                  <md-input-container class="md-icon-float md-block">
                                                     <label>VM Name</label>
@@ -3695,13 +3713,13 @@ limitations under the License.
                                                  </md-input-container>
                                               </form>
 										</div>
-										<div layout="row" ng-hide='checkboxExport!="ripple"'>
+										<div layout="row" ng-hide='checkboxExport!="rackspace"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 												ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
 											Deploy </md-button>
 										</div>
-										<div layout="row" ng-show='checkboxExport=="microsoft"'>
+										<div layout="row" ng-show='checkboxExport=="azure"'>
 											<md-button
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
 												ng-click="deployCloudVal()"  alt="Data Broker" title="Data Broker"

@@ -1775,7 +1775,7 @@ angular
 						/** ****** Export to local ends *** */
 
 						/** ****** Export/Deploy to Azure starts *** */
-						$scope.checkboxExport = 'microsoft';
+						$scope.checkboxExport = 'azure';
 						$scope.authenticateAnddeployToAzure = function() {
 							var imageTagUri = '';
 							if ($scope.artifactType != null
@@ -1812,7 +1812,7 @@ angular
 							
 							 if($scope.solution.tookitType != "CP") {
                                                       var reqObject = '';
-                                                      if($scope.checkboxExport == 'microsoft'){
+                                                      if($scope.checkboxExport == 'azure'){
                                                             var url = '/azure/singleImageAzureDeployment';
                                                             reqObject = {
                                                                         /*'request_body' : {*/
@@ -1830,7 +1830,7 @@ angular
                                                                         /*}*/
                                                             }
                                                       }
-                                                      else if($scope.checkboxExport == 'ripple'){
+                                                      else if($scope.checkboxExport == 'rackspace'){
                                                             var url =  '/openstack/singleImageOpenstackDeployment';
                                                             reqObject ={
                                                 'vmName': $scope.vmName,
@@ -1872,7 +1872,7 @@ angular
                                                       
                                                 } else {
                                                       var reqObject = '';
-                                                      if($scope.checkboxExport == 'microsoft'){
+                                                      if($scope.checkboxExport == 'azure'){
                                                             var url = '/azure/compositeSolutionAzureDeployment';
                                                             reqObject = {
                                                                         /*'request_body' : {*/
@@ -1889,7 +1889,7 @@ angular
                                                                         /*}*/
                                                             }
                                                       }
-                                                      else if($scope.checkboxExport == 'ripple'){
+                                                      else if($scope.checkboxExport == 'rackspace'){
                                                             var url = "/openstack/compositeSolutionOpenstackDeployment";
                                                             reqObject ={
                                                 'vmName': $scope.vmName,
@@ -2763,7 +2763,26 @@ angular
 						$scope.solutionFile = '';						
 						$rootScope.progressBar = 0;
 						$scope.docerror = false;
-					}
+					};
+					
+					
+					/*read cloud enabled from the properties file*/
+					$scope.enableDeployToCloud = function(){
+				        apiService
+				        .getCloudEnabled()
+				        .then(
+				                function(response) {
+				                    if(response.status == 200){
+				                        $scope.checkDeployToCloudResponse = JSON.parse(response.data.response_body);
+				                        
+				                    }
+				                },
+				                function(error) {
+				                    console.log(error);
+				                });
+				    };
+				    $scope.enableDeployToCloud();
+				    
 				    
 					}
 
