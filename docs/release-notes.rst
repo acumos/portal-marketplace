@@ -20,24 +20,56 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 1.15.38, 31 st July 2018
-================================
+Version 1.15.39, 3 rd August 2018
+=================================
+* <IST2> <Marketplace> Downloaded count is not updating after downloading the file unless refreshing the browser page (ACUMOS-1134)
+* <IST2><Marketplace> On clicking Previous and Next buttons multiple times, appropriate page is not displayed on screen (ACUMOS-1404)
+* Cannot upload large zip file as model document when publishing to marketplace (ACUMOS-1285)
+* Dev Challenge - Able to deploy to Azure without logging into Acumos (ACUMOS-1391)
+* Document updates for Web onboarding changes (ACUMOS-1268)
+* IST2 - Unable to add subscription (ACUMOS-1341)
+* IST2 : In web on boarding for upload Model Bundle popup only Browse button is enable ,overall upload file field should be enable. (ACUMOS-1306)
+* IST2: : Comment count is not displaying in the model box in market place and manage my model section (ACUMOS-1119)
 * IST2: Need new VD to show the solution ID (ACUMOS-910)
 * IST2: No error message is displaying when user disable single remaining slide (ACUMOS-1048)
-* IST2: : Comment count is not displaying in the model box in market place and manage my model section (ACUMOS-1119)
-* IST2: User is not getting signout when he close the browser and open again. (ACUMOS-1305)
 * IST2: Notification : Mark as read / Move to Thrash : Multiple Selection : Page is not loading (ACUMOS-1396)
 * IST2: Site Content : Null / Undefined is displaying on home page if user kept blank Supporting content field (ACUMOS-1397)
-* Share with Team : Version No and Model ID also need to display after model name. (ACUMOS-1444)
-* <IST2><Marketplace> On clicking Previous and Next buttons multiple times, appropriate page is not displayed on screen (ACUMOS-1404)
-* Portal show Download button on private model (ACUMOS-1280)
+* IST2: User is not getting signout when he close the browser and open again. (ACUMOS-1305)
+* Model authorship feature with new VD (ACUMOS-907)
+* Portal bell notification count increases and decreases in a loop forever (ACUMOS-1441)
+* Portal display solution ID on manage-my-model page also (ACUMOS-1439)
+* Portal login in mobile is not displayed (ACUMOS-1450)
 * Portal notification screen shows no table even tho I have 500+ notifications (ACUMOS-1405)
 * Portal search feature does not re-fetch result when search string is cleared (ACUMOS-1410)
-* Portal display solution ID on manage-my-model page also (ACUMOS-1439)
-* Portal bell notification count increases and decreases in a loop forever (ACUMOS-1441)
+* Portal show Download button on private model (ACUMOS-1280)
 * Publishing to both company and public marketplace is not functioning as per design (ACUMOS-382)
-* IST2 : In web on boarding for upload Model Bundle popup only Browse button is enable ,overall upload file field should be enable. (ACUMOS-1306)
-* Model authorship feature with new VD (ACUMOS-907)
+* Share with Team : Version No and Model ID also need to display after model name. (ACUMOS-1444)
+* There is a cognita reference in PortalLoggingAspect.java (ACUMOS-917)
+* IST 2 | User unable to use entire canvas for drag and drop. (ACUMOS-1060)
+* IST2 | Solution is overlapping the property box. (ACUMOS-1066)
+* DS shall confirm with user on navigate away from screen with unsaved changes. (ACUMOS-1167)
+* DS should show "Loading" indicator as it populates left nav bar with models etc. (ACUMOS-1173)
+* DS selection of item in left navigation category should highlight the item. (ACUMOS-1174)
+* DS loses composite solution description and requires re-entry on every Save. (ACUMOS-1190)
+* IST2 | User is able to upload 'xlsx' file if databroker type selected as 'CSV File'. (ACUMOS-1269)
+* DS should display its version somewhere on the page. (ACUMOS-1336)
+* IST2 | Splitter and Collator | Mapping details are not persists once solution closed and retrieve again. (ACUMOS-1385)
+* IST2 | Output port of the splitter not keeping state as ANY if user retrieve the solution again on canvas. (ACUMOS-1399)
+* view more models" button is not clickable (acumos.research.att.com instance)(ACUMOS-1457)
+* <IST2><Portal Marketplace>Manage My Model > Publish to Company/Public Marketplace: 'Add a tag' field and box is highlighted with RED color when value entered and click on the screen	ACUMOS-1393
+* All Instances - Date format should be consistent. (ACUMOS-1474)
+* Define portal/marketplace session length / expiration	ACUMOS-1101
+* Deploy to Azure cloud is not working after clicking on "Deploy" button (ACUMOS-1473)
+* Dev Challenge Acumos Token disappeared from a users account settings (ACUMOS-962)
+* IST2: Grid / List View : Box Size is different when user upload a image model and a model have default image (ACUMOS-1433)
+* IST2: Manage my Model : Issue in the document step during publishing model. (ACUMOS-1220)
+* Marketplace sorting, pagination takes time but no Progress indicator is displayed (ACUMOS-1159)
+* Portal comments display - no name, no date/time, unauthorized edit( ACUMOS-960)
+* Portal list of model artifacts should show artifact size (ACUMOS-947)
+* Portal uses inconsistent tests for Admin role (ACUMOS-1477)
+* Support large size images(800 kb) in user profiles (ACUMOS-889)
+* Portal shall publish user API token and allow for regeneration (Acumos - 389)
+* Portal send email on account creation with verification link (ACUMOS-387)
 
 
 Version 1.15.37, 19 th July 2018
