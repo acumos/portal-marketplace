@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserService;
@@ -40,6 +41,7 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -71,31 +73,74 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     public User save(User user) {
         log.debug(EELFLoggerDelegate.debugLogger, "save user={}", user);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        UUID verifyToken = UUID.randomUUID();
+
         //Lets Create a User Account
         MLPUser mlpUser = new MLPUser();
         mlpUser.setFirstName(user.getFirstName());
         mlpUser.setLastName(user.getLastName());
         mlpUser.setEmail(user.getEmailId());
         mlpUser.setLoginName(user.getUsername());
+
+        if(isVerifyAccountEnabled()) {
+            DateTime dt = new DateTime();
+            //Get expiration hours from properties
+            
+            DateTime verifyExpireDate = dt.plusHours(getVerifyExpirationhours());
+	        mlpUser.setVerifyTokenHash(verifyToken.toString());
+	        mlpUser.setVerifyExpiration(verifyExpireDate.toDate());
+        }
+
         if(!PortalUtils.isEmptyOrNullString(user.getPassword()))
         	mlpUser.setLoginHash(user.getPassword());
-        mlpUser.setActive(true);// Default active as true until we enable emails
-        String tokenKeyString = UUID.randomUUID().toString()+user.getUsername();
-        mlpUser.setApiTokenHash(tokenKeyString.replace("-",""));
+
+        mlpUser.setActive(true);
+        //Use different UUID for api token
+        String tokenKeyString = UUID.randomUUID().toString();
+        mlpUser.setApiToken(tokenKeyString.replace("-",""));
         log.info(EELFLoggerDelegate.debugLogger, " user={}", mlpUser);
         mlpUser = dataServiceRestClient.createUser(mlpUser);
         user = PortalUtils.convertToMLPuser(mlpUser);
-          
+
         //Send new user account created notification
+        sendEmailNotification(mlpUser, verifyToken.toString());
+        return user;
+    }
+    
+    private Boolean isVerifyAccountEnabled() {
+    	Boolean validateAccount = false;
+    	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.verifyAccount")) && env.getProperty("portal.feature.verifyAccount").equalsIgnoreCase("true"))
+        	validateAccount = true;
+    	return validateAccount;
+    }
+    
+    private int getVerifyExpirationhours() {
+    	//Default to 1 hours
+    	int exphours = 1;
+    	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.verifyToken.exp_time")))
+    		exphours = Integer.parseInt(env.getProperty("portal.feature.verifyToken.exp_time", "1"));
+    	return exphours;
+    }
+
+    private void sendEmailNotification(MLPUser mlpUser, String verifyToken) {
+    	//Send new user account created notification
         MailData mailData = new MailData();
-        mailData.setSubject("New User Account Notification");
-        mailData.setFrom("customerservice@acumos.org");
+
+        String portalAddress = env.getProperty("portal.ui.server.address");
+        if(isVerifyAccountEnabled())
+        	mailData.setSubject("New Account Verification Notification");
+        else 
+        	mailData.setSubject("New User Account Notification");
+
+        mailData.setFrom("no-reply@acumos.org");
         mailData.setTemplate("accountCreated.ftl");
         List<String> to = new ArrayList<String>();
         to.add(mlpUser.getEmail());
         mailData.setTo(to);
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("user", mlpUser);
+        model.put("validateAccount", isVerifyAccountEnabled());
+        model.put("verifyUrl",  portalAddress +"/#/confirm_verification?user=" + mlpUser.getLoginName() + "&token=" + verifyToken);
         mailData.setModel(model);
 
         try {
@@ -112,7 +157,97 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
             } catch (MailException ex) {
                 log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
             }
+    }
+
+    @Override
+    public Boolean verifyUser(String username, String token) throws AcumosServiceException {
+        log.debug(EELFLoggerDelegate.debugLogger, "verifyUser ={}", username);
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        try {
+	        MLPUser user = dataServiceRestClient.verifyUser(username, token);
+
+	        if(user != null && user.isActive() && user.getVerifyExpiration() != null) {
+	        	//Check for the verification token expiration date
+	        	DateTime verificationExpirationTime = new DateTime(user.getVerifyExpiration().getTime());
+	        	if (verificationExpirationTime.isBeforeNow()) {
+	        		log.debug(EELFLoggerDelegate.debugLogger, "Token expired for user : {}", user.getUserId());
+	        		throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Verification Token Expired");
+	        	}
+	        }
+
+	        user.setVerifyExpiration(null);
+	        dataServiceRestClient.updateUser(user);
+        }catch (Exception e) {
+        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Token Validation Failed");
+        }
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public MLPUser verifyApiToken(String username, String token) throws AcumosServiceException {
+        log.debug(EELFLoggerDelegate.debugLogger, "verifyUser ={}", username);
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        MLPUser user = null;
+        try {
+	        user = dataServiceRestClient.loginApiUser(username, token);
+	        //API tokens does not have any expiration date. No further checks
+
+        }catch (Exception e) {
+        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Token Validation Failed");
+        }
         return user;
+    }
+
+    @Override
+    public Boolean regenerateVerifyToken(String username) throws AcumosServiceException {
+        log.debug(EELFLoggerDelegate.debugLogger, "regenerateVerifyToken ={}", username);
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        try {
+	        MLPUser user = findUserByUsername(username);
+
+	        if(user != null && user.isActive() && user.getVerifyExpiration() != null && isVerifyAccountEnabled()) {
+	        	//Check for the verification token expiration date
+	        	UUID verifyToken = UUID.randomUUID();
+	            DateTime dt = new DateTime();
+	            //Get expiration hours from properties
+	            DateTime verifyExpireDate = dt.plusHours(getVerifyExpirationhours());
+	            user.setVerifyTokenHash(verifyToken.toString());
+	            user.setVerifyExpiration(verifyExpireDate.toDate());
+	            dataServiceRestClient.updateUser(user);
+
+	            //Send new user account created notification
+	            sendEmailNotification(user, verifyToken.toString());
+	        }
+
+        }catch (Exception e) {
+        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Token Regeneration Failed");
+        }
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public void refreshApiToken(String userId) throws AcumosServiceException {
+        log.debug(EELFLoggerDelegate.debugLogger, "refreshApiToken ={}", userId);
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        try {
+	        MLPUser user = findUserByUserId(userId);
+
+	        if(user != null && user.isActive()) {
+	        	String tokenKeyString = UUID.randomUUID().toString();
+	            user.setApiToken(tokenKeyString.replace("-",""));
+	            dataServiceRestClient.updateUser(user);
+	        } else {
+	        	log.error(EELFLoggerDelegate.debugLogger, "Api token Refresh Failed");
+	        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Api token Refresh Failed");
+	        }
+
+        }catch (Exception e) {
+        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Api token Refresh Failed");
+        }
     }
 
     @Override

@@ -40,6 +40,7 @@ import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.MalformedException;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.UserService;
@@ -234,8 +235,16 @@ public class AuthServiceController extends AbstractController {
 						response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 						return responseObject;
 					}
+
+					if (mlpUser.getVerifyExpiration() != null) {
+						isValid = false;
+						responseObject = new ResponseVO(HttpServletResponse.SC_PRECONDITION_FAILED, "Verification Pending");
+						response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+						return responseObject;
+					}
 				
 
+					String apiToken = mlpUser.getApiToken();
 					if (isValid) {
 					// convert to user
 						userObj = PortalUtils.convertToMLPuser(mlpUser);
@@ -262,6 +271,7 @@ public class AuthServiceController extends AbstractController {
 						try {
 							if (mlpUser != null) {
 								userObj.setJwttoken(jwtToken);
+								userObj.setApiTokenHash(apiToken);
 								userObj.setActive("Y");
 								userService.updateUser(userObj);
 							}
@@ -274,6 +284,7 @@ public class AuthServiceController extends AbstractController {
 						if (jwtTokenUtil.isTokenExpired(userObj.getJwttoken())) {
 							mlpUser.setAuthToken(null);
 							userObj.setJwttoken(jwtToken);
+							userObj.setApiTokenHash(apiToken);
 							userService.updateUser(userObj);
 
 							jwtToken = jwtTokenUtil.generateToken(mlpUser, null);
@@ -283,6 +294,7 @@ public class AuthServiceController extends AbstractController {
 								if (mlpUser != null) {
 									userObj.setActive("Y");
 									userObj.setJwttoken(jwtToken);
+									userObj.setApiTokenHash(apiToken);
 									userService.updateUser(userObj);
 									userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 								}
@@ -294,6 +306,7 @@ public class AuthServiceController extends AbstractController {
 							if (jwtTokenUtil.validateToken(jwtToken, mlpUser)) {
 								mlpUser.setAuthToken(null);
 								userObj.setJwttoken(jwtToken);
+								userObj.setApiTokenHash(apiToken);
 								userService.updateUser(userObj);
 
 								jwtToken = jwtTokenUtil.generateToken(mlpUser, null);
@@ -303,6 +316,7 @@ public class AuthServiceController extends AbstractController {
 									if (mlpUser != null) {
 										userObj.setActive("Y");
 										userObj.setJwttoken(jwtToken);
+										userObj.setApiTokenHash(apiToken);
 										userService.updateUser(userObj);
 										userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 									}
@@ -435,7 +449,54 @@ public class AuthServiceController extends AbstractController {
 		}
 		return responseVO;
 	}
-	
+
+	@ApiOperation(value = "Validate the Api Token for third party access", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.APITOKENVALIDATION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> validateApiToken(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody JsonRequest<User> userObj, @RequestHeader(value="provider", required=false) String provider) throws MalformedException {
+
+		log.debug(EELFLoggerDelegate.debugLogger, "Validate the Api Token for third party access={}", userObj);
+
+		JsonResponse<Object> responseVO = new JsonResponse<Object>();
+		String apiToken = userObj.getBody().getApiTokenHash();
+		String userName = userObj.getBody().getUsername();
+
+		if (PortalUtils.isEmptyOrNullString(apiToken) || PortalUtils.isEmptyOrNullString(userName)) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
+			responseVO.setResponseDetail("Token Validation Failed");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return responseVO;
+		}
+
+		MLPUser user = null;
+		apiToken = apiToken.replace("Bearer ", "");
+
+		try {
+			user = userService.verifyApiToken(userName, apiToken);
+		} catch (AcumosServiceException e) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
+			responseVO.setResponseDetail("Validation Failed");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		}
+
+		if (user != null) {
+			responseVO.setStatus(true);
+			responseVO.setResponseDetail("Valid Token");
+			responseVO.setResponseBody(user.getUserId());
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		} else {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setStatusCode(HttpServletResponse.SC_UNAUTHORIZED);
+			responseVO.setResponseDetail("Validation Failed");
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		}
+
+		return responseVO;
+	}
+
 	@ApiOperation(value = "Provide the Validation status for the application", response = JsonResponse.class)
 	@RequestMapping(value = { APINames.VALIDATION_STATUS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody

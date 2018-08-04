@@ -37,12 +37,14 @@ import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.MalformedException;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.security.jwt.TokenValidation;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.ResponseVO;
@@ -164,64 +166,65 @@ public class UserServiceController extends AbstractController {
 		return data;
 	}
 
-	/*
-	@ApiOperation(value = "Updates a user Account Password.  Returns successful response after updating the password.", response = JsonResponse.class)
-	@RequestMapping(value = { APINames.CHANGE_PASSWORD }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<Object> changeUserPassword(HttpServletRequest request,
-			@RequestBody JsonRequest<PasswordDTO> passwordDTO, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "changeUserPassword={}");
-		// Object responseVO = null;
-		JsonResponse<Object> responseVO = new JsonResponse<>();
+    @ApiOperation(value = "Verify user", response = JsonResponse.class)
+    @RequestMapping(value = {"/verifyUser"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<Object> verifyUser(HttpServletRequest request, @RequestBody JsonRequest<User> userObj, HttpServletResponse response) {
+    	log.debug(EELFLoggerDelegate.debugLogger, "verifyUser={}", userObj.getBody());
+		JsonResponse<Object> data = new JsonResponse<>();
+		User user = userObj.getBody();
 		try {
-			if ((passwordDTO == null)
-					|| (passwordDTO != null && (PortalUtils.isEmptyOrNullString(passwordDTO.getBody().getNewPassword())
-							|| (PortalUtils.isEmptyOrNullString(passwordDTO.getBody().getOldPassword()))))) {
-				log.error(EELFLoggerDelegate.errorLogger, "Bad request: NewPassword or OldPassword is empty");
-			}
-			// TODO As of now it does not check if User Account already exists.
-			// Need to first check if the account exists in DB
-			userService.changeUserPassword(passwordDTO.getBody().getUserId(), passwordDTO.getBody().getOldPassword(),
-					passwordDTO.getBody().getNewPassword());
-			responseVO.setStatus(true);
-			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			responseVO.setResponseDetail("Success");
-			response.setStatus(HttpServletResponse.SC_OK);
+			userService.verifyUser(user.getLoginName(), user.getVerifyToken());
 		} catch (Exception e) {
-			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			responseVO.setStatus(false);
-			responseVO.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while verifyUser()", e);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while changeUserPassword()", e);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
 		}
-		return responseVO;
+		data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+		data.setResponseDetail("Success");
+		return data;
 	}
-	
-	@ApiOperation(value = "Updates a user Account Password.  Returns successful response after updating the password.", response = JsonResponse.class)
-	@RequestMapping(value = {APINames.CHANGE_PASSWORD}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse changeUserPassword(HttpServletRequest request, @RequestBody PasswordDTO passwordDTO, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "changeUserPassword={}");
-		//Object responseVO = null;
-		JsonResponse responseVO = new JsonResponse<>();
+    
+    @ApiOperation(value = "Resend verificatioon token to user email", response = JsonResponse.class)
+    @RequestMapping(value = {"/resendVerifyToken"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<Object> resendVerifyToken(HttpServletRequest request, @RequestBody JsonRequest<User> userObj, HttpServletResponse response) {
+    	log.debug(EELFLoggerDelegate.debugLogger, "resendVerifyToken={}", userObj.getBody());
+		JsonResponse<Object> data = new JsonResponse<>();
+		User user = userObj.getBody();
 		try {
-			if((passwordDTO == null) || (passwordDTO != null && (PortalUtils.isEmptyOrNullString(passwordDTO.getNewPassword()) || 
-					(PortalUtils.isEmptyOrNullString(passwordDTO.getOldPassword()))))) {
-				log.error(EELFLoggerDelegate.errorLogger, "Bad request: NewPassword or OldPassword is empty");
-			}
-			//TODO As of now it does not check if User Account already exists. Need to first check if the account exists in DB
-			userService.changeUserPassword(passwordDTO.getUserId(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
-			responseVO.setStatus(true);
-			responseVO.setResponseDetail("Success");
-			response.setStatus(HttpServletResponse.SC_OK);
+			userService.regenerateVerifyToken(user.getLoginName());
 		} catch (Exception e) {
-			responseVO.setStatus(false);
-			responseVO.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while regenerating VerifyToken()", e);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while changeUserPassword()", e);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
 		}
-		return responseVO;
-	}*/
+		data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+		data.setResponseDetail("Success");
+		return data;
+	}
+
+    @ApiOperation(value = "Resend verificatioon token to user email", response = JsonResponse.class)
+    @RequestMapping(value = {"/refreshApiToken"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<Object> refreshApiToken(HttpServletRequest request, @RequestBody JsonRequest<User> userObj, HttpServletResponse response) {
+    	log.debug(EELFLoggerDelegate.debugLogger, "resendVerifyToken={}", userObj.getBody());
+		JsonResponse<Object> data = new JsonResponse<>();
+		User user = userObj.getBody();
+		try {
+			userService.refreshApiToken(user.getUserId());
+		} catch (Exception e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while regenerating VerifyToken()", e);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+		}
+		data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+		data.setResponseDetail("Success");
+		return data;
+	}
 	
 	@ApiOperation(value = "Update a user details.  Returns successful response after updating the user details.", response = JsonResponse.class)
 	@RequestMapping(value = {APINames.UPADATE_USER}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
@@ -230,6 +233,7 @@ public class UserServiceController extends AbstractController {
 		log.debug(EELFLoggerDelegate.debugLogger, "updateUser={}");
 		JsonResponse<Object> responseObj = new JsonResponse<>();
 		String authToken = "";
+		String apiToken = "";
 		try {
 			if (user.getBody() == null) {
 				log.debug(EELFLoggerDelegate.errorLogger, "updateUser: Invalid Parameters");
@@ -239,17 +243,6 @@ public class UserServiceController extends AbstractController {
 
 			boolean isUserExists = false;
 			try {
-				/*if ((!PortalUtils.isEmptyOrNullString(user.getBody().getEmailId()))
-						&& (!PortalUtils.isEmptyOrNullString(user.getBody().getUsername()))) {
-					MLPUser mlpUser = userService.findUserByEmail(user.getBody().getEmailId());
-					if (mlpUser == null) {
-						mlpUser = userService.findUserByUsername(user.getBody().getUsername());
-					}
-					if (mlpUser != null) {
-						isUserExists = true;
-					}
-				}*/
-				
 				MLPUser mlpUser = null;
 				if ((!PortalUtils.isEmptyOrNullString(user.getBody().getEmailId()))) {	
 					if (mlpUser == null) {
@@ -264,11 +257,10 @@ public class UserServiceController extends AbstractController {
 				if(!PortalUtils.isEmptyOrNullString(mlpUser.getAuthToken())){
                     authToken = mlpUser.getAuthToken().toString();
                 }
-				/*if(!PortalUtils.isEmptyOrNullString(user.getBody().getUserId())){
-					if (mlpUser == null) {
-						mlpUser = userService.findUserByUsername(user.getBody().getUsername());
-					}
-				}*/
+				if(!PortalUtils.isEmptyOrNullString(mlpUser.getApiToken())){
+                    apiToken = mlpUser.getApiToken().toString();
+                }
+				
 				if (mlpUser != null) {
 					isUserExists = true;
 				}
@@ -278,8 +270,11 @@ public class UserServiceController extends AbstractController {
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				responseObj.setResponseDetail("Update Failed");
 			}
-			if (isUserExists) {				 
-				user.getBody().setJwttoken(authToken);
+			if (isUserExists) {
+				User userObj = user.getBody();
+				//Never allow to update the tokens. Use separate services to update token.
+				userObj.setJwttoken(authToken);
+				userObj.setApiTokenHash(apiToken);
 				userService.updateUser(user.getBody());
 				responseObj.setStatus(true);
 				responseObj.setResponseDetail("Success");
@@ -298,7 +293,7 @@ public class UserServiceController extends AbstractController {
 		}
 		return responseObj;
 	}
-	
+
 	@ApiOperation(value = "Generate new password.  Returns successful response after generating the password.", response = JsonResponse.class)
 	@RequestMapping(value = {APINames.FORGET_PASSWORD}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -704,6 +699,7 @@ public class UserServiceController extends AbstractController {
 	        }
 	        return responseVO;
 	    }
+
 	@ApiOperation(value = "Get the User Image Size", response = JsonResponse.class)
 	   @RequestMapping(value = {"/imagesize"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	   @ResponseBody

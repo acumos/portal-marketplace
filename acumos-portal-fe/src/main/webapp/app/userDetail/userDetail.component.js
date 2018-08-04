@@ -185,6 +185,21 @@ angular
 											});
 						}
 						 
+						 $scope.refreshApiToken = function (){
+						
+							var dataObj = {
+					        		  "request_body": {
+					        							"userId" : userId
+					        		  				}
+					        		}
+							$http({ method : 'POST',
+			                       url : '/api/users/refreshApiToken',
+			                       data : dataObj
+			                 }).success(function(data, status, headers,config) {
+			                	getUserDetail()
+			                 }).error(function(data, status, headers, config) {
+			                 });
+						 }
 						 
 						 function getUserDetail() {
 							var req = {
