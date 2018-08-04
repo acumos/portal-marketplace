@@ -113,7 +113,19 @@ limitations under the License.
 		</div>
 		<hr />
 	</div>
+	
+	<div id="tab2-panel" class="user-detail-container" ng-if="$root.enableOnBoarding">
+		<h6 class="sectiontitle6">API Token</h6>
+		<div class="user-email">
+			<md-input-container class="md-block" flex-gt-sm>
+				<label>Api Token</label> <input type="text" ng-model="user.apiToken" readonly/>
+			</md-input-container>
+			<a ng-click="refreshApiToken()">Refresh</a>
+		</div>
+	</div>
+	
 	<div id="tab2-panel" class="user-detail-container">
+
 		<h6 class="sectiontitle6">CONTACT SETTINGS</h6>
 		<form name="signupFormEmail" ng-cloak novalidate>
 			<div class="user-contact-settings-container">
@@ -131,11 +143,7 @@ limitations under the License.
 							ng-show="!!(signupFormEmail.uemail.$dirty && signupFormEmail.uemail.$error.pattern) && emailVisited">Please
 							enter valid email id</span>
 					</div>
-					<!-- <div ng-messages="projectForm.clientEmail.$error" role="alert">
-									<div
-										ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
-										Please enter valid e-mail address.</div>
-								</div> --> </md-input-container>
+					</md-input-container>
 					<a ng-hide="isLfUser" class="link-blue" href=""
 						ng-click="disableEmail=!disableEmail"><span
 						ng-if="disableEmail" alt="Change Email" title="Change Email">Change

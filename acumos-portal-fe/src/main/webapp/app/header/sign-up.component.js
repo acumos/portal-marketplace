@@ -127,7 +127,7 @@ angular.module('myModal',[])
                         				},0);*/                    					
                     					$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
                                         $anchorScroll(); 
-                                        $scope.msg = "Signed-Up successfully\nPlease Sign In to log into the portal."; 
+                                        $scope.msg = "Signed-Up successfully\nPlease Verify Your Account to log into the portal."; 
                                         $scope.icon = '';
                                         $scope.styleclass = 'c-success';
                                         $scope.showAlertMessage = true;

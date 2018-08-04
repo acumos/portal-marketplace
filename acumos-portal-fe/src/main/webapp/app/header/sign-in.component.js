@@ -215,7 +215,9 @@ angular.module('signInModal')
                                               }
                                               
                                               
-                                          $scope.login = function(){$scope.userIdDisabled = false;
+                                          $scope.login = function(){
+                                        	  $scope.userIdDisabled = false;
+                                        	  $scope.userVerificationPending = false;
                                               apiService.getJwtAuth($scope.userData).then(function successCallback(response) {
                                             	  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
                                             		 
@@ -258,9 +260,18 @@ angular.module('signInModal')
                                                },function errorCallback(response) {
                                                    console.log("Error: ", response);
                                                    $scope.userPassInvalid = true;
+                                                   $scope.userVerificationPending = false;
                                                    if(response.data.message == "Inactive user"){
                                                 	   $scope.userIdDisabled = true;
                                                 	   $scope.userPassInvalid = false;
+                                                	   $scope.userVerificationPending = false;
+                                                	   	 /*$mdDialog.hide();
+                                                         alert("User Id is disabled");*/
+                                                   }
+                                                   if(response.data.message == "Verification Pending"){
+                                                	   $scope.userIdDisabled = false;
+                                                	   $scope.userPassInvalid = false;
+                                                	   $scope.userVerificationPending = true;
                                                 	   	 /*$mdDialog.hide();
                                                          alert("User Id is disabled");*/
                                                    }

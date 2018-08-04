@@ -25,6 +25,7 @@ package org.acumos.portal.be.service;
 
 import java.util.List;
 
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.User;
 
@@ -85,5 +86,13 @@ public interface UserService {
 	void deleteBulkUsers(String mlpUser);
 
 	void generatePassword(MLPUser mlpUser);
+
+	Boolean verifyUser(String username, String token) throws AcumosServiceException;
+
+	Boolean regenerateVerifyToken(String username) throws AcumosServiceException;
+
+	MLPUser verifyApiToken(String username, String token) throws AcumosServiceException;
+
+	void refreshApiToken(String username) throws AcumosServiceException;
 
 }

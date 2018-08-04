@@ -110,7 +110,7 @@ public class PortalUtils {
         user.setJwttoken(mlpUser.getAuthToken());
         user.setPassword(mlpUser.getLoginHash());
         user.setPicture(ArrayUtils.toPrimitive((mlpUser.getPicture())));
-        user.setApiTokenHash(mlpUser.getApiTokenHash());
+        user.setApiTokenHash(mlpUser.getApiToken());
         return user;
     }
 	
@@ -281,7 +281,14 @@ public class PortalUtils {
         }
 		if (user.getPicture() != null) {      
 			mlpUser.setPicture(ArrayUtils.toObject((user.getPicture())));
-			}
+		}
+
+		if (user.getApiTokenHash() != null) {
+			mlpUser.setApiToken(user.getApiTokenHash());
+		}
+
+		// Always remove the verification token before updating the User
+		mlpUser.setVerifyTokenHash(null);
 		return mlpUser;
 	}
 	

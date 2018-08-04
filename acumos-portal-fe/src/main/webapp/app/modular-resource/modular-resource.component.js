@@ -63,7 +63,7 @@ angular.module('modelResource')
 																			function(
 																					value,
 																					key) {
-																				if (siteConfig.fields[key].label == 'EnableOnboarding') {
+																				if (siteConfig.fields[key].label == 'enableOnBoarding') {
 																					if (siteConfig.fields[key].data.name == 'Enabled') {
 																						$rootScope.enableOnBoarding = true;
 																					} else {

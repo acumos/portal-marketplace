@@ -500,7 +500,7 @@ angular.module('headerNav')
                                      //$rootScope.coBrandingImage = $scope.siteConfig.fields[key].data.base64;
                                  }if($scope.siteConfig.fields[key].name == 'Footerlogo'){   
                                      $rootScope.footerImage = $scope.siteConfig.fields[key].data.base64;
-									} if($scope.siteConfig.fields[key].name == 'EnableOnboarding'){
+									} if($scope.siteConfig.fields[key].name == 'enableOnBoarding'){
 	                                    if($scope.siteConfig.fields[key].data.name == 'Enabled'){
 	                                    	$rootScope.enableOnBoarding = true;
 	                                    } else {

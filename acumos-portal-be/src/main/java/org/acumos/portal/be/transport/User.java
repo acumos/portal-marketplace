@@ -53,9 +53,8 @@ public class User extends AbstractResponseObject {
 	private Map<String,List<String>> userRolesList;
 	private String bulkUpdate;
 	private String apiTokenHash;
+	private String verifyToken;
 
-
-	
 
 	public String getBulkUpdate() {
 		return bulkUpdate;
@@ -286,7 +285,7 @@ public class User extends AbstractResponseObject {
 	public void setUserRolesList(Map<String, List<String>> userRolesList) {
 		this.userRolesList = userRolesList;
 	}
-	
+
 	public String getApiTokenHash() {
 		return apiTokenHash;
 	}
@@ -294,5 +293,19 @@ public class User extends AbstractResponseObject {
 	public void setApiTokenHash(String apiTokenHash) {
 		this.apiTokenHash = apiTokenHash;
 	}
-	
+
+	/**
+	 * @return the verifyToken
+	 */
+	public String getVerifyToken() {
+		return verifyToken;
 	}
+
+	/**
+	 * @param verifyToken the verifyToken to set
+	 */
+	public void setVerifyToken(String verifyToken) {
+		this.verifyToken = verifyToken;
+	}
+}
+

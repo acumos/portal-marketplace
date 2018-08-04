@@ -109,6 +109,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			url: '/termsCondition',
 			component: 'termsCondition'
 		})
+		.state('confirm_verification', {
+			url: '/confirm_verification?user&token',
+			component: 'confirmVerification',
+			params: {
+				user : null,
+				token : null
+				}
+		})
 		;
 	
 		$authProvider.facebook({

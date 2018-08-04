@@ -23,7 +23,7 @@
     <body>
         <p>Dear <#if user.firstName??>${user.firstName},<#else>User,</#if></p>
         <p>
-            Your Acumos Account has been created successfully.
+            Your Acumos Account has been created successfully.<#if validateAccount?? && validateAccount> To activate your account please click <a href="${verifyUrl}">here</a>.</#if>
         </p>
 
         <p>Thanks</p>
