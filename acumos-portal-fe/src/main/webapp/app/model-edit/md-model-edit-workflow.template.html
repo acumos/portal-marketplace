@@ -3843,33 +3843,19 @@ limitations under the License.
 									</tr>
 								</tbody>
 							</table>
-						</div>
-						<div class="discussion-add-comment" ng-hide="showPostReply == false">
-							<label class="md-lbl2">Reply to Comment</label>
-							<div class="flex1">
-								<div
-									class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
-									<textarea class="mdl-textfield__input md-txtarea" type="text"
-										rows="3" id="replyComment" ng-model="replyCommentText"></textarea>
+							<div class="discussion-add-comment" ng-hide="showEditComment == false">
+								<label class="md-lbl2">Edit Comment</label>
+								<div class="flex1">
+									<div
+										class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
+										<textarea class="fullwidth  md-txtarea" type="text"
+											rows="3" id="editedComment" ng-model="editedCommentText"></textarea>
+									</div>
 								</div>
+								<button
+									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+									ng-click="editComment()" alt="Edit Comment" title="Edit Comment">Edit Comment</button>
 							</div>
-							<button
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-								ng-click="postReply()" alt="Post Reply" title="Post Reply">Reply to Comment</button>
-						</div>
-						
-						<div class="discussion-add-comment" ng-hide="showEditComment == false">
-							<label class="md-lbl2">Edit Comment</label>
-							<div class="flex1">
-								<div
-									class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
-									<textarea class="mdl-textfield__input md-txtarea" type="text"
-										rows="3" id="editedComment" ng-model="editedCommentText"></textarea>
-								</div>
-							</div>
-							<button
-								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-								ng-click="editComment()" alt="Edit Comment" title="Edit Comment">Edit Comment</button>
 						</div>
 					</div>
 					<!-- comments end -->
@@ -3893,8 +3879,49 @@ limitations under the License.
 </div>
 </div>
 </div>
-
-
+	<!--Download Cofirmation Modal -->
+	<div class="md-dialog-container" id="replyToComments"
+		style="height: 0;">
+		<md-dialog aria-label="Reply To Comments" class="cg-dialog-medium">
+		<form ng-cloak>
+			<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Reply To Comments</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="closeDialog()">
+				<i class="material-icons">close</i> </md-button>
+			</div>
+			</md-toolbar>
+			<md-dialog-content>
+			<div class="md-dialog-content ">
+				<div class="discussion-container discussion-container2">
+					<div>
+						<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!comment.image" title="user">
+						<img class="userimg" ng-show="comment.image" ng-src="data:image/PNG;base64,{{comment.image}}" title="{{comment.name}}" />
+					</div>
+					<div class="discussion-details">
+						<div>
+							<label class="dis-name">{{comment.firstName}} {{comment.lastName}}</label> | <span
+								class="text-small">{{comment.stringDate}}</span>
+						</div>
+						<p>{{comment.text}}</p>
+					</div>
+				</div>
+				<p>
+					<label><b>Add Comment</b></label>
+					<textarea class="fullwidth" type="text" rows="3" id="replyComment" ng-model="replyCommentText"></textarea>
+				</p>
+				<div>
+				<button class="mdl-button mdl-js-button btn-secondary pull-left" ng-click="closeDialog()">cancel</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary pull-right" ng-click="postReply()" alt="Post Reply" title="Post Reply">Post Comments</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			</md-dialog-content>
+		</form>
+		</md-dialog>
+	</div>
+	
 <!--Download Cofirmation Modal -->
 	<div class="md-dialog-container" id="downloadConfirm"
 		style="height: 0;">
