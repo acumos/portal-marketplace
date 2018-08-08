@@ -3876,11 +3876,12 @@ limitations under the License.
 					<!-- delete start -->
 					<div class="mdl-tabs__panel" id="" ng-show="tab=='delete'"
 						ng-class="{'isActive':tab=='delete'}">
-
+						
+						<p ng-show="isModelActive">Are you sure that you want to delete this model and all of its revisions, public or private?</p>
 						<button ng-click="activeFalse = false; updateSolution(); "
 							ng-show="isModelActive"
 							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Delete" title="Delete">
-							Delete</button>
+							Delete Model</button>
 
 						<p ng-show="!isModelActive">Solution is deleted/inactive</p>
 
