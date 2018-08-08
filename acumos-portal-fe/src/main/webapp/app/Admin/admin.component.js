@@ -896,12 +896,12 @@ angular.module('admin').filter('abs', function() {
             				  
             				  if(catTool.length > 1){
             					  angular.forEach($scope.category, function(value, key) {
-            						  var serch = value.typeCode ;
+            						  var serch = value.code ;
             						  var serchValue = catTool[0].search(serch);
             						  if(serchValue > 0)$scope.categoryForSubId = value;
             						});
             					  angular.forEach($scope.toolKitType, function(value, key) {
-            						  var serch = value.typeCode ;
+            						  var serch = value.code ;
             						  var serchValue = catTool[1].search(serch);
             						  if(serchValue > 0)$scope.toolKitForSubId = value;
             						});
@@ -909,14 +909,14 @@ angular.module('admin').filter('abs', function() {
             					  $scope.toolKitForSubId ='';$scope.categoryForSubId = '';
             					  if(catTool[0].search('modelTypeCode') > 0){
             						  angular.forEach($scope.category, function(value, key) {
-                						  var serch = value.typeCode ;
+                						  var serch = value.code ;
                 						  var serchValue = catTool[0].search(serch);
                 						  if(serchValue > 0)$scope.categoryForSubId = value;
                 						});
             					  }
             					  else if(catTool[0].search('toolKitTypeCode') > 0){
             						  angular.forEach($scope.toolKitType, function(value, key) {
-                						  var serch = value.typeCode ;
+                						  var serch = value.code ;
                 						  var serchValue = catTool[0].search(serch);
                 						  if(serchValue > 0)$scope.toolKitForSubId = value;
                 						});
