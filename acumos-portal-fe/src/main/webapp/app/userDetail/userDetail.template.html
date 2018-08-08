@@ -413,13 +413,13 @@ limitations under the License.
 						<input type="file" ngf-select ng-change="checkValid()"
 							ng-model="userImage" name="fileNew"
 							class="mdl-textfield__input userprofiletxtbox uploadtxtbox"
-							accept="image/*" ngf-max-size={{imageSize}} required
+							accept="image/*"  required
 							ngf-model-invalid="errorFile" />
 
 					</div>
 				</div>
 				<div class="help-inline validation-msgs">
-					<span ng-show="uploadImage.fileNew.$error.maxSize">Image
+					<span ng-show="sizeError">Image
 						size more than {{imageSize}}.</span>
 				</div>
 				<div class="help-inline validation-msgs">
@@ -440,7 +440,7 @@ limitations under the License.
 			title="Cancel"> Cancel </md-button>
 		<!--enableUploadBtn  -->
 		<md-button ng-click="uploadImg()"
-			ng-disabled="extensionError == true || nullFileError == true || uploadImage.fileNew.$error.maxSize"
+			ng-disabled="extensionError == true || sizeError == true || nullFileError == true || uploadImage.fileNew.$error.maxSize"
 			class="mdl-button mdl-js-button btn-primary" alt="Upload"
 			title="Upload"> Upload </md-button>
 	</div>
