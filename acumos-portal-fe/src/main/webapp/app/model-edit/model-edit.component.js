@@ -134,13 +134,14 @@ angular
 								angular.forEach(response.data.response_body.content,function(value,key) {
 									if(response.data.response_body.content[key].parentId == null){
 										var commentIndex = key-$scope.replyList.length; //takes into account offset
-										
+
 										$scope.commentList.push({
 											created : response.data.response_body.content[key].created,
 											text : response.data.response_body.content[key].text,
 											commentId : response.data.response_body.content[key].commentId,
 											threadId : response.data.response_body.content[key].threadId,
 											userId : response.data.response_body.content[key].userId,
+											stringDate : response.data.response_body.content[key].stringDate,
 											replies: []
 										});
 						
@@ -149,7 +150,9 @@ angular
 													  		    "userId": value.userId
 												  					}};
 										apiService.getUserAccountDetails(userObject).then(function(userDetail){
-												$scope.commentList[commentIndex].name = userDetail.data.response_body.loginName
+												$scope.commentList[commentIndex].name = userDetail.data.response_body.loginName;
+												$scope.commentList[commentIndex].firstName = userDetail.data.response_body.firstName;
+												$scope.commentList[commentIndex].lastName = userDetail.data.response_body.lastName;
 									    });
 										apiService.getUserProfileImage(value.userId).then(function(userImage){
 												$scope.commentList[commentIndex].image = userImage.data.response_body;
@@ -195,13 +198,9 @@ angular
 						$scope.showEditComment = false;
 						
 						$scope.setReply = function(comment) {
-							$scope.showEditComment = false;
-							$scope.showPostReply = true;
-							$scope.commentToReply = comment;
-							
-							$location.hash('replyComment');
-							$anchorScroll();
-							
+							$scope.comment = comment;
+							$scope.replyCommentText = '';
+							$rootScope.showPrerenderedDialog("", '#replyToComments'); 
 						}
 						
 						$scope.editedComment = {};
@@ -246,17 +245,18 @@ angular
 								var commentObj = {
 										  "request_body": {
 											    "text": $scope.replyCommentText,
-											    "threadId": $scope.commentToReply.threadId,
-											    "parentId": $scope.commentToReply.commentId,
+											    "threadId": $scope.comment.threadId,
+											    "parentId": $scope.comment.commentId,
 											    "url": $scope.solutionId,
 											    "userId": $scope.loginUserId[1]
 											  },
 											};
 								apiService.createComment(commentObj).then(function(response) {
-									$scope.getComment();
+									$scope.closeDialog();
 									$scope.replyCommentText = '';
 								});
 						}
+						
 						
 						$scope.deleteComment = function(comment) {
 							apiService.deleteComment(comment.threadId,comment.commentId).then(function(response) {
@@ -413,13 +413,13 @@ angular
 															$scope.revisionId = $scope.versionList[0].revisionId;
 															$scope.versionId = $scope.versionList[0].version;
 															$scope.version = $scope.versionList[0];
-															$scope.getComment();
 															$scope.solution.created = $scope.versionList[0].modified;
 															$scope.solution.modified = $scope.versionList[0].modified;
 														} else {
 															$scope.revisionId = $scope.version.revisionId;
 															$scope.versionId = $scope.version.version;
 														}
+														$scope.getComment();
 														$scope.getProtoFile();
 													}
 													$scope.solutionEditorCompanyDesc = $scope.solution.description;
@@ -2765,7 +2765,9 @@ angular
 						$scope.docerror = false;
 					};
 					
-					
+					$scope.closeDialog = function() {
+						$mdDialog.cancel();
+					}
 					/*read cloud enabled from the properties file*/
 					$scope.enableDeployToCloud = function(){
 				        apiService
