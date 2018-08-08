@@ -46,7 +46,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @Service
 public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadService{
 	
-    private static final String FEW_SECONDS_AGO = "Few Seconds Ago";
+    private static final String FEW_SECONDS_AGO = "Just Now";
     private static final String MINUTES_AGO = "Minutes Ago";
     private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm a";
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate

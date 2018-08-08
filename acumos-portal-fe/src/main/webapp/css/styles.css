@@ -614,6 +614,7 @@ box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);clip: auto !important;	}
 .tilecontainer1 {display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center;}
 
 .model-details-tabwrapper h2 {font-size: 14px;  font-weight: bold;  line-height: 1.428571429;  margin: 0 0 10px;}
+
 /************MODEL DETAILS PAGE STYLE END**************/
 
 /******TAB STYLE start*********/
@@ -808,6 +809,11 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 
 a.mdl-tabs__tab.tab5-panel {height:1px;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {max-width: 350px; text-overflow: ellipsis; overflow: hidden;}
+
+.btn-comments-edit, .btn-comments-delete {border: 1px solid #b1b1b1; font-size: 10px;line-height: 18px;text-align:right; height: 20px; padding: 0 4px; min-width: 25px; }
+.btn-comments-edit {background: #f1f1f1 url('../images/model_details/Comment_edit.png') no-repeat 3px center; width: 40px;margin-left: 2px; }
+.btn-comments-delete {background: #f1f1f1 url('../images/model_details/Comment_delete.png') no-repeat 3px center; width: 52px; margin-left: 2px;}
+
 /*************progress bar style start **************/
 
 /* Progress Bar */
@@ -1929,7 +1935,8 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 .a-tooltip .a-tooltiptext {visibility: hidden; width: 280px; background-color: #2e2f2f; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s;}
 .a-tooltip .a-tooltiptext::after {content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 6px; border-style: solid; border-color: #2e2f2f transparent transparent transparent;}
 .a-tooltip:hover .a-tooltiptext {visibility: visible; opacity: 1;}
-.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; width: 90%;white-space: nowrap;top: 5px;}
+.a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; width: 90%;white-space: nowrap;}
+table tbody tr td .a-tooltipval {top:5px}
 .modal-row1.modal-row-new1 > div > label {border: none !important;}
 .modal-row1.modal-row-new1 > div {}
 

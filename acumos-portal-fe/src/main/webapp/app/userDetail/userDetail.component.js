@@ -588,7 +588,7 @@ angular
 							var validFormats = ['jpg','jpeg','png','gif'];
 							var fileName = file.name;
 							var ext = fileName.split('.').pop(); 
-				            var size = file.size;
+				            var size = bytesToSize(file.size);
 				           
 				            if(validFormats.indexOf(ext) == -1){
 				            	$scope.extensionError = true;
@@ -596,7 +596,7 @@ angular
 				            }else if(fileName == '' || fileName == undefined || fileName == null){
 				            	$scope.nullFileError = true;
 				            	$scope.disableUsrImgBtn = true;
-				            }else if (size >= 800000){
+				            }else if (size > $scope.imageSize){
 				            	$scope.sizeError = true;
 				            	$scope.disableUsrImgBtn = true;
 				            }
@@ -607,7 +607,13 @@ angular
 							 	$scope.disableUsrImgBtn = false;
 				            }
 					 	}
-					 
+					 	
+					 	function bytesToSize(bytes) {
+					 	   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+					 	   if (bytes == 0) return '0 Byte';
+					 	   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+					 	   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+					 	};
 						$scope.uploadImg = function(){
 							var file = $scope.userImage;
 							var fileFormData = new FormData();
@@ -679,7 +685,14 @@ angular
 			                  };
 		                  $scope.closePoup = function(){
 		                	  $mdDialog.hide();
-		                	  angular.element('#userImage').val('');
+		                	 $scope.userImage = "";
+		                	 $scope.extensionError = false;
+		                	 $scope.sizeError = false;
+		                	 angular.element('#userImage').val('');
+		                	 $scope.nullFileError = true;
+		                   	 $scope.uploadImage.$setPristine();
+		                     $scope.uploadImage.$setUntouched();
+		                    
 		                  }
 		                  
 		                  /**** Notification Preference Start****/

@@ -43,7 +43,7 @@ angular
 				                       url : '/api/users/verifyUser',
 				                       data : dataObj
 				                 }).success(function(data, status, headers,config) {
-				                	  $scope.verificationMessage = "Your Account has been activated. Please sing-in to portal.";
+				                	  $scope.verificationMessage = "Your Account has been activated. Please sign-in to portal.";
 				                 }).error(function(data, status, headers, config) {
 				                	 //alert("Token Not verified")
 				                	 $scope.verificationMessage = "The token is invalid or expired. Click below button to regenerate verification email.";
