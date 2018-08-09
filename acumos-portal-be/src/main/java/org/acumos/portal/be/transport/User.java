@@ -54,6 +54,7 @@ public class User extends AbstractResponseObject {
 	private String bulkUpdate;
 	private String apiTokenHash;
 	private String verifyToken;
+	private String status;
 
 
 	public String getBulkUpdate() {
@@ -306,6 +307,15 @@ public class User extends AbstractResponseObject {
 	 */
 	public void setVerifyToken(String verifyToken) {
 		this.verifyToken = verifyToken;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+		
+	}
+
+	public String getStatus() {
+		return status;
 	}
 }
 

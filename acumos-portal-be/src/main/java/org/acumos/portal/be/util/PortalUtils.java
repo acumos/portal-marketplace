@@ -103,6 +103,15 @@ public class PortalUtils {
         user.setEmailId(mlpUser.getEmail());
         String active = String.valueOf(mlpUser.isActive());
         user.setActive(active);
+        if(mlpUser.getVerifyExpiration() != null ) {
+        	user.setStatus("Pending");
+        }else {
+        	if(mlpUser.isActive()) {
+        	user.setStatus("Active");
+        	}else {
+        		user.setStatus("Inactive");
+        	}
+        }
         user.setLastLogin(mlpUser.getLastLogin());
         user.setUsername(mlpUser.getLoginName());
         user.setCreated(mlpUser.getCreated());
