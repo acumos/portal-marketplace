@@ -102,7 +102,7 @@ angular.module('admin').filter('abs', function() {
           		  cat = '"modelTypeCode":"' +$scope.categoryValue + '"'
           	  }
           	  if($scope.toolKitTypeValue){
-          		  toolKit = '"toolKitTypeCode":"' +$scope.toolKitTypeValue 
+          		  toolKit = '"toolkitTypeCode":"' +$scope.toolKitTypeValue 
           	  }
           	  if(cat&&toolKit){var catToolkit = '{' + cat + ',' + toolKit + '"}';}
           	  else if(cat&&!toolKit)var catToolkit = '{' + cat +'}';
@@ -986,7 +986,7 @@ angular.module('admin').filter('abs', function() {
                     		  cat = '"modelTypeCode":"' +$scope.categoryValue + '"'
                     	  }
                     	  if($scope.toolKitTypeValue){
-                    		  toolKit = '"toolKitTypeCode":"' +$scope.toolKitTypeValue 
+                    		  toolKit = '"toolkitTypeCode":"' +$scope.toolKitTypeValue 
                     	  }
                     	  if(cat&&toolKit){var catToolkit = '{' + cat + ',' + toolKit + '"}';}
                     	  else if(cat&&!toolKit)var catToolkit = '{' + cat +'}';
@@ -1300,7 +1300,7 @@ angular.module('admin').filter('abs', function() {
                                         						  if(serchValue > 0)$scope.categoryForSubId = value;
                                         						});
                                     					  }
-                                    					  else if(catTool[0].search('toolKitTypeCode') > 0){
+                                    					  else if(catTool[0].search('toolkitTypeCode') > 0){
                                     						  angular.forEach($scope.toolKitType, function(value, key) {
                                         						  var serch = value.typeCode ;
                                         						  var serchValue = catTool[0].search(serch);
@@ -1544,7 +1544,7 @@ angular.module('admin').filter('abs', function() {
                                         		  cat = '"modelTypeCode":"' +value.modelTypeCode + '"'
                                         	  }
                                         	  if(value.toolkitTypeCode){
-                                        		  toolKit = '"toolKitTypeCode":"' +value.toolkitTypeCode 
+                                        		  toolKit = '"toolkitTypeCode":"' +value.toolkitTypeCode 
                                         	  }
                                         	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}';
        										addAllSolObj.push(
