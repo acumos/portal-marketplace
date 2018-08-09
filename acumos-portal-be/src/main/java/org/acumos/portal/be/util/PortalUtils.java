@@ -580,7 +580,7 @@ public class PortalUtils {
 		mlComment.setCommentId(mlpComment.getCommentId());
 		mlComment.setParentId(mlpComment.getParentId());
 		mlComment.setText(mlpComment.getText());
-		mlComment.setThreadId(mlpComment.getText());
+		mlComment.setThreadId(mlpComment.getThreadId());
 		mlComment.setUserId(mlpComment.getUserId()); 
 		mlComment.setCreated(mlpComment.getCreated()); 
 		mlComment.setModified(mlpComment.getModified()); 
