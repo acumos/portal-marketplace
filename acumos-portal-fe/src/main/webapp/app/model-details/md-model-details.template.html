@@ -448,6 +448,7 @@ limitations under the License.
 									<th>Artifact Name</th>
 									<th>Version</th>
 									<th>Modified on</th>
+									<th>Size</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -463,6 +464,7 @@ limitations under the License.
 									</td>
 									<td>{{value.version}}</td>
 									<td>{{value.created | date:'MM/dd/yyyy'}}</td>
+									<td>{{value.size | formatBytes:1}}</td>
 									<td>
 										<md-button ng-cloak ng-if="!loginUserID" class="mdl-button mdl-js-button btn-grid-action" ng-click="$root.showAdvancedLogin()">
 											<i class="fa fa-download" aria-hidden="true"></i>
@@ -641,15 +643,15 @@ limitations under the License.
 									</div>
 									<div class="discussion-details" ng-if = "comment.parentId == null">
 										<div>
-											<label class="dis-name">{{comment.name}}</label> | <span class="dis-name">
+											<span class="dis-name">
 												{{comment.firstName}} {{comment.lastName}}</span> | <span
-												class="text-small">on {{comment.stringDate}}</span>
+												class="text-small">{{comment.stringDate}}</span>
 											<button
-												class="mdl-button mdl-js-button btn-primary"
+												class="mdl-button mdl-js-button btn-comments-edit"
 												ng-click="showEditComment = !showEditComment" ng-hide="loginUserID != comment.userId"
 												>Edit</button>
 											<button
-												class="mdl-button mdl-js-button btn-primary"
+												class="mdl-button mdl-js-button btn-comments-delete"
 												ng-click="deleteComment(comment)" ng-hide="loginUserID != comment.userId || comment.replies.length>0"
 												>Delete</button>
 										</div>
@@ -695,15 +697,15 @@ limitations under the License.
 											<div class="discussion-details">
 
 												<div>
-													<label class="dis-name">{{reply.name}}</label> | <span class="dis-name">
+												<span class="dis-name">
 												{{reply.firstName}} {{reply.lastName}}</span> | <span
-												class="text-small">on {{reply.created | date:'medium'}}</span>
+												class="text-small">{{reply.stringDate}}</span>
 													<button
-														class="mdl-button mdl-js-button btn-primary"
+														class="mdl-button mdl-js-button btn-comments-edit"
 														ng-click="showEditReply = !showEditReply" ng-hide="loginUserID != reply.userId"
 														>Edit</button>
 													<button
-														class="mdl-button mdl-js-button btn-primary"
+														class="mdl-button mdl-js-button btn-comments-delete"
 														ng-click="deleteComment(reply)" ng-hide="loginUserID != reply.userId"
 														>Delete</button>
 												</div>
