@@ -20,6 +20,20 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.40, 9 th August 2018
+=================================
+* IST2: Manage My Model : Reply to Comment: Reply Comment need to display as a popup (ACUMOS-1469)
+* ISt2: Sing In is displaying when user activates account (typo) (ACUMOS-1502)
+* IST2: User status is active in the admin while his account verification is pending (ACUMOS-1503)
+* IST2: Image Upload on Account Setting Issue (ACUMOS-1507)
+* <IST2> <Portal Marketplace> Download popup: Field value alignment not proper (ACUMOS-1512)
+* Portal list of model artifacts should show artifact size (ACUMOS-947)
+* Portal comments display - no name, no date/time, unauthorized edit (ACUMOS-960)
+* Portal shows zero total available in my models page when some are present (ACUMOS-1331)
+* Portal delete of unpublished model removes all revisions (ACUMOS-1408)
+* All Instances - Date format should be consistent. (ACUMOS-1474)
+* IST2 - Unable to add a peer in federation (ACUMOS-1514)
+
 Version 1.15.39, 3 rd August 2018
 =================================
 * <IST2> <Marketplace> Downloaded count is not updating after downloading the file unless refreshing the browser page (ACUMOS-1134)
