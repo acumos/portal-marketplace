@@ -364,11 +364,7 @@ limitations under the License.
 										class="link-blue">{{supportingDoc.name}}</a></td>
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-									<td><a ng-if="version.accessTypeCode ==='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc.name}}" alt="Download" title="Download">
-										<i class="fa fa-download" aria-hidden="true"></i> </a>
-										<a ng-if="version.accessTypeCode !=='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc.name}}" alt="Download" title="Download">
+									<td><a href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc.name}}" alt="Download" title="Download">
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
@@ -389,12 +385,8 @@ limitations under the License.
 										class="link-blue">{{supportingDoc.name}}</a></td>
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-									<td><a ng-if="version.accessTypeCode ==='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc.name}}" alt="Download" title="Download">
+									<td><a 	href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc.name}}" alt="Download" title="Download">
 										<i class="fa fa-download" aria-hidden="true"></i> </a>
-										<a ng-if="version.accessTypeCode !=='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc.name}}" alt="Download" title="Download">
-											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
 								
