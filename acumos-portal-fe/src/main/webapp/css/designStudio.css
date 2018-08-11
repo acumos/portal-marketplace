@@ -404,7 +404,7 @@ table.mdl-data-table.ds-table1 tbody tr {position: static;}
 /******* Mapping Tables modal box style end *********/
 
 .ds-version-container {position: absolute; display: inline-block; right: 15px; margin-top: -27px; color: #656565; font-size: 11px;z-index: 2000;}
-/* .loading {position: absolute; display: inline-block;} */
+
 .material-icons.dsicon-true {color: #009900 !important; font-size: 20px;}
 .material-icons.dsicon-false {color: #ff0000 !important; font-size: 20px;}
 
