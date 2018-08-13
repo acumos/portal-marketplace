@@ -117,10 +117,16 @@ limitations under the License.
 						  </div>
 						  <div class="mdl-card__supporting-text">
 						  <div class="disblock detail-content">{{item.name}}</div>
-							<div class="stars-outer">
+							<!-- <div class="stars-outer">
 								<div class="stars-inner"
 									ng-style="item.solutionRating"></div>
+							</div> -->
+							
+							<div class="stars-outer">
+								<div class="stars-inner" style="width:{{item.solutionRatingAvg}}"
+									 ></div>
 							</div>
+							
 						  </div>
 						</div>
 					<!-- </div> -->
