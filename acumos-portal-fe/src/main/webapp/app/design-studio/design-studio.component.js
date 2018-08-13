@@ -65,13 +65,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	const SPLITTER = "Splitter";
 	$scope.checkboxDisable = true;
 	$scope.activeInactivedeploy = true;
-    $scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
-    if($scope.userDetails == null){$scope.titlemsg = ALERT;$scope.msg = "Please sign in to application"; $scope.showpopup(); $state.go('home');return;}
     $scope.validationState = true;
     $scope.searchbox = true;
     $scope.showSearch = function(){
         $scope.searchbox = false;
     };
+    $scope.readSolutionArray = [];
     $scope.readSolution = false;
     $('#deleteHide').hide();var deleteShow = 0;
     function enanleDisable(){
@@ -106,6 +105,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.collateTargetTables = [];
     $scope.collateTags = [];
     $scope.collateSchemes = [];
+    $scope.collateSelectedDetails = [];
+    $scope.splitSelectedDetails = [];
     $scope.collateErrors = [];
     $scope.splitSourceTables = [];
     $scope.splitTargetTables = [];
@@ -188,6 +189,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             type: {"name": type},
             name: type + (max+1)
         };
+        $scope.readSolutionArray[data.nodeId] = false;
         $scope.nodeName=data.name;
         var nodeId = '',nodeVersion = ver;
         if(revision !== undefined){
@@ -213,6 +215,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 var protoJson=proto;
                 jsonProtoNode.set($scope.solutionDetails.solutionName,protoJson);
             }).error(function(response){
+            	document.getElementById("loading").style.display = "none";
             	$scope.titlemsg = ALERT;
             	$scope.msg = "Cannot drop this item onto the canvas, Error details: Failed to fetch the ProtoBuf JSON for "+type+" ("+nodeVersion+")";
             	$scope.showpopup();
@@ -280,6 +283,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	def.extras = [];
             	$scope.collateScheme = null;
             	$scope.collateSchemes[data.nodeId] = [];
+            	$scope.collateSelectedDetails[data.nodeId] = [];
             	$scope.collateSourceTables[data.nodeId] = [];
             	$scope.collateTargetTables[data.nodeId] = [];
             	$scope.collateTags[data.nodeId] = [];
@@ -290,6 +294,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	def.extras = [];
             	$scope.splitScheme = null;
             	$scope.splitSchemes[data.nodeId] = [];
+            	$scope.splitSelectedDetails[data.nodeId] = [];
             	$scope.splitSourceTables[data.nodeId] = [];
             	$scope.splitTargetTables[data.nodeId] = [];
             	$scope.splitTags[data.nodeId] = [];
@@ -360,8 +365,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     'properties' : []
                 };
             }
+            document.getElementById("loading").style.display = "block";
             $http.post(url,nodeDetails)
                 .success(function(response) {
+                	document.getElementById("loading").style.display = "none";
                     $scope.cleardis= false;
                     nodeIdCnt++;
                     $scope.checkboxDisable = false;
@@ -371,13 +378,15 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     _drawGraphs.createNode(pos, data);
                     set_dirty(true);
                 }).error(function(response){
+                	document.getElementById("loading").style.display = "none";
                 	$scope.titlemsg = ALERT;
                 	$scope.msg = "Please click on New to create a new Solution";
                 	$scope.showpopup();
                 });
         }).error(function(response){
+        	document.getElementById("loading").style.display = "none";
         	$scope.titlemsg = ALERT;
-        	$scope.msg = "Cannot drop this item onto the canvas" + "\n Error details: "+response;
+        	$scope.msg = "Cannot drop this item onto the canvas. <br/> Error details: "+response;
         	$scope.showpopup();
         });
     };
@@ -387,6 +396,63 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _dirty = false;
         $('#deleteHide').hide();
         $scope.cleardis = true;
+        $scope.validationState = true;
+        $scope.saveState.noSaves = true;
+        _dirty = false;
+        $scope.checkboxDisable = true;
+        $scope.myCheckbox = false;
+        $scope.activeInactivedeploy = true;
+        $scope.console = null;
+        $scope.readSolutionArray = [];
+        $scope.readSolution = false;
+        enteredOk = false;
+        savedSolution = false;
+        $scope.selectedIndex = null;
+        $scope.scriptEntered = false;
+        $scope.enableCollateMap = false;
+        $scope.collateSelect = false;
+        $scope.enableSplitMap = false;
+        $scope.collateScheme = null;
+        $scope.splitScheme = null;
+        $scope.splitSelect = false;
+        $scope.collateSourceMapTable = null;
+        $scope.collateSourceTables = [];
+        $scope.collateTargetMapTable = null;
+        $scope.collateTargetTables = [];
+        $scope.splitSourceMapTable = null;
+        $scope.splitSourceTables = [];
+        $scope.splitTargetMapTable = null;
+        $scope.splitTargetTables = [];
+        $scope.collateSchemes = [];
+        $scope.collateSelectedDetails = [];
+    	$scope.collateTags = [];
+    	$scope.collateErrors = [];
+    	$scope.splitSchemes = [];
+    	$scope.splitSelectedDetails = [];
+    	$scope.splitTags = [];
+    	$scope.splitErrors = [];
+        $scope.collateErrorMap = new Map();
+        $scope.selectedCollateMapping = new Map();
+        $scope.splitErrorMap = new Map();
+        $scope.solutionIdDeploy = null;
+        $scope.matchModels = [];
+        $scope.cancelRead = [];
+        $scope.showDataBroker = null;
+        $scope.showDataMapper = null;
+        $scope.showCollator = null;
+    	$scope.showSplitter = null;
+        $scope.solutionDetails = null;
+        $scope.showProperties = null;
+        $scope.showLink=null;
+        jsonProtoNode = new Map();
+        protoJsonRead = new Map();
+
+        $('#validateActive').removeClass('active');
+        $('#validateActive').removeClass('enabled');
+        $('#consoleMsg').removeClass('console-successmsg');
+        $('#consoleMsg').removeClass('console-errormsg');
+        $scope.down = true;
+        
     }
     
     $scope.newSolution = function(parameter) {
@@ -399,43 +465,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     $scope.solutionName = null;
                     $scope.solutionDescription = null;
                     $scope.solutionVersion = null;
-                    $scope.validationState = true;
-                    $scope.saveState.noSaves = true;
-                    _dirty = false;
-                    $scope.checkboxDisable = true;
-                    $scope.myCheckbox = false;
-                    $scope.activeInactivedeploy = true;
-                    $scope.console = null;
-                    $scope.readSolution = false;
-                    enteredOk = false;
-                    savedSolution = false;
-                    $scope.selectedIndex = null;
-                    $scope.scriptEntered = false;
-                    $scope.enableCollateMap = false;
-                    $scope.collateSelect = false;
-                    $scope.enableSplitMap = false;
-                    $scope.collateScheme = null;
-                    $scope.splitScheme = null;
-                    $scope.splitSelect = false;
-                    $scope.collateSourceMapTable = null;
-                    $scope.collateSourceTables = [];
-                    $scope.collateTargetMapTable = null;
-                    $scope.collateTargetTables = [];
-                    $scope.splitSourceMapTable = null;
-                    $scope.splitSourceTables = [];
-                    $scope.splitTargetMapTable = null;
-                    $scope.splitTargetTables = [];
-                    $scope.collateSchemes = [];
-                	$scope.collateTags = [];
-                	$scope.collateErrors = [];
-                	$scope.splitSchemes = [];
-                	$scope.splitTags = [];
-                	$scope.splitErrors = [];
-                    $scope.collateErrorMap = new Map();
-                    $scope.splitErrorMap = new Map();
-                    $scope.solutionIdDeploy = null;
-                    $scope.activeInactivedeploy = true;
-                    $scope.matchModels = [];
+                    
                     reset();
                     if (parameter == 'new'){
                         $scope.titlemsg ="New Solution";
@@ -443,11 +473,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         $scope.showok = true;
                         $scope.showpopup();
                     }
-                    $('#validateActive').removeClass('active');
-                    $('#validateActive').removeClass('enabled');
-                    $('#consoleMsg').removeClass('console-successmsg');
-                    $('#consoleMsg').removeClass('console-errormsg');
-                    $scope.down = true;
+       
                     display_solution(_solution);
                     load_catalog();
                     _solutionId = '';
@@ -472,18 +498,19 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 solutionId: entry.solutionId,
                 version: entry.version
             });
+            $scope.selectedIndex = entry.solutionName+entry.version;
             var changeNode = new Object();
             $http.get(url)
                 .success(function(result) {  
-                	var cdump = JSON.parse(result.payload);
+                	
                     //validflag
                 	if(result.error){
-                		$scope.clearSolution();
+                		/*$scope.clearSolution();*/
                 		$scope.titlemsg = ALERT;
                     	$scope.msg = result.error;
                     	$scope.showpopup();
                 	} else{
-                	$scope.selectedIndex = cdump.cname+cdump.version;
+                		var cdump = JSON.parse(result.payload);
                     if(cdump.validSolution){
                     	$scope.activeInactivedeploy = false;
                     	$scope.validationState = true;
@@ -760,8 +787,19 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     function get_userId() {
         var userDetail = browserStorageService.getUserDetail();
-        if(!userDetail)
-            return null;
+        if(!userDetail){
+        	var modalService = $injector.get('$mdDialog'); 
+		modalService.show({
+			 templateUrl: '../app/header/sign-in-promt-modal-box.html',
+			 clickOutsideToClose: true,
+			 controller : function DialogController($scope ) {
+				 $scope.closeDialog = function() {
+					 modalService.hide();
+					 $rootScope.showAdvancedLogin();
+			    	 $state.go('home');
+		     } }
+			});
+        }
         if(typeof userDetail === 'string')
             userDetail = JSON.parse(userDetail);
         return userDetail[1];
@@ -834,7 +872,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var nodes = solution.nodes || (console.warn('no nodes in composite solution!'), []),
             edges = solution.relations || [];
         _ports = [];
-        $scope.readSolution = true;
+        /*$scope.readSolutionArray = true;*/
         var i=0;
         nodes.forEach(function(n) {
         	script = [];
@@ -888,7 +926,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             if(n.type.name === "DataBroker"){
             	$scope.uploadFileRequired = false;
             	$scope.nodeIdDB = n.nodeId;
-            	$scope.readSolution = true;
+            	$scope.readSolutionArray[n.nodeId] = true;
             	angular.forEach(n.properties, function(value, key){
             		if(value.data_broker_map != null){
             			
@@ -912,13 +950,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             			$scope.readSolutionMapping();
             			$scope.checkedRead = true;
             			$scope.uncheckedRead = false;
-            			$scope.readSolution = true;
+            			$scope.readSolutionArray[n.nodeId] = true;
             		}
             	});
             }
             
             if(n.type.name === "Collator"){
-            	$scope.readSolution = true;
+            	$scope.readSolutionArray[n.nodeId] = true;
             	
             	angular.forEach(n.properties, function(value, key){
             		if(value.collator_map !== null){
@@ -931,6 +969,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	            			collateDetails = { "collatorType": value.collator_map.collator_type,
     								"mapInputs": value.collator_map.map_inputs,
     								"mapOutputs": value.collator_map.map_outputs};
+            			} else{
+            				collateDetails = { "collatorType": value.collator_map.collator_type};
             			}
             			
             		}
@@ -938,7 +978,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             }
             
             if(n.type.name === "Splitter"){
-            	$scope.readSolution = true;
+            	$scope.readSolutionArray[n.nodeId] = true;
             	angular.forEach(n.properties, function(value, key){
             		if(value.splitter_map !== null){
             			$scope.splitSchemes[n.nodeId] = value.splitter_map.splitter_type;
@@ -946,10 +986,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             				$scope.splitTargetTables[n.nodeId] = [];
             				$scope.splitSourceTables[n.nodeId] = [];
             				readSplitterMapping(value.splitter_map.map_outputs, n.nodeId);
-            			
-            			splitDetails = {"splitterType" : value.splitter_map.splitter_type,
-            							"mapInputs" : value.splitter_map.map_inputs,
-            							"mapOutputs" : value.splitter_map.map_outputs};
+            				splitDetails = {"splitterType" : value.splitter_map.splitter_type,
+        							"mapInputs" : value.splitter_map.map_inputs,
+        							"mapOutputs" : value.splitter_map.map_outputs};
+            			} else{
+            				splitDetails = {"splitterType" : value.splitter_map.splitter_type};
             			}
             		}
             	});
@@ -970,22 +1011,22 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     }
             	}
             	
-            	if(n.nodeId === e.sourceNodeId && n.type.name === "Collator"){
+            	if(n.nodeId === e.sourceNodeId && n.type.name === "Collator" && n.properties[0].collator_map.collator_type === "Parameter-based"){
             		if(srcPort.orig.value.bounds === outbounds)
             			createCollateTargetTable(tarPort,srcPort);
             	}
             	
-            	if(n.nodeId === e.targetNodeId && n.type.name === "Collator"){
+            	if(n.nodeId === e.targetNodeId && n.type.name === "Collator" && n.properties[0].collator_map.collator_type === "Parameter-based"){
             		if(tarPort.orig.value.bounds === inbounds)
             			createCollateSourceTable(srcPort,tarPort);
             	}
             	
-            	if(n.nodeId === e.sourceNodeId && n.type.name === "Splitter"){
+            	if(n.nodeId === e.sourceNodeId && n.type.name === "Splitter" && n.properties[0].splitter_map.splitter_type === "Parameter-based"){
             		if(srcPort.orig.value.bounds === outbounds)
             			createSplitTargetTable(tarPort,srcPort);
             	}
             	
-            	if(n.nodeId === e.targetNodeId && n.type.name === "Splitter"){
+            	if(n.nodeId === e.targetNodeId && n.type.name === "Splitter" && n.properties[0].splitter_map.splitter_type === "Parameter-based"){
             		if(tarPort.orig.value.bounds === inbounds)
             			createSplitSourceTable(srcPort,tarPort);
             	}
@@ -1516,7 +1557,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         get_type: function(p){return p.orig.value.type},
         set_type: function(p1, p2) {
         	if(p1.node.orig.value.type.name === "Collator"){
-        		if($scope.collateSchemes[p1.node.orig.key] === "Array-based" && $scope.readSolution === false){
+        		if($scope.collateSchemes[p1.node.orig.key] === "Array-based" && $scope.readSolutionArray[p1.node.orig.key] === false){
 	        		if(p1.orig.value.bounds === outbounds){
 	        			_ports.forEach(function(port){
 	            			if(port.nodeId === p1.node.orig.key && port.bounds !== p1.orig.value.bounds){
@@ -1570,7 +1611,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	            }
             	}
         	} else if(p1.node.orig.value.type.name === "Splitter"){
-        		if($scope.splitSchemes[p1.node.orig.key] === "Copy-based" && $scope.readSolution === false){
+        		if($scope.splitSchemes[p1.node.orig.key] === "Copy-based" && $scope.readSolutionArray[p1.node.orig.key] === false){
 	        		_ports.forEach(function(port){
 	        			if(port.nodeId === p1.node.orig.key && port.bounds !== p1.orig.value.bounds){
 	        				if(p2) {
@@ -1835,20 +1876,37 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 			    		                sourcePort.orig.value.bounds !== targetPort.orig.value.bounds;
         					} 
         				}
-        			} else if(targetPort.node.orig.value.type.name === "Splitter" && targetPort.orig.value.bounds === inbounds){
-        				if($scope.splitSelect === true)
-        				return wildcardPorts.isValid(sourcePort, targetPort) &&
-	                        sourcePort.orig.value.bounds !== xtrabounds &&  
-	                        targetPort.orig.value.bounds !== xtrabounds &&  
-	                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
-	                        targetPort.edges.length === 0;
-        			} else if(sourcePort.node.orig.value.type.name === "Splitter" && sourcePort.orig.value.bounds === inbounds){
-        				if($scope.splitSelect === true)
-        				return wildcardPorts.isValid(sourcePort, targetPort) &&
-	                        sourcePort.orig.value.bounds !== xtrabounds &&  
-	                        targetPort.orig.value.bounds !== xtrabounds &&  
-	                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
-	                        sourcePort.edges.length === 0;
+        			} else if(targetPort.node.orig.value.type.name === "Splitter"){
+        				if($scope.splitSelect){
+        					 if(targetPort.orig.value.bounds === inbounds)
+		        				return wildcardPorts.isValid(sourcePort, targetPort) &&
+			                        sourcePort.orig.value.bounds !== xtrabounds &&  
+			                        targetPort.orig.value.bounds !== xtrabounds &&  
+			                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
+			                        targetPort.edges.length === 0;
+        					 else{
+        						 return wildcardPorts.isValid(sourcePort, targetPort) &&
+		    		                sourcePort.orig.value.bounds !== xtrabounds &&  
+		    		                targetPort.orig.value.bounds !== xtrabounds &&  
+		    		                sourcePort.orig.value.bounds !== targetPort.orig.value.bounds;
+        					 }
+        				}
+        			} else if(sourcePort.node.orig.value.type.name === "Splitter"){
+        				if($scope.splitSelect){
+        					if(sourcePort.orig.value.bounds === inbounds)
+        						return wildcardPorts.isValid(sourcePort, targetPort) &&
+    	                        sourcePort.orig.value.bounds !== xtrabounds &&  
+    	                        targetPort.orig.value.bounds !== xtrabounds &&  
+    	                        sourcePort.orig.value.bounds !== targetPort.orig.value.bounds &&
+    	                        sourcePort.edges.length === 0;
+        					else{
+        						return wildcardPorts.isValid(sourcePort, targetPort) &&
+	    		                sourcePort.orig.value.bounds !== xtrabounds &&  
+	    		                targetPort.orig.value.bounds !== xtrabounds &&  
+	    		                sourcePort.orig.value.bounds !== targetPort.orig.value.bounds;
+        					}
+        				}
+        				
         			} else {
 	                    return wildcardPorts.isValid(sourcePort, targetPort) &&
 		                    sourcePort.orig.value.bounds !== xtrabounds &&  
@@ -2049,9 +2107,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 if(e.linkName)
                     params.linkName = e.linkName;
                 url = build_url(options.addLink, params);
-
+                document.getElementById("loading").style.display = "block";
                 return $http.post(url,angular.toJson(properties))
                     .then(function(response) {
+                    	document.getElementById("loading").style.display = "none";
                     	$scope.activeInactivedeploy = true;
                         set_dirty(true);
                         return wildcardPorts.copyType(e, sport, tport);
@@ -2179,6 +2238,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	$scope.showCollator = null;
                     	$scope.showSplitter = null;
                     	$scope.showDataBroker = true;
+                    	if($scope.readSolutionArray[$scope.nodeIdDB])
+                    		$scope.readSolution = $scope.readSolutionArray[$scope.nodeIdDB];
                     	$scope.$apply();
                     	break;
                     case 'TC':
@@ -2195,7 +2256,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	$scope.showDataMapper = null;
                     	$scope.showSplitter = null;
                     	$scope.showCollator = true;
-                    	if(!$scope.readSolution){
+                    	if($scope.readSolutionArray[$scope.nodeIdDB])
+                    		$scope.readSolution = $scope.readSolutionArray[$scope.nodeIdDB];
+                    	if(!$scope.readSolutionArray[$scope.nodeIdDB]){
 	                    	$scope.collateScheme = $scope.collateSchemes[$scope.nodeIdDB];
 	                    	if($scope.collateScheme.length !== 0 ){
 	                    		$scope.collateSelect = true;
@@ -2241,7 +2304,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     	$scope.showDataMapper = null;
                     	$scope.showCollator = null;
                     	$scope.showSplitter = true;
-                    	if(!$scope.readSolution){
+                    	if($scope.readSolutionArray[$scope.nodeIdDB])
+                    		$scope.readSolution = $scope.readSolutionArray[$scope.nodeIdDB];
+                    	if(!$scope.readSolutionArray[$scope.nodeIdDB]){
 	                    	$scope.splitScheme = $scope.splitSchemes[$scope.nodeIdDB];
 	                    	if($scope.splitScheme.length !== 0 ){
 	                    		$scope.splitSelect = true;
@@ -2379,7 +2444,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     protobufJsonString: port_info
                 });
                 document.getElementById("loading").style.display = "block";
-                $http.get(url,{cache: true}).success(function(data){
+                $http.get(url,{headers: {'Access-Control-Allow-Origin': '*','Access-Control-Request-Method': 'GET','Access-Control-Allow-Headers':'application/x-www-form-urlencoded'},cache: true}).success(function(data){
                     var i=0;
                     var matchingModels = [];
 
@@ -2407,7 +2472,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                             $scope.clicked = true;
                             $scope.$apply();
                         }, 0);
-
+                        document.getElementById("loading").style.display = "none";
                     });
             }
             } else display_properties(null);
@@ -3021,34 +3086,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             $http.post(url)
                 .success(function(response) {
                     reset();
-                	$scope.showDataBroker = null;
-                    $scope.showDataMapper = null;
-                    $scope.showCollator = null;
-                	$scope.showSplitter = null;
-                    $scope.solutionDetails = null;
-                    $scope.showProperties = null;
-                    $scope.selectedIndex = null;
-                    $scope.showLink=null;
-                    $scope.myCheckbox = false;
-                    $scope.checkboxDisable = true;
+                	
                     $scope.clearSolution();
                     $scope.namedisabled = false;$scope.closeDisabled = true;
                     $scope.solutionName = '';$scope.solutionVersion = '';$scope.solutionDescription = '';_cid = '';_solutionId = '';
                     $scope.canvas =false;
-                    $scope.validationState = true;
-                    jsonProtoNode = new Map();
-                    protoJsonRead = new Map();
-                    $scope.readSolution = false;
-                    $scope.collateScheme = null;
-                    $scope.enableCollateMap = false;
-                    $scope.collateSelect = false;
-                    $scope.splitScheme = null;
-                    $scope.enableSplitMap = false;
-                    $scope.splitSelect = false;
-                    $scope.scriptEntered = false;
-                    $scope.matchModels = [];
-                    $scope.solutionIdDeploy = null;
-                    $scope.activeInactivedeploy = true;
+                    
                 })
                 .error(function(response){
                 	$scope.titlemsg = ALERT;
@@ -3061,7 +3104,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         if(val == 'yes' && $scope.CloseOrNew == 'closeSol'){
             $scope.showPrerenderedDialog();
         }
-        else if(val == 'no' && $scope.CloseOrNew == 'closeSol'){_dirty = false;$scope.closeComSol();$scope.closePoup();$scope.checkboxDisable = true;}
+        else if(val == 'no' && $scope.CloseOrNew == 'closeSol'){
+        	_dirty = false;
+        	if($scope.clearSol) 
+        		$scope.clearSolution();
+        	else
+        		$scope.closeComSol();
+        	$scope.closePoup();$scope.checkboxDisable = true;}
         else if(val == 'yes' && $scope.CloseOrNew == 'new'){
             $scope.showPrerenderedDialog();
         }
@@ -3072,6 +3121,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     // Function for closing All Open composite solution
     $scope.clearSolution = function(){
+    	$scope.clearSol = true;
     	if(_dirty){$scope.CloseOrNew = 'closeSol';$scope.showsaveConfirmationPopup();}
         else {
         var url = "";
@@ -3092,38 +3142,19 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $http.post(url)
             .success(function(response) {
                 $scope.cleardis= true;
-                $scope.showDataMapper = null;
-                $scope.showCollator = null;
-            	$scope.showSplitter = null;
-                $scope.solutionDetails = null;
-                $scope.showProperties = null;
-                $scope.showLink=null;
-                $scope.showDataBroker = null;
-
                 $('#deleteHide').hide();
-               $scope.canvas=false;
+                $scope.canvas=false;
 
             })
             .error(function(response){
                 $('#deleteHide').hide();
                 $scope.cleardis = true;
             });
+        reset();
         var empty = {"cname": $scope.solutionName,"version": $scope.solutionVersion,"cid": _cid,"solutionId": _solutionId,"ctime": '',"mtime": "","nodes": [],"relations": []};
-        display_solution(empty);$scope.solutionDetails = false;$scope.solutionDescription = '';$scope.matchModels = [];
-        jsonProtoNode = new Map();
-        protoJsonRead = new Map();
-        $scope.myCheckbox = false;
-        $scope.selectedIndex = null;
-        $scope.readSolution = false;
-        $scope.scriptEntered = false;
-        $scope.collateScheme = null;
-        $scope.enableCollateMap = false;
-        $scope.collateSelect = false;
-        $scope.enableSplitMap = false;
-        $scope.splitScheme = null;
-        $scope.splitSelect = false;
-        $scope.solutionIdDeploy = null;
-        $scope.activeInactivedeploy = true;
+        display_solution(empty);
+        $scope.solutionDescription = '';
+        $scope.clearSol = false;
         }
     };
 
@@ -3186,7 +3217,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
     
     $scope.resetScript = function(){
-    	if($scope.readSolution){
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		if($scope.dbType === "Select Type" || $scope.dbType === null || $scope.dbType === undefined)
     			$scope.dbType = "Select Type";
     		else
@@ -3231,7 +3262,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     $scope.closePoupscript = function(){
     	if(readScriptDetails){
-    		$scope.readSolution = true;
+    		$scope.readSolutionArray[$scope.nodeIdDB] = true;
     	}
     	$scope.resetScript();
     	
@@ -3245,7 +3276,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.closeMappingPopup = function(){
     	$mdDialog.cancel();
-    	if($scope.readSolution){
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		$scope.readSourceTable = readScriptDetails.mapInputs;
     	}
     };
@@ -3384,8 +3415,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     $scope.checkFileName = function(){
     	
-        $scope.readSolution = false;
         if($scope.userImage !== undefined || $scope.userImage === ""){
+        	$scope.readSolutionArray[$scope.nodeIdDB] = false;
+        	$scope.readSolution = false;
 	        var fileName = $scope.userImage.name;
 	        if(fileName !== undefined){
 		        if (fileName.split(".")[1].toUpperCase() !== "CSV")
@@ -3407,7 +3439,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     						'localfile':$scope.userImage};
     	if($scope.dbType == 'csv'){
     		if($scope.fileContent !== undefined){
-    			$scope.readSolution = false;
+    			$scope.readSolutionArray[$scope.nodeIdDB] = false;
     			checkFieldMap = new Map();
         		fieldNameMap = new Map();
         		fieldTypeMap = new Map();
@@ -3586,7 +3618,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.showMappingTable = function(ev) {
     	$scope.disableDone = false;
-    	if($scope.readSolution){
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		if($scope.targetMapTable === null || $scope.targetMapTable === undefined || $scope.readSourceTable === null || $scope.readSourceTable === undefined){
         		$scope.disableDone = true;
         	}
@@ -3618,7 +3650,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     var checkFieldMap = new Map();
     $scope.mapCheckField = function(index){
-    	if($scope.readSolution){
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		checkFieldMap.set(index,checkFieldMap.get(index) === "YES"?"NO":"YES");
     		if(checkFieldMap.get(index) === "NO"){
     			$scope.readSourceTable[index].input_field.type = "null";
@@ -3655,7 +3687,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.mappingsSave = function(){
     	var mapOutput = []; var mapInput = [];
-    	if($scope.readSolution){
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		mapInput = $scope.readSourceTable;        	
     	} else{
     	for(var i=0; i < $scope.dataShow.length; i++){
@@ -3757,7 +3789,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		}
     	});
     	var url;
-    	if($scope.readSolution){
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		var data = {
         			"databrokerMap": {
         			    "script": null,
@@ -3836,13 +3868,45 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         }else{
                $scope.fileUrl = "http://";
         }
-        $scope.readSolution=false;
+        $scope.readSolutionArray[$scope.nodeIdDB]=false;
      }
     
+    $scope.cancelRead = [];
     $scope.changeRead = function(){
-    	$scope.readSolution = false;
+    	$scope.cancelRead[$scope.nodeIdDB] = $scope.readSolutionArray[$scope.nodeIdDB];
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
+    		$scope.readSolutionArray[$scope.nodeIdDB] = false;
+    		$scope.readSolution = false;
+    	}		
     }
     
+    $scope.changeReadCollate = function(){
+    	$scope.cancelRead[$scope.nodeIdDB] = $scope.readSolutionArray[$scope.nodeIdDB];
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
+    		$scope.readSolutionArray[$scope.nodeIdDB] = false;
+    		$scope.readSolution = false;
+    	}	
+    	
+    	if($scope.collateScheme !== null || $scope.collateScheme !== undefined || $scope.collateScheme !== "")
+    		$scope.enableCollateDone = true;
+    	else if($scope.collateScheme !== $scope.collateSelectedDetails[$scope.nodeIdDB])
+    		$scope.enableCollateDone = true;
+    }
+    
+    $scope.changeReadSplit = function(){
+    	$scope.cancelRead[$scope.nodeIdDB] = $scope.readSolutionArray[$scope.nodeIdDB];
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
+    		$scope.readSolutionArray[$scope.nodeIdDB] = false;
+    		$scope.readSolution = false;
+    	}	
+    	
+    	 if($scope.splitScheme !== null || $scope.splitScheme !== undefined || $scope.splitScheme !== "")
+    			$scope.enableSplitDone = true;
+    		else if($scope.splitScheme !== $scope.splitSelectedDetails[$scope.nodeIdDB])
+    			$scope.enableSplitDone = true;
+    }
+   
+	
     $('#optionshow').hide();
     $('#myFile').change( function(event) {
 		 var filename = $("#myFile").val().split('.');
@@ -3854,7 +3918,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 		 } 	 
 	});
     
-    $scope.showCollatorSelection = function(ev) {	
+    $scope.showCollatorSelection = function(ev) {
+    	$scope.enableCollateDone = false;
         $mdDialog.show({
             contentElement: '#myDialogCollatorSelector',
             parent: angular.element(document.body),
@@ -3864,6 +3929,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
     
     $scope.showSplitterSelection = function(ev) {
+    	$scope.enableSplitDone = false;
+    	
         $mdDialog.show({
             contentElement: '#myDialogSplitterSelector',
             parent: angular.element(document.body),
@@ -3891,12 +3958,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
     
     $scope.closePopupCollatorSelector = function(){
-    	if($scope.readSolution){
+    	if($scope.cancelRead[$scope.nodeIdDB] !== undefined)
+    		$scope.readSolutionArray[$scope.nodeIdDB] = $scope.cancelRead[$scope.nodeIdDB];
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		$scope.collateScheme = collateDetails.collatorType;
     	} else if($scope.collateSelect){
-    		$scope.collateScheme = $scope.collateSelectedDetails;
+    		$scope.collateScheme = $scope.collateSelectedDetails[$scope.nodeIdDB];
+    		$scope.enableCollateDone = false;
     	} else{
     		$scope.collateScheme = "";
+    		$scope.enableCollateDone = false;
     	}
     	$scope.collatorSelector.$setPristine();
          $scope.collatorSelector.$setUntouched();
@@ -3904,12 +3975,16 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
     
     $scope.closePopupSplitterSelector = function(){
-    	if($scope.readSolution){
+    	if($scope.cancelRead[$scope.nodeIdDB] !== undefined)
+    		$scope.readSolutionArray[$scope.nodeIdDB] = $scope.cancelRead[$scope.nodeIdDB];
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		$scope.splitScheme = splitDetails.splitterType;
     	} else if($scope.splitSelect){
-    		$scope.splitScheme = $scope.splitSelectedDetails;
+    		$scope.splitScheme = $scope.splitSelectedDetails[$scope.nodeIdDB];
+    		$scope.enableSplitDone = false;
     	} else{
     		$scope.splitScheme = "";
+    		$scope.enableSplitDone = false;
     	}
     	$scope.collatorSelector.$setPristine();
         $scope.splitterSelector.$setUntouched();
@@ -3918,32 +3993,23 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.closeMappingCollatorPopup = function(){
     	$mdDialog.cancel();
-    	if($scope.readSolution){
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
     		readCollatorMapping(collateDetails.mapInputs, $scope.nodeIdDB);
-    	} else if($scope.selectedCollateMapping){
-    		collateTagMap = $scope.selectedCollateMapping;
-    		$scope.collateTags[$scope.nodeIdDB] = $scope.selectedCollateMapping;
-    	    $scope.collateErrors[$scope.nodeIdDB] = $scope.selectedCollateError;
-    	    $scope.collateErrorMap = $scope.selectedCollateError;
-    	}
+    	} 
     };
     
     $scope.closeMappingSplitterPopup = function(){
     	$mdDialog.cancel();
-    	if($scope.readSolution){
-    		readSplitterMapping(splitDetails.mapOututs, $scope.nodeIdDB);
-    	} else if($scope.selectedSplitMapping){
-    		splitTagMap = $scope.selectedSplitMapping;
-    		$scope.splitTags[$scope.nodeIdDB] = $scope.selectedSplitMapping;
-    	    $scope.splitErrors[$scope.nodeIdDB] = $scope.selectedSplitError;
-    	    $scope.splitErrorMap = $scope.selectedSplitError;
-    	} 
+    	if($scope.readSolutionArray[$scope.nodeIdDB]){
+    		readSplitterMapping(splitDetails.mapOutputs, $scope.nodeIdDB);
+    	}
     };
     
     $scope.processCollatorSelection = function(){
     	var url;
     	$scope.collateSelect = true;
-    	$scope.collateSelectedDetails = $scope.collateScheme;
+    	$scope.enableCollateDone = false;
+    	$scope.collateSelectedDetails[$scope.nodeIdDB] = $scope.collateScheme;
     	$scope.collateSchemes[$scope.nodeIdDB] = $scope.collateScheme;
     	if($scope.collateScheme === "Array-based"){
     		$scope.enableCollateMap = false;
@@ -4001,7 +4067,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.processSplitterSelection = function(){
     	var url;
     	$scope.splitSelect = true;
-    	$scope.splitSelectedDetails = $scope.splitScheme;
+    	$scope.enableSplitDone = false;
+    	$scope.splitSelectedDetails[$scope.nodeIdDB] = $scope.splitScheme;
     	$scope.splitSchemes[$scope.nodeIdDB] = $scope.splitScheme;
     	if($scope.splitScheme === "Copy-based"){
     		$scope.enableSplitMap = false;
@@ -4154,7 +4221,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		collateErrorIndicator.set(key,value.input_field.error_indicator);
     	});
     	$scope.collateTags[nodeId] = collateTagMap;
+    	$scope.readCollateTagMap = collateTagMap;
     	$scope.collateErrors[nodeId] = collateErrorIndicator;
+    	$scope.collateErrorMap = collateErrorIndicator;
     }
     
     function createSplitSourceRead(mapInput,nodeId){
@@ -4189,15 +4258,20 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		splitErrorIndicator.set(key, value.output_field.error_indicator);
     	});
     	$scope.splitTags[nodeId] = splitTagMap;
+    	$scope.readSplitTagMap = splitTagMap;
     	$scope.splitErrors[nodeId] = splitErrorIndicator;
+    	$scope.splitErrorMap = splitErrorIndicator;
     }
     
-    var collateTagMap = [];
+    var collateTagMap = new Map();
     var collateErrorIndicator = new Map();
     
     $scope.collateMappingTag = function(index){
     	collateTagMap = $scope.collateTags[$scope.nodeIdDB];
-        collateTagMap[index] = this.collateMapTag;
+    	if($scope.readSolutionArray[$scope.nodeIdDB])
+    		collateTagMap[index] = $scope.readCollateTagMap[index];
+    	else
+    		collateTagMap[index] = this.collateMapTag;
         var occurrences = { };
         var collateErrorIndicator = new Map();
         
@@ -4248,7 +4322,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.splitMappingTag = function(index){
     	splitTagMap = $scope.splitTags[$scope.nodeIdDB];
-        splitTagMap[index] = this.splitMapTag;
+    	if($scope.readSolutionArray[$scope.nodeIdDB])
+    		splitTagMap[index] = $scope.readSplitTagMap[index];
+    	else
+    		splitTagMap[index] = this.splitMapTag;
         var splitErrorIndicator = new Map();
         
 	    for(var st = 0; st < splitTagMap.length-1 ; st++){
