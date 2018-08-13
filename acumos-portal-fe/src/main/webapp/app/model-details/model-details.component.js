@@ -596,7 +596,11 @@ angular
 										    "size": 0
 										  },
 										};
-							apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
+							
+							 var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+							 tz = encodeURIComponent(tz);
+							 apiService.getComment($scope.solutionId, $scope.revisionId, tz, reqObj).then(function(response) {
+								 
 								$scope.totalCommentCount = response.data.response_body.content.length;
 								$scope.commentList = [];
 								//list of indexes to go through after initial read, only for reply comments(i.e. they have a parentId not null)

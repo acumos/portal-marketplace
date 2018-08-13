@@ -498,13 +498,14 @@ public class ThreadControllerTest {
 			String threadId= mlpcomment.getThreadId();
 			String solutionId = "6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4";
 			String revisionId = "90361063-3ee0-434b-85da-208a8be6856d";
+			String clientTimeZone="Asia%2FKolkata";
 			RestPageRequest pageRequest = new RestPageRequest();
 			pageRequest.setPage(0);
 			pageRequest.setSize(9);
 			JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
 			restPageReq.setBody(pageRequest);
-			threadService.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
-			JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq);
+			threadService.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, pageRequest);
+            JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, restPageReq);
 			if(mlpthreadRes != null){
 				logger.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionCommentsTest :  ");
 			}
@@ -521,8 +522,9 @@ public class ThreadControllerTest {
 		restPageReq.setBody(null);
 		String solutionId = null;
 		String revisionId = null;
-		threadService.getSolutionRevisionComments(solutionId, revisionId, body);
-		JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq);
+		String clientTimeZone=null;
+		threadService.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, body);
+        JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, restPageReq);
 		
 	}
 }
