@@ -27,7 +27,6 @@ angular
 				{
 					templateUrl : './app/marketplace-home/home.template.html',
 					controller : function($scope, $rootScope, apiService, $window, $state, $http, $mdDialog, waitservice, browserStorageService) {
-						console.log("market-home")
 							  /*if(localStorage.getItem("homeRefresh") == 'Yes'){
 								  localStorage.setItem("homeRefresh",'No');
 								  $state.go("home");
@@ -77,7 +76,6 @@ angular
 								.getSiteConfig("carousel_config")
 								.then(
 										function(response) {
-											
 											if(response.data.response_body != null) {
 												var carouselConfig = angular.fromJson(response.data.response_body.configValue);
 												//alert (angular.toJson(carouselConfig[0]));
@@ -241,24 +239,7 @@ angular
 														$scope.homeSolutions.slides[index]['image'] = "/images/default-model.png";
 													});
 								}
-							  // $scope.mlsolution.slides = [
-							      
-							      //text: ['Nice image','Awesome photograph','That is so cool','I love that'][slides.length % 4],
-							      
-							  //];
-							  //sessionStorage.setItem("provider","");
-							 /* $scope.addSlide = function() {
-							    var newWidth = slides.length + 1;
-							    slides.push({
-							      image: './images/carouselImage' + newWidth +'.jpg',
-							      //text: ['Nice image','Awesome photograph','That is so cool','I love that'][slides.length % 4],
-							      id: currIndex++
-							    });
-							  };
 							  
-							  for (var i = 0; i < 3; i++) {
-								    $scope.addSlide();
-								  }*/
 							  $scope.onCarouselBeforeChange = function(){
 								  $scope.active = true;
 								  //console.log("onCarouselBeforeChange()");
@@ -301,12 +282,19 @@ angular
 									.then(
 											function(response) {
 												$scope.homeSolutions.slides = response.data.response_body.content;
-												angular
-												.forEach(
-														$scope.homeSolutions.slides,
-														function( value, key) {
-															$scope.getSolutionImages(key, value);
-														});
+												angular.forEach($scope.homeSolutions.slides,function( value, key) {
+													$scope.getSolutionImages(key, value);
+												});
+												angular.forEach($scope.homeSolutions.slides,function( value, key) {
+													if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
+													{
+														var starPercentage = (value.solutionRatingAvg / 5) * 100;
+														const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
+														$scope.startRatingWidth =   starPercentageRounded + "%"  	;
+														console.log(">>>>>>>>>>>>>>>>width "+ $scope.startRatingWidth);
+													}
+													 value.solutionRatingAvg = $scope.startRatingWidth;
+													});
 										
 											},
 											function(error) {
@@ -535,10 +523,6 @@ angular
 				});
 
 angular.module('marketHome').controller('homeCarouselController', ['$scope', '$state', function ($scope, $state) {
-	//$ctrl = this;
-	
-	console.log("in home carosel");
-	 
      
 }]);
 
