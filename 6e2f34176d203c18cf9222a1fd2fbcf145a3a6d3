@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1e17064_8b1a10c1",
+        "filename": "acumos-portal-fe/src/main/webapp/app/marketplace-home/home.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-08-13T14:31:42Z",
+      "side": 1,
+      "message": "Remove console.log",
+      "revId": "6e2f34176d203c18cf9222a1fd2fbcf145a3a6d3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05959632_f4169ee9",
+        "filename": "acumos-portal-fe/src/main/webapp/app/marketplace-home/home.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-08-13T14:31:42Z",
+      "side": 1,
+      "message": "This can be removed",
+      "revId": "6e2f34176d203c18cf9222a1fd2fbcf145a3a6d3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4394f2e_14a9a1c2",
+        "filename": "acumos-portal-fe/src/main/webapp/app/marketplace-home/home.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-08-13T14:31:42Z",
+      "side": 1,
+      "message": "Please correct indentation",
+      "revId": "6e2f34176d203c18cf9222a1fd2fbcf145a3a6d3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
