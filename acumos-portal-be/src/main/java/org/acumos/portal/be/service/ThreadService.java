@@ -56,6 +56,6 @@ public interface ThreadService {
 	
 	RestPageResponseBE<MLPThread> getSolutionRevisionThreads(String solutionId, String revisionId, RestPageRequest pageRequest) throws AcumosServiceException;
 	
-	RestPageResponseBE<MLComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException;
+	RestPageResponseBE<MLComment> getSolutionRevisionComments(String solutionId, String revisionId, String clientTimeZone,RestPageRequest pageRequest) throws AcumosServiceException;
 
 }

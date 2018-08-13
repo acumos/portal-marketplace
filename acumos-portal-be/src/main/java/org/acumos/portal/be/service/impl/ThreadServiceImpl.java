@@ -19,6 +19,8 @@
  */
 package org.acumos.portal.be.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,7 @@ import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
@@ -284,10 +287,17 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		
 	}
 		
-	public  RestPageResponseBE<MLComment> getSolutionRevisionComments(String solutionId, String revisionId,RestPageRequest pageRequest) throws AcumosServiceException{
+	public  RestPageResponseBE<MLComment> getSolutionRevisionComments(String solutionId, String revisionId, String clientTimeZone,RestPageRequest pageRequest) throws AcumosServiceException{
 		//List<MLPComment> mlpCommentList = new ArrayList<MLPComment>();
 		List<MLComment> content = new ArrayList<MLComment>();
+		try {
+			clientTimeZone=URLDecoder.decode(clientTimeZone, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		RestPageResponseBE<MLComment> commentResponse = new RestPageResponseBE<>(content);
+		DateTimeZone clientZone = DateTimeZone.forID(clientTimeZone);
 		try {
 			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -301,26 +311,33 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 				String stringDate = null;
 				DateTime currDate = DateTime.now();
 				DateTime commentTime = new DateTime(mlComment.getModified().getTime());
+				DateTime clientTime = commentTime.withZone(clientZone);
 				if (currDate.isAfter(commentTime)) {
 					int minutes = Minutes.minutesBetween(commentTime, currDate).getMinutes();
 					int hours = Hours.hoursBetween(commentTime, currDate).getHours();
-					
+
 					if (minutes < 1) {
 						stringDate = FEW_SECONDS_AGO;
-					} else if (minutes < 59) {
+					} else if (minutes <= 59) {
 						stringDate = minutes + " " + MINUTES_AGO;
-					} else if (hours > 1 && hours < 24) {
+					} else if (hours >= 1 && hours < 48) {
 						Interval today = new Interval(currDate.withTimeAtStartOfDay(),
 								currDate.plusDays(1).withTimeAtStartOfDay());
-						boolean happensToday = today.contains(commentTime);
+						boolean happensToday = today.contains(clientTime);
 						if (happensToday) {
-							stringDate = "AT " + commentTime.toString("hh:mm a");
+							stringDate = "AT " + clientTime.toString("hh:mm a");
 						}else {
-							stringDate = "Yesterday " + commentTime.toString("hh:mm a");
+							Interval yesterday = new Interval(currDate.minusDays(1).withTimeAtStartOfDay(),
+									currDate.withTimeAtStartOfDay());
+							if(yesterday.contains(clientTime)){
+								stringDate = "Yesterday " + clientTime.toString("hh:mm a");
+							}else{
+								stringDate = clientTime.toString(TIMESTAMP_FORMAT);
+							}
 						}
 
 					} else {
-						stringDate = commentTime.toString(TIMESTAMP_FORMAT);
+						stringDate = clientTime.toString(TIMESTAMP_FORMAT);
 					}
 				}
 				mlComment.setStringDate(stringDate);				 
