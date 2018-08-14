@@ -363,12 +363,12 @@ public class ThreadController extends AbstractController {
 	@ApiOperation(value = "Gets a list of comments according to solution and revision id's", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.GET_COMMENT_SOLUTIONREVISION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponseBE<MLComment>> getSolutionRevisionComments(@PathVariable String solutionId,@PathVariable String revisionId, @RequestBody JsonRequest<RestPageRequest> restPageReq) {
+	public JsonResponse<RestPageResponseBE<MLComment>> getSolutionRevisionComments(@PathVariable String solutionId,@PathVariable String revisionId,@PathVariable String clientTimeZone, @RequestBody JsonRequest<RestPageRequest> restPageReq) {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
 		RestPageResponseBE<MLComment> mlComment = null;
 		JsonResponse<RestPageResponseBE<MLComment>> data = new JsonResponse<>();
 		try {
-			mlComment = threadService.getSolutionRevisionComments(solutionId, revisionId, restPageReq.getBody());
+			mlComment = threadService.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, restPageReq.getBody() );
 			    if(mlComment != null){
 			    	data.setResponseBody(mlComment);
 			    	data.setStatusCode(100);
