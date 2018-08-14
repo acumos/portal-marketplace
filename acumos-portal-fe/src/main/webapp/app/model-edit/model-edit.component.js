@@ -1493,7 +1493,8 @@ angular
 														firstName : item.firstName,
 														lastName : item.lastName,
 														userEmailId : item.emailId,
-														userID : item.userId
+														userID : item.userId,
+														picture : item.picture
 													});
 													
 												});
@@ -1514,7 +1515,8 @@ angular
 										'firstName' : item.firstName,
 										'lastName' : item.lastName,
 										'userId' : item.userID,
-										'emailId' : item.userEmailId
+										'emailId' : item.userEmailId,
+										'picture' : item.picture
 									}); // item.lastName
 								}
 							});
