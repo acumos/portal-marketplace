@@ -2055,6 +2055,13 @@ angular.module('admin').filter('abs', function() {
                 	   $scope.carouselBGFileName = val['bgImageUrl'];
                 	   $scope.carouselInfoFileName = val['InfoImageUrl'];
                 	   
+                	   var htmlToPlaintext = function(text) {
+                		   return text ? String(text).replace(/<[^>]+>/gm, '') : '';
+                		   };
+
+                		   $scope.updateTopSCLength(htmlToPlaintext($scope.carouselSlide.supportingContent + ' '));
+                	   
+                	   
                 	   $scope.keyval = key;
                 	   $scope.showAddSlidesPopup();
                    }
@@ -2420,6 +2427,12 @@ angular.module('admin').filter('abs', function() {
 	                 	   $scope.eventBGFileName = val['bgImageUrl'];
 	                 	   $scope.eventInfoFileName = val['InfoImageUrl'];
 	                 	   
+	                 	  var htmlToPlaintext = function(text) {
+	                		   return text ? String(text).replace(/<[^>]+>/gm, '') : '';
+	                		   };
+	                		                     
+	                		   $scope.updateEventSCLength(htmlToPlaintext($scope.eventCarousel.supportingContent + ' '));
+	                	   
 	                 	   $scope.event_Text_Aling = val['textAling'];
 	                 	   $scope.event_Info_Aling = val['infoImageAling'];
 	                 	   $scope.keyval = key;
@@ -2953,6 +2966,12 @@ angular.module('admin').filter('abs', function() {
 	                 	   $scope.successCarousel = val;
 	                 	   $scope.successBGFileName = val['bgImageUrl'];
 	                 	   $scope.successInfoFileName = val['InfoImageUrl'];
+	                 	  var htmlToPlaintext = function(text) {
+	                		   return text ? String(text).replace(/<[^>]+>/gm, '') : '';
+	                		   };
+
+	                		   $scope.updateSuccessSCLength(htmlToPlaintext($scope.successCarousel.supportingContent + ' '));
+	                	   
 	                 	   
 	                 	   $scope.event_Text_Aling = val['textAling'];
 	                 	   $scope.event_Info_Aling = val['infoImageAling'];
