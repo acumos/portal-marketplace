@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64dda4d9_ffb7c63c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/md-model-edit-workflow.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-14T12:44:18Z",
+      "side": 1,
+      "message": "While you are cleaning up the tag feature, possibly remove this block of commented-out HTML?",
+      "range": {
+        "startLine": 1418,
+        "startChar": 14,
+        "endLine": 1424,
+        "endChar": 107
+      },
+      "revId": "a7ce4394b3a1b41ef11ae5bee456f2f9fb5d91a3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9f3499f_e1a5c445",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-14T12:44:18Z",
+      "side": 1,
+      "message": "Can this commented-out leftover be cleaned up while you\u0027re touching this file?",
+      "range": {
+        "startLine": 1024,
+        "startChar": 8,
+        "endLine": 1032,
+        "endChar": 19
+      },
+      "revId": "a7ce4394b3a1b41ef11ae5bee456f2f9fb5d91a3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19c700e5_41aabcf4",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-14T12:44:18Z",
+      "side": 1,
+      "message": "these functions are now totally empty, perhaps a comment is appropriate?  why is the error function empty!?  That\u0027s not appropriate.  If the POST fails you need to log something at the least.",
+      "revId": "a7ce4394b3a1b41ef11ae5bee456f2f9fb5d91a3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de7274ce_bd39522d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/resources/ng-tags-input.min.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-14T12:44:18Z",
+      "side": 1,
+      "message": "If this is no longer minified, then change the name so it\u0027s not \".min.js\"",
+      "revId": "a7ce4394b3a1b41ef11ae5bee456f2f9fb5d91a3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
