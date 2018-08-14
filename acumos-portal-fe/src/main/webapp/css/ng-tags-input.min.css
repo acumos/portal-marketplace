@@ -108,7 +108,12 @@ tags-input .tags .input {
 }
 
 tags-input .tags .input.invalid-tag {
-    color: red
+    color: red;
+}
+
+tags-input .invalid-tag {
+    color: red;
+    display:block !important;
 }
 
 tags-input .tags .input::-ms-clear {
