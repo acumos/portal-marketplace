@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "828f53c1_eb55be9e",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app.config.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-14T12:40:24Z",
+      "side": 1,
+      "message": "Perhaps while you\u0027re modifying this file you might clean out all the commented-out debug log calls that linger from previous work?",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 99
+      },
+      "revId": "6abff2252d33abd04779b366d3d7487afbbed3e5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
