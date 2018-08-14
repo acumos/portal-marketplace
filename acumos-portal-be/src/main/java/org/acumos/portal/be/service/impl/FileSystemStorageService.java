@@ -31,7 +31,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.acumos.portal.be.common.exception.StorageException;
-import org.acumos.portal.be.controller.PushAndPullSolutionServiceController;
 import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService {
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate
-			.getLogger(PushAndPullSolutionServiceController.class);
+			.getLogger(FileSystemStorageService.class);
 
 	@Autowired
 	private Environment env;
