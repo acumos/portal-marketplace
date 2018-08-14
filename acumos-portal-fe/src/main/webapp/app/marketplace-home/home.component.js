@@ -172,7 +172,7 @@ angular
 												angular.forEach($scope.eventConfig, function (value, key) {
 													if(value['slideEnabled'] === true || value['slideEnabled'] === 'true'){
 														var storyhtml = '<div class="hackathon-container">' + 
-															'<div class="hackathon-image">' + 
+															'<div ng-hide="'+!value["bgImageUrl"]+'" class="hackathon-image">' + 
 															'<img src="/site/binaries/content/gallery/acumoscms/global/event_carousel_bg/' + value["bgImageUrl"] +'"/>' + 
 															'</div>' +
 															'<div class="hackathon-text">' + 
@@ -199,10 +199,10 @@ angular
 												setTimeout(function() {
 												angular.forEach($scope.storyConfig, function (value, key) {
 													if(value['slideEnabled'] === true || value['slideEnabled'] === 'true' && key != 'enabled'){
-														var storyhtml = '<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit"> <div class="success-icon">' + 
+														var storyhtml = '<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit"> <div class="success-icon" ng-hide="'+!value["bgImageUrl"]+'" >' + 
 															'<img src="/site/binaries/content/gallery/acumoscms/global/story_carousel_bg/' + value["bgImageUrl"] +'"/>' + 
 															'</div>' +
-															'<div class="success-description" ng-if=" value[\'supportingContent\']">' + 
+															'<div class="success-description" ng-show="'+value['supportingContent']+'">' + 
 															value["supportingContent"]  +
 															'</div></div>';
 														$scope.successStories.slides[index] = storyhtml;
@@ -214,7 +214,7 @@ angular
 											},0);
 											}
 										});
-							  
+										
 							  $scope.getSolutionImages = function(index, value) {
 									apiService
 											.getSolutionImage(value.solutionId)
