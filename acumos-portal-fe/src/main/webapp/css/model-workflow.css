@@ -1537,6 +1537,7 @@ position:relative;
 .removeformspace button{margin:0 8px;}
 .authors ul li:last-child{background: #fff;}
 .authors ul + input{display: none;}
+.selected_author {background: #a8a8a8 !important;}
 .authorsimg {
     background-image: url("../images/ico_manage_authors_inactive.png");
     background-repeat: no-repeat;
