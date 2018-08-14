@@ -254,8 +254,9 @@ limitations under the License.
 						</div>
 						<table
 							class="mdl-data-table mdl-js-data-table mdl-shadow--2dp scroll-table">
-							<colgroup>
+							<colgroup class="fullwidth">
 								<col width="7%">
+								<col>
 								<col>
 								<col>
 								<col width="25%">
@@ -301,9 +302,9 @@ limitations under the License.
 							</thead>
 							<!-- <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))"> -->
 							<tbody
-								ng-repeat="val in userDetails | orderBy:orderByField:reverseSort | filter : search">
+								ng-repeat="val in (filtertedUser = (userDetails | orderBy:orderByField:reverseSort | filter : searchData) )">
 								<tr>
-
+						
 									<td><label
 										class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"
 										for="checkbox{{$index}}"> <input type="checkbox"
@@ -334,13 +335,16 @@ limitations under the License.
 									</td>
 								</tr>
 
+							</tbody>	
+							<tbody ng-if="filtertedUser.length == 0" >
+								<tr class="alert c-info text-center">
+									<td class="text-center" colspan="5"><strong>No Result Found</strong></td>
+								</tr>
 							</tbody>
+							
 						</table>
+					
 
-						<div class="alert c-info text-center"
-							ng-show="$parent.filtertedUser.length == 0">
-							<strong>No Result Found</strong>
-						</div>
 					</div>
 					<div class="mdl-tabs__panel" id="tab3-panel">
 						<div class="admin-tab-heading">
@@ -1860,7 +1864,7 @@ limitations under the License.
 						<input type="text" required ng-model='subNamePop' /> </md-input-container>
 					</div>
 					<div flex="40" layout="column" class="">
-						<div class="fed-container1">
+						<div class="fed-container3">
 							<md-input-container class="md-block" flex-gt-sm>
 							<label>API Url</label> <input type="text" required
 								ng-model='apiUrlPop' /> </md-input-container>

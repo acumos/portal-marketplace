@@ -104,7 +104,7 @@ angular
 						$scope.imageerror = false;
 						$scope.imagetypeerror = false;
 						$scope.docerror = false;
-						
+						$scope.flag = false;
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
 							localStorage.setItem('solutionId',
@@ -568,6 +568,7 @@ angular
 			    		
 					    	apiService.removeAuthor($scope.solutionId, $scope.revisionId, obj).then(function successCallback(response) {
 					    		$scope.AuthorsTag = response.data.response_body;
+					    		$scope.cancelAuthor();
 					    	},
 					    	function errorCallback(response) {
 					    		$scope.msg = "Error while removing Author";
@@ -589,8 +590,7 @@ angular
 						              	  return false;
 						                }
 						    
-						  $scope.setAuthor = function(){
-						    	//console.log($scope.AuthorsTag);
+						  $scope.setAuthor = function(){						    	
 						    	var vart = $scope.AddAuthor.$valid;
 						    	if($scope.AddAuthor.$valid) {
 						    		var obj = {
@@ -619,6 +619,42 @@ angular
 						    	});
 						    	}
 							}
+						  $scope.updateTag = function(tag)
+						  {
+							  $scope.selectedtagindex = $scope.AuthorsTag.indexOf(tag);							  
+							  $scope.flag = true;
+							  $scope.Author =[];
+							  $scope.Author.Name = tag.name;
+							  $scope.Author.cntinfo = tag.contact;
+							  $scope.updateName = tag.name;
+							  $scope.updateCntInfo = tag.contact;							  
+						  }
+						  
+						  $scope.updateAuthor = function(){							   							    
+						    	if($scope.AddAuthor.$valid) {	
+						    		//$scope.Author.Name;
+						    		//$scope.Author.cntinfo;
+						    		$scope.removeauthor = [];						    		
+						    		$scope.removeauthor.name = $scope.updateName;
+						    		$scope.removeauthor.contact = $scope.updateCntInfo;
+						    		$scope.deleteAuthor();
+						    		$scope.getAuthorList();
+						    		$scope.setAuthor();
+						    		
+						    		$scope.flag = false;
+								};						    		
+						    }
+							
+						  
+						  $scope.cancelAuthor = function(){
+							  	$scope.Author.Name = "";
+						    	$scope.Author.cntinfo= "";
+						    	$scope.AddAuthor.cntinfo.$touched = false;
+						    	$scope.AddAuthor.Name.$touched = false;
+						    	$scope.flag = false;
+						    	$scope.selectedtagindex = -1;
+						  }
+						  
 
 						$scope.updateSolution = function() {
 							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
