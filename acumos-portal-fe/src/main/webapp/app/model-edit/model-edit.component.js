@@ -999,7 +999,7 @@ angular
 											});
 						}
 						$scope.loadAllTags();
-
+						$scope.createTagMethod = false;
 						$scope.tagAdded = function(tag) {
 							$scope.isTagExists = false;
 							angular.forEach($scope.allTags, function(item) {
@@ -1019,7 +1019,6 @@ angular
 						$scope.addTag = function(tag){
 							apiService.updateAddTag($scope.solution.solutionId,
 									tag.text).then(function(response) {
-
 								$scope.status = response.data.response_detail;
 								
 								/*$location.hash('manage-models');
@@ -1031,13 +1030,15 @@ angular
 								$timeout(function() {
 									$scope.showAlertMessage = false;
 								}, 2000);*/
-								
-								 var toast = $mdToast.simple()
+								if( $scope.createTagMethod == false){
+									var toast = $mdToast.simple()
 							        .content('Tag Added')
 							        .position('bottom right')
 							        .theme('success-toast')
 							        .hideDelay(2000);
-							     $mdToast.show(toast);
+									$mdToast.show(toast);
+								}
+								 
 							     var refreshTag = $scope.tags1;
 							     chkCount();
 							     /*fix: line commented to fix CD-2049 Starts*/
@@ -1100,7 +1101,7 @@ angular
 						        .theme('success-toast')
 						        .hideDelay(2000);
 								$mdToast.show(toast);
-						     
+								$scope.createTagMethod = true;
 								$scope.addTag(addtag);
 
 							}, function(error) {
@@ -1989,12 +1990,11 @@ angular
 
 									$http(req).then(
 										function(data){
-											console.log(angular.toJson(data))
-											
+											console.log(angular.toJson(data));
 										},
 										function(data){
-											debugger;
-											});
+                                                                                	console.log("Error Logs: ",data);
+										});
 							
 						}
 						/** ****** Export/Deploy to Azure ends *** */
