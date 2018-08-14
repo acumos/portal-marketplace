@@ -301,7 +301,7 @@ limitations under the License.
 							</thead>
 							<!-- <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))"> -->
 							<tbody
-								ng-repeat="val in userDetails | orderBy:orderByField:reverseSort | filter : search">
+								ng-repeat="val in userDetails | orderBy:orderByField:reverseSort |filter:searchData">
 								<tr>
 
 									<td><label
@@ -318,7 +318,7 @@ limitations under the License.
 									<td>{{val.emailId}}</td>
 									<!-- <td>Administrator</td> -->
 									<td>
-										<div ng-repeat='role in val.userAssignedRolesList'>{{role.name}}</div>
+										<div ng-repeat="role in val.userAssignedRolesList">{{role.name}}</div>
 										<!-- <div>
 																	<md-select ng-model="val.roleId" class="md-no-underline admin-ddl" ng-disabled='!selectBox[$index]'>
 																		<md-option value="{{role.roleId}}" ng-click='changeRoleSelectBox(role.roleId,val)' ng-repeat='role in roles'>{{role.name}}</md-option>
