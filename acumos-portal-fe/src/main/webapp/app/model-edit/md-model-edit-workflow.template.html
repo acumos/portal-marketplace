@@ -494,7 +494,7 @@ limitations under the License.
 													placeholder="Find a user to share with"> <img
 													class="userimg"
 													ng-click="testFunction()"
-													ng-src="images/userprofile/user-profile-black.png" /> <span
+													ng-src="{{item.picture ? 'data:image/jpg;base64, ' + item.picture : 'images/userprofile/user-profile-black.png'}}" /> <span
 													md-highlight-text="searchText"> {{item.firstName}} {{item.lastName}}</span> 
 												</md-autocomplete> 
 												<md-chip-template>
