@@ -20,6 +20,15 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.41, 14 th August 2018
+==================================
+* IST2: Rating is not displaying on the box on the Model carousel on the home page (ACUMOS-1506)
+* <IST2> <Portal Marketplace> Download popup/Model Artifacts: Opening new tab on clicking Download button (ACUMOS-1562)
+* Marketplace sorting, pagination takes time but no Progress indicator is displayed (ACUMOS-1159)
+* Acumos Is Not Mobile Friendly appears on desktop browser (ACUMOS-1549)
+* Portal store user supplement documents to Nexus (ACUMOS-1491)
+
+
 Version 1.15.40, 9 th August 2018
 =================================
 * IST2: Manage My Model : Reply to Comment: Reply Comment need to display as a popup (ACUMOS-1469)
