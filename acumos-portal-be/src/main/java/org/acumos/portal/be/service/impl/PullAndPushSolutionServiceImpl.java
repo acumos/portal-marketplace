@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.ArtifactTypeCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
@@ -230,6 +231,44 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
                 }
             }
 		return artifactFileName;
+	}
+
+	public String getFileNameByDocumentId(String documentId) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getDocumentNameById for document ID {}", documentId);
+
+        String artifactFileName = null;
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        MLPDocument mlpDocument = dataServiceRestClient.getDocument(documentId);
+        if (mlpDocument != null) {
+            String uri = mlpDocument.getName();
+        }
+		return artifactFileName;
+	}
+
+	/*
+	 * Fetches document by ID and writes stream to response output stream.
+	 */
+	@Override
+	public void downloadModelDocument(String documentId, HttpServletResponse response) {
+		log.debug(EELFLoggerDelegate.debugLogger, "downloadModelDocument.2 begins for document {}",
+				documentId);
+		try {
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			MLPDocument mlpDocument = dataServiceRestClient.getDocument(documentId);
+			if (mlpDocument != null && !mlpDocument.getUri().isEmpty()) {
+				NexusArtifactClient nexusClient = getNexusClient();
+				ByteArrayOutputStream byteArrayOutputStream = nexusClient.getArtifact(mlpDocument.getUri());
+				log.debug(EELFLoggerDelegate.debugLogger,
+						"downloadModelDocument.2 copying content stream for document {}", mlpDocument);
+				byteArrayOutputStream.writeTo(response.getOutputStream());
+				response.flushBuffer();
+				if (byteArrayOutputStream != null) {
+					byteArrayOutputStream.close();
+				}
+			}
+		} catch (Exception e) {
+			log.error(EELFLoggerDelegate.errorLogger, "downloadModelDocument.2 outer failed", e);
+		}
 	}
 
 	@Override

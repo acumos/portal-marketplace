@@ -496,15 +496,14 @@ angular
 						$scope.getSolCompanyDesc = function() {
 							var req = {
 								method : 'GET',
-								url : '/site/api-manual/Solution/description/org/'
-										+ $scope.solutionId + "/" + $scope.revisionId,
+								url : '/api/solution/revision/' + $scope.revisionId  + "/OR/description"
 							};
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
-												$scope.solutionCompanyDesc = data.description;
-												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.description);
+												$scope.solutionCompanyDesc = data.response_body.description;
+												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.response_body.description);
 												if($scope.solutionCompanyDesc){
 													$scope.solutionCompanyDescStatus = true;
 												}
@@ -516,18 +515,18 @@ angular
 						//$scope.getSolCompanyDesc();
 
 						$scope.getSolPublicDesc = function() {
-						
+						///solution/revision/{revisionId}/{accessType}/description
 							var req = {
 								method : 'GET',
-								url : '/site/api-manual/Solution/description/public/'
-										+ $scope.solutionId + "/" + $scope.revisionId,
+								url : '/api/solution/revision/' + $scope.revisionId  + "/PB/description"
 							};
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
-												$scope.solutionPublicDesc = data.description;
-												$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
+												alert(angular.toJson(data))
+												$scope.solutionPublicDesc = data.response_body.description;
+												$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.response_body.description);
 												if($scope.solutionPublicDesc){
 													$scope.solutionPublicDescStatus = true;
 												}
@@ -776,20 +775,20 @@ angular
 							} 
 							
 							var solution = {
-								"description" : $scope.solutionCompanyDesc,
-								"solutionId" : $scope.solution.solutionId,
-								"revisionId" : $scope.revisionId
+									"request_body": {
+										"description" : $scope.solutionCompanyDesc
+									}
 							};
 							var req = {
 								method : 'POST',
-								url : '/site/api-manual/Solution/description/org',
+								url : '/api/solution/revision/' + $scope.revisionId + "/OR/description",
 								data : solution
 							};
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
-												$scope.solutionCompanyDesc = data.description;
+												$scope.solutionCompanyDesc = data.response_body.description;
 												$scope.solutionCompanyDescStatus = true;
 												$location.hash('manage-models');
 												$anchorScroll();
@@ -846,20 +845,21 @@ angular
 							} 
 							
 							var solution = {
-								"description" : $scope.solutionPublicDesc,
-								"solutionId" : $scope.solution.solutionId,
-								"revisionId" : $scope.revisionId
+										"request_body": {
+										"description" : $scope.solutionPublicDesc
+									}
 							};
+							// /solution/revision/{revisionId}/{accessType}/description
 							var req = {
 								method : 'POST',
-								url : '/site/api-manual/Solution/description/public',
+								url : '/api/solution/revision/' + $scope.revisionId + "/PB/description",
 								data : solution
 							};
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
-												$scope.solutionPublicDesc = data.description;
+												$scope.solutionPublicDesc = data.response_body.description
 												$scope.solutionPublicDescStatus = true;
 												$location.hash('manage-models');
 												$anchorScroll();
@@ -886,20 +886,21 @@ angular
 						$scope.copiedCompanyDesc = false;
 						$scope.copyPublicToCompany = function() {
 							var solution = {
-								"description" : $scope.solutionPublicDesc,
-								"solutionId" : $scope.solution.solutionId,
-								"revisionId" : $scope.revisionId
+										"request_body": {
+										"description" : $scope.solutionPublicDesc
+									}
 							};
 							var req = {
 								method : 'POST',
-								url : '/site/api-manual/Solution/description/org',
+								url : '/api/solution/revision/' + $scope.revisionId + "/OR/description",
 								data : solution
 							};
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
-												$scope.solutionCompanyDesc = data.description;
+												$scope.solutionCompanyDesc1 = data.response_body.description;
+												$scope.solutionCompanyDesc = data.response_body.description;
 												$scope.copiedCompanyDesc = true;
 											}).error(
 											function(data, status, headers,
@@ -915,16 +916,16 @@ angular
 							.then(
 									function(response) {
 
-										if(response.data.description != null ){
+										if(response.data.response_body.description != null ){
 											var copySolutionDesc = {
-													"description" : response.data.description,
-													"solutionId" : $scope.solution.solutionId,
-													"revisionId" : $scope.revisionId
+													"request_body": {
+														"description" : response.data.response_body.description
+													}
 												};
-											
+											// /solution/revision/{revisionId}/{accessType}/description
 											var req = {
 													method : 'POST',
-													url : '/site/api-manual/Solution/description/' + publicOrOrg,
+													url : '/api/solution/revision/' + $scope.revisionId + '/' + publicOrOrg + '/description',
 													data : copySolutionDesc
 												};
 											
@@ -932,10 +933,14 @@ angular
 											.success(
 													function(data, status, headers,
 															config) {
-														if('org' == publicOrOrg)
-															$scope.solutionCompanyDesc = data.description;
-														else 
-															$scope.solutionPublicDesc = data.description;
+														if('OR' == publicOrOrg){
+															$scope.solutionCompanyDesc = data.response_body.description;
+															$scope.solutionCompanyDesc1 = data.response_body.description;
+														}
+														else {
+															$scope.solutionPublicDesc = data.response_body.description;
+															$scope.solutionPublicDesc1 = data.response_body.description;
+														}
 													}).error(
 													function(data, status, headers,
 															config) {
@@ -953,13 +958,13 @@ angular
 						$scope.copiedPublicDesc = false;
 						$scope.copyCompanyToPublic = function() {
 							var solution = {
-								"description" : $scope.solutionCompanyDesc,
-								"solutionId" : $scope.solution.solutionId,
-								"revisionId" : $scope.revisionId
+									"request_body": {
+										"description" : $scope.solutionCompanyDesc
+									}
 							};
 							var req = {
 								method : 'POST',
-								url : '/site/api-manual/Solution/description/public',
+								url : '/api/solution/revision/' + $scope.revisionId + "/PB/description",
 								data : solution
 							};
 							
@@ -967,7 +972,7 @@ angular
 									.success(
 											function(data, status, headers,
 													config) {
-												$scope.solutionPublicDesc = data.description;
+												$scope.solutionPublicDesc = data.response_body.description;
 												$scope.copiedPublicDesc = true;
 											}).error(
 											function(data, status, headers,
@@ -2058,7 +2063,8 @@ angular
 
 							var file = $scope.solutionFile;
 
-							var uploadUrl = "/site/api-manual/Solution/solutionAssets/" + $scope.solution.solutionId + "/" + $scope.revisionId + "?path=org";
+							///solution/{solutionId}/revision/{revisionId}/{accessType}/document
+							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + "/OR/document";
 							var promise = modelUploadService.uploadFileToUrl(
 									file, uploadUrl);
 
@@ -2066,6 +2072,7 @@ angular
 									.then(
 											function(response) {
 												$scope.modelUploadError = false;
+												alert(response.response_body)
 												$scope.supportingDocs.push(response.response_body);
 												$scope.showSolutionDocs = true;
 												$scope.showFileUpload = !$scope.showFileUpload;
@@ -2083,7 +2090,9 @@ angular
 						$scope.updatePublicSolutionFiles = function(uploadid) {
 							//$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
-							var uploadUrl = "/site/api-manual/Solution/solutionAssets/" + $scope.solution.solutionId + "/" + $scope.revisionId + "?path=public";
+							
+							///solution/{solutionId}/revision/{revisionId}/{accessType}/document
+							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + "/PB/document";
 							var promise = modelUploadService.uploadFileToUrl(
 									file, uploadUrl);
 
@@ -2133,9 +2142,10 @@ angular
 							$scope.getSolutionImages();
 						
 							$scope.getCompanySolutionDocuments = function(){
+								// /solution/{solutionId}/revision/{revisionId}/{accessType}/document
 		                       	 var getSolutionDocumentsReq = {
 											method : 'GET',
-											url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path=org"
+											url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/OR/document"
 									};
 		                       	 $http(getSolutionDocumentsReq)
 										.success(
@@ -2144,7 +2154,7 @@ angular
 													$scope.supportingDocs = [];
 													if(data.response_body.length > 0)
 													    $scope.showSolutionDocs = true;
-													console.log("Ger Solution Supporting Docs : " + angular.toJson(data.response_body))
+													console.log("Ger Solution Supporting Docs : " + angular.toJson(data.response_body.name))
 													$scope.supportingDocs = data.response_body;
 												}).error(
 														function(data, status, headers,
@@ -2156,7 +2166,7 @@ angular
 								$scope.getPublicSolutionDocuments = function(){
 			                       	 var getSolutionDocumentsReq = {
 												method : 'GET',
-												url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path=public"
+												url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/PB/document"
 										};
 			                       	 $http(getSolutionDocumentsReq)
 											.success(
@@ -2175,9 +2185,10 @@ angular
 									//$scope.getPublicSolutionDocuments();
 								
 								$scope.removeDoc = function(doc, path){
+									//  /solution/{solutionId}/revision/{revisionId}/{accessType}/document/{documentId}
 									var removeSolutionDocumentsReq = {
 											method : 'DELETE',
-											url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId  + "/" + $scope.revisionId +  "/" + doc +"?path="+path
+											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + path + "/document/" + doc
 									};
 		                       	 $http(removeSolutionDocumentsReq)
 										.success(
@@ -2195,14 +2206,16 @@ angular
 												}).error(
 														function(data, status, headers,
 																config) {
-															return "No Contents Available"
+															$scope.getCompanySolutionDocuments();
+															$scope.getPublicSolutionDocuments();
+															return false;
 														});
 								}
 								
 								$scope.copyDocsFromOtherRevision = function(path){
 									var copySolutionDocumentsReq = {
 											method : 'GET',
-											url : '/site/api-manual/Solution/solutionAssets/cp/'+$scope.solutionId  + "/" + $scope.revisionId +  "/" + $scope.sourceRevisionId.revisionId +"?path="+path
+											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + path + "/copyDocuments/" + $scope.sourceRevisionId.revisionId
 									};
 									$http(copySolutionDocumentsReq)
 									.success(

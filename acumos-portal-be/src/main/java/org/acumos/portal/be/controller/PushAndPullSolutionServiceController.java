@@ -216,4 +216,39 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		}
 		// return resource;
 	}
+
+	/**
+	 * Sends document file of the revision for the Solution.
+	 * 
+	 * @param documentId
+	 *            document ID
+	 * @param request
+	 *            HttpServletRequest
+	 * @param response
+	 *            HttpServletResponse
+	 */
+	@ApiOperation(value = "API to download the documents of the Solution", response = InputStream.class, responseContainer = "List", code = 200)
+	@RequestMapping(value = { "/solution/revision/document/{documentId}" },
+	method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public void downloadSolRevDocument(@PathVariable String documentId, HttpServletRequest request, HttpServletResponse response) {
+		try {
+
+			String documentName = pushAndPullSolutionService.getFileNameByDocumentId(documentId);
+			response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+			response.setHeader("Pragma", "no-cache");
+			response.setHeader("Expires", "0");
+			response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+			response.setHeader("x-filename", documentName);
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + documentName + "\"");
+			response.setStatus(HttpServletResponse.SC_OK);
+
+			pushAndPullSolutionService.downloadModelDocument(documentId, response);
+
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Exception Occurred downloading a document for a Solution in Push and Pull Solution serive", e);
+		}
+	}
 }

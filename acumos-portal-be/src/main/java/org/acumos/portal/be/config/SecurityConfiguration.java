@@ -109,6 +109,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, "/users/verifyUser").permitAll()
         .antMatchers(HttpMethod.POST, "/users/resendVerifyToken").permitAll()
         .antMatchers(HttpMethod.POST, "/auth/validateApiToken").permitAll()
+        .antMatchers(HttpMethod.POST, "/solution/{solutionId}/revision/{revisionId}/{accessType}/document").permitAll()
+        .antMatchers(HttpMethod.GET, "/solution/{solutionId}/revision/{revisionId}/{accessType}/document").permitAll()
+        .antMatchers(HttpMethod.DELETE, "/solution/{solutionId}/revision/{revisionId}/{accessType}/document/{documentId}").permitAll()
+        .antMatchers(HttpMethod.GET, "/solution/{solutionId}/revision/{revisionId}/{accessType}/copyDocuments/{fromRevisionId}").permitAll()
+        .antMatchers(HttpMethod.GET, "/solution/revision/document/{documentId}").permitAll()
+        .antMatchers("/solution/revision/{revisionId}/{accessType}/description").permitAll()
         .anyRequest().authenticated();
     	
     	// Custom JWT based authentication

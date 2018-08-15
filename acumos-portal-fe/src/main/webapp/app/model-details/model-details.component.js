@@ -877,15 +877,14 @@ angular
 							
 							var req = {
 								method : 'GET',
-								url : '/site/api-manual/Solution/description/org/'
-										+ $scope.solutionId + "/" + $scope.revisionId,
+								url : '/api/solution/revision/' + $scope.revisionId  + "/OR/description"
 							};
 							$scope.solutionCompanyDesc1 = "";
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
-												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.description);
+												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.response_bodydescription);
 											}).error(
 											function(data, status, headers,
 													config) {
@@ -895,15 +894,14 @@ angular
 						$scope.getSolPublicDesc = function() {
 							var req = {
 								method : 'GET',
-								url : '/site/api-manual/Solution/description/public/'
-										+ $scope.solutionId + "/" + $scope.revisionId,
+								url : '/api/solution/revision/' + $scope.revisionId  + "/PB/description"
 							};
 							$scope.solutionPublicDesc1 = "";
 							$http(req)
 									.success(
 											function(data, status, headers,
 													config) {
-												if (data.description == "" || data.description == null || data.description == undefined){
+												if (data.response_body.description == "" || data.response_body.description == null || data.response_body.description == undefined){
 													$scope.getSolCompanyDesc();
 													if($scope.version.accessTypeCode == $scope.orgVar){
 														$scope.showORDescription = true;
@@ -917,7 +915,7 @@ angular
 													 }
 													
 												}else{
-													$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.description);
+													$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.response_body.description);
 													
 													if($scope.version.accessTypeCode == $scope.orgVar){
 														$scope.showORDescription = true;
@@ -1334,11 +1332,11 @@ angular
 								var accessType;
 								$scope.noDocs = false;
 								if( type == $scope.priVar){
-									accessType = 'public';
+									accessType = 'PB';
 									$scope.getPBSolutionDocs(accessType);
 								}else{
-									$scope.getORSolutionDocs('org');
-									$scope.getPBSolutionDocs('public');
+									$scope.getORSolutionDocs('OR');
+									$scope.getPBSolutionDocs('PB');
 								} 
 		                        
 							}
@@ -1346,16 +1344,17 @@ angular
 								//get both PB and OR solution documents. Toggle docs on click of tabs on top
 								$scope.getPBSolutionDocs = function(accessType){
 									 var accessType = accessType;
+									 //'/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/PB/document"
 									 var getSolutionDocumentsReq = {
 												method : 'GET',
-												url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
+												url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/" + accessType + "/document"
 										};
 			                       	 $http(getSolutionDocumentsReq)
 											.success(
 													function(data, status, headers,
 															config) {
 														 if(data.response_body.length < 1){
-															 $scope.getORSolutionDocs('org'); 
+															 $scope.getORSolutionDocs('OR'); 
 															 if($scope.version.accessTypeCode == $scope.orgVar){
 																 $scope.showORDocs = true;
 															 }else if($scope.version.accessTypeCode == $scope.pubVar){
@@ -1378,9 +1377,9 @@ angular
 																console.log(" Get Asset File name : " + data.response_body);
 																var fileName="";var fileExtension = '';
 				                                                angular.forEach(data.response_body, function(value, key) {
-				                                                    fileName = value;
+				                                                    fileName = value.name;
 				                                                    fileExtension = fileName.split('.').pop();
-				                                                    $scope.supportingDocsPB.push({"name":value,"ext":fileExtension});
+				                                                    $scope.supportingDocsPB.push({"name":value.name,"ext":fileExtension,"documentId":value.documentId});
 			                                                    });
 														 }
 													}).error(
@@ -1395,7 +1394,7 @@ angular
 									 var accessType = accessType;
 									 var getSolutionDocumentsReq = {
 												method : 'GET',
-												url : '/site/api-manual/Solution/solutionAssets/'+$scope.solutionId + "/" + $scope.revisionId + "?path="+accessType
+												url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/" + accessType + "/document"
 										};
 			                       	 $http(getSolutionDocumentsReq)
 											.success(
@@ -1408,9 +1407,9 @@ angular
 															console.log(" Get Asset File name : " + data.response_body);
 															var fileName="";var fileExtension = '';
 			                                                angular.forEach(data.response_body, function(value, key) {
-			                                                    fileName = value;
+			                                                    fileName = value.name;
 			                                                    fileExtension = fileName.split('.').pop();
-			                                                    $scope.supportingDocsOR.push({"name":value,"ext":fileExtension});
+			                                                    $scope.supportingDocsOR.push({"name":value.name,"ext":fileExtension,"documentId":value.documentId});
 		                                                    });
 														}
 														

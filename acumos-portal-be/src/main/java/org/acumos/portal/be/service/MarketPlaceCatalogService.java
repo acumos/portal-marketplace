@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service;
  
+import java.io.InputStream;
 import java.util.List;
 
 import org.acumos.portal.be.common.JsonRequest;
@@ -32,8 +33,10 @@ import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.User;
-
+import org.springframework.web.multipart.MultipartFile;
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPDocument;
+import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
@@ -43,6 +46,7 @@ import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
+import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.cds.transport.RestPageResponse;
 
 /**
@@ -145,6 +149,20 @@ public interface MarketPlaceCatalogService {
 
 	List<Author> addSolutionRevisionAuthors(String solutionId, String revisionId, Author author) throws AcumosServiceException;
 
-	List<Author> removeSolutionRevisionAuthors(String solutionId, String revisionId, Author author) throws AcumosServiceException;;
+	List<Author> removeSolutionRevisionAuthors(String solutionId, String revisionId, Author author) throws AcumosServiceException;
+
+	MLPDocument addRevisionDocument(String solutionId, String revisionId, String accessType, String userId, MultipartFile file) throws AcumosServiceException;
+
+	MLPDocument removeRevisionDocument(String solutionId, String revisionId, String accessType, String string,
+			String documentId) throws AcumosServiceException;
+
+	List<MLPDocument> getRevisionDocument(String solutionId, String revisionId, String accessType, String string) throws AcumosServiceException;
+
+	List<MLPDocument> copyRevisionDocuments(String solutionId, String revisionId, String accessType, String userId,
+			String fromRevisionId) throws AcumosServiceException;
+
+	RevisionDescription getRevisionDescription(String revisionId, String accessType) throws AcumosServiceException;
+
+	RevisionDescription addUpdateRevisionDescription(String revisionId, String accessType, RevisionDescription description) throws AcumosServiceException;
 	
 }

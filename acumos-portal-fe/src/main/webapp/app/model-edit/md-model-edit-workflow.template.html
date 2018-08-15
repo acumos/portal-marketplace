@@ -1013,7 +1013,7 @@ limitations under the License.
 																ng-options="v.version for v in versionList">
 																<option value="">-- Version --</option>
 															</select>
-															<md-button ng-click="copyFromOtherRevision('org'); "
+															<md-button ng-click="copyFromOtherRevision('OR'); "
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 															Copy </md-button>
 														</div>
@@ -1324,8 +1324,10 @@ limitations under the License.
 														<!-- add cocument popover end -->
 														<div class="uploaded-file" ng-show="showSolutionDocs">
 															<md-chips ng-model="supportingDocs"
-																md-on-remove="removeDoc($chip, 'org')"> <md-chip-template>
-															<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
+																md-on-remove="removeDoc($chip.documentId, 'OR')"> <md-chip-template>
+															<strong>{{$chip.name}}</strong> </md-chip-template> 
+															</md-chips>
+								
 														</div>
 														<div class="timeline-version">
 															<label> Use the Documents you have in Company
@@ -1335,7 +1337,7 @@ limitations under the License.
 																ng-options="v.version for v in versionList">
 																<option value="">-- Version --</option>
 															</select>
-															<md-button ng-click="copyDocsFromOtherRevision('org'); "
+															<md-button ng-click="copyDocsFromOtherRevision('OR'); "
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 															Copy </md-button>
 														</div>
@@ -2154,14 +2156,14 @@ limitations under the License.
 																						<tr ng-show="publicPreview!=true" ng-repeat="supportingDoc in supportingDocs" >
 																							<td><span class="file-type"><i
 																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
-																								class="link-blue">{{supportingDoc}}</a></td>
+																								class="link-blue">{{supportingDoc.name}}</a></td>
 																							<td>{{versionId}}</td>
 																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 																							<td><a ng-if="!publicPreview" 
-																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}" alt="Download" title="Download">
+																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 																									<i class="fa fa-download" aria-hidden="true"></i> </a>
 																								<a ng-if="publicPreview" 
-																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}" alt="Download" title="Download">
+																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 																									<i class="fa fa-download" aria-hidden="true"></i></a>
 																							</td>
 																						</tr>
@@ -2169,14 +2171,14 @@ limitations under the License.
 																						<tr  ng-show="publicPreview==true" ng-repeat="supportingDoc in supportingPublicDocs">
 																							<td><span class="file-type"><i
 																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
-																								class="link-blue">{{supportingDoc}}</a></td>
+																								class="link-blue">{{supportingDoc.name}}</a></td>
 																							<td>{{versionId}}</td>
 																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 																							<td><a ng-if="!publicPreview" 
-																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc}}" alt="Download" title="Download">
+																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 																									<i class="fa fa-download" aria-hidden="true"></i> </a>
 																								<a ng-if="publicPreview" 
-																									href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc}}" alt="Download" title="Download">
+																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 																									<i class="fa fa-download" aria-hidden="true"></i></a>
 																							</td>
 																						</tr>
@@ -2769,7 +2771,7 @@ limitations under the License.
 															ng-options="v.version for v in versionList">
 															<option value="">-- Version --</option>
 														</select>
-														<md-button ng-click="copyFromOtherRevision('public'); "
+														<md-button ng-click="copyFromOtherRevision('PB'); "
 															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 														Copy </md-button>
 													</div>
@@ -2997,17 +2999,18 @@ limitations under the License.
 																			       <div class="drag-drop-files hide">
 																			              <p>doc.pdf</p>
 																			       </div>
-																			<div file-droppable filename="publicfilename" file=solutionFile>
+																			<div file-droppable filename="publicfilename" file=publicsolutionFile>
 																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
 																			              <div class="destext">Drag & Drop your file here!</div>
 																			       </div>
 																			</div> 
-																			
 																		<div file-upload file="solutionFile" 
 																						uploadid="publicDocumentuploadid" id="publicUploadFile"
 																						filename="publicfilename" 
 																						ng-model="solutionFile" accept = ""
-																						upload-image-model="solutionFile" size=10000000 docerror="docerror" readonly alt="Browse" title="Browse"></div>
+																						upload-image-model="solutionFile" size=10000000 docerror="docerror" readonly alt="Browse" title="Browse">
+																						
+																						</div>
 																						<div class="upload-image-input files-uploaded">
 																		    			<input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
@@ -3065,8 +3068,8 @@ limitations under the License.
 														details and show how to use your model.</p>
 													<div class="uploaded-file" ng-show="showPublicSolutionDocs">
 														<md-chips ng-model="supportingPublicDocs"
-															md-on-remove="removeDoc($chip, 'public')"> <md-chip-template>
-														<strong>{{$chip}}</strong> </md-chip-template> </md-chips>
+															md-on-remove="removeDoc($chip.documentId, 'PB')"> <md-chip-template>
+														<strong>{{$chip.name}}</strong> </md-chip-template> </md-chips>
 													</div>
 													<div class="timeline-version">
 														<label> Use the Documents you have in Public
@@ -3077,7 +3080,7 @@ limitations under the License.
 															<option value="">-- Version --</option>
 														</select>
 														<md-button
-															ng-click="copyDocsFromOtherRevision('public'); "
+															ng-click="copyDocsFromOtherRevision('PB'); "
 															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 														Copy </md-button>
 													</div>

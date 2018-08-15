@@ -17,37 +17,58 @@
  * limitations under the License.
  * ===============LICENSE_END=========================================================
  */
-
-/**
- * 
- */
-package org.acumos.portal.be.service;
-
-import java.io.File;
-import java.io.InputStream;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.acumos.portal.be.transport.MLSolutionDownload;
+package org.acumos.portal.be.transport;
 
 
-/**
- * Interface to support downloading of Docker Images and Artifacts for the Machine Learning Model
- */
-public interface PushAndPullSolutionService {
+public class RevisionDescription {
 	
-	public File downloadModelDockerImage(String modelName, String imageName, String version);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String description;
+	private String revisionId;
+	private String accessTypeCode;
 	
-	//TODO Add parameters to the interface
-	public InputStream downloadModelArtifact(String artifactId);
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-	String getFileNameByArtifactId(String artifactId);
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-	MLSolutionDownload getSolutionDownload(String solutionId, String artifactId, String userId);
+	/**
+	 * @return the revisionId
+	 */
+	public String getRevisionId() {
+		return revisionId;
+	}
 
-	public void downloadModelArtifact(String artifactId, HttpServletResponse respose);
+	/**
+	 * @param revisionId the revisionId to set
+	 */
+	public void setRevisionId(String revisionId) {
+		this.revisionId = revisionId;
+	}
 
-	void downloadModelDocument(String documentId, HttpServletResponse response);
+	/**
+	 * @return the accessTypeCode
+	 */
+	public String getAccessTypeCode() {
+		return accessTypeCode;
+	}
 
-	public String getFileNameByDocumentId(String documentId);
+	/**
+	 * @param accessTypeCode the accessTypeCode to set
+	 */
+	public void setAccessTypeCode(String accessTypeCode) {
+		this.accessTypeCode = accessTypeCode;
+	}
 }

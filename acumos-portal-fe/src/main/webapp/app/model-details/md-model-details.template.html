@@ -211,12 +211,7 @@ limitations under the License.
 						</span>
 						</a>
 
-						<!--  <a href="#tab5-panel" class="mdl-tabs__tab">
-											      	       <span class="tab-box">
-											      	     	<span class="tab-icons tab-description"></span>
-											      	      	<span>Write Comments</span>
-											      	      </span>											            	
-											          </a> -->
+
 						<a href="#tab5-panel" class="mdl-tabs__tab tab5-panel"> </a>
 					</div>
 					<div>
@@ -294,41 +289,12 @@ limitations under the License.
 						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
 							<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
 							<div ng-bind-html="solutionCompanyDesc1" ng-show="showORDescription" ></div>
-						
-						<!-- <h6 class="sectiontitle6">EXAMPLE</h6>
-														<h6 class="sectiontitle7">Tree Example - English</h6>
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div>														
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div>
-														<h6 class="sectiontitle7">Tree ExamGraph Example - Germanple - English</h6>
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div>														
-														<div class="c-mgcontainer">
-															<label>{"src":"Bob brought the pizza to Alice.","format":"tree","language":"English"}</label>
-														</div> -->
-
 
 					</div>
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
 						<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
-						
-						<!-- <h6 class="sectiontitle7">Input</h6>
-						<label>*(Required) Image Data API Url, Web (http/https)
-							Url, binary image, base64 encoded image or an array of data API
-							URLs/web URLs.</label> <label>**(Optional) **Output image
-							location, if input is an array, output location should be an
-							array of equal size.</label> <br />
-						<h6 class="sectiontitle7">Output</h6>
-						<label>Output image location</label> <label>Note: The
-							first call to this algorithm will take a bit longer than
-							sequential calls to due algorithm initialization. All following
-							calls will be significantly faster.</label>
- -->
+
 					</div>
 					<div class="mdl-tabs__panel" id="tab3-panel">
 						<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
@@ -365,14 +331,13 @@ limitations under the License.
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 									<td><a ng-if="version.accessTypeCode ==='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc.name}}" alt="Download" title="Download">
+										href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 										<i class="fa fa-download" aria-hidden="true"></i> </a>
 										<a ng-if="version.accessTypeCode !=='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc.name}}" alt="Download" title="Download">
+										href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
-								
 								
 								<tr ng-repeat="supportingDoc in supportingDocsOR" ng-show="showORDocs">
 									<td><span class="file-type">
@@ -390,46 +355,13 @@ limitations under the License.
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 									<td><a ng-if="version.accessTypeCode ==='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/org/{{supportingDoc.name}}" alt="Download" title="Download">
+										href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 										<i class="fa fa-download" aria-hidden="true"></i> </a>
 										<a ng-if="version.accessTypeCode !=='OR' " 
-										href="/site/binaries/content/assets/solutiondocs/solution/{{solution.solutionId}}/{{revisionId}}/public/{{supportingDoc.name}}" alt="Download" title="Download">
+										href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
 											<i class="fa fa-download" aria-hidden="true"></i>
 									</a></td>
 								</tr>
-								
-								
-								<!-- <tr>
-									<td><span class="file-type"><i class="far fa-file-excel" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 01</a></td>
-									<td>V1.0</td>
-									<td>05/21/2017</td>
-									<td>
-										<button class="mdl-button mdl-js-button btn-grid-action">
-										  <i class="fa fa-download" aria-hidden="true"></i>
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td><span class="file-type"><i class="far fa-file-pdf" aria-hidden="true"></i></span><a class="link-blue" href="#">Document name 02</a></td>
-									<td>V1.0</td>
-									<td>05/21/2017</td>
-									<td>
-										<button class="mdl-button mdl-js-button btn-grid-action">
-										  <i class="fa fa-download" aria-hidden="true"></i>
-										</button>
-									</td>
-								</tr>
-								<tr>
-									<td><span class="file-type"><i class="far fa-folder" aria-hidden="true"></i></span><a class="link-blue" href="#">Folder</a></td>
-									<td>V1.0</td>
-									<td>05/21/2017</td>
-									<td>
-										<button class="mdl-button mdl-js-button btn-grid-action">
-										  <i class="fa fa-download" aria-hidden="true"></i>
-										</button>
-									</td>
-								</tr> -->
-
 
 							</tbody>
 						</table>
@@ -476,28 +408,7 @@ limitations under the License.
 
 									</td>
 								</tr>
-								<!-- <tr>
-																	<td>Version name 02 </td>
-																	<td>V2.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																		<a href="#" class="btn-view-details">View Details</a>
-																	</td>
-																</tr>
-																<tr>
-																	<td>Version name 03 </td>
-																	<td>V1.0</td>
-																	<td>05/21/2017</td>
-																	<td>
-																		<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
-																		  <i class="fa fa-download" aria-hidden="true"></i>
-																		</button>
-																		<a href="#" class="btn-view-details">View Details</a>
-																	</td>
-																</tr> -->
+
 
 							</tbody>
 						</table>
@@ -532,31 +443,7 @@ limitations under the License.
 						<div class="rating-container"> 
 							<div class="mdl-grid rating-container-inner">
 								<div class="mdl-cell mdl-cell--6-col rating-container-left">
-								<!-- 	 <div class="text-right rating-container1">
-										<div>
-											
-											<h6 class="sectiontitle5 rate-title" ng-show="cantRate || !cantRate">{{averageRatings.ratingAverageTenths}}</h6>
-											<h6 class="sectiontitle5 rate-title" ng-show="cantRate">Ratings</h6>
-											<jk-rating-stars rating="averageRatings.ratingAverageTenths" class="staticRating read-only-rating1"></jk-rating-stars>
-										</div>
-										<div>
-											<label class="font300">Out of 5 ratings</label>
-										</div>
-										<div>
-											<label class="font600">{{mlSolutionGetRating.rating}} ratings</label>
-											<label class="font600">Total {{totalRatingsCount}} ratings</label>
-										</div>
-										<div>
-											<label class="font600">51 reviews</label>
-										</div>
-										<div>
-											<button 
-												ng-disabled="cantRate"
-												ng-click="$root.showPrerenderedDialog($event, '#rateModelPopup')"
-												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary" alt="Rate This Model" title="Rate This Model">Rate
-												This Model</button>
-										</div>
-									</div> -->									
+
 									<div class="">
                                         <div class="new-rating-container">
 <!--                                         <div class="rating-container1"> -->

@@ -120,7 +120,7 @@ angular.module('AcumosApp')
         };
         
         this.getSolutionDescription = function(publicOrOrg, solutionId, revisionId){
-        	return $http.get(urlSolutionDescription + '/' +publicOrOrg  + '/'+solutionId + '/' +revisionId)
+            return $http.get("/api/solution/revision/" + revisionId + '/' + publicOrOrg  + '/description' )
         };
         
         this.getSolutionImage = function(solutionId){

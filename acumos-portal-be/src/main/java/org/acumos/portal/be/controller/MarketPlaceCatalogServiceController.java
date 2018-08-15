@@ -37,7 +37,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
@@ -63,6 +65,7 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
+import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
@@ -77,6 +80,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.jsonwebtoken.lang.Collections;
 import io.swagger.annotations.ApiOperation;
@@ -1183,6 +1187,145 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while removeAuthor", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Add Solution Revision Document", response = MLPDocument.class)
+	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPDocument> addRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
+			@PathVariable String accessType, @RequestParam("file") MultipartFile file, HttpServletResponse response) {
+
+		JsonResponse<MLPDocument> data = new JsonResponse<>();
+		String userId = (String) request.getAttribute("loginUserId");
+		try {
+			MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId, file);
+			data.setResponseBody(document);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Document Added Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "addDocument: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while adding Document", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Remove Solution Revision Document", response = MLPDocument.class)
+	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/document/{documentId}" }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPDocument> removeRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
+			@PathVariable String accessType, @PathVariable String documentId, HttpServletResponse response) {
+
+		JsonResponse<MLPDocument> data = new JsonResponse<>();
+		String userId = (String) request.getAttribute("loginUserId");
+		try {
+			MLPDocument document = catalogService.removeRevisionDocument(solutionId, revisionId, accessType, userId, documentId);
+			data.setResponseBody(document);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Document Removed Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while removing Document", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Get Solution Revision Documents", response = MLPDocument.class, responseContainer = "List")
+	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLPDocument>> getRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
+			@PathVariable String accessType,  HttpServletResponse response) {
+
+		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
+		String userId = (String) request.getAttribute("loginUserId");
+		try {
+			List<MLPDocument> documents = catalogService.getRevisionDocument(solutionId, revisionId, accessType, userId);
+			data.setResponseBody(documents);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Documents Fetched Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Documents", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Copy Solution Revision Documents", response = MLPDocument.class, responseContainer = "List")
+	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/copyDocuments/{fromRevisionId}" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLPDocument>> copyRevisionDocuments(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
+			@PathVariable String accessType, @PathVariable String fromRevisionId,  HttpServletResponse response) {
+
+		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
+		String userId = (String) request.getAttribute("loginUserId");
+		try {
+			List<MLPDocument> documents = catalogService.copyRevisionDocuments(solutionId, revisionId, accessType, userId, fromRevisionId);
+			data.setResponseBody(documents);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Documents Fetched Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Documents", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Get Solution Revision Description", response = RevisionDescription.class)
+	@RequestMapping(value = { "/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RevisionDescription> getSolRevDescription(HttpServletRequest request, @PathVariable String revisionId,
+			@PathVariable String accessType, HttpServletResponse response) {
+
+		JsonResponse<RevisionDescription> data = new JsonResponse<>();
+		String userId = (String) request.getAttribute("loginUserId");
+		try {
+			RevisionDescription description = catalogService.getRevisionDescription(revisionId, accessType);
+			data.setResponseBody(description);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Description Fetched Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Description", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Add/Update Solution Revision Description", response = RevisionDescription.class)
+	@RequestMapping(value = { "/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request, @PathVariable String revisionId,
+			@PathVariable String accessType, @RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
+
+		JsonResponse<RevisionDescription> data = new JsonResponse<>();
+		String userId = (String) request.getAttribute("loginUserId");
+		RevisionDescription description = revisionDescription.getBody();
+		try {
+			description = catalogService.addUpdateRevisionDescription(revisionId, accessType, description);
+			data.setResponseBody(description);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Description Fetched Successfully");
+			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Description", e);
 		}
 		return data;
 	}

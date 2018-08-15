@@ -20,7 +20,14 @@ limitations under the License.
 
 'use strict';
 
-app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, ngQuillConfigProvider, $authProvider){
+/*
+ * angular .module('AcumosApp', ['ui.router'])
+ */
+app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, ngQuillConfigProvider, $authProvider, tagsInputConfigProvider){
+	//$locationProvider.html5Mode(true);
+	tagsInputConfigProvider.setDefaults('tagsInput', {
+        placeholder: ''
+    });
 	ngQuillConfigProvider.set();
 	$urlRouterProvider.when('','/home');
 	$urlRouterProvider.otherwise('/404Error');
