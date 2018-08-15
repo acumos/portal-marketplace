@@ -164,5 +164,8 @@ public interface MarketPlaceCatalogService {
 	RevisionDescription getRevisionDescription(String revisionId, String accessType) throws AcumosServiceException;
 
 	RevisionDescription addUpdateRevisionDescription(String revisionId, String accessType, RevisionDescription description) throws AcumosServiceException;
+
+	MLPDocument addSolutionImage(String solutionId, String revisionId, String accessType, String userId,
+			MultipartFile file);
 	
 }

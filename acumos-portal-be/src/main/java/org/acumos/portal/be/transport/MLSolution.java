@@ -78,6 +78,7 @@ public class MLSolution {
 	private String latestRevisionId;
 	private long commentsCount;
 	private String publisher;
+	private byte[] picture;
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -550,5 +551,19 @@ public class MLSolution {
 		 */
 		public void setPublisher(String publisher) {
 			this.publisher = publisher;
+		}
+
+		/**
+		 * @return the picture
+		 */
+		public byte[] getPicture() {
+			return picture;
+		}
+
+		/**
+		 * @param picture the picture to set
+		 */
+		public void setPicture(byte[] picture) {
+			this.picture = picture;
 		}
 }

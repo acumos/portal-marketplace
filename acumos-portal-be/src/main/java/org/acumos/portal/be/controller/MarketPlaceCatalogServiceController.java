@@ -70,6 +70,7 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
@@ -1329,4 +1330,36 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return data;
 	}
+	
+	@ApiOperation(value = "Updates Solution Image. ")
+    @RequestMapping(value = {"/solution/{solutionId}/updateImage"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse updateSolutionImage(HttpServletRequest request, @RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+        log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionImage={}");
+        JsonResponse<MLSolution> responseVO = new JsonResponse<>();
+		try {
+			if (PortalUtils.isEmptyOrNullString(solutionId)) {
+				log.error(EELFLoggerDelegate.errorLogger, "Bad request: solutionId empty");
+			}
+			MLSolution mlSolution = null;
+			if (solutionId != null) {
+				mlSolution = catalogService.getSolution(solutionId);
+				if (mlSolution != null) {
+					mlSolution.setPicture(file.getBytes());
+					mlSolution = catalogService.updateSolution(mlSolution, solutionId);
+				}
+				
+			}
+			responseVO.setStatus(true);
+			responseVO.setResponseDetail("Success");
+			responseVO.setResponseBody(mlSolution);
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		} catch (Exception e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail("Failed");
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionImage()", e);
+		}
+		return responseVO;
+    }
 }

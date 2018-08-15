@@ -905,7 +905,7 @@ angular.module('manageModule')
 																			}
 																		});
 														if (!duplicate) {
-															$scope.getSolutionImages(response.data.response_body.content[i].solutionId);
+															//$scope.getSolutionImages(response.data.response_body.content[i].solutionId);
 															$scope.mlsolutions
 																	.push({
 																		// id:$scope.mlsolutions[i].id,
@@ -922,7 +922,8 @@ angular.module('manageModule')
 																		solutionRating : response.data.response_body.content[i].solutionRating,
 																		ownerName: response.data.response_body.content[i].ownerName,
 																		modelType : response.data.response_body.content[i].modelType,
-																		ratingCount: response.data.response_body.content[i].ratingCount
+																		ratingCount: response.data.response_body.content[i].ratingCount,
+																		picture: response.data.response_body.content[i].picture
 
 																	});
 															angular.forEach($scope.favouriteSolutions,

@@ -281,9 +281,11 @@ limitations under the License.
 							<!-- <img class="modelimg1" src="images/imagegallery2.jpg" /> -->
 
 							<!-- images changed for demo  -->
-							<img
+							<!-- <img
 								ng-src="{{previewImage}}" class="modelimg1"
-								style="max-width: 400px; margin: 0 auto; display: block;">
+								style="max-width: 400px; margin: 0 auto; display: block;"> -->
+								<img ng-show="solution.picture" ng-src="data:image/JPEG;base64,{{solution.picture}}" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;">
+								<img ng-hide="solution.picture" ng-src="images/default-model.png" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;">
 
 						</div>
 						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
