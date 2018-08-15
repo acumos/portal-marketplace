@@ -240,7 +240,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPDocument mlpDocument = dataServiceRestClient.getDocument(documentId);
         if (mlpDocument != null) {
-            String uri = mlpDocument.getName();
+            artifactFileName = mlpDocument.getName();
         }
 		return artifactFileName;
 	}
