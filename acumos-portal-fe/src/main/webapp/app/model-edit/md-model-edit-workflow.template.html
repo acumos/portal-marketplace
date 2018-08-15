@@ -1683,7 +1683,7 @@ limitations under the License.
 																				<div>{{iconSrc}}</div>
 																				<div class="clearfix"></div>
 																			</div>
-																	</form>
+																	</form>`
 																</div>
 															</div>
 															<div layout="row"
@@ -1742,7 +1742,7 @@ limitations under the License.
 													<!-- updateupload image for model end -->
 													<div class="uploaded-img-des" ng-show="showSolutionImage">
 														<div class="imagecontainer">
-															<img ng-src="{{imgURLdefault}}" alt="" title=""
+															<img ng-src="data:image/JPEG;base64,{{solution.picture}}" alt="" title=""
 																ng-model="imgURLdefault" />
 														</div>
 														<div class="file-name">
@@ -1872,8 +1872,11 @@ limitations under the License.
 																<div class="grid-item">
 																	<div class="grid-top-section">
 																		<div class="product-image">
-																			<figure>
-																				 <img ng-src="{{previewImage}}" class="img-rounded">
+																			<figure ng-show="solution.picture">
+																				 <img ng-src="data:image/JPEG;base64,{{solution.picture}}" class="img-rounded">
+																			</figure>
+																			<figure ng-hide="solution.picture">
+																				 <img ng-src="images/default-model.png" class="img-rounded">
 																			</figure>
 																		</div>
 																		<div class="mpdetailscontainer">
@@ -2119,7 +2122,7 @@ limitations under the License.
 
 																					<!-- images changed for demo  -->
 																					<img
-																						ng-src="{{imgURLdefault}}" class="modelimg1"
+																						ng-src="data:image/JPEG;base64,{{solution.picture}}" class="modelimg1"
 																						style="max-width: 400px; margin: 0 auto; display: block;">
 																				</div>
 
@@ -3409,7 +3412,7 @@ limitations under the License.
 												<!-- updateupload image for model popover end -->
 												<div class="uploaded-img-des" ng-show="showSolutionImage">
 													<div class="imagecontainer">
-														<img ng-src="{{imgURLdefault}}" alt="" title=""
+														<img ng-src="data:image/JPEG;base64,{{solution.picture}}" alt="" title=""
 															ng-model="imgURLdefault" />
 													</div>
 													<div class="file-name">

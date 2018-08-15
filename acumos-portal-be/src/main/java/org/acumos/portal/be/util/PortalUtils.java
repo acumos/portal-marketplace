@@ -133,20 +133,13 @@ public class PortalUtils {
 		mlSolution.setOwnerId(mlpSolution.getUserId());
 		mlSolution.setCreated(mlpSolution.getCreated());
 		mlSolution.setModified(mlpSolution.getModified());
-		/*if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
-			mlSolution.setAccessType(mlpSolution.getAccessTypeCode());
-		if(!PortalUtils.isEmptyOrNullString(mlpSolution.getAccessTypeCode()))
-			mlSolution.setAccessType(mlpSolution.getAccessTypeCode());*/
 		mlSolution.setActive(mlpSolution.isActive());
 		mlSolution.setDescription(mlpSolution.getDescription());
 		if(mlpSolution.getMetadata()!=null)
 			mlSolution.setMetadata(mlpSolution.getMetadata());
-		/*if(mlpSolution.getRevisions() != null && mlpSolution.getRevisions().size() > 0) {
-			mlSolution.setRevisions(mlpSolution.getRevisions());
-		}*/
 		mlSolution.setTookitType(mlpSolution.getToolkitTypeCode());
 		mlSolution.setModelType(mlpSolution.getModelTypeCode());
-		/*mlSolution.setValidationStatusCode(mlpSolution.getValidationStatusCode());*/
+		mlSolution.setPicture(ArrayUtils.toPrimitive(mlpSolution.getPicture()));
 		return mlSolution;
 	}
 	
@@ -168,9 +161,6 @@ public class PortalUtils {
 		if (mlSolution.getModified() != null) {
 			mlpSolution.setModified(mlSolution.getModified());
 		}
-		/*if (!PortalUtils.isEmptyOrNullString(mlSolution.getAccessType())) {
-			mlpSolution.setAccessTypeCode(mlSolution.getAccessType());
-		}*/
 
 		mlpSolution.setActive(mlSolution.isActive());
 
@@ -180,21 +170,15 @@ public class PortalUtils {
 		if (!PortalUtils.isEmptyOrNullString(mlSolution.getMetadata())) {
 			mlpSolution.setMetadata(mlSolution.getMetadata());
 		}
-		/*
-		 * if(mlpSolution.getRevisions() != null &&
-		 * mlSolution.getRevisions().size() > 0) {
-		 * mlpSolution.setRevisions(mlSolution.getRevisions()); }
-		 */
+
 		if (!PortalUtils.isEmptyOrNullString(mlSolution.getTookitType())) {
 			mlpSolution.setToolkitTypeCode(mlSolution.getTookitType());
 		}
 		if (!PortalUtils.isEmptyOrNullString(mlSolution.getModelType())) {
 			mlpSolution.setModelTypeCode(mlSolution.getModelType());
 		}
-		
-		if(!isEmptyList(mlSolution.getSolutionTagList()))
-		{
-			//mlpSolution.set
+		if (mlSolution.getPicture() != null) {
+			mlpSolution.setPicture(ArrayUtils.toObject(mlSolution.getPicture()));
 		}
 
 		return mlpSolution;

@@ -1874,7 +1874,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		filteredSolList.addAll(mlpSolList);
 
 		for (MLPSolution mlpSol : filteredSolList) {
-			MLSolution mlSolution = PortalUtils.convertToMLSolution(mlpSol);
+
+			//CDS does not return the picture in list of solution. So we need to fetch the solution separately and then populate the picture
+			MLPSolution sol = dataServiceRestClient.getSolution(mlpSol.getSolutionId());
+			MLSolution mlSolution = PortalUtils.convertToMLSolution(sol);
 
 			// set rating, view, download count for model
 			try {

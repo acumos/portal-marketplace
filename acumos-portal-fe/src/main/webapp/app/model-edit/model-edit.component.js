@@ -440,6 +440,10 @@ angular
 																});
 
 													}
+													if($scope.solution.picture) {
+														$scope.showSolutionImage = true;
+														$scope.imgURLdefault = " "
+													}
 													$scope.showSolutionDocs = false;
 													$scope.showPublicSolutionDocs = false;
 													$scope.supportingPublicDocs = [];
@@ -477,6 +481,7 @@ angular
 											});
 							$scope.publishalert = '';
 						}
+						$scope.loadData();
 
 						$scope.getProtoFile = function(){
 							 $scope.modelSignature = "";
@@ -2027,7 +2032,7 @@ angular
 				            $scope.error = false;
 
 							console.clear();
-							var uploadUrl = "/site/api-manual/Solution/solutionImages/" + $scope.solution.solutionId;
+							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/updateImage";
 							var promise = modelUploadService.uploadFileToUrl(
 									file, uploadUrl);
 
@@ -2036,8 +2041,8 @@ angular
 											function(response) {
 												console.log(response);
 												$scope.showSolutionImage = true;
-												$scope.serverResponse = response.response_body;
-												$scope.imgURLdefault = "/site/binaries/content/gallery/acumoscms/solution/"+$scope.solutionId+"/"+response.response_body;
+												$scope.solution = response.response_body;
+												$scope.imgURLdefault = "";
 											})
 											.catch(function() {
 												
@@ -2059,7 +2064,6 @@ angular
 
 							var file = $scope.solutionFile;
 
-							///solution/{solutionId}/revision/{revisionId}/{accessType}/document
 							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + "/OR/document";
 							var promise = modelUploadService.uploadFileToUrl(
 									file, uploadUrl);
@@ -2086,7 +2090,6 @@ angular
 							//$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
 							var file = $scope.solutionFile;
 							
-							///solution/{solutionId}/revision/{revisionId}/{accessType}/document
 							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + "/PB/document";
 							var promise = modelUploadService.uploadFileToUrl(
 									file, uploadUrl);
@@ -2111,7 +2114,7 @@ angular
 						
 						
 						$scope.getSolutionImages = function(){
-	                       	 var getSolutionImagesReq = {
+	                       	 /*var getSolutionImagesReq = {
 										method : 'GET',
 										url : '/site/api-manual/Solution/solutionImages/'+$scope.solutionId
 								};
@@ -2132,12 +2135,11 @@ angular
 													function(data, status, headers,
 															config) {
 														$scope.showSolutionImage = false;
-													});
+													});*/
 							}
 							$scope.getSolutionImages();
 						
 							$scope.getCompanySolutionDocuments = function(){
-								// /solution/{solutionId}/revision/{revisionId}/{accessType}/document
 		                       	 var getSolutionDocumentsReq = {
 											method : 'GET',
 											url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/OR/document"
@@ -2180,7 +2182,6 @@ angular
 									//$scope.getPublicSolutionDocuments();
 								
 								$scope.removeDoc = function(doc, path){
-									//  /solution/{solutionId}/revision/{revisionId}/{accessType}/document/{documentId}
 									var removeSolutionDocumentsReq = {
 											method : 'DELETE',
 											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + path + "/document/" + doc
@@ -2656,8 +2657,6 @@ angular
 							//empty else required
 						}
 					}
-					
-					$scope.loadData();
 					
 	                function build_url(verb, params) {
 		                var options = Object.assign({
