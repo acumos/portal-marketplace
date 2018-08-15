@@ -34,6 +34,7 @@ import org.acumos.cds.ValidationTypeCode;
 import org.acumos.cds.domain.MLPAccessType;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
 import org.acumos.cds.domain.MLPSiteConfig;
@@ -63,6 +64,7 @@ import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.OauthUser;
+import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.apache.commons.lang.ArrayUtils;
@@ -597,6 +599,14 @@ public class PortalUtils {
         return mlComment;
     }
 	
+	public static RevisionDescription convertToRevisionDescription(MLPRevisionDescription mlpDescription) {
+		RevisionDescription revisiondescription = new RevisionDescription();
+		revisiondescription.setRevisionId(mlpDescription.getRevisionId());
+		revisiondescription.setAccessTypeCode(mlpDescription.getAccessTypeCode()); 
+		revisiondescription.setDescription(mlpDescription.getDescription()); 
+		return revisiondescription;
+	}
+
 	public static List<Author> convertToAuthor(AuthorTransport[] authorTransport) {
 		List<Author> authorList = new ArrayList<>();
 		

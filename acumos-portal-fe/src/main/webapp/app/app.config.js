@@ -20,7 +20,11 @@ limitations under the License.
 
 'use strict';
 
-app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, ngQuillConfigProvider, $authProvider){
+
+app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, ngQuillConfigProvider, $authProvider, tagsInputConfigProvider){
+	tagsInputConfigProvider.setDefaults('tagsInput', {
+        placeholder: ''
+    });
 	ngQuillConfigProvider.set();
 	$urlRouterProvider.when('','/home');
 	$urlRouterProvider.otherwise('/404Error');

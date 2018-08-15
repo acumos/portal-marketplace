@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,8 +50,11 @@ import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPCodeNamePair;
+import org.acumos.cds.domain.MLPComment;
+import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPModelType;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
@@ -65,6 +69,7 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
+import org.acumos.nexus.client.data.UploadArtifactInfo;
 import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageRequestBE;
@@ -79,10 +84,12 @@ import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
+import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -92,10 +99,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.maven.wagon.ConnectionException;
+import org.apache.maven.wagon.ResourceDoesNotExistException;
+import org.apache.maven.wagon.TransferFailedException;
+import org.apache.maven.wagon.authentication.AuthenticationException;
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -2323,4 +2335,209 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 		return true;
 	}
+
+	@Override
+	public MLPDocument addRevisionDocument(String solutionId, String revisionId, String accessType, String userId,
+			MultipartFile file) throws AcumosServiceException {
+
+		long size = file.getSize();
+		String name = FilenameUtils.getBaseName(file.getOriginalFilename());
+		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		if(PortalUtils.isEmptyOrNullString(extension))
+			throw new IllegalArgumentException("Incorrect file extension.");
+
+		//Check if docuemtn already exists with the same name
+		List<MLPDocument> documents = dataServiceRestClient.getSolutionRevisionDocuments(revisionId, accessType);
+		for (MLPDocument doc : documents) {
+			if (doc.getName().equalsIgnoreCase(name)) {
+				log.error(EELFLoggerDelegate.errorLogger,
+						"Document Already exists with the same name.");
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Document Already exists with the same name.");
+			}
+		}
+
+		//first try to upload the file to nexus. If successful then only create the c_document record in db
+		NexusArtifactClient nexusClient = getNexusClient();
+		UploadArtifactInfo uploadInfo = null;
+		MLPDocument document = null;
+		try {
+			uploadInfo = nexusClient.uploadArtifact(getNexusGroupId(solutionId, revisionId), name, accessType, extension, size, file.getInputStream());
+		} catch (ConnectionException | IOException | AuthenticationException | AuthorizationException | TransferFailedException | ResourceDoesNotExistException e) {
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Failed to upload the document", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+		}
+		
+		if (uploadInfo != null) {
+			/*document = new MLPDocument(null, name,
+					uploadInfo.getArtifactMvnPath(), (int) size, "1628acd3-37d6-4c53-a722-0396d0590235");*/
+			document = new MLPDocument();
+			document.setName(file.getOriginalFilename());
+			document.setUri(uploadInfo.getArtifactMvnPath());
+			document.setSize((int) size);
+			document.setUserId(userId);
+			document = dataServiceRestClient.createDocument(document);
+			
+			dataServiceRestClient.addSolutionRevisionDocument(revisionId, accessType, document.getDocumentId());
+		} else {
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Cannot upload the Document to the specified path");
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Cannot upload the Document to the specified path");
+		}
+		return document;
+	}
+
+	@Override
+	public MLPDocument removeRevisionDocument(String solutionId, String revisionId, String accessType, String userId,
+			String documentId) throws AcumosServiceException {
+
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		Boolean isSharedDoc = Boolean.FALSE;
+		List<MLPDocument> documentList = new ArrayList<MLPDocument>();
+		
+		MLPDocument document = dataServiceRestClient.getDocument(documentId);
+		if(document == null) {
+			log.error(EELFLoggerDelegate.errorLogger, "Failed to fetch document for revisionId : " + revisionId);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Failed to fetch document for revisionId : " + revisionId);
+		}
+
+		List<MLPSolutionRevision> revisions = dataServiceRestClient.getSolutionRevisions(solutionId);
+		for(MLPSolutionRevision revision : revisions) {
+			try {
+				List<MLPDocument> filteredDocList = new ArrayList<MLPDocument>();
+				List<MLPDocument> revDocList = dataServiceRestClient.getSolutionRevisionDocuments(revision.getRevisionId(), accessType);
+				if(!PortalUtils.isEmptyList(revDocList)) {
+					filteredDocList = revDocList.stream().filter(revDoc -> documentId.equalsIgnoreCase(revDoc.getDocumentId()) && !(revision.getRevisionId().equalsIgnoreCase(revisionId))).collect(Collectors.toList());
+				}
+				
+				if(!PortalUtils.isEmptyList(filteredDocList)) {
+					documentList.addAll(filteredDocList);
+				}
+			} catch (Exception e) {
+				//Log error and Do Nothing
+				log.error(EELFLoggerDelegate.errorLogger, "Failed to fetch document for revisionId : " + revision.getRevisionId(), e);
+			}
+		}
+
+		if(!PortalUtils.isEmptyList(documentList)) {
+			isSharedDoc = Boolean.TRUE;
+		}
+
+		NexusArtifactClient nexusClient = getNexusClient();
+		if(!isSharedDoc) {
+			try {
+				nexusClient.deleteArtifact(document.getUri());
+			} catch (URISyntaxException e) {
+				log.error(EELFLoggerDelegate.errorLogger,
+						"Failed to delete the document from Nexus with documentId : " + document.getDocumentId(), e);
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+			}
+		}
+
+		//Remove the mapping between revision and solution with the access type code
+		dataServiceRestClient.dropSolutionRevisionDocument(revisionId, accessType, documentId);
+
+		//If not a shared doc then remove the document record from DB also.
+		if (!isSharedDoc) {
+			dataServiceRestClient.deleteDocument(documentId);
+		}
+		return document;
+	}
+
+	private String getNexusGroupId(String solutionId, String revisionId) {
+		String group = env.getProperty("nexus.groupId");
+		if(PortalUtils.isEmptyOrNullString(group))
+			throw new IllegalArgumentException("Missing property value for nexus groupId.");
+		//This will created the nexus file upload path as groupId/solutionId/revisionId. Ex.. "org/acumos/solutionId/revisionId".
+		return String.join(".", group, solutionId, revisionId);
+	}
+
+	@Override
+	public List<MLPDocument> getRevisionDocument(String solutionId, String revisionId, String accessType, String string)
+			throws AcumosServiceException {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLPDocument> documents = dataServiceRestClient.getSolutionRevisionDocuments(revisionId, accessType);
+		return documents;
+	}
+
+	@Override
+	public List<MLPDocument> copyRevisionDocuments(String solutionId, String revisionId, String accessType,
+			String userId, String fromRevisionId) throws AcumosServiceException {
+
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLPDocument> revDocList = dataServiceRestClient.getSolutionRevisionDocuments(fromRevisionId, accessType);
+
+		for(MLPDocument revDocument : revDocList) {
+			dataServiceRestClient.addSolutionRevisionDocument(revisionId, accessType, revDocument.getDocumentId());
+		}
+
+		return revDocList;
+	}
+
+	@Override
+	public RevisionDescription getRevisionDescription(String revisionId, String accessType)
+			throws AcumosServiceException {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPRevisionDescription  description = dataServiceRestClient.getRevisionDescription(revisionId, accessType);
+		
+		if(description == null) {
+			log.error(EELFLoggerDelegate.errorLogger, "No description Found.");
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "No description Found.");
+		}
+		return PortalUtils.convertToRevisionDescription(description);
+	}
+
+	@Override
+	public RevisionDescription addUpdateRevisionDescription(String revisionId, String accessType,
+			RevisionDescription description) throws AcumosServiceException {
+
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		String accessCode = null;
+		List<MLPCodeNamePair> codeNamePairList = dataServiceRestClient.getCodeNamePairs(CodeNameType.ACCESS_TYPE);
+		for (MLPCodeNamePair accessTypeCode : codeNamePairList) {
+			if(accessTypeCode.getCode().equals(accessType))
+				accessCode = accessTypeCode.getCode();
+		}
+
+		if (accessCode == null) {
+			log.error(EELFLoggerDelegate.errorLogger, "Cannot Recognize the accessTypeCode");
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Invalid Access Type Code");
+		}
+		
+		if(PortalUtils.isEmptyOrNullString(description.getDescription())) {
+			log.error(EELFLoggerDelegate.errorLogger, "Cannot Recognize the accessTypeCode");
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Description is Empty");
+		}
+
+		Boolean isDescriptionExists = Boolean.FALSE;
+		RevisionDescription revisionDescription = null;
+		try {
+			revisionDescription = getRevisionDescription(revisionId, accessCode);
+			if(revisionDescription != null)
+				isDescriptionExists = Boolean.TRUE;
+		}catch(Exception e) {
+			//Do nothing. Create a new description if cannot find the existing description
+		}
+
+		MLPRevisionDescription mlpRevDesc = new MLPRevisionDescription();
+		mlpRevDesc.setRevisionId(revisionId);
+		mlpRevDesc.setAccessTypeCode(accessCode);
+		if(isDescriptionExists) {
+			//Update the existing Description
+			mlpRevDesc.setDescription(description.getDescription());
+			dataServiceRestClient.updateRevisionDescription(mlpRevDesc);
+		} else {
+			//Create a new description in db
+			mlpRevDesc.setDescription(description.getDescription());
+			mlpRevDesc = dataServiceRestClient.createRevisionDescription(mlpRevDesc);
+		}
+
+		if(mlpRevDesc!= null)
+			description = PortalUtils.convertToRevisionDescription(mlpRevDesc);
+
+		return description;
+	}
+
 }
