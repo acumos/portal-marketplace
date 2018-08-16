@@ -751,8 +751,10 @@ limitations under the License.
 			<md-toolbar>
 			<div class="md-toolbar-tools">
 			<!-- cloudName should match to the model value -->
-				<h2 ng-hide="exportTo!='azure'">Deploying to Microsoft Azure</h2>
-				<h2 ng-hide="exportTo!='rackspace'">Deploying to RackSpace</h2>
+				<h2 ng-show="exportTo=='azure'">Deploying to Microsoft Azure</h2>
+				<h2 ng-show="exportTo=='rackspace'">Deploying to RackSpace</h2>
+				<h2 ng-show="exportTo=='deploylocal'">Deploying to Local</h2>
+				<h2 ng-show="exportTo=='whitebox'">Deploying to White Box</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="handleDismiss()">
 				<i class="material-icons">close</i> </md-button>
@@ -760,7 +762,8 @@ limitations under the License.
 			</md-toolbar>
 			<md-dialog-content>
 				<div class="md-dialog-content">
-				<div ng-hide="exportTo!='azure'">
+				<!-- Deploy To Azure starts -->
+				<div ng-show="exportTo=='azure'">
 				<form name="deploy">
 				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
 					<div class="mdl-cell mdl-cell--4-col">
@@ -889,7 +892,20 @@ limitations under the License.
 				
 				</form>
 				</div>			
-				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide="exportTo!='rackspace'">
+				
+				<div class="dialog-btn-container-deploy-to-cloud" ng-show="exportTo=='azure'">
+					<md-button
+						class="mdl-button mdl-js-button btn-secondary"
+						ng-click="handleDismiss()"> Cancel </md-button>
+					<md-button
+						class="mdl-button mdl-js-button btn-primary"
+						ng-click="deployCloudVal()" ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)"> Data Broker </md-button>
+						<!-- ng-disabled="deployCloud.$invalid || deploy.$invalid" -->
+				</div>
+				<!-- Deploy To Azure ends -->
+				
+				<!-- Deploy To Rackspace starts -->
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show="exportTo=='rackspace'">
 					<form name="rackspace">
 						<md-input-container class="md-icon-float md-block">
 						<!-- Use floating label instead of placeholder --> <label>VM
@@ -899,7 +915,7 @@ limitations under the License.
 						</div> </md-input-container>
 						</form>
 				</div>
-				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='rackspace'">
+				<div class="dialog-btn-container-deploy-to-cloud" ng-show="exportTo=='rackspace'">
 					<md-button
 						class="mdl-button mdl-js-button btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>
@@ -907,15 +923,46 @@ limitations under the License.
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="authenticateAnddeployToAzure()" ng-disabled="!vmName"> Deploy </md-button>
 				</div>
-				<div class="dialog-btn-container broker-dialog-footer" ng-hide="exportTo!='azure'">
+				<!-- Deploy To Rackspace ends -->
+				
+				<!-- Deploy To Local starts -->
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show="exportTo=='deploylocal'">
+					<form name="deployToLocal">
+						<md-input-container class="md-icon-float md-block">
+							<label>Click here to download Deployable Solution Package for Private Kubernetes Cloud</label> 
+							<md-button class="mdl-button mdl-js-button btn-secondary"
+							ng-click="deployToLocal()"> Download Solution Package</md-button>
+						</md-input-container>
+						<br />
+						<p>More Info at <a href="" target="_blank">help</a></p>
+					</form>
+				</div>
+				<div class="dialog-btn-container-deploy-to-cloud" ng-show="exportTo=='deploylocal'">
+					<md-button
+						class="mdl-button mdl-js-button btn-secondary"
+						ng-click="handleDismiss()"> Cancel </md-button>
+				</div>
+				<!-- Deploy To Local ends -->
+				
+				<!-- Deploy To Whitebox starts -->
+				<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show="exportTo=='whitebox'">
+					<form name="deployToWhitebox">
+						<md-input-container class="md-icon-float md-block">
+							 <strong> Deploy To White Box.</strong>
+						</md-input-container>
+						</form>
+				</div>
+				<div class="dialog-btn-container-deploy-to-cloud" ng-show="exportTo=='whitebox'">
 					<md-button
 						class="mdl-button mdl-js-button btn-secondary"
 						ng-click="handleDismiss()"> Cancel </md-button>
 					<md-button
 						class="mdl-button mdl-js-button btn-primary"
-						ng-click="deployCloudVal()" ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)"> Data Broker </md-button>
-						<!-- ng-disabled="deployCloud.$invalid || deploy.$invalid" -->
+						ng-click="" > Deploy </md-button>
 				</div>
+				<!-- Deploy To Whitebox ends -->
+				
+				
 			</div>
 			</md-dialog-content>
 
