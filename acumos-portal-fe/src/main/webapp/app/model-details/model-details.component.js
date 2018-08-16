@@ -1196,6 +1196,12 @@ angular
                           }
 						}
 						
+						/*Deploy to Local method*/
+						$scope.deployToLocal = function(){
+							
+						}
+						
+						
 						//Default values
 						$scope.positionM1 = "mime_type";$scope.positionM3 = "image_binary";$scope.positionM2 = 1;$scope.positionM4 = 2;
 						$scope.fieldM1 = "mime_type";$scope.fieldM3 = "image_binary";$scope.fieldM4 = "image_binary";$scope.fieldM2 = "mime_type";
