@@ -476,7 +476,7 @@ public class UserServiceController extends AbstractController {
 			if (userId != null) {
 				MLPUser mlpUser = userService.findUserByUserId(userId);
 				if (mlpUser != null) {
-					mlpUser.setPicture(ArrayUtils.toObject(file.getBytes()));
+					//mlpUser.setPicture(ArrayUtils.toObject(file.getBytes()));
 					userService.updateUserImage(mlpUser);
 				}
 				
@@ -511,7 +511,7 @@ public class UserServiceController extends AbstractController {
 			if (userId != null) {
 				MLPUser mlpUser = userService.findUserByUserId(userId);
 				if (mlpUser != null && mlpUser.getPicture() != null) {
-					responseVO.setResponseBody(ArrayUtils.toPrimitive(mlpUser.getPicture()));
+					//responseVO.setResponseBody(ArrayUtils.toPrimitive(mlpUser.getPicture()));
 					responseVO.setStatus(true);
 					responseVO.setResponseDetail("Success");
 					responseVO.setStatusCode(HttpServletResponse.SC_OK);

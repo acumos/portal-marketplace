@@ -3014,7 +3014,7 @@ limitations under the License.
 																						upload-image-model="solutionFile" size=10000000 docerror="docerror" readonly alt="Browse" title="Browse">
 																						
 																						</div>
-																						<div class="upload-image-input files-uploaded">
+																						<div class="upload-image-input files-uploaded upload-txtbox">
 																		    			<input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
 																						ng-model="publicfilename"  readonly />
@@ -3583,173 +3583,214 @@ limitations under the License.
 								</div>
 								<div class="tab-content">
 									<div class="md-dialog-content">
-									<form name="deploy">
-										<div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-hide='checkboxExport!="azure"'>
-											<div
-												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-												<md-input-container class="md-icon-float md-block">
-													<label class="md-required">Application Id </label>
-													<input ng-model="applicationId" name="applicationId" type="text" required ng-blur="applicationIdVisited=true" ng-focus="applicationIdVisited=false">
-													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.applicationId.$valid}">
-														<span ng-show="( !!deploy.applicationId.$error.required && deploy.applicationId.$touched && applicationIdVisited)">Application Id Required.</span>
-													</div>
-												</md-input-container>
-												<md-input-container class="md-icon-float md-block">
-													<label class="md-required">Secret key </label>
-													<input ng-model="secretKey" type="password" required  name="secretKey" ng-blur="secretKeyVisited=true" ng-focus="secretKeyVisited=false">
-													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.secretKey.$valid}">
-														<span ng-show="( !!deploy.secretKey.$error.required && deploy.secretKey.$touched && secretKeyVisited)">Secret key Required.</span>
-													</div>
-												</md-input-container>
-												<md-input-container class="md-icon-float md-block">
-													<label class="md-required">Resource Group </label>
-													<input ng-model="resourceGroup" type="text" required name="resourceGroup" ng-blur="resourceGroupVisited=true" ng-focus="resourceGroupVisited=false">
-													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.resourceGroup.$valid}">
-														<span ng-show="( !!deploy.resourceGroup.$error.required && deploy.resourceGroup.$touched && resourceGroupVisited)">Resource Group Required.</span>
-													</div>
-												</md-input-container>
-												<md-input-container class="md-icon-float md-block">
-													<label class="md-required">Storage Account </label>
-													<input ng-model="storageAccount" type="text" required name="storageAccount" required ng-blur="storageAccountVisited=true" ng-focus="storageAccountVisited=false">
-													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.storageAccount.$valid}">
-														<span ng-show="( !!deploy.storageAccount.$error.required && deploy.storageAccount.$touched && storageAccountVisited)">Storage Account Required.</span>
-													</div>
-												</md-input-container>
-											</div>
-
-											<div
-												class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-												<md-input-container class="md-icon-float md-block">
-													<label class="md-required">Tenant Id</label>
-													<input ng-model="tenantId" required type="text" name="tenantId" ng-blur="tenantIdVisited=true" ng-focus="tenantIdVisited=false">
-													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.tenantId.$valid}">
-														<span ng-show="( !!deploy.tenantId.$error.required && deploy.tenantId.$touched && tenantIdVisited)">Tenant Id Required.</span>
-													</div>
-												</md-input-container>
-												<md-input-container class="md-icon-float md-block">
-													<label class="md-required">Subscription Key</label>
-													<input required ng-model="subscriptionKey"  name="subscriptionKey" required type="text" ng-blur="subscriptionKeyVisited=true" ng-focus="subscriptionKeyVisited=false"> 
-													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.subscriptionKey.$valid}">
-														<span ng-show="( !!deploy.subscriptionKey.$error.required && deploy.subscriptionKey.$touched && subscriptionKeyVisited)">Subscription Key Required.</span>
-													</div>
-												</md-input-container>
-												<md-input-container class="md-icon-float md-block">
-													<label class="md-required">Acr Name</label>
-													<input ng-model="acrName" type="text" required  name="acrName" ng-blur="acrNameVisited=true" ng-focus="acrNameVisited=false">
-													<div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.acrName.$valid}">
-														<span ng-show="( !!deploy.acrName.$error.required && deploy.acrName.$touched && acrNameVisited)">Acr Name Required.</span>
-													</div>
-												</md-input-container>
-											</div>
-                                         </div>
-                                         <div layout="row"  ng-hide='checkboxExport!="azure"'>
-											<md-button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
-											Deploy </md-button>
-										</div>
-                                         </form>
-                                         <br>
-                                         <!--  new section  -->
-                                         <form name="deployCloud">
-                                                <div ng-hide='checkboxExport!="azure"'>
-                                        		<h4 class="gridlistheading broker-heading">
-															Broker</h4>
-												<md-input-container>
-													<label>Databroker Type</label>
-											      <md-select ng-model="dbType" placeholder="Databroker type" ng-init="dbType='csv'">
-											           <md-option value="csv">CSV</md-option>
-											           <md-option value="zip">Zip</md-option>
-											      </md-select>
-												</md-input-container>
-												<div ng-show="dbType=='zip'">
-													<md-input-container class="md-icon-float md-block">
-														<label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink" ng-blur="brokerlinkVisited=true" ng-focus="brokerlinkVisited=false">
-														<div class="help-inline validation-msgs" ng-class="{validationmsg:!deployCloud.brokerlink.$valid}">
-															<span ng-show="( !!deployCloud.brokerlink.$error.required && deployCloud.brokerlink.$touched && brokerlinkVisited)">URL Required.</span>
-														</div>
-													</md-input-container>
-												</div>
-												<div ng-show="dbType=='zip'" class="borker-row">
-													<div>
-														<label class="disblock">Position Mappings</label>
-														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="positionM1"  placeholder="MIME_TYPE">
-															<input class="md-input" type="text" ng-model="positionM2" required>						
-														</div>
-														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="positionM3"  placeholder="CONTENT">
-															<input class="md-input" type="text" ng-model="positionM4" required>						
-														</div>
-													</div>
-													<div>
-														<label class="disblock">Field Mappings</label>
-														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="fieldM1"  placeholder="MIME_TYPE">
-															<input class="md-input" type="text" ng-model="fieldM2" required>						
-														</div>
-														<div>
-															<input class="md-input readOnlyDark" type="text" ng-model="fieldM3"  placeholder="CONTENT">
-															<input class="md-input" type="text" ng-model="fieldM4" required>						
-														</div>
-													</div>
-												</div>
-												
-												<div ng-show="dbType=='csv'" class="db-csv">
-													<div>
-														<label class="disblock">Username</label>
-														<div>
-															<input class="md-input" type="text" ng-model="csvUsername" required>
-														</div>
-														<label class="disblock">Host</label>
-														<div>
-															<input class="md-input" type="text" ng-model="csvHost" required>
-														</div>
-													</div>
-													<div>
-														<label class="disblock">Password</label>
-														<div>
-															<input class="md-input" type="password" ng-model="csvPassword" required>
-														</div>
-														<label class="disblock">Port</label>
-														<div>
-															<input class="md-input" type="text" ng-model="csvPort" required>
-														</div>
-													</div>
-												</div>
-                                         		</div>
-                                          </form>
-                                         <!--  new section end -->
-                                         
-                                         <div class="mdl-grid mdl-grid--no-spacing deploy-grid" ng-show='checkboxExport=="rackspace"'>
-                                             <form name="rackspace">
-                                                 <md-input-container class="md-icon-float md-block">
-                                                    <label>VM Name</label>
-                                                          <input type="text" ng-model='vmName' name='vmName' ng-blur="vmNameVisited=true" ng-focus="vmNameVisited=false">
-															<div class="help-inline validation-msgs" ng-class="{validationmsg:!rackspace.vmName.$valid}">
-																<span ng-show="( !!rackspace.vmName.$error.required && rackspace.vmName.$touched && vmNameVisited)">VM Name Required.</span>
-															</div>
-                                                 </md-input-container>
-                                              </form>
-										</div>
-										<div layout="row" ng-hide='checkboxExport!="rackspace"'>
-											<md-button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
-											Deploy </md-button>
-										</div>
-										<div layout="row" ng-show='checkboxExport=="azure"'>
-											<md-button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												ng-click="deployCloudVal()"  alt="Data Broker" title="Data Broker"
-												ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)">
-											Data Broker</md-button>
-											<!-- ng-disabled="deployCloud.$invalid || deploy.$invalid" -->
-										</div>
+									
+									<!-- Deploy to Azure Starts -->
+									<div ng-show='checkboxExport=="azure"'>
+									   <form name="deploy">
+									      <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+									         <div
+									            class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+									            <md-input-container class="md-icon-float md-block">
+									               <label class="md-required">Application Id </label>
+									               <input ng-model="applicationId" name="applicationId" type="text" required ng-blur="applicationIdVisited=true" ng-focus="applicationIdVisited=false">
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.applicationId.$valid}">
+									                  <span ng-show="( !!deploy.applicationId.$error.required && deploy.applicationId.$touched && applicationIdVisited)">Application Id Required.</span>
+									               </div>
+									            </md-input-container>
+									            <md-input-container class="md-icon-float md-block">
+									               <label class="md-required">Secret key </label>
+									               <input ng-model="secretKey" type="password" required  name="secretKey" ng-blur="secretKeyVisited=true" ng-focus="secretKeyVisited=false">
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.secretKey.$valid}">
+									                  <span ng-show="( !!deploy.secretKey.$error.required && deploy.secretKey.$touched && secretKeyVisited)">Secret key Required.</span>
+									               </div>
+									            </md-input-container>
+									            <md-input-container class="md-icon-float md-block">
+									               <label class="md-required">Resource Group </label>
+									               <input ng-model="resourceGroup" type="text" required name="resourceGroup" ng-blur="resourceGroupVisited=true" ng-focus="resourceGroupVisited=false">
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.resourceGroup.$valid}">
+									                  <span ng-show="( !!deploy.resourceGroup.$error.required && deploy.resourceGroup.$touched && resourceGroupVisited)">Resource Group Required.</span>
+									               </div>
+									            </md-input-container>
+									            <md-input-container class="md-icon-float md-block">
+									               <label class="md-required">Storage Account </label>
+									               <input ng-model="storageAccount" type="text" required name="storageAccount" required ng-blur="storageAccountVisited=true" ng-focus="storageAccountVisited=false">
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.storageAccount.$valid}">
+									                  <span ng-show="( !!deploy.storageAccount.$error.required && deploy.storageAccount.$touched && storageAccountVisited)">Storage Account Required.</span>
+									               </div>
+									            </md-input-container>
+									         </div>
+									         <div
+									            class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+									            <md-input-container class="md-icon-float md-block">
+									               <label class="md-required">Tenant Id</label>
+									               <input ng-model="tenantId" required type="text" name="tenantId" ng-blur="tenantIdVisited=true" ng-focus="tenantIdVisited=false">
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.tenantId.$valid}">
+									                  <span ng-show="( !!deploy.tenantId.$error.required && deploy.tenantId.$touched && tenantIdVisited)">Tenant Id Required.</span>
+									               </div>
+									            </md-input-container>
+									            <md-input-container class="md-icon-float md-block">
+									               <label class="md-required">Subscription Key</label>
+									               <input required ng-model="subscriptionKey"  name="subscriptionKey" required type="text" ng-blur="subscriptionKeyVisited=true" ng-focus="subscriptionKeyVisited=false"> 
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.subscriptionKey.$valid}">
+									                  <span ng-show="( !!deploy.subscriptionKey.$error.required && deploy.subscriptionKey.$touched && subscriptionKeyVisited)">Subscription Key Required.</span>
+									               </div>
+									            </md-input-container>
+									            <md-input-container class="md-icon-float md-block">
+									               <label class="md-required">Acr Name</label>
+									               <input ng-model="acrName" type="text" required  name="acrName" ng-blur="acrNameVisited=true" ng-focus="acrNameVisited=false">
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.acrName.$valid}">
+									                  <span ng-show="( !!deploy.acrName.$error.required && deploy.acrName.$touched && acrNameVisited)">Acr Name Required.</span>
+									               </div>
+									            </md-input-container>
+									         </div>
+									      </div>
+									      <div layout="row">
+									         <md-button
+									            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+									            ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
+									            Deploy 
+									         </md-button>
+									      </div>
+									   </form>
+									   <br>
+									   <form name="deployCloud">
+									      <div>
+									         <h4 class="gridlistheading broker-heading">
+									            Broker
+									         </h4>
+									         <md-input-container>
+									            <label>Databroker Type</label>
+									            <md-select ng-model="dbType" placeholder="Databroker type" ng-init="dbType='csv'">
+									               <md-option value="csv">CSV</md-option>
+									               <md-option value="zip">Zip</md-option>
+									            </md-select>
+									         </md-input-container>
+									         <div ng-show="dbType=='zip'">
+									            <md-input-container class="md-icon-float md-block">
+									               <label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink" ng-blur="brokerlinkVisited=true" ng-focus="brokerlinkVisited=false">
+									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deployCloud.brokerlink.$valid}">
+									                  <span ng-show="( !!deployCloud.brokerlink.$error.required && deployCloud.brokerlink.$touched && brokerlinkVisited)">URL Required.</span>
+									               </div>
+									            </md-input-container>
+									         </div>
+									         <div ng-show="dbType=='zip'" class="borker-row">
+									            <div>
+									               <label class="disblock">Position Mappings</label>
+									               <div>
+									                  <input class="md-input readOnlyDark" type="text" ng-model="positionM1"  placeholder="MIME_TYPE">
+									                  <input class="md-input" type="text" ng-model="positionM2" required>						
+									               </div>
+									               <div>
+									                  <input class="md-input readOnlyDark" type="text" ng-model="positionM3"  placeholder="CONTENT">
+									                  <input class="md-input" type="text" ng-model="positionM4" required>						
+									               </div>
+									            </div>
+									            <div>
+									               <label class="disblock">Field Mappings</label>
+									               <div>
+									                  <input class="md-input readOnlyDark" type="text" ng-model="fieldM1"  placeholder="MIME_TYPE">
+									                  <input class="md-input" type="text" ng-model="fieldM2" required>						
+									               </div>
+									               <div>
+									                  <input class="md-input readOnlyDark" type="text" ng-model="fieldM3"  placeholder="CONTENT">
+									                  <input class="md-input" type="text" ng-model="fieldM4" required>						
+									               </div>
+									            </div>
+									         </div>
+									         <div ng-show="dbType=='csv'" class="db-csv">
+									            <div>
+									               <label class="disblock">Username</label>
+									               <div>
+									                  <input class="md-input" type="text" ng-model="csvUsername" required>
+									               </div>
+									               <label class="disblock">Host</label>
+									               <div>
+									                  <input class="md-input" type="text" ng-model="csvHost" required>
+									               </div>
+									            </div>
+									            <div>
+									               <label class="disblock">Password</label>
+									               <div>
+									                  <input class="md-input" type="password" ng-model="csvPassword" required>
+									               </div>
+									               <label class="disblock">Port</label>
+									               <div>
+									                  <input class="md-input" type="text" ng-model="csvPort" required>
+									               </div>
+									            </div>
+									         </div>
+									      </div>
+									   </form>
+									   <div layout="row">
+									      <md-button
+									         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+									         ng-click="deployCloudVal()"  alt="Data Broker" title="Data Broker"
+									         ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)">
+									         Data Broker
+									      </md-button>
+									   </div>
+									</div>
+									<!-- Deploy to Azure Ends -->
+									
+									<!-- Deploy to Rackspace Starts--> 
+									<div ng-show='checkboxExport=="rackspace"'>
+									   <div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
+									      <form name="rackspace">
+									         <md-input-container class="md-icon-float md-block">
+									            <label>VM Name</label>
+									            <input type="text" ng-model='vmName' name='vmName' ng-blur="vmNameVisited=true" ng-focus="vmNameVisited=false">
+									            <div class="help-inline validation-msgs" ng-class="{validationmsg:!rackspace.vmName.$valid}">
+									               <span ng-show="( !!rackspace.vmName.$error.required && rackspace.vmName.$touched && vmNameVisited)">VM Name Required.</span>
+									            </div>
+									         </md-input-container>
+									      </form>
+									   </div>
+									   <div layout="row">
+									      <md-button
+									         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+									         ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
+									         Deploy 
+									      </md-button>
+									   </div>
+									</div>
+									<!-- Deploy to Rackspace Ends -->
+									
+									<!-- Deploy to Local Starts -->
+									<div ng-show='checkboxExport=="deploylocal"'>
+									   <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+									   <form name="deployToLocal">
+										   <md-input-container class="md-icon-float md-block">
+										      <label>Click here to download Deployable Solution Package for Private Kubernetes Cloud</label> 
+										      <md-button class="mdl-button mdl-js-button btn-secondary"
+										         ng-click="deployToLocal()"> Download Solution Package</md-button>
+										   </md-input-container>
+										   <br />
+										   <p>More Info at <a href="" target="_blank">help</a></p>
+									   </form>
+									   </div>
+									</div>
+									<!-- Deploy to Local Ends -->
+									
+									<!-- Deploy to Whitebox Starts -->
+									<div ng-show='checkboxExport=="whitebox"'>
+									   <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+									   <form name="deployToWhitebox">
+										   <md-input-container class="md-icon-float md-block">
+										      <strong> Deploy To White Box.</strong>
+										   </md-input-container>
+									   </form>
+									   </div>
+									</div>
+									<!-- Deploy to Whitebox Ends -->
+										
 									</div>
 								</div>
 							</div>
-							<!-- View Description Section --> </md-content> </md-tab> <md-tab
+							<!-- View Description Section --> 
+							</md-content> 
+							</md-tab> 
+							
+							<md-tab
 								label="Export to Local"> <md-content class="md-padding">
 							<div class="response">
 								<h6 class="sectiontitle">Export To Local</h6>
