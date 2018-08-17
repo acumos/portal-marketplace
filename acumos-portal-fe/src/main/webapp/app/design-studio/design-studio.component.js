@@ -1760,10 +1760,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         _diagram.child('keyboard', dc_graph.keyboard().disableFocus(true));
         _diagram.content('text-with-icon', dc_graph.with_icon_contents(dc_graph.text_contents(), 35, 35));
         _diagram.child('place-ports', dc_graph.place_ports());
-
-        window.setInterval(function() {
-        	_diagram.width(null).height(null).redraw();
-        }, 10000);
         
         var symbolPorts = dc_graph.symbol_port_style()
             .portSymbol(function(p){return p.orig.value.type})
