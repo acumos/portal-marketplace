@@ -470,6 +470,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 		if (!StringUtils.isEmpty(tracking_id)) {
 			post.addHeader("tracking_id", tracking_id);
+			post.setHeader("deployment_env", "2");
 		}
 
 		try {

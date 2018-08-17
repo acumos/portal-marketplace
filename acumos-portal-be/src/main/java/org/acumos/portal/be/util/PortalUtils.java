@@ -120,7 +120,7 @@ public class PortalUtils {
         user.setUserId(mlpUser.getUserId());
         user.setJwttoken(mlpUser.getAuthToken());
         user.setPassword(mlpUser.getLoginHash());
-        user.setPicture(ArrayUtils.toPrimitive((mlpUser.getPicture())));
+        user.setPicture((mlpUser.getPicture()));
         user.setApiTokenHash(mlpUser.getApiToken());
         return user;
     }
@@ -139,7 +139,7 @@ public class PortalUtils {
 			mlSolution.setMetadata(mlpSolution.getMetadata());
 		mlSolution.setTookitType(mlpSolution.getToolkitTypeCode());
 		mlSolution.setModelType(mlpSolution.getModelTypeCode());
-		mlSolution.setPicture(ArrayUtils.toPrimitive(mlpSolution.getPicture()));
+		mlSolution.setPicture(mlpSolution.getPicture());
 		return mlSolution;
 	}
 	
@@ -178,7 +178,7 @@ public class PortalUtils {
 			mlpSolution.setModelTypeCode(mlSolution.getModelType());
 		}
 		if (mlSolution.getPicture() != null) {
-			mlpSolution.setPicture(ArrayUtils.toObject(mlSolution.getPicture()));
+			mlpSolution.setPicture(mlSolution.getPicture());
 		}
 
 		return mlpSolution;
@@ -275,7 +275,7 @@ public class PortalUtils {
             mlpUser.setOrgName(user.getOrgName());
         }
 		if (user.getPicture() != null) {      
-			mlpUser.setPicture(ArrayUtils.toObject((user.getPicture())));
+			mlpUser.setPicture(user.getPicture());
 		}
 
 		if (user.getApiTokenHash() != null) {

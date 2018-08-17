@@ -66,6 +66,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -214,8 +215,20 @@ public class AuthServiceController extends AbstractController {
 						mlpUser.setLastLogin(new Date(System.currentTimeMillis()));
 						userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 						isValid = true;
-					} catch (Exception e) {
+					} catch(HttpStatusCodeException exc) {
+						exc.printStackTrace();
+						log.error(EELFLoggerDelegate.errorLogger, exc.getResponseBodyAsString(), exc);
 
+						ObjectMapper mapper = new ObjectMapper();
+						Map<String, Object> errResp = mapper.readValue(exc.getResponseBodyAsString(), Map.class);
+						String errorMsg = (String) errResp.get("error");
+						log.error(EELFLoggerDelegate.errorLogger, errorMsg, exc);
+
+						responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, errorMsg);
+						response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+						throw new AcumosServiceException(AcumosServiceException.ErrorCode.ACCESS_DENIED, errorMsg);
+					} catch (Exception e) {
+						e.printStackTrace();
 						responseObject = new ResponseVO(HttpServletResponse.SC_BAD_GATEWAY,
 								"Login  Failed. Invalid Password.");
 						response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
@@ -336,7 +349,7 @@ public class AuthServiceController extends AbstractController {
 			} catch (Exception e) {
 
 				if (response.getStatus() == HttpServletResponse.SC_UNAUTHORIZED) {
-					responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, "Login Failed");
+					responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
 				}
