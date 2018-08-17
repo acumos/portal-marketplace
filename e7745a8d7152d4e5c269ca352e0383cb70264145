@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "390b3985_8ac04526",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/sign-in.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-08-17T16:41:08Z",
+      "side": 1,
+      "message": "Remove console.log",
+      "revId": "e7745a8d7152d4e5c269ca352e0383cb70264145",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
