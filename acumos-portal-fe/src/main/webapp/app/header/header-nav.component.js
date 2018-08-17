@@ -563,14 +563,16 @@ angular.module('headerNav')
           $scope.$on('forgotPassword', function(event, data) {
         	  $scope.emailAddress = '';
         	  $scope.forgot.$setPristine();
-              $scope.forgot.$setUntouched();
-              
-              $mdDialog.show({
-                    contentElement: '#myDialogForgtpswd',
-                    parent: angular.element(document.body),
-                    targetEvent: event,
-                    clickOutsideToClose: true
-                });
+        	  $scope.forgot.$setUntouched();      
+              if(event.defaultPrevented == false ){
+	              $mdDialog.show({
+	                    contentElement: '#myDialogForgtpswd',
+	                    parent: angular.element(document.body),
+	                    targetEvent: event,
+	                    clickOutsideToClose: true
+	               });
+	              event.defaultPrevented = true;
+              }
           });
           
           $scope.closePoup = function(){
