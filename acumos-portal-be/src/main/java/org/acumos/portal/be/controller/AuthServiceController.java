@@ -223,8 +223,8 @@ public class AuthServiceController extends AbstractController {
 						String errorMsg = (String) errResp.get("error");
 						log.error(EELFLoggerDelegate.errorLogger, errorMsg, exc);
 
-						responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, errorMsg);
-						response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+						responseObject = new ResponseVO(HttpServletResponse.SC_BAD_GATEWAY, errorMsg);
+						response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
 						throw new AcumosServiceException(AcumosServiceException.ErrorCode.ACCESS_DENIED, errorMsg);
 					} catch (Exception e) {
 						responseObject = new ResponseVO(HttpServletResponse.SC_BAD_GATEWAY,
@@ -346,9 +346,9 @@ public class AuthServiceController extends AbstractController {
 				}
 			} catch (Exception e) {
 
-				if (response.getStatus() == HttpServletResponse.SC_UNAUTHORIZED) {
+				if (response.getStatus() == HttpServletResponse.SC_BAD_GATEWAY) {
 					responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
 					log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
 				}
 			}
