@@ -84,6 +84,9 @@ limitations under the License.
 								<span ng-show="userPassInvalid" style="color: #ff0000;">Username
 									and Password does not match</span>
 							</div>
+							<div class="help-inline">
+								<span ng-show="userPassBlocked" style="color: #ff0000;">{{userBlockedMessage}}</span>
+							</div>
 													<!--<md-button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary"
 													
 													ng-click="signIn()">Sign in</md-button> -->

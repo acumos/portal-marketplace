@@ -151,7 +151,6 @@ angular.module('signInModal')
                                     	  //var $ctrl = this;
                                     	  console.info("in signin controller");
                                     	  $scope.signin = function() {
-
                                                 $scope.userData = {"request_body":{"username": $scope.modalData.name, "password": $scope.modalData.value}}
                                                 sessionStorage.setItem('rm', $scope.modalData.cb1 ? "remember" : "");
                                                 $scope.login();
@@ -259,10 +258,19 @@ angular.module('signInModal')
                                                 $mdDialog.hide();
                                                },function errorCallback(response) {
                                                    console.log("Error: ", response);
-                                                   $scope.userPassInvalid = true;
-                                                   $scope.userVerificationPending = false;
+                                                   if(response.data.message.indexOf('blocked') > -1){
+                                                	   $scope.userPassBlocked = true; 
+                                                	   $scope.userBlockedMessage = response.data.message;
+                                                	   $scope.userPassInvalid = false;
+                                                       $scope.userVerificationPending = false;
+                                               	   } else{
+	                                                   $scope.userPassInvalid = true;
+	                                                   $scope.userPassBlocked = false;
+	                                                   $scope.userVerificationPending = false;
+                                               	   }
                                                    if(response.data.message == "Inactive user"){
                                                 	   $scope.userIdDisabled = true;
+                                                	   $scope.userPassBlocked = false;
                                                 	   $scope.userPassInvalid = false;
                                                 	   $scope.userVerificationPending = false;
                                                 	   	 /*$mdDialog.hide();
@@ -271,6 +279,7 @@ angular.module('signInModal')
                                                    if(response.data.message == "Verification Pending"){
                                                 	   $scope.userIdDisabled = false;
                                                 	   $scope.userPassInvalid = false;
+                                                	   $scope.userPassBlocked = false;
                                                 	   $scope.userVerificationPending = true;
                                                 	   	 /*$mdDialog.hide();
                                                          alert("User Id is disabled");*/
