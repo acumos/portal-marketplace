@@ -387,7 +387,10 @@ angular.module('modelResource')
 								if($scope.onap == false){
 									switch(stepName){
 										case 'CreateSolution': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCS = data[i].result : $scope.errorCS = ''; break;
-										case 'AddArtifact' :  var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
+										case 'AddArtifact' :   
+											if(counter > 3) break; 
+											var counter = 2;
+											( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
 										case 'CreateTOSCA' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;	                        
 										case 'Dockerize' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
 										case 'AddDockerImage' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;							
@@ -396,7 +399,9 @@ angular.module('modelResource')
 								} else {
 									switch(stepName){
 										case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
-										case 'AddArtifact' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
+										case 'AddArtifact' :  
+											if(counter > 5) break; 
+											var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
 										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
 										case 'Dockerize' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
 										case 'AddDockerImage' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;							
