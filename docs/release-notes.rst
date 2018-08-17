@@ -20,13 +20,29 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 1.15.41, 14 th August 2018
+Version 1.15.42, 17 th August 2018
 ==================================
 * IST2: Rating is not displaying on the box on the Model carousel on the home page (ACUMOS-1506)
 * <IST2> <Portal Marketplace> Download popup/Model Artifacts: Opening new tab on clicking Download button (ACUMOS-1562)
 * Marketplace sorting, pagination takes time but no Progress indicator is displayed (ACUMOS-1159)
 * Acumos Is Not Mobile Friendly appears on desktop browser (ACUMOS-1549)
 * Portal store user supplement documents to Nexus (ACUMOS-1491)
+* IST2: Manage My Model : Tag added message is displaying twice (ACUMOS-1504)
+* IST2: User Management: Search Filter is not working properly (ACUMOS-1530)
+* IST2: Manage My Model : Public Marketplace:  Browse option is not working in the document (ACUMOS-1533)
+* IST2: Site Content:Broken Image Icon is displaying on the home page (ACUMOS-1535)
+* IST2: Site Admin : Success Story: Success Story is not displaying on the home page (ACUMOS-1536)
+* <IST2><Portal Marketplace>Manage My Model > Publish to Company/Public Marketplace: 'Add a tag' field and box is highlighted with RED color when existing value entered and click on the screen (ACUMOS-1511)
+* <IST2><Marketplace> Forgot Password popup loaded two times on clicking the Forgot Password link (ACUMOS-1534)
+* DS should show "Loading" indicator as it populates left nav bar with models etc. (ACUMOS-1173)
+* Portal Model authorship UI at publish time (ACUMOS-1358)
+* DS clear leaves canvas in state requiring click on New, simplify UX (ACUMOS-1522)
+* IST 2 | Application is going to infinite loop if click on output port of models. (ACUMOS-1521)
+* IST 2 | Font and it's size differs in solution name and solution Description (ACUMOS-1532)
+* IST 2 | Close and Cancel button is not working for Splitter and Collator scheme selection (ACUMOS-1569)
+* remove unecessary icons of micro-service generation process (ACUMOS-1338)
+* Splitter and Collator : Scheme Selector pop up is not working as expected (ACUMOS-1485)
+
 
 
 Version 1.15.40, 9 th August 2018
