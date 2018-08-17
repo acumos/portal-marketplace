@@ -63,7 +63,7 @@ properties = {
 		ConfigConstants.spring_mail_debug + "=true",
 		ConfigConstants.spring_mail_transport_protocol + "=smtp",
 		ConfigConstants.spring_mail_template_folder_path + "=/fmtemplates/",
-		ConfigConstants.cdms_client_url + "=http://localhost:8082/ccds",
+		ConfigConstants.cdms_client_url + "=http://localhost:8000/ccds",
 		ConfigConstants.cdms_client_username + "=ccds_test",
 		ConfigConstants.cdms_client_password + "=ccds_test"
 })
@@ -77,7 +77,7 @@ public class MailServiceImplTest {
 	private GreenMail smtpServer;
 
 	@Rule
-	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8082));
+	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8000));
 	
 	
     @Before
