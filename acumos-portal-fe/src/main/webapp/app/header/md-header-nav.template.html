@@ -19,7 +19,7 @@ limitations under the License.
 -->
 
 <!-- Header HTML if user not logged in -->
-<div ng-class={'a-overlay1':$root.setLoader}>
+<div ng-class={'a-overlay1':$root.setLoader} ng-if="$root.setLoader">
 <span ng-class={'a-overlay1-inner-msg':$root.setLoader}>Please wait...</span></div>
 <div class="posrel">
     <alert-message msg="msg" icon="icon" styleclass="styleclass"

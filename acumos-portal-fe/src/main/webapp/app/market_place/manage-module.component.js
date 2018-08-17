@@ -133,8 +133,17 @@ angular.module('manageModule')
 						$scope.favouriteList();
 						
 						$scope.getPrivateModels=function(){
+							if($scope.sortBy == "ML" || $scope.sortBy == "FL" || $scope.sortBy == "HR" )
+							 {
+								$scope.mlSolutionPrivate =[];
+								$scope.msg = "No Data";
+								$scope.icon = 'info_outline';
+								$scope.styleclass = 'c-info';
+								$scope.privateAlertMessage = true;
+								$scope.totalPrivateSolCount = 0;
+								return;
+							}
 							$scope.dataLoading = true;
-
 							$scope.privateDataLoaded = true;
 							dataObj = {
 									  "request_body": {
@@ -193,6 +202,7 @@ angular.module('manageModule')
 									$scope.tags=$scope.getUniqueArrayElements($scope.tags);
 								}
 								$scope.showAlertMessagePri=false;
+								
 								if($scope.mlSolutionPrivate.length <1){
 									$scope.msg = "No Data";
 									$scope.icon = 'info_outline';
@@ -359,6 +369,15 @@ angular.module('manageModule')
 								});
 						};
 						$scope.getDeleteModels=function(){
+							
+							if($scope.sortBy == "ML" || $scope.sortBy == "FL" || $scope.sortBy == "HR" ||
+							   $scope.sortBy == "name" || $scope.sortBy == "created" || $scope.sortBy == "ownerName")
+							 {
+								$scope.mlSolutionDelete =[];
+								$scope.totalDeletedSolCount = 0;
+								return;
+							}
+							
 							$scope.dataLoading = true;
 							$scope.deleteDataLoaded = true;
 							dataObj = {
@@ -922,8 +941,7 @@ angular.module('manageModule')
 																		solutionRating : response.data.response_body.content[i].solutionRating,
 																		ownerName: response.data.response_body.content[i].ownerName,
 																		modelType : response.data.response_body.content[i].modelType,
-																		ratingCount: response.data.response_body.content[i].ratingCount,
-																		picture: response.data.response_body.content[i].picture
+																		ratingCount: response.data.response_body.content[i].ratingCount
 
 																	});
 															angular.forEach($scope.favouriteSolutions,
