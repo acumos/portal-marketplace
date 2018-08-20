@@ -22,6 +22,30 @@
       "revId": "f2693dac6135f66157a585f01497921a91b9bf04",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50d1b416_6cd8abe6",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-08-20T23:00:44Z",
+      "side": 1,
+      "message": "Chris this does not download the documents. This only fetches the list of documents. In front the on each document there is a download icon. When user clicks on the download icon without logging in he is presented with the login window.",
+      "parentUuid": "69f5b3ec_35a21afb",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 118
+      },
+      "revId": "f2693dac6135f66157a585f01497921a91b9bf04",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
