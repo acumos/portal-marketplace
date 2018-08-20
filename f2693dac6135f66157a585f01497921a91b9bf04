@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69f5b3ec_35a21afb",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-08-20T22:42:49Z",
+      "side": 1,
+      "message": "This seems like it would allow download of documents by unknown users - but Acumos doesn\u0027t support that for models (generated artifacts), why would you do something different for user-uploaded supporting documents?",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 118
+      },
+      "revId": "f2693dac6135f66157a585f01497921a91b9bf04",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
