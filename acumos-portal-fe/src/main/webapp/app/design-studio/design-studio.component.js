@@ -427,6 +427,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.collateSelectedDetails = [];
     	$scope.collateTags = [];
     	$scope.collateErrors = [];
+    	$scope.collateSchemeChange = false;
+    	$scope.splitSchemeChange = false;
     	$scope.splitSchemes = [];
     	$scope.splitSelectedDetails = [];
     	$scope.splitTags = [];
@@ -492,63 +494,70 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             });}
     };
     $scope.loadSolution = function(entry) {
-        if(entry.toolKit === 'CP' || entry.toolKit === 'DS') {
-            var url = build_url(options.read, {
-                userId:get_userId(),
-                solutionId: entry.solutionId,
-                version: entry.version
-            });
-            $scope.selectedIndex = entry.solutionName+entry.version;
-            var changeNode = new Object();
-            $http.get(url)
-                .success(function(result) {  
-                	
-                    //validflag
-                	if(result.error){
-                		/*$scope.clearSolution();*/
-                		$scope.titlemsg = ALERT;
-                    	$scope.msg = result.error;
-                    	$scope.showpopup();
-                	} else{
-                		var cdump = JSON.parse(result.payload);
-                    if(cdump.validSolution){
-                    	$scope.activeInactivedeploy = false;
-                    	$scope.validationState = true;
-                    	$scope.solutionIdDeploy = cdump.solutionId;
-                    }else{
-                    	$scope.activeInactivedeploy = true;
-                    	$scope.validationState = false;
-                    }
-                    
-                    if(cdump.probeIndicator == 'true'){
-                    	$scope.myCheckbox = true;
-                    }else{
-                    	$scope.myCheckbox = false;
-                    }
-                    savedSolution = true;
-                    $scope.checkboxDisable = false;
-                    $scope.cleardis = false;
-                    $scope.namedisabled = true;$scope.canvas = true;
-                    _solutionId = entry.solutionId;
-                    
-                    $scope.solutionName = cdump.cname;
-                    $scope.solutionVersion = cdump.version;
-                    $scope.solutionDescription = result.description;
-                    _solution = cdump;
-                    _solution.nodes.forEach(function(n) {
-                        if(n.ndata && n.ndata.fixed && n.ndata.px !== undefined && n.ndata.py !== undefined)
-                            n.fixedPos = {x: +n.ndata.px, y: +n.ndata.py};
-                    });
-                    $(".ds-grid-bg").css("background", "url('../images/grid.png')");
-                    $scope.closeDisabled = false;
-                    display_solution(_solution);
-                	}
-                }).error(function(result){
-                	$scope.titlemsg = ALERT;
-                	$scope.msg = "Cannot load the solution";
-                	$scope.showpopup();
-                });
+    	$scope.solDet = entry;
+    	$scope.loadSol = true;
+    	if(_dirty){$scope.CloseOrNew = 'closeSol';$scope.showsaveConfirmationPopup(); }
+    	else{
+	        if(entry.toolKit === 'CP' || entry.toolKit === 'DS') {
+	            var url = build_url(options.read, {
+	                userId:get_userId(),
+	                solutionId: entry.solutionId,
+	                version: entry.version
+	            });
+	            $scope.selectedIndex = entry.solutionName+entry.version;
+	            var changeNode = new Object();
+	            $http.get(url)
+	                .success(function(result) {  
+	                	
+	                    //validflag
+	                	if(result.error){
+	                		/*$scope.clearSolution();*/
+	                		$scope.titlemsg = ALERT;
+	                    	$scope.msg = result.error;
+	                    	$scope.showpopup();
+	                	} else{
+	                		var cdump = JSON.parse(result.payload);
+	                    if(cdump.validSolution){
+	                    	$scope.activeInactivedeploy = false;
+	                    	$scope.validationState = true;
+	                    	$scope.solutionIdDeploy = cdump.solutionId;
+	                    }else{
+	                    	$scope.activeInactivedeploy = true;
+	                    	$scope.validationState = false;
+	                    }
+	                    
+	                    if(cdump.probeIndicator == 'true'){
+	                    	$scope.myCheckbox = true;
+	                    }else{
+	                    	$scope.myCheckbox = false;
+	                    }
+	                    savedSolution = true;
+	                    $scope.checkboxDisable = false;
+	                    $scope.cleardis = false;
+	                    $scope.namedisabled = true;$scope.canvas = true;
+	                    _solutionId = entry.solutionId;
+	                    
+	                    $scope.solutionName = cdump.cname;
+	                    $scope.solutionVersion = cdump.version;
+	                    $scope.solutionDescription = result.description;
+	                    _solution = cdump;
+	                    _solution.nodes.forEach(function(n) {
+	                        if(n.ndata && n.ndata.fixed && n.ndata.px !== undefined && n.ndata.py !== undefined)
+	                            n.fixedPos = {x: +n.ndata.px, y: +n.ndata.py};
+	                    });
+	                    $(".ds-grid-bg").css("background", "url('../images/grid.png')");
+	                    $scope.closeDisabled = false;
+	                    display_solution(_solution);
+	                	}
+	                }).error(function(result){
+	                	$scope.titlemsg = ALERT;
+	                	$scope.msg = "Cannot load the solution";
+	                	$scope.showpopup();
+	                });
+	        }
+	        $scope.loadSol = false;
         }
+    	
     };
     $scope.storesolutionName ='';
     var duplicateSol = false;
@@ -960,6 +969,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             	
             	angular.forEach(n.properties, function(value, key){
             		if(value.collator_map !== null){
+
             			$scope.collateSchemes[n.nodeId] = value.collator_map.collator_type;
             			if($scope.collateSchemes[n.nodeId] === "Parameter-based"){
             				$scope.collateTargetTables[n.nodeId] = [];
@@ -3104,6 +3114,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	_dirty = false;
         	if($scope.clearSol) 
         		$scope.clearSolution();
+        	else if($scope.loadSol)
+        		$scope.loadSolution($scope.solDet);
         	else
         		$scope.closeComSol();
         	$scope.closePoup();$scope.checkboxDisable = true;}
@@ -3318,6 +3330,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
     function solutionPrPB(){
         var tempArr = ['PR','PB','OR'],url = '';
+        $scope.publicCS = [];
         angular.forEach(tempArr, function(value, key) {
             url = build_url(options.getCompositeSolutions, {
                 userId: get_userId(),
@@ -3877,29 +3890,72 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     
     $scope.changeReadCollate = function(){
-    	$scope.cancelRead[$scope.nodeIdDB] = $scope.readSolutionArray[$scope.nodeIdDB];
-    	if($scope.readSolutionArray[$scope.nodeIdDB]){
-    		$scope.readSolutionArray[$scope.nodeIdDB] = false;
-    		$scope.readSolution = false;
-    	}	
     	
-    	if($scope.collateScheme !== null || $scope.collateScheme !== undefined || $scope.collateScheme !== "")
-    		$scope.enableCollateDone = true;
-    	else if($scope.collateScheme !== $scope.collateSelectedDetails[$scope.nodeIdDB])
-    		$scope.enableCollateDone = true;
+    	if($scope.collateScheme.length !== 0){
+    		var srcPortDetails,tarPortDetails;
+	    	_ports.forEach(function(p){
+	    		if(p.nodeId === $scope.nodeIdDB){
+	    			if(p.bounds === inbounds){
+	    				srcPortDetails = _diagram.getPort($scope.nodeIdDB, null, p.portname);
+	    			} else if(p.bounds === outbounds){
+	    				tarPortDetails = _diagram.getPort($scope.nodeIdDB, null, p.portname);
+	    			}
+	    		}
+	    	});
+	    	
+	    	if(srcPortDetails.edges.length === 0 && tarPortDetails.edges.length === 0)
+    			$scope.collateSchemeChange = false;
+    		else
+    			$scope.collateSchemeChange = true;
+    	}
+    	
+    	if(!$scope.collateSchemeChange){
+	    	$scope.cancelRead[$scope.nodeIdDB] = $scope.readSolutionArray[$scope.nodeIdDB];
+	    	if($scope.readSolutionArray[$scope.nodeIdDB]){
+	    		$scope.readSolutionArray[$scope.nodeIdDB] = false;
+	    		$scope.readSolution = false;
+	    	}	
+	    	
+	    	if($scope.collateScheme !== null || $scope.collateScheme !== undefined || $scope.collateScheme !== "")
+	    		$scope.enableCollateDone = true;
+	    	else if($scope.collateScheme !== $scope.collateSelectedDetails[$scope.nodeIdDB])
+	    		$scope.enableCollateDone = true;
+    	}
+    	
     }
     
     $scope.changeReadSplit = function(){
-    	$scope.cancelRead[$scope.nodeIdDB] = $scope.readSolutionArray[$scope.nodeIdDB];
-    	if($scope.readSolutionArray[$scope.nodeIdDB]){
-    		$scope.readSolutionArray[$scope.nodeIdDB] = false;
-    		$scope.readSolution = false;
-    	}	
     	
-    	 if($scope.splitScheme !== null || $scope.splitScheme !== undefined || $scope.splitScheme !== "")
-    			$scope.enableSplitDone = true;
-    		else if($scope.splitScheme !== $scope.splitSelectedDetails[$scope.nodeIdDB])
-    			$scope.enableSplitDone = true;
+    	if($scope.splitScheme.length !== 0){
+    		var srcPortDetails,tarPortDetails;
+	    	_ports.forEach(function(p){
+	    		if(p.nodeId === $scope.nodeIdDB){
+	    			if(p.bounds === inbounds){
+	    				srcPortDetails = _diagram.getPort($scope.nodeIdDB, null, p.portname);
+	    			} else if(p.bounds === outbounds){
+	    				tarPortDetails = _diagram.getPort($scope.nodeIdDB, null, p.portname);
+	    			}
+	    		}
+	    	});
+	    	
+	    	if(srcPortDetails.edges.length === 0 && tarPortDetails.edges.length === 0)
+    			$scope.splitSchemeChange = false;
+    		else
+    			$scope.splitSchemeChange = true;
+    	}
+    	
+    	if(!$scope.splitSchemeChange){
+	    	$scope.cancelRead[$scope.nodeIdDB] = $scope.readSolutionArray[$scope.nodeIdDB];
+	    	if($scope.readSolutionArray[$scope.nodeIdDB]){
+	    		$scope.readSolutionArray[$scope.nodeIdDB] = false;
+	    		$scope.readSolution = false;
+	    	}	
+	    	
+	    	 if($scope.splitScheme !== null || $scope.splitScheme !== undefined || $scope.splitScheme !== "")
+	    			$scope.enableSplitDone = true;
+	    		else if($scope.splitScheme !== $scope.splitSelectedDetails[$scope.nodeIdDB])
+	    			$scope.enableSplitDone = true;
+    	}
     }
    
 	
@@ -3916,6 +3972,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.showCollatorSelection = function(ev) {
     	$scope.enableCollateDone = false;
+    	$scope.collateSchemeChange = false;
+    	
         $mdDialog.show({
             contentElement: '#myDialogCollatorSelector',
             parent: angular.element(document.body),
@@ -3926,6 +3984,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.showSplitterSelection = function(ev) {
     	$scope.enableSplitDone = false;
+    	$scope.splitSchemeChange = false;
     	
         $mdDialog.show({
             contentElement: '#myDialogSplitterSelector',

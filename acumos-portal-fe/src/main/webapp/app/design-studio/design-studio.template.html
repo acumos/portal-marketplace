@@ -1102,10 +1102,13 @@ limitations under the License.
 									
 									<div class="ds-db-row1-cell" id="selectCollateSchema">
 										<label class="disblock">Select the Collator Scheme: <span class="dsreqfield">*</span></label>
-										<md-radio-group name="collateScheme" ng-model="collateScheme" ng-change="changeReadCollate()"> 
+										<md-radio-group name="collateScheme" ng-model="collateScheme" ng-change="changeReadCollate()" ng-disabled="collateSchemeChange"> 
 											<md-radio-button class="md-primary" value="Array-based">Array-Based Collation</md-radio-button>
 											<md-radio-button value="Parameter-based">Parameter-Based Collation</md-radio-button> 
 										</md-radio-group>
+										<div class="help-inline validation-msgs" ng-class="validationmsg">
+											<span ng-if="collateSchemeChange">Please delete the links/nodes connected to the Collator in order to change the scheme</span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -1145,10 +1148,13 @@ limitations under the License.
 									
 									<div class="ds-db-row1-cell" id="selectSplitterSchema">
 										<label class="disblock">Select the Splitter Scheme: <span class="dsreqfield">*</span></label>
-										<md-radio-group name="splitScheme" ng-model="splitScheme" ng-change="changeReadSplit()"> 
+										<md-radio-group name="splitScheme" ng-model="splitScheme" ng-change="changeReadSplit()" ng-disabled="splitSchemeChange"> 
 											<md-radio-button class="md-primary" value="Copy-based">Copy-Based Splitting</md-radio-button>
 											<md-radio-button value="Parameter-based">Parameter-Based Splitting</md-radio-button> 
 										</md-radio-group>
+										<div class="help-inline validation-msgs" ng-class="validationmsg">
+											<span ng-if="splitSchemeChange">Please delete the links/nodes connected to the Splitter in order to change the scheme</span>
+										</div>
 									</div>
 								</div>
 							</div>
