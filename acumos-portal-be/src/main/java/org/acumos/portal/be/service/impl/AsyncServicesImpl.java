@@ -30,6 +30,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,17 +121,20 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			throws InterruptedException, ClientProtocolException, IOException {
 
 			log.info("CallOnboarding service start");
-		File directory = new File(env.getProperty("model.storage.folder.name") + File.separator + userId);
+		//File directory = new File(env.getProperty("model.storage.folder.name") + File.separator + userId);
+		String directory = env.getProperty("model.storage.folder.name") + File.separator + userId;
+		List<File> fileList = new ArrayList<>();
 		File modelFile = null;
 		File schemaFile = null;
 		File metadataFile = null;
-		File[] fList = directory.listFiles();
+		//File[] fList = directory.listFiles();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response = null;
 		MLPNotification notification = new MLPNotification();
-		
-		if (fList != null) {
-			for (File file : fList) {
+		fileList = getListOfFiles(directory, fileList);
+	
+		if(fileList != null){
+			for(File file : fileList){
 				if (file.isFile() && file.getName().contains(".zip") || file.getName().contains(".jar") || file.getName().contains(".bin") || file.getName().contains(".tar") || file.getName().toUpperCase().contains(".R")) {
 					modelFile = new File(file.getAbsolutePath());
 				}
@@ -139,6 +144,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				if (file.isFile() && file.getName().contains(".json")) {
 					metadataFile = new File(file.getAbsolutePath());
 				}
+				
 			}
 		}
 
@@ -261,7 +267,23 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred sending notification email ", e);
 		}
 	}
-
+  
+	private List<File> getListOfFiles(String directoryName, List<File> files) throws IOException {
+        File directory = new File(directoryName);
+        // get all the files from a directory
+        File[] fList = directory.listFiles();
+        files.addAll(Arrays.asList(fList));
+        if(fList != null){
+            for (File file : fList) {
+                if (file.isFile()) {
+                    //files.add(file);
+                } else if (file.isDirectory()) {
+                	getListOfFiles(file.getAbsolutePath(), files);
+                }
+            }
+        }
+        return files;
+    } 
 	public MLPStepResult sendTrackerNotification(String uuid, String userId) {
 		MLPStepResult stepResult = new MLPStepResult();
 		stepResult.setTrackingId(uuid);
