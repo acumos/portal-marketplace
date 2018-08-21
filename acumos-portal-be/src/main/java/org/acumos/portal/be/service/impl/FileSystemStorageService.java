@@ -33,6 +33,7 @@ import java.util.zip.ZipInputStream;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -90,29 +91,10 @@ public class FileSystemStorageService implements StorageService {
 			log.debug(EELFLoggerDelegate.debugLogger, "Directory Created at Upload Location Path  " + modelFolderLocation);
 
 			try {
-				ZipInputStream zis = new ZipInputStream(file.getInputStream());
-				ZipEntry zipEntry = zis.getNextEntry();
-				while (zipEntry != null) {
-					String filePath = env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator
-							+ zipEntry.getName();
-					log.debug(EELFLoggerDelegate.debugLogger, "Extracting zip File path   " + filePath);
-					
-					if (!zipEntry.isDirectory()) {
-						// if the entry is a file, extracts it
-						extractFile(zis, filePath);
-						log.debug(EELFLoggerDelegate.debugLogger, "File Extracted  " + filePath);
-					}
-
-					zis.closeEntry();
-					zipEntry = zis.getNextEntry();
-				}
-				zis.close();
-				
+				FileUtils.extractZipFile(file, env.getProperty("model.storage.folder.name") + File.separator + userId);
 				log.debug(EELFLoggerDelegate.debugLogger, "Close all File Resource ");
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				
+			} catch (Exception e) {
 				throw new StorageException("Failed to store file " + filename, e);
 			}
 		} catch (IOException e) {
