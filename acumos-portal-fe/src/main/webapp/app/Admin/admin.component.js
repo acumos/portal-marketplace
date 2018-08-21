@@ -150,7 +150,7 @@ angular.module('admin').filter('abs', function() {
 			if($scope.userDetail != undefined){
 				var userName = $scope.userDetail[0],userId = $scope.userDetail[1];
 			}
-		
+/*		
 			$scope.checkAdmin = function(){
 				if(browserStorageService.getUserRole() == 'Admin' || browserStorageService.getUserRole() == 'admin'){
 					
@@ -158,7 +158,7 @@ angular.module('admin').filter('abs', function() {
 					$state.go('404Error');
 				}
 			}
-			$scope.checkAdmin();
+			$scope.checkAdmin();*/
 			
 			$scope.showDocUrl = false;
 			  apiService.getDashboardUrl().then( function(response){

@@ -49,6 +49,8 @@ public interface ThreadService {
 	List<String> getThreads(JsonRequest<RestPageRequest> pageRequest) throws AcumosServiceException;
 
 	List<String> getThreadComments(String threadId, RestPageRequest pageRequest) throws AcumosServiceException;
+	
+	RestPageResponseBE<MLComment> getThreadChildComments(String threadId, RestPageRequest pageRequest, String clientTimeZone) throws AcumosServiceException;
 
 	long getThreadCount() throws AcumosServiceException;
 
