@@ -57,6 +57,7 @@ import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -132,6 +133,9 @@ public class AdminServiceController extends AbstractController {
     public JsonResponse<MLPPeer> getPeerDetails(@PathVariable("peerId") String peerId) {
         log.debug(EELFLoggerDelegate.debugLogger, "getPeerDetails");
         MLPPeer mlpPeer = null;
+		System.out.println("AdminServiceController.getPeerDetails - before sanitize peerId : "+peerId);
+        peerId = SanitizeUtils.sanitize(peerId);
+        System.out.println("AdminServiceController.getPeerDetails - after sanitize peerId : "+peerId);
         JsonResponse<MLPPeer> data = new JsonResponse<>();
         try {
             mlpPeer = adminService.getPeerDetail(peerId);
@@ -254,7 +258,11 @@ public class AdminServiceController extends AbstractController {
     @ResponseBody
     public JsonResponse<List<MLPPeerSubscription>> getPeerSubscriptions(
             @PathVariable("peerId") String peerId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getPeerList");
+        log.debug(EELFLoggerDelegate.debugLogger, "getPeerSubscriptions");
+		System.out.println("AdminServiceController.getPeerSubscriptions - before sanitize peerId : "+peerId);
+        peerId = SanitizeUtils.sanitize(peerId);
+        System.out.println("AdminServiceController.getPeerSubscriptions - after sanitize peerId : "+peerId);
+        
         List<MLPPeerSubscription> subscriptionList = null;
         JsonResponse<List<MLPPeerSubscription>> data = new JsonResponse<>();
         try {
@@ -382,7 +390,12 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.GET_SITE_CONFIG}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLPSiteConfig> getSiteConfiguration(@PathVariable("configKey") String configKey, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
+        log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfiguration");
+        
+		System.out.println("AdminServiceController.getSiteConfiguration - before sanitize peerId : "+configKey);
+		configKey = SanitizeUtils.sanitize(configKey);
+        System.out.println("AdminServiceController.getSiteConfiguration - after sanitize peerId : "+configKey);
+        
         MLPSiteConfig mlpSiteConfig = null;
         JsonResponse<MLPSiteConfig> data = null;
         try {

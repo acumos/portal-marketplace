@@ -89,6 +89,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/validation/{taskId}").permitAll()
         .antMatchers("/solution/getRating/{solutionId}").permitAll()
         .antMatchers("/thread/{solutionId}/{revisionId}/{clientTimeZone}/comments").permitAll()
+        .antMatchers("/thread/{threadId}/comment").permitAll()
+        .antMatchers("/thread/{threadId}/childcomments").permitAll()
         .antMatchers("/solutions/{solutionId}/revisions").permitAll()
         .antMatchers("/solutions/{solutionId}/revisions/{revisionId}").permitAll()
         .antMatchers("/validation/{solutionId}/{revisionId}").permitAll()
