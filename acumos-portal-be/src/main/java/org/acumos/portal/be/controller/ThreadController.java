@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -346,6 +347,33 @@ public class ThreadController extends AbstractController {
 			    mlpThread = threadService.getSolutionRevisionThreads(solutionId, revisionId, restPageReq.getBody());
 			    if(mlpThread != null){
 			    	data.setResponseBody(mlpThread);
+			    	data.setStatusCode(100);
+			    	data.setStatus(true);
+			    	data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Threads fetched Successfully for solution and revision Id's");
+			    }
+		} catch (AcumosServiceException e) {
+			data.setStatus(false);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred Fetching thread for solution and revision Id's");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread for solution and revision Id's", e);
+		}
+		return data;
+	}
+	
+	@ApiOperation(value = "Gets a list of child comments belongs to a Thread id's", response = RestPageResponseBE.class)
+	@RequestMapping(value = { APINames.GET_THREAD_CHILD_COMMENTS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE<MLComment>> getThreadChildComments(@PathVariable String threadId, 
+			@RequestBody JsonRequest<RestPageRequest> restPageReq,
+			@RequestHeader(value = "clientTimeZone", required = false) String clientTimeZone) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreads");
+		RestPageResponseBE<MLComment> mlComment = null;
+		JsonResponse<RestPageResponseBE<MLComment>> data = new JsonResponse<>();
+		try {
+			mlComment = threadService.getThreadChildComments(threadId, restPageReq.getBody(),clientTimeZone);
+			    if(mlComment != null){
+			    	data.setResponseBody(mlComment);
 			    	data.setStatusCode(100);
 			    	data.setStatus(true);
 			    	data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);

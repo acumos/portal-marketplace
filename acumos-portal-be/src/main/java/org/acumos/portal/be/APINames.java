@@ -204,6 +204,7 @@ public class APINames {
 	   public static final String GET_THREAD = "thread/{threadId}";
 	   public static final String GET_THREADS = "thread";
 	   public static final String GET_THREAD_SOLUTIONREVISION = "thread/{solutionId}/{revisionId}";
+	   public static final String GET_THREAD_CHILD_COMMENTS = "thread/{threadId}/childcomments";
 	   public static final String GET_THREAD_COMMENTS = "thread/{threadId}/comment";
 	   public static final String GET_THREADCOUNT = "thread/count";
 	   public static final String GET_THREADCOMMENTSCOUNT = "thread/{threadId}/comments/count";

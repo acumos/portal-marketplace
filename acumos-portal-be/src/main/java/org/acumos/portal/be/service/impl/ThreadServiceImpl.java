@@ -34,6 +34,7 @@ import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
 import org.acumos.portal.be.transport.MLComment;
+import org.acumos.portal.be.util.DateUtils;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.joda.time.DateTime;
@@ -290,14 +291,10 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	public  RestPageResponseBE<MLComment> getSolutionRevisionComments(String solutionId, String revisionId, String clientTimeZone,RestPageRequest pageRequest) throws AcumosServiceException{
 		//List<MLPComment> mlpCommentList = new ArrayList<MLPComment>();
 		List<MLComment> content = new ArrayList<MLComment>();
-		try {
-			clientTimeZone=URLDecoder.decode(clientTimeZone, "UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		RestPageResponseBE<MLComment> commentResponse = new RestPageResponseBE<>(content);
-		DateTimeZone clientZone = DateTimeZone.forID(clientTimeZone);
+		
+		DateUtils dateUtils = new DateUtils();
 		try {
 			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -305,42 +302,13 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 			pageResponse = dataServiceRestClient.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
 			List<MLComment> mlcommentList = new ArrayList<MLComment>();
 			for(MLPComment mlpComment : pageResponse.getContent()){
-				mlcommentList.add(PortalUtils.convertToMLComment(mlpComment));
+				if((PortalUtils.isEmptyOrNullString(mlpComment.getParentId()))){
+					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment));
+				}
 			}
 			for (MLComment mlComment : mlcommentList) {
-				String stringDate = null;
-				DateTime currDate = DateTime.now();
-				DateTime commentTime = new DateTime(mlComment.getModified().getTime());
-				DateTime clientTime = commentTime.withZone(clientZone);
-				if (currDate.isAfter(commentTime)) {
-					int minutes = Minutes.minutesBetween(commentTime, currDate).getMinutes();
-					int hours = Hours.hoursBetween(commentTime, currDate).getHours();
-
-					if (minutes < 1) {
-						stringDate = FEW_SECONDS_AGO;
-					} else if (minutes <= 59) {
-						stringDate = minutes + " " + MINUTES_AGO;
-					} else if (hours >= 1 && hours < 48) {
-						Interval today = new Interval(currDate.withTimeAtStartOfDay(),
-								currDate.plusDays(1).withTimeAtStartOfDay());
-						boolean happensToday = today.contains(clientTime);
-						if (happensToday) {
-							stringDate = "AT " + clientTime.toString("hh:mm a");
-						}else {
-							Interval yesterday = new Interval(currDate.minusDays(1).withTimeAtStartOfDay(),
-									currDate.withTimeAtStartOfDay());
-							if(yesterday.contains(clientTime)){
-								stringDate = "Yesterday " + clientTime.toString("hh:mm a");
-							}else{
-								stringDate = clientTime.toString(TIMESTAMP_FORMAT);
-							}
-						}
-
-					} else {
-						stringDate = clientTime.toString(TIMESTAMP_FORMAT);
-					}
-				}
-				mlComment.setStringDate(stringDate);				 
+				
+				mlComment.setStringDate(dateUtils.formatCommentTime(new DateTime(mlComment.getModified().getTime()), clientTimeZone));				 
 				commentResponse.getContent().add(mlComment);
 			}
 		} catch (IllegalArgumentException e) {
@@ -351,4 +319,34 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		return commentResponse;
 
 	}
+	
+	@Override
+	public  RestPageResponseBE<MLComment> getThreadChildComments(String threadId, RestPageRequest pageRequest, String clientTimeZone) throws AcumosServiceException{
+		List<MLComment> content = new ArrayList<MLComment>();
+		DateUtils dateUtils = new DateUtils();
+		RestPageResponseBE<MLComment> commentResponse = new RestPageResponseBE<>(content);
+		try {
+			log.debug(EELFLoggerDelegate.debugLogger, "getThreadChildComments");
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
+			pageResponse = dataServiceRestClient.getThreadComments(threadId, pageRequest);
+			List<MLComment> mlcommentList = new ArrayList<MLComment>();
+			for(MLPComment mlpComment : pageResponse.getContent()){
+				//only the child comments (where parent id is not null)
+				if(!(PortalUtils.isEmptyOrNullString(mlpComment.getParentId()))){
+					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment));
+				}
+			}
+			for (MLComment mlComment : mlcommentList) {
+				DateTime commentTime = new DateTime(mlComment.getModified().getTime());
+				mlComment.setStringDate(dateUtils.formatCommentTime(commentTime, clientTimeZone));				 
+				commentResponse.getContent().add(mlComment);
+			}
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return commentResponse;
+	}		
 }
