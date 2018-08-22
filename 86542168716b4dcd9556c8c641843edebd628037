@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9800670_b3f0f53a",
+        "filename": "acumos-portal-fe/src/main/webapp/app/marketplace-home/home.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-08-22T14:10:00Z",
+      "side": 1,
+      "message": "Please remove comments",
+      "revId": "86542168716b4dcd9556c8c641843edebd628037",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
