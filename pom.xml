@@ -14,7 +14,6 @@
 	</properties>
 	<modules>
 		<!-- Child modules do NOT name this parent. -->
-		<!-- <module>acumos-platon</module> -->
 		<module>acumos-portal-be</module>
 		<module>acumos-portal-fe</module>
 	</modules>
