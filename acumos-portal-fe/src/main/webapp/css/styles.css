@@ -156,7 +156,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .header-search-control.mdl-textfield.is-focused .mdl-textfield__input {-webkit-transition: width 200ms; transition: width 200ms;}
 .icon-header-help {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/ico_help.png') no-repeat left center}
 .icon-logout {display:inline-block; width: 20px; height: 20px;background: url('../images/general-icons/icon-logout.svg') no-repeat left center}
-.icon-logout2 {display:inline-block; width: 21px; height: 21px;background: url('../images/general-icons/icon-logout-black.png') no-repeat left center}
+.icon-logout2 {display:inline-block; width: 21px; height: 21px;background: url('../images/general-icons/icon-logout-black.png') no-repeat 4px 2px}
 .helplink-container a {margin-top: 10px; position:relative; line-height: 44px !important;}
 .help-not-login a {padding-right:10px !important;}
 .mdl-layout__header-row {padding: 0 10px;}
@@ -176,6 +176,13 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .top-menu .mdl-navigation__link .headertxtspan {color: #fff;margin-left: 0;}
 .top-menu .mdl-navigation__link.active .headertxtspan {color: #ffcc00;}
 .acu-header-search-btn {display:none;}
+.a-acc-name {display: inline-block;max-width: 185px; overflow: hidden; position:relative; top: 8px; text-overflow: ellipsis;height: 26px;line-height: 26px;}
+.a-acc-container {position:relative; top: -3px;}
+
+.a-acc-name-mob {display: inline-block;max-width: 150px; overflow: hidden; text-overflow: ellipsis;transform: scale(1) !important; margin-left: 3px;}
+.mob-header-menu-list1 li {display: flex; flex-wrap: nowrap; align-items: center; }
+.mob-header-menu-list1 li span:first-child {width: 30px; text-align: center;margin-left: 2px;}
+.mob-header-menu-list1 li i:first-child {width: 30px;font-size: 21px;text-align: center;margin-right: 4px;}
 /*********** header style end  ************/
 
 /*********** Left side navigation style start************/
@@ -1257,8 +1264,10 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .btn-fed2:hover {background: #fff;color: #0366d6;}
 .fed-container1 {display: flex;flex-wrap:nowrap;align-items:center; justify-content: flex-end; margin-right: 0; padding-top: 8px;}
 
+
 .fed-container2 {display:flex; flex-wrap:nowrap;justify-content: flex-end;align-items: center;}
 .fed-container2 .mdl-button { width: 100%;}
+.fed-container3 {display: flex;flex-wrap:nowrap;align-items:center; justify-content: flex-end; margin-right: 0; padding-top: 1px;}
 .fed-err-msg {position:absolute;width: 350px;margin-top: -17px;}
 .fed-err-msg span {position:relative; margin-left: 2px; line-height: 15px !important;}
 table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark as Self "] {width: 100% !important;}
@@ -2069,11 +2078,7 @@ table tbody tr td .a-tooltipval {top:5px}
 	.mob-pageheadsection1 .mob-add-button {position: fixed; bottom: 20px; right: 15px; z-index: 5000;}
 	.login-searchcontrol1 .search-button {right: 38px;}
 	
-	ul.mob-header-menu-list1 li {display:flex; align-items: center; font-size: 12px;font-weight:600;}
-	ul.mob-header-menu-list1 li:first-child span {font-size: 12px;font-weight:600;}
-	ul.mob-header-menu-list1 li span {transform:scale(0.8);position:relative;left: -4px;}
-	ul.mob-header-menu-list1 li .material-icons {font-size: 20px; margin-right: 10px;color: #525252;}
-	ul.mob-header-menu-list1 li .icon-logout2 {margin-right: 10px; position:relative; top: 2px; left:2px;}
+	
 	.header-menu-wologin li a, .header-menu-wologin li a.mdl-navigation__link {color: #525252 !important; font-weight: 600;font-size: 12px;}
 		/*User management responsive  Start*/
     .userManagement-addUser{display: block;}    
@@ -2192,6 +2197,7 @@ table tbody tr td .a-tooltipval {top:5px}
 	.grid-top-section > div > div .mdl-button {width: 30px; height: 30px; margin:0;}
 	.mob-actions-container1 .mdl-button {color: #671C9D;}
 	.confirm-control {margin-bottom: 20px;}
+	.mdl-textfield--expandable .mdl-button--icon {top: 20px;}
 	
 }
 
@@ -2238,7 +2244,7 @@ table tbody tr td .a-tooltipval {top:5px}
 	.cg-dialog-sign_in {max-height: 515px;}
 	.eyebutton {max-width: 30px !important;width: 30px !important;}
 	.a-logo-container.logo-without-login {background-position: -10px center;}
-	.mdl-textfield--expandable .mdl-button--icon {top: 12px;}
+	.mdl-textfield--expandable .mdl-button--icon {top: 20px;}
 	.gridlistview-btnactive img, .gridlistview-btn img {margin-top: -1px;}
 	
 }	
@@ -2333,6 +2339,8 @@ table tbody tr td .a-tooltipval {top:5px}
 	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,.6) !important; -moz-box-shadow: 0 2px 5px rgba(0,0,0,.6) !important; box-shadow: 0 2px 5px rgba(0,0,0,.6) !important; z-index: 50;}	
 	.mobile-msg h2 {margin-bottom: 0px;font-size: 26px;margin-top: 5px;}
 	.mobile-msg h5 {margin-top: 5px;font-size: 18px;line-height: 28px;}
+	
+	.acu-mob-header-container2 {display: flex; align-items: center;}
 }
 
 @media (min-width: 960px) {
@@ -2413,7 +2421,8 @@ table tbody tr td .a-tooltipval {top:5px}
   .admin-container-row1-inner3 > div {display: flex;flex-wrap:nowrap;align-items:center;}
   
   .cg-dialog-sign_up {overflow:hidden;}
-  .mpimage1 figure {display:flex;}  
+  .mpimage1 figure {display:flex;}
+  .a-acc-container + .material-icons { top: -3px;position:relative; }  
 }
 													 
 

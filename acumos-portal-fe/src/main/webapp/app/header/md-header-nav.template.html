@@ -246,13 +246,13 @@ limitations under the License.
 						<div class="posrel">
 							<md-menu class="menu-content1"> <md-button
 								id="account-info" class="mdl-button header-ddl mdl-js-button"
-								ng-click="openMenu($mdMenu, $event)"> <span><img
+								ng-click="openMenu($mdMenu, $event)"> <span class="a-acc-container"><img
 								class="userimg" ng-show="showAltImage"
 								ng-src="images/userprofile/user-profile.png"
 								title="{{userfirstname}}" /> <img class="userimg"
 								ng-show="!showAltImage"
 								ng-src="data:image/PNG;base64,{{userImage}}"
-								title="{{userfirstname}}" /> {{userDetails.userName}} </span> <i
+								title="{{userfirstname}}" /><span class="a-acc-name">{{userDetails.userName}}</span></span> <i
 								class="material-icons">arrow_drop_down</i> </md-button> <md-menu-content
 								class="menu-content1"> <md-menu-item
 								class="mdl-button header-ddl mdl-js-button"> <a
@@ -355,12 +355,12 @@ limitations under the License.
 								title="{{userfirstname}}" /> <img class="userimg"
 								ng-show="!showAltImage"
 								ng-src="data:image/PNG;base64,{{userImage}}"
-								title="{{userfirstname}}" /></span>{{userDetails.userName}}</li>								
+								title="{{userfirstname}}" /></span><span class="a-acc-name-mob">{{userDetails.userName}}</span></li>								
 															 
-								<li class="mdl-menu__item" ui-sref="userDetail"><i class="material-icons">settings</i> Account Settings</li>
+								<li class="mdl-menu__item" ui-sref="userDetail"><i class="material-icons">settings</i> <span>Account Settings</span></li>
 					
-								<li class="mdl-menu__item" ng-click="viewNotification(notification.notificationId)"><i class="material-icons">notifications_none</i> Notifications ({{$root.notificationCount}})</li>								
-								<li class="mdl-menu__item" ng-click="logout()"><span class="icon-logout2" title="Logout"></span> Logout</li>
+								<li class="mdl-menu__item" ng-click="viewNotification(notification.notificationId)"><i class="material-icons">notifications_none</i> <span>Notifications ({{$root.notificationCount}})</span></li>								
+								<li class="mdl-menu__item" ng-click="logout()"><span class="icon-logout2" title="Logout"></span> <span>Logout</span></li>
 							</ul>
 											 
 						</nav>
