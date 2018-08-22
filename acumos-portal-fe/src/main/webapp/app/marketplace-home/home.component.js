@@ -257,14 +257,7 @@ angular
 									.then(
 											function(response) {
 												$scope.homeSolutions.slides = response.data.response_body.content;
-												angular.forEach($scope.homeSolutions.slides,function( value, key) {
-													$scope.homeSolutions.slides[index] = {};
-													$scope.homeSolutions.slides[index]['solutionId'] = value.solutionId;
-													$scope.homeSolutions.slides[index]['revisionId'] = value.latestRevisionId;
-													$scope.homeSolutions.slides[index]['name'] = value.name;
-													$scope.homeSolutions.slides[index]['solutionRating'] = value.solutionRating;
-													$scope.homeSolutions.slides[index]['picture'] = value.picture;
-												});
+												
 												angular.forEach($scope.homeSolutions.slides,function( value, key) {
 													if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
 													{
