@@ -1280,17 +1280,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	private ByteArrayOutputStream getPayload(String uri) throws AcumosServiceException {
 
-		RepositoryLocation repositoryLocation = new RepositoryLocation();
-	    repositoryLocation.setId("1");
-
-	    repositoryLocation.setUrl(env.getProperty("nexus.url"));
-	    repositoryLocation.setUsername("nexus.username");
-	    repositoryLocation.setPassword("nexus.password");
-	    // if you need a proxy to access the Nexus
-	    if (!PortalUtils.isEmptyOrNullString(env.getProperty("nexus.proxy"))) {
-				repositoryLocation.setProxy(env.getProperty("nexus.proxy"));
-		    }
-		NexusArtifactClient artifactClient = new NexusArtifactClient(repositoryLocation);
+		NexusArtifactClient artifactClient = getNexusClient();
 		
 		ByteArrayOutputStream outputStream = null;
 		try {
