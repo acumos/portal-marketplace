@@ -1409,23 +1409,12 @@ limitations under the License.
 																ng-if="!tags1.length<1"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
 																ng-if="tags1.length<1" class="red">Not Started</span>
-															<!-- <span class="green"
-                                                                                                >Completed on {{currentDate
-                                                                                                | date:'MM/dd/yyyy'}}</span> -->
-
 														</h2>
 														<p>Choose tags to help describe your model. Add new
 															tags if needed. Tags can have 32 characters only.</p>
-
-														<!-- <md-content class="editable-desc"
-                                                                                                ng-click="showSolTags = !showSolTags">
-                                                                                          <md-chips> <md-chip>Hockey</md-chip> <md-chip>Lacrosse</md-chip>
-                                                                                          <md-chip>Baseball</md-chip> 
-                                                                                          Static chips are transcluded
-                                                                                          <md-chip>{{ctrl.chipText}}</md-chip> </md-chips>
-                                                                                          </md-content> -->
+ 
 														<form name="publictags1">
-															<tags-input ng-model="tags1" name="pubtag"
+															<tags-input ng-model="tags1" name="pubtag" id="tagsId1"
 																replace-spaces-with-dashes="false"
 																on-tag-added="tagAdded($tag)" min-tags="1" min-length="0" allow-leftover-text=false
 																required ng-blur="pubtagVisited=true" ng-focus="pubtagVisited=false"
@@ -1440,12 +1429,6 @@ limitations under the License.
 															</div>
 														</form>
 														
-														<!-- <div class="checkbox" ng-if="tags.length<1">
-                                                                                          <label> <input type="checkbox"
-                                                                                                ng-model="$parent.company.step5" ng-click="skipStep()">
-                                                                                                Skip
-                                                                                          </label>
-                                                                                    </div> -->
 														<!-- update model tags -->
 														<div class="popovers skippopover hide">
 															<md-toolbar>
