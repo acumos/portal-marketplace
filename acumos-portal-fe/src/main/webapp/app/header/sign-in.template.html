@@ -35,12 +35,12 @@ limitations under the License.
 										<label class="sign-in-lbl1 disblock">Already have an Account ?</label>
 										<div class="help-inline" ng-show="userVerificationPending">
 											<span style="color: #ff0000;">
-												Your Account Verification is Pending.
+												Your Account Verification is Pending. Click <a ng-click="regenerateVerification($event)">here</a> to regenerate verification email.
 											</span>
 										</div>
 										<div class="help-inline" ng-show="userIdDisabled">
 											<span style="color: #ff0000;">
-												Your account is deactivated.
+												Your account is deactivated or does not exists.
 											</span>
 										</div>
 										<div class="mdl-grid mdl-grid--no-spacing">

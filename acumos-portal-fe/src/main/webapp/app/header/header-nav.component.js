@@ -26,7 +26,7 @@ angular.module('headerNav')
 	//template : '<div ng-include="getTemplateUrl()"></div>',
 	
 	//templateUrl : '/app/header/header-nav.template.html',
-	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, productService, jwtHelper, $anchorScroll, browserStorageService) {
+	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $mdDialog, $interval, apiService, $location, $sce, productService, jwtHelper, $anchorScroll, browserStorageService) {
 		$scope.$on('menuClickToggle', function(){
 			$scope.toggleHeaderClass();
 			$rootScope.hambergerClicked=false;
@@ -66,7 +66,6 @@ angular.module('headerNav')
         apiService.isSignUpEnabled().then( function(response){
         	$rootScope.isSignUp.enabled = response.data.response_body;
         });
-		
 		 var search = $window.location.search     //to check query parameter on url
          .split(/[&||?]/)
          .filter(function (x) { return x.indexOf("=") > -1; })
@@ -159,15 +158,8 @@ angular.module('headerNav')
 				    	};
 			
 			apiService.getNotification(userId,req).then(function(response) {
-				// Kept as comment to verify changes working. Will be removed later.
-				/*if (!$scope.moreNotif){
-					$rootScope.notificationCount = notificationCount;
-					notificationCount = 0;
-					$scope.page = 0;
-					$scope.notificationManageObj=[];
-				}
-				}*/
-				var userId = JSON.parse(browserStorageService.getUserDetail())[1];
+
+				$scope.auth = browserStorageService.getAuthToken();
 
 				if(response.data!=null && response.data.response_body.length >0 ){
 					if(methodCallFlag){
@@ -180,7 +172,7 @@ angular.module('headerNav')
 						if(response.data.response_body[key].viewed == null){
 							$scope.notificationManageObj
 							.push({
-								message : value.message,
+								message : $sce.trustAsHtml(value.message),
 								start : value.start,
 								notificationId : value.notificationId
 							});

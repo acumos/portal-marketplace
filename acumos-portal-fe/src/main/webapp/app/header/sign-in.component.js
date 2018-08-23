@@ -212,8 +212,13 @@ angular.module('signInModal')
                                                   $mdDialog.cancel();
                                                   $rootScope.$broadcast('forgotPassword',ev);
                                               }
-                                              
-                                              
+
+                                              $scope.regenerateVerification = function(ev){
+                                                  $mdDialog.cancel();
+                                                  window.location = "/#/confirm_verification?user="+ $scope.modalData.name;
+                                                  return;
+                                              }
+
                                           $scope.login = function(){
                                         	  $scope.userIdDisabled = false;
                                         	  $scope.userVerificationPending = false;
@@ -258,13 +263,11 @@ angular.module('signInModal')
                                                 $mdDialog.hide();
                                                },function errorCallback(response) {
                                                    
-                                                   if(response.data.message == "Inactive user"){
+                                                   if(response.data.message.indexOf("Failed to find active user") > -1){
                                                 	   $scope.userIdDisabled = true;
                                                 	   $scope.userPassBlocked = false;
                                                 	   $scope.userPassInvalid = false;
                                                 	   $scope.userVerificationPending = false;
-                                                	   	 /*$mdDialog.hide();
-                                                         alert("User Id is disabled");*/
                                                    }
                                                    if(response.data.message == "Verification Pending"){
                                                 	   $scope.userIdDisabled = false;

@@ -25,7 +25,7 @@ app.component('notificationModule',{
 	//template : '<div ng-include="getTemplateUrl()"></div>',
 	
 	//templateUrl : '/app/header/header-nav.template.html',
-	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, apiService, browserStorageService) {
+	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, $sce, apiService, browserStorageService) {
 		$scope.loginUserID='';
 		$scope.totalCount = 0;
 		$scope.page = 0;
@@ -40,7 +40,12 @@ app.component('notificationModule',{
 			$scope.userDetails.userName = $scope.userDetails[0];
 			$scope.loginUserID = $scope.userDetails[1];
 		}
-		
+
+		if (browserStorageService.getUserDetail()) {
+			$scope.auth = browserStorageService
+					.getAuthToken();
+		}
+
 		$scope.getNotificationMessage=function (userId,page){
 			
 			var req = {
@@ -56,7 +61,7 @@ app.component('notificationModule',{
 					angular.forEach(response.data.response_body,function( value, key) {
 						$scope.notificationManageObj
 						.push({
-							message : value.message,
+							message : $sce.trustAsHtml(value.message),
 							start : value.start,
 							viewed : value.viewed,
 							notificationId : value.notificationId

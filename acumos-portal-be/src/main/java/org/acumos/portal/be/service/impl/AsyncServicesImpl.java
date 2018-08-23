@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -219,8 +220,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding else after resp.toString() ---->>>"+resp.toString());
 					log.info(resp.toString());
 					log.info((String) resp.get("errorMessage"));
+					
+					String errorLog = getErrorLogArtiffact(uuid, userId);
 					String notifMsg = "On-boarding Failed"
-					+ ". Please restart the process again to upload the solution";
+					+ ". Please restart the process again to upload the solution. " + errorLog;
+
 					notification.setMessage(notifMsg);
 					notification.setTitle(NOTIFICATION_TITLE);
 					log.info("inside callOnboarding else before generateNotification ---->>>");
@@ -255,6 +259,31 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		}
 
 		return new AsyncResult<HttpResponse>(response);
+	}
+
+	private String getErrorLogArtiffact(String trackingId, String userId) {
+		
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		String erlog = "";
+		// Get All the status for the tracking Id
+		List<MLStepResult> status = messagingService.callOnBoardingStatusList(userId, trackingId);
+		
+		MLStepResult resultStatus = status.stream().filter(stepResult -> stepResult.getRevisionId() != null && stepResult.getSolutionId() != null).findFirst().get();
+		if(resultStatus != null) {
+			List<MLPArtifact> artifactList = dataServiceRestClient.getSolutionRevisionArtifacts(resultStatus.getSolutionId(), resultStatus.getRevisionId());
+			
+			if(artifactList != null && !PortalUtils.isEmptyList(artifactList)) {
+				MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(".log") && (artifact.getName()).contains("onboarding")).findFirst().orElse(null);
+				if(logArtifact != null) {
+					//generate the download log href as String
+					erlog = "Click " + "<a href=\"/api/downloads/" + resultStatus.getSolutionId() + "?artifactId="
+							+ logArtifact.getArtifactId() + "&revisionId=" + resultStatus.getRevisionId() + "&userId="
+							+ userId + "&jwtToken={{auth}}\" >here</a> to download logs.";
+				}
+			}
+			
+		}
+		return erlog;
 	}
 
 	public void sendEmailNotification(String userId, UploadSolution solution, String errorMessage) {
