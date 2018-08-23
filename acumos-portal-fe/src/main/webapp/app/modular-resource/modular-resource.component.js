@@ -388,7 +388,9 @@ angular.module('modelResource')
 									switch(stepName){
 										case 'CreateSolution': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCS = data[i].result : $scope.errorCS = ''; break;
 										case 'AddArtifact' :   
-											if(counter > 3) break; 
+											if(counter > 3){
+												$scope.clearNotificationInterval(); return;
+											}	
 											var counter = 2;
 											( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
 										case 'CreateTOSCA' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;	                        
@@ -400,7 +402,9 @@ angular.module('modelResource')
 									switch(stepName){
 										case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
 										case 'AddArtifact' :  
-											if(counter > 5) break; 
+											if(counter > 5){
+												$scope.clearNotificationInterval(); return;
+											}
 											var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
 										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
 										case 'Dockerize' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
@@ -436,7 +440,7 @@ angular.module('modelResource')
 										}
 										
 										if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
-											width = width+20;
+											width = width+15;
 											angular.element('.progress .progress-bar').css({ "width" : width+'%'});
 											angular.element('.onboardingwebContent').css({ "height" :'100%'});
 										}
@@ -449,9 +453,7 @@ angular.module('modelResource')
 							}
 							
 							if( $scope.allSuccess || $scope.stepfailed ){
-								$scope.disableOnboardingButton = false;
-								$scope.file = '';
-								$interval.cancel($scope.clearInterval);
+								$scope.clearNotificationInterval();
 							}
 						},
 						function(error) {
@@ -460,11 +462,19 @@ angular.module('modelResource')
 				
 			} 
 			
+			$scope.clearNotificationInterval = function(){
+				$scope.disableOnboardingButton = false;
+				$scope.file = '';
+				$interval.cancel($scope.clearInterval);
+			}
+			
 			$scope.clearExistingNotifications = function(){
 				$rootScope.trackId = false;
 				angular.element(angular.element('li div')).removeClass('completed incomplet active');
 		    	angular.element(angular.element('li')).removeClass('green completed');
 		    	angular.element('.progress .progress-bar').css({ "width" : '0%'});
+		    	$scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';
+				$scope.errorCC = '';
 			}
 
 			$scope.$watchGroup(['toolkitNameValue','install','file','fileSubmit'], function(newValues, oldValues) {
