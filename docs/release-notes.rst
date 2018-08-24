@@ -20,6 +20,19 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.43, 24 th August 2018
+==================================
+* IST2: Manage My Model : Tag added message is displaying twice (ACUMOS-1504)
+* IST2: Rating is not displaying on the box on the Model carousel on the home page (ACUMOS-1506)
+* IST: Model Carousel  on Home Page : Long Name is not displaying (ACUMOS-1617)
+* IST: User Management : No record found message is not displaying when no data in the table (ACUMOS-1618)
+* IST: Icon going out of the screen when user entered long name (ACUMOS-1625)
+* <IST2><Portal Marketplace>Manage My Model > Publish to Company/Public Marketplace: 'Add a tag' field and box is highlighted with RED color when existing value entered and click on the screen (ACUMOS-1511)
+* Publish on-boarding URLs from configuration on Portal documentation page (ACUMOS-931)
+* increased flexibility and support for artifacts in web onboarding (ACUMOS-893)
+* IST2- Deleting peers does not work. (ACUMOS-1596)
+
+
 Version 1.15.42, 17 th August 2018
 ==================================
 * IST2: Rating is not displaying on the box on the Model carousel on the home page (ACUMOS-1506)
