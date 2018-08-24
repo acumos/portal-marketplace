@@ -424,14 +424,14 @@ angular.module('modelResource')
 								} else {
 									switch(stepName){
 										case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
+										/*case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;*/
+										case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+										case 'AddDockerImage' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;
 										case 'AddArtifact' :  
-											if(counter > 5){
+											/*if(counter > 5){
 												$scope.clearNotificationInterval(); return;
-											}
-											var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
-										case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;
-										case 'Dockerize' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
-										case 'AddDockerImage' :  var counter = 10; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;							
+											}*/
+											var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
 										default : var counter = -1;
 									}
 
@@ -453,7 +453,7 @@ angular.module('modelResource')
 										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 										$scope.completedSteps[stepName] = stepName;
 
-										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 10 && $scope.onap == true) ) ) && $scope.stepfailed == false ) {
+										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) ) && $scope.stepfailed == false ) {
 											counter = counter + 2;
 											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
