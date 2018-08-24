@@ -12,6 +12,18 @@
   <!-- Can easily relocate debug logs by modifying this path. -->
   <property name="debugLogDirectory" value="${logDirPrefix}/${componentName}" />
   
+  <property name="p_tim" value="%d{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;, UTC}"/>
+ <property name="p_thr" value="%thread"/>
+ <property name="p_lvl" value="%level"/>
+ <property name="TargetServiceName" value="%logger"/>
+ <property name="p_log" value="%logger"/>
+ <property name="p_mdc" value="%replace(%replace(%mdc){'\t','\\\\t'}){'\n', '\\\\n'}"/>
+ <property name="p_msg" value="%replace(%replace(%msg){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+ <property name="p_exc" value="%replace(%replace(%rootException){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+ <property name="p_mrk" value="%replace(%replace(%marker){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+ <property name="singleLinePattern" value="%nopexception${p_tim}\t${p_thr}\t${p_lvl}\t${p_log}\t${p_mdc}\t${p_msg}\t${p_exc}\t${p_mrk}\t%n"/>
+ <property name="multiLinePattern" value="%nopexception${p_tim}\t${p_thr}\t${p_lvl}\t${p_log}\t%mdc\t%msg\t%rootException\t%marker\t%n"/>
+  
   <!--  log file names -->
   <property name="generalLogName" value="application" />
   <property name="errorLogName" value="error" />
@@ -22,11 +34,18 @@
   
   <property name="debugAccessPattern" value="%date{ISO8601}|%X{contextName}|%X{user}|%thread|%.-5level|%X{AlertSeverity}|%X{ClassName}| %msg%n" />
   
+  <!-- start for newMultiLinePattern -->
+  <!-- <property name="newmultiLinePattern"
+		value="%X{RequestID}|%X{InvocationID}|%X{InstanceUUID}|%X{ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%X{Severity}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{EntryTimestamp}|%X{InvokeTimestamp}|%X{TargetEntity}|%X{ClassName}|%X{TargetElement}|%X{User}|%.-5level|%msg|%X{ElapsedTime}|%X{ServerIPAddress}|%X{VirtualServerName}|%X{ServiceInstanceID}|%X{ContextName}|${p_thr}|%M|%msg%n" /> -->
+  
+  <property name="newmultiLinePattern" value="%X{EntryTimestamp}|%X{InvokeTimestamp}|%X{RequestId}|%X{InvocationId}|%X{InstanceUUID}|%X{ServiceInstanceId}|%thread|%X{ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDesc}|%.-5level|%X{Severity}|%X{ServerIPAddress}|%X{ElapsedTime}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{VirtualServerName}|%X{ContextName}|%X{TargetEntity}|%X{TargetServiceName}|%X{TargetElement}|%X{User}|%msg%n" />
+	  
+  <!-- end for newMultiLinePattern -->
   
   <!-- Example evaluator filter applied against console appender -->
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>${defaultPattern}</pattern>
+      <pattern>${newmultiLinePattern}</pattern>
     </encoder>
   </appender>   
   
@@ -40,7 +59,7 @@
             <level>INFO</level>
         </filter>
         <encoder>
-            <pattern>${debugAccessPattern}</pattern>
+            <pattern>${newmultiLinePattern}</pattern>
         </encoder>
     </appender>
     
@@ -59,7 +78,7 @@
       <maxFileSize>5MB</maxFileSize>
     </triggeringPolicy>
     <encoder>
-      <pattern>${defaultPattern}</pattern>
+      <pattern>${newmultiLinePattern}</pattern>
     </encoder>
   </appender>
   
@@ -83,7 +102,7 @@
       <maxFileSize>5MB</maxFileSize>
     </triggeringPolicy>
     <encoder>
-      <pattern>${defaultPattern}</pattern>
+      <pattern>${newmultiLinePattern}</pattern>
     </encoder>
   </appender>
   
@@ -107,7 +126,7 @@
       <maxFileSize>5MB</maxFileSize>
     </triggeringPolicy>
     <encoder>
-      <pattern>${debugLoggerPattern}</pattern>
+      <pattern>${newmultiLinePattern}</pattern>
     </encoder>
   </appender>
   
