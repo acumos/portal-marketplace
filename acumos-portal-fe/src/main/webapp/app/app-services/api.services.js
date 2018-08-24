@@ -100,6 +100,8 @@ angular.module('AcumosApp')
         var urlPutNotificationPref = 'api/notifications/pref'
         var urlValidationstatusUrl = 'api/auth/validationStatus';
         var urlGetCloudEnabledUrl = 'api/cloudEnabled';
+        var urlGetCLIPushUrl = 'api/properties/cliPushUrl';
+        var urlGetCLIAuthUrl = 'api/properties/cliAuthUrl';
         	
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -508,6 +510,14 @@ angular.module('AcumosApp')
         
         this.getValidationstatus = function () {
             return $http.post(urlValidationstatusUrl);
+        };
+        
+        this.getCLIPushUrl = function () {
+            return $http.get(urlGetCLIPushUrl);
+        };
+       
+        this.getCLIAuthUrl = function () {
+            return $http.get(urlGetCLIAuthUrl);
         };
         
     }]);
