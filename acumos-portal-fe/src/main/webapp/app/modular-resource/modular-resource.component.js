@@ -199,6 +199,29 @@ angular.module('modelResource')
 						});
 			}
 			
+			$scope.getOnboardingCLIUrls = function() {
+
+                apiService
+                .getCLIPushUrl()
+                .then(
+                        function(response) {
+                            $scope.cliPushUrl = response.data.data;
+                        },
+                        function(error) {
+                            $scope.cliPushUrl = 'Push URL unavailable';
+                        });
+
+                apiService
+                .getCLIAuthUrl()
+                .then(
+                        function(response) {
+                           $scope.cliAuthUrl = response.data.data;
+                        },
+                        function(error) {
+                            $scope.cliAuthUrl = 'Auth URL unavailable';
+                        });
+            }
+			
 			$scope.getTensorflowContent = function(modelName){
 				apiService
 				.getModelerResourcesContent(modelName)
