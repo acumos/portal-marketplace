@@ -61,7 +61,8 @@ angular
 						$scope.selectedChip = [];
 						$scope.sortBy = 'MR';
 						$scope.selectedPage = 0;
-						$scope.solutionSize = 10;						
+						$scope.solutionSize = browserStorageService.getPaginationSize() ?
+								browserStorageService.getPaginationSize() : 10;			
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -427,6 +428,7 @@ angular
 								else tagArr.splice(index, 1);
 							}else if(checkbox == 'paginationSize'){
 								$scope.solutionSize = type;
+								browserStorageService.setPaginationSize(type);
 							}
 
 							$scope.categoryFilter = caegoryArr;
