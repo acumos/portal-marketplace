@@ -61,7 +61,8 @@ angular
 						$scope.selectedChip = [];
 						$scope.sortBy = 'MR';
 						$scope.selectedPage = 0;
-						$scope.solutionSize = 10;						
+						$scope.solutionSize = browserStorageService.getPaginationSize() ?
+							parseInt(browserStorageService.getPaginationSize()) : 10;
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -219,6 +220,8 @@ angular
 
 						var duplicate = false;
 						$scope.loadMore = function(pageNumber) {
+							browserStorageService.setPageNumber(pageNumber);
+							
 							$scope.SetDataLoaded = true;
 							$rootScope.setLoader = true;
 							var toBeSearch = [];
@@ -288,8 +291,9 @@ angular
 									});
 
 						}
-
-						$scope.loadMore(0);
+						
+						$scope.loadMore(browserStorageService.getPageNumber() ? browserStorageService.getPageNumber() : 0);
+						
 						function getSolution(response) {
 							
 							$scope.isBusy = false;
@@ -425,8 +429,9 @@ angular
 								});
 								if(dupli == false)tagArr.push(checkbox);
 								else tagArr.splice(index, 1);
-							}else if(checkbox == 'paginationSize'){
-								$scope.solutionSize = type;
+							}else if(type == 'paginationSize'){
+								$scope.solutionSize = checkbox;
+								browserStorageService.setPaginationSize(checkbox);
 							}
 
 							$scope.categoryFilter = caegoryArr;

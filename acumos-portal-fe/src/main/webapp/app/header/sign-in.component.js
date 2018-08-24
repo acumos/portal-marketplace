@@ -104,6 +104,22 @@ angular.module('signInModal')
 					sessionStorage.removeItem('auth_token');
 					localStorage.removeItem('auth_token');
 				}
+				
+				this.setPaginationSize = function(size) {
+					sessionStorage.setItem('paginationSize', size);
+				}
+				
+				this.getPaginationSize = function() {
+					return sessionStorage.getItem('paginationSize');
+				}
+				
+				this.setPageNumber = function(pageNum) {
+					sessionStorage.setItem('pageNumber', pageNum);
+				}
+				
+				this.getPageNumber = function() {
+					return sessionStorage.getItem('pageNumber');
+				}
 			})
             .component(
                         'signinContent',
