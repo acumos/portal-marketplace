@@ -76,6 +76,14 @@ angular.module('signInModal')
 					sessionStorage.removeItem('auth_token');
 					localStorage.removeItem('auth_token');
 				}
+				
+				this.setPaginationSize = function(size) {
+					sessionStorage.setItem('paginationSize', size);
+				}
+				
+				this.getPaginationSize = function() {
+					return sessionStorage.getItem('paginationSize');
+				}
 			})
             .component(
                         'signinContent',
