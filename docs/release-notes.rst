@@ -32,6 +32,8 @@ Version 1.15.43, 24 th August 2018
 * increased flexibility and support for artifacts in web onboarding (ACUMOS-893)
 * IST2- Deleting peers does not work. (ACUMOS-1596)
 * log standardization and consistency portal/marketplace (ACUMOS-623)
+* IST- Signup email verification not received now can't login (ACUMOS-1624)
+* Portal search solution by ID yields no result (ACUMOS-1576)
 
 
 Version 1.15.42, 17 th August 2018
