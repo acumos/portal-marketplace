@@ -34,6 +34,11 @@ Version 1.15.43, 24 th August 2018
 * log standardization and consistency portal/marketplace (ACUMOS-623)
 * IST- Signup email verification not received now can't login (ACUMOS-1624)
 * Portal search solution by ID yields no result (ACUMOS-1576)
+* Portal UI to support Deploy model to a Local Environment (ACUMOS-1498)
+* enable or disable "deploy" button's cloud options through configuration file (ACUMOS-860)
+* Portal option Sort By does nothing for My Unpublished Models (ACUMOS-823)
+* Handle impact of Acumos-1070 on components other than onboarding (ACUMOS-1296)
+* Short Term Portal changes for Common Microservices (ACUMOS-1499)
 
 
 Version 1.15.42, 17 th August 2018
