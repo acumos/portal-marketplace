@@ -2152,6 +2152,31 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             align: 'left'
         }).changeNodeLabel(function(nodeId, text) {
             var node = _diagram.getNode(nodeId);
+            console.log(node);
+            var allNodes = _drawGraphs.nodeCrossfilter().all();
+            allNodes.forEach(function(n){
+            	if(n.type.name === "Collator"){
+            		if($scope.collateSourceTables[n.nodeId] !== undefined){
+            			angular.forEach($scope.collateSourceTables[n.nodeId], function(value,key){
+            				if(value.modelName === node.value.nodeId){
+            					value.modelName = text;
+            				}
+            			});
+            			console.log($scope.collateSourceTables[n.nodeId]);
+            		} 
+            	}
+            	
+            	if(n.type.name === "Splitter"){
+            		if($scope.splitTargetTables[n.nodeId] !== undefined){
+            			angular.forEach($scope.splitTargetTables[n.nodeId], function(value,key){
+            				if(value.modelName === node.value.nodeId){
+            					value.modelName = text;
+            				}
+            			});
+            			console.log($scope.splitTargetTables[n.nodeId]);
+            		} 
+            	}
+            });
             $scope.saveState.noSaves = false;
             $scope.validationState = true;
             $scope.activeInactivedeploy = true;
@@ -3442,8 +3467,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.processData = function(){
     	$scope.scriptEntered = true;
     	scriptEnteredDetails={'dbtype':$scope.dbType,
-    						'targeturl':$scope.fileUrl,
-    						'script':$scope.scriptText,
+    						'targeturl':"",
+    						'script':"",
     						'firstrow':$scope.firstRow,
     						'localfile':$scope.userImage};
     	if($scope.dbType == 'csv'){
@@ -3521,7 +3546,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     }
     
     $scope.saveScript = function(){
-    	var scriptInput = $scope.scriptText;
+    	var scriptInput = "";
     	var url;
     	$scope.localurl = '';
     	 if($scope.userImage){
@@ -3531,12 +3556,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	 }
     	var data = {
     			"databrokerMap": {
-    			    "script": $scope.scriptText,
+    			    "script": "",
     			    "csv_file_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, 
     			    "data_broker_type": $scope.dbType,
     			    "first_row": $scope.firstRow?$scope.firstRow:null,
     			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, 
-    			    "target_system_url": $scope.fileUrl,
+    			    "target_system_url":"",
     			    "map_action": null,
     			    "map_inputs": null,
     			    "map_outputs": null
@@ -4199,7 +4224,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function createCollateSourceTable(inputPort,outputPort){
     	collateSourceTable = $scope.collateSourceTables[outputPort.node.orig.key];
     	angular.forEach(inputPort.orig.value.originalType[0].messageargumentList, function(value, key){
-    		collateSourceTable.push({"modelName": inputPort.orig.value.nodeId,
+    		collateSourceTable.push({"modelName": inputPort.node.orig.value.name,
     								"messageSignature": JSON.stringify(inputPort.orig.value.originalType[0]),
     								"tag": value.tag,
     								"name": value.name,
@@ -4217,7 +4242,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     function createSplitTargetTable(outputPort,inputPort){
     	splitTargetTable = $scope.splitTargetTables[inputPort.node.orig.key];
     	angular.forEach(outputPort.orig.value.originalType[0].messageargumentList, function(value,key){
-    		splitTargetTable.push({"modelName": outputPort.orig.value.nodeId,
+    		splitTargetTable.push({"modelName": outputPort.node.orig.value.name,
     								"messageSignature": JSON.stringify(outputPort.orig.value.originalType[0]),
     								"tag": value.tag,
     								"name": value.name,

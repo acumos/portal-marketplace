@@ -805,11 +805,11 @@ limitations under the License.
 									<div class="ds-db-row1-cell ds-db-row1-cell2">
 										<md-input-container class="md-block" id="fileURL">
 					
-										<label ng-if="dbType == 'sql'">JDBC URL <span class="dsreqfield">*</span></label>
-										<label ng-if="dbType !== 'sql'">File Path <span class="dsreqfield">*</span></label> 
+										<label ng-if="dbType == 'sql'">JDBC URL <!-- <span class="dsreqfield">*</span> --></label>
+										<label ng-if="dbType !== 'sql'">File Path <!-- <span class="dsreqfield">*</span> --></label> 
 											<input type="text" ng-model="fileUrl" name="fileUrl"
-												ng-required="true"
-												ng-pattern="/^[-a-zA-Z0-9@:%._\+~#=]{2,256}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/" ng-blur="changeRead()">
+												
+												ng-pattern="/^[-a-zA-Z0-9@:%._\+~#=]{2,256}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/" ng-blur="changeRead()" ng-disabled="true" style="background: #B3B3B3;">
 											<span class="modal-note">For a single file specify the complete file path, for a directory which contains the set of files, specify the path up to the directory.</span>
 										<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.fileUrl.$valid}">
 											<span ng-show="!!databroker.fileUrl.$error.required && databroker.fileUrl.$touched ">Please enter File/JDBC URL</span> 
@@ -821,9 +821,9 @@ limitations under the License.
 								</div>
 								<div class="ds-db-row2">
 									<md-input-container class="md-block" id="enterScript">
-									<label>Enter Script <span class="dsreqfield"></span></label> <textarea
+									<label>Enter Script <!-- <span class="dsreqfield"></span> --></label> <textarea
 										rows="4" id="script" ng-model="scriptText" name="scriptText"
-										required ng-blur="changeRead()"></textarea> <span class="modal-note">Enter
+										 ng-blur="changeRead()" ng-disabled="true" style="background: #B3B3B3;"></textarea> <span class="modal-note">Enter
 										multi-line commands for Data Broker or SQL Script (for a SQL Data
 										Broker), enter each command in a seperate line, with each line
 										ending in a semi colon character.</span>
@@ -838,7 +838,7 @@ limitations under the License.
 								<div class="ds-db-row3">
 									<div class="ds-db-row3-cell ds-db-row3-cell1" id="upload"
 										ng-show="(dbType == 'csv') || (dbType == 'json')">
-										<label class="disblock">Upload Files <span
+										<label class="disblock">Upload Sample Data File <span
 											class="dsreqfield">*</span></label>
 											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
              										accept=".{{dbType}}" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json')" 
