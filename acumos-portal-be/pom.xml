@@ -201,6 +201,11 @@ limitations under the License.
 		    <groupId>joda-time</groupId>
 		    <artifactId>joda-time</artifactId>
 		    <version>2.10</version> 
+		</dependency>
+		<dependency>
+		   <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+		   <artifactId>owasp-java-html-sanitizer</artifactId>
+		   <version>20180219.1</version>
 		</dependency>		
 	</dependencies>
 	<build>

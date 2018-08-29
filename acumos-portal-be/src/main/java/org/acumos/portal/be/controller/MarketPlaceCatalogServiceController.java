@@ -69,6 +69,7 @@ import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,6 +157,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLSolution> getSolutionsDetails(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+		
+        solutionId = SanitizeUtils.sanitize(solutionId);
+
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -309,6 +313,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLPSolutionRevision>> getSolutionsRevisionList(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable("solutionId") String solutionId) {
+		
+        solutionId = SanitizeUtils.sanitize(solutionId);
+
 		JsonResponse<List<MLPSolutionRevision>> data = new JsonResponse<List<MLPSolutionRevision>>();
 		List<MLPSolutionRevision> peerCatalogSolutionRevisions = null;
 		try {
@@ -351,6 +358,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<List<MLPArtifact>> getSolutionsRevisionArtifactList(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable("solutionId") String solutionId,
 			@PathVariable("revisionId") String revisionId) {
+		
+        solutionId = SanitizeUtils.sanitize(solutionId);
+        revisionId = SanitizeUtils.sanitize(revisionId);
+
 		JsonResponse<List<MLPArtifact>> data = new JsonResponse<List<MLPArtifact>>();
 		List<MLPArtifact> peerSolutionArtifacts = null;
 		try {
@@ -727,6 +738,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLSolution>> getMySharedModels(HttpServletRequest request,
 			@PathVariable("userId") String userId, HttpServletResponse response) {
+		
+        userId = SanitizeUtils.sanitize(userId);
+
 		List<MLSolution> modelList = new ArrayList<>();
 		JsonResponse<List<MLSolution>> data = new JsonResponse<>();
 		try {
@@ -821,6 +835,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLSolution>> getFavoriteSolutions(HttpServletRequest request,
 			@PathVariable("userId") String userId, HttpServletResponse response) {
+		
+        userId = SanitizeUtils.sanitize(userId);
+
 		JsonResponse<List<MLSolution>> data = new JsonResponse<>();
 		try {
 			RestPageRequest restPageReq = new RestPageRequest();
@@ -874,6 +891,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public String readArtifactSolutions(@PathVariable("artifactId") String artifactId, HttpServletRequest request,
 			HttpServletResponse response) {
+		
+        artifactId = SanitizeUtils.sanitize(artifactId);
+
 		InputStream resource = null;
 		String outputString = "";
 		try {
@@ -906,6 +926,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
     	@ResponseBody
     	public JsonResponse<RestPageResponse<MLSolutionRating>> getSolutionRatings(@PathVariable String solutionId,
 			@RequestBody JsonRequest<RestPageRequest> pageRequest) {
+		
+        solutionId = SanitizeUtils.sanitize(solutionId);
+
 		RestPageResponse<MLPSolutionRating> mlpSolutionRating = null;
 		List<MLSolutionRating> mlSolutionRatingList = new ArrayList<MLSolutionRating>();
 		JsonResponse<RestPageResponse<MLSolutionRating>> data = new JsonResponse<>();
@@ -965,6 +988,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLPSolutionRating> getUserRatings(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("userId") String userId,
 			HttpServletResponse response) {
+		
+        solutionId = SanitizeUtils.sanitize(solutionId);
+        userId = SanitizeUtils.sanitize(userId);
+
 		JsonResponse<MLPSolutionRating> data = new JsonResponse<>();
 		try {
 			MLPSolutionRating mlSolutionRating = catalogService.getUserRatings(solutionId, userId);
@@ -1035,6 +1062,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponse<MLPSolution>> getUserAccessSolutions(@PathVariable("userId") String userId,
 			@RequestBody JsonRequest<RestPageRequest> pageRequest) {
+		
+        userId = SanitizeUtils.sanitize(userId);
+
 		RestPageResponse<MLPSolution> mlSolutions = null;
 		JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<>();
 		if (userId != null && pageRequest != null) {
@@ -1058,6 +1088,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
 		JsonResponse<MLSolutionWeb> data = new JsonResponse<>();
+		
+        solutionId = SanitizeUtils.sanitize(solutionId);
+
 		try {
 			MLSolutionWeb  mlSolutionWeb  = catalogService.getSolutionWebMetadata(solutionId);
 			if (mlSolutionWeb != null) {
@@ -1093,6 +1126,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			@RequestParam(value = "version", required = true) String version) throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger,
 				" fetchProtoFile() : Begin");
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		String result = "";
 		try {
@@ -1130,6 +1165,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<List<Author>> getAuthors(@PathVariable String solutionId, @PathVariable String revisionId, HttpServletResponse response) {
 		JsonResponse<List<Author>> data = new JsonResponse<>();
 		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+        revisionId = SanitizeUtils.sanitize(revisionId);
 		
 		try {
 			List<Author> authors = catalogService.getSolutionRevisionAuthors(solutionId, revisionId);
@@ -1151,6 +1188,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<Author>> addAuthors(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
 		JsonResponse<List<Author>> data = new JsonResponse<>();
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+        revisionId = SanitizeUtils.sanitize(revisionId);
+
 		try {
 			List<Author> authors = catalogService.addSolutionRevisionAuthors(solutionId, revisionId, authorReq.getBody());
 			data.setResponseBody(authors);
@@ -1176,6 +1217,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/removeAuthor" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<Author>> removeAuthor(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+        revisionId = SanitizeUtils.sanitize(revisionId);
+
 		JsonResponse<List<Author>> data = new JsonResponse<>();
 		try {
 			List<Author> authors = catalogService.removeSolutionRevisionAuthors(solutionId, revisionId, authorReq.getBody());
@@ -1197,6 +1242,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLPDocument> addRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
 			@PathVariable String accessType, @RequestParam("file") MultipartFile file, HttpServletResponse response) {
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");

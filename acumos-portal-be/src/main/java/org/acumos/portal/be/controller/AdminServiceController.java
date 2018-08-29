@@ -57,6 +57,7 @@ import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -132,6 +133,9 @@ public class AdminServiceController extends AbstractController {
     public JsonResponse<MLPPeer> getPeerDetails(@PathVariable("peerId") String peerId) {
         log.debug(EELFLoggerDelegate.debugLogger, "getPeerDetails");
         MLPPeer mlpPeer = null;
+        
+        peerId = SanitizeUtils.sanitize(peerId);
+
         JsonResponse<MLPPeer> data = new JsonResponse<>();
         try {
             mlpPeer = adminService.getPeerDetail(peerId);
@@ -255,6 +259,9 @@ public class AdminServiceController extends AbstractController {
     public JsonResponse<List<MLPPeerSubscription>> getPeerSubscriptions(
             @PathVariable("peerId") String peerId) {
         log.debug(EELFLoggerDelegate.debugLogger, "getPeerList");
+        
+        peerId = SanitizeUtils.sanitize(peerId);
+        
         List<MLPPeerSubscription> subscriptionList = null;
         JsonResponse<List<MLPPeerSubscription>> data = new JsonResponse<>();
         try {
@@ -383,6 +390,9 @@ public class AdminServiceController extends AbstractController {
     @ResponseBody
     public JsonResponse<MLPSiteConfig> getSiteConfiguration(@PathVariable("configKey") String configKey, HttpServletResponse response) {
         log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
+		
+        configKey = SanitizeUtils.sanitize(configKey);
+
         MLPSiteConfig mlpSiteConfig = null;
         JsonResponse<MLPSiteConfig> data = null;
         try {
