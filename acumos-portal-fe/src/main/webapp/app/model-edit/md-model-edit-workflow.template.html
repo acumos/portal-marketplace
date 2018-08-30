@@ -48,46 +48,39 @@ limitations under the License.
 					</div>
 					<!-- |
                               <span>Model ID - 234831</span> -->
-                              <div class="owner-topnav">
-					
+					<div class="owner-topnav">
 
-					<span class="hide-xs hide-sm md-vertical-seperator"> | </span> <span
-						class="md-vertical-seperator">Author and Manager - </span> <span
-						class="user_icon md-vertical-seperator"> <i> <!-- default image -->
-							<img class="userimg" ng-show="showAltImage"
-							ng-src="images/userprofile/user-profile-black.png"
-							title="You're the owner" /> <!-- user uploaded image --> <img
-							class="userimg" ng-show="!showAltImage"
-							ng-src="data:image/PNG;base64,{{userImage}}"
-							title="{{solution.ownerName}}" />
 
-					</i> <!-- Shared with -->
+						<span class="hide-xs hide-sm md-vertical-seperator"> | </span> <span
+							class="md-vertical-seperator">Author and Manager - </span> <span
+							class="user_icon md-vertical-seperator"> <i> <!-- default image -->
+								<img class="userimg" ng-show="showAltImage"
+								ng-src="images/userprofile/user-profile-black.png"
+								title="You're the owner" /> <!-- user uploaded image --> <img
+								class="userimg" ng-show="!showAltImage"
+								ng-src="data:image/PNG;base64,{{userImage}}"
+								title="{{solution.ownerName}}" />
 
-						<div class="mdl-menu mdl-js-menu" for="demo-menu-lower-left11">
-							<div class="mdl-menu__item"
-								data-ng-repeat="sharedmember in sharedWith">
-								<span class="user_icon"> <img
-									ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
-									id="T{{$index}}"
-									ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
-									alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-									title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+						</i> <!-- Shared with --> <md-menu> <md-button
+								aria-label="Open menu with custom trigger"
+								class="md-icon-button" ng-click="$mdMenu.open()"> <i
+								class="material-icons">more_horiz</i> </md-button> <md-menu-content
+								width="4"> <md-menu-item
+								ng-repeat="sharedmember in sharedWith track by $index">
 
-									<img
-									ng-show="sharedmember.picture == null || sharedmember.picture == ''"
-									id="T{{$index}}"
-									src="images/userprofile/user-profile-black.png"
-									alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-									title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+							<span> <img
+								ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
+								ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
+								alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+								title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
 
-								</span> {{sharedmember.firstName}} {{sharedmember.lastName}}
-							</div>
-						</div> 
-					</span>
-					<button id="demo-menu-lower-left11"
-						class="mdl-button mdl-js-button mdl-button--icon owner-ver-menu">
-						<i class="material-icons">more_horiz</i>
-					</button>
+								<img
+								ng-show="sharedmember.picture == null || sharedmember.picture == ''"
+								src="images/userprofile/user-profile-black.png"
+								alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+								title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+								{{sharedmember.firstName}} {{sharedmember.lastName}}
+							</span> </md-menu-item> </md-menu-content> </md-menu>
 					</div>
 				</div>
 			</div>
@@ -106,7 +99,8 @@ limitations under the License.
 					<li><a ui-sref="manageModule"
 						ng-click="$root.parentActive = ''">Manage My Model</a></li>
 					<li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
-					<li><span class="solution_id_bg">Solution ID:{{solution.solutionId}}</span></li>
+					<li><span class="solution_id_bg">Solution
+							ID:{{solution.solutionId}}</span></li>
 				</ul>
 			</div>
 		</div>
@@ -131,7 +125,8 @@ limitations under the License.
 								<ul class="tabs-left">
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='onboard'}"
-										ng-click="workflowTitle = 'On-Boarding'; tab = 'onboard'" alt="On - Boarding" title="On - Boarding">
+										ng-click="workflowTitle = 'On-Boarding'; tab = 'onboard'"
+										alt="On - Boarding" title="On - Boarding">
 											<div class="managelefticon">
 												<!-- <i><img src="/images/status.PNG" alt="" title=""></i> -->
 												<i class="launcherimg"></i>
@@ -149,20 +144,23 @@ limitations under the License.
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='share'}"
-										ng-click="workflowTitle = 'Share With Team'; tab = 'share'" alt="Share with Team" title="Share with Team">
+										ng-click="workflowTitle = 'Share With Team'; tab = 'share'"
+										alt="Share with Team" title="Share with Team">
 											<div class="managelefticon">
 												<i class="shareimg"></i>
 											</div>
 											<div class="managelefttext">
 												<article>Share with Team</article>
 												<ul class="">
-													<li>Shared with {{sharedWith.length}} co-worker<span ng-show="sharedWith.length>1">s</span></li>
+													<li>Shared with {{sharedWith.length}} co-worker<span
+														ng-show="sharedWith.length>1">s</span></li>
 												</ul>
 											</div>
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='Authors'}"
-										ng-click="workflowTitle = 'Manage Authors'; tab = 'Authors'" alt="Manage Authors" title="Manage Authors">
+										ng-click="workflowTitle = 'Manage Authors'; tab = 'Authors'"
+										alt="Manage Authors" title="Manage Authors">
 											<div class="managelefticon-single">
 												<i class="authorsimg"></i>
 											</div>
@@ -173,10 +171,11 @@ limitations under the License.
 												</ul>
 											</div>
 									</a></li>
-									<li>
-										<a href class="mdl-tabs__tab"
+									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='company'}"
-										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')" alt="Publish to Company Marketplace" title="Publish to Company Marketplace">
+										ng-click="workflowTitle = 'Publish to Company Marketplace'; tab = 'company'; workFLowValidation('Company')"
+										alt="Publish to Company Marketplace"
+										title="Publish to Company Marketplace">
 											<div class="managelefticon">
 												<i class="companyimg"></i>
 											</div>
@@ -219,10 +218,11 @@ limitations under the License.
                                                                         </ul>
                                                                   </div>
                                                       </a></li> -->
-									<li>
-										<a href class="mdl-tabs__tab"
+									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='public'}"
-										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')" alt="Publish to Public Marketplace" title="Publish to Public Marketplace">
+										ng-click="workflowTitle = 'Publish to Public Marketplace'; tab = 'public';workFLowValidation('Public')"
+										alt="Publish to Public Marketplace"
+										title="Publish to Public Marketplace">
 											<div class="managelefticon">
 												<i class="publicimg"></i>
 											</div>
@@ -252,7 +252,9 @@ limitations under the License.
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='cloud'}"
-										ng-click="workflowTitle = 'Export/Deploy to Cloud'; tab = 'cloud'" alt="Export / Deploy to Cloud" title="Export / Deploy to Cloud">
+										ng-click="workflowTitle = 'Export/Deploy to Cloud'; tab = 'cloud'"
+										alt="Export / Deploy to Cloud"
+										title="Export / Deploy to Cloud">
 											<div class="managelefticon">
 												<i class="cloudimg"></i>
 											</div>
@@ -265,7 +267,8 @@ limitations under the License.
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='viewdownload'}"
-										ng-click="workflowTitle = 'View Downloadss'; tab = 'viewdownload'" alt="View Downloads" title="View Downloads">
+										ng-click="workflowTitle = 'View Downloadss'; tab = 'viewdownload'"
+										alt="View Downloads" title="View Downloads">
 											<div class="managelefticon-single">
 												<i class="viewdownimg"></i>
 											</div>
@@ -275,7 +278,8 @@ limitations under the License.
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='comments'}"
-										ng-click="workflowTitle = 'Reply to Comments'; tab = 'comments'" alt="Reply to Comments" title="Reply to Comments">
+										ng-click="workflowTitle = 'Reply to Comments'; tab = 'comments'"
+										alt="Reply to Comments" title="Reply to Comments">
 											<div class="managelefticon-single">
 												<i class="commentimg"></i>
 											</div>
@@ -285,7 +289,8 @@ limitations under the License.
 									</a></li>
 									<li><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='delete'}"
-										ng-click="workflowTitle = 'Delete Model'; tab = 'delete'" alt="Delete Model" title="Delete Model">
+										ng-click="workflowTitle = 'Delete Model'; tab = 'delete'"
+										alt="Delete Model" title="Delete Model">
 											<div class="managelefticon-single">
 												<i class="deleteimg"></i>
 											</div>
@@ -388,8 +393,11 @@ limitations under the License.
 									can.</p>
 								<div class="share-members">
 									<p>
-										<span>This Model shared with below team member<span ng-show="sharedWith.length>1">s</span> | </span><span
-											class="green">({{sharedWith.length}} member<span ng-show="sharedWith.length>1">s</span>)</span>
+										<span>This Model shared with below team member<span
+											ng-show="sharedWith.length>1">s</span> |
+										</span><span class="green">({{sharedWith.length}} member<span
+											ng-show="sharedWith.length>1">s</span>)
+										</span>
 									</p>
 									<div>
 										<span class="team-user"> <i
@@ -461,7 +469,8 @@ limitations under the License.
 										<li>|</li>
 										<li>Version - {{versionId}}</li>
 										<li>|</li>
-                                       <li><span class="solution_id_bg">Solution ID - {{solution.solutionId}}</span></li>
+										<li><span class="solution_id_bg">Solution ID -
+												{{solution.solutionId}}</span></li>
 									</ul>
 								</div>
 								<form>
@@ -483,29 +492,24 @@ limitations under the License.
                                                                         typeahead-no-results="noResults">
                                                 <div class="md-errors-spacer"></div>
                                              </md-input-container> -->
-											<md-input-container><label class="md-required">Find a user to Share with</label></md-input-container>
-											<md-content class="autocomplete"> 
-											<md-chips
+											<md-input-container>
+											<label class="md-required">Find a user to Share with</label></md-input-container>
+											<md-content class="autocomplete"> <md-chips
 												ng-model="selectedGroups" md-autocomplete-snap
 												md-require-match="true"> <!-- md-item-firstName="item.firstName"
                                                                    		 md-item-image="item.picture" -->
-                                                 
-												<md-autocomplete md-search-text="searchText"
-													md-items="item in queryGroups(searchText)"
-													md-selected-item="selectedItem" md-item-text="item"
-													md-item-image="item"
-													md-select-on-match="true" md-no-cache="true"
-													md-require-match="true"
-													placeholder="Find a user to share with"> <img
-													class="userimg"
-													ng-click="testFunction()"
-													ng-src="images/userprofile/user-profile-black.png" /> <span
-													md-highlight-text="searchText"> {{item.firstName}} {{item.lastName}}</span> 
-												</md-autocomplete> 
-												<md-chip-template>
-										          <strong>{{selectedGroups[$index].firstName}} {{selectedGroups[$index].lastName}}</strong>
-										        </md-chip-template>
-											</md-chips>
+
+											<md-autocomplete md-search-text="searchText"
+												md-items="item in queryGroups(searchText)"
+												md-selected-item="selectedItem" md-item-text="item"
+												md-item-image="item" md-select-on-match="true"
+												md-no-cache="true" md-require-match="true"
+												placeholder="Find a user to share with"> <img
+												class="userimg" ng-click="testFunction()"
+												ng-src="images/userprofile/user-profile-black.png" /> <span
+												md-highlight-text="searchText"> {{item.firstName}}
+												{{item.lastName}}</span> </md-autocomplete> <md-chip-template> <strong>{{selectedGroups[$index].firstName}}
+												{{selectedGroups[$index].lastName}}</strong> </md-chip-template> </md-chips>
 											<h2>{{selectedGroups[$index].firstName}}</h2>
 											</md-content>
 
@@ -559,8 +563,8 @@ limitations under the License.
                                                                         Share</button> -->
 											<button ng-click="shareWithMultiple();"
 												ng-disabled="selectedGroups.length < 1"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Share" title="Share">
-												Share</button>
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary "
+												alt="Share" title="Share">Share</button>
 										</div>
 									</div>
 								</form>
@@ -568,20 +572,19 @@ limitations under the License.
 							</div>
 							<!-- share end -->
 							<!--  Manage Authors start -->
-							<div class="mdl-tabs__panel authors" id="Authors" ng-show="tab=='Authors'"
-								ng-class="{'isActive':tab=='Authors'}">
+							<div class="mdl-tabs__panel authors" id="Authors"
+								ng-show="tab=='Authors'" ng-class="{'isActive':tab=='Authors'}">
 								<h4 class="gridlistheading">Existing Authors</h4>
-								
-								<tags-input ng-model="AuthorsTag" class="mdl-chip__text" display-property="name" 
-									placeholder="Add a author" key-property="contact"
-									on-tag-removing="tagRemoved1($tag)">
-								</tags-input> 
-								
+
+								<tags-input ng-model="AuthorsTag" class="mdl-chip__text"
+									display-property="name" placeholder="Add a author"
+									key-property="contact" on-tag-removing="tagRemoved1($tag)">
+								</tags-input>
+
 								<!-- popup confirmation Modal box start -->
 								<div class="md-dialog-container" id="confirmPopupDeleteAuthor"
 									style="height: 0;">
-									<md-dialog aria-label="Delete Peer"
-										> <md-toolbar>
+									<md-dialog aria-label="Delete Peer"> <md-toolbar>
 									<div class="md-toolbar-tools">
 										<h2>Delete Author</h2>
 										<span flex></span>
@@ -591,7 +594,7 @@ limitations under the License.
 									</md-toolbar> <md-dialog-content>
 									<form ng-cloak>
 										<div class="md-dialog-content">
-											<p>Would you like to delete author '{{deleteuser}}' ?</p>											
+											<p>Would you like to delete author '{{deleteuser}}' ?</p>
 										</div>
 									</form>
 									</md-dialog-content> <md-dialog-actions>
@@ -609,63 +612,64 @@ limitations under the License.
 
 
 								<div>
-									<p class="informationtext">
-									Please add additional names of one or more author of this
-									model.
-									</p>
-									<ng-form name = "AddAuthor" class="" >
-										<div class="removeformspace mdl-grid">
-											<div
-												class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Name </label> <input
-													ng-model="Author.Name" name="Name" type="text"
-													required ng-blur="NameVisited=true"
-													ng-focus="NameVisited=false">
-												<div class="help-inline validation-msgs"
-													ng-class="{validationmsg:!AddAuthor.Name.$valid}">
-													<span
-														ng-show="!!AddAuthor.Name.$error.required && AddAuthor.Name.$touched && NameVisited">
-														Name Required.</span>
-												</div>
-												</md-input-container>
+									<p class="informationtext">Please add additional names of
+										one or more author of this model.</p>
+									<ng-form name="AddAuthor" class="">
+									<div class="removeformspace mdl-grid">
+										<div
+											class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+											<md-input-container class="md-icon-float md-block">
+											<label class="md-required">Name </label> <input
+												ng-model="Author.Name" name="Name" type="text" required
+												ng-blur="NameVisited=true" ng-focus="NameVisited=false">
+											<div class="help-inline validation-msgs"
+												ng-class="{validationmsg:!AddAuthor.Name.$valid}">
+												<span
+													ng-show="!!AddAuthor.Name.$error.required && AddAuthor.Name.$touched && NameVisited">
+													Name Required.</span>
 											</div>
-											 <div
-												class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-												<md-input-container class="md-icon-float md-block">
-												<label class="md-required">Contact Info </label> <input
-													ng-model="Author.cntinfo" name="cntinfo" type="text"
-													required ng-blur="cntinfoVisited=true"
-													ng-focus="cntinfoVisited=false">
-												<div class="help-inline validation-msgs"
-													ng-class="{validationmsg:!AddAuthor.cntinfo.$valid}">
-													<span
-														ng-show="!!AddAuthor.cntinfo.$error.required && AddAuthor.cntinfo.$touched && cntinfoVisited">Contact Info
-														Required.</span>
-												</div>
-												</md-input-container>
-											</div>
-										</div> 
-										<div layout="row" class="pull-right mdl-grid">
-											<md-button
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-												alt="Add author and publisher" ng-click="setAuthor()" disabled="disabled" ng-disabled="AddAuthor.$invalid" title="Add author and publisher"> Add author and publisher
-											</md-button>
+											</md-input-container>
 										</div>
+										<div
+											class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+											<md-input-container class="md-icon-float md-block">
+											<label class="md-required">Contact Info </label> <input
+												ng-model="Author.cntinfo" name="cntinfo" type="text"
+												required ng-blur="cntinfoVisited=true"
+												ng-focus="cntinfoVisited=false">
+											<div class="help-inline validation-msgs"
+												ng-class="{validationmsg:!AddAuthor.cntinfo.$valid}">
+												<span
+													ng-show="!!AddAuthor.cntinfo.$error.required && AddAuthor.cntinfo.$touched && cntinfoVisited">Contact
+													Info Required.</span>
+											</div>
+											</md-input-container>
+										</div>
+									</div>
+									<div layout="row" class="pull-right mdl-grid">
+										<md-button
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+											alt="Add author and publisher" ng-click="setAuthor()"
+											disabled="disabled" ng-disabled="AddAuthor.$invalid"
+											title="Add author and publisher"> Add author and
+										publisher </md-button>
+									</div>
 									</form>
 								</div>
 							</div>
 
-							<!--  Manage Authors end -->								
+							<!--  Manage Authors end -->
 							<!-- company start -->
 							<div class="mdl-tabs__panel company-market" id="company-market"
 								ng-show="tab=='company'" ng-class="{'isActive':tab=='company'}">
 								<div>
 									<ul>
-										<li> 
+										<li>
 											<div class="imageplace"
 												ng-class="{'completed': (validationEnabled == true && (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ))}">
-												<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation"> <!-- <img
+												<span class="imagecontent model-documentation"
+													alt="Model Documentation" title="Model Documentation">
+													<!-- <img
                                                                               src="images/ico_model_documentation.png" alt="" title=""> -->
 												</span>
 											</div>
@@ -674,33 +678,30 @@ limitations under the License.
 										<li class="progress-status"
 											ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
 										</li>
-										<li ng-show = "scShow">
+										<li ng-show="scShow">
 											<div class="imageplace">
-												<span class="imagecontent security-scan" alt="Security scan" title="Security scan">
-												</span>
-											</div>
-											<md-tooltip>{{errorSS}}</md-tooltip>
-											<div class="text">Security scan</div>
-											<!-- Validation Error message and button for popup. This will open a pop-up in which all detailed errors will be shown -->
+												<span class="imagecontent security-scan" alt="Security scan"
+													title="Security scan"> </span>
+											</div> <md-tooltip>{{errorSS}}</md-tooltip>
+											<div class="text">Security scan</div> <!-- Validation Error message and button for popup. This will open a pop-up in which all detailed errors will be shown -->
 											<!-- <div class="errorfound hide">
 										      <p>Some errors found</p>
 										      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-error ">
 										      View Errors
 										      </button>
 										   </div> -->
-											
+
 										</li>
-										<li class="progress-status" ng-show = "scShow"></li>
-										<li ng-show = "lcShow">
+										<li class="progress-status" ng-show="scShow"></li>
+										<li ng-show="lcShow">
 											<div class="imageplace"
 												ng-class="{'completed': lcValidationStatus.validationStatus == 'PS' && lcValidationStatus.validationType == 'LC' , 'incomplet': lcValidationStatus.validationStatus == 'FA' && lcValidationStatus.validationType == 'LC'}">
-												<span class="imagecontent license-check" alt="License Check" title="License Check">
-												</span>
-											</div>
-											<md-tooltip>{{errorLC}}</md-tooltip>
+												<span class="imagecontent license-check" alt="License Check"
+													title="License Check"> </span>
+											</div> <md-tooltip>{{errorLC}}</md-tooltip>
 											<div class="text">License Check</div>
 										</li>
-										<li class="progress-status" ng-show = "lcShow"></li>
+										<li class="progress-status" ng-show="lcShow"></li>
 										<!-- <li>
                                                                   <div class="imageplace" ng-class="{'active': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}">
                                                                         <span class="imagecontent"> <img
@@ -710,27 +711,26 @@ limitations under the License.
                                                                   <div class="text">Verify Model</div>
                                                             </li>
                                                             <li class="progress-status"  ng-class="{'green': oqValidationStatus.validationStatus == 'Pass' && oqValidationStatus.validationType == 'OQ'}"></li> -->
-										<li ng-show = "tcShow">
+										<li ng-show="tcShow">
 											<div class="imageplace">
-												<span class="imagecontent text-check" alt="Text Check" title="Text Check"> <!-- <img
+												<span class="imagecontent text-check" alt="Text Check"
+													title="Text Check"> <!-- <img
                                                                               src="images/text-check.png" alt="" title=""> -->
 												</span>
-											</div>
-											<md-tooltip>{{errorTC}}</md-tooltip>
+											</div> <md-tooltip>{{errorTC}}</md-tooltip>
 											<div class="text">Text Check</div>
-										</li >
-										<li class="progress-status" ng-show = "tcShow"></li>
+										</li>
+										<li class="progress-status" ng-show="tcShow"></li>
 										<li>
 											<div class="imageplace">
-												<span class="imagecontent yet-not-publish" al="Not yet published" title="Not yet published">
-												</span>
+												<span class="imagecontent yet-not-publish"
+													al="Not yet published" title="Not yet published"> </span>
 											</div>
 											<div class="publshbutton hide">
 												<button ng-click="viewModel()"
 													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
 													View Model</button>
-											</div>
-											<md-tooltip>{{errorPC}}</md-tooltip>
+											</div> <md-tooltip>{{errorPC}}</md-tooltip>
 											<div class="text">Not yet published</div>
 											<div class="text-completed">Published to Company
 												Marketplace</div>
@@ -788,9 +788,11 @@ limitations under the License.
 										<!-- company -->
 										<span>( {{statusCount}}/6 Completed )</span>
 										<div class="pull-right">
-											<button ng-click="showPrerenderedDialog($event);publicPreview=false;"
-												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary " alt="Preview Model" title="Preview Model">
-												Preview Model</button>
+											<button
+												ng-click="showPrerenderedDialog($event);publicPreview=false;"
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
+												alt="Preview Model" title="Preview Model">Preview
+												Model</button>
 										</div>
 									</h6>
 									<div class="">
@@ -807,7 +809,9 @@ limitations under the License.
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolName = !showSolName; closeOtherPopovers('showSolName',showSolName)">Model Name</a> |
+															<a
+																ng-click="showSolName = !showSolName; closeOtherPopovers('showSolName',showSolName)">Model
+																Name</a> |
 															<!-- <span class="red">Not Started</span> -->
 
 															<span class="green" ng-if="solution.name.length>=1">
@@ -860,54 +864,55 @@ limitations under the License.
 																	<span flex></span>
 																	<md-button class="md-icon-button"
 																		ng-click="showSolName = !showSolName"> <i
-																		class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																		class="material-icons" alt="Close" title="Close">close</i>
+																	</md-button>
 																</div>
 																</md-toolbar>
 																<md-dialog-content>
 																<form name="ORmodelNameForm">
-																<div class="md-dialog-content ">
-																	<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																		<p>If you are uploading new version of previous
-																			model then use the same model name.</p>
-																		<div
-																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone validation-msgs">
-																			<md-input-container class="md-icon-float md-block">
-																			<!-- Use floating label instead of placeholder --> <label class="md-required">Model
-																				Name </label> <input ng-model="solutionName" type="text" name="OrModelName"
-																				ng-pattern="/^[a-zA-Z0-9_-]*$/">
-																				<span  ng-show="ORmodelNameForm.OrModelName.$error.pattern">
-																					Model Name can consists of alphanumeric, hyphen and underscore characters only.
-																				</span>
-																			</md-input-container>
-																			<md-input-container class="md-icon-float md-block">
-																			<!-- Use floating label instead of placeholder --> <label>Model
-																				ID </label> <input disabled
-																				class="force-disable" ng-model="popupSolutionId" type="text">
-																			</md-input-container>
-																		</div>
+																	<div class="md-dialog-content ">
+																		<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+																			<p>If you are uploading new version of previous
+																				model then use the same model name.</p>
+																			<div
+																				class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone validation-msgs">
+																				<md-input-container class="md-icon-float md-block">
+																				<!-- Use floating label instead of placeholder --> <label
+																					class="md-required">Model Name </label> <input
+																					ng-model="solutionName" type="text"
+																					name="OrModelName" ng-pattern="/^[a-zA-Z0-9_-]*$/">
+																				<span
+																					ng-show="ORmodelNameForm.OrModelName.$error.pattern">
+																					Model Name can consists of alphanumeric, hyphen and
+																					underscore characters only. </span> </md-input-container>
+																				<md-input-container class="md-icon-float md-block">
+																				<!-- Use floating label instead of placeholder --> <label>Model
+																					ID </label> <input disabled class="force-disable"
+																					ng-model="popupSolutionId" type="text"> </md-input-container>
+																			</div>
 
-																		<div
-																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-																			<md-input-container class="md-icon-float md-block">
-																			<label>Model Version</label> <input disabled
-																				class="force-disable" ng-model="versionId"
-																				type="text"> </md-input-container>
+																			<div
+																				class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+																				<md-input-container class="md-icon-float md-block">
+																				<label>Model Version</label> <input disabled
+																					class="force-disable" ng-model="versionId"
+																					type="text"> </md-input-container>
+																			</div>
+																		</div>
+																		<div layout="row" class="popovers-cloud-modalfooter ">
+																			<md-button ng-click="showSolName = !showSolName"
+																				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																				alt="Update" title="Update"> Cancel </md-button>
+																			<md-button
+																				ng-disabled="ORmodelNameForm.OrModelName.$error.pattern || solutionName==''"
+																				ng-click="updateSolution(); showSolName = !showSolName"
+																				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																				alt="Update" title="Update"> <span
+																				ng-if="solution.name.length<1">Done</span> <span
+																				ng-if="solution.name.length>=1">Update</span> </md-button>
+
 																		</div>
 																	</div>
-																	<div layout="row" class="popovers-cloud-modalfooter ">
-																		<md-button ng-click="showSolName = !showSolName"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Update" title="Update">
-																		Cancel </md-button>
-																		<md-button
-																			ng-disabled="ORmodelNameForm.OrModelName.$error.pattern || solutionName==''"
-																			ng-click="updateSolution(); showSolName = !showSolName"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
-																		<span ng-if="solution.name.length<1">Done</span> 
-																		<span ng-if="solution.name.length>=1">Update</span>
-																		</md-button>
-																	
-																	</div>
-																</div>
 																</form>
 																</md-dialog-content>
 															</div>
@@ -960,7 +965,8 @@ limitations under the License.
 														</div>
 
 														<p class="editable-desc" ng-hide="showDCKEditor"
-															ng-bind-html="solutionCompanyDesc1" ng-show="solutionCompanyDescLength"></p>
+															ng-bind-html="solutionCompanyDesc1"
+															ng-show="solutionCompanyDescLength"></p>
 
 														<div ng-show="showDCKEditor">
 															<div class="popovers model-description">
@@ -970,28 +976,30 @@ limitations under the License.
 																	<span flex></span>
 																	<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
 																	<md-button class="md-icon-button"
-                                                                        ng-click="showDCKEditor = !showDCKEditor;previousValueCompany?solutionCompanyDesc=previousValueCompany:solutionCompanyDesc='';solutionCompanyDescLength = false">
-                                                                    <i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																		ng-click="showDCKEditor = !showDCKEditor;previousValueCompany?solutionCompanyDesc=previousValueCompany:solutionCompanyDesc='';solutionCompanyDescLength = false">
+																	<i class="material-icons" alt="Close" title="Close">close</i>
+																	</md-button>
 																</div>
 																</md-toolbar>
 																<md-dialog-content>
 																<div class="md-dialog-content">
 																	<div
 																		class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
-																		<ng-quill-editor ng-model="solutionCompanyDesc" on-content-changed="checkCompDescrLength()"></ng-quill-editor>
+																		<ng-quill-editor ng-model="solutionCompanyDesc"
+																			on-content-changed="checkCompDescrLength()"></ng-quill-editor>
 																	</div>
 																	<div layout="row" class="popovers-cloud-modalfooter">
 																		<!-- solutionCompanyDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
-																		<md-button ng-click="showDCKEditor = !showDCKEditor;solutionCompanyDesc=previousValueCompany;solutionCompanyDescLength = false"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
-																		Cancel </md-button>
 																		<md-button
-																			ng-click="updateCompanyDescription();"
+																			ng-click="showDCKEditor = !showDCKEditor;solutionCompanyDesc=previousValueCompany;solutionCompanyDescLength = false"
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																			alt="Cancel" title="Cancel"> Cancel </md-button>
+																		<md-button ng-click="updateCompanyDescription();"
 																			ng-disabled="!solutionCompanyDescLength"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
-																		<span ng-if="!solutionCompanyDesc1">Done</span> 
-																		<span ng-if="solutionCompanyDesc1">Update</span>
-																		</md-button>
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																			alt="Done" title="Done"> <span
+																			ng-if="!solutionCompanyDesc1">Done</span> <span
+																			ng-if="solutionCompanyDesc1">Update</span> </md-button>
 																	</div>
 																</div>
 																</md-dialog-content>
@@ -1014,8 +1022,8 @@ limitations under the License.
 																<option value="">-- Version --</option>
 															</select>
 															<md-button ng-click="copyFromOtherRevision('OR'); "
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
-															Copy </md-button>
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																alt="Copy" title="Copy"> Copy </md-button>
 														</div>
 														</p>
 														<!-- <div class="checkbox" ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
@@ -1068,8 +1076,9 @@ limitations under the License.
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model Category</a>
-															| <span class="green"
+															<a
+																ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model
+																Category</a> | <span class="green"
 																ng-if="(solution.modelTypeName && solution.tookitTypeName )">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span class="red"
@@ -1103,7 +1112,7 @@ limitations under the License.
 																<h2>Skip this step</h2>
 																<span flex></span>
 																<md-button class="md-icon-button" ng-click="cancel()">
-																<i class="material-icons" >close</i> </md-button>
+																<i class="material-icons">close</i> </md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -1132,7 +1141,8 @@ limitations under the License.
 																<span flex></span>
 																<md-button class="md-icon-button"
 																	ng-click="showSolCat = !showSolCat;"> <i
-																	class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																	class="material-icons" alt="Close" title="Close">close</i>
+																</md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -1151,9 +1161,9 @@ limitations under the License.
 																		<div layout="row"
 																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone pull-left removerightpadd">
 																			<md-input-container class="fullwidth">
-																			<label class="md-required">Select Toolkit Type</label> <md-select
-																				ng-model="toolkitname"> <md-option
-																				ng-repeat="toolkitType in alltoolkitType"
+																			<label class="md-required">Select Toolkit
+																				Type</label> <md-select ng-model="toolkitname">
+																			<md-option ng-repeat="toolkitType in alltoolkitType"
 																				ng-if="toolkitType.code != 'DS' && toolkitType.code != 'CP'"
 																				value="{{toolkitType.code}}">{{toolkitType.name}}</md-option>
 																			</md-select> </md-input-container>
@@ -1163,13 +1173,15 @@ limitations under the License.
 																</div>
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<md-button ng-click="showSolCat = !showSolCat;"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
-																	Cancel </md-button>
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																		alt="Cancel" title="Cancel"> Cancel </md-button>
 																	<md-button
 																		ng-click="updateSolution(); showSolCat = !showSolCat"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
-																		<span ng-show="(!solution.modelTypeName && !solution.tookitTypeName )">Done</span>
-																		<span ng-show="(solution.modelTypeName || solution.tookitTypeName )">Update</span> 
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																		alt="Update" title="Update"> <span
+																		ng-show="(!solution.modelTypeName && !solution.tookitTypeName )">Done</span>
+																	<span
+																		ng-show="(solution.modelTypeName || solution.tookitTypeName )">Update</span>
 																	</md-button>
 																</div>
 															</div>
@@ -1201,7 +1213,8 @@ limitations under the License.
 													</div>
 													<div class="timeline-label">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload;solutionFile = ''; modelUploadError=false;closeOtherPopovers( 'showFileUpload', showFileUpload )"
+															<a
+																ng-click="showFileUpload = !showFileUpload;solutionFile = ''; modelUploadError=false;closeOtherPopovers( 'showFileUpload', showFileUpload )"
 																ng-class="{'disabled-title': company.step4}">Model
 																Documents</a> | <span class="green"
 																ng-show="showSolutionDocs && !company.step4">
@@ -1227,8 +1240,9 @@ limitations under the License.
                                                                                                 </button> -->
 
 																<md-button class="md-icon-button"
-																	ng-click="closeUploadPopup()">
-																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																	ng-click="closeUploadPopup()"> <i
+																	class="material-icons" alt="Close" title="Close">close</i>
+																</md-button>
 
 															</div>
 															</md-toolbar>
@@ -1247,44 +1261,52 @@ limitations under the License.
 																				<i class="material-icons">attach_file</i> <input
 																					type="file" id="uploadBtn">
 																			</div>-->
-																			<div class="drag-drop"  id = "private-dropbox">
-																			       <div class="drag-drop-files hide">
-																			              <p>doc.pdf</p>
-																			       </div>
-																			<div file-droppable filename="privatefilename" file=solutionFile>
-																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
-																			              <div class="destext">Drag & Drop your file here!</div>
-																			       </div>
+																			<div class="drag-drop" id="private-dropbox">
+																				<div class="drag-drop-files hide">
+																					<p>doc.pdf</p>
+																				</div>
+																				<div file-droppable filename="privatefilename"
+																					file=solutionFile>
+																					<img src="images/upload-doc-vector.png" alt=""
+																						title="" />
+																					<div class="destext">Drag & Drop your file
+																						here!</div>
+																				</div>
 																			</div>
-																			
-																			<div file-upload file="solutionFile" 
-																						uploadid="documentuploadid" id="uploadFile"
-																						filename="privatefilename" 
-																						ng-model="solutionFile" accept = ""
-																						upload-image-model="solutionFile" size=10000000 docerror="docerror" readonly alt="Browse" title="Browse">
-																						
-																						</div>
-																						<div class="upload-image-input files-uploaded">
-																		    			<input class="mdl-textfield__input disabledClick"
-																						placeholder="Upload File" type="text"
-																						ng-model="privatefilename" readonly />
-																						</div>
-																			<div  > <!-- ng-show="progressVisible" -->
-														            		
-														            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-														            </div>
-														            <div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
-														            	<span ng-show = "$root.progressBar == 100">Completed</span>
-														            </div>
-														            
-														            <div class="help-inline validation-msgs">
-																		<span ng-show="docerror">Document should be of max size 10MB.</span>
-																	</div>
-														         </div>
+
+																			<div file-upload file="solutionFile"
+																				uploadid="documentuploadid" id="uploadFile"
+																				filename="privatefilename" ng-model="solutionFile"
+																				accept="" upload-image-model="solutionFile"
+																				size=10000000 docerror="docerror" readonly
+																				alt="Browse" title="Browse"></div>
+																			<div class="upload-image-input files-uploaded">
+																				<input class="mdl-textfield__input disabledClick"
+																					placeholder="Upload File" type="text"
+																					ng-model="privatefilename" readonly />
+																			</div>
+																			<div>
+																				<!-- ng-show="progressVisible" -->
+
+																				<div class="progress-bar"
+																					ng-style="{'width': $root.progressBar+'%'}">
+																				</div>
+																				<div class="">
+																					<span
+																						ng-show="$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar|
+																						number : 0}}%</span> <span
+																						ng-show="$root.progressBar == 100">Completed</span>
+																				</div>
+
+																				<div class="help-inline validation-msgs">
+																					<span ng-show="docerror">Document should be
+																						of max size 10MB.</span>
+																				</div>
+																			</div>
 																		</div>
 																	</form>
 																</div>
-																
+
 																<div layout="row"
 																	class="popovers-cloud-modalfooter layout-row">
 																	<!-- <md-button class="md-icon-button" ng-click="cancel()">
@@ -1293,41 +1315,43 @@ limitations under the License.
 																	<md-button ng-click="closeUploadPopup();"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
-																	<span class="ng-scope"> Cancel </span> <span
+																		data-upgraded=",MaterialButton,MaterialRipple"
+																		alt="Cancel" title="Cancel"> <span
+																		class="ng-scope"> Cancel </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
 																	<md-button ng-show="!showSolutionDocs"
 																		ng-click="updateSolutionFiles('documentuploadid');"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																		type="button" ng-disabled = "!solutionFile || docerror == true"
-																		data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
-																	<span class="ng-scope"> Done </span> <span
+																		type="button"
+																		ng-disabled="!solutionFile || docerror == true"
+																		data-upgraded=",MaterialButton,MaterialRipple"
+																		alt="Done" title="Done"> <span
+																		class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
-																		class="mdl-ripple"></span></span> 
-																		</md-button>
-																		
-																		<md-button ng-show="showSolutionDocs"
+																		class="mdl-ripple"></span></span> </md-button>
+
+																	<md-button ng-show="showSolutionDocs"
 																		ng-click="updateSolutionFiles('documentuploadid'); "
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple" alt="Update" title="Update">
-																	<span class="ng-scope"> Update</span> <span
+																		data-upgraded=",MaterialButton,MaterialRipple"
+																		alt="Update" title="Update"> <span
+																		class="ng-scope"> Update</span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
-																		class="mdl-ripple"></span></span> 
-																		</md-button>
+																		class="mdl-ripple"></span></span> </md-button>
 																</div>
 															</div>
 															</md-dialog-content>
 														</div>
-														
+
 														<!-- add cocument popover end -->
 														<div class="uploaded-file" ng-show="showSolutionDocs">
 															<md-chips ng-model="supportingDocs"
-																md-on-remove="removeDoc($chip.documentId, 'OR')"> <md-chip-template>
-															<strong>{{$chip.name}}</strong> </md-chip-template> 
-															</md-chips>
-								
+																md-on-remove="removeDoc($chip.documentId, 'OR')">
+															<md-chip-template> <strong>{{$chip.name}}</strong>
+															</md-chip-template> </md-chips>
+
 														</div>
 														<div class="timeline-version">
 															<label> Use the Documents you have in Company
@@ -1338,8 +1362,8 @@ limitations under the License.
 																<option value="">-- Version --</option>
 															</select>
 															<md-button ng-click="copyDocsFromOtherRevision('OR'); "
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
-															Copy </md-button>
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																alt="Copy" title="Copy"> Copy </md-button>
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
 															<label> <input type="checkbox"
@@ -1347,7 +1371,8 @@ limitations under the License.
 																ng-model="$parent.company.skipStep"> Skip
 															</label>
 														</div>
-														<small ng-show="modelUploadError" class="red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
+														<small ng-show="modelUploadError" class="red"><strong>Error
+																Occurred:</strong> {{modelUploadErrorMsg}}</small>
 														<!-- -company.dismiss {{company.dismiss}}- </br>
                                                                                     -company.close {{company.close}}- </br>
                                                                                     -company.skipStep {{company.skipStep}}- -->
@@ -1412,12 +1437,14 @@ limitations under the License.
 														</h2>
 														<p>Choose tags to help describe your model. Add new
 															tags if needed. Tags can have 32 characters only.</p>
- 
+
 														<form name="publictags1">
 															<tags-input ng-model="tags1" name="pubtag" id="tagsId1"
 																replace-spaces-with-dashes="false"
-																on-tag-added="tagAdded($tag)" min-tags="1" min-length="0" allow-leftover-text=false
-																required ng-blur="pubtagVisited=true" ng-focus="pubtagVisited=false"
+																on-tag-added="tagAdded($tag)" min-tags="1"
+																min-length="0" allow-leftover-text=false required
+																ng-blur="pubtagVisited=true"
+																ng-focus="pubtagVisited=false"
 																on-tag-removed="tagRemoved($tag)"> <auto-complete
 																source="loadAllTags($query)" min-length="0"
 																max-results-to-show="10" load-on-focus="true"
@@ -1425,10 +1452,11 @@ limitations under the License.
 															<div class="help-inline validation-msgs"
 																ng-class="{validationmsg:!publictags1.pubtag.$valid}">
 																<span
-																	ng-show="!!publictags1.pubtag.$error.required && publictags1.pubtag.$touched && pubtagVisited">Minimum one tag is required.</span>
+																	ng-show="!!publictags1.pubtag.$error.required && publictags1.pubtag.$touched && pubtagVisited">Minimum
+																	one tag is required.</span>
 															</div>
 														</form>
-														
+
 														<!-- update model tags -->
 														<div class="popovers skippopover hide">
 															<md-toolbar>
@@ -1468,7 +1496,8 @@ limitations under the License.
                                                                                                 </button> -->
 
 																<md-button class="md-icon-button" ng-click="cancel()">
-																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																<i class="material-icons" alt="Close" title="Close">close</i>
+																</md-button>
 
 															</div>
 															</md-toolbar>
@@ -1492,15 +1521,17 @@ limitations under the License.
 																	<md-button ng-click="showSolTags = !showSolTags"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
-																	<span class="ng-scope"> Cancel </span> <span
+																		data-upgraded=",MaterialButton,MaterialRipple"
+																		alt="Cancel" title="Cancel"> <span
+																		class="ng-scope"> Cancel </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
 																	<md-button
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
 																		type="button"
-																		data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
-																	<span class="ng-scope"> Done </span> <span
+																		data-upgraded=",MaterialButton,MaterialRipple"
+																		alt="Done" title="Done"> <span
+																		class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
 																		class="mdl-ripple"></span></span> </md-button>
 																</div>
@@ -1568,7 +1599,8 @@ limitations under the License.
 													</div>
 													<div class="timeline-label last">
 														<h2>
-															<a ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
+															<a
+																ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
 																Image for Model</a> | <span class="green"
 																ng-show="showSolutionImage"> Completed on
 																{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
@@ -1587,7 +1619,8 @@ limitations under the License.
 																<span flex></span>
 																<md-button class="md-icon-button"
 																	ng-click="cancelSolImage(); showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
-																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																<i class="material-icons" alt="Close" title="Close">close</i>
+																</md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
@@ -1595,29 +1628,38 @@ limitations under the License.
 																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																	<form>
 																		<div class="mdl-grid imageuploader">
-																			<div class="mdl-cell mdl-cell--3-col mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+																			<div
+																				class="mdl-cell mdl-cell--3-col mdl-cell--12-col-tablet mdl-cell--4-col-phone">
 																				<div class="iconcontainer">
 																					<img ng-src="{{previewImage}}" alt="" title="" />
 																				</div>
 																			</div>
-																			<div class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
-																				<md-input-container><label class="md-required">Upload Image</label></md-input-container>
+																			<div
+																				class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
+																				<md-input-container>
+																				<label class="md-required">Upload Image</label></md-input-container>
 																				<div class="upload-image-input">
-																					<div file-upload file="previewImage" ng-click = "cancelSolImage()"
-																						uploadid="companyuploadid" id="solImage" size = 800000 imageerror = "imageerror"
-																						filename="filename" fileinput="file" accept="image/*" imagetypeerror = "imagetypeerror"
+																					<div file-upload file="previewImage"
+																						ng-click="cancelSolImage()"
+																						uploadid="companyuploadid" id="solImage"
+																						size=800000 imageerror="imageerror"
+																						filename="filename" fileinput="file"
+																						accept="image/*" imagetypeerror="imagetypeerror"
 																						filepreview="previewImage" ng-model="solImage"
-																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
+																						icon="icon" upload-image-model="solImage"
+																						alt="Browse" title="Browse" readonly></div>
 																					<input class="mdl-textfield__input disabledClick"
 																						placeholder="Upload Image" type="text"
 																						ng-model="filename" readonly />
-																					
+
 																				</div>
 																				<div class="help-inline validation-msgs">
-																					<span ng-show = "imageerror">Image should be max size of 800KB.</span>
+																					<span ng-show="imageerror">Image should be
+																						max size of 800KB.</span>
 																				</div>
 																				<div class="help-inline validation-msgs">
-																					<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
+																					<span ng-show="imagetypeerror">Image should
+																						be in 'jpg','jpeg','png' or 'gif' file format.</span>
 																				</div>
 																				<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
@@ -1643,15 +1685,17 @@ limitations under the License.
                                                                                       type="file" id="uploadBtn">
                                                                                 </div>
                                                                              </div> -->
-                                                                             
+
 																				<div>
 																					<p>JPG, GIF or PNG Max Size 800KB {{iconFile}}</p>
 																				</div>
 																			</div>
 																		</div>
-																		<p>You can upload an image of your own or select one from the images below.</p>
+																		<p>You can upload an image of your own or select
+																			one from the images below.</p>
 																		<div class="mdl-grid">
-																			<div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--4-col-phone iconboder"
+																			<div
+																				class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--4-col-phone iconboder"
 																				ng-repeat="iconSrc in iconImages"
 																				ng-class="{active : iconSrc == selectedIcon}">
 																				<div class="iconcontainer">
@@ -1666,21 +1710,23 @@ limitations under the License.
 																				<div>{{iconSrc}}</div>
 																				<div class="clearfix"></div>
 																			</div>
-																	</form>`
+																	</form>
+																	`
 																</div>
 															</div>
 															<div layout="row"
 																class="popovers-cloud-modalfooter fullwidth layout-row">
 																<md-button
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																	ng-click="cancelSolImage(); showImageUpload = !showImageUpload;  previewImage = imgURLdefault;" alt="Cancel" title="Cancel">
-																Cancel </md-button>
+																	ng-click="cancelSolImage(); showImageUpload = !showImageUpload;  previewImage = imgURLdefault;"
+																	alt="Cancel" title="Cancel"> Cancel </md-button>
 																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "imageerror"
-																	ng-click="updateSolImage('companyuploadid'); showImageUpload = !showImageUpload" alt="Done" title="Done">
-																	<span ng-show="!showSolutionImage">Done</span> 
-																	<span ng-show="showSolutionImage">Update</span>
-																</md-button>
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	ng-disabled="imageerror"
+																	ng-click="updateSolImage('companyuploadid'); showImageUpload = !showImageUpload"
+																	alt="Done" title="Done"> <span
+																	ng-show="!showSolutionImage">Done</span> <span
+																	ng-show="showSolutionImage">Update</span> </md-button>
 															</div>
 															</md-dialog-content>
 														</div>
@@ -1725,8 +1771,8 @@ limitations under the License.
 													<!-- updateupload image for model end -->
 													<div class="uploaded-img-des" ng-show="showSolutionImage">
 														<div class="imagecontainer">
-															<img ng-src="data:image/JPEG;base64,{{solution.picture}}" alt="" title=""
-																ng-model="imgURLdefault" />
+															<img ng-src="data:image/JPEG;base64,{{solution.picture}}"
+																alt="" title="" ng-model="imgURLdefault" />
 														</div>
 														<div class="file-name">
 															{{solutionImageName}} | <a
@@ -1813,13 +1859,15 @@ limitations under the License.
 									<div class="">
 										<button ng-click="publishtoMarket('OR')"
 											ng-disabled="activePublishBtn == false"
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary "
+											alt="Submit to Publication" title="Submit to Publication">
 											Submit to Publication</button>
 										<button
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
-											ng-click="showPrerenderedDialog($event);publicPreview=false;" alt="Preview Model" title="Preview Model">Preview
+											ng-click="showPrerenderedDialog($event);publicPreview=false;"
+											alt="Preview Model" title="Preview Model">Preview
 											Model</button>
- 
+
 										<!-- preview in Modal box start -->
 
 
@@ -1835,7 +1883,8 @@ limitations under the License.
 													{{versionId}} )</h2>
 												<span flex></span>
 												<md-button class="md-icon-button" ng-click="closeDialog()">
-												<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+												<i class="material-icons" alt="Close" title="Close">close</i>
+												</md-button>
 											</div>
 											</md-toolbar>
 											<md-dialog-content>
@@ -1856,10 +1905,13 @@ limitations under the License.
 																	<div class="grid-top-section">
 																		<div class="product-image">
 																			<figure ng-show="solution.picture">
-																				 <img ng-src="data:image/JPEG;base64,{{solution.picture}}" class="img-rounded">
+																				<img
+																					ng-src="data:image/JPEG;base64,{{solution.picture}}"
+																					class="img-rounded">
 																			</figure>
 																			<figure ng-hide="solution.picture">
-																				 <img ng-src="images/default-model.png" class="img-rounded">
+																				<img ng-src="images/default-model.png"
+																					class="img-rounded">
 																			</figure>
 																		</div>
 																		<div class="mpdetailscontainer">
@@ -1875,7 +1927,7 @@ limitations under the License.
 
 																			<!--  <p class="disblock mp-para">**** {{mlsolution.modelType}} ****</p>   -->
 																		</div>
-																		<div ng-show="version.accessTypeCode!='PR'"> 
+																		<div ng-show="version.accessTypeCode!='PR'">
 																			<div class="rating clear_both">
 																				<span><i class="fa fa-star"
 																					ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 1}"
@@ -1892,7 +1944,7 @@ limitations under the License.
 																					class="fa fa-star"
 																					ng-class="{'fa-star1': solution.solutionRatingAvg == null || solution.solutionRatingAvg < 5}"
 																					aria-hidden="true"></i></span>
-	
+
 																				<button
 																					class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
 																					ng-disabled="!loginUserID"
@@ -1902,8 +1954,8 @@ limitations under the License.
 																				</button>
 																			</div>
 																			<div class="md-icons md-icons-tiles">
-																				<span><span class="statistics-icons icon-chat"></span>
-																					0</span> <span><span
+																				<span><span
+																					class="statistics-icons icon-chat"></span> 0</span> <span><span
 																					class="statistics-icons icon-view"></span>
 																					{{solution.viewCount == null ? 0 :
 																					solution.viewCount}}</span> <span><span
@@ -2040,7 +2092,7 @@ limitations under the License.
 															<md-content> <span
 																class="md-headline2 mob-disblock"> <img
 																class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}
-															
+
 															</span>
 															<div class="clearfix" style="margin: 10px 0pxR"></div>
 															</md-content>
@@ -2051,20 +2103,23 @@ limitations under the License.
 																		<div class="mdl-cell md-left-container">
 																			<div class="mdl-tabs__tab-bar">
 																				<a href="#tab1-panel"
-																					class="mdl-tabs__tab is-active" alt="Description" title="Description"> <span
-																					class="tab-box"> <span
-																						class="tab-icons tab-description"></span> <span>Description</span>
+																					class="mdl-tabs__tab is-active" alt="Description"
+																					title="Description"> <span class="tab-box">
+																						<span class="tab-icons tab-description"></span> <span>Description</span>
 																				</span>
-																				</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
+																				</a> <a href="#tab2-panel" class="mdl-tabs__tab"
+																					alt="Signatures" title="Signatures"> <span
 																					class="tab-box"> <span
 																						class="tab-icons tab-signatures"></span> <span>Signatures</span>
 																				</span>
-																				</a> <a href="#tab3-panel" class="mdl-tabs__tab" alt="Documents" title="Documents"> <span
+																				</a> <a href="#tab3-panel" class="mdl-tabs__tab"
+																					alt="Documents" title="Documents"> <span
 																					class="tab-box"> <span
 																						class="tab-icons tab-documents"></span> <span>Documents</span>
 																				</span>
-																				</a> <a href="#tab4-panel" class="mdl-tabs__tab" alt="Version History" title="Version History"> <span
-																					class="tab-box"> <span
+																				</a> <a href="#tab4-panel" class="mdl-tabs__tab"
+																					alt="Version History" title="Version History">
+																					<span class="tab-box"> <span
 																						class="tab-icons tab-versionhistory"></span> <span>Version
 																							History</span>
 																				</span>
@@ -2072,12 +2127,12 @@ limitations under the License.
 																			</div>
 																			<div>
 																				<h6 class="sectiontitle4">
-																					Tags <span class="title-icons icon-tags" alt="Tags" title="Tags"></span>
+																					Tags <span class="title-icons icon-tags" alt="Tags"
+																						title="Tags"></span>
 																				</h6>
 																				<div class="box-inner2 rowcontainer">
-																					<md-chips
-																						ng-repeat="tag in tags1">
-																					<md-chip>{{tag.text}}</md-chip> </md-chips>
+																					<md-chips ng-repeat="tag in tags1"> <md-chip>{{tag.text}}</md-chip>
+																					</md-chips>
 																				</div>
 																			</div>
 																			<hr class="hor-seperator" />
@@ -2105,7 +2160,8 @@ limitations under the License.
 
 																					<!-- images changed for demo  -->
 																					<img
-																						ng-src="data:image/JPEG;base64,{{solution.picture}}" class="modelimg1"
+																						ng-src="data:image/JPEG;base64,{{solution.picture}}"
+																						class="modelimg1"
 																						style="max-width: 400px; margin: 0 auto; display: block;">
 																				</div>
 
@@ -2118,7 +2174,9 @@ limitations under the License.
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab2-panel">
 																				<h6 class="sectiontitle6">SIGNATURE</h6>
-																				<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
+																				<div ng-show="modelSignature">
+																					<pre>{{modelSignature}}</pre>
+																				</div>
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab3-panel">
 																				<h6 class="sectiontitle6">SUPPORTING DOCUMENTS</h6>
@@ -2139,33 +2197,41 @@ limitations under the License.
 																						</tr>
 																					</thead>
 																					<tbody>
-																						<tr ng-show="publicPreview!=true" ng-repeat="supportingDoc in supportingDocs" >
+																						<tr ng-show="publicPreview!=true"
+																							ng-repeat="supportingDoc in supportingDocs">
 																							<td><span class="file-type"><i
 																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
 																								class="link-blue">{{supportingDoc.name}}</a></td>
 																							<td>{{versionId}}</td>
-																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-																							<td><a ng-if="!publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i> </a>
-																								<a ng-if="publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i></a>
+																							<td>{{solution.modified | date:'MM/dd/yyyy'
+																								}}</td>
+																							<td><a ng-if="!publicPreview"
+																								href="/api/solution/revision/document/{{supportingDoc.documentId}}"
+																								alt="Download" title="Download"> <i
+																									class="fa fa-download" aria-hidden="true"></i>
+																							</a> <a ng-if="publicPreview"
+																								href="/api/solution/revision/document/{{supportingDoc.documentId}}"
+																								alt="Download" title="Download"> <i
+																									class="fa fa-download" aria-hidden="true"></i></a>
 																							</td>
 																						</tr>
 
-																						<tr  ng-show="publicPreview==true" ng-repeat="supportingDoc in supportingPublicDocs">
+																						<tr ng-show="publicPreview==true"
+																							ng-repeat="supportingDoc in supportingPublicDocs">
 																							<td><span class="file-type"><i
 																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
 																								class="link-blue">{{supportingDoc.name}}</a></td>
 																							<td>{{versionId}}</td>
-																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-																							<td><a ng-if="!publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i> </a>
-																								<a ng-if="publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i></a>
+																							<td>{{solution.modified | date:'MM/dd/yyyy'
+																								}}</td>
+																							<td><a ng-if="!publicPreview"
+																								href="/api/solution/revision/document/{{supportingDoc.documentId}}"
+																								alt="Download" title="Download"> <i
+																									class="fa fa-download" aria-hidden="true"></i>
+																							</a> <a ng-if="publicPreview"
+																								href="/api/solution/revision/document/{{supportingDoc.documentId}}"
+																								alt="Download" title="Download"> <i
+																									class="fa fa-download" aria-hidden="true"></i></a>
 																							</td>
 																						</tr>
 																					</tbody>
@@ -2194,20 +2260,17 @@ limitations under the License.
 																						<tr ng-repeat="value in artifactDownload">
 																							<td>
 																								<!-- <a class="link-blue" href="#"> --> <span
-																								class="md-modellbl1">
-																									{{value.name}}<!-- </a> -->
+																								class="md-modellbl1"> {{value.name}}<!-- </a> -->
 																							</span> <span class="font600"></span>
 																							</td>
 																							<td>{{value.version}}</td>
 																							<td>{{value.created | date:'MM/dd/yyyy'}}</td>
-																							<td>
-																								<md-button 
-																									class="mdl-button mdl-js-button btn-grid-action" 
-																									href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" target="_blank">
-																									<i class="fa fa-download" aria-hidden="true"></i>
-																								</md-button>
-
-																							</td>
+																							<td><md-button
+																									class="mdl-button mdl-js-button btn-grid-action"
+																									href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}"
+																									target="_blank"> <i
+																									class="fa fa-download" aria-hidden="true"></i>
+																								</md-button></td>
 																						</tr>
 																					</tbody>
 																				</table>
@@ -2436,15 +2499,17 @@ limitations under the License.
 							ng-class="{'isActive':tab=='catalog'}">Content 4</div>
 						<!-- catalog end -->
 						<!-- public start -->
-						<div class="mdl-tabs__panel company-market" 
-							ng-show="tab=='public'" ng-class="{'isActive':tab=='public'}" id="public-market">
+						<div class="mdl-tabs__panel company-market"
+							ng-show="tab=='public'" ng-class="{'isActive':tab=='public'}"
+							id="public-market">
 
 							<div>
 								<ul>
 									<li>
 										<div class="imageplace"
 											ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
-											<span class="imagecontent model-documentation" alt="Model Documentation" title="Model Documentation">
+											<span class="imagecontent model-documentation"
+												alt="Model Documentation" title="Model Documentation">
 											</span>
 										</div>
 										<div class="text">Model Documentation</div>
@@ -2452,25 +2517,23 @@ limitations under the License.
 									<li class="progress-status"
 										ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
 									</li>
-									<li ng-show = "scShow">
+									<li ng-show="scShow">
 										<div class="imageplace">
-											<span class="imagecontent security-scan" alt="Security Scan" title="Security Scan">
-											</span>
-										</div>
-										<md-tooltip>{{errorSS}}</md-tooltip>
+											<span class="imagecontent security-scan" alt="Security Scan"
+												title="Security Scan"> </span>
+										</div> <md-tooltip>{{errorSS}}</md-tooltip>
 										<div class="text">Security Scan</div>
 									</li>
-									<li class="progress-status" ng-show = "scShow"
+									<li class="progress-status" ng-show="scShow"
 										ng-class="{'completed': ssValidationStatus.validationStatus == 'PS' && ssValidationStatus.validationType == 'SS'}"></li>
-									<li ng-show = "lcShow">
+									<li ng-show="lcShow">
 										<div class="imageplace ">
-											<span class="imagecontent license-check" alt="License Check" title="License Check">
-											</span>
-										</div>
-										<md-tooltip>{{errorLC}}</md-tooltip>
+											<span class="imagecontent license-check" alt="License Check"
+												title="License Check"> </span>
+										</div> <md-tooltip>{{errorLC}}</md-tooltip>
 										<div class="text">License Check</div>
 									</li>
-									<li class="progress-status" ng-show = "lcShow"></li>
+									<li class="progress-status" ng-show="lcShow"></li>
 									<!-- <li>
                                                                   <div class="imageplace" ng-class="{'active': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}">
                                                                         <span class="imagecontent"> <img
@@ -2480,27 +2543,26 @@ limitations under the License.
                                                                   <div class="text">Verify Model</div>
                                                             </li>
                                                             <li class="progress-status" ng-class="{'green': oqValidationStatus.validationStatus == 'PS' && spValidationStatus.validationType == 'OQ'}"></li> -->
-									<li ng-show = "tcShow">
+									<li ng-show="tcShow">
 										<div class="imageplace">
-											<span class="imagecontent text-check" alt="Text Check" title="Text Check"> <!-- <img
+											<span class="imagecontent text-check" alt="Text Check"
+												title="Text Check"> <!-- <img
                                                                               src="images/text-check.png" alt="" title=""> -->
 											</span>
-										</div>
-										<md-tooltip>{{errorTC}}</md-tooltip>
+										</div> <md-tooltip>{{errorTC}}</md-tooltip>
 										<div class="text">Text Check</div>
 									</li>
-									<li class="progress-status" ng-show = "tcShow"></li>
+									<li class="progress-status" ng-show="tcShow"></li>
 									<li>
 										<div class="imageplace">
-											<span class="imagecontent yet-not-publish" alt="Not yet published" title="Not yet published">
-											</span>
+											<span class="imagecontent yet-not-publish"
+												alt="Not yet published" title="Not yet published"> </span>
 										</div>
 										<div class="publshbutton hide">
 											<button ng-click="viewModel()"
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
 												View Model</button>
-										</div>
-										<md-tooltip>{{errorPM}}</md-tooltip>
+										</div> <md-tooltip>{{errorPM}}</md-tooltip>
 										<div class="text">Not yet published</div>
 										<div class="text-completed">Published to Public
 											Marketplace</div>
@@ -2530,9 +2592,11 @@ limitations under the License.
 									Steps To Submit Publication <span>( {{pbstatusCount}}/6
 										Completed )</span>
 									<div class="pull-right">
-										<button ng-click="showPrerenderedDialog($event);publicPreview=true;"
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary " alt="Preview Model" title="Preview Model">
-											Preview Model</button>
+										<button
+											ng-click="showPrerenderedDialog($event);publicPreview=true;"
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
+											alt="Preview Model" title="Preview Model">Preview
+											Model</button>
 									</div>
 								</h6>
 								<div class="">
@@ -2550,7 +2614,9 @@ limitations under the License.
 
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showSolName = !showSolName; closeOtherPopovers( 'showSolName', showSolName )">Model Name</a> |
+														<a
+															ng-click="showSolName = !showSolName; closeOtherPopovers( 'showSolName', showSolName )">Model
+															Name</a> |
 														<!-- <span class="red">Not Started</span> -->
 
 														<span class="green" ng-if="solution.name.length>=1">
@@ -2604,54 +2670,56 @@ limitations under the License.
 																<span flex></span>
 																<md-button class="md-icon-button"
 																	ng-click="showSolName = !showSolName"> <i
-																	class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																	class="material-icons" alt="Close" title="Close">close</i>
+																</md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
 															<form name="PBmodelNameForm">
-															<div class="md-dialog-content">
-																<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-																	<p>If you are uploading new version of previous
-																		model then use the same model name.</p>
-																	<div
-																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone validation-msgs">
-																		<md-input-container class="md-icon-float md-block">
-																		<!-- Use floating label instead of placeholder --> <label class="md-required">Model
-																			Name </label> <input ng-model="solutionName" type="text" name="PbModelName"
-																			ng-pattern="/^[a-zA-Z0-9_-]*$/" >
-																				<span  ng-show="PBmodelNameForm.PbModelName.$error.pattern">
-																					Model Name can consists of alphanumeric, hyphen and underscore characters only.
-																				</span>
-																		</md-input-container>
-																		<md-input-container class="md-icon-float md-block">
-																		<!-- Use floating label instead of placeholder --> <label>Model
-																			ID </label> <input disabled
-																				class="force-disable" ng-model="popupSolutionId" type="text">
-																		</md-input-container>
-																	</div>
+																<div class="md-dialog-content">
+																	<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+																		<p>If you are uploading new version of previous
+																			model then use the same model name.</p>
+																		<div
+																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone validation-msgs">
+																			<md-input-container class="md-icon-float md-block">
+																			<!-- Use floating label instead of placeholder --> <label
+																				class="md-required">Model Name </label> <input
+																				ng-model="solutionName" type="text"
+																				name="PbModelName" ng-pattern="/^[a-zA-Z0-9_-]*$/">
+																			<span
+																				ng-show="PBmodelNameForm.PbModelName.$error.pattern">
+																				Model Name can consists of alphanumeric, hyphen and
+																				underscore characters only. </span> </md-input-container>
+																			<md-input-container class="md-icon-float md-block">
+																			<!-- Use floating label instead of placeholder --> <label>Model
+																				ID </label> <input disabled class="force-disable"
+																				ng-model="popupSolutionId" type="text"> </md-input-container>
+																		</div>
 
-																	<div
-																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-																		<md-input-container class="md-icon-float md-block">
-																		<label>Model Version</label> <input disabled class="force-disable"
-																			ng-model="revisionsVersion" type="text"> </md-input-container>
+																		<div
+																			class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+																			<md-input-container class="md-icon-float md-block">
+																			<label>Model Version</label> <input disabled
+																				class="force-disable" ng-model="revisionsVersion"
+																				type="text"> </md-input-container>
+																		</div>
 																	</div>
-																</div>
-																<div layout="row" class="popovers-cloud-modalfooter">
-																	<md-button ng-click="showSolName = !showSolName"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
-																	Cancel </md-button>
-																	
-																	<md-button
+																	<div layout="row" class="popovers-cloud-modalfooter">
+																		<md-button ng-click="showSolName = !showSolName"
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																			alt="Cancel" title="Cancel"> Cancel </md-button>
+
+																		<md-button
 																			ng-disabled="PBmodelNameForm.PbModelName.$error.pattern || solutionName==''"
 																			ng-click="updateSolution(); showSolName = !showSolName"
-																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
-																		<span ng-if="solution.name.length<1">Done</span> 
-																		<span ng-if="solution.name.length>=1">Update</span>
-																		</md-button>
-																		
+																			class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																			alt="Update" title="Update"> <span
+																			ng-if="solution.name.length<1">Done</span> <span
+																			ng-if="solution.name.length>=1">Update</span> </md-button>
+
+																	</div>
 																</div>
-															</div>
 															</form>
 															</md-dialog-content>
 														</div>
@@ -2701,8 +2769,9 @@ limitations under the License.
 															not added. Add a description</p>
 													</div>
 
-														<p class="editable-desc" ng-hide="showCKEditor" ng-show="solutionPublicDescLength "
-															ng-bind-html="solutionPublicDesc1"></p>
+													<p class="editable-desc" ng-hide="showCKEditor"
+														ng-show="solutionPublicDescLength "
+														ng-bind-html="solutionPublicDesc1"></p>
 
 													<div ng-show="showCKEditor">
 														<div class="popovers model-description">
@@ -2711,30 +2780,32 @@ limitations under the License.
 																<h2>Model Description</h2>
 																<span flex></span>
 																<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
-															
+
 																<md-button class="md-icon-button"
-                                                                        ng-click="showCKEditor = !showCKEditor;previousValuePublic?solutionPublicDesc=previousValuePublic:solutionPublicDesc='';solutionPublicDescLength = false">
-                                                                    <i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																	ng-click="showCKEditor = !showCKEditor;previousValuePublic?solutionPublicDesc=previousValuePublic:solutionPublicDesc='';solutionPublicDescLength = false">
+																<i class="material-icons" alt="Close" title="Close">close</i>
+																</md-button>
 															</div>
 															</md-toolbar>
 															<md-dialog-content>
 															<div class="md-dialog-content">
 																<div
 																	class="mdl-grid mdl-grid--no-spacing deploy-grid midcontent">
-																	<ng-quill-editor ng-model="solutionPublicDesc" on-content-changed="checkPubDescrLength()"></ng-quill-editor>
+																	<ng-quill-editor ng-model="solutionPublicDesc"
+																		on-content-changed="checkPubDescrLength()"></ng-quill-editor>
 																</div>
 																<div layout="row" class="popovers-cloud-modalfooter">
 																	<!-- solutionPublicDesc='' removed the clearing of desc since on cancle it ws clearing the earlier added data -->
-																	<md-button ng-click="showCKEditor = !showCKEditor;solutionPublicDesc=previousValuePublic;solutionPublicDescLength = false"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
-																	Cancel </md-button>
 																	<md-button
-																		ng-click="updatePublicDescription();"
+																		ng-click="showCKEditor = !showCKEditor;solutionPublicDesc=previousValuePublic;solutionPublicDescLength = false"
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																		alt="Cancel" title="Cancel"> Cancel </md-button>
+																	<md-button ng-click="updatePublicDescription();"
 																		ng-disabled="!solutionPublicDescLength"
-																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
-																		<span ng-if="!solutionPublicDesc1">Done</span>
-																		<span ng-if="solutionPublicDesc1">Update</span>
-																	</md-button>
+																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																		alt="Done" title="Done"> <span
+																		ng-if="!solutionPublicDesc1">Done</span> <span
+																		ng-if="solutionPublicDesc1">Update</span> </md-button>
 																</div>
 															</div>
 															</md-dialog-content>
@@ -2758,8 +2829,8 @@ limitations under the License.
 															<option value="">-- Version --</option>
 														</select>
 														<md-button ng-click="copyFromOtherRevision('PB'); "
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
-														Copy </md-button>
+															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+															alt="Copy" title="Copy"> Copy </md-button>
 													</div>
 													</p>
 													<!-- <div class="checkbox" ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
@@ -2776,7 +2847,8 @@ limitations under the License.
 															<h2>Skip this step</h2>
 															<span flex></span>
 															<md-button class="md-icon-button" ng-click="cancel()">
-															<i class="material-icons"  alt="Close" title="Close">close</i> </md-button>
+															<i class="material-icons" alt="Close" title="Close">close</i>
+															</md-button>
 														</div>
 														</md-toolbar>
 														<md-dialog-content>
@@ -2787,11 +2859,11 @@ limitations under the License.
 																you want to skip this step?</div>
 															<div layout="row" class="popovers-cloud-modalfooter">
 																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
-																Cancel </md-button>
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																	alt="Cancel" title="Cancel"> Cancel </md-button>
 																<md-button
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
-																Done </md-button>
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	alt="Done" title="Done"> Done </md-button>
 															</div>
 														</div>
 														</md-dialog-content>
@@ -2812,8 +2884,9 @@ limitations under the License.
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model Category</a>
-														| <span class="green"
+														<a
+															ng-click="showSolCat = !showSolCat; closeOtherPopovers( 'showSolCat', showSolCat )">Model
+															Category</a> | <span class="green"
 															ng-if="(solution.modelTypeName && solution.tookitTypeName)">
 															Completed on {{solution.modified | date:'MM/dd/yyyy' }} </span>
 														<span class="red"
@@ -2838,7 +2911,8 @@ limitations under the License.
 															<span flex></span>
 															<md-button class="md-icon-button"
 																ng-click="showSolCat = !showSolCat"> <i
-																class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																class="material-icons" alt="Close" title="Close">close</i>
+															</md-button>
 														</div>
 														</md-toolbar>
 														<md-dialog-content>
@@ -2857,8 +2931,8 @@ limitations under the License.
 																	<div layout="row"
 																		class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone pull-left removerightpadd">
 																		<md-input-container class="fullwidth">
-																		<label class="md-required">Select Toolkit Type</label> <md-select
-																			ng-model="toolkitname"> <md-option
+																		<label class="md-required">Select Toolkit Type</label>
+																		<md-select ng-model="toolkitname"> <md-option
 																			ng-repeat="toolkitType in alltoolkitType"
 																			ng-if="toolkitType.code != 'DS' && toolkitType.code != 'CP'"
 																			value="{{toolkitType.code}}">{{toolkitType.name}}</md-option>
@@ -2869,13 +2943,15 @@ limitations under the License.
 															</div>
 															<div layout="row" class="popovers-cloud-modalfooter">
 																<md-button ng-click="showSolCat = !showSolCat;"
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
-																Cancel </md-button>
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+																	alt="Cancel" title="Cancel"> Cancel </md-button>
 																<md-button
 																	ng-click="updateSolution(); showSolCat = !showSolCat"
-																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Update" title="Update">
-																	<span ng-show="(!solution.modelTypeName && !solution.tookitTypeName)">Done</span>
-																	<span ng-show="(solution.modelTypeName || solution.tookitTypeName)">Update</span> 
+																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																	alt="Update" title="Update"> <span
+																	ng-show="(!solution.modelTypeName && !solution.tookitTypeName)">Done</span>
+																<span
+																	ng-show="(solution.modelTypeName || solution.tookitTypeName)">Update</span>
 																</md-button>
 															</div>
 														</div>
@@ -2940,7 +3016,8 @@ limitations under the License.
 												</div>
 												<div class="timeline-label">
 													<h2>
-														<a ng-click="showFileUpload = !showFileUpload;solutionFile = '';modelUploadErrorPublic=false; closeOtherPopovers( 'showFileUpload', showFileUpload )"
+														<a
+															ng-click="showFileUpload = !showFileUpload;solutionFile = '';modelUploadErrorPublic=false; closeOtherPopovers( 'showFileUpload', showFileUpload )"
 															ng-class="{'disabled-title': public.step4}">Model
 															Documents</a> | <span class="green"
 															ng-show="showPublicSolutionDocs && !public.step4">
@@ -2961,8 +3038,9 @@ limitations under the License.
                                                                                                 </button> -->
 
 															<md-button class="md-icon-button"
-																ng-click="closeUploadPopup()">
-															<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+																ng-click="closeUploadPopup()"> <i
+																class="material-icons" alt="Close" title="Close">close</i>
+															</md-button>
 
 														</div>
 														</md-toolbar>
@@ -2981,38 +3059,46 @@ limitations under the License.
 																			<i class="material-icons">attach_file</i> <input
 																				type="file" id="uploadBtn">
 																		</div> -->
-																	<div class="drag-drop"  id = "public-dropbox">
-																			       <div class="drag-drop-files hide">
-																			              <p>doc.pdf</p>
-																			       </div>
-																			<div file-droppable filename="publicfilename" file=publicsolutionFile>
-																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
-																			              <div class="destext">Drag & Drop your file here!</div>
-																			       </div>
-																			</div> 
-																		<div file-upload file="solutionFile" 
-																						uploadid="publicDocumentuploadid" id="publicUploadFile"
-																						filename="publicfilename" 
-																						ng-model="solutionFile" accept = ""
-																						upload-image-model="solutionFile" size=10000000 docerror="docerror" readonly alt="Browse" title="Browse">
-																						
-																						</div>
-																						<div class="upload-image-input files-uploaded upload-txtbox">
-																		    			<input class="mdl-textfield__input"
-																						placeholder="Upload File" type="text"
-																						ng-model="publicfilename"  readonly />
-																						</div>
-																		 <!-- <input class="mdl-textfield__input"
+																		<div class="drag-drop" id="public-dropbox">
+																			<div class="drag-drop-files hide">
+																				<p>doc.pdf</p>
+																			</div>
+																			<div file-droppable filename="publicfilename"
+																				file=publicsolutionFile>
+																				<img src="images/upload-doc-vector.png" alt=""
+																					title="" />
+																				<div class="destext">Drag & Drop your file
+																					here!</div>
+																			</div>
+																		</div>
+																		<div file-upload file="solutionFile"
+																			uploadid="publicDocumentuploadid"
+																			id="publicUploadFile" filename="publicfilename"
+																			ng-model="solutionFile" accept=""
+																			upload-image-model="solutionFile" size=10000000
+																			docerror="docerror" readonly alt="Browse"
+																			title="Browse"></div>
+																		<div
+																			class="upload-image-input files-uploaded upload-txtbox">
+																			<input class="mdl-textfield__input"
+																				placeholder="Upload File" type="text"
+																				ng-model="publicfilename" readonly />
+																		</div>
+																		<!-- <input class="mdl-textfield__input"
 																						placeholder="Upload File" type="text"
 																						ng-model="publicfilename" readonly />	 -->
-																			<div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
-																			</div>
-														               		<div class=""><span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar| number : 0}}%</span>
-														            			<span ng-show = "$root.progressBar == 100">Completed</span>
-														            		</div>
-														            		 <div class="help-inline validation-msgs">
-																				<span ng-show="docerror">Document should be of max size 10MB.</span>
-																			 </div>
+																		<div class="progress-bar"
+																			ng-style="{'width': $root.progressBar+'%'}"></div>
+																		<div class="">
+																			<span
+																				ng-show="$root.progressBar != 100 && $root.progressBar != 0">{{$root.progressBar|
+																				number : 0}}%</span> <span
+																				ng-show="$root.progressBar == 100">Completed</span>
+																		</div>
+																		<div class="help-inline validation-msgs">
+																			<span ng-show="docerror">Document should be of
+																				max size 10MB.</span>
+																		</div>
 																	</div>
 																</form>
 															</div>
@@ -3024,20 +3110,23 @@ limitations under the License.
 																<md-button ng-click="closeUploadPopup()"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary md-button md-ink-ripple"
 																	type="button"
-																	data-upgraded=",MaterialButton,MaterialRipple" alt="Cancel" title="Cancel">
-																<span class="ng-scope"> Cancel </span> <span
+																	data-upgraded=",MaterialButton,MaterialRipple"
+																	alt="Cancel" title="Cancel"> <span
+																	class="ng-scope"> Cancel </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
-																
+
 																<md-button ng-show="!showPublicSolutionDocs"
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid');"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																	type="button" ng-disabled = "!solutionFile || docerror == true"
-																	data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
-																<span class="ng-scope"> Done </span> <span
+																	type="button"
+																	ng-disabled="!solutionFile || docerror == true"
+																	data-upgraded=",MaterialButton,MaterialRipple"
+																	alt="Done" title="Done"> <span
+																	class="ng-scope"> Done </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
 																	class="mdl-ripple"></span></span> </md-button>
-																
+
 																<md-button ng-show="showPublicSolutionDocs"
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid');"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
@@ -3045,7 +3134,7 @@ limitations under the License.
 																	data-upgraded=",MaterialButton,MaterialRipple">
 																<span class="ng-scope"> Update </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
-																	class="mdl-ripple"></span></span> </md-button>	
+																	class="mdl-ripple"></span></span> </md-button>
 															</div>
 														</div>
 														</md-dialog-content>
@@ -3054,8 +3143,9 @@ limitations under the License.
 														details and show how to use your model.</p>
 													<div class="uploaded-file" ng-show="showPublicSolutionDocs">
 														<md-chips ng-model="supportingPublicDocs"
-															md-on-remove="removeDoc($chip.documentId, 'PB')"> <md-chip-template>
-														<strong>{{$chip.name}}</strong> </md-chip-template> </md-chips>
+															md-on-remove="removeDoc($chip.documentId, 'PB')">
+														<md-chip-template> <strong>{{$chip.name}}</strong>
+														</md-chip-template> </md-chips>
 													</div>
 													<div class="timeline-version">
 														<label> Use the Documents you have in Public
@@ -3065,10 +3155,9 @@ limitations under the License.
 															ng-options="v.version for v in versionList">
 															<option value="">-- Version --</option>
 														</select>
-														<md-button
-															ng-click="copyDocsFromOtherRevision('PB'); "
-															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
-														Copy </md-button>
+														<md-button ng-click="copyDocsFromOtherRevision('PB'); "
+															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+															alt="Copy" title="Copy"> Copy </md-button>
 													</div>
 													<div class="checkbox" ng-if="!showPublicSolutionDocs">
 														<label> <input type="checkbox"
@@ -3107,7 +3196,8 @@ limitations under the License.
 														</div>
 														</md-dialog-content>
 													</div>
-													<small ng-show="modelUploadErrorPublic" class="red"><strong>Error Occurred:</strong> {{modelUploadErrorMsgPublic}}</small>
+													<small ng-show="modelUploadErrorPublic" class="red"><strong>Error
+															Occurred:</strong> {{modelUploadErrorMsgPublic}}</small>
 													<!-- update model documents popover end -->
 													<!-- <p>
                                                                                     <div class="checkbox">
@@ -3147,10 +3237,12 @@ limitations under the License.
 														<!-- showSolTags ng-enter="updateTag(tags)" -->
 														<tags-input ng-model="tags1"
 															replace-spaces-with-dashes="false" name="cmptag"
-															on-tag-added="tagAdded($tag)" 
-															on-tag-removed="tagRemoved($tag)" min-tags="1" min-length="0" allow-leftover-text=false
-															required ng-blur="cmptagVisited=true" ng-focus="cmptagVisited=false"> <auto-complete
-															source="loadAllTags($query)" min-length="0" 
+															on-tag-added="tagAdded($tag)"
+															on-tag-removed="tagRemoved($tag)" min-tags="1"
+															min-length="0" allow-leftover-text=false required
+															ng-blur="cmptagVisited=true"
+															ng-focus="cmptagVisited=false"> <auto-complete
+															source="loadAllTags($query)" min-length="0"
 															max-results-to-show="10" load-on-focus="true"
 															load-on-empty="true"></auto-complete> </tags-input>
 														<div class="help-inline validation-msgs"
@@ -3239,7 +3331,8 @@ limitations under the License.
 												</div>
 												<div class="timeline-label last">
 													<h2>
-														<a ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
+														<a
+															ng-click="showImageUpload = !showImageUpload; closeOtherPopovers( 'showImageUpload', showImageUpload )">Upload
 															Image for Model</a> | <span class="green"
 															ng-show="showSolutionImage"> Completed on
 															{{solution.modified | date:'MM/dd/yyyy' }} </span> <span
@@ -3257,7 +3350,8 @@ limitations under the License.
 															<span flex></span>
 															<md-button class="md-icon-button"
 																ng-click="cancelSolImage();showImageUpload = !showImageUpload; previewImage = imgURLdefault;">
-															<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
+															<i class="material-icons" alt="Close" title="Close">close</i>
+															</md-button>
 														</div>
 														</md-toolbar>
 														<md-dialog-content>
@@ -3265,29 +3359,38 @@ limitations under the License.
 															<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
 																<form>
 																	<div class="mdl-grid imageuploader">
-																		<div class="mdl-cell mdl-cell--3-col mdl-cell--12-col-tablet mdl-cell--4-col-phone">
+																		<div
+																			class="mdl-cell mdl-cell--3-col mdl-cell--12-col-tablet mdl-cell--4-col-phone">
 																			<div class="iconcontainer">
 																				<img ng-src="{{previewImage}}" alt="" title="" />
 																			</div>
 																		</div>
-																		<div class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
-																			<md-input-container><label class="md-required">Upload Image</label></md-input-container>
+																		<div
+																			class="mdl-cell mdl-cell--9-col mdl-cell--12-col-tablet">
+																			<md-input-container>
+																			<label class="md-required">Upload Image</label></md-input-container>
 																			<div class="upload-image-input">
-																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
-																					uploadid="publicuploadid" id="solImage" size = 800000 imageerror = "imageerror"
-																					imagetypeerror = "imagetypeerror"
-																					filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
+																				<div file-upload file=previewImage
+																					ng-click="cancelSolImage()"
+																					uploadid="publicuploadid" id="solImage" size=800000
+																					imageerror="imageerror"
+																					imagetypeerror="imagetypeerror" filename="filename"
+																					fileinput="file"
+																					accept="image/png, image/jpeg, image/gif"
 																					filepreview="previewImage" ng-model="solImage"
-																					icon="icon" upload-image-model="solImage" readonly alt="Browse" title="Browse"></div>
+																					icon="icon" upload-image-model="solImage" readonly
+																					alt="Browse" title="Browse"></div>
 																				<input class="mdl-textfield__input"
 																					placeholder="Upload Image" type="text"
 																					ng-model="filename" readonly />
 																			</div>
 																			<div class="help-inline validation-msgs">
-																				<span ng-show = "imageerror">Image should be max size of 800KB.</span>
+																				<span ng-show="imageerror">Image should be
+																					max size of 800KB.</span>
 																			</div>
 																			<div class="help-inline validation-msgs">
-																				<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
+																				<span ng-show="imagetypeerror">Image should
+																					be in 'jpg','jpeg','png' or 'gif' file format.</span>
 																			</div>
 																			<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
@@ -3318,10 +3421,11 @@ limitations under the License.
 																			</div>
 																		</div>
 																	</div>
-																	<p>You can upload an image of your own or select one from the images below.
-																	</p>
+																	<p>You can upload an image of your own or select
+																		one from the images below.</p>
 																	<div class="mdl-grid">
-																		<div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--4-col-phone iconboder"
+																		<div
+																			class="mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--4-col-phone iconboder"
 																			ng-repeat="iconSrc in iconImages"
 																			ng-class="{active : iconSrc == selectedIcon}">
 																			<div class="iconcontainer">
@@ -3343,14 +3447,15 @@ limitations under the License.
 															class="popovers-cloud-modalfooter fullwidth layout-row ">
 															<md-button
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																ng-click="cancelSolImage(); showImageUpload = !showImageUpload; previewImage = imgURLdefault;" alt="Cancel" title="Cancel">
-															Cancel </md-button>
+																ng-click="cancelSolImage(); showImageUpload = !showImageUpload; previewImage = imgURLdefault;"
+																alt="Cancel" title="Cancel"> Cancel </md-button>
 															<md-button
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled = "imageerror"
-																ng-click="updateSolImage('publicuploadid'); showImageUpload = !showImageUpload" alt="Done" title="Done">
-																<span ng-show="!showSolutionImage">Done</span>
-																<span ng-show="showSolutionImage">Update</span> 
-															</md-button>
+																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+																ng-disabled="imageerror"
+																ng-click="updateSolImage('publicuploadid'); showImageUpload = !showImageUpload"
+																alt="Done" title="Done"> <span
+																ng-show="!showSolutionImage">Done</span> <span
+																ng-show="showSolutionImage">Update</span> </md-button>
 														</div>
 													</div>
 													</md-dialog-content>
@@ -3395,8 +3500,8 @@ limitations under the License.
 												<!-- updateupload image for model popover end -->
 												<div class="uploaded-img-des" ng-show="showSolutionImage">
 													<div class="imagecontainer">
-														<img ng-src="data:image/JPEG;base64,{{solution.picture}}" alt="" title=""
-															ng-model="imgURLdefault" />
+														<img ng-src="data:image/JPEG;base64,{{solution.picture}}"
+															alt="" title="" ng-model="imgURLdefault" />
 													</div>
 													<div class="file-name">
 														{{solutionImageName}} | <a
@@ -3482,11 +3587,13 @@ limitations under the License.
 								<div class="">
 									<button ng-click="publishtoMarket('PB')"
 										ng-disabled="activePublishBtnPB == false"
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
+										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary "
+										alt="Submit to Publication" title="Submit to Publication">
 										Submit to Publication</button>
 									<button
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
-										ng-click="showPrerenderedDialog($event);publicPreview=true;" alt="Preview Model" title="Preview Model">Preview
+										ng-click="showPrerenderedDialog($event);publicPreview=true;"
+										alt="Preview Model" title="Preview Model">Preview
 										Model</button>
 								</div>
 								<div class="clearfix"></div>
@@ -3506,23 +3613,26 @@ limitations under the License.
 							<div class="ViewDescriptionContainer">
 								<h6 class="sectiontitle">Export To Cloud</h6>
 								<div class="mdl-grid cloud-radio">
-									<div ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
-                                         class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone deploy-to-cloud-input" 
-                                         ng-class='checkboxExport=="{{deployVal.cloudName}}"?"active":""'>
-                                        
-                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option{{$index}}"> 
-                                            <input type="radio" id="option{{$index}}" name="{{deployVal.cloudName}}"
-                                           		class="mdl-radio__button cloud-radio-btn" 
-                                            	ng-model="$parent.checkboxExport" value='{{deployVal.cloudName}}'
-                                            	ng-disabled="deployVal.cloudEnabled=='false'">
-                                            	 
-                                            	<span class="mdl-radio__label">
-                                            		<img ng-src="{{deployVal.imageUrl}}" alt="{{deployVal.cloudDisplayText}}">
-                                           		</span>
-                                        </label>
-                                        
-                                    </div>
-									
+									<div
+										ng-repeat="deployVal in checkDeployToCloudResponse track by $index"
+										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone deploy-to-cloud-input"
+										ng-class='checkboxExport=="{{deployVal.cloudName}}"?"active":""'>
+
+										<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
+											for="option{{$index}}"> <input type="radio"
+											id="option{{$index}}" name="{{deployVal.cloudName}}"
+											class="mdl-radio__button cloud-radio-btn"
+											ng-model="$parent.checkboxExport"
+											value='{{deployVal.cloudName}}'
+											ng-disabled="deployVal.cloudEnabled=='false'"> <span
+											class="mdl-radio__label"> <img
+												ng-src="{{deployVal.imageUrl}}"
+												alt="{{deployVal.cloudDisplayText}}">
+										</span>
+										</label>
+
+									</div>
+
 									<!-- <div
 										class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone" ng-class='checkboxExport=="microsoft"?"active":""'>
 										<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
@@ -3566,214 +3676,267 @@ limitations under the License.
 								</div>
 								<div class="tab-content">
 									<div class="md-dialog-content">
-									
-									<!-- Deploy to Azure Starts -->
-									<div ng-show='checkboxExport=="azure"'>
-									   <form name="deploy">
-									      <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-									         <div
-									            class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-									            <md-input-container class="md-icon-float md-block">
-									               <label class="md-required">Application Id </label>
-									               <input ng-model="applicationId" name="applicationId" type="text" required ng-blur="applicationIdVisited=true" ng-focus="applicationIdVisited=false">
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.applicationId.$valid}">
-									                  <span ng-show="( !!deploy.applicationId.$error.required && deploy.applicationId.$touched && applicationIdVisited)">Application Id Required.</span>
-									               </div>
-									            </md-input-container>
-									            <md-input-container class="md-icon-float md-block">
-									               <label class="md-required">Secret key </label>
-									               <input ng-model="secretKey" type="password" required  name="secretKey" ng-blur="secretKeyVisited=true" ng-focus="secretKeyVisited=false">
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.secretKey.$valid}">
-									                  <span ng-show="( !!deploy.secretKey.$error.required && deploy.secretKey.$touched && secretKeyVisited)">Secret key Required.</span>
-									               </div>
-									            </md-input-container>
-									            <md-input-container class="md-icon-float md-block">
-									               <label class="md-required">Resource Group </label>
-									               <input ng-model="resourceGroup" type="text" required name="resourceGroup" ng-blur="resourceGroupVisited=true" ng-focus="resourceGroupVisited=false">
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.resourceGroup.$valid}">
-									                  <span ng-show="( !!deploy.resourceGroup.$error.required && deploy.resourceGroup.$touched && resourceGroupVisited)">Resource Group Required.</span>
-									               </div>
-									            </md-input-container>
-									            <md-input-container class="md-icon-float md-block">
-									               <label class="md-required">Storage Account </label>
-									               <input ng-model="storageAccount" type="text" required name="storageAccount" required ng-blur="storageAccountVisited=true" ng-focus="storageAccountVisited=false">
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.storageAccount.$valid}">
-									                  <span ng-show="( !!deploy.storageAccount.$error.required && deploy.storageAccount.$touched && storageAccountVisited)">Storage Account Required.</span>
-									               </div>
-									            </md-input-container>
-									         </div>
-									         <div
-									            class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-									            <md-input-container class="md-icon-float md-block">
-									               <label class="md-required">Tenant Id</label>
-									               <input ng-model="tenantId" required type="text" name="tenantId" ng-blur="tenantIdVisited=true" ng-focus="tenantIdVisited=false">
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.tenantId.$valid}">
-									                  <span ng-show="( !!deploy.tenantId.$error.required && deploy.tenantId.$touched && tenantIdVisited)">Tenant Id Required.</span>
-									               </div>
-									            </md-input-container>
-									            <md-input-container class="md-icon-float md-block">
-									               <label class="md-required">Subscription Key</label>
-									               <input required ng-model="subscriptionKey"  name="subscriptionKey" required type="text" ng-blur="subscriptionKeyVisited=true" ng-focus="subscriptionKeyVisited=false"> 
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.subscriptionKey.$valid}">
-									                  <span ng-show="( !!deploy.subscriptionKey.$error.required && deploy.subscriptionKey.$touched && subscriptionKeyVisited)">Subscription Key Required.</span>
-									               </div>
-									            </md-input-container>
-									            <md-input-container class="md-icon-float md-block">
-									               <label class="md-required">Acr Name</label>
-									               <input ng-model="acrName" type="text" required  name="acrName" ng-blur="acrNameVisited=true" ng-focus="acrNameVisited=false">
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deploy.acrName.$valid}">
-									                  <span ng-show="( !!deploy.acrName.$error.required && deploy.acrName.$touched && acrNameVisited)">Acr Name Required.</span>
-									               </div>
-									            </md-input-container>
-									         </div>
-									      </div>
-									      <div layout="row">
-									         <md-button
-									            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-									            ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
-									            Deploy 
-									         </md-button>
-									      </div>
-									   </form>
-									   <br>
-									   <form name="deployCloud">
-									      <div>
-									         <h4 class="gridlistheading broker-heading">
-									            Broker
-									         </h4>
-									         <md-input-container>
-									            <label>Databroker Type</label>
-									            <md-select ng-model="dbType" placeholder="Databroker type" ng-init="dbType='csv'">
-									               <md-option value="csv">CSV</md-option>
-									               <md-option value="zip">Zip</md-option>
-									            </md-select>
-									         </md-input-container>
-									         <div ng-show="dbType=='zip'">
-									            <md-input-container class="md-icon-float md-block">
-									               <label>URL</label> <input type="text" ng-model="brokerURL" required name="brokerlink" ng-blur="brokerlinkVisited=true" ng-focus="brokerlinkVisited=false">
-									               <div class="help-inline validation-msgs" ng-class="{validationmsg:!deployCloud.brokerlink.$valid}">
-									                  <span ng-show="( !!deployCloud.brokerlink.$error.required && deployCloud.brokerlink.$touched && brokerlinkVisited)">URL Required.</span>
-									               </div>
-									            </md-input-container>
-									         </div>
-									         <div ng-show="dbType=='zip'" class="borker-row">
-									            <div>
-									               <label class="disblock">Position Mappings</label>
-									               <div>
-									                  <input class="md-input readOnlyDark" type="text" ng-model="positionM1"  placeholder="MIME_TYPE">
-									                  <input class="md-input" type="text" ng-model="positionM2" required>						
-									               </div>
-									               <div>
-									                  <input class="md-input readOnlyDark" type="text" ng-model="positionM3"  placeholder="CONTENT">
-									                  <input class="md-input" type="text" ng-model="positionM4" required>						
-									               </div>
-									            </div>
-									            <div>
-									               <label class="disblock">Field Mappings</label>
-									               <div>
-									                  <input class="md-input readOnlyDark" type="text" ng-model="fieldM1"  placeholder="MIME_TYPE">
-									                  <input class="md-input" type="text" ng-model="fieldM2" required>						
-									               </div>
-									               <div>
-									                  <input class="md-input readOnlyDark" type="text" ng-model="fieldM3"  placeholder="CONTENT">
-									                  <input class="md-input" type="text" ng-model="fieldM4" required>						
-									               </div>
-									            </div>
-									         </div>
-									         <div ng-show="dbType=='csv'" class="db-csv">
-									            <div>
-									               <label class="disblock">Username</label>
-									               <div>
-									                  <input class="md-input" type="text" ng-model="csvUsername" required>
-									               </div>
-									               <label class="disblock">Host</label>
-									               <div>
-									                  <input class="md-input" type="text" ng-model="csvHost" required>
-									               </div>
-									            </div>
-									            <div>
-									               <label class="disblock">Password</label>
-									               <div>
-									                  <input class="md-input" type="password" ng-model="csvPassword" required>
-									               </div>
-									               <label class="disblock">Port</label>
-									               <div>
-									                  <input class="md-input" type="text" ng-model="csvPort" required>
-									               </div>
-									            </div>
-									         </div>
-									      </div>
-									   </form>
-									   <div layout="row">
-									      <md-button
-									         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-									         ng-click="deployCloudVal()"  alt="Data Broker" title="Data Broker"
-									         ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)">
-									         Data Broker
-									      </md-button>
-									   </div>
-									</div>
-									<!-- Deploy to Azure Ends -->
-									
-									<!-- Deploy to Rackspace Starts--> 
-									<div ng-show='checkboxExport=="rackspace"'>
-									   <div class="mdl-grid mdl-grid--no-spacing deploy-grid" >
-									      <form name="rackspace">
-									         <md-input-container class="md-icon-float md-block">
-									            <label>VM Name</label>
-									            <input type="text" ng-model='vmName' name='vmName' ng-blur="vmNameVisited=true" ng-focus="vmNameVisited=false">
-									            <div class="help-inline validation-msgs" ng-class="{validationmsg:!rackspace.vmName.$valid}">
-									               <span ng-show="( !!rackspace.vmName.$error.required && rackspace.vmName.$touched && vmNameVisited)">VM Name Required.</span>
-									            </div>
-									         </md-input-container>
-									      </form>
-									   </div>
-									   <div layout="row">
-									      <md-button
-									         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-									         ng-disabled="!vmName" ng-click="authenticateAnddeployToAzure();" alt="Deploy" title="Deploy">
-									         Deploy 
-									      </md-button>
-									   </div>
-									</div>
-									<!-- Deploy to Rackspace Ends -->
-									
-									<!-- Deploy to Local Starts -->
-									<div ng-show='checkboxExport=="deploylocal"'>
-									   <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-									   <form name="deployToLocal">
-										   <md-input-container class="md-icon-float md-block">
-										      <label>Click here to download Deployable Solution Package for Private Kubernetes Cloud</label> 
-										      <md-button class="mdl-button mdl-js-button btn-secondary"
-										         ng-click="deployToLocal()"> Download Solution Package</md-button>
-										   </md-input-container>
-										   <br />
-										   <p>More Info at <a href="" target="_blank">help</a></p>
-									   </form>
-									   </div>
-									</div>
-									<!-- Deploy to Local Ends -->
-									
-									<!-- Deploy to Whitebox Starts -->
-									<div ng-show='checkboxExport=="whitebox"'>
-									   <div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-									   <form name="deployToWhitebox">
-										   <md-input-container class="md-icon-float md-block">
-										      <strong> Deploy To White Box.</strong>
-										   </md-input-container>
-									   </form>
-									   </div>
-									</div>
-									<!-- Deploy to Whitebox Ends -->
-										
+
+										<!-- Deploy to Azure Starts -->
+										<div ng-show='checkboxExport=="azure"'>
+											<form name="deploy">
+												<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+													<div
+														class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+														<md-input-container class="md-icon-float md-block">
+														<label class="md-required">Application Id </label> <input
+															ng-model="applicationId" name="applicationId" type="text"
+															required ng-blur="applicationIdVisited=true"
+															ng-focus="applicationIdVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deploy.applicationId.$valid}">
+															<span
+																ng-show="( !!deploy.applicationId.$error.required && deploy.applicationId.$touched && applicationIdVisited)">Application
+																Id Required.</span>
+														</div>
+														</md-input-container>
+														<md-input-container class="md-icon-float md-block">
+														<label class="md-required">Secret key </label> <input
+															ng-model="secretKey" type="password" required
+															name="secretKey" ng-blur="secretKeyVisited=true"
+															ng-focus="secretKeyVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deploy.secretKey.$valid}">
+															<span
+																ng-show="( !!deploy.secretKey.$error.required && deploy.secretKey.$touched && secretKeyVisited)">Secret
+																key Required.</span>
+														</div>
+														</md-input-container>
+														<md-input-container class="md-icon-float md-block">
+														<label class="md-required">Resource Group </label> <input
+															ng-model="resourceGroup" type="text" required
+															name="resourceGroup" ng-blur="resourceGroupVisited=true"
+															ng-focus="resourceGroupVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deploy.resourceGroup.$valid}">
+															<span
+																ng-show="( !!deploy.resourceGroup.$error.required && deploy.resourceGroup.$touched && resourceGroupVisited)">Resource
+																Group Required.</span>
+														</div>
+														</md-input-container>
+														<md-input-container class="md-icon-float md-block">
+														<label class="md-required">Storage Account </label> <input
+															ng-model="storageAccount" type="text" required
+															name="storageAccount" required
+															ng-blur="storageAccountVisited=true"
+															ng-focus="storageAccountVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deploy.storageAccount.$valid}">
+															<span
+																ng-show="( !!deploy.storageAccount.$error.required && deploy.storageAccount.$touched && storageAccountVisited)">Storage
+																Account Required.</span>
+														</div>
+														</md-input-container>
+													</div>
+													<div
+														class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+														<md-input-container class="md-icon-float md-block">
+														<label class="md-required">Tenant Id</label> <input
+															ng-model="tenantId" required type="text" name="tenantId"
+															ng-blur="tenantIdVisited=true"
+															ng-focus="tenantIdVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deploy.tenantId.$valid}">
+															<span
+																ng-show="( !!deploy.tenantId.$error.required && deploy.tenantId.$touched && tenantIdVisited)">Tenant
+																Id Required.</span>
+														</div>
+														</md-input-container>
+														<md-input-container class="md-icon-float md-block">
+														<label class="md-required">Subscription Key</label> <input
+															required ng-model="subscriptionKey"
+															name="subscriptionKey" required type="text"
+															ng-blur="subscriptionKeyVisited=true"
+															ng-focus="subscriptionKeyVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deploy.subscriptionKey.$valid}">
+															<span
+																ng-show="( !!deploy.subscriptionKey.$error.required && deploy.subscriptionKey.$touched && subscriptionKeyVisited)">Subscription
+																Key Required.</span>
+														</div>
+														</md-input-container>
+														<md-input-container class="md-icon-float md-block">
+														<label class="md-required">Acr Name</label> <input
+															ng-model="acrName" type="text" required name="acrName"
+															ng-blur="acrNameVisited=true"
+															ng-focus="acrNameVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deploy.acrName.$valid}">
+															<span
+																ng-show="( !!deploy.acrName.$error.required && deploy.acrName.$touched && acrNameVisited)">Acr
+																Name Required.</span>
+														</div>
+														</md-input-container>
+													</div>
+												</div>
+												<div layout="row">
+													<md-button
+														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+														ng-disabled="deploy.$invalid"
+														ng-click="authenticateAnddeployToAzure();" alt="Deploy"
+														title="Deploy"> Deploy </md-button>
+												</div>
+											</form>
+											<br>
+											<form name="deployCloud">
+												<div>
+													<h4 class="gridlistheading broker-heading">Broker</h4>
+													<md-input-container> <label>Databroker
+														Type</label> <md-select ng-model="dbType"
+														placeholder="Databroker type" ng-init="dbType='csv'">
+													<md-option value="csv">CSV</md-option> <md-option
+														value="zip">Zip</md-option> </md-select> </md-input-container>
+													<div ng-show="dbType=='zip'">
+														<md-input-container class="md-icon-float md-block">
+														<label>URL</label> <input type="text" ng-model="brokerURL"
+															required name="brokerlink"
+															ng-blur="brokerlinkVisited=true"
+															ng-focus="brokerlinkVisited=false">
+														<div class="help-inline validation-msgs"
+															ng-class="{validationmsg:!deployCloud.brokerlink.$valid}">
+															<span
+																ng-show="( !!deployCloud.brokerlink.$error.required && deployCloud.brokerlink.$touched && brokerlinkVisited)">URL
+																Required.</span>
+														</div>
+														</md-input-container>
+													</div>
+													<div ng-show="dbType=='zip'" class="borker-row">
+														<div>
+															<label class="disblock">Position Mappings</label>
+															<div>
+																<input class="md-input readOnlyDark" type="text"
+																	ng-model="positionM1" placeholder="MIME_TYPE">
+																<input class="md-input" type="text"
+																	ng-model="positionM2" required>
+															</div>
+															<div>
+																<input class="md-input readOnlyDark" type="text"
+																	ng-model="positionM3" placeholder="CONTENT"> <input
+																	class="md-input" type="text" ng-model="positionM4"
+																	required>
+															</div>
+														</div>
+														<div>
+															<label class="disblock">Field Mappings</label>
+															<div>
+																<input class="md-input readOnlyDark" type="text"
+																	ng-model="fieldM1" placeholder="MIME_TYPE"> <input
+																	class="md-input" type="text" ng-model="fieldM2"
+																	required>
+															</div>
+															<div>
+																<input class="md-input readOnlyDark" type="text"
+																	ng-model="fieldM3" placeholder="CONTENT"> <input
+																	class="md-input" type="text" ng-model="fieldM4"
+																	required>
+															</div>
+														</div>
+													</div>
+													<div ng-show="dbType=='csv'" class="db-csv">
+														<div>
+															<label class="disblock">Username</label>
+															<div>
+																<input class="md-input" type="text"
+																	ng-model="csvUsername" required>
+															</div>
+															<label class="disblock">Host</label>
+															<div>
+																<input class="md-input" type="text" ng-model="csvHost"
+																	required>
+															</div>
+														</div>
+														<div>
+															<label class="disblock">Password</label>
+															<div>
+																<input class="md-input" type="password"
+																	ng-model="csvPassword" required>
+															</div>
+															<label class="disblock">Port</label>
+															<div>
+																<input class="md-input" type="text" ng-model="csvPort"
+																	required>
+															</div>
+														</div>
+													</div>
+												</div>
+											</form>
+											<div layout="row">
+												<md-button
+													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+													ng-click="deployCloudVal()" alt="Data Broker"
+													title="Data Broker"
+													ng-disabled="!(dbType=='csv' && csvUsername && csvPassword && csvHost && csvPort) && !(dbType=='zip' && brokerURL)">
+												Data Broker </md-button>
+											</div>
+										</div>
+										<!-- Deploy to Azure Ends -->
+
+										<!-- Deploy to Rackspace Starts-->
+										<div ng-show='checkboxExport=="rackspace"'>
+											<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+												<form name="rackspace">
+													<md-input-container class="md-icon-float md-block">
+													<label>VM Name</label> <input type="text" ng-model='vmName'
+														name='vmName' ng-blur="vmNameVisited=true"
+														ng-focus="vmNameVisited=false">
+													<div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!rackspace.vmName.$valid}">
+														<span
+															ng-show="( !!rackspace.vmName.$error.required && rackspace.vmName.$touched && vmNameVisited)">VM
+															Name Required.</span>
+													</div>
+													</md-input-container>
+												</form>
+											</div>
+											<div layout="row">
+												<md-button
+													class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+													ng-disabled="!vmName"
+													ng-click="authenticateAnddeployToAzure();" alt="Deploy"
+													title="Deploy"> Deploy </md-button>
+											</div>
+										</div>
+										<!-- Deploy to Rackspace Ends -->
+
+										<!-- Deploy to Local Starts -->
+										<div ng-show='checkboxExport=="deploylocal"'>
+											<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+												<form name="deployToLocal">
+													<md-input-container class="md-icon-float md-block">
+													<label>Click here to download Deployable Solution
+														Package for Private Kubernetes Cloud</label> <md-button
+														class="mdl-button mdl-js-button btn-secondary"
+														ng-click="deployToLocal()"> Download Solution
+													Package</md-button> </md-input-container>
+													<br />
+													<p>
+														More Info at <a href="" target="_blank">help</a>
+													</p>
+												</form>
+											</div>
+										</div>
+										<!-- Deploy to Local Ends -->
+
+										<!-- Deploy to Whitebox Starts -->
+										<div ng-show='checkboxExport=="whitebox"'>
+											<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+												<form name="deployToWhitebox">
+													<md-input-container class="md-icon-float md-block">
+													<strong> Deploy To White Box.</strong> </md-input-container>
+												</form>
+											</div>
+										</div>
+										<!-- Deploy to Whitebox Ends -->
+
 									</div>
 								</div>
 							</div>
-							<!-- View Description Section --> 
-							</md-content> 
-							</md-tab> 
-							
-							<md-tab
+							<!-- View Description Section --> </md-content> </md-tab> <md-tab
 								label="Export to Local"> <md-content class="md-padding">
 							<div class="response">
 								<h6 class="sectiontitle">Export To Local</h6>
@@ -3808,7 +3971,7 @@ limitations under the License.
 												</div>
 											</td>
 										</tr>
-										
+
 									</tbody>
 								</table>
 							</div>
@@ -3862,29 +4025,38 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="(key, comment) in commentList | orderBy:'+created':commentNewest">
-										<td data-label="Comment" >{{comment.text}}</td>
+									<tr
+										ng-repeat="(key, comment) in commentList | orderBy:'+created':commentNewest">
+										<td data-label="Comment">{{comment.text}}</td>
 										<td data-label="Commenter">{{comment.name}}</td>
-										<td data-label="Date">{{comment.created | date:'yyyy-MM-dd'}}</td>
+										<td data-label="Date">{{comment.created |
+											date:'yyyy-MM-dd'}}</td>
 										<td data-label="Action"><i><a><img
-													src="images/reply4.png" alt="Reply" title="Reply" ng-click="setReply(comment);"/></a></i> <i><a><img
-													src="images/edit.png" alt="Edit" title="Edit" ng-hide="loginUserId[1] != comment.userId" ng-click="setEdit(comment)"/></a></i> <i><a><img
-													src="images/delete.png" alt="Delete" title="Delete" ng-hide="loginUserId[1] != comment.userId || comment.replies.length>0" ng-click="deleteComment(comment)"/></a></i></td>
+													src="images/reply4.png" alt="Reply" title="Reply"
+													ng-click="setReply(comment);" /></a></i> <i><a><img
+													src="images/edit.png" alt="Edit" title="Edit"
+													ng-hide="loginUserId[1] != comment.userId"
+													ng-click="setEdit(comment)" /></a></i> <i><a><img
+													src="images/delete.png" alt="Delete" title="Delete"
+													ng-hide="loginUserId[1] != comment.userId || comment.replies.length>0"
+													ng-click="deleteComment(comment)" /></a></i></td>
 									</tr>
 								</tbody>
 							</table>
-							<div class="discussion-add-comment" ng-hide="showEditComment == false">
+							<div class="discussion-add-comment"
+								ng-hide="showEditComment == false">
 								<label class="md-lbl2">Edit Comment</label>
 								<div class="flex1">
 									<div
 										class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label md-txtarea-container">
-										<textarea class="fullwidth  md-txtarea" type="text"
-											rows="3" id="editedComment" ng-model="editedCommentText"></textarea>
+										<textarea class="fullwidth  md-txtarea" type="text" rows="3"
+											id="editedComment" ng-model="editedCommentText"></textarea>
 									</div>
 								</div>
 								<button
 									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
-									ng-click="editComment()" alt="Edit Comment" title="Edit Comment">Edit Comment</button>
+									ng-click="editComment()" alt="Edit Comment"
+									title="Edit Comment">Edit Comment</button>
 							</div>
 						</div>
 					</div>
@@ -3892,12 +4064,13 @@ limitations under the License.
 					<!-- delete start -->
 					<div class="mdl-tabs__panel" id="" ng-show="tab=='delete'"
 						ng-class="{'isActive':tab=='delete'}">
-						
-						<p ng-show="isModelActive">Are you sure that you want to delete this model and all of its revisions, public or private?</p>
+
+						<p ng-show="isModelActive">Are you sure that you want to
+							delete this model and all of its revisions, public or private?</p>
 						<button ng-click="activeFalse = false; updateSolution(); "
 							ng-show="isModelActive"
-							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Delete" title="Delete">
-							Delete Model</button>
+							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary"
+							alt="Delete" title="Delete">Delete Model</button>
 
 						<p ng-show="!isModelActive">Solution is deleted/inactive</p>
 
@@ -3909,94 +4082,100 @@ limitations under the License.
 	</section>
 </div>
 </div>
-</div>
-	<!--Download Cofirmation Modal -->
-	<div class="md-dialog-container" id="replyToComments"
-		style="height: 0;">
-		<md-dialog aria-label="Reply To Comments" class="cg-dialog-medium">
-		<form ng-cloak>
-			<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Reply To Comments</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="closeDialog()">
-				<i class="material-icons">close</i> </md-button>
-			</div>
-			</md-toolbar>
-			<md-dialog-content>
-			<div class="md-dialog-content ">
-				<div class="discussion-container discussion-container2">
-					<div>
-						<img src="images/userprofile/user-profile-black.png" alt="" ng-show = "!comment.image" title="user">
-						<img class="userimg" ng-show="comment.image" ng-src="data:image/PNG;base64,{{comment.image}}" title="{{comment.name}}" />
-					</div>
-					<div class="discussion-details">
-						<div>
-							<label class="dis-name">{{comment.firstName}} {{comment.lastName}}</label> | <span
-								class="text-small">{{comment.stringDate}}</span>
-						</div>
-						<p>{{comment.text}}</p>
-					</div>
-				</div>
-				<p>
-					<label><b>Add Comment</b></label>
-					<textarea class="fullwidth" type="text" rows="3" id="replyComment" ng-model="replyCommentText"></textarea>
-				</p>
-				<div>
-				<button class="mdl-button mdl-js-button btn-secondary pull-left" ng-click="closeDialog()">cancel</button>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary pull-right" ng-click="postReply()" alt="Post Reply" title="Post Reply">Post Comments</button>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			</md-dialog-content>
-		</form>
-		</md-dialog>
-	</div>
-	
+
 <!--Download Cofirmation Modal -->
-	<div class="md-dialog-container" id="downloadConfirm"
-		style="height: 0;">
-		<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
-		<form ng-cloak>
-			<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Downloading - {{solution.name}}</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="handleDismiss(); closeDialog()">
-				<i class="material-icons">close</i> </md-button>
-			</div>
-			</md-toolbar>
-			<md-dialog-content>
-			<div class="md-dialog-content text-center">
+<div class="md-dialog-container" id="replyToComments" style="height: 0;">
+	<md-dialog aria-label="Reply To Comments" class="cg-dialog-medium">
+	<form ng-cloak>
+		<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Reply To Comments</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="closeDialog()">
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar>
+		<md-dialog-content>
+		<div class="md-dialog-content ">
+			<div class="discussion-container discussion-container2">
 				<div>
-					<span class="checkmark1" aria-hidden="true"></span>
+					<img src="images/userprofile/user-profile-black.png" alt=""
+						ng-show="!comment.image" title="user"> <img class="userimg"
+						ng-show="comment.image"
+						ng-src="data:image/PNG;base64,{{comment.image}}"
+						title="{{comment.name}}" />
 				</div>
-				<p class="md-text1">
-					Thank you for downloading <br /> <span class="wrap_text">{{solution.name}}</span>
-					version {{versionId}}
-				</p>
-				<p class="md-text2">
-					Your download will start automatically. <br /> if it does not
-					start, <a data-target>click here</a> for troubleshooting
-					information
-				</p>
-				<br />
-				<p class="md-text3">
-					Use below key along with a modified Solution if you want to <br />upload
-					it to {{$root.siteInstanceName}} platform.
-				</p>
-				<p>
-					<span class="md-key">{{secretKey || subscriptionKey}}</span>
-				</p>
-				<br />
-
-				<button
-					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-					ng-click="handleDismiss(); closeDialog()">Close</button>
-
-
+				<div class="discussion-details">
+					<div>
+						<label class="dis-name">{{comment.firstName}}
+							{{comment.lastName}}</label> | <span class="text-small">{{comment.stringDate}}</span>
+					</div>
+					<p>{{comment.text}}</p>
+				</div>
 			</div>
-			</md-dialog-content>
-		</form>
-		</md-dialog>
-	</div>
+			<p>
+				<label><b>Add Comment</b></label>
+				<textarea class="fullwidth" type="text" rows="3" id="replyComment"
+					ng-model="replyCommentText"></textarea>
+			</p>
+			<div>
+				<button class="mdl-button mdl-js-button btn-secondary pull-left"
+					ng-click="closeDialog()">cancel</button>
+				<button
+					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary pull-right"
+					ng-click="postReply()" alt="Post Reply" title="Post Reply">Post
+					Comments</button>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		</md-dialog-content>
+	</form>
+	</md-dialog>
+</div>
+
+<!--Download Cofirmation Modal -->
+<div class="md-dialog-container" id="downloadConfirm" style="height: 0;">
+	<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-medium">
+	<form ng-cloak>
+		<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Downloading - {{solution.name}}</h2>
+			<span flex></span>
+			<md-button class="md-icon-button"
+				ng-click="handleDismiss(); closeDialog()"> <i
+				class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar>
+		<md-dialog-content>
+		<div class="md-dialog-content text-center">
+			<div>
+				<span class="checkmark1" aria-hidden="true"></span>
+			</div>
+			<p class="md-text1">
+				Thank you for downloading <br /> <span class="wrap_text">{{solution.name}}</span>
+				version {{versionId}}
+			</p>
+			<p class="md-text2">
+				Your download will start automatically. <br /> if it does not
+				start, <a data-target>click here</a> for troubleshooting information
+			</p>
+			<br />
+			<p class="md-text3">
+				Use below key along with a modified Solution if you want to <br />upload
+				it to {{$root.siteInstanceName}} platform.
+			</p>
+			<p>
+				<span class="md-key">{{secretKey || subscriptionKey}}</span>
+			</p>
+			<br />
+
+			<button
+				class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
+				ng-click="handleDismiss(); closeDialog()">Close</button>
+
+
+		</div>
+		</md-dialog-content>
+	</form>
+	</md-dialog>
+</div>
