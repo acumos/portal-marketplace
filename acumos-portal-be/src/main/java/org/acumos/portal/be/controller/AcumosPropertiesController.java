@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(APINames.PROPERTIES)
-public class AcumosOnboardingPropertiesController {
+public class AcumosPropertiesController {
 	
 	@Autowired
 	private Environment env;
