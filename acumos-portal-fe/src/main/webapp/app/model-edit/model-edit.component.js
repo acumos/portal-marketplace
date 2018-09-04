@@ -2023,11 +2023,18 @@ angular
 							promise
 									.then(
 											function(response) {
-												$scope.modelUploadError = false;
-												$scope.supportingDocs.push(response.response_body);
-												$scope.showSolutionDocs = true;
-												$scope.showFileUpload = !$scope.showFileUpload;
-												$rootScope.progressBar = 0;
+												if(response.error_code == "400"){
+													$scope.modelUploadError = true;
+													$scope.modelUploadErrorMsg = response.response_detail;
+													$rootScope.progressBar = 0;
+													$scope.showFileUpload = !$scope.showFileUpload;
+												} else {
+													$scope.modelUploadError = false;
+													$scope.supportingDocs.push(response.response_body);
+													$scope.showSolutionDocs = true;
+													$scope.showFileUpload = !$scope.showFileUpload;
+													$rootScope.progressBar = 0;
+												}
 											})
 											.catch(function(error) {
 												$scope.modelUploadError = true;
@@ -2049,11 +2056,19 @@ angular
 							promise
 									.then(
 											function(response) {
-												$scope.modelUploadErrorPublic = false;
-												$scope.supportingPublicDocs.push(response.response_body);
-												$scope.showPublicSolutionDocs = true;
-												$rootScope.progressBar = 0;
-												$scope.showFileUpload = !$scope.showFileUpload;
+												if(response.error_code == "400"){
+													$scope.modelUploadErrorPublic = true;
+													$scope.modelUploadErrorMsgPublic = response.response_detail;
+													$rootScope.progressBar = 0;
+													$scope.showFileUpload = !$scope.showFileUpload;
+												} else {
+													$scope.modelUploadErrorPublic = false;
+													$scope.supportingPublicDocs.push(response.response_body);
+													$scope.showPublicSolutionDocs = true;
+													$rootScope.progressBar = 0;
+													$scope.showFileUpload = !$scope.showFileUpload;
+												}
+
 											})
 											.catch(function(error) {
 												$scope.modelUploadErrorPublic = true;
