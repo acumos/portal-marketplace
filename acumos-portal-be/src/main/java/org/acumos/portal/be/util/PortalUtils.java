@@ -463,7 +463,8 @@ public class PortalUtils {
 			String line = null;
 			try {
 				while ((line = reader.readLine()) != null) {
-					sb.append(line + "\n");
+					
+					sb.append(SanitizeUtils.sanitize(line) + "\n");
 				}
 			} catch (IOException e) {
 				
