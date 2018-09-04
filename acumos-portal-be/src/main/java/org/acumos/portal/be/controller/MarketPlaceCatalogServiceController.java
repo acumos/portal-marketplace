@@ -1201,11 +1201,21 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId, file);
-			data.setResponseBody(document);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Document Added Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "addDocument: {} ");
+			double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString()); 
+			long fileSizeByKB =  file.getBytes().length;
+			if(fileSizeByKB <= maxFileSizeByKB){
+				MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId, file);
+				data.setResponseBody(document);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Document Added Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "addDocument: {} ");
+			}else{
+				MLPDocument document = null;
+				data.setResponseBody(document);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+				data.setResponseDetail("Document size is greater than allowed size");
+				log.debug(EELFLoggerDelegate.debugLogger, "addDocument: {} ");
+			}
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
