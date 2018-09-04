@@ -141,6 +141,11 @@ angular.module('modelResource')
 			}
 			$scope.fileSubmit = false;
 			$scope.uploadingFile = false;
+			$scope.resetProgress = function(){
+				$rootScope.progressBar = 0;
+				$scope.file = undefined;
+				$scope.filename = undefined;
+			}
 			$scope.fileUpload = function(){
 				//$scope.uploadModel = false;
 				$scope.modelUploadError = false;
@@ -158,7 +163,7 @@ angular.module('modelResource')
 							$scope.modelUploadError = false;
 							$scope.fileSubmit = true;
 							$scope.filename = $scope.tempfilename;
-							$rootScope.progressBar = 0;
+							$rootScope.progressBar = 100;
 							chkCount();
 							$scope.uploadModel = false;
 							$scope.uploadingFile = false;

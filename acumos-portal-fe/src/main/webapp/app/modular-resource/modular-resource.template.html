@@ -529,175 +529,23 @@ limitations under the License.
 						<div class="progress">
 							<div class="progress-bar" style="width:0%;"></div>
 						</div>
-						<div class="clearfix"></div>
+<div class="clearfix"></div>
+						<!-- on-boarding-web -->
 						<div class="timeline">
-							<h6>
-								Step To On-Board Your Model <span>( {{statusCount}}/3 Completed )</span>
-								<!--div class="pull-right">
-                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button>
-                          </div-->
+							<h6 class="onboard-heading" >								
+								On-board your model								
 							</h6>
-							<div class="">
-								<div class="timeline-centered">
-									<article class="timeline-entry">
-										<div class="timeline-entry-inner">
-											<!-- <div class="timeline-icon"> <span class="entypo-suitcase">1</span> </div> -->
-											<div class="timeline-icon"
-												ng-if="toolkitNameValue.length<1 || toolkitNameValue=='' 
-										|| toolkitNameValue==null">
-												<span class="entypo-suitcase">1</span>
-											</div>
-											<div class="timeline-icon bg-success"
-												ng-if="toolkitNameValue.length>=1">
-												<span class="entypo-feather fa fa-check"></span>
-											</div>
-											<div class="timeline-label">
-												<h2>
-													 <span ng-click="selToolKitT = !selToolKitT; closeOtherPopovers('selToolKitT',selToolKitT)" class="link-heading">Choose Toolkit</span> | 
-													 <span class="green" class="green"
-																ng-if="toolkitNameValue">Completed</span>
-													 <span class="red" ng-if="!toolkitNameValue">Not Started</span>
-
-												</h2>
-												<p ng-show="toolkitNameValue">
-													<strong> Toolkit Type: </strong> 
-													{{toolkitNameValue}}
-												</p>												
-												<!-- update model name -->
-												<div class="popovers cont model-description"
-													id="chooseToolKit" ng-show="selToolKitT">
-													<md-toolbar>
-													<div class="md-toolbar-tools">
-														<h2>Choose Toolkit</h2>
-														<span flex></span>
-														<md-button class="md-icon-button"
-															ng-click="selToolKitT = !selToolKitT"> <i
-															class="material-icons" alt="Close" title="Close">close</i> </md-button>
-													</div>
-													</md-toolbar>
-													<md-dialog-content> 
-	                                                    <div class="md-dialog-content">
-		                                                    <div class="mdl-grid mdl-grid--no-spacing">
-			                                                    <md-radio-group ng-click="selToolKitT = !selToolKitT;"
-			                                                        ng-model="toolkitNameValue" ng-change="changeModel();"> 
-			                                                        <md-radio-button
-			                                                        ng-repeat="val in alltoolkitType" 
-			                                                        ng-if = "val.code != 'DS' && val.code != 'CP'"
-			                                                        value="{{val.name}}"
-			                                                        ><span ng-if = "val.code != 'RC'">{{val.name}}</span>
-			                                                         <span ng-if = "val.code == 'RC'">R</span>
-			                                                        </md-radio-button>
-			                                                    </md-radio-group>
-		                                                    </div>
-		                                                 </div>
-		                                            </md-dialog-content>
-												</div>
-												<p ng-show="!toolkitNameValue">
-													Select a toolkit type.
-												</p>
-											</div>
-										</div>
-									</article>
-									<article class="timeline-entry">
-										<div class="timeline-entry-inner">
-											<div class="timeline-icon" ng-if="!install">
-												<span class="entypo-suitcase">2</span>
-											</div>
-											<div class="timeline-icon bg-success" 
-												ng-if="install">
-												<span class="entypo-feather fa fa-check"></span>
-											</div>
-											<div class="timeline-label">
-												<h2>
-													Download Client Library from Command
-														Line | <span class="red" ng-if="!install">Not Started</span><span class="green" class="green"
-																ng-if="install">Completed</span>
-												</h2>
-												<p>Use command line steps to run a simplified version.</p>
-												
-												<input type="checkbox" ng-model="install" ng-disabled = "!toolkitNameValue"> Installation of the toolkit library is completed
-												<a data-target id="expCont" ng-click="expCont()"
-													class="mrgTop dispBlck"><span class="expCollCont" style="cursor: pointer">Expand
-														to view Steps to follow</span> <i class="material-icons">&#xE5C5;</i></a>
-												<div class="timeline-label-cont timelineCont mrgTop"
-													id="expContTxt" style="display: none;">
-													<a data-target id="collCont" ng-click="expCont()"><span
-														class="expCollCont">Collapse All</span> <i
-														class="material-icons">&#xE5C7;</i></a>
-													<h3>Steps to follow for: {{toolkitNameValue}}</h3>
-													
-													<div ng-show="toolkitNameValue=='H2O'" class="mdl-tabs__panel timeline" data-ng-init="getCmsH2OWebContents()" ng-bind-html="webh2o"></div>
-													<div ng-show="toolkitNameValue=='RCloud'" class="mdl-tabs__panel timeline" data-ng-init="getCmsRWebContents()" ng-bind-html="webr"></div>
-													<div ng-show="toolkitNameValue=='Scikit-Learn'" class="mdl-tabs__panel timeline" data-ng-init="getCmsScikitLearnWebContents()" ng-bind-html="webscikitlearn"></div>
-													<div ng-show="toolkitNameValue=='TensorFlow'" class="mdl-tabs__panel timeline" data-ng-init="getCmsTensorflowWebContents()" ng-bind-html="webtensorflow"></div>
-													<div ng-show="toolkitNameValue=='Java'" class="mdl-tabs__panel timeline" data-ng-init="getCmsJavaWebContents()" ng-bind-html="webjava"></div>
-													<div ng-show="toolkitNameValue=='R'" class="mdl-tabs__panel timeline" data-ng-init="getCmsRWebContents()" ng-bind-html="webr"></div>
-													
-													<p>
-														Once your model is successfully on-boarded, it resides in
-														your private catalog. From there you can create the
-														documentation, description and tags and other information
-														that will describe your model in the <a data-target>{{$root.siteInstanceName}}
-															Marketplace</a>. When you are ready, your model can be
-														published either to your local instance or the PUBLIC
-														catalog.
-													</p>
-													<a data-target id="collCont" ng-click="expCont()">Collapse
-														All</a>
-												</div>
-											</div>
-										</div>
-									</article>
-									<article class="timeline-entry">
-										<div class="timeline-entry-inner">
-											<div ng-if="!file || !fileSubmit || modelUploadError" class="timeline-icon">
-												<span class="entypo-suitcase">3</span>
-											</div>
-											<div class="timeline-icon bg-success"
-												ng-if="file && fileSubmit && modelUploadError == false">
-												<span class="entypo-feather fa fa-check"></span>
-											</div>
-											<div class="timeline-label">
-												<h2><span ng-click="uploadModel = !uploadModel;openDrop(false); closeOtherPopovers('uploadModel',uploadModel)" class="link-heading">
-													 Upload Model Bundle  </span>| 
-											 		<span class="green" class="green"
-														ng-if="file && fileSubmit && modelUploadError == false">Completed
-												 	</span>
-											 		<span class="red" ng-if="!file || !fileSubmit || modelUploadError">
-													 	Not Started
-												 	</span>
-												</h2>										
-												
-												<!-- update model name -->
-												<div class="popovers cont add-document" id="uploadModel"
-													ng-show="uploadModel">
-													<md-toolbar>
-													<div class="md-toolbar-tools">
-														<h2>Upload Model Bundle</h2>
-														<span flex></span>
-														<md-button class="md-icon-button"
-															ng-click="closePoup(); openDrop(true)"> <i
-															class="material-icons" alt="Close" title="Close">close</i> </md-button>
-													</div>
-													</md-toolbar>
-													<md-dialog-content>
-													<div class="md-dialog-content">
-														<!-- <div class="popCont">Drag and Drop your file here</div>
-														<div class="text-center">OR</div>
-														<div class="clear"></div> -->
-														<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+							<div class="upload-model-bundle">
+								<div class="mdl-grid">
+								<!-- left section -->
+								  <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone upload-model-bundle-left">
+								  	<div class="mdl-grid mdl-grid--no-spacing deploy-grid add-document">
 																	<form class="ng-pristine ng-valid">
+																		<span><b>Upload Model Bundle</b></span>
 																		<div
 																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
-																			<!-- <input class="mdl-textfield__input"
-																				placeholder="File" type="file" id="uploadFile"
-																				upload-image-model="solutionFile" readonly=""> 
-																			<div
-																				class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
-																				<i class="material-icons">attach_file</i> <input
-																					type="file" id="uploadBtn">
-																			</div>-->
+																			
 																			<div class="drag-drop"  id = "private-dropbox" ng-hide="uploadingFile">
 																			       <div class="drag-drop-files hide">
 																			              <p>doc.pdf</p>
@@ -707,113 +555,84 @@ limitations under the License.
 																			              <div class="destext">Drag & Drop your file here!</div>
 																			       </div>
 																			</div>
-																			
-																			<div  file-upload file="file" ng-hide="uploadingFile"
+																				<div class="upload-file-container">
+																					<div class="input-div">
+																						<div  file-upload file="file" ng-hide="uploadingFile"
 																						uploadid="bundleuploadid" id="uploadFile"
 																						filename="filename" fileinput="file"
 																						ng-model="file" accept = ""
-																						upload-image-model="file" alt="Browse" title="Browse" readonly></div>
+																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
+																						</div>																						
 																						<div class="upload-image-input files-uploaded" >
 																		    				<input class="mdl-textfield__input disabledClick"
 																							placeholder="Upload File" type="text"
 																							ng-model="filename" readonly />
 																						</div>
-																						<div ng-show = "$root.progressBar > 0" > <!-- ng-show="progressVisible" -->
+																					</div>
+																					<div class="input-upload-button">
+																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-transclude="" ng-disabled="!file || uploadingFile" ng-click="fileUpload();" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																						 	<span> Upload </span>
+																						</button>
+																					</div>
+																				</div>
+																				<div class="progress-bar-div" ng-show="file.name">
+																					<div>
+																						{{file.name}}
+																					</div>
+																					<div ng-show = "$root.progressBar > 0" style="width:80%"> <!-- ng-show="progressVisible" -->
 																				            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
 																				               
 																				            </div>
-																				            <div class="">
-																				            	<span ng-show = "$root.progressBar != 100 && $root.progressBar != 0">
+																				            <div class="" style="text-align:center;">
+																				            	<span>
 																				            		{{$root.progressBar| number : 0}}%
 																			            		</span>
-																		            			<span ng-show = "$root.progressBar == 100">Completed</span>
+																		            			<!-- <span ng-show = "$root.progressBar == 100">100%</span> -->
 																				            </div>
 																				         </div>
+																				     <div>
+																					     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
+																				         <span ng-show="$root.progressBar == 100" >Done</span>   		
+																				     </div>
+																				     <div class="fileclose" ng-click="$scope.closePoup()">
+																				     	<i class="material-icons">close</i>
+																				     </div>
+																				</div>
+																				
+																				
+																						
 																		</div>
 																	</form>
-																</div>
-																
-														<div layout="row" class="popovers-cloud-modalfooter">
-															<md-button
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary"
-																ng-click="closePoup(); openDrop(true);" alt="Cancel" title="Cancel"
-																>
-															Cancel </md-button>
-															<md-button ng-disabled="!file || uploadingFile" ng-click="fileUpload();"
-																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Done" title="Done">
-															Done </md-button>
-														</div>
-													</div>
-													</md-dialog-content>
-												</div>
-												<!-- update model name end -->
-												<p ng-show="!file">Upload your model bundle.</p>
-												<p ng-show="file && !filename" ><strong>Uploading File:</strong> {{file.name}}</p>
-												<p ng-show="filename" ><strong>Uploaded File:</strong> {{file.name}}</p>	
+																</div>	
 												<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
-											</div>
-										</div>
-									</article>
-									<!--article class="timeline-entry">
-                              <div class="timeline-entry-inner">
-                                <div class="timeline-icon"> <span class="entypo-suitcase">5</span> </div>
-                                <div class="timeline-label">
-                                  <h2>Model Tags | <span class="red">Not Started</span></h2>
-                                  <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
-                                  <p>
-                                  <div class="checkbox">
-                                    <label>
-                                      <input type="checkbox">
-                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
-                                  </div>
-                                  </p>
-                                </div>
-                              </div>
-                            </article>
-                            <article class="timeline-entry">
-                              <div class="timeline-entry-inner">
-                                <div class="timeline-icon"> <span class="entypo-suitcase">6</span> </div>
-                                <div class="timeline-label">
-                                  <h2>Edit Signatures | <span class="red">Not Started</span></h2>
-                                  <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
-                                  <p>
-                                  <div class="checkbox">
-                                    <label>
-                                      <input type="checkbox">
-                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
-                                  </div>
-                                  </p>
-                                </div>
-                              </div>
-                            </article>
-                            <article class="timeline-entry">
-                              <div class="timeline-entry-inner">
-                                <div class="timeline-icon"> <span class="entypo-suitcase">7</span> </div>
-                                <div class="timeline-label last">
-                                  <h2>Upload Image for Model | <span class="red">Not Started</span></h2>
-                                  <p>Some information can be display related to this perticular task, such as how to complete this task what are data requried.</p>
-                                  <p>
-                                  <div class="checkbox">
-                                    <label>
-                                      <input type="checkbox">
-                                      Use the Description you have in Public Marketplace. <a href="#">View more</a> </label>
-                                  </div>
-                                  </p>
-                                </div>
-                              </div>
-                            </article-->
+								  </div>
+								<!-- left section end -->
+								  <div   class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone">
+								  	<div class="">
+												<h5>Instruction for preparing a model bundle</h5>
+													<a href="https://docs.acumos.org/en/latest/submodules/acumos-r-client/docs/developer-guide.html" target="_blank">Create a R model bundle</a><br/>
+													<a href="https://pypi.org/project/acumos/#exporting-models" target="_blank">Create a Python model bundle (Section exporting model)</a><br/>
+													<a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-java-guide.html" target="_blank">Create a Java or H20 model bundle</a>
+											</div>								  
+								  </div>
+								 
 								</div>
-								<div>
+								
+							
+							
+								
+								<div class="onboardbtn">
 									<!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button-->
 
 									<button ng-click="addToCatalog()"
-										 ng-disabled= "! (toolkitNameValue.length>=1 && install && file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError"
+										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
 								</div>
 								<div class="clearfix"></div>
 							</div>
 						</div>
+						<!-- on-boarding-web end-->
 						</div>
 
 						</md-content> </md-tab> </md-tabs>
