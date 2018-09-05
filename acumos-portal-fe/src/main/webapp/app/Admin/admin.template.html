@@ -302,7 +302,7 @@ limitations under the License.
 							</thead>
 							<!-- <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))"> -->
 							<tbody
-								ng-repeat="val in (filtertedUser = (userDetails | orderBy:orderByField:reverseSort | filter : search) )">
+								ng-repeat="val in (filtertedUser = (userDetails | orderBy:orderByField:reverseSort | filter : searchData) )">
 								<tr>
 						
 									<td><label
