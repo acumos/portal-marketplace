@@ -552,6 +552,24 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 #uploadFile {position:relative;}
 #uploadFile .upload-txtbox{width: 100%; height:33px;}
 
+/* upload-model-bundle */
+.upload-model-bundle .mdl-grid{padding:0;}
+.upload-model-bundle-left {border-right:1px solid #ccc; padding:0 16px 16px 0px;}
+.upload-model-bundle .timeline-label-cont{padding-left:0px;}
+.upload-model-bundle .timeline-label-cont h3{margin-top:0; padding-bottom:0px;}
+.upload-file-container{float:left; width:100%;}
+.upload-file-container .input-div{float:left; width: calc(100% - 87px); }
+.input-upload-button{float:left;}
+.input-upload-button .mdl-button{position:relative; bottom:0;  margin-left:4px; }
+.input-upload-button button.btn-secondary{margin-right:0; margin-top:5px; background: #671C9D; color: #fff; height: 34px; border-radius: 0;  border: 1px solid rgba(0,0,0,.12);}
+.input-div .upload-field{font-size:15px; font-weight:600;}
+.progress-bar-div{display: flex; flex-direction: row; flex-wrap: nowrap;position:relative; border: 1px solid rgba(0,0,0,.12); font-size:11px; margin-top: 5px; float: left;  width: 100%; }
+.progress-bar-div div{padding: 1px; margin-top:5px;}	
+.fileclose{float:right; padding: 2px 5px 0; margin: 0;   position: absolute; right: 0; cursor:pointer;}
+.fileclose i{font-size:12px;}
+.onboardbtn{padding-left:8px;}
+.timeline h6.onboard-heading{padding-bottom:5px;}
+/* upload-model-bundle */
 /* media query start */
 @media(max-width:1024px){
 body,  ul, ol{font-size:12px;}
