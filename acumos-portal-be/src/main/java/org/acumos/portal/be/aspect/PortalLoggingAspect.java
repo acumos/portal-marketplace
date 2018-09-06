@@ -58,6 +58,7 @@ public class PortalLoggingAspect  {
 				MDC.put("user", username);
 				MDC.put("contextName", "Acumos");
 				log.info(EELFLoggerDelegate.securityLogger, "User Logging in");
+				log.info(EELFLoggerDelegate.auditLogger, "User Logging in");
 				MDC.remove("user");
 				MDC.remove("contextName");				
 			}
@@ -80,6 +81,7 @@ public class PortalLoggingAspect  {
 			log.info(EELFLoggerDelegate.securityLogger, ((org.acumos.portal.be.transport.ResponseVO)result).getMessage());
 		} else if(result instanceof org.acumos.portal.be.transport.AbstractResponseObject){
 			log.info(EELFLoggerDelegate.securityLogger, "User Logged Successfully");
+			log.info(EELFLoggerDelegate.auditLogger, "User Logged Successfully");
 		}		
 		
 		MDC.remove("user");

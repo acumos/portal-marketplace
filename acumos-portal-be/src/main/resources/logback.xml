@@ -27,7 +27,7 @@
  <property name="ServiceName" value="%M"/>
   
   <!--  log file names -->
-  <property name="generalLogName" value="application" />
+  <property name="generalLogName" value="audit" />
   <property name="errorLogName" value="error" />
   <property name="debugLogName" value="debug" />
    
@@ -38,7 +38,7 @@
   
   
   <property name="newmultiLinePattern"
-		value="%X{EntryTimestamp}|%X{InvokeTimestamp}|%X{RequestID}|%X{InvocationID}|%X{InstanceUUID}|%X{ServiceInstanceID}|${p_thr}|${ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%.-5level|%X{Severity}|%X{ServerIPAddress}|%X{Timer}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{VirtualServerName}|%X{ContextName}|%X{TargetEntity}|%X{ClassName}|%X{TargetElement}|%X{User}|%msg%n" />
+		value="%date{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;,UTC}|%X{EntryTimestamp}|%X{InvokeTimestamp}|%X{RequestID}|%X{InvocationID}|%X{InstanceUUID}|%X{ServiceInstanceID}|${p_thr}|${ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%.-5level|%X{Severity}|%X{ServerIPAddress}|%X{Timer}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{VirtualServerName}|%X{ContextName}|%X{TargetEntity}|%X{ClassName}|%X{TargetElement}|%X{User}|${p_log}|${p_mdc}|%msg|${p_mrk}%n" />
    
    
   <!-- Example evaluator filter applied against console appender -->
@@ -84,6 +84,7 @@
   <appender name="asyncEELF" class="ch.qos.logback.classic.AsyncAppender">
     <queueSize>256</queueSize>
     <appender-ref ref="EELF" />
+    <includeCallerData>true</includeCallerData>
   </appender>
    
   <appender name="EELFError"
@@ -108,6 +109,7 @@
   <appender name="asyncEELFError" class="ch.qos.logback.classic.AsyncAppender">
     <queueSize>256</queueSize>
     <appender-ref ref="EELFError"/>
+    <includeCallerData>true</includeCallerData>
   </appender>
   
    <appender name="EELFDebug"

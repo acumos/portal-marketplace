@@ -81,6 +81,7 @@ public class WebBasedOnboardingController  extends AbstractController {
 	public JsonResponse<RestPageResponseBE<MLSolution>> addToCatalog(@RequestHeader("Authorization") String authorization, @RequestHeader(value="provider", required=false) String provider ,@RequestBody JsonRequest<UploadSolution> restPageReq, @PathVariable("userId") String userId ) {
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "addToCatalog");
+		log.info(EELFLoggerDelegate.auditLogger, "addToCatalog");
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();	    
 		String uuid = UUID.randomUUID().toString();
 		

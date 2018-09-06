@@ -80,6 +80,7 @@ public class PublishSolutionServiceController extends AbstractController {
     public JsonResponse<Object> publishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
 			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId, HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "publishSolution={}", solutionId, visibility);
+		log.info(EELFLoggerDelegate.auditLogger, "publishSolution={}", solutionId, visibility);
 		JsonResponse<Object> data = new JsonResponse<>();
 		UUID trackingId = UUID.randomUUID();
 		try {

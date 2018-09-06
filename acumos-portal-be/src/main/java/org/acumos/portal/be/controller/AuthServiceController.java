@@ -182,6 +182,7 @@ public class AuthServiceController extends AbstractController {
 	public JsonResponse<Object> logout(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "logout={}", user.getBody());
+		log.info(EELFLoggerDelegate.auditLogger, "logout={}", user.getBody());
 		JsonResponse<Object> responseObject = null;
 		// TODO Need to add code to invalidate JWT Token
 
@@ -194,6 +195,7 @@ public class AuthServiceController extends AbstractController {
 	public AbstractResponseObject jwtLogin(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response , @RequestHeader(value="provider", required=false) String provider) {
 		log.debug(EELFLoggerDelegate.debugLogger, "login={}", user);
+		log.info(EELFLoggerDelegate.auditLogger, "login={}", user);
 		AbstractResponseObject responseObject = new AbstractResponseObject();
 		User userObj = null;
 		String jwtToken = null;
