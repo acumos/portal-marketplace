@@ -20,6 +20,22 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.44, 7 th September 2018
+====================================
+* IST2: Image Upload on Account Setting Issue (`ACUMOS-1507 <https://jira.acumos.org/browse/ACUMOS-1507>`_)
+* IST2: User Management: Search Filter is not working properly (`ACUMOS-1530 <https://jira.acumos.org/browse/ACUMOS-1530>`_)
+* <IST> <Marketplace> <DCAE>  On Build For ONAP, on clicking Add to Catalog all steps are not getting completed (`ACUMOS-564 <https://jira.acumos.org/browse/ACUMOS-564>`_)
+* <IST> <Marketplace> Error not displayed when tried to login with non-existing user (`ACUMOS-1616 <https://jira.acumos.org/browse/ACUMOS-1616>`_)
+* Portal comments display - no name, no date/time, unauthorized edit (`ACUMOS-960 <https://jira.acumos.org/browse/ACUMOS-960>`_)
+* Web onboarding should not require entry of toolkit type, make consistent with command-line (`ACUMOS-1201 <https://jira.acumos.org/browse/ACUMOS-1201>`_)
+* Cannot upload large zip file as model document when publishing to marketplace (`ACUMOS-1285 <https://jira.acumos.org/browse/ACUMOS-1285>`_)
+* Portal manage-my-models page can't add 2nd author or publisher (`ACUMOS-1495 <https://jira.acumos.org/browse/ACUMOS-1495>`_)
+* Authors Names are not displayed in model details page. (`ACUMOS-1669 <https://jira.acumos.org/browse/ACUMOS-1669>`_)
+* Grey out script and file path in databroker popup UI (`ACUMOS-1641 <https://jira.acumos.org/browse/ACUMOS-1641>`_)
+* Changing the node name should change the name in collator mapping table or splitter mapping table (`ACUMOS-1647 <https://jira.acumos.org/browse/ACUMOS-1647>`_)
+* RBAC: Role and Privilege based Operations (`ACUMOS-1089 <https://jira.acumos.org/browse/ACUMOS-1089>`_)
+* Portal support review/approve workflow when users request publish to public (`ACUMOS-1468 <https://jira.acumos.org/browse/ACUMOS-1468>`_)
+
 Version 1.15.43, 24 th August 2018
 ==================================
 * IST2: Manage My Model : Tag added message is displaying twice (ACUMOS-1504)
