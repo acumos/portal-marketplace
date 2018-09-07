@@ -20,6 +20,22 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.44, 7 th September 2018
+=====================================
+* IST2: Image Upload on Account Setting Issue (ACUMOS-1507)
+* IST2: User Management: Search Filter is not working properly (ACUMOS-1530)
+* <IST> <Marketplace> <DCAE>  On Build For ONAP, on clicking Add to Catalog all steps are not getting completed (ACUMOS-564)
+* <IST> <Marketplace> Error not displayed when tried to login with non-existing user (ACUMOS-1616)
+* Portal comments display - no name, no date/time, unauthorized edit (ACUMOS-960)
+* Web onboarding should not require entry of toolkit type, make consistent with command-line (ACUMOS-1201)
+* Cannot upload large zip file as model document when publishing to marketplace (ACUMOS-1285)
+* Portal manage-my-models page can't add 2nd author or publisher (ACUMOS-1495)
+* Authors Names are not displayed in model details page. (ACUMOS-1669)
+* Grey out script and file path in databroker popup UI (ACUMOS-1641)
+* Changing the node name should change the name in collator mapping table or splitter mapping table (ACUMOS-1647)
+* RBAC: Role and Privilege based Operations (ACUMOS-1089)
+* Portal support review/approve workflow when users request publish to public (ACUMOS-1468)
+
 Version 1.15.43, 24 th August 2018
 ==================================
 * IST2: Manage My Model : Tag added message is displaying twice (ACUMOS-1504)
