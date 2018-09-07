@@ -1356,7 +1356,7 @@ border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 
-.company-market ul {display:flex; align-items: inherit;}
+.company-market ul {display:flex; align-items: inherit; justify-content: space-between;}
 .hasClass .progress-status.green:after, .hasClass .progress-status:after{width:32px; height: 12px;}
 .hasClass.initialVal .progress-status.green:after, .hasClass.initialVal .progress-status:after{width:45px; height: 12px;}
 .fullwidth.md-input-focused .md-select-placeholder span:first-child{visibility:hidden}

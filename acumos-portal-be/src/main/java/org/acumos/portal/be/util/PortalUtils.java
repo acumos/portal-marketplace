@@ -34,6 +34,7 @@ import org.acumos.cds.ValidationTypeCode;
 import org.acumos.cds.domain.MLPAccessType;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
@@ -54,6 +55,7 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.transport.MLPublishRequest;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.MLSolution;
@@ -219,6 +221,7 @@ public class PortalUtils {
 		mlRole.setName(mlpRole.getName());
 		mlRole.setCreated(mlpRole.getCreated());
 		mlRole.setModified(mlpRole.getModified());
+		mlRole.setActive(mlpRole.isActive());
 		return mlRole;
 	}
 	
@@ -228,6 +231,7 @@ public class PortalUtils {
 		mlpRole.setName(mlRole.getName());
 		mlpRole.setCreated(mlRole.getCreated());
 		mlpRole.setModified(mlRole.getModified());
+		mlpRole.setActive(mlRole.isActive());
 		return mlpRole;
 	}
 
@@ -600,5 +604,25 @@ public class PortalUtils {
 			authorList.add(portalAuthor);
 		}
 		return authorList;
+	}
+
+	public static MLPublishRequest convertToMLPublishRequest(MLPPublishRequest publishRequest) {
+		MLPublishRequest mlPublishRequest = new MLPublishRequest();
+		mlPublishRequest.setPublishRequestId(publishRequest.getRequestId());
+		mlPublishRequest.setCreationDate(publishRequest.getCreated());
+		mlPublishRequest.setLastModifiedDate(publishRequest.getModified());
+		mlPublishRequest.setRequestUserId(publishRequest.getRequestUserId());
+		mlPublishRequest.setSolutionId(publishRequest.getSolutionId());
+		mlPublishRequest.setRevisionId(publishRequest.getRevisionId());
+		if(!PortalUtils.isEmptyOrNullString(publishRequest.getStatusCode())) {
+			mlPublishRequest.setRequestStatusCode(publishRequest.getStatusCode());
+		}
+		if(!PortalUtils.isEmptyOrNullString(publishRequest.getReviewUserId())) {
+			mlPublishRequest.setApproverId(publishRequest.getReviewUserId());
+		}
+		if(!PortalUtils.isEmptyOrNullString(publishRequest.getComment())) {
+			mlPublishRequest.setComment(publishRequest.getComment());
+		}
+		return mlPublishRequest;
 	}
 }

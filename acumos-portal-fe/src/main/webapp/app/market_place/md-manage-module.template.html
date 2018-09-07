@@ -327,6 +327,9 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
+								<div class="grid-item-error-container" ng-show="privateSolution.pendingApproval" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)">
+									<div class="grid-error-msg"> Pending For Approval </div>
+								</div>
 								<div class="grid-item-error-container" ng-show="privateSolution.onboardingStatusFailed" >
 									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
 								</div>
@@ -342,6 +345,9 @@ limitations under the License.
 								ng-repeat="privateSolution in mlSolutionPrivate">
 								<div class="grid-item-error-container" ng-show="privateSolution.onboardingStatusFailed">
 									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+								</div>
+								<div class="grid-item-error-container" ng-show="privateSolution.pendingApproval" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)">
+									<div class="grid-error-msg"> Pending For Approval </div>
 								</div>
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">
@@ -502,6 +508,9 @@ limitations under the License.
 								<div class="grid-item-error-container" ng-show="companySolution.onboardingStatusFailed">
 									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
 								</div>
+								<div class="grid-item-error-container" ng-show="companySolution.pendingApproval" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)">
+									<div class="grid-error-msg"> Pending For Approval </div>
+								</div>
 							</div>
 						</div>
 						<div class="mp-grid-list" ng-show="!Viewtile">
@@ -512,6 +521,9 @@ limitations under the License.
 								ng-repeat="companySolution in mlSolutionCompany">
 								<div class="grid-item-error-container" ng-show="companySolution.onboardingStatusFailed">
 									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+								</div>
+								<div class="grid-item-error-container" ng-show="companySolution.pendingApproval" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)">
+									<div class="grid-error-msg"> Pending For Approval </div>
 								</div>
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">

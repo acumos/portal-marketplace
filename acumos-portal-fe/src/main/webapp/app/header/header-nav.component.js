@@ -41,6 +41,8 @@ angular.module('headerNav')
 		$scope.page = 0;
 		$scope.moreNotif = false;
 		$rootScope.setLoader = false;
+		$rootScope.userRoleAdmin = false;
+		$rootScope.userRolePublisher = false;
 		
 		$rootScope.parentActive = '';
 		$rootScope.toggleHeader = true; 
@@ -52,6 +54,13 @@ angular.module('headerNav')
 			}
 			$rootScope.$broadcast('toggleHeader');
 		};
+		
+		if(browserStorageService.isAdmin() === 'true') $rootScope.userRoleAdmin = true;
+		if(browserStorageService.isPublisher() === 'true') $rootScope.userRolePublisher = true;
+		$scope.$on('roleCheck', function() {
+			if(browserStorageService.isAdmin() === 'true') $rootScope.userRoleAdmin = true;
+			if(browserStorageService.isPublisher() === 'true') $rootScope.userRolePublisher = true;
+		});
 		
 		$scope.cas = {
 				login : 'false'

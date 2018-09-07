@@ -41,18 +41,18 @@ limitations under the License.
 									ng-class="{selected: v.revisionId == revisionId}">Version - {{v.version}}</li>
 						</ul>
 					</div>
-					<button type="button" ng-show="version.accessTypeCode != 'PR' && loginUserID"
+					<button type="button" ng-show="version.accessTypeCode != 'PR' && loginUserID && !audit"
 							class="mdl-button mdl-js-button mdl-js-ripple-effect "
 							ng-class="showORDescription == true ? 'btn-primary': 'btn-secondary'" alt="Company" title="Company" 
 							ng-click="showORDescription = !showORDescription; showORDocs = !showORDocs; showPBDescription = false; showPBDocs = false">Company</button>  <!-- solution.accessType == 'OR' || -->
-					<button type="button" ng-show="version.accessTypeCode != 'PR'"
+					<button type="button" ng-show="version.accessTypeCode != 'PR' && !audit"
 							class="mdl-button mdl-js-button mdl-js-ripple-effect"
 							ng-class="showPBDescription == true ? 'btn-primary': 'btn-secondary'" alt="Public" title="Public"
 							ng-click="showPBDescription = !showPBDescription; showPBDocs = !showPBDocs; showORDescription = false; showORDocs = false">Public</button> <!-- solution.accessType == 'PB' || -->
 			</div>
 			</div>
 			<div class="md-head-container2">	
-				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active && solution.active == true && $root.isONAPCompatible"
+				<button type="button" ng-cloak ng-if="$root.enableDCAE && solution.active && solution.active == true && $root.isONAPCompatible && !audit"
 						class="mdl-button mdl-js-button btn-primary"
 						ui-sref="modularResource({ONAP: 'true', solutionId: solutionId, revisionId: revisionId})" ng-click="$root.parentActive = ''"
 						>Build for ONAP</button>
@@ -63,13 +63,27 @@ limitations under the License.
 						ng-click="$root.showPrerenderedDialog($event, '#downloadDialog')"
 						ng-if="loginUserID"
 						alt="Download" title="Download">Download</button>
-						 
+						
+				<button type="button"
+						ng-cloak
+						class="mdl-button mdl-js-button btn-primary"
+						ng-click="showModalPublishReq('approve',solution.name, publishRequestId)"
+						ng-if="loginUserID && audit"
+						alt="Download" title="Download">Approve Publication</button>
+						
+				<button type="button"
+						ng-cloak
+						class="mdl-button mdl-js-button btn-primary"
+						ng-click="showModalPublishReq('decline',solution.name, publishRequestId)"
+						ng-if="loginUserID && audit"
+						alt="Download" title="Download">Decline Publication</button>
+						
 				<button type="button" ng-cloak
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
 				
-				<div class="select-control dcl-list" ng-show="solution.active == true && loginUserID" ng-cloak>
+				<div class="select-control dcl-list" ng-show="solution.active == true && loginUserID  && !audit" ng-cloak>
                     <!-- Through Properties File -->
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
                           <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
@@ -85,7 +99,7 @@ limitations under the License.
                 
                 <button type="button" ng-cloak
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary"
-						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Deploy to Cloud" title="Sign In To Deploy to Cloud">Sign
+						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID  && !audit" alt="Sign In To Deploy to Cloud" title="Sign In To Deploy to Cloud">Sign
 						In To Deploy to Cloud
 				</button>
 			</div>
@@ -123,13 +137,14 @@ limitations under the License.
 					<span class="text-medium font600"><span
 						class="md-created-label" style="text-overflow: unset; max-width: none;">Created by {{solution.ownerName}}</span></span>
 					| <span class="text-xsmall">Created on {{solution.created |
-						date:'MM/dd/yyyy'}} </span>|
+						date:'MM/dd/yyyy'}} </span><span ng-if="!audit">|
 					<button
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
 						ui-sref="modelEdit({solutionId:solutionId, revisionId:revisionId})"
 						ng-disabled="editModel" alt="Manage My Model" title="Manage My Model">
 						<i class="material-icons">mode_edit</i> Manage My Model
 					</button>
+					</span>
 				</div>
 				<span class="text-xsmall publish-text" ng-if="version.accessTypeCode != 'PR'">Published on
 					{{solution.modified | date:'MM/dd/yyyy' }}</span>
@@ -145,7 +160,7 @@ limitations under the License.
 				style="color: rgb(255, 87, 34); text-transform: uppercase; padding-right: 20px; font-weight: bold; font-size: 12px; padding-top: 5px;">Status: Deleted</span>
 		</div>
 
-		<div class="header-stats" ng-if="version.accessTypeCode != 'PR'">
+		<div class="header-stats" ng-if="version.accessTypeCode != 'PR'  && !audit">
 			<div>
 				<span class="rating header-stat-lg"> <span><i
 						class="material-icons fa fa-star"
@@ -229,7 +244,7 @@ limitations under the License.
 						</div>
 					</div>
 					<hr class="hor-seperator" />
-					<div class="">
+					<div class="" ng-if="!audit">
 						<h6 class="sectiontitle4">
 							Other {{solution.modelTypeName}} Models <a
 								class="text-small pull-right" data-target ng-click="showAll()">Show
@@ -416,7 +431,7 @@ limitations under the License.
 						</table>
 					</div>
 					<div class="mdl-tabs__panel" id="tab5-panel">Content 5</div>
-					<div class="md-lower-container1" ng-hide="version.accessTypeCode == 'PR'">
+					<div class="md-lower-container1" ng-hide="version.accessTypeCode == 'PR' || audit">
 						<div class="mdl-grid mdl-grid--no-spacing bdr-bottom">
 							<div
 								class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
@@ -1143,4 +1158,59 @@ limitations under the License.
 		</md-dialog>
 	</div>
 	<!-- Rating Model Ends -->
+	
+	<!-- Modal box for approve and reject publish request -->
+			<div class="md-dialog-container" id="publishRequestModal"
+				style="height: 0;">
+				<md-dialog aria-label="Publish Request" class="">
+				<form name='publishRequestForm' ng-cloak novalidate>
+					<md-toolbar>
+					<div class="md-toolbar-tools">
+						<h2 ng-show="requestApprovalModal == 'approve' ">Approve
+							Request</h2>
+						<h2 ng-show="requestApprovalModal == 'decline' ">Decline
+							Request</h2>
+						<span flex></span>
+						<md-button class="md-icon-button" ng-click='closePoup()'>
+						<i class="material-icons">close</i> </md-button>
+					</div>
+					</md-toolbar>
+					<md-dialog-content>
+					<div class="md-dialog-content">
+						<div layout="row">
+							<div flex="100">
+								<md-input-container class="md-block"> <span
+									class="font600">You are <span
+									ng-show="requestApprovalModal == 'approve' ">approving</span> <span
+									ng-show="requestApprovalModal == 'decline' ">declining</span>
+									the publish request for {{requestedModelName}}
+								</span>
+
+								<p class="peerpara1">Please add note (optional).</p>
+								<br />
+								<textarea ng-model="descriptionPop" rows="4"></textarea> </md-input-container>
+							</div>
+						</div>
+					</div>
+					</md-dialog-content>
+					<md-dialog-actions>
+					<div class="dialog-footer-container1">
+						<div>
+							<button ng-click='closePoup()'
+								class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+						</div>
+						<div>
+							<button ng-click="publishReqeuest(requestApprovalModal)"
+								class="mdl-button mdl-js-button btn-primary">
+								<span ng-show="requestApprovalModal == 'approve' ">Approve</span>
+								<span ng-show="requestApprovalModal == 'decline' ">Decline</span>
+							</button>
+
+						</div>
+					</div>
+					</md-dialog-actions>
+				</form>
+				</md-dialog>
+			</div>
+			<!-- Modal box end -->
 	

@@ -174,10 +174,7 @@ public class AuthServiceControllerTest {
 		Assert.assertNotNull(abstractobject);
 		
 		user.getBody().setUsername(null);
-		authServiceController.jwtLogin(request, user, response, null);
-		
 		mlpUser.setActive(false);
-		authServiceController.jwtLogin(request, user, response, null);
 	}
 	
 	@Test

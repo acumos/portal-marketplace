@@ -95,4 +95,8 @@ public interface UserService {
 
 	void refreshApiToken(String username) throws AcumosServiceException;
 
+	boolean isPublisherRole(String userId);
+	
+	boolean isAdminRole(String userId);
+
 }

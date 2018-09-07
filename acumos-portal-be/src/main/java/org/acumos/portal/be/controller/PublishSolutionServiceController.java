@@ -93,32 +93,13 @@ public class PublishSolutionServiceController extends AbstractController {
 				return data;
 			}
 			
-			boolean published = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
+			String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
 			// code to create notification
             MLPNotification notificationObj = new MLPNotification();
             notificationObj.setMsgSeverityCode(MessageSeverityCode.ME.toString());
-            String notificationmsg = null;
-			MLSolution solutionDetail = catalogService.getSolution(solutionId);
-			if (published || ValidationStatusCode.PS.toString().equalsIgnoreCase(solutionDetail.getValidationStatusCode())) {			
-				
-				if (visibility.equals("PB")){
-					notificationmsg = solutionDetail.getName() + " published to public marketplace";
-				}else if (visibility.equals("OR")){
-					notificationmsg = solutionDetail.getName() + " published to company marketplace";
-				}else{
-					notificationmsg = solutionDetail.getName() + " published to marketplace";
-				}
-			}else{
-				if (visibility.equals("PB")){
-					notificationmsg = "Failed to publish " +solutionDetail.getName() + " to public marketplace";
-				}else if (visibility.equals("OR")){
-					notificationmsg = "Failed to publish " +solutionDetail.getName() + " to company marketplace";
-				}else{
-					notificationmsg = "Failed to publish " +solutionDetail.getName() + " to marketplace";
-				}
-			}
-			notificationObj.setMessage(notificationmsg);
-			notificationObj.setTitle(notificationmsg);
+
+			notificationObj.setMessage(publishStatus);
+			notificationObj.setTitle(publishStatus);
 			notificationService.generateNotification(notificationObj, userId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail(trackingId.toString());

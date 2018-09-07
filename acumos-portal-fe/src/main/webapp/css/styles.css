@@ -196,6 +196,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link .icon-site-admin {width: 26px; height: 24px; background: url("../images/sidebar-icons/site_admin.png") no-repeat center center;}
 .mdl-navigation__link .icon-qa {width: 28px; height: 26px; background: url("../images/sidebar-icons/qa.png") no-repeat center center;}
 .mdl-navigation__link .icon-documentation {width: 27px; height: 24px; background: url("../images/sidebar-icons/Documentation.png") no-repeat center center;}
+.mdl-navigation__link .icon-publish-request {width: 25px; height: 29px; background: url("../images/sidebar-icons/publish_request.png") no-repeat center center;}
 
 .mdl-navigation__link.active .icon-home {background: url("../images/sidebar-icons/home_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-marketplace {background: url("../images/sidebar-icons/marketplace_selected.png") no-repeat center center;}
@@ -205,6 +206,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .mdl-navigation__link.active .icon-site-admin {background: url("../images/sidebar-icons/site_admin_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-qa {background: url("../images/sidebar-icons/qa_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-documentation {background: url("../images/sidebar-icons/Documentation_active.png") no-repeat center center;}
+.mdl-navigation__link.active .icon-publish-request {background: url("../images/sidebar-icons/publish_request_selected.png") no-repeat center center;}
 
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {padding: 0; height: 54px;}
 .cg-sidebar {padding-top:0 !important;}
@@ -1976,6 +1978,21 @@ table tbody tr td .a-tooltipval {top:5px}
 .a-info-message {padding: 20px; background: #f2f2f2; margin: 50px 20px;}
 .a-info-message p:last-child {margin:0;}
 /********* info message style end*********/
+/*********** MEDIA QUERIES SECTION END  ************/
+
+/****** publish request starts*******/
+.text-small{font-size:12px;}
+.text-orange{color:#f86234;}
+label.model-name{color:#0366d6;}
+.request-tbl label{margin-bottom:0;}
+.request-tbl .disabled{border-color: #d3d1d1; opacity:0.5; pointer-events: none;}
+.publish-request{padding:20px 20px 15px}
+.publishheading{border-bottom: 1px solid #E5E5E5; padding:0 0 10px 0;}
+/*for Manage My Model page*/
+.request-approval{background-image: url(../images/dashboard/request_approval.png); background-repeat: no-repeat; background-position: center;}
+.completed .request-approval{background-image: url(../images/dashboard/request_approval_selected.png); background-repeat: no-repeat; background-position: center;}
+.btn-request{padding: 0 4px;}
+/****** publish request ends *******/
 
 /*********** MEDIA QUERIES SECTION START************/
 
@@ -2451,5 +2468,4 @@ table tbody tr td .a-tooltipval {top:5px}
     .header-right1 md-menu > button:first-child span {margin-right: 2px !important;}
     .mp-grid-list figure {display:flex;}
 }
-/*********** MEDIA QUERIES SECTION END  ************/
 
