@@ -20,37 +20,24 @@
 
 package org.acumos.portal.be.service.impl;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PublishSolutionService;
-import org.acumos.portal.be.transport.MLArtifactValidation;
-import org.acumos.portal.be.transport.MLModelValidation;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
-import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
@@ -73,20 +60,12 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	}
 	
 	@Override
-	public boolean publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId) {
+	public String publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "publishModelBySolution ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		PortalRestClienttImpl portalRestClienttImpl = null;
-		/*MLPSolution mlpSolution = new MLPSolution();
-		mlpSolution.setAccessTypeCode(accessType);
-		mlpSolution.setSolutionId(solutionId);
-		mlpSolution.setValidationStatusCode(ValidationStatusCode.PS.name());
-		mlpSolution.setOwnerId(userId);*/
-		
 		MLPSolution mlpSolution2 = null;
 		
-		//TODO version needs to be noted as we need to only publish specific version
-		boolean isPublished = false; 
+		String publishStatus = ""; 
 		try{
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
 			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
@@ -94,60 +73,43 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.validateModel")) && env.getProperty("portal.feature.validateModel").equalsIgnoreCase("true")) {
 					MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 					if(mlpSolutionRevision != null) {
-						List<MLPArtifact> artifacts = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, mlpSolutionRevision.getRevisionId());
-						List<MLArtifactValidation> artifactValidations = null;
-						if(!PortalUtils.isEmptyList(artifacts)) {
-							MLModelValidation mlModelValidation = new MLModelValidation();
-							mlModelValidation.setSolutionId(solutionId);
-							mlModelValidation.setRevisionId(mlpSolutionRevision.getRevisionId());
-							mlModelValidation.setUserId(userId);
-							mlModelValidation.setVisibility(accessType);
-							mlModelValidation.setTrackingId(trackingId.toString());
-							artifactValidations = new ArrayList<>();
-							for(MLPArtifact mlpArtifact : artifacts) {
-								MLArtifactValidation artifactValidation = new MLArtifactValidation();
-								artifactValidation.setArtifactId(mlpArtifact.getArtifactId());
-								artifactValidation.setArtifactName(mlpArtifact.getName());
-								artifactValidation.setArtifactType(mlpArtifact.getArtifactTypeCode());
-								artifactValidation.setUrl(env.getProperty("nexus.url") + mlpArtifact.getUri());
-								artifactValidations.add(artifactValidation);
-								
-							}
-							mlModelValidation.setArtifactValidations(artifactValidations);
+						//Check if validation is required
+						//If the request is for public then only go for admin approval. Else publish the revision.
+						if(!PortalUtils.isEmptyOrNullString(accessType) && accessType.equalsIgnoreCase(CommonConstants.PUBLIC)) {
+							MLPPublishRequest publishRequest = new MLPPublishRequest();
+							publishRequest.setSolutionId(solutionId);
+							publishRequest.setRevisionId(revisionId);
+							publishRequest.setRequestUserId(userId);
+							//Get Status Code from CDS and then populate 
+							publishRequest.setStatusCode(CommonConstants.PUBLISH_REQUEST_PENDING);
 							
-							log.info(EELFLoggerDelegate.debugLogger, "Model to be submitted for validation: "+ JsonUtils.serializer().toPrettyString(mlModelValidation));
-							UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(env.getProperty("portal.submitValidation.api"));
-							portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("portal.submitValidation.api"), null, null);
-							URI validationUriLocation = portalRestClienttImpl.geRestTemplate().postForLocation(builder.build().encode().toUri(), mlModelValidation);
+							//Create separate service for creating request and use single service all over the code
+							publishRequest = dataServiceRestClient.createPublishRequest(publishRequest);
 							
-							if(validationUriLocation != null) {
-								log.info(EELFLoggerDelegate.debugLogger, "Validation API Location URI: " + validationUriLocation.getPath());
-							} else {
-								String validationResponse = portalRestClienttImpl.geRestTemplate().postForObject(builder.build().encode().toUri(), mlModelValidation, String.class);
-								if(!PortalUtils.isEmptyOrNullString(validationResponse)) {
-									log.info(EELFLoggerDelegate.debugLogger, "Validation API Response: ", validationResponse);
-								}
-							}
+							log.info(EELFLoggerDelegate.debugLogger, "publish request has been created for solution {} with request Id as {}  ", solutionId, publishRequest.getRequestId());
+							// Change the return type to send the message that request has been created 
+							publishStatus = "Solution Pending for Admin Approval";
 						} else {
-							updateSolution(mlpSolution2, revisionId, accessType);
-							isPublished = true;
+							updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
+							publishStatus = "Solution Published Successfully";
 						}
 					}
 				} else {
-					updateSolution(mlpSolution2, revisionId, accessType);
-					isPublished = true;
+					updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
+					publishStatus = "Solution Published Successfully";
 				}
 			}
 		} catch (Exception e) {
-			isPublished = false;
+			publishStatus = "Failed to publish the solution";
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Publishing Solution ={}", e);
 		}
-		return isPublished;
+		return publishStatus;
 	}
 
-	private void updateSolution(MLPSolution mlpSolution, String revisionId, String accessType) {
+	@Override
+	public void updateSolution(String solutionId, String revisionId, String accessType) {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(mlpSolution.getSolutionId(), revisionId);
+		MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 		
 		mlpSolutionRevision.setPublisher(getSiteInstanceName());
 		mlpSolutionRevision.setAccessTypeCode(accessType);

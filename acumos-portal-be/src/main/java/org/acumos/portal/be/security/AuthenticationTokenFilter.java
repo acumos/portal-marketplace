@@ -173,7 +173,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 		  List<String> authorityList = new ArrayList<>();
 		  List<MLPRole> roles = userService.getUserRole(user.getUserId());
 		  for(MLPRole role : roles) {
-			  authorityList.add(role.getName());
+			  authorityList.add(role.getName().toUpperCase());
 		  }
 		  //this condition should never come
 		  if(authorityList.isEmpty()) {

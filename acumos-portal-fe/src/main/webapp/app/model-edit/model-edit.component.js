@@ -359,6 +359,21 @@ angular
 							$scope.getProtoFile();
 						}
 						
+						$scope.getPublishRequestDetail = function(){
+							var searchPublishRequestUrl = "api/publish/request/search/revision/" + $scope.revisionId ;
+							$http(
+									{
+										method : 'GET',
+										url : searchPublishRequestUrl
+									})
+									.then(
+											function successCallback(response) {
+												$scope.publishRequest = response.data.response_body;
+											},function errorCallback(response) {
+												//Do nothing
+										});
+						}
+						
 						$scope.loadData = function() {
 							$scope.apiUrl;
 							angular.element('.md-version-ddl1').hide();
@@ -456,6 +471,7 @@ angular
 													$scope.getPublicSolutionDocuments();
 													$scope.getCompanySolutionDocuments();
 													$scope.getAuthorList();
+													$scope.getPublishRequestDetail();
 												} else {
 													// alert("Error Fetching
 													// Data");
@@ -2059,18 +2075,11 @@ angular
 							promise
 									.then(
 											function(response) {
-												if(response.error_code == "400"){
-													$scope.modelUploadError = true;
-													$scope.modelUploadErrorMsg = response.response_detail;
-													$rootScope.progressBar = 0;
-													$scope.showFileUpload = !$scope.showFileUpload;
-												} else {
-													$scope.modelUploadError = false;
-													$scope.supportingDocs.push(response.response_body);
-													$scope.showSolutionDocs = true;
-													$scope.showFileUpload = !$scope.showFileUpload;
-													$rootScope.progressBar = 0;
-												}
+												$scope.modelUploadError = false;
+												$scope.supportingDocs.push(response.response_body);
+												$scope.showSolutionDocs = true;
+												$scope.showFileUpload = !$scope.showFileUpload;
+												$rootScope.progressBar = 0;
 											})
 											.catch(function(error) {
 												$scope.modelUploadError = true;
@@ -2092,19 +2101,11 @@ angular
 							promise
 									.then(
 											function(response) {
-												if(response.error_code == "400"){
-													$scope.modelUploadErrorPublic = true;
-													$scope.modelUploadErrorMsgPublic = response.response_detail;
-													$rootScope.progressBar = 0;
-													$scope.showFileUpload = !$scope.showFileUpload;
-												} else {
-													$scope.modelUploadErrorPublic = false;
-													$scope.supportingPublicDocs.push(response.response_body);
-													$scope.showPublicSolutionDocs = true;
-													$rootScope.progressBar = 0;
-													$scope.showFileUpload = !$scope.showFileUpload;
-												}
-
+												$scope.modelUploadErrorPublic = false;
+												$scope.supportingPublicDocs.push(response.response_body);
+												$scope.showPublicSolutionDocs = true;
+												$rootScope.progressBar = 0;
+												$scope.showFileUpload = !$scope.showFileUpload;
 											})
 											.catch(function(error) {
 												$scope.modelUploadErrorPublic = true;
@@ -2795,6 +2796,32 @@ angular
 				    };
 				    $scope.enableDeployToCloud();
 				    
+				    
+				    $scope.showWithdrawRequestModal = function(){
+		        	  $mdDialog.show({
+		        		  contentElement: '#withdrawRequestModal',
+		        		  parent: angular.element(document.body),
+		        		  clickOutsideToClose: true
+		        	  });
+		        	  $scope.withdrawRequestForm.$setUntouched();
+		              $scope.withdrawRequestForm.$setPristine();
+		            }
+				    
+				    $scope.withdrawPublishRequest = function(){
+				    	var withdrawPublishRequestUrl = "api/publish/request/withdraw/" + $scope.publishRequest.publishRequestId ;
+						$http(
+								{
+									method : 'PUT',
+									url : withdrawPublishRequestUrl
+								})
+								.then(
+										function successCallback(response) {
+											$scope.publishRequest = response.data.response_body;
+											$mdDialog.cancel();
+										},function errorCallback(response) {
+											//Do nothing
+									});
+					}
 				    
 					}
 

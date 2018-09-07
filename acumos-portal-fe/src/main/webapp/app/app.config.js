@@ -65,12 +65,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			component: 'designStudio'
 		})
 		.state('marketSolutions', {
-			url: '/marketSolutions?solutionId&revisionId',
+			url: '/marketSolutions?solutionId&revisionId&publishRequestId',
 			component: 'modelDetails',
 			params: {
 				solutionId : null,
 				revisionId : null,
-				parentUrl: null
+				parentUrl: null,
+				publishRequestId: null
 				}
          })
           .state('modelEdit', {
@@ -111,6 +112,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 				user : null,
 				token : null
 				}
+		})
+		.state('publishRequest',{
+			url: '/publishRequest',
+			component: 'publishRequest'
 		})
 		;
 	

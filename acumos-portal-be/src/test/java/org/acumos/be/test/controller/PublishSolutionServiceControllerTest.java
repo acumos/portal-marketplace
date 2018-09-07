@@ -19,8 +19,6 @@
  */
 package org.acumos.be.test.controller;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +32,6 @@ import org.acumos.portal.be.service.impl.PublishSolutionServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -43,7 +40,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PublishSolutionServiceControllerTest {
@@ -91,19 +87,19 @@ public class PublishSolutionServiceControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			String accessType = "PB";
-			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn(true);
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "OR";
-			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn(true);
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "PR";
-			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn(true);
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());

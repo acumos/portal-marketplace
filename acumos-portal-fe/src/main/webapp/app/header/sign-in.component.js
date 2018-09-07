@@ -56,6 +56,34 @@ angular.module('signInModal')
 						localStorage.getItem('userRole');
 				}
 				
+				this.setAdmin = function(admin) {
+					if (sessionStorage.getItem('rm')) {
+						localStorage.setItem('isAdmin', admin);
+					} else {
+						sessionStorage.setItem('isAdmin', admin);
+					}
+				}
+				
+				this.setPublisher = function(publisher) {
+					if (sessionStorage.getItem('rm')) {
+						localStorage.setItem('isPublisher', publisher);
+					} else {
+						sessionStorage.setItem('isPublisher', publisher);
+					}
+				}
+				
+				this.isAdmin = function() {
+					return sessionStorage.getItem('isAdmin') ?
+						sessionStorage.getItem('isAdmin') :
+						localStorage.getItem('isAdmin');
+				}
+				
+				this.isPublisher = function() {
+					return sessionStorage.getItem('isPublisher') ?
+						sessionStorage.getItem('isPublisher') :
+						localStorage.getItem('isPublisher');
+				}
+				
 				this.getAuthToken = function() {
 					return sessionStorage.getItem('auth_token') ?
 						sessionStorage.getItem('auth_token') :
@@ -223,14 +251,15 @@ angular.module('signInModal')
                                         	  $scope.userIdDisabled = false;
                                         	  $scope.userVerificationPending = false;
                                               apiService.getJwtAuth($scope.userData).then(function successCallback(response) {
+                                            	  browserStorageService.setAdmin(response.data.admin);
+                                            	  browserStorageService.setPublisher(response.data.publisher);
                                             	  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
-                                            		 
                                             		  if(value.name == 'Admin' || value.name == 'admin'){
 //                                            			  sessionStorage.setItem('userRole', 'Admin');
                                             			  browserStorageService.setUserRole('Admin');
-                                            			  $rootScope.$broadcast('roleCheck');
                                             		  }
                                             		});
+                                            	  $rootScope.$broadcast('roleCheck');
                                             	  browserStorageService.setAuthToken(response.data.jwtToken);
                                             	  var authToken = jwtHelper.decodeToken(response.data.jwtToken);
                                                   if(response.data.jwtToken != ""){

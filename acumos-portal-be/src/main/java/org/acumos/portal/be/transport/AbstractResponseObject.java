@@ -35,6 +35,8 @@ public class AbstractResponseObject {
 	private boolean loginPassExpire;
 	private String JwtToken;
 	private List<MLPRole> userAssignedRolesList;
+	private boolean isAdmin;
+	private boolean isPublisher;
 
 	public boolean isLoginPassExpire() {
 		return loginPassExpire;
@@ -58,5 +60,33 @@ public class AbstractResponseObject {
 
 	public void setUserAssignedRolesList(List<MLPRole> userAssignedRolesList) {
 		this.userAssignedRolesList = userAssignedRolesList;
+	}
+
+	/**
+	 * @return the isAdmin
+	 */
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	/**
+	 * @param isAdmin the isAdmin to set
+	 */
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	/**
+	 * @return the isPublisher
+	 */
+	public boolean isPublisher() {
+		return isPublisher;
+	}
+
+	/**
+	 * @param isPublisher the isPublisher to set
+	 */
+	public void setPublisher(boolean isPublisher) {
+		this.isPublisher = isPublisher;
 	}
 }

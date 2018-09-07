@@ -289,7 +289,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					accessCodes.add(CommonConstants.PUBLIC);
 					if (loginUserId != null) {
 						//if logged In user is owner/co-owner then add private revisions
-						if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId)) {
+						if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId) || userService.isPublisherRole(loginUserId)) {
 							accessCodes.add(CommonConstants.PRIVATE);
 							accessCodes.add(CommonConstants.ORGANIZATION);
 						} else {
@@ -1057,7 +1057,11 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			mlSolution.setOnboardingStatusFailed(onboardingStatusFailed);
 			if(errorStatusDetails!=null) {
 				mlSolution.setErrorDetails(errorStatusDetails);
-				}
+			}
+			//Search for pending Approvals
+			boolean pendingApproval = dataServiceRestClient.isPublishRequestPending(mlSolution.getSolutionId(), mlSolution.getLatestRevisionId());
+			mlSolution.setPendingApproval(pendingApproval);
+
 			content.add(mlSolution);
 		}
 

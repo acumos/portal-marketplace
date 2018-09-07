@@ -84,6 +84,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.jsonwebtoken.lang.Collections;
 import io.swagger.annotations.ApiOperation;
 
@@ -1015,6 +1017,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> findPortalSolutions(HttpServletRequest request,
 			@RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal, HttpServletResponse response) {
+		
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
