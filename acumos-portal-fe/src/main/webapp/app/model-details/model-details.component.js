@@ -44,6 +44,11 @@ angular
 						$anchorScroll(); 
 						
 						$scope.revisionId = $stateParams.revisionId;
+						if($stateParams.publishRequestId != null){
+							$scope.audit = true;
+							$scope.publishRequestId = $stateParams.publishRequestId;
+						}
+						if($scope.audit)
 						$scope.clearForm = function(){
 							deploy.reset();
 							deployCloud.brokerlink.value = "";
@@ -903,10 +908,10 @@ angular
 													config) {
 												if (data.response_body.description == "" || data.response_body.description == null || data.response_body.description == undefined){
 													$scope.getSolCompanyDesc();
-													if($scope.version.accessTypeCode == $scope.orgVar){
+													if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
 														$scope.showORDescription = true;
 														$scope.showPBDescription = false;
-													 }else if($scope.version.accessTypeCode == $scope.pubVar ){
+													 }else if($scope.version.accessTypeCode == $scope.pubVar || $scope.audit){
 														 $scope.showPBDescription = true;
 														 $scope.showORDescription = false;
 													 }else {
@@ -917,11 +922,11 @@ angular
 												}else{
 													$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.response_body.description);
 													
-													if($scope.version.accessTypeCode == $scope.orgVar){
+													if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
 														$scope.showORDescription = true;
 														$scope.showPBDescription = false;
 														
-													}else if($scope.version.accessTypeCode == $scope.pubVar){
+													}else if($scope.version.accessTypeCode == $scope.pubVar || $scope.audit){
 														$scope.showPBDescription = true;
 														$scope.showORDescription = false;
 													}else{
@@ -1361,18 +1366,18 @@ angular
 															config) {
 														 if(data.response_body.length < 1){
 															 $scope.getORSolutionDocs('OR'); 
-															 if($scope.version.accessTypeCode == $scope.orgVar){
+															 if($scope.version.accessTypeCode == $scope.orgVar  && !$scope.audit){
 																 $scope.showORDocs = true;
-															 }else if($scope.version.accessTypeCode == $scope.pubVar){
+															 }else if($scope.version.accessTypeCode == $scope.pubVar  || $scope.audit){
 																 $scope.showPBDocs = true;
 															 }else {
 																 $scope.showORDocs = true;
 																 $scope.showPBDocs = false;
 															 }
 														 }else{
-															 if($scope.version.accessTypeCode == $scope.orgVar){
+															 if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
 																 $scope.showORDocs = true;
-															 }else if($scope.solution.accessType == $scope.pubVar){
+															 }else if($scope.solution.accessType == $scope.pubVar || $scope.audit){
 																 $scope.showPBDocs = true;
 															 }else{
 																 $scope.showORDocs = false;
@@ -1532,6 +1537,74 @@ angular
 						                });
 						    };
 						    $scope.enableDeployToCloud();
+						    
+						    $scope.showModalPublishReq = function(req, modelName, publishRequestId){
+				            	$scope.pbReqId = publishRequestId;
+				            	$scope.requestApprovalModal = req;
+				            	$scope.requestedModelName = modelName;
+				        	  $mdDialog.show({
+				        		  contentElement: '#publishRequestModal',
+				        		  parent: angular.element(document.body),
+				        		  clickOutsideToClose: true
+				        	  });
+				        	  $scope.publishRequestForm.$setUntouched();
+				              $scope.publishRequestForm.$setPristine();
+				            }
+						    
+						    $scope.publishReqeuest = function(publishVal){
+								$scope.publishVal = publishVal;
+								var publishRequestCode = 'DC';
+								if(publishVal == 'approve'){
+									publishRequestCode = 'AP'
+								}
+								
+								var publishRequestUrl = 'api/publish/request/' + $scope.pbReqId;
+								var reqObj = {
+										  "request_body": {
+											    "publishRequestId": $scope.publishRequestId,
+											    "approverId": $scope.loginUserID,
+											    "comment": $scope.descriptionPop,
+											    "requestStatusCode": publishRequestCode
+											  }
+											}
+								
+								$http(
+										{
+											method : 'PUT',
+											url : publishRequestUrl,
+											data: reqObj
+										})
+										.then(
+												function successCallback(response) {
+													$mdDialog.hide();
+													if($scope.publishVal == 'approve'){
+														$scope.msg = "Publication request has been approved successfully. ";
+													} else {
+														$scope.msg = "Publication request has been declined successfully. ";
+													}
+													
+													$scope.icon = '';
+													$scope.styleclass = 'c-success';
+													$scope.showAlertMessage = true;
+													$timeout(
+															function() {
+																$scope.showAlertMessage = false;
+															}, 3000);
+													$state.go('publishRequest');
+												},function errorCallback(response) {
+													$mdDialog.hide();
+													$scope.msg = "Error Occured while updating the publish request";
+													$scope.icon = 'report_problem';
+													$scope.styleclass = 'c-error';
+													$scope.showAlertMessage = true;
+													$timeout(
+															function() {
+																$scope.showAlertMessage = false;
+															}, 3000);
+											});
+								
+									
+							}
 							
 							
 					}

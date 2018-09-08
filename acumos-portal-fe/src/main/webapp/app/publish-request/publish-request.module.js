@@ -20,23 +20,5 @@ limitations under the License.
 
 'use strict';
 
-app.component('sidebarNav',{
-	templateUrl : '/app/header/sidebar-nav.template.html',
-	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $location, apiService, browserStorageService) {
-		$scope.isActive = function (viewLocation) {
-		     //var active = (viewLocation === $location.path());
-		     return (viewLocation === $location.path());
-		};
-		$scope.showQandAUrl = false;
-		$scope.qAndAUrl = '';
-		
-		apiService.getQandAUrl().then( function(response){
-			$scope.qAndAUrl = response.data.response_body;
-			if(browserStorageService.getAuthToken()!='')
-				$scope.showQandAUrl = true;
-		});
+angular.module('publishRequest',['ngMaterial'])
 
-		//Hide show of sidebar in mobile device
-		$scope.hamberClick = function(){$rootScope.$broadcast('menuClickToggle');}
-	}
-});

@@ -49,7 +49,7 @@ public class PublishSolutionServiceImplTest {
 			UUID trackingId = UUID.randomUUID();
 			
 			boolean flag = true;
-			Mockito.when(impl.publishSolution(solutionId, accessType, userId, revisionId, trackingId)).thenReturn(flag);
+			Mockito.when(impl.publishSolution(solutionId, accessType, userId, revisionId, trackingId)).thenReturn("Solution Published Successfully");
 			Assert.assertTrue(flag);
 			logger.info("Successfully publishSolution");
 		} catch (Exception e) {

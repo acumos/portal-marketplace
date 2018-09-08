@@ -355,6 +355,12 @@ public class AuthServiceController extends AbstractController {
 				}
 			}
 		}
+		
+		if(userService.isAdminRole(mlpUser.getUserId()))
+			responseObject.setAdmin(true);
+		
+		if(userService.isPublisherRole(mlpUser.getUserId()))
+			responseObject.setPublisher(true);
 
 		responseObject.setUserAssignedRolesList(userAssignedRolesList);
 		return responseObject;

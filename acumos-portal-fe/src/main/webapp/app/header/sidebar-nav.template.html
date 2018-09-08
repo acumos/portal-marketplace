@@ -47,12 +47,17 @@ limitations under the License.
 				<span class="headertxtspan">Design Studio <sup class="ds-text">BETA</sup></span>
 		   </a>
 		   
-		   <a ng-if='userRoleAdmin' class="mdl-navigation__link" ng-class="{ active: isActive('/admin') }" ui-sref="admin" title="Site Admin" ng-click="$root.parentActive = ''">
+		   <a ng-if="$root.userRoleAdmin" class="mdl-navigation__link" ng-class="{ active: isActive('/admin') }" ui-sref="admin" title="Site Admin" ng-click="$root.parentActive = ''">
 		   		<span class="icon-header icon-site-admin"></span>
 				<span class="headertxtspan">Site Admin</span>
 		   </a>
 		   
-		   <a ng-show="showQandAUrl" class="mdl-navigation__link" ng-class="{ active: isActive('/qanda') }" href='{{qAndAUrl}}' title="Q And A"  ng-click="$root.parentActive = ''" target="_blank">
+		   <a ng-if="$root.userRolePublisher" class="mdl-navigation__link" ng-class="{ active: isActive('/publishRequest') }" ui-sref="publishRequest" title="Publish Request" ng-click="$root.parentActive = 'publishRequest'">
+		   		<span class="icon-header icon-publish-request"></span>
+				<span class="headertxtspan">Publish Request</span>
+		   </a>
+		   
+		   <a ng-if="showQandAUrl" class="mdl-navigation__link" ng-class="{ active: isActive('/qanda') }" href='{{qAndAUrl}}' title="Q And A"  ng-click="$root.parentActive = ''" target="_blank">
 		   		<span class="icon-header icon-qa"></span>
 				<span class="headertxtspan">Q And A</span>
 		   </a>

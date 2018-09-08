@@ -115,6 +115,8 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 		log.debug(EELFLoggerDelegate.debugLogger, "createRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPRole mlpRole = null;
+		//Always create the role with active status
+		role.setActive(true);
 		mlpRole = dataServiceRestClient.createRole(PortalUtils.convertToMLPRole(role));
 		return mlpRole;
 	}

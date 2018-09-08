@@ -8,9 +8,9 @@
  * under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ *  
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ *  
  * This file is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -18,24 +18,25 @@
  * ===============LICENSE_END=========================================================
  */
 
-package org.acumos.portal.be.common;
+package org.acumos.portal.be.service;
 
-public class CommonConstants {
+import java.util.List;
 
-	public static final String PUBLIC = "PB";
-	public static final String ORGANIZATION = "OR";
-	public static final String PRIVATE = "PR";
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.portal.be.common.PagableResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.transport.MLPublishRequest;
 
-	public static final String PUBLISH_REQUEST_PENDING = "PE";
-	public static final String PUBLISH_REQUEST_APPROVED = "AP";
-	public static final String PUBLISH_REQUEST_DECLINED = "DC";
-	public static final String PUBLISH_REQUEST_WITHDRAW = "WD";
+public interface PublishRequestService {
 
-	public static final String TOOLKIT_TYPE = "TOOLKIT_TYPE";
-	public static final String STATUS_PASSED = "PS";
-	public static final String SITE_CONFIG = "site_config";
-	public static final String NAME = "name";
-	public static final String SITE_INSTANCE_NAME = "siteInstanceName";
-	public static final String DATA = "data";
-	public static final String FIELDS = "fields";
+	MLPublishRequest getPublishRequestById(Long publishRequestId);
+
+	PagableResponse<List<MLPublishRequest>> getAllPublishRequest(RestPageRequest requestobj);
+
+	MLPublishRequest updatePublishRequest(MLPublishRequest publishRequest) throws AcumosServiceException;
+
+	MLPublishRequest searchPublishRequestByRevId(String revisionId);
+
+	MLPublishRequest withdrawPublishRequest(long publishRequestId, String loginUserId) throws AcumosServiceException;
+
 }

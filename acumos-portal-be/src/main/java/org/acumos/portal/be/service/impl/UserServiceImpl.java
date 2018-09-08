@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.security.RoleAuthorityConstants;
 import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserService;
@@ -500,7 +501,28 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
         return mlpRoles;
     }
-    
+
+    @Override
+    public boolean isPublisherRole(String userId) {
+    	boolean isPublisher = false;
+    	List<MLPRole> mlpRoles = getUserRole(userId);
+    	for(MLPRole role : mlpRoles) {
+    		if(role.isActive() && RoleAuthorityConstants.PUBLISHER.equalsIgnoreCase(role.getName()))
+    			isPublisher = true;
+    	}
+    	return isPublisher;
+    }
+
+    @Override
+    public boolean isAdminRole(String userId) {
+    	boolean isAdmin = false;
+    	List<MLPRole> mlpRoles = getUserRole(userId);
+    	for(MLPRole role : mlpRoles) {
+    		if(role.isActive() && RoleAuthorityConstants.ADMIN.equalsIgnoreCase(role.getName()))
+    			isAdmin = true;
+    	}
+    	return isAdmin;
+    }
     @Override
     public MLRole getRoleCountForUser(RestPageRequest pageRequest) {
         log.debug(EELFLoggerDelegate.debugLogger, "getAllRoles");

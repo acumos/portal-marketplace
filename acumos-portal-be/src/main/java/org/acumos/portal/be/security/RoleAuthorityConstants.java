@@ -22,7 +22,8 @@ package org.acumos.portal.be.security;
 
 public class RoleAuthorityConstants {
 
-	public static final String ADMIN = "Admin";
-	public static final String MLP_SYSTEM_USER = "MLP System User";
+	public static final String ADMIN = "ADMIN";
+	public static final String MLP_SYSTEM_USER = "MLP SYSTEM USER";
+	public static final String PUBLISHER = "PUBLISHER";
 
 }

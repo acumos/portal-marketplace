@@ -79,6 +79,8 @@ public class MLSolution {
 	private long commentsCount;
 	private String publisher;
 	private byte[] picture;
+	private boolean pendingApproval;
+
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -565,5 +567,19 @@ public class MLSolution {
 		 */
 		public void setPicture(byte[] picture) {
 			this.picture = picture;
+		}
+
+		/**
+		 * @return the pendingApproval
+		 */
+		public boolean isPendingApproval() {
+			return pendingApproval;
+		}
+
+		/**
+		 * @param pendingApproval the pendingApproval to set
+		 */
+		public void setPendingApproval(boolean pendingApproval) {
+			this.pendingApproval = pendingApproval;
 		}
 }
