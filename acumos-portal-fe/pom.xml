@@ -23,7 +23,7 @@ limitations under the License.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>acumos-portal-fe</artifactId>
-	<version>1.15.43-SNAPSHOT</version>
+	<version>1.15.44-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Acumos Portal frontend server</name>
 	<description>Acumos Portal AngularJS Front End</description>
@@ -49,6 +49,7 @@ limitations under the License.
 		<docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
 		<!-- Supplied by Jenkins -->
 		<docker.push.registry>${env.NEXUS3_PUSH_REGISTRY}</docker.push.registry>
+		<sonar.exclusions>**/scripts/**/*,**.js</sonar.exclusions>
 	</properties>
 	<!-- All dependencies are public, no extra repositories needed. -->
 	<dependencies>

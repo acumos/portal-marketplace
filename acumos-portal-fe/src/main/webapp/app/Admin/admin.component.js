@@ -176,6 +176,18 @@ angular.module('admin').filter('abs', function() {
 						function(error) {});
 			}
 			getRole();
+			
+			//API for get Roles
+			function getAllRole(){
+				apiService
+				.getAllRole()     //.getAllRole() //.getRoleCount()
+				.then(
+						function(response) {
+							$scope.allRoles = response.data.response_body;
+						},
+						function(error) {});
+			}
+			getAllRole();
 			//API for user count
 			function userDetailsFetch(){
 			apiService

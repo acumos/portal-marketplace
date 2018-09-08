@@ -63,9 +63,17 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		Map<String, Object> queryParameters = new HashMap<>();
 		queryParameters.put("active", "Y"); // Fetch all active roles
+		
+		//By default CDS populates 'Y' as active_YN where as through service call it populates 0 or 1 in active_YN
+		
+		Map<String, Object> alternateQueryParameters = new HashMap<>();
+		alternateQueryParameters.put("active", true);
 		RestPageRequest pageRequest = new RestPageRequest();
 		pageRequest.setPage(0);
 		pageRequest.setSize(100);
+		RestPageResponse<MLPRole> alternateRoleResponse = dataServiceRestClient.searchRoles(alternateQueryParameters, true, pageRequest);
+		List<MLPRole> alternateRoleList = alternateRoleResponse.getContent();
+
 		RestPageResponse<MLPRole> roleList = dataServiceRestClient.searchRoles(queryParameters, true, pageRequest);
 		List<MLPRole> mlpRoles = roleList.getContent();
 		if (!PortalUtils.isEmptyList(mlpRoles)) {
@@ -73,7 +81,13 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 			for (MLPRole mlpRole : mlpRoles) {
 				MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
 				mlRoles.add(mlRole);
-				//break;
+			}
+		}
+
+		if (!PortalUtils.isEmptyList(alternateRoleList)) {
+			for (MLPRole mlpRole : alternateRoleList) {
+				MLRole mlRole = PortalUtils.convertToMLRole(mlpRole);
+				mlRoles.add(mlRole);
 			}
 		}
 		return mlRoles;
