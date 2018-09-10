@@ -26,13 +26,19 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSiteConfig;
+import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -333,6 +339,42 @@ public class AdminServiceControllerTest {
 			String configKey = mlpSiteConfig.getConfigKey();
 			Mockito.when(adminService.getSiteConfig(configKey)).thenReturn(mlpSiteConfig);
 			configRes = adminController.getSiteConfiguration(configKey, mock(HttpServletResponse.class));
+			logger.info("Site Configuration Details :" + configRes.getResponseBody());
+			Assert.assertNotNull(configRes);
+		} catch (Exception e) {
+			logger.info("failed tot execute the above test case");
+		}
+	}
+
+	@Test
+	public void getUserCarousalConfigurationTest() {
+		try {
+			MLPSiteConfig mlpSiteConfig = new MLPSiteConfig();
+			List<Map> prefSlides = new ArrayList<>();
+			// JsonResponse<List<Map>>
+			mlpSiteConfig.setConfigKey("carousel_config");
+			mlpSiteConfig.setConfigValue(
+					"{\"0\":{\"name\":\"tkSlide\",\"headline\":\"tkSlideHeadline\",\"supportingContent\":\"<p>tkslide some supporting contents</p>\",\"textAling\":\"left\",\"bgColor\":\"#7B132A\",\"graphicImgEnabled\":false,\"slideEnabled\":\"true\",\"tagName\":\"healthCare\",\"number\":1,\"links\":{\"enableLink\":\"true\",\"primary\":{\"label\":\"tkslidebtnlabel\",\"address\":\"marketPlace\"},\"secondary\":{\"label\":\"ssss\",\"address\":\"modelerResource\"}}}}");
+			mlpSiteConfig.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
+			MLPUser user = new MLPUser();
+			user.setUserId(mlpSiteConfig.getUserId());
+			Set<MLPTag> prefTags = new HashSet<>();
+			MLPTag hcTag = new MLPTag("healthCare");
+			prefTags.add(hcTag);
+			user.setTags(prefTags);
+			Date created = new Date();
+			mlpSiteConfig.setCreated(created);
+			Date modified = new Date();
+			mlpSiteConfig.setModified(modified);
+			Assert.assertNotNull(mlpSiteConfig);
+			JsonResponse<List<Map>> configRes = new JsonResponse<>();
+			configRes.setResponseBody(prefSlides);
+			Assert.assertNotNull(configRes);
+			String configKey = mlpSiteConfig.getConfigKey();
+			Mockito.when(adminService.getSiteConfig(configKey)).thenReturn(mlpSiteConfig);
+			Mockito.when(userService.findUserByUserId(mlpSiteConfig.getUserId())).thenReturn(user);
+			configRes = adminController.getUserCarousalConfiguration(mlpSiteConfig.getUserId(),
+					mock(HttpServletResponse.class));
 			logger.info("Site Configuration Details :" + configRes.getResponseBody());
 			Assert.assertNotNull(configRes);
 		} catch (Exception e) {
