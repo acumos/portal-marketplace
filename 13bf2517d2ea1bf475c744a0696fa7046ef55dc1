@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad0267a8_bcba1426",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-09-10T17:24:51Z",
+      "side": 1,
+      "message": "Please remove stackTrace",
+      "revId": "13bf2517d2ea1bf475c744a0696fa7046ef55dc1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "485dff33_7a630e93",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-09-10T17:24:51Z",
+      "side": 1,
+      "message": "Remove System.out",
+      "revId": "13bf2517d2ea1bf475c744a0696fa7046ef55dc1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
