@@ -165,6 +165,7 @@ public class APINames {
     public static final String UPDATE_SITE_CONFIG = "/config/{configKey}";
     public static final String CREATE_SITE_CONFIG = "/config";
     public static final String DELETE_SITE_CONFIG = "/config/{configKey}";
+    public static final String GET_USER_CAROUSE_CONFIG = "/user/carouseConfig";
     
     //Request API's for Admin
     public static final String GET_REQUESTS = "/requests";
