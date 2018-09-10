@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,7 @@ import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPSiteConfig;
+import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -56,9 +58,11 @@ import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -68,7 +72,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -414,6 +421,65 @@ public class AdminServiceController extends AbstractController {
     }
     
     
+    @ApiOperation(value = "Gets list of Site configuration filtered with user's preferred tags.", response = MLPSiteConfig.class, responseContainer = "List")
+    @RequestMapping(value = { APINames.GET_USER_CAROUSE_CONFIG }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<List<Map>> getUserCarousalConfiguration(
+			@RequestParam(value = "userId", required = false) String userId, HttpServletResponse response) {
+		long startTime = System.currentTimeMillis();
+		log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
+
+		MLPSiteConfig mlpSiteConfig = null;
+		JsonResponse<List<Map>> data = null;
+		try {
+			data = new JsonResponse<>();
+			List<Map> prefConfigResp = new ArrayList<>();
+			mlpSiteConfig = adminService.getSiteConfig(PortalConstants.CAROUSEL_CONFIG_KEY);
+			if (mlpSiteConfig != null) {
+
+				ObjectMapper mapper = new ObjectMapper();
+				@SuppressWarnings("unchecked")
+				Map<String, Object> slidesConfigJson = mapper.readValue(mlpSiteConfig.getConfigValue(), Map.class);
+				Set<MLPTag> prefTags = null;
+				if (!StringUtils.isEmpty(userId)) {
+					MLPUser user = userService.findUserByUserId(userId);
+					prefTags = user.getTags();
+
+				}
+				for (Map.Entry<String, Object> entry : slidesConfigJson.entrySet()) {
+					Map fields = (Map) entry.getValue();
+					if (prefTags != null && prefTags.size() > 0) {
+						for (MLPTag prefTag : prefTags) {
+							if (fields.get(PortalConstants.TAG_NAME) != null && ((String) fields.get(PortalConstants.TAG_NAME)).equals(prefTag.getTag())) {
+								Map<String, Object> resp = new HashMap<String, Object>();
+								resp.put(entry.getKey(), entry.getValue());
+								prefConfigResp.add(resp);
+
+							}
+						}
+					} else {
+						Map<String, Object> resp = new HashMap<String, Object>();
+						resp.put(entry.getKey(), entry.getValue());
+						prefConfigResp.add(resp);
+					}
+				}
+				data.setResponseBody(prefConfigResp);
+
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("getUserCarousalConfiguration fetched Successfully");
+			}
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
+			log.error(EELFLoggerDelegate.errorLogger,
+					"Exception Occurred Fetching Site Configuration for Admin Configuration", e);
+		}
+		long stopTime = System.currentTimeMillis();
+		return data;
+	}
+ 
+
     @ApiOperation(value = "Create site configuration", response = MLPSiteConfig.class)
     @RequestMapping(value = { APINames.CREATE_SITE_CONFIG}, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
