@@ -20,11 +20,12 @@
 
 package org.acumos.portal.be.common;
 
+import java.util.List;
 public class RestPageRequestBE {
 
 	private Integer page, size; 
 	private String sortingOrder, searchTerm, modelType, modelToolkitType, name, description, accessType, activeType, sortBy, sortById ;
-	
+	private List<String> tagList, dropTagList;
 	 
 	public Integer getPage() {
 		return page;
@@ -97,6 +98,18 @@ public class RestPageRequestBE {
 	}
 	public void setSortById(String sortById) {
 		this.sortById = sortById;
+	} 
+	public List<String> getTagList() {
+		return tagList;
+	}
+	public void setTagList(List<String> tagList) {
+		this.tagList = tagList;
+	}
+	public List<String> getDropTagList() {
+		return dropTagList;
+	}
+	public void setDropTagList(List<String> dropTagList) {
+		this.dropTagList = dropTagList;
 	} 
 	
 	
