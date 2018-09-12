@@ -359,15 +359,37 @@ angular
 
 						}
 						
-						var modelType = '';
-						$scope.apiUrl;
-						if ($stateParams.solutionId == null) {
-							$scope.apiUrl = '/api/solutions/'
-									+ $scope.solutionId;
-						} else {
-							$scope.apiUrl = '/api/solutions/'
-									+ $stateParams.solutionId
-						}
+					$scope.getModelAuthors = function(){
+						$http({
+							method : 'GET',
+							url : 'api/solution/'+ $stateParams.solutionId +'/revision/'+ $stateParams.revisionId +'/authors',
+						})
+								.success(
+										function(data, status, headers, config) {
+											console.log(data.response_body);
+											$scope.authorList = data.response_body;
+											
+										})
+								.error(function(data, status, headers, config) {
+										// called asynchronously if an error occurs
+										// or server returns response with an error
+										// status.
+										console.log(status);
+										});
+					}
+					
+					$scope.getModelAuthors();
+					
+					var modelType = '';
+					$scope.apiUrl;
+					if ($stateParams.solutionId == null) {
+						$scope.apiUrl = '/api/solutions/'
+								+ $scope.solutionId;
+					} else {
+						$scope.apiUrl = '/api/solutions/'
+								+ $stateParams.solutionId
+					}
+					
 					$scope.getModelDetails = function() {
 						$http({
 							method : 'GET',
@@ -398,8 +420,11 @@ angular
 												var counter = 0;
 												//**adding list of versions
 												$scope.versionList = [];
+												$scope.publisherList = [];
 												while(counter < length){
 													($scope.versionList).push(data.response_body.revisions[counter]);
+													if(data.response_body.revisions[counter].publisher !== null)
+														($scope.publisherList).push(data.response_body.revisions[counter].publisher);
 													counter++;
 												}
 												

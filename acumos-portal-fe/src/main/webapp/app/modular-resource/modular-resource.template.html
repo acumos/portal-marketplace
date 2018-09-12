@@ -49,9 +49,8 @@ limitations under the License.
 						<div  data-ng-init="getonboardingOverview(); getOnboardingCLIUrls();" ng-bind-html="onboard_overview"></div>
 						<!-- Some information can be display related to this On-Boarding, such
 						as how to complete this task what are data required.  -->
-						 <span>For CLI on-boarding, the two API URLs are:</span><br/>						
-						 <b><span>Push URL:  </span><span ng-bind="cliPushUrl"></span></b> <br/>
-                         <b><span>Auth URL:  </span><span ng-bind="cliAuthUrl"></span></b> </p>
+						 <span>To know more about on-boarding, please have a look at : </span>					
+						 <b><a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html">https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html</a></b> </p>
 						</div>
 					<div class="posrel">
 						<md-tabs md-dynamic-height md-border-bottom> <md-tab
@@ -61,9 +60,10 @@ limitations under the License.
 							<div class="mdl-grid mdl-grid--no-spacing">
 								<div class="workflow-header">
 									<div class="workflow-leftheader">
-										<span>TOOL KIT CATEGORY</span>
+										<span>LANGUAGE AND TOOLKIT </span>
+										<span>CATEGORY</span>
 									</div>
-									<div class="workflow-right-header">
+									<div class="workflow-right-header" ng-init="toolkitHeader='R'">
 										<span>{{toolkitHeader}}</span>
 									</div>
 								</div>							
@@ -82,40 +82,7 @@ limitations under the License.
                                     </ul
 													</div>
 											</a></li> -->
-											<li><a href="#share" class="mdl-tabs__tab" title="H2O" ng-click="toolkitHeader='H2O'"> 
-												<div class="managelefticon">
-													 <i class="h2o"></i> 
-												</div>
-													<div class="managelefttext">
-														<article>H2O</article>
-														<!--ul class="">
-                                      <li>Share with 6 co-workers</li>
-                                    </ul-->
-													</div>
-											</a></li>
-											<li><a href="#company" class="mdl-tabs__tab" title="TensorFlow" ng-click="toolkitHeader='TensorFlow'"> 
-												<div class="managelefticon"> 
-													<i class="tensorflow"></i> 
-												</div>
-													<div class="managelefttext">
-														<article>TensorFlow</article>
-														<!--ul class="red">
-                                      <li>Not Started</li>
-                                    </ul-->
-													</div>
-											</a></li>
-											<li><a href="#catalog" class="mdl-tabs__tab is-active" title="Scikit Learn" ng-click="toolkitHeader='Scikit Learn'">
-													<div class="managelefticon"> 
-														<i class="scikit-learn"></i> 
-													</div>
-													<div class="managelefttext">
-														<article>Scikit Learn</article>
-														<!--ul class="gray">
-                                      <li>You must be publish to company marketplace first</li>
-                                    </ul-->
-													</div>
-											</a></li>
-											<li><a href="#public" class="mdl-tabs__tab" title="R" ng-click="toolkitHeader='R'">
+											<li><a href="#public" class="mdl-tabs__tab is-active" title="R" ng-click="toolkitHeader='R'">
 											 	<div class="managelefticon">
 											 	 	<i class="R-cloud"></i>
 											 	 </div>
@@ -126,17 +93,83 @@ limitations under the License.
                                     </ul-->
 													</div>
 											</a></li>
+											<li><a href="#cloud" class="mdl-tabs__tab" title="Java" ng-click="toolkitHeader='Java and H2O'"> 
+											<div class="managelefticon">
+											 <i class="java"></i> 											 
+											</div>
+													<div class="managelefttext">
+														<article>Java and H2O</article>
+														<!--ul class="red">
+                                      <li>Not started</li>
+                                    </ul-->
+													</div>
+											</a></li>
+											<li><a href="#company" class="mdl-tabs__tab" title="TensorFlow" ng-click="toolkitHeader='Python, Tensor Flow, Keras and Scikit Learn'"> 
+												<div class="managelefticon"> 
+													<i class="tensorflow"></i> 
+												</div>
+													<div class="managelefttext">
+														<article>Python, Tensor Flow, Keras and Scikit Learn</article>
+														<!--ul class="red">
+                                      <li>Not Started</li>
+                                    </ul-->
+													</div>
+											</a></li>
+											<!-- <li><a href="#share" class="mdl-tabs__tab" title="H2O" ng-click="toolkitHeader='H2O'"> 
+												<div class="managelefticon">
+													 <i class="h2o"></i> 
+												</div>
+													<div class="managelefttext">
+														<article>H2O</article>
+														ul class="">
+                                      <li>Share with 6 co-workers</li>
+                                    </ul
+													</div>
+											</a></li>
+											<li><a href="#company" class="mdl-tabs__tab" title="TensorFlow" ng-click="toolkitHeader='TensorFlow'"> 
+												<div class="managelefticon"> 
+													<i class="tensorflow"></i> 
+												</div>
+													<div class="managelefttext">
+														<article>TensorFlow</article>
+														ul class="red">
+                                      <li>Not Started</li>
+                                    </ul
+													</div>
+											</a></li>
+											<li><a href="#catalog" class="mdl-tabs__tab is-active" title="Scikit Learn" ng-click="toolkitHeader='Scikit Learn'">
+													<div class="managelefticon"> 
+														<i class="scikit-learn"></i> 
+													</div>
+													<div class="managelefttext">
+														<article>Scikit Learn</article>
+														ul class="gray">
+                                      <li>You must be publish to company marketplace first</li>
+                                    </ul
+													</div>
+											</a></li>
+											<li><a href="#public" class="mdl-tabs__tab" title="R" ng-click="toolkitHeader='R'">
+											 	<div class="managelefticon">
+											 	 	<i class="R-cloud"></i>
+											 	 </div>
+													<div class="managelefttext">
+														<article>R</article>
+														ul class="red">
+                                      <li>Not started</li>
+                                    </ul
+													</div>
+											</a></li>
 											<li><a href="#cloud" class="mdl-tabs__tab" title="Java" ng-click="toolkitHeader='Java'"> 
 											<div class="managelefticon">
 											 <i class="java"></i> 											 
 											</div>
 													<div class="managelefttext">
 														<article>Java</article>
-														<!--ul class="red">
+														ul class="red">
                                       <li>Not started</li>
-                                    </ul-->
+                                    </ul
 													</div>
-											</a></li>
+											</a></li> -->
 											<!--li> <a href="#viewdownload" class="mdl-tabs__tab">
                                   <div class="managelefticon-single"> <i><img src="images/view-download-1.png" alt="" title=""></i> </div>
                                   <div class="managelefttext">
@@ -159,9 +192,9 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="mdl-cell workflow-right">
-									<div class="mdl-tabs__panel timeline"  data-ng-init="getRCloudContent('rcloud')" ng-bind-html="RCloud" id="onboard">
-										<!-- timeline start -->
-										<!--div class="timeline">
+									<!-- <div class="mdl-tabs__panel timeline"  data-ng-init="getRCloudContent('rcloud')" ng-bind-html="RCloud" id="onboard">
+										timeline start
+										div class="timeline">
                                 <div>
                                   <div class="timeline-centered">
                                     <article class="timeline-entry">
@@ -211,12 +244,12 @@ limitations under the License.
                                     </article>
                                   </div>
                                 </div>
-                              </div-->
-										<!-- timeline end -->
-									</div>
+                              </div
+										timeline end
+									</div> -->
 									<!-- share start -->
-									<div class="mdl-tabs__panel timeline"  data-ng-init="getH2OContent('h2o')" ng-bind-html="h2o" id="share" >
-										<!--p> Sharing a model gives co-authorship to that person. They will be able to edit, share and publish, just as a model owner can. </p>
+									<!-- <div class="mdl-tabs__panel timeline"  data-ng-init="getH2OContent('h2o')" ng-bind-html="h2o" id="share" >
+										p> Sharing a model gives co-authorship to that person. They will be able to edit, share and publish, just as a model owner can. </p>
                               <div class="share-members">
                                 <p> <span class="purple">This Model shared with below team members | </span><span class="green">(7 members)</span> </p>
                                 <div> <span class="team-user"> <i> <img id="owner11" src="images/owner1.png" alt="" title=""> <span class="team-user-close"> <i class="fa fa-times-circle-o" aria-hidden="true"></i> </span>
@@ -252,26 +285,34 @@ limitations under the License.
                                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary "> Share </button>
                                   </div>
                                 </div>
-                              </form-->
-									</div>
+                              </form
+									</div> -->
 									<!-- share end -->
 									<!-- company start -->
-									<div class="mdl-tabs__panel company-market timeline" data-ng-init="getTensorflowContent('tensor-flow')" ng-bind-html="tensorflow"
+									<!-- <div class="mdl-tabs__panel company-market timeline" data-ng-init="getTensorflowContent('tensor-flow')" ng-bind-html="tensorflow"
 										id="company">
 										<h6>Tensorflow</h6>
 										<p>Your Text Goes Here...</p>
-										<!-- Sign in Modal box end -->
+										Sign in Modal box end
+									</div> -->
+									<div class="mdl-tabs__panel company-market timeline" id="company">
+										<p style="margin:0 0 0px">You can find all the explanations to onboard a Python model through Tensor Flow, Keras, or Scikit learn here</p>
+										<a href="https://pypi.org/project/acumos" target="_blank" >https://pypi.org/project/acumos</a>
 									</div>
 									<!-- company end -->
 									<!-- catalog start -->
-									<div class="mdl-tabs__panel is-active timeline cont" data-ng-init="getscikitLearnContent('scikit-learn')" ng-bind-html="scikitlearn"
+									<!-- <div class="mdl-tabs__panel is-active timeline cont" data-ng-init="getscikitLearnContent('scikit-learn')" ng-bind-html="scikitlearn"
 										id="catalog">
-									</div>
+									</div> -->
 									
 									<!-- catalog end -->
 									<!-- public start -->
-									<div class="mdl-tabs__panel timeline company-market" data-ng-init="getRContent('r')" ng-bind-html="R"
-										id="public">
+									<div class="mdl-tabs__panel is-active timeline company-market cont" id="public">
+										<p style="margin:0 0 0px">You can find all the explanations to onboard a R model by CLI here</p>
+										<a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-r-guide.html" target="_blank">https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-r-guide.html</a>
+									<!-- <div class="mdl-tabs__panel timeline company-market" data-ng-init="getRContent('r')" ng-bind-html="R"
+										id="public"> -->
+										
 										<!--div>
                                 <ul>
                                   <li>
@@ -442,8 +483,12 @@ limitations under the License.
 									</div>
 									<!-- public end -->
 									<!-- cloud start -->
-									<div class="mdl-tabs__panel timeline" id="cloud"  data-ng-init="getJavaContent('java')" ng-bind-html="java">
-										<!-- tab panel -->
+									<!-- <div class="mdl-tabs__panel timeline" id="cloud"  data-ng-init="getJavaContent('java')" ng-bind-html="java">
+										tab panel
+									</div> -->
+									<div class="mdl-tabs__panel timeline" id="cloud">
+										<p style="margin:0 0 0px">You can find all the explanations to onboard a Java or H2O model by CLI here</p>
+										<a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-java-guide.html" target="_blank">https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-java-guide.html</a>
 									</div>
 									<!-- cloud end -->
 									<!-- delete start 

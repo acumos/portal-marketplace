@@ -82,6 +82,7 @@ p {font-size: 1em;}
 .mdl-tabs__tab .tab-signatures {width:18px; height:12px;background: url("../images/model_details/signature.png") no-repeat center center; }
 .mdl-tabs__tab .tab-documents {width:18px; height:22px;background: url("../images/model_details/documents.png") no-repeat center center; }
 .mdl-tabs__tab .tab-versionhistory {width:21px; height:18px;background: url("../images/model_details/version_history.png") no-repeat center center; }
+.mdl-tabs__tab .tab-author_details {width:18px; height:18px;background: url("../images/model_details/icon_author_publisher_details.png") no-repeat center center;margin-left: 2px;margin-right: 8px; }
 
 .mdl-tabs__tab .tab-profile {width:19px; height:19px;background: url("../images/userprofile/profile.png") no-repeat center center; }
 .mdl-tabs__tab .tab-contact-setting {width:20px; height:18px;background: url("../images/userprofile/contact_settings.png") no-repeat center center; }
@@ -92,6 +93,7 @@ p {font-size: 1em;}
 .mdl-tabs__tab.is-active .tab-signatures {background: url("../images/model_details/signature_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-documents {background: url("../images/model_details/documents_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-versionhistory {background: url("../images/model_details/version_history_selected.png") no-repeat center center; }
+.mdl-tabs__tab.is-active .tab-author_details {background: url("../images/model_details/icon_author_publisher_details_selected.png") no-repeat center center; }
 
 .md-icons1 {margin-right: 5px;}
 /*********** Icons section end **************/
@@ -506,6 +508,9 @@ transition: all 0.2s ease-in-out;
 
 .marketplace-btn-container {display: inline-block;}
 .marketplace-btn-container .mdl-button {color: #414141}
+
+.md-icons .mdl-button.mdl-button--icon.mdl-js-button[disabled], 
+.md-icons .mdl-button.mdl-button--icon.mdl-js-button[disabled]:hover {background: none !important;}
 
 .mp-container1 {display:flex; justify-content: space-between; flex-wrap: nowrap;}
 .mp-container1 .select-control {margin-right: 5px;}
@@ -2468,4 +2473,5 @@ label.model-name{color:#0366d6;}
     .header-right1 md-menu > button:first-child span {margin-right: 2px !important;}
     .mp-grid-list figure {display:flex;}
 }
+/*********** MEDIA QUERIES SECTION END  ************/
 

@@ -346,8 +346,13 @@ text.edge-label {
 .md-errors-spacer {color: #ff0000; float:left !important;display:none;}
 
 .ds-db-row3 {display:flex; justify-content:space-between; margin-top: 15px;}
-.ds-db-row3-cell1 {width: 55%;}
-.ds-db-row3-cell2 {width: 40%;}
+.ds-db-row3-cell1 {width: 50%;}
+.ds-db-row3-cell2 {width: 45%;}
+
+.ds-db-row4 {display:flex; justify-content:space-between; margin-top: 15px; margin-bottom: 15px;}
+.ds-db-row4-cell md-select {height: 34px;}
+.ds-db-row4-cell md-select md-select-value {height: 34px;}
+.ds-db-row4-cell1 {width: 50%;}
 md-radio-button {margin-bottom: 5px;}	
 md-radio-button .md-container {transform: scale(0.8);margin-top: -9px;left: -2px;}
 md-radio-button .md-label {margin-left: 25px !important;}
