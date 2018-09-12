@@ -102,7 +102,9 @@ angular.module('AcumosApp')
         var urlGetCloudEnabledUrl = 'api/cloudEnabled';
         var urlGetCLIPushUrl = 'api/properties/cliPushUrl';
         var urlGetCLIAuthUrl = 'api/properties/cliAuthUrl';
-        	
+        var urlGetCauroselUrl = "api/admin/user/carouseConfig";
+        var urlPreferredTag ="api/preferredTags"; 	
+        var urlsetPreferredTag = "api/tags/createUserTag";
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
@@ -519,5 +521,14 @@ angular.module('AcumosApp')
         this.getCLIAuthUrl = function () {
             return $http.get(urlGetCLIAuthUrl);
         };
+        this.getcaurosalDetails = function (userID) {
+            return $http.get(urlGetCauroselUrl + '?userId=' + userID);
+        };
+        this.getPreferredTag = function (userId, reqObj) {
+            return $http.put(urlPreferredTag +'/' + userId, reqObj);
+        }; 
+        this.setPreferredTag = function (userId, tagList) {
+            return $http.post(urlsetPreferredTag +'/' + userId, tagList);
+        }; 
         
     }]);

@@ -616,6 +616,141 @@ angular.module('headerNav')
             
           }
           
+			$scope.$on("manageTags",function(event, data)
+					  {   
+							 if(data)
+							 $scope.loginUserID = data.userId;							 
+						  	$scope.manageTag(event);				  				  
+					  });
+			$scope.manageTag = function(event,userId){  				 
+				  $scope.getalltags();				  			
+				  $mdDialog.show({
+			        contentElement: '#myDialogTags',
+			        parent: angular.element(document.body),
+			        targetEvent: event
+			    });   				
+			}
+			 $scope.selected = [];
+			 $scope.prevSelected = [];						
+			 $scope.showdone = false;
+			 $scope.processStatus = false;
+			 $scope.flag = false;	
+			 $scope.disabledFlag=false;
+			 $scope.getalltags = function()
+			 {
+				if (JSON.parse(browserStorageService.getUserDetail()))
+					{
+				var loginID = JSON.parse(browserStorageService
+		  					.getUserDetail());		  			
+				 $scope.loginUserID = loginID[1];
+					}
+				  var dataObj = {
+							"request_body" : {
+								 "fieldToDirectionMap": {},
+								 "page": 9,
+								 "size": 0
+							},
+							"request_from" : "string",
+							"request_id" : "string"
+						}				  
+					apiService
+						.getPreferredTag($scope.loginUserID, dataObj)
+						.then(
+								function(response) {											                           
+									$scope.siteConfigTag = response.data.response_body.prefTags;														
+									$scope.ListTag = $scope.siteConfigTag;
+									for(var i = 0; i < 2 ; i++)
+									 {					 
+										 if ($scope.siteConfigTag[i].preferred == "Yes") {
+											 $scope.selected.push($scope.siteConfigTag[i]);
+											 $scope.prevSelected.push($scope.siteConfigTag[i].tagName);
+										  }
+									 }
+								},
+								function(error) {
+									console.log(error);
+								}); 
+			 }			 				  				
+			 $scope.toggle = function (item, list) {				 				 			
+			    var idx = list.indexOf(item);
+			     if (idx > -1) {
+			       list.splice(idx, 1);
+			     }
+			     else {
+			       list.push(item);
+			     }          
+			   };
+			 $scope.processCountinue = function()
+			 {
+				 $scope.processStatus = true;					 
+				 $scope.siteConfigTag = $scope.selected;				 
+				 $scope.showdone = true;
+				 $scope.flag = true;				
+			 }			 
+			 $scope.back = function()
+			 {
+				 $scope.processStatus = false;
+				 if($scope.flag)
+				  {					
+					$scope.siteConfigTag = $scope.ListTag ;				    
+				    $scope.showdone = false;
+				    $scope.flag = !$scope.flag;
+				    return;
+				  }
+				 else(!$scope.flag)
+				  {					 									
+					 for(var i =0;i< $scope.selected.length;i++)
+					 {
+						 $scope.selected[i].preferred = false;
+					 }					 
+					 $scope.siteConfigTag = $scope.ListTag ;
+					 $scope.showdone = false;
+					 $scope.selected = [];
+				  }				 
+			 }
+			 $scope.cancel = function () {
+				 $scope.selected = [];	
+				 $scope.prevSelected = [];
+				 $scope.showdone = false;
+				 $scope.processStatus = false;
+				 $scope.flag = false;	
+				 $scope.disabledFlag=false;
+				 $scope.siteConfigTag= [];
+				 $mdDialog.hide();
+			  };
+			 $scope.submitTag = function () {
+				 var submitTag = [];
+				 $scope.disabledFlag=true;
+				 for(var i =0;i<$scope.siteConfigTag.length; i++)
+			      {
+					 submitTag.push($scope.siteConfigTag[i].tagName);
+				  }
+				 $scope.prevSelected;
+				 var dataObj = {
+							"request_body" : {
+								 "dropTagList":  $scope.prevSelected,
+								 "tagList":	submitTag							 
+							},
+							"request_from" : "string",
+							"request_id" : "string"
+						}
+				apiService
+					.setPreferredTag($scope.loginUserID, dataObj)
+					.then(
+							function(data, status, headers, config) {
+								if(data.status == 200)
+									{
+									 $scope.cancel();									
+									 $scope.current = $state.current;
+									 if($scope.current.component == "marketPlace")
+									 $rootScope.$broadcast('loadMarketplace');
+									}
+							},
+							function(error) {
+								 $scope.cancel();								
+								 console.log(error);
+							}); 
+			  }; 
           var originatorEv;
           $scope.openMenu = function($mdMenu, ev) {
               originatorEv = ev;

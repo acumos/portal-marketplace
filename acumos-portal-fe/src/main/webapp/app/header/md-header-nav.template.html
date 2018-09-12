@@ -19,7 +19,8 @@ limitations under the License.
 -->
 
 <!-- Header HTML if user not logged in -->
-<div ng-class={'a-overlay1':$root.setLoader}></div> 
+<div ng-class={'a-overlay1':$root.setLoader} ng-if="$root.setLoader">
+<span ng-class={'a-overlay1-inner-msg':$root.setLoader}>Please wait...</span></div>
 <div class="posrel">
     <alert-message msg="msg" icon="icon" styleclass="styleclass"
         ng-show="showAlertMessage"></alert-message>
@@ -258,7 +259,12 @@ limitations under the License.
 								class="mdl-button header-ddl mdl-js-button"> <a
 								ui-sref="userDetail">Account Settings</a> </md-menu-item> <md-menu-item
 								ng-show="provider == 'globaluid'"> <a
-								ui-sref="resetPswd">Change Password</a> </md-menu-item> </md-menu-content> </md-menu>
+								ui-sref="resetPswd">Change Password</a> </md-menu-item> 
+								<md-menu-item
+								class="mdl-button header-ddl mdl-js-button"> 
+								<a ng-click="manageTag($event)">Manage Tags</a> 
+								</md-menu-item>																
+								</md-menu-content> </md-menu>
 						</div>
 						
 						<!-- <button id="account-info"
@@ -422,3 +428,69 @@ limitations under the License.
 	</md-dialog>
 </div>
 <!-- Modal box end -->
+<div class="md-dialog-container" id="myDialogTags" style="height:0;" >
+	<md-dialog class="IOT-theme-dialog1">
+		<form >
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h2>What are your interests?</h2>
+					<span flex></span>
+					<md-button class="md-icon-button" ng-disabled="disabledFlag" ng-click="cancel()">
+						<i class="material-icons">close</i>
+					</md-button>
+				</div>
+			</md-toolbar>
+			<md-dialog-content>
+				<div class="md-dialog-content">
+					<div class="theme-progress-container">
+						<div class="theme-progress-container-inner">
+							<label>Start</label>
+							<div class="theme-step-container">
+								<div ng-class="processStatus ? 'theme-step-bar_100' : 'theme-step-bar' "></div>
+							</div>
+							<label>Finish</label>
+						</div>
+					</div>
+					<div class="theme-progress-container2">
+						<div class="theme-progress-container1">
+							<span class="font600">Choose your tags to customize your marketplace experience</span>
+							<div>
+								<span class="admin-search-lbl">Filter</span>
+								<div
+									class="mdl-textfield mdl-js-textfield theme-searchbox">
+									<input class="mdl-textfield__input adminsearchicon" type="text"
+										ng-model='searchText'>									
+								</div>
+							</div>						
+						</div>						
+						<div class="theme-tile-wrapper" >
+							<div class="theme-tile" ng-repeat="site in siteConfigTag |  filter:{ tagName : searchText} ">							
+									<div class="theme-check-container" >	
+										<label>{{site.tagName}}</label>																	
+										<md-checkbox type="checkbox" ng-disabled ="processStatus"	
+										 ng-click="toggle(site, selected)"	
+										 ng-true-value="'Yes'" ng-false-value="'No'"																	
+										 ng-model="site.preferred"></md-checkbox>																
+									</div>
+							</div>
+						</div>
+						<div ng-if="selected.length == 2 || selected.length == 1"> <span> Selected Tags : <span class="font600">{{selected[0].tagName + ", " +  selected[1].tagName  }}</span>	</span>	</div>
+					</div>
+				</div>
+			</md-dialog-content>
+			<md-dialog-actions>
+						<div class="dialog-footer-container1">
+							<div>
+								 <md-button class="mdl-button mdl-js-button btn-secondary" title="Back" ng-disabled="disabledFlag" ng-show="(selected.length >= 1? true: false) || showdone" ng-click="back()">Back</md-button> 																
+								 <span class="reqfield theme-valmsg" ng-show="selected.length > 2">You cannot select more than two tags</span>
+							</div>
+							<div>																																													
+							 <md-button type="submit" class="mdl-button mdl-js-button btn-primary" disabled ng-show="selected.length == 0 ? true: false" title="Choose" > Choose tags </md-button>
+								<md-button type="submit" class="mdl-button mdl-js-button btn-primary" ng-show="showdone ? false : (selected.length == 2 || selected.length == 1 ? true: false)" title="Continue"  ng-click="processCountinue()">Continue</md-button>
+								<md-button type="submit" class="mdl-button mdl-js-button btn-primary" title="Done" ng-disabled="disabledFlag" ng-show="showdone" ng-click="submitTag()">Done</md-button> 															
+							</div>
+						</div>
+			</md-dialog-actions>
+				</form>
+			</md-dialog>
+		</div>
