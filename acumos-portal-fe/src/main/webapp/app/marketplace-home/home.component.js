@@ -43,7 +43,7 @@ angular
 							  $scope.imageUrls = {};
 							  $scope.mlsolution = [];
 							  $scope.homeSolutions = [];
-							  
+							  //$scope.loginUserID = "";
 							  /*changes for demo - images shown according to the solution name*/
 							  /*$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
 								$scope.imgURLemotion ="images/emotion_classifier.png";
@@ -70,81 +70,87 @@ angular
                                               "size" : 8
                                           }
                                       }
-                                  }
+                                  }							  							
 							  
-							  apiService
-								.getSiteConfig("carousel_config")
-								.then(
-										function(response) {
-											if(response.data.response_body != null) {
-												var carouselConfig = angular.fromJson(response.data.response_body.configValue);
-												//alert (angular.toJson(carouselConfig[0]));
+							  /* IOT Changes start */	
+							 
+							  $scope.$on("loadCaurosel",function(event,opt) {
+								  	 $scope.loginUserID = opt.userId;
+									 $scope.loadTopCarousel();									
+								 });
+							  
+							  if (JSON.parse(browserStorageService.getUserDetail()))
+								  {
+								  $scope.loginUserID = JSON.parse(browserStorageService
+											.getUserDetail())[1];
+								  
+								  }
+							  else
+							  {
+								  $scope.loginUserID = "";
+								  
+							  }
+							  $scope.loadTopCarousel = function() {													 
+								 apiService
+									.getcaurosalDetails($scope.loginUserID)
+									.then(								 									
+										function(data, status, headers, config) {
+											if(data.data.response_body != null) {												
+												var carouselConfig = data.data.response_body;												
 												$scope.banner.slides = [];
 												var index = 0;
-												angular.forEach(carouselConfig, function (value, key) {
-												      
-												      //alert(angular.toJson($scope.bannerslides));
-												      var infoGraphicsSrc = "";
-												      
-												      if(value['slideEnabled'] === true || value['slideEnabled'] === "true"){
+												angular.forEach(carouselConfig, function (value,  vobj) {												      												     
+												   var infoGraphicsSrc = "";
+												   
+												   var slideObj = value[Object.keys(value)[0]];													  
+												      if(slideObj.slideEnabled === true || slideObj.slideEnabled === "true"){
 													      var bannerSt = '<div class='; 
-													                    if(value['textAling'] == 'right'){
+													                    if(slideObj.textAling == 'right'){
 													                    	bannerSt = bannerSt + '"home-screen-lfimg" ';
 													                    } else {
 													                    	bannerSt = bannerSt + '"home-screen2" ';
 													                    }
 													                   
-													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_background/' + value["bgImageUrl"] + ') !important;background-color : '+ value['bgColor'] +'">' + 
+													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_background/' + slideObj.bgImageUrl + ') !important;background-color : '+ slideObj.bgColor +'">' + 
 																	    '<div class="slide-content">' +
 																	        '<div class="slide-text">' +
-																	            '<h4>' + value['headline'] + '</h4>' +
-																	            '<p ng-if=" value[\'supportingContent\']">' + value['supportingContent']  +'</p>';
-													                             if (value['links']['enableLink']){
-													                            	 if (!angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']) && !angular.isUndefined(value['links']['primary']['address'])){
-												                                         if ((value['links']['primary']['address']).indexOf("modelerResource") != -1) {
+																	            '<h4>' + slideObj.headline + '</h4>' +
+																	            '<p ng-if="slideObj.supportingContent">' + slideObj.supportingContent  +'</p>';
+													                             if (slideObj.links.enableLink){
+													                            	 if (!angular.isUndefined(slideObj.links.primary) && !angular.isUndefined(slideObj.links.primary) && !angular.isUndefined(slideObj.links.primary.address)){
+												                                         if ((slideObj.links.primary.address).indexOf("modelerResource") != -1) {
 												                                        	 if($rootScope.enableOnBoarding) 
-												                                        		 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + value['links']['primary']['address'] + '\');" >' + value['links']['primary']['label'] + '</md-button>';
+												                                        		 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.primary.address + '\');" >' + slideObj.links.primary.label + '</md-button>';
 												                                         } else {
-												                                        	 if(value['links']['primary']['address'] == 'other') {
-												                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'href=\"' + value['links']['primary']['url'] + '" target="_blank">' + value['links']['primary']['label'] + '</md-button>';
+												                                        	 if(slideObj.links.primary.address == 'other') {
+												                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'href=\"' + slideObj.links.primary.url + '" target="_blank">' + slideObj.links.primary.label + '</md-button>';
 												                                        		 } else {
-												                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + value['links']['primary']['address'] + '\');" >' + value['links']['primary']['label'] + '</md-button>';
+												                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.primary.address + '\');" >' + slideObj.links.primary.label + '</md-button>';
 												                                        		}
 												                                        	}
 														                             }
 											                                    
-													                            	 if (!angular.isUndefined(value['links']['secondary']) && !angular.isUndefined(value['links']['secondary']) && !angular.isUndefined(value['links']['secondary']['address'])){
-														                            	 if(value['links']['secondary']['address']) {
-													                                         if ((value['links']['secondary']['address']).indexOf("modelerResource") != -1) {
+													                            	 if (!angular.isUndefined(slideObj.links.secondary) && !angular.isUndefined(slideObj.links.secondary) && !angular.isUndefined(slideObj.links.secondary.address)){
+														                            	 if(slideObj.links.secondary.address) {
+													                                         if ((slideObj.links.secondary.address).indexOf("modelerResource") != -1) {
 													                                    		 if($rootScope.enableOnBoarding)
-													                                    			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + value['links']['secondary']['address'] + '\');" >' + value['links']['secondary']['label'] + '</md-button>';
+													                                    			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.secondary.address  + '\');" >' + slideObj.links.secondary.label + '</md-button>';
 													                                         } else {
-													                                        	 if(value['links']['secondary']['address'] == 'other') {
-													                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'href=\"' + value['links']['secondary']['url'] + '" target="_blank">' + value['links']['secondary']['label'] + '</md-button>';
+													                                        	 if(slideObj.links.secondary.address == 'other') {
+													                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'href=\"' + slideObj.links.secondary.url + '" target="_blank">' + slideObj.links.secondary.label + '</md-button>';
 													                                        		 } else {
-													                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + value['links']['secondary']['address'] + '\');" >' + value['links']['secondary']['label'] + '</md-button>';
+													                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.secondary.address + '\');" >' + slideObj.links.secondary.label + '</md-button>';
 													                                        		}
 													                                         }
 												                                          }
-													                            	 }
-													                                 
-													                            	 /*
-													                            	 if (!angular.isUndefined(value['links']['external']) && (value['links']['external']['enabled']) && !angular.isUndefined(value['links']['external']) && !angular.isUndefined(value['links']['external']['address'])){
-														                            	 if(value['links']['external']['address']) {
-													                                         if ((value['links']['external']['address']).includes("modelerResource")) {
-													                                    		 if($rootScope.enableOnBoarding)
-													                                    			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" href=\"' + value['links']['external']['address'] + '" target="_blank">' + value['links']['external']['label'] + '</md-button>';
-													                                         } else {
-													                                        	 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" href=\"' + value['links']['external']['address'] + '" target="_blank">' + value['links']['external']['label'] + '</md-button>';
-													                                         }
-												                                          }
-													                            	 }*/
+													                            	 }													                                 
 													                             }
 	
-													                             bannerSt = bannerSt + '</div> <div class="image-container"><img src="/site/binaries/content/gallery/acumoscms/global/carousel_infoGraphic/' + value["InfoImageUrl"] + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
+													                             bannerSt = bannerSt + '</div> <div class="image-container"><img src="/site/binaries/content/gallery/acumoscms/global/carousel_infoGraphic/' + slideObj.InfoImageUrl + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
 													                             $scope.banner.slides[index] = bannerSt;
 													                             index++;
-												      }
+												      } 
+												//}
 												});
 											} else {
 												//default slides if no config is present
@@ -158,6 +164,10 @@ angular
 										function(error) {
 											console.log(error);
 								});
+							  }
+							  $scope.loadTopCarousel();	
+						/* IOT Changes end */			
+							  
 							  
 							  $scope.event = {'slides':[]};
 							  apiService

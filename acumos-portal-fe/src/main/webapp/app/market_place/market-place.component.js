@@ -520,6 +520,45 @@ angular
 								}
 							  } 
 
+						 $scope.showTag = function() {
+                     		$rootScope.$broadcast('manageTags');
+                     	}
+						 $scope.$on("loadMarketplace",function(event, data) {
+							 $scope.loadMore(0);
+							 $scope.getalltags();
+						 });
+						 $scope.getalltags = function()
+						 {			
+						  $scope.selected = [];		 
+						  var loginID = JSON.parse(browserStorageService
+					  					.getUserDetail());		  			
+							 $scope.loginUserID = loginID[1];
+							  var dataObj = {
+										"request_body" : {
+											 "fieldToDirectionMap": {},
+											 "page": 9,
+											 "size": 0
+										},
+										"request_from" : "string",
+										"request_id" : "string"
+									}
+								apiService
+									.getPreferredTag($scope.loginUserID, dataObj)
+									.then(
+											function(response) {												
+												$scope.siteConfigTag = response.data.response_body.prefTags;																										
+												for(var i = 0; i < 2 ; i++)
+												 {					 
+													 if ($scope.siteConfigTag[i].preferred == "Yes") {
+														 $scope.selected.push($scope.siteConfigTag[i]);														 
+													  }
+												 }
+											},
+											function(error) {
+												console.log(error);
+											});						 							 						 							 			
+						 }	
+						 $scope.getalltags();
 						$scope.updateFavorite = function(solutionId, key) {
 							// $scope.selectFav = !$scope.selectFav;
 							var dataObj = {

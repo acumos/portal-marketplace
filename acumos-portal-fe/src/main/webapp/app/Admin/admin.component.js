@@ -1943,6 +1943,7 @@ angular.module('admin').filter('abs', function() {
 						var slide_name = $scope.carouselSlide.name;
 						var slide_headline = $scope.carouselSlide.headline;
 						var slide_supportingContent = $scope.carouselSlide.supportingContent;
+						var slide_tagName = $scope.carouselSlide.tagName;
 						slide['name']= slide_name;
 						slide['headline'] = slide_headline;
 						slide['supportingContent']= slide_supportingContent;
@@ -1959,7 +1960,7 @@ angular.module('admin').filter('abs', function() {
 	                		slide['slideEnabled'] = "true";
 	                		slide['number'] = keyIndex + 1;
 	                	}
-						
+						slide['tagName'] = slide_tagName; 
 						slide['bgImageUrl'] = $scope.carouselBGFileName;
 						slide['InfoImageUrl'] = $scope.carouselInfoFileName;
 						
@@ -3084,6 +3085,31 @@ angular.module('admin').filter('abs', function() {
 		                             }, 5000);
 		                          });
 	                    }
+	                    
+	                    /* IOT changes start */
+						$scope.loadAllTags = function(query) {
+							$scope.getTags = {
+								"request_body" : {
+									"page" : 0
+								}
+							}
+							return apiService
+									.getAllTag($scope.getTags)
+									.then(
+											function(response) {
+												$scope.status = response.data.response_detail;
+												$scope.allTags = response.data.response_body.tags;
+												$scope.allTags.splice(0, 0, "");												
+												
+											},
+											function(error) {
+												$scope.status = error.data.error;
+											});
+						}
+						$scope.loadAllTags();									
+	                    
+	                    /* IOT changes end*/
+	                    
 		}
 })
 		.service('fileUploadService', function($http, $q) {
