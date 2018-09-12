@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -214,7 +215,8 @@ public class UserServiceController extends AbstractController {
 		JsonResponse<Object> data = new JsonResponse<>();
 		User user = userObj.getBody();
 		try {
-			userService.refreshApiToken(user.getUserId());
+        	String uuid = UUID.randomUUID().toString().replace("-", "");
+			userService.refreshApiToken(user.getUserId(), uuid);
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while regenerating VerifyToken()", e);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

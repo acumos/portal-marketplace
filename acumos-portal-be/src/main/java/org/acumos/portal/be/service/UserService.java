@@ -93,7 +93,7 @@ public interface UserService {
 
 	MLPUser verifyApiToken(String username, String token) throws AcumosServiceException;
 
-	void refreshApiToken(String username) throws AcumosServiceException;
+	void refreshApiToken(String username, String uuid) throws AcumosServiceException;
 
 	boolean isPublisherRole(String userId);
 	

@@ -230,15 +230,14 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     }
 
     @Override
-    public void refreshApiToken(String userId) throws AcumosServiceException {
+    public void refreshApiToken(String userId, String uuid) throws AcumosServiceException {
         log.debug(EELFLoggerDelegate.debugLogger, "refreshApiToken ={}", userId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         try {
 	        MLPUser user = findUserByUserId(userId);
 
 	        if(user != null && user.isActive()) {
-	        	String tokenKeyString = UUID.randomUUID().toString();
-	            user.setApiToken(tokenKeyString.replace("-",""));
+	            user.setApiToken(uuid);
 	            dataServiceRestClient.updateUser(user);
 	        } else {
 	        	log.error(EELFLoggerDelegate.debugLogger, "Api token Refresh Failed");
