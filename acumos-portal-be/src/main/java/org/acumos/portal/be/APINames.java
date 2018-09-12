@@ -199,7 +199,7 @@ public class APINames {
 	   public static final String UPDATE_COMMENT = "comments/update";
 	   public static final String DELETE_COMMENT = "comments/delete/{threadId}/{commentId}";
 	   public static final String GET_COMMENT = "comments/{threadId}/{commentId}";
-	   public static final String GET_COMMENT_SOLUTIONREVISION = "thread/{solutionId}/{revisionId}/{clientTimeZone}/comments";
+	   public static final String GET_COMMENT_SOLUTIONREVISION = "thread/{solutionId}/{revisionId}/comments";
 	//Thread
 	   public static final String CREATE_THREAD = "thread/create";
 	   public static final String UPDATE_THREAD = "thread/update";

@@ -598,13 +598,11 @@ angular
 							var reqObj = {
 									  "request_body": {
 										    "page": 0,
-										    "size": 0
+										    "size": 100
 										  },
 										};
 							
-							 var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-							 tz = encodeURIComponent(tz);
-							 apiService.getComment($scope.solutionId, $scope.revisionId, tz, reqObj).then(function(response) {
+							 apiService.getComment($scope.solutionId, $scope.revisionId, reqObj).then(function(response) {
 								 
 								$scope.totalCommentCount = response.data.response_body.content.length;
 								$scope.commentList = [];

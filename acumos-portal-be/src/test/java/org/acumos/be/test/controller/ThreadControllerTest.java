@@ -505,7 +505,7 @@ public class ThreadControllerTest {
 			JsonRequest<RestPageRequest> restPageReq = new  JsonRequest<>();
 			restPageReq.setBody(pageRequest);
 			threadService.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, pageRequest);
-            JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, restPageReq);
+            JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq, clientTimeZone);
 			if(mlpthreadRes != null){
 				logger.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionCommentsTest :  ");
 			}
@@ -524,7 +524,7 @@ public class ThreadControllerTest {
 		String revisionId = null;
 		String clientTimeZone=null;
 		threadService.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, body);
-        JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, restPageReq);
+        JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq, clientTimeZone);
 		
 	}
 }

@@ -70,6 +70,7 @@ import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.apache.commons.lang.ArrayUtils;
+import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -574,16 +575,19 @@ public class PortalUtils {
         return mlSolutionWeb;
     }
 	
-	public static MLComment convertToMLComment(MLPComment mlpComment) {
+	public static MLComment convertToMLComment(MLPComment mlpComment, String userTimeZone) {
         
-		MLComment mlComment = new MLComment();    
+		DateUtils dateUtils = new DateUtils();
+		MLComment mlComment = new MLComment();
 		mlComment.setCommentId(mlpComment.getCommentId());
 		mlComment.setParentId(mlpComment.getParentId());
 		mlComment.setText(mlpComment.getText());
 		mlComment.setThreadId(mlpComment.getThreadId());
 		mlComment.setUserId(mlpComment.getUserId()); 
 		mlComment.setCreated(mlpComment.getCreated()); 
-		mlComment.setModified(mlpComment.getModified()); 
+		mlComment.setModified(mlpComment.getModified());
+		if(userTimeZone != null)
+			mlComment.setStringDate(dateUtils.formatCommentTime(new DateTime(mlComment.getModified().getTime()), userTimeZone));
 
         return mlComment;
     }

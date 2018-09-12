@@ -303,14 +303,10 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 			List<MLComment> mlcommentList = new ArrayList<MLComment>();
 			for(MLPComment mlpComment : pageResponse.getContent()){
 				if((PortalUtils.isEmptyOrNullString(mlpComment.getParentId()))){
-					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment));
+					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment, clientTimeZone));
 				}
 			}
-			for (MLComment mlComment : mlcommentList) {
-				
-				mlComment.setStringDate(dateUtils.formatCommentTime(new DateTime(mlComment.getModified().getTime()), clientTimeZone));				 
-				commentResponse.getContent().add(mlComment);
-			}
+			commentResponse.setContent(mlcommentList);
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
@@ -334,14 +330,10 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 			for(MLPComment mlpComment : pageResponse.getContent()){
 				//only the child comments (where parent id is not null)
 				if(!(PortalUtils.isEmptyOrNullString(mlpComment.getParentId()))){
-					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment));
+					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment, clientTimeZone));
 				}
 			}
-			for (MLComment mlComment : mlcommentList) {
-				DateTime commentTime = new DateTime(mlComment.getModified().getTime());
-				mlComment.setStringDate(dateUtils.formatCommentTime(commentTime, clientTimeZone));				 
-				commentResponse.getContent().add(mlComment);
-			}
+			commentResponse.setContent(mlcommentList);
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {

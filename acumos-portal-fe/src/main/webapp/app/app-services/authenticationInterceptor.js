@@ -28,6 +28,9 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
       }
       if(sessionStorage.getItem('provider'))
           config.headers.provider = sessionStorage.getItem('provider');
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      tz = encodeURIComponent(tz);
+      config.headers.UserTimeZone = tz;
       return config;
     },
     response: function (response) {

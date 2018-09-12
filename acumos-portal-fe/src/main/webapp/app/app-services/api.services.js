@@ -414,8 +414,8 @@ angular.module('AcumosApp')
         	return $http.post(urlComment + '/delete/' + threadId + '/' + commentId);
         };
         
-        this.getComment = function(solutionId, revisionId, tz, dataObj){
-            return $http.post(urlThread + '/' + solutionId + '/' + revisionId + '/' + tz + '/comments', dataObj);
+        this.getComment = function(solutionId, revisionId, dataObj){
+            return $http.post(urlThread + '/' + solutionId + '/' + revisionId + '/comments', dataObj);
         };
         
         this.getUserAccountDetails = function(userID){
