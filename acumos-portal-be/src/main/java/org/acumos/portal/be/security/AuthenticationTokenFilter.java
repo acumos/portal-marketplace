@@ -144,6 +144,8 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 	    	      MLPUser userDetails = this.userService.findUserByUsername(username);
 	    			if (this.tokenValidation.tokenRegnerationAndValidation(authToken)) {
 	    				request.setAttribute("loginUserId", userDetails.getUserId());
+	    				userDetails.setPicture(null);
+	    				request.setAttribute("mlpuser", userDetails);
 	    				List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(getRoleAuthority(userDetails));
 	    			    UsernamePasswordAuthenticationToken authentication =  new UsernamePasswordAuthenticationToken(new AuthenticatedUserDetails(userDetails), authToken, authorityList);
 	    			    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
