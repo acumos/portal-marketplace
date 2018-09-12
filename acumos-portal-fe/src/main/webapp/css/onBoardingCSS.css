@@ -41,13 +41,13 @@ limitations under the License.
 /********* manage model page*******************/
  /* vertical tab */
 /*Vertical Tabs*/
-.workflow-leftheader {width: 210px; float: left; padding: 15px 0; background-color:rgb(232,229,236); color: #681D9e;}
+.workflow-leftheader {width: 240px; float: left; padding: 15px 0; background-color:rgb(232,229,236); color: #681D9e;}
 .workflow-leftheader span{padding:0 20px;}
 .workflow-right-header {float: left; padding: 15px 20px; color: #424043;}
 .workflow-right-header span{padding:0 10px;} 
 .workflow-header{background-color:rgb(246,243,250); border-bottom:0px; font-weight:bold; padding:0; float:left; width:100%;}
-.mdl-cell.workflow-left {width:210px; float: left; background-color:#F1F1F1;}
-.mdl-cell.workflow-right {float: left; padding: 22px 0 25px; width: calc(100% - 210px) !important;}
+.mdl-cell.workflow-left {width:240px; float: left; background-color:#F1F1F1;}
+.mdl-cell.workflow-right {float: left; padding: 22px 0 25px; width: calc(100% - 240px) !important;}
 .onboarding .mdl-cell.workflow-right h2{margin-top:0;}
 .tabs-left {border-bottom: none; margin:0; padding:0; width: 100%; border-right: 0px solid #ddd;}
 .tabs-left .mdl-tabs__tab{text-transform:none;padding: 0 20px;}

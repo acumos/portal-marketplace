@@ -265,7 +265,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="console-outer-container" ng-class="down?'console-container-hide':''">
-							<div class="ds-version-container">Composition Engine 0.0.36</div>
+							<div class="ds-version-container">Composition Engine 0.0.38</div>
 							<div class="bottom-drawer-handle" ng-init="down='true'" ng-click="down = !down"><span class="bottom-handle"><i class="material-icons">keyboard_arrow_up</i></span></div>
 								<div class="ds-section" ng-hide="down">
 									<div class="ds-section-heading">
@@ -710,65 +710,6 @@ limitations under the License.
 							</div>
 <!-- Saving old version popup confirmation Modal box end -->
 
-<!--Deploy To Cloud Modal -->
-	<div class="md-dialog-container" id="deployCloud" style="height: 0;">
-		<md-dialog aria-label="Mango (Fruit)"
-			class="cg-dialog-Deploy-to-cloud">
-		<form ng-cloak>
-			<md-toolbar>
-			<div class="md-toolbar-tools">
-				<h2>Deploying to Microsoft Azure</h2>
-				<span flex></span>
-				<md-button class="md-icon-button" ng-click="closePoup()">
-				<i class="material-icons">close</i> </md-button>
-			</div>
-			</md-toolbar>
-			<md-dialog-content>
-			<div class="md-dialog-content">
-				<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
-					<div class="mdl-cell mdl-cell--6-col">
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Application
-							Id</label> <input ng-model="applicationId" type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Secret
-							key</label> <input ng-model="secretKey" type="password" autocomplete="new-password"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Resource
-							Group</label> <input ng-model="resourceGroup" type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<!-- Use floating label instead of placeholder --> <label>Storage
-							Account</label> <input ng-model="storageAccount" type="text"> </md-input-container>
-					</div>
-
-					<div class="mdl-cell mdl-cell--6-col">
-						<md-input-container class="md-icon-float md-block">
-						<label>Tenant Id</label> <input ng-model="tenantId" type="text">
-						</md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<label>Subscription Key</label> <input ng-model="subscriptionKey"
-							type="text"> </md-input-container>
-						<md-input-container class="md-icon-float md-block">
-						<label>Acr Name</label> <input ng-model="acrName" type="text">
-						</md-input-container>
-					</div>
-				</div>
-			</div>
-			</md-dialog-content>
-			<md-dialog-actions>
-				<div class="dialog-footer-container1">
-					<md-button
-						class="mdl-button mdl-js-button btn-secondary"
-						ng-click="closePoup()" title="Cancel"> Cancel </md-button>
-					<md-button
-						class="mdl-button mdl-js-button btn-primary"
-						ng-click="authenticateAnddeployToAzure()" title="Deploy"> Deploy </md-button>
-				</div>
-			</md-dialog-actions>
-		</form>
-		</md-dialog>
-	</div>
-
 <!-- Data Broker Modal box start -->
 					<div class="md-dialog-container" id="myDialogScript" style="height: 0;">
 						<md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
@@ -837,11 +778,11 @@ limitations under the License.
 								</div>
 								<div class="ds-db-row3">
 									<div class="ds-db-row3-cell ds-db-row3-cell1" id="upload"
-										ng-show="(dbType == 'csv') || (dbType == 'json')">
+										ng-show="(dbType == 'csv') || (dbType == 'json') || (dbType == 'sql')">
 										<label class="disblock">Upload Sample Data File <span
 											class="dsreqfield">*</span></label>
 											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
-             										accept=".{{dbType}}" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json')" 
+             										accept=".{{dbType}}" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json') || (dbType == 'sql')" 
              										ngf-model-invalid="errorFile" ng-change="checkFileName()"/>
              										
              										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
@@ -863,7 +804,34 @@ limitations under the License.
 										field names</md-radio-button> <md-radio-button value="contains_data">First row
 										contains Data </md-radio-button> </md-radio-group>
 									</div>
+									
+									<div class="ds-db-row3-cell ds-db-row3-cell2"
+										ng-show="dbType == 'sql'">
+										<md-input-container class="md-block" id="databaseName">
+											<label>Database Name <span class="dsreqfield"></span></label>
+											<input type="text" name="databaseName" ng-model="databaseName" ng-change="changeRead()" ng-required="dbType == 'sql'"> 
+											<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.databaseName.$valid}">
+												<span ng-show="!!databroker.databaseName.$error.required && databroker.databaseName.$dirty && databroker.databaseName.$touched ">Please enter the database name</span>
+											</div>
+										</md-input-container>
+									</div>
+									
 								</div>
+								<div class="ds-db-row4" ng-show="dbType == 'sql'">
+									<div class="ds-db-row4-cell ds-db-row4-cell1">
+										<div class="select-control">
+										
+											<label>Select JDBC Datasource Class Name <span class="dsreqfield">*</span></label>
+											<md-select class="md-no-asterisk" ng-model="jdbcDatasource" name="jdbcDatasource" placeholder="Select JDBC Class name" ng-change="changeRead()" ng-required="dbType == 'sql'"> 
+												<md-option value="com.mysql.jdbc.Driver">MySQL</md-option> 
+												
+											</md-select>
+											<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.jdbcDatasource.$valid}">
+												<span ng-show="databroker.dbType.$dirty && databroker.dbType.$error.required">Please
+													Select JDBC Datasource Class name</span>
+											</div>
+										</div>
+									</div>
 							</div>
 							
 							</md-dialog-content>
@@ -904,13 +872,13 @@ limitations under the License.
 															  <thead>
 																<tr>
 																  <th></th>															
-																  <th>Field Name</th>
-																  <th>Field Type</th>
+																  <th>Column Name</th>
+																  <th>Column Type</th>
 																  <th>Map</th>
 																</tr>
 															  </thead>
 															  <tbody>
-																<tr ng-show="dbType === 'csv' && !readSolution" ng-repeat="data in dataShow">
+																<tr ng-show="(dbType === 'csv' || dbType === 'sql') && !readSolution" ng-repeat="data in dataShow">
 																	<td>
 																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
 																			<!-- {{ data.cb1 }} -->
@@ -968,7 +936,7 @@ limitations under the License.
 																	 </td>																 
 																</tr>
 																
-																<tr ng-show="dbType === 'csv' && readSolution" ng-repeat="data in readSourceTable">
+																<tr ng-show="(dbType === 'csv' || dbType === 'sql') && readSolution" ng-repeat="data in readSourceTable">
 																	<td>
 																		<md-checkbox ng-if="data.input_field.checked === 'YES'" name="checkfield" ng-model="checkedRead" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
 																		</md-checkbox>

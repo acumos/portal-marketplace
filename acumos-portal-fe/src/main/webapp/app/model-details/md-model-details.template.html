@@ -225,7 +225,13 @@ limitations under the License.
 									</span>
 						</span>
 						</a>
-
+						
+						<a href="#tab6-panel" class="mdl-tabs__tab" alt="Author/Publisher Details" title="Author/Publisher Details"> <span
+							class="tab-box"> <span
+								class="tab-icons tab-author_details"></span> <span>Author/Publisher Details
+									</span>
+						</span>
+						</a>
 
 						<a href="#tab5-panel" class="mdl-tabs__tab tab5-panel"> </a>
 					</div>
@@ -430,6 +436,33 @@ limitations under the License.
 							</tbody>
 						</table>
 					</div>
+					
+					<div class="mdl-tabs__panel" id="tab6-panel">
+						<h6 class="sectiontitle6">Author/Publisher Details</h6>
+						<table class="mdl-data-table mdl-js-data-table md-tbl1">
+							<colgroup>
+								<col />
+								<col />								
+							</colgroup>
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Contact Information</th>									
+								</tr>
+							</thead>
+							<tbody>								
+								<tr ng-repeat="author in authorList">
+									<td><span>{{author.name}}</span></td>
+									<td><span>{{author.contact}}</span></td>									
+								</tr>
+								<tr ng-repeat="publisher in publisherList">
+									<td><span>{{publisher}}</span></td>
+									<td><span></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
 					<div class="mdl-tabs__panel" id="tab5-panel">Content 5</div>
 					<div class="md-lower-container1" ng-hide="version.accessTypeCode == 'PR' || audit">
 						<div class="mdl-grid mdl-grid--no-spacing bdr-bottom">
