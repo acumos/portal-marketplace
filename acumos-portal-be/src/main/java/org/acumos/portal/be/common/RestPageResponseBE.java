@@ -21,6 +21,7 @@
 package org.acumos.portal.be.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
@@ -48,6 +49,7 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 	List<T> content = new ArrayList<>();	
 	private Set<String> allTagsSet;	
 	private List<String> tags;	
+	private List<HashMap<String,String>> prefTags;
 	private Set<String> filteredTagSet;
 	private List<User> userList;
 	private int PrivateModelCount;
@@ -236,4 +238,10 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 	public void setRequestList(List<MLRequest> requestList) {
 		this.requestList = requestList;
 	}	
+	public List<HashMap<String, String>> getPrefTags() {
+		return prefTags;
+	}
+	public void setPrefTags(List<HashMap<String, String>> prefTags) {
+		this.prefTags = prefTags;
+	}
 }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -83,6 +84,7 @@ import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.authorization.AuthorizationException;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -452,7 +454,74 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 		return mlTagsList;
 	}
+	@Override
+	public List<Map<String, String>> getPreferredTagsList(JsonRequest<RestPageRequest> restPageReq, String userId) throws AcumosServiceException {
+		List<Map<String, String>> prefTags = new ArrayList<>();
+		try {
+			Long startTime = System.currentTimeMillis();
+			System.out.println(startTime);
+			List<String> mlTagsList = new ArrayList<>();
+			List<String> userTagsList = new ArrayList<>();	
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			mlTagsList = getTags(restPageReq);
+			MLPUser userDetails = dataServiceRestClient.getUser(userId);
+			Set<MLPTag> userTagSet = userDetails.getTags();
+			for(MLPTag userTags : userTagSet){
+				userTagsList.add(userTags.getTag());
+			}			 
+			for (String tag : mlTagsList) {
+				for (String utag : userTagsList) {
+					if (utag.equals(tag)) {
+						Map<String, String> map = new HashMap<>();
+						map.put("tagName", utag);
+						map.put("preferred", "Yes");
+						prefTags.add(map);
+					}
+				}
+			}			
+			List<String> union = new ArrayList<String>(mlTagsList);
+			union.addAll(userTagsList); 
+			List<String> intersection = new ArrayList<String>(userTagsList);
+			intersection.retainAll(userTagsList); 
+			union.removeAll(intersection);
+			for (String utag : union) {
+				Map<String, String> map = new HashMap<>();
+				map.put("tagName", utag);
+				map.put("preferred", "No");
+				prefTags.add(map);
+			}
+			Long endTime = System.currentTimeMillis();
+			System.out.println(endTime - startTime);
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return prefTags;
+	}
 
+	@Override
+	public void createUserTag(String userId, List<String> tagList, List<String> dropTagList) throws AcumosServiceException {
+		MLPTag mlpTag = null;
+		try {
+			log.debug(EELFLoggerDelegate.debugLogger, "createUserTag");
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			if(dropTagList.size()!=0){
+				for(String dropTag : dropTagList){ 
+					dataServiceRestClient.dropUserTag(userId, dropTag);
+				}
+			}
+			if(tagList.size()!=0){
+				for(String tag : tagList){ 
+					dataServiceRestClient.addUserTag(userId, tag);
+				}			
+			}
+		} catch (IllegalArgumentException e) { 
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) { 
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+	}
 	@Override
 	public List<User> getSolutionUserAccess(String solutionId) throws AcumosServiceException {
 		List<User> users = null;
