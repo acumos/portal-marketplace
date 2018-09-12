@@ -1,7 +1,7 @@
 # Acumos Portal Marketplace
 
 This repository holds projects that together comprise the Marketplace Backend for the Acumos platform.
-
+ 
 ## Build Prerequisites
 
 * JDK 1.8
