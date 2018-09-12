@@ -37,6 +37,7 @@ public class AbstractResponseObject {
 	private List<MLPRole> userAssignedRolesList;
 	private boolean isAdmin;
 	private boolean isPublisher;
+	private boolean firstLogin;
 
 	public boolean isLoginPassExpire() {
 		return loginPassExpire;
@@ -88,5 +89,19 @@ public class AbstractResponseObject {
 	 */
 	public void setPublisher(boolean isPublisher) {
 		this.isPublisher = isPublisher;
+	}
+
+	/**
+	 * @return the firstLogin
+	 */
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+
+	/**
+	 * @param firstLogin the firstLogin to set
+	 */
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 }

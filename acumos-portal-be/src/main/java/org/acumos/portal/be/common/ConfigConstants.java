@@ -38,5 +38,7 @@ public class ConfigConstants {
 	public static final String cdms_client_url = "cdms.client.url";
 	public static final String cdms_client_username = "cdms.client.username";
 	public static final String cdms_client_password = "cdms.client.password";
+	public static final String portal_feature_verifyAccount = "portal.feature.verifyAccount";
+	public static final String portal_feature_verifyToken_Exp_Time = "portal.feature.verifyToken.exp_time";
 
 }

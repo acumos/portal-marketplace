@@ -83,6 +83,10 @@ public class AdminServiceControllerTest {
 	@Mock
 	UserService userService;
 	
+	@Autowired
+	private UserRoleService userRoleService;
+
+	
 	@Mock
 	private Environment env;
 
@@ -201,7 +205,7 @@ public class AdminServiceControllerTest {
 	}
 
 	@Test
-	public void createPeerSubscription() {
+	public void createPeerSubscriptionTest() {
 		try {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
@@ -574,13 +578,13 @@ public class AdminServiceControllerTest {
 	}
 	
 	@Test
-	public void getDocurl() {
+	public void getDocurlTest() {
 		JsonResponse<String> responseVO = adminController.getDocurl(request, response);
 		Assert.assertNotNull(responseVO);
 	}
 	
 	@Test
-	public void getAllRequests() {
+	public void getAllRequestsTest() {
 		List<MLRequest> requestList = new ArrayList<>();
 		MLRequest req = new MLRequest();
 		req.setSender("senderName");
@@ -595,7 +599,7 @@ public class AdminServiceControllerTest {
 	}
 	
 	@Test
-	public void updateRequest() {
+	public void updateRequestTest() {
 		JsonRequest<MLRequest> mlrequest = new JsonRequest<>();
 		MLRequest req = new MLRequest();
 		req.setSender("senderName");
@@ -608,7 +612,7 @@ public class AdminServiceControllerTest {
 	}
 	
 	@Test
-	public void createSubscription() {
+	public void createSubscriptionTest() {
 		String peerId = "agf145";
 		JsonRequest<List<MLSolution>> solList = new JsonRequest<>();
 		List<MLSolution> list = new ArrayList<>();
@@ -682,6 +686,9 @@ public class AdminServiceControllerTest {
 			user.setUserNewRoleList(newRoleList);
 			Mockito.when(userService.findUserByEmail(user.getEmailId())).thenReturn(null);
 			Mockito.when(userService.findUserByUsername(user.getUsername())).thenReturn(null);
+			UserService service = mock(UserService.class);
+			//userRoleService rservice=mock(userRoleService.class);
+			doNothing().when(userRoleService).addUserRole(userId,roleId);
 			Mockito.when(userService.save(user)).thenReturn(user);
 			
 			data = adminController.addUser(request, userreq, response);
@@ -694,4 +701,14 @@ public class AdminServiceControllerTest {
 			logger.info("Eception while fetching addUserRoleTest ", e);
 		}
 	}
+	
+	@Test
+	public void isSignUpEnabledTest() {
+		String signup_enabled ="true";
+		when(env.getProperty("portal.feature.signup_enabled", "true")).thenReturn(signup_enabled);
+		JsonResponse<String> jresponse =new JsonResponse<String>();
+		jresponse=adminController.isSignUpEnabled(request, response);
+		Assert.assertNotNull(jresponse);
+	}
+		
 }
