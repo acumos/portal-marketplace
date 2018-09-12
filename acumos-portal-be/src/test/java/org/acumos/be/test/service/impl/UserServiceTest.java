@@ -210,7 +210,7 @@ public class UserServiceTest {
 		stubFor(put(urlEqualTo("/ccds/user/c50e75c6-85c1-4b0f-8617-cc1035a3d430")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
 		try {
-			userService.refreshApiToken("c50e75c6-85c1-4b0f-8617-cc1035a3d430");
+			userService.refreshApiToken("c50e75c6-85c1-4b0f-8617-cc1035a3d430","e4c8ce0ba60a4ee487f7dc71288d4d44");
 		} catch (AcumosServiceException e) {
 			Assert.fail();
 		}
@@ -223,7 +223,7 @@ public class UserServiceTest {
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)));
 
 		try {
-			userService.refreshApiToken("c50e75c6-85c1-4b0f-8617-cc1035a3d430");
+			userService.refreshApiToken("c50e75c6-85c1-4b0f-8617-cc1035a3d430","e4c8ce0ba60a4ee487f7dc71288d4d44");
 		} catch (AcumosServiceException e) {
 			assertEquals(e.getMessage(), "Api token Refresh Failed");
 		}

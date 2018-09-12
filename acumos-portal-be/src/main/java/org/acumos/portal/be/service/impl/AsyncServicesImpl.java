@@ -153,14 +153,15 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			if (modelFile != null && schemaFile != null && metadataFile != null) {
 
 				HttpPost post = new HttpPost(env.getProperty("onboarding.push.model.url"));
-
-				if(StringUtils.isEmpty(provider)) {
-					MLPUser user = userService.findUserByUserId(userId);
-					String jwtToken = user.getAuthToken();
-					post.setHeader("Authorization", jwtToken);
+				
+				MLPUser user = userService.findUserByUserId(userId);
+				String tokenMode = env.getProperty("onboarding.tokenmode");
+				if(tokenMode.equals("apiToken")) {
+					post.setHeader("Authorization", userId + ":" + user.getApiToken());
 				} else {
-					post.setHeader("Authorization", access_token);
+					post.setHeader("Authorization", user.getAuthToken());
 				}
+				
 				if(StringUtils.isNotEmpty(provider)) {
 					post.setHeader("provider", provider);
 				}
