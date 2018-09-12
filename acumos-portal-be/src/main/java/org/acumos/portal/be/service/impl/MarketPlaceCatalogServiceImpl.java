@@ -1588,7 +1588,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 		
 		if(PortalUtils.isEmptyOrNullString(description.getDescription())) {
-			log.error(EELFLoggerDelegate.errorLogger, "Cannot Recognize the accessTypeCode");
+			log.error(EELFLoggerDelegate.errorLogger, "Description is Empty");
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Description is Empty");
 		}
 

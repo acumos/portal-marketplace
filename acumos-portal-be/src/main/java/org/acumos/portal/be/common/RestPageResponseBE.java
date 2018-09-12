@@ -71,6 +71,10 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 		this.pageCount = pageCount;
 	}
 
+	public RestPageResponseBE() {
+		super(new ArrayList<T>());
+	}
+
 	public RestPageResponseBE(List<T> content) {
 		super(content);
 		// TODO Auto-generated constructor stub

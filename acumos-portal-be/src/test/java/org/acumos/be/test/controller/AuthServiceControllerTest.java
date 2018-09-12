@@ -20,6 +20,8 @@
 
 package org.acumos.be.test.controller;
 
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +33,7 @@ import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.MalformedException;
 import org.acumos.portal.be.controller.AuthServiceController;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
@@ -74,7 +77,7 @@ public class AuthServiceControllerTest {
 	final HttpServletRequest request = new MockHttpServletRequest();
 	
 	@Test
-	public void login(){
+	public void loginTest(){
 		
 		User user1 = new User();
 		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
@@ -135,7 +138,7 @@ public class AuthServiceControllerTest {
 	}
 	
 	@Test
-	public void jwtLogin(){
+	public void jwtLoginTest(){
 		User user1 = new User();
 		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
 		user1.setFirstName("UserFirstName");
@@ -174,11 +177,14 @@ public class AuthServiceControllerTest {
 		Assert.assertNotNull(abstractobject);
 		
 		user.getBody().setUsername(null);
+		authServiceController.jwtLogin(request, user, response, null);
+		
 		mlpUser.setActive(false);
+		authServiceController.jwtLogin(request, user, response, null);
 	}
 	
 	@Test
-	public void validateToken() throws MalformedException{
+	public void validateTokenTest() throws MalformedException{
 		
 		User user1 = new User();
 		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
@@ -198,5 +204,42 @@ public class AuthServiceControllerTest {
 		
 		jsonObj = authServiceController.validateToken(request, response, userObj , null);
 		Assert.assertNotNull(jsonObj);
+	}
+	
+	@Test
+	public void validateApiTokenTest() throws MalformedException{
+		String apiToken = "8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb";
+		User user1 = new User();
+		user1.setUserId("8cbeccd0-ed84-42c3-8d9a-06d5629dc7bb");
+		user1.setFirstName("UserFirstName");
+		user1.setLastName("UserLastName");
+		user1.setUsername("User1");
+		user1.setEmailId("user1@emial.com");
+		user1.setActive("Y");
+		user1.setPassword("password");
+		JsonRequest<User> userObj = new JsonRequest<>();
+		userObj.setBody(user1);
+		apiToken = apiToken.replace("Bearer ", "");
+		String provider="google";
+		MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user1);
+		JsonResponse<Object> jsondata=new JsonResponse<>();
+		jsondata.setResponseBody(user1.getUserId());
+		try {
+			Mockito.when(userService.verifyApiToken(user1.getUsername(), user1.getPassword())).thenReturn(mlpUser);
+		} catch (AcumosServiceException e) {
+			// TODO Auto-generated catch block
+			logger.info("Eception while validating api token ", e);
+		}
+		jsondata=authServiceController.validateApiToken(request, response, userObj, provider);
+		Assert.assertNotNull(jsondata);
+		logger.info("Successfully validated api token");
+	}
+	
+	@Test
+	public void validationStatusTest(){
+		String validateModel ="false";
+		when(env.getProperty("portal.feature.validateModel")).thenReturn(validateModel);
+		String validationAccess=authServiceController.validationStatus();
+		Assert.assertNotNull(validationAccess);
 	}
 }
