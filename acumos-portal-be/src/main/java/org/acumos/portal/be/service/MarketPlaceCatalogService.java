@@ -23,6 +23,7 @@ package org.acumos.portal.be.service;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageRequestBE;
@@ -136,6 +137,8 @@ public interface MarketPlaceCatalogService {
 	MLPSolutionRating getUserRatings(String solutionId, String userId); 
 
 	RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageRequestPortal); 
+
+	RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageRequestPortal, Set<MLPTag> prefTags); 
 
 	RestPageResponseBE<MLSolution> findUserSolutions(RestPageRequestPortal pageRequestPortal); 
 

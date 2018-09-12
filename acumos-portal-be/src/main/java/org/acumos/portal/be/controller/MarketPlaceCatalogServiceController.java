@@ -77,6 +77,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1071,9 +1072,17 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			@RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal, HttpServletResponse response) {
 		
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+		String userId = (String)request.getAttribute("loginUserId");
+		Set<MLPTag> prefTags = null;
+		if(userId != null && !StringUtils.isEmpty(userId)) {
+			MLPUser user = userService.findUserByUserId(userId);
+			if(user != null ) {
+				prefTags = user.getTags();
+			}
+		}
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
-			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody());
+			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody(),prefTags);
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);

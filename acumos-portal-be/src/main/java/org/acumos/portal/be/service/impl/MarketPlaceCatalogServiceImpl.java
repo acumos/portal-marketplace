@@ -76,6 +76,7 @@ import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -992,6 +993,26 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRating rating = dataServiceRestClient.getSolutionRating(solutionId, userId);
 		return rating;
+	}
+
+	@Override
+	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal, Set<MLPTag> preferredTags) {
+		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions(pageReqPortal, prefTags");
+
+		Set<String> mergedTags = new HashSet<>();
+		
+			if (pageReqPortal.getTags() != null && pageReqPortal.getTags().length > 0) {
+				mergedTags = new HashSet<String>(Arrays.asList(pageReqPortal.getTags()));
+			}
+			
+			if (preferredTags != null && !preferredTags.isEmpty()) {
+				for (MLPTag prefTag : preferredTags) {
+					mergedTags.add(prefTag.getTag());
+				}
+			}
+		pageReqPortal.setTags(mergedTags.toArray(new String[mergedTags.size()]));
+		
+		return findPortalSolutions(pageReqPortal);
 	}
 
 	@Override
