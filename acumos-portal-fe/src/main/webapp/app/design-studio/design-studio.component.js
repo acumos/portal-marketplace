@@ -739,16 +739,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     bounds: outbounds,
                     nodeType: ntype
                 };}).concat(
-                    capabilities.map(function(cap,i) { return {
-                        nodeId: nid,
-                        portname: cap.target.id+'+'+JSON.stringify(removeMsgNames(cap.target.name))+'+cap'+i,//
-                        type: is_wildcard_type(cap.target.name) ? null : JSON.stringify(removeMsgNames(cap.target.name)),
-                        fullType: cap.target.name,
-                        originalType: cap.target.name,
-                        shortname: cap.target.id,
-                        bounds: inbounds,
-                        nodeType: ntype
-                    };})).concat(
                     		extras.map(function(ext,i){ return {
                     			nodeId: nid,
                     			portname: 'xtra'+i,
@@ -943,18 +933,26 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             			$scope.dbType = value.data_broker_map.data_broker_type;
             			$scope.fileUrl = value.data_broker_map.target_system_url;
             			$scope.firstRow = value.data_broker_map.first_row;
+            			$scope.databaseName = value.data_broker_map.database_name;
+ 	    				$scope.tableName = value.data_broker_map.table_name;
+ 	    				$scope.jdbcDatasource = value.data_broker_map.jdbc_driver_data_source_class_name;
             			if(!$scope.userImage){
             				$scope.userImageNew =value.data_broker_map.local_system_data_file_path;
             			}
             			$scope.readSourceTable = value.data_broker_map.map_inputs;
-            			if($scope.dbType == 'csv'){
+            			if($scope.dbType == 'csv' || $scope.dbType == "sql"){
             				$scope.dataShow = $scope.readSourceTable;
+            			} else if($scope.dbType == "image"){
+            				$scope.dataImage = $scope.readSourceTable;
             			}
             			readScriptDetails = {'dbtype':value.data_broker_map.data_broker_type,
             					'targeturl':value.data_broker_map.target_system_url,
             					'script':value.data_broker_map.script,
             					'firstrow':value.data_broker_map.first_row,
             					'localfile':value.data_broker_map.local_system_data_file_path,
+            					'databasename': value.data_broker_map.database_name,
+            					'tablename': value.data_broker_map.table_name,
+            					'jdbcdatasource': value.data_broker_map.jdbc_driver_data_source_class_name,
             					'mapInputs':value.data_broker_map.map_inputs};
             			$scope.readSolutionMapping();
             			$scope.checkedRead = true;
@@ -2574,26 +2572,39 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         	if(p.nodeType === "Collator"){
                         		if(p.bounds === outbounds && p.type === null){
                         			$scope.collateTargetTables[p.nodeId] = [];
-                        		}
+                        			$scope.collateTags[p.nodeId] = [];
+                        			$scope.collateErrors[p.nodeId] = [];
+                        		} else if(p.bounds === inbounds){
                         		
-                        		var collateLength = 0;
-                                var index = -1;
-                                collateSourceTable = $scope.collateSourceTables[p.nodeId];
-                                collateSourceTable.forEach(function(c){
-                                	if(c.modelName === nodes[0]){
-                                		if(index > collateSourceTable.indexOf(c) || index === -1)
-                                			index = collateSourceTable.indexOf(c);
-                                		collateLength++;
-                                	}
-                                	
-                                });
-                                collateSourceTable.splice(index,collateLength);
-                                $scope.collateSourceTables[p.nodeId] = collateSourceTable;
+	                        		var collateLength = 0;
+	                                var index = -1;
+	                                collateSourceTable = $scope.collateSourceTables[p.nodeId];
+	                                collateTagMap = $scope.collateTags[p.nodeId];
+	                                var collateError = [];
+	                                collateError = $scope.collateErrors[p.nodeId];
+	                                collateSourceTable.forEach(function(c){
+	                                	if(c.modelName === nodes[0]){
+	                                		if(index > collateSourceTable.indexOf(c) || index === -1)
+	                                			index = collateSourceTable.indexOf(c);
+	                                		collateLength++;
+	                                	}
+	                                	
+	                                });
+	                                collateSourceTable.splice(index,collateLength);
+									collateTagMap.splice(index,collateLength);
+									for(var a=0;a<collateLength;a++)
+										collateError.delete(index++);
+	                                $scope.collateSourceTables[p.nodeId] = collateSourceTable;
+	                                $scope.collateTags[p.nodeId] = collateTagMap;
+	                                $scope.collateErrors[p.nodeId] = collateError;
+	                        	}
                         	}
                         	
                         	if(p.nodeType === "Splitter"){
                         		if(p.bounds === inbounds && p.type === null){
                         			$scope.splitSourceTables[p.nodeId] = [];
+                        			$scope.splitTags[p.nodeId] = [];
+                        			$scope.splitErrors[p.nodeId] = [];
                         		}
                                 var splitLength = 0;
                         		var index = -1;
@@ -2671,6 +2682,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         	if(port.nodeType === "Collator"){
                         		if(port.bounds === outbounds && port.type === null){
                         			$scope.collateTargetTables[port.nodeId] = [];
+                        			$scope.collateTags[port.nodeId] = [];
+                        			$scope.collateErrors[port.nodeId] = [];
                         		}
                         		var collateLength = 0;
                                 var index = -1;
@@ -2690,6 +2703,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         	if(port.nodeType === "Splitter"){
                         		if(port.bounds === inbounds && port.type === null){
                         			$scope.splitSourceTables[port.nodeId] = [];
+                        			$scope.splitTags[port.nodeId] = [];
+                        			$scope.splitErrors[port.nodeId] = [];
                         		}
                         		var splitLength = 0;
                                 var index = -1;
@@ -3251,7 +3266,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     
     $scope.resetScript = function(){
     	if($scope.readSolutionArray[$scope.nodeIdDB]){
-    		if($scope.dbType === "Select Type" || $scope.dbType === null || $scope.dbType === undefined)
+    		if($scope.dbType === "Select Type" || $scope.dbType === "" || $scope.dbType === null || $scope.dbType === undefined)
     			$scope.dbType = "Select Type";
     		else
     			$scope.dbType = readScriptDetails.dbtype;
@@ -3278,12 +3293,30 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 				$scope.userImageNew =readScriptDetails.localfile;
     		}
     		
+    		if($scope.databaseName === "" || $scope.databaseName === null || $scope.databaseName === undefined)
+    			$scope.databaseName = "";
+    		else 
+    			$scope.databaseName = readScriptDetails.databasename;
+    		
+    		if($scope.tableName === "" || $scope.tableName === null || $scope.tableName === undefined)
+    			$scope.tableName = "";
+    		else 
+    			$scope.tableName = readScriptDetails.tablename;
+    		
+    		if($scope.jdbcDatasource === "Select JDBC Class name" || $scope.jdbcDatasource === "" || $scope.jdbcDatasource === null || $scope.jdbcDatasource === undefined)
+    			$scope.jdbcDatasource = "Select JDBC Class name";
+    		else 
+    			$scope.jdbcDatasource = readScriptDetails.jdbcdatasource;    		
+    		
     	} else if($scope.scriptEntered){
     		$scope.dbType = scriptEnteredDetails.dbtype;
     		$scope.fileUrl = scriptEnteredDetails.targeturl;
     		$scope.scriptText = scriptEnteredDetails.script;
     		$scope.firstRow = scriptEnteredDetails.firstrow;
     		$scope.userImage = scriptEnteredDetails.localfile;
+    		$scope.databaseName = scriptEnteredDetails.databasename;
+			$scope.tableName = scriptEnteredDetails.tablename;
+			$scope.jdbcDatasource = scriptEnteredDetails.jdbcdatasource;
 
     	} else{
     		$scope.dbType = "Select Type";
@@ -3291,6 +3324,9 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     		$scope.scriptText = "";
     		$scope.firstRow = "";
     		$scope.userImage="";
+    		$scope.databaseName = "";
+			$scope.tableName = "";
+			$scope.jdbcDatasource = "Select JDBC Class name";
     	}
     }
     $scope.closePoupscript = function(){
@@ -3428,10 +3464,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	if($scope.userImage !== undefined || $scope.userImage === ""){
 	        var fileName = $scope.userImage.name;
 	        if(fileName !== undefined){
-		        if (fileName.split(".")[1].toUpperCase() !== "CSV")
-		            $scope.enableScript = true;
-		        else
-		        	$scope.enableScript = false;
+	        	if($scope.dbType === 'csv'){
+			        if (fileName.split(".")[1].toUpperCase() !== "CSV")
+			            $scope.enableScript = true;
+			        else
+			        	$scope.enableScript = false;
+	        	} else if($scope.dbType === 'sql'){
+	        		if (fileName.split(".")[1].toUpperCase() !== "SQL")
+			            $scope.enableScript = true;
+			        else
+			        	$scope.enableScript = false;
+	        	}
 	        } else
 	        	$scope.enableScript = false;
         } else
@@ -3454,10 +3497,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	$scope.readSolution = false;
 	        var fileName = $scope.userImage.name;
 	        if(fileName !== undefined){
-		        if (fileName.split(".")[1].toUpperCase() !== "CSV")
-		            $scope.enableScript = true;
-		        else
-		        	$scope.enableScript = false;
+	        	if($scope.dbType === 'csv'){
+			        if (fileName.split(".")[1].toUpperCase() !== "CSV")
+			            $scope.enableScript = true;
+			        else
+			        	$scope.enableScript = false;
+	        	} else if($scope.dbType === 'sql'){
+	        		if (fileName.split(".")[1].toUpperCase() !== "SQL")
+			            $scope.enableScript = true;
+			        else
+			        	$scope.enableScript = false;
+	        	}
 	        } else
 	        	$scope.enableScript = false;
         } else
@@ -3470,7 +3520,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     						'targeturl':"",
     						'script':"",
     						'firstrow':$scope.firstRow,
-    						'localfile':$scope.userImage};
+    						'localfile':$scope.userImage,
+    						'databasename': $scope.databaseName,
+        					'tablename': $scope.tableName,
+        					'jdbcdatasource': $scope.jdbcDatasource};
     	if($scope.dbType == 'csv'){
     		if($scope.fileContent !== undefined){
     			$scope.readSolutionArray[$scope.nodeIdDB] = false;
@@ -3498,8 +3551,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	    	}
 	    	
 	    	var col = dataShow[0];
-	    	var statusParse = parseError(col);
-	    			 
+	    	var statusParse = parseError(col);		 
 	    	var tabledata = col.split(delimeter);
 	    	$scope.dataShow = [];
 	    	if(statusParse){
@@ -3532,6 +3584,24 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     	    ]
     	$scope.saveScript();
     	
+    } else if($scope.dbType === 'sql'){
+    	var uploaded=JSON.stringify($scope.fileContent);
+    	var res = uploaded.split("PRIMARY KEY");
+    	res = res[0].split("`");
+    	$scope.dataShow = [];
+    	var dataTable = [];
+    	for(var ind=1; ind < res.length; ind++){
+    		if(ind % 2 === 1){
+    			dataTable[Math.floor(ind/2)] = res[ind];
+    		}
+    	}
+    	$scope.tableName = dataTable[0];
+    	for (var dat = 1; dat < dataTable.length; dat++){
+    		$scope.dataShow[dat-1] = dataTable[dat];
+    	}
+    	console.log($scope.dataShow);
+    	
+    	$scope.saveScript();
     }
     	
     function parseError(col){
@@ -3548,28 +3618,83 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.saveScript = function(){
     	var scriptInput = "";
     	var url;
+    	var data;
     	$scope.localurl = '';
     	 if($scope.userImage){
     		 $scope.localurl = $scope.userImage.name;
     	 } else {
     		 $scope.localurl = null;
     	 }
-    	var data = {
-    			"databrokerMap": {
-    			    "script": "",
-    			    "csv_file_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, 
-    			    "data_broker_type": $scope.dbType,
-    			    "first_row": $scope.firstRow?$scope.firstRow:null,
-    			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, 
-    			    "target_system_url":"",
-    			    "map_action": null,
-    			    "map_inputs": null,
-    			    "map_outputs": null
-    			  },
-    			  "fieldMap":null,
-    			  "collatorMap": null,
-    			  "splitterMap": null
-    		}
+    	 if($scope.dbType === 'csv'){
+	    	data = {
+	    			"databrokerMap": {
+	    			    "script": "",
+	    			    "csv_file_field_separator": $scope.delimeterchar?$scope.delimeterchar:null, 
+	    			    "data_broker_type": $scope.dbType,
+	    			    "first_row": $scope.firstRow?$scope.firstRow:null,
+	    			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, 
+	    			    "target_system_url":"",
+	    			    "database_name": "",
+	    				"table_name": "",
+	    				"jdbc_driver_data_source_class_name": "",
+	    				"user_id": "",
+	    				"password": "",
+	    				"protobufFile":"",
+	    			    "map_action": null,
+	    			    "map_inputs": null,
+	    			    "map_outputs": null
+	    			  },
+	    			  "fieldMap":null,
+	    			  "collatorMap": null,
+	    			  "splitterMap": null
+	    		}
+    	 } else if($scope.dbType === 'sql'){
+    		 data = {
+ 	    			"databrokerMap": {
+ 	    			    "script": "",
+ 	    			    "csv_file_field_separator": "", 
+ 	    			    "data_broker_type": $scope.dbType,
+ 	    			    "first_row": "",
+ 	    			    "local_system_data_file_path":$scope.localurl?$scope.localurl:$scope.userImageNew, 
+ 	    			    "target_system_url":"",
+ 	    			    "database_name": $scope.databaseName,
+ 	    				"table_name": $scope.tableName,
+ 	    				"jdbc_driver_data_source_class_name": $scope.jdbcDatasource,
+ 	    				"user_id": "",
+ 	    				"password": "",
+ 	    				"protobufFile":"",
+ 	    			    "map_action": null,
+ 	    			    "map_inputs": null,
+ 	    			    "map_outputs": null
+ 	    			  },
+ 	    			  "fieldMap":null,
+ 	    			  "collatorMap": null,
+ 	    			  "splitterMap": null
+ 	    		}
+    	 } else if($scope.dbType === 'image'){
+    		 data = {
+  	    			"databrokerMap": {
+  	    			    "script": "",
+  	    			    "csv_file_field_separator": null, 
+  	    			    "data_broker_type": $scope.dbType,
+  	    			    "first_row": null,
+  	    			    "local_system_data_file_path":null, 
+  	    			    "target_system_url":"",
+  	    			    "database_name": null,
+  	    				"table_name": null,
+  	    				"jdbc_driver_data_source_class_name": null,
+  	    				"user_id": null,
+  	    				"password": null,
+  	    				"protobufFile":"",
+  	    			    "map_action": null,
+  	    			    "map_inputs": null,
+  	    			    "map_outputs": null
+  	    			  },
+  	    			  "fieldMap":null,
+  	    			  "collatorMap": null,
+  	    			  "splitterMap": null
+  	    		}
+    	 }
         if(_solutionId){
             url = build_url(options.modifyNode, {
                 userid: get_userId(),
@@ -3730,7 +3855,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	}
         }
     	
-    	if($scope.dbType === "csv"){
+    	if($scope.dbType === "csv" || $scope.dbType === "sql"){
     		angular.forEach($scope.dataShow, function(valueData,keyData){
 	    		mapInput.push({"input_field": {
 	    			"name":fieldNameMap.get(keyData),
@@ -3832,6 +3957,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         			    "first_row": null,
         			    "local_system_data_file_path": null,
         			    "target_system_url": null,
+        			    "database_name": null,
+  	    				"table_name": null,
+  	    				"jdbc_driver_data_source_class_name": null,
+  	    				"user_id": null,
+  	    				"password": null,
+  	    				"protobufFile":null,
         			    "map_action": null,
         			    "map_inputs": $scope.readSourceTable,
         			    "map_outputs": mapOutput
@@ -3849,6 +3980,12 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     			    "first_row": null,
     			    "local_system_data_file_path": null,
     			    "target_system_url": null,
+    			    "database_name": null,
+	    			"table_name": null,
+	    			"jdbc_driver_data_source_class_name": null,
+	    			"user_id": null,
+	    			"password": null,
+	    			"protobufFile":null,
     			    "map_action": null,
     			    "map_inputs": mapInput,
     			    "map_outputs": mapOutput
@@ -3898,9 +4035,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     $scope.mapDBType = function(dbType){
         if(dbType === "csv" || dbType === "image" || dbType === "json"){
                $scope.fileUrl = "file://";
+               $scope.userImage = undefined;
+               $scope.enableScript = false;
                $scope.uploadFileRequired = true;
         }else{
                $scope.fileUrl = "http://";
+               $scope.userImage = undefined;
+               $scope.enableScript = false;
+               $scope.uploadFileRequired = true;
         }
         $scope.readSolutionArray[$scope.nodeIdDB]=false;
      }
