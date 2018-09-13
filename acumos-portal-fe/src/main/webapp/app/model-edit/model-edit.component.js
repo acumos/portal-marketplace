@@ -114,7 +114,11 @@ angular
 						if(browserStorageService.getUserDetail()){
 							$scope.loginUserId = JSON.parse(browserStorageService.getUserDetail());
 						}
-						
+
+						apiService.getKubernetesDocUrl().then( function(response){
+							$scope.kubernetesDocUrl = response.data.response_body;
+						});
+
 						$scope.getComment = function() {
 							if (browserStorageService.getUserDetail()) {
 								$scope.loginUserID = JSON.parse(browserStorageService

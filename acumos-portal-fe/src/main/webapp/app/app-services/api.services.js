@@ -58,6 +58,7 @@ angular.module('AcumosApp')
         var urlAuthAndDeployToAzure='/azure/authAndpushimage';//'http://localhost:9081/azure/authAndpushimage';
         var urlqandAUrl = 'api/users/qAUrl';
         var docUrl = 'api/users/docs';
+        var kubernetesHelpDocUrl = 'api/users/k8s/docs/help';
         var dashboardUrl = 'api/admin/dashboard';
         var urlmodelFileUpload = 'api/model/upload';
         var urlTermsCondition = '/site/api-manual/Solution/global/termsCondition';
@@ -179,6 +180,9 @@ angular.module('AcumosApp')
             return $http.get(docUrl);
         };
         
+        this.getKubernetesDocUrl = function () {
+            return $http.get(kubernetesHelpDocUrl);
+        };
         this.getDashboardUrl = function () {
             return $http.get(dashboardUrl);
         };

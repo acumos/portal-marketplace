@@ -90,6 +90,7 @@ portal.feature.cloud_enabled =    [{"cloudEnabled" : "true", "cloudName" : "azur
 
 #Dashboard Url
 portal.dashboard.url=http://www.mycompany.com/
++#kubernetes.doc.url=http://docs.acumos.org/
 
 #model upload storage folder path
 model.storage.folder.path=./temp
