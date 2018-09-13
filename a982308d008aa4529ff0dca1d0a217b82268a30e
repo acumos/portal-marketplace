@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "db6eb9e9_5b308874",
+        "filename": "acumos-portal-be/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-09-13T18:46:18Z",
+      "side": 1,
+      "message": "Please add this property to application.properties.template as well",
+      "range": {
+        "startLine": 107,
+        "startChar": 21,
+        "endLine": 107,
+        "endChar": 29
+      },
+      "revId": "a982308d008aa4529ff0dca1d0a217b82268a30e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cabf24b2_aae28631",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/UserServiceController.java",
         "patchSetId": 2
