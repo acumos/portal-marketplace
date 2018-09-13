@@ -39,6 +39,10 @@ zuul:
       url: http://localhost:8007
       stripPrefix: false
       sensitiveHeaders:
+#    package:
+#      path: /package/**
+#      sensitiveHeaders:
+#      url: http://localhost:8083
     
 spring:
   http:

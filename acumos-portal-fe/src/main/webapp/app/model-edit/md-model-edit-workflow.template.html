@@ -3820,10 +3820,10 @@ limitations under the License.
 										   <md-input-container class="md-icon-float md-block">
 										      <label>Click here to download Deployable Solution Package for Private Kubernetes Cloud</label> 
 										      <md-button class="mdl-button mdl-js-button btn-secondary"
-										         ng-click="deployToLocal()"> Download Solution Package</md-button>
+										         href="/package/getSolutionZip/{{solutionId}}/{{revisionId}}" target="_blank"> Download Solution Package</md-button>
 										   </md-input-container>
 										   <br />
-										   <p>More Info at <a href="" target="_blank">help</a></p>
+										   <p>More Info at <a href="{{kubernetesDocUrl}}" target="_blank">help</a></p>
 									   </form>
 									   </div>
 									</div>
