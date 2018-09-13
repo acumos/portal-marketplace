@@ -1229,6 +1229,9 @@ angular
 							
 						}
 						
+						apiService.getKubernetesDocUrl().then( function(response){
+							$scope.kubernetesDocUrl = response.data.response_body;
+						});
 						
 						//Default values
 						$scope.positionM1 = "mime_type";$scope.positionM3 = "image_binary";$scope.positionM2 = 1;$scope.positionM4 = 2;

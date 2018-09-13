@@ -712,5 +712,19 @@ public class UserServiceController extends AbstractController {
 	        responseVO.setStatusCode(HttpServletResponse.SC_OK);
 	        return responseVO;
 	    }
+
+    @ApiOperation(value = "Get Kubernetes help URL", response = JsonResponse.class)
+    @RequestMapping(value = {"/k8s/docs/help"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<String> getKubernetesHelpDocUrl(HttpServletRequest request, HttpServletResponse response) {
+		
+		String docUrl = env.getProperty("kubernetes.doc.url", "");
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		responseVO.setResponseBody(docUrl);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
 }
 
