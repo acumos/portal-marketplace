@@ -240,11 +240,6 @@ public class AuthServiceController extends AbstractController {
 						 userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 						 isValid = true; 
 					}
-				
-					if(mlpUser != null && mlpUser.getLastLogin() == null) {
-						firstLogin = true;
-						mlpUser.setLastLogin(new Date(System.currentTimeMillis()));
-					}
 
 					if (!mlpUser.isActive()) {
 						isValid = false;
@@ -291,6 +286,9 @@ public class AuthServiceController extends AbstractController {
 								userObj.setApiTokenHash(apiToken);
 								userObj.setActive("Y");
 								userService.updateUser(userObj);
+
+								//If jwt token is null then this is the first time the user is logging in
+								firstLogin = true;
 							}
 						} catch (Exception e) {
 

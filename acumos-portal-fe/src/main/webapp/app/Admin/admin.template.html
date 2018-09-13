@@ -2642,15 +2642,14 @@ limitations under the License.
 			<form name="carouselForm" ng-cloak>
 				<div class="md-dialog-content add-top-carousel">
 					<div class="mdl-grid">
-						<alert-message msg="msg" icon="icon" styleclass="styleclass"
-						ng-show="invalidImage"></alert-message>
-						<div class="mdl-cell mdl-cell--6-col" style="float: left">
+						
+						<div class="mdl-cell mdl-cell--6-col" >
 							<md-input-container class="md-block"> <label>Slide
 								Name</label> <input type="text" ng-model="carouselSlide.name"
 								tabindex="1" required /> </md-input-container>
 						</div>
-						<div class="mdl-cell mdl-cell--6-col" style="float: left">
-							<md-input-container class="md-block"> <label>Headline</label>
+						<div class="mdl-cell mdl-cell--6-col">
+							<md-input-container class="md-block addslide-container1"> <label>Headline</label>
 							<input type="text" ng-model="carouselSlide.headline" tabindex="2"
 								required />
 								<span class="modal-note" ng-style="!headlineWithinCharLimit(carouselSlide) && {color: 'red'}"
@@ -2659,6 +2658,20 @@ limitations under the License.
 										+ ((headlineCharsLeft(carouselSlide) | abs) == 1 ? ' character' : ' characters')
 										+ (headlineWithinCharLimit(carouselSlide) ? ' left' : '')"></span>
 								</md-input-container>
+						</div>
+					</div>
+					<div class="mdl-grid">						
+						<div class="mdl-cell mdl-cell--6-col">
+							<div class="select-control addslide-select">
+								<label>Define Tag </label>								
+								<md-select ng-model="carouselSlide.tagName" class="dc-cloud-list">									 						
+								  <md-option ng-value="tag"
+								    ng-repeat = "tag in allTags">{{tag}}</md-option>
+								</md-select>
+							</div>
+						</div>
+						<div class="mdl-cell mdl-cell--6-col">
+							
 						</div>
 					</div>
 					<div class="mdl-grid">
