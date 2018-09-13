@@ -118,12 +118,12 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	}
 
 	@Override
-	public Future<HttpResponse> callOnboarding(String uuid, String userId, UploadSolution solution, String provider, String access_token)
+	public Future<HttpResponse> callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider, String access_token)
 			throws InterruptedException, ClientProtocolException, IOException {
 
 			log.info("CallOnboarding service start");
 		//File directory = new File(env.getProperty("model.storage.folder.name") + File.separator + userId);
-		String directory = env.getProperty("model.storage.folder.name") + File.separator + userId;
+		String directory = env.getProperty("model.storage.folder.name") + File.separator + user.getUserId();
 		List<File> fileList = new ArrayList<>();
 		File modelFile = null;
 		File schemaFile = null;
@@ -153,14 +153,18 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			if (modelFile != null && schemaFile != null && metadataFile != null) {
 
 				HttpPost post = new HttpPost(env.getProperty("onboarding.push.model.url"));
-
-				if(StringUtils.isEmpty(provider)) {
-					MLPUser user = userService.findUserByUserId(userId);
-					String jwtToken = user.getAuthToken();
-					post.setHeader("Authorization", jwtToken);
-				} else {
-					post.setHeader("Authorization", access_token);
+				
+				String tokenMode = env.getProperty("onboarding.tokenmode");
+				if(tokenMode != null && tokenMode.equals("jwtToken")) {
+					if(StringUtils.isEmpty(provider)) {
+						post.setHeader("Authorization", user.getAuthToken());
+					} else {
+						post.setHeader("Authorization", access_token);
+					}
+				} else if(tokenMode != null && tokenMode.equals("apiToken")) {
+					post.setHeader("Authorization", user.getLoginName() + ":" + user.getApiToken());
 				}
+				
 				if(StringUtils.isNotEmpty(provider)) {
 					post.setHeader("provider", provider);
 				}
@@ -203,12 +207,12 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String notifMsg = "Solution " + solutionStr.get("name") + " On-boarded Successfully";
 					notification.setMessage(notifMsg);
 					notification.setTitle(NOTIFICATION_TITLE);
-					notificationService.generateNotification(notification, userId);
+					notificationService.generateNotification(notification, user.getUserId());
 					
 					//Send notification to user according to preference
 					Map<String, String> notifyBody = new HashMap<String, String>();
 					notifyBody.put("solutionName", (String) solutionStr.get("name"));
-					notifyOnboardingStatus(userId, "HI", notifMsg, notifyBody, "ONBD_SUCCESS");
+					notifyOnboardingStatus(user.getUserId(), "HI", notifMsg, notifyBody, "ONBD_SUCCESS");
 				} else {
 					InputStream instream = response.getEntity().getContent();
 					String result = convertStreamToString(instream);
@@ -221,19 +225,19 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info(resp.toString());
 					log.info((String) resp.get("errorMessage"));
 					
-					String errorLog = getErrorLogArtiffact(uuid, userId);
+					String errorLog = getErrorLogArtiffact(uuid, user.getUserId());
 					String notifMsg = "On-boarding Failed"
 					+ ". Please restart the process again to upload the solution. " + errorLog;
 
 					notification.setMessage(notifMsg);
 					notification.setTitle(NOTIFICATION_TITLE);
 					log.info("inside callOnboarding else before generateNotification ---->>>");
-					notificationService.generateNotification(notification, userId);
+					notificationService.generateNotification(notification, user.getUserId());
 					
 					//Send notification to user according to preference
 					Map<String, String> notifyBody = new HashMap<String, String>();
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
-					notifyOnboardingStatus(userId, "HI", "On-boarding Failed for solution ", notifyBody, "ONBD_FAIL");
+					notifyOnboardingStatus(user.getUserId(), "HI", "On-boarding Failed for solution ", notifyBody, "ONBD_FAIL");
 				}
 			}
 		// If disconnected from onboarding service, catch related exceptions here
@@ -241,13 +245,13 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution - No response ", e);
 			
 			// Send a bell notification to the user to alert of failure
-			sendBellNotification(userId, solution);
+			sendBellNotification(user.getUserId(), solution);
 			
 			// Update the on-screen progress tracker status to alert of failure
-			sendTrackerNotification(uuid, userId);
+			sendTrackerNotification(uuid, user.getUserId());
 			
 			// Email) a notification to the user based on notification preference
-			sendEmailNotification(userId, solution, e.getMessage());
+			sendEmailNotification(user.getUserId(), solution, e.getMessage());
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution ", e);
 		} finally {
@@ -255,7 +259,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			// Remove all files once the process is completed
 			log.info("inside finallly callOnboarding ---->>>");
 			
-			fileSystemStorageService.deleteAll(userId);
+			fileSystemStorageService.deleteAll(user.getUserId());
 		}
 
 		return new AsyncResult<HttpResponse>(response);

@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPStepStatus;
 import org.acumos.cds.domain.MLPStepType;
+import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -78,13 +79,22 @@ public class WebBasedOnboardingController  extends AbstractController {
 	@ApiOperation(value = "adding Solution for Market Place Catalog.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.ADD_TO_CATALOG}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponseBE<MLSolution>> addToCatalog(@RequestHeader("Authorization") String authorization, @RequestHeader(value="provider", required=false) String provider ,@RequestBody JsonRequest<UploadSolution> restPageReq, @PathVariable("userId") String userId ) {
+	public JsonResponse<RestPageResponseBE<MLSolution>> addToCatalog(HttpServletRequest request, HttpServletResponse response, @RequestHeader("Authorization") String authorization, @RequestHeader(value="provider", required=false) String provider ,@RequestBody JsonRequest<UploadSolution> restPageReq, @PathVariable("userId") String userId) {
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "addToCatalog");
 		log.info(EELFLoggerDelegate.auditLogger, "addToCatalog");
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();	    
-		String uuid = UUID.randomUUID().toString();
+		String uuid = UUID.randomUUID().toString();				
 		
+		if(request.getAttribute("mlpuser") == null) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred OnBoarding Solutions for Market Place Catalog: User Not Logged In");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred OnBoarding Solutions for Market Place Catalog: User Not Logged In");
+			return data;
+		}
+		
+		final MLPUser requestUser = (MLPUser) request.getAttribute("mlpuser");
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 		
 		try {
 			if (restPageReq != null) {
@@ -94,15 +104,17 @@ public class WebBasedOnboardingController  extends AbstractController {
 				//restPageReq.getBody() will get( modelType, modelToolkitType, name) which required to proceed
 				//String provider = request.getHeader("provider");
 				String access_token = authorization;
-				ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);				
-				FutureTask<HttpResponse> futureTask_1 = new FutureTask<HttpResponse>(new Callable<HttpResponse>() {
-		            @Override
-		            public HttpResponse call() throws FileNotFoundException, ClientProtocolException, InterruptedException, IOException {
-		                return (HttpResponse) asyncService.callOnboarding(uuid, userId, solution, provider, access_token);
-		            }
-		        });				
-				executor.execute(futureTask_1);
-				executor.shutdown();
+				try {
+					FutureTask<HttpResponse> futureTask_1 = new FutureTask<HttpResponse>(new Callable<HttpResponse>() {
+			            @Override
+			            public HttpResponse call() throws FileNotFoundException, ClientProtocolException, InterruptedException, IOException {
+			                return (HttpResponse) asyncService.callOnboarding(uuid, requestUser, solution, provider, access_token);
+			            }
+			        });				
+					executor.execute(futureTask_1);
+				} finally {
+					executor.shutdown();
+				}
 				
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail(uuid);
