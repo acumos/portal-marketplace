@@ -22,6 +22,10 @@ Portal Marketplace Release Notes
 
 Version 1.15.45, 9th September 2018
 ===================================
+* Portal sign-in dialog shows no message on mismatch username/password (ACUMOS-1723)
+* Portal publish-approve screen does not refresh row status after approval (ACUMOS-1724)
+* Portal publish request table does not show Please Wait while populating itself (ACUMOS-1727)
+* Delete private model fails with message Model Name Not Unique (ACUMOS-1728)
 * IST: Notification are not generating for all the processing (ACUMOS-1709)
 * IST: User is not able to comment on model (ACUMOS-1710)
 * Portal Marketplace/Web Onboarding> Instructions links not redirecting user to required page (ACUMOS-1716)
