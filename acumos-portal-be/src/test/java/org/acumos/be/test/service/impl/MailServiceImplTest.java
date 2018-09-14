@@ -123,7 +123,7 @@ public class MailServiceImplTest {
         				"}")));
         
         
-        stubFor(get(urlEqualTo("/ccds/user/1234/notifpref"))
+        stubFor(get(urlEqualTo("/ccds/notif/notifpref/user/1234"))
         		.willReturn(aResponse()
         		.withStatus(HttpStatus.SC_OK)
         		.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
