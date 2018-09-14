@@ -23,8 +23,10 @@ package org.acumos.portal.be.transport;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPTag;
 
 
 public class User extends AbstractResponseObject {
@@ -55,6 +57,7 @@ public class User extends AbstractResponseObject {
 	private String apiTokenHash;
 	private String verifyToken;
 	private String status;
+	private Set<MLPTag> tags;
 
 
 	public String getBulkUpdate() {
@@ -316,6 +319,20 @@ public class User extends AbstractResponseObject {
 
 	public String getStatus() {
 		return status;
+	}
+
+	/**
+	 * @return the tags
+	 */
+	public Set<MLPTag> getTags() {
+		return tags;
+	}
+
+	/**
+	 * @param tags the tags to set
+	 */
+	public void setTags(Set<MLPTag> tags) {
+		this.tags = tags;
 	}
 }
 

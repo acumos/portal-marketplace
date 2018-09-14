@@ -19,7 +19,7 @@ limitations under the License.
 -->
 
 <div class="posrel">
-	<alert-message msg="msg" icon="icon" styleclass="styleclass"
+	<alert-message ng-cloak msg="msg" icon="icon" styleclass="styleclass"
 		ng-show="showAlertMessage"></alert-message>
 </div>
 
@@ -143,12 +143,12 @@ limitations under the License.
 						<td>
 							<div class="admin-action-container">
 								<button name="approvePublishRequestModal"
-									ng-click="showModalPublishReq('approve',publishReq.modelName, publishReq.publishRequestId)"
+									ng-click="showModalPublishReq($index, 'approve',publishReq.modelName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-approve"></span>
 								</button>
 								<button name="declinePublishRequestModal"
-									ng-click="showModalPublishReq('decline',publishReq.modelName, publishReq.publishRequestId)"
+									ng-click="showModalPublishReq($index, 'decline',publishReq.modelName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-deny"></span>
 								</button>
@@ -203,7 +203,7 @@ limitations under the License.
 								class="mdl-button mdl-js-button btn-secondary">Cancel</button>
 						</div>
 						<div>
-							<button ng-click="publishReqeuest(requestApprovalModal)"
+							<button ng-click="publishReqeuest($index, requestApprovalModal)"
 								class="mdl-button mdl-js-button btn-primary">
 								<span ng-show="requestApprovalModal == 'approve' ">Approve</span>
 								<span ng-show="requestApprovalModal == 'decline' ">Decline</span>

@@ -27,11 +27,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPRole;
+import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
@@ -234,6 +236,7 @@ public class UserServiceController extends AbstractController {
 		JsonResponse<Object> responseObj = new JsonResponse<>();
 		String authToken = "";
 		String apiToken = "";
+		Set<MLPTag> tags = null;
 		try {
 			if (user.getBody() == null) {
 				log.debug(EELFLoggerDelegate.errorLogger, "updateUser: Invalid Parameters");
@@ -261,6 +264,9 @@ public class UserServiceController extends AbstractController {
                     apiToken = mlpUser.getApiToken().toString();
                 }
 				
+				if(mlpUser.getTags() != null)
+					tags = mlpUser.getTags();
+				
 				if (mlpUser != null) {
 					isUserExists = true;
 				}
@@ -272,9 +278,10 @@ public class UserServiceController extends AbstractController {
 			}
 			if (isUserExists) {
 				User userObj = user.getBody();
-				//Never allow to update the tokens. Use separate services to update token.
+				//Never allow to update the tokens/tags. Use separate services to update token.
 				userObj.setJwttoken(authToken);
 				userObj.setApiTokenHash(apiToken);
+				userObj.setTags(tags);
 				userService.updateUser(user.getBody());
 				responseObj.setStatus(true);
 				responseObj.setResponseDetail("Success");

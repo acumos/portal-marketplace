@@ -125,6 +125,7 @@ public class PortalUtils {
         user.setPassword(mlpUser.getLoginHash());
         user.setPicture((mlpUser.getPicture()));
         user.setApiTokenHash(mlpUser.getApiToken());
+        user.setTags(mlpUser.getTags());
         return user;
     }
 	
@@ -287,6 +288,9 @@ public class PortalUtils {
 			mlpUser.setApiToken(user.getApiTokenHash());
 		}
 
+		if (user.getTags() != null) {
+			mlpUser.setTags(user.getTags());
+		}
 		// Always remove the verification token before updating the User
 		mlpUser.setVerifyTokenHash(null);
 		return mlpUser;

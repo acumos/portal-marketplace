@@ -519,7 +519,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			}
 		} catch (IllegalArgumentException e) { 
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
-		} catch (HttpClientErrorException e) { 
+		} catch (HttpClientErrorException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
@@ -1471,37 +1471,32 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	public boolean checkUniqueSolName(String solutionId, String solName) {
 		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
+		String[] accessTypeCodes = { CommonConstants.PUBLIC/*, CommonConstants.ORGANIZATION*/ };
 
-		/*MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
-		if(solution.getAccessTypeCode().equals(CommonConstants.PUBLIC)){
-			accessTypeCodes =new String[] { CommonConstants.ORGANIZATION, CommonConstants.PUBLIC };
-		}else if(solution.getAccessTypeCode().equals(CommonConstants.ORGANIZATION)){
-			accessTypeCodes = new String[] {CommonConstants.ORGANIZATION, CommonConstants.PUBLIC };
-		}else {
-			accessTypeCodes= new String[] {CommonConstants.PUBLIC};
-			accessTypeCodes= new String[] {CommonConstants.ORGANIZATION};
-		}*/
-		String[] name = { solName };
+		//Check only if user tries to change the name or publish the solution from private to public /org
+		MLPSolution oldSolution = dataServiceRestClient.getSolution(solutionId);
+		if(!solName.equalsIgnoreCase(oldSolution.getName())) {
+			String[] name = { solName };
 
-		Map<String, String> queryParameters = new HashMap<>();
-		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
-		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-				accessTypeCodes, null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
-		List<MLPSolution> searchSolList = searchSolResp.getContent();
+			Map<String, String> queryParameters = new HashMap<>();
+			//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
+			RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
+					accessTypeCodes, null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+			List<MLPSolution> searchSolList = searchSolResp.getContent();
+	
+			//removing the same solutionId from the list
+			List<MLPSolution> filteredSolList1 = searchSolList.stream()
+					.filter(searchSol -> !searchSol.getSolutionId().equalsIgnoreCase(solutionId))
+					.collect(Collectors.toList());
+			
+			//Consider only those records that have exact match with the solution name
+			List<MLPSolution> filteredSolList = filteredSolList1.stream()
+					.filter(searchSol -> searchSol.getName().equalsIgnoreCase(solName))
+					.collect(Collectors.toList());
 
-		//removing the same solutionId from the list
-		List<MLPSolution> filteredSolList1 = searchSolList.stream()
-				.filter(searchSol -> !searchSol.getSolutionId().equalsIgnoreCase(solutionId))
-				.collect(Collectors.toList());
-		
-		//Consider only those records that have exact match with the solution name
-		List<MLPSolution> filteredSolList = filteredSolList1.stream()
-				.filter(searchSol -> searchSol.getName().equalsIgnoreCase(solName))
-				.collect(Collectors.toList());
-
-		if (!filteredSolList.isEmpty()) {
-			return false;
+			if (!filteredSolList.isEmpty()) {
+				return false;
+			}
 		}
 
 		return true;

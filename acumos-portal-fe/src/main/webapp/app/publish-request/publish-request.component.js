@@ -36,6 +36,7 @@ angular
 						$scope.loginUserID = user[1];
 						$scope.pageNumber = 0;
 						$scope.totalPages = 0;
+						$scope.allPublishRequestLength = 0;
 						$scope.requestResultSize = 10;
 
 						$scope.setPageStart = 0;
@@ -59,12 +60,13 @@ angular
                                           	$scope.selectedPage = $scope.selectedPage + 1;
                                           }
                                     else
-                                    	$scope.selectedPage = $scope.selectedPage + 1;                                                
+                                    	$scope.selectedPage = $scope.selectedPage + 1;
                                     }
                         }
 						
 						//Open popup 
-			            $scope.showModalPublishReq = function(req, modelName, publishRequestId){
+			            $scope.showModalPublishReq = function(index, req, modelName, publishRequestId){
+			            	$scope.requestIndex = index;
 			            	$scope.pbReqId = publishRequestId;
 			            	$scope.requestApprovalModal = req;
 			            	$scope.requestedModelName = modelName;
@@ -83,11 +85,14 @@ angular
 			            
 			            $scope.filterChange = function(pagination, size) {
 			            	$scope.allPublishRequest = [];
-			            	$scope.allPublishRequestLength =
+			            	$scope.allPublishRequestLength = 0;
 			            	$scope.requestResultSize = size;
 			            	$scope.loadPublishRequest(0)
 			            }
 						$scope.loadPublishRequest = function(pageNumber) {
+							$scope.allPublishRequest = [];
+							$scope.SetDataLoaded = true;
+							$rootScope.setLoader = true;
 							$scope.pageNumber = pageNumber;
 							$scope.selectedPage = pageNumber;
 							var getPublishRequestUrl = 'api/publish/request/';
@@ -113,15 +118,18 @@ angular
 												$scope.totalPages = response.data.totalPages;
 												$scope.totalElements = response.data.totalElements;
 												$scope.allPublishRequestLength = response.data.totalElements;
+												$scope.SetDataLoaded = false;
+												$rootScope.setLoader = false;
 											},function errorCallback(response) {
-												//Do nothing
+												$scope.SetDataLoaded = false;
+												$rootScope.setLoader = false;
 										});
 						}
 						
 						$scope.loadPublishRequest(0);
 						$scope.showAlertMessage = false;
 
-						$scope.publishReqeuest = function(publishVal){
+						$scope.publishReqeuest = function(index, publishVal){
 							$scope.publishVal = publishVal;
 							var publishRequestCode = 'DC';
 							if(publishVal == 'approve'){
@@ -160,6 +168,9 @@ angular
 															$scope.showAlertMessage = false;
 														}, 3000);
 												$mdDialog.hide();
+												if($scope.requestIndex != undefined){
+													$scope.allPublishRequest[$scope.requestIndex] = response.data.response_body;
+												}
 											},function errorCallback(response) {
 												$scope.msg = "Error Occured while updating the publish request";
 												$scope.icon = 'report_problem';
@@ -171,28 +182,6 @@ angular
 														}, 3000);
 										});
 							
-							/*if($scope.publishVal == 'approve'){
-								$scope.msg = "Publication request has been approved successfully. ";
-								$scope.icon = '';
-								$scope.styleclass = 'c-success';
-								$scope.showAlertMessage = true;
-								$timeout(
-										function() {
-											$scope.showAlertMessage = false;
-										}, 3000);
-							}else{
-								
-								$scope.msg = "Publication request has been declined. ";
-								$scope.icon = 'report_problem';
-								$scope.styleclass = 'c-error';
-								$scope.showAlertMessage = true;
-								$timeout(
-										function() {
-											$scope.showAlertMessage = false;
-										}, 3000);
-								
-							}*/
-								
 						}
 						
 					}
