@@ -20,6 +20,20 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.45, 9th September 2018
+===================================
+* IST: Notification are not generating for all the processing (ACUMOS-1709)
+* IST: User is not able to comment on model (ACUMOS-1710)
+* Portal Marketplace/Web Onboarding> Instructions links not redirecting user to required page (ACUMOS-1716)
+* Portal display authors and publisher details in marketplace (ACUMOS-1593)
+* Portal federation admin screen cannot create subscription to all models (ACUMOS-1685)
+* IST- Signup email verification not received now can't login (ACUMOS-1624)
+* Contact Information in the footer need to be configurable (ACUMOS-861)
+* Sonar 40% code coverage for Portal Marketplace (ACUMOS-1202)
+* Develop Portal's personalized user experience with a theme like IOT, wireless, mobile (ACUMOS-1631)
+* Portal Changes for IOT (ACUMOS-1673)
+* R model On-Boarding instruction. (ACUMOS-950)
+
 Version 1.15.44, 7 th September 2018
 ====================================
 * IST2: Image Upload on Account Setting Issue (`ACUMOS-1507 <https://jira.acumos.org/browse/ACUMOS-1507>`_)
