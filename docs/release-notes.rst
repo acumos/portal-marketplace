@@ -22,6 +22,8 @@ Portal Marketplace Release Notes
 
 Version 1.15.45, 9th September 2018
 ===================================
+* Add Api Token in WebOnboarding flow (ACUMOS-1676)
+* Portal's personalized user experience with a theme like IOT, wireless, mobile (ACUMOS-1431)
 * Portal sign-in dialog shows no message on mismatch username/password (ACUMOS-1723)
 * Portal publish-approve screen does not refresh row status after approval (ACUMOS-1724)
 * Portal publish request table does not show Please Wait while populating itself (ACUMOS-1727)
