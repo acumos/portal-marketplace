@@ -104,6 +104,18 @@ angular.module('signInModal')
 					sessionStorage.removeItem('auth_token');
 					localStorage.removeItem('auth_token');
 				}
+				
+				this.setMktPlaceStorage = function(obj) {
+					sessionStorage.setItem('mktPlaceStorage', JSON.stringify(obj));
+				}
+				
+				this.getMktPlaceStorage = function() {
+					return JSON.parse(sessionStorage.getItem('mktPlaceStorage'));
+				}
+				
+				this.removeMktPlaceStorage = function() {
+					sessionStorage.removeItem('mktPlaceStorage');
+				}
 			})
             .component(
                         'signinContent',
