@@ -375,6 +375,7 @@ angular.module('headerNav')
 			localStorage.removeItem("soluId");
 			localStorage.removeItem("solutionId");
 			browserStorageService.removeAuthToken();
+			browserStorageService.removeMktPlaceStorage();
 			
 			$scope.successfulLoginSigninSignup = true;
 			$scope.successfulLogin = false;
