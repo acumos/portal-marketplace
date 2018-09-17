@@ -26,9 +26,9 @@ limitations under the License.
 								<div class="mp-header-btn-container">
 									<span class="headline mob-disblock">Marketplace</span>
 									<span class="mpheader-btn-container" ng-if="userLoggedIn==true">
-										<button class="btn-company" ng-click="accessFilter('all');public=false;company=false;all=true" ng-class="all?'btn-primary':'btn-secondary'">ALL</button>										
-										<button class="btn-company" ng-click="accessFilter('OR');public=false;company=true;all=false"  ng-class="company?'btn-primary':'btn-secondary'">Company</button>
-										<button class="btn-company " ng-click="accessFilter('PB');public=true;company=false;all=false" ng-class="public?'btn-primary':'btn-secondary'">Public</button>										
+										<button class="btn-company" ng-click="accessFilter('all')" ng-class="accessType=='all'?'btn-primary':'btn-secondary'">ALL</button>										
+										<button class="btn-company" ng-click="accessFilter('OR')"  ng-class="accessType=='OR'?'btn-primary':'btn-secondary'">Company</button>
+										<button class="btn-company " ng-click="accessFilter('PB')" ng-class="accessType=='PB'?'btn-primary':'btn-secondary'">Public</button>										
 									</span>
 								</div>
 								<ul class="c-breadcrumb">
@@ -63,7 +63,7 @@ limitations under the License.
 							   
 								<div class="checkbox"  ng-repeat="cat in category">
 								 <md-checkbox aria-label="Checkbox 1" class="text-medium" ng-true-value="'yup'" ng-false-value="'nope'"
-										value="{{cat}}" ng-click="filterChange(cat.code,'caegory')">{{cat.name}}
+										value="{{cat}}" ng-checked="selectedCat[$index]" ng-click="filterChange(cat.code,'caegory');selectedCat[$index]=!selectedCat[$index]">{{cat.name}}
 								</div>
 								<!-- <a href="#" class="text-small" flex>Show More</a> -->
 							</div>
@@ -120,8 +120,8 @@ limitations under the License.
 											<li class="mdl-menu__item">{{action.name}}</li>
 										 </ul> -->
 									<div class="select-control">
-								      <md-select ng-model="action" placeholder="Sort By - All" class="btn-sort bdr mdl-button md-no-underline">
-								           <md-option ng-value="action" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
+								      <md-select ng-model="sortBy" placeholder="Sort By" class="btn-sort bdr mdl-button md-no-underline">
+								           <md-option ng-value="action.value" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
 								      </md-select>
 									</div>
 									
@@ -355,11 +355,11 @@ limitations under the License.
 					    		<div class="pagination-left-section">
 					    			<span>Showing </span>
 					    			<div class="select-control">
-								        <md-select ng-model="solutionSize" name="solutionSize" ng-change="filterChange('paginationSize',solutionSize)" >
-								           <md-option ng-value="10" class="pagination-list-item">10</md-option>
-								           <md-option ng-value="25" class="pagination-list-item">25</md-option>
-								           <md-option ng-value="50" class="pagination-list-item">50</md-option>
-								           <md-option ng-value="100" class="pagination-list-item">100</md-option>
+								        <md-select ng-model="solutionSize" name="solutionSize" ng-change="filterChange(solutionSize, 'paginationSize')" >
+								           <md-option ng-value=10 class="pagination-list-item">10</md-option>
+								           <md-option ng-value=25 class="pagination-list-item">25</md-option>
+								           <md-option ng-value=50 class="pagination-list-item">50</md-option>
+								           <md-option ng-value=100 class="pagination-list-item">100</md-option>
 								     	</md-select>
 
 									</div> 
