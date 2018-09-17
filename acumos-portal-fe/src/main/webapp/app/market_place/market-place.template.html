@@ -120,8 +120,8 @@ limitations under the License.
 											<li class="mdl-menu__item">{{action.name}}</li>
 										 </ul> -->
 									<div class="select-control">
-								      <md-select ng-model="action" placeholder="Sort By - All" class="btn-sort bdr mdl-button md-no-underline">
-								           <md-option ng-value="action" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
+								      <md-select ng-model="sortBy" placeholder="Sort By" class="btn-sort bdr mdl-button md-no-underline">
+								           <md-option ng-value="action.value" ng-repeat="action in actions" ng-click="filterChange(action,'sortBy');">{{action.name}}</md-option>
 								      </md-select>
 									</div>
 									
@@ -317,11 +317,11 @@ limitations under the License.
 					    		<div class="pagination-left-section">
 					    			<span>Showing </span>
 					    			<div class="select-control">
-								        <md-select ng-model="solutionSize" name="solutionSize" ng-change="filterChange('paginationSize',solutionSize)" >
-								           <md-option ng-value="10" class="pagination-list-item">10</md-option>
-								           <md-option ng-value="25" class="pagination-list-item">25</md-option>
-								           <md-option ng-value="50" class="pagination-list-item">50</md-option>
-								           <md-option ng-value="100" class="pagination-list-item">100</md-option>
+								        <md-select ng-model="solutionSize" name="solutionSize" ng-change="filterChange(solutionSize, 'paginationSize')" >
+								           <md-option ng-value=10 class="pagination-list-item">10</md-option>
+								           <md-option ng-value=25 class="pagination-list-item">25</md-option>
+								           <md-option ng-value=50 class="pagination-list-item">50</md-option>
+								           <md-option ng-value=100 class="pagination-list-item">100</md-option>
 								     	</md-select>
 
 									</div> 

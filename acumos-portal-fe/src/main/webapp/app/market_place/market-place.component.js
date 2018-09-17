@@ -54,14 +54,22 @@ angular
                                     	$scope.selectedPage = $scope.selectedPage + 1;                                                
                                     }
                         }
+                        
+                        $scope.mktPlaceStorage = browserStorageService.getMktPlaceStorage() ?
+	                		browserStorageService.getMktPlaceStorage() : {
+	            				sortBy: 'MR',
+	            				tags: [],
+	            				solutionSize: 10,
+	            				pageNumber: 0
+	            			};
 
 						$scope.autoHeight = true;
 						$scope.all = true;
-						$scope.tags = [];
+						$scope.tags = $scope.mktPlaceStorage.tags;
 						$scope.selectedChip = [];
-						$scope.sortBy = 'MR';
+						$scope.sortBy = $scope.mktPlaceStorage.sortBy;
 						$scope.selectedPage = 0;
-						$scope.solutionSize = 10;						
+						$scope.solutionSize = $scope.mktPlaceStorage.solutionSize;						
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -219,6 +227,8 @@ angular
 
 						var duplicate = false;
 						$scope.loadMore = function(pageNumber) {
+							$scope.mktPlaceStorage.pageNumber = pageNumber;
+							browserStorageService.setMktPlaceStorage($scope.mktPlaceStorage);
 							$scope.SetDataLoaded = true;
 							$rootScope.setLoader = true;
 							var toBeSearch = [];
@@ -289,7 +299,7 @@ angular
 
 						}
 
-						$scope.loadMore(0);
+						$scope.loadMore($scope.mktPlaceStorage.pageNumber);
 						function getSolution(response) {
 							
 							$scope.isBusy = false;
@@ -425,14 +435,16 @@ angular
 								});
 								if(dupli == false)tagArr.push(checkbox);
 								else tagArr.splice(index, 1);
-							}else if(checkbox == 'paginationSize'){
-								$scope.solutionSize = type;
+							}else if(type == 'paginationSize'){
+								$scope.solutionSize = checkbox;
+								$scope.mktPlaceStorage.solutionSize = checkbox;
 							}
 
 							$scope.categoryFilter = caegoryArr;
 							$scope.tagFilter = tagArr;
 							if (type == 'sortBy') {
-								$scope.sortBy = checkbox.value;
+//								$scope.sortBy = checkbox.value;
+								$scope.mktPlaceStorage.sortBy = checkbox.value;
 								$scope.selectedAction = checkbox.name;
 							} else if (type == 'sortById')
 								$scope.sortById = checkbox.value;
