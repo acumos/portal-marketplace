@@ -54,14 +54,26 @@ angular
                                     	$scope.selectedPage = $scope.selectedPage + 1;                                                
                                     }
                         }
+                        
+                        $scope.mktPlaceStorage = browserStorageService.getMktPlaceStorage() ?
+	                		browserStorageService.getMktPlaceStorage() : {
+	                			keyword: '',
+	                			categoryFilter: [],
+	                			accessType: 'all',
+	            				tagFilter: [],
+	            				sortBy: 'MR',
+	            				solutionSize: 10,
+	            				pageNumber: 0
+	            			};
 
 						$scope.autoHeight = true;
 						$scope.all = true;
 						$scope.tags = [];
 						$scope.selectedChip = [];
-						$scope.sortBy = 'MR';
+						$scope.tagFilter = $scope.mktPlaceStorage.tagFilter;
+						$scope.sortBy = $scope.mktPlaceStorage.sortBy;
 						$scope.selectedPage = 0;
-						$scope.solutionSize = 10;						
+						$scope.solutionSize = $scope.mktPlaceStorage.solutionSize;
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -98,15 +110,16 @@ angular
 						}
 						$stateParams.parentUrl = 'market place';
 						// localStorage.setItem('HeaderNameVar','');
-						if ($rootScope.valueToSearch == undefined
-								|| $rootScope.valueToSearch == null) {
-						} else if ($rootScope.valueToSearch) {
-							$scope.searchBox = $rootScope.valueToSearch;
-						}
+//						if ($rootScope.valueToSearch == undefined
+//								|| $rootScope.valueToSearch == null) {
+//						} else if ($rootScope.valueToSearch) {
+//							$scope.searchBox = $rootScope.valueToSearch;
+//						}
+						$scope.searchBox = $scope.mktPlaceStorage.keyword;
 						$scope.mlsolutions = [];
 						$scope.pageNumber = 0;
 						$scope.modelCount = 0;
-						$scope.categoryFilter = [];
+						$scope.categoryFilter = $scope.mktPlaceStorage.categoryFilter;
 						console.log("market-place-component");
 						$scope.actions = [ {
 							name : "Most Liked",
@@ -152,6 +165,9 @@ angular
 								.then(
 										function(response) {
 											$scope.category = response.data.response_body;
+											$scope.selectedCat = $scope.category.map(function(value) {
+												return $scope.mktPlaceStorage.categoryFilter.includes(value.code);
+											});
 										},
 										function(error) {
 											$timeout(function() {
@@ -199,16 +215,25 @@ angular
 							
 						}
 						//Check for access type
-						var accessTypeFilter = ["PB"];$scope.userLoggedIn = false;
-						if (JSON.parse(browserStorageService.getUserDetail())) {accessTypeFilter = ["OR", "PB"];$scope.userLoggedIn = true;}
+						var accessTypeFilter = ["PB"];
+						$scope.userLoggedIn = false;
+						$scope.accessType = 'PB';
+						if (JSON.parse(browserStorageService.getUserDetail())) {
+							$scope.accessType = $scope.mktPlaceStorage.accessType;
+							accessTypeFilter = ($scope.accessType == 'all') ? ["OR", "PB"] :
+								($scope.accessType == 'OR') ? ["OR"] : ["PB"];
+							$scope.userLoggedIn = true;
+						}
 						
 						
 						$scope.accessFilter = function(accessType){
 							$scope.setPageStart = 0;
 							$scope.selectedPage = 0;
 							accessTypeFilter = [];
-							if(accessType == "all"){accessTypeFilter = ["OR", "PB"]}
+							if(accessType == 'all'){accessTypeFilter = ["OR", "PB"]}
 							else accessTypeFilter.push(accessType);
+							$scope.accessType = accessType;
+							$scope.mktPlaceStorage.accessType = $scope.accessType;
 							$scope.loadMore(0);
 						}
 						// check
@@ -219,6 +244,8 @@ angular
 
 						var duplicate = false;
 						$scope.loadMore = function(pageNumber) {
+							$scope.mktPlaceStorage.pageNumber = pageNumber;
+							browserStorageService.setMktPlaceStorage($scope.mktPlaceStorage);
 							$scope.SetDataLoaded = true;
 							$rootScope.setLoader = true;
 							var toBeSearch = [];
@@ -312,7 +339,7 @@ angular
 
 						}
 
-						$scope.loadMore(0);
+						$scope.loadMore($scope.mktPlaceStorage.pageNumber);
 						function getSolution(response) {
 							
 							$scope.isBusy = false;
@@ -326,8 +353,11 @@ angular
 								$scope.viewNoMLsolution = 'No More ML Solutions';
 								$rootScope.valueToSearch = '';
 							}
-							$scope.tags = ($scope.tags)
-									.concat(response.data.response_body.filteredTagSet);
+							$scope.tags = response.data.response_body.filteredTagSet;
+							
+							$scope.selectedChip = $scope.tags.map(function(value) {
+								return $scope.mktPlaceStorage.tagFilter.includes(value);
+							});
 
 							$scope.dataLoading = false;
 							if (response.data.response_body.content.length >= 0) {
@@ -392,8 +422,8 @@ angular
 							$scope.size = new Array( $scope.totalPages );
 						}
 						var privacyArr = [];
-						var caegoryArr = [];
-						var tagArr = [];
+						var caegoryArr = $scope.mktPlaceStorage.categoryFilter;
+						var tagArr = $scope.mktPlaceStorage.tagFilter;
 						var url = 'solutions';
 						var categoryUrl = '';
 						var sortByUrl = '';
@@ -414,6 +444,7 @@ angular
 								if(inputChangedPromise){
 							        $timeout.cancel(inputChangedPromise);
 							    }
+								$scope.mktPlaceStorage.keyword = $scope.searchBox;
 							    inputChangedPromise = $timeout($scope.loadMore(0),0);
 							    return;
 							}
@@ -446,14 +477,18 @@ angular
 								});
 								if(dupli == false)tagArr.push(checkbox);
 								else tagArr.splice(index, 1);
-							}else if(checkbox == 'paginationSize'){
-								$scope.solutionSize = type;
+							}else if(type == 'paginationSize'){
+								$scope.solutionSize = checkbox;
+								$scope.mktPlaceStorage.solutionSize = checkbox;
 							}
 
 							$scope.categoryFilter = caegoryArr;
+							$scope.mktPlaceStorage.categoryFilter = $scope.categoryFilter;
 							$scope.tagFilter = tagArr;
+							$scope.mktPlaceStorage.tagFilter = $scope.tagFilter;
 							if (type == 'sortBy') {
-								$scope.sortBy = checkbox.value;
+//								$scope.sortBy = checkbox.value;
+								$scope.mktPlaceStorage.sortBy = checkbox.value;
 								$scope.selectedAction = checkbox.name;
 							} else if (type == 'sortById')
 								$scope.sortById = checkbox.value;
