@@ -530,9 +530,14 @@ angular
 						 $scope.getalltags = function()
 						 {			
 						  $scope.selected = [];		 
-						  var loginID = JSON.parse(browserStorageService
-					  					.getUserDetail());		  			
-							 $scope.loginUserID = loginID[1];
+						  if (JSON.parse(browserStorageService.getUserDetail()))
+						     {
+							  $scope.loginUserID = JSON.parse(browserStorageService
+										.getUserDetail())[1];								  
+							  }
+						  else
+							  $scope.loginUserID = "";
+						  
 							  var dataObj = {
 										"request_body" : {
 											 "fieldToDirectionMap": {},
