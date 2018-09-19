@@ -492,7 +492,7 @@ angular
 	                              scope.file.width = this.width;
 	                              scope.file.height = this.height;
 	                          };
-	                	if(scope.validFormats.indexOf(scope.fileType) == -1){
+	                    if(scope.validFormats.indexOf((scope.fileType).toLowerCase()) == -1){
 	    	            	scope.imagetypeerror = true;
 	    	            	scope.imageerror = false;
 	    	            	return true;
