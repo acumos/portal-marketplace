@@ -1082,5 +1082,12 @@ angular.module('manageModule')
 							//$scope.loadMore();
 							// do what you want to do
 						});
+						
+						//Redirect to web on-boarding to show the errors of the model and the step
+                       $scope.redirectToOnboardinError = function(solId, revId){
+                               $state.go('marketSolutions', {solutionId : solId, revisionId : revId });
+                       }
+
+						
 					}
 				});

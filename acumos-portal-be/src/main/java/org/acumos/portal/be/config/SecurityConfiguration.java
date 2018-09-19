@@ -119,6 +119,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/publish/request/search/revision/{revisionId}").permitAll()
         .antMatchers("/publish/request/withdraw/{publishRequestId}").permitAll()*/
         
+        .antMatchers("/gateway/solutions").permitAll()
+        .antMatchers("/webBasedOnBoarding/messagingStatus/search/{solutionId}/{revisionId}").permitAll()
+        
         
         .anyRequest().authenticated();
     	

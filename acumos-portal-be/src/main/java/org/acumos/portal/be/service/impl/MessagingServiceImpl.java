@@ -121,9 +121,9 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		RestPageRequest pageRequest = new RestPageRequest();
 		pageRequest.setPage(0);
 		pageRequest.setSize(100);
-		List<MLPSolutionValidation> mlPSolutionValidations =  dataServiceRestClient.getSolutionValidations(solutionId, revisionId);
+		/*List<MLPSolutionValidation> mlPSolutionValidations =  dataServiceRestClient.getSolutionValidations(solutionId, revisionId);
 		MLPSolutionValidation mlPSolutionValidation = mlPSolutionValidations.get(0);
-		String trackingId = mlPSolutionValidation.getTaskId();
+		String trackingId = mlPSolutionValidation.getTaskId();*/
 		queryParams.put("solutionId", solutionId);
 		//queryParams.put("trackingId", trackingId);
 		queryParams.put("revisionId", revisionId);

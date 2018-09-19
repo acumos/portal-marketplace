@@ -623,5 +623,111 @@ angular.module('modelResource')
 				}
 		    }
 		    
+		    //check setp result for error models with solutionId and revisionId
+	           $scope.checkErrorStepResult = function(){
+	        	   apiService
+					.getMessagingStatusBySolutionId($stateParams.solutionId,$stateParams.revisionId)
+					.then(
+							function(response) {
+								var data = response.data.response_body;
+								$scope.stepfailed = false;
+								$scope.allSuccess = false;
+								var width = 0;
+								for(var i=0 ; i< data.length; i++){
+									var stepName = data[i].name;
+									var statusCode =  data[i].statusCode;
+									var stepCode = data[i].stepCode;
+
+									if($scope.onap == false){
+										switch(stepName){
+											case 'CreateSolution': var counter = 0; ( statusCode == 'FA' ) ?  $scope.errorCS = data[i].result : $scope.errorCS = ''; break;
+											case 'AddArtifact' :   
+												if(counter > 3){
+													$scope.clearNotificationInterval(); return;
+												}	
+												var counter = 2;
+												( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
+											case 'CreateTOSCA' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;	                        
+											case 'Dockerize' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+											case 'AddDockerImage' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;							
+										}
+										var onboardingComponent = '.onboarding-web';
+									} else {
+										switch(stepName){
+											case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
+											/*case 'CreateTOSCA' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorCT = data[i].result : $scope.errorCT = ''; break;*/
+											case 'Dockerize' :  var counter = 4; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
+											case 'AddDockerImage' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;
+											case 'AddArtifact' :  
+												/*if(counter > 5){
+													$scope.clearNotificationInterval(); return;
+												}*/
+												var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorAA = data[i].result : $scope.errorAA = ''; break;
+											default : var counter = -1;
+										}
+
+										var onboardingComponent = '#onap-onboarding';
+									} 
+									
+									if (counter != -1) {
+										angular.element(angular.element(onboardingComponent + ' li div')[counter]).removeClass('completed incomplet active');
+										if(statusCode == 'FA'){
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('incomplet');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).removeClass('green completed');
+											$scope.stepfailed = true;
+										}else if(statusCode == 'ST'){
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('active');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('progress-status green')
+											
+										}else if(statusCode == 'SU'){
+											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
+											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
+											$scope.completedSteps[stepName] = stepName;
+
+											if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) ) && $scope.stepfailed == false ) {
+												counter = counter + 2;
+												angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
+												angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
+												$scope.errorVM = '';
+												$scope.completedSteps['ViewModel'] = 'ViewModel';
+												$scope.allSuccess = true;
+											}
+											
+											if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
+												width = width+15;
+												angular.element('.progress .progress-bar').css({ "width" : width+'%'});
+												angular.element('.onboardingwebContent').css({ "height" :'100%'});
+											}
+										}
+									}
+								}
+								
+								if( $rootScope.trackId != false && ( $scope.allSuccess != true && $scope.stepfailed != true ) ) {
+									$scope.disableOnboardingButton = true;
+								}
+								
+								if( $scope.allSuccess || $scope.stepfailed ){
+									$scope.clearNotificationInterval();
+								}
+								
+							},
+							function(error) {
+					});
+	           }
+		    
+		  //for Error Model
+           $scope.isError = function(){
+               if($stateParams.ONAP != undefined && $stateParams.ONAP=='false'){
+                   $scope.showError = true;
+                   $scope.mdTabSelectedIndex = 1;
+                   $scope.checkErrorStepResult();
+               }else{
+            	   $scope.mdTabSelectedIndex = 0;
+               }
+           }
+           $scope.isError();
+		    
+           
+		    
 			}
 });
