@@ -955,8 +955,8 @@ angular.module('admin').filter('abs', function() {
             				  
             				  $scope.arrSub.push({
             					  "subId" : value.subId,
-            					  "toolKitType" : $scope.toolKitForSubId.typeName,
-            					  "modelType" : $scope.categoryForSubId.typeName,
+            					  "toolKitType" : $scope.toolKitForSubId.name,
+            					  "modelType" : $scope.categoryForSubId.name,
             					  "updatedOn" : value.modified,
             					  "createdOn" : value.created,
             					  "frequencySelected" : $scope.frequencySelected

@@ -1926,7 +1926,7 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 /*end*/
 
 /* partial onboarding related css changes */
-.grid-item-error-container {position: absolute; top:0; left:0; height: 100%; width: 100%; background: rgba(0,0,0,0.55);z-index: 50;}
+.grid-item-error-container {position: absolute; top:0; left:0; height: 100%; width: 100%; background: rgba(0,0,0,0.55);z-index: 50; cursor:pointer;}
 .grid-error-msg {padding: 5px 10px; background: rgba(255,255,255,0.9); color: #ff0000; text-align: center; position: relative; top: 60px; font-size: 13px;z-index: 10;}
 .grid-error-icon {display: inline-block; text-align: center; width: 20px; height: 20px; line-height: 17px; border: 1px solid #ff0000; border-radius: 50%; color: #ff0000;position:relative; margin-right: 4px;}
 
