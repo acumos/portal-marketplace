@@ -38,7 +38,7 @@ angular.module('modelResource')
 				})
 		.run(
 				function($rootScope, $location, $http, syncGetService) {
-
+					
 					$rootScope
 							.$on(
 									"$locationChangeStart",
@@ -90,7 +90,7 @@ angular.module('modelResource')
 		//template:"<button ng-click='authenticate(google)'>Sign in with Google</button>",
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
 		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams, $timeout, browserStorageService){
-			
+			$scope.Math = window.Math;
 			$scope.onap = false;	
 			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
 			$scope.onap = true;
@@ -145,6 +145,8 @@ angular.module('modelResource')
 				$rootScope.progressBar = 0;
 				$scope.file = undefined;
 				$scope.filename = undefined;
+				$scope.modelUploadErrorMsg = undefined;
+				$scope.modelUploadError = false;
 			}
 			$scope.fileUpload = function(){
 				//$scope.uploadModel = false;

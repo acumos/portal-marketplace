@@ -49,8 +49,11 @@ limitations under the License.
 						<div  data-ng-init="getonboardingOverview(); getOnboardingCLIUrls();" ng-bind-html="onboard_overview"></div>
 						<!-- Some information can be display related to this On-Boarding, such
 						as how to complete this task what are data required.  -->
+						<span>For CLI on-boarding, the two API URLs are:</span><br/>						
+						 <b><span>Push URL:  </span><span ng-bind="cliPushUrl"></span></b> <br/>
+                         <b><span>Auth URL:  </span><span ng-bind="cliAuthUrl"></span></b> <br/> <br/>
 						 <span>To know more about on-boarding, please have a look at : </span>					
-						 <b><a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html">https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html</a></b> </p>
+						 <b><a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html" target="_blank">https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html</a></b> </p>
 						</div>
 					<div class="posrel">
 						<md-tabs md-dynamic-height md-border-bottom> <md-tab
@@ -586,7 +589,7 @@ limitations under the License.
 								  <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone upload-model-bundle-left">
 								  	<div class="mdl-grid mdl-grid--no-spacing deploy-grid add-document">
 																	<form class="ng-pristine ng-valid">
-																		<span><b>Upload Model Bundle</b></span>
+																		<h5>Upload Model Bundle</h5>
 																		<div
 																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
@@ -622,7 +625,13 @@ limitations under the License.
 																				</div>
 																				<div class="progress-bar-div" ng-show="file.name">
 																					<div>
-																						{{file.name}}
+																						<span class="namelength">{{file.name}}</span>
+																					</div>
+																					<div ng-if="file.size/1024/1024 < 1">
+																						{{Math.ceil(file.size/1024)}}KB
+																					</div>
+																					<div ng-if="file.size/1024/1024 > 1">
+																						{{Math.ceil(file.size/1024/1024)}}MB
 																					</div>
 																					<div ng-show = "$root.progressBar > 0" style="width:80%"> <!-- ng-show="progressVisible" -->
 																				            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
@@ -635,7 +644,7 @@ limitations under the License.
 																		            			<!-- <span ng-show = "$root.progressBar == 100">100%</span> -->
 																				            </div>
 																				         </div>
-																				     <div>
+																				     <div class="pro-status">
 																					     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
 																				         <span ng-show="$root.progressBar == 100" >Done</span>   		
 																				     </div>
@@ -652,12 +661,12 @@ limitations under the License.
 												<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
 								  </div>
 								<!-- left section end -->
-								  <div   class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone">
-								  	<div class="">
-												<h5>Instruction for preparing a model bundle</h5>
-													<a href="https://docs.acumos.org/en/latest/submodules/acumos-r-client/docs/developer-guide.html" target="_blank">Create a R model bundle</a><br/>
-													<a href="https://pypi.org/project/acumos/#exporting-models" target="_blank">Create a Python model bundle (Section exporting model)</a><br/>
-													<a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-java-guide.html" target="_blank">Create a Java or H20 model bundle</a>
+								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone upload-model-bundle-right ">
+								  	<div class="upload-model-bundle-right-content">
+												<h5>Instructions for preparing a model bundle</h5>
+													<p><a href="https://docs.acumos.org/en/latest/submodules/acumos-r-client/docs/developer-guide.html" target="_blank">Create a R model bundle</a></p>
+													<p><a href="https://pypi.org/project/acumos/#exporting-models" target="_blank">Create a Python model bundle</a></p>
+													<p><a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-java-guide.html" target="_blank">Create a Java or H20 model bundle</a></p>
 											</div>								  
 								  </div>
 								 
