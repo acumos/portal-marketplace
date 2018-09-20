@@ -909,14 +909,23 @@ angular
 							};
 							$scope.solutionCompanyDesc1 = "";
 							$http(req)
-									.success(
-											function(data, status, headers,
-													config) {
-												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.response_bodydescription);
-											}).error(
-											function(data, status, headers,
-													config) {
-											});
+								.success(
+									function(data, status, headers, config) {
+										$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.response_body.description);
+										
+										if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
+											$scope.showORDescription = true;
+											$scope.showPBDescription = false;
+										}else if($scope.version.accessTypeCode == $scope.pubVar || $scope.audit){
+											$scope.showPBDescription = true;
+											$scope.showORDescription = false;
+										}else{
+											$scope.showORDescription = true;
+											$scope.showPBDescription = false;
+										}})
+								.error(
+									function(data, status, headers, config) {
+									});
 						}
 						
 						$scope.getSolPublicDesc = function() {
@@ -926,43 +935,28 @@ angular
 							};
 							$scope.solutionPublicDesc1 = "";
 							$http(req)
-									.success(
-											function(data, status, headers,
-													config) {
-												if (data.response_body.description == "" || data.response_body.description == null || data.response_body.description == undefined){
-													$scope.getSolCompanyDesc();
-													if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
-														$scope.showORDescription = true;
-														$scope.showPBDescription = false;
-													 }else if($scope.version.accessTypeCode == $scope.pubVar || $scope.audit){
-														 $scope.showPBDescription = true;
-														 $scope.showORDescription = false;
-													 }else {
-														 $scope.showORDescription = true;
-															$scope.showPBDescription = false;
-													 }
-													
-												}else{
-													$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.response_body.description);
-													
-													if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
-														$scope.showORDescription = true;
-														$scope.showPBDescription = false;
-														
-													}else if($scope.version.accessTypeCode == $scope.pubVar || $scope.audit){
-														$scope.showPBDescription = true;
-														$scope.showORDescription = false;
-													}else{
-														$scope.showPBDescription = true;
-														$scope.showORDescription = false;
-													}
-													
-												}
+								.success(
+									function(data, status, headers, config) {
+										if (data.response_body.description == "" || data.response_body.description == null || data.response_body.description == undefined){
+											$scope.getSolCompanyDesc();
+										}else{
+											$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.response_body.description);
+											
+											if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
+												$scope.showORDescription = true;
+												$scope.showPBDescription = false;
 												
-											}).error(
-											function(data, status, headers,
-													config) {
-											});
+											}else if($scope.version.accessTypeCode == $scope.pubVar || $scope.audit){
+												$scope.showPBDescription = true;
+												$scope.showORDescription = false;
+											}else{
+												$scope.showPBDescription = true;
+												$scope.showORDescription = false;
+											}
+										}})
+								.error(
+									function(data, status, headers, config) {
+									});
 						}
 						$scope.getSolPublicDesc();
 						
