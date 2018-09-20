@@ -484,9 +484,8 @@ limitations under the License.
 								 <md-button class="mdl-button mdl-js-button btn-secondary" title="Back" ng-disabled="disabledFlag" ng-show="(selected.length >= 1? true: false) || showdone" ng-click="back()">Back</md-button> 																
 								 <span class="reqfield theme-valmsg" ng-show="selected.length > 2">You cannot select more than two tags</span>
 							</div>
-							<div>																																													
-							 <md-button type="submit" class="mdl-button mdl-js-button btn-primary" disabled ng-show="selected.length == 0 ? true: false" title="Choose" > Choose tags </md-button>
-								<md-button type="submit" class="mdl-button mdl-js-button btn-primary" ng-show="showdone ? false : (selected.length == 2 || selected.length == 1 ? true: false)" title="Continue"  ng-click="processCountinue()">Continue</md-button>
+							<div>																																																				 
+								<md-button type="submit" class="mdl-button mdl-js-button btn-primary" ng-show="!flag" ng-disabled="selected.length > 2" title="Continue"  ng-click="processCountinue()">Continue</md-button>
 								<md-button type="submit" class="mdl-button mdl-js-button btn-primary" title="Done" ng-disabled="disabledFlag" ng-show="showdone" ng-click="submitTag()">Done</md-button> 															
 							</div>
 						</div>
