@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab7bbcc8_aa694ba9",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-20T18:37:14Z",
+      "side": 1,
+      "message": "you could coalesce this down to just two cases, right?  no need for the first block, it appears.",
+      "range": {
+        "startLine": 916,
+        "startChar": 0,
+        "endLine": 916,
+        "endChar": 78
+      },
+      "revId": "c46ec46641abb1f2e7848a2fbb779a7345c15a2e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "967e9bf6_e34fd3a5",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-09-20T18:37:14Z",
+      "side": 1,
+      "message": "Similarly these three blocks can be simplified to two, right?",
+      "range": {
+        "startLine": 945,
+        "startChar": 0,
+        "endLine": 945,
+        "endChar": 79
+      },
+      "revId": "c46ec46641abb1f2e7848a2fbb779a7345c15a2e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
