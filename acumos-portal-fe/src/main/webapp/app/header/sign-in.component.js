@@ -261,6 +261,7 @@ angular.module('signInModal')
                                             		});
                                             	  $rootScope.$broadcast('roleCheck');
                                             	  browserStorageService.setAuthToken(response.data.jwtToken);
+                                            	  $rootScope.accessError = false;
                                             	  var authToken = jwtHelper.decodeToken(response.data.jwtToken);
                                                   if(response.data.jwtToken != ""){
 	                                                  if(authToken.loginPassExpire == true){
