@@ -2192,27 +2192,17 @@ limitations under the License.
 									{{tool.name}}</md-option> </md-select>
 								</div>
 							</div>
-						
+							
+							<div>
+								<span class="fedlbl5">OR</span>
+							</div>
+							<div>
+								<md-checkbox class="adminchkbox"
+									ng-change="allSelect();" ng-model="allSubs"
+									aria-label="Checkbox 1" ng-true-value="'true'"
+									ng-false-value="'false'">All Models</md-checkbox>
+							</div>
 						</div>
-
-						<!-- <div class="fedgridcontainer ng-hide" ng-show='modelIDValue'>
-														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
-															<colgroup>
-																
-																
-																<col>															
-																<col style="width:20%;">																
-															</colgroup>														 
-														  <tbody>
-															<tr>
-																<td ng-hide="browseSolution"><button ng-click="modelEdit();browseSolution=true" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Browse Remote Catalog</button></td>
-																<td ng-show="browseSolution"><button ng-click="solutionDetail=false;browseSolution=false;noData=false" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Clear Catalog</button></td>
-																<td></td>
-															</tr>														
-																												
-														  </tbody>
-														</table>
-													</div> -->
 
 
 						<div class="fedgridcontainer"
@@ -2306,41 +2296,53 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
-						<!-- All models table -->
+						<!-- All models table browseForCatTool();addedToSubs=true;addedAllToSubs=false -->
 						<div ng-show="(allSubs == 'true')">
 							<h4 ng-model="mlsolutionsLength"></h4>
 							<div>
-								{{mlsolutionsSize}} models found
-								<button ng-hide='solutionDetail&&addedToSubs'
-									ng-click="showAllModelsTable = !showAllModelsTable;allModelsTable=true"
-									class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
-									<span ng-show="!showAllModelsTable"
-										ng-click="browseClear('browse')">Browse Remote Catalog</span>
-									<span ng-show="showAllModelsTable"
-										ng-click="browseClear('clear')">Clear Catalog</span>
+								<button ng-hide="showAllModelsTable && addedToSubs"
+								ng-click="browseForCatTool();addedToSubs=true;addedAllToSubs=false"
+								class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Browse
+								Remote Catalog</button>
+								 
+								<button ng-show="showAllModelsTable && addedToSubs"
+									ng-click=";addedToSubs=false;showSolutionTable=false;showSolutionTable=false;noData=false"
+									class="mdl-button mdl-js-button btn-secondary btn-fedgrid">Clear
+									Catalog
 								</button>
+								 
+														
 							</div>
 						</div>
 
 						<div class="fedgridcontainer" ng-show="showSolutionTable">
 							<div>
-								<div class="fed-container1">
-									<div>
-										<div class="select-control">
-											<md-select ng-model="freqOfUpdatePass"
-												placeholder="Select Frequency of update"
-												ng-change="freqChange(freqOfUpdatePass)"> <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
-											<md-option ng-repeat="freq in frequency"
-												ng-value="freq.value">{{freq.name}}</md-option> </md-select>
+								<div class="fed-container4">
+									<span class="font600" ng-show="mlsolutionCatToolLength">
+										{{mlsolutionCatToolLength}} Models found
+									</span>
+									<span class="font600" ng-show="!mlsolutionCatToolLength">
+										0 Models found
+									</span>
+									
+									<div class="fed-container5">
+										<div>
+											<div class="select-control">
+												<md-select ng-model="freqOfUpdatePass"
+													placeholder="Select Frequency of update"
+													ng-change="freqChange(freqOfUpdatePass)"> <!-- <md-option ng-selected="true" value="">Select toolkit</md-option> -->
+												<md-option ng-repeat="freq in frequency"
+													ng-value="freq.value">{{freq.name}}</md-option> </md-select>
+											</div>
 										</div>
-									</div>
-									<div>
-										<button ng-hide='addedAllToSubs' ng-click="addAllSolutions()"
-											class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
-											Add to Subscription List</button>
-										<div ng-show='addedAllToSubs'>
-											<div class="subs-message1">
-												<span class="subs-added"></span> <span>Added</span>
+										<div>
+											<button ng-hide='addedAllToSubs' ng-click="addAllSolutions()"
+												class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">
+												Add to Subscription List</button>
+											<div ng-show='addedAllToSubs'>
+												<div class="subs-message1">
+													<span class="subs-added"></span> <span>Added</span>
+												</div>
 											</div>
 										</div>
 									</div>

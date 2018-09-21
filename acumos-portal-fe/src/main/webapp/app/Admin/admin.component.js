@@ -125,6 +125,7 @@ angular.module('admin').filter('abs', function() {
                 data : json
             }).then(function mySuccess(response) {
             	$scope.mlsolutionCatTool = response.data.response_body;
+            	$scope.mlsolutionCatToolLength = $scope.mlsolutionCatTool.length;
             	if($scope.publicSolList == "null"){$scope.noSolution = true;}
             }, function myError(response) {
             	$scope.noSolution = true;
@@ -831,13 +832,19 @@ angular.module('admin').filter('abs', function() {
                       }
                       //All select federation
                       $scope.allSelect = function(){
-                    	  $scope.categoryValue='';$scope.toolKitTypeValue='';$scope.modelIDValue='';
+                    	  $scope.categoryValue='';
+                    	  $scope.toolKitTypeValue='';
+                    	  $scope.modelIDValue='';
                       }
                       $scope.browseClear = function(val){
-                    	  if(val=='browse'){$scope.showAllModelsTable = true;
-          				$scope.allModelsTable = true;}
-                    	  else if(val=="clear"){$scope.showAllModelsTable = false;
-            				$scope.allModelsTable = false;}
+                    	  if(val=='browse'){
+                    		  $scope.showAllModelsTable = true;
+                    		  $scope.allModelsTable = true;
+                		  }
+                    	  else if(val=="clear"){
+                    		  $scope.showAllModelsTable = false;
+                    		  $scope.allModelsTable = false;
+                		  }
                       }
                       //Serch using model id
                       $scope.modelEdit = function(){
