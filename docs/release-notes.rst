@@ -27,6 +27,7 @@ Version 1.15.45, 21th September 2018
 * Issues on Web Onboarding Screen (ACUMOS-1711)
 * <IST2> <Marketplace> Home > My Model > Documents: On clicking download button for document user is redirecting to "Page not found" error. (ACUMOS-1432)
 * Main search - Search models only? (ACUMOS-582)
+* Address CLM critical issues in Portal project (ACUMOS-1210)
 
 Version 1.15.45, 9th September 2018
 ===================================
