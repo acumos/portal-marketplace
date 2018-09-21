@@ -1036,6 +1036,26 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		return mlSolutionsRest;
 	}
 
+	@Override
+	public RestPageResponseBE<MLSolution> searchSolutionsByKeyword(RestPageRequestPortal pageReqPortal) {
+		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
+		
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKw(pageReqPortal.getNameKeyword(), true, null,
+				accessTypeCodes, null, null, pageReqPortal.getPageRequest());
+
+		List<MLSolution> content = new ArrayList<>();
+		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
+
+		if (response.getContent() != null) {
+			mlSolutionsRest = fetchDetailsForSolutions(response.getContent(), pageReqPortal);
+			mlSolutionsRest.setPageCount(response.getTotalPages());
+			mlSolutionsRest.setTotalElements((int)response.getTotalElements());
+		}
+		return mlSolutionsRest;
+	}
+
 	private RestPageResponseBE<MLSolution> fetchDetailsForSolutions(List<MLPSolution> mlpSolList, RestPageRequestPortal pageReqPortal) {
 		log.debug(EELFLoggerDelegate.debugLogger, "fetchDetailsForSolution");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();

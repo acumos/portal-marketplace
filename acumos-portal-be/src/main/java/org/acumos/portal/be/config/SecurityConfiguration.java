@@ -75,6 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/users/register").permitAll()
         .antMatchers("/solutions").permitAll()
         .antMatchers("/portal/solutions").permitAll()
+        .antMatchers("/searchSolutionBykeyword").permitAll()
         .antMatchers("/solutions/{solutionId}").permitAll()
         .antMatchers("/webBasedOnBoarding/messagingStatus/{userId}/{trackingId}").permitAll()
         .antMatchers("/webBasedOnBoarding/stepResult/create").permitAll()
@@ -114,10 +115,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, "/auth/validateApiToken").permitAll()
         .antMatchers(HttpMethod.GET, "/solution/{solutionId}/revision/{revisionId}/{accessType}/document").permitAll()
         .antMatchers(HttpMethod.GET, "/solution/revision/{revisionId}/{accessType}/description").permitAll()
-        /*.antMatchers("/publish/request/").permitAll()
-        .antMatchers("/publish/request/{publishRequestId}").permitAll()
-        .antMatchers("/publish/request/search/revision/{revisionId}").permitAll()
-        .antMatchers("/publish/request/withdraw/{publishRequestId}").permitAll()*/
+        .antMatchers(HttpMethod.GET, "/users/k8s/docs/help").permitAll()
         
         
         .anyRequest().authenticated();

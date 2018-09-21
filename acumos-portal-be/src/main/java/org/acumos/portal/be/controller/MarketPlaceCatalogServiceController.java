@@ -120,42 +120,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * @param request
-	 *            HttpServletRequest
-	 * @param response
-	 *            HttpServletResponse
-	 * @param restPageReq
-	 *            containing request parameters like page, size, searchTerm,
-	 *            modelType and modelToolkitType
-	 * @return Paginated Response with List of the MLP Solutions
-	 */
-	/*@ApiOperation(value = "Gets a list of Published Solutions for Market Place Catalog.", response = RestPageResponseBE.class)
-	@RequestMapping(value = { APINames.SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<RestPageResponseBE<MLSolution>> getSolutionsList(HttpServletRequest request,
-			@RequestBody JsonRequest<RestPageRequestBE> restPageReq, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsList");
-		RestPageResponseBE<MLSolution> mlSolutions = null;
-		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
-		try {
-			if (restPageReq != null) {
-				mlSolutions = catalogService.getSearchSolution(restPageReq);
-			}
-			if (mlSolutions != null) {
-				data.setResponseBody(mlSolutions);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions fetched Successfully");
-			}
-		} catch (AcumosServiceException e) {
-			data.setErrorCode(e.getErrorCode());
-			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions for Market Place Catalog",
-					e);
-		}
-		return data;
-	}*/
-
 	@ApiOperation(value = "Gets a Solution Detail for the given SolutionId. Same API can be used for both Solution Owner view as well as General user. API will return isOwner as true if the user is owner of the solution", response = MLSolution.class)
 	@RequestMapping(value = { APINames.SOLUTIONS_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -183,34 +147,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return data;
 	}
-
-	/*@ApiOperation(value = "Gets a All Solutions for the User for Manage Models Screen.", response = MLSolution.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.MANAGE_MY_SOLUTIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<RestPageResponseBE<MLSolution>> getAllMySolutions(HttpServletRequest request,
-			@PathVariable("userId") String userId, @RequestBody JsonRequest<RestPageRequestBE> restPageReq,
-			HttpServletResponse response) {
-		// List<MLSolution> mlSolutions = null;
-		RestPageResponseBE<MLSolution> mlSolutions = null;
-		// JsonResponse<List<MLSolution>> data = null;
-		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
-		try {
-			mlSolutions = catalogService.getAllMySolutions(userId, restPageReq);
-			if (mlSolutions != null) {
-				data.setResponseBody(mlSolutions);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getMySolutions: size is {} ", mlSolutions.getSize());
-			}
-			// response.setStatus(HttpServletResponse.SC_OK);
-		} catch (AcumosServiceException e) {
-			data.setErrorCode(e.getErrorCode());
-			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
-					"Exception Occurred Fetching Solutions for a User for Manage My Models", e);
-		}
-		return data;
-	}*/
 
 	@ApiOperation(value = "Get search solution according to queryparamters sent.", response = MLSolution.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.SEARCH_SOLUTION }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -1092,6 +1028,32 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions", e);
+		}
+		return data;
+	}
+
+
+	@ApiOperation(value = "searchSolutionBykeyword", response = MLSolution.class, responseContainer = "List")
+	@RequestMapping(value = { "/searchSolutionBykeyword" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE<MLSolution>> searchSolutionsByKeyword(HttpServletRequest request,
+			@RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal, HttpServletResponse response) {
+		
+		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+		RestPageResponseBE<MLSolution> mlSolutions = null;
+		try {
+			mlSolutions = catalogService.searchSolutionsByKeyword(restPageReqPortal.getBody());
+			if (mlSolutions != null) {
+				data.setResponseBody(mlSolutions);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Solutions fetched Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "searchSolutionsByKeyword: size is {} ", mlSolutions.getSize());
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions", e);
 		}
 		return data;

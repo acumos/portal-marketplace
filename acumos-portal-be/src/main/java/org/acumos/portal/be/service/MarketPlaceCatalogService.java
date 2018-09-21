@@ -171,5 +171,7 @@ public interface MarketPlaceCatalogService {
 	RevisionDescription addUpdateRevisionDescription(String revisionId, String accessType, RevisionDescription description) throws AcumosServiceException;
 	List<Map<String, String>> getPreferredTagsList(JsonRequest<RestPageRequest> restPageReq, String userId) throws AcumosServiceException;
 	void createUserTag(String userId, List<String> mlpTag, List<String> dropTagList) throws AcumosServiceException;
+
+	RestPageResponseBE<MLSolution> searchSolutionsByKeyword(RestPageRequestPortal pageReqPortal);
 	
 }

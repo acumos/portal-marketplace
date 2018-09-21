@@ -211,6 +211,9 @@ angular.module('headerNav')
 			});
 		}
 		
+
+		if($scope.loginUserID!=null && $scope.loginUserID!=''){
+			$scope.getNotificationMessage($scope.loginUserID, $scope.page);
 			$interval(function () {
 				var userId = JSON.parse(browserStorageService.getUserDetail())[1]
 				if(userId){
@@ -218,10 +221,6 @@ angular.module('headerNav')
 					$scope.getNotificationMessage(userId,$scope.page,true);
 				}
 		    }, 30000);
-
-		
-		if($scope.loginUserID!=null && $scope.loginUserID!=''){
-			$scope.getNotificationMessage($scope.loginUserID, $scope.page);
 		}
 		
 		$scope.viewNotification=function (notificationId){
@@ -433,6 +432,9 @@ angular.module('headerNav')
 			if(val){
 				var stateName = $state.$current.name;
 				angular.element('.mdl-textfield').addClass('is-focused');
+				//Search keyword cannot be empty
+				if($rootScope.valueToSearch == '' || $rootScope.valueToSearch === undefined
+						|| $rootScope.valueToSearch === null) return;
 				$scope.search = $rootScope.valueToSearch;
 				$scope.searchText = $rootScope.valueToSearch;
 				if(stateName != 'marketPlace' && stateName != 'manageModule') {
