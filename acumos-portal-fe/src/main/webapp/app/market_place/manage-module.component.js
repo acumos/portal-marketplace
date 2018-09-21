@@ -790,7 +790,7 @@ angular.module('manageModule')
 													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel'});
 												});
 
-							}
+							}		
 							$scope.updateViewCount();
 						}
 						
