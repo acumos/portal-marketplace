@@ -1428,6 +1428,8 @@ p.error-m-para1 {margin:0;font-size: 18px;font-family: 'Open Sans', sans-serif; 
 
 .header-right1 button md-icon {display: none;}
 
+md-menu-item:hover { background-color: #eee;}
+
 .md-open-menu-container {box-shadow: none !important;}
 md-menu-content.menu-content1 {padding-top:0; padding-bottom:0;position:relative; top: 47px;box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);}
 .new-note-container {display: flex; justify-content: space-between; align-items: center; padding-right: 5px;}
