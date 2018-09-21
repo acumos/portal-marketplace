@@ -63,31 +63,26 @@ limitations under the License.
 
 					</i> <!-- Shared with -->
 
-						<div class="mdl-menu mdl-js-menu" for="demo-menu-lower-left11">
-							<div class="mdl-menu__item"
-								data-ng-repeat="sharedmember in sharedWith">
-								<span class="user_icon"> <img
-									ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
-									id="T{{$index}}"
-									ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
-									alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-									title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+						<md-menu> <md-button
+								aria-label="Open menu with custom trigger"
+								class="md-icon-button" ng-click="$mdMenu.open()"> <i
+								class="material-icons">more_horiz</i> </md-button> <md-menu-content
+								width="2"> <md-menu-item
+								ng-repeat="sharedmember in sharedWith track by $index">
+                              
+							<span ng-click=""> <img
+								ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
+								ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
+								alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+								title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
 
-									<img
-									ng-show="sharedmember.picture == null || sharedmember.picture == ''"
-									id="T{{$index}}"
-									src="images/userprofile/user-profile-black.png"
-									alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-									title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
-
-								</span> {{sharedmember.firstName}} {{sharedmember.lastName}}
-							</div>
-						</div> 
-					</span>
-					<button id="demo-menu-lower-left11"
-						class="mdl-button mdl-js-button mdl-button--icon owner-ver-menu">
-						<i class="material-icons">more_horiz</i>
-					</button>
+								<img
+								ng-show="sharedmember.picture == null || sharedmember.picture == ''"
+								src="images/userprofile/user-profile-black.png"
+								alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+								title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+								{{sharedmember.firstName}} {{sharedmember.lastName}}
+							</span> </md-menu-item> </md-menu-content> </md-menu>
 					</div>
 				</div>
 			</div>
