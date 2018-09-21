@@ -20,6 +20,14 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.15.45, 21th September 2018
+====================================
+* IST2/IST - Login issue when time out occures (ACUMOS-1761)
+* <Portal Marketplace/Web Onboarding> Error displayed while onbording when earlier model onboarding is failed (ACUMOS-1718)
+* Issues on Web Onboarding Screen (ACUMOS-1711)
+* <IST2> <Marketplace> Home > My Model > Documents: On clicking download button for document user is redirecting to "Page not found" error. (ACUMOS-1432)
+* Main search - Search models only? (ACUMOS-582)
+
 Version 1.15.45, 9th September 2018
 ===================================
 * Add Api Token in WebOnboarding flow (ACUMOS-1676)
