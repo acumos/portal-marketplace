@@ -74,7 +74,6 @@ angular.module('admin').filter('abs', function() {
                 }).then(function mySuccess(response) {console.log(response);
                 	if(response.data.status_code == 400){$scope.verified=false;$scope.errorMessage = response.data.response_detail}
                 	else{$scope.verified=true;$scope.successMessage = response.data.response_detail}
-                	debugger;
                 }, function myError(response) {
                 	console.log("Error response", response);
                 	$scope.verified=false;$scope.errorMessage = response.data.response_detail
@@ -83,12 +82,12 @@ angular.module('admin').filter('abs', function() {
 			$scope.accessType = 
 				[{
 					'name': 'Full Access',
-					'value': 'FA'
+					'value': 'FL'
 				}, {
 					'name': 'Partial Access',
-					'value': 'PA'
+					'value': 'RF'
 				}];
-			$scope.AccessValue = "FA";
+			$scope.AccessValue = "FL";
 			//Browse catelog when category and toolkitype selected
 			$scope.browseForCatTool =function(){
 				$scope.showSolutionTable = true;
@@ -984,14 +983,14 @@ angular.module('admin').filter('abs', function() {
                       $scope.addedToSubs = false;
                       $scope.addToSubs = function(){
                     	  var check = false;
-                    	  var jsonFormate = '',cat='',toolKit='';debugger;
+                    	  var jsonFormate = '',cat='',toolKit='';
                     	  if(!$scope.categoryValue && !$scope.toolKitTypeValue){
                     		//changed since code was getting fetched in modelType earlier
                     		  /*$scope.categoryValue = $scope.solutionDetail.modelType;
                     		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitType;*/
                     		  
                     		  $scope.categoryValue = $scope.solutionDetail.modelTypeCode;
-                    		  $scope.toolKitTypeValue = $scope.solutionDetail.tookitTypeCode;
+                    		  $scope.toolKitTypeValue = $scope.solutionDetail.toolkitTypeCode;
                     		  check = true;
                     	  }
                     	                      	  
@@ -1011,7 +1010,7 @@ angular.module('admin').filter('abs', function() {
                     			    	"peerId": $scope.peerIdForSubsList,
                     			    	//"subId": $scope.subId,
                     			    	"selector" : catToolkit,
-                    			    	"ownerId" : userId,
+                    			    	"userId" : userId,
                     			    	"scopeType": $scope.AccessValue || "FL",
                     			    	"refreshInterval": freqChangeValue,
                     			    	"accessType": "PB"
