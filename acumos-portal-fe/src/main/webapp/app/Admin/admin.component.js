@@ -1073,7 +1073,9 @@ angular.module('admin').filter('abs', function() {
                 	  
                       $scope.deletePeerFunc = function () {
                     	  $scope.selectedPeer;
-                    	  var peerDetails = {"request_body": {	
+                    	  
+                    	  //Soft Delete peer
+                    	  /*var peerDetails = {"request_body": {	
                  			 "self" : $scope.selectedPeer.self,
              				"apiUrl": $scope.selectedPeer.apiUrl,
            				    "contact1": $scope.selectedPeer.contact1,
@@ -1104,10 +1106,12 @@ angular.module('admin').filter('abs', function() {
                           	    }, 
                     	    		function(error){
                           	    	console.log('Error :' +error);
-                    	    	})
-
-                  		/*apiService
-                   	      .deletePeer($scope.selectedPeer)
+                    	    	})*/
+                    	    	
+                    	  
+                    	  // Hard Delete Peer
+                  		apiService
+                   	      .deletePeer($scope.selectedPeer.peerId)
                    	      .then(
                    	    		function(response){
 
@@ -1125,7 +1129,9 @@ angular.module('admin').filter('abs', function() {
                                     }, 5000);
                          	            // success
                         	    },
-                   	    		function(error){console.log('Error :' +error);});*/
+                   	    		function(error){
+                    	    		console.log('Error :' +error);
+                	    		});
                     }
                     //Permission list
                       function perValue(){
