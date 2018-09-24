@@ -716,6 +716,8 @@ angular.module('admin').filter('abs', function() {
                       //Edit PEER
                       $scope.itsEdit = false;
                       $scope.editPeer = function(peerDetail){
+                    	  $scope.verified = null; $scope.errorMessage = "";
+                    	  $scope.verify = true;
                     	  $scope.itsEdit = true;$scope.peerStatus = peerDetail.statusCode;
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
