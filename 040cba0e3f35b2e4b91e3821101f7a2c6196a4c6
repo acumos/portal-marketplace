@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be8579bb_f89a35e2",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-09-24T13:57:48Z",
+      "side": 1,
+      "message": "Remove commented cpcde",
+      "revId": "040cba0e3f35b2e4b91e3821101f7a2c6196a4c6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
