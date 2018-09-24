@@ -1073,41 +1073,10 @@ angular.module('admin').filter('abs', function() {
                 	  
                       $scope.deletePeerFunc = function () {
                     	  $scope.selectedPeer;
-                    	  var peerDetails = {"request_body": {	
-                 			 "self" : $scope.selectedPeer.self,
-             				"apiUrl": $scope.selectedPeer.apiUrl,
-           				    "contact1": $scope.selectedPeer.contact1,
-           				    "description": $scope.selectedPeer.description,
-           				    "name": $scope.selectedPeer.name,
-           				    "subjectName": $scope.selectedPeer.subjectName,
-           				    "webUrl": $scope.selectedPeer.webUrl,
-           				    "peerId" : $scope.selectedPeer.peerId,
-           				    "validationStatusCode": "PS",
-           				    "statusCode": "DC"
-                 		  }}
                     	  
-                    	  apiService.deactivatePeer($scope.selectedPeer.peerId,peerDetails).then(
-                    	    		function(response){
-                    	    			getAllPeer();
-                       	    			fetchPeer();
-                       	    			$scope.closePoup();
-                            	    	$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
-                                        $anchorScroll(); 
-                                        $scope.msg = "Peer deleted successfully."; 
-                                        $scope.icon = '';
-                                        $scope.styleclass = 'c-success';
-                                        $scope.showAlertMessage = true;
-                                        $timeout(function() {
-                                        	$scope.showAlertMessage = false;
-                                        }, 5000);
-                    	    			 
-                          	    }, 
-                    	    		function(error){
-                          	    	console.log('Error :' +error);
-                    	    	})
-
-                  		/*apiService
-                   	      .deletePeer($scope.selectedPeer)
+                    	  // Hard Delete Peer
+                  		apiService
+                   	      .deletePeer($scope.selectedPeer.peerId)
                    	      .then(
                    	    		function(response){
 
@@ -1125,7 +1094,9 @@ angular.module('admin').filter('abs', function() {
                                     }, 5000);
                          	            // success
                         	    },
-                   	    		function(error){console.log('Error :' +error);});*/
+                   	    		function(error){
+                    	    		console.log('Error :' +error);
+                	    		});
                     }
                     //Permission list
                       function perValue(){
