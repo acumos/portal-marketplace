@@ -1438,6 +1438,8 @@ md-menu-content.notelist_1 md-menu-item {border-top: 1px dotted #b1b1b1;margin: 
 md-menu-content.notelist_1 md-menu-item:first-child {border-top: none;}
 md-menu-content.notelist_1 md-menu-item.readall-btn-container {position: relative;border-top: 1px dotted #b1b1b1;margin: 3px 0; padding-top: 10px !important; }
 
+md-menu-item:hover { background-color: #eee;}
+
 md-menu-content.notelist_1 .mdl-button {min-height: 10px; width:15px; min-width: 15px; background: none;}
 md-menu-content.notelist_1 .mdl-button.btn-readall-msg {height: 30px; position:relative; text-align: center; width:175px; margin: 0 auto;text-transform: none; color:#0366d6;font-size: 14px; font-weight: normal;line-height: 28px; }
 md-menu-content.notelist_1 .mdl-button.btn-readall-msg:hover { color:#671C9D;}
