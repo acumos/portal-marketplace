@@ -1551,7 +1551,8 @@ angular.module('admin').filter('abs', function() {
                                         	  var addAllSolObj = [];
                                         	  var cat,toolKit,catToolkit;
                                         	  //angular.forEach($scope.publicSolList,function(value, key) {  //mlsolutionCatTool
-                                        	  angular.forEach($scope.mlsolutionCatTool,function(value, key) {
+                                        	  //angular.forEach($scope.mlsolutionCatTool,function(value, key) {
+                                        	  var value = $scope.mlsolutionCatTool[0];
                                     		  cat="";toolKit ="";catToolkit="";
                                     		  if(value.modelTypeCode){
                                         		  cat = '"modelTypeCode":"' +value.modelTypeCode + '"'
@@ -1572,7 +1573,7 @@ angular.module('admin').filter('abs', function() {
 		 	    		              					  "selector": catToolkit
 	    		                        				 }
        										) 
-       										});
+       										//});
                                         	  var reqAddObj = {
                                         			  "request_body": 
                                         				  addAllSolObj

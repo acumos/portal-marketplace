@@ -270,7 +270,7 @@ angular
 							}
 
 							if($rootScope.valueToSearch !== undefined
-									&& $rootScope.valueToSearch !== null){
+									&& $rootScope.valueToSearch !== null && $rootScope.valueToSearch !== ''){
 								apiService.insertSearchSolutionDetail(dataObj).then(
 										function(response) {
 											$scope.totalPages = response.data.response_body.pageCount;
