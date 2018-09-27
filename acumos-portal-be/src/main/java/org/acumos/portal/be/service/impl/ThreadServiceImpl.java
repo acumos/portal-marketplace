@@ -19,8 +19,6 @@
  */
 package org.acumos.portal.be.service.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,11 +35,6 @@ import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.DateUtils;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
-import org.joda.time.Minutes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -302,9 +295,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 			pageResponse = dataServiceRestClient.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
 			List<MLComment> mlcommentList = new ArrayList<MLComment>();
 			for(MLPComment mlpComment : pageResponse.getContent()){
-				if((PortalUtils.isEmptyOrNullString(mlpComment.getParentId()))){
 					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment, clientTimeZone));
-				}
 			}
 			commentResponse.setContent(mlcommentList);
 		} catch (IllegalArgumentException e) {
