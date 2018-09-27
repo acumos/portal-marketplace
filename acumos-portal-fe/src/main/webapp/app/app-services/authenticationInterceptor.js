@@ -28,9 +28,13 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
       }
       if(sessionStorage.getItem('provider'))
           config.headers.provider = sessionStorage.getItem('provider');
-      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      var tz = jstz.determine().name();
       tz = encodeURIComponent(tz);
       config.headers.UserTimeZone = tz;
+      
+      if(config.url.indexOf('.html') > -1){
+          config.url += '?_v='+ (new Date()).getTime();
+      }
       return config;
     },
     response: function (response) {
