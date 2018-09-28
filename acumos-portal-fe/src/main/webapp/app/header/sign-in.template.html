@@ -40,7 +40,7 @@ limitations under the License.
 										</div>
 										<div class="help-inline" ng-show="userIdDisabled">
 											<span style="color: #ff0000;">
-												Your account is deactivated or does not exist.
+												Invalid UserName/Password
 											</span>
 										</div>
 										<div class="mdl-grid mdl-grid--no-spacing">
@@ -77,15 +77,13 @@ limitations under the License.
 												<div>
 												<div class="help-inline validation-msgs">
 								<span ng-show="enterLoginCredentials"
-									style="color: #ff0000">User name and Password does not
-									match. </span>
+									style="color: #ff0000">Invalid UserName/Password</span>
 							</div>
 							<div class="help-inline">
-								<span ng-show="userPassInvalid" style="color: #ff0000;">Username
-									and Password does not match</span>
+								<span ng-show="userPassInvalid" style="color: #ff0000;">Invalid UserName/Password</span>
 							</div>
 							<div class="help-inline">
-								<span ng-show="userPassBlocked" style="color: #ff0000;">{{userBlockedMessage}}</span>
+								<span ng-show="userPassBlocked" style="color: #ff0000;">Invalid UserName/Password</span>
 							</div>
 													<!--<md-button class="mdl-button mdl-js-button mdl-button--raised btn-signin btn-fullwidth btn-primary"
 													
