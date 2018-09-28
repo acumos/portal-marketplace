@@ -34,7 +34,7 @@ limitations under the License.
 				</div>
 				<ul class="c-breadcrumb">
 					<li><a ui-sref="home" href="#">Home</a></li>
-					<li><a ui-sref="publishRequest" href="#">{{menuName}}</a></li>
+					<li><a ui-sref="publishRequest" href="#">Publish Request</a></li>
 					<!-- <li>On Boarding Model</li> -->
 				</ul>
 			</div>
@@ -43,9 +43,9 @@ limitations under the License.
 	</section>
 	<div class="page-wrapper3 publish-request">
 		<!--  publish request -->
-		<div class="fed-row1 publishheading">
+		<div class="fed-row1 publishheading" ng-init="allPublishRequestLength = 0">
 			<div class="fedrow-cell1">
-				<span class="font600">Current Request</span> <span>({{allPublishRequestLength}}
+				<span class="font600">Current Request </span> <span>({{allPublishRequestLength}}
 					active request)</span>
 			</div>
 			<div class="fed-row2">
@@ -124,31 +124,30 @@ limitations under the License.
 				</thead>
 				<tbody><!-- (filtertedUser = (allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : search) ) -->
 
-					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : searchPublishRequest"
-						ng-class="{'disabled': publishReq.requestStatusName == 'Declined' || publishReq.requestStatusName == 'Withdrawn' || publishReq.requestStatusName == 'Approved'}">
-						<td><a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId})"><label class="model-name">{{publishReq.solutionName}}</label></a>
+					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : searchPublishRequest">
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId})"><label class="model-name">{{publishReq.solutionName}}</label></a>
 							<label class="small">{{publishReq.solutionId}}</label></td>
-						<td><label>{{publishReq.revisionName}}</label> <label
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label>{{publishReq.revisionName}}</label> <label
 							class="small">Revision ID: {{publishReq.revisionId}}</label></td>
-						<td>{{publishReq.requestorName}}</td>
-						<td>{{publishReq.revisionStatusName}}</td>
-						<td><label
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.requestorName}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.revisionStatusName}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label
 							ng-class="{'text-green': publishReq.requestStatusName == 'Approved' , 
 							'text-red': publishReq.requestStatusName == 'Declined',
 							'text-orange': publishReq.requestStatusName == 'Withdrawn'}">{{publishReq.requestStatusName}}</label>
 						</td>
 						<td><label class="a-tooltip"><span
-								class="a-tooltipval">View</span> <span class="a-tooltiptext">{{publishReq.comment}}</span>
+								class="a-tooltipval">view</span> <span class="a-tooltiptext">{{publishReq.comment}}</span>
 						</label></td>
-						<td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
 							<div class="admin-action-container">
 								<button name="approvePublishRequestModal"
-									ng-click="showModalPublishReq($index, 'approve',publishReq.modelName, publishReq.publishRequestId)"
+									ng-click="showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-approve"></span>
 								</button>
 								<button name="declinePublishRequestModal"
-									ng-click="showModalPublishReq($index, 'decline',publishReq.modelName, publishReq.publishRequestId)"
+									ng-click="showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-deny"></span>
 								</button>
