@@ -1968,11 +1968,15 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 .a-tooltip {position: relative;display: inline-block;width: 335px;}
 .a-tooltip .a-tooltiptext {visibility: hidden; width: 280px; background-color: #2e2f2f; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s;}
 .a-tooltip .a-tooltiptext::after {content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 6px; border-style: solid; border-color: #2e2f2f transparent transparent transparent;}
-.a-tooltip:hover .a-tooltiptext {visibility: visible; opacity: 1;}
+.a-tooltip:hover .a-tooltiptext {visibility: visible; opacity: 1 !important;}
 .a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; width: 90%;white-space: nowrap;}
 table tbody tr td .a-tooltipval {top:5px}
 .modal-row1.modal-row-new1 > div > label {border: none !important;}
 .modal-row1.modal-row-new1 > div {}
+
+.admin-tbl1 .a-tooltip {width: auto !important;}
+.publishreq-tooltip span {pointer-events: all; cursor: pointer;}
+
 
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {overflow: visible !important;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child .a-tooltip .a-tooltiptext {white-space: normal;}
@@ -2033,7 +2037,9 @@ table tbody tr td .a-tooltipval {top:5px}
 .text-orange{color:#f86234;}
 label.model-name{color:#0366d6;}
 .request-tbl label{margin-bottom:0;}
-.request-tbl .disabled{border-color: #d3d1d1; opacity:0.5; pointer-events: none;}
+.request-tbl .disabled td > a,
+.request-tbl .disabled td > label,
+.request-tbl .disabled td > .admin-action-container {border-color: #d3d1d1; opacity:0.5; pointer-events: none;}
 .publish-request{padding:20px 20px 15px}
 .publishheading{border-bottom: 1px solid #E5E5E5; padding:0 0 10px 0;}
 /*for Manage My Model page*/
