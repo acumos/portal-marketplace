@@ -1577,7 +1577,12 @@ angular
 				              $scope.publishRequestForm.$setPristine();
 				            }
 						    
-						    $scope.publishReqeuest = function(publishVal){
+							$scope.closePoup = function(){
+								$scope.descriptionPop = '';
+								$mdDialog.hide();
+							}
+
+							$scope.publishReqeuest = function(publishVal){
 								$scope.publishVal = publishVal;
 								var publishRequestCode = 'DC';
 								if(publishVal == 'approve'){
@@ -1604,9 +1609,9 @@ angular
 												function successCallback(response) {
 													$mdDialog.hide();
 													if($scope.publishVal == 'approve'){
-														$scope.msg = "Publication request has been approved successfully. ";
+														$scope.msg = "The "+ response.data.response_body.solutionName + " publication request has been successfully approved.";
 													} else {
-														$scope.msg = "Publication request has been declined successfully. ";
+														$scope.msg = "The "+ response.data.response_body.solutionName + " publication request has been successfully declined.";
 													}
 													
 													$scope.icon = '';

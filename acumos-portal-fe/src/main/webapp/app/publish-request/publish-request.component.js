@@ -33,7 +33,7 @@ angular
 						var user= JSON.parse(browserStorageService.getUserDetail());
 						
 						$scope.showAlertMessage = false;
-						$scope.loginUserID = user[1];
+						if(user) $scope.loginUserID = user[1];
 						$scope.pageNumber = 0;
 						$scope.totalPages = 0;
 						$scope.allPublishRequestLength = 0;
@@ -80,6 +80,7 @@ angular
 			            }
 			            
 			            $scope.closePoup = function(){
+			              $scope.descriptionPop = '';
 		              	  $mdDialog.hide();
 		                }
 			            
@@ -99,7 +100,7 @@ angular
 							var reqObject = {
 											  "request_body": {
 											    "pageRequest": {
-											      "fieldToDirectionMap": {},
+											      "fieldToDirectionMap": {"created" : "DESC"},
 											      "page": $scope.pageNumber,
 											      "size": $scope.requestResultSize
 											    }
@@ -125,8 +126,8 @@ angular
 												$rootScope.setLoader = false;
 										});
 						}
-						
-						$scope.loadPublishRequest(0);
+						if($scope.loginUserID)
+							$scope.loadPublishRequest(0);
 						$scope.showAlertMessage = false;
 
 						$scope.publishReqeuest = function(index, publishVal){
@@ -154,10 +155,11 @@ angular
 									})
 									.then(
 											function successCallback(response) {
+												
 												if($scope.publishVal == 'approve'){
-													$scope.msg = "Publication request has been approved successfully. ";
+													$scope.msg = "The "+ response.data.response_body.solutionName + " publication request has been successfully approved.";
 												} else {
-													$scope.msg = "Publication request has been declined successfully. ";
+													$scope.msg = "The "+ response.data.response_body.solutionName + " publication request has been successfully declined.";
 												}
 												
 												$scope.icon = '';

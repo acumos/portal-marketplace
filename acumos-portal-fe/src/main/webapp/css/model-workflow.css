@@ -715,7 +715,7 @@ limitations under the License.
 .btn-publish{margin: 4px 0;
     float: inherit;
     padding: 0 10px;
-    height: 24px;
+    height: auto;
     font-size: 12px;
     line-height: 17px;
     min-height: 24px;
