@@ -29,6 +29,7 @@ Version 1.16.0, 28th September 2018
 * Portal image upload screen cannot recognize JPG suffix, insists on jpg (ACUMOS-1722)
 * Portal publish-approve screen does not allow viewing comments after approve/decline (ACUMOS-1775)
 * Portal login failure screen typo "does not exists" (ACUMOS-1799)
+* Portal must not reveal existence of user after failed login attempts cause lock (ACUMOS-1774)
 
 
 Version 1.15.48, 25th September 2018
