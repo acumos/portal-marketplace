@@ -20,6 +20,17 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.16.0, 28th September 2018
+===================================
+* IST2:  UI is displaying distorted on header when shared user have profile pic and also white strip is displaying (ACUMOS-1578)
+* IST: Deploy to Local : Download packages and help is not working on the popup (ACUMOS-1653)
+* IST: Issues in review/approve workflow when users request publish to public (ACUMOS-1764)
+* IST: Preferred tag is not displaying on model tile (ACUMOS-1765)
+* Portal image upload screen cannot recognize JPG suffix, insists on jpg (ACUMOS-1722)
+* Portal publish-approve screen does not allow viewing comments after approve/decline (ACUMOS-1775)
+* Portal login failure screen typo "does not exists" (ACUMOS-1799)
+
+
 Version 1.15.48, 25th September 2018
 ====================================
 * Issues on Web Onboarding Screen (ACUMOS-1711)
