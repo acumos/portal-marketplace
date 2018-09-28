@@ -27,7 +27,9 @@ import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
+import org.acumos.portal.be.logging.ONAPLogConstants;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.MDC;
 
 public abstract class AbstractServiceImpl {
 
@@ -36,6 +38,7 @@ public abstract class AbstractServiceImpl {
 	
 	public ICommonDataServiceRestClient getClient() {
 		ICommonDataServiceRestClient client = new CommonDataServiceRestClientImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"), null);
+		client.setRequestId(MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 		return client;
 	}
 	

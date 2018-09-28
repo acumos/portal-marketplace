@@ -31,6 +31,7 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
       var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       tz = encodeURIComponent(tz);
       config.headers.UserTimeZone = tz;
+      config.headers["Request-ID"] = uuid();
       return config;
     },
     response: function (response) {
@@ -64,4 +65,27 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
     	
     }
   };
+  
+
+	function uuid() {
+	  var id = '', i;
+	  for(i = 0; i < 36; i++)
+	  {
+	    if (i === 14) {
+	      id += '4';
+	    }
+	    else if (i === 19) {
+	      id += '89ab'.charAt(Math.random() * 4);
+	    }
+	    else if(i === 8 || i === 13 || i === 18 || i === 23) {
+	      id += '-';
+	    }
+	    else
+	    {
+	      id += '0123456789abcdef'.charAt(Math.random() * 16);
+	    }
+	  }
+	  return id;
+	}
+
 });
