@@ -28,7 +28,7 @@ angular
 					templateUrl : '/app/market_place/market-place.template.html',
 					controller : function($scope, $compile, $location, $http,
 							$state, $stateParams, $sessionStorage, $rootScope,
-							apiService, $element, $timeout, $window, browserStorageService) {
+							apiService, $element, $timeout, $window,$mdDialog, browserStorageService) {
 
 						$scope.setPageStart = 0;
                         $scope.selectedPage = 0;
@@ -541,9 +541,24 @@ angular
 								}
 							  } 
 
-						 $scope.showTag = function() {
-                     		$rootScope.$broadcast('manageTags');
+						  $scope.showTag = function() {
+							$scope.userDetails = JSON.parse(browserStorageService.getUserDetail());
+							if($scope.userDetails === null){								
+								$mdDialog.show({
+									 templateUrl: '../app/header/sign-in-promt-modal-box.html',
+									 clickOutsideToClose: true,
+									 controller : function DialogController($scope ) {
+										 $scope.closeDialog = function() {
+											 $mdDialog.hide();
+											 $rootScope.showAdvancedLogin();
+									    	 $state.go('home');
+								     } }
+									});
+							}
+							else							
+                     					        $rootScope.$broadcast('manageTags');
                      	}
+						
 						 $scope.$on("loadMarketplace",function(event, data) {
 							 $scope.loadMore(0);
 							 $scope.getalltags();
@@ -582,6 +597,15 @@ angular
 						}
 						if($scope.loginUserID)
 							$scope.getalltags();
+							
+						$scope.Tag = false;
+						$scope.slnID = null;
+						$scope.showListTag = function(solutionID) {
+							if($scope.slnID != solutionID )
+								$scope.Tag = false;
+						  $scope.Tag = !$scope.Tag;
+						  $scope.slnID = solutionID;
+						}
 
 						$scope.updateFavorite = function(solutionId, key) {
 							// $scope.selectFav = !$scope.selectFav;

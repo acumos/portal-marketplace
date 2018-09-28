@@ -410,6 +410,8 @@ md-grid-tile:hover { cursor: pointer; box-shadow:1px 1px 3px #eee;border:1px sol
 .grid-item:hover { box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 transform:scale(1.02);
 transition: all 0.2s ease-in-out;
+position:relavtive;
+z-index:2000;
 }
 .mpimgcontainer:hover .mpbtncontainer {display: block;}
 
@@ -530,6 +532,27 @@ transition: all 0.2s ease-in-out;
 .header-stats .rating {position:relative; margin-right: 15px;}
 .header-stats .header-stat-star .material-icons {width: 25px;}
 .header-stat-lg{display: none; }
+
+/*CSS code for Manage Taglist:*/
+.a-mp-container1 {display:flex; justify-content: space-between;align-items: center;clear: both;}
+.manage-taglist {border: 1px solid #e1e1e1; margin-right: 5px; border-left: none;position:relative; padding-right: 5px;}
+.manage-taglist:before {content:""; border: 1px solid #e1e1e1; display:inline-block; position:absolute; 
+left: -9px; transform: rotate(45deg); width: 17px; height: 17px;margin-top: 2px; border-top: none;border-right: none; }
+.mg-tag-circle {border: 1px solid #ccc; width: 8px; height: 8px; display: inline-block; border-radius: 5px; margin-right: 5px;}
+.mg-tag-text {font-size: 10px;}
+.manage-taglist .icon-showmore {cursor: pointer;}
+.manage-taglist .icon-showmore .material-icons {font-size: 13px; position:relative; top: 3px; margin-left: 3px;}
+
+.manage-taglist2 {border: 1px solid #e1e1e1; display:flex; flex-wrap: no-wrap; align-items: center; flex-direction: row; margin-right: 5px; border-left: none;position:relative; padding-right: 5px;}
+.manage-taglist2:before {content:""; border: 1px solid #e1e1e1; display:inline-block; position:absolute; 
+left: -7px; transform: rotate(45deg); width: 14px; height: 14px;top: 2px; border-top: none;border-right: none; }
+.mg-tag-circle2 {border: 1px solid #ccc; width: 8px; height: 8px; display: inline-block; border-radius: 5px; margin-right: 5px;}
+.mg-tag-text2 {font-size: 10px;line-height: 17px;}
+
+.manage-tag-list-container {border: 1px solid #e1e1e1;position:absolute; z-index: 5000; background: #fff; margin-top: 5px;}
+.manage-tag-list {list-style-type: none; padding-left: 14px; margin: 5px 0;}
+.manage-tag-list li { margin-bottom: 5px;}
+
 
 /* Rating */
 .stars-outer {display: inline-block; position: relative;font-family: Font Awesome\ 5 Free; font-weight: 900;margin: 10px 0;}
@@ -1773,7 +1796,7 @@ padding: 20px;background:#e5e5e5;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
 
 /***** Sign-in promt modal start ********/
-.sign-in-promt-modal-box {width: 400px;}
+.sign-in-promt-modal-box {width: 400px;margin-left: auto; margin-right: auto;}
 .sign-in-promt-modal-box .md-dialog-content {min-height: 80px;}
 
 /***** Sign-in promt modal end ********/
@@ -1973,6 +1996,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 table tbody tr td .a-tooltipval {top:5px}
 .modal-row1.modal-row-new1 > div > label {border: none !important;}
 .modal-row1.modal-row-new1 > div {}
+.admin-tbl1 .a-tooltip {width: auto !important;}
 
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {overflow: visible !important;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child .a-tooltip .a-tooltiptext {white-space: normal;}
@@ -2165,6 +2189,8 @@ label.model-name{color:#0366d6;}
     .search-button-responsive{width: 100%;padding-left: 0px;margin-bottom: 7px;}
     .subscontainerinner2 .mdl-textfield.admin-search-container{width:100% !important; padding-left:0px;margin-bottom: 7px;}
      /*Federation responsive End*/
+     
+     .sign-in-promt-modal-box {width: 300px; margin-left: auto; margin-right: auto;}
 }
 
 @media (max-width: 650px) {		
