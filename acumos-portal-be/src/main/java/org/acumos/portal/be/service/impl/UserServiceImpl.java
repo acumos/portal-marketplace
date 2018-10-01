@@ -495,7 +495,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     @Override
     public List<MLPRole> getUserRole(String userId) {
 
-        log.debug(EELFLoggerDelegate.debugLogger, "getAllUser");
+        log.debug(EELFLoggerDelegate.debugLogger, "getUserRole for user {}", userId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         //queryParameters.put("active_yn","Y");
         List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
