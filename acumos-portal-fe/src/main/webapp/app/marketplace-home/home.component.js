@@ -209,12 +209,14 @@ angular
 												setTimeout(function() {
 												angular.forEach($scope.storyConfig, function (value, key) {
 													if(value['slideEnabled'] === true || value['slideEnabled'] === 'true' && key != 'enabled'){
-														var storyhtml = '<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit"> <div class="success-icon" ng-hide="'+!value["bgImageUrl"]+'" >' + 
-															'<img src="/site/binaries/content/gallery/acumoscms/global/story_carousel_bg/' + value["bgImageUrl"] +'"/>' + 
-															'</div>' +
+														var storyhtml = '<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone disinherit">' + 
+//															'<div class="success-icon" ng-hide="'+!value["bgImageUrl"]+'" >' + 
+//															'<img src="/site/binaries/content/gallery/acumoscms/global/story_carousel_bg/' + value["bgImageUrl"] +'"/>' + 
+//															'</div>' +
 															'<div class="success-description" ng-show="'+value['supportingContent']+'">' + 
 															value["supportingContent"]  +
-															'</div></div>';
+															'<p><b>' + value["authorName"]  +
+															'</b></p></div></div>';
 														$scope.successStories.slides[index] = storyhtml;
 														$scope.$apply();
 							                             index++;

@@ -1893,46 +1893,44 @@ angular.module('admin').filter('abs', function() {
                     $scope.scCharLimit = 140;
                     $scope.headlineCharLimit = 60;
                     
-                    $scope.topSCLength = 0;
-                    $scope.updateTopSCLength = function (text) {
-                    	$scope.topSCLength = text.length - 1;
+                    $scope.topSC = "";
+                    $scope.updateTopSC = function (text) {
+                    	$scope.topSC = text.trim();
                     }
                     
-                    $scope.eventSCLength = 0;
-                    $scope.updateEventSCLength = function (text) {
-                    	$scope.eventSCLength = text.length - 1;
+                    $scope.eventSC = "";
+                    $scope.updateEventSC = function (text) {
+                    	$scope.eventSC = text.trim();
                     }
                     
-                    $scope.successSCLength = 0;
-                    $scope.updateSuccessSCLength = function (text) {
-                    	$scope.successSCLength = text.length - 1;
+                    $scope.successSC = "";
+                    $scope.updateSuccessSC = function (text) {
+                    	$scope.successSC = text.trim();
                     }
                     
-                    $scope.scCharsLeft = function(scLength) {
-                    	return $scope.scCharLimit - scLength;
+                    $scope.isWithinCharLimit = function(string, charLimit) {
+                    	return (string) ? string.length <= charLimit : true;
                     }
-                    $scope.scWithinCharLimit = function(scLength) {
-                    	return scLength <= $scope.scCharLimit;
-                    }
-                    
-                    $scope.headlineCharsLeft = function(slide) {
-                    	return $scope.headlineCharLimit - (slide.headline ? slide.headline.length : 0);
-                    }
-                    $scope.headlineWithinCharLimit = function(slide) {
-                    	return !slide.headline ||
-                    		slide.headline.length <= $scope.headlineCharLimit;
+                    $scope.charsLeft = function(string, charLimit) {
+                    	return charLimit - (string ? string.length : 0);
                     }
                     
-                    $scope.isSlideValid = function(slide, scLength, isTop) {
+                    $scope.isSlideValid = function(slide, type) {
                     	var valid = true && slide;
                     	valid = valid && slide.name && slide.name.length > 0;
-                    	valid = valid && slide.headline && slide.headline.length > 0;
-                    	valid = valid && $scope.headlineWithinCharLimit(slide);
-                    	valid = valid && (!slide.supportingContent || $scope.scWithinCharLimit(scLength));
-                    	valid = valid && (!slide.graphicImgEnabled || $scope.carouselInfoFileName);
-                    	valid = valid && slide.textAling;
+                    	if (["top", "event"].includes(type)) {
+                        	valid = valid && slide.headline && slide.headline.length > 0;
+                        	valid = valid && $scope.isWithinCharLimit(slide.headline, $scope.headlineCharLimit);
+                        	valid = valid && (!slide.graphicImgEnabled || $scope.carouselInfoFileName);
+                        	valid = valid && slide.textAling;
+                        	valid = valid && (!slide.supportingContent || $scope.isWithinCharLimit((type == "top") ? $scope.topSC : $scope.eventSC, $scope.scCharLimit));
+                    	} else if (type == "story") {
+                    		valid = valid && slide.authorName && slide.authorName.length > 0;
+                    		valid = valid && $scope.isWithinCharLimit(slide.authorName, $scope.headlineCharLimit);
+                    		valid = valid && slide.supportingContent && $scope.isWithinCharLimit($scope.successSC, $scope.scCharLimit);
+                    	}
                     	
-                    	return valid;
+                    	return (valid != undefined) && valid;
                     }
                     
                     $scope.addCarouselSlide = function(){
@@ -2094,6 +2092,7 @@ angular.module('admin').filter('abs', function() {
                 	   $scope.carouselBGFileName = val['bgImageUrl'];
                 	   $scope.carouselInfoFileName = val['InfoImageUrl'];
                 	   
+                	   $scope.topSC = val['supportingContent'].replace(/<(?:.|\n)*?>/gm, '');
                 	   $scope.keyval = key;
                 	   $scope.showAddSlidesPopup();
                    }
@@ -2383,7 +2382,7 @@ angular.module('admin').filter('abs', function() {
 							var slide_supportingContent = $scope.eventCarousel.supportingContent;
 							slide['name']= slide_name;
 							slide['headline'] = slide_headline;
-							slide['supportingContent']= slide_supportingContent;
+							slide['supportingContent']= slide_supportingContent.trim();
 							slide['infoImageAling']= $scope.carousel_Info_Aling;
 							slide['textAling']= $scope.carousel_Text_Aling;
 							
@@ -2461,6 +2460,7 @@ angular.module('admin').filter('abs', function() {
 	                 	   
 	                 	   $scope.event_Text_Aling = val['textAling'];
 	                 	   $scope.event_Info_Aling = val['infoImageAling'];
+	                 	   $scope.eventSC = val['supportingContent'].replace(/<(?:.|\n)*?>/gm, '');
 	                 	   $scope.keyval = key;
 	                 	   $scope.showEventSlidesPopup();
 	                    }
@@ -2562,9 +2562,10 @@ angular.module('admin').filter('abs', function() {
 	                    
 	                    $scope.changeEventSlides = function (){
 	                 	   for (var i=0; i<$scope.eventCheckedList.length; i++){
-	                 		   $scope.eventConfig[i].slideEnabled = $scope.changeEventAction;
+	                 		   var key = $scope.eventCheckedList[i];
+	                 		   $scope.eventConfig[key].slideEnabled = $scope.changeEventAction;
 	                 	   }
-	                       $scope.eventConfig.enabled = !$scope.eventConfig.enabled;
+//	                       $scope.eventConfig.enabled = !$scope.eventConfig.enabled;
 	                 	   var carouselConfigStr = JSON.stringify($scope.eventConfig);
 	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
 	 					  
@@ -2758,15 +2759,15 @@ angular.module('admin').filter('abs', function() {
 	                			var keyIndex = parseInt(keys[keys.length -1]) + 1;
 	                	    //return;
 							var slide_name = $scope.successCarousel.name;
-							var slide_headline = $scope.successCarousel.headline;
-							var slide_supportingContent = $scope.successCarousel.supportingContent;
+							var slide_authorName = $scope.successCarousel.authorName;
+							var slide_supportingContent = $scope.successCarousel.supportingContent.trim();
 							slide['name']= slide_name;
-							slide['headline'] = slide_headline;
-							slide['supportingContent']= slide_supportingContent;
-							slide['infoImageAling']= $scope.carousel_Info_Aling;
-							slide['textAling']= $scope.carousel_Text_Aling;
+							slide['authorName'] = slide_authorName;
+							slide['supportingContent']= slide_supportingContent.trim();
+//							slide['infoImageAling']= $scope.carousel_Info_Aling;
+//							slide['textAling']= $scope.carousel_Text_Aling;
 							
-							slide['graphicImgEnabled'] =  $scope.successCarousel.graphicImg;
+//							slide['graphicImgEnabled'] =  $scope.successCarousel.graphicImg;
 							slide['slideEnabled'] = "true";
 							
 							if($scope.itsEdit){
@@ -2990,11 +2991,14 @@ angular.module('admin').filter('abs', function() {
 	                    $scope.editStorySlide = function (key, val){
 	                 	   $scope.itsEdit = true;
 	                 	   $scope.successCarousel = val;
-	                 	   $scope.successBGFileName = val['bgImageUrl'];
-	                 	   $scope.successInfoFileName = val['InfoImageUrl'];
-	                 	   
-	                 	   $scope.event_Text_Aling = val['textAling'];
-	                 	   $scope.event_Info_Aling = val['infoImageAling'];
+//	                 	   $scope.successBGFileName = val['bgImageUrl'];
+//	                 	   $scope.successInfoFileName = val['InfoImageUrl'];
+//	                 	   
+//	                 	   $scope.event_Text_Aling = val['textAling'];
+//	                 	   $scope.event_Info_Aling = val['infoImageAling'];
+
+	                 	   $scope.successSC = val['supportingContent'].replace(/<(?:.|\n)*?>/gm, '');
+
 	                 	   $scope.keyval = key;
 	                 	   $scope.showStorySlidesPopup();
 	                    }
@@ -3043,9 +3047,10 @@ angular.module('admin').filter('abs', function() {
 	                    
 	                    $scope.changeStorySlides = function (){
 	                 	   for (var i=0; i<$scope.storyCheckedList.length; i++){
-	                 		   $scope.storyConfig[i].slideEnabled = $scope.changeStoryAction;
+	                 		   var key = $scope.storyCheckedList[i];
+	                 		   $scope.storyConfig[key].slideEnabled = $scope.changeStoryAction;
 	                 	   }
-	                 	   $scope.storyConfig.enabled = !$scope.storyConfig.enabled;
+//	                 	   $scope.storyConfig.enabled = !$scope.storyConfig.enabled;
 	                 	   
 	                 	   var carouselConfigStr = JSON.stringify($scope.storyConfig);
 	 					   var convertedString = carouselConfigStr.replace(/"/g, '\"');
