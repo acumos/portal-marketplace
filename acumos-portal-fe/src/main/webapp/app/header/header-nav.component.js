@@ -235,7 +235,7 @@ angular.module('headerNav')
 					$scope.page =0;
 					//$scope.notificationManageObj=[];
 					//$rootScope.notificationCount=0;
-					$scope.getNotificationMessage($scope.loginUserID, $scope.page);
+					$scope.getNotificationMessage($scope.loginUserID, $scope.page, true);
 					$state.go('notificationModule');
 				 }
 			}).error(function(data, status, headers, config) {
