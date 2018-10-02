@@ -227,7 +227,10 @@ limitations under the License.
 													<li>Completed on {{version.modified |
 														date:'MM/dd/yyyy' }}</li>
 												</ul>
-												<ul class="red" ng-if="version.accessTypeCode!='PB'">
+												<ul class="blue" ng-if="version.accessTypeCode!='PB'&&publishRequest.requestStatusCode=='PE'">
+													<li>Pending for approval</li>
+												</ul>
+												<ul class="red" ng-if="version.accessTypeCode!='PB'&&publishRequest.requestStatusCode!='PE'">
 													<li>Not started</li>
 												</ul>
 
