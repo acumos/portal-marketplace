@@ -406,7 +406,7 @@ public class AdminServiceController extends AbstractController {
             data = new JsonResponse<>();
             mlpSiteConfig = adminService.getSiteConfig(configKey);
             if (mlpSiteConfig != null) {
-                data.setResponseBody(mlpSiteConfig    );
+                data.setResponseBody(mlpSiteConfig);
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
                 data.setResponseDetail("SiteConfiguration fetched Successfully");
             }
@@ -415,7 +415,7 @@ public class AdminServiceController extends AbstractController {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
             log.error(EELFLoggerDelegate.errorLogger,
-                    "Exception Occurred Fetching Site Configuration for Admin Configuration", e);
+                    "Exception Occurred Fetching Site Configuration for Admin Configuration with Id " + configKey);
         }
         return data;
     }
@@ -426,7 +426,6 @@ public class AdminServiceController extends AbstractController {
     @ResponseBody
 	public JsonResponse<List<Map>> getUserCarousalConfiguration(
 			@RequestParam(value = "userId", required = false) String userId, HttpServletResponse response) {
-		long startTime = System.currentTimeMillis();
 		log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
 
 		MLPSiteConfig mlpSiteConfig = null;
@@ -473,9 +472,8 @@ public class AdminServiceController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
 			log.error(EELFLoggerDelegate.errorLogger,
-					"Exception Occurred Fetching Site Configuration for Admin Configuration", e);
+					"Exception Occurred Fetching Site Configuration for Admin Configuration with Id " + PortalConstants.CAROUSEL_CONFIG_KEY);
 		}
-		long stopTime = System.currentTimeMillis();
 		return data;
 	}
  
