@@ -1989,7 +1989,7 @@ md-select.md-default-theme:not([disabled]):focus .md-select-value, md-select:not
 
 /**************Tooltip style start**************/
 .a-tooltip {position: relative;display: inline-block;width: 335px;}
-.a-tooltip .a-tooltiptext {visibility: hidden; width: 280px; background-color: #2e2f2f; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s;}
+.a-tooltip .a-tooltiptext {visibility: hidden; width: 230px; background-color: #2e2f2f; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; opacity: 0; transition: opacity 0.3s;}
 .a-tooltip .a-tooltiptext::after {content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 6px; border-style: solid; border-color: #2e2f2f transparent transparent transparent;}
 .a-tooltip:hover .a-tooltiptext {visibility: visible; opacity: 1 !important;}
 .a-tooltipval { text-overflow:ellipsis; height: 20px; display: inline-block; overflow: hidden;margin-left: 10px;position:relative; width: 90%;white-space: nowrap;}
@@ -2006,9 +2006,11 @@ table tbody tr td .a-tooltipval {top:5px}
 
 .md-tooltip-container {display: flex;}
 .md-downloadlbl1 {display: block; white-space: nowrap;}
+
+.a-tooltip .a-tooltiptext.publish-tooltip {max-width: 260px !important;word-break: break-all;}
 /**************Tooltip style end****************/
 /* fed table */
-.fedtbl table{display: block; overflow: auto;}
+.fedtbl table{display: block; /*overflow: auto;*/}
 .fedtbl table.admin-tbl1 thead tr th{min-width: 75px;}
 
 /**** Comments pagination code start ********/
