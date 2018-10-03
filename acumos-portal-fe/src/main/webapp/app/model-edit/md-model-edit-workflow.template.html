@@ -571,7 +571,7 @@ limitations under the License.
 								<h4 class="gridlistheading">Existing Authors</h4>
 								
 								<tags-input ng-model="AuthorsTag" class="mdl-chip__text" display-property="name"  
-									placeholder="Add a author" key-property="contact" on-tag-clicked="updateTag($tag)"									
+									placeholder="Add a author" key-property="nameContact" on-tag-clicked="updateTag($tag)"									
 								    tag-class="{selected_author: $index == selectedtagindex}" on-tag-removing="tagRemoved1($tag)">
 								</tags-input> 
 								
@@ -583,7 +583,7 @@ limitations under the License.
 									<div class="md-toolbar-tools">
 										<h2>Delete Author</h2>
 										<span flex></span>
-										<md-button class="md-icon-button" ng-click="closePoup()">
+										<md-button class="md-icon-button" ng-click="closeAuthorPoup()">
 										<i class="material-icons">close</i> </md-button>
 									</div>
 									</md-toolbar> <md-dialog-content>
@@ -594,7 +594,7 @@ limitations under the License.
 									</form>
 									</md-dialog-content> <md-dialog-actions>
 									<div class="dialog-footer-container1">
-										<md-button ng-click="closePoup()"
+										<md-button ng-click="closeAuthorPoup()"
 											class="mdl-button mdl-js-button btn-secondary">
 										Cancel </md-button>
 										<md-button ng-click="deleteAuthor()"
