@@ -721,8 +721,19 @@ angular.module('admin').filter('abs', function() {
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
                     	  $scope.apiUrlPop = peerDetail.apiUrl;$scope.webUrlPop = peerDetail.apiUrl;$scope.descriptionPop = peerDetail.description;
+                    	  $scope.prevSubNamePop = peerDetail.subjectName;$scope.prevApiUrlPop = peerDetail.apiUrl;
+                    	  
                     	  $scope.showPopupPeer();
                       }
+                      $scope.checkUrlChange = function()
+                      {                    	 
+                    	  if($scope.prevSubNamePop != $scope.subNamePop || $scope.prevApiUrlPop != $scope.apiUrlPop )
+                    		  {
+                    		  	$scope.verified = null; $scope.errorMessage = "";
+                    		  	$scope.verify = true;
+                    		  }                    	  
+                      } 
+                      
                       $scope.isSelfTrue = false;
                       $scope.isSelfTrueFun = function(peerDetail, isSelf){
                     	  /*if ( isSelf == true){
