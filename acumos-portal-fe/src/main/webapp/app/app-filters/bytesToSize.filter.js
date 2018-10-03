@@ -1,6 +1,7 @@
 app.filter('formatBytes', function() {
-	return function(bytes,decimals) {
+	return function(bytes,decimals) {		
 		if(bytes == 0) return '0 Bytes';
+		if(bytes == -1) return 'N/A';
 		   var k = 1024,
 		       dm = decimals || 2,
 		       sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
