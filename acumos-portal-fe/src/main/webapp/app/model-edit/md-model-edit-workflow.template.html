@@ -70,17 +70,20 @@ limitations under the License.
 								width="2"> <md-menu-item
 								ng-repeat="sharedmember in sharedWith track by $index">
                               
-							<span ng-click=""> <img
-								ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
-								ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
-								alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-								title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
-
-								<img
-								ng-show="sharedmember.picture == null || sharedmember.picture == ''"
-								src="images/userprofile/user-profile-black.png"
-								alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
-								title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+							<span ng-click="">
+								<span class="profileimageholder">
+									<img
+										ng-hide="sharedmember.picture == null || sharedmember.picture == ''"
+										ng-src="data:image/PNG;base64,{{sharedmember.picture}}"
+										alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+										title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+		
+										<img
+										ng-show="sharedmember.picture == null || sharedmember.picture == ''"
+										src="images/userprofile/user-profile-black.png"
+										alt="{{sharedmember.firstName}} {{sharedmember.lastName}}"
+										title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
+									</span>
 								{{sharedmember.firstName}} {{sharedmember.lastName}}
 							</span> </md-menu-item> </md-menu-content> </md-menu>
 					</div>
