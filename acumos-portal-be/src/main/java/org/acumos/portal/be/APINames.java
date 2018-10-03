@@ -47,6 +47,7 @@ public class APINames {
     public static final String USER_ACCOUNT_DETAILS = "/userAccountDetails";
     public static final String USER_DETAILS = "/userDetails";
     public static final String ACTIVE_USER_DETAILS = "/activeUserDetails/{active}";
+    public static final String PUBLISH_OWN_REQUESTS_ENABLED ="/publishOwnRequestsEnabled";
     public static final String USER_ROLE_DETAILS = "/userRole/{userId}";
     public static final String UPDATE_USER_IMAGE = "/updateUserImage/{userId}";
     public static final String UPADATE_BULK_USER = "/user/updateUser";
