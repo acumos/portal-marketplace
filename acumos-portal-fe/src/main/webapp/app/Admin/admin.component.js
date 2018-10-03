@@ -1084,7 +1084,7 @@ angular.module('admin').filter('abs', function() {
            				    "webUrl": $scope.selectedPeer.webUrl,
            				    "peerId" : $scope.selectedPeer.peerId,
            				    "validationStatusCode": "PS",
-           				    "statusCode": "DC"
+           				    "statusCode": "RM"
                  		  }}
                     	  
                     	  apiService.deactivatePeer($scope.selectedPeer.peerId,peerDetails).then(
