@@ -216,7 +216,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 			publishSolutionService.updateSolution(updatedPublishRequest.getSolutionId(), updatedPublishRequest.getRevisionId(), CommonConstants.PUBLIC);
 			generateNotification("Solution " + updatedPublishRequest.getSolutionName() + "Published Successfully", updatedPublishRequest.getRequestUserId());
 		} else {
-			generateNotification("Publish Solution " + updatedPublishRequest.getSolutionName() + " Declined by Administrator", updatedPublishRequest.getRequestUserId());
+			generateNotification("Publish Solution " + updatedPublishRequest.getSolutionName() + " Declined by Publisher", updatedPublishRequest.getRequestUserId());
 		}
 
 		return updatedPublishRequest;
