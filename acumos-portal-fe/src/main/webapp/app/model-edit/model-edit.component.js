@@ -562,15 +562,22 @@ angular
 						
 						
 						$scope.getAuthorList = function(tag,ev){
-							apiService.getAuthors($scope.solutionId, $scope.revisionId).then(function(response) {
-								$scope.AuthorsTag = response.data.response_body;
+							apiService.getAuthors($scope.solutionId, $scope.revisionId).then(function(response) {																						
+								for(var i = 0 ;i<response.data.response_body.length; i++)
+									{
+									var keyName = "nameContact";
+									var keyVal= response.data.response_body[i].name + response.data.response_body[i].contact;									 
+										response.data.response_body[i][keyName] = keyVal;
+									}
+									$scope.AuthorsTag = response.data.response_body;								
 							});
 						}
-						//$scope.getAuthorList();	
+							
 						
-						
+						$scope.deleteflag = false;
 						$scope.tagRemoved1 = function(tag,ev){
 							$scope.deleteuser = tag.name;
+							$scope.deleteflag = true;
 							 	$scope.removeauthor = tag;
 					        	  $mdDialog.show({
 					        		  contentElement: '#confirmPopupDeleteAuthor',
@@ -589,8 +596,25 @@ angular
 					        };
 			    		
 					    	apiService.removeAuthor($scope.solutionId, $scope.revisionId, obj).then(function successCallback(response) {
-					    		$scope.AuthorsTag = response.data.response_body;
-					    		$scope.cancelAuthor();
+					    		for(var i = 0 ;i<response.data.response_body.length; i++)
+								{
+								var keyName = "nameContact";
+								var keyVal= response.data.response_body[i].name + response.data.response_body[i].contact;									 
+									response.data.response_body[i][keyName] = keyVal;
+								}
+								$scope.AuthorsTag = response.data.response_body;
+					    		if($scope.deleteflag) 
+					    			{					    		    						    		  
+							    		$scope.msg = " Author deleted successfully";
+							    		$scope.icon = '';
+							    		$scope.styleclass = 'c-success';									
+							    		$scope.showAlertMessage = true;
+							    		$scope.cancelAuthor();
+							    		$timeout(
+							    		function() {
+							    			$scope.showAlertMessage = false;
+							    		}, 4000);
+					    			}
 					    	},
 					    	function errorCallback(response) {
 					    		$scope.msg = "Error while removing Author";
@@ -622,14 +646,33 @@ angular
 							    				}
 								        };
 						    		
-						    	apiService.addAuthor($scope.solutionId, $scope.revisionId, obj).then(function successCallback(response) {
-						    		$scope.AuthorsTag = response.data.response_body;
+						    	apiService.addAuthor($scope.solutionId, $scope.revisionId, obj).then(function successCallback(response) {						    		
 						    		$scope.Author.Name = "";
 							    	$scope.Author.cntinfo= "";
 							    	$scope.AddAuthor.cntinfo.$touched = false;
-							    	$scope.AddAuthor.Name.$touched = false;
+							    	$scope.AddAuthor.Name.$touched = false;							    	
+							    	for(var i = 0 ;i<response.data.response_body.length; i++)
+									{
+									var keyName = "nameContact";
+									var keyVal= response.data.response_body[i].name + response.data.response_body[i].contact;									 
+										response.data.response_body[i][keyName] = keyVal;
+									}
+									$scope.AuthorsTag = response.data.response_body;
+									
+									if($scope.flag)
+							    		$scope.msg = " Author updated  successfully";
+							    		else
+							    		$scope.msg = " Author added successfully";
+							    		$scope.icon = '';
+							    		$scope.styleclass = 'c-success';									
+							    		$scope.showAlertMessage = true;
+							    		$scope.cancelAuthor();
+							    		$timeout(
+							    		function() {
+							    			$scope.showAlertMessage = false;
+							    		}, 4000);
 						    	},
-						    	function errorCallback(response) {
+						    	function errorCallback(response) {						    		
 						    		$scope.msg = "Error while adding Author :  " + response.data.response_detail;
 									$scope.icon = 'report_problem';
 									$scope.styleclass = 'c-error';
@@ -638,6 +681,7 @@ angular
 											function() {
 												$scope.showAlertMessage = false;
 											}, 8000);
+									
 						    	});
 						    	}
 							}
@@ -652,18 +696,26 @@ angular
 							  $scope.updateCntInfo = tag.contact;							  
 						  }
 						  
-						  $scope.updateAuthor = function(){							   							    
+						  $scope.updateAuthor = function(){	
+							  	$scope.isPresent = false;
+							  	
 						    	if($scope.AddAuthor.$valid) {	
-						    		//$scope.Author.Name;
-						    		//$scope.Author.cntinfo;
+						    	angular.forEach($scope.AuthorsTag, function(value, key){
+									       if(value.name + value.contact == $scope.Author.Name + $scope.Author.cntinfo){										    	   
+									    	   $scope.isPresent = true;
+									    	   return;
+									        } 
+									      });
+						    		
 						    		$scope.removeauthor = [];						    		
 						    		$scope.removeauthor.name = $scope.updateName;
 						    		$scope.removeauthor.contact = $scope.updateCntInfo;
-						    		$scope.deleteAuthor();
-						    		$scope.getAuthorList();
-						    		$scope.setAuthor();
-						    		
-						    		$scope.flag = false;
+						    		if(!$scope.isPresent)
+						    			{
+						    			$scope.deleteAuthor();
+						    			$scope.getAuthorList();
+						    			}
+						    		$scope.setAuthor();						    								    	
 								};						    		
 						    }
 							
@@ -674,8 +726,16 @@ angular
 						    	$scope.AddAuthor.cntinfo.$touched = false;
 						    	$scope.AddAuthor.Name.$touched = false;
 						    	$scope.flag = false;
+						    	$scope.deleteflag = false;
+						    	$scope.isPresent = false;
 						    	$scope.selectedtagindex = -1;
 						  }
+						  $scope.closeAuthorPoup = function(){
+				                	$mdDialog.hide();
+				              		$scope.result = true;
+				              		$scope.cancelAuthor();
+				              		return false;
+			                	}						  
 						  
 
 						$scope.updateSolution = function() {
