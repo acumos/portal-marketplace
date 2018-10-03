@@ -125,7 +125,7 @@ limitations under the License.
 				<tbody><!-- (filtertedUser = (allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : search) ) -->
 
 					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : searchPublishRequest">
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId})"><label class="model-name">{{publishReq.solutionName}}</label></a>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId,requestUserId:publishReq.requestUserId})"><label class="model-name">{{publishReq.solutionName}}</label></a>
 							<label class="small">{{publishReq.solutionId}}</label></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label>{{publishReq.revisionName}}</label> <label
 							class="small">Revision ID: {{publishReq.revisionId}}</label></td>

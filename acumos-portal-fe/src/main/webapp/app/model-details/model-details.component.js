@@ -44,9 +44,22 @@ angular
 						$anchorScroll(); 
 						
 						$scope.revisionId = $stateParams.revisionId;
+						$scope.loginUserID = "";
+						if (browserStorageService.getUserDetail()) {
+							$scope.loginUserID = JSON.parse(browserStorageService.getUserDetail())[1];
+						}
+						
 						if($stateParams.publishRequestId != null){
-							$scope.audit = true;
-							$scope.publishRequestId = $stateParams.publishRequestId;
+							apiService.isPublishOwnRequestsEnabled().then(function(response) {
+								
+								$scope.publishOwnRequestsEnabled = response.data.response_body;
+								$scope.audit = true;
+								$scope.requestedByMe = false;
+								$scope.publishRequestId = $stateParams.publishRequestId;
+								if ($scope.loginUserID == $stateParams.requestUserId && $scope.publishOwnRequestsEnabled ==='false'){
+									$scope.requestedByMe = true;
+								}
+							});
 						}
 						if($scope.audit)
 						$scope.clearForm = function(){
@@ -336,12 +349,6 @@ angular
 							$scope.parentUrl = false
 						}else{
 							$scope.parentUrl = true
-						}
-						
-						$scope.loginUserID = "";
-						if (browserStorageService.getUserDetail()) {
-							$scope.loginUserID = JSON.parse(browserStorageService
-									.getUserDetail())[1];
 						}
 
 						if ($stateParams.solutionId == ''

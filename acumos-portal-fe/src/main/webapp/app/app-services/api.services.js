@@ -107,6 +107,7 @@ angular.module('AcumosApp')
         var urlGetCauroselUrl = "api/admin/user/carouseConfig";
         var urlPreferredTag ="api/preferredTags"; 	
         var urlsetPreferredTag = "api/tags/createUserTag";
+        var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
@@ -538,6 +539,9 @@ angular.module('AcumosApp')
         }; 
         this.setPreferredTag = function (userId, tagList) {
             return $http.post(urlsetPreferredTag +'/' + userId, tagList);
-        }; 
+        };
         
+        this.isPublishOwnRequestsEnabled = function () {
+            return $http.get(urlPublishOwnRequestsEnabled );
+        };
     }]);

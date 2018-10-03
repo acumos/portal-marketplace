@@ -69,14 +69,16 @@ limitations under the License.
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="showModalPublishReq('approve',solution.name, publishRequestId)"
 						ng-if="loginUserID && audit"
-						alt="Download" title="Download">Approve Publication</button>
+						ng-disabled="requestedByMe"
+						alt="Approve Publication" title="{{ requestedByMe ? 'Approve Self Publication is Disabled' : 'Approve Publication'}}">Approve Publication</button>
 						
 				<button type="button"
 						ng-cloak
 						class="mdl-button mdl-js-button btn-primary"
 						ng-click="showModalPublishReq('decline',solution.name, publishRequestId)"
 						ng-if="loginUserID && audit"
-						alt="Download" title="Download">Decline Publication</button>
+						ng-disabled="requestedByMe"
+						alt="Decline Publication" title="{{ requestedByMe ? 'Decline Self Publication is Disabled' : 'Decline Publication'}}">Decline Publication</button>
 						
 				<button type="button" ng-cloak
 						class="mdl-button mdl-js-button btn-primary"

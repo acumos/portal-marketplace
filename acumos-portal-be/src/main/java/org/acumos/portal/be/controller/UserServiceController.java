@@ -52,6 +52,7 @@ import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -714,6 +715,19 @@ public class UserServiceController extends AbstractController {
 	        String imageSize = env.getProperty("image.size", "");
 	        JsonResponse<String> responseVO = new JsonResponse<String>();
 	        responseVO.setResponseBody(imageSize);
+	        responseVO.setStatus(true);
+	        responseVO.setResponseDetail("Success");
+	        responseVO.setStatusCode(HttpServletResponse.SC_OK);
+	        return responseVO;
+	    }
+
+	@ApiOperation(value = "Get the User publishOwnRequestEnabled flag", response = JsonResponse.class)
+	   @RequestMapping(value = {APINames.PUBLISH_OWN_REQUESTS_ENABLED}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	   @ResponseBody
+	    public JsonResponse<String> publishOwnRequestEnabled(HttpServletRequest request, HttpServletResponse response) {	        
+	        String publishOwnReqFlag = env.getProperty(PortalConstants.PUBLISH_SELF_REQ_ENABLED_PROPERTY, "");
+	        JsonResponse<String> responseVO = new JsonResponse<String>();
+	        responseVO.setResponseBody(publishOwnReqFlag);
 	        responseVO.setStatus(true);
 	        responseVO.setResponseDetail("Success");
 	        responseVO.setStatusCode(HttpServletResponse.SC_OK);
