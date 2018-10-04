@@ -34,6 +34,7 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
@@ -785,11 +786,76 @@ public class MarketPlaceControllerTest {
 					});
 		} catch (HttpStatusCodeException e) {
 			e.printStackTrace();
-			System.out.println(documentResponse);
 		}
 		List<MLPDocument> documentList = documentResponse.getBody().getResponseBody();
 		assertNotNull(documentList);
 		assertEquals(HttpServletResponse.SC_OK, documentResponse.getStatusCode().value());
 	}
 
+	
+	@Test
+	public void getPreferedTagListTest() {
+		stubFor(get(urlEqualTo("/ccds/tag")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"{\r\n" + 
+						"  \"content\": [\r\n" + 
+						"    {\r\n" + 
+						"      \"tag\": \"Test\"\r\n" + 
+						"    }\r\n" + 
+						"  ],\r\n" + 
+						"  \"last\": true,\r\n" + 
+						"  \"totalPages\": 1,\r\n" + 
+						"  \"totalElements\": 1,\r\n" + 
+						"  \"size\": 100,\r\n" + 
+						"  \"number\": 0,\r\n" + 
+						"  \"sort\": null,\r\n" + 
+						"  \"numberOfElements\": 1,\r\n" + 
+						"  \"first\": true\r\n" + 
+						"}")));
+		
+		stubFor(get(urlEqualTo("/ccds/user/bc961e2a-9506-4cf5-bbdb-009558b79e29")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"{\r\n" + 
+						"  \"created\": 1538588099000,\r\n" + 
+						"  \"modified\": 1538674913000,\r\n" + 
+						"  \"userId\": \"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\r\n" + 
+						"  \"firstName\": \"Test\",\r\n" + 
+						"  \"middleName\": null,\r\n" + 
+						"  \"lastName\": \"User\",\r\n" + 
+						"  \"orgName\": null,\r\n" + 
+						"  \"email\": \"test@gmail.com\",\r\n" + 
+						"  \"loginName\": \"test\",\r\n" + 
+						"  \"loginHash\": null,\r\n" + 
+						"  \"loginPassExpire\": null,\r\n" + 
+						"  \"active\": true,\r\n" + 
+						"  \"lastLogin\": 1538674913000,\r\n" + 
+						"  \"loginFailCount\": null,\r\n" + 
+						"  \"loginFailDate\": null,\r\n" + 
+						"  \"picture\": null,\r\n" + 
+						"  \"apiToken\": \"013556751e28443d9997cbbaf992e39b\",\r\n" + 
+						"  \"verifyTokenHash\": null,\r\n" + 
+						"  \"verifyExpiration\": null,\r\n" + 
+						"  \"tags\": [\r\n" + 
+						"    {\r\n" + 
+						"      \"tag\": \"Test\"\r\n" + 
+						"    }\r\n" + 
+						"  ]\r\n" + 
+						"}")));
+
+		RestPageRequest reqObj = new RestPageRequest();
+		JsonRequest<RestPageRequest> jsonRequest = new JsonRequest<>();
+		jsonRequest.setBody(reqObj);
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(jsonRequest, headers);
+
+		ResponseEntity<JsonResponse<RestPageResponseBE>> preferedTagsList = restTemplate.exchange(
+				host + ":" + randomServerPort + "/preferredTags/bc961e2a-9506-4cf5-bbdb-009558b79e29",
+				HttpMethod.PUT, requestEntity, new ParameterizedTypeReference<JsonResponse<RestPageResponseBE>>() {
+				});
+
+		assertNotNull(preferedTagsList);
+		assertEquals(HttpServletResponse.SC_OK, preferedTagsList.getStatusCode().value());
+	}
 }
