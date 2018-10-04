@@ -580,6 +580,106 @@ public class MarketPlaceControllerTest {
 	}
 
 	@Test
+	public void searchSolutionByKwTest() {
+
+		JsonRequest<RestPageRequestPortal> reqObj = new JsonRequest<>();
+		RestPageRequestPortal restpagerequestPortal = new RestPageRequestPortal();
+		restpagerequestPortal.setAccessTypeCodes(new String[] { "PB", "OR" });
+		restpagerequestPortal.setNameKeyword(new String[] { "Test"});
+		restpagerequestPortal.setActive(true);
+		restpagerequestPortal.setSortBy("MR");
+		restpagerequestPortal.setUserId("bc961e2a-9506-4cf5-bbdb-009558b79e29");
+		Map<String, String> fieldToDirectionMap = new HashMap<>();
+		RestPageRequest pageRequest = new RestPageRequest();
+		pageRequest.setSize(9);
+		pageRequest.setPage(0);
+		fieldToDirectionMap.put("modified", "DESC");
+		pageRequest.setFieldToDirectionMap(fieldToDirectionMap);
+		restpagerequestPortal.setPageRequest(pageRequest);
+		reqObj.setBody(restpagerequestPortal);
+
+		stubFor(get(urlEqualTo("/ccds/code/pair/ACCESS_TYPE")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody("[" + "  {" + "    \"code\": \"RS\"," + "    \"name\": \"Restricted\"" + "  }," + "  {"
+						+ "    \"code\": \"PR\"," + "    \"name\": \"Private\"" + "  }," + "  {"
+						+ "    \"code\": \"PB\"," + "    \"name\": \"Public\"" + "  }," + "  {"
+						+ "    \"code\": \"OR\"," + "    \"name\": \"Organization\"" + "  }" + "]")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/solution/search/portal/kw?atc=PB&atc=OR&active=true&kw=Test&page=0&size=9&sort=modified,DESC"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":\"\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/tag")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody("[{\"tag\":\"Test\"}]")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/web")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
+
+		stubFor(get(urlEqualTo("/ccds/user/bc961e2a-9506-4cf5-bbdb-009558b79e29")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"{\"created\":1535602889000,\"modified\":1536623387000,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"firstName\":\"Test\",\"middleName\":null,\"lastName\":\"User\",\"orgName\":null,\"email\":\"testUser@gmail.com\",\"loginName\":\"test\",\"loginHash\":null,\"loginPassExpire\":null,\"authToken\":\"\",\"active\":true,\"lastLogin\":1536623387000,\"loginFailCount\":null,\"loginFailDate\":null,\"picture\":null,\"apiToken\":\"30d19b719c1d44ae84d92dcc87f5a1ad\",\"verifyTokenHash\":null,\"verifyExpiration\":null,\"tags\":[]}")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user/access"))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/revision")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"[{\"created\":1535603252000,\"modified\":1536354698000,\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"version\":\"2\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"OR\",\"validationStatusCode\":\"PS\",\"authors\":[],\"publisher\":\"Acumos\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null},{\"created\":1535603044000,\"modified\":1535603044000,\"revisionId\":\"f6b577a1-1849-4965-b77e-2ea11ab0b327\",\"version\":\"1\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"PB\",\"validationStatusCode\":\"IP\",\"authors\":[],\"publisher\":null,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null}]")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/thread/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/revision/02c5f263-c612-4bd2-abaa-d12ccc0d2476/comment/count"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+								.withBody("{\"count\":0}")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/stepresult/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=startDate,DESC"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[{\"stepResultId\":28,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"255c59b2-42a1-4fae-bb92-33ce1356eb20\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/stepresult/search?trackingId=fd1ea3aa-5a91-454a-9f8b-87c674e25417&_j=a&page=0&size=25"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[{\"stepResultId\":32,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"121dcb0f-c714-48cf-89c4-588d0e43f05d\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddArtifact\",\"statusCode\":\"SU\",\"result\":\"Add Artifact foronboardingLog_fd1ea3aa-5a91-454a-9f8b-87c674e25417.log Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":true,\"totalPages\":1,\"totalElements\":18,\"size\":25,\"number\":0,\"sort\":null,\"numberOfElements\":18,\"first\":true}")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/pubreq/search?revisionId=02c5f263-c612-4bd2-abaa-d12ccc0d2476&solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&statusCode=PE&page=0&size=1"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
+
+		ResponseEntity<JsonResponse<RestPageResponseBE<MLSolution>>> solutionResponse = restTemplate.exchange(
+				host + ":" + randomServerPort + "/searchSolutionBykeyword", HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<RestPageResponseBE<MLSolution>>>() {
+				});
+
+		assertNotNull(solutionResponse);
+		assertEquals(HttpServletResponse.SC_OK, solutionResponse.getStatusCode().value());
+
+		List<MLSolution> mlSolutionList = solutionResponse.getBody().getResponseBody().getContent();
+		assertEquals("f226cc60-c2ec-4c2b-b05c-4a521f77e077", mlSolutionList.get(0).getSolutionId());
+
+	}
+
+	@Test
 	public void addDocumentTest() {
 
 		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
@@ -633,6 +733,63 @@ public class MarketPlaceControllerTest {
 		assertNotNull(document);
 		assertEquals(HttpServletResponse.SC_OK, documentResponse.getStatusCode().value());
 		assertEquals("787c9461-4288-4091-8d39-5ce1a4e04e34", document.getDocumentId());
+	}
+
+
+	@Test
+	public void getDocumentTest() {
+
+		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
+		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
+		String accessType = "PB";
+
+		Path tempFile = null;
+		try {
+			tempFile = Files.createTempFile("upload-test-file", ".txt");
+			Files.write(tempFile, "some test content...\nline1\nline2".getBytes());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+		}
+		File file = tempFile.toFile();
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		body.add("file", new FileSystemResource(file));
+		String fileName = FilenameUtils.getBaseName(file.getName());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+		stubFor(get(urlEqualTo("/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PB/document"))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
+
+		stubFor(put(urlEqualTo("/repository/repo_acumos_model_maven/com/artifact/" + solutionId + "/" + revisionId + "/"
+				+ fileName + "/" + accessType + "/" + fileName + "-" + accessType + ".txt"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)));
+
+		stubFor(post(urlEqualTo("/ccds/document")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+						"{\"documentId\":\"787c9461-4288-4091-8d39-5ce1a4e04e34\",\"name\":\"upload-test-file4958107523126401268.txt\",\"version\":null,\"uri\":\"com/artifact/b7b9bb9c-980c-4a18-b7bf-545bbd9173ab/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/upload-test-file4958107523126401268/PB/upload-test-file4958107523126401268-PB.txt\",\"size\":32,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\"}")));
+
+		stubFor(post(urlEqualTo(
+				"/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PB/document/787c9461-4288-4091-8d39-5ce1a4e04e34"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
+								MediaType.APPLICATION_JSON.toString())));
+	//  /solution/{solutionId}/revision/{revisionId}/{accessType}/document
+		ResponseEntity<JsonResponse<List<MLPDocument>>> documentResponse = null;
+		try {
+			documentResponse = restTemplate.exchange(
+					host + ":" + randomServerPort + "/solution/" + solutionId + "/revision/" + revisionId + "/"
+							+ accessType + "/document",
+					HttpMethod.GET, null, new ParameterizedTypeReference<JsonResponse<List<MLPDocument>>>() {
+					});
+		} catch (HttpStatusCodeException e) {
+			e.printStackTrace();
+			System.out.println(documentResponse);
+		}
+		List<MLPDocument> documentList = documentResponse.getBody().getResponseBody();
+		assertNotNull(documentList);
+		assertEquals(HttpServletResponse.SC_OK, documentResponse.getStatusCode().value());
 	}
 
 }
