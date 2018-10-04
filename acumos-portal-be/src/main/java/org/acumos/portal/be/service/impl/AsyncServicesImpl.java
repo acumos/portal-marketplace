@@ -277,14 +277,12 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		MLStepResult resultStatus = status.stream().filter(stepResult -> stepResult.getRevisionId() != null && stepResult.getSolutionId() != null).findFirst().get();
 		if(resultStatus != null) {
 			Map<String, Object> artifactQuery = new HashMap<String, Object>();
-			artifactQuery.put("solutionId", resultStatus.getSolutionId());
 			artifactQuery.put("revisionId", resultStatus.getRevisionId());
 			artifactQuery.put("artifactTypeCode", "LG");
-			RestPageResponse<MLPArtifact> artifactListResponse = dataServiceRestClient.searchArtifacts(artifactQuery, false, new RestPageRequest(0, 10));
+			RestPageResponse<MLPArtifact> artifactListResponse = dataServiceRestClient.searchArtifacts(artifactQuery, false, new RestPageRequest(0, 20));
 			List<MLPArtifact> artifactList = artifactListResponse.getContent();
 
 			if(artifactList != null && !PortalUtils.isEmptyList(artifactList)) {
-				//A shorter list to be iterated just to check that the extension is log or text
 				MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(".txt")).findFirst().orElse(null);
 				if(logArtifact != null) {
 					//generate the download log href as String
