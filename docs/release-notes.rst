@@ -30,6 +30,7 @@ Version 1.16.1, 4th October 2018
 * Portal publish-to-public name dialog model version field is empty (ACUMOS-1795)
 * Portal login failure screen typo "does not exists" (ACUMOS-1799)
 * IST: Deploy to Local : Download packages and help is not working on the popup (ACUMOS-1653)
+* Publish on-boarding URLs from configuration on Portal documentation page  (ACUMOS-931)
 
 Version 1.16.0, 28th September 2018
 ===================================
