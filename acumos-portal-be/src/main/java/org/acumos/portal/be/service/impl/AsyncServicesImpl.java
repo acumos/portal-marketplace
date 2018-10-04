@@ -510,6 +510,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		}
 		if (!StringUtils.isEmpty(revisionId)) {
 			builder.setParameter("revisionId", revisionId);
+			builder.setParameter("deployment_env", "2");
 		}
 		
 		HttpPost post = null;
