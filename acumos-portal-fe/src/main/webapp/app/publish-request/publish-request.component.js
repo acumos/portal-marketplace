@@ -186,6 +186,24 @@ angular
 							
 						}
 						
+						$scope.positionCommentTooltip = function(event, publishReq) {
+							if (publishReq.comment) {
+								var val = event.currentTarget.firstElementChild.firstElementChild;
+								var valRect = val.getBoundingClientRect();
+								var tooltip = val.nextElementSibling;
+								var tooltipRect = tooltip.getBoundingClientRect();
+								var header = document.getElementsByClassName('mdl-layout__header-row')[0];
+								var headerRect = header.getBoundingClientRect();
+								var container = document.getElementsByClassName('mdl-layout__content')[0];
+								tooltip.style.top =
+									(valRect.top - valRect.height/2 - tooltipRect.height
+											- headerRect.height + container.scrollTop) + 'px';
+								tooltip.style.left =
+									(valRect.left + valRect.width/2 - tooltipRect.width/2
+											- (container.offsetLeft - 55) + container.scrollLeft) + 'px';
+							}
+						}
+						
 					}
 				});
 

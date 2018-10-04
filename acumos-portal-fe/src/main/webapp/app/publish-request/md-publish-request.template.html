@@ -60,7 +60,7 @@ limitations under the License.
 		</div>
 		<div class="admin-grid-container fedtbl">
 			<table
-				class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 request-tbl">
+				class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 request-tbl" style="position:static">
 				<colgroup>
 					<col width="20%">
 					<col width="15%">
@@ -122,9 +122,9 @@ limitations under the License.
 						<th>Action</th>
 					</tr>
 				</thead>
-				<tbody><!-- (filtertedUser = (allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : search) ) -->
+				<tbody style="position:static"><!-- (filtertedUser = (allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : search) ) -->
 
-					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : searchPublishRequest">
+					<tr ng-repeat="publishReq in allPublishRequest | orderBy:orderByField:reverseSortPbReq | filter : searchPublishRequest" style="position:static">
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><a ui-sref="marketSolutions({solutionId:publishReq.solutionId,revisionId:publishReq.revisionId,publishRequestId:publishReq.publishRequestId})"><label class="model-name">{{publishReq.solutionName}}</label></a>
 							<label class="small">{{publishReq.solutionId}}</label></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label>{{publishReq.revisionName}}</label> <label
@@ -136,18 +136,22 @@ limitations under the License.
 							'text-red': publishReq.requestStatusName == 'Declined',
 							'text-orange': publishReq.requestStatusName == 'Withdrawn'}">{{publishReq.requestStatusName}}</label>
 						</td>
-						<td><div class="a-tooltip publishreq-tooltip"><span
-								class="a-tooltipval">View</span> <span class="a-tooltiptext">{{publishReq.comment}}</span>
+						<td style="position:static" ng-mouseover="positionCommentTooltip($event, publishReq)">
+						<div ng-if="publishReq.comment" class="a-tooltip publishreq-tooltip" style="position:static"><span
+								class="a-tooltipval">View</span> <span class="a-tooltiptext" style="bottom:unset;top:0%;left:0%">{{publishReq.comment}}</span>
+						</div><div ng-hide="publishReq.comment" class="a-tooltip publishreq-tooltip"><label
+								class="a-tooltipval">N/A</label>
 						</div></td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"
+							ng-style="publishReq.requestStatusName !== 'Pending' && {'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)'}">
 							<div class="admin-action-container">
 								<button name="approvePublishRequestModal"
-									ng-click="showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
+									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-approve"></span>
 								</button>
 								<button name="declinePublishRequestModal"
-									ng-click="showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
+									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-deny"></span>
 								</button>
