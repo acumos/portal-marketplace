@@ -20,6 +20,16 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.16.1, 4th October 2018
+================================
+* IST2: User Guide is not updated based on the new verification process. (ACUMOS-1510)
+* IST2: Contact Icon is not displaying at the time of user selection on shared my model screen. (ACUMOS-1538)
+* IST2: Published by text is cut down on model tiles  when publisher have long name (ACUMOS-1819)
+* <IST> <Portal Marketplace/WebOnboarding> Tooltip not appropriate for onboarding step (ACUMOS-1719)
+* Portal manage-my-models page shows status Not Started altho pending publication (ACUMOS-1737)
+* Portal publish-to-public name dialog model version field is empty (ACUMOS-1795)
+* Portal login failure screen typo "does not exists" (ACUMOS-1799)
+
 Version 1.16.0, 28th September 2018
 ===================================
 * IST2:  UI is displaying distorted on header when shared user have profile pic and also white strip is displaying (ACUMOS-1578)
