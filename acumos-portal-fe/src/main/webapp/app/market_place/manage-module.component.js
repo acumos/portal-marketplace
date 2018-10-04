@@ -1059,6 +1059,14 @@ angular.module('manageModule')
 							}
 						};
 						
+						$scope.Tag = false;
+						$scope.slnID = null;
+						$scope.showListTag = function(solutionID) {
+							if($scope.slnID != solutionID )
+								$scope.Tag = false;
+						  $scope.Tag = !$scope.Tag;
+						  $scope.slnID = solutionID;
+						}
 						
 						// Images URL
 						$scope.imgURLCL = "images/alarm.png";
