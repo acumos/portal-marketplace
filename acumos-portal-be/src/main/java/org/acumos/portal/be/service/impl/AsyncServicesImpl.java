@@ -46,6 +46,8 @@ import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.AsyncServices;
@@ -274,10 +276,16 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		
 		MLStepResult resultStatus = status.stream().filter(stepResult -> stepResult.getRevisionId() != null && stepResult.getSolutionId() != null).findFirst().get();
 		if(resultStatus != null) {
-			List<MLPArtifact> artifactList = dataServiceRestClient.getSolutionRevisionArtifacts(resultStatus.getSolutionId(), resultStatus.getRevisionId());
-			
+			Map<String, Object> artifactQuery = new HashMap<String, Object>();
+			artifactQuery.put("solutionId", resultStatus.getSolutionId());
+			artifactQuery.put("revisionId", resultStatus.getRevisionId());
+			artifactQuery.put("artifactTypeCode", "LG");
+			RestPageResponse<MLPArtifact> artifactListResponse = dataServiceRestClient.searchArtifacts(artifactQuery, false, new RestPageRequest(0, 10));
+			List<MLPArtifact> artifactList = artifactListResponse.getContent();
+
 			if(artifactList != null && !PortalUtils.isEmptyList(artifactList)) {
-				MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(".log") && (artifact.getName()).contains("onboarding")).findFirst().orElse(null);
+				//A shorter list to be iterated just to check that the extension is log or text
+				MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(".txt")).findFirst().orElse(null);
 				if(logArtifact != null) {
 					//generate the download log href as String
 					erlog = "Click " + "<a href=\"/api/downloads/" + resultStatus.getSolutionId() + "?artifactId="
