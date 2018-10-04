@@ -142,12 +142,14 @@ limitations under the License.
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
 							<div class="admin-action-container">
 								<button name="approvePublishRequestModal"
-									ng-click="showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
+									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)'}"
+									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-approve"></span>
 								</button>
 								<button name="declinePublishRequestModal"
-									ng-click="showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
+									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)'}"
+									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-deny"></span>
 								</button>
