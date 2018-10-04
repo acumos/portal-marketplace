@@ -29,6 +29,7 @@ Version 1.16.1, 4th October 2018
 * Portal manage-my-models page shows status Not Started altho pending publication (ACUMOS-1737)
 * Portal publish-to-public name dialog model version field is empty (ACUMOS-1795)
 * Portal login failure screen typo "does not exists" (ACUMOS-1799)
+* IST: Deploy to Local : Download packages and help is not working on the popup (ACUMOS-1653)
 
 Version 1.16.0, 28th September 2018
 ===================================
