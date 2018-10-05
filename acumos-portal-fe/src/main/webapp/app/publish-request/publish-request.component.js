@@ -28,7 +28,7 @@ angular
 					templateUrl : './app/publish-request/md-publish-request.template.html',
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
-							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce, browserStorageService) {
+							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $filter, $sce, browserStorageService) {
 						
 						var user= JSON.parse(browserStorageService.getUserDetail());
 						
@@ -116,6 +116,9 @@ angular
 									.then(
 											function successCallback(response) {
 												$scope.allPublishRequest = response.data.response_body;
+												$scope.allPublishRequest.forEach(function(element) {
+													element.textDate = $filter('date')(element.creationDate, 'MM/dd/yyyy');
+												});
 												$scope.totalPages = response.data.totalPages;
 												$scope.totalElements = response.data.totalElements;
 												$scope.allPublishRequestLength = response.data.totalElements;
