@@ -64,7 +64,7 @@ angular
 				    	            if(coBrandLogo){
 				    	            	var validFormats = ['jpg','jpeg','png','gif'];
 				    	            	var fileName = coBrandLogo.name;
-              							var ext = fileName.split('.').pop();
+              							var ext = fileName.split('.').pop().toLowerCase();
               							
               							if(validFormats.indexOf(ext) == -1){
                				            	scope.coBrandingLogoError = true;
@@ -587,7 +587,7 @@ angular
 							var fileFormData = new FormData();
 							var validFormats = ['jpg','jpeg','png','gif'];
 							var fileName = file.name;
-							var ext = fileName.split('.').pop(); 
+							var ext = fileName.split('.').pop().toLowerCase(); 
 				            var size = bytesToSize(file.size);
 				           
 				            if(validFormats.indexOf(ext) == -1){
@@ -619,7 +619,7 @@ angular
 							var fileFormData = new FormData();
 							var validFormats = ['jpg','jpeg','png','gif'];
 							var fileName = file.name;
-							var ext = fileName.split('.').pop();//substr($('#userImage').value.lastIndexOf('.')+1);
+							var ext = fileName.split('.').pop().toLowerCase();//substr($('#userImage').value.lastIndexOf('.')+1);
 				            var size = file.size;
 				           
 				            if(validFormats.indexOf(ext) == -1 || size >= 800000){

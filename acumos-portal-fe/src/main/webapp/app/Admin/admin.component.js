@@ -1784,7 +1784,7 @@ angular.module('admin').filter('abs', function() {
 	                      							var fileFormData = new FormData();
 	                      							var validFormats = ['jpg','jpeg','png','gif'];
 	                      							var fileName = file.name;
-	                      							var ext = fileName.split('.').pop();//substr($('#userImage').value.lastIndexOf('.')+1);
+	                      							var ext = fileName.split('.').pop().toLowerCase();//substr($('#userImage').value.lastIndexOf('.')+1);
 	                      				            var size = file.size;
 	                      				            
 	                      				           
