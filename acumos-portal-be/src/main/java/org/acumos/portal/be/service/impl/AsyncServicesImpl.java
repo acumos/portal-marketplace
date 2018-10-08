@@ -205,9 +205,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("Response From Onboarding : {}", resp.toString());
 					
 					String notifMsg = "Solution " + solutionStr.get("name") + " On-boarded Successfully";
-					notification.setMessage(notifMsg);
-					notification.setTitle(NOTIFICATION_TITLE);
-					notificationService.generateNotification(notification, user.getUserId());
+					sendBellNotification(user.getUserId(), notifMsg);
 					
 					//Send notification to user according to preference
 					Map<String, String> notifyBody = new HashMap<String, String>();
@@ -229,31 +227,58 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String notifMsg = "On-boarding Failed"
 					+ ". Please restart the process again to upload the solution. " + errorLog;
 
-					notification.setMessage(notifMsg);
-					notification.setTitle(NOTIFICATION_TITLE);
-					log.info("inside callOnboarding else before generateNotification ---->>>");
-					notificationService.generateNotification(notification, user.getUserId());
+					// Send a bell notification to the user to alert of failure
+					sendBellNotification(user.getUserId(), notifMsg);
 					
-					//Send notification to user according to preference
-					Map<String, String> notifyBody = new HashMap<String, String>();
-					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
-					notifyOnboardingStatus(user.getUserId(), "HI", "On-boarding Failed for solution ", notifyBody, "ONBD_FAIL");
+					// Email) a notification to the user based on notification preference
+					sendEmailNotification(user.getUserId(), solution, (String) resp.get("errorMessage"));
 				}
+			} else {
+				String errorMessage = "Malformed bundle uploaded. Please check your solution files and try again.";
+				log.error(EELFLoggerDelegate.errorLogger, errorMessage);
+				
+				// Send a bell notification to the user to alert of failure
+				String notifMsg = "Add To Catalog Failed for solution: " + errorMessage;
+				sendBellNotification(user.getUserId(), notifMsg);
+				
+				// Email a notification to the user based on notification preference
+				sendEmailNotification(user.getUserId(), solution, errorMessage);
+				
+				// Send a tracker update
+				MLPStepResult stepResult = new MLPStepResult();
+				stepResult.setTrackingId(uuid);
+				stepResult.setUserId(user.getUserId());
+				stepResult.setName("CreateSolution");
+				stepResult.setStatusCode("FA");
+				stepResult.setStepCode("OB");
+				stepResult.setResult(errorMessage);
+				messagingService.createStepResult(stepResult);
 			}
 		// If disconnected from onboarding service, catch related exceptions here
 		} catch (ConnectException|NoHttpResponseException e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution - No response ", e);
 			
 			// Send a bell notification to the user to alert of failure
-			sendBellNotification(user.getUserId(), solution);
+			String notifMsg = "Add To Catalog Failed for solution: " + e.getMessage();
+			sendBellNotification(user.getUserId(), notifMsg);
 			
 			// Update the on-screen progress tracker status to alert of failure
-			sendTrackerNotification(uuid, user.getUserId());
+			sendDCTrackerNotification(uuid, user.getUserId());
 			
-			// Email) a notification to the user based on notification preference
+			// Email a notification to the user based on notification preference
 			sendEmailNotification(user.getUserId(), solution, e.getMessage());
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution ", e);
+			
+			// Send a bell notification to the user to alert of failure
+			String notifMsg = "Add To Catalog Failed for solution: " + e.getMessage();
+			sendBellNotification(user.getUserId(), notifMsg);
+			
+			// Update the on-screen progress tracker status to alert of failure
+			sendDCTrackerNotification(uuid, user.getUserId());
+			
+			// Email a notification to the user based on notification preference
+			sendEmailNotification(user.getUserId(), solution, e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 			// Remove all files once the process is completed
@@ -317,11 +342,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
         }
         return files;
     } 
-	public MLPStepResult sendTrackerNotification(String uuid, String userId) {
+	public MLPStepResult sendDCTrackerNotification(String uuid, String userId) {
 		MLPStepResult stepResult = new MLPStepResult();
 		stepResult.setTrackingId(uuid);
 		stepResult.setUserId(userId);
-		stepResult.setName("CreateMicroservice");
+		stepResult.setName("CreateSolution");
 		stepResult.setStatusCode("FA");
 		stepResult.setStepCode("OB");
 		stepResult.setResult("Disconnected from onboarding");
@@ -338,10 +363,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			
 			if (lastResult.getStatusCode().equals(STEP_SUCCESS)) {
 				switch(lastResult.getName()) {
-					case "CreateMicroservice": stepResult.setName("Dockerize"); break;
-					case "Dockerize": stepResult.setName("AddToRepository"); break;
-					case "AddToRepository": stepResult.setName("CreateTOSCA"); break;
-					case "CreateTOSCA": stepResult.setName("CreateSolution"); break;
+					case "CreateSolution": stepResult.setName("AddArtifact"); break;
+					case "AddArtifact": stepResult.setName("CreateTOSCA"); break;
+					case "CreateTOSCA": stepResult.setName("Dockerize"); break;
+					case "Dockerize": stepResult.setName("AddDockerImage"); break;
+					case "AddDockerImage": stepResult.setName("CreateSolution"); break;
 				}
 			} else {
 				stepResult.setName(lastResult.getName());
@@ -351,9 +377,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		return messagingService.createStepResult(stepResult);
 	}
 
-	public MLNotification sendBellNotification(String userId, UploadSolution solution) {
-		String notifMsg = "Add To Catalog Failed for solution "
-			+ ". Please restart the process again to upload the solution.";
+	public MLNotification sendBellNotification(String userId, String notifMsg) {
 		MLPNotification notification = new MLPNotification();
 		notification.setMessage(notifMsg);
 		notification.setTitle(NOTIFICATION_TITLE);

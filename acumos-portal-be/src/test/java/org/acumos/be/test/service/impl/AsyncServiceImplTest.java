@@ -97,11 +97,13 @@ public class AsyncServiceImplTest {
 		solution.setVersion("1.0.0");
 		AsyncServicesImpl mockAsync = mock(AsyncServicesImpl.class);
 		
+		String notifMsg = "Add To Catalog Failed for solution " + solution.getName()
+		+ ". Please restart the process again to upload the solution.";
+		
 		MLPNotification mlpNotification = new MLPNotification();
 		Date created = new Date();
 		mlpNotification.setCreated(created);
-		mlpNotification.setMessage("Add To Catalog Failed for solution " + solution.getName()
-			+ ". Please restart the process again to upload the solution.");
+		mlpNotification.setMessage(notifMsg);
 		Date modified = new Date();
 		mlpNotification.setModified(modified);
 		mlpNotification.setTitle("Web Based Onboarding");
@@ -112,7 +114,7 @@ public class AsyncServiceImplTest {
 		mlpNotification.setStart(start);
 		MLNotification notf = PortalUtils.convertToMLNotification(mlpNotification);
 
-		Mockito.when(mockAsync.sendBellNotification(userId, solution)).thenReturn(notf);
+		Mockito.when(mockAsync.sendBellNotification(userId, notifMsg)).thenReturn(notf);
 		logger.info("Successfully created notification " + notf);
 		Assert.assertNotNull(notf);
 		Assert.assertEquals(notf, notf);
@@ -133,7 +135,7 @@ public class AsyncServiceImplTest {
 		step.setName("CreateMicroservice");
 		step.setResult("Disconnected from onboarding");
 		
-		Mockito.when(mockAsync.sendTrackerNotification(uuid, userId)).thenReturn(step);
+		Mockito.when(mockAsync.sendDCTrackerNotification(uuid, userId)).thenReturn(step);
 		logger.info("Successfully created step " + step);
 		Assert.assertNotNull(step);
 		Assert.assertEquals(step, step);
