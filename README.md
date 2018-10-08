@@ -11,7 +11,7 @@ This repository holds projects that together comprise the Marketplace Backend fo
 * Proxy setup to download dependencies from open source repositories
 * Open Source or GitShell Command Line Interface
 
-## Build Instructions
+## Build Instructions for Acumos
 
 1. Browse to your preferred directory and run below command:
 
