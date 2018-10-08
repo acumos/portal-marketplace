@@ -301,10 +301,8 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 			RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
 			pageResponse = dataServiceRestClient.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
 			List<MLComment> mlcommentList = new ArrayList<MLComment>();
-			for(MLPComment mlpComment : pageResponse.getContent()){
-				if((PortalUtils.isEmptyOrNullString(mlpComment.getParentId()))){
-					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment, clientTimeZone));
-				}
+			for(MLPComment mlpComment : pageResponse.getContent()){				
+				mlcommentList.add(PortalUtils.convertToMLComment(mlpComment, clientTimeZone));
 			}
 			commentResponse.setContent(mlcommentList);
 		} catch (IllegalArgumentException e) {
