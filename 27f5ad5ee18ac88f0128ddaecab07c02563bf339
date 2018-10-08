@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "962e787a_4d03eb2d",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/UserServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-10-08T15:46:23Z",
+      "side": 1,
+      "message": "Can\u0027t we have a single check in the back-end only that if logged in user and the owner of request in equal then throw an error with proper message while approving and denying the request. And show the same error on UI.",
+      "revId": "27f5ad5ee18ac88f0128ddaecab07c02563bf339",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
