@@ -16,6 +16,24 @@
       "revId": "27f5ad5ee18ac88f0128ddaecab07c02563bf339",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7c7c65c_9f3bacd9",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/UserServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2018-10-09T08:57:37Z",
+      "side": 1,
+      "message": "not showing the option at all to the publisher for his own models will be better, because showing first the approve/deny buttons then throwing the error will be bad user experience.. \nthat is why it is implemented like this...\nAs per issue resolver (akash) he wants either to hide or show disabled button but not to show error after allowing him to approve/deny",
+      "parentUuid": "962e787a_4d03eb2d",
+      "revId": "27f5ad5ee18ac88f0128ddaecab07c02563bf339",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
