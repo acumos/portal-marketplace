@@ -442,6 +442,13 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 
 			RestPageResponse<MLPTag> mlpTagsList = dataServiceRestClient.getTags(null);
+			//check if there are more tags then default size of 20, if yes then get all again
+			if(mlpTagsList.getSize() < mlpTagsList.getTotalElements()) {
+				restPageReq.getBody().setPage(0);
+				restPageReq.getBody().setSize((int)mlpTagsList.getTotalElements());
+				mlpTagsList = dataServiceRestClient.getTags(restPageReq.getBody());
+				
+			}
 			if (mlpTagsList != null && !PortalUtils.isEmptyList(mlpTagsList.getContent())) {
 				tagsList = mlpTagsList.getContent();
 			}
@@ -455,44 +462,34 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 		return mlTagsList;
 	}
+	
 	@Override
 	public List<Map<String, String>> getPreferredTagsList(JsonRequest<RestPageRequest> restPageReq, String userId) throws AcumosServiceException {
 		List<Map<String, String>> prefTags = new ArrayList<>();
 		try {
 			Long startTime = System.currentTimeMillis();
-			System.out.println(startTime);
-			List<String> mlTagsList = new ArrayList<>();
+			//System.out.println(startTime);
 			List<String> userTagsList = new ArrayList<>();	
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-			mlTagsList = getTags(restPageReq);
+			List<String> mlTagsList = getTags(restPageReq);
 			MLPUser userDetails = dataServiceRestClient.getUser(userId);
 			Set<MLPTag> userTagSet = userDetails.getTags();
 			for(MLPTag userTags : userTagSet){
 				userTagsList.add(userTags.getTag());
 			}			 
 			for (String tag : mlTagsList) {
-				for (String utag : userTagsList) {
-					if (utag.equals(tag)) {
-						Map<String, String> map = new HashMap<>();
-						map.put("tagName", utag);
-						map.put("preferred", "Yes");
-						prefTags.add(map);
-					}
-				}
-			}			
-			List<String> union = new ArrayList<String>(mlTagsList);
-			union.addAll(userTagsList); 
-			List<String> intersection = new ArrayList<String>(userTagsList);
-			intersection.retainAll(userTagsList); 
-			union.removeAll(intersection);
-			for (String utag : union) {
 				Map<String, String> map = new HashMap<>();
-				map.put("tagName", utag);
-				map.put("preferred", "No");
-				prefTags.add(map);
-			}
+				map.put("tagName", tag);
+				//Simplifying the code
+					if (userTagsList.contains(tag)) {
+						map.put("preferred", "Yes");
+					}else {
+						map.put("preferred", "No");
+					}
+					prefTags.add(map);
+			}			
 			Long endTime = System.currentTimeMillis();
-			System.out.println(endTime - startTime);
+			log.debug("getPreferredTagsList total time took "+(endTime - startTime));
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
@@ -503,7 +500,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public void createUserTag(String userId, List<String> tagList, List<String> dropTagList) throws AcumosServiceException {
-		MLPTag mlpTag = null;
 		try {
 			log.debug(EELFLoggerDelegate.debugLogger, "createUserTag");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
