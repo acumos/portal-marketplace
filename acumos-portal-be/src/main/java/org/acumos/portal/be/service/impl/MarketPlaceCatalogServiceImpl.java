@@ -476,17 +476,20 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			Set<MLPTag> userTagSet = userDetails.getTags();
 			for(MLPTag userTags : userTagSet){
 				userTagsList.add(userTags.getTag());
+				Map<String, String> map = new HashMap<>();
+				map.put("tagName", userTags.getTag());
+				map.put("preferred", "Yes");
+				prefTags.add(map);
 			}			 
 			for (String tag : mlTagsList) {
 				Map<String, String> map = new HashMap<>();
 				map.put("tagName", tag);
 				//Simplifying the code
-					if (userTagsList.contains(tag)) {
-						map.put("preferred", "Yes");
-					}else {
+					if (!userTagsList.contains(tag)) {
 						map.put("preferred", "No");
+						prefTags.add(map);
 					}
-					prefTags.add(map);
+					
 			}			
 			Long endTime = System.currentTimeMillis();
 			log.debug("getPreferredTagsList total time took "+(endTime - startTime));
