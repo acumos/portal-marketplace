@@ -481,34 +481,9 @@ limitations under the License.
 												aria-hidden="true"></i></span>
 										</div> -->
 
-										<div class="a-mp-container1">
-											<div class="stars-outer">
-												<div class="stars-inner"
-													ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div>
-											</div>
-											<div class="posrel"
-												ng-if="companySolution.solutionTagList.length > 0">
-												<div class="manage-taglist">
-													<span class="mg-tag-circle"></span><span
-														class="mg-tag-text">{{companySolution.solutionTagList.length
-														> 0 ? companySolution.solutionTagList[0].tag : ""}}</span><span
-														class="icon-showmore"
-														ng-show="companySolution.solutionTagList.length > 1"
-														ng-click="showListTag(companySolution.solutionId)"><i
-														class="material-icons">add</i></span>
-												</div>
-												<div class="manage-tag-list-container"
-													ng-show="companySolution.solutionId === slnID && Tag ">
-													<ul class="manage-tag-list">
-														<li ng-repeat="taglist in companySolution.solutionTagList"><div
-																class="manage-taglist2">
-																<span class="mg-tag-circle2"></span><span
-																	class="mg-tag-text2">{{taglist.tag}}</span>
-															</div></li>
-													</ul>
-												</div>
-											</div>
-										</div>
+										<div class="stars-outer">
+											<div class="stars-inner"
+												ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div></div>
 
 											<div class="md-icons-tiles">
 												<span><span class="statistics-icons icon-chat"
@@ -596,37 +571,13 @@ limitations under the License.
 												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 5}"
 												aria-hidden="true"></i></span>
 										</div>  -->
-										<div class="a-mp-container1">
 											<div class="stars-outer">
 												<div class="stars-inner"
 													ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div>
 											</div>
-											<div class="posrel"
-												ng-if="companySolution.solutionTagList.length > 0">
-												<div class="manage-taglist">
-													<span class="mg-tag-circle"></span><span
-														class="mg-tag-text">{{companySolution.solutionTagList.length
-														> 0 ? companySolution.solutionTagList[0].tag : ""}}</span><span
-														class="icon-showmore"
-														ng-show="companySolution.solutionTagList.length > 1"
-														ng-click="showListTag(companySolution.solutionId)"><i
-														class="material-icons">add</i></span>
-												</div>
-												<div class="manage-tag-list-container"
-													ng-show="companySolution.solutionId === slnID && Tag ">
-													<ul class="manage-tag-list">
-														<li ng-repeat="taglist in companySolution.solutionTagList"><div
-																class="manage-taglist2">
-																<span class="mg-tag-circle2"></span><span
-																	class="mg-tag-text2">{{taglist.tag}}</span>
-															</div></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="md-icons">
-										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment">{{companySolution.commentsCount}}</span>
-											0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
+											<div class="md-icons">
+										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>{{companySolution.commentsCount}}
+											</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
 											{{companySolution.viewCount == null ? 0 :
 											companySolution.viewCount}}</span> <span><span
 											class="statistics-icons icon-download" alt="Download" title="Download"></span>
@@ -728,35 +679,10 @@ limitations under the License.
 												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 5}"
 												aria-hidden="true"></i></span>
 										</div>  -->
-											<div class="a-mp-container1">
 												<div class="stars-outer">
 													<div class="stars-inner"
-														ng-style="getAvgRating(publicSolution.solutionRatingAvg)"></div>
-												</div>
-												<div class="posrel"
-													ng-if="publicSolution.solutionTagList.length > 0">
-													<div class="manage-taglist">
-														<span class="mg-tag-circle"></span><span
-															class="mg-tag-text">{{publicSolution.solutionTagList.length
-															> 0 ? publicSolution.solutionTagList[0].tag : ""}}</span><span
-															class="icon-showmore"
-															ng-show="publicSolution.solutionTagList.length > 1"
-															ng-click="showListTag(publicSolution.solutionId)"><i
-															class="material-icons">add</i></span>
-													</div>
-													<div class="manage-tag-list-container"
-														ng-show="publicSolution.solutionId === slnID && Tag ">
-														<ul class="manage-tag-list">
-															<li ng-repeat="taglist in publicSolution.solutionTagList"><div
-																	class="manage-taglist2">
-																	<span class="mg-tag-circle2"></span><span
-																		class="mg-tag-text2">{{taglist.tag}}</span>
-																</div></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-											<div class="md-icons-tiles">
+														ng-style="getAvgRating(publicSolution.solutionRatingAvg)"></div></div>
+													<div class="md-icons-tiles">
 														<span><span class="statistics-icons icon-chat"
 															alt="Comment" title="Comment"></span> {{publicSolution.commentsCount}}</span> <span><span
 															class="statistics-icons icon-view" alt="View"
@@ -836,39 +762,15 @@ limitations under the License.
 												aria-hidden="true"></i></span>
 										</div>  -->
 
-											<div class="a-mp-container1">
-												<div class="stars-outer">
-													<div class="stars-inner"
-														ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
-												</div>
-												<div class="posrel"
-													ng-if="mlsolution.solutionTagList.length > 0">
-													<div class="manage-taglist">
-														<span class="mg-tag-circle"></span><span
-															class="mg-tag-text">{{mlsolution.solutionTagList.length
-															> 0 ? mlsolution.solutionTagList[0].tag : ""}}</span><span
-															class="icon-showmore"
-															ng-show="mlsolution.solutionTagList.length > 1"
-															ng-click="showListTag(mlsolution.solutionId)"><i
-															class="material-icons">add</i></span>
-													</div>
-													<div class="manage-tag-list-container"
-														ng-show="mlsolution.solutionId === slnID && Tag ">
-														<ul class="manage-tag-list">
-															<li ng-repeat="taglist in mlsolution.solutionTagList"><div
-																	class="manage-taglist2">
-																	<span class="mg-tag-circle2"></span><span
-																		class="mg-tag-text2">{{taglist.tag}}</span>
-																</div></li>
-														</ul>
-													</div>
-												</div>
+											<div class="stars-outer">
+												<div class="stars-inner"
+													ng-style="getAvgRating(mlsolution.solutionRatingAvg)"></div>
 											</div>
 
 										</div>
 									<div class="md-icons">
-										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment">{{mlsolution.commentsCount}}</span>
-											0</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
+										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span>{{mlsolution.commentsCount}}
+											</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
 											{{mlsolution.viewCount == null ? 0 : mlsolution.viewCount}}</span> <span><span
 											class="statistics-icons icon-download" alt="Download" title="Download"></span>
 											{{mlsolution.downloadCount == null ? 0 :
@@ -970,36 +872,10 @@ limitations under the License.
 													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 5}"
 													aria-hidden="true"></i> </span>
 											</div>  -->
-												<div class="a-mp-container1">
-													<div class="stars-outer">
-														<div class="stars-inner"
-															ng-style="getAvgRating(deletedSolution.solutionRatingAvg)"></div>
-													</div>
-													<div class="posrel"
-														ng-if="deletedSolution.solutionTagList.length > 0">
-														<div class="manage-taglist">
-															<span class="mg-tag-circle"></span><span
-																class="mg-tag-text">{{deletedSolution.solutionTagList.length
-																> 0 ? deletedSolution.solutionTagList[0].tag : ""}}</span><span
-																class="icon-showmore"
-																ng-show="deletedSolution.solutionTagList.length > 1"
-																ng-click="showListTag(deletedSolution.solutionId)"><i
-																class="material-icons">add</i></span>
-														</div>
-														<div class="manage-tag-list-container"
-															ng-show="deletedSolution.solutionId === slnID && Tag ">
-															<ul class="manage-tag-list">
-																<li
-																	ng-repeat="taglist in deletedSolution.solutionTagList"><div
-																		class="manage-taglist2">
-																		<span class="mg-tag-circle2"></span><span
-																			class="mg-tag-text2">{{taglist.tag}}</span>
-																	</div></li>
-															</ul>
-														</div>
-													</div>
-												</div>
-												<div class="md-icons-tiles">
+														<div class="stars-outer">
+															<div class="stars-inner"
+																ng-style="getAvgRating(deletedSolution.solutionRatingAvg)"></div></div>
+															<div class="md-icons-tiles">
 																<span><span class="statistics-icons icon-chat"
 																	alt="Comment" title="Comment"></span> {{deletedSolution.commentsCount}}</span> <span><span
 																	class="statistics-icons icon-view" alt="View"
@@ -1078,36 +954,11 @@ limitations under the License.
 													aria-hidden="true"></i></span>
 											</div> 
 										</div>    -->
-											<div class="a-mp-container1">
-												<div class="stars-outer">
-													<div class="stars-inner"
-														ng-style="getAvgRating(deletedSolution.solutionRatingAvg)"></div>
-												</div>
-												<div class="posrel"
-													ng-if="deletedSolution.solutionTagList.length > 0">
-													<div class="manage-taglist">
-														<span class="mg-tag-circle"></span><span
-															class="mg-tag-text">{{deletedSolution.solutionTagList.length
-															> 0 ? deletedSolution.solutionTagList[0].tag : ""}}</span><span
-															class="icon-showmore"
-															ng-show="deletedSolution.solutionTagList.length > 1"
-															ng-click="showListTag(deletedSolution.solutionId)"><i
-															class="material-icons">add</i></span>
-													</div>
-													<div class="manage-tag-list-container"
-														ng-show="deletedSolution.solutionId === slnID && Tag ">
-														<ul class="manage-tag-list">
-															<li
-																ng-repeat="taglist in deletedSolution.solutionTagList"><div
-																	class="manage-taglist2">
-																	<span class="mg-tag-circle2"></span><span
-																		class="mg-tag-text2">{{taglist.tag}}</span>
-																</div></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-											<div class="md-icons">
+														<div class="stars-outer">
+															<div class="stars-inner"
+																ng-style="getAvgRating(deletedSolution.solutionRatingAvg)"></div>
+																</div>
+															<div class="md-icons">
 																<span><span class="statistics-icons icon-chat"
 																	alt="Comment" title="Comment"></span> {{deletedSolution.commentsCount}}</span> <span><span
 																	class="statistics-icons icon-view" alt="View"
