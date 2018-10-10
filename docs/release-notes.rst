@@ -20,6 +20,22 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.16.2, 11th October 2018
+=================================
+
+* Publish Request: Change Spelling of Requestor or Requester (ACUMOS-1815)
+* IST: Preferred tag is not displaying on model tile (ACUMOS-1765)
+* Portal: can modelers in Publisher role approve their own public requests? (ACUMOS-1797)
+* IST2 : Account Setting :Portal image upload screen cannot recognize JPG suffix, insists on jpg (ACUMOS-1802)
+* IST2: Notification message should have publisher approval instead of admin approval (ACUMOS-1805)
+* Portal manage-my-models page can't add 2nd author or publisher (ACUMOS-1495)
+* Portal federation peer dialog verification behaviors buggy (ACUMOS-1721)
+* Portal mktplace model details page shows no description after publish to COMPANY (ACUMOS-1757)
+* Portal comments reply feature discards post, never shown (ACUMOS-1776)
+* Portal publish request table allows decline/reject of approved request (ACUMOS-1806)
+* IST - jpg image not accepted for Co-Branding  Logo (ACUMOS-1811)
+* Showing only first 20 Tags on manage tags screen (ACUMOS-1837)
+
 Version 1.16.1, 4th October 2018
 ================================
 * IST2: User Guide is not updated based on the new verification process. (ACUMOS-1510)
