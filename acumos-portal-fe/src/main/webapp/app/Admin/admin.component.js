@@ -1091,11 +1091,11 @@ angular.module('admin').filter('abs', function() {
            				    "contact1": $scope.selectedPeer.contact1,
            				    "description": $scope.selectedPeer.description,
            				    "name": $scope.selectedPeer.name,
-           				    "subjectName": $scope.selectedPeer.subjectName,
+           				    "subjectName": $scope.selectedPeer.subjectName + "_" + $scope.selectedPeer.peerId,
            				    "webUrl": $scope.selectedPeer.webUrl,
            				    "peerId" : $scope.selectedPeer.peerId,
            				    "validationStatusCode": "PS",
-           				    "statusCode": "DC"
+           				    "statusCode": "RN"
                  		  }}
                     	  
                     	  apiService.deactivatePeer($scope.selectedPeer.peerId,peerDetails).then(

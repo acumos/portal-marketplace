@@ -31,7 +31,10 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
 	      var tz = jstz.determine().name();
 	      tz = encodeURIComponent(tz);
 	      config.headers.UserTimeZone = tz;
-	      config.headers["Request-ID"] = uuid();
+	      var requestId = uuid();
+	      config.headers["Request-ID"] = requestId;
+	      // In case if other component needs with different name. this should be made consisent
+	      config.headers["X-Request-ID"] = requestId;
 
       return config;
     },

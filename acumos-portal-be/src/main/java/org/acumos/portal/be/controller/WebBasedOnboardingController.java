@@ -41,6 +41,7 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
+import org.acumos.portal.be.logging.ONAPLogConstants;
 import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.transport.Broker;
@@ -50,6 +51,7 @@ import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,8 +85,9 @@ public class WebBasedOnboardingController  extends AbstractController {
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "addToCatalog");
 		log.info(EELFLoggerDelegate.auditLogger, "addToCatalog");
-		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();	    
-		String uuid = UUID.randomUUID().toString();				
+		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+		String uuid = UUID.randomUUID().toString();
+		final String requestId = MDC.get(ONAPLogConstants.MDCs.REQUEST_ID);
 		
 		if(request.getAttribute("mlpuser") == null) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -108,6 +111,7 @@ public class WebBasedOnboardingController  extends AbstractController {
 					FutureTask<HttpResponse> futureTask_1 = new FutureTask<HttpResponse>(new Callable<HttpResponse>() {
 			            @Override
 			            public HttpResponse call() throws FileNotFoundException, ClientProtocolException, InterruptedException, IOException {
+			            	MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
 			                return (HttpResponse) asyncService.callOnboarding(uuid, requestUser, solution, provider, access_token);
 			            }
 			        });				
@@ -399,6 +403,7 @@ public class WebBasedOnboardingController  extends AbstractController {
 		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
 		Boolean isONAPCompatible = false;
 		String tracking_id = UUID.randomUUID().toString();
+		final String requestId = MDC.get(ONAPLogConstants.MDCs.REQUEST_ID);
 
 		isONAPCompatible = asyncService.checkONAPCompatible(solutionId, revisionId, userId, tracking_id);
 
@@ -407,8 +412,9 @@ public class WebBasedOnboardingController  extends AbstractController {
 			FutureTask<HttpResponse> futureTask_1 = new FutureTask<HttpResponse>(new Callable<HttpResponse>() {
 				@Override
 				public HttpResponse call() throws FileNotFoundException, ClientProtocolException, InterruptedException, IOException {
+					MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
 				     return (HttpResponse) asyncService.convertSolutioToONAP(solutionId, revisionId, userId, tracking_id, modName);
-						}
+				}
 			});	
 			executor.execute(futureTask_1);
 			executor.shutdown();
