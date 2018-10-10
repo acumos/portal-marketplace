@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
-
 import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
@@ -46,17 +44,15 @@ import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.logging.ONAPLogConstants;
 import org.acumos.portal.be.service.AsyncServices;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLNotification;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.transport.UploadSolution;
@@ -75,7 +71,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.maven.wagon.ConnectionException;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
@@ -173,6 +169,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				if(!StringUtils.isEmpty(uuid)){
 					post.addHeader("tracking_id", uuid);
 				}
+
+				post.setHeader("Request-ID", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+				log.info("CallOnboarding wit request Id : "+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 
 				MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 
@@ -530,6 +529,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			post.addHeader("tracking_id", tracking_id);
 			post.setHeader("deployment_env", "2");
 		}
+		
+		post.setHeader("Request-ID", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+		log.info("Call on-boarding to convertSolutioToONAP wit request Id : "+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 
 		try {
 			log.debug(EELFLoggerDelegate.debugLogger, "Call Onboarding URI : " + post.getURI());

@@ -942,7 +942,10 @@ angular.module('manageModule')
 																		ownerName: response.data.response_body.content[i].ownerName,
 																		modelType : response.data.response_body.content[i].modelType,
 																		ratingCount: response.data.response_body.content[i].ratingCount,
-                                                                                                                          			picture: response.data.response_body.content[i].picture
+																		picture: response.data.response_body.content[i].picture,
+																		onboardingStatusFailed: response.data.response_body.content[i].onboardingStatusFailed,
+																		pendingApproval: response.data.response_body.content[i].pendingApproval,
+																		latestRevisionId: response.data.response_body.content[i].latestRevisionId
 
 																	});
 															angular.forEach($scope.favouriteSolutions,

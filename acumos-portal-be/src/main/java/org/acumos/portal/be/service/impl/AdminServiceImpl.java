@@ -83,7 +83,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
         List<MLPPeer> mlpPeers = peerList.getContent();
         for(MLPPeer peer : mlpPeers) {
             if(peer != null) {
-                if(!PortalUtils.isEmptyOrNullString(peer.getApiUrl()) && peer.getApiUrl().equalsIgnoreCase(apiUrl)
+            	if(!"RN".equalsIgnoreCase(peer.getStatusCode()) && !PortalUtils.isEmptyOrNullString(peer.getApiUrl()) && peer.getApiUrl().equalsIgnoreCase(apiUrl)
                         && !PortalUtils.isEmptyOrNullString(peer.getWebUrl()) && peer.getWebUrl().equalsIgnoreCase(webUrl)) {
                     mlpPeer = peer;
                     break;
