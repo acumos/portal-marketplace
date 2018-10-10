@@ -877,7 +877,7 @@ limitations under the License.
 								<tbody>
 									<tr
 										ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails'
-										ng-hide="val.statusCode == 'DC'"
+										ng-hide="val.statusCode == 'RN' || val.statusCode == 'DC'"
 										ng-class="val.statusCode == 'IN' ?'disabledRow':''">
 										<!-- |  filter: { statusCode: "AC"} -->
 										<td><span class="disabledRowChild">{{val.name}}</span></td>
