@@ -41,6 +41,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -85,6 +86,9 @@ public class GatewayController extends AbstractController {
 	@RequestMapping(value = {APINames.PING},method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLPPeer> pingGateway(HttpServletRequest request, @PathVariable("peerId") String peerId, HttpServletResponse response) {
+		
+		peerId = SanitizeUtils.sanitize(peerId);
+		
 		JsonResponse<MLPPeer> data = new JsonResponse<>();
 		JsonResponse<MLPPeer> peer = null;
 		try {
@@ -168,6 +172,10 @@ public class GatewayController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLPSolution> getSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId,
 			@PathVariable("peerId") String peerId, HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		peerId = SanitizeUtils.sanitize(peerId);
+		
 		JsonResponse<MLPSolution> data = new JsonResponse<MLPSolution>();
 		JsonResponse<MLPSolution> solution = null;
 		if(solutionId != null) {

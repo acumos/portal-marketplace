@@ -23,14 +23,12 @@
  */
 package org.acumos.portal.be.controller;
 
-import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.MessageSeverityCode;
-import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
@@ -38,10 +36,9 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PublishSolutionService;
-import org.acumos.portal.be.transport.MLNotification;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,6 +76,9 @@ public class PublishSolutionServiceController extends AbstractController {
     @ResponseBody
     public JsonResponse<Object> publishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
 			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId, HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		
 		log.debug(EELFLoggerDelegate.debugLogger, "publishSolution={}", solutionId, visibility);
 		log.info(EELFLoggerDelegate.auditLogger, "publishSolution={}", solutionId, visibility);
 		JsonResponse<Object> data = new JsonResponse<>();
@@ -116,6 +116,9 @@ public class PublishSolutionServiceController extends AbstractController {
     @ResponseBody
     public JsonResponse<Object> unpublishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
     		@RequestParam("userId") String userId, HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		
 		log.debug(EELFLoggerDelegate.debugLogger, "unpublishSolution={}", solutionId, visibility);
 		 JsonResponse<Object> data = new JsonResponse<>();
 		try {
