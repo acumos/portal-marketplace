@@ -49,6 +49,7 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.slf4j.MDC;
@@ -138,6 +139,10 @@ public class WebBasedOnboardingController  extends AbstractController {
 	@RequestMapping(value = { APINames.MESSAGING_STATUS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLStepResult>> messagingStatus(@PathVariable("userId") String userId, @PathVariable("trackingId") String trackingId) {
+		
+		
+		userId = SanitizeUtils.sanitize(userId);
+		trackingId=SanitizeUtils.sanitize(trackingId);
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "messagingStatus");
 		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
@@ -325,7 +330,11 @@ public class WebBasedOnboardingController  extends AbstractController {
 	   @RequestMapping(value = {APINames.SEARCH_STEP_RESULT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	   @ResponseBody
 	    public JsonResponse<List<MLPStepResult>> findStepresultBySolutionId(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId) {
-	        JsonResponse<List<MLPStepResult>> data = new JsonResponse<>();
+	        
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		
+		JsonResponse<List<MLPStepResult>> data = new JsonResponse<>();
 	        if (solutionId != null) {
 	            try {
 	                List<MLPStepResult> mlpStepresult = messagingService.findStepresultBySolutionId(solutionId,revisionId);
@@ -430,6 +439,10 @@ public class WebBasedOnboardingController  extends AbstractController {
 	@RequestMapping(value = { APINames.CHECK_ONAP_COMPATIBLE}, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<String> checkONAPCompatible(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		
 		JsonResponse<String> data = new JsonResponse<>();
 		Boolean isONAPCompatible = false;
 

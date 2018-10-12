@@ -25,22 +25,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPPublishRequest;
-import org.acumos.cds.domain.MLPTag;
-import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.PagableResponse;
-import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.PublishRequestService;
-import org.acumos.portal.be.service.impl.MarketPlaceCatalogServiceImpl;
 import org.acumos.portal.be.transport.MLPublishRequest;
-import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -72,6 +67,9 @@ public class PublishRequestController extends AbstractController {
     @RequestMapping(value = {"/search/revision/{revisionId}"},method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLPublishRequest> searchPublishRequestByRevId(HttpServletRequest request, @PathVariable String revisionId, HttpServletResponse response) {
+		
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		
 		JsonResponse<MLPublishRequest> data = new JsonResponse<>();
 		try {
 			MLPublishRequest mlPublishRequest = publishRequestService.searchPublishRequestByRevId(revisionId);
