@@ -37,6 +37,7 @@ import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -123,6 +124,9 @@ public class ThreadController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLPThread> getThread(HttpServletRequest request, @PathVariable String threadId,
 			HttpServletResponse response) {
+		
+		threadId = SanitizeUtils.sanitize(threadId);
+		
 		JsonResponse<MLPThread> data = new JsonResponse<>();
 		try {
 			MLPThread thread = threadService.getThread(threadId);
@@ -201,6 +205,10 @@ public class ThreadController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLPComment> getComment(HttpServletRequest request, @PathVariable String threadId,
 			@PathVariable String commentId, HttpServletResponse response) {
+		
+		threadId = SanitizeUtils.sanitize(threadId);
+		commentId = SanitizeUtils.sanitize(commentId);
+		
 		JsonResponse<MLPComment> data = new JsonResponse<>();
 		try {
 			MLPComment comment = threadService.getComment(threadId, commentId);

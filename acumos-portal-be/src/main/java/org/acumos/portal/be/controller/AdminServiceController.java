@@ -238,6 +238,9 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> removePeer(@PathVariable("peerId") String peerId) {
+    	
+    	peerId = SanitizeUtils.sanitize(peerId);
+    	
         log.debug(EELFLoggerDelegate.debugLogger, "removePeer={}", peerId);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
@@ -511,7 +514,10 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<MLPSiteConfig> updateSiteConfig(@PathVariable ("configKey") String configKey,@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig={}", mlpSiteConfig);
+        
+    	configKey = SanitizeUtils.sanitize(configKey);
+    	
+    	log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig={}", mlpSiteConfig);
         JsonResponse<MLPSiteConfig> data = null;
         try {
             data = new JsonResponse<>();
@@ -541,7 +547,10 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> deleteSiteConfig(@PathVariable("configKey") String configKey, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "deleteSiteConfig={}", configKey);
+        
+    	configKey = SanitizeUtils.sanitize(configKey);
+    	
+    	log.debug(EELFLoggerDelegate.debugLogger, "deleteSiteConfig={}", configKey);
         JsonResponse<Object> data = null;
         try {
             data = new JsonResponse<>();
