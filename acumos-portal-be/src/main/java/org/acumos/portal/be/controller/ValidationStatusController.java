@@ -33,6 +33,7 @@ import org.acumos.portal.be.service.ValidationStatusService;
 import org.acumos.portal.be.transport.MLModelValidationCheck;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,6 +65,9 @@ private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(Valid
     @ResponseBody
     public JsonResponse<Object> updateValidationTaskStatus(HttpServletRequest request, @PathVariable("taskId") String taskId, @RequestBody MLModelValidationStatus mlModelValidationStatus,
 			HttpServletResponse response) {
+		
+		taskId = SanitizeUtils.sanitize(taskId);
+		
 		log.debug(EELFLoggerDelegate.debugLogger, "updateValidationTaskStatus={}", taskId);
 		JsonResponse<Object> data = new JsonResponse<>();
 		try {
@@ -85,6 +89,10 @@ private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(Valid
     @ResponseBody
     public JsonResponse<MLModelValidationCheck> getValidationTaskStatus(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, 
     		HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		
 		log.debug(EELFLoggerDelegate.debugLogger, "getValidationTaskStatus={}", solutionId, revisionId);
 		JsonResponse<MLModelValidationCheck> data = new JsonResponse<>();
 		try {

@@ -38,6 +38,7 @@ import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -109,7 +110,9 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			 * Artifact Details b. Invoke download downloadModelDockerImage() to get the
 			 * Docker Image File c. Send back the file as a tar file to the UI
 			 */
-
+			
+			solutionId = SanitizeUtils.sanitize(solutionId);
+			
 			String artifactFileName = pushAndPullSolutionService.getFileNameByArtifactId(artifactId);
 			response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 			response.setHeader("Pragma", "no-cache");
@@ -154,7 +157,9 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	@ResponseBody
 	public void uploadModel(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId,
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+		
+		userId = SanitizeUtils.sanitize(userId);
+		
 		log.debug(EELFLoggerDelegate.debugLogger, "uploadModel for user " + userId);
 
 		// Check if the Onboarding is enabled in the site configuration
@@ -233,6 +238,8 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	@ResponseBody
 	public void downloadSolRevDocument(@PathVariable String documentId, HttpServletRequest request, HttpServletResponse response) {
 		try {
+			
+			documentId = SanitizeUtils.sanitize(documentId);
 
 			String documentName = pushAndPullSolutionService.getFileNameByDocumentId(documentId);
 			response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

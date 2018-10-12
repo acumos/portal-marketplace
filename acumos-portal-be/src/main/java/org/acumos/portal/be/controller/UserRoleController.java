@@ -27,19 +27,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
-import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
 import org.acumos.portal.be.service.UserRoleService;
-import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -110,6 +109,9 @@ public class UserRoleController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLRole> getRoleDetails(HttpServletRequest request, @PathVariable("roleId") String roleId,
 			HttpServletResponse response) {
+		
+		roleId = SanitizeUtils.sanitize(roleId);
+		
 		MLRole roleDetail = null;
 		JsonResponse<MLRole> data = new JsonResponse<>();
 		try {
