@@ -234,15 +234,16 @@ limitations under the License.
 								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ds-btn1 btn-deploy" title="Deploy">
 								<span class="ds-icon icon-deploy"></span> Deploy <i class="material-icons">keyboard_arrow_down</i>
 							</button>
-							<ul
-								class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
+							<ul	class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
 								for="demo-menu-lower-right4">
-								<li class="mdl-menu__item dc-microsoft-azure" ui-sref="modelEdit ({solutionId: solutionIdDeploy,deployStatus: true})"></li>
-								<li class="mdl-menu__item dc-google-cloud" disabled></li>
-								<li class="mdl-menu__item dc-rackspace" disabled></li>
-								<li class="mdl-menu__item dc-amazon-cloud" disabled></li>
-								<li class="mdl-menu__item dc-att-cloud" disabled></li>
+								<li class="mdl-menu__item dc-microsoft-azure" ng-repeat = "deployVal in checkDeployToCloudResponse track by $index" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
+                           		title="{{deployVal.cloudDisplayText}}"
+                           		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center"
+                           		ng-disabled="deployVal.cloudEnabled=='false'" ui-sref="modelEdit ({solutionId: solutionIdDeploy,deployStatus: true})">
+                           		</li>
+								
 							</ul>
+							
 						</div> 
 						
 						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist" title="Collapse Right Panel"><span class="ds-icon icon-expand-drawer"></span></button>
