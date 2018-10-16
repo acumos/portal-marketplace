@@ -483,6 +483,7 @@ angular
                 		} else {
                 			scope.docerror = false;
                 		}
+                		return;
                 	}
                     reader.onload = function(loadEvent) {
                       scope.$apply(function() {
@@ -530,6 +531,8 @@ angular
            file: "=",
            filepreview: "=",
            filename: "=",
+           size: "=",
+           docerror: "="
           },
         link: function (scope, element, attrs) {
             element.bind('dragover', function (evt) {
@@ -547,7 +550,17 @@ angular
                     scope.$apply(function(){
                         scope.file = files[0];
                         scope.filename = scope.file.name;
-			var reader = new FileReader();
+                        var size = scope.file.size;
+                    	if( scope.docerror != null ){
+                    		if(size >= scope.size){
+                    			scope.docerror = true;
+                    		} else {
+                    			scope.docerror = false;
+                    		}
+                    		return;
+                    	}
+                    	
+                        var reader = new FileReader();
                         var imgpath = new Image();
                         reader.readAsDataURL(files[0]);
                         reader.onload = function(loadEvent) {
