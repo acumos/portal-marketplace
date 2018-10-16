@@ -238,8 +238,8 @@ limitations under the License.
 													    <label class="griditem-title">{{mlsolution.name}} <!-- <span class="text-xsmall link-orange">In Process</span> --></label>
 													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl">by {{mlsolution.ownerName}}</span> | <span class="griditem-text2">on {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>
 													     <p class="disblock mp-para" ng-if="mlsolution.publisher">
-													         <label class="grid-item-text-container">
-													             Published by {{mlsolution.publisher}}
+													         <label class="grid-item-text-container2">
+													            <span>Published by</span><span class="publisher-title"> {{mlsolution.publisher}}</span>
 													         </label>
 													     </p>
 													</div>
