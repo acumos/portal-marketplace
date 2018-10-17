@@ -597,6 +597,84 @@ given by the end users.
 
     }
 
+  
+Operation Name - Download Solution Artifact
+-------------------------------------------
+  
+**- Trigger:** 
+	
+Download the dockerized Image Artifact of the Machine Learning Solution
+	  
+**- Request:**
+
+    "request_body": {
+
+    "solutionId" : "d1ef3a94-a5e0-482b-983f-ed4f25420b00",
+
+    "artifactId" : "8f5bfb9f-c6ff-4860-a402-56c02fed040d",
+
+    "revisionId" : "dd1c3fba-2ddb-4f0a-b864-da70642be71c",
+
+    "userId"	 : "7cd47ca4-1c5d-4cdc-909c-f7c17367b4d4"
+
+    }
+
+**- Response:**
+
+  Response Code : 200 Ok
+  
+  Binary file will be downloaded.
+  
+Operation Name - Upload the Model/Solution
+------------------------------------------
+  
+**- Trigger:** 
+  
+Upload the model to the server
+	
+**- Request:**
+
+    "request_body": {
+  
+    "file"   : "D:\Docs\Updated_CrossSell_9_5_18.zip",
+
+    "userId" : "7cd47ca4-1c5d-4cdc-909c-f7c17367b4d4"
+	
+     }
+	
+**- Response:** 
+	
+  Response Code : 200 Ok 
+  
+  Model will be uploaded.
+
+  If the file is not in zip format or does not contain required files we will get error like below.
+	 
+  Zip File does not contain required files D:\Docs\solution.zip
+  
+  Zip File Required. Original File : D:\Docs\BLUEPRINT-E55671D6-A40E-4137-86FC-EDAE372AAAD3-1.0.1.json
+    
+Operation Name - Download the Solution Revision Document
+--------------------------------------------------------
+   
+**- Trigger:**
+
+Download the documents of the Solution.
+
+**- Request:**
+
+    "request_body": {
+  
+     documentId : 4d641a25-14bb-4ff2-8360-24c75d7eb741
+
+     }
+   
+**- Response:** 
+   
+   Response Code : 200 Ok
+   
+   The Supporting document of ML Solution will be downloaded.
+
 
 Project Tools
 =============
