@@ -57,6 +57,7 @@ MarketPlace Backend APIs
 - Market Place Catalog Service
 - Notification Services
 - Oauth User Service
+- Publish Request Service
 - Publish Solution Service
 - Push And Pull Solution Service
 - User Role Services
@@ -269,9 +270,9 @@ Catalog.
 
 "description": null,
 
-"ownerId": "58fd6bbd-4894-4653-8a1e-2f41185e7971",
+"ownerId": "<ownerId>",
 
-"ownerName": "vinayak shetage",
+"ownerName": "<ownerName>",
 
 "active": true,
 
@@ -358,9 +359,9 @@ Operation Name - Get Solution/Model
 
     "description": null,
 
-    "ownerId": "173cad03-7527-42c5-81cc-35bac96cbf05",
+    "ownerId": "<ownerId>",
 
-    "ownerName": "pradip ahire",
+    "ownerName": "<ownerName>",
 
     "active": true,
 
@@ -418,7 +419,7 @@ Operation Name - Share Solution/Model
 
     {
 
-    "userId":: "173cad03-7527-42c5-81cc-35bac96cbf05"
+    "userId":: "<userId>"
 
     }
 
@@ -444,7 +445,7 @@ Operation Name - Share Solution/Model
 
 "description": "knnmodel_31102017_IST",
 
-"ownerId": "173cad03-7527-42c5-81cc-35bac96cbf05",
+"ownerId": "<ownerId>",
 
 "active": true,
 
@@ -573,7 +574,7 @@ given by the end users.
 
     "solutionId": "093b29ea-8d6b-407e-b3e9-4d52964ba902",
 
-    "userId": "173cad03-7527-42c5-81cc-35bac96cbf05"
+    "userId": "<userId>"
 
     }
 
@@ -596,6 +597,84 @@ given by the end users.
     "error_code": "100"
 
     }
+
+  
+Operation Name - Download Solution Artifact
+-------------------------------------------
+  
+**- Trigger:** 
+	
+Download the dockerized Image Artifact of the Machine Learning Solution
+	  
+**- Request:**
+
+    "request_body": {
+
+    "solutionId" : "d1ef3a94-a5e0-482b-983f-ed4f25420b00",
+
+    "artifactId" : "8f5bfb9f-c6ff-4860-a402-56c02fed040d",
+
+    "revisionId" : "dd1c3fba-2ddb-4f0a-b864-da70642be71c",
+
+    "userId"	 : "<userId>"
+
+    }
+
+**- Response:**
+
+  Response Code : 200 Ok
+  
+  Binary file will be downloaded.
+  
+Operation Name - Upload the Model/Solution
+------------------------------------------
+  
+**- Trigger:** 
+  
+Upload the model to the server
+	
+**- Request:**
+
+    "request_body": {
+  
+    "file"   : "D:\Docs\Updated_CrossSell_9_5_18.zip",
+
+    "userId" : "<userId>"
+	
+     }
+	
+**- Response:** 
+	
+  Response Code : 200 Ok 
+  
+  Model will be uploaded.
+
+  If the file is not in zip format or does not contain required files we will get error like below.
+	 
+  Zip File does not contain required files D:\Docs\solution.zip
+  
+  Zip File Required. Original File : D:\Docs\BLUEPRINT-E55671D6-A40E-4137-86FC-EDAE372AAAD3-1.0.1.json
+    
+Operation Name - Download the Solution Revision Document
+--------------------------------------------------------
+   
+**- Trigger:**
+
+Download the documents of the Solution.
+
+**- Request:**
+
+    "request_body": {
+  
+     documentId : 4d641a25-14bb-4ff2-8360-24c75d7eb741
+
+     }
+   
+**- Response:** 
+   
+   Response Code : 200 Ok
+   
+   The Supporting document of ML Solution will be downloaded.
 
 
 Project Tools
