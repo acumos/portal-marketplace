@@ -598,6 +598,358 @@ given by the end users.
     }
 
 
+Operation Name - Admin Service
+------------------------------------------
+
+**- Trigger:**
+
+Gets the value of the MANIFEST.MF property Implementation-Version as written by maven.
+
+
+**- Request:**
+
+{
+  "data": {},
+  "status": 0
+}
+
+**- Response:**
+
+{
+  "status": 200,
+  
+  "data": "1.16.2-SNAPSHOT"
+}
+
+Operation Name - carouseConfigService 
+------------------------------------------
+
+**- Trigger:**
+
+Gets list of Site configuration filtered with user's preferred tags.
+
+
+**- Request:**
+
+{
+“userId”:: "<userID>"
+}
+
+**- Response:**
+
+{
+  "status": null,
+  
+  "status_code": 0,
+  
+  "response_detail": "getUserCarousalConfiguration fetched Successfully",
+  
+  "response_code": null,
+  
+  "response_body": [
+    {
+      "0": {
+	  
+        "name": "Test Slide",
+		
+        "headline": "Test Slide ok",
+		
+        "supportingContent": "<p>Just for test</p>",
+		
+        "textAling": "left",
+		
+        "number": "0",
+		
+        "slideEnabled": "true",
+		
+        "tagName": "13",
+		
+        "bgImageUrl": "ML_solution.jpg",
+		
+        "InfoImageUrl": "Layer_2.png",
+		
+        "links": {
+		
+          "enableLink": "true",
+		  
+          "primary": {},
+		  
+          "secondary": {}
+        }
+      }
+    },
+    {
+      "1": {
+        "name": "Test",
+		
+        "headline": "Testing",
+		
+        "supportingContent": "<p>TEst</p>",
+		
+        "textAling": "left",
+		
+        "number": "1",
+		
+        "slideEnabled": "false",
+		
+        "tagName": "1234",
+		
+        "links": {
+		
+          "enableLink": true,
+		  
+          "primary": {},
+		  
+          "secondary": {}
+        }
+      }
+    },
+    {
+      "2": {
+	  
+        "name": "test14Sep18",
+		
+        "headline": "test",
+		
+        "supportingContent": "<p>test14Sep18</p>",
+		
+        "textAling": "left",
+		
+        "number": "2",
+		
+        "slideEnabled": "false",
+		
+        "tagName": "1WA_tag",
+		
+        "links": {
+		
+          "primary": {
+		  
+            "label": "test",
+			
+            "address": "marketPlace"
+			
+          },
+          "secondary": {}
+        }
+      }
+    },
+    {
+      "3": {
+	  
+        "name": "slide 5",
+		
+        "headline": "slide 5",
+		
+        "supportingContent": "<p>dfsdfdfsdf</p>",
+		
+        "textAling": "right",
+		
+        "number": "3",
+		
+        "slideEnabled": "false",
+		
+        "tagName": "1ww",
+		
+        "links": {
+		
+          "primary": {
+		  
+            "address": "modelerResource"
+			
+          },
+		  
+          "secondary": {
+		  
+            "address": "marketPlace"
+			
+          }
+        }
+      }
+    }
+  ],
+  "content": null,
+  
+  "error_code": "100"
+}
+
+Operation Name - Enabling SignUp Service 
+------------------------------------------
+**- Trigger:**
+
+Get SignUp Enabled and verify and return Success
+
+**- Request:**
+{
+
+}
+
+
+
+**- Response:**
+
+{
+  "status": true,
+  
+  "status_code": 200,
+  
+  "response_detail": "Success",
+  
+  "response_code": null,
+  
+  "response_body": "true",
+  
+  "content": null,
+  
+  "error_code": null
+}
+
+
+Operation Name  - Authentication Service
+----------------------------------------
+**- Trigger:**
+
+This api is used to validate user by accepting there emailid or username.return success & JWT token if account created successfully  else an error message is returned:
+
+
+**- Request:**
+
+{
+ "request_body": {
+
+   "password": <"Password">
+
+   "username": "<"Username">
+ }
+}
+
+**- Response:**
+
+{
+  "loginPassExpire": false,
+  
+  "userAssignedRolesList": [
+  
+    {
+      "created": 1536367599000,
+	  
+      "modified": 1538142743000,
+	  
+      "roleId": "497ddcfb-a15c-4729-8bf7-41a6ea4a33ed",
+	  
+      "name": "Publisher",
+	  
+      "active": true
+    },
+    {
+      "created": 1513691459000,
+	  
+      "modified": 1538142622000,
+	  
+      "roleId": "8c850f07-4352-4afd-98b1-00cbceca569f",
+	  
+      "name": "Admin",
+	  
+      "active": true
+    }
+  ],
+  "firstLogin": false,
+  
+   "jwtToken": <"Jwttoken">,
+   
+  "admin": true,
+  
+  "publisher": true
+}
+
+Operation Name - Login service using Authentication token
+------------------------------------------------------------
+
+**- Trigger:**
+
+Allows User to login to the Platform using emailId or username. Returns Success & JWT Token if Account created successfully; else an error message is returned.
+
+**- Request:**
+
+{
+ "request_body": {
+   "password": <"password">,
+   
+   "username": <"username">
+ }
+}
+
+**- Response:**
+
+{
+  "loginPassExpire": false,
+
+  "userAssignedRolesList": null,
+
+  "firstLogin": false,
+
+  "firstName": "TechM",
+
+  "lastName": "Dev",
+
+  "emailId": "techm@techmahindra.com",
+
+  "username": <"username">,
+
+  "password": null,
+
+  "active": "true",
+
+  "lastLogin": 1539774948356,
+
+  "created": 1520526238000,
+
+  "modified": null,
+
+  "userId": "<userID>",
+
+  "loginName": null,
+
+  "orgName": null,
+
+  "picture": null,
+
+  "jwttoken": null,
+
+  "role": null,
+
+  "roleId": null,
+
+  "updatedRole": null,
+
+  "updatedRoleId": null,
+
+  "userIdList": null,
+
+  "userNewRoleList": null,
+
+  "userRolesList": null,
+
+  "bulkUpdate": null,
+
+  "apiTokenHash": null,
+
+  "verifyToken": null,
+
+  "status": null,
+
+  "tags": null,
+
+  "jwtToken": null,
+
+  "admin": false,
+
+  "publisher": false
+}
+
+
+
+
 Project Tools
 =============
 
