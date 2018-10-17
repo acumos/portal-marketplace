@@ -598,6 +598,350 @@ given by the end users.
     }
 
 
+Gateway Service
+============================
+
+Operation Name - Ping Gateway
+--------------------------
+
+**- Trigger**
+
+	Checks the connection to a gateway instance.
+
+**- Request**
+
+	{
+		"peerId" : "<peer id>"
+	}
+
+**- Response**
+
+	{
+		"content": {},
+		"error_code": "string",
+		"response_body": {},
+		"response_code": "string",
+		"response_detail": "string",
+		"status": true,
+		"status_code": 400
+	}
+
+Operation Name - Gateway Solutions
+--------------------------
+
+**- Trigger**
+
+	Fetches all solutions from a gateway given provided categories or toolkit type.
+
+**- Request**
+
+	{
+		"peerSubscription" : {
+			"request_body": {
+			    "accessType": "PB",
+			    "created": "2018-10-17T19:34:23.633Z",
+			    "maxArtifactSize": 0,
+			    "modified": "2018-10-17T19:34:23.633Z",
+			    "options": "{ \"jsonTag\" : \"jsonValue\" }",
+			    "peerId": "<peer id>",
+			    "processed": "1521202458867",
+			    "refreshInterval": 60,
+			    "scopeType": "RF",
+			    "selector": "{ \"modelTypeCode\" : \"CL\" }",
+			    "subId": 0,
+			  	"userId": "<user id>"
+			},
+			"request_from": "string",
+			"request_id": "string"
+		}
+	}
+
+**- Response**
+
+	{
+		[
+			{
+			    "accessType": "string",
+			    "active": true,
+			    "commentId": "string",
+			    "commentsCount": 0,
+			    "companyModelCount": 0,
+			    "created": "2018-10-17T19:34:23.749Z",
+			    "deletedModelCount": 0,
+			    "description": "string",
+			    "downloadCount": 0,
+			    "errorDetails": "string",
+			    "latestRevisionId": "string",
+			    "loginName": "string",
+			    "metadata": "string",
+			    "modelType": "string",
+			    "modelTypeName": "string",
+			    "modified": "2018-10-17T19:34:23.749Z",
+			    "name": "string",
+			    "onboardingStatusFailed": true,
+			    "ownerId": "string",
+			    "ownerListForSol": [
+					{
+				        "active": "string",
+				        "admin": true,
+				        "apiTokenHash": "string",
+				        "bulkUpdate": "string",
+				        "created": "2018-10-17T19:34:23.749Z",
+				        "emailId": "string",
+				        "firstLogin": true,
+				        "firstName": "string",
+				        "jwtToken": "string",
+				        "jwttoken": "string",
+				        "lastLogin": "2018-10-17T19:34:23.749Z",
+				        "lastName": "string",
+				        "loginName": "string",
+				        "loginPassExpire": true,
+				        "modified": "2018-10-17T19:34:23.749Z",
+				        "orgName": "string",
+				        "password": "string",
+				        "picture": [
+				        	"string"
+				        ],
+				        "publisher": true,
+				        "role": "string",
+				        "roleId": "string",
+				        "status": "string",
+				        "tags": [
+				        	{
+				            	"tag": "Classification"
+				        	}
+			    		],
+				        "updatedRole": "string",
+				        "updatedRoleId": "string",
+				        "userAssignedRolesList": [
+				        	{
+					            "active": false,
+					            "created": "2018-10-17T19:34:23.750Z",
+					            "modified": "2018-10-17T19:34:23.750Z",
+					            "name": "My role",
+					            "roleId": "<role id>"
+				        	}
+				        ],
+				        "userId": "string",
+				        "userIdList": [
+				        	"string"
+				        ],
+				        "userNewRoleList": [
+				        	"string"
+				        ],
+				        "userRolesList": {},
+				        "username": "string",
+				        "verifyToken": "string"
+			    	}
+			    ],
+			    "ownerName": "string",
+			    "pageNo": 0,
+			    "pendingApproval": true,
+			    "picture": [
+			    	"string"
+			    ],
+			    "privateModelCount": 0,
+			    "publicModelCount": 0,
+			    "publisher": "string",
+			    "ratingAverageTenths": 0,
+			    "ratingCount": 0,
+			    "refreshInterval": 0,
+			    "revisions": [
+			    	{
+				        "accessTypeCode": "PB",
+				        "authors": "My name\tMy contact",
+				        "created": "2018-10-17T19:34:23.750Z",
+				        "description": "string",
+				        "metadata": "string",
+				        "modified": "2018-10-17T19:34:23.750Z",
+				        "origin": "<origin url>",
+				        "publisher": "My company",
+				        "revisionId": "<revision id>",
+				        "solutionId": "<solution id>",
+				        "sourceId": "<source id>",
+				        "userId": "<user id>",
+				        "validationStatusCode": "NV",
+				        "version": "v1.0"
+			    	}
+			    ],
+			    "selector": "string",
+			    "size": 0,
+			    "solutionId": "string",
+			    "solutionRating": 0,
+			    "solutionRatingAvg": 0,
+			    "solutionTag": "string",
+			    "solutionTagList": [
+			    	{
+			        	"tag": "Classification"
+			    	}
+			    ],
+			    "sortingOrder": "string",
+			    "threadId": "string",
+			    "threadList": [
+			    	{
+				        "revisionId": "<revision id>",
+				        "solutionId": "<solution id>",
+				        "threadId": "<thread id>",
+				        "title": "string"
+			    	}
+			    ],
+			    "tookitType": "string",
+			    "tookitTypeName": "string",
+			    "validationStatusCode": "string",
+			    "viewCount": 0
+			}
+		]
+	}
+
+Operation Name - Get Gateway Solution
+--------------------------
+
+**- Trigger**
+
+	Fetches a specific solution from a gateway.
+
+**- Request**
+
+	{
+		"solutionId" : "<solution id>",
+		"peerId" : "<peer id>"
+	}
+
+**- Response**
+
+	{
+	    "accessType": "string",
+	    "active": true,
+	    "commentId": "string",
+	    "commentsCount": 0,
+	    "companyModelCount": 0,
+	    "created": "2018-10-17T19:34:23.749Z",
+	    "deletedModelCount": 0,
+	    "description": "string",
+	    "downloadCount": 0,
+	    "errorDetails": "string",
+	    "latestRevisionId": "string",
+	    "loginName": "string",
+	    "metadata": "string",
+	    "modelType": "string",
+	    "modelTypeName": "string",
+	    "modified": "2018-10-17T19:34:23.749Z",
+	    "name": "string",
+	    "onboardingStatusFailed": true,
+	    "ownerId": "string",
+	    "ownerListForSol": [
+			{
+		        "active": "string",
+		        "admin": true,
+		        "apiTokenHash": "string",
+		        "bulkUpdate": "string",
+		        "created": "2018-10-17T19:34:23.749Z",
+		        "emailId": "string",
+		        "firstLogin": true,
+		        "firstName": "string",
+		        "jwtToken": "string",
+		        "jwttoken": "string",
+		        "lastLogin": "2018-10-17T19:34:23.749Z",
+		        "lastName": "string",
+		        "loginName": "string",
+		        "loginPassExpire": true,
+		        "modified": "2018-10-17T19:34:23.749Z",
+		        "orgName": "string",
+		        "password": "string",
+		        "picture": [
+		        	"string"
+		        ],
+		        "publisher": true,
+		        "role": "string",
+		        "roleId": "string",
+		        "status": "string",
+		        "tags": [
+		        	{
+		            	"tag": "Classification"
+		        	}
+	    		],
+		        "updatedRole": "string",
+		        "updatedRoleId": "string",
+		        "userAssignedRolesList": [
+		        	{
+			            "active": false,
+			            "created": "2018-10-17T19:34:23.750Z",
+			            "modified": "2018-10-17T19:34:23.750Z",
+			            "name": "My role",
+			            "roleId": "<role id>"
+		        	}
+		        ],
+		        "userId": "string",
+		        "userIdList": [
+		        	"string"
+		        ],
+		        "userNewRoleList": [
+		        	"string"
+		        ],
+		        "userRolesList": {},
+		        "username": "string",
+		        "verifyToken": "string"
+	    	}
+	    ],
+	    "ownerName": "string",
+	    "pageNo": 0,
+	    "pendingApproval": true,
+	    "picture": [
+	    	"string"
+	    ],
+	    "privateModelCount": 0,
+	    "publicModelCount": 0,
+	    "publisher": "string",
+	    "ratingAverageTenths": 0,
+	    "ratingCount": 0,
+	    "refreshInterval": 0,
+	    "revisions": [
+	    	{
+		        "accessTypeCode": "PB",
+		        "authors": "My name\tMy contact",
+		        "created": "2018-10-17T19:34:23.750Z",
+		        "description": "string",
+		        "metadata": "string",
+		        "modified": "2018-10-17T19:34:23.750Z",
+		        "origin": "<origin url>",
+		        "publisher": "My company",
+		        "revisionId": "<revision id>",
+		        "solutionId": "<solution id>",
+		        "sourceId": "<source id>",
+		        "userId": "<user id>",
+		        "validationStatusCode": "NV",
+		        "version": "v1.0"
+	    	}
+	    ],
+	    "selector": "string",
+	    "size": 0,
+	    "solutionId": "string",
+	    "solutionRating": 0,
+	    "solutionRatingAvg": 0,
+	    "solutionTag": "string",
+	    "solutionTagList": [
+	    	{
+	        	"tag": "Classification"
+	    	}
+	    ],
+	    "sortingOrder": "string",
+	    "threadId": "string",
+	    "threadList": [
+	    	{
+		        "revisionId": "<revision id>",
+		        "solutionId": "<solution id>",
+		        "threadId": "<thread id>",
+		        "title": "string"
+	    	}
+	    ],
+	    "tookitType": "string",
+	    "tookitTypeName": "string",
+	    "validationStatusCode": "string",
+	    "viewCount": 0
+	}
+
+
+
 Project Tools
 =============
 
