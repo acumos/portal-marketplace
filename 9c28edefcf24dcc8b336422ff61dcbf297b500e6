@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "698e4a45_c3af48f8",
+        "filename": "acumos-portal-fe/src/main/webapp/app/design-studio/design-studio.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2018-10-18T13:39:58Z",
+      "side": 1,
+      "message": "This cannot be hard coded",
+      "revId": "9c28edefcf24dcc8b336422ff61dcbf297b500e6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
