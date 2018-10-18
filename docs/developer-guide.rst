@@ -597,7 +597,980 @@ given by the end users.
 
     }
 
+Notification Service
+====================
 
+Operation Name - Notification Count
+-----------------------------------
+
+**- Trigger**
+
+Gets Notifications count for Market Place Catalog.
+
+**- Request**
+
+    {  }
+
+**- Response**
+
+    {
+    "count": "<count>",
+    "end": "2018-10-17T18:54:27.130Z",
+    "message": "<message>",
+    "notificationId": "<notificationId>",
+    "start": "2018-10-17T18:54:27.130Z",
+    "title": "<title>",
+    "url": "<url>"
+    }
+
+Operation Name - Create Notification
+------------------------------------
+
+**- Trigger**
+
+Create notification
+
+**- Request**
+  
+  {
+  "mlpNotification" : {
+    "request_body": {
+	    "created": "2018-10-17T18:54:27.181Z",
+	    "end": "1521202458867",
+	    "message": "<message>",
+	    "modified": "2018-10-17T18:54:27.181Z",
+	    "msgSeverityCode": "LO",
+	    "notificationId": "<Notification ID",
+	    "start": "1521202458867",
+	    "title": "<Notification title/subject>",
+	    "url": "<url>"
+      },
+    "request_from": "<request from>",
+    "request_id": "<request id>"
+     }
+    }
+
+**- Response**
+
+  {
+  "accessType": "<access Type>",
+  "active": true,
+  "commentId": "<comment Id>",
+  "commentsCount": <comments Count>,
+  "companyModelCount": <companyModel Count>,
+  "created": "2018-10-17T18:54:27.167Z",
+  "deletedModelCount": <deleted Model Count>,
+  "description": "<description>",
+  "downloadCount": <download Count>,
+  "errorDetails": "<errorDetails>",
+  "latestRevisionId": "<latest Revision Id>",
+  "loginName": "<login Name>",
+  "metadata": "<metadata>",
+  "modelType": "<model Type>",
+  "modelTypeName": "<model Type Name>",
+  "modified": "2018-10-17T18:54:27.167Z",
+  "name": "<name>",
+  "onboardingStatusFailed": true,
+  "ownerId": "<owner Id>",
+  "ownerListForSol": [
+    {
+      "active": "<active>",
+      "admin": true,
+      "apiTokenHash": "<apiToken Hash>",
+      "bulkUpdate": "<bulk Update String>",
+      "created": "2018-10-17T18:54:27.167Z",
+      "emailId": "<emailId>",
+      "firstLogin": true,
+      "firstName": "<first Name>",
+      "jwtToken": "jwt Token",
+      "jwttoken": "jwt token",
+      "lastLogin": "2018-10-17T18:54:27.167Z",
+      "lastName": "<last Name>",
+      "loginName": "<login Name>",
+      "loginPassExpire": true,
+      "modified": "2018-10-17T18:54:27.167Z",
+      "orgName": "<org Name>",
+      "password": "<password>",
+      "picture": [
+        "string"
+      ],
+      "publisher": true,
+      "role": "<role>",
+      "roleId": "<role Id>",
+      "status": "<status>",
+      "tags": [
+        {
+          "tag": "Classification"
+        }
+      ],
+      "updatedRole": "<updated Role>",
+      "updatedRoleId": "<updated Role Id>",
+      "userAssignedRolesList": [
+        {
+          "active": false,
+          "created": "2018-10-17T18:54:27.167Z",
+          "modified": "2018-10-17T18:54:27.167Z",
+          "name": "My role",
+          "roleId": "<Role Id>"
+        }
+      ],
+      "userId": "<user Id>",
+      "userIdList": [
+        "string"
+      ],
+      "userNewRoleList": [
+        "string"
+      ],
+      "userRolesList": {},
+      "username": "<user name>",
+      "verifyToken": "<verify Token>"
+    }
+  ],
+  "ownerName": "<owner Name>",
+  "pageNo": 0,
+  "pendingApproval": true,
+  "picture": [
+    "string"
+  ],
+  "privateModelCount": 0,
+  "publicModelCount": 0,
+  "publisher": "<publisher>",
+  "ratingAverageTenths": 0,
+  "ratingCount": 0,
+  "refreshInterval": 0,
+  "revisions": [
+    {
+      "accessTypeCode": "PB",
+      "authors": "My name\tMy contact",
+      "created": "2018-10-17T18:54:27.167Z",
+      "description": "string",
+      "metadata": "string",
+      "modified": "2018-10-17T18:54:27.167Z",
+      "origin": "http://acumos.remote.com/a/b/c",
+      "publisher": "My company",
+      "revisionId": "<revisionId>",
+      "solutionId": "<solutionId>",
+      "sourceId": "<source Id>",
+      "userId": "<user Id>",
+      "validationStatusCode": "NV",
+      "version": "v1.0"
+    }
+  ],
+  "selector": "<selector>",
+  "size": 0,
+  "solutionId": "<solution Id>",
+  "solutionRating": 0,
+  "solutionRatingAvg": 0,
+  "solutionTag": "<solution Tag>",
+  "solutionTagList": [
+    {
+      "tag": "Classification"
+    }
+  ],
+  "sortingOrder": "<sorting Order>",
+  "threadId": "<thread Id>",
+  "threadList": [
+    {
+      "revisionId": "<revision Id>",
+      "solutionId": "<solution Id>",
+      "threadId": "<thread Id>",
+      "title": "<title>"
+    }
+  ],
+  "tookitType": "<tookit Type>",
+  "tookitTypeName": "<tookit Type Name>",
+  "validationStatusCode": "<validation Status Code>",
+  "viewCount": 0
+  }
+    
+Operation Name - Delete Notification
+------------------------------------
+
+**- Trigger**
+
+Delete Notification.
+
+**- Request**
+
+   {
+   "notificationId" :"<notification Id>"  
+   }
+
+**- Response**
+
+    {
+    "count": "<count>",
+    "end": "2018-10-17T18:54:27.130Z",
+    "message": "<message>",
+    "notificationId": "<notificationId>",
+    "start": "2018-10-17T18:54:27.130Z",
+    "title": "<title>",
+    "url": "<url>"
+    }
+    
+Operation Name - Drop Notification
+------------------------------------
+
+**- Trigger**
+
+Drop Notification.
+
+**- Request**
+
+   {
+   "notificationId" :"<notification Id>",
+   "userId" : "<user Id>"
+   }
+
+**- Response**
+
+    {
+    "count": "<count>",
+    "end": "2018-10-17T18:54:27.130Z",
+    "message": "<message>",
+    "notificationId": "<notificationId>",
+    "start": "2018-10-17T18:54:27.130Z",
+    "title": "<title>",
+    "url": "<url>"
+    }
+    
+Operation Name - Notifications
+------------------------------
+
+**- Trigger**
+
+Gets a list of Paginated Notifications for Market Place Catalog.
+
+**- Request**
+
+   {  }
+
+**- Response**
+
+    {
+    "count": "<count>",
+    "end": "2018-10-17T18:54:27.130Z",
+    "message": "<message>",
+    "notificationId": "<notificationId>",
+    "start": "2018-10-17T18:54:27.130Z",
+    "title": "<title>",
+    "url": "<url>"
+    }
+  
+Operation Name - Notification Preference By UserId
+--------------------------------------------------
+
+**- Trigger**
+
+Notification Preference By UserId
+
+**- Request**
+
+   {
+   "userId" : "<user Id>"
+   }
+
+**- Response**
+
+  {
+    "msgSeverityCode": "LO",
+    "notfDelvMechCode": "EM",
+    "userId": "<User ID>",
+    "userNotifPrefId": 0
+  }
+  
+Operation Name - Create Notification Preference
+-----------------------------------------------
+
+**- Trigger**
+
+Create Notification Preference
+
+**- Request**
+
+  {
+  "request_body": {
+    "msgSeverityCode": "<msgSeverityCode>",
+    "notfDelvMechCode": "<notfDelvMechCode>",
+    "userId": "string",
+    "userNotifPrefId": 0
+     },
+  "request_from": "request from",
+  "request_id": "<request Id>"
+  }
+
+**- Response**
+
+  {
+    "msgSeverityCode": "LO",
+    "notfDelvMechCode": "EM",
+    "userId": "<User ID>",
+    "userNotifPrefId": 0
+  }
+  
+Operation Name - View Notification
+----------------------------------
+
+**- Trigger**
+
+Notification viewed by user
+
+**- Request**
+  {
+  "mlNotification" : "<notification Id>"
+  "userId" : "<user Id>"
+  }
+
+**- Response**
+
+  {
+   Response: 
+  }
+  
+Thread Service
+====================
+
+Operation Name - Create Comments Thread
+---------------------------------------
+
+**- Trigger**
+
+Create Comments Thread
+
+**- Request**
+
+  {
+  "mlpComment" :
+  {
+  "request_body": {
+    "commentId": "<comment Id>",
+    "created": "2018-10-17T16:09:53.261Z",
+    "modified": "2018-10-17T16:09:53.261Z",
+    "parentId": "<parent Id>",
+    "text": "Best model ever",
+    "threadId": "<thread Id>",
+    "userId": "<user Id>"
+   },
+  "request_from": "<request from>",
+  "request_id": "<request Id>"
+  }
+  }
+  
+**- Response**
+
+  {
+  "commentId": "<comment Id>",
+  "created": "2018-10-17T16:09:53.259Z",
+  "modified": "2018-10-17T16:09:53.259Z",
+  "parentId": "<parent Id>",
+  "text": "Best model ever",
+  "threadId": "<thread Id>",
+  "userId": "<user Id>"
+  }
+
+Operation Name - Delete Comments
+--------------------------------
+
+**- Trigger**
+
+Delete Comments
+
+**- Request**
+
+  {
+  "threadId" : "<thread Id>"
+  "commentId" : "<comment Id>"
+  }
+  
+**- Response**
+
+  {
+  "commentId": "<comment Id>",
+  "created": "2018-10-17T16:09:53.259Z",
+  "modified": "2018-10-17T16:09:53.259Z",
+  "parentId": "<parent Id>",
+  "text": "Best model ever",
+  "threadId": "<thread Id>",
+  "userId": "<user Id>"
+  }
+  
+
+Operation Name - Update Comments
+--------------------------------
+
+**- Trigger**
+
+Update Comments
+
+**- Request**
+
+  {
+  "mlpComment" :
+  {
+  "request_body": {
+    "commentId": "<comment Id>",
+    "created": "2018-10-17T16:09:53.261Z",
+    "modified": "2018-10-17T16:09:53.261Z",
+    "parentId": "<parent Id>",
+    "text": "Best model ever",
+    "threadId": "<thread Id>",
+    "userId": "<user Id>"
+   },
+  "request_from": "<request from>",
+  "request_id": "<request Id>"
+  }
+  }
+  
+**- Response**
+
+  {
+  "commentId": "<comment Id>",
+  "created": "2018-10-17T16:09:53.259Z",
+  "modified": "2018-10-17T16:09:53.259Z",
+  "parentId": "<parent Id>",
+  "text": "Best model ever",
+  "threadId": "<thread Id>",
+  "userId": "<user Id>"
+  }
+
+Operation Name - Get Comments
+--------------------------------
+
+**- Trigger**
+
+Get Comments
+
+**- Request**
+
+  {
+  "threadId" : "<thread Id>",
+  "commentId" : "<comment Id>"
+  }
+  
+**- Response**
+
+  {
+  "commentId": "<comment Id>",
+  "created": "2018-10-17T16:09:53.259Z",
+  "modified": "2018-10-17T16:09:53.259Z",
+  "parentId": "<parent Id>",
+  "text": "Best model ever",
+  "threadId": "<thread Id>",
+  "userId": "<user Id>"
+  }
+
+
+Operation Name - Thread
+-----------------------
+
+**- Trigger**
+
+Gets a list of Threads
+
+**- Request**
+
+  {
+  "mlpthread" : 
+  {
+  "request_body": {
+    "fieldToDirectionMap": {},
+    "page": 0,
+    "size": 0
+  },
+  "request_from": "<request from>",
+  "request_id": "<request Id>"
+  }
+  }
+  
+**- Response**
+
+  {
+  "allTagsSet": [
+    "string"
+  ],
+  "async": {
+    "cancelled": true,
+    "done": true
+  },
+  "commentsCount": 0,
+  "commentsList": [
+    {
+      "commentId": "<Comment Id>",
+      "created": "2018-10-17T16:09:53.281Z",
+      "modified": "2018-10-17T16:09:53.281Z",
+      "parentId": "<Parent Id>",
+      "text": "Best model ever",
+      "threadId": "<Thread Id>",
+      "userId": "<User Id>"
+    }
+  ],
+  "companyModelCount": 0,
+  "content": [
+    {}
+  ],
+  "deletedModelCount": 0,
+  "filteredTagSet": [
+    "string"
+  ],
+  "first": true,
+  "jwtToken": "<jwt Token>",
+  "last": true,
+  "modelsSharedWithUser": [
+    {
+      "active": false,
+      "created": "2018-10-17T16:09:53.281Z",
+      "description": "string",
+      "metadata": "<metadata>",
+      "modelTypeCode": "CL",
+      "modified": "2018-10-17T16:09:53.281Z",
+      "name": "My solution",
+      "origin": "<origin>",
+      "picture": [
+        "string"
+      ],
+      "solutionId": "<Solution Id>",
+      "sourceId": "<Source Id>",
+      "tags": [
+        {
+          "tag": "Classification"
+        }
+      ],
+      "toolkitTypeCode": "SK",
+      "userId": "<User Id>",
+      "webStats": {
+        "downloadCount": 0,
+        "featured": true,
+        "lastDownload": "2018-10-17T16:09:53.281Z",
+        "ratingAverageTenths": 0,
+        "ratingCount": 0,
+        "solutionId": "<solution Id>",
+        "viewCount": 0
+      }
+    }
+  ],
+  "number": 0,
+  "numberOfElements": 0,
+  "pageCount": 0,
+  "prefTags": [
+    {}
+  ],
+  "privateModelCount": 0,
+  "publicModelCount": 0,
+  "requestList": [
+    {
+      "action": "<action>",
+      "date": "2018-10-17T16:09:53.281Z",
+      "requestId": "<request Id>",
+      "requestType": "<request Type>",
+      "requestedDetails": "<requested Details>",
+      "sender": "<sender>",
+      "status": "<status>"
+    }
+  ],
+  "responseObject": {
+    "admin": true,
+    "firstLogin": true,
+    "jwtToken": "<jwt Token>",
+    "loginPassExpire": true,
+    "publisher": true,
+    "userAssignedRolesList": [
+      {
+        "active": false,
+        "created": "2018-10-17T16:09:53.281Z",
+        "modified": "2018-10-17T16:09:53.281Z",
+        "name": "My role",
+        "roleId": "<Role ID>"
+      }
+    ]
+  },
+  "size": 0,
+  "sort": {},
+  "tags": [
+    "string"
+  ],
+  "threadCount": 0,
+  "threads": [
+    {
+      "revisionId": "<revisionId>",
+      "solutionId": "<solutionId>",
+      "threadId": "<threadId>",
+      "title": "<title>"
+    }
+  ],
+  "totalElements": 0,
+  "totalPages": 0,
+  "userList": [
+    {
+      "active": "string",
+      "admin": true,
+      "apiTokenHash": "<apiToken Hash>",
+      "bulkUpdate": "<bulkUpdate>",
+      "created": "2018-10-17T16:09:53.281Z",
+      "emailId": "<emailId>",
+      "firstLogin": true,
+      "firstName": "<first Name>",
+      "jwtToken": "<jw tToken>",
+      "jwttoken": "<jwt token>",
+      "lastLogin": "2018-10-17T16:09:53.281Z",
+      "lastName": "<last Name>",
+      "loginName": "<login Name>",
+      "loginPassExpire": true,
+      "modified": "2018-10-17T16:09:53.281Z",
+      "orgName": "<org Name>",
+      "password": "<password>",
+      "picture": [
+        "string"
+      ],
+      "publisher": true,
+      "role": "<role>",
+      "roleId": "<role Id>",
+      "status": "<status>",
+      "tags": [
+        {
+          "tag": "Classification"
+        }
+      ],
+      "updatedRole": "<updated Role>",
+      "updatedRoleId": "<updated RoleId>",
+      "userAssignedRolesList": [
+        {
+          "active": false,
+          "created": "2018-10-17T16:09:53.281Z",
+          "modified": "2018-10-17T16:09:53.281Z",
+          "name": "My role",
+          "roleId": "<Role Id>"
+        }
+      ],
+      "userId": "string",
+      "userIdList": [
+        "string"
+      ],
+      "userNewRoleList": [
+        "string"
+      ],
+      "userRolesList": {},
+      "username": "<user name>",
+      "verifyToken": "<verifyToken>"
+    }
+  ]
+  }
+
+
+Operation Name - Thread Count
+-----------------------------
+
+**- Trigger**
+
+Create Comments Thread
+
+**- Request**
+
+  {   }
+  
+**- Response**
+
+  {
+  "revisionId": "<revisionId>",
+  "solutionId": "<solutionId>",
+  "threadId": "<threadId>",
+  "title": "<title>"
+  }
+
+Operation Name - Create Thread
+------------------------------
+
+**- Trigger**
+
+Create Thread
+
+**- Request**
+
+  {
+  "mlpthread" : {
+  "request_body": {
+    "revisionId": "<revisionId>",
+    "solutionId": "<solutionId>",
+    "threadId": "<threadId>",
+    "title": "string"
+  },
+  "request_from": "<request from>",
+  "request_id": "<request Id>"
+  }
+  }
+  
+**- Response**
+
+  {
+  "revisionId": "<revisionId>",
+  "solutionId": "<solutionId>",
+  "threadId": "<threadId>",
+  "title": "<title>"
+  }
+
+Operation Name - Delete Thread
+------------------------------
+
+**- Trigger**
+
+Delete Thread
+
+**- Request**
+
+  {
+  "threadId" : "<thread Id>"
+  }
+  
+**- Response**
+
+  {
+  "revisionId": "<revisionId>",
+  "solutionId": "<solutionId>",
+  "threadId": "<threadId>",
+  "title": "<title>"
+  }
+
+  
+Operation Name - Update Thread
+------------------------------
+
+**- Trigger**
+
+Update Thread
+
+**- Request**
+
+  {
+  "request_body": {
+    "revisionId": "<revisionId>",
+    "solutionId": "<solutionId>",
+    "threadId": "<threadId>",
+    "title": "<title>"
+  },
+  "request_from": "<request from>",
+  "request_id": "<request Id>"
+  }
+  
+**- Response**
+
+  {
+  "revisionId": "<revisionId>",
+  "solutionId": "<solutionId>",
+  "threadId": "<threadId>",
+  "title": "<title>"
+  }
+  
+Operation Name - Threads according to solution and revision id
+--------------------------------------------------------------
+
+**- Trigger**
+
+Gets a list of Threads according to solution and revision id's
+
+**- Request**
+
+  {
+  "solutionId": "<solution Id>",
+  "revisionId": "<revision Id>",
+  "restPageReq": "<restPageReq>"
+  }
+  
+**- Response**
+
+  {
+  "allTagsSet": [
+    "string"
+  ],
+  "async": {
+    "cancelled": true,
+    "done": true
+  },
+  "commentsCount": 0,
+  "commentsList": [
+    {
+      "commentId": "<Comment id>",
+      "created": "2018-10-17T16:09:53.311Z",
+      "modified": "2018-10-17T16:09:53.311Z",
+      "parentId": "<parent id>",
+      "text": "Best model ever",
+      "threadId": "<thread Id>",
+      "userId": "<user id>"
+    }
+  ],
+  "companyModelCount": 0,
+  "content": [
+    {}
+  ],
+  "deletedModelCount": 0,
+  "filteredTagSet": [
+    "string"
+  ],
+  "first": true,
+  "jwtToken": "<jwt Token>",
+  "last": true,
+  "modelsSharedWithUser": [
+    {
+      "active": false,
+      "created": "2018-10-17T16:09:53.311Z",
+      "description": "<description>",
+      "metadata": "<metadata>",
+      "modelTypeCode": "CL",
+      "modified": "2018-10-17T16:09:53.311Z",
+      "name": "My solution",
+      "origin": "<origin>",
+      "picture": [
+        "string"
+      ],
+      "solutionId": "<solution Id>",
+      "sourceId": "<Source Id>",
+      "tags": [
+        {
+          "tag": "Classification"
+        }
+      ],
+      "toolkitTypeCode": "SK",
+      "userId": "<user Id>",
+      "webStats": {
+        "downloadCount": 0,
+        "featured": true,
+        "lastDownload": "2018-10-17T16:09:53.311Z",
+        "ratingAverageTenths": 0,
+        "ratingCount": 0,
+        "solutionId": "<solution Id>",
+        "viewCount": 0
+      }
+    }
+  ],
+  "number": 0,
+  "numberOfElements": 0,
+  "pageCount": 0,
+  "prefTags": [
+    {}
+  ],
+  "privateModelCount": 0,
+  "publicModelCount": 0,
+  "requestList": [
+    {
+      "action": "<action>",
+      "date": "2018-10-17T16:09:53.311Z",
+      "requestId": "<request Id>",
+      "requestType": "<request Type>",
+      "requestedDetails": "<requested Details>",
+      "sender": "<sender>",
+      "status": "<status>"
+    }
+  ],
+  "responseObject": {
+    "admin": true,
+    "firstLogin": true,
+    "jwtToken": "string",
+    "loginPassExpire": true,
+    "publisher": true,
+    "userAssignedRolesList": [
+      {
+        "active": false,
+        "created": "2018-10-17T16:09:53.311Z",
+        "modified": "2018-10-17T16:09:53.311Z",
+        "name": "My role",
+        "roleId": "<role Id>"
+      }
+    ]
+  },
+  "size": 0,
+  "sort": {},
+  "tags": [
+    "string"
+  ],
+  "threadCount": 0,
+  "threads": [
+    {
+      "revisionId": "<revisionId>",
+      "solutionId": "<solutionId>",
+      "threadId": "<threadId>",
+      "title": "<title>"
+    }
+  ],
+  "totalElements": 0,
+  "totalPages": 0,
+  "userList": [
+    {
+      "active": "string",
+      "admin": true,
+      "apiTokenHash": "<apiToken Hash>",
+      "bulkUpdate": "<bulk Update>",
+      "created": "2018-10-17T16:09:53.311Z",
+      "emailId": "<email Id>",
+      "firstLogin": true,
+      "firstName": "<first Name>",
+      "jwtToken": "<jwt Token>",
+      "jwttoken": "<jwt token>",
+      "lastLogin": "2018-10-17T16:09:53.311Z",
+      "lastName": "<last Name>",
+      "loginName": "<login Name>",
+      "loginPassExpire": true,
+      "modified": "2018-10-17T16:09:53.311Z",
+      "orgName": "<org Name>",
+      "password": "<password>",
+      "picture": [
+        "string"
+      ],
+      "publisher": true,
+      "role": "<role>",
+      "roleId": "<role Id>",
+      "status": "<status>",
+      "tags": [
+        {
+          "tag": "Classification"
+        }
+      ],
+      "updatedRole": "<updated Role>",
+      "updatedRoleId": "<updated RoleId>",
+      "userAssignedRolesList": [
+        {
+          "active": false,
+          "created": "2018-10-17T16:09:53.311Z",
+          "modified": "2018-10-17T16:09:53.311Z",
+          "name": "My role",
+          "roleId": "<role Id>"
+        }
+      ],
+      "userId": "<user Id>",
+      "userIdList": [
+        "string"
+      ],
+      "userNewRoleList": [
+        "string"
+      ],
+      "userRolesList": {},
+      "username": "<user name>",
+      "verifyToken": "<verify Token>"
+    }
+  ]
+}
+
+
+  
+Operation Name - Comments Count Thread
+--------------------------------------
+
+**- Trigger**
+
+Get the count of Threads
+
+**- Request**
+
+  {
+  "threadId": "<thread Id>"
+  }
+  
+**- Response**
+
+  {
+  "revisionId": "<revisionId>",
+  "solutionId": "<solutionId>",
+  "threadId": "<threadId>",
+  "title": "<Title>"
+  }
+  
 Project Tools
 =============
 
