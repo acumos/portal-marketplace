@@ -147,15 +147,15 @@ limitations under the License.
 						<td><div class="a-tooltip publishreq-tooltip"><span
 								class="a-tooltipval">View</span> <span class="a-tooltiptext publish-tooltip">{{publishReq.comment}}</span>
 						</div></td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'">
 							<div class="admin-action-container">
-								<button name="approvePublishRequestModal"
+								<button ng-disabled="(publishOwnRequestsEnabled == 'false' && loginUserID == publishReq.requestUserId )" name="approvePublishRequestModal"
 									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)'}"
 									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'approve',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-approve"></span>
 								</button>
-								<button name="declinePublishRequestModal"
+								<button ng-disabled="(publishOwnRequestsEnabled == 'false' && loginUserID == publishReq.requestUserId )"  name="declinePublishRequestModal"
 									ng-style="publishReq.requestStatusName !== 'Pending'&&{'-webkit-filter': 'grayscale(100%)', 'filter': 'grayscale(100%)'}"
 									ng-click="publishReq.requestStatusName !== 'Pending'||showModalPublishReq($index, 'decline',publishReq.solutionName, publishReq.publishRequestId)"
 									class="mdl-button mdl-js-button mdl-button--icon">

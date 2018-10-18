@@ -128,6 +128,13 @@ angular
 												$scope.SetDataLoaded = false;
 												$rootScope.setLoader = false;
 										});
+							
+							
+							apiService.isPublishOwnRequestsEnabled().then(function(response) {
+								
+								$scope.publishOwnRequestsEnabled = response.data.response_body;
+								
+							});
 						}
 						if($scope.loginUserID)
 							$scope.loadPublishRequest(0);
