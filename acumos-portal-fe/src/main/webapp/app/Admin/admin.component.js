@@ -214,17 +214,15 @@ angular.module('admin').filter('abs', function() {
 					function(response) {
 						$scope.isSelfTrue = false;
 						$scope.activeCount = 0;
-						$scope.peer2 =[];
-						$scope.peer = response.data.response_body.content;
-						angular.forEach($scope.peer, function(value, key) {
+						$scope.peer2 = response.data.response_body.content;
+						angular.forEach($scope.peer2, function(value, key) {
                                                 if(value.statusCode == "AC"){
                                                     $scope.activeCount = $scope.activeCount+1;
                                                     value["StatusName"] = "Active";
                                                 }else if(value.statusCode == "IN"){
                                                     value["StatusName"] = "Inactive";
                                                 }
-                                                $scope.peer2.push(value);
-
+                                                
                                               	});
 						$scope.peer = $scope.peer2;
 					},
@@ -717,6 +715,7 @@ angular.module('admin').filter('abs', function() {
                       $scope.editPeer = function(peerDetail){
                     	  $scope.verified = null; $scope.errorMessage = "";
                     	  $scope.verify = true;
+                    	  $scope.isSelfTrue = peerDetail.self;
                     	  $scope.itsEdit = true;$scope.peerStatus = peerDetail.statusCode;
                     	  $scope.editPeerID = peerDetail.peerId;
                     	  $scope.peerNamePop = peerDetail.name;$scope.subNamePop = peerDetail.subjectName;$scope.emailIdPop = peerDetail.contact1;
@@ -755,7 +754,7 @@ angular.module('admin').filter('abs', function() {
                       $scope.updatePeer = function(val){
                     	  if(val == 'detail'){
                     		  var peerDetails = {"request_body": {	
-                    			/* "self" : $scope.self,*/
+                    			"self" : $scope.isSelfTrue,
                 				"apiUrl": $scope.apiUrlPop,
               				    "contact1": $scope.emailIdPop,
               				    "description": $scope.descriptionPop,
