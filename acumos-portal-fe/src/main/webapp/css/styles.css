@@ -349,7 +349,7 @@ md-dialog .md-dialog-content {padding: 20px;}
 .md-grid-list.mpgridlist md-grid-tile md-grid-tile-header {height: auto;}
 
 .mp-grid-list {display: block; clear:both;}
-.mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 10px; border: 1px dashed #d5d5d5; max-width: 70%;margin: 10px 0;}
+.mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 10px; border: 1px dashed #d5d5d5; max-width: 70%;margin: 10px 0;min-height: 158px;}
 .mp-grid-list-row:last-child {padding-top:10px;}
 .mp-grid-list-image-cell { width: 160px;position:relative; margin-right: 30px;max-height: 138px; min-height: 100px;}
 .mp-grid-list-details-cell {}
