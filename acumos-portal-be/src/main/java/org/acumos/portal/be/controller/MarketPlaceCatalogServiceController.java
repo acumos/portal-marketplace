@@ -210,6 +210,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> updateSolutionDetails(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("solutionId") String solutionId, @RequestBody JsonRequest<MLSolution> mlSolution) {
 		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionDetails={}", solutionId);
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -340,6 +343,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> addSolutionTag(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("tag") String tag,
 			HttpServletResponse response) {
+		
+		 solutionId = SanitizeUtils.sanitize(solutionId);
+		 //tag = SanitizeUtils.sanitize(tag);
+		 
 		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -365,6 +372,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> dropSolutionTag(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("tag") String tag,
 			HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		//tag = SanitizeUtils.sanitize(tag);
+		
 		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -475,6 +486,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> getTagsSolutions(@PathVariable("tags") String tags,
 			@RequestBody JsonRequest<RestPageRequestBE> restPageReq) {
+		
+		//tags = SanitizeUtils.sanitize(tags);
+		
 		// List<MLSolution> mlSolutions = null;
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		// JsonResponse<List<MLSolution>> data = null;
@@ -502,6 +516,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getSolutionUserAccess(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		
 		List<User> userList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
@@ -542,6 +559,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<User> addSolutionUserAccess(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @RequestBody JsonRequest<List<String>> userId,
 			HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		
 		JsonResponse<User> data = new JsonResponse<>();
 		List<User> userList = new ArrayList<>();
 		boolean exist = false;
@@ -598,6 +618,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<User> dropSolutionUserAccess(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("userId") String userId,
 			HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		userId = SanitizeUtils.sanitize(userId);
+		
 		JsonResponse<User> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(userId)) {
@@ -1271,6 +1295,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
+		accessType = SanitizeUtils.sanitize(accessType);
 
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
@@ -1305,6 +1330,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLPDocument> removeRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
 			@PathVariable String accessType, @PathVariable String documentId, HttpServletResponse response) {
 
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		accessType = SanitizeUtils.sanitize(accessType);
+		documentId = SanitizeUtils.sanitize(documentId);
+		
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
@@ -1328,6 +1358,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<List<MLPDocument>> getRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
 			@PathVariable String accessType,  HttpServletResponse response) {
 
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		accessType = SanitizeUtils.sanitize(accessType);
+		
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
@@ -1351,6 +1385,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<List<MLPDocument>> copyRevisionDocuments(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
 			@PathVariable String accessType, @PathVariable String fromRevisionId,  HttpServletResponse response) {
 
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		accessType = SanitizeUtils.sanitize(accessType);
+		fromRevisionId = SanitizeUtils.sanitize(fromRevisionId);
+		
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
@@ -1374,6 +1413,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<RevisionDescription> getSolRevDescription(HttpServletRequest request, @PathVariable String revisionId,
 			@PathVariable String accessType, HttpServletResponse response) {
 
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		accessType = SanitizeUtils.sanitize(accessType);
+		
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
@@ -1397,6 +1439,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request, @PathVariable String revisionId,
 			@PathVariable String accessType, @RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
 
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		accessType = SanitizeUtils.sanitize(accessType);
+		
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		RevisionDescription description = revisionDescription.getBody();
@@ -1420,6 +1465,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
     @ResponseBody
     public JsonResponse updateSolutionImage(HttpServletRequest request, @RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
         log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionImage={}");
+        
+        solutionId = SanitizeUtils.sanitize(solutionId);
+        
         JsonResponse<MLSolution> responseVO = new JsonResponse<>();
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {

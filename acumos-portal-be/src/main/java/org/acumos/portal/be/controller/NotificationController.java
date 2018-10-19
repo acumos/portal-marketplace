@@ -40,6 +40,7 @@ import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -148,6 +149,9 @@ public class NotificationController extends AbstractController {
 	public JsonResponse<List<MLPUserNotification>> getUserNotifications(HttpServletRequest request,
 			@PathVariable("userId") String userId, @RequestBody JsonRequest<RestPageRequest> restPageReq,
 			HttpServletResponse response) {
+		
+		userId = SanitizeUtils.sanitize(userId);
+		
 		JsonResponse<List<MLPUserNotification>> data = new JsonResponse<>();
 		try {
 			List<MLPUserNotification> mlNotificationList = notificationService.getUserNotifications(userId,
@@ -354,7 +358,10 @@ public class NotificationController extends AbstractController {
 	   @ResponseBody
 	   public JsonResponse<List<MLUserNotifPref>> getUserNotifPrefByUserId(HttpServletRequest request,
 	           @PathVariable("userId") String userId, HttpServletResponse response) {
-	       JsonResponse<List<MLUserNotifPref>> data = new JsonResponse<>();
+	       
+		userId = SanitizeUtils.sanitize(userId);
+		
+		JsonResponse<List<MLUserNotifPref>> data = new JsonResponse<>();
 	       try {
 	           List<MLUserNotifPref> mlUserNotifPrefList = notificationService.getUserNotifPrefByUserId(userId);
 	           if (mlUserNotifPrefList != null) {
