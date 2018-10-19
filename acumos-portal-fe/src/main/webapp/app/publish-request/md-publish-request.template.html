@@ -144,8 +144,10 @@ limitations under the License.
 							'text-red': publishReq.requestStatusName == 'Declined',
 							'text-orange': publishReq.requestStatusName == 'Withdrawn'}">{{publishReq.requestStatusName}}</label>
 						</td>
-						<td><div class="a-tooltip publishreq-tooltip"><span
+						<td><div ng-if="publishReq.comment" class="a-tooltip publishreq-tooltip"><span
 								class="a-tooltipval">View</span> <span class="a-tooltiptext publish-tooltip">{{publishReq.comment}}</span>
+						</div><div ng-hide="publishReq.comment" class="a-tooltip publishreq-tooltip"><label
+								class="a-tooltipval">N/A</label>
 						</div></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'">
 							<div class="admin-action-container">
