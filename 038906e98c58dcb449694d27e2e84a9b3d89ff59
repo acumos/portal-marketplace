@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a79c0065_cb953e9a",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.\nhttp://docutils.sourceforge.net/docs/user/rst/quickstart.html#sections",
+      "range": {
+        "startLine": 602,
+        "startChar": 30,
+        "endLine": 602,
+        "endChar": 42
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1049638_7942efd5",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 625,
+        "startChar": 37,
+        "endLine": 625,
+        "endChar": 42
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d5cb5b2_ddc86766",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 776,
+        "startChar": 0,
+        "endLine": 777,
+        "endChar": 42
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e01a374d_5f9f8932",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 809,
+        "startChar": 25,
+        "endLine": 809,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12206fab_4cb22c16",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 869,
+        "startChar": 30,
+        "endLine": 869,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea070225_43a333fe",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 911,
+        "startChar": 30,
+        "endLine": 911,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54bedc79_e46e0b61",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 985,
+        "startChar": 30,
+        "endLine": 985,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8822bf7_10719675",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 1024,
+        "startChar": 30,
+        "endLine": 1024,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6876a6e5_0ca12122",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 1230,
+        "startChar": 25,
+        "endLine": 1230,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f9acee0_327b84b8",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 1303,
+        "startChar": 28,
+        "endLine": 1303,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6726595d_bbcd530d",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 1341,
+        "startChar": 29,
+        "endLine": 1341,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "732fc65c_a53fb35b",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 1724,
+        "startChar": 57,
+        "endLine": 1724,
+        "endChar": 60
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a873d5_d35060d2",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1809,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "Please remove the extra dashes. The dashed line should be the length as the line above it.",
+      "range": {
+        "startLine": 1809,
+        "startChar": 32,
+        "endLine": 1809,
+        "endChar": 35
+      },
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a21dad4_2cb64dc9",
+        "filename": "docs/developer-guide.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1869,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-10-22T16:14:52Z",
+      "side": 1,
+      "message": "please extend the dashed line so it is the same length as the text line above it",
+      "revId": "038906e98c58dcb449694d27e2e84a9b3d89ff59",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
