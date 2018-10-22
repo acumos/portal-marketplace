@@ -597,6 +597,135 @@ given by the end users.
 
     }
 
+Operation Name - Get cas/enabled
+-----------------------------------
+
+**- Trigger:**
+
+	This GET API is used to check if CAS (Linux Foundation) login is enabled or not.
+
+**- Request:**
+
+	{
+
+	}
+
+**- Response:**
+
+	{
+	  "status": true,
+	  
+	  "status_code": 200,
+	  
+	  "response_detail": "Success",
+	  
+	  "response_code": null,
+	  
+	  "response_body": "true",
+	  
+	  "content": null,
+	  
+	  "error_code": null
+	  
+	}
+
+Operation Name - Get cas/serviceValidate
+-----------------------------------
+
+**- Trigger:**
+
+Gets the User Object from CAS api.
+
+**- Request:**
+	{
+
+	}
+
+**- Response:**
+
+	{
+
+	  "status": null,
+	  
+	  "status_code": 200,
+	  
+	  "response_detail": "Validation status updated Successfully",
+	  
+	  "response_code": null,
+	  
+	  "response_body": null,
+	  
+	  "content": {
+	  
+		"loginPassExpire": false,
+		
+		"userAssignedRolesList": null,
+		
+		"firstLogin": false,
+		
+		"firstName": "<firstName>",
+		
+		"lastName": "<lastName>",
+		
+		"emailId": "<emaiilid@email.com>",
+		
+		"username": "<username>",
+		
+		"password": null,
+		
+		"active": "true",
+		
+		"lastLogin": null,
+		
+		"created": 1539959157000,
+		
+		"modified": null,
+		
+		"userId": "<userId>",
+		
+		"loginName": null,
+		
+		"orgName": null,
+		
+		"picture": null,
+		
+		"jwttoken": "jwtToken",
+		
+		"role": null,
+		
+		"roleId": null,
+		
+		"updatedRole": null,
+		
+		"updatedRoleId": null,
+		
+		"userIdList": null,
+		
+		"userNewRoleList": null,
+		
+		"userRolesList": null,
+		
+		"bulkUpdate": null,
+		
+		"apiTokenHash": "450756ad8e40467caeaef008ac988544",
+		
+		"verifyToken": null,
+		
+		"status": "Active",
+		
+		"tags": [],
+		
+		"jwtToken": null,
+		
+		"admin": false,
+		
+		"publisher": false
+		
+	  },
+	  
+	  "error_code": null
+	  
+	}	
 
 Project Tools
 =============
