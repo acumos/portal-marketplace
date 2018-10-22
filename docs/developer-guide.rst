@@ -1,4 +1,4 @@
-.. ===============LICENSE_START=======================================================
+﻿.. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
 .. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
@@ -571,9 +571,9 @@ given by the end users.
 
     "request_body": {
 
-    "solutionId": "093b29ea-8d6b-407e-b3e9-4d52964ba902",
+    "solutionId": "<solutionID>",
 
-    "userId": "173cad03-7527-42c5-81cc-35bac96cbf05"
+    "userId": "<userID>"
 
     }
 
@@ -632,7 +632,7 @@ Gets list of Site configuration filtered with user's preferred tags.
 **- Request:**
 
 {
-“userId”:: “7cd47ca4-1c5d-4cdc-909c-f7c17367b4d4”
+“userId”:: “<userID>”
 }
 
 **- Response:**
@@ -680,7 +680,7 @@ Gets list of Site configuration filtered with user's preferred tags.
     },
     {
       "1": {
-        "name": "Test",
+        "name": "<name>",
 		
         "headline": "Testing",
 		
@@ -707,7 +707,7 @@ Gets list of Site configuration filtered with user's preferred tags.
     {
       "2": {
 	  
-        "name": "test14Sep18",
+        "name": "<name>",
 		
         "headline": "test",
 		
@@ -817,9 +817,9 @@ This api is used to validate user by accepting there emailid or username.return 
 {
  "request_body": {
 
-   "password": "Root@1234",
+   "password": "<passsword>",
 
-   "username": "techmdev"
+   "username": "<username>"
  }
 }
 
@@ -835,7 +835,7 @@ This api is used to validate user by accepting there emailid or username.return 
 	  
       "modified": 1538142743000,
 	  
-      "roleId": "497ddcfb-a15c-4729-8bf7-41a6ea4a33ed",
+      "roleId": "<roleID>",
 	  
       "name": "Publisher",
 	  
@@ -846,32 +846,16 @@ This api is used to validate user by accepting there emailid or username.return 
 	  
       "modified": 1538142622000,
 	  
-      "roleId": "8c850f07-4352-4afd-98b1-00cbceca569f",
+      "roleId": "<roleID>",
 	  
-      "name": "Admin",
+      "name": "<name>",
 	  
       "active": true
     }
   ],
   "firstLogin": false,
   
-   "jwtToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZWNobWRldiIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLC 
-   
-   Jyb2xlQ291bnQiOjAsInJvbGVJZCI6IjQ5N2RkY2ZiLWExNWMtNDcyOS04YmY3LTQxYTZlYTRhMzNlZCIsIm5hbWUiOiJQdWJsaXNoZXIiLCJhY3RpdmUiOnRydWUsImNyZWF0ZWQ
-   
-   iOjE1MzYzNjc1OTkwMDAsIm1vZGlmaWVkIjoxNTM4MTQyNzQzMDAwfV0sImNyZWF0ZWQiOjE1Mzk3NzA5NDY2MjIsImV4cCI6MTUzOTg1MDk0NiwibWxwdXNlciI6eyJjcmVhdGVkIjo
-   
-   xNTIwNTI2MjM4MDAwLCJtb2RpZmllZCI6MTUzOTc3MDk0NjQ4MCwidXNlcklkIjoiN2NkNDdjYTQtMWM1ZC00Y2RjLTkwOWMtZjdjMTczNjdiNGQ0IiwiZmlyc3ROYW1lIjoiVGV
-   
-   jaE0iLCJtaWRkbGVOYW1lIjpudWxsLCJsYXN0TmFtZSI6IkRldiIsIm9yZ05hbWUiOm51bGwsImVtYWlsIjoidGVjaG1AdGVjaG1haGluZHJhLmNvbSIsImxvZ2luTmFt
-   
-   ZSI6InRlY2htZGV2IiwibG9naW5IYXNoIjpudWxsLCJsb2dpblBhc3NFeHBpcmUiOm51bGwsImF1dGhUb2tlbiI6bnVsbCwiYWN0aXZlIjp0cnVlLCJsYXN0TG9naW4iO
-   
-   jE1Mzk3NzA5NDY0NzksImxvZ2luRmFpbENvdW50IjpudWxsLCJsb2dpbkZhaWxEYXRlIjpudWxsLCJwaWN0dXJlIjpudWxsLCJhcGlUb2tlbiI6ImE5YWM4M2Y2MjI2OTQ
-   
-   5NWRiNzg2MmU4ZThkZGNlY2U1IiwidmVyaWZ5VG9rZW5IYXNoIjpudWxsLCJ2ZXJpZnlFeHBpcmF0aW9uIjpudWxsLCJ0YWdzIjpbXX19.rNqJ6aafxtbfCNHeNg6t
-   
-   -p6SuE-kgmNeQI_A2Qpm9Rer6JP_F18EtHZZVC8XxB0g2ssUFWmIE2h-yBzDiosg1w",
+   "jwtToken": "<jwtTOKEN>",
    
   "admin": true,
   
@@ -889,9 +873,9 @@ Allows User to login to the Platform using emailId or username. Returns Success 
 
 {
  "request_body": {
-   "password": "Root@1234",
+   "password": "<password>",
    
-   "username": "techmdev"
+   "username": "<username>"
  }
 }
 
@@ -904,15 +888,15 @@ Allows User to login to the Platform using emailId or username. Returns Success 
 
   "firstLogin": false,
 
-  "firstName": "TechM",
+  "firstName": "<firstName>",
 
-  "lastName": "Dev",
+  "lastName": "<lastName>",
 
-  "emailId": "techm@techmahindra.com",
+  "emailId": "<emailID>",
 
-  "username": "techmdev",
+  "username": "<username>",
 
-  "password": null,
+  "password": <password>,
 
   "active": "true",
 
@@ -922,7 +906,7 @@ Allows User to login to the Platform using emailId or username. Returns Success 
 
   "modified": null,
 
-  "userId": "7cd47ca4-1c5d-4cdc-909c-f7c17367b4d4",
+  "userId": "<userID>",
 
   "loginName": null,
 
@@ -962,6 +946,1062 @@ Allows User to login to the Platform using emailId or username. Returns Success 
 
   "publisher": false
 }
+
+
+Operation Name - Add User 
+-----------------------------------
+
+**- Trigger:**
+
+Add User from Admin
+
+
+**- Request:**
+
+{
+
+  "request_body": {
+ 
+    "admin": "true"
+	
+    "emailId": "<emailid>",
+	
+    "firstName": "<firstname>",
+	
+    "jwtToken": "<jwttoken>",
+	
+    "jwttoken": "<jwttoken>",
+	
+    "lastLogin": "2018-10-19T13:52:25.104Z",
+	
+    "lastName": "<lastname>",
+	
+    "loginName": "<loginname>",
+	
+    "loginPassExpire": true,
+	
+    "password": "<password>",
+	
+    "userId": "<userid>"
+	
+    "username": "<username>",
+	
+  }
+  
+}
+
+**- Response:**
+
+{
+
+  "active": false,
+  
+  "created": "2018-10-19T13:52:25.097Z",
+  
+  "modified": "2018-10-19T13:52:25.097Z",
+  
+  "name": "My role",
+  
+  "roleId": "12345678-abcd-90ab-cdef-1234567890ab"
+  
+}
+
+
+
+Operation Name - create Config 
+-----------------------------------
+
+**- Trigger:**
+
+Create site configuration
+
+
+**- Request:**
+
+{
+
+  "request_body": {
+  
+    "configKey": "site_config_key_1",
+	
+    "configValue": "{ \"tag\" : \"value\" }",
+	
+    "userId": "<userid>"
+  }
+  
+}
+
+**- Response:**
+
+{
+
+  "configKey": "site_config_key_1",
+  
+  "configValue": "{ \"tag\" : \"value\" }",
+  
+  "created": "2018-10-19T13:52:25.117Z",
+  
+  "modified": "2018-10-19T13:52:25.117Z",
+  
+  "userId": "<userid>"
+  
+}
+
+
+
+
+Operation Name - Remove Config 
+-----------------------------------
+
+**- Trigger:**
+
+Remove Site Configuraion
+
+
+**- Request:**
+
+{
+
+  "request_body": {
+  
+  "configKey": "<configKey>"
+  
+  }
+  
+  
+**- Response:**
+
+  {
+  
+  "content": {},
+  
+  "error_code": "No Pages Found",
+  
+  "response_body": {},
+  
+  "status": true,
+  
+  "status_code": 0
+  
+}
+  
+  
+Operation Name - List of Config
+------------------------------
+
+  **- Trigger:**
+  
+  Gets list of Site configuration
+  
+  
+  **- Request:**
+  
+  {
+  
+  "request_body": {
+  
+  "configKey": "<configKey>"
+  
+  }
+ 
+ **- Response:**
+  
+  [
+  
+  {
+  
+    "configKey": "<configKey",
+	
+    "configValue": "<configValue>",
+	
+    "created": "2018-10-19T13:52:25.130Z",
+	
+    "modified": "2018-10-19T13:52:25.130Z",
+	
+    "userId": "<userId>"
+	
+  }
+]
+
+
+Operation Name - Update Config
+-----------------------------------
+
+ **- Trigger:**
+ 
+ Update site configuration
+ 
+ 
+  **- Request:**
+  
+{
+
+  "request_body": {
+  
+  }
+  }
+   
+ **- Response:**
+ 
+  {
+  
+  "status": true,
+  
+  "status_code": 200,
+  
+  "response_detail": "Success",
+  
+  "response_code": null,
+  
+  "response_body": "http://www.mycompany.com/",
+  
+  "content": null,
+  
+  "error_code": null
+  
+}
+
+
+
+Operation Name - Get Dashboard 
+-----------------------------------
+
+ **- Trigger:**
+ 
+ Get Dashboard URL
+ 
+ 
+ **- Request:**
+ 
+{
+
+  "request_body": {
+  
+  {
+  
+  "fieldToDirectionMap": {},
+  
+  "page": 0,
+  
+  "size": 0
+  
+}
+
+  }
+  
+  }
+   
+ **- Response:**
+  
+  {
+  
+  "status": null,
+  
+  "status_code": 0,
+  
+  "response_detail": "Peers fetched Successfully",
+  
+  "response_code": null,
+  
+  "response_body": {
+  
+    "content": [
+	
+      {
+	  
+        "created": 1533653577000,
+		
+        "modified": 1533670420000,
+		
+        "peerId": "<peerId>",
+		
+        "name": "<name>",
+		
+        "subjectName": "sss",
+		
+        "description": "test",
+		
+        "apiUrl": "<apiURL>",
+		
+        "webUrl": "<webURL>",
+		
+        "contact1": "<Contact1>",
+		
+        "statusCode": "DC",
+		
+        "validationStatusCode": "PS",
+		
+        "local": false,
+		
+        "self": false
+		
+      },
+	  
+     
+	  
+      {
+	  
+        "created": 1537798150000,
+		
+        "modified": 1538387700000,
+		
+        "peerId": "<peerID>",
+		
+        "name": "<name>",
+		
+        "subjectName": "www.NeerajTestPeer001.com",
+		
+        "description": "",
+		
+        "apiUrl": "<apiURL>",
+		
+        "webUrl": "<webURL>",
+		
+        "contact1": "<Contact1>",
+		
+        "statusCode": "DC",
+		
+        "validationStatusCode": "PS",
+		
+        "local": false,
+		
+        "self": false
+		
+      },
+	  
+     
+	  
+      {
+	  
+        "created": 1533661440000,
+		
+        "modified": 1533670411000,
+		
+        "peerId": "<peerid>",
+		
+        "name": "Test",
+		
+        "subjectName": "http://test.com",
+		
+        "description": "",
+		
+        "apiUrl": "<apiURL>",
+		
+        "webUrl": "<webURL>",
+		
+        "contact1": "<contact1>",
+		
+        "statusCode": "DC",
+		
+        "validationStatusCode": "PS",
+		
+        "local": false,
+		
+        "self": false
+		
+      },
+	  
+  "content": null,
+  
+  "error_code": "100"
+  
+}
+
+
+Operation Name - Get Paginated List
+-----------------------------------
+
+**- Trigger:**
+
+Gets paginated list of All Peers
+
+
+**- Request:**
+
+ {
+  "request_body": {
+  
+  "fieldToDirectionMap": {},
+  
+  "page": 5,
+  
+  "size": 0
+  
+}
+
+}
+
+ **- Response:**
+
+[
+
+  {
+  
+    "apiUrl": "<apiURL>",
+	
+    "contact1": "<Contact1>",
+	
+    "created": "2018-10-19T13:52:12.070Z",
+	
+    "description": "Page created SuccessFully",
+	
+    "local": true,
+	
+    "modified": "2018-10-19T13:52:12.070Z",
+	
+    "name": "<name>",
+	
+    "peerId": "<PeerID>",
+	
+    "self": true,
+	
+    "statusCode": "AC",
+	
+    "subjectName": "peer.company.com",
+	
+    "validationStatusCode": "NV",
+	
+    "webUrl": "<WebURL>"
+	
+  }
+  
+]
+
+ 
+ 
+Operation Name - Add Peer 
+-----------------------------------
+
+**- Trigger:**
+
+Add a new peer
+
+
+**- Request:**
+  
+  {
+  
+  "request_body": {
+  
+    "apiUrl": "<apiurl>",
+	
+    "contact1": "<contact1>",
+	
+    "created": "2018-10-19T13:52:25.201Z",
+	
+    "modified": "2018-10-19T13:52:25.201Z",
+	
+    "name": "<name>",
+	
+    "peerId": "<peerId>",
+	
+    "self": true,
+	
+    "statusCode": "AC",
+	
+    "subjectName": "peer.company.com",
+	
+    "validationStatusCode": "NV",
+	
+    "webUrl": "string"
+	
+  }
+  
+}
+
+ **- Response:**
+
+{
+
+  "apiUrl": "<apiurl>",
+  
+  "contact1": "<contact1>",
+  
+  "created": "2018-10-19T13:52:25.198Z",
+  
+  "description": "Peers created",
+  
+  "local": true,
+  
+  "modified": "2018-10-19T13:52:25.198Z",
+  
+  "name": "<name>",
+  
+  "peerId": "<peerId>",
+  
+  "self": true,
+  
+  "statusCode": "AC",
+  
+  "subjectName": "peer.company.com",
+  
+  "validationStatusCode": "NV",
+  
+  "webUrl": "<webUrl>"
+  
+}
+
+ 
+Operation Name - Delete Peer 
+-----------------------------------
+
+**- Trigger:**
+
+Remove Peer Subscription
+
+
+**- Request:**
+
+ {
+  "request_body": {
+  
+  "subID":"<subID>"
+  
+  }
+  }
+  
+ **- Response:**
+  
+  {
+  "content": {},
+  
+  "error_code": "Not created ID",
+  
+  "response_body": {},
+  
+  "response_code": "<response Code>",
+  
+  "response_detail": "<response Details>",
+  
+  "status": true,
+  
+  "status_code": 0
+  
+}
+
+
+Operation Name - Get Requests 
+-----------------------------------
+
+**- Trigger:**
+
+Gets a list of Requests
+
+
+**- Request:**
+
+{
+  "request_body": {
+  
+  "fieldToDirectionMap": {},
+  
+  "page": <pageNo>,
+  
+  "size": <size>
+  
+}
+
+  }
+  
+ **- Response:**
+
+{
+
+  "allTagsSet": [
+  
+    "string"
+	
+  ],
+  
+  "async": {
+  
+    "cancelled": true,
+	
+    "done": true
+	
+  },
+  
+  "commentsCount": 0,
+  
+  "commentsList": [
+  
+    {
+	
+      "commentId": "<commentID>",
+	  
+      "created": "2018-10-19T13:52:12.152Z",
+	  
+      "modified": "2018-10-19T13:52:12.152Z",
+	 
+      "parentId": "<parentID>",
+	  
+      "text": "Best model ever",
+	  
+      "threadId": "12345678-abcd-90ab-cdef-1234567890ab",
+	  
+      "userId": "<userID>"
+	  
+    }
+	
+  ],
+  
+  "companyModelCount": 0,
+  
+  "content": [
+  
+    {}
+  ],
+  
+  "deletedModelCount": 0,
+  
+  "filteredTagSet": [
+  
+    "string"
+	
+  ],
+  
+  "first": true,
+  
+  "jwtToken": "string",
+  
+  "last": true,
+  
+  "modelsSharedWithUser": [
+  
+    {
+	
+      "active": false,
+	  
+      "created": "2018-10-19T13:52:12.152Z",
+	  
+      "description": "string",
+	  
+      "metadata": "string",
+	  
+      "modelTypeCode": "CL",
+	  
+      "modified": "2018-10-19T13:52:12.152Z",
+	  
+      "name": "My solution",
+	  
+      "origin": "string",
+	  
+      "picture": [
+	  
+        "string"
+      ],
+	  
+      "solutionId": "<SolutionID>",
+	  
+      "sourceId": "<SourceID>",
+	  
+      "tags": [
+	  
+        {
+		
+          "tag": "Classification"
+		  
+        }
+		
+      ],
+	  
+      "toolkitTypeCode": "SK",
+	  
+      "userId": "<userID>",
+	  
+      "webStats": {
+	  
+        "downloadCount": 0,
+		
+        "featured": true,
+		
+        "lastDownload": "2018-10-19T13:52:12.152Z",
+		
+        "ratingAverageTenths": 0,
+		
+        "ratingCount": 0,
+		
+        "solutionId": "string",
+		
+        "viewCount": 0
+		
+      }
+	  
+    }
+	
+  ],
+  
+  "number": 0,
+  
+  "numberOfElements": 0,
+  
+  "pageCount": 0,
+  
+  "prefTags": [
+  
+    {}
+	
+  ],
+  
+  "privateModelCount": 0,
+  
+  "publicModelCount": 0,
+  
+  "requestList": [
+  
+    {
+	
+      "action": "string",
+	  
+      "date": "2018-10-19T13:52:12.152Z",
+	  
+      "requestId": "string",
+	  
+      "requestType": "string",
+	  
+      "requestedDetails": "string",
+	  
+      "sender": "string",
+	  
+      "status": "string"
+	  
+    }
+	
+  ],
+  
+  "responseObject": {
+  
+    "admin": true,
+	
+    "firstLogin": true,
+	
+    "jwtToken": "string",
+	
+    "loginPassExpire": true,
+	
+    "publisher": true,
+	
+    "userAssignedRolesList": [
+	
+      {
+	  
+        "active": false,
+		
+        "created": "2018-10-19T13:52:12.152Z",
+		
+        "modified": "2018-10-19T13:52:12.153Z",
+		
+        "name": "My role",
+		
+        "roleId": "12345678-abcd-90ab-cdef-1234567890ab"
+		
+      }
+	  
+    ]
+	
+  },
+  
+  "size": 0,
+  
+  "sort": {},
+  
+  "tags": [
+  
+    "string"
+	
+  ],
+  
+  "threadCount": 0,
+  
+  "threads": [
+  
+    {
+	
+      "revisionId": "<revisionID>",
+	  
+      "solutionId": "<solutionID>",
+	  
+      "threadId": "<threadID>",
+	  
+      "title": "<title>"
+	  
+    }
+	
+  ],
+  
+  "totalElements": 0,
+  
+  "totalPages": 0,
+  
+  "userList": [
+  
+    {
+      "active": "string",
+	  
+      "admin": true,
+	  
+      "apiTokenHash": "<apitoken",
+	  
+      "bulkUpdate": "<bulkUpdate>",
+	  
+      "created": "2018-10-19T13:52:12.153Z",
+	  
+      "emailId": "string",
+	  
+      "firstLogin": true,
+	  
+      "firstName": "string",
+	  
+      "jwtToken": "string",
+	  
+      "jwttoken": "string",
+	  
+      "lastLogin": "2018-10-19T13:52:12.153Z",
+	  
+      "lastName": "string",
+	  
+      "loginName": "string",
+	  
+      "loginPassExpire": true,
+	  
+      "modified": "2018-10-19T13:52:12.153Z",
+	  
+      "orgName": "string",
+	  
+      "password": "string",
+	  
+      "picture": [
+	  
+        "string"
+		
+      ],
+      "publisher": true,
+	  
+      "role": "string",
+	  
+      "roleId": "string",
+	  
+      "status": "string",
+	  
+      "tags": [
+	  
+        {
+		
+          "tag": "Classification"
+		  
+        }
+		
+      ],
+    
+      "userRolesList": {},
+	  
+      "username": "<username>",
+	  
+      "verifyToken": "<token>"
+	  
+    }
+	
+  ]
+  
+}
+
+
+Operation Name  - Logout Service
+-----------------------------------
+
+**- Trigger:**
+
+Allows Users to logout to the Platform . Returns Success & JWT Token if Account created successfully; else an error message is returned
+
+
+**- Request:**
+
+{
+
+ "request_body": {
+
+   "password": "<password>",
+
+   "username": "<username>"
+   
+ }
+ 
+}
+
+**- Response:**
+
+{
+  "admin": true,
+  
+  "firstLogin": true,
+  
+  "jwtToken": "<jwttoken>",
+  
+  "loginPassExpire": true,
+  
+  "message": "Successfull logged out",
+  
+  "publisher": true,
+  
+  "resultCode": 0,
+  
+  "userAssignedRolesList": [
+  
+    {
+	
+      "active": false,
+	  
+      "created": "2018-10-22T09:35:54.399Z",
+	  
+      "modified": "2018-10-22T09:35:54.399Z",
+	  
+      "name": "<name>",
+	  
+      "roleId": "<roleID>"
+	  
+    }
+	
+  ]
+  
+}
+
+Operation Name  - Logout Service
+-----------------------------------
+
+**- Trigger:**
+
+Allows Users to logout to the Platform . Returns Success & JWT Token if Account created successfully; else an error message is returned
+
+
+**- Request:**
+
+{
+
+ "request_body": {
+
+   "password": "<password>",
+
+   "username": "<username>"
+   
+ }
+ 
+}
+
+**- Response:**
+
+{
+  "admin": true,
+  
+  "firstLogin": true,
+  
+  "jwtToken": "<jwttoken>",
+  
+  "loginPassExpire": true,
+  
+  "message": "Successfull logged out",
+  
+  "publisher": true,
+  
+  "resultCode": 0,
+  
+  "userAssignedRolesList": [
+  
+    {
+	
+      "active": false,
+	  
+      "created": "2018-10-22T09:35:54.399Z",
+	  
+      "modified": "2018-10-22T09:35:54.399Z",
+	  
+      "name": "<name>",
+	  
+      "roleId": "<roleID>"
+	  
+    }
+	
+  ]
+  
+}
+
+
+Operation Name  - Logout Service
+-----------------------------------
+
+**- Trigger:**
+
+Provide the Validation status for the application
+
+
+**- Request:**
+
+{
+
+ "request_body": {
+ 
+ }
+ 
+ }
+
+ **- Response:**
+ 
+ {
+ 
+  "content": {},
+  
+  "error_code": "string",
+  
+  "response_body": {},
+  
+  "response_code": "<response>",
+  
+  "response_detail": "<detail>",
+  
+  "status": true,
+  
+  "status_code": 0
+  
+}
+ 
+
+Operation Name  - check validation Status
+-----------------------------------
+
+**- Trigger:**
+
+Provide the Validation status for the application
+
+
+**- Request:**
+
+{
+
+ "request_body": {
+ 
+ }
+ 
+ }
+
+ **- Response:**
+ 
+ {
+ 
+  "content": {},
+  
+  "error_code": "string",
+  
+  "response_body": {},
+  
+  "response_code": "<response>",
+  
+  "response_detail": "<detail>",
+  
+  "status": true,
+  
+  "status_code": 0
+  
+}
+ 
 
 
 
