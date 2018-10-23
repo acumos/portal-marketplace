@@ -1483,15 +1483,12 @@ angular
 											});
 						}
 
-						$scope.removeSharedUser = function(userFname) {
-							angular.forEach($scope.sharedWith, function(
-									item) {
-								if (userFname == item.firstName) {
-
-									$scope.sharedWithUserName = item.firstName;
-									$scope.shareWithUser = item.userId;
-								}
-							});
+						$scope.removeSharedUser = function(userId, userFname, userLname) {
+							
+							$scope.shareWithUser = userId;
+							$scope.sharedWithUserFName = userFname;
+							$scope.sharedWithUserLName = userLname;
+							$scope.sharedWithUserName = $scope.sharedWithUserFName+" "+ $scope.sharedWithUserLName;
 
 							apiService
 									.deleteShareWithTeam($scope.solutionId,
@@ -1509,7 +1506,7 @@ angular
 						                               $scope.showAlertMessage = true;
 						                               $timeout(function() {
 						                                   $scope.showAlertMessage = false;
-						                               }, 2000);
+						                               }, 3500);
 						                               
 													$scope.loadShareWithTeam();
 													$scope.getAllUsersList();
