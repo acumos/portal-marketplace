@@ -46,11 +46,11 @@ Target Users
 MarketPlace - High level Architecture
 =====================================
 
-         .. image:: images/devguide/PORTAL_Architecture _V 1.jpg
+         .. image:: images/devguide/PORTAL_Architecture_V_1.jpg
             :alt: MarketPlace High level Architecture
 
 
-         .. image:: images/devguide/PORTAL_Architecture _V13_Portal_2.jpg
+         .. image:: images/devguide/PORTAL_Architecture_V13_Portal_2.jpg
             :alt: MarketPlace High level Architecture
 
 MarketPlace Backend APIs
