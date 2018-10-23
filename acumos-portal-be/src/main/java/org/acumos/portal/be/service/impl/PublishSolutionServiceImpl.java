@@ -88,15 +88,15 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							
 							log.info(EELFLoggerDelegate.debugLogger, "publish request has been created for solution {} with request Id as {}  ", solutionId, publishRequest.getRequestId());
 							// Change the return type to send the message that request has been created 
-							publishStatus = "Solution Pending for Publisher Approval";
+							publishStatus = "Solution "+mlpSolution2.getName()+" Pending for Publisher Approval";
 						} else {
 							updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
-							publishStatus = "Solution Published Successfully";
+							publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 						}
 					}
 				} else {
 					updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
-					publishStatus = "Solution Published Successfully";
+					publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 				}
 			}
 		} catch (Exception e) {
