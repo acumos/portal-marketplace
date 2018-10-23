@@ -406,8 +406,8 @@ limitations under the License.
 												title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
 
 												<span class="team-user-close"> <i
-													ng-click="removeSharedUser(sharedmember.firstName)"
-													class="fa fa-times-circle-o" aria-hidden="true"></i>
+													ng-click="removeSharedUser(sharedmember.userId, sharedmember.firstName, sharedmember.lastName)"
+													class="fa fa-times-circle" aria-hidden="true"></i>
 											</span>
 												<div class="mdl-tooltip" data-mdl-for="T{{$index}}">
 													{{sharedmember.firstName}} {{sharedmember.lastName}}</div>
