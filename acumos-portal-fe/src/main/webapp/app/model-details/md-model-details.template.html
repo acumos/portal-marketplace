@@ -26,7 +26,7 @@ limitations under the License.
 	<section class="pageheadsection gray-bg" id="md-model-detail-template">
 		<div class="md-head-container1">
 			<div class="md-head-containerinner1">
-				<span class="md-headline2 mob-disblock">
+				<span class="md-headline2 mob-disblock" title="{{solution.name}}">
 					<img class="solutions-img" src="../images/solutions/R.png" />{{solution.name}}</span>				
 				<div class="md-head-container3">
 					<div class="md-head-containerinner-seperator"></div>
@@ -113,7 +113,7 @@ limitations under the License.
 						ng-if="$root.parentActive == 'marketplace'">Marketplace</a> <a
 						ui-sref="manageModule" ng-if="$root.parentActive == 'mymodel'">My
 							Model</a></li>
-				<li><span class="md-breadcrumb-item">{{solution.name}}</span></li>
+				<li><span class="md-breadcrumb-item" title="{{solution.name}}">{{solution.name}}</span></li>
                           	<li><span class="solution_id_bg">Solution ID:{{solution.solutionId}}</span></li>
 			</ul>
 				<span class="md-lbl1" >Version {{versionId}} |
@@ -462,7 +462,7 @@ limitations under the License.
 						<div class="mdl-grid mdl-grid--no-spacing bdr-bottom">
 							<div
 								class="mdl-cell mdl-cell--7-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-								<h6 class="sectiontitle9 rate-title">RATE:
+								<h6 class="sectiontitle9 rate-title" title="{{solution.name}}">RATE:
 									{{solution.name}}</h6>
 							</div>
 							<div  ng-show="version.accessTypeCode == 'PB'"
@@ -557,7 +557,7 @@ limitations under the License.
 							<div class="discussion-outer-container" >
 								<div class="md-discussion-container">
 									<div class="md-discussion-links-container">
-										<a ng-click="commentNewest=true">Newest</a> <span>|</span> <a ng-click="commentNewest=false">Older</a> <span>|</span> <a>Liked</a>
+										<a ng-click="commentNewest=true">Newest</a> <span>|</span> <a ng-click="commentNewest=false">Older</a>
 									</div>
 								</div>
 							</div>
