@@ -88,58 +88,56 @@ angular.module('headerNav')
              return acc;
          }, {});
 
-		 var ticketId = search.ticket;
-		 
-		$scope.casLogin = function(ticketId){     //CAS Authorization Login
-        	  apiService.casSignIn(ticketId).then(function successCallback(response) {
-        		  
-        		  if(response.data.content.active == "false"){
-        			  $rootScope.$emit('isLFAccDisabledEvent',  response.data.content);
-        		  }
-        		  else{
-		        		  var emailId = response.data.content.emailId;
-		        		  var username = response.data.content.userName;
-		        		  $scope.userData = {"request_body":{"username": username, "emailId": emailId}};
-		        		  apiService.getJwtAuth($scope.userData).then(function successCallback(response) {
-		        			  
-		                	  localStorage.setItem('auth_token', response.data.jwtToken);
-		                	  var authToken = jwtHelper.decodeToken(response.data.jwtToken);
-		        		  
-		                  angular.forEach(response.data.userAssignedRolesList, function(value, key) {
-		            		  if(value.name == 'Admin' || value.name == 'admin'){
-		            			  localStorage.setItem('userRole', 'Admin');
-		            		  }
-		            		});
-		                  localStorage.setItem('loginPassExpire', '');
-		                  
-		                  $scope.signinservice = authToken;
-		                  productService.setData($scope.signinservice.mlpuser);
-		                  
-		                  var test = productService.test;
-		                  
-		                  $scope.userfirstname = productService.test.firstName;
-		                  $scope.userid = productService.test.userId;
-		                  
-		                  $scope.localStore = [];
-		                  $scope.localStore.push($scope.userfirstname, $scope.userid);
-		                  
-		                  $scope.$emit('transferUp', {
-		                        message : true,
-		                        username : $scope.userfirstname
-		                  });
-		                  localStorage.setItem('userDetail', JSON.stringify($scope.localStore));
-		    		  }, function errorCallback(response) {
-		    			  
-		    		  });
-        		  }
-                  }, function errorCallback(response) {
-	                        console.log("Error: ", response);
-	                        oauthDetails = {};
-	                        $scope.userPassInvalid = true;
-	                  	});
-          };
-		
-          
+        var ticketId = search.ticket;
+        $scope.casLogin = function(ticketId){     //CAS Authorization Login
+            apiService.casSignIn(ticketId).then(function successCallback(response) {
+
+                if(response.data.content.active == "false"){
+                    $rootScope.$emit('isLFAccDisabledEvent',  response.data.content);
+                } else {
+                    var emailId = response.data.content.emailId;
+                    var username = response.data.content.userName;
+                    $scope.userData = {"request_body":{"username": username, "emailId": emailId}};
+                    apiService.getJwtAuth($scope.userData).then(function successCallback(response) {
+
+                        var authToken = jwtHelper.decodeToken(response.data.jwtToken);
+                        $scope.userDetails = [];
+                        $scope.signinservice = authToken;
+                        productService.setData($scope.signinservice.mlpuser);
+
+                        $scope.localStore = [];
+                        $scope.localStore.push(productService.test.firstName, productService.test.userId);
+                        $scope.userDetails.userName = productService.test.firstName;
+                        $scope.userDetails.userId = productService.test.userId;
+
+                        browserStorageService.setAuthToken(response.data.jwtToken);
+                        browserStorageService.setAdmin(response.data.admin);
+                        browserStorageService.setPublisher(response.data.publisher);
+                        browserStorageService.setUserDetail(JSON.stringify($scope.localStore));
+                        $scope.userDetails = JSON.stringify($scope.localStore);
+                        if(response.data.admin){
+                            browserStorageService.setUserRole('Admin');
+                        }
+                        $rootScope.$broadcast('roleCheck');
+                        localStorage.setItem('firstLogin', response.data.firstLogin);
+                        localStorage.setItem('loginPassExpire', '');
+
+                        $scope.$emit('transferUp', {
+                            message : true,
+                            username : $scope.userDetails.userName
+                        });
+                    }, function errorCallback(response) {
+
+                });
+            }
+        }, function errorCallback(response) {
+            console.log("Error: ", response);
+            oauthDetails = {};
+            $scope.userPassInvalid = true;
+        });
+        };
+
+
           if (JSON.parse(browserStorageService.getUserDetail())) {
   			$scope.userDetails = JSON.parse(browserStorageService
   					.getUserDetail());
