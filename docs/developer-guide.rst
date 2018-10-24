@@ -1,4 +1,4 @@
-.. ===============LICENSE_START=======================================================
+﻿.. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
 .. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
@@ -1851,6 +1851,703 @@ Response Body Example:
        "publisher":false
     }
 
+
+Operation Name - Add User 
+=========================
+
+Add User from Admin
+
+
+Request Body Example:
+
+.. code-block:: json
+
+ {
+
+  "request_body": {
+    "admin": "true"	
+    "emailId": "<emailid>",
+    "firstName": "<firstname>",
+    "jwtToken": "<jwttoken>",
+    "jwttoken": "<jwttoken>",
+    "lastLogin": "2018-10-19T13:52:25.104Z",
+    "lastName": "<lastname>",
+    "loginName": "<loginname>",
+    "loginPassExpire": true,
+    "password": "<password>",
+    "userId": "<userid>"
+    "username": "<username>",
+  }
+ }
+
+Response Body Example:
+
+.. code-block:: json
+
+ {
+  "active": false,
+  "created": "2018-10-19T13:52:25.097Z",
+  "modified": "2018-10-19T13:52:25.097Z",
+  "name": "My role",
+  "roleId": "12345678-abcd-90ab-cdef-1234567890ab"
+ }
+
+
+
+Operation Name - create Config 
+==============================
+
+Create site configuration
+
+Request Body Example:
+
+.. code-block:: json
+
+ {
+  "request_body": {
+    "configKey": "site_config_key_1",
+    "configValue": "{ \"tag\" : \"value\" }",
+    "userId": "<userid>"
+  }
+ }
+
+Response Body Example:
+
+.. code-block:: json
+
+ {
+  "configKey": "site_config_key_1",
+  "configValue": "{ \"tag\" : \"value\" }",
+  "created": "2018-10-19T13:52:25.117Z",
+  "modified": "2018-10-19T13:52:25.117Z",
+  "userId": "<userid>"
+ }
+
+
+
+
+Operation Name - Remove Config 
+==============================
+
+
+Remove Site Configuraion
+
+Request Body Example:
+
+.. code-block:: json
+
+  {
+  "request_body": {
+  "configKey": "<configKey>"
+  }
+  
+Response Body Example:
+
+.. code-block:: json
+
+  {
+  "content": {},
+  "error_code": "No Pages Found",
+  "response_body": {},
+  "status": true,
+  "status_code": 0
+}
+  
+  
+Operation Name - List of Config
+===============================
+
+  
+Gets list of Site configuration
+  
+Request Body Example:
+
+.. code-block:: json
+
+ {
+  "request_body": { 
+  "configKey": "<configKey>"
+ }
+}
+
+ Response Body Example:
+
+.. code-block:: json
+
+  [ 
+  {
+    "configKey": "<configKey",
+    "configValue": "<configValue>",
+    "created": "2018-10-19T13:52:25.130Z",
+    "modified": "2018-10-19T13:52:25.130Z",
+    "userId": "<userId>"
+  }
+ ]
+
+
+Operation Name - Update Config
+==============================
+
+ 
+Update site configuration
+ 
+ 
+Request Body Example:
+
+.. code-block:: json
+ 
+  {
+
+  "request_body": {
+  
+  }
+  }
+   
+Response Body Example:
+
+.. code-block:: json
+
+  {
+  "status": true, 
+  "status_code": 200,
+  "response_detail": "Success",
+  "response_code": null,
+  "response_body": "http://www.mycompany.com/",
+  "content": null,
+  "error_code": null
+  }
+
+
+
+Operation Name - Get Dashboard 
+==============================
+
+ 
+Get Dashboard URL
+ 
+Request Body Example:
+
+.. code-block:: json
+ 
+ {
+  "request_body": { 
+  "fieldToDirectionMap": {},
+  "page": 0,
+  "size": 0
+ }
+}
+    
+ Response Body Example:
+
+.. code-block:: json
+  
+  { 
+  "status": null, 
+  "status_code": 0,
+  "response_detail": "Peers fetched Successfully",
+  "response_code": null,
+  "response_body": {
+    "content": [
+      { 
+        "created": 1533653577000,
+        "modified": 1533670420000,
+        "peerId": "<peerId>",
+        "name": "<name>",
+        "subjectName": "sss",
+        "description": "test",
+        "apiUrl": "<apiURL>",
+        "webUrl": "<webURL>",
+        "contact1": "<Contact1>",
+        "statusCode": "DC",
+        "validationStatusCode": "PS",
+        "local": false,
+        "self": false
+      },	  
+      {
+        "created": 1537798150000,
+        "modified": 1538387700000,
+        "peerId": "<peerID>",
+        "name": "<name>",
+        "subjectName": "www.NeerajTestPeer001.com",
+        "description": "",
+        "apiUrl": "<apiURL>",
+        "webUrl": "<webURL>",
+        "contact1": "<Contact1>",
+        "statusCode": "DC",
+        "validationStatusCode": "PS",
+        "local": false,
+        "self": false
+      },
+      {
+        "created": 1533661440000,
+        "modified": 1533670411000,
+        "peerId": "<peerid>",
+        "name": "Test",
+        "subjectName": "http://test.com",
+        "description": "",
+        "apiUrl": "<apiURL>",
+        "webUrl": "<webURL>",
+        "contact1": "<contact1>",
+        "statusCode": "DC",
+        "validationStatusCode": "PS",
+        "local": false,
+        "self": false
+     },  
+  "content": null,
+  "error_code": "100"
+    }
+
+
+Operation Name - Get Paginated List
+===================================
+
+
+
+Gets paginated list of All Peers
+
+ 
+Request Body Example:
+
+.. code-block:: json
+
+ {
+  "request_body": {
+  "fieldToDirectionMap": {}, 
+  "page": 5, 
+  "size": 0
+ }
+ }
+
+
+Response Body Example:
+
+.. code-block:: json
+
+ {
+    "apiUrl": "<apiURL>",
+    "contact1": "<Contact1>",
+    "created": "2018-10-19T13:52:12.070Z",
+    "description": "Page created SuccessFully",
+    "local": true,
+    "modified": "2018-10-19T13:52:12.070Z",
+    "name": "<name>",	
+    "peerId": "<PeerID>",
+    "self": true,	
+    "statusCode": "AC",	
+    "subjectName": "peer.company.com"	
+    "validationStatusCode": "NV",	
+    "webUrl": "<WebURL>"	
+ }
+]
+
+ 
+ 
+Operation Name - Add Peer 
+=========================
+
+
+
+Add a new peer
+
+
+Request Body Example:
+
+.. code-block:: json
+  
+  {
+  
+  "request_body": {  
+    "apiUrl": "<apiurl>",	
+    "contact1": "<contact1>",	
+    "created": "2018-10-19T13:52:25.201Z",	
+    "modified": "2018-10-19T13:52:25.201Z",	
+    "name": "<name>",	
+    "peerId": "<peerId>",	
+    "self": true,	
+    "statusCode": "AC",	
+    "subjectName": "peer.company.com",	
+    "validationStatusCode": "NV",	
+    "webUrl": "string"	
+  }
+}
+
+ Response Body Example:
+
+.. code-block:: json
+
+ {
+  "apiUrl": "<apiurl>",
+  "contact1": "<contact1>",
+  "created": "2018-10-19T13:52:25.198Z",
+   "description": "Peers created",
+  "local": true, 
+  "modified": "2018-10-19T13:52:25.198Z",
+  "name": "<name>",
+  "peerId": "<peerId>", 
+  "self": true,
+  "statusCode": "AC", 
+  "subjectName": "peer.company.com", 
+  "validationStatusCode": "NV",
+  "webUrl": "<webUrl>" 
+ }
+
+ 
+Operation Name - Delete Peer 
+============================
+
+
+
+Remove Peer Subscription
+
+Request Body Example:
+
+.. code-block:: json
+
+ {
+  "request_body": {  
+  "subID":"<subID>" 
+  }
+  }
+
+Response Body Example:
+
+.. code-block:: json
+  
+  {
+  "content": {},  
+  "error_code": "Not created ID",  
+  "response_body": {}, 
+  "response_code": "<response Code>",  
+  "response_detail": "<response Details>", 
+  "status": true,
+  "status_code": 0
+}
+
+
+Operation Name - Get Requests 
+=============================
+
+
+
+Gets a list of Requests
+
+Request Body Example:
+
+.. code-block:: json
+
+  {
+  "request_body": {  
+  "fieldToDirectionMap": {},
+    "page": <pageNo>, 
+  "size": <size>  
+  }
+ }
+  
+Response Body Example:
+
+.. code-block:: json
+ 
+ {
+  "allTagsSet": [  
+    "string"	
+  ],
+  "async": { 
+    "cancelled": true,	
+    "done": true	
+  }, 
+  "commentsCount": 0,
+  "commentsList": [  
+    {	
+      "commentId": "<commentID>",	  
+      "created": "2018-10-19T13:52:12.152Z",
+      "modified": "2018-10-19T13:52:12.152Z",	 
+      "parentId": "<parentID>",	  
+      "text": "Best model ever",	  
+      "threadId": "12345678-abcd-90ab-cdef-1234567890ab",	  
+      "userId": "<userID>"	  
+    }	
+  ],
+  "companyModelCount": 0,  
+  "content": [  
+    {}
+  ],
+  "deletedModelCount": 0, 
+  "filteredTagSet": [ 
+    "string"	
+  ],  
+  "first": true,
+  "jwtToken": "string",  
+  "last": true,
+  "modelsSharedWithUser": [
+    {
+      "active": false,
+      "created": "2018-10-19T13:52:12.152Z",  
+      "description": "string",	  
+      "metadata": "string",	  
+      "modelTypeCode": "CL",	  
+      "modified": "2018-10-19T13:52:12.152Z",	  
+      "name": "My solution",	  
+      "origin": "string",	  
+      "picture": [	  
+       "string"
+      ],	  
+      "solutionId": "<SolutionID>",	  
+      "sourceId": "<SourceID>",	  
+      "tags": [	  
+        {		
+          "tag": "Classification"		  
+        }		
+      ],	  
+      "toolkitTypeCode": "SK",	  
+      "userId": "<userID>",	  
+      "webStats": {
+	          "downloadCount": 0,		
+        "featured": true,		
+        "lastDownload": "2018-10-19T13:52:12.152Z",		
+        "ratingAverageTenths": 0,		
+        "ratingCount": 0,		
+        "solutionId": "string",		
+        "viewCount": 0		
+      }	  
+    }	
+  ], 
+  "number": 0,
+  "numberOfElements": 0, 
+  "pageCount": 0,  
+  "prefTags": [ 
+    {}	
+  ],  
+  "privateModelCount": 0,  
+  "publicModelCount": 0,
+  "requestList": [  
+    {
+	      "action": "string",	  
+      "date": "2018-10-19T13:52:12.152Z",	  
+      "requestId": "string",	  
+      "requestType": "string",	  
+      "requestedDetails": "string",	  
+      "sender": "string",	  
+      "status": "string"	  
+    }	
+  ], 
+  "responseObject": {  
+    "admin": true,	
+    "firstLogin": true,	
+    "jwtToken": "string",	
+    "loginPassExpire": true,	
+    "publisher": true,	
+    "userAssignedRolesList": [	
+      {	  
+        "active": false,		
+        "created": "2018-10-19T13:52:12.152Z",		
+        "modified": "2018-10-19T13:52:12.153Z",		
+        "name": "My role",		
+        "roleId": "12345678-abcd-90ab-cdef-1234567890ab"		
+      }	  
+    ]	
+  }, 
+  "size": 0, 
+  "sort": {}, 
+  "tags": [
+    "string"	
+  ],  
+  "threadCount": 0,  
+  "threads": [  
+    {	
+      "revisionId": "<revisionID>",	  
+      "solutionId": "<solutionID>",	  
+      "threadId": "<threadID>",	  
+      "title": "<title>"	  
+    }	
+  ], 
+  "totalElements": 0, 
+  "totalPages": 0,  
+  "userList": [ 
+  {
+      "active": "string",
+      "admin": true, 
+      "apiTokenHash": "<apitoken",  
+      "bulkUpdate": "<bulkUpdate>",  
+      "created": "2018-10-19T13:52:12.153Z",  
+      "emailId": "string",  
+      "firstLogin": true,	  
+      "firstName": "string",	  
+      "jwtToken": "string",	  
+      "jwttoken": "string",	  
+      "lastLogin": "2018-10-19T13:52:12.153Z",	  
+      "lastName": "string",	  
+      "loginName": "string",	  
+      "loginPassExpire": true,	  
+      "modified": "2018-10-19T13:52:12.153Z",	  
+      "orgName": "string",	  
+      "password": "string",	  
+      "picture": [	  
+        "string"		
+      ],
+      "publisher": true,	  
+      "role": "string",	  
+      "roleId": "string",	  
+      "status": "string",	  
+      "tags": [	  
+        {		
+          "tag": "Classification"		  
+        }		
+      ],  
+      "userRolesList": {},	  
+      "username": "<username>",	  
+      "verifyToken": "<token>"	  
+    }	
+  ]  
+ }
+
+
+Operation Name  - Logout Service
+================================
+
+
+
+Allows Users to logout to the Platform . Returns Success & JWT Token if Account created successfully; else an error message is returned
+
+
+Request Body Example:
+
+.. code-block:: json
+
+  {
+ "request_body": {
+   "password": "<password>",
+   "username": "<username>"  
+  }
+ }
+
+Response Body Example:
+
+.. code-block:: json
+
+ {
+  "admin": true, 
+  "firstLogin": true,  
+  "jwtToken": "<jwttoken>",  
+  "loginPassExpire": true,  
+  "message": "Successfull logged out", 
+  "publisher": true, 
+  "resultCode": 0,
+  "userAssignedRolesList": [  
+    {
+      "active": false,	  
+      "created": "2018-10-22T09:35:54.399Z",  
+      "modified": "2018-10-22T09:35:54.399Z",
+      "name": "<name>",
+      "roleId": "<roleID>"
+   }
+  ]
+}
+
+
+Operation Name  - check validation Status
+=========================================
+
+
+
+Provide the Validation status for the application
+
+Request Body Example:
+
+.. code-block:: json
+
+  {
+ "request_body": {
+ 
+  }
+ }
+
+Response Body Example:
+
+.. code-block:: json
+
+ {
+  "content": {},
+  "error_code": "string",
+  "response_body": {},
+  "response_code": "<response>",
+  "response_detail": "<detail>",
+  "status": true,
+  "status_code": 0
+}
+ 
+Operation Name  - Logout Service
+================================
+
+Allows Users to logout to the Platform . Returns Success & JWT Token if Account created successfully; else an error message is returned
+
+Request Body Example:
+
+.. code-block:: json
+
+ {
+ "request_body":{ 
+   "password": "<password>",
+   "username": "<username>" 
+ }
+ }
+
+Response Body Example:
+
+.. code-block:: json
+
+ {
+  "admin": true,
+  "firstLogin": true,
+  "jwtToken": "<jwttoken>",
+  "loginPassExpire": true,
+  "message": "Successfull logged out",
+  "publisher": true,
+  "resultCode": 0
+  "userAssignedRolesList": [
+    {
+      "active": false,
+      "created": "2018-10-22T09:35:54.399Z",
+      "modified": "2018-10-22T09:35:54.399Z",
+      "name": "<name>",
+      "roleId": "<roleID>" 
+    }
+   ] 
+ }
+
+
+Operation Name  - Validation Status
+===================================
+
+
+Provide the Validation status for the application
+
+
+Request Body Example:
+
+.. code-block:: json
+
+
+ {
+ "request_body": {
+ 
+ }
+ }
+ 
+Response Body Example:
+
+.. code-block:: json
+
+ 
+ {
+  "content": {},
+  "error_code": "string",
+  "response_body": {},
+  "response_code": "<response>",
+  "response_detail": "<detail>",
+  "status": true,
+  "status_code": 0
+  }
+ 
 
 ===============
 Gateway Service
