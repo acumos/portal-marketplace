@@ -359,8 +359,15 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					mlSolution.setPicture(oldSolObj.getPicture());
 				}
 			}
-
-			dataServiceRestClient.updateSolution(PortalUtils.convertToMLPSolution(mlSolution));
+			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
+			List<MLPTag> taglist = dataServiceRestClient.getSolutionTags(solutionId);
+			if (taglist.size() > 0) {
+				HashSet<MLPTag> tags = new HashSet<MLPTag>(taglist.size());
+				for (MLPTag tag : taglist)
+					tags.add(tag);
+				solution.setTags(tags);
+			}
+			dataServiceRestClient.updateSolution(solution);
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
