@@ -90,6 +90,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -359,8 +360,18 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					mlSolution.setPicture(oldSolObj.getPicture());
 				}
 			}
-
-			dataServiceRestClient.updateSolution(PortalUtils.convertToMLPSolution(mlSolution));
+			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
+			try {
+				List<MLPTag> taglist = dataServiceRestClient.getSolutionTags(solutionId);
+				HashSet<MLPTag> tags = new HashSet<MLPTag>(taglist.size());
+				for (MLPTag tag : taglist)
+					tags.add(tag);
+				solution.setTags(tags);
+			} catch (HttpStatusCodeException e) {
+				log.error(EELFLoggerDelegate.errorLogger, "Could not fetch tag list for update solution: " + e.getMessage());
+			} finally {
+				dataServiceRestClient.updateSolution(solution);
+			}
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
