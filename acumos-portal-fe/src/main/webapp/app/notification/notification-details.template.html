@@ -41,7 +41,7 @@ limitations under the License.
 					</section>
 					<div class="page-wrapper2">
 						<!-- copy from here (start) -->
-						<div class="notification-btn-container">
+						<div class="notification-btn-container" ng-if="filtertedNotification.length">
 							<div class="note-btn-inner">
 								<button class="mdl-button mdl-js-button btn-secondary" ng-click="refreshNotification()"><i class="fas fa-sync"></i> Refresh</button>
 								<button class="mdl-button mdl-js-button btn-secondary" ng-click="markRead()"><i class="fa fa-eye" aria-hidden="true"></i> Mark as read</button>							
@@ -69,12 +69,20 @@ limitations under the License.
 									  <span class="mdl-checkbox__label"></span>
 									</label></th>
 								  <th>Sender Name</th>
-								  <th>Subject</th>
-								  <th>Date</th>
+								  <th ng-click="orderByField='message'; reverseSortSubject = !reverseSortSubject; reverseSort = reverseSortSubject;">Subject<span ng-if='orderByField!="message"'
+										class="gridcell-sort deactivate"></span><span
+										ng-if='orderByField=="message"'
+										ng-class="reverseSort?'ascending':'descending'"
+										class="gridcell-sort"></span></th>
+								  <th ng-click="orderByField='start'; reverseSortDate = !reverseSortDate; reverseSort = reverseSortDate;">Date<span ng-if='orderByField!="start"'
+										class="gridcell-sort deactivate"></span><span
+										ng-if='orderByField=="start"'
+										ng-class="reverseSort?'ascending':'descending'"
+										class="gridcell-sort"></span></th>
 								</tr>
 							  </thead>
 							  <tbody>
-								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:{message : search})) ) | orderBy : 'start':true">
+								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:{message : search}))) | orderBy:orderByField:reverseSort">
 								<td  ng-class="{'read-notification': notification.viewed}">
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" id="checkBox_{{$index}}">
 									  <input type="checkbox"  class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected" ng-click="removeSelectAll()">
@@ -87,7 +95,7 @@ limitations under the License.
 								</tr>
 							  </tbody>
 							</table>
-							<div class="alert c-info" ng-if="!filtertedNotification.length">
+							<div class="alert c-info margin-b2" ng-if="!filtertedNotification.length">
                                         <strong>No Result found</strong>
                                 </div>
 						</div>
