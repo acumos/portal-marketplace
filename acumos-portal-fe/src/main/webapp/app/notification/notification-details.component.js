@@ -22,9 +22,6 @@ limitations under the License.
 
 app.component('notificationModule',{
 	templateUrl : '/app/notification/notification-details.template.html',
-	//template : '<div ng-include="getTemplateUrl()"></div>',
-	
-	//templateUrl : '/app/header/header-nav.template.html',
 	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, $sce, apiService, browserStorageService) {
 		$scope.loginUserID='';
 		$scope.totalCount = 0;
@@ -33,7 +30,9 @@ app.component('notificationModule',{
 		$scope.notificationManageObj=[];
 		$scope.selectAll = false;
 		
-		
+		$scope.orderByField = 'start';
+		$scope.reverseSort = true;
+
 		if (JSON.parse(browserStorageService.getUserDetail())) {
 			$scope.userDetails = JSON.parse(browserStorageService
 					.getUserDetail());
