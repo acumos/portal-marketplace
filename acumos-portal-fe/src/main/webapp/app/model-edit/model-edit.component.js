@@ -383,7 +383,7 @@ angular
 						$scope.loadData = function() {
 							$scope.apiUrl;
 							angular.element('.md-version-ddl1').hide();
-							if($scope.tagUpdated = true){
+							if($scope.tagUpdated == true){
 								$scope.tags1 = $scope.tags1;
 							}else{
 								$scope.tags1 = [];
