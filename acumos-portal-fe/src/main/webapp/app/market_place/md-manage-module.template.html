@@ -22,7 +22,10 @@ limitations under the License.
   <strong>No data found</strong>
 </div> -->
 
-<div class="page-content">
+<alert-message msg="msg" icon="icon" styleclass="styleclass"
+		ng-show="showAlertMessage"></alert-message>
+		
+<div class="page-content" id="md-manage-module-template">
 	<section class="pageheadsection mob-pageheadsection1">
 		<div class="mdl-grid mdl-grid--no-spacing">
 			<div
@@ -330,9 +333,96 @@ limitations under the License.
 								<div class="grid-item-error-container" ng-show="privateSolution.pendingApproval" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)">
 									<div class="grid-error-msg"> Pending for approval </div>
 								</div>
-								<div class="grid-item-error-container" ng-show="privateSolution.onboardingStatusFailed" >
-									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+								
+								<div ng-show="privateSolution.onboardingStatusFailed">
+									<div class="grid-item-error-container" title="Check Error Details"
+										ng-click="showPopupPeer(privateSolution.name, privateSolution.errorDetails, 
+										privateSolution.onboardingStatusFailed);">
+										<div class="grid-error-msg"> 
+											<span class="grid-error-icon">&#33;</span> 
+											Error found 										
+										</div>
+									</div>
+									<div class="popupdeleteicon" title="Delete Model">
+										<i class="material-icons" ng-click="openDeleteConfirmPopup(privateSolution)">delete</i>		
+									</div>
 								</div>
+								
+								<!-- Delete Confirmation starts -->
+								<div class="md-dialog-container" id="confirmPopupDeleteModel"
+									style="height: 0;">
+									<md-dialog aria-label="Delete Model"
+										> <md-toolbar>
+									<div class="md-toolbar-tools">
+										<h2>Delete Model: {{deletePrModel.name}}</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										<i class="material-icons">close</i> </md-button>
+									</div>
+									</md-toolbar> <md-dialog-content>
+									<form ng-cloak>
+										<div class="md-dialog-content">
+											<p>Are you sure that you want to delete this model and all of its revisions, public or private?</p>											
+										</div>
+									</form>
+									</md-dialog-content> <md-dialog-actions>
+									<div class="dialog-footer-container1">
+										<md-button ng-click="closePoup()"
+											class="mdl-button mdl-js-button btn-secondary">
+										Cancel </md-button>
+										<md-button ng-click="deleteErrorModel()"
+											class="mdl-button mdl-js-button btn-primary">
+										Confirm </md-button>
+									</div>
+									</md-dialog-actions> </md-dialog>
+								</div>
+								<!-- Delete Confirmation ends -->
+								
+								<!-- Detailed error popup starts -->
+								<div class="md-dialog-container" id="errorModelPopup" style="height: 0;">
+									<md-dialog aria-label="Error Details" class="admin-add-peer">
+										<md-toolbar>
+										<div class="md-toolbar-tools">
+											<h2>Error Details for {{errorModelName}}</h2>
+											<span flex></span>
+											<md-button class="md-icon-button" ng-click='closePoup()'>
+											<i class="material-icons">close</i> </md-button>
+										</div>
+										</md-toolbar>
+										<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="popup-error-container">
+												<span class="popup-error-icon-info">
+													<i class="material-icons">error_outline</i>
+												</span> 
+												<div class="popup-error-msg"> 
+													<strong>Onboarding Error Details:</strong>  {{errorModelDetails}}
+												</div>
+											</div>
+											<div class="popup-error-container">
+												<!-- <span class="popup-error-icon">&#33;</span> --> 
+												<span class="popup-error-icon-info">
+													<i class="material-icons">error_outline</i>
+												</span>
+												<div class="popup-error-msg"> 
+													<strong>Onboarding Status:</strong> Failed.
+												</div>
+											</div>
+											
+										</div>
+										</md-dialog-content>
+										<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<div>
+												<button ng-click='closePoup()'
+													class="mdl-button mdl-js-button btn-primary">Ok</button>
+											</div>
+										</div>
+										</md-dialog-actions>
+									</md-dialog>
+								</div>
+								<!-- Detailed error popup starts -->
+								
 							</div>
 						</div>
 						<div class="mp-grid-list" ng-show="!Viewtile">
@@ -343,9 +433,20 @@ limitations under the License.
 							
 							<div class="mp-grid-list-row posrel"
 								ng-repeat="privateSolution in mlSolutionPrivate">
-								<div class="grid-item-error-container" ng-show="privateSolution.onboardingStatusFailed">
-									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+								
+								<div ng-show="privateSolution.onboardingStatusFailed">
+									<div class="grid-item-error-container" title="Check Error Details" 
+										ng-click="showPopupPeer(privateSolution.name, privateSolution.errorDetails, 
+										privateSolution.onboardingStatusFailed);">
+										<div class="grid-error-msg"> 
+											<span class="grid-error-icon">&#33;</span> Error found 
+										</div>
+									</div>
+									<div class="popupdeleteicon" title="Delete Model">
+										<i class="material-icons" ng-click="openDeleteConfirmPopup(privateSolution)">delete</i>		
+									</div>
 								</div>
+								
 								<div class="grid-item-error-container" ng-show="privateSolution.pendingApproval" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)">
 									<div class="grid-error-msg"> Pending For Approval </div>
 								</div>
@@ -957,19 +1058,6 @@ limitations under the License.
 												ng-if="mlsolution.active != ''">New</span></label>
 											</div>
 										<div class="clear_both">
-										<!-- 	<div class="rating clear_both">
-												<span> <i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 1}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 2}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 3}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 4}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 5}"
-													aria-hidden="true"></i> </span>
-											</div>  -->
 												<div class="a-mp-container1">
 													<div class="stars-outer">
 														<div class="stars-inner"
@@ -1016,12 +1104,20 @@ limitations under the License.
 																	<i class="material-icons"
 																		ng-class="{'unselected-fav':!deletedSolution.selectFav ,'selected-fav':deletedSolution.selectFav}">favorite_border</i>
 																</button>
-															</div>
-														</div>
-													</div>
-									<div class="grid-item-error-container" ng-show="deletedSolution.onboardingStatusFailed">
-										<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
-									</div>
+												</div>
+												</div>
+											</div>
+													
+											<div class="grid-item-error-container" 
+											ng-click="showPopupPeer(deletedSolution.name, deletedSolution.errorDetails, 
+													deletedSolution.onboardingStatusFailed);" 
+											ng-show="deletedSolution.onboardingStatusFailed">
+												<div class="grid-error-msg"> 
+													<span class="grid-error-icon">&#33;</span> 
+													Error found 
+												</div>
+											</div>
+											
 								</div>
 							</div>
 							<div class="mp-grid-list" ng-show="!Viewtile">
@@ -1031,8 +1127,12 @@ limitations under the License.
 								
 								<div class="mp-grid-list-row posrel"
 									ng-repeat="deletedSolution in mlSolutionDelete">
-									<div class="grid-item-error-container" ng-show="deletedSolution.onboardingStatusFailed">
-										<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
+									<div class="grid-item-error-container"
+									ng-click="showPopupPeer(deletedSolution.name, deletedSolution.errorDetails, 
+													deletedSolution.onboardingStatusFailed);" 
+									ng-show="deletedSolution.onboardingStatusFailed">
+										<div class="grid-error-msg"> 
+										<span class="grid-error-icon">&#33;</span> Error found </div>
 									</div>
 									<div class="mp-grid-list-image-cell">
 										<div class="mpimage1">
@@ -1062,22 +1162,6 @@ limitations under the License.
 												date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 												ng-if="mlsolution.active != ''">New</span>
 										</div>
-
-									<!-- 	<div>
-										 	<div class="rating clear_both">
-												<span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 1}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 2}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 3}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 4}"
-													aria-hidden="true"></i></span> <span><i class="fa fa-star"
-													ng-class="{'fa-star1': deletedSolution.solutionRatingAvg == null || deletedSolution.solutionRatingAvg < 5}"
-													aria-hidden="true"></i></span>
-											</div> 
-										</div>    -->
 											<div class="a-mp-container1">
 												<div class="stars-outer">
 													<div class="stars-inner"
