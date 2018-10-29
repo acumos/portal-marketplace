@@ -28,7 +28,7 @@ angular.module('manageModule')
 					templateUrl : './app/market_place/md-manage-module.template.html',
 					controller : function($scope, $compile, $location, $http, $q,
 							$sessionStorage, $localStorage, $rootScope,
-							$timeout, $state, apiService, $window, browserStorageService) {
+							$timeout, $state, apiService, $window, browserStorageService, $mdDialog, $anchorScroll) {
 						$scope.autoHeight = true;
 						$scope.hidePrivate = true;
 						$scope.hidePublic = true;
@@ -1093,5 +1093,85 @@ angular.module('manageModule')
 							//$scope.loadMore();
 							// do what you want to do
 						});
+						
+						//popup for error models
+						$scope.showPopupPeer = function(name, details, status){
+							$scope.errorModelName = name;
+							$scope.errorModelDetails = details;
+							$scope.errorModelStatus = status;
+				        	  $mdDialog.show({
+				        		  contentElement: '#errorModelPopup',
+				        		  parent: angular.element(document.body),
+				        		  clickOutsideToClose: true
+				        	  });
+				          };
+				          
+				        //Close popup
+						$scope.closePoup = function(){
+							$mdDialog.hide();
+						};
+						
+						//Delete Error Model
+						$scope.openDeleteConfirmPopup = function(privateSolutionModelDetails){
+							$scope.deletePrModel = privateSolutionModelDetails;
+							
+							$mdDialog.show({
+				        		  contentElement: '#confirmPopupDeleteModel',
+				        		  parent: angular.element(document.body),
+				        		  clickOutsideToClose: true
+				        	  });
+						}
+						
+						$scope.deleteErrorModel = function(){
+							$scope.deletePrModel;
+							
+							var solution = {
+								"request_body" : {
+									"active" : false,
+									"created" : $scope.deletePrModel.created,
+									"name" : $scope.deletePrModel.name,
+									"ownerId" : $scope.deletePrModel.ownerId,
+									"solutionId" : $scope.deletePrModel.solutionId,
+								}
+							}
+
+							apiService
+									.updateSolutions(solution)
+									.then(
+											function(response) {
+												$scope.status = response.status;
+												$scope.detail = response.data.response_detail;
+												$location.hash('md-manage-module-template');  
+												$anchorScroll(); 
+												$scope.closePoup();
+												$scope.msg = "Solution deleted successfully.";
+												$scope.icon = '';
+												$scope.styleclass = 'c-success';
+												$scope.showAlertMessage = true;
+												$scope.getPrivateModels();
+												$scope.getDeleteModels();
+												$timeout(
+														function() {
+															$scope.showAlertMessage = false;
+														}, 3500);
+											},
+											function(response) {
+												$scope.msg = response.data.response_detail;
+												$location.hash('md-manage-module-template');  
+												$anchorScroll();
+												$scope.closePoup();
+												$scope.icon = 'report_problem';
+												$scope.styleclass = 'c-warning';
+												$scope.showAlertMessage = true;
+												$scope.getPrivateModels();
+												$scope.getDeleteModels();
+												$timeout(
+														function() {
+															$scope.showAlertMessage = false;
+														}, 2500);
+											});
+						
+						}
+						
 					}
 				});
