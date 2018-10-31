@@ -188,13 +188,14 @@ angular.module('headerNav')
 						
 					});
 					$scope.totalCount = response.data.response_body.length;
-					$rootScope.notificationCount = notificationCount;
+					//$rootScope.notificationCount = notificationCount;
 					if($scope.totalCount == 20){
 						$scope.page = $scope.page + 1;
 						$scope.totalCount = 0;
 						$scope.moreNotif = true;
 						$scope.getNotificationMessage(userId,$scope.page,false);
 					}else{
+						$rootScope.notificationCount = notificationCount;
 						$scope.moreNotif = false;
 					}
 				}else{
