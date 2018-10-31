@@ -981,6 +981,10 @@ md-checkbox.md-checked .md-icon:after {width: 6px; height: 9px; left: 3px;}
 .user-email {display:flex; align-items: center;}
 
 .user-email a { width:110px; font-size: 12px; margin-left: 10px;}
+.api-token {display:flex; align-items: center;}
+
+.api-token a { width:50px; font-size: 12px; margin-left: 10px; margin-top:8px;}
+.api-token a:last-child{width:74px !important;margin-left:5px !important;	}
 .user-location {width:30%;}
 .user-location md-input-container {width:100%;}
 .user-location2 {width:20%;}
@@ -2473,6 +2477,8 @@ label.model-name{color:#0366d6;}
 	.header-search-control.mdl-textfield.is-focused .mdl-textfield__input {width:300px;}
 	.user-email { width:43%;}
 	.user-email > md-input-container:first-child {width: calc(100% - 115px);}
+	.api-token { width:46%;}
+	.api-token > md-input-container:first-child {width: calc(100% - 115px);}
 	.btn-signup {width: 270px;}
 	.fedration-subscription {width: 1110px; }
 	.griditem-title {max-width: 450px; }
