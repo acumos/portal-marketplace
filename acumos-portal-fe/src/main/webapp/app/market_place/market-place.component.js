@@ -437,7 +437,7 @@ angular
 							$scope.selectedPage = 0;
 							$scope.modelCount = 0;
 							$scope.isBusy = false;
-							$rootScope.valueToSearch = null;
+							$rootScope.valueToSearch = $scope.searchBox;
 							$rootScope.search = null;
 					    
 							if (type == 'searchFilter') {

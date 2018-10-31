@@ -2472,7 +2472,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     protobufJsonString: port_info
                 });
                 document.getElementById("loading").style.display = "block";
-                $http.get(url,{headers: {'Access-Control-Allow-Origin': '*','Access-Control-Request-Method': 'GET','Access-Control-Allow-Headers':'application/x-www-form-urlencoded'},cache: true}).success(function(data){
+                $http.get(url,{headers: {'Access-Control-Allow-Origin': '*','Access-Control-Request-Method': 'GET','Access-Control-Allow-Headers':'application/x-www-form-urlencoded'}}).success(function(data){
                     var i=0;
                     var matchingModels = [];
 
