@@ -3,7 +3,7 @@
 This repository holds projects that together comprise the Marketplace Backend for the Acumos platform.
 
 ## Build Prerequisites
-
+  
 * JDK 1.8
 * Spring STS 3.8.x (https://spring.io/tools/sts/all) 
 * Git Shell (https://git-for-windows.github.io/) or SourceTree (https://www.sourcetreeapp.com/) for Cloning & pushing the code changes. 
