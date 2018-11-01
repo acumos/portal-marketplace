@@ -117,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "d3cfea20_52aa3a5e",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/AdminService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T20:13:15Z",
+      "side": 1,
+      "message": "An interface class should have Javadoc comments that explain the contract and the parameters.  These comments are copied to the generated Javadoc HTML during the maven-guided build.  Maven and the Javadoc plugin just lists the signature plus the text you write.",
+      "parentUuid": "1cce4b2f_69ce7432",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 1
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ec4be30_eddf0b84",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AdminServiceImpl.java",
         "patchSetId": 1
