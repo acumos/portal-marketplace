@@ -20,6 +20,9 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.16.3, 1st Novemeber 2018
+==================================
+
 Version 1.16.2, 11th October 2018
 =================================
 
