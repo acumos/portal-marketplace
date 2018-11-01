@@ -26,7 +26,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPPeer;
@@ -166,6 +169,39 @@ public class AdminServiceControllerTest {
 
 		} catch (Exception e) {
 			logger.info("failed tot execute the above test case");
+		}
+	}
+	
+	@Test
+	public void getPeerSubscriptionCountsTest() {
+		try {
+			String peerId = "ab20f129-06ba-48dc-b238-335f9982799c";
+			Integer subCount = 7;
+			
+			List<String> ids = new ArrayList<>();
+			ids.add(peerId);
+			Assert.assertNotNull(ids);
+
+			Map<String,Integer> counts = new HashMap<>();
+			counts.put(peerId, subCount);
+			Assert.assertNotNull(counts);
+			
+			JsonRequest<List<String>> jsonIds = new JsonRequest<>();
+			jsonIds.setBody(ids);
+			JsonResponse<Map<String,Integer>> countsRes = new JsonResponse<>();
+			countsRes.setResponseBody(counts);
+			Assert.assertNotNull(peerId);
+			
+			Mockito.when(adminService.getPeerSubscriptionCounts(ids)).thenReturn(counts);
+			Assert.assertEquals(counts.get(peerId), subCount);
+			
+			countsRes = adminController.getPeerSubscriptionCounts(jsonIds);
+			logger.info("Subscription List : " + countsRes.getResponseBody());
+			Assert.assertNotNull(countsRes);
+			Assert.assertEquals(countsRes.getResponseBody().get(peerId), subCount);
+
+		} catch (Exception e) {
+			logger.error("failed to execute getPeerSubscriptionCountsTest", e);
 		}
 	}
 
