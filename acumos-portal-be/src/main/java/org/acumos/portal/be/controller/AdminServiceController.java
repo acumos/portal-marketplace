@@ -290,6 +290,42 @@ public class AdminServiceController extends AbstractController {
         }
         return data;
     }
+    
+
+    @ApiOperation(value = "Gets counts of Peer Subscriptions for all peers.")
+    @RequestMapping(value = { APINames.PEERSUBSCRIPTION_COUNTS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<Map<String,Integer>> getPeerSubscriptionCounts(
+            @RequestBody JsonRequest<List<String>> jsonPeerIds) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getPeerSubscriptionCounts");
+        List<String> peerIds = jsonPeerIds.getBody();
+        
+        if (peerIds != null) {
+        	for (int i = 0; i < peerIds.size(); i++) {
+        		String peerId = peerIds.get(i);
+        		if (peerId != null) {
+            		peerIds.set(i, SanitizeUtils.sanitize(peerId));
+        		}
+        	}
+        }
+        
+        Map<String,Integer> subscriptionCounts = null;
+        JsonResponse<Map<String,Integer>> data = new JsonResponse<>();
+        try {
+            subscriptionCounts = adminService.getPeerSubscriptionCounts(peerIds);
+            if (subscriptionCounts != null) {
+                data.setResponseBody(subscriptionCounts);
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("PeerSubscriptionCounts fetched Successfully");
+            }
+        } catch (Exception e) {
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Exception Occurred Fetching PeerSubscriptionCounts for Admin Configuration");
+            log.error(EELFLoggerDelegate.errorLogger,
+                    "Exception Occurred Fetching PeerSubscriptionCounts for Admin Configuration", e);
+        }
+        return data;
+    }
 
     @ApiOperation(value = "Gets Subscription details.", response = MLPPeerSubscription.class)
     @RequestMapping(value = { APINames.SUBSCRIPTION_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
