@@ -28,9 +28,9 @@ angular
             controller : DSController
         }
     );
-DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector','browserStorageService'];
+DSController.$inject = ['$scope','$http','$filter','$q','$window','$rootScope','$mdDialog','$state','$stateParams','$injector','browserStorageService','apiService'];
 
-function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector, browserStorageService) {
+function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$state,$stateParams,$injector, browserStorageService, apiService) {
 	componentHandler.upgradeAllRegistered();
 	$scope.is_ie = false || !!document.documentMode;
 
@@ -857,7 +857,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 
     function display_solution(solution) {
         $('#deleteHide').hide();
-        $scope.databroker.$invalid = false;
         $scope.console = null;
         $('#validateActive').removeClass('active');
         $('#validateActive').removeClass('enabled');
@@ -3010,6 +3009,34 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         $scope.showInput = !$scope.showInput;
     };
     
+    $http({
+        method : 'GET',
+        url : '/api/filter/modeltype'
+    }).success(function(data, status, headers, config) {
+        $scope.categoryNames = data.response_body;
+    }).error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error
+        // status.
+    	$scope.categoryNames = [];
+    });
+    
+    $scope.enableDeployToCloud = function(){
+        apiService
+        .getCloudEnabled()
+        .then(
+                function(response) {
+                    if(response.status == 200){
+                        $scope.checkDeployToCloudResponse = JSON.parse(response.data.response_body);
+                       
+                    }
+                },
+                function(error) {
+                    console.log(error);
+                });
+    };
+    $scope.enableDeployToCloud();
+    
     document.getElementById("loading").style.display = "block";
     function load_catalog() {
     	
@@ -3091,6 +3118,10 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     
                 };
             }).error(function(response){
+            	document.getElementById("loading").style.display = "none";
+            	$scope.titlemsg = ALERT;
+            	$scope.msg = response.message;
+            	$scope.showpopup();
             	$scope.palette.categories=[];
             		
             });
@@ -3411,7 +3442,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     }
                     angular.forEach($scope.publicOR, function(value1, key1) {
                         $scope.publicCS.push(value1);
-                        console.clear();
                     })
                 })
                 .error(function(response){
