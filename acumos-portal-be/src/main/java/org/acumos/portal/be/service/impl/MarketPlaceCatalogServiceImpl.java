@@ -1041,12 +1041,8 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
 		
-		/*RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKw(pageReqPortal.getNameKeyword(), true, null,
-		accessTypeCodes, null, null, pageReqPortal.getPageRequest());*/
-
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKw(pageReqPortal.getNameKeyword(), 
-				pageReqPortal.isActive(), pageReqPortal.getOwnerIds(),
-				accessTypeCodes, pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKw(pageReqPortal.getNameKeyword(), true, null,
+		accessTypeCodes, null, null, pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
