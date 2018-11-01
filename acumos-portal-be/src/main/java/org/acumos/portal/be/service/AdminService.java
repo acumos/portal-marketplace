@@ -18,19 +18,16 @@
  * ===============LICENSE_END=========================================================
  */
 
-/**
- * 
- */
 package org.acumos.portal.be.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
-import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
 
@@ -51,6 +48,8 @@ public interface AdminService {
     List<MLPPeerSubscription> getPeerSubscriptions(String peerId); 
 
 	MLPPeerSubscription getPeerSubscription(Long subId);
+	
+	Map<String,Integer> getPeerSubscriptionCounts(List<String> peerIds);
 
 	MLPPeerSubscription createPeerSubscription(MLPPeerSubscription peerSub);
 

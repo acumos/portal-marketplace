@@ -35,7 +35,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -275,6 +278,27 @@ public class AdminServiceImplTest {
 			logger.debug("Exception while fetching peer subscription details  : " + e);
 		}
 
+	}
+	
+	@Test
+	public void getPeerSubscriptionCountsTest() {
+		try {
+			String peerId = "ab20f129-06ba-48dc-b238-335f9982799c";
+			Integer subCount = 7;
+			
+			List<String> ids = new ArrayList<>();
+			ids.add(peerId);
+
+			Map<String,Integer> counts = new HashMap<>();
+			counts.put(peerId, subCount);
+			
+			Mockito.when(impl.getPeerSubscriptionCounts(ids)).thenReturn(counts);
+			logger.info("Successfully fetched subscription counts :  " + counts);
+			Assert.assertEquals(counts.get(peerId), subCount);
+
+		} catch (Exception e) {
+			logger.error("Exception while fetching subscription counts", e);
+		}
 	}
 
 	@Test
