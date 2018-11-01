@@ -885,14 +885,10 @@ limitations under the License.
 											href="{{val.apiUrl}}">{{val.apiUrl}}</a> <!-- <a class="disblock" data-target>{{val.webUrl}}</a> -->
 										</td>
 										<td><label class="disblock disabledRowChild">{{val.contact1}}</label>
-											<!-- <label class="disblock">{{val.contact2}}</label> --></td>
+											</td>
 										<td>
-											<!-- <label class="disabledRowChild">{{val.subscriptionCount}} Subscriptions </label> -->
-											<label class="disabledRowChild"
-											ng-repeat="count in subscriptionCount"> <label
-												ng-show="val.peerId == count.peerId">
-													{{count.subscriptionLength}} Subscriptions</label>
-										</label> <a class="fed-view-link text-small" data-target
+											<label class="disabledRowChild">{{subscriptionCounts[val.peerId]}}
+											</label><a class="fed-view-link text-small" data-target
 											ng-click="mdPrimaryClass=false;subscripDetails1 = false;showPopupPeeR1($event,val);">View/Add</a>
 										</td>
 										<td>
