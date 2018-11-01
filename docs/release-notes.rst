@@ -20,6 +20,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.16.3, 1st November 2018
+=================================
+* Portal don't show first-time user Tag/Theme selection dialog (ACUMOS-1953)
+
 Version 1.16.2, 11th October 2018
 =================================
 
