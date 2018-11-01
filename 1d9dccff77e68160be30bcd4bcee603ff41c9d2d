@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "8f78adab_c669f6ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T20:09:13Z",
+      "side": 1,
+      "message": "Please see commit message guide here: https://wiki.acumos.org/display/AC/Acumos+Developer\u0027s+Guide+to+CI-CD+Resources+and+Processes#AcumosDeveloper\u0027sGuidetoCI-CDResourcesandProcesses-Writegoodgitcommitmessages",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbd94cb0_bb74b2ca",
         "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
         "patchSetId": 1
