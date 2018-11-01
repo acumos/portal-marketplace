@@ -225,6 +225,7 @@ angular.module('admin').filter('abs', function() {
                                                 
                                               	});
 						$scope.peer = $scope.peer2;
+						$scope.getPeerSubscriptionCounts();
 					},
 					function(error) {console.log(error);});
 			}
@@ -1491,6 +1492,23 @@ angular.module('admin').filter('abs', function() {
                                         	  }
                                           }*/
                                           
+                                          $scope.getPeerSubscriptionCounts = function() {
+                                        	  var body = $scope.peer.map(function(peer) {
+                      							return peer.peerId;
+                                        	  });
+                                        	  var json = { "request_body": body };
+                                        	  var subCountUrl = 'api/admin/peer/subcriptions/counts';
+                    						  $http.post(subCountUrl,json)
+                    						  	.success(function(response){
+                    						  		$scope.subscriptionCounts = response.response_body;
+                    						  	}).error(function(error){
+                    						  		$scope.subscriptionCounts = {};
+                    						  		$scope.peer.forEach(function(peer) {
+                    						  			$scope.subscriptionCounts[peer.peerId] = -1;
+	                                              	  });
+                    						  		console.error("Error fetching subscription counts");
+                    						  	});
+                                          }
                                           
                                           /*get all solutions start*/
                                           $scope.loadAllSolutions = function(){
