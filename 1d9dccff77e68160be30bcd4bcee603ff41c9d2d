@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d5efc81_24dbe44f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "Please make this the first line of the footer -- it does not belong in the commit message body",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbd94cb0_bb74b2ca",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "for all peers",
+      "range": {
+        "startLine": 295,
+        "startChar": 42,
+        "endLine": 295,
+        "endChar": 46
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7f1ca2d_f3643d4b",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/AdminService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "when you get a chance, please consider removing this sort of clutter",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 3
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cce4b2f_69ce7432",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/AdminService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "The interface should have a clear Javadoc comment stating the contract to be fulfilled.\n\nWhy is the indentation inconsistent?",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 1
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ec4be30_eddf0b84",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AdminServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "Maybe you should write an improvement story for a method \"getPeerSubscriptionCount(peerId)\"",
+      "range": {
+        "startLine": 155,
+        "startChar": 43,
+        "endLine": 155,
+        "endChar": 64
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e6c7762_eb714fdc",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AdminServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "what if an exception happens?  Someone deletes a peer while another person is browsing?  Do you defend against that?",
+      "range": {
+        "startLine": 156,
+        "startChar": 5,
+        "endLine": 156,
+        "endChar": 11
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd3ba8c1_08b57894",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "Please check that the received count matches the value 7 you put in above. Best not to hardcode it, put it in a variable so you can reuse the value in the assertion.",
+      "range": {
+        "startLine": 198,
+        "startChar": 10,
+        "endLine": 198,
+        "endChar": 23
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8b3d5f_dfbc59f3",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "this is too vague",
+      "range": {
+        "startLine": 201,
+        "startChar": 38,
+        "endLine": 201,
+        "endChar": 43
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d4867f8_00bee508",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AdminServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "This seems to be the same test as in the other class?  I must be missing something.",
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e81f3c68_59f02109",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AdminServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "A \u003d\u003d A.  Never fails, this little trivial assertion.  Please check something meaningful.",
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af5ef73a_78680582",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1504,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "On error can you populate the counts with -1 or something so the front end doesn\u0027t simply break?",
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d86e934f_3b15077a",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-01T18:58:27Z",
+      "side": 1,
+      "message": "remove, don\u0027t comment out",
+      "range": {
+        "startLine": 891,
+        "startChar": 12,
+        "endLine": 895,
+        "endChar": 23
+      },
+      "revId": "1d9dccff77e68160be30bcd4bcee603ff41c9d2d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
