@@ -156,6 +156,7 @@ public class APINames {
     
     //Peer subscription API for Admin
     public static final String PEERSUBSCRIPTION_PAGINATED = "/peer/subcriptions/{peerId}";
+    public static final String PEERSUBSCRIPTION_COUNTS = "/peer/subcriptions/counts";
     public static final String SUBSCRIPTION_DETAILS = "/peer/subcription/{subId}";
     public static final String SUBSCRIPTION_CREATE = "/peer/subcription/create";
     public static final String SUBSCRIPTION_UPDATE = "/peer/subcription/update";
