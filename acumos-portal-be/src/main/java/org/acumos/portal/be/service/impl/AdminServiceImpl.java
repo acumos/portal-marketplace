@@ -143,6 +143,22 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 		}
 		return peerSubscription;
 	}
+	
+	@Override
+	public Map<String,Integer> getPeerSubscriptionCounts(List<String> peerIds) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getPeerSubscriptionCounts ={}", peerIds);
+		HashMap<String,Integer> counts = new HashMap<>();
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if (peerIds != null) {
+			for (String peerId : peerIds) {
+				if (peerId != null) {
+					Integer count = dataServiceRestClient.getPeerSubscriptions(peerId).size();
+					counts.put(peerId, count);
+				}
+			}
+		}
+		return counts;
+	}
 
 	@Override
 	public MLPPeerSubscription createPeerSubscription(MLPPeerSubscription peerSub) {
