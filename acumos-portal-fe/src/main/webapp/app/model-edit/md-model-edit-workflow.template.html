@@ -1825,9 +1825,9 @@ limitations under the License.
 
 									<div class="">
 										<button ng-click="publishtoMarket('OR')"
-											ng-disabled="activePublishBtn == false"
-											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
-											Submit to Publication</button>
+											ng-disabled="activePublishBtn == false || version.accessTypeCode != 'PR'"
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication"
+										ng-bind="(version.accessTypeCode == 'PR') ? 'Submit to Publication' : (version.accessTypeCode == 'PB') ? 'Published to Public MKT' : 'Published to Company MKT'"></button>
 										<button
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
 											ng-click="showPrerenderedDialog($event);publicPreview=false;" alt="Preview Model" title="Preview Model">Preview
@@ -3545,9 +3545,9 @@ limitations under the License.
 								</div>
 								<div class="">
 									<button ng-click="publishtoMarket('PB')"
-										ng-disabled="activePublishBtnPB == false"
-										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
-										Submit to Publication</button>
+										ng-disabled="activePublishBtnPB == false || version.accessTypeCode != 'PR'"
+										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication"
+										ng-bind="(version.accessTypeCode == 'PR') ? 'Submit to Publication' : (version.accessTypeCode == 'PB') ? 'Published to Public MKT' : 'Published to Company MKT'"></button>
 									<button
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
 										ng-click="showPrerenderedDialog($event);publicPreview=true;" alt="Preview Model" title="Preview Model">Preview
