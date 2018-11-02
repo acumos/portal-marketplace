@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a50a8ef5_7680dcec",
+        "filename": "acumos-portal-fe/src/main/webapp/app/modular-resource/modular-resource.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2018-11-02T15:04:46Z",
+      "side": 1,
+      "message": "Thanks for changing this to Athena, but the link should actually be to the R onboarding guide instead of the R developer guide. \n\nhttps://docs.acumos.org/en/athena/AcumosUser/portal-user/portal/onboarding-r-guide.html",
+      "range": {
+        "startLine": 667,
+        "startChar": 111,
+        "endLine": 667,
+        "endChar": 112
+      },
+      "revId": "67dee3f5a05f66f8593079a8997e25d03796a688",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
