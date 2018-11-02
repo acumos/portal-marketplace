@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a0a7d84_66c904cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-02T11:23:24Z",
+      "side": 1,
+      "message": "Please use the recommended format.  This is not a change, most people have implemented the LF recommended format since the very beginning, just check the logs. \n\nYour first two lines are perfect (subject and blank).  Just need to move the Issue-ID: line to be the first line of the three-line footer (issue, change, signed-off).  Thanks.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "9b3d03dfc6bf585c76c251637566e545949e8bc3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1d4535_0478d57a",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/AdminServiceControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-02T11:23:24Z",
+      "side": 1,
+      "message": "Please use logger.error and include the exception, don\u0027t discard it",
+      "range": {
+        "startLine": 204,
+        "startChar": 63,
+        "endLine": 204,
+        "endChar": 65
+      },
+      "revId": "9b3d03dfc6bf585c76c251637566e545949e8bc3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f838a65_21f452cd",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AdminServiceImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-02T11:23:24Z",
+      "side": 1,
+      "message": "Please use logger.error and pass the exception to the logger (don\u0027t use string catenation), the method is overloaded and one of the variants accepts a Throwable as the last parm.",
+      "range": {
+        "startLine": 301,
+        "startChar": 67,
+        "endLine": 301,
+        "endChar": 69
+      },
+      "revId": "9b3d03dfc6bf585c76c251637566e545949e8bc3",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
