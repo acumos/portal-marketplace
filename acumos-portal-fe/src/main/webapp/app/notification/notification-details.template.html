@@ -61,14 +61,18 @@ limitations under the License.
 						</div>
 						<div class="tbl-notification-container">
 							<table ng-if='notificationManageObj.length' class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">
+							  <colgroup>
+							  	<col style="width: 30%;">
+							  	<col style="width: 55%;">
+							  	<col style="width: 15%;">
+							  </colgroup>							  
 							  <thead>
 								<tr>
-								  <th>
-									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1" id="checkbox-label">
-									  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model = "selectAll" ng-click = "setSelectAll(selectAll)" ng-checked="selectAllStatus" />
-									  <span class="mdl-checkbox__label"></span>
-									</label></th>
+								  
+									
 								  <th>Sender Name</th>
+								 
+								 
 								  <th ng-click="orderByField='message'; reverseSortSubject = !reverseSortSubject; reverseSort = reverseSortSubject;">Subject<span ng-if='orderByField!="message"'
 										class="gridcell-sort deactivate"></span><span
 										ng-if='orderByField=="message"'
@@ -86,11 +90,14 @@ limitations under the License.
 								<td  ng-class="{'read-notification': notification.viewed}">
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" id="checkBox_{{$index}}">
 									  <input type="checkbox"  class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected" ng-click="removeSelectAll()">
-									  <span class="mdl-checkbox__label"></span>
+									  <span class="mdl-checkbox__label"></span>{{adminDetails[0].firstName}} {{adminDetails[0].lastName}}<span>
+									  
 									</label>
+									
 								</td>
-								  <td class="mdl-data-table__cell--non-numeric"  ng-class="{'read-notification': notification.viewed}">{{adminDetails[0].firstName}} {{adminDetails[0].lastName}}<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
-								  <td ng-bind-html="notification.message" ng-class="{'read-notification': notification.viewed}" compile></td>
+								
+								 
+								  <td class="sub-container" ng-bind-html="notification.message" ng-class="{'read-notification': notification.viewed}" compile></td>
 								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start | date:"MM/dd/yyyy"}}</td>
 								</tr>
 							  </tbody>

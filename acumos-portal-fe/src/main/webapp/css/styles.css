@@ -129,7 +129,8 @@ p {font-size: 1em;}
 .tbl-notification-list thead tr th {text-align:left;}
 .tbl-notification-list tbody tr td {text-align:left;}
 .tbl-notification-list tbody tr td i {margin-left: 15px;}
-.tbl-notification-list tbody tr td.read-notification {background: #f5f5f5; font-weight: normal;}
+.tbl-notification-list tbody tr td.read-notification {background: #f5f2f8; font-weight: 600;color:#91819d}
+.tbl-notification-list tbody tr td.sub-container span {white-space: normal !important;}
 .notification-btn-container {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items: center;}
 .notification-btn-container button { margin-right: 15px}
 .notification-btn-container button i { font-size: 13px; margin-right: 4px;}
@@ -233,7 +234,7 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 
 
 /*********** typo style start************/
-label {font-weight: normal; margin-bottom: 5px;}
+label {font-weight: 600; margin-bottom: 5px;}
 .text-bold {font-weight: bold;}
 h5 {margin:5px 0;padding:0}
 h6 {margin:0;padding:0}
@@ -243,7 +244,7 @@ h6 {margin:0;padding:0}
 .sectiontitle7,.sectiontitle8,.sectiontitle9  
 {font-size: 16px;font-weight: 600;line-height: 30px;border-bottom: 1px solid #E5E5E5;margin-bottom: 8px;padding: 5px 8px;}
 
-.sectiontitle4 {font-size: 14px;margin-bottom:0; padding: 0 15px 0 20px; color:#671C9D;letter-spacing:0.01em;}
+.sectiontitle4 {font-size: 16px;margin-bottom:0; padding: 0 15px 0 20px; color:#671C9D;letter-spacing:0.01em;}
 .sectiontitle5 {margin-bottom: 0;padding: 5px 0; color: #671C9D; }
 .sectiontitle6 {color: #671C9D;}
 .sectiontitle7 {margin-bottom: 0;padding: 5px 0; color: #2e2f2f; }
@@ -1374,8 +1375,8 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 /**** Preview box style ends ******/
 /************** GRID STYLE STARTS************/
 .mdl-data-table {box-shadow: none; border: none;}
-.mdl-data-table thead tr th {border: none;padding-top:0;padding-bottom:0; height:47px; background: #E8E5EC;vertical-align:middle; text-transform:uppercase;font-weight:600; font-size: 14px;color:#671c9d;text-align:left;}
-.mdl-data-table tbody tr td {font-weight:600;color:#666;text-align:left;}
+.mdl-data-table thead tr th {border: none;padding-top:0;padding-bottom:0; height:47px; background:#E8E5EC;vertical-align:middle; text-transform:uppercase;font-weight:600; font-size: 14px;color:#671c9d;text-align:left;}
+.mdl-data-table tbody tr td {font-weight:600;color:#671c9d;text-align:left;}
 .mdl-data-table tbody tr:first-child td {border-top: none;}
 .admin-action-container button:hover {background: none;}
 
