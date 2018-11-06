@@ -981,6 +981,10 @@ md-checkbox.md-checked .md-icon:after {width: 6px; height: 9px; left: 3px;}
 .user-email {display:flex; align-items: center;}
 
 .user-email a { width:110px; font-size: 12px; margin-left: 10px;}
+.api-token {display:flex; align-items: center;}
+
+.api-token a { width:50px; font-size: 12px; margin-left: 10px; margin-top:8px;}
+.api-token a:last-child{width:74px !important;margin-left:5px !important;	}
 .user-location {width:30%;}
 .user-location md-input-container {width:100%;}
 .user-location2 {width:20%;}
@@ -2062,6 +2066,32 @@ table tbody tr td .a-tooltipval {top:5px}
 .popup-error-container{padding-bottom: 10px; float:left; width:100%; margin-bottom: 15px}
 .popup-error-msg {color: #ff0000; position: relative; width: 97%; float: right;}
 .popup-error-msg strong {font-size: 13px;}
+
+/* federation tab panel */
+.fed-tabpanel{margin-bottom:20px; /*margin-right:-20px; margin-left:-20px;*/}
+.fed-tabinfo i{float:left; padding-right:5px;}
+.fed-tabpanel md-tabs-content-wrapper{border:0px; min-height:auto !important;}
+.fed-srch-container .mdl-js-textfield.admin-search-container{margin-right:20px;}
+.detailbox{border:1px solid #319aeb; padding:5px; background-color:#c6e6ff;  }
+.detailbox i{color:#002f55;}
+.fed-row2.pull-right {margin-bottom:10px;}
+.peer-tbl-container{margin-bottom:20px;}
+.peer-tbl-container table{background-color:#f9f7f7; opacity:0.5;}
+.peer-tbl-container table tbody tr, .peer-tbl-container table tbody tr td{height:auto;}
+.peer-tbl-container table td{border-bottom:0; border-top:0px; padding:10px 18px;}
+.groupsearchicon {padding-right: 10px; padding-left: 35px; border: 1px solid #b1b1b1; border-radius: 2px 2px 0 0; height: 31px;line-height: 31px;
+background: #f1f1f1 url('../images/sidebar-icons/search_icon.png') no-repeat 10px center !important; font-size:14px; border-bottom:0;}
+.admin-row4 {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items:center;}
+.admin-row4 .selectionbox{width:234px;}
+.addgroupsbtns {width:93px; margin:35px auto 0;}
+.groupbuttons{border:1px solid #b1b1b1; border-radius:2px; color:#666; margin:5px 0; background-image:url(../images/general-icons/arrow_left.png);
+background-repeat:no-repeat; padding:0px 5px; background-position: 5px;float:left;}
+.groupbuttons span{ border-left:1px solid #b1b1b1; margin-left: 21px; padding: 5px 0px 5px 5px; float:left; min-width: 60px; text-align: center;}
+.groupbuttons-right{border:1px solid #b1b1b1; border-radius:2px; color:#666; margin:5px 0; background-image:url(../images/general-icons/arrow_right.png);
+background-repeat:no-repeat; padding:0px 5px; background-position: right 5px bottom 8px; float:left;}
+.groupbuttons-right span{ border-right:1px solid #b1b1b1; margin-right: 21px; padding: 5px 5px 5px 0; float:left; min-width: 60px; text-align: center;}      
+/* federation tab panel  end*/
+
 /*********** MEDIA QUERIES SECTION END  ************/
 
 /****** publish request starts*******/
@@ -2478,6 +2508,8 @@ label.model-name{color:#0366d6;}
 	.header-search-control.mdl-textfield.is-focused .mdl-textfield__input {width:300px;}
 	.user-email { width:43%;}
 	.user-email > md-input-container:first-child {width: calc(100% - 115px);}
+	.api-token { width:46%;}
+	.api-token > md-input-container:first-child {width: calc(100% - 115px);}
 	.btn-signup {width: 270px;}
 	.fedration-subscription {width: 1110px; }
 	.griditem-title {max-width: 450px; }
