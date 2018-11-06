@@ -3126,8 +3126,159 @@ angular.module('admin').filter('abs', function() {
 						$scope.loadAllTags();									
 	                    
 	                    /* IOT changes end*/
-	                    
-		}
+						
+						/* Restricated Fedration Start */
+						$scope.ShowSelectedGroupFlag = true;
+						$scope.ShowAvaliableGroupFlag = true;
+						$scope.avaliableSolutionList=[];						
+						$scope.chkSelected =[];
+						$scope.removeSelected = [];
+						$scope.showPopupPeerGroup = function(ev){
+				        	  $mdDialog.show({
+				        		  contentElement: '#CreatePeerGroup',
+				        		  parent: angular.element(document.body),
+				        		  targetEvent: ev,
+				        		  clickOutsideToClose: true
+				        	  });				        	  
+				          }
+						$scope.showPopupSolutionGroup = function(ev){
+				        	  $mdDialog.show({
+				        		  contentElement: '#CreateSolutionGroup',
+				        		  parent: angular.element(document.body),
+				        		  targetEvent: ev,
+				        		  clickOutsideToClose: true
+				        	  });				        	  
+				          }
+						$scope.showPopupMappingGroup = function(ev){
+				        	  $mdDialog.show({
+				        		  contentElement: '#CreateMappingGroup',
+				        		  parent: angular.element(document.body),
+				        		  targetEvent: ev,
+				        		  clickOutsideToClose: true
+				        	  });				        	  
+				          }
+					   
+					   $scope.GetSolutionList = function()
+					   {
+						   $scope.solutionList = [						                          	
+						                          	{name:"Market Place",checked:false},
+						                          	{name:"On Boarding",checked:false},
+						                          	{name:"Test",checked:false}
+						                         ];
+						   $scope.avaliableSolutionList = [{name:"Design Studio",checked:false}];
+						   //$scope.createGroupName = "tesdr";
+					   };
+					   $scope.GetSolutionList();
+					   					  					  
+					   $scope.toggle = function (item, list) {				 				 			
+						    var idx = list.indexOf(item);
+						     if (idx > -1) {
+						       list.splice(idx, 1);						       
+						     }
+						     else {
+						       list.push(item);						       
+						     }  
+						     //console.log($scope.chkSelected);
+						     
+						   };						   
+						   					   					 
+					   $scope.isIndeterminate = function() {
+						    return ($scope.chkSelected.length !== 0 &&
+						        $scope.chkSelected.length !== $scope.solutionList.length);
+						  };
+					  $scope.isChecked = function() {
+					    return $scope.chkSelected.length === $scope.solutionList.length;
+					  };
+					  
+					  $scope.toggleAll = function() {						  	
+						    if ($scope.chkSelected.length === $scope.solutionList.length) {
+						     $scope.chkSelected = [];
+						      for(var i = 0 ; i < $scope.solutionList.length; i++)
+								 {
+						    		$scope.solutionList[i].checked = false;						    		
+								 }
+						    } else if ($scope.chkSelected.length === 0 || $scope.chkSelected.length > 0) {
+						      //$scope.selected = $scope.solutionList.slice(0);		
+						    	$scope.chkSelected = [];
+						    	for(var i = 0 ; i < $scope.solutionList.length; i++)
+								 {
+						    		$scope.solutionList[i].checked = true;
+						    		$scope.chkSelected.push($scope.solutionList[i].name);
+								 }								 						    
+						    	//console.log($scope.chkSelected);
+						    }
+						};	
+						
+						$scope.AddSoltion = function()
+						   {
+							$scope.ShowSelectedGroupFlag = ($scope.chkSelected.length === $scope.solutionList.length) ? false : true;
+							$scope.ShowAvaliableGroupFlag = true;
+							$scope.searchSelectedSolution = "";
+							   var idx = -1;
+							   for(var i = 0 ; i < $scope.chkSelected.length; i++)
+								 {							   							   							 
+								   $scope.avaliableSolutionList.push({ name: $scope.chkSelected[i], checked: false });							   
+								   idx = $scope.solutionList.findIndex(solution => solution.name === $scope.chkSelected[i]);
+								   $scope.solutionList.splice(idx, 1);
+								 }
+							   $scope.chkSelected = [];
+							   console.log($scope.avaliableSolutionList);
+						   };
+						
+					 					   
+					 $scope.isIndeterminateAvaliableSolution = function() {
+						    return ($scope.removeSelected.length !== 0 &&
+						        $scope.removeSelected.length !== $scope.avaliableSolutionList.length);
+						  };
+					  $scope.isCheckedAvaliableSolution = function() {
+					    return $scope.removeSelected.length === $scope.avaliableSolutionList.length;
+					  };
+					  
+					  $scope.toggleAllAvaliableSolution = function() {
+						  	
+						    if ($scope.removeSelected.length === $scope.avaliableSolutionList.length) {
+						    	$scope.removeSelected = [];
+						      for(var i = 0 ; i < $scope.avaliableSolutionList.length; i++)
+								 {
+						    		$scope.avaliableSolutionList[i].checked = false;
+						    		//$scope.selected.push($scope.avaliableSolutionList[i].name);
+								 }
+						    } else if ($scope.removeSelected.length === 0 || $scope.removeSelected.length > 0) {
+						      //$scope.selected = $scope.avaliableSolutionList.slice(0);	
+						    	$scope.removeSelected = [];
+						    	for(var i = 0 ; i < $scope.avaliableSolutionList.length; i++)
+								 {
+						    		$scope.avaliableSolutionList[i].checked = true;
+						    		$scope.removeSelected.push($scope.avaliableSolutionList[i].name);
+								 }								 						    
+						    	//console.log($scope.removeSelected);
+						    }
+						};
+					   $scope.RemoveSoltion = function()
+					   {
+						   $scope.ShowSelectedGroupFlag = true;
+						   $scope.searchAvaliableSolution = "";
+						   $scope.ShowAvaliableGroupFlag = ($scope.removeSelected.length === $scope.avaliableSolutionList.length) ? false : true;
+						   var idx = -1;
+						   for(var i = 0 ; i < $scope.removeSelected.length; i++)
+							 {							   							   							 
+							   $scope.solutionList.push({ name: $scope.removeSelected[i], checked: false });							   
+							   idx = $scope.avaliableSolutionList.findIndex(solution => solution.name === $scope.removeSelected[i]);
+							   $scope.avaliableSolutionList.splice(idx, 1);
+							 }
+						   $scope.removeSelected = [];
+						   console.log($scope.solutionList);
+					   };
+					   
+					   $scope.addSolutionGroup = function() {
+						 var groupName = $scope.createGroupName;
+						 var SelectedSolutions =  $scope.chkSelected;
+						 console.log(SelectedSolutions);
+					   };					   					  
+					   
+					/* Restricated Fedration End */
+		             
+		 }
 })
 		.service('fileUploadService', function($http, $q) {
 

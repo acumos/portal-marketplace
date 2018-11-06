@@ -769,52 +769,81 @@ limitations under the License.
 						</form>
 						<!-- Dymanic form END -->
 					</div>
-					<div class="mdl-tabs__panel" id="tab5-panel">
+					<!-- Restricted Fedration Start-->
+					<div class="mdl-tabs__panel is-active" id="tab5-panel">
 						<div class="admin-tab-heading admin-box2">
 							<div>
 								<span class="admin-title2">Federation</span>
-
 							</div>
 							<div class="admin-switch-container">
-								<button
-									class="mdl-button mdl-js-button btn-secondary btn-with-icon"
-									ng-click='showPopupPeer();addEditPeer = "add";peerNamePop="";subNamePop="";emailIdPop="";apiUrlPop="";webUrlPop="";descriptionPop="";itsEdit = false;verify=true;'>
-									<span class="admin-btn-add"></span> Add Peer
-								</button>
-								<span class="admin-title3">| Federation</span>
+								<span class="admin-title3">Federation</span>
 								<md-switch ng-model="data.cb1" aria-label="Switch 1"
 									class="md-warn"> <span
 									class="text-xsmall text-green" ng-show="data.cb1 == true">Enabled</span>
 								<span class="text-xsmall text-red"
 									ng-show="data.cb1 == false || data.cb1 == null ">Disabled</span>
 								</md-switch>
-
-								<!-- <span class="admin-title3">Turn On/Off Federation</span>
-															 <md-switch ng-model="data.cb2" aria-label="Switch 2" class="md-warn">
-																off
-															  </md-switch> -->
-
 								<a data-target class="admin-help-link" title="Help"><i
 									class="material-icons">help</i></a>
 							</div>
 						</div>
-
-						<div class="fed-row1">
-							<div class="fedrow-cell1">
-								<span class="font600">Current peers</span> <span>({{activeCount}}
-									active peers)</span>
+						<!-- tab panel -->
+						<div class="fed-tabpanel">
+							<md-tabs md-dynamic-height md-border-bottom> 
+							
+							<!-- PEERS Section Start-->
+							<md-tab label="Peers"> <md-content class="md-padding">
+							<div class="peer-tbl-container" ng-if="false">
+								<table
+									class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1">
+									<colgroup>
+										<col width="30%">
+										<col width="30%">
+										<col width="30%">
+										<col width="10%">
+									</colgroup>
+									<tbody>
+										<tr>
+											<td>Name</td>
+											<td>Gateway information</td>
+											<td>Contact</td>
+											<td>Status</td>
+										</tr>
+										<tr>
+											<td>Acumos instance name</td>
+											<td>https://young-ist-vm01..</td>
+											<td>admin@orgdomain.com</td>
+											<td>Inactive</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-							<div class="fed-row2">
-								<div class="fed-srch-container">
-									<label class="fed-lbl1">Filter</label>
-									<div
-										class="mdl-textfield mdl-js-textfield admin-search-container">
-										<input class="mdl-textfield__input admin-search-control"
-											type="text" placeholder="" ng-model="searchPeerDetails">
+							<div>
+								<div class="fed-row2 pull-right">
+									<div class="fed-srch-container">
+										<label class="fed-lbl1">Filter</label>
+										<div
+											class="mdl-textfield mdl-js-textfield admin-search-container">
+											<input class="mdl-textfield__input admin-search-control"
+												type="text" placeholder="" ng-model="searchPeerDetails">
+										</div>
+										<button
+											class="mdl-button mdl-js-button btn-secondary btn-with-icon"
+											ng-click='showPopupPeer();addEditPeer = "add";peerNamePop="";subNamePop="";emailIdPop="";apiUrlPop="";webUrlPop="";descriptionPop="";itsEdit = false;verify=true;'>
+											<span class="admin-btn-add"></span> Add Peer
+										</button>
 									</div>
 								</div>
 							</div>
-						</div>
+							<div class="clearfix"></div>
+							<div class="fed-tabinfo" ng-if="false">
+								<p class="detailbox">
+									<i class="material-icons">info_outline</i><span>Peer
+										groups definition :- <a href="#">https://</a>
+									</span>
+								</p>
+							</div>
+							<!-- PEERS table content -->
 						<div class="admin-grid-container fedtbl">
 							<table
 								class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1">
@@ -977,7 +1006,314 @@ limitations under the License.
 								<strong>No Result Found</strong>
 							</div>
 						</div>
+							<!-- PEERS table end --> 
+							</md-content> </md-tab> 
+							<!-- PEERS Section end -->
+							 
+							<!-- PEERS Groups Section Start -->
+							<md-tab label="Peer Groups" ng-if="flase"> <md-content class="md-padding">
+							<div class="fed-tabinfo">
+								<p class="detailbox">
+									<i class="material-icons">info_outline</i><span>Peer
+										groups definition :- <a href="#">https://</a>
+									</span>
+								</p>
+							</div>
+							<!--  -->
+							<div>
+								<div class="fed-row2 pull-right">
+									<div class="fed-srch-container">
+										<label class="fed-lbl1">Filter</label>
+										<div
+											class="mdl-textfield mdl-js-textfield admin-search-container">
+											<input class="mdl-textfield__input admin-search-control"
+												type="text" placeholder="" ng-model="searchPeerDetails">
+										</div>
+										<button class="mdl-button mdl-js-button btn-secondary"
+											ng-click='showPopupPeerGroup()'>
+											<!-- <span class="admin-btn-add"></span> -->
+											Create Group
+										</button>
+									</div>
+								</div>
+							</div>
+							<!-- PEERS Groups table content -->
+							<div class="admin-grid-container fedtbl">
+								<table
+									class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1">
+									<colgroup>
+										<col width="15%">
+										<col width="15%">
+										<col width="15%">
+										<col width="10%">
+									</colgroup>
+									<thead ng-hide="hideLabel">
+										<tr>
+											<th
+												ng-click="orderByFieldFed='name'; reverseSortFederation = !reverseSortFederation">Group
+												Name<span ng-if='orderByFieldFed!="name"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="name"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th
+												ng-click="orderByFieldFed='apiUrl'; reverseSortFederation = !reverseSortFederation">peers
+												<span ng-if='orderByFieldFed!="apiUrl"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="apiUrl"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th
+												ng-click="orderByFieldFed='contact1'; reverseSortFederation = !reverseSortFederation">last
+												modify on<span ng-if='orderByFieldFed!="contact1"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="contact1"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails'
+											ng-hide="val.statusCode == 'DC'"
+											ng-class="val.statusCode == 'IN' ?'disabledRow':''">
+											<!-- |  filter: { statusCode: "AC"} -->
+											<td><span class="disabledRowChild">{{val.name}}</span></td>
+											<td><a class="disblock disabledRowChild" target="_blank"
+												href="{{val.apiUrl}}">{{val.apiUrl}}</a> <!-- <a class="disblock" data-target>{{val.webUrl}}</a> -->
+											</td>
+											<td><label class="text-xsmall disabledRowChild">
+													{{val.modified | date : "MM/dd/yyyy"}} </label></td>
+											<td>
+												<div class="admin-action-container">
+													<button ng-click='editPeer(val);'
+														class="mdl-button mdl-js-button mdl-button--icon">
+														<span class="gridicon-edit"></span>
+													</button>
+													<button ng-click='confirmDelete(val)'
+														class="mdl-button mdl-js-button mdl-button--icon">
+														<span class="gridicon-delete"></span>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- PEERS Groups table content end --> 
+							</md-content> </md-tab>
+							<!-- PEERS Groups Section end -->
+
+							<!-- Solution Groups Section Start --> 
+							<md-tab label="Solution Groups" ng-if="flase"> <md-content class="md-padding">
+							<div class="fed-tabinfo">
+								<p class="detailbox">
+									<i class="material-icons">info_outline</i><span>Solution
+										groups definition :- <a href="#">https://</a>
+									</span>
+								</p>
+							</div>						
+							<div>
+								<div class="fed-row2 pull-right">
+									<div class="fed-srch-container">
+										<label class="fed-lbl1">Filter</label>
+										<div
+											class="mdl-textfield mdl-js-textfield admin-search-container">
+											<input class="mdl-textfield__input admin-search-control"
+												type="text" placeholder="" ng-model="searchPeerDetails">
+										</div>
+										<button class="mdl-button mdl-js-button btn-secondary"
+											ng-click='showPopupSolutionGroup()'>											
+											Create Solution Group
+										</button>
+									</div>
+								</div>
+							</div>
+							<!-- Solution Groups table content Start -->
+							<div class="admin-grid-container fedtbl">
+								<table
+									class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1">
+									<colgroup>
+										<col width="15%">
+										<col width="15%">
+										<col width="15%">
+										<col width="10%">
+									</colgroup>
+									<thead ng-hide="hideLabel">
+										<tr>
+											<th
+												ng-click="orderByFieldFed='name'; reverseSortFederation = !reverseSortFederation">Group
+												Name<span ng-if='orderByFieldFed!="name"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="name"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th
+												ng-click="orderByFieldFed='apiUrl'; reverseSortFederation = !reverseSortFederation">solutions
+												<span ng-if='orderByFieldFed!="apiUrl"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="apiUrl"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th
+												ng-click="orderByFieldFed='contact1'; reverseSortFederation = !reverseSortFederation">last
+												modify on<span ng-if='orderByFieldFed!="contact1"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="contact1"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails'
+											ng-hide="val.statusCode == 'DC'"
+											ng-class="val.statusCode == 'IN' ?'disabledRow':''">
+											<!-- |  filter: { statusCode: "AC"} -->
+											<td><span class="disabledRowChild">{{val.name}}</span></td>
+											<!-- <td>
+										               <label>{{val.description}}</label>
+										               <label>Regression</label>
+										               </td> -->
+											<td><a class="disblock disabledRowChild" target="_blank"
+												href="{{val.apiUrl}}">{{val.apiUrl}}</a> <!-- <a class="disblock" data-target>{{val.webUrl}}</a> -->
+											</td>
+											<td><label class="text-xsmall disabledRowChild">
+													{{val.modified | date : "MM/dd/yyyy"}} </label></td>
+											<td>
+												<div class="admin-action-container">
+													<button ng-click='editPeer(val);'
+														class="mdl-button mdl-js-button mdl-button--icon">
+														<span class="gridicon-edit"></span>
+													</button>
+													<button ng-click='confirmDelete(val)'
+														class="mdl-button mdl-js-button mdl-button--icon">
+														<span class="gridicon-delete"></span>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- Solution Groups table content end -->
+							</md-content> </md-tab> 
+							<!-- Solution Groups Section end -->
+
+							<!-- Group Mappings Section Start --> 
+							<md-tab label="Group Mappings" ng-if="flase"> <md-content class="md-padding">
+							<div class="fed-tabinfo">
+								<p class="detailbox">
+									<i class="material-icons">info_outline</i><span>Group
+										Mapping definition :- <a href="#">https://</a>
+									</span>
+								</p>
+							</div>
+							<!-- container -->
+							<div>
+								<div class="fed-row2 pull-right">
+									<div class="fed-srch-container">
+										<label class="fed-lbl1">Filter</label>
+										<div
+											class="mdl-textfield mdl-js-textfield admin-search-container">
+											<input class="mdl-textfield__input admin-search-control"
+												type="text" placeholder="" ng-model="searchPeerDetails">
+										</div>
+										<button class="mdl-button mdl-js-button btn-secondary"
+											ng-click='showPopupMappingGroup()'>											
+											Add Mappings
+										</button>
+									</div>
+								</div>
+							</div>
+							<!-- Group Mappings table content start -->
+							<div class="admin-grid-container fedtbl">
+								<table
+									class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1">
+									<colgroup>
+										<col width="15%">
+										<col width="15%">
+										<col width="15%">
+										<col width="10%">
+									</colgroup>
+									<thead ng-hide="hideLabel">
+										<tr>
+											<th
+												ng-click="orderByFieldFed='name'; reverseSortFederation = !reverseSortFederation">Group
+												Name<span ng-if='orderByFieldFed!="name"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="name"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th
+												ng-click="orderByFieldFed='apiUrl'; reverseSortFederation = !reverseSortFederation">solutions
+												<span ng-if='orderByFieldFed!="apiUrl"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="apiUrl"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th
+												ng-click="orderByFieldFed='contact1'; reverseSortFederation = !reverseSortFederation">last
+												modify on<span ng-if='orderByFieldFed!="contact1"'
+												class="gridcell-sort deactivate"></span><span
+												ng-if='orderByFieldFed=="contact1"'
+												ng-class="reverseSortFederation?'ascending':'descending'"
+												class="gridcell-sort"></span>
+											</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat='val in peer | orderBy:orderByFieldFed:reverseSortFederation | filter: searchPeerDetails'
+											ng-hide="val.statusCode == 'DC'"
+											ng-class="val.statusCode == 'IN' ?'disabledRow':''">
+											<!-- |  filter: { statusCode: "AC"} -->
+											<td><span class="disabledRowChild">{{val.name}}</span></td>
+											<!-- <td>
+										               <label>{{val.description}}</label>
+										               <label>Regression</label>
+										               </td> -->
+											<td><a class="disblock disabledRowChild" target="_blank"
+												href="{{val.apiUrl}}">{{val.apiUrl}}</a> <!-- <a class="disblock" data-target>{{val.webUrl}}</a> -->
+											</td>
+											<td><label class="text-xsmall disabledRowChild">
+													{{val.modified | date : "MM/dd/yyyy"}} </label></td>
+											<td>
+												<div class="admin-action-container">
+													<button ng-click='editPeer(val);'
+														class="mdl-button mdl-js-button mdl-button--icon">
+														<span class="gridicon-edit"></span>
+													</button>
+													<button ng-click='confirmDelete(val)'
+														class="mdl-button mdl-js-button mdl-button--icon">
+														<span class="gridicon-delete"></span>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- Group Mappings table content end -->
+							</md-content> </md-tab>
+							<!-- Group Mappings Section end -->
+							
+							</md-tabs>
+						</div>
+						<!-- tab panel end -->
 					</div>
+					<!-- Restricted Fedration End-->					
 					<!-- subscription request -->
 					<div class="mdl-tabs__panel" id="tab6-panel">
 						<div class="admin-tab-heading">
@@ -3662,3 +3998,247 @@ limitations under the License.
 		</div>
 	</div>
 	<!-- Modal box end -->
+	
+	<!-- Modal box create group start -->
+	<div class="md-dialog-container" id="CreatePeerGroup" style="height: 0;">
+		<md-dialog class="cg-dialog-admin2"> <!-- <form ng-cloak> -->
+		<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Create Solution Group</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click='closePoup()'>
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar> <md-dialog-content>
+		<div class="md-dialog-content">
+			<div class="admin-row4 ">
+				<div class="selectionbox">
+					<md-input-container class="md-block"> <label
+						class='md-required'>Group Name</label> <input type="text"
+						ng-model='createGroupName' /><span class="modal-note"
+						ng-style="!isWithinCharLimit(createGroupName, fedrationCharLimit) && {color: 'red'}"
+						ng-bind="(!isWithinCharLimit(createGroupName, fedrationCharLimit) ? 'Character limit exceeded by ' : '')
+										+ (charsLeft(createGroupName, fedrationCharLimit) | abs)
+										+ ((charsLeft(createGroupName, fedrationCharLimit) | abs) == 1 ? ' character' : ' characters')
+										+ (isWithinCharLimit(createGroupName, fedrationCharLimit) ? ' left' : '')"></span>
+					</md-input-container>
+				</div>
+			</div>
+			<div class="admin-row4">
+				<div class="selectionbox">
+					<md-input-container> <label
+						class='md-required'>Selected Solution</label> </md-input-container>
+					<div>
+						<input placeholder="Filter" ng-disabled='!ShowSelectedGroupFlag'
+							class="mdl-textfield__input groupsearchicon ng-valid ng-touched ng-dirty ng-valid-parse ng-empty"
+							type="text" ng-model="searchSelectedSolution" aria-invalid="false" >
+					</div>					
+					<div class="admin-peer-list-container">					
+						<ul class="permission-list">
+							<!-- <li ng-repeat='val in permissionList'><md-checkbox ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}} </md-checkbox></li> -->
+							<md-checkbox aria-label="Select All" ng-checked="isChecked()" ng-if="ShowSelectedGroupFlag"
+								md-indeterminate="isIndeterminate()" ng-click="toggleAll()">
+							<span ng-if="isChecked()">Un-</span>Select All </md-checkbox>
+							
+							<li ng-repeat="val in solutionList | filter:searchSelectedSolution"><md-checkbox
+							 		ng-model="val.checked"
+							 		ng-click="toggle(val.name,chkSelected)"
+									aria-label="checked checkbox">{{val.name}}
+								</md-checkbox></li>
+
+						</ul>
+					</div>
+				</div>
+				<div class="addgroupsbtns">
+					<a class="groupbuttons-right"> <span ng-click="AddSoltion()">
+							Add</span>
+					</a> <a class="groupbuttons"> <span ng-click="RemoveSoltion()">
+							Remove</span>
+					</a>
+				</div>
+				<div class="selectionbox">
+					<md-input-container> <label
+						class='md-required'>Available Solutions</label> </md-input-container>
+					<div>
+						<input placeholder="Filter" ng-disabled='!ShowAvaliableGroupFlag'
+							class="mdl-textfield__input groupsearchicon ng-valid ng-touched ng-dirty ng-valid-parse ng-empty"
+							type="text" ng-model="searchAvaliableSolution" aria-invalid="false">
+					</div>
+					<div class="admin-peer-list-container">
+						<ul class="permission-list">
+							<md-checkbox aria-label="Select All" ng-checked="isCheckedAvaliableSolution()" ng-if="ShowAvaliableGroupFlag"
+								md-indeterminate="isIndeterminateAvaliableSolution()" ng-click="toggleAllAvaliableSolution()">
+							<span ng-if="isCheckedAvaliableSolution()">Un-</span>Select All </md-checkbox>
+							<li ng-repeat="val in avaliableSolutionList | filter:searchAvaliableSolution"><md-checkbox ng-model="val.checked"
+									ng-click="toggle(val.name,removeSelected)"
+									aria-label="checked checkbox">{{val.name}}
+								</md-checkbox></li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		</md-dialog-content> <md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<button ng-click='closePoup()'
+				class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+			<button ng-click='addSolutionGroup()' 
+				class="mdl-button mdl-js-button btn-primary">Done</button>
+		</div>
+		</md-dialog-actions> <!-- </form> --> </md-dialog>
+	</div>
+	<!-- Modal box create group end -->
+	
+	<!-- Modal box create Solution group start -->
+	<div class="md-dialog-container" id="CreateSolutionGroup" style="height: 0;">
+		<md-dialog class="cg-dialog-admin2"> <!-- <form ng-cloak> -->
+		<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Create Solution Group</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click='closePoup()'>
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar> <md-dialog-content>
+		<div class="md-dialog-content">
+			<div class="admin-row4 ">
+				<div class="selectionbox">
+					<md-input-container class="md-block"> <label
+						class='md-required'>Group Name</label> <input type="text"
+						ng-model='roleName' /> </md-input-container>
+				</div>
+			</div>
+			<div class="admin-row4">
+				<div class="selectionbox">
+					<md-input-container> <label
+						class='md-required'>Selected Solution</label> </md-input-container>
+					<div>
+						<input placeholder="Filter"
+							class="mdl-textfield__input groupsearchicon ng-valid ng-touched ng-dirty ng-valid-parse ng-empty"
+							type="text" ng-model="search" aria-invalid="false" style="">
+					</div>
+					<div class="admin-peer-list-container">
+						<ul class="permission-list">
+							<!-- <li ng-repeat='val in permissionList'><md-checkbox ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}} </md-checkbox></li> -->
+							<li ng-repeat='val in permissionList'><md-checkbox
+									ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}}
+								</md-checkbox></li>
+
+						</ul>
+					</div>
+				</div>
+				<div class="addgroupsbtns">
+					<a href="#" class="groupbuttons"> <span>Add</span>
+					</a> <a href="#" class="groupbuttons-right"> <span>Remove</span>
+					</a>
+					<!-- <a href="#"><span class="groupaddbtn">Add</span></a>					
+						<a href="#" class="groupaddbtn"><span><img src="../images/general-icons/arrow_left.png"/></span>Add</a> -->
+				</div>
+				<div class="selectionbox">
+					<md-input-container> <label
+						class='md-required'>Available Solutions</label> </md-input-container>
+					<div>
+						<input placeholder="Filter"
+							class="mdl-textfield__input groupsearchicon ng-valid ng-touched ng-dirty ng-valid-parse ng-empty"
+							type="text" ng-model="search" aria-invalid="false" style="">
+					</div>
+					<div class="admin-peer-list-container">
+						<ul class="permission-list">
+							<!-- <li ng-repeat='val in permissionList'><md-checkbox ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}} </md-checkbox></li> -->
+							<li ng-repeat='val in permissionList'><md-checkbox
+									ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}}
+								</md-checkbox></li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		</md-dialog-content> <md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<button ng-click='closePoup()'
+				class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+			<button ng-click='addRole()' ng-disabled='!perList||!roleName'
+				class="mdl-button mdl-js-button btn-primary">Done</button>
+		</div>
+		</md-dialog-actions> <!-- </form> --> </md-dialog>
+	</div>
+	<!-- Modal box create Solution group end -->
+	
+	<!-- Modal box create Group Mapping start -->
+	<div class="md-dialog-container" id="CreateMappingGroup" style="height: 0;">
+		<md-dialog class="cg-dialog-admin2"> <!-- <form ng-cloak> -->
+		<md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Create Solution Group</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click='closePoup()'>
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar> <md-dialog-content>
+		<div class="md-dialog-content">
+			<div class="admin-row4 ">
+				<div class="selectionbox">
+					<md-input-container class="md-block"> <label
+						class='md-required'>Group Name</label> <input type="text"
+						ng-model='roleName' /> </md-input-container>
+				</div>
+			</div>
+			<div class="admin-row4">
+				<div class="selectionbox">
+					<md-input-container> <label
+						class='md-required'>Selected Solution</label> </md-input-container>
+					<div>
+						<input placeholder="Filter"
+							class="mdl-textfield__input groupsearchicon ng-valid ng-touched ng-dirty ng-valid-parse ng-empty"
+							type="text" ng-model="search" aria-invalid="false" style="">
+					</div>
+					<div class="admin-peer-list-container">
+						<ul class="permission-list">
+							<!-- <li ng-repeat='val in permissionList'><md-checkbox ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}} </md-checkbox></li> -->
+							<li ng-repeat='val in permissionList'><md-checkbox
+									ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}}
+								</md-checkbox></li>
+
+						</ul>
+					</div>
+				</div>
+				<div class="addgroupsbtns">
+					<a href="#" class="groupbuttons"> <span>Add</span>
+					</a> <a href="#" class="groupbuttons-right"> <span>Remove</span>
+					</a>
+					<!-- <a href="#"><span class="groupaddbtn">Add</span></a>					
+						<a href="#" class="groupaddbtn"><span><img src="../images/general-icons/arrow_left.png"/></span>Add</a> -->
+				</div>
+				<div class="selectionbox">
+					<md-input-container> <label
+						class='md-required'>Available Solutions</label> </md-input-container>
+					<div>
+						<input placeholder="Filter"
+							class="mdl-textfield__input groupsearchicon ng-valid ng-touched ng-dirty ng-valid-parse ng-empty"
+							type="text" ng-model="search" aria-invalid="false" style="">
+					</div>
+					<div class="admin-peer-list-container">
+						<ul class="permission-list">
+							<!-- <li ng-repeat='val in permissionList'><md-checkbox ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}} </md-checkbox></li> -->
+							<li ng-repeat='val in permissionList'><md-checkbox
+									ng-click='permissionValue(val)' aria-label="checked checkbox">{{val.permission}}
+								</md-checkbox></li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		</md-dialog-content> <md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<button ng-click='closePoup()'
+				class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+			<button ng-click='addRole()' ng-disabled='!perList||!roleName'
+				class="mdl-button mdl-js-button btn-primary">Done</button>
+		</div>
+		</md-dialog-actions> <!-- </form> --> </md-dialog>
+	</div>
+	<!-- Modal box create Group Mapping end -->
+	
