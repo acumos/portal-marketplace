@@ -57,8 +57,7 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
     			 controller : function DialogController($scope ) {
     				 $scope.closeDialog = function() {
     					 modalService.hide();
-    					 $rootScope.showAdvancedLogin();
-    			    	 $state.go('home');
+    					 $rootScope.$broadcast("MyLogOutEvent");
     		     } }
     			});
 
