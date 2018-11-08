@@ -123,6 +123,7 @@ public class AsyncServiceImplTest {
 	public void sendTrackerNotification() {
 		String uuid = "f43898dc-2d3e-4680-afef-f2a93884c52a";
 		String userId = "1810f833-8698-4233-add4-091e34b8703c";
+		String message = "Failed to connect to onboarding";
 		AsyncServicesImpl mockAsync = mock(AsyncServicesImpl.class);
 		
 		MLPStepResult step = new MLPStepResult();
@@ -131,12 +132,12 @@ public class AsyncServiceImplTest {
 		step.setStepCode("OB");
 		step.setStatusCode("FA");
 		step.setName("CreateMicroservice");
-		step.setResult("Disconnected from onboarding");
+		step.setResult(message);
 		
-		Mockito.when(mockAsync.sendTrackerNotification(uuid, userId)).thenReturn(step);
+		Mockito.when(mockAsync.sendTrackerNotification(uuid, userId,"Failed to connect to onboarding")).thenReturn(step);
 		logger.info("Successfully created step " + step);
 		Assert.assertNotNull(step);
-		Assert.assertEquals(step, step);
+		Assert.assertEquals(message, step.getResult());
 		
 	}
 		
