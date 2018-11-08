@@ -46,10 +46,6 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
     	if (response.status === 401 && $rootScope.accessError == false/* && response.config.url != 'api/admin/config/site_config'*/) {
             //session token expired or unauthorized access
     		$rootScope.accessError = true;
-    		browserStorageService.removeAuthToken();
-    		sessionStorage.clear();
-    		localStorage.clear();
-    		//alert("Please sign in to application.");
     		modalService = $injector.get('$mdDialog'); 
     		modalService.show({
     			 templateUrl: '../app/header/sign-in-promt-modal-box.html',
@@ -57,8 +53,7 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
     			 controller : function DialogController($scope ) {
     				 $scope.closeDialog = function() {
     					 modalService.hide();
-    					 $rootScope.showAdvancedLogin();
-    			    	 $state.go('home');
+    					 $rootScope.$broadcast("MyLogOutEvent");
     		     } }
     			});
 
