@@ -235,6 +235,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding else before generateNotification ---->>>");
 					notificationService.generateNotification(notification, user.getUserId());
 					
+					sendTrackerErrorNotification(uuid, user.getUserId(), (String) resp.get("errorMessage"));
+					
 					//Send notification to user according to preference
 					Map<String, String> notifyBody = new HashMap<String, String>();
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
@@ -249,7 +251,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			sendBellNotification(user.getUserId(), solution);
 			
 			// Update the on-screen progress tracker status to alert of failure
-			sendTrackerNotification(uuid, user.getUserId());
+			sendTrackerErrorNotification(uuid, user.getUserId(), "Failed to connect to onboarding");
 			
 			// Email) a notification to the user based on notification preference
 			sendEmailNotification(user.getUserId(), solution, e.getMessage());
@@ -273,20 +275,22 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		// Get All the status for the tracking Id
 		List<MLStepResult> status = messagingService.callOnBoardingStatusList(userId, trackingId);
 		
-		MLStepResult resultStatus = status.stream().filter(stepResult -> stepResult.getRevisionId() != null && stepResult.getSolutionId() != null).findFirst().get();
-		if(resultStatus != null) {
-			List<MLPArtifact> artifactList = dataServiceRestClient.getSolutionRevisionArtifacts(resultStatus.getSolutionId(), resultStatus.getRevisionId());
-
-			if(artifactList != null && !PortalUtils.isEmptyList(artifactList)) {
-				MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(".txt")).findFirst().orElse(null);
-				if(logArtifact != null) {
-					//generate the download log href as String
-					erlog = "Click " + "<a href=\"/api/downloads/" + resultStatus.getSolutionId() + "?artifactId="
-							+ logArtifact.getArtifactId() + "&revisionId=" + resultStatus.getRevisionId() + "&userId="
-							+ userId + "&jwtToken={{auth}}\" >here</a> to download logs.";
+		if (status != null && !status.isEmpty()) {
+			MLStepResult resultStatus = status.stream().filter(stepResult -> stepResult.getRevisionId() != null && stepResult.getSolutionId() != null).findFirst().get();
+			if(resultStatus != null) {
+				List<MLPArtifact> artifactList = dataServiceRestClient.getSolutionRevisionArtifacts(resultStatus.getSolutionId(), resultStatus.getRevisionId());
+	
+				if(artifactList != null && !PortalUtils.isEmptyList(artifactList)) {
+					MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(".txt")).findFirst().orElse(null);
+					if(logArtifact != null) {
+						//generate the download log href as String
+						erlog = "Click " + "<a href=\"/api/downloads/" + resultStatus.getSolutionId() + "?artifactId="
+								+ logArtifact.getArtifactId() + "&revisionId=" + resultStatus.getRevisionId() + "&userId="
+								+ userId + "&jwtToken={{auth}}\" >here</a> to download logs.";
+					}
 				}
+				
 			}
-			
 		}
 		return erlog;
 	}
@@ -318,38 +322,21 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
         }
         return files;
     } 
-	public MLPStepResult sendTrackerNotification(String uuid, String userId) {
-		MLPStepResult stepResult = new MLPStepResult();
-		stepResult.setTrackingId(uuid);
-		stepResult.setUserId(userId);
-		stepResult.setName("CreateMicroservice");
-		stepResult.setStatusCode("FA");
-		stepResult.setStepCode("OB");
-		stepResult.setResult("Disconnected from onboarding");
-
-		// If there are existing statuses, use last status for information
+	public MLPStepResult sendTrackerErrorNotification(String uuid, String userId, String message) {
+		MLPStepResult res = null;
 		List<MLStepResult> status = messagingService.callOnBoardingStatusList(userId, uuid);
-		if (status.size() > 0) {
-			MLStepResult lastResult = status.get(status.size()-1);
+		if (status == null || status.isEmpty()) {
+			MLPStepResult stepResult = new MLPStepResult();
+			stepResult.setTrackingId(uuid);
+			stepResult.setUserId(userId);
+			stepResult.setName("CreateSolution");
+			stepResult.setStatusCode("FA");
+			stepResult.setStepCode("OB");
+			stepResult.setResult(message);
 			
-			stepResult.setStepCode(lastResult.getStepCode());
-			stepResult.setSolutionId(lastResult.getSolutionId());
-			stepResult.setRevisionId(lastResult.getRevisionId());
-			stepResult.setArtifactId(lastResult.getArtifactId());
-			
-			if (lastResult.getStatusCode().equals(STEP_SUCCESS)) {
-				switch(lastResult.getName()) {
-					case "CreateMicroservice": stepResult.setName("Dockerize"); break;
-					case "Dockerize": stepResult.setName("AddToRepository"); break;
-					case "AddToRepository": stepResult.setName("CreateTOSCA"); break;
-					case "CreateTOSCA": stepResult.setName("CreateSolution"); break;
-				}
-			} else {
-				stepResult.setName(lastResult.getName());
-			}
+			res = messagingService.createStepResult(stepResult);
 		}
-		
-		return messagingService.createStepResult(stepResult);
+		return res;
 	}
 
 	public MLNotification sendBellNotification(String userId, UploadSolution solution) {
