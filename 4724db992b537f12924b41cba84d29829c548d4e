@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2038d405_d5616ba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-08T14:05:15Z",
+      "side": 1,
+      "message": "Please make the Issue-ID line the first entry in the three-line footer.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "4724db992b537f12924b41cba84d29829c548d4e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "774f3a40_790e6678",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1860,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-08T14:05:15Z",
+      "side": 1,
+      "message": "A regex is nice. How can this also check that the name can be resolved to an IP address?",
+      "revId": "4724db992b537f12924b41cba84d29829c548d4e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
