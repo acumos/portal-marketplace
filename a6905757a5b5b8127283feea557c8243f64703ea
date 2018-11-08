@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c53b73c_af72fc17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-08T14:00:14Z",
+      "side": 1,
+      "message": "Please correct this commit message, the line should be the first in the footer (no blank line after it) with exactly this format:  \n\n    Issue-ID: ACUMOS-1988",
+      "revId": "a6905757a5b5b8127283feea557c8243f64703ea",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
