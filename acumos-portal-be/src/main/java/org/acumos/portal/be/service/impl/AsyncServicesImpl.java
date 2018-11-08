@@ -235,6 +235,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					log.info("inside callOnboarding else before generateNotification ---->>>");
 					notificationService.generateNotification(notification, user.getUserId());
 					
+					sendTrackerNotification(uuid, user.getUserId(), (String) resp.get("errorMessage"));
+					
 					//Send notification to user according to preference
 					Map<String, String> notifyBody = new HashMap<String, String>();
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
@@ -249,7 +251,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			sendBellNotification(user.getUserId(), solution);
 			
 			// Update the on-screen progress tracker status to alert of failure
-			sendTrackerNotification(uuid, user.getUserId());
+			sendTrackerNotification(uuid, user.getUserId(), "Disconnected from onboarding");
 			
 			// Email) a notification to the user based on notification preference
 			sendEmailNotification(user.getUserId(), solution, e.getMessage());
@@ -318,19 +320,23 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
         }
         return files;
     } 
-	public MLPStepResult sendTrackerNotification(String uuid, String userId) {
+	public MLPStepResult sendTrackerNotification(String uuid, String userId, String message) {
 		MLPStepResult stepResult = new MLPStepResult();
 		stepResult.setTrackingId(uuid);
 		stepResult.setUserId(userId);
-		stepResult.setName("CreateMicroservice");
+		stepResult.setName("CreateSolution");
 		stepResult.setStatusCode("FA");
 		stepResult.setStepCode("OB");
-		stepResult.setResult("Disconnected from onboarding");
+		stepResult.setResult(message);
 
 		// If there are existing statuses, use last status for information
 		List<MLStepResult> status = messagingService.callOnBoardingStatusList(userId, uuid);
 		if (status.size() > 0) {
 			MLStepResult lastResult = status.get(status.size()-1);
+			
+			if (lastResult.getStatusCode().equals("FA")) {
+				return null;
+			}
 			
 			stepResult.setStepCode(lastResult.getStepCode());
 			stepResult.setSolutionId(lastResult.getSolutionId());
@@ -339,10 +345,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			
 			if (lastResult.getStatusCode().equals(STEP_SUCCESS)) {
 				switch(lastResult.getName()) {
-					case "CreateMicroservice": stepResult.setName("Dockerize"); break;
-					case "Dockerize": stepResult.setName("AddToRepository"); break;
-					case "AddToRepository": stepResult.setName("CreateTOSCA"); break;
-					case "CreateTOSCA": stepResult.setName("CreateSolution"); break;
+					case "CreateSolution": stepResult.setName("AddArtifact"); break;
+					case "AddArtifact": stepResult.setName("CreateTOSCA"); break;
+					case "CreateTOSCA": stepResult.setName("Dockerize"); break;
+					case "Dockerize": stepResult.setName("AddDockerImage"); break;
+					case "AddDockerImage": stepResult.setName("CreateSolution"); break;
 				}
 			} else {
 				stepResult.setName(lastResult.getName());
