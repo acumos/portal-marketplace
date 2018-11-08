@@ -133,7 +133,7 @@ public class AsyncServiceImplTest {
 		step.setName("CreateMicroservice");
 		step.setResult("Disconnected from onboarding");
 		
-		Mockito.when(mockAsync.sendTrackerNotification(uuid, userId)).thenReturn(step);
+		Mockito.when(mockAsync.sendTrackerNotification(uuid, userId,"Disconnected from onboarding")).thenReturn(step);
 		logger.info("Successfully created step " + step);
 		Assert.assertNotNull(step);
 		Assert.assertEquals(step, step);
