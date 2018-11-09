@@ -207,7 +207,7 @@ public class HttpClientConfiguration {
 						trustStoreSource = new FileInputStream(this.ssl.trustStore);
 					}
 					catch (FileNotFoundException fnfx) {
-						throw new IllegalStateException("Failed to find trust store " + this.ssl.keyStore);
+						throw new IllegalStateException("Failed to find trust store " + this.ssl.trustStore);
 					}
 				}
 				catch (IOException iox) {
