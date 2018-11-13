@@ -164,7 +164,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
     $rootScope.$state = $state;
     $rootScope.$on("$locationChangeStart", function(event, next, current) { 
     		componentHandler.upgradeAllRegistered();
-    		
+    		$rootScope.showNetworkError = true;
     		$rootScope.sidebarHeader = false;
     	 	
     	 	$rootScope.isMobile = false;

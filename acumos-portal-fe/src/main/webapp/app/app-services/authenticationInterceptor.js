@@ -58,6 +58,20 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
     			});
 
     		return $q.reject(response);
+          } else if(response.status == -1) {
+        		modalService = $injector.get('$mdDialog'); 
+          		if($rootScope.showNetworkError) {
+    	    		modalService.show({
+    	    			 template: '<div id="myDialog"><md-dialog aria-label="Network Error" class="sign-in-promt-modal-box"><md-toolbar><div class="md-toolbar-tools"><h2>No Internet</h2><span flex></span><md-button class="md-icon-button" ng-click="closeDialog()"><i class="material-icons">close</i></md-button></div></md-toolbar><md-dialog-content><div class="md-dialog-content"><p>Connection failure error. Please check your network and try again.</p></div></md-dialog-content><md-dialog-actions><div class="dialog-footer-container1"><span></span><md-button type="submit" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-click="closeDialog()">OK</md-button></div></md-dialog-actions></md-dialog></div>',
+    	    			 clickOutsideToClose: false,
+    	    			 controller : function DialogController($scope ) {
+    	    				 $scope.closeDialog = function() {
+    	    					 modalService.hide();
+    	    		     } }
+    	    			});
+    	    		$rootScope.showNetworkError = false;
+          		}
+          		 return $q.reject(response);
           }else{
         	  return $q.reject(response);
           }
