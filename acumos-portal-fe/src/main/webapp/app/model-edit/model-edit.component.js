@@ -2859,7 +2859,7 @@ angular
 		            });
 				    
 					$scope.closeUploadPopup = function(){
-						if (($scope.privatefilename || $scope.publicfilename) && $rootScope.progressBar < 85){
+						if (($scope.privatefilename || $scope.publicfilename) && ($rootScope.progressBar > 0 && $rootScope.progressBar < 85) ){
 							modelUploadService.cancelUpload("Upload cancelled by user");
 						} else {
 							$scope.showFileUpload = !$scope.showFileUpload;
