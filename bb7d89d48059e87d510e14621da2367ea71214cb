@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8079d828_1db10ad3",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-15T10:31:10Z",
+      "side": 1,
+      "message": "Please define constants instead of hardcoding strings multiple times.  If this is a linear progression of steps (step 1, step 2, step 3) how about using an array of strings and bumping the index by one each time?",
+      "range": {
+        "startLine": 348,
+        "startChar": 11,
+        "endLine": 348,
+        "endChar": 25
+      },
+      "revId": "bb7d89d48059e87d510e14621da2367ea71214cb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dd83ba9_d4448d4b",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-15T10:31:10Z",
+      "side": 1,
+      "message": "Please add a default case so this code reports something if/when a new step is added",
+      "range": {
+        "startLine": 353,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 5
+      },
+      "revId": "bb7d89d48059e87d510e14621da2367ea71214cb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf91278d_94ed461c",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/AsyncServiceImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-15T10:31:10Z",
+      "side": 1,
+      "message": "Maybe use the constant from above instead of hardcoding the string a second time?",
+      "range": {
+        "startLine": 137,
+        "startChar": 63,
+        "endLine": 137,
+        "endChar": 69
+      },
+      "revId": "bb7d89d48059e87d510e14621da2367ea71214cb",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
