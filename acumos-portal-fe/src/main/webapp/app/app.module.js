@@ -294,7 +294,7 @@ link: function(scope, elm, attrs, ctrl) {
     var validate = function(viewValue) {
     var isBlank = viewValue === ''
     //var invalidChars = !isBlank && !/^[A-z0-9]+$/.test(viewValue)
-    var invalidChars = !isBlank && !/^[A-z0-9 ]+$/.test(viewValue)
+    var invalidChars = !isBlank && !/^[A-z0-9. ]+$/.test(viewValue)
     ctrl.$setValidity('isBlank', !isBlank)
     ctrl.$setValidity('invalidChars', !invalidChars)
 
