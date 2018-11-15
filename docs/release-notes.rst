@@ -20,9 +20,13 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 1.16.3, 1st November 2018
+Version 1.16.4, 15th November 2018
 =================================
 * Portal don't show first-time user Tag/Theme selection dialog (ACUMOS-1953)
+* ADC-Staging - Logged in user not matching name on black bar (ACUMOS-1988)
+* IST2: Deploy to Local : Download packages and help is not working on the popup (ACUMOS-1653)
+* On-Boarding Model contains links to docs.acumos.org/en/latest instead of docs.acumos.org/en/athena (ACUMOS-2008)
+* IST: Newly Added tag is not displaying on the model tiles (marketplace , manage my model) when user published the model (ACUMOS-1933)
 
 Version 1.16.2, 11th October 2018
 =================================
