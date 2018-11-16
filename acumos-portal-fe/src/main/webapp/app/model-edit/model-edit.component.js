@@ -2234,6 +2234,13 @@ angular
 													}
 													console.log("Ger Solution Supporting Docs : " + angular.toJson(data.response_body.name))
 													$scope.supportingDocs = data.response_body;
+													
+													angular.forEach(data.response_body, function(value, key) {
+	                                                    var fileName = value.name;
+	                                                    var fileExtension = fileName.split('.').pop();
+	                                                    $scope.supportingDocsExt = fileExtension;
+                                                    });
+													
 												}).error(
 														function(data, status, headers,
 																config) {
@@ -2267,6 +2274,12 @@ angular
 															}, 3000);
 														}
 														$scope.supportingPublicDocs = data.response_body;
+														angular.forEach(data.response_body, function(value, key) {
+		                                                    var fileName = value.name;
+		                                                    var fileExtension = fileName.split('.').pop();
+		                                                    $scope.supportingPublicDocsExt = fileExtension;
+	                                                    });
+														
 													}).error(
 															function(data, status, headers,
 																	config) {
