@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5561a023_76a3a1f9",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1861,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-11-16T16:06:12Z",
+      "side": 1,
+      "message": "This name is intended to match a subject name in a certificate used for SSL communication.  I don\u0027t think an IP address should be allowed.  But you might triple-check with Serban Jora for further insight.",
+      "range": {
+        "startLine": 1861,
+        "startChar": 17,
+        "endLine": 1861,
+        "endChar": 24
+      },
+      "revId": "b4352c4eee93482e09873a84f7e2f7e509877243",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
