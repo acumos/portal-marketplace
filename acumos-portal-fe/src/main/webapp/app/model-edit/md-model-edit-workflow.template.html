@@ -2152,10 +2152,19 @@ limitations under the License.
 																						</tr>
 																					</thead>
 																					<tbody>
-																						<tr ng-show="publicPreview!=true" ng-repeat="supportingDoc in supportingDocs" >
-																							<td><span class="file-type"><i
-																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
-																								class="link-blue">{{supportingDoc.name}}</a></td>
+																						<tr class="supporting-doc"  ng-show="publicPreview!=true" ng-repeat="supportingDoc in supportingDocs" >
+																							<td><span class="file-type">
+																										<i class="far fa-file-word" ng-if="supportingDocsExt == 'docx'" aria-hidden="true"></i>
+																										<i class="far fa-file-image" ng-if="supportingDocsExt == 'png'" aria-hidden="true"></i>
+																										<i class="far fa-file-image" ng-if="supportingDocsExt == 'jpg'" aria-hidden="true"></i>
+																										<i class="far fa-file-pdf" ng-if="supportingDocsExt == 'pdf'" aria-hidden="true"></i>
+																										<i class="far fa-file-powerpoint" ng-if="supportingDocsExt == 'pptx'" aria-hidden="true"></i>
+																										<i class="far fa-file-excel" ng-if="supportingDocsExt == 'xlsx'" aria-hidden="true"></i>
+																										<i class="far fa-file-excel" ng-if="supportingDocsExt == 'csv'" aria-hidden="true"></i>
+																										<i class="far fa-file-alt" ng-if="supportingDocsExt == 'txt'" aria-hidden="true"></i>
+																										<i class="far fa-file-archive" ng-if="supportingDocsExt == 'zip'" aria-hidden="true"></i>
+																								</span>
+																								<span>{{supportingDoc.name}}</span></td>
 																							<td>{{versionId}}</td>
 																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 																							<td><a ng-if="!publicPreview" 
@@ -2167,10 +2176,20 @@ limitations under the License.
 																							</td>
 																						</tr>
 
-																						<tr  ng-show="publicPreview==true" ng-repeat="supportingDoc in supportingPublicDocs">
-																							<td><span class="file-type"><i
-																									class="fa fa-file-word-o" aria-hidden="true"></i></span><a
-																								class="link-blue">{{supportingDoc.name}}</a></td>
+																						<tr class="supporting-doc" ng-show="publicPreview==true" ng-repeat="supportingDoc in supportingPublicDocs">
+																							<td><span class="file-type">
+																										<i class="far fa-file-word" ng-if="supportingPublicDocsExt == 'docx'" aria-hidden="true"></i>
+																										<i class="far fa-file-image" ng-if="supportingPublicDocsExt == 'png'" aria-hidden="true"></i>
+																										<i class="far fa-file-image" ng-if="supportingPublicDocsExt == 'jpg'" aria-hidden="true"></i>
+																										<i class="far fa-file-pdf" ng-if="supportingPublicDocsExt == 'pdf'" aria-hidden="true"></i>
+																										<i class="far fa-file-powerpoint" ng-if="supportingPublicDocsExt == 'pptx'" aria-hidden="true"></i>
+																										<i class="far fa-file-excel" ng-if="supportingPublicDocsExt == 'xlsx'" aria-hidden="true"></i>
+																										<i class="far fa-file-excel" ng-if="supportingPublicDocsExt == 'csv'" aria-hidden="true"></i>
+																										<i class="far fa-file-alt" ng-if="supportingPublicDocsExt == 'txt'" aria-hidden="true"></i>
+																										<i class="far fa-file-archive" ng-if="supportingPublicDocsExt == 'zip'" aria-hidden="true"></i>
+																								</span>
+																								<span>{{supportingDoc.name}}</span>
+																							</td>
 																							<td>{{versionId}}</td>
 																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
 																							<td><a ng-if="!publicPreview" 
