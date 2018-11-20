@@ -78,6 +78,7 @@ public class MLSolution {
 	private String latestRevisionId;
 	private long commentsCount;
 	private String publisher;
+	private List<Author> authors;
 	private byte[] picture;
 	private boolean pendingApproval;
 
@@ -294,6 +295,14 @@ public class MLSolution {
 
 	public void setTookitType(String tookitType) {
 		this.tookitType = tookitType;
+	}
+	
+	public List<Author> getAuthors() {
+		return authors;
+	}
+	
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
 	}
 
 	@Override
