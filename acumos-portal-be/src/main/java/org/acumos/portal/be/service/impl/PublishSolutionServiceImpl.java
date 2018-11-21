@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,8 @@ import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.cds.domain.MLPUser;
+import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 
@@ -110,6 +113,24 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	public void updateSolution(String solutionId, String revisionId, String accessType) {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+		
+		if (mlpSolutionRevision != null) {
+			AuthorTransport[] authors = mlpSolutionRevision.getAuthors();
+			if (authors == null || authors.length == 0) {
+				//Fetch user using ownerId of revision
+				MLPUser owner = dataServiceRestClient.getUser(mlpSolutionRevision.getUserId());
+				if (owner != null) {
+					List<AuthorTransport> lst = new ArrayList<AuthorTransport>();
+					AuthorTransport ownerAT = new AuthorTransport();
+					//Fill user name into author and save to revision
+					ownerAT.setName(owner.getFirstName() + " " + owner.getLastName());
+					ownerAT.setContact(owner.getEmail());
+					lst.add(ownerAT);
+					AuthorTransport[] targetArray = lst.toArray(new AuthorTransport[lst.size()]);
+					mlpSolutionRevision.setAuthors(targetArray);
+				}
+			}
+		}
 		
 		mlpSolutionRevision.setPublisher(getSiteInstanceName());
 		mlpSolutionRevision.setAccessTypeCode(accessType);
