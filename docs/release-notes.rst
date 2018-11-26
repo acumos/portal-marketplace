@@ -20,6 +20,13 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.16.5, 26th November 2018
+==================================
+* Portal marketplace tile has unnecessary constant text (ACUMOS-2074)
+* Portal require author and default to user when publishing to any catalog (ACUMOS-2073)
+* Portal displays incorrect person detail on tile, shows Admin instead of author (ACUMOS-2056)
+
+
 Version 1.16.4, 15th November 2018
 ==================================
 * ADC-Staging - Logged in user not matching name on black bar (ACUMOS-1988)
