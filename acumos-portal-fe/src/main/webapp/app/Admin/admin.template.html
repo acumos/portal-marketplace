@@ -1857,7 +1857,9 @@ limitations under the License.
 								class="admin-help-link admin-lbl-item2" title="Server FQDN"><i
 								class="material-icons">help</i></a>
 						</div>
-						<input type="text" required ng-model='subNamePop' ng-change="checkUrlChange()" /> </md-input-container>
+						<input type="text" required ng-model='subNamePop'
+							ng-pattern="/((?!^([0-9]+\.)*[0-9]+$)^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$)/"
+							ng-change="checkUrlChange()" /> </md-input-container>
 					</div>
 					<div flex="40" layout="column" class="">
 						<div class="fed-container3">
