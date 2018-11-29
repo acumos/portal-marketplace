@@ -20,6 +20,10 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 1.16.6, 30th November 2018
+==================================
+* IST2: Different name is displaying on the model tile on marketplace and manage my model screen for multiple user (ACUMOS-2102)
+
 Version 1.16.5, 26th November 2018
 ==================================
 * Portal marketplace tile has unnecessary constant text (ACUMOS-2074)
