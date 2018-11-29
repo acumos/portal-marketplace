@@ -640,7 +640,8 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         clearCompositeSolution : 'solution/clearCompositeSolution',
         getCompositeSolutions :'solution/getCompositeSolutions',
         protobuf: 'artifact/fetchProtoBufJSON',
-        getMatchingModels: 'solution/getMatchingModels'
+        getMatchingModels: 'solution/getMatchingModels',
+        version: 'admin/getVersion'
     }, qs);
 
     function build_url(verb, params) {
@@ -1061,7 +1062,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
             throw new Error('not logged in!');
         if(!_cid && !_solutionId)
             throw new Error('trying to save but not initialized');
-        return _diagram.child('fix-nodes').fixAllNodes().then(function() {
             var args = {
                 userId: userId,
                 solutionName: $scope.solutionName,
@@ -1111,7 +1111,6 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                     _solutionId = result.solutionId;
                 }
             });
-        });
     }
     
     $scope.validateCompSolu = function(){
@@ -4760,7 +4759,11 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         	$scope.showpopup();
         });
     };
-   
+    
+    $http.get(build_url(options.version,{})).success(function(response){
+    	response= response.split("-");
+    	$scope.dsceVersion = response[0];
+    });
 }
 }
 
