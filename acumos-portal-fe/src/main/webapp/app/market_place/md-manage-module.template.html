@@ -310,8 +310,8 @@ limitations under the License.
 											</div>
 										</div>
 										<label class="grid-item-text-container"><span
-											class="griditem-text2 grid-item-lbl">
-												{{privateSolution.ownerName}}</span> | <span class="griditem-text2">
+											class="griditem-text2 grid-item-lbl"
+												ng-bind="((privateSolution.authors.length > 0) ? privateSolution.authors[0].name : privateSolution.ownerName)"></span> | <span class="griditem-text2">
 												{{privateSolution.modified || privateSolution.created |
 												date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 											ng-if="mlsolution.active != ''">New</span></label>
@@ -374,8 +374,8 @@ limitations under the License.
 										</div>
 									</div>									
 									<div class="disblock detail-content">
-										<span class="griditem-text2">by
-											{{privateSolution.ownerName}}</span> | <span class="griditem-text2">on
+										<span class="griditem-text2"
+												ng-bind="'by ' + ((privateSolution.authors.length > 0) ? privateSolution.authors[0].name : privateSolution.ownerName)"></span> | <span class="griditem-text2">on
 											{{privateSolution.modified || privateSolution.created |
 											date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 											ng-if="privateSolution.active != ''">New</span></div>
@@ -460,8 +460,8 @@ limitations under the License.
 											</div>
 										</div>
 										<label class="grid-item-text-container"><span
-											class="griditem-text2 grid-item-lbl">
-												{{companySolution.ownerName}}</span> | <span class="griditem-text2">
+											class="griditem-text2 grid-item-lbl"
+												ng-bind="((companySolution.authors.length > 0) ? companySolution.authors[0].name : companySolution.ownerName)"></span> | <span class="griditem-text2">
 												{{companySolution.modified || companySolution.created |
 												date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 											ng-if="mlsolution.active != ''">New</span></label>
@@ -576,8 +576,8 @@ limitations under the License.
 										</div>									
 									</div>
 									<div class="disblock detail-content">
-										<span class="griditem-text2">by
-											{{companySolution.ownerName}}</span> | <span class="griditem-text2">on
+										<span class="griditem-text2"
+												ng-bind="'by ' + ((companySolution.authors.length > 0) ? companySolution.authors[0].name : companySolution.ownerName)"></span> | <span class="griditem-text2">on
 											{{companySolution.modified || companySolution.created |
 											date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 											ng-if="companySolution.active != ''">New</span>
@@ -708,8 +708,8 @@ limitations under the License.
 										</div> 
 									</div>
 										<label class="grid-item-text-container"><span
-											class="griditem-text2 grid-item-lbl">
-												{{publicSolution.ownerName}}</span> | <span class="griditem-text2">
+											class="griditem-text2 grid-item-lbl"
+												ng-bind="((publicSolution.authors.length > 0) ? publicSolution.authors[0].name : publicSolution.ownerName)"></span> | <span class="griditem-text2">
 												{{publicSolution.modified || publicSolution.created |
 												date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 											ng-if="mlsolution.active != ''">New</span></label>
@@ -815,8 +815,8 @@ limitations under the License.
 										</div>									
 									</div>
 									<div class="disblock detail-content">
-										<span class="griditem-text2">by
-											{{mlsolution.ownerName}}</span> | <span class="griditem-text2">on
+										<span class="griditem-text2"
+												ng-bind="'by ' + ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span> | <span class="griditem-text2">on
 											{{mlsolution.modified || mlsolution.created |
 											date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 											ng-if="mlsolution.active != ''">New</span>
@@ -949,8 +949,8 @@ limitations under the License.
 										</div>
 											
 											<label class="grid-item-text-container"><span
-												class="griditem-text2 grid-item-lbl">
-													{{deletedSolution.ownerName}}</span> | <span
+												class="griditem-text2 grid-item-lbl"
+												ng-bind="((deletedSolution.authors.length > 0) ? deletedSolution.authors[0].name : deletedSolution.ownerName)"></span> | <span
 												class="griditem-text2"> {{deletedSolution.modified
 													|| deletedSolution.created | date:"MM/dd/yyyy"}}</span> | <span
 												class="text-xsmall link-orange"
@@ -1056,8 +1056,8 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="disblock detail-content">
-											<span class="griditem-text2">by
-												{{deletedSolution.ownerName}}</span> | <span class="griditem-text2">on
+											<span class="griditem-text2"
+												ng-bind="'by ' + ((deletedSolution.authors.length > 0) ? deletedSolution.authors[0].name : deletedSolution.ownerName)"></span> | <span class="griditem-text2">on
 												{{deletedSolution.modified || deletedSolution.created |
 												date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
 												ng-if="mlsolution.active != ''">New</span>
