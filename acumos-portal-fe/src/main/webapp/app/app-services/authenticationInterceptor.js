@@ -58,7 +58,7 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
     			});
 
     		return $q.reject(response);
-          } else if(response.status == -1) {
+          } else if(response.status == -1 && ((response.config.url).split(".").pop() == "html")) {
         		modalService = $injector.get('$mdDialog'); 
           		if($rootScope.showNetworkError) {
     	    		modalService.show({
