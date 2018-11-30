@@ -1185,8 +1185,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				mlSolution.setErrorDetails(errorStatusDetails);
 			}
 			//Search for pending Approvals
-			boolean pendingApproval = dataServiceRestClient.isPublishRequestPending(mlSolution.getSolutionId(), mlSolution.getLatestRevisionId());
-			mlSolution.setPendingApproval(pendingApproval);
+			if(mlSolution.getSolutionId() !=null && mlSolution.getLatestRevisionId() !=null){
+				boolean pendingApproval = dataServiceRestClient.isPublishRequestPending(mlSolution.getSolutionId(), mlSolution.getLatestRevisionId());
+				mlSolution.setPendingApproval(pendingApproval);
+			}
 
 			content.add(mlSolution);
 		}
@@ -1317,7 +1319,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			}
 		}
 		//for deleted solutions no access type code is required from the front end. So assign the latest version
-		if(revision == null && revisions != null) {
+		if(revision == null && revisions != null && revisions.size() >0) {
 			revision = revisions.get(0);
 		}
 		return revision;
