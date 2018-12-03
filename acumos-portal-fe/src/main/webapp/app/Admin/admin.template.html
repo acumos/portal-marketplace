@@ -1857,9 +1857,13 @@ limitations under the License.
 								class="admin-help-link admin-lbl-item2" title="Server FQDN"><i
 								class="material-icons">help</i></a>
 						</div>
-						<input type="text" required ng-model='subNamePop'
+						<input name="fqdn" type="text" required ng-model='subNamePop'
 							ng-pattern="/((?!^([0-9]+\.)*[0-9]+$)^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$)/"
-							ng-change="checkUrlChange()" /> </md-input-container>
+							ng-change="checkUrlChange()" />
+						<div ng-messages="peerForm.fqdn.$error" role="alert" ng-show="peerForm.fqdn.$dirty && peerForm.fqdn.$error.pattern">
+      						<div ng-message="pattern" class="disblock text-red text-xsmall">Invalid FQDN</div>
+    					</div>
+						</md-input-container>
 					</div>
 					<div flex="40" layout="column" class="">
 						<div class="fed-container3">
