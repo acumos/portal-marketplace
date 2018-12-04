@@ -863,6 +863,12 @@ a.mdl-tabs__tab.tab5-panel {height:1px;}
 .btn-comments-edit {background: #f1f1f1 url('../images/model_details/Comment_edit.png') no-repeat 3px center; width: 40px;margin-left: 2px; }
 .btn-comments-delete {background: #f1f1f1 url('../images/model_details/Comment_delete.png') no-repeat 3px center; width: 52px; margin-left: 2px;}
 
+.supporting-doc td,
+.supporting-doc i{
+    color: #2e2f2f !important;
+}
+.supporting-doc a i{color: inherit !important}
+
 /*************progress bar style start **************/
 
 /* Progress Bar */
