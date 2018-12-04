@@ -24,6 +24,7 @@ import java.util.Date;
 
 public class MLArtifact {
 
+
 	private Long solutionId;
 	private Long artifactId;
 	private String version;
