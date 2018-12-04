@@ -297,7 +297,8 @@ limitations under the License.
 				<div class="mdl-cell md-right-container model-details-tabwrapper">
 					<div class="mdl-tabs__panel is-active" id="tab1-panel">
 						<div class="md-intro-container">
-							<h6 class="sectiontitle9">INTRODUCTION</h6>							
+							<div ng-if="solution.modelTypeName && version.accessTypeCode != 'PR'"><h6 class="sectiontitle9">INTRODUCTION | CATEGORY:{{solution.modelTypeName}}</h6></div>
+							<div ng-if="!solution.modelTypeName || version.accessTypeCode =='PR'"><h6 class="sectiontitle9">INTRODUCTION</h6></div>
 						</div>
 
 						<div class="description-img-container">
