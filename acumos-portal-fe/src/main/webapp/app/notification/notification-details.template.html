@@ -63,15 +63,15 @@ limitations under the License.
 							<table ng-if='notificationManageObj.length' class="note-table tbl-notification-list">
 							  <colgroup>
 							  <col style="width: 5%;">
-							  <col style="width: 20%;">
-							  <col style="width: 65%;">
-							  <col style="width: 10%;">
+							
+							  <col style="width: 80%;">
+							  <col style="width: 15%;">
 							  </colgroup>		
 							  <thead>
 								<tr>
 								<th></th>
 								 
-								  <th>Sender Name</th>
+								
 								  <th ng-click="orderByField='message'; reverseSortSubject = !reverseSortSubject; reverseSort = reverseSortSubject;">Subject<span ng-if='orderByField!="message"'
 										class="gridcell-sort deactivate"></span><span
 										ng-if='orderByField=="message"'
@@ -92,7 +92,7 @@ limitations under the License.
 									  <span class="mdl-checkbox__label"></span>
 									</label>
 								</td>
-								  <td class="mdl-data-table__cell--non-numeric"  ng-class="{'read-notification': notification.viewed}">{{adminDetails[0].firstName}} {{adminDetails[0].lastName}}<!-- <i class="fa fa-exclamation" aria-hidden="true"></i> --></td>
+								
 								  <td class="sub-container" ng-bind-html="notification.message" ng-class="{'read-notification': notification.viewed}" compile></td>
 								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start | date:"MM/dd/yyyy"}}</td>
 								</tr>
