@@ -60,7 +60,7 @@ angular.module('admin').filter('abs', function() {
 					'value': '0'
 				}]
 			//Verify check for url in add peer popup
-			$scope.verifyUrl= function(apiUrlPop){console.log($scope.verified)
+			$scope.verifyUrl= function(apiUrlPop){
 				$scope.verify = false;
 				//$scope.verified = !$scope.verified ;
 				var url = "api/gateway/ping/"+$scope.editPeerID;
@@ -72,8 +72,14 @@ angular.module('admin').filter('abs', function() {
                     method : "GET",
                     url : url
                 }).then(function mySuccess(response) {console.log(response);
-                	if(response.data.status_code == 400){$scope.verified=false;$scope.errorMessage = response.data.response_detail}
-                	else{$scope.verified=true;$scope.successMessage = response.data.response_detail}
+                	if(response.data.status_code == 400){
+                		$scope.verified=false;
+                		$scope.errorMessage = response.data.response_detail
+            		}
+                	else{
+                		$scope.verified=true;
+                		$scope.successMessage = response.data.response_detail
+            		}
                 }, function myError(response) {
                 	console.log("Error response", response);
                 	$scope.verified=false;$scope.errorMessage = response.data.response_detail
