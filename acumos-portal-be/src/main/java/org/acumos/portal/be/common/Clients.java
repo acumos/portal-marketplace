@@ -58,8 +58,10 @@ public class Clients {
 	 * Build a client for the given local uri
 	 */
 	public GatewayClient getGatewayClient() {
-		return new GatewayClient(
-				env.getProperty("gateway.url"),
-				gatewayClientConfiguration.buildClient());
+		final String gatewayUrlKey = "gateway.url";
+        final String gatewayUrl = env.getProperty(gatewayUrlKey);
+        if (gatewayUrl == null || gatewayUrl.isEmpty())
+            throw new IllegalArgumentException("getGatewayClient: failed to find config " + gatewayUrlKey);
+        return new GatewayClient(gatewayUrl, gatewayClientConfiguration.buildClient());
 	}	
 }
