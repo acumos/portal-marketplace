@@ -1882,15 +1882,16 @@ limitations under the License.
 						</div>
 					</div>
 					<div flex="20" class="fed-container2">
-						<label class="disblock">&nbsp;</label> <a
-							class="mdl-button mdl-js-button btn-secondary btn-fed1"
-							ng-disabled="!itsEdit" ng-click="verifyUrl(apiUrlPop)"
-							ng-if="verify">Verify</a> <a flex
+						<label class="disblock">&nbsp;</label> 
+							<a class="mdl-button mdl-js-button btn-secondary btn-fed1" 
+							ng-click="verifyUrl(apiUrlPop)">Verify</a> 
+							<!-- <a flex
 							class="mdl-button mdl-js-button btn-secondary btn-fed1 red-btn"
-							ng-click="verifyUrl(apiUrlPop)" ng-if="!verified&&!verify">Not
-							Verified</a> <a flex
+							ng-click="verifyUrl(apiUrlPop)" ng-show="!verified&&!verify">Not
+							Verified</a> 
+							<a flex
 							class="mdl-button mdl-js-button btn-secondary btn-fed1 green-btn"
-							ng-click="verifyUrl(apiUrlPop)" ng-if="verified&&!verify">Verified</a>
+							ng-click="verifyUrl(apiUrlPop)" ng-show="verified&&!verify">Verified</a> -->
 					</div>
 				</div>
 				<div layout="row">
