@@ -357,7 +357,7 @@ md-dialog .md-dialog-content {padding: 20px;}
 .mp-grid-list-row {display:flex; flex-wrap: nowrap; padding: 10px; border: 1px dashed #d5d5d5; max-width: 70%;margin: 10px 0;min-height: 158px;}
 .mp-grid-list-row:last-child {padding-top:10px;}
 .mp-grid-list-image-cell { width: 160px;position:relative; margin-right: 30px;max-height: 138px; min-height: 100px; height: 138px;}
-.mp-grid-list-details-cell {}
+.mp-grid-list-details-cell { width: 100%; }
 .mp-grid-list-details-cell .detail-content span { margin-right: 8px; margin-left: 9px;}
 .mp-grid-list-details-cell .detail-content span:first-child { margin-left:0;}
 .detail-content {margin-bottom: 8px; clear:both;}
@@ -1806,7 +1806,7 @@ padding: 20px;background:#e5e5e5;}
 .griditem-title-text {margin-left:0px !important;}
 .md-icons-tiles {display: flex; justify-content: space-between; align-items: center;padding: 0;}
 .md-icons-tiles .mdl-button { height: 30px; width: 30px; margin:0;}
-.mp-grid-list-details-cell .md-icons .mdl-button {position:relative; top: -4px;}
+.mp-grid-list-details-cell .md-icons .mdl-button {position:relative;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
 
 /***** Sign-in promt modal start ********/
