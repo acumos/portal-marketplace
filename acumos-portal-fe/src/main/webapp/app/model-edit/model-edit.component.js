@@ -588,7 +588,8 @@ angular
 					        		  clickOutsideToClose: true
 					        	  });
 					        	  return false;
-					          }
+						}
+						
 						$scope.deleteAuthor = function(){
 					    	var obj = {
 				    				"request_body": {
@@ -737,9 +738,8 @@ angular
 				              		$scope.result = true;
 				              		$scope.cancelAuthor();
 				              		return false;
-			                	}						  
+			                	}	
 						  
-
 						$scope.updateSolution = function() {
 							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
 							$scope.solution.PrevSolname = $scope.solution.name;
@@ -1483,6 +1483,24 @@ angular
 											});
 						}
 
+						
+						$scope.sharedWithConfirmation = function(userId, fName, lName){
+							$scope.deleteUserId = userId;
+							$scope.deleteFName = fName;
+							$scope.deleteLName = lName;
+					        	  $mdDialog.show({
+					        		  contentElement: '#confirmPopupDeleteSharedWith',
+					        		  parent: angular.element(document.body),
+					        		  clickOutsideToClose: true
+					        	  });
+					        	  return false;
+						}
+						
+						$scope.closeSharedWithPoup = function(){
+		                			$mdDialog.hide();
+		              				return false;
+	                			}
+						
 						$scope.removeSharedUser = function(userId, userFname, userLname) {
 							
 							$scope.shareWithUser = userId;
@@ -1498,27 +1516,28 @@ angular
 
 												$scope.status = response.data.response_detail;
 												if (response.data.error_code == "100") {
-													$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
-						                               $anchorScroll();
-						                               $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-author.";
-						                               $scope.icon = '';
-						                               $scope.styleclass = 'c-success';
-						                               $scope.showAlertMessage = true;
-						                               $timeout(function() {
-						                                   $scope.showAlertMessage = false;
-						                               }, 3500);
-						                               
+                                                                                                  	$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+						                              				$anchorScroll();
+                                                                                                        $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-author.";
+                                                                                                        $scope.icon = '';
+                                                                                                        $scope.styleclass = 'c-success';
+                                                                                                        $scope.showAlertMessage = true;
+                                                                                                        $timeout(function() {
+                                                                                                             $scope.showAlertMessage = false;
+                                                                                                         }, 3500);
+                                                                                                      	$scope.closeSharedWithPoup();
+                                                                                                      	$scope.getAllUsersList();
 													$scope.loadShareWithTeam();
-													$scope.getAllUsersList();
+													
 												} else {
 													alert("Unexpected error occured");
+													$scope.closeSharedWithPoup();
 												}
 
 											},
 											function(error) {
-
-												alert("Error "
-														+ error.data.response_detail)
+                                                                                          	$scope.closeSharedWithPoup();
+                                                                                          	alert("Error "+ error.data.response_detail);
 
 											});
 
