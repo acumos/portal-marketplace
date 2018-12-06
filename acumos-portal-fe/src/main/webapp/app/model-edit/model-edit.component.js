@@ -588,7 +588,8 @@ angular
 					        		  clickOutsideToClose: true
 					        	  });
 					        	  return false;
-					          }
+						}
+						
 						$scope.deleteAuthor = function(){
 					    	var obj = {
 				    				"request_body": {
@@ -737,9 +738,8 @@ angular
 				              		$scope.result = true;
 				              		$scope.cancelAuthor();
 				              		return false;
-			                	}						  
+			                	}	
 						  
-
 						$scope.updateSolution = function() {
 							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
 							$scope.solution.PrevSolname = $scope.solution.name;
@@ -1483,6 +1483,24 @@ angular
 											});
 						}
 
+						
+						$scope.sharedWithConfirmation = function(userId, fName, lName){
+							$scope.deleteUserId = userId;
+							$scope.deleteFName = fName;
+							$scope.deleteLName = lName;
+					        	  $mdDialog.show({
+					        		  contentElement: '#confirmPopupDeleteSharedWith',
+					        		  parent: angular.element(document.body),
+					        		  clickOutsideToClose: true
+					        	  });
+					        	  return false;
+						}
+						
+						$scope.closeSharedWithPoup = function(){
+		                			$mdDialog.hide();
+		              				return false;
+	                			}
+						
 						$scope.removeSharedUser = function(userId, userFname, userLname) {
 							
 							$scope.shareWithUser = userId;
@@ -1507,11 +1525,13 @@ angular
 						                               $timeout(function() {
 						                                   $scope.showAlertMessage = false;
 						                               }, 3500);
-						                               
+						                            $scope.closeSharedWithPoup();
+						                            $scope.getAllUsersList();
 													$scope.loadShareWithTeam();
-													$scope.getAllUsersList();
+													
 												} else {
 													alert("Unexpected error occured");
+													$scope.closeSharedWithPoup();
 												}
 
 											},
