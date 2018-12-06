@@ -406,27 +406,45 @@ limitations under the License.
 												title="{{sharedmember.firstName}} {{sharedmember.lastName}}" />
 
 												<span class="team-user-close"> <i
-													ng-click="removeSharedUser(sharedmember.userId, sharedmember.firstName, sharedmember.lastName)"
+													ng-click="sharedWithConfirmation(sharedmember.userId, sharedmember.firstName, sharedmember.lastName)"
 													class="fa fa-times-circle" aria-hidden="true"></i>
 											</span>
 												<div class="mdl-tooltip" data-mdl-for="T{{$index}}">
 													{{sharedmember.firstName}} {{sharedmember.lastName}}</div>
-										</i> <!-- <i ng-repeat="sharedmember in sharedWith"> <img
-                                                                        id="T{{$index}}"
-                                                                        src="images/owner2.png" alt="" title=""> <span
-                                                                        class="team-user-close"> <i
-                                                                              class="fa fa-times-circle-o" aria-hidden="true"></i>
-                                                                  </span>
-                                                                        <div class="mdl-tooltip" data-mdl-for="T{{$index}}">owner</div>
-                                                            </i> --> <!--                                                           <i> <img id="owner12" src="images/owner2.png"
-                                                                        alt="" title=""> <span class="team-user-close">
-                                                                              <i class="fa fa-times-circle-o" aria-hidden="true"></i>
-                                                                  </span>
-                                                                        <div class="mdl-tooltip" data-mdl-for="owner12">owner
-                                                                        </div>
-                                                            </i>
--->
+										</i> 
 										</span>
+										
+										<!-- Delete Shared With Confirmation Starts -->
+										<div class="md-dialog-container" id="confirmPopupDeleteSharedWith"
+											style="height: 0;">
+											<md-dialog aria-label="Delete Shared"
+												> <md-toolbar>
+											<div class="md-toolbar-tools">
+												<h2>Delete Shared Member</h2>
+												<span flex></span>
+												<md-button class="md-icon-button" ng-click="closeSharedWithPoup()">
+												<i class="material-icons">close</i> </md-button>
+											</div>
+											</md-toolbar> <md-dialog-content>
+											<form ng-cloak>
+												<div class="md-dialog-content">
+													<p>Would you like to delete '{{deleteFName}} {{deleteLName}}' from the shared list?</p>											
+												</div>
+											</form>
+											</md-dialog-content> <md-dialog-actions>
+											<div class="dialog-footer-container1">
+												<md-button ng-click="closeSharedWithPoup()"
+													class="mdl-button mdl-js-button btn-secondary">
+												Cancel </md-button>
+												<md-button ng-click="removeSharedUser(deleteUserId, deleteFName, deleteLName);"
+													class="mdl-button mdl-js-button btn-primary">
+												Confirm </md-button>
+											</div>
+											</md-dialog-actions> </md-dialog>
+										</div>
+										
+										<!-- Delete Shared With Confirmation Starts -->
+										
 
 										<!-- <span class="team-user"> <i
                                                                   ng-repeat="sharedmember in sharedWith"
