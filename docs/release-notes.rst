@@ -20,6 +20,16 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.0.3,  7th December 2018
+=================================
+* IST: Spacing is incorrect of counts of comment , view and download on tiles on marketplace and my model screen(list view) (ACUMOS-2114)
+* IST: Confirmation Popup is not coming while un-sharing the model (ACUMOS-2134)
+* Portal federation peer dialog verification behaviors buggy (ACUMOS-1721)
+* Gateway client builder fails to check for missing gateway.url configuration (ACUMOS-2024)
+* Portal publish author name field validation rejects period, cannot enter an initial (ACUMOS-2032)
+* As a User , I want to have Preview displayed when clicking on a Word doc file. (ACUMOS-1706)
+
+
 Version 2.0.2,  30th November 2018
 ==================================
 * Federation peer FQDN field should validate that entry is valid host name  (ACUMOS-1923)
