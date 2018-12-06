@@ -291,8 +291,8 @@ angular.module('signInModal')
 	                                                $scope.showTag = function() {
 	                                                $rootScope.$broadcast('manageTags',{ userId :$scope.signinservice.mlpuser.userId });
                                                 	}
-	                                                if(response.data.firstLogin)
-	                                                	$scope.showTag();
+	                                                /*if(response.data.firstLogin)
+	                                                	$scope.showTag(); */
                                                 }else{
                                                 	console.log("Error: ", response);
                                                     $scope.userPassInvalid = true;
