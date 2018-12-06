@@ -28,6 +28,7 @@ Version 2.0.3,  7th December 2018
 * Gateway client builder fails to check for missing gateway.url configuration (ACUMOS-2024)
 * Portal publish author name field validation rejects period, cannot enter an initial (ACUMOS-2032)
 * As a User , I want to have Preview displayed when clicking on a Word doc file. (ACUMOS-1706)
+* IST- missing part of model label (ACUMOS-2149)
 
 
 Version 2.0.2,  30th November 2018
