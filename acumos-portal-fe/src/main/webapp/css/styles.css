@@ -338,6 +338,7 @@ md-input-container.md-default-theme:not(.md-input-focused):not(.md-input-invalid
 .headline {max-width: 730px;}
 .md-headline {max-width: 730px;}
 .md-headline2 {max-width: 280px;}
+.md-headline3 {text-overflow: initial; overflow: initial; max-width: 730px !important;}
 
 .txt-orange {color: #ff630a;}
 
