@@ -1365,6 +1365,7 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 .closeIcon .material-icons {font-size: 18px; line-height:10px;}
 
 .admin-change-role-ddl {max-width: 170px !important;min-width: 150px !important;}
+.tbl-overflowscroll {overflow-x: scroll !important;}
 /*************Admin User page style End ***************/
 
 /**** Preview box style start ******/
@@ -1386,7 +1387,7 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 /************** GRID STYLE STARTS************/
 .mdl-data-table {box-shadow: none; border: none;}
 .mdl-data-table thead tr th {border: none;padding-top:0;padding-bottom:0; height:47px; background: #E8E5EC;vertical-align:middle; text-transform:uppercase;font-weight:600; font-size: 14px;color:#671c9d;text-align:left;}
-.mdl-data-table tbody tr td {font-weight:600;color:#671c9d;text-align:left;}
+.mdl-data-table tbody tr td {font-weight:600;text-align:left;}
 .mdl-data-table tbody tr:first-child td {border-top: none;}
 .admin-action-container button:hover {background: none;}
 
