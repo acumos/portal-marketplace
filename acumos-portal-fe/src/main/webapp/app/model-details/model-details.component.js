@@ -411,6 +411,11 @@ angular
 											else {
 												$scope.cantRate = false;
 											}
+											
+                                            if(data.response_body.ownerId != user[1] && data.response_body.accessType == null){	
+                                            	$state.go("401Error");
+										    }
+                                            
 											$scope.tags = data.response_body.solutionTagList;
 											$scope.modelOwnerId = data.response_body.ownerId;
 											modelType = data.response_body.modelType;
