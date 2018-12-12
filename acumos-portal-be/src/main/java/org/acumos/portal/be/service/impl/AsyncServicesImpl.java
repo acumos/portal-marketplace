@@ -160,7 +160,13 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 						post.setHeader("Authorization", access_token);
 					}
 				} else if(tokenMode != null && tokenMode.equals("apiToken")) {
-					post.setHeader("Authorization", user.getLoginName() + ":" + user.getApiToken());
+					if (user.getApiToken() == null  || user.getApiToken().isEmpty()) {
+						throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
+								"API token invalid. Please refresh your API token in Account Settings.");
+					} else {
+						post.setHeader("Authorization", user.getLoginName() + ":" + user.getApiToken());
+					}
+					
 				}
 				
 				if(StringUtils.isNotEmpty(provider)) {
@@ -247,16 +253,27 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		} catch (ConnectException|NoHttpResponseException e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution - No response ", e);
 			
+			String reason = "Failed to connect to onboarding";
+			
 			// Send a bell notification to the user to alert of failure
-			sendBellNotification(user.getUserId(), solution);
+			sendBellNotification(user.getUserId(), reason);
 			
 			// Update the on-screen progress tracker status to alert of failure
-			sendTrackerErrorNotification(uuid, user.getUserId(), "Failed to connect to onboarding");
+			sendTrackerErrorNotification(uuid, user.getUserId(), reason);
 			
 			// Email) a notification to the user based on notification preference
 			sendEmailNotification(user.getUserId(), solution, e.getMessage());
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution ", e);
+
+			// Send a bell notification to the user to alert of failure
+			sendBellNotification(user.getUserId(), e.getMessage());
+			
+			// Update the on-screen progress tracker status to alert of failure
+			sendTrackerErrorNotification(uuid, user.getUserId(), e.getMessage());
+			
+			// Email) a notification to the user based on notification preference
+			sendEmailNotification(user.getUserId(), solution, e.getMessage());
 		} finally {
 			httpclient.getConnectionManager().shutdown();
 			// Remove all files once the process is completed
@@ -339,14 +356,13 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		return res;
 	}
 
-	public MLNotification sendBellNotification(String userId, UploadSolution solution) {
-		String notifMsg = "Add To Catalog Failed for solution "
-			+ ". Please restart the process again to upload the solution.";
+	public MLNotification sendBellNotification(String userId, String reason) {
+		String notifMsg = "On-boarding failed: " + reason
+			+ " Please restart the process again to upload the solution.";
 		MLPNotification notification = new MLPNotification();
 		notification.setMessage(notifMsg);
 		notification.setTitle(NOTIFICATION_TITLE);
 		notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
-		log.info("inside callOnboarding Connect/NoHttpResponse catch before generateNotification ---->>>");
 		notificationService.generateNotification(notification, userId);
 		
 		List<MLNotification> list = notificationService.getNotifications();

@@ -97,11 +97,13 @@ public class AsyncServiceImplTest {
 		solution.setVersion("1.0.0");
 		AsyncServicesImpl mockAsync = mock(AsyncServicesImpl.class);
 		
+		String reason = "Test case";
+		String message = "On-boarding failed: " + reason
+				+ " Please restart the process again to upload the solution.";
 		MLPNotification mlpNotification = new MLPNotification();
 		Date created = new Date();
 		mlpNotification.setCreated(created);
-		mlpNotification.setMessage("Add To Catalog Failed for solution " + solution.getName()
-			+ ". Please restart the process again to upload the solution.");
+		mlpNotification.setMessage(message);
 		Date modified = new Date();
 		mlpNotification.setModified(modified);
 		mlpNotification.setTitle("Web Based Onboarding");
@@ -112,10 +114,10 @@ public class AsyncServiceImplTest {
 		mlpNotification.setStart(start);
 		MLNotification notf = PortalUtils.convertToMLNotification(mlpNotification);
 
-		Mockito.when(mockAsync.sendBellNotification(userId, solution)).thenReturn(notf);
+		Mockito.when(mockAsync.sendBellNotification(userId, reason)).thenReturn(notf);
 		logger.info("Successfully created notification " + notf);
 		Assert.assertNotNull(notf);
-		Assert.assertEquals(notf, notf);
+		Assert.assertEquals(notf.getMessage(), message);
 		
 	}
 	
