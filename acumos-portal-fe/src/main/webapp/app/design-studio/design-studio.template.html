@@ -1161,6 +1161,11 @@ limitations under the License.
 										<div class="md-dialog-content">
 											<div class="dsmt-container">
 												<div class="dsmt-cell">
+													<div class="help-inline" ng-show="collateSourceMapTable.length < collateTargetMapTable.length">
+														<span style="color: #ff0000;">
+														*Source parameters should be greater than or equal to target parameters
+														</span>
+													</div>
 														<div class="dsmt-chitable">
 															<table class="mdl-data-table ds-table1" cellpadding="0" cellspacing="0" >
 																<thead>
@@ -1221,7 +1226,7 @@ limitations under the License.
 																		<td>{{collateSourceMapTable[$index].tag}}</td>
 																		<td>
 																		<div ng-if="!readSolution && collateSourceMapTable[$index].tag" class="select-control">																	
-																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
+																			<md-select ng-disabled="collateSourceMapTable.length < collateTargetMapTable.length" ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
 																					<md-option value="null">Select Tag</md-option>
 																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
 																			</md-select>
@@ -1255,7 +1260,7 @@ limitations under the License.
 											<md-button ng-click="closeMappingCollatorPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
 												Cancel
 											</md-button>
-											<md-button type="submit" ng-click="collateMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="collateSourceTargetTable.$invalid">
+											<md-button type="submit" ng-click="collateMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="collateSourceTargetTable.$invalid || collateSourceMapTable.length < collateTargetMapTable.length">
 												Done
 											</md-button>
 									    </div>
@@ -1326,7 +1331,7 @@ limitations under the License.
 																		</td>
 																		<td>
 																		<label ng-if="splitTargetMapTable[$index].tag && (splitErrorMap.get($index) === 'True' || splitErrorMap.get($index) === 'true')"><i class="material-icons dsicon-true">done</i></label>
-																		<label ng-if="splitTargetMapTable[$index].tag && (splitErrorMap.get($index) === undefined || splitErrorMap.get($index) === 'false' || splitErrorMap.get($index) === 'False' || splitErrorMap.get($index) === null"><i class="material-icons dsicon-false">close</i></label>
+																		<label ng-if="splitTargetMapTable[$index].tag && (splitErrorMap.get($index) === undefined || splitErrorMap.get($index) === 'false' || splitErrorMap.get($index) === 'False' || splitErrorMap.get($index) === null)"><i class="material-icons dsicon-false">close</i></label>
 																		</td>
 																		<td>{{splitTargetMapTable[$index].tag}}</td>
 																		<td>{{splitTargetMapTable[$index].name}}</td>

@@ -234,7 +234,7 @@ height: 25px; line-height: 25px; padding:0;border-radius:0; min-width:50px; text
 .btn-divider {display:inline-block; line-height: 38px;}
 
 
-md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !important; */}
+md-tabs-content-wrapper {min-height: 200px !important; }
 
 /**********Flex Containers end *********************/
 
@@ -253,8 +253,6 @@ md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !importa
 
 .ds-header {width:100%;}
 
-#canvas > svg {min-height: 100%; width: 100% !important; height:100% !important; }
-
 .mdl-button--icon.grid-icon1 {background: #e8d3ff;}
 .mdl-button--icon.grid-icon1:hover {background: #d8b5ff;}
 
@@ -265,6 +263,19 @@ md-tabs-content-wrapper {min-height: 200px !important; /* height: 200px !importa
 
 .cg-dialog-Deploy-to-cloud {width: 500px;}
 #dsgridbg {min-height:600px;}
+
+.d3-tip.hint-negative {
+    background: rgba(255, 16, 32, 0.9);
+}
+.d3-tip.hint-negative:after {
+    color: rgba(255, 16, 32, 0.9);
+}
+.d3-tip.hint-positive {
+    background: rgba(48, 212, 92, 0.9);
+}
+.d3-tip.hint-positive:after {
+    color: rgba(48, 212, 92, 0.9);
+}
 
 text.edge-label {
     visibility: visible;
