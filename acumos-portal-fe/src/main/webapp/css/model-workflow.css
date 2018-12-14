@@ -1622,6 +1622,8 @@ md-menu-content {webkit-box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
 #solImage .upload-txtbox{width: 100%;}
 .profileimageholder{width:27px; height:27px; display: inline-block;}
 .profileimageholder img{width:100%;}
+.uploaded-file .md-chip-input-container input.md-input{display:none;}
+
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}
