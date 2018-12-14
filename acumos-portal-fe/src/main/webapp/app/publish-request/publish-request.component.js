@@ -64,6 +64,12 @@ angular
                                     }
                         }
 						
+						//condition for popover
+						
+						 $scope.showComments = false;
+						 
+						 
+						
 						//Open popup 
 			            $scope.showModalPublishReq = function(index, req, modelName, publishRequestId){
 			            	$scope.requestIndex = index;
