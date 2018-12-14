@@ -1995,6 +1995,16 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 /****** text editor style ends*******/
 
 
+/****** Custom popover starts******/
+.custom_popover .popovers {width:312px; right:60px; top:50px;}
+.custom_popover .popovers-cloud-modalfooter{display:none;}
+.custom_popover .popovers::before{left:278px;}
+.custom_popover .popovers .md-dialog-content{ padding: 15px 0 0px; max-height: 100px; overflow-x: hidden; overflow-y: auto;}
+.custom_popover .popovers .md-dialog-content p {white-space:normal;}
+.custom_popover .a-tooltipval{margin-left:0; width:100%;}
+
+/****** Custom popover ends******/
+
 /**** rating style******/
 .read-only-rating1 a.star-button { pointer-events: none;}
 
