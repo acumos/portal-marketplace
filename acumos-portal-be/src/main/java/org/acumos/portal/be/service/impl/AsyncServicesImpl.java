@@ -248,6 +248,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
 					notifyOnboardingStatus(user.getUserId(), "HI", "On-boarding Failed for solution ", notifyBody, "ONBD_FAIL");
 				}
+			} else { //Invalid model bundle, does not contain all three parts
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
+						"Malformed bundle, missing required files. Check your model and try again.");
 			}
 		// If disconnected from onboarding service, catch related exceptions here
 		} catch (ConnectException|NoHttpResponseException e) {
@@ -332,7 +335,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
             for (File file : fList) {
                 if (file.isFile()) {
                     //files.add(file);
-                } else if (file.isDirectory()) {
+                } else if (file.isDirectory() && file.getName().matches("(?!^"
+                		+ env.getProperty("onboarding.directory.blacklist") + "$)^.*$")) {
                 	getListOfFiles(file.getAbsolutePath(), files);
                 }
             }
