@@ -130,24 +130,25 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response = null;
 		MLPNotification notification = new MLPNotification();
-		fileList = getListOfFiles(directory, fileList);
-	
-		if(fileList != null){
-			for(File file : fileList){
-				if (file.isFile() && file.getName().contains(".zip") || file.getName().contains(".jar") || file.getName().contains(".bin") || file.getName().contains(".tar") || file.getName().toUpperCase().contains(".R")) {
-					modelFile = new File(file.getAbsolutePath());
-				}
-				if (file.isFile() && file.getName().contains(".proto")) {
-					schemaFile = new File(file.getAbsolutePath());
-				}
-				if (file.isFile() && file.getName().contains(".json")) {
-					metadataFile = new File(file.getAbsolutePath());
-				}
-				
-			}
-		}
 
 		try {
+			fileList = getListOfFiles(directory, fileList);
+		
+			if(fileList != null){
+				for(File file : fileList){
+					if (file.isFile() && file.getName().contains(".zip") || file.getName().contains(".jar") || file.getName().contains(".bin") || file.getName().contains(".tar") || file.getName().toUpperCase().contains(".R")) {
+						modelFile = new File(file.getAbsolutePath());
+					}
+					if (file.isFile() && file.getName().contains(".proto")) {
+						schemaFile = new File(file.getAbsolutePath());
+					}
+					if (file.isFile() && file.getName().contains(".json")) {
+						metadataFile = new File(file.getAbsolutePath());
+					}
+					
+				}
+			}
+
 			if (modelFile != null && schemaFile != null && metadataFile != null) {
 
 				HttpPost post = new HttpPost(env.getProperty("onboarding.push.model.url"));
@@ -248,6 +249,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
 					notifyOnboardingStatus(user.getUserId(), "HI", "On-boarding Failed for solution ", notifyBody, "ONBD_FAIL");
 				}
+			} else { //Invalid model bundle, does not contain all three parts
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
+						"Malformed bundle, missing required files. Check your model and try again.");
 			}
 		// If disconnected from onboarding service, catch related exceptions here
 		} catch (ConnectException|NoHttpResponseException e) {
@@ -323,8 +327,13 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		}
 	}
   
-	private List<File> getListOfFiles(String directoryName, List<File> files) throws IOException {
+	private List<File> getListOfFiles(String directoryName, List<File> files) throws AcumosServiceException, IOException {
         File directory = new File(directoryName);
+        String blacklist = env.getProperty("onboarding.directory.blacklist");
+        if (PortalUtils.isEmptyOrNullString(blacklist)) {
+        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER,
+        			"Environment not configured: onboarding.directory.blacklist");
+        }
         // get all the files from a directory
         File[] fList = directory.listFiles();
         files.addAll(Arrays.asList(fList));
@@ -332,7 +341,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
             for (File file : fList) {
                 if (file.isFile()) {
                     //files.add(file);
-                } else if (file.isDirectory()) {
+                } else if (file.isDirectory() && file.getName().matches("(?!^" + blacklist + "$)^.*$")) {
                 	getListOfFiles(file.getAbsolutePath(), files);
                 }
             }
