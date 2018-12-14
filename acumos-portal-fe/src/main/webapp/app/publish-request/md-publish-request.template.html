@@ -144,9 +144,43 @@ limitations under the License.
 							'text-red': publishReq.requestStatusName == 'Declined',
 							'text-orange': publishReq.requestStatusName == 'Withdrawn'}">{{publishReq.requestStatusName}}</label>
 						</td>
-						<td><div ng-if="publishReq.comment" class="a-tooltip publishreq-tooltip"><span
-								class="a-tooltipval">View</span> <span class="a-tooltiptext publish-tooltip">{{publishReq.comment}}</span>
-						</div><div ng-hide="publishReq.comment" class="a-tooltip publishreq-tooltip"><label
+						<td>
+							<div ng-if="publishReq.comment">
+							<a ng-click="showComments = !showComments; closeOtherPopovers('showComments',showComments)"> view 
+						 
+					 		</a>
+					 		
+					 		<!-- Popover Starts -->
+					 		<div ng-show="showComments" class="custom_popover">
+								<div class="popovers">
+									<md-toolbar>
+									<div class="md-toolbar-tools">
+										<h2>Publisher's Comments </h2>
+										<span flex></span>
+										<md-button class="md-icon-button"
+											ng-click="showComments = !showComments"> <i
+											class="material-icons" alt="Close" title="Close">close</i> </md-button>
+									</div>
+									</md-toolbar>
+									<md-dialog-content>
+									<div class="md-dialog-content">
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+											<p> {{publishReq.comment}}</p>
+	
+										</div>
+										<div layout="row" class="popovers-cloud-modalfooter">
+											<md-button ng-click="showComments = !showComments"
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" alt="Cancel" title="Cancel">
+											Cancel </md-button>
+										
+										</div>
+									</div>
+									</md-dialog-content>
+								</div>
+							</div>
+					 		<!-- Popover Ends -->
+							</div>
+						<div ng-hide="publishReq.comment" class="custom_popover"><label
 								class="a-tooltipval">N/A</label>
 						</div></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'">
