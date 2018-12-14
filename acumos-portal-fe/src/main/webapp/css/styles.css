@@ -1318,7 +1318,7 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .fed-container2 {display:flex; flex-wrap:nowrap;justify-content: flex-end;align-items: center;}
 .fed-container2 .mdl-button { width: 100%;}
 .fed-container3 {display: flex;flex-wrap:nowrap;align-items:center; justify-content: flex-end; margin-right: 0; padding-top: 1px;}
-.fed-err-msg {position:absolute;width: 350px;margin-top: -17px;}
+.fed-err-msg {position:relative; width: 350px;margin-top: -17px;}
 .fed-err-msg span {position:relative; margin-left: 2px; line-height: 15px !important;}
 table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark as Self "] {width: 100% !important;}
 
