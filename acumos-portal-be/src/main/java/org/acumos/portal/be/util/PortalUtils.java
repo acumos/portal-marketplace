@@ -51,6 +51,7 @@ import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
@@ -71,6 +72,8 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.apache.commons.lang.ArrayUtils;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -85,20 +88,21 @@ public class PortalUtils {
 	}
 	
 	public static boolean isEmptyOrNullString(String input) {
-		boolean isEmpty = false;
-		if (null == input || 0 == input.trim().length()) {
-			isEmpty = true;
-		}
-		return isEmpty;
+		return input == null || input.trim().isEmpty();
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public static boolean isEmptyList(List input) {
-		boolean isEmpty = false;
-		if (null == input || 0 == input.size()) {
-			isEmpty = true;
+		return input == null || input.isEmpty();
+	}
+	
+	public static String getEnvProperty(Environment env, String property) throws AcumosServiceException {
+		String value = env.getProperty(property);
+		if (PortalUtils.isEmptyOrNullString(value)) {
+        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER,
+        			"Environment not configured: " + property);
 		}
-		return isEmpty;
+		return value;
 	}
 	
 	public static User convertToMLPuser(MLPUser mlpUser) {
