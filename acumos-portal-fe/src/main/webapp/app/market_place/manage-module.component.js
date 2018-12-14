@@ -119,6 +119,23 @@ angular.module('manageModule')
 						var companyPrevTotal = 0;
 						var deletedPrevTotal = 0;
 						
+						//added functionality for deleted model category filter starts
+						
+						$scope.get = function(){
+							 if($scope.checked)
+                            {
+								 
+								 $scope.removeFilter();
+                            }
+                        else
+                            {
+                       	 
+                       	     $scope.deleteNav('SeeAll');
+                            }
+						}
+						
+						//added functionality for deleted model category filter ends
+						
 						$scope.favouriteList = function() {
 							if ($scope.loginUserID) {
 								apiService
@@ -610,6 +627,7 @@ angular.module('manageModule')
 							$scope.cpOperator = 'Add';
 							$scope.pbOperator = 'Add';
 							$scope.dlOperator = 'Add';
+							$scope.filterOptions = [];
 							$scope.mlSolutionPrivate=[];
 							$scope.mlSolutionCompany=[];
 							$scope.mlSolutionPublic=[];
@@ -618,7 +636,9 @@ angular.module('manageModule')
 							$scope.getCompanyModels();
 							$scope.getPublicModels();
 							$scope.getDeleteModels();
+							//$scope.mlsolutions = [];
 						}
+						
 						$scope.imgURL = "https://www.extremetech.com/wp-content/uploads/2015/10/AI.jpg";
 						$scope.isBusy = false;
 						 
