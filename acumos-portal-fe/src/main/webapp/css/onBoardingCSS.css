@@ -260,6 +260,8 @@ a:focus, a:hover {text-decoration: none;}
 .ulinline-dash{margin: 0 0 16px 0; padding:0;}
 .ulinline-dash li{list-style-type:none; display:inline-block; padding:0 2px;}
 .error{color:#FF2527; font-size: 16px;}
+.error i{float:left}
+.error-section{color:#FF2527;}
 .btn-primary {background: #671C9D; color: #fff;border:1px solid #671C9D;}
 .btn-primary:hover {background: #671C9D !important; color: #fff;border:1px solid #671C9D;}
 .btn-primary:focus {background: #671C9D !important; color: #fff;border:1px solid #671C9D;}
@@ -551,6 +553,10 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 
 #uploadFile {position:relative;}
 #uploadFile .upload-txtbox{width: 100%; height:33px;}
+
+/* Onboarding view error button */
+#webonboarding li{text-align:center;}
+#webonboarding .error_found{color: red !important; border: 1px solid red;}
 
 /* upload-model-bundle */
 .upload-model-bundle .mdl-grid{padding:0;}

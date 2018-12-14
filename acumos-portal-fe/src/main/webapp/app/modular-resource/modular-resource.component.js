@@ -89,7 +89,7 @@ angular.module('modelResource')
 		//template:"<div class=''>{{ content }}</div>",
 		//template:"<button ng-click='authenticate(google)'>Sign in with Google</button>",
 		templateUrl:'./app/modular-resource/modular-resource.template.html',
-		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams, $timeout, browserStorageService){
+		controller:function($scope,$location,apiService,$http, modelUploadService, $interval, $anchorScroll, $state, $rootScope, $stateParams, $timeout, browserStorageService, $mdDialog){
 			$scope.Math = window.Math;
 			$scope.onap = false;	
 			if($stateParams.ONAP != undefined && $stateParams.ONAP=='true')
@@ -397,7 +397,6 @@ angular.module('modelResource')
 			$scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';
 			$scope.errorCC = '';
 			
-			
 			$scope.showValidationStatus = function(){
 				var counter = 1;
 
@@ -491,6 +490,17 @@ angular.module('modelResource')
 					});
 				
 			} 
+			
+			$scope.showErrorDetailsPopup = function(){
+				 $mdDialog.show({
+	        		  contentElement: '#onboardinErrorDetails',
+	        		  parent: angular.element(document.body),
+	        		  clickOutsideToClose: true
+	        	  });
+			}
+			$scope.handleDismiss = function(){
+				 $mdDialog.cancel();
+			}
 			
 			$scope.clearNotificationInterval = function(){
 				$scope.disableOnboardingButton = false;
