@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2df08726_f046a5b6",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-15T11:40:04Z",
+      "side": 1,
+      "message": "Please don\u0027t hardwire config keys AND use them in the same line.  Get the config value using a constant, then check if the result was null and complain if so.  A mal-configured system will simply crash on this code. Acumos uses SO MUCH configuration and it\u0027s unacceptable to crash when a sysadmin gets the config wrong.",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 339,
+        "endChar": 84
+      },
+      "revId": "63d229076f26bffb9bf6c342f58d35c8d3fab234",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
