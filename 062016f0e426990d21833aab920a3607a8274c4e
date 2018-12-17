@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffd17278_628d3600",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-17T18:22:57Z",
+      "side": 1,
+      "message": "Another hardcoded env parameter that will throw a NPE if it\u0027s not found, why does this bad practice get merged??",
+      "range": {
+        "startLine": 154,
+        "startChar": 49,
+        "endLine": 154,
+        "endChar": 78
+      },
+      "revId": "062016f0e426990d21833aab920a3607a8274c4e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be91fdf7_e121b024",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-17T18:22:57Z",
+      "side": 1,
+      "message": "Please move hardcoded string to a constant (two places)",
+      "range": {
+        "startLine": 332,
+        "startChar": 43,
+        "endLine": 332,
+        "endChar": 75
+      },
+      "revId": "062016f0e426990d21833aab920a3607a8274c4e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "612b806f_f8dbc5a9",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-17T18:22:57Z",
+      "side": 1,
+      "message": "Please move hardcoded string to a constant (two places)",
+      "range": {
+        "startLine": 335,
+        "startChar": 40,
+        "endLine": 335,
+        "endChar": 70
+      },
+      "revId": "062016f0e426990d21833aab920a3607a8274c4e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55e8050a_f9ec6b16",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-17T18:22:57Z",
+      "side": 1,
+      "message": "This adds all files AND directories, is that the intent? The method is not documented so I don\u0027t know",
+      "range": {
+        "startLine": 339,
+        "startChar": 0,
+        "endLine": 339,
+        "endChar": 43
+      },
+      "revId": "062016f0e426990d21833aab920a3607a8274c4e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7909c4a_1f3bce01",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-17T18:22:57Z",
+      "side": 1,
+      "message": "Why check for a file only to do nothing? If you only care about directories, just check for that.",
+      "range": {
+        "startLine": 343,
+        "startChar": 19,
+        "endLine": 343,
+        "endChar": 38
+      },
+      "revId": "062016f0e426990d21833aab920a3607a8274c4e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
