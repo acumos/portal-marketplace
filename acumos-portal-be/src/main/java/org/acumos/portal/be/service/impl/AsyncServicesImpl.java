@@ -105,6 +105,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	
 	private static final String NOTIFICATION_TITLE = "Web Based Onboarding";
 	private static final String STEP_SUCCESS = "SU";
+	
+	private static final String ENV_MODELSTORAGE = "model.storage.folder.name";
+	private static final String ENV_MODELURL = "onboarding.push.model.url";
+	private static final String ENV_TOKENMODE = "onboarding.tokenmode";
+	private static final String ENV_BLACKLIST = "onboarding.directory.blacklist";
 
 	@Async
 	public Future<String> initiateAsyncProcess() throws InterruptedException {
@@ -119,54 +124,53 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	public Future<HttpResponse> callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider, String access_token)
 			throws InterruptedException, ClientProtocolException, IOException {
 
-			log.info("CallOnboarding service start");
-		//File directory = new File(env.getProperty("model.storage.folder.name") + File.separator + userId);
-		String directory = env.getProperty("model.storage.folder.name") + File.separator + user.getUserId();
-		List<File> fileList = new ArrayList<>();
-		File modelFile = null;
-		File schemaFile = null;
-		File metadataFile = null;
-		//File[] fList = directory.listFiles();
+		log.info("CallOnboarding service start");
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpResponse response = null;
-		MLPNotification notification = new MLPNotification();
-		fileList = getListOfFiles(directory, fileList);
-	
-		if(fileList != null){
-			for(File file : fileList){
-				if (file.isFile() && file.getName().contains(".zip") || file.getName().contains(".jar") || file.getName().contains(".bin") || file.getName().contains(".tar") || file.getName().toUpperCase().contains(".R")) {
-					modelFile = new File(file.getAbsolutePath());
-				}
-				if (file.isFile() && file.getName().contains(".proto")) {
-					schemaFile = new File(file.getAbsolutePath());
-				}
-				if (file.isFile() && file.getName().contains(".json")) {
-					metadataFile = new File(file.getAbsolutePath());
-				}
-				
-			}
-		}
-
+		
 		try {
+			String directory = PortalUtils.getEnvProperty(env, ENV_MODELSTORAGE) + File.separator + user.getUserId();
+			List<File> fileList = new ArrayList<>();
+			File modelFile = null;
+			File schemaFile = null;
+			File metadataFile = null;
+			MLPNotification notification = new MLPNotification();
+
+			fileList = getListOfFiles(directory, fileList);
+		
+			if(fileList != null){
+				for(File file : fileList){
+					if (file.isFile() && file.getName().contains(".zip") || file.getName().contains(".jar") || file.getName().contains(".bin") || file.getName().contains(".tar") || file.getName().toUpperCase().contains(".R")) {
+						modelFile = new File(file.getAbsolutePath());
+					}
+					if (file.isFile() && file.getName().contains(".proto")) {
+						schemaFile = new File(file.getAbsolutePath());
+					}
+					if (file.isFile() && file.getName().contains(".json")) {
+						metadataFile = new File(file.getAbsolutePath());
+					}
+					
+				}
+			}
+
 			if (modelFile != null && schemaFile != null && metadataFile != null) {
 
-				HttpPost post = new HttpPost(env.getProperty("onboarding.push.model.url"));
+				HttpPost post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_MODELURL));
 				
-				String tokenMode = env.getProperty("onboarding.tokenmode");
-				if(tokenMode != null && tokenMode.equals("jwtToken")) {
+				String tokenMode = PortalUtils.getEnvProperty(env, ENV_TOKENMODE);
+				if (tokenMode.equals("jwtToken")) {
 					if(StringUtils.isEmpty(provider)) {
 						post.setHeader("Authorization", user.getAuthToken());
 					} else {
 						post.setHeader("Authorization", access_token);
 					}
-				} else if(tokenMode != null && tokenMode.equals("apiToken")) {
+				} else if (tokenMode.equals("apiToken")) {
 					if (user.getApiToken() == null  || user.getApiToken().isEmpty()) {
 						throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_TOKEN,
 								"API token invalid. Please refresh your API token in Account Settings.");
 					} else {
 						post.setHeader("Authorization", user.getLoginName() + ":" + user.getApiToken());
 					}
-					
 				}
 				
 				if(StringUtils.isNotEmpty(provider)) {
@@ -196,7 +200,6 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 				response = httpclient.execute(post);
 				log.info("inside callOnboarding response.getStatusLine().getStatusCode() ---->>>"+response.getStatusLine().getStatusCode());
-				//MLPNotification notification = new MLPNotification();
 				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
 				if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201) {
 					InputStream instream = response.getEntity().getContent();
@@ -248,6 +251,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					notifyBody.put("errorMessage", (String) resp.get("errorMessage"));
 					notifyOnboardingStatus(user.getUserId(), "HI", "On-boarding Failed for solution ", notifyBody, "ONBD_FAIL");
 				}
+			} else { //Invalid model bundle, does not contain all three parts
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
+						"Malformed bundle, missing required files. Check your model and try again.");
 			}
 		// If disconnected from onboarding service, catch related exceptions here
 		} catch (ConnectException|NoHttpResponseException e) {
@@ -323,16 +329,16 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		}
 	}
   
-	private List<File> getListOfFiles(String directoryName, List<File> files) throws IOException {
+	private List<File> getListOfFiles(String directoryName, List<File> files) throws AcumosServiceException, IOException {
         File directory = new File(directoryName);
+        String blacklist = PortalUtils.getEnvProperty(env, ENV_BLACKLIST);
         // get all the files from a directory
         File[] fList = directory.listFiles();
-        files.addAll(Arrays.asList(fList));
         if(fList != null){
             for (File file : fList) {
                 if (file.isFile()) {
-                    //files.add(file);
-                } else if (file.isDirectory()) {
+                    files.add(file);
+                } else if (file.isDirectory() && file.getName().matches("(?!^" + blacklist + "$)^.*$")) {
                 	getListOfFiles(file.getAbsolutePath(), files);
                 }
             }
