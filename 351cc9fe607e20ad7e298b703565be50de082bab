@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbe42b6e_507c32bb",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/AsyncServicesImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2018-12-18T19:54:32Z",
+      "side": 1,
+      "message": "Did you consider allowing files to be blacklisted also?",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 105
+      },
+      "revId": "351cc9fe607e20ad7e298b703565be50de082bab",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
