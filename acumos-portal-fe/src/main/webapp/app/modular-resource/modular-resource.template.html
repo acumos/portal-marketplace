@@ -515,16 +515,24 @@ limitations under the License.
                                          <div class="imageplace">
                                                 <span class="imagecontent micro-service" alt="Create Solution" title="Create Solution"></span>
                                          </div>
-                                         <md-tooltip>{{errorCS}}</md-tooltip>
-                                         <div class="text">Create Solution</div>                                        
+                                         <!-- <md-tooltip>{{errorCS}}</md-tooltip> -->
+                                         <div class="text">Create Solution</div>
+                                         <span class="red" ng-show="errorCS">Some errors found</span>
+                                         <button ng-click="showErrorDetailsPopup()" ng-show="errorCS"
+	                                         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
+	                                         View Error</button>                                        
                                   </li>
                                   <li class="progress-status"></li>
-                                  <li>
+                                  <li class="">
                                          <div class="imageplace">
                                                 <span class="imagecontent add-repository" alt="Add Artifacts" title="Add Artifacts to repository"></span>
                                          </div>
-                                         <md-tooltip>{{errorAA}}</md-tooltip>
+                                         <!-- <md-tooltip>{{errorAA}}</md-tooltip> -->
                                          <div class="text">Add Artifacts</div>
+                                         <span class="red" ng-show="errorAA">Some errors found</span>
+                                         <button ng-click="showErrorDetailsPopup()" ng-show="errorAA"
+	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish error_found">
+	                                         View Error</button>
                                          
                                   </li>
                                   <li class="progress-status"></li>                                                       
@@ -532,31 +540,48 @@ limitations under the License.
                                          <div class="imageplace">
                                                 <span class="imagecontent create-tosca" alt="Create TOSCA" title="TOSCA Generation"></span>
                                          </div>
-                                         <md-tooltip>{{errorCT}}</md-tooltip>
-                                         <div class="text">Create TOSCA</div>                                         
+                                         <!-- <md-tooltip>{{errorCT}}</md-tooltip> -->
+                                         <div class="text">Create TOSCA</div> 
+                                         <span class="red" ng-show="errorCT">Some errors found</span>
+                                         <button ng-click="showErrorDetailsPopup()" ng-show="errorCT"
+	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
+	                                         View Error</button>                                        
                                   </li>
                                   <li class="progress-status"></li>
                                   <li>
                                          <div class="imageplace">
                                                 <span class="imagecontent dockerize" alt="Dockerize" title="Create Docker Image"></span>
                                          </div>
-                                         <md-tooltip>{{errorDO}}</md-tooltip>
-                                         <div class="text">Dockerize</div>                                         
+                                         <!-- <md-tooltip>{{errorDO}}</md-tooltip> -->
+                                         <div class="text">Dockerize</div>
+                                         <span class="red" ng-show="errorDO">Some errors found</span>
+                                         <button ng-click="showErrorDetailsPopup()" ng-show="errorDO"
+	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
+	                                         View Error</button>                                         
                                   </li>
                                   <li class="progress-status"></li>
                                   <li>
                                          <div class="imageplace">
                                                 <span class="imagecontent package" alt="Add Docker Image" title="Add Docker Image to repository"></span>
                                          </div>
-                                         <md-tooltip>{{errorDI}}</md-tooltip>
-                                         <div class="text">Add Docker Image</div>                                         
+                                         <!-- <md-tooltip>{{errorDI}}</md-tooltip> -->
+                                         <div class="text">Add Docker Image</div>  
+                                         <span class="red" ng-show="errorDI">Some errors found</span> 
+                                         <button ng-click="showErrorDetailsPopup()" ng-show="errorDI"
+	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
+	                                         View Error</button>                                      
                                   </li>
                                   <li class="progress-status"></li>
                                   <li>
                                          <div class="imageplace">
                                                 <span class="imagecontent not-yet-onboarded" alt="Onboarding Status" title="Onboarding Status"></span>
                                          </div>
-                                          <md-tooltip>{{errorVM}}</md-tooltip>
+                                          <!-- <md-tooltip>{{errorVM}}</md-tooltip> -->
+                                          <span class="red" ng-show="errorVM">Some errors found</span>
+                                          <button ng-click="showErrorDetailsPopup()" ng-show="errorVM"
+	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
+	                                         View Error</button> 
+	                                         
                                          <div class="publshbutton hide">
                                                 <button   
                                                 ng-click="viewModel()"
@@ -571,6 +596,53 @@ limitations under the License.
                                         
                                   </li>                                                       
                            </ul>
+                           
+                           <!-- Onboarding Error Details popup Starts-->
+                           <div class="md-dialog-container" id="onboardinErrorDetails"
+								style="height: 0;">
+								<md-dialog aria-label="On-boarding Errors" class="cg-dialog-medium">
+								<form ng-cloak>
+									<md-toolbar>
+									<div class="md-toolbar-tools">
+										<h2>Errors</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="handleDismiss()">
+										<i class="material-icons">close</i> </md-button>
+									</div>
+									</md-toolbar>
+									<md-dialog-content>
+									<div class="md-dialog-content">
+										<p class="md-text1">Following errors found in 
+                                                                          		<span ng-show="errorCS"> "Create Solution" </span>
+											<span ng-show="errorCT"> "Create TOSCA" </span>
+											<span ng-show="errorDO"> "Dockerize" </span>
+											<span ng-show="errorAA"> "Add Artifacts" </span>
+											<span ng-show="errorDI"> "Add Docker Image" </span>
+                                                                          	</p>
+										<p class="md-text1 error">
+											<i class="material-icons">error_outline</i>
+											 <section ng-show="errorCS" class="error-section"> {{errorCS}} </section>
+											 <section ng-show="errorCT" class="error-section">  {{errorCT}} </section>
+											 <section ng-show="errorDO" class="error-section"> {{errorDO}} </section>
+											 <section ng-show="errorAA" class="error-section"> {{errorAA}} </section>
+											 <section ng-show="errorDI" class="error-section">{{errorDI}} </section>
+										</p>
+										<br />
+									</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<span></span>
+											<button class="mdl-button mdl-js-button btn-primary md-button md-ink-ripple" 
+												ng-click="handleDismiss()">
+												<span>OK</span>
+											</button>
+									    </div>
+									</md-dialog-actions>
+								</form>
+								</md-dialog>
+							</div>
+          					<!-- Onboarding Error Details popup Ends-->                 
 
 						</div>
 
