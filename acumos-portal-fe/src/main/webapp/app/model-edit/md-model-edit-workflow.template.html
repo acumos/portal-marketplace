@@ -749,8 +749,8 @@ limitations under the License.
 											<md-tooltip>{{errorTC}}</md-tooltip>
 											<div class="text">Text Check</div>
 										</li >
-										<li class="progress-status" ng-show = "tcShow"></li>
-										<li>
+										<li  ng-hide = "tcShow"></li>	
+										<!-- <li>
 											<div class="imageplace">
 												<span class="imagecontent yet-not-publish" al="Not yet published" title="Not yet published">
 												</span>
@@ -764,7 +764,7 @@ limitations under the License.
 											<div class="text">Not yet published</div>
 											<div class="text-completed">Published to Company
 												Marketplace</div>
-										</li>
+										</li> -->
 										<!-- <li class="progress-status"
                                                                   ng-class="{'green': taValidationStatus.validationStatus == 'PS' && taValidationStatus.validationType == 'TA'}"></li>
                                                             <li>
