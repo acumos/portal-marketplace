@@ -20,6 +20,32 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.0.4,  20th December 2018
+==================================
+* Remove the not yet published bar for publish to company option (ACUMOS-2146)
+* As a User , I want Marketplace model detail page show CATEGORY (ACUMOS-1160)
+* DS show info to user why models cannot be connected esp split, collate (ACUMOS-1451)
+* As an Admin , I want Portal federation admin screen show number of subscription records (ACUMOS-1688)
+* CDS controllers should log additional data to enable error diagnosis (ACUMOS-1697)
+* As a User , I want User notifications screen show read/unread difference prominently (ACUMOS-1762)
+* As a User , I want to see Warning message when  UI fails to reach back-end server (ACUMOS-1380)
+* Remove Sender name column from Manage Notifications Page (ACUMOS-2025)
+* Filter By Category: Deleted Model Filter is not working on my model screen (ACUMOS-2076)
+* IST: Color of grid content is getting change across the application (ACUMOS-2115)
+* Portal publish to public Copy Docs button should not be enabled if none avail (ACUMOS-1758)
+* Portal publish-approve screen does not allow viewing comments after approve/decline (ACUMOS-1775)
+* Web onboarding does not report failure on malformed bundle (ACUMOS-1835)
+* Show on-boarding error in UI element that allows view and copy of complete message (ACUMOS-1970)
+* Portal fails to report auth failure in web onboarding (ACUMOS-1990)
+* Portal BE throws exception if On-boarding fails without leaving an error log (ACUMOS-2038)
+* Portal does not check for missing user API token during web-onboarding request (ACUMOS-2041)
+* Portal federation admin table screen cannot scroll right some columns hidden (ACUMOS-2193)
+* Missing check box for Manage Notifications (ACUMOS-2139)
+* IST: Complete Model Name is not displaying in single line on model description screen  (ACUMOS-2135)
+* IST: Success / Error message display at wrong place on the Federation screen after click on verify button  (ACUMOS-2153)
+* <Portal Marketplace> <Manage My Model> Cursor displayed in Model Documents box and added text not saved anywhere (ACUMOS-2075)
+
+
 Version 2.0.3,  7th December 2018
 =================================
 * IST: Spacing is incorrect of counts of comment , view and download on tiles on marketplace and my model screen(list view) (ACUMOS-2114)
