@@ -1,4 +1,4 @@
-<!--  
+SUPPORTING DOCUMENTS<!--  
 ===============LICENSE_START=======================================================
 Acumos Apache-2.0
 ===================================================================================
@@ -343,15 +343,15 @@ limitations under the License.
 								<!-- ng-repeat = "value in downloadData" -->
 								<tr class="supporting-doc" ng-repeat="supportingDoc in supportingDocsPB" ng-show="showPBDocs">
 									<td><span class="file-type">
-											<i class="far fa-file-word" ng-if="supportingDoc.ext == 'docx'" aria-hidden="true"></i>
-											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'png'" aria-hidden="true"></i>
-											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'jpg'" aria-hidden="true"></i>
-											<i class="far fa-file-pdf" ng-if="supportingDoc.ext == 'pdf'" aria-hidden="true"></i>
-											<i class="far fa-file-powerpoint" ng-if="supportingDoc.ext == 'pptx'" aria-hidden="true"></i>
-											<i class="far fa-file-excel" ng-if="supportingDoc.ext == 'xlsx'" aria-hidden="true"></i>
-											<i class="far fa-file-excel" ng-if="supportingDoc.ext == 'csv'" aria-hidden="true"></i>
-											<i class="far fa-file-alt" ng-if="supportingDoc.ext == 'txt'" aria-hidden="true"></i>
-											<i class="far fa-file-archive" ng-if="supportingDoc.ext == 'zip'" aria-hidden="true"></i>
+											<i class="far fa-file-word" ng-if="(supportingDoc.ext | lowercase) == 'docx'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="(supportingDoc.ext | lowercase) == 'png'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="(supportingDoc.ext | lowercase) == 'jpg'" aria-hidden="true"></i>
+											<i class="far fa-file-pdf" ng-if="(supportingDoc.ext | lowercase) == 'pdf'" aria-hidden="true"></i>
+											<i class="far fa-file-powerpoint" ng-if="(supportingDoc.ext | lowercase) == 'pptx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="(supportingDoc.ext | lowercase) == 'xlsx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="(supportingDoc.ext | lowercase) == 'csv'" aria-hidden="true"></i>
+											<i class="far fa-file-alt" ng-if="(supportingDoc.ext | lowercase) == 'txt'" aria-hidden="true"></i>
+											<i class="far fa-file-archive" ng-if="(supportingDoc.ext | lowercase) == 'zip'" aria-hidden="true"></i>
 									</span><span>{{supportingDoc.name}}</span></td>
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
@@ -362,15 +362,15 @@ limitations under the License.
 								
 								<tr class="supporting-doc" ng-repeat="supportingDoc in supportingDocsOR" ng-show="showORDocs">
 									<td><span class="file-type">
-											<i class="far fa-file-word" ng-if="supportingDoc.ext == 'docx'" aria-hidden="true"></i>
-											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'png'" aria-hidden="true"></i>
-											<i class="far fa-file-image" ng-if="supportingDoc.ext == 'jpg'" aria-hidden="true"></i>
-											<i class="far fa-file-pdf" ng-if="supportingDoc.ext == 'pdf'" aria-hidden="true"></i>
-											<i class="far fa-file-powerpoint" ng-if="supportingDoc.ext == 'pptx'" aria-hidden="true"></i>
-											<i class="far fa-file-excel" ng-if="supportingDoc.ext == 'xlsx'" aria-hidden="true"></i>
-											<i class="far fa-file-excel" ng-if="supportingDoc.ext == 'csv'" aria-hidden="true"></i>
-											<i class="far fa-file-alt" ng-if="supportingDoc.ext == 'txt'" aria-hidden="true"></i>
-											<i class="far fa-file-archive" ng-if="supportingDoc.ext == 'zip'" aria-hidden="true"></i>
+											<i class="far fa-file-word" ng-if="(supportingDoc.ext | lowercase) == 'docx'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="(supportingDoc.ext | lowercase) == 'png'" aria-hidden="true"></i>
+											<i class="far fa-file-image" ng-if="(supportingDoc.ext | lowercase) == 'jpg'" aria-hidden="true"></i>
+											<i class="far fa-file-pdf" ng-if="(supportingDoc.ext | lowercase) == 'pdf'" aria-hidden="true"></i>
+											<i class="far fa-file-powerpoint" ng-if="(supportingDoc.ext | lowercase) == 'pptx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="(supportingDoc.ext | lowercase) == 'xlsx'" aria-hidden="true"></i>
+											<i class="far fa-file-excel" ng-if="(supportingDoc.ext | lowercase) == 'csv'" aria-hidden="true"></i>
+											<i class="far fa-file-alt" ng-if="(supportingDoc.ext | lowercase)== 'txt'" aria-hidden="true"></i>
+											<i class="far fa-file-archive" ng-if="(supportingDoc.ext | lowercase) == 'zip'" aria-hidden="true"></i>
 									</span><span>{{supportingDoc.name}}</span></td>
 									<td>{{versionId}}</td>
 									<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
