@@ -105,7 +105,7 @@ angular
 						$scope.imagetypeerror = false;
 						$scope.docerror = false;
 						$scope.flag = false;
-						$scope.isCopyFromOther = false;
+						$scope.mybody = angular.element(document).find('body');
 						
 						if ($stateParams.solutionId) {
 							$scope.solutionId = $stateParams.solutionId;
@@ -2239,19 +2239,8 @@ angular
 													$scope.supportingDocs = [];
 													if(data.response_body.length > 0){
 														$scope.showSolutionDocs = true;
-													}else if ($scope.isCopyFromOther == true){
-														$location.hash('manage-models');
-														$anchorScroll();
-														$scope.msg = "Error fetching docs or No documents present.";
-														$scope.icon = 'report_problem';
-														$scope.styleclass = 'c-error';
-														$scope.showAlertMessage = true;
-														$timeout(
-																function() {
-																	$scope.showAlertMessage = false;
-														}, 3000);
 													}
-													console.log("Ger Solution Supporting Docs : " + angular.toJson(data.response_body.name))
+													
 													$scope.supportingDocs = data.response_body;
 													
 													angular.forEach(data.response_body, function(value, key) {
@@ -2280,18 +2269,7 @@ angular
 														if(data.response_body.length > 0){
 															$scope.showPublicSolutionDocs = true;
 														}
-														else  if ($scope.isCopyFromOther == true){
-															$location.hash('manage-models');
-															$anchorScroll();
-															$scope.msg = "Error fetching docs or No documents present.";
-															$scope.icon = 'report_problem';
-															$scope.styleclass = 'c-error';
-															$scope.showAlertMessage = true;
-															$timeout(
-																	function() {
-																		$scope.showAlertMessage = false;
-															}, 3000);
-														}
+														
 														$scope.supportingPublicDocs = data.response_body;
 														angular.forEach(data.response_body, function(value, key) {
 		                                                    var fileName = value.name;
@@ -2308,6 +2286,7 @@ angular
 									//$scope.getPublicSolutionDocuments();
 								
 								$scope.removeDoc = function(doc, path){
+									$scope.mybody.addClass('waiting');
 									var removeSolutionDocumentsReq = {
 											method : 'DELETE',
 											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + path + "/document/" + doc
@@ -2316,6 +2295,7 @@ angular
 										.success(
 												function(data, status, headers,
 														config) {
+													$scope.mybody.removeClass('waiting');
 													console.log("Remove Solution Supporting Docs : " + angular.toJson(data.response_body))
 													$scope.supportingPulicDocs = [];
 													$scope.showPublicSolutionDocs = false;
@@ -2328,6 +2308,7 @@ angular
 												}).error(
 														function(data, status, headers,
 																config) {
+															$scope.mybody.removeClass('waiting');
 															$scope.getCompanySolutionDocuments();
 															$scope.getPublicSolutionDocuments();
 															return false;
@@ -2335,7 +2316,6 @@ angular
 								}
 								
 								$scope.copyDocsFromOtherRevision = function(path){
-									$scope.isCopyFromOther = false;
 									var copySolutionDocumentsReq = {
 											method : 'GET',
 											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + path + "/copyDocuments/" + $scope.sourceRevisionId.revisionId
@@ -2346,16 +2326,50 @@ angular
 													config) {
 												$scope.getPublicSolutionDocuments();
 												$scope.getCompanySolutionDocuments();
-												$scope.isCopyFromOther = true;
 											}).error(
 													function(data, status, headers,
 															config) {
 														return "No Contents Available"
 											});
 								}
+								
+								
+								$scope.isSolutionDocsAvailableBtn = false; 				//disable copy docs button untill no doc present.
+								$scope.changedDocVersion = function(accessType, solDetail){
+									
+									$scope.pub = accessType;
+									$scope.revDetail = solDetail.revisionId;
+									$scope.solDetail = solDetail.solutionId
+									
+			                       	 var getSolutionDocumentsReq = {
+												method : 'GET',
+												url : '/api/solution/'+$scope.solDetail + "/revision/" + $scope.revDetail + "/" + $scope.pub + "/document"
+										};
+			                       	
+									$scope.mybody.addClass('waiting'); 
+			                       	 $http(getSolutionDocumentsReq)
+											.success(
+													function(data, status, headers,
+															config) {
+														$scope.mybody.removeClass('waiting');
+														if(data.response_body.length > 0){
+															$scope.isSolutionDocsAvailable = true;
+															$scope.isSolutionDocsAvailableBtn = true;
+														}
+														else{
+															$scope.isSolutionDocsAvailable = false;
+															$scope.isSolutionDocsAvailableBtn = false;
+														}
+														
+													}).error(
+															function(data, status, headers,
+																	config) {
+																return "No Contents Available"
+															});
+								}
 
+								
 						// FILTERS
-
 						// a sync filter
 						uploader.filters.push({
 							name : 'syncFilter',
