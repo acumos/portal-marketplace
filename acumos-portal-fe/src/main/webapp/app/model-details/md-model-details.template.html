@@ -1079,16 +1079,29 @@ limitations under the License.
 					{{solution.name}} from below.</p>
 		
 
-				<div class="modal-row1 modal-row-new1" ng-repeat="value in downloadData">
+			<div class="modal-row1 modal-row-new1" ng-repeat="value in downloadData">
 					<div>
 						<label><span class="font600">Version {{value.version}}</span> - <span
 							class="txt-orange text-small">Latest</span> </label> 
 							<div class="md-tooltip-container">
-								<label class="md-downloadlbl1 font600" class="tooltip">File Name:</label>
-								<label class="a-tooltip"><span class="a-tooltipval">{{value.name}} {{value.version}}</span>
-								<span class="a-tooltiptext">{{value.name}} {{value.version}}</span>
+								<label class="md-downloadlbl1 font600" class="tooltip">File Name(Mandatory):</label>
+								<label class="a-tooltip" ><span class="a-tooltipval">{{value.name}} {{value.version}}</span>
+								<span class="a-tooltiptext"  >{{value.name}}    {{value.version}}</span>
 							</label>
 							</div>
+							<label> <span class="font600">Size:</span> - <span
+							class="txt-orange text-small"></span>{{value.size | formatBytes:1}}</label>
+							
+								<label> <span class="font600" >File Type:	
+							<span
+							class="txt-orange text-small">	</span> <span class="text-small"><span ng-if="value.name.split('.').pop()== 'proto'">The .proto file is used to describe the structure (the 'protocol') of the data to be serialized. The protobuf compiler can turn this file into python/or C++/or Java code to serialize and deserialize data with that structure</span>
+								<span ng-if="value.name.split('.').pop()== 'json'">JSON, or JavaScript Object Notation, is a minimal, readable format for structuring data. It is used primarily to transmit data between a server and web application, as an alternative to XML</span>
+								<span ng-if="value.name.split('.').pop()== 'zip'">A ZIP file, like other archive file formats, is simply a collection of one or more files and/or folders but is compressed into a single file for easy transportation and compression.</span>
+								<span ng-if="value.name.split('.').pop()== 'txt'">A text file is a computer file that only contains text and has no special formatting such as bold text, italic text, images, etc</span>
+								
+								</span></span></label>
+								
+							
 							<label class="downloadlbl2"><span class="font600">Uploaded
 							on</span> - {{value.created | date:'MM/dd/yyyy'}}</label>
 					</div>
@@ -1096,6 +1109,7 @@ limitations under the License.
 						Download
 					</md-button>
 				</div>
+
 				<!-- <div class="modal-row1">
 											<div>
 												<label><b>Version 1.9</b> </label>
