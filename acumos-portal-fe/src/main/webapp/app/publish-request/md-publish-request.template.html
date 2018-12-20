@@ -146,19 +146,18 @@ limitations under the License.
 						</td>
 						<td>
 							<div ng-if="publishReq.comment">
-							<a ng-click="showComments = !showComments; closeOtherPopovers('showComments',showComments)"> view 
-						 
-					 		</a>
+							<a ng-click="setActiveComment(publishReq.publishRequestId)"
+								ng-bind="(isActiveComment(publishReq.publishRequestId)) ? 'Hide' : 'View'"></a>
 					 		
 					 		<!-- Popover Starts -->
-					 		<div ng-show="showComments" class="custom_popover">
+					 		<div ng-show="isActiveComment(publishReq.publishRequestId)" class="custom_popover">
 								<div class="popovers">
 									<md-toolbar>
 									<div class="md-toolbar-tools">
 										<h2>Publisher's Comments </h2>
 										<span flex></span>
 										<md-button class="md-icon-button"
-											ng-click="showComments = !showComments"> <i
+											ng-click="setActiveComment(publishReq.publishRequestId)"> <i
 											class="material-icons" alt="Close" title="Close">close</i> </md-button>
 									</div>
 									</md-toolbar>

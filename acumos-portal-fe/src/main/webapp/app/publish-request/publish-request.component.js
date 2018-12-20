@@ -64,8 +64,14 @@ angular
                                     }
                         }
 						
-						    //Comments Popover starts
-                        $scope.showComments = false;
+						//Comments Popover starts
+                        $scope.activeComment = null;
+                        $scope.isActiveComment = function (reqId) {
+                        	return $scope.activeComment == reqId;
+                        }
+                        $scope.setActiveComment = function(reqId) {
+                        	$scope.activeComment = ($scope.isActiveComment(reqId)) ? null : reqId;
+                        }
 						//Popover Ends
 						
 						//Open popup 
