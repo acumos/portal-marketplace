@@ -27,13 +27,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.FileUtils;
+import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -49,6 +54,8 @@ public class FileSystemStorageService implements StorageService {
 
 	@Autowired
 	private Environment env;
+
+	private static final String ENV_BLACKLIST = "onboarding.directory.blacklist";
 
 	@Override
 	public void store(MultipartFile file, String userId) {
@@ -76,7 +83,7 @@ public class FileSystemStorageService implements StorageService {
 
 			if (!validateFile(file)) {
 				log.error(EELFLoggerDelegate.errorLogger, "Zip File does not contain required files " + filename );
-				throw new StorageException("Zip File does not contain required files " + filename);
+				throw new StorageException("Zip File does not contain required files: " + getMissingFiles(file));
 			}
 			// Remove older files before uploading another solution files
 			deleteAll(userId);
@@ -97,28 +104,32 @@ public class FileSystemStorageService implements StorageService {
 			} catch (Exception e) {
 				throw new StorageException("Failed to store file " + filename, e);
 			}
-		} catch (IOException e) {
+		} catch (AcumosServiceException | IOException e) {
 			throw new StorageException("Failed to store file " + filename, e);
 		}
 	}
 
-	private Boolean validateFile(MultipartFile file) throws IOException {
+	private Boolean validateFile(MultipartFile file) throws IOException, AcumosServiceException {
 		Boolean zipFilePresent = false;
 		Boolean schemaFilePresent = false;
 		Boolean metadataFilePresent = false;
+		String blacklist = PortalUtils.getEnvProperty(env, ENV_BLACKLIST);
+		String pattern = "(?!^.*(" + blacklist + ")\\/.*$)^.*$";
+		Predicate<ZipEntry> filter = entry -> 
+			!entry.isDirectory() && entry.getName().matches(pattern);
 		ZipInputStream zis = new ZipInputStream(file.getInputStream());
 		ZipEntry zipEntry = zis.getNextEntry();
 		while (zipEntry != null) {
-
-			if (zipEntry.getName().contains(".zip") || zipEntry.getName().contains(".jar") || zipEntry.getName().contains(".bin") || zipEntry.getName().contains(".tar") || zipEntry.getName().toUpperCase().contains(".R"))
-				zipFilePresent = true;
-
-			if (zipEntry.getName().contains(".proto"))
-				schemaFilePresent = true;
-
-			if (zipEntry.getName().contains(".json"))
-				metadataFilePresent = true;
-
+			if (filter.test(zipEntry)) {
+				if (zipEntry.getName().contains(".zip") || zipEntry.getName().contains(".jar") || zipEntry.getName().contains(".bin") || zipEntry.getName().contains(".tar") || zipEntry.getName().toUpperCase().contains(".R"))
+					zipFilePresent = true;
+	
+				if (zipEntry.getName().contains(".proto"))
+					schemaFilePresent = true;
+	
+				if (zipEntry.getName().contains(".json"))
+					metadataFilePresent = true;
+			}
 			zis.closeEntry();
 			zipEntry = zis.getNextEntry();
 		}
@@ -128,6 +139,45 @@ public class FileSystemStorageService implements StorageService {
 			return true;
 		else
 			return false;
+	}
+	
+	private String getMissingFiles(MultipartFile file) throws IOException, AcumosServiceException {
+		Boolean zipFilePresent = false;
+		Boolean schemaFilePresent = false;
+		Boolean metadataFilePresent = false;
+		String blacklist = PortalUtils.getEnvProperty(env, ENV_BLACKLIST);
+		String pattern = "(?!^.*(" + blacklist + ")\\/.*$)^.*$";
+		Predicate<ZipEntry> filter = entry -> 
+			!entry.isDirectory() && entry.getName().matches(pattern);
+		ZipInputStream zis = new ZipInputStream(file.getInputStream());
+		ZipEntry zipEntry = zis.getNextEntry();
+		while (zipEntry != null) {
+			if (filter.test(zipEntry)) {
+				if (zipEntry.getName().contains(".zip") || zipEntry.getName().contains(".jar") || zipEntry.getName().contains(".bin") || zipEntry.getName().contains(".tar") || zipEntry.getName().toUpperCase().contains(".R"))
+					zipFilePresent = true;
+	
+				if (zipEntry.getName().contains(".proto"))
+					schemaFilePresent = true;
+	
+				if (zipEntry.getName().contains(".json"))
+					metadataFilePresent = true;
+			}
+			zis.closeEntry();
+			zipEntry = zis.getNextEntry();
+		}
+		zis.close();
+		
+		List<String> files = new ArrayList<String>();
+		if (!zipFilePresent) {
+			files.add("model zip");
+		}
+		if (!schemaFilePresent) {
+			files.add("schema proto");
+		}
+		if (!metadataFilePresent) {
+			files.add("metadata json");
+		}
+		return String.join(", ", files);
 	}
 
 	@Override
