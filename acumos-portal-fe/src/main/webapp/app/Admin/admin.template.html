@@ -2007,6 +2007,13 @@ limitations under the License.
 						</div>
 
 					</div>
+					<div class="select-control" ng-hide="!subscripDetails1">
+						<md-select ng-model="AccessValue"
+							placeholder="Select Frequency of update"
+							ng-change="freqChange(freqOfUpdatePass)"> <md-option
+							ng-repeat="freq in accessType" ng-value="freq.value">{{freq.name}}</md-option>
+						</md-select>
+					</div>
 				</div>
 				<div class="fedouter-container">
 					<div class="fedcontainer1" ng-hide="subscripDetails1">
@@ -2388,13 +2395,7 @@ limitations under the License.
 					<button ng-click='closePoup()'
 						class="mdl-button mdl-js-button btn-secondary">Cancel</button>
 				</div>
-				<div class="select-control">
-					<md-select ng-model="AccessValue"
-						placeholder="Select Frequency of update"
-						ng-change="freqChange(freqOfUpdatePass)"> <md-option
-						ng-repeat="freq in accessType" ng-value="freq.value">{{freq.name}}</md-option>
-					</md-select>
-				</div>
+				
 				<div>
 					<button ng-click='closePoup()'
 						class="mdl-button mdl-js-button btn-primary">Done</button>
