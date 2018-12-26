@@ -99,4 +99,8 @@ public interface UserService {
 	
 	boolean isAdminRole(String userId);
 
+	void deleteToken(User user);
+
+	void updateMLPUser(MLPUser mlpUser);
+
 }

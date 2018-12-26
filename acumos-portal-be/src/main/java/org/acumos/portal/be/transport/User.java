@@ -58,6 +58,7 @@ public class User extends AbstractResponseObject {
 	private String verifyToken;
 	private String status;
 	private Set<MLPTag> tags;
+	private String apiToken;
 
 
 	public String getBulkUpdate() {
@@ -333,6 +334,14 @@ public class User extends AbstractResponseObject {
 	 */
 	public void setTags(Set<MLPTag> tags) {
 		this.tags = tags;
+	}
+
+	public String getApiToken() {
+		return apiToken;
+	}
+
+	public void setApiToken(String apiToken) {
+		this.apiToken = apiToken;
 	}
 }
 

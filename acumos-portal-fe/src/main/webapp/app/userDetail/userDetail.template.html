@@ -116,12 +116,14 @@ limitations under the License.
 	
 	<div id="tab2-panel" class="user-detail-container" ng-if="$root.enableOnBoarding">
 		<h6 class="sectiontitle6">API Token</h6>
-		<div class="user-email">
-			<md-input-container class="md-block" flex-gt-sm>
-				<label>Api Token</label> <input type="text" ng-model="user.apiToken" readonly/>
-			</md-input-container>
-			<a ng-click="refreshApiToken()">Refresh</a>
-		</div>
+		<div class="api-token">
+		                  <md-input-container class="md-block" flex-gt-sm>
+		                        <label>Api Token</label> <input type="text" ng-model="user.apiToken" readonly/>
+		                  </md-input-container>
+		                  <a ng-click="refreshApiToken()">Refresh</a>
+		                  <a ng-click="deleteApiToken()" ng-if="deleteApiTokenFlag">Delete Token</a>
+		                  
+		 </div>
 	</div>
 	
 	<div id="tab2-panel" class="user-detail-container">

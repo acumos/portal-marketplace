@@ -75,6 +75,10 @@ import io.swagger.annotations.ApiOperation;
 public class UserServiceController extends AbstractController {
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(UserServiceController.class);
 
+	public enum Operations{
+		DELETE,
+		UPDATE,
+	}
 	@Autowired
 	private UserService userService;
 	
@@ -246,6 +250,55 @@ public class UserServiceController extends AbstractController {
 				responseObj.setResponseDetail("Update Failed");
 			}
 
+			//updateInfo(user, responseObj, authToken, apiToken, tags, Operations.UPDATE);
+			updateInfo(user, responseObj, Operations.UPDATE);
+				
+		} catch (Exception e) {
+			responseObj.setStatus(false);
+			responseObj.setResponseDetail("Failed");
+			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateUser()", e);
+		}
+				
+		return responseObj;
+	}
+	
+	
+	@ApiOperation(value = "Delete API Token.  Returns successful response after updating the user details.", response = JsonResponse.class)
+	@RequestMapping(value = {APINames.DELETE_TOKEN}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> deleteToken(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deleteToken={}");
+		JsonResponse<Object> responseObj = new JsonResponse<>();		 
+		 		
+		
+		try {
+			if (user.getBody() == null) {
+				log.debug(EELFLoggerDelegate.errorLogger, "deleteToken: Invalid Parameters");
+				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				responseObj.setResponseDetail("Delete Token Failed");
+			}
+			
+			//updateInfo(user, responseObj, authToken, apiToken, tags, Operations.DELETE);
+			updateInfo(user, responseObj, Operations.DELETE);
+			 
+		} catch (Exception e) {
+			responseObj.setStatus(false);
+			responseObj.setResponseDetail("Failed");
+			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deleteToken()", e);
+		}
+		return responseObj;
+	}
+	
+	/*protected void updateInfo( @RequestBody JsonRequest<User> user, JsonResponse<Object> responseObj, String authToken, String apiToken, 
+			Set<MLPTag> tags, Operations flag ){*/
+	protected void updateInfo( @RequestBody JsonRequest<User> user, JsonResponse<Object> responseObj, Operations flag ){
+		log.debug(EELFLoggerDelegate.debugLogger, "updateInfo={}");
+		try {
+			String authToken = "";
+			String apiToken = "";
+			Set<MLPTag> tags = null;
 			boolean isUserExists = false;
 			try {
 				MLPUser mlpUser = null;
@@ -274,22 +327,28 @@ public class UserServiceController extends AbstractController {
 				}
 			} catch (Exception e) {
 				isUserExists = false;
-				log.debug(EELFLoggerDelegate.errorLogger, "updateUser: Invalid Parameters");
+				log.debug(EELFLoggerDelegate.errorLogger, "updateInfo: Invalid Parameters");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE);
-				responseObj.setResponseDetail("Update Failed");
+				responseObj.setResponseDetail("updateInfo Failed");
 			}
 			if (isUserExists) {
 				User userObj = user.getBody();
 				//Never allow to update the tokens/tags. Use separate services to update token.
 				userObj.setJwttoken(authToken);
 				userObj.setApiTokenHash(apiToken);
-				userObj.setTags(tags);
-				userService.updateUser(user.getBody());
+				userObj.setTags(tags);				
+				//userService.updateUser(user.getBody());
+				MLPUser mlpUser = PortalUtils.convertToMLPUserForUpdate(user.getBody());
+				
+				//for delete api token  
+				if(Operations.DELETE.equals(flag))
+					mlpUser.setApiToken(null);
+				userService.updateMLPUser(mlpUser);
 				responseObj.setStatus(true);
 				responseObj.setResponseDetail("Success");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			} else {
-				log.debug(EELFLoggerDelegate.errorLogger, "updateUser: Invalid User");
+				log.debug(EELFLoggerDelegate.errorLogger, "updateInfo: Invalid User");
 				responseObj.setResponseDetail("Failed");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			}
@@ -298,9 +357,8 @@ public class UserServiceController extends AbstractController {
 			responseObj.setStatus(false);
 			responseObj.setResponseDetail("Failed");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while changeUserPassword()", e);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateInfo()", e);
 		}
-		return responseObj;
 	}
 
 	@ApiOperation(value = "Generate new password.  Returns successful response after generating the password.", response = JsonResponse.class)

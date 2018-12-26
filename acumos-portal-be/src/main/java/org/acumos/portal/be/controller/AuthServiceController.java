@@ -283,7 +283,7 @@ public class AuthServiceController extends AbstractController {
 						try {
 							if (mlpUser != null) {
 								userObj.setJwttoken(jwtToken);
-								userObj.setApiTokenHash(apiToken);
+								userObj.setApiTokenHash(apiToken); // not-null 1 // first time login
 								userObj.setActive("Y");
 								userService.updateUser(userObj);
 
@@ -322,6 +322,7 @@ public class AuthServiceController extends AbstractController {
 								mlpUser.setAuthToken(null);
 								userObj.setJwttoken(jwtToken);
 								userObj.setApiTokenHash(apiToken);
+								userObj.setApiToken(apiToken);// null 1 //not-null 1 //recurring user
 								userService.updateUser(userObj);
 
 								jwtToken = jwtTokenUtil.generateToken(mlpUser, null);
@@ -330,7 +331,7 @@ public class AuthServiceController extends AbstractController {
 								try {
 									if (mlpUser != null) {
 										userObj.setActive("Y");
-										userObj.setJwttoken(jwtToken);
+										userObj.setJwttoken(jwtToken);// null 2 //not-null 2 //recurring user
 										userObj.setApiTokenHash(apiToken);
 										userService.updateUser(userObj);
 										userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
