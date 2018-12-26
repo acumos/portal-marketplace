@@ -1808,7 +1808,7 @@ padding: 20px;background:#e5e5e5;}
 .griditem-title-text {margin-left:0px !important;}
 .md-icons-tiles {display: flex; justify-content: space-between; align-items: center;padding: 0;}
 .md-icons-tiles .mdl-button { height: 30px; width: 30px; margin:0;}
-.mp-grid-list-details-cell .md-icons .mdl-button {position:relative;}
+.mp-grid-list-details-cell .md-icons .mdl-button {position:relative; top: -4px;}
 .admin-sccontainer1 input{ border: 1px solid #d5d5d5; padding: 5px; margin-bottom: 5px; width: 100%;}
 
 /***** Sign-in promt modal start ********/
@@ -2030,6 +2030,12 @@ table tbody tr td .a-tooltipval {top:5px}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {overflow: visible !important;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child .a-tooltip .a-tooltiptext {white-space: normal;}
 
+.admin-grid-container .mdl-data-table.fedtbl tbody tr td:nth-child(2) {overflow: visible !important;}
+.admin-grid-container .mdl-data-table.fedtbl tbody tr td:nth-child(2) .a-tooltip .a-tooltiptext {white-space: normal;}
+.admin-grid-container .a-tooltip{width:245px !important;}
+.admin-grid-container .a-tooltip .a-tooltiptext{width:auto !important; white-space: initial; }
+
+
 .md-tooltip-container {display: flex;}
 .md-downloadlbl1 {display: block; white-space: nowrap;}
 .a-tooltip .a-tooltiptext.publish-tooltip {max-width: 260px !important;word-break: break-all;}
@@ -2085,6 +2091,32 @@ table tbody tr td .a-tooltipval {top:5px}
 .popup-error-container{padding-bottom: 10px; float:left; width:100%; margin-bottom: 15px}
 .popup-error-msg {color: #ff0000; position: relative; width: 97%; float: right;}
 .popup-error-msg strong {font-size: 13px;}
+
+/******************  federation tab panel ***************** */
+.fed-tabpanel{margin-bottom:20px; /*margin-right:-20px; margin-left:-20px;*/}
+.fed-tabinfo i{float:left; padding-right:5px;}
+.fed-tabpanel md-tabs-content-wrapper{border:0px; min-height:auto !important;}
+.fed-srch-container .mdl-js-textfield.admin-search-container{margin-right:20px;}
+.detailbox{border:1px solid #319aeb; padding:5px; background-color:#c6e6ff;  }
+.detailbox i{color:#002f55;}
+.fed-row2.pull-right {margin-bottom:10px;}
+.peer-tbl-container{margin-bottom:20px;}
+.peer-tbl-container table{background-color:#f9f7f7; opacity:0.5;}
+.peer-tbl-container table tbody tr, .peer-tbl-container table tbody tr td{height:auto;}
+.peer-tbl-container table td{border-bottom:0; border-top:0px; padding:10px 18px;}
+.groupsearchicon {padding-right: 10px; padding-left: 35px; border: 1px solid #b1b1b1; border-radius: 2px 2px 0 0; height: 31px;line-height: 31px;
+background: #f1f1f1 url('../images/sidebar-icons/search_icon.png') no-repeat 10px center !important; font-size:14px; border-bottom:0;}
+.admin-row4 {display: flex;flex-wrap:nowrap;justify-content: space-between; align-items:center;}
+.admin-row4 .selectionbox{width:234px;}
+.addgroupsbtns {width:93px; margin:35px auto 0;}
+.groupbuttons{border:1px solid #b1b1b1; border-radius:2px; color:#666; margin:5px 0; background-image:url(../images/general-icons/arrow_left.png);
+background-repeat:no-repeat; padding:0px 5px; background-position: 5px;float:left;}
+.groupbuttons span{ border-left:1px solid #b1b1b1; margin-left: 21px; padding: 5px 0px 5px 5px; float:left; min-width: 60px; text-align: center;}
+.groupbuttons-right{border:1px solid #b1b1b1; border-radius:2px; color:#666; margin:5px 0; background-image:url(../images/general-icons/arrow_right.png);
+background-repeat:no-repeat; padding:0px 5px; background-position: right 5px bottom 8px; float:left;}
+.groupbuttons-right span{ border-right:1px solid #b1b1b1; margin-right: 21px; padding: 5px 5px 5px 0; float:left; min-width: 60px; text-align: center;}      
+/******************  federation tab panel  end ******************/
+
 /*********** MEDIA QUERIES SECTION END  ************/
 
 /****** publish request starts*******/

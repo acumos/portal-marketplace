@@ -1915,6 +1915,7 @@ angular.module('admin').filter('abs', function() {
                     
                     $scope.scCharLimit = 140;
                     $scope.headlineCharLimit = 60;
+                    $scope.fedrationCharLimit=30;
                     
                     $scope.topSC = "";
                     $scope.updateTopSC = function (text) {
@@ -3150,8 +3151,466 @@ angular.module('admin').filter('abs', function() {
 						$scope.loadAllTags();									
 	                    
 	                    /* IOT changes end*/
-	                    
-		}
+						
+						/* Restricated Fedration Start */
+						
+						$scope.avaliablePeerList=[];$scope.ListOfPeers=[];							
+						$scope.chkAvaliablePeer =[];$scope.chkSelectedPeer = [];$scope.selectedPeerList = [];
+						$scope.UpdatePeerFlag = false;
+						$scope.orderByFieldPeerGrp = 'peerGroupName';$scope.reverseSortPeerGroup = true;				
+						$scope.showPopupPeerGroup = function(ev){
+							$scope.createGroupName = "";
+							$scope.UpdatePeerFlag = false;
+							$scope.avaliablePeerList = [];
+							if($scope.ListOfPeers.length > 0)
+								$scope.avaliablePeerList = angular.copy($scope.ListOfPeers);
+								$scope.selectedPeerList = [];
+								$scope.myCreatePeerForm.$setPristine();
+								$scope.myCreatePeerForm.$setUntouched();
+				        	  $mdDialog.show({
+				        		  contentElement: '#CreatePeerGroup',
+				        		  parent: angular.element(document.body),
+				        		  targetEvent: ev,
+				        		  clickOutsideToClose: true
+				        	  });				        	  
+				          }
+						$scope.showPopupSolutionGroup = function(ev){
+				        	  $mdDialog.show({
+				        		  contentElement: '#CreateSolutionGroup',
+				        		  parent: angular.element(document.body),
+				        		  targetEvent: ev,
+				        		  clickOutsideToClose: true
+				        	  });				        	  
+				          }
+						$scope.showPopupMappingGroup = function(ev){
+				        	  $mdDialog.show({
+				        		  contentElement: '#CreateMappingGroup',
+				        		  parent: angular.element(document.body),
+				        		  targetEvent: ev,
+				        		  clickOutsideToClose: true
+				        	  });				        	  
+				          }
+						
+						$scope.loadAllPeerGroup = function() {
+						var reqObj = {
+								"request_body" : {
+									 "page": 0,
+									 "size": 0
+								}
+							};
+						apiService
+							.getAllPeersGroup(reqObj)
+							.then(
+								function successCallback(response) {
+									$scope.responsegrpPeerList = response.data.response_body;
+									$scope.grpPeerList = [];
+									   for(var i=0;i<$scope.responsegrpPeerList.length;i++)
+										 {
+										   var obj = {};
+										   obj['peerGroupName'] = $scope.responsegrpPeerList[i].name;
+										   obj['peerGroupId'] = $scope.responsegrpPeerList[i].groupId;
+										   var val= "";
+										   var peerIdval= "";
+										   for(var j=0;j<$scope.responsegrpPeerList[i].peers.length;j++)
+											   {
+											   val += $scope.responsegrpPeerList[i].peers[j].name + "," ;
+											   peerIdval += $scope.responsegrpPeerList[i].peers[j].peerId + ",";
+											   }							  
+										   obj['peerName'] = val.slice(0, -1);				
+										   obj['peerIds'] = peerIdval.slice(0, -1);	
+										   obj['ModifedDate'] = $scope.responsegrpPeerList[i].modified;
+										   $scope.grpPeerList.push(obj);										  
+										 }
+								},
+								function errorCallback(response) {
+									console.log(response);
+								});
+							
+						   									         					
+						}
+						$scope.loadAllPeerGroup(); 
+					  
+					   $scope.GetSolutionList = function()
+					   {			
+						   $scope.ListOfPeers = [];
+							var obj = {"fieldToDirectionMap": {},"page": 0,"size": 0};
+							apiService
+							.getPeers(obj)
+							.then(
+									function(response) {										 
+									   for(var i = 0 ; i<= response.data.response_body.content.length; i++)
+										 {
+										  if(response.data.response_body.content[i].statusCode == "AC")
+											  $scope.ListOfPeers.push(response.data.response_body.content[i]);									  
+										 }									   									   									   
+									},
+									function(error) {console.log(error);});													  						 						    
+						   
+					   };
+					   $scope.GetSolutionList();
+					   
+					   $scope.editGroupPeer = function(peer,ev)
+					   {						
+						   $scope.UpdatePeerFlag = true;
+						   $scope.editPeerGroup = peer;
+						   $scope.isUpdatePeerFlag = true ;	
+						   $scope.PrevcreateGroupName = peer.peerGroupName;
+						   $scope.createGroupName = peer.peerGroupName;
+						   $scope.peerGroupId = peer.peerGroupId;
+						   if($scope.ListOfPeers.length > 0)
+								$scope.actualPeerList = angular.copy($scope.ListOfPeers);
+								$scope.selectedPeerList = [];
+								$scope.avaliablePeerList = [];
+				        	  $mdDialog.show({
+				        		  contentElement: '#CreatePeerGroup',
+				        		  parent: angular.element(document.body),
+				        		  targetEvent: ev,
+				        		  clickOutsideToClose: true
+				        	  });				        	  
+				        	  for(var i=0;i < $scope.actualPeerList.length; i++)
+				        		  {
+				        		  var idx = peer.peerIds.split(",").indexOf($scope.actualPeerList[i].peerId); 				        		   						        		   	
+				        		   	if (idx > -1) 
+				        		   		 $scope.selectedPeerList.push($scope.actualPeerList[i]);			       								     
+								     else 
+								    	 $scope.avaliablePeerList.push($scope.actualPeerList[i]);				        		   			        		 
+				        		  }
+					   };					   					  
+					   
+					   $scope.toggle = function (item, list) {				 				 			
+						    var idx = list.indexOf(item);
+						     if (idx > -1) {
+						       list.splice(idx, 1);						       
+						     }
+						     else {
+						       list.push(item);						       
+						     }  						     					    
+						   };						   
+						   					   					 					  					 
+					  $scope.isIndeterminateAvaliablePeer = function() {
+						    return ($scope.chkAvaliablePeer.length !== 0 &&
+						        $scope.chkAvaliablePeer.length !== $scope.avaliablePeerList.length);
+						  };
+					  $scope.isCheckedAvaliablePeer = function() {
+					    return $scope.chkAvaliablePeer.length === $scope.avaliablePeerList.length;
+					  };
+					  $scope.toggleAllAvaliablePeer  = function() {						  	
+						    if ($scope.chkAvaliablePeer.length === $scope.avaliablePeerList.length) {
+						     $scope.chkAvaliablePeer = [];
+						      for(var i = 0 ; i < $scope.avaliablePeerList.length; i++)
+								 {
+						    		$scope.avaliablePeerList[i].checked = false;						    		
+								 }
+						    } else if ($scope.chkAvaliablePeer.length === 0 || $scope.chkAvaliablePeer.length > 0) {						     
+						    	$scope.chkAvaliablePeer = [];
+						    	for(var i = 0 ; i < $scope.avaliablePeerList.length; i++)
+								 {
+						    		$scope.avaliablePeerList[i].checked = true;
+						    		$scope.chkAvaliablePeer.push($scope.avaliablePeerList[i]);
+								 }								 						    						    	
+						    }
+						};							
+						$scope.AddSoltion = function()
+						   {
+								if($scope.chkAvaliablePeer.length <= 0)
+								   return;							
+								
+							$scope.searchSelectedSolution = "";
+							   var idx = -1;
+							   for(var i = 0 ; i < $scope.chkAvaliablePeer.length; i++)
+								 {							   							   							 
+								   $scope.chkAvaliablePeer[i].checked = false;
+								   $scope.selectedPeerList.push($scope.chkAvaliablePeer[i]);								   
+								   idx = $scope.avaliablePeerList.findIndex(solution => solution.peerId === $scope.chkAvaliablePeer[i].peerId);
+								   $scope.avaliablePeerList.splice(idx, 1);
+								 }
+								  var  strselectedPeerList = "";
+								  
+								  for(var j = 0 ; j < $scope.selectedPeerList.length; j++)
+									 {
+									  strselectedPeerList += $scope.selectedPeerList[j].peerId + ","
+									 }
+								  strselectedPeerList = strselectedPeerList.slice(0, -1);
+								  if($scope.editPeerGroup != undefined || $scope.editPeerGroup != null)
+									{
+										  if(JSON.stringify((strselectedPeerList.split(",")).sort()) == JSON.stringify(($scope.editPeerGroup.peerIds.split(",")).sort()))
+											  $scope.isUpdatePeerFlag = true;
+										  else
+											  $scope.isUpdatePeerFlag = false;
+									}								 
+								  
+								  $scope.chkAvaliablePeer = [];
+							   console.log($scope.selectedPeerList);
+						   };
+						
+					   $scope.isSelectedPeerIndeterminate = function() {
+						    return ($scope.chkSelectedPeer.length !== 0 &&
+						        $scope.chkSelectedPeer.length !== $scope.selectedPeerList.length);
+						  };
+					  $scope.isCheckedSelectedPeer = function() {
+					    return $scope.chkSelectedPeer.length === $scope.selectedPeerList.length;
+					  };					   										 
+					  $scope.toggleAllSelectedPeer = function() {						  	
+						    if ($scope.chkSelectedPeer.length === $scope.selectedPeerList.length) {
+						    	$scope.chkSelectedPeer = [];
+						      for(var i = 0 ; i < $scope.selectedPeerList.length; i++)
+								 {
+						    		$scope.selectedPeerList[i].checked = false;						    		
+								 }
+						    } else if ($scope.chkSelectedPeer.length === 0 || $scope.chkSelectedPeer.length > 0) {						     
+						    	$scope.chkSelectedPeer = [];
+						    	for(var i = 0 ; i < $scope.selectedPeerList.length; i++)
+								 {
+						    		$scope.selectedPeerList[i].checked = true;
+						    		$scope.chkSelectedPeer.push($scope.selectedPeerList[i]);
+								 }								 						    						    	
+						    }
+						};
+					   $scope.RemoveSoltion = function()
+					   {
+						   if($scope.chkSelectedPeer.length <= 0)
+							   return;						   
+						   $scope.searchAvaliableSolution = "";
+						   var idx = -1;
+						   for(var i = 0 ; i < $scope.chkSelectedPeer.length; i++)
+							 {							   							   							  
+							   $scope.chkSelectedPeer[i].checked = false;
+							   $scope.avaliablePeerList.push($scope.chkSelectedPeer[i]);							   
+							   idx = $scope.selectedPeerList.findIndex(solution => solution.peerId === $scope.chkSelectedPeer[i].peerId);
+							   $scope.selectedPeerList.splice(idx, 1);
+							 }
+						   
+							  var  strselectedPeerList = "";
+							  
+							  for(var j = 0 ; j < $scope.selectedPeerList.length; j++)
+								 {
+								  strselectedPeerList += $scope.selectedPeerList[j].peerId + ","
+								 }
+							  strselectedPeerList = strselectedPeerList.slice(0, -1);
+							  if($scope.editPeerGroup != undefined || $scope.editPeerGroup != null)
+								  {
+									  if(JSON.stringify((strselectedPeerList.split(",")).sort()) == JSON.stringify(($scope.editPeerGroup.peerIds.split(",")).sort()) || $scope.selectedPeerList.length == 0)
+										  $scope.isUpdatePeerFlag = true;
+									  else
+										  $scope.isUpdatePeerFlag = false;
+								  }							  							 						  
+						   $scope.chkSelectedPeer = [];						   
+					   };					   					  
+					   
+					   $scope.addPeerGroup = function() {
+						 var groupName = $scope.createGroupName;						 
+						 var val= "";
+						 var peerIdval= "";
+						 var submitPeerGroup = [];						 
+						 for(var i =0;i<$scope.selectedPeerList.length; i++)
+					      {
+							var obj = {};
+							obj['peerId'] = $scope.selectedPeerList[i].peerId;
+							obj['name'] = $scope.selectedPeerList[i].name;
+							val += $scope.selectedPeerList[i].name + "," ;
+							peerIdval += $scope.selectedPeerList[i].peerId + ",";
+							submitPeerGroup.push(obj);
+						  }
+						 var dataObj = {
+									"request_body" : {
+										 "name":  $scope.createGroupName,
+										 "peers":	submitPeerGroup							 
+									}
+								};						 						 						 						 						 					 
+						apiService
+							.setPeersGroup(dataObj)
+							.then(
+									function successCallback(response) {
+										if(response.data.status_code == 200)
+											{
+												$scope.msg = "Peer group created successfully";
+									    		$scope.icon = '';
+									    		$scope.styleclass = 'c-success';																		    								    	
+									    		var grpPeerobj = {};
+											 	grpPeerobj['peerGroupName'] = $scope.createGroupName;
+											 	grpPeerobj['peerGroupId'] = response.data.response_body.groupId;
+											 	grpPeerobj['peerName'] = val.slice(0, -1);				
+											 	grpPeerobj['peerIds'] = peerIdval.slice(0, -1);	
+											 	grpPeerobj['ModifedDate'] = response.data.response_body.modified;
+											    $scope.grpPeerList.push(grpPeerobj);
+											}
+										else
+											{
+											$scope.msg = "Error while Creating Peer Group :  " + response.data.response_detail;
+											$scope.icon = 'report_problem';
+											$scope.styleclass = 'c-error';
+											}
+							    		$scope.selectedPeerList = [];
+									    $scope.chkAvaliablePeer = [];
+									    $scope.chkSelectedPeer = [];
+										$scope.closePoup();
+										$scope.showAlertMessage = true;
+							    		$timeout(
+							    		function() {
+							    			$scope.showAlertMessage = false;
+							    		}, 8000);
+							    		
+									},
+									function errorCallback(response) {
+									    $scope.selectedPeerList = [];
+									    $scope.chkAvaliablePeer = [];
+									    $scope.chkSelectedPeer = [];
+										$scope.closePoup();
+										$scope.msg = "Error while Creating Peer Group :  " + response.data.response_detail;
+										$scope.icon = 'report_problem';
+										$scope.styleclass = 'c-error';
+										$scope.showAlertMessage = true;
+										$timeout(
+												function() {
+													$scope.showAlertMessage = false;
+												}, 8000);
+									});	
+						 
+						 
+						 
+					   };					   					  
+					   
+					   $scope.updatePeerGroup = function() {
+						   	for(var i =0 ; i < $scope.grpPeerList.length; i++)
+						   	 {
+						   		if($scope.PrevcreateGroupName.toLowerCase() != $scope.createGroupName.toLowerCase())
+						   			{
+								   		if($scope.grpPeerList[i].peerGroupName.toLowerCase() == $scope.createGroupName.toLowerCase())
+								   			{
+									   			
+									   			$scope.msg = "Group name : " + $scope.grpPeerList[i].peerGroupName + " already existes";
+												$scope.icon = 'report_problem';
+												$scope.styleclass = 'c-error';
+												$scope.showAlertMessage = true;
+												$timeout(
+														function() {
+															$scope.showAlertMessage = false;
+														}, 8000);
+												$scope.selectedPeerList = [];
+											    $scope.chkAvaliablePeer = [];
+											    $scope.chkSelectedPeer = [];
+											    $scope.editPeerGroup = null;
+												$scope.closePoup();
+												return;
+								   			}
+						   			}
+						     }						   							
+							 var groupName = $scope.createGroupName;	
+							 var groupId = $scope.peerGroupId;
+							 var val= "";
+							 var peerIdval= "";
+							 var submitPeerGroup = [];						 
+							 for(var i =0;i<$scope.selectedPeerList.length; i++)
+						      {
+								var obj = {};
+								obj['peerId'] = $scope.selectedPeerList[i].peerId;								
+								val += $scope.selectedPeerList[i].name + "," ;
+								peerIdval += $scope.selectedPeerList[i].peerId + ",";
+								submitPeerGroup.push(obj);
+							  }
+							 var dataObj = {
+										"request_body" : {
+											 "name":  $scope.createGroupName,
+											 "groupId" : groupId,
+											 "peers":	submitPeerGroup							 
+										}
+									}; 														 							 						 						 												 							   							 						 							 		
+							    apiService
+								.updatePeersGroup(dataObj, groupId)
+								.then(
+										function successCallback(response) {											
+											$scope.msg = "Peer group updated successfully";
+								    		$scope.icon = '';
+								    		$scope.styleclass = 'c-success';																		    								    	
+								    		var grpPeerobj = {};
+										 	grpPeerobj['peerGroupName'] = $scope.createGroupName;
+										 	grpPeerobj['peerGroupId'] = groupId;
+										 	grpPeerobj['peerName'] = val.slice(0, -1);				
+										 	grpPeerobj['peerIds'] = peerIdval.slice(0, -1);	
+										 	grpPeerobj['ModifedDate'] = "2018-10-16";							 	
+										 	var idx = $scope.grpPeerList.findIndex(solution => solution.peerGroupId === groupId);
+											$scope.grpPeerList.splice(idx, 1);							 	
+										    $scope.grpPeerList.push(grpPeerobj);																						
+								    		$scope.selectedPeerList = [];
+										    $scope.chkAvaliablePeer = [];
+										    $scope.chkSelectedPeer = [];
+										    $scope.editPeerGroup = null;
+											$scope.closePoup();
+											$scope.showAlertMessage = true;
+								    		$timeout(
+								    		function() {
+								    			$scope.showAlertMessage = false;
+								    		}, 8000);
+								    		
+										},
+										function errorCallback(response) {
+											$scope.msg = "Error while updating Peer Group :  " + response.data.response_detail;
+											$scope.icon = 'report_problem';
+											$scope.styleclass = 'c-error';
+											$scope.showAlertMessage = true;
+										    $scope.selectedPeerList = [];
+										    $scope.chkAvaliablePeer = [];
+										    $scope.chkSelectedPeer = [];
+										    $scope.editPeerGroup = null;
+											$timeout(
+													function() {
+														$scope.showAlertMessage = false;
+													}, 8000);
+										});								 														
+						   };							   
+						  $scope.deleteGroupPeer = function(peer,ev)
+						   {												   
+							   var submitPeerGroup = [];
+							   var groupId = peer.peerGroupId;
+							   	  if($scope.ListOfPeers.length > 0)
+							   			$scope.actualPeerList = angular.copy($scope.ListOfPeers);																			        
+					        	  for(var i=0;i < $scope.actualPeerList.length; i++)
+					        		  {
+					        		  var idx = peer.peerIds.split(",").indexOf($scope.actualPeerList[i].peerId); 				        		   						        		   	
+					        		   	if (idx > -1) 
+					        		   		{
+						        		   	var obj = {};
+											obj['peerId'] = $scope.actualPeerList[i].peerId;
+											submitPeerGroup.push(obj);
+					        		   		}
+					        		  }				        	 
+					        	  var dataObj = {
+											"request_body" : {													 
+												 "name":   peer.peerGroupName,
+												 "groupId" : groupId,												
+												 "peers":	submitPeerGroup						 
+											}
+										};						        						        
+								apiService
+								.deletePeersGroup(dataObj,  peer.peerGroupId)
+								.then(function successCallback(response) {
+                                                                  					var idx = $scope.grpPeerList.findIndex(solution => solution.peerGroupId === peer.peerGroupId);
+									    				$scope.grpPeerList.splice(idx, 1);
+													$scope.msg = "Peer group deleted successfully";
+											    		$scope.icon = '';
+											    		$scope.styleclass = 'c-success';																		    								    											    		
+														$scope.showAlertMessage = true;
+														$timeout(
+														function() {
+															$scope.showAlertMessage = false;
+														}, 8000);								    		
+													},
+													function errorCallback(response) {
+														$scope.msg = "Error while deleting Peer Group :  " + response.data.error;
+														$scope.icon = 'report_problem';
+														$scope.styleclass = 'c-error';
+														$scope.showAlertMessage = true;
+														$timeout(
+																function() {
+																	$scope.showAlertMessage = false;
+																}, 8000);
+													});					        	  
+						   		};					   
+						   
+						   
+					/* Restricated Fedration End */
+		             
+		 }
 })
 		.service('fileUploadService', function($http, $q) {
 
