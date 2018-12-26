@@ -72,7 +72,6 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.apache.commons.lang.ArrayUtils;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -88,21 +87,20 @@ public class PortalUtils {
 	}
 	
 	public static boolean isEmptyOrNullString(String input) {
-		return input == null || input.trim().isEmpty();
+		boolean isEmpty = false;
+		if (null == input || 0 == input.trim().length()) {
+			isEmpty = true;
+		}
+		return isEmpty;
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public static boolean isEmptyList(List input) {
-		return input == null || input.isEmpty();
-	}
-	
-	public static String getEnvProperty(Environment env, String property) throws AcumosServiceException {
-		String value = env.getProperty(property);
-		if (PortalUtils.isEmptyOrNullString(value)) {
-        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER,
-        			"Environment not configured: " + property);
+		boolean isEmpty = false;
+		if (null == input || 0 == input.size()) {
+			isEmpty = true;
 		}
-		return value;
+		return isEmpty;
 	}
 	
 	public static User convertToMLPuser(MLPUser mlpUser) {
@@ -129,6 +127,12 @@ public class PortalUtils {
         user.setPassword(mlpUser.getLoginHash());
         user.setPicture((mlpUser.getPicture()));
         user.setApiTokenHash(mlpUser.getApiToken());
+        //user.setApiToken(mlpUser.getApiToken());
+        if (mlpUser.getApiToken() != null) {
+        	user.setApiToken(mlpUser.getApiToken());
+		}else if(PortalUtils.isEmptyOrNullString(mlpUser.getApiToken())){
+			user.setApiToken(null);
+		}        
         user.setTags(mlpUser.getTags());
         return user;
     }
@@ -221,6 +225,16 @@ public class PortalUtils {
 		return mlpAccessType;
 	}
 	
+	
+	public static String getEnvProperty(Environment env, String property) throws AcumosServiceException {
+        String value = env.getProperty(property);
+        if (PortalUtils.isEmptyOrNullString(value)) {
+           throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER,
+                   "Environment not configured: " + property);
+        }
+        return value;
+    }
+	
 	public static MLRole convertToMLRole(MLPRole mlpRole) {
 		MLRole mlRole = new MLRole();
 		mlRole.setRoleId(mlpRole.getRoleId());
@@ -288,8 +302,14 @@ public class PortalUtils {
 			mlpUser.setPicture(user.getPicture());
 		}
 
-		if (user.getApiTokenHash() != null) {
-			mlpUser.setApiToken(user.getApiTokenHash());
+		/*if (user.getApiTokenHash() != null) {
+			mlpUser.setApiTokenHash(user.getApiTokenHash());
+		}*/
+		//commenting null check to delete token
+		if (user.getApiToken() != null) {
+			mlpUser.setApiToken(user.getApiToken());
+		}else if(PortalUtils.isEmptyOrNullString(user.getApiToken())){
+			mlpUser.setApiToken(null);
 		}
 
 		if (user.getTags() != null) {

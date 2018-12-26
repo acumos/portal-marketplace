@@ -196,7 +196,9 @@ angular
 			                       url : '/api/users/refreshApiToken',
 			                       data : dataObj
 			                 }).success(function(data, status, headers,config) {
-			                	getUserDetail()
+			                	sessionStorage.setItem('apiTokenStatus', false);
+			                	getUserDetail();
+			                	
 			                 }).error(function(data, status, headers, config) {
 			                 });
 						 }
@@ -218,6 +220,15 @@ angular
 									function(data, status, headers, config) {
 										console.log(data);
 										$scope.user = data.response_body;
+										var tokenStatus = sessionStorage.getItem("apiTokenStatus") == "true" ? true : false;
+										console.log(tokenStatus);
+										if(tokenStatus == true || $scope.user.apiToken == null)
+											{
+											//$scope.user.apiToken = null;
+											$scope.deleteApiTokenFlag= false;
+											}
+										else
+											$scope.deleteApiTokenFlag= true;
 										$scope.userCopy = angular.copy($scope.user);
 										$scope.userActive = angular
 												.copy(data.response_body);
@@ -833,7 +844,53 @@ angular
                         	  }
                           }
                           
-                         
+                          $scope.deleteApiToken = function() {                                                             
+                              $scope.userCopy.emailId = $scope.user.email;
+                                    $scope.userCopy.username = $scope.user.loginName;
+                                    $scope.userCopy.apiToken = null;
+                                    if ($scope.userCopy.active == false)
+                                          $scope.userCopy.active = "N"
+                                    else
+                                          $scope.userCopy.active = "Y";
+                                    
+                                    var requestData = {
+                                          "request_body" : $scope.userCopy
+                                    };                                   
+                                          var req1 = {
+                                                      method : 'PUT',
+                                                      url : '/api/users/deleteToken',
+                                                      //url : '/api/users/updateUser',
+                                                      data : requestData,
+                                                      headers : {
+                                                            'Content-Type' : 'application/json'
+                                                      }
+                                                };
+                                                $http(req1)
+                                                            .success(
+                                                                        function(data, status, headers,
+                                                                                    config) {         
+                                                                  if(status == 200)
+                                                                        {
+	                                                                          $scope.user.apiToken = null;
+	                                                                          $mdDialog.hide();
+	                                                                          $location.hash('myDialog');  
+	                                                                          $anchorScroll(); 
+	                                                                          $scope.msg = "Token deleted successfully."; 
+	                                                                          $scope.icon = '';
+	                                                                          $scope.styleclass = 'c-success';
+	                                                                          $scope.showAlertMessage = true;     
+	                                                                          $scope.deleteApiTokenFlag= false;
+	                                                                          sessionStorage.setItem('apiTokenStatus', true);
+	                                                                          $timeout(function() {
+	                                                                                $scope.showAlertMessage = false;                                                                  
+	                                                                          }, 4000);
+                                                                          }                                                                              
+                                                                        }).error(
+                                                                        function(data, status, headers,
+                                                                                    config) {                                                                           
+                                                                              alert('fail')
+                                                                        });
+                          }                                                  
                           
                           /**** Notification Preference End****/
 

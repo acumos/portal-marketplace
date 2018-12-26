@@ -52,7 +52,7 @@ public class APINames {
     public static final String UPDATE_USER_IMAGE = "/updateUserImage/{userId}";
     public static final String UPADATE_BULK_USER = "/user/updateUser";
     public static final String DELETE_BULK_USER = "/user/deleteUser";
-
+    public static final String DELETE_TOKEN = "/deleteToken";
 	public static final String USER_PROFILE_PIC = "/userProfileImage/{userId}";
     
     // OAUTH2

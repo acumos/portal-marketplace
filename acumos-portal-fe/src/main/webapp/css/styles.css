@@ -969,6 +969,11 @@ md-checkbox.md-checked .md-icon:after {width: 6px; height: 9px; left: 3px;}
 .account-info img{width:25px;}
 .profile-pic img{width:100px}
 
+.api-token {display: inline-flex; align-items: center; }
+.api-token md-input-container input{width:328px;}
+.api-token a { width:50px; font-size: 12px; margin-left: 10px; margin-top:21px;}
+.api-token a:last-child{width:74px !important;margin-left:5px !important;	}
+
 .userprofiletxtbox {height: 36px !important;}
 
 .userprofile-dialog-footer {display:flex; flex-wrap: nowrap; justify-content:space-between;width:100%; background: #e5e5e5;align-items: center;padding: 10px 20px;}
@@ -1318,7 +1323,7 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .fed-container2 {display:flex; flex-wrap:nowrap;justify-content: flex-end;align-items: center;}
 .fed-container2 .mdl-button { width: 100%;}
 .fed-container3 {display: flex;flex-wrap:nowrap;align-items:center; justify-content: flex-end; margin-right: 0; padding-top: 1px;}
-.fed-err-msg {position:relative; width: 350px;margin-top: -17px;}
+.fed-err-msg {position:absolute;width: 350px;margin-top: -17px;}
 .fed-err-msg span {position:relative; margin-left: 2px; line-height: 15px !important;}
 table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark as Self "] {width: 100% !important;}
 

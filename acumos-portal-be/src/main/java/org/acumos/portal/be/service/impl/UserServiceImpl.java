@@ -430,6 +430,20 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(PortalUtils.convertToMLPUserForUpdate(user));
     }
+    
+    @Override
+    public void updateMLPUser(MLPUser mlpUser) {
+        log.debug(EELFLoggerDelegate.debugLogger, "updateMLPUser ={}", mlpUser);
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        dataServiceRestClient.updateUser(mlpUser);
+    }
+    
+    @Override
+    public void deleteToken(User user) {
+        log.debug(EELFLoggerDelegate.debugLogger, "updateUser ={}", user);
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+       // dataServiceRestClient.updateUser(PortalUtils.convertToMLPUserForDelete(user));
+    }
 
     @Override
     public void forgetPassword(MLPUser mlpUser) { 
