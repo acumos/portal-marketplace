@@ -25,6 +25,7 @@ package org.acumos.portal.be.transport;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
@@ -81,6 +82,11 @@ public class MLSolution {
 	private List<Author> authors;
 	private byte[] picture;
 	private boolean pendingApproval;
+	private String sourceId;
+	private String userId;
+	private Set<MLPTag> tags;
+	private MLSolutionWeb webStats;
+	private String origin;
 
 	/**
 	 * @return the onboardingStatusFailed
@@ -590,5 +596,45 @@ public class MLSolution {
 		 */
 		public void setPendingApproval(boolean pendingApproval) {
 			this.pendingApproval = pendingApproval;
+		}
+
+		public String getSourceId() {
+			return sourceId;
+		}
+
+		public void setSourceId(String sourceId) {
+			this.sourceId = sourceId;
+		}
+
+		public String getUserId() {
+			return userId;
+		}
+
+		public void setUserId(String userId) {
+			this.userId = userId;
+		}
+
+		public Set<MLPTag> getTags() {
+			return tags;
+		}
+
+		public void setTags(Set<MLPTag> tags) {
+			this.tags = tags;
+		}
+
+		public MLSolutionWeb getWebStats() {
+			return webStats;
+		}
+
+		public void setWebStats(MLSolutionWeb webStats) {
+			this.webStats = webStats;
+		}
+
+		public String getOrigin() {
+			return origin;
+		}
+
+		public void setOrigin(String origin) {
+			this.origin = origin;
 		}
 }

@@ -24,12 +24,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPPeerGroup;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.common.RestPageRequestBE;
+import org.acumos.portal.be.common.RestPageResponseBE;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.transport.MLPeerSolAccMap;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLSolutionGroup;
+import org.acumos.portal.be.transport.Peer;
+import org.acumos.portal.be.transport.PeerGroup;
 
 public interface AdminService {
 
@@ -70,4 +78,41 @@ public interface AdminService {
 	void updateMLRequest(MLRequest mlRequest);
 	
 	void createSubscription(List<MLSolution> body, String peerId);
+	
+	MLPPeerGroup createPeerGroup(MLPPeerGroup peerGroup);
+	
+	void updatePeerGroup(Long groupId,PeerGroup peerGroup) throws AcumosServiceException;
+	
+	void deletePeerGroup(Long peerGroupId,PeerGroup peerGroup);
+	
+	List<Peer> getPeersInGroup(Long peerGroupId, RestPageRequestBE pageRequestBE);
+	
+	void addPeerToGroup(String peerId, Long peerGroupId);
+	
+	void dropPeerFromGroup(String peerId, Long peerGroupId);
+	
+	RestPageResponseBE<MLPeerSolAccMap> getPeerSolutionGroupMaps(RestPageRequestBE pageRequestBE);
+	
+	void mapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId);
+	
+	void unmapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId);
+	
+	//void mapPeerPeerGroups(Long principalGroupId, Long resourceGroupId);
+	
+	
+
+	List<MLSolutionGroup> getSolutionGroupList(RestPageRequestBE restPageReqBE);
+
+	MLSolution getSolutionGroupDetails(String solutionGroupId, RestPageRequestBE pageRequest);
+	MLSolutionGroup createSolutionGroup(MLSolutionGroup solutionGroup);
+	 
+	void updateSolutionGroup(MLSolutionGroup body);
+
+	void deleteSolutionGroup(Long groupId);
+
+	PeerGroup savePeerGroup(PeerGroup body) throws Exception;
+
+	void updatePeerSolutionGroup(String peerGroupId, String solutionGroupId);
+
+	List<PeerGroup> getPeerGroups(RestPageRequestBE restPageReqBE);
 }

@@ -21,11 +21,13 @@
 package org.acumos.portal.be.common;
 
 import java.util.List;
+import java.util.Map;
 public class RestPageRequestBE {
 
 	private Integer page, size; 
 	private String sortingOrder, searchTerm, modelType, modelToolkitType, name, description, accessType, activeType, sortBy, sortById ;
 	private List<String> tagList, dropTagList;
+	private Map<String, String> fieldToDirectionMap;
 	 
 	public Integer getPage() {
 		return page;
@@ -110,6 +112,12 @@ public class RestPageRequestBE {
 	}
 	public void setDropTagList(List<String> dropTagList) {
 		this.dropTagList = dropTagList;
+	}
+	public Map<String, String> getFieldToDirectionMap() {
+		return fieldToDirectionMap;
+	}
+	public void setFieldToDirectionMap(Map<String, String> fieldToDirectionMap) {
+		this.fieldToDirectionMap = fieldToDirectionMap;
 	} 
 	
 	

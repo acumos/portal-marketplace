@@ -26,11 +26,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPPeerGroup;
+import org.acumos.cds.domain.MLPPeerGrpMemMap;
+import org.acumos.cds.domain.MLPPeerSolAccMap;
+import org.acumos.cds.domain.MLPPeerSubscription;
+import org.acumos.cds.domain.MLPSiteConfig;
+import org.acumos.cds.domain.MLPSolution;
+import org.acumos.cds.domain.MLPSolutionGroup;
+import org.acumos.cds.transport.RestPageRequest;
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.JSONTags;
+import org.acumos.portal.be.common.RestPageRequestBE;
+import org.acumos.portal.be.common.RestPageResponseBE;
+import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.AdminService;
+import org.acumos.portal.be.transport.Peer;
+import org.acumos.portal.be.transport.PeerGroup;
+import org.acumos.portal.be.transport.MLPeerSolAccMap;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLSolutionGroup;
+import org.acumos.portal.be.transport.PeerGroup;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.stereotype.Service;
@@ -303,4 +321,263 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
             dataServiceRestClient.createPeerSubscription(sub);
         }
     }
+	
+	@Override
+	public List<PeerGroup> getPeerGroups(RestPageRequestBE restPageReqBE) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getPeerGroups ={}");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageRequest restPageReq = PortalUtils.convertFromRestPageRequestBEToRestPageRequest(restPageReqBE);
+		RestPageResponse<MLPPeerGroup> mlpPeerGroups = dataServiceRestClient.getPeerGroups(restPageReq);
+
+		List<PeerGroup> mLPeerGroupList = new ArrayList<>();
+
+		for (MLPPeerGroup mlpPeerGrp : mlpPeerGroups.getContent()) {
+			mLPeerGroupList.add(PortalUtils.convertFromMLPPeerGroupToMLPeerGroup(mlpPeerGrp));
+		}
+		List<PeerGroup> mLPeerGroupListwithPeers = new ArrayList<>();
+		for(PeerGroup pgroup : mLPeerGroupList){
+			List<Peer> peerlistPerGroup=getPeersInGroup(pgroup.getGroupId(),restPageReqBE);
+			pgroup.setPeers(peerlistPerGroup);
+			mLPeerGroupListwithPeers.add(pgroup);
+		}
+
+		return mLPeerGroupListwithPeers;
+	}
+
+	@Override
+	public MLPPeerGroup createPeerGroup(MLPPeerGroup peerGroup) {
+		log.debug(EELFLoggerDelegate.debugLogger, "createPeerGroup ={}", peerGroup);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPPeerGroup mLPPeerGroup = dataServiceRestClient.createPeerGroup(peerGroup);
+		return mLPPeerGroup;
+
+	}
+
+
+	@Override
+	public void deletePeerGroup(Long peerGroupId,PeerGroup peerGroup) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deletePeerGroup ={}", peerGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if(peerGroup.getPeers()!=null && peerGroup.getPeers().size()>0){
+			for(Peer peer : peerGroup.getPeers()){
+				dataServiceRestClient.dropPeerFromGroup(peer.getPeerId(), peerGroup.getGroupId());
+			}
+		}
+		if (peerGroupId != null) {
+			dataServiceRestClient.deletePeerGroup(peerGroupId);
+		}
+	}
+
+	@Override
+	public List<Peer> getPeersInGroup(Long peerGroupId, RestPageRequestBE restPageReqBE) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getPeersInGroup ={}", peerGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageRequest pageRequest = PortalUtils.convertFromRestPageRequestBEToRestPageRequest(restPageReqBE);
+		RestPageResponse<MLPPeer> MLPPeerResponse = dataServiceRestClient.getPeersInGroup(peerGroupId, pageRequest);
+		
+		List<Peer> mLPeerList = new ArrayList<>();
+		for (MLPPeer mlpPeer : MLPPeerResponse.getContent()) {
+			mLPeerList.add(PortalUtils.convertFromMLPPeerToMLPeer(mlpPeer));
+		}
+		 
+		return mLPeerList;
+	}
+
+	@Override
+	public void addPeerToGroup(String peerId, Long peerGroupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "addPeerToGroup ={}", peerId, peerGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.addPeerToGroup(peerId, peerGroupId);
+
+	}
+
+	@Override
+	public void dropPeerFromGroup(String peerId, Long peerGroupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "dropPeerFromGroup={}", peerId, peerGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if (peerId != null && peerGroupId != null) {
+			dataServiceRestClient.dropPeerFromGroup(peerId, peerGroupId);
+		}
+	}
+
+	@Override
+	public RestPageResponseBE<MLPeerSolAccMap> getPeerSolutionGroupMaps(RestPageRequestBE restPageReqBE) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getPeerSolutionGroupMaps={}");
+		
+		RestPageRequest restPageReq = PortalUtils.convertFromRestPageRequestBEToRestPageRequest(restPageReqBE);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageResponse<MLPPeerSolAccMap> mlpPeerSolAccMapList = dataServiceRestClient.getPeerSolutionGroupMaps(restPageReq);
+		
+		RestPageResponseBE<MLPeerSolAccMap> mlPeerSolAccMap = PortalUtils.convertFromMLPPeerSolAccMapToMLPeerSolAccMap(mlpPeerSolAccMapList);
+				
+		return mlPeerSolAccMap;
+	}
+
+	@Override
+	public void mapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "mapPeerSolutionGroups={}", peerGroupId, solutionGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.mapPeerSolutionGroups(peerGroupId, solutionGroupId);
+	}
+
+	@Override
+	public void unmapPeerSolutionGroups(Long peerGroupId, Long solutionGroupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "unmapPeerSolutionGroups={}", peerGroupId, solutionGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.unmapPeerSolutionGroups(peerGroupId, solutionGroupId);
+	}
+ 
+
+	// getSolutionGroups
+	@Override
+	public List<MLSolutionGroup> getSolutionGroupList(RestPageRequestBE restPageReqBE) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionGroupList={}", restPageReqBE);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		RestPageRequest restPageReq = PortalUtils.convertFromRestPageRequestBEToRestPageRequest(restPageReqBE);
+
+		RestPageResponse<MLPSolutionGroup> restPageRes = dataServiceRestClient.getSolutionGroups(restPageReq);
+
+		List<MLSolutionGroup> mLSolutionGroupList = new ArrayList<>();
+		for (MLPSolutionGroup mlpSolutionGrp : restPageRes.getContent()) {
+			mLSolutionGroupList.add(PortalUtils.convertFromMLPSolutionGroupToMLSolutionGroup(mlpSolutionGrp));
+		}
+
+		return mLSolutionGroupList;
+	}
+
+	@Override
+	public MLSolution getSolutionGroupDetails(String solutionGroupId, RestPageRequestBE restPageReqBE) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionGroupDetails={}", solutionGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageRequest restPageReq = PortalUtils.convertFromRestPageRequestBEToRestPageRequest(restPageReqBE);
+
+		RestPageResponse<MLPSolution> restPageRes = dataServiceRestClient
+				.getSolutionsInGroup(Long.parseLong(solutionGroupId), restPageReq);
+
+		// List<MLSolutionGroup> mLSolutionGroupList = new ArrayList<>();
+		MLSolution mlSolution = null;
+		for (MLPSolution mlpSolution : restPageRes.getContent()) {
+			mlSolution = PortalUtils.convertFromMLPSolutionToMLSolution(mlpSolution);
+		}
+
+		return mlSolution;
+
+	}
+ 
+	@Override
+	public MLSolutionGroup createSolutionGroup(MLSolutionGroup mlSolutionGroup) {
+		log.debug(EELFLoggerDelegate.debugLogger, "saveMLSolutionGroup ={}", mlSolutionGroup);
+
+		MLPSolutionGroup mlpSolutionGroup = PortalUtils.convertFromMLSolutionGroupToMLPSolutionGroup(mlSolutionGroup);
+		MLSolutionGroup newMLSolutionGroup = new MLSolutionGroup();
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if (mlpSolutionGroup != null) {
+			newMLSolutionGroup = PortalUtils.convertFromMLPSolutionGroupToMLSolutionGroup(dataServiceRestClient.createSolutionGroup(mlpSolutionGroup));
+		}
+		return newMLSolutionGroup;
+	}
+	 
+	@Override
+	public void updateSolutionGroup(MLSolutionGroup mlSolutionGroup) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionGroup ={}", mlSolutionGroup);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		
+		if (mlSolutionGroup != null) {
+			dataServiceRestClient.updateSolutionGroup(PortalUtils.convertFromMLSolutionGroupToMLPSolutionGroup(mlSolutionGroup));
+		}
+	}
+	
+	@Override
+	public void deleteSolutionGroup(Long groupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionGroup ={}", groupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if (groupId != null) {
+			dataServiceRestClient.deleteSolutionGroup(groupId);
+		}
+	}
+	
+	@Override
+	public PeerGroup savePeerGroup(PeerGroup peerGroup) throws Exception {
+		log.debug(EELFLoggerDelegate.debugLogger, "saveMLPeerGroup ={}", peerGroup);
+		boolean groupExisted=false;
+		PeerGroup newMLPeerGroup = new PeerGroup();
+		RestPageRequestBE restRequestBE=new RestPageRequestBE();
+		restRequestBE.setPage(0);
+		restRequestBE.setSize(100);
+		MLPPeerGroup mlpPeerGroup = PortalUtils.convertFromPeerGroupToMLPPeerGroup(peerGroup);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		if (mlpPeerGroup != null) {
+			List<PeerGroup> existedPeerGroups= getPeerGroups(restRequestBE);
+			for(PeerGroup peerGrp : existedPeerGroups){
+				if(peerGrp.getName().equalsIgnoreCase(peerGroup.getName())){
+					groupExisted=true;
+					log.error(EELFLoggerDelegate.errorLogger, "PeerGroup "+peerGroup.getName()+" Already exists...");
+					throw new AcumosServiceException(AcumosServiceException.ErrorCode.CONSTRAINT_VIOLATION, "PeerGroup Already exists with the same name.");
+				}
+			}
+			if(!groupExisted)
+				newMLPeerGroup = PortalUtils.convertFromMLPPeerGroupToMLPeerGroup(dataServiceRestClient.createPeerGroup(mlpPeerGroup));
+		}
+		try{
+			if(peerGroup.getPeers()!=null){
+				for(Peer peer : peerGroup.getPeers()){
+					dataServiceRestClient.addPeerToGroup(peer.getPeerId(), newMLPeerGroup.getGroupId());
+				}
+			}
+
+		}catch(Exception e){
+			log.error(EELFLoggerDelegate.errorLogger, "Error : Exception in addPeerToGroup() : Failed to add peer to the group", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "Failed to add peer to the group.");
+		}
+			
+		return newMLPeerGroup;
+	}
+	
+	@Override
+	public void updatePeerGroup(Long groupId,PeerGroup peerGroup) throws AcumosServiceException {
+		log.debug(EELFLoggerDelegate.debugLogger, "updatePeerGroup ={}", peerGroup);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		RestPageRequestBE restRequestBE=new RestPageRequestBE();
+		restRequestBE.setPage(0);
+		restRequestBE.setSize(100);
+		MLPPeerGroup mlpPeerGroup = PortalUtils.convertFromPeerGroupToMLPPeerGroup(peerGroup);
+		try{
+			if (mlpPeerGroup != null && mlpPeerGroup.getName() !=null) {
+				dataServiceRestClient.updatePeerGroup(mlpPeerGroup);
+			}
+		}
+		catch(Exception e){
+			log.error(EELFLoggerDelegate.errorLogger, "Error : Exception in updatePeerGroup() : Failed to updatePeerGroup",e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "updatePeerGroup failed.");
+		}
+	
+		try{
+			if(peerGroup.getGroupId()!=null && peerGroup.getPeers()!=null && peerGroup.getPeers().size()>0 ){
+				List<Peer> peerlistPerGroup=getPeersInGroup(groupId,restRequestBE);
+				for(Peer peer : peerlistPerGroup){
+					dataServiceRestClient.dropPeerFromGroup(peer.getPeerId(), peerGroup.getGroupId());
+				}
+				for(Peer peer : peerGroup.getPeers()){
+					dataServiceRestClient.addPeerToGroup(peer.getPeerId(), peerGroup.getGroupId());
+				}
+			}
+		}
+		catch(Exception e){
+			log.error(EELFLoggerDelegate.errorLogger, "Error : Exception in updatePeerGroup() : Failed to update peer to the group", e);
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "Failed to update peer to the group.");
+		}
+	
+	}
+	
+	//mapPeerSolutionGroups
+	@Override
+	public void updatePeerSolutionGroup(String peerGroupId, String solutionGroupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updatePeerSolutionGroup ={}", peerGroupId, solutionGroupId);
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		 
+		if (peerGroupId != null && solutionGroupId != null) {
+			dataServiceRestClient.mapPeerSolutionGroups(Long.parseLong(peerGroupId), Long.parseLong(solutionGroupId));
+		}
+	}
 }

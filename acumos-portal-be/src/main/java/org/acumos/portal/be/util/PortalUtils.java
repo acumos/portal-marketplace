@@ -34,6 +34,9 @@ import org.acumos.cds.ValidationTypeCode;
 import org.acumos.cds.domain.MLPAccessType;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
+import org.acumos.cds.domain.MLPPeer;
+import org.acumos.cds.domain.MLPPeerGroup;
+import org.acumos.cds.domain.MLPPeerSolAccMap;
 import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPRole;
@@ -42,6 +45,7 @@ import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.cds.domain.MLPSolutionFavorite;
+import org.acumos.cds.domain.MLPSolutionGroup;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionValidation;
 import org.acumos.cds.domain.MLPSolutionWeb;
@@ -50,23 +54,30 @@ import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.cds.domain.MLPUserNotifPref;
 import org.acumos.cds.transport.AuthorTransport;
+import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
+import org.acumos.portal.be.common.RestPageRequestBE;
+import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLNotification;
+import org.acumos.portal.be.transport.MLPeerSolAccMap;
 import org.acumos.portal.be.transport.MLPublishRequest;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
+import org.acumos.portal.be.transport.MLSolutionGroup;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.OauthUser;
+import org.acumos.portal.be.transport.Peer;
+import org.acumos.portal.be.transport.PeerGroup;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
@@ -636,5 +647,119 @@ public class PortalUtils {
 			mlPublishRequest.setComment(publishRequest.getComment());
 		}
 		return mlPublishRequest;
+	}
+public static MLSolutionGroup convertFromMLPSolutionGroupToMLSolutionGroup(MLPSolutionGroup mlpSolutionGroup){
+				
+		MLSolutionGroup mlSolutionGroup = new MLSolutionGroup();
+		
+		mlSolutionGroup.setDescription(mlpSolutionGroup.getDescription());
+		mlSolutionGroup.setGroupId(mlpSolutionGroup.getGroupId());
+		mlSolutionGroup.setName(mlpSolutionGroup.getName());
+		
+		return mlSolutionGroup;
+	}
+	
+	public static MLPSolutionGroup convertFromMLSolutionGroupToMLPSolutionGroup(MLSolutionGroup mlSolutionGroup){
+		
+		MLPSolutionGroup mlpSolutionGroup = new MLPSolutionGroup();
+		
+		mlpSolutionGroup.setDescription(mlSolutionGroup.getDescription());
+		mlpSolutionGroup.setGroupId(mlSolutionGroup.getGroupId());
+		mlpSolutionGroup.setName(mlSolutionGroup.getName());
+		
+		return mlpSolutionGroup;
+	}
+		
+	public static RestPageRequest convertFromRestPageRequestBEToRestPageRequest(RestPageRequestBE restPageReqBE){
+		RestPageRequest restPageReq = new RestPageRequest();
+		
+		restPageReq.setPage(restPageReqBE.getPage());
+		restPageReq.setSize(restPageReqBE.getSize());
+		restPageReq.setFieldToDirectionMap(restPageReqBE.getFieldToDirectionMap());
+				
+		return restPageReq;
+	}
+		
+	public static MLSolution convertFromMLPSolutionToMLSolution(MLPSolution mlpSolution){
+		
+		MLSolution mlSolution = new MLSolution();
+		
+		mlSolution.setActive(mlpSolution.isActive());
+		mlSolution.setCreated(mlpSolution.getCreated());		
+		mlSolution.setDescription(mlpSolution.getDescription());
+		mlSolution.setMetadata(mlpSolution.getMetadata());
+		mlSolution.setModelType(mlpSolution.getModelTypeCode());
+		mlSolution.setModified(mlpSolution.getModified());		
+		mlSolution.setName(mlpSolution.getName());
+		mlSolution.setOrigin(mlpSolution.getOrigin());
+		mlSolution.setSolutionId(mlpSolution.getSolutionId());
+		mlSolution.setSourceId(mlpSolution.getSourceId());
+		mlSolution.setTookitType(mlpSolution.getToolkitTypeCode());
+		mlSolution.setUserId(mlpSolution.getUserId());		
+		mlSolution.setPicture(mlpSolution.getPicture());
+		mlSolution.setTags(mlpSolution.getTags()); 
+		//mlSolution.setWebStats(convertToMLSolutionWeb(mlpSolution.getWebStats()));
+		
+		return mlSolution;
+	}
+	
+ 
+	public static PeerGroup convertFromMLPPeerGroupToMLPeerGroup(MLPPeerGroup mlpPeerGroup){
+		
+		PeerGroup mlPeerGroup = new PeerGroup();
+		
+		mlPeerGroup.setDescription(mlpPeerGroup.getDescription());
+		mlPeerGroup.setGroupId(mlpPeerGroup.getGroupId());
+		mlPeerGroup.setName(mlpPeerGroup.getName());
+		mlPeerGroup.setCreated(mlpPeerGroup.getCreated());
+		mlPeerGroup.setModified(mlpPeerGroup.getModified());
+		
+		return mlPeerGroup;
+	}
+	
+	public static MLPPeerGroup convertFromPeerGroupToMLPPeerGroup(PeerGroup peerGroup){
+		
+		MLPPeerGroup mlpPeerGroup = new MLPPeerGroup();
+		
+		mlpPeerGroup.setDescription(peerGroup.getDescription());
+		mlpPeerGroup.setGroupId(peerGroup.getGroupId());
+		mlpPeerGroup.setName(peerGroup.getName());
+		
+		return mlpPeerGroup;
+	}
+	
+	public static RestPageResponseBE<MLPeerSolAccMap> convertFromMLPPeerSolAccMapToMLPeerSolAccMap(RestPageResponse<MLPPeerSolAccMap> mlpPeerSolAccMapList){
+		RestPageResponseBE<MLPeerSolAccMap> mlPeerSolAccMapList = new RestPageResponseBE<MLPeerSolAccMap>();
+		List<MLPeerSolAccMap> content = new ArrayList<>();
+		for(MLPPeerSolAccMap mlpPeerSolAccMap : mlpPeerSolAccMapList){
+			MLPeerSolAccMap mlPeerSolAccMap = new MLPeerSolAccMap();
+			mlPeerSolAccMap.setPeerGroupId(mlpPeerSolAccMap.getPeerGroupId());
+			mlPeerSolAccMap.setSolutionGroupId(mlpPeerSolAccMap.getSolutionGroupId());
+			content.add(mlPeerSolAccMap );			 
+		}		
+		mlPeerSolAccMapList.setContent(content);
+		return mlPeerSolAccMapList;		
+	}
+	
+	public static Peer convertFromMLPPeerToMLPeer(MLPPeer mlpPeer){
+		
+		Peer mlPeer = new Peer();
+		
+		mlPeer.setApiUrl(mlpPeer.getApiUrl());
+		mlPeer.setContact1(mlpPeer.getContact1());
+		mlPeer.setCreated(mlpPeer.getCreated());
+		mlPeer.setDescription(mlpPeer.getDescription());
+		mlPeer.setLocal(mlpPeer.isLocal());
+		mlPeer.setModified(mlpPeer.getModified());
+		mlPeer.setName(mlpPeer.getName());
+		mlPeer.setPeerId(mlpPeer.getPeerId());
+		mlPeer.setSelf(mlpPeer.isSelf());
+		mlPeer.setStatusCode(mlpPeer.getStatusCode());
+		mlPeer.setSubjectName(mlpPeer.getSubjectName());
+		mlPeer.setValidationStatusCode(mlpPeer.getValidationStatusCode());
+		mlPeer.setWebUrl(mlpPeer.getWebUrl());
+		
+		
+		return mlPeer;
 	}
 }

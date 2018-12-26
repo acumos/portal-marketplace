@@ -45,6 +45,7 @@ import org.acumos.portal.be.Application;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
+import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.AdminService;
@@ -52,9 +53,13 @@ import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.service.UserService;
+import org.acumos.portal.be.transport.PeerGroup;
+import org.acumos.portal.be.transport.MLPeerSolAccMap;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
+import org.acumos.portal.be.transport.MLSolutionGroup;
 import org.acumos.portal.be.transport.MailData;
+import org.acumos.portal.be.transport.Peer;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
@@ -68,6 +73,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -133,6 +139,67 @@ public class AdminServiceController extends AbstractController {
         return data;
     }
 
+@ApiOperation(value = "find out if a perticular model is downloadable by specific user.", response = MLPSiteConfig.class, responseContainer = "List")
+    @RequestMapping(value = { APINames.GET_MODEL_DOWNLOADABLE}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<Boolean> isModelDownloadable(@PathVariable("userId") String userId, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
+		
+        userId = SanitizeUtils.sanitize(userId);
+        Boolean respFlag = Boolean.FALSE;
+        MLPSiteConfig mlpSiteConfig = null;
+        JsonResponse<Boolean> data = null;
+        try {
+            data = new JsonResponse<>();
+            mlpSiteConfig = adminService.getSiteConfig("user_downloadmodel_mapping");
+            if (mlpSiteConfig != null) {
+            	String jsonVal = mlpSiteConfig.getConfigValue();
+            	Map<String, Object> slidesConfigJson = mapper.readValue(jsonVal, Map.class);
+            	for (Map.Entry<String, Object> entry : slidesConfigJson.entrySet()) {
+            	//ArrayList userMap = (ArrayList)slidesConfigJson.get(userId);
+					ArrayList userMap = (ArrayList) entry.getValue();
+					System.out.println(userMap);
+					for (Object object : userMap) {
+						Map<String, Object> modelUserMap =(Map<String, Object>) object;
+						for (Map.Entry<String, Object> modelUserEntry : modelUserMap.entrySet()) {
+							String userKey = modelUserEntry.getKey();
+							System.out.println("modelUserEntry key "+userKey);
+							if(userId.equals(userKey)) {
+								System.out.println("modelUserEntry value"+modelUserEntry.getValue());
+								List<String> models = (ArrayList<String>)modelUserEntry.getValue();
+								for (String model : models) {
+									if(model.equals(solutionId)) {
+										respFlag = true;
+										 data.setResponseBody(respFlag);
+							                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+							                data.setResponseDetail("SiteConfiguration fetched Successfully");
+							                return data;
+									}
+								}
+								
+								System.out.println(models);
+							}else {
+								continue;
+							}
+							
+							
+						}
+						System.out.println(modelUserMap);
+					}
+            	}
+                data.setResponseBody(respFlag);
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("SiteConfiguration fetched Successfully");
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
+            log.error(EELFLoggerDelegate.errorLogger,
+                    "Exception Occurred Fetching Site Configuration for Admin Configuration with Id user_downloadmodel_mapping");
+        }
+        return data;
+    }
 
     @ApiOperation(value = "Gets peer details.", response = MLPPeer.class)
     @RequestMapping(value = { APINames.PEER_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -615,7 +682,7 @@ public class AdminServiceController extends AbstractController {
      }
     
     @ApiOperation(value = "Get Dashboard URL", response = JsonResponse.class)
-    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @RequestMapping(value = { APINames.DASHBOARD}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<String> getDocurl(HttpServletRequest request, HttpServletResponse response) {
         
@@ -705,7 +772,7 @@ public class AdminServiceController extends AbstractController {
        }
 
     @ApiOperation(value = "Get SignUp Enabled", response = JsonResponse.class)
-    @RequestMapping(value = {"/signup/enabled"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @RequestMapping(value = {APINames.SIGNUP_ENABLED}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
 	public JsonResponse<String> isSignUpEnabled(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -806,4 +873,403 @@ public class AdminServiceController extends AbstractController {
                 log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
             }
         }
+
+	// 4) Get All Solution Groups
+	@ApiOperation(value = "Get All Solution Groups", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.SOLUTION_GROUP_LIST }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLSolutionGroup>> getSolutionGroups(HttpServletRequest request,
+			@RequestBody JsonRequest<RestPageRequestBE> restPageReq, HttpServletResponse response) {
+
+		JsonResponse<List<MLSolutionGroup>> responseVO = new JsonResponse<List<MLSolutionGroup>>();
+
+		try {
+			List<MLSolutionGroup> mlSolutionGroupList = adminService.getSolutionGroupList(restPageReq.getBody());
+
+			if (mlSolutionGroupList != null) {
+				responseVO.setContent(mlSolutionGroupList);
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("Solution Group fetched Successfully");
+				responseVO.setStatus(true);
+				responseVO.setStatusCode(HttpServletResponse.SC_OK);
+			}
+		} catch (Exception e) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setResponseDetail("Exception Occurred Fetching Peer for Admin Configuration");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Peer for Admin Configuration", e);
+		}
+
+		return responseVO;
+	}
+
+	// 5) Get Solution Group with Id
+	@ApiOperation(value = "Gets a Solution Group for the given GroupId. ", response = MLSolution.class)
+	@RequestMapping(value = {
+			APINames.SOLUTIONS_GROUP_DETAILS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLSolution> getSolutionsGroupDetails(HttpServletRequest request,
+			@RequestBody JsonRequest<RestPageRequestBE> restPageReqBE, @PathVariable String groupId,
+			HttpServletResponse response) {
+
+		JsonResponse<MLSolution> responseVO = new JsonResponse<>();
+
+		try {
+			MLSolution mlSolutionGroupDetail = adminService.getSolutionGroupDetails(groupId, restPageReqBE.getBody());
+
+			if (mlSolutionGroupDetail != null) {
+				responseVO.setContent(mlSolutionGroupDetail);
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("Solution Group fetched Successfully");
+				responseVO.setStatus(true);
+				responseVO.setStatusCode(HttpServletResponse.SC_OK);
+			}
+		} catch (Exception e) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setResponseDetail("Exception Occurred Fetching Peer for Admin Configuration");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Peer for Admin Configuration", e);
+		}
+
+		return responseVO;
+	}
+
+	// 1) Create Solution Group
+	// createSolutionGroup
+	@ApiOperation(value = "Add a new Solution Group", response = MLSolutionGroup.class)
+	@RequestMapping(value = {
+			APINames.CREATE_SOLUTION_GROUP }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> createSolutionGroup(@RequestBody JsonRequest<MLSolutionGroup> mlSolutionGroup) {
+		log.debug(EELFLoggerDelegate.debugLogger, "createSolutionGroup={}", mlSolutionGroup);
+		JsonResponse<Object> data = new JsonResponse<>();
+
+		MLSolutionGroup newMLSolutionGroup = null;
+		try {
+			if (mlSolutionGroup != null) {
+
+				newMLSolutionGroup = adminService.createSolutionGroup(mlSolutionGroup.getBody());
+				data.setResponseBody(newMLSolutionGroup);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Success");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+				data.setResponseDetail("Reset_Content");
+			}
+
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createSolutionGroup()", e);
+		}
+
+		return data;
+	}
+
+	// 2) Update Solution Group
+	@ApiOperation(value = "Update Solution Group details.", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.UPDATE_SOLUTION_GROUP }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> updateSolutionGroup(@RequestBody JsonRequest<MLSolutionGroup> mlSolutionGroup) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionGroup={}", mlSolutionGroup);
+		JsonResponse<Object> data = new JsonResponse<>();
+		try {
+			if (mlSolutionGroup != null && mlSolutionGroup.getBody() != null) {
+				adminService.updateSolutionGroup(mlSolutionGroup.getBody());
+				data.setStatus(true);
+				data.setResponseDetail("Success");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			} else {
+				log.debug(EELFLoggerDelegate.errorLogger, "updateSolutionGroup: Invalid Parameters");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("update Solution Group Failed");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionGroup()", e);
+		}
+		return data;
+	}
+
+	// 3) Delete Solution Group
+	@ApiOperation(value = "Remove Solution Group.", response = JsonResponse.class)
+	@RequestMapping(value = {
+			APINames.DELETE_SOLUTION_GROUP }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> deleteSolutionGroup(@PathVariable("groupId") Long groupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionGroup={}", groupId);
+		JsonResponse<Object> data = new JsonResponse<>();
+		try {
+			if (groupId != null) {
+				adminService.deleteSolutionGroup(groupId);
+				data.setStatus(true);
+				data.setResponseDetail("Success");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			} else {
+				log.debug(EELFLoggerDelegate.errorLogger, "deleteSolutionGroup: Invalid Parameters");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("delete Solution Group Failed");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deleteSolutionGroup()", e);
+		}
+		return data;
+	}
+
+	// 1) Create Peer Group
+	@ApiOperation(value = "Add a new Peer Group", response = PeerGroup.class ,responseContainer="List")
+	@RequestMapping(value = { APINames.CREATE_PEER_GROUP }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<PeerGroup> createPeerGroup(@RequestBody JsonRequest<PeerGroup> peerGrpRequest) {
+		log.debug(EELFLoggerDelegate.debugLogger, "createPeerGroup={}", peerGrpRequest);
+		JsonResponse<PeerGroup> data = new JsonResponse<>();
+		PeerGroup newMLPeerGroup = null;
+		try {
+			if (peerGrpRequest != null) {
+				newMLPeerGroup = adminService.savePeerGroup(peerGrpRequest.getBody());
+				newMLPeerGroup.setPeers(peerGrpRequest.getBody().getPeers());
+				data.setResponseBody(newMLPeerGroup);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setStatusCode(200);
+				data.setResponseDetail("Success");
+			} 
+		}
+		catch(AcumosServiceException ae){
+			data.setStatusCode(400);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(ae.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerGroup()", ae);
+		}
+		catch (Exception e) {
+			data.setStatusCode(400);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerGroup()", e);
+		}
+		
+		return data;
+	}
+
+	// 2) Update Peer Group
+	@ApiOperation(value = "Update Peer Group.", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.UPDATE_PEER_GROUP }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> updatePeerGroup(@RequestBody JsonRequest<PeerGroup> peerGrpRequest, @PathVariable("peerGroupId") Long peerGroupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updatePeerGroup={}", peerGrpRequest);
+		JsonResponse<Object> data = new JsonResponse<>();
+		try {
+			if (peerGrpRequest != null && peerGroupId !=null  && peerGrpRequest.getBody() != null) {
+				adminService.updatePeerGroup(peerGroupId,peerGrpRequest.getBody());
+				data.setStatus(true);
+				data.setResponseDetail("Success");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			} else {
+				log.debug(EELFLoggerDelegate.errorLogger, "updatePeerGroup: Invalid Parameters");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Update Peer Group Failed");
+			}
+		} 
+		catch(AcumosServiceException ae){
+			data.setStatusCode(400);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(ae.getMessage());
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updatePeerGroup()", ae);
+		 }
+		 catch (Exception e) {
+			data.setStatusCode(400);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updatePeerGroup()", e);
+		 }
+		return data;
+	}
+
+	// 3) Delete Peer Group
+	@ApiOperation(value = "Remove Peer Group.", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.DELETE_PEER_GROUP }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> deletePeerGroup(@RequestBody JsonRequest<PeerGroup> peerGrpRequest, @PathVariable("peerGroupId") Long peerGroupId ) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deletePeerGroup={}", peerGroupId);
+		JsonResponse<Object> data = new JsonResponse<>();
+		try {
+			if (peerGroupId != null && peerGrpRequest.getBody() !=null) {
+				adminService.deletePeerGroup(peerGroupId,peerGrpRequest.getBody());
+				data.setStatus(true);
+				data.setResponseDetail("Success");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			} else {
+				log.debug(EELFLoggerDelegate.errorLogger, "deletePeerGroup: Invalid Parameters");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Remove Peer Group Failed");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deletePeerGroup()", e);
+		}
+		return data;
+	}
+
+
+
+	//2)	Update Peer Solution Group Mapping 
+	@ApiOperation(value = "Update Peer Solution Group.", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.UPDATE_PEER_SOLUTION_GROUP }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> updatePeerSolutionGroup(@PathVariable("peerGroupId") String peerGroupId,
+			@PathVariable("solutionGroupId") String solutionGroupId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updatePeerSolutionGroup={}", peerGroupId, solutionGroupId);
+		JsonResponse<Object> data = new JsonResponse<>();
+		try {
+			if (peerGroupId != null && solutionGroupId != null) {
+				adminService.updatePeerSolutionGroup( peerGroupId, solutionGroupId);
+				data.setStatus(true);
+				data.setResponseDetail("Success");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			} else {
+				log.debug(EELFLoggerDelegate.errorLogger, "updatePeerSolutionGroup: Invalid Parameters");
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Update Peer Solution Group Failed");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Failed");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updatePeerSolutionGroup()", e);
+		}
+		return data;
+	}
+	
+	//4)	Get All Peers Groups 
+	@ApiOperation(value = "Gets a list of PeerGroups ", response = PeerGroup.class ,responseContainer="List")
+    @RequestMapping(value = { APINames.PEER_GROUPS_LIST}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<List<PeerGroup>> getPeerGroups(@RequestBody RestPageRequestBE restPageReqBE ) {
+    	log.debug(EELFLoggerDelegate.debugLogger, "getPeerGroups");
+    	JsonResponse<List<PeerGroup>> data = new JsonResponse<>();
+    	try{
+    		List<PeerGroup> PeerGroupList = adminService.getPeerGroups(restPageReqBE);
+    		if (PeerGroupList != null) {
+    			data.setResponseBody(PeerGroupList);
+    			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+    			data.setResponseDetail("PeerGroups fetched  Successfully"); 
+    		}
+    	}
+    	catch (Exception e){
+    		data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+    		data.setResponseDetail("Exception Occurred in Fetching PeerGroups for Admin Configuration");
+    		log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred in Fetching MLPPeerGroups for Admin Configuration");
+    	}
+
+    	return data; 	
+    }
+
+/*
+	//3)	Get All Peer Solution Group
+	@ApiOperation(value = "Get the peers of the specified PeerGroup ", response = MLPeer.class ,responseContainer="List")
+    @RequestMapping(value = { APINames.GET_PEER_GROUP}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<List<MLPeer>> getPeersInGroup(@PathVariable("groupId") Long groupId, @RequestBody JsonRequest<RestPageRequestBE> restPageReqBE ) {
+    	log.debug(EELFLoggerDelegate.debugLogger, "getPeersInGroup");
+
+    	JsonResponse<List<MLPeer>> data = new JsonResponse<>();
+    	try{
+    		
+    		List<MLPeer> mlPeerList = adminService.getPeersInGroup(groupId,restPageReqBE.getBody());
+    		if (mlPeerList != null) {
+    			data.setResponseBody(mlPeerList);
+    			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+    			data.setResponseDetail("MLPPeers from specified Group fetched  Successfully"); 
+    		}
+    	}
+    	catch (Exception e){
+    		data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+    		data.setResponseDetail("Exception Occurred in Fetching getPeersInGroup for Admin Configuration");
+    		log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred in Fetching getPeersInGroup for Admin Configuration");
+    	}
+
+    	return data; 	
+    }
+     */
+	//1)	Create Peer Solution Group Mapping 
+    @ApiOperation(value = "Create Peer Group and Solution Group Mapping.", response = JsonResponse.class)
+    @RequestMapping(value = { APINames.CREATE_PEER_SOLUTION_GROUP }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<Object> mapPeerGroupSolutionGroup(@PathVariable("peerGroupId") Long peerGroupId , @PathVariable("solutionGroupId") Long solutionGroupId) {
+        log.debug(EELFLoggerDelegate.debugLogger, "mapPeerGroupSolutionGroup={}", peerGroupId , solutionGroupId);
+        JsonResponse<Object> data = new JsonResponse<>();
+        try {
+            if (peerGroupId != null && solutionGroupId != null) {
+                adminService.mapPeerSolutionGroups(peerGroupId, solutionGroupId);
+                data.setStatus(true);
+                data.setResponseDetail("Success");
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+            } else {
+                log.debug(EELFLoggerDelegate.errorLogger, "mapPeerGroupSolutionGroup: Invalid Parameters");
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                data.setResponseDetail("map PeerGroup and SolutionGroup Failed");
+            }
+        }catch(Exception e) {
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Failed");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while mapPeerGroupSolutionGroup()", e);
+        }
+        return data;
+    }
+    
+    //4)	Delete Peer Solution Group
+    @ApiOperation(value = "Remove Peer Group and Solution Group Mapping.", response = JsonResponse.class)
+    @RequestMapping(value = { APINames.DELETE_PEER_SOLUTION_GROUP }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<Object> unmapPeerGroupSolutionGroup(@PathVariable("peerGroupId") Long peerGroupId , @PathVariable("solutionGroupId") Long solutionGroupId) {
+        log.debug(EELFLoggerDelegate.debugLogger, "unmapPeerGroupSolutionGroup={}", peerGroupId , solutionGroupId);
+        JsonResponse<Object> data = new JsonResponse<>();
+        try {
+            if (peerGroupId != null && solutionGroupId != null) {
+                adminService.unmapPeerSolutionGroups(peerGroupId, solutionGroupId);
+                data.setStatus(true);
+                data.setResponseDetail("Success");
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+            } else {
+                log.debug(EELFLoggerDelegate.errorLogger, "unmapPeerGroupSolutionGroup: Invalid Parameters");
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                data.setResponseDetail("unmap PeerGroup and SolutionGroup Failed");
+            }
+        }catch(Exception e) {
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Failed");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while unmapPeerGroupSolutionGroup()", e);
+        }
+        return data;
+    }
+    
+    //3)	Get All Peer Solution Group
+	// getPeerSolutionGroupMaps
+	@ApiOperation(value = "Gets Peer Solution Group ", response = MLSolution.class)
+	@RequestMapping(value = { APINames.PEER_SOLUTION_GROUP }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE> getPeerSolutionGroupMaps(HttpServletRequest request,
+			@RequestBody JsonRequest<RestPageRequestBE> restPageReqBE, HttpServletResponse response) {
+
+		JsonResponse<RestPageResponseBE> responseVO = new JsonResponse<>();
+		try {
+
+			RestPageResponseBE<MLPeerSolAccMap> mlSolutionGroupDetail = adminService
+					.getPeerSolutionGroupMaps(restPageReqBE.getBody());
+
+			if (mlSolutionGroupDetail != null) {
+				responseVO.setContent(mlSolutionGroupDetail);
+				responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				responseVO.setResponseDetail("Peer Solution Group fetched Successfully");
+				responseVO.setStatus(true);
+				responseVO.setStatusCode(HttpServletResponse.SC_OK);
+			}
+		} catch (Exception e) {
+			responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			responseVO.setResponseDetail("Exception Occurred Fetching Peer Solution Group");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Peer Solution Group", e);
+		}
+
+		return responseVO;
+	}
 }

@@ -153,6 +153,18 @@ public class APINames {
     public static final String PEERS_PAGINATED = "/paginatedPeers";
     public static final String PEERS = "/peers";
     public static final String PEER_DETAILS = "/peers/{peerId}";
+    public static final String DASHBOARD = "/dashboard";
+    public static final String SIGNUP_ENABLED = "/signup/enabled";
+    public static final String SOLUTION_GROUP_LIST = "/solutionGroupList";
+    public static final String SOLUTIONS_GROUP_DETAILS = "/solutionGroupDetails/{groupId}";
+    public static final String CREATE_SOLUTION_GROUP = "/solutionGroup";
+    public static final String UPDATE_SOLUTION_GROUP = "/solutionGroup/update";
+    public static final String DELETE_SOLUTION_GROUP = "/solutionGroup/delete/{groupId}";
+    public static final String CREATE_PEER_GROUP = "/peerGroup";
+    public static final String UPDATE_PEER_GROUP = "/peerGroup/update/{peerGroupId}";
+    public static final String DELETE_PEER_GROUP = "/peerGroup/delete/{peerGroupId}";
+    public static final String PEER_SOLUTION_GROUP = "/peerSolutionGroup";
+    public static final String UPDATE_PEER_SOLUTION_GROUP = "/peerSolutionGroup/update/{peerGroupId}/{solutionGroupId}";
     
     //Peer subscription API for Admin
     public static final String PEERSUBSCRIPTION_PAGINATED = "/peer/subcriptions/{peerId}";
@@ -163,6 +175,11 @@ public class APINames {
     public static final String SUBSCRIPTION_DELETE = "/peer/subcription/delete/{subId}";
     public static final String CREATE_SUBSCREPTION = "/peer/sub/create/{peerId}";
     
+    //PeerGroup API for Admin
+    public static final String PEER_GROUPS_LIST ="/peerGroups";
+    public static final String GET_PEER_GROUP="/peerGroup/{groupId}";
+    public static final String CREATE_PEER_SOLUTION_GROUP="/peerGroup/peer/{peerGroupId}/sol/{solutionGroupId}/map";
+    public static final String DELETE_PEER_SOLUTION_GROUP="/peerGroup/peer/{peerGroupId}/sol/{solutionGroupId}/unmap"; 
     //Site Configuration API's for Admin
     
     public static final String GET_SITE_CONFIG = "/config/{configKey}";
@@ -239,4 +256,6 @@ public class APINames {
 	   public static final String PROPERTIES = "/properties";
 	   public static final String CLI_PUSH_URL = "/cliPushUrl";
 	   public static final String CLI_AUTH_URL = "/cliAuthUrl";
+	   public static final String GET_MODEL_DOWNLOADABLE = "/modeldownloadable/{userId}/{solutionId}";
+	   public static final String LOG_MODEL_DOWNLOAD= "/modeldownloadable/{userId}/{modelName}/{solutionId}/{version}"; 
 }
