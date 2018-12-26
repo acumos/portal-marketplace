@@ -108,6 +108,11 @@ angular.module('AcumosApp')
         var urlPreferredTag ="api/preferredTags"; 	
         var urlsetPreferredTag = "api/tags/createUserTag";
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
+        var urlGetAllpeerGroup = "api/admin/peerGroups";
+        var urlCreatePeerGroup = "api/admin/peerGroup";
+        var urlUpdatePeerGroup = "api/admin/peerGroup/update";
+        var urlDeletePeerGroup = "api/admin/peerGroup/delete";        							  
+        
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
@@ -543,5 +548,21 @@ angular.module('AcumosApp')
         
         this.isPublishOwnRequestsEnabled = function () {
             return $http.get(urlPublishOwnRequestsEnabled );
+        };
+        this.getAllPeersGroup = function(reqObj)
+        {
+        	return $http.post(urlGetAllpeerGroup, reqObj); 
+        };
+        this.setPeersGroup = function(reqObj)
+        {
+        	return $http.post(urlCreatePeerGroup, reqObj); 
+        };
+        this.updatePeersGroup = function(reqObj, groupId)
+        {        	
+        	 return $http.put(urlUpdatePeerGroup + '/' + groupId, reqObj);
+        };
+        this.deletePeersGroup = function(reqObj, peerGroupId)
+        {        	
+        	 return $http.post(urlDeletePeerGroup + '/' + peerGroupId, reqObj);
         };
     }]);
