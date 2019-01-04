@@ -1030,6 +1030,31 @@ angular
 						}
 						
 						
+						$scope.isSolutionDescAvailableBtn = false; 				//disable copy desc button untill no desc present.
+						$scope.changedDescVersion = function(accessType){
+							$scope.isSolutionDescAvailableBtn = false;
+							$scope.publicOrOrg = accessType;
+							
+							$scope.mybody.addClass('waiting'); 
+							return apiService
+							.getSolutionDescription($scope.publicOrOrg, $scope.solutionId, $scope.fromRevisionId.revisionId)
+									.then(
+											function(response) {
+												$scope.mybody.removeClass('waiting');
+												
+												if(response.data.response_body.description != null ){
+													$scope.isSolutionDescAvailableBtn = true; 
+													$scope.isSolutionDescError = false;
+												}else{
+													$scope.isSolutionDescAvailableBtn = false;
+													$scope.isSolutionDescError = true;
+												}
+											},function(error) {
+												$scope.mybody.removeClass('waiting');
+												$scope.isSolutionDescError = true;
+											});
+						}
+						
 						$scope.copyFromOtherRevision = function(publicOrOrg) {
 							return apiService
 							.getSolutionDescription(publicOrOrg, $scope.solutionId, $scope.fromRevisionId.revisionId)
@@ -2364,7 +2389,9 @@ angular
 													}).error(
 															function(data, status, headers,
 																	config) {
-																return "No Contents Available"
+																$scope.mybody.removeClass('waiting');
+																$scope.isSolutionDocsAvailable = false;
+																$scope.isSolutionDocsAvailableBtn = false;
 															});
 								}
 
