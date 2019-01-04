@@ -1040,12 +1040,16 @@ limitations under the License.
 																Marketplace for Other Revisions.</label>
 															<!--  <a>View more</a> -->
 															<select ng-model="fromRevisionId"
+																ng-change="changedDescVersion('OR')"
 																ng-options="v.version for v in versionList">
 																<option value="">-- Version --</option>
 															</select>
 															<md-button ng-click="copyFromOtherRevision('OR'); "
+																ng-disabled="!isSolutionDescAvailableBtn"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 															Copy </md-button>
+															<div class="error_msg" ng-show="isSolutionDescError == true">
+																No description available.</div>
 														</div>
 														</p>
 														<!-- <div class="checkbox" ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
@@ -2869,12 +2873,16 @@ limitations under the License.
 															Marketplace for Other Revisions.</label>
 														<!--  <a>View more</a> -->
 														<select ng-model="fromRevisionId"
+															ng-change="changedDescVersion('PB')"
 															ng-options="v.version for v in versionList">
 															<option value="">-- Version --</option>
 														</select>
 														<md-button ng-click="copyFromOtherRevision('PB'); "
+															ng-disabled="!isSolutionDescAvailableBtn"
 															class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 														Copy </md-button>
+														<div class="error_msg" ng-show="isSolutionDescError == true">
+															No description available.</div>
 													</div>
 													</p>
 													<!-- <div class="checkbox" ng-show="solutionPublicDesc.length<1 || solutionPublicDesc=='' 
