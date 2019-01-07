@@ -256,7 +256,7 @@ h6 {margin:0;padding:0}
 .sectiontitle9 {color: #671C9D;margin-bottom:0; border-bottom: none;}
 
 .sharetitle {font-weight: 600;font-size: 14px;line-height: 32px; padding: 5px 0 5px 8px; }
-.rate-title {padding-bottom:8px; position:relative; top:7px; word-break: break-all;}
+.rate-title {padding-bottom:8px; position:relative; top:7px; word-break: break-all; white-space:nowrap; }
 .txt-black1 {color: #000000;}
 .txt-black2 {color: #050009;}
 .txt-black3 {color: #2e2f2f;}
