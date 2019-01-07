@@ -120,7 +120,7 @@ angular.module('manageModule')
 						var deletedPrevTotal = 0;
 						
 						//added functionality for deleted model category filter starts
-						
+						$scope.delete1=true;
 						$scope.get = function(){
 							 if($scope.checked)
                             {
@@ -129,7 +129,7 @@ angular.module('manageModule')
                             }
                         else
                             {
-                       	 
+                        	$scope.delete1=false;
                        	     $scope.deleteNav('SeeAll');
                             }
 						}
