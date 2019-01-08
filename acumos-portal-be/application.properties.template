@@ -104,6 +104,8 @@ dcae.model.name.prefix=ONAP
 onboarding.tokenmode=jwtToken
 #Blacklist for model bundle directories, formatted "(one)|(two)|..."
 onboarding.directory.blacklist=(MAC)
+onboarding.errorlog.filename=OnboardingLog.txt
+microservice.errorlog.filename=MicroserviceGenerationLog.txt
 
 #ImageSize
 image.size=800KB
