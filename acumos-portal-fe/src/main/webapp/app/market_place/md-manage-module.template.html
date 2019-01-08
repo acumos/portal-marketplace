@@ -130,10 +130,27 @@ limitations under the License.
 						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&hideCompany&&!hideDelete">{{totalCompanySolCount}} Models Available</span>
 						<span class="text-colorgray1" ng-show="!hidePrivate&&hidePublic&&!hideCompany&&!hideDelete">{{totalPublicSolCount}} Models Available</span>
 						<span class="text-colorgray1" ng-show="!hidePrivate&&!hidePublic&&!hideCompany&&hideDelete">{{totalDeletedSolCount}} Models Available</span>
-						<md-chips ng-model="filterOptions" name="filterOptions"
-							readonly="true" md-removable="true" ng-click='removeFilter()'>
-						<md-chip-template> <strong>{{$chip}}</strong> </md-chip-template>
+						
+						<div ng-switch="checked">
+						<div ng-switch-when="true">
+						<md-chips  ng-if="delete1" name="checked" ng-model="filterOptions" name="filterOptions"
+							readonly="true" md-removable="true" ng-click='removeFilter()'   >
+						<md-chip-template > <strong>{{$chip}}</strong> </md-chip-template>
 						</md-chips>
+						</div>
+						<div ng-switch-when="false">
+                        <md-chips   name="checked" ng-model="filterOptions" name="filterOptions"
+							readonly="true" md-removable="true" ng-click='removeFilter()'   >
+						<md-chip-template > <strong>{{$chip}}</strong> </md-chip-template>
+						</md-chips>
+						</div>
+						<div ng-switch-default>
+						  <md-chips   name="checked" ng-model="filterOptions" name="filterOptions"
+							readonly="true" md-removable="true" ng-click='removeFilter()'   >
+						<md-chip-template > <strong>{{$chip}}</strong> </md-chip-template>
+						</md-chips>
+						</div>
+						</div>
 
 						<button
 							class="mdl-button mdl-js-button mdl-button--primary hide-lg hide-md hide-xl btn-sort btn-browseby"
