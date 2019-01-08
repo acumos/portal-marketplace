@@ -315,12 +315,22 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				List<MLPArtifact> artifactList = dataServiceRestClient.getSolutionRevisionArtifacts(resultStatus.getSolutionId(), resultStatus.getRevisionId());
 	
 				if(artifactList != null && !PortalUtils.isEmptyList(artifactList)) {
-					MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(".txt")).findFirst().orElse(null);
+					MLPArtifact logArtifact = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(env.getProperty("onboarding.errorlog.filename"))).findFirst().orElse(null);
+					
+					MLPArtifact microserviceLog = artifactList.stream().filter(artifact -> (artifact.getUri()).contains(env.getProperty("microservice.errorlog.filename"))).findFirst().orElse(null);
+					
 					if(logArtifact != null) {
 						//generate the download log href as String
 						erlog = "Click " + "<a href=\"/api/downloads/" + resultStatus.getSolutionId() + "?artifactId="
 								+ logArtifact.getArtifactId() + "&revisionId=" + resultStatus.getRevisionId() + "&userId="
-								+ userId + "&jwtToken={{auth}}\" >here</a> to download logs.";
+								+ userId + "&jwtToken={{auth}}\" >here</a> to download Onboarding logs.";
+					}
+					
+					if(microserviceLog != null) {
+						//generate the download log href as String
+						erlog = erlog+" Click " + "<a href=\"/api/downloads/" + resultStatus.getSolutionId() + "?artifactId="
+								+ microserviceLog.getArtifactId() + "&revisionId=" + resultStatus.getRevisionId() + "&userId="
+								+ userId + "&jwtToken={{auth}}\" >here</a> to download Microservice logs.";
 					}
 				}
 				
