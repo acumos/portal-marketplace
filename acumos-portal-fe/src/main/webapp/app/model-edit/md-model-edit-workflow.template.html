@@ -2102,12 +2102,13 @@ limitations under the License.
 																					class="tab-box"> <span
 																						class="tab-icons tab-documents"></span> <span>Documents</span>
 																				</span>
-																				</a> <a href="#tab4-panel" class="mdl-tabs__tab" alt="Version History" title="Version History"> <span
+																				</a> <a href="#tab4-panel" class="mdl-tabs__tab" alt="Model Artifacts" title="Model Artifacts"> <span
 																					class="tab-box"> <span
-																						class="tab-icons tab-versionhistory"></span> <span>Version
-																							History</span>
+																						class="tab-icons tab-versionhistory"></span> <span>Model Artifacts</span>
 																				</span>
-																				</a> <a href="#tab5-panel" class="mdl-tabs__tab"> </a>
+																				</a> <a href="#tab5-panel" class="mdl-tabs__tab" alt="Author/Publisher Details" title="Author/Publisher Details">
+																				 <span class="tab-box"> <span class="tab-icons tab-author_details"></span> <span>Author/Publisher Details</span>
+																				</a>
 																			</div>
 																			<div>
 																				<h6 class="sectiontitle4">
@@ -2143,9 +2144,15 @@ limitations under the License.
 																					<!-- <img class="modelimg1" src="images/imagegallery2.jpg" /> -->
 
 																					<!-- images changed for demo  -->
-																					<img
-																						ng-src="data:image/JPEG;base64,{{solution.picture}}" class="modelimg1"
-																						style="max-width: 400px; margin: 0 auto; display: block;">
+																					<figure ng-show="solution.picture">
+																				 		<img ng-src="data:image/JPEG;base64,{{solution.picture}}" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;">
+																					</figure>
+																					
+																					<img ng-if="!solution.picture"
+																						ng-src="images/default-model.png" class="modelimg1"
+																						style="max-width: 400px; margin: 0 auto; display: block;">	
+																						
+																						
 																				</div>
 
 																				<div ng-if="publicPreview"
@@ -2193,12 +2200,20 @@ limitations under the License.
 																								<span>{{supportingDoc.name}}</span></td>
 																							<td>{{versionId}}</td>
 																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-																							<td><a ng-if="!publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i> </a>
-																								<a ng-if="publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i></a>
+																							<td>
+																								<md-button title="Preview Only" ng-if="!publicPreview"
+																									alt="Download"
+																									class="mdl-button mdl-js-button btn-grid-action mdl-transparent-background" 
+																									disabled="disabled">
+																									<span class="fa fa-download" aria-hidden="true"></span>
+																								</md-button>
+																							
+																								<md-button title="Preview Only" ng-if="publicPreview" 
+																									alt="Download"
+																									class="mdl-button mdl-js-button btn-grid-action mdl-transparent-background" 
+																									disabled="disabled">
+																									<span class="fa fa-download" aria-hidden="true"></span>
+																								</md-button>
 																							</td>
 																						</tr>
 
@@ -2218,20 +2233,28 @@ limitations under the License.
 																							</td>
 																							<td>{{versionId}}</td>
 																							<td>{{solution.modified | date:'MM/dd/yyyy' }}</td>
-																							<td><a ng-if="!publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i> </a>
-																								<a ng-if="publicPreview" 
-																									href="/api/solution/revision/document/{{supportingDoc.documentId}}" alt="Download" title="Download">
-																									<i class="fa fa-download" aria-hidden="true"></i></a>
+																							<td> 	
+																								<md-button title="Preview Only" ng-if="!publicPreview"
+																									alt="Download"
+																									class="mdl-button mdl-js-button btn-grid-action mdl-transparent-background" 
+																									disabled="disabled">
+																									<i class="fa fa-download" aria-hidden="true"></i>
+																								</md-button>
+																							
+																								<md-button title="Preview Only" ng-if="publicPreview" 
+																									alt="Download"
+																									class="mdl-button mdl-js-button btn-grid-action mdl-transparent-background" 
+																									disabled="disabled">
+																									<i class="fa fa-download" aria-hidden="true"></i>
+																								</md-button>
+																								
 																							</td>
 																						</tr>
 																					</tbody>
 																				</table>
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab4-panel">
-																				<h6 class="sectiontitle6">VERSION HISTORY OF
-																					SOLUTION</h6>
+																				<h6 class="sectiontitle6">Model Artifacts</h6>
 																				<table
 																					class="mdl-data-table mdl-js-data-table md-tbl1">
 																					<colgroup>
@@ -2242,9 +2265,10 @@ limitations under the License.
 																					</colgroup>
 																					<thead>
 																						<tr>
-																							<th>Version Name</th>
+																							<th>Artifact Name</th>
 																							<th>Version</th>
 																							<th>Modified on</th>
+																							<th>Size</th>
 																							<th>Action</th>
 																						</tr>
 																					</thead>
@@ -2258,10 +2282,11 @@ limitations under the License.
 																							</td>
 																							<td>{{value.version}}</td>
 																							<td>{{value.created | date:'MM/dd/yyyy'}}</td>
+																							<td>{{value.size | formatBytes:1}}</td>
 																							<td>
-																								<md-button 
-																									class="mdl-button mdl-js-button btn-grid-action" 
-																									href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}" target="_blank">
+																								<md-button title="Preview Only"
+																									class="mdl-button mdl-js-button btn-grid-action mdl-transparent-background" 
+																									disabled="disabled">
 																									<i class="fa fa-download" aria-hidden="true"></i>
 																								</md-button>
 
@@ -2270,8 +2295,31 @@ limitations under the License.
 																					</tbody>
 																				</table>
 																			</div>
-																			<div class="mdl-tabs__panel" id="tab5-panel">Content
-																				5</div>
+																			<div class="mdl-tabs__panel" id="tab5-panel"><h6 class="sectiontitle6">Author/Publisher Details</h6>
+																				<table class="mdl-data-table mdl-js-data-table md-tbl1">
+																					<colgroup>
+																						<col />
+																						<col />								
+																					</colgroup>
+																					<thead>
+																						<tr>
+																							<th>Name</th>
+																							<th>Contact Information</th>									
+																						</tr>
+																					</thead>
+																					<tbody>								
+																						<tr ng-repeat="author in authorList">
+																							<td><span>{{author.name}}</span></td>
+																							<td><span>{{author.contact}}</span></td>									
+																						</tr>
+																						<tr ng-repeat="publisher in AuthorsTag track by $index">
+																							<td><span>{{publisher.name}}</span></td>
+																							<td><span>{{publisher.contact}}</span></td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																			
 																			<!-- <div class="md-lower-container1">
                                                                                                                                     <div
                                                                                                                                           class="mdl-grid mdl-grid--no-spacing bdr-bottom">
@@ -3073,7 +3121,7 @@ limitations under the License.
 															ng-if="public.step4">Completed on {{currentDate |
 															date:'MM/dd/yyyy'}}</span>
 													</h2>
-													<div class="popovers add-document" ng-if="showFileUpload">
+													<div class="popovers add-document" ng-show="showFileUpload">
 														<md-toolbar class="_md _md-toolbar-transitions">
 														<div class="md-toolbar-tools">
 															<h2>Add Documents</h2>

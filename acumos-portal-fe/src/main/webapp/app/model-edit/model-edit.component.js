@@ -412,8 +412,11 @@ angular
 														var length = $scope.solution.revisions.length;
 														//**adding list of versions
 														
+														$scope.publisherList = [];
 														while(counter < length){
 															($scope.versionList).push(response.data.response_body.revisions[counter]);
+															if(response.data.response_body.revisions[counter].publisher !== null)
+																($scope.publisherList).push(response.data.response_body.revisions[counter].publisher);
 															counter++;
 														}
 														($scope.versionList).sort(function(a, b) {
