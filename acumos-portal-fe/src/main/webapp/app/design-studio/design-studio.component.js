@@ -3008,9 +3008,17 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                         }
                     });
                 }
+                
+                var uniqueComplex = [];
+                angular.forEach(complexMapArray, function(cmplx,arr){
+                	if(uniqueComplex.map(function(e) { return e.messageName; }).indexOf(cmplx.messageName) === -1){
+                		uniqueComplex.push(cmplx);
+                	}
+                });
+
                 $scope.complexProtoJson = [];
                 $scope.complexProtoJson = $scope.complexProtoMap;
-                $scope.complexMapArrayUI=complexMapArray;
+                $scope.complexMapArrayUI=uniqueComplex;
                 $scope.messageUI=messageJson;
                 $scope.showDataBroker = null;
                 $scope.showDataMapper = null;
