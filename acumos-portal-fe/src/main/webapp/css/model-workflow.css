@@ -1629,6 +1629,11 @@ md-menu-content {webkit-box-shadow: 2px 0px 5px 3px rgba(0,0,0,0.1);
 .profileimageholder img{width:100%;}
 .uploaded-file .md-chip-input-container input.md-input{display:none;}
 
+.team-user-box{border: 1px solid #e0e0e0; display: inline-block; float: left; min-width: 60px; margin-right:9px; border-radius:3px; width:80px;}
+.team-user .team-user-box i{width: 100%; text-align: center; margin:3px 0 0;}
+.team-user .team-user-box i img{width: 30px;}
+.team-user-box div{padding: 0 5px;  overflow: hidden; text-align:center; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; color:666; font-weight:600}
+
 /*---- media query start ----------*/
 @media(max-width:2560px){
 /*.initialVal.hasClass .company-market ul li{width:80px;}
