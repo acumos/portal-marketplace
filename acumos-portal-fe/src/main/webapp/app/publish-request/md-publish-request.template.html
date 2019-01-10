@@ -233,9 +233,21 @@ limitations under the License.
 									the publish request for {{requestedModelName}}
 								</span>
 
-								<p class="peerpara1">Please add note (optional).</p>
+								<p class="peerpara1">Please add note (Required).</p>
 								<br />
-								<textarea ng-model="descriptionPop" rows="4"></textarea> </md-input-container>
+								<textarea ng-model="descriptionPop" rows="4" valid-name name="descriptionPop" pattern="[A-Za-z]{1,}"  required ng-blur="descriptionPopVisited=true"  ng-focus="descriptionPopVisited=false"></textarea> 
+								<div class="help-inline validation-msgs" ng-class="{validationmsg:!publishRequestForm.descriptionPop.$valid}">
+								<span ng-show="!!publishRequestForm.descriptionPop.$error.required && publishRequestForm.descriptionPop.$touched && descriptionPopVisited">
+								Please enter comments
+								</span>
+								<span
+							       ng-show="!!publishRequestForm.descriptionPop.$error.pattern && descriptionPopVisited">Comments must contain character only</span>
+								
+								
+								</div>
+								
+								
+								 </md-input-container>
 							</div>
 						</div>
 					</div>
@@ -246,11 +258,11 @@ limitations under the License.
 							<button ng-click='closePoup()'
 								class="mdl-button mdl-js-button btn-secondary">Cancel</button>
 						</div>
-						<div>
+							<div>
 							<button ng-click="publishReqeuest($index, requestApprovalModal)"
-								class="mdl-button mdl-js-button btn-primary">
-								<span ng-show="requestApprovalModal == 'approve' ">Approve</span>
-								<span ng-show="requestApprovalModal == 'decline' ">Decline</span>
+								class="mdl-button mdl-js-button btn-primary" disabled="disabled" ng-disabled="publishRequestForm.$invalid">
+								<span ng-show="requestApprovalModal == 'approve' "   >Approve</span>
+								<span ng-show="requestApprovalModal == 'decline' "  >Decline</span>
 							</button>
 
 						</div>
