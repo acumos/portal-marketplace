@@ -180,7 +180,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					post.addHeader("tracking_id", uuid);
 				}
 
-				post.setHeader("Request-ID", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+				post.setHeader("X-ACUMOS-Request-Id", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 				log.info("CallOnboarding wit request Id : "+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 
 				MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -560,7 +560,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			post.setHeader("deployment_env", "2");
 		}
 		
-		post.setHeader("Request-ID", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+		post.setHeader("X-ACUMOS-Request-Id", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 		log.info("Call on-boarding to convertSolutioToONAP wit request Id : "+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 
 		try {

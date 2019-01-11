@@ -62,7 +62,7 @@ public class LogConstantTest {
 
     @Test
     public void testHeaders() {
-        assertThat(ONAPLogConstants.Headers.REQUEST_ID, is("Request-ID"));
+        assertThat(ONAPLogConstants.Headers.REQUEST_ID, is("X-ACUMOS-Request-Id"));
         assertThat(ONAPLogConstants.Headers.INVOCATION_ID, is("Invocation-ID"));
         assertThat(ONAPLogConstants.Headers.PARTNER_NAME, is("PartnerName"));
     }
