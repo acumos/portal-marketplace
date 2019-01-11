@@ -858,7 +858,7 @@ limitations under the License.
 				</div>
 				<div layout="row" class="pull-right">
 						<md-button class="mdl-button mdl-js-button btn-primary"
-								ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();">Deploy
+								ng-disabled="deploy.$invalid" ng-click="showazurePopup()">Deploy
 						</md-button>
 				</div>
 				</form>
@@ -1239,4 +1239,32 @@ limitations under the License.
 				</md-dialog>
 			</div>
 			<!-- Modal box end -->
+		
+		
+		<!--  deploy to Microsoft Azure dialog starts -->
+		<div class="md-dialog-container" id="deploy" style="height: 0;">
+		<md-dialog aria-label="deploy" class="cg-dialog-admin1">
+			<md-toolbar>
+		      <div class="md-toolbar-tools">
+				<h2>Deploy to Microsoft Azure</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click='closePoup()'>
+				<i class="material-icons">close</i> </md-button>
+				</div>
+			</md-toolbar>
+		 	<md-dialog-content>		
+			 	<div class="md-dialog-content">
+					<p class="wrap_text">Deploying this model outside the Acumos system may expose its information to third parties. Please click OK to confirm this deployment is being done in compliance with all local policies.
+					</p>
+			 	</div>		 
+		  	</md-dialog-content>		
+		
+			<md-dialog-actions>		  
+		   		<div class="dialog-footer-container1">	   
+					<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+					<button ng-click="authenticateAnddeployToAzure();closePoup();" class="mdl-button mdl-js-button btn-primary">OK</button>	        
+			</md-dialog-actions>
+		  </md-dialog>
+		  </div>
+		    <!--deploy to Microsoft Azure dialog end -->
 	
