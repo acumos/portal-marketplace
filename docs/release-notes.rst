@@ -20,6 +20,23 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.0.5,  11th January 2019
+=================================
+* Portal show name below icon for models shared with other users (ACUMOS-2116)
+* Incorrect Protobuf.json and TGIF.json generated for nested messages (ACUMOS-2272)
+* IST: Preview Model Tab is displaying wrong (ACUMOS-2249)
+* As a User , I should be able to remove API token entirely (ACUMOS-1577)
+* Portal publish approve/decline dialog must REQUIRE a comment, not optional (ACUMOS-2364)
+* IST: Complete Model Name is not displaying in single line on model description screen  (ACUMOS-2135)
+* <IST><Portal Marketplace> Marketplace/My Models: Unwanted text displayed on Model details page (ACUMOS-2321)
+* IST: JPG File icon is not displaying on the document section on model description screen (ACUMOS-2306)
+* IST2: When onboarding of a model fail user is not getting both logs by the link provided on the notification bell icon  (ACUMOS-1903)
+* Portal publish to public Copy Docs button should not be enabled if none avail	 (ACUMOS-1758)
+* IST: Checkbox is not getting unchecked when user cancel the filter  (ACUMOS-2318)
+* Portal federation peer subscription field shows full/partial for peer, not sub  (ACUMOS-1900)
+* Portal show long publish approve/decline comments in dialog (ACUMOS-2273)
+
+
 Version 2.0.4,  20th December 2018
 ==================================
 * Remove the not yet published bar for publish to company option (ACUMOS-2146)
