@@ -34,7 +34,7 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
 	      var requestId = uuid();
 	      config.headers["Request-ID"] = requestId;
 	      // In case if other component needs with different name. this should be made consisent
-	      config.headers["X-Request-ID"] = requestId;
+	      config.headers["X-ACUMOS-Request-Id"] = requestId;
 
       return config;
     },

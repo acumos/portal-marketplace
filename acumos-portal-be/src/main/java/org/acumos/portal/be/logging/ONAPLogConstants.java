@@ -98,7 +98,7 @@ public final class ONAPLogConstants {
 	 */
 	public static final class Headers {
 
-		public static final String REQUEST_ID = "Request-ID";
+		public static final String REQUEST_ID = "X-ACUMOS-Request-Id";
 
 		public static final String INVOCATION_ID = "Invocation-ID";
 
