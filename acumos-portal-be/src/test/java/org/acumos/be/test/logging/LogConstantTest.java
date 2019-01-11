@@ -83,7 +83,7 @@ public class LogConstantTest {
         assertThat(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP.toString(), is("EntryTimestamp"));
         assertThat(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP.toString(), is("InvokeTimestamp"));
 
-        assertThat(ONAPLogConstants.MDCs.REQUEST_ID.toString(), is("RequestID"));
+        assertThat(ONAPLogConstants.MDCs.REQUEST_ID.toString(), is("X-ACUMOS-Request-Id"));
         assertThat(ONAPLogConstants.MDCs.INVOCATION_ID.toString(), is("InvocationID"));
         assertThat(ONAPLogConstants.MDCs.PARTNER_NAME.toString(), is("PartnerName"));
         assertThat(ONAPLogConstants.MDCs.INSTANCE_UUID.toString(), is("InstanceUUID"));

@@ -41,7 +41,7 @@ public final class ONAPLogConstants {
 		public static final String INVOCATION_ID = "InvocationID";
 
 		/** MDC correlating messages for a logical transaction. */
-		public static final String REQUEST_ID = "RequestID";
+		public static final String REQUEST_ID = "X-ACUMOS-Request-Id";
 
 		/** MDC recording calling service. */
 		public static final String PARTNER_NAME = "PartnerName";
