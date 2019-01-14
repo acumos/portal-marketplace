@@ -235,7 +235,7 @@ limitations under the License.
 
 								<p class="peerpara1">Please add note (Required).</p>
 								<br />
-								<textarea ng-model="descriptionPop" rows="4" valid-name name="descriptionPop" pattern="[A-Za-z]{1,}"  required ng-blur="descriptionPopVisited=true"  ng-focus="descriptionPopVisited=false"></textarea> 
+								<textarea ng-model="descriptionPop" rows="4" valid-name name="descriptionPop" pattern="[A-Za-z\s]{1,}"  required ng-blur="descriptionPopVisited=true"  ng-focus="descriptionPopVisited=false"></textarea> 
 								<div class="help-inline validation-msgs" ng-class="{validationmsg:!publishRequestForm.descriptionPop.$valid}">
 								<span ng-show="!!publishRequestForm.descriptionPop.$error.required && publishRequestForm.descriptionPop.$touched && descriptionPopVisited">
 								Please enter comments
