@@ -256,7 +256,12 @@ h6 {margin:0;padding:0}
 .sectiontitle9 {color: #671C9D;margin-bottom:0; border-bottom: none;}
 
 .sharetitle {font-weight: 600;font-size: 14px;line-height: 32px; padding: 5px 0 5px 8px; }
-.rate-title {padding-bottom:8px; position:relative; top:7px; word-break: break-all; white-space:nowrap; }
+.rate-title {padding-bottom:8px; position:relative; word-break: break-all; white-space:nowrap;overflow: hidden;
+text-overflow: ellipsis;max-width: 99%; }
+.md-rate-grid {display:flex; flex-direction: row;justify-content: space-between;flex-wrap: nowrap;border-bottom: 1px solid #b1b1b1;width: 100%;}
+.md-rate-grid > .rate-grid-cell1 {width: calc(100%);min-width: 150px;}
+.md-rate-grid > .rate-grid-cell2 {width: auto;min-width: 290px;}
+
 .txt-black1 {color: #000000;}
 .txt-black2 {color: #050009;}
 .txt-black3 {color: #2e2f2f;}
