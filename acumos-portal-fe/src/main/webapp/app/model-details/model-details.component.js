@@ -1125,8 +1125,10 @@ angular
 							if($scope.solution.tookitType != "CP") {
                                 var reqObject = '';
                                 if($scope.exportTo == 'azure'){
+                                	
                                       var url = '/azure/singleImageAzureDeployment';
                                       reqObject = {
+                                    	
                                                         'acrName': $scope.acrName,
                                                         'client': $scope.applicationId,
                                                         'key': $scope.secretKey,
@@ -1138,6 +1140,8 @@ angular
                                                         'tenant': $scope.tenantId,
                                                         'imagetag': imageTagUri,
                                                         'userId':  $scope.loginUserID
+                                                        
+                                                        
                                       }
                                 }
                                 else if($scope.exportTo == 'rackspace'){
@@ -1634,9 +1638,17 @@ angular
 								
 									
 							}
-							
+							 $scope.showazurePopup = function(ev){
+								  $mdDialog.show({
+									  contentElement: '#deploy',
+									  parent: angular.element(document.body),
+									  targetEvent: ev,
+									  clickOutsideToClose: true
+								  });
+							 }	
 							
 					}
+
 
 				});
 angular.module('angular-star-rating', []).directive('angularStarRating',
@@ -1709,7 +1721,4 @@ function linkFunc(scope, element, attrs, ctrl) {
 			renderValue();
 		}
 	});
-	
-	
-
 }
