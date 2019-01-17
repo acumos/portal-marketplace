@@ -1824,7 +1824,7 @@ limitations under the License.
 			<md-dialog-content>
 			<div class="md-dialog-content">
 				<div layout="row" class="admin-grid1">
-					<div flex="40">
+					<div flex="50">
 						<md-input-container class="md-block" flex-gt-sm>
 						<label>Peer Name</label> <input type="text" name='peerName'
 							required ng-model='peerNamePop' /> </md-input-container>
@@ -1835,17 +1835,16 @@ limitations under the License.
 												<input type="text"  required ng-model='subNamePop'/> 
 											</md-input-container>
 										  </div> -->
-					<div flex="40">
+					<div flex="50">
 						<md-input-container class="md-block" flex-gt-sm>
 						<label>Peer Admin Email</label> <input type="text" required
 							ng-model='emailIdPop'
 							ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" /> </md-input-container>
 					</div>
-					<div flex="20"></div>
+					
 				</div>
-				<h6 class="sectiontitle">Gateway Information</h6>
-				<div layout="row" class="admin-grid1">
-					<div flex="40">
+				<h6 class="sectiontitle">Gateway Information</h6>				
+					<div>
 						<md-input-container class="md-block" flex-gt-sm>
 						<!-- <label>Subject Name</label> -->
 						<div class="admin-lbl-container-1">
@@ -1861,10 +1860,11 @@ limitations under the License.
     					</div>
 						</md-input-container>
 					</div>
-					<div flex="40" layout="column" class="">
+					<div layout="row" class="admin-grid1">
+					<div flex="90" layout="column" class="">
 						<div class="fed-container3">
 							<md-input-container class="md-block" flex-gt-sm>
-							<label>API Url</label> <input type="text" required
+							<label>API URL</label> <input type="text" required
 								ng-model='apiUrlPop' ng-change="checkUrlChange()"/> </md-input-container>
 						</div>
 						<div class="fed-err-msg" ng-if="!verified&&!verify">
@@ -1873,12 +1873,10 @@ limitations under the License.
 								ng-bind="errorMessage"></span>
 						</div>
 						<div class="fed-err-msg" ng-if="verified&&!verify">
-							<span class="disblock text-green text-xsmall">Connection
-								is settled successfully with your peer.</span>
+							<span class="disblock text-green text-xsmall">Connection successful.</span>
 						</div>
 					</div>
-					<div flex="20" class="fed-container2">
-						<label class="disblock">&nbsp;</label> 
+					<div flex="10" class="fed-container2">						 
 							<a class="mdl-button mdl-js-button btn-secondary btn-fed1" 
 							ng-click="verifyUrl(apiUrlPop)">Verify</a> 
 							<!-- <a flex
@@ -1894,11 +1892,11 @@ limitations under the License.
 					<div flex="100">
 						<md-input-container class="md-block"> <label>Description</label>
 						<!-- <textarea ng-model="addPeer.biography" rows="4" md-select-on-focus></textarea> -->
-						<textarea ng-model="descriptionPop" rows="4"></textarea> </md-input-container>
+						<textarea ng-model="descriptionPop" rows="2"></textarea> </md-input-container>
 					</div>
 
 				</div>
-				<div class="adminchkbox-container1">
+				<!-- <div class="adminchkbox-container1">
 					<md-checkbox class="adminchkbox" ng-model="data.cb1"
 						aria-label="Checkbox 1" ng-true-value="'yup'"
 						ng-false-value="'nope'">
@@ -1908,7 +1906,7 @@ limitations under the License.
 						for my Acumos so validation process is not required for all
 						incoming models from this peer.</p>
 					</md-checkbox>
-				</div>
+				</div> -->
 			</div>
 			</md-dialog-content>
 			<md-dialog-actions>
