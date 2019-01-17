@@ -246,7 +246,7 @@ h6 {margin:0;padding:0}
 
 .sectiontitle,.sectiontitle2, .sectiontitle3, .sectiontitle4, .sectiontitle5,.sectiontitle6,
 .sectiontitle7,.sectiontitle8,.sectiontitle9  
-{font-size: 16px;font-weight: 600;line-height: 30px;border-bottom: 1px solid #E5E5E5;margin-bottom: 8px;padding: 5px 8px;}
+{font-size: 16px;font-weight: 600;line-height: 30px;border-bottom: 1px solid #E5E5E5;margin-bottom: 8px;padding: 5px 8px 5px 0;}
 
 .sectiontitle4 {font-size: 14px;margin-bottom:0; padding: 0 15px 0 20px; color:#671C9D;letter-spacing:0.01em;}
 .sectiontitle5 {margin-bottom: 0;padding: 5px 0; color: #671C9D; }
@@ -1316,8 +1316,8 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .admin-lbl-item1 {order:1; width: auto !important;}
 .admin-lbl-item2 {order:2; position:relative; top: -2px;}
 
-.btn-fed1 { height: 35px; color: #0366d6;position:relative; top: 2px; line-height:35px !important; }
-.btn-fed1:hover {background: none;color: #0366d6;}
+.btn-fed1 { height: 35px; position:relative; top: 4px; line-height:35px !important;font-weight:400;}
+.btn-fed1:hover {background: none;}
 .red-btn, .red-btn:hover {color: #ff0000;}
 .green-btn, .green-btn:hover {color: #009900;}
 
@@ -1338,8 +1338,7 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 .fedration-subscription {max-height: 80%;width: 750px;}
 .fedration-subscription .md-dialog-content {min-height: 190px;}
 
-.admin-grid1 div {margin-right: 20px;}
-.admin-grid1 div:last-child {margin-right: 0;}
+.admin-grid1 > div:first-child {margin-right: 10px;}
 .subscontainerinner2 .admin-search-container {margin-right:0; padding-right: 0;}
 .subscontainerinner2 .admin-search-control {height:30px;width: 100%;}
 .fedlbl2 {margin-right: 10px;display: inline-block;}
