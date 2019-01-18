@@ -72,6 +72,8 @@ public interface MarketPlaceCatalogService {
 	MLSolution deleteSolution(MLSolution mlSolution) throws AcumosServiceException;
 	
 	MLSolution updateSolution(MLSolution mlSolution, String solutionId) throws AcumosServiceException;
+	
+	MLSolution deleteSolutionArtifacts(MLSolution mlSolution, String solutionId, String revisionId) throws AcumosServiceException;
 
 	//List<MLSolution> searchSolution(String searchTerm);
 

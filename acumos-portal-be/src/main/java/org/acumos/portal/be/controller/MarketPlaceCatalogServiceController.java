@@ -242,6 +242,48 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
+	
+	@ApiOperation(value = "Delete Artifacts of a given Solution for a provided SolutionId and RevisionId.", response = MLSolution.class)
+	@RequestMapping(value = { APINames.ARTIFACT_DELETE }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLSolution> deleteSolutionArtifacts(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, 
+			@RequestBody JsonRequest<MLSolution> mlSolution) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionArtifacts={}", solutionId, revisionId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		
+		MLSolution solutionDetail = null;
+		JsonResponse<MLSolution> data = new JsonResponse<>();
+		try {
+			if (mlSolution.getBody() != null) {
+				
+				//Check for the unique name in the market place before publishing.
+				if (!catalogService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+					data.setResponseDetail("Model name is not unique. Please update model name before publishing");
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return data;
+				}
+				
+				catalogService.deleteSolutionArtifacts(mlSolution.getBody(), solutionId, revisionId);
+				data.setResponseBody(solutionDetail);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Solutions updated Successfully");
+				response.setStatus(HttpServletResponse.SC_OK);
+			} else
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+		} catch (AcumosServiceException e) {
+			data.setErrorCode(e.getErrorCode());
+			data.setResponseDetail(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionDetails()", e);
+		}
+		return data;
+	}
+	
+	
+	
 	/**
 	 * @param request
 	 *            HttpServletRequest

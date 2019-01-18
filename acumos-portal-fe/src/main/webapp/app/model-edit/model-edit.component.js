@@ -2992,6 +2992,75 @@ angular
 									});
 					}
 				    
+					//Delete Model
+					$scope.openDeleteConfirmPopup = function(){														
+						$mdDialog.show({
+			        		  contentElement: '#confirmPopupDeleteModel',
+			        		  parent: angular.element(document.body),
+			        		  clickOutsideToClose: true
+			        	  });
+					}
+					
+					$scope.deleteSolutions = function() {														
+							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
+							$scope.solution.PrevSolname = $scope.solution.name;
+							$scope.solution.name = $scope.solutionName;							
+							$scope.solution.solutionId = $scope.popupSolutionId;
+							if ($scope.activeFalse == false) {
+								$scope.solution.active = $scope.activeFalse;
+							}
+							var revisionId = null;
+							if($scope.version.accessTypeCode == 'PR')
+								revisionId = $scope.revisionId;
+							var solution = {
+								"request_body" : {
+									"active" : $scope.solution.active,
+									"created" : $scope.solution.created,
+									"modelType" : $scope.categoryname,
+									"name" : $scope.solution.name,
+									"ownerId" : $scope.solution.ownerId,
+									"solutionId" : $scope.solution.solutionId,
+									"tookitType" : $scope.toolkitname,
+									"revisionId" : revisionId
+								}
+							}							
+						 apiService
+								.deleteSolution(solution)
+								.then(
+										function(response) {
+											$scope.status = response.status;
+											$scope.detail = response.data.response_detail;
+											$scope.closePoup();										
+											$location.hash('manage-models');
+											$anchorScroll();
+
+											$scope.msg = "Updated: "
+													+ $scope.detail;
+											$scope.icon = '';
+											$scope.styleclass = 'c-success';
+											$scope.showAlertMessage = true;
+											$timeout(
+													function() {
+														$scope.showAlertMessage = false;
+														if($scope.solution.active == false){
+															$state.go('manageModule');
+														}
+													}, 3500);
+											$scope.tagUpdated = true;
+											$scope.loadData();																																
+										},
+										function(response) {
+											$scope.closePoup();
+											$scope.msg = response.data.response_detail;
+											$scope.icon = 'report_problem';
+											$scope.styleclass = 'c-warning';
+											$scope.showAlertMessage = true;
+											$timeout(
+													function() {
+														$scope.showAlertMessage = false;
+													}, 3500);
+										}); 
+							}									    
 					}
 
 				});
