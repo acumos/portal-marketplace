@@ -4064,7 +4064,7 @@ limitations under the License.
 						ng-class="{'isActive':tab=='delete'}">
 						
 						<p ng-show="isModelActive">Are you sure that you want to delete this model and all of its revisions, public or private?</p>
-						<button ng-click="activeFalse = false; updateSolution(); "
+						<button ng-click="activeFalse = false; openDeleteConfirmPopup(); "
 							ng-show="isModelActive"
 							class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Delete" title="Delete">
 							Delete Model</button>
@@ -4170,3 +4170,33 @@ limitations under the License.
 		</form>
 		</md-dialog>
 	</div>
+	
+<!-- Delete Confirmation starts -->
+	<div class="md-dialog-container" id="confirmPopupDeleteModel"
+		style="height: 0;">
+		<md-dialog aria-label="Delete Model"
+			> <md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Delete Model: {{solution.name}}</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="closePoup()">
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar> <md-dialog-content>
+		<form ng-cloak>
+			<div class="md-dialog-content">
+				<p>Are you sure that you want to delete this model and all of its revisions, public or private?</p>											
+			</div>
+		</form>
+		</md-dialog-content> <md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<md-button ng-click="closePoup()"
+				class="mdl-button mdl-js-button btn-secondary">
+			Cancel </md-button>
+			<md-button ng-click="deleteSolutions()"
+				class="mdl-button mdl-js-button btn-primary">
+			Confirm </md-button>
+		</div>
+		</md-dialog-actions> </md-dialog>
+	</div>
+<!-- Delete Confirmation ends -->

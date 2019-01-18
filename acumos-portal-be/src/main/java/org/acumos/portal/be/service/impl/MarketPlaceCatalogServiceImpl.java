@@ -112,7 +112,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	
 	@Autowired
 	private NotificationService notificationService;
-
+ 
+	/*@Autowired
+	private NexusArtifactClient nexusArtifactClient;*/
+	
 	/*
 	 * No
 	 */
@@ -369,7 +372,73 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				solution.setTags(tags);
 			} catch (HttpStatusCodeException e) {
 				log.error(EELFLoggerDelegate.errorLogger, "Could not fetch tag list for update solution: " + e.getMessage());
+			} finally {				
+				dataServiceRestClient.updateSolution(solution);
+			}
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return mlSolution;
+	}
+	
+	
+	
+	@Override
+	public MLSolution deleteSolutionArtifacts(MLSolution mlSolution, String solutionId, String revisionId) 
+			throws AcumosServiceException {
+		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionArtifacts");
+		try {
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+			// fetch the solution to populate the solution picture so that it does not get wiped off
+			//Check if Image is present in the object. if not then fetch the solution image and then populate it
+			if (mlSolution.getPicture() == null) {
+				MLPSolution oldSolObj = dataServiceRestClient.getSolution(solutionId);
+				if(oldSolObj.getPicture() !=null) {
+					mlSolution.setPicture(oldSolObj.getPicture());
+				}
+			}
+			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
+			try {
+				List<MLPTag> taglist = dataServiceRestClient.getSolutionTags(solutionId);
+				HashSet<MLPTag> tags = new HashSet<MLPTag>(taglist.size());
+				for (MLPTag tag : taglist)
+					tags.add(tag);
+				solution.setTags(tags);
+			} catch (HttpStatusCodeException e) {
+				log.error(EELFLoggerDelegate.errorLogger, "Could not fetch tag list for delete solution artifacts: " + e.getMessage());
 			} finally {
+				//start
+				 
+				if(revisionId != null){
+					List<MLPArtifact> mlpArtifactsList = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId, revisionId);
+								
+					MLPArtifact mlpArtifactClone = new MLPArtifact();
+					for (MLPArtifact mlp : mlpArtifactsList) {
+	                    String mlpArtifactTypeCode = mlp.getArtifactTypeCode();
+	                     
+						String artifactId = mlp.getArtifactId();
+						// Delete SolutionRevisionArtifact
+						dataServiceRestClient.dropSolutionRevisionArtifact(solutionId, revisionId, artifactId);
+						log.debug(EELFLoggerDelegate.debugLogger, " Successfully Deleted the SolutionRevisionArtifact ");
+						// Delete Artifact from CDS						
+						dataServiceRestClient.deleteArtifact(artifactId);
+						log.debug(EELFLoggerDelegate.debugLogger, " Successfully Deleted the CDump Artifact ");
+						// Delete the file from the Nexus
+						/*try {
+							nexusArtifactClient.deleteArtifact(mlp.getUri());
+						} catch (URISyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}	*/					 
+	                }
+				}
+ 
+				// end
+					
+				  
 				dataServiceRestClient.updateSolution(solution);
 			}
 		} catch (IllegalArgumentException e) {

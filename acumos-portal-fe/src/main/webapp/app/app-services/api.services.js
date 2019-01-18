@@ -544,4 +544,8 @@ angular.module('AcumosApp')
         this.isPublishOwnRequestsEnabled = function () {
             return $http.get(urlPublishOwnRequestsEnabled );
         };
+        
+        this.deleteSolution = function(solution){
+            return $http.put(urlSolutions + '/' + solution.request_body.solutionId + '/' + solution.request_body.revisionId, solution);
+        };
     }]);

@@ -71,6 +71,8 @@ public class APINames {
     
     public static final String ARTIFACT = "/artifacts";
     public static final String ARTIFACT_DETAILS = "/artifacts/{artifactId}";
+    public static final String ARTIFACT_DELETE = "/solutions/{solutionId}/{revisionId}";
+    
     
     public static final String FILTER = "/filter";
     public static final String FILTER_MODELTYPE = "/modeltype";
