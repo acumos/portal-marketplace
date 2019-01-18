@@ -21,6 +21,7 @@
 package org.acumos.portal.be.service;
  
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,6 +73,9 @@ public interface MarketPlaceCatalogService {
 	MLSolution deleteSolution(MLSolution mlSolution) throws AcumosServiceException;
 	
 	MLSolution updateSolution(MLSolution mlSolution, String solutionId) throws AcumosServiceException;
+	
+	MLSolution deleteSolutionArtifacts(MLSolution mlSolution, String solutionId, String revisionId)
+			throws AcumosServiceException, URISyntaxException;
 
 	//List<MLSolution> searchSolution(String searchTerm);
 
