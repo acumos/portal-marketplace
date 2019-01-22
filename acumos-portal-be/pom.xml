@@ -369,7 +369,7 @@ limitations under the License.
 						<image>
 							<name>acumos-portal-be:${project.version}</name>
 							<build>
-								<from>frolvlad/alpine-oraclejdk8:slim</from>
+								<from>frolvlad/alpine-oraclejre8:slim</from>
 								<tags>
 									<tag>${project.version}-b${build.number}</tag>
 								</tags>
