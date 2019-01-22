@@ -2005,13 +2005,6 @@ limitations under the License.
 						</div>
 
 					</div>
-					<div class="select-control" ng-hide="!subscripDetails1">
-						<md-select ng-model="AccessValue"
-							placeholder="Select Frequency of update"
-							ng-change="freqChange(freqOfUpdatePass)"> <md-option
-							ng-repeat="freq in accessType" ng-value="freq.value">{{freq.name}}</md-option>
-						</md-select>
-					</div>
 				</div>
 				<div class="fedouter-container">
 					<div class="fedcontainer1" ng-hide="subscripDetails1">
@@ -2153,6 +2146,16 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="fedcontainer2" ng-show="subscripDetails1">
+					
+						<div class="select-control access-type-sec" ng-hide="!subscripDetails1">
+							<label class="fedlbl1 fedlbl4">Access Type</label>
+							<md-select ng-model="AccessValue"
+								placeholder="Select Frequency of update"
+								ng-change="freqChange(freqOfUpdatePass)"> <md-option
+								ng-repeat="freq in accessType" ng-value="freq.value">{{freq.name}}</md-option>
+							</md-select>
+						</div>
+						
 						<div class="filter-container">
 							<div class="fed-search-container">
 								<label class="fedlbl1 fedlbl4">Model ID</label>
