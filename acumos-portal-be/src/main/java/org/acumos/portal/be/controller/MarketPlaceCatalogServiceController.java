@@ -50,8 +50,7 @@ import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse;
-import org.acumos.nexus.client.NexusArtifactClient;
+import org.acumos.cds.transport.RestPageResponse; 
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -115,8 +114,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@Autowired
     	private Environment env;
   
-  	@Autowired
-	private NexusArtifactClient nexusArtifactClient;
+  	/*@Autowired
+	private NexusArtifactClient nexusArtifactClient;*/
 	
 	/**
 	 * 
@@ -285,7 +284,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "AcumosServiceException Occurred while updateSolutionDetails()", e);
 		}catch (URISyntaxException uriEx) {
 			data.setErrorCode("401");
-			//data.setResponseDetail(uriEx.getMessage());
 			data.setResponseDetail("Unable to delete  Artifact from Nexus");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.error(EELFLoggerDelegate.errorLogger, "URISyntaxException Occurred while updateSolutionDetails()", uriEx);

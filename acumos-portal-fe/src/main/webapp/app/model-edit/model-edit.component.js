@@ -3034,8 +3034,7 @@ angular
 											$location.hash('manage-models');
 											$anchorScroll();
 
-											$scope.msg = "Updated: "
-													+ $scope.detail;
+											$scope.msg = "Model deleted successfully"													
 											$scope.icon = '';
 											$scope.styleclass = 'c-success';
 											$scope.showAlertMessage = true;

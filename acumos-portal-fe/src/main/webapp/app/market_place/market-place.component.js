@@ -74,6 +74,7 @@ angular
 						$scope.sortBy = $scope.mktPlaceStorage.sortBy;
 						$scope.selectedPage = 0;
 						$scope.solutionSize = $scope.mktPlaceStorage.solutionSize;
+						$scope.selected = [];	
 						$element.find('input').on('keydown', function(ev) {
 							ev.stopPropagation();
 						});
@@ -279,6 +280,11 @@ angular
 							if ($rootScope.relatedModelType) {
 								$scope.categoryFilter.push($rootScope.relatedModelType);
 							}
+							
+							for(var i = 0 ;i < $scope.selected.length; i++)
+                            {
+                            $scope.tagFilter.push($scope.selected[i].tagName)
+                            }
 							
 							dataObj = {
 								"request_body" : {

@@ -113,9 +113,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Autowired
 	private NotificationService notificationService;
  
-	@Autowired
+	/*@Autowired
 	private NexusArtifactClient nexusArtifactClient;
-	
+	*/
 	/*
 	 * No
 	 */
@@ -387,7 +387,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	
 	@Override
 	public MLSolution deleteSolutionArtifacts(MLSolution mlSolution, String solutionId, String revisionId) 
-			throws AcumosServiceException {
+			throws AcumosServiceException, URISyntaxException {
 		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionArtifacts");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -419,6 +419,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					for (MLPArtifact mlp : mlpArtifactsList) {
 						boolean deleteNexus = false;
 						// Delete the file from the Nexus
+						String nexusUrl = env.getProperty("nexus.url");
+						String nexusUserName = env.getProperty("nexus.username");
+						String nexusPd = env.getProperty("nexus.password");
+						NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName, nexusPd);
 						nexusArtifactClient.deleteArtifact(mlp.getUri());
 						deleteNexus = true;
 						
@@ -451,6 +455,28 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		return mlSolution;
 	}
 
+	public NexusArtifactClient nexusArtifactClient(String nexusUrl, String nexusUserName, String nexusPd) {
+
+	       log.debug("nexusArtifactClient start");
+
+	       RepositoryLocation repositoryLocation = new RepositoryLocation();
+
+	       repositoryLocation.setId("1");
+
+	       repositoryLocation.setUrl(nexusUrl);
+
+	       repositoryLocation.setUsername(nexusUserName);
+
+	       repositoryLocation.setPassword(nexusPd);
+
+	       NexusArtifactClient nexusArtifactClient = new NexusArtifactClient(repositoryLocation);
+
+	       log.debug("nexusArtifactClient End");
+
+	       return nexusArtifactClient;
+
+	}
+	
 	@Override
 	public List<MLPSolutionRevision> getSolutionRevision(String solutionId) throws AcumosServiceException {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevision`");
