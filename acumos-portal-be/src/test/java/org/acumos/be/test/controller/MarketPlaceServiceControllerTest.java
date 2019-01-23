@@ -267,6 +267,31 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Failed to execute the testcase");
 		}
 	}
+	
+	@Test
+	public void deleteSolutionArtifactsTest() {
+		try {
+			MLSolution mlsolution = getMLSolution();
+			Assert.assertNotNull(mlsolution);
+			String solutionId = mlsolution.getSolutionId();			
+			Assert.assertNotNull(solutionId);
+			String revisionId = mlsolution.getRevisions().get(0).getRevisionId();
+			Assert.assertNotNull(revisionId);
+			JsonRequest<MLSolution> mlSolutionRes = new JsonRequest<>();
+			mlSolutionRes.setBody(mlsolution);
+			Assert.assertNotNull(mlSolutionRes);
+			JsonResponse<MLSolution> solutionres = new JsonResponse<>();
+			solutionres.setResponseBody(mlsolution);
+			Assert.assertNotNull(solutionres);
+			Mockito.when(service.deleteSolutionArtifacts(mlSolutionRes.getBody(), solutionId, revisionId))
+					.thenReturn(mlsolution);
+			solutionres = marketPlaceController.updateSolutionDetails(request, response, solutionId, mlSolutionRes);
+			logger.info("Succseefully delete Solution Artifacts : " + solutionres.getResponseBody());
+			Assert.assertNotNull(solutionres);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+		}
+	}
 
 	@Test
 	public void getSolutionsRevisionListTest() {
