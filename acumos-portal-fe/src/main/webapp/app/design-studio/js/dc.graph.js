@@ -1,7 +1,7 @@
 /*!
- *  dc.graph 0.7.3
+ *  dc.graph 0.7.8
  *  http://dc-js.github.io/dc.graph.js/
- *  Copyright 2015-2016 AT&T Intellectual Property & the dc.graph.js Developers
+ *  Copyright 2015-2019 AT&T Intellectual Property & the dc.graph.js Developers
  *  https://github.com/dc-js/dc.graph.js/blob/master/AUTHORS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@
  * instance whenever it is appropriate.  The getter forms of functions do not participate in function
  * chaining because they return values that are not the diagram.
  * @namespace dc_graph
- * @version 0.7.3
+ * @version 0.7.8
  * @example
  * // Example chaining
  * diagram.width(600)
@@ -38,7 +38,7 @@
  */
 
 var dc_graph = {
-    version: '0.7.3',
+    version: '0.7.8',
     constants: {
         CHART_CLASS: 'dc-graph'
     }
@@ -155,6 +155,15 @@ function deprecation_warning(message) {
         if(said)
             return;
         console.warn(message);
+        said = true;
+    };
+}
+
+function deprecate_function(message, f) {
+    var dep = deprecation_warning(message);
+    return function() {
+        dep();
+        return f.apply(this, arguments);
     };
 }
 
@@ -164,6 +173,14 @@ function uuid() {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
         return v.toString(16);
     });
+}
+
+function is_ie() {
+    var ua = window.navigator.userAgent;
+
+    return(ua.indexOf('MSIE ') > 0 ||
+           ua.indexOf('Trident/') > 0 ||
+           ua.indexOf('Edge/') > 0);
 }
 
 // polyfill Object.assign for IE
@@ -197,6 +214,98 @@ if (typeof Object.assign != 'function') {
     configurable: true
   });
 }
+
+
+// https://tc39.github.io/ecma262/#sec-array.prototype.includes
+if (!Array.prototype.includes) {
+  Object.defineProperty(Array.prototype, 'includes', {
+    value: function(valueToFind, fromIndex) {
+
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      // 1. Let O be ? ToObject(this value).
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If len is 0, return false.
+      if (len === 0) {
+        return false;
+      }
+
+      // 4. Let n be ? ToInteger(fromIndex).
+      //    (If fromIndex is undefined, this step produces the value 0.)
+      var n = fromIndex | 0;
+
+      // 5. If n >= 0, then
+      //  a. Let k be n.
+      // 6. Else n < 0,
+      //  a. Let k be len + n.
+      //  b. If k < 0, let k be 0.
+      var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+      function sameValueZero(x, y) {
+        return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+      }
+
+      // 7. Repeat, while k < len
+      while (k < len) {
+        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+        // b. If SameValueZero(valueToFind, elementK) is true, return true.
+        if (sameValueZero(o[k], valueToFind)) {
+          return true;
+        }
+        // c. Increase k by 1.
+        k++;
+      }
+
+      // 8. Return false
+      return false;
+    }
+  });
+}
+
+if (!Object.entries) {
+  Object.entries = function( obj ){
+    var ownProps = Object.keys( obj ),
+        i = ownProps.length,
+        resArray = new Array(i); // preallocate the Array
+    while (i--)
+      resArray[i] = [ownProps[i], obj[ownProps[i]]];
+    return resArray;
+  };
+}
+
+// https://github.com/KhaledElAnsari/Object.values
+Object.values = Object.values ? Object.values : function(obj) {
+    var allowedTypes = ["[object String]", "[object Object]", "[object Array]", "[object Function]"];
+    var objType = Object.prototype.toString.call(obj);
+
+    if(obj === null || typeof obj === "undefined") {
+	throw new TypeError("Cannot convert undefined or null to object");
+    } else if(!~allowedTypes.indexOf(objType)) {
+	return [];
+    } else {
+	// if ES6 is supported
+	if (Object.keys) {
+	    return Object.keys(obj).map(function (key) {
+		return obj[key];
+	    });
+	}
+
+	var result = [];
+	for (var prop in obj) {
+	    if (obj.hasOwnProperty(prop)) {
+		result.push(obj[prop]);
+	    }
+	}
+
+	return result;
+    }
+};
 
 function getBBoxNoThrow(elem) {
     // firefox seems to have issues with some of my texts
@@ -371,7 +480,7 @@ if (!Array.prototype.find) {
       while (k < len) {
         // a. Let Pk be ! ToString(k).
         // b. Let kValue be ? Get(O, Pk).
-        // c. Let testResult be ToBoolean(? Call(predicate, T, � kValue, k, O �)).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, << kValue, k, O >>)).
         // d. If testResult is true, return kValue.
         var kValue = o[k];
         if (predicate.call(thisArg, kValue, k, o)) {
@@ -1223,6 +1332,45 @@ function split_bezier_n(p, n) {
     return ret;
 }
 
+// binary search for a point along a bezier that is a certain distance from one of the end points
+// return the bezier cut at that point.
+function chop_bezier(points, end, dist) {
+    var EPS = 0.1, dist2 = dist*dist;
+    var ref, dir, segment;
+    if(end === 'head') {
+        ref = points[points.length-1];
+        segment = points.slice(points.length-4);
+        dir = -1;
+    } else {
+        ref = points[0];
+        segment = points.slice(0, 4);
+        dir = 1;
+    }
+    var parts, d2, t = 0.5, dt = 0.5, dx, dy;
+    do {
+        parts = split_bezier(segment, t);
+        dx = ref.x - parts[1][0].x;
+        dy = ref.y - parts[1][0].y;
+        d2 = dx*dx + dy*dy;
+        dt /= 2;
+        if(d2 > dist2)
+            t -= dt*dir;
+        else
+            t += dt*dir;
+        //console.log('dist', dist, 'dir', dir, 'd', d, 't', t, 'dt', dt);
+    }
+    while(dt > 0.0000001 && Math.abs(d2 - dist2) > EPS);
+    points = points.slice();
+    if(end === 'head')
+        return points.slice(0, points.length-4).concat(parts[0]);
+    else
+        return parts[1].concat(points.slice(4));
+}
+
+function angle_between_points(p0, p1) {
+    return Math.atan2(p1.y - p0.y, p1.x - p0.x);
+}
+
 dc_graph.no_shape = function() {
     var _shape = {
         parent: property(null),
@@ -1407,18 +1555,6 @@ dc_graph.elaborated_rectangle_shape = function() {
     return _shape;
 };
 
-
-function calculate_arrowhead_orientation(points, end) {
-    var spos = points[0], tpos = points[points.length-1];
-    var ref = end === 'head' ? tpos : spos;
-    var partial, t = 0.5;
-    do {
-        t = (end === 'head' ? 1 + t : t) / 2;
-        partial = bezier_point(points, t);
-    }
-    while(Math.hypot(ref.x - partial.x, ref.y - partial.y) > 25);
-    return Math.atan2(ref.y - partial.y, ref.x - partial.x) + 'rad';
-}
 
 function offsetx(ofsx) {
     return function(p) {
@@ -2036,9 +2172,14 @@ function arrow_length(parts, stemWidth) {
 
 function edgeArrow(diagram, arrdefs, e, kind, desc) {
     var id = diagram.arrowId(e, kind);
+    var strokeOfs, edgeStroke;
+    function arrow_sig() {
+        return desc + '-' + strokeOfs + '-' + edgeStroke;
+    }
     if(desc) {
-        var strokeOfs = diagram.nodeStrokeWidth.eval(kind==='tail' ? e.source : e.target)/2;
-        if(e[kind + 'ArrowLast'] === desc + '-' + strokeOfs)
+        strokeOfs = diagram.nodeStrokeWidth.eval(kind==='tail' ? e.source : e.target)/2;
+        edgeStroke = diagram.edgeStroke.eval(e);
+        if(e[kind + 'ArrowLast'] === arrow_sig())
             return id;
     }
     var parts = arrow_parts(arrdefs, desc),
@@ -2058,8 +2199,8 @@ function edgeArrow(diagram, arrdefs, e, kind, desc) {
             .attr('markerUnits', 'userSpaceOnUse')
             .attr('markerWidth', bounds.viewBox[2]*arrowSize)
             .attr('markerHeight', bounds.viewBox[3]*arrowSize)
-            .attr('stroke', diagram.edgeStroke.eval(e))
-            .attr('fill', diagram.edgeStroke.eval(e));
+            .attr('stroke', edgeStroke)
+            .attr('fill', edgeStroke);
         marker.html(null);
         parts.forEach(function(p, i) {
             marker
@@ -2068,7 +2209,7 @@ function edgeArrow(diagram, arrdefs, e, kind, desc) {
                       stemWidth);
         });
     }
-    e[kind + 'ArrowLast'] = desc && desc + '-' + strokeOfs;
+    e[kind + 'ArrowLast'] = arrow_sig();
     return desc ? id : null;
 }
 
@@ -2087,7 +2228,9 @@ dc_graph.text_contents = function() {
                 else if(typeof lines === 'string')
                     lines = [lines];
                 var lineHeight = _contents.parent().nodeLineHeight();
-                var first = 1 - ((lines.length - 1) * lineHeight + 1)/2;
+                var first = 0.5 - ((lines.length - 1) * lineHeight + 1)/2;
+                if(is_ie())
+                    first += 0.3; // IE (& Edge?!?) do not seem to have dominant-baseline
                 return lines.map(function(line, i) { return {node: n, line: line, yofs: (i==0 ? first : lineHeight) + 'em'}; });
             });
             tspan.enter().append('tspan');
@@ -3117,7 +3260,7 @@ dc_graph.diagram = function (parent, chartGroup) {
      * @method groupConnected
      * @memberof dc_graph.diagram
      * @instance
-     * @param {String} [stageTransitions=false]
+     * @param {String} [groupConnected=false]
      * @return {String}
      * @return {dc_graph.diagram}
      **/
@@ -3514,11 +3657,12 @@ dc_graph.diagram = function (parent, chartGroup) {
             });
         return _diagram;
     };
-    _diagram.redrawEdge = _diagram._updateEdge = function(edge) {
+    _diagram.redrawEdge = _diagram._updateEdge = function(edge, edgeArrows) {
         edge
             .attr('stroke', _diagram.edgeStroke.eval)
             .attr('stroke-width', _diagram.edgeStrokeWidth.eval)
-            .attr('stroke-dasharray', _diagram.edgeStrokeDashArray.eval)
+            .attr('stroke-dasharray', _diagram.edgeStrokeDashArray.eval);
+        edgeArrows
             .attr('marker-end', function(e) {
                 var name = _diagram.edgeArrowhead.eval(e),
                     id = edgeArrow(_diagram, _arrows, e, 'head', name);
@@ -3673,7 +3817,6 @@ dc_graph.diagram = function (parent, chartGroup) {
             e1.cola.dcg_edgeTarget = _diagram.edgeTarget.eval(e1);
             e1.source = _nodes[e1.cola.dcg_edgeSource];
             e1.target = _nodes[e1.cola.dcg_edgeTarget];
-            e1.cola.dcg_edgeLength = _diagram.edgeLength.eval(e1);
             e1.sourcePort = e1.sourcePort || {};
             e1.targetPort = e1.targetPort || {};
             _diagram.layoutEngine().populateLayoutEdge(e1.cola, e1);
@@ -3807,6 +3950,17 @@ dc_graph.diagram = function (parent, chartGroup) {
             .each(function(e) {
                 e.deleted = false;
             });
+        var edgeArrows = _edgeLayer.selectAll('.edge-arrows')
+                .data(wedges, _diagram.edgeKey.eval);
+        var edgeArrowsEnter = edgeArrows.enter().append('svg:path')
+                .attr({
+                    class: 'edge-arrows',
+                    id: function(d) {
+                        return _diagram.edgeId(d) + '-arrows';
+                    },
+                    fill: 'none',
+                    opacity: 0
+                });
 
         edge.exit().each(function(e) {
             e.deleted = true;
@@ -3836,11 +3990,11 @@ dc_graph.diagram = function (parent, chartGroup) {
             .attr('fill', 'none')
             .attr('stroke', 'green')
             .attr('stroke-width', 10)
-            .on('mouseover', function(e) {
+            .on('mouseover.diagram', function(e) {
                 d3.select('#' + _diagram.edgeId(e) + '-label')
                     .attr('visibility', 'visible');
             })
-            .on('mouseout', function(e) {
+            .on('mouseout.diagram', function(e) {
                 d3.select('#' + _diagram.edgeId(e) + '-label')
                     .attr('visibility', 'hidden');
             });
@@ -3890,7 +4044,7 @@ dc_graph.diagram = function (parent, chartGroup) {
 
         _dispatch.drawn(node, edge, edgeHover);
 
-        _refresh(node, edge);
+        _refresh(node, edge, edgeArrows);
 
         // really we should have layout chaining like in the good old Dynagraph days
         // the ordering of this and the previous 4 statements is somewhat questionable
@@ -3911,6 +4065,11 @@ dc_graph.diagram = function (parent, chartGroup) {
             _nodes_snapshot = nodes_snapshot;
             _edges_snapshot = edges_snapshot;
         }
+
+        // edge lengths may be affected by node sizes
+        wedges.forEach(function(e) {
+            e.cola.dcg_edgeLength = _diagram.edgeLength.eval(e);
+        });
 
         // cola constraints always use indices, but node references
         // are more friendly, so translate those
@@ -3999,7 +4158,8 @@ dc_graph.diagram = function (parent, chartGroup) {
         });
         if(skip_layout) {
             _running = false;
-            draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter, textPaths, textPathsEnter, true);
+            draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter,
+                 edgeArrows, edgeArrowsEnter, textPaths, textPathsEnter, true);
             draw_ports(node);
             _dispatch.transitionsStarted(node, edge, edgeHover);
             check_zoom(node, edge);
@@ -4028,7 +4188,7 @@ dc_graph.diagram = function (parent, chartGroup) {
             });
         }
         _diagram.layoutEngine()
-            .on('tick', function(nodes, edges) {
+            .on('tick.diagram', function(nodes, edges) {
                 var elapsed = Date.now() - startTime;
                 if(!_diagram.initialOnly())
                     populate_cola(nodes, edges);
@@ -4036,7 +4196,8 @@ dc_graph.diagram = function (parent, chartGroup) {
                     init_node_ports(_nodes, wports);
                     _dispatch.receivedLayout(_diagram, _nodes, wnodes, _edges, wedges, _ports, wports);
                     propagate_port_positions(_nodes, wedges, _ports);
-                    draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter, textPaths, textPathsEnter, true);
+                    draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter,
+                         edgeArrows, edgeArrowsEnter, textPaths, textPathsEnter, true);
                     draw_ports(node);
                     // should do this only once
                     _dispatch.transitionsStarted(node, edge, edgeHover);
@@ -4046,21 +4207,22 @@ dc_graph.diagram = function (parent, chartGroup) {
                     _diagram.layoutEngine().stop();
                 }
             })
-            .on('end', function(nodes, edges) {
+            .on('end.diagram', function(nodes, edges) {
                 if(!_diagram.showLayoutSteps()) {
                     if(!_diagram.initialOnly())
                         populate_cola(nodes, edges);
                     init_node_ports(_nodes, wports);
                     _dispatch.receivedLayout(_diagram, _nodes, wnodes, _edges, wedges, _ports, wports);
                     propagate_port_positions(_nodes, wedges, _ports);
-                    draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter, textPaths, textPathsEnter, true);
+                    draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter,
+                         edgeArrows, edgeArrowsEnter, textPaths, textPathsEnter, true);
                     draw_ports(node);
                     _dispatch.transitionsStarted(node, edge, edgeHover);
                 }
                 else layout_done(true);
                 check_zoom(node, edge);
             })
-            .on('start', function() {
+            .on('start.diagram', function() {
                 console.log('algo ' + _diagram.layoutEngine().layoutAlgorithm() + ' started.');
                 _dispatch.start();
             });
@@ -4164,8 +4326,8 @@ dc_graph.diagram = function (parent, chartGroup) {
         });
     }
 
-    function _refresh(node, edge) {
-        _diagram._updateEdge(edge);
+    function _refresh(node, edge, edgeArrows) {
+        _diagram._updateEdge(edge, edgeArrows);
         _diagram._updateNode(node);
         draw_ports(node);
     }
@@ -4175,13 +4337,14 @@ dc_graph.diagram = function (parent, chartGroup) {
             return this; // but what about changed attributes?
         node = node || _diagram.selectAllNodes();
         edge = edge || _diagram.selectAllEdges();
-        _refresh(node, edge);
+        var edgeArrows = _diagram.selectAllEdges('.edge-arrows');
+        _refresh(node, edge, edgeArrows);
 
         edgeHover = edgeHover || _diagram.selectAllEdges('.edge-hover');
         edgeLabels = edgeLabels || _diagram.selectAllEdges('.edge-label-wrapper');
         textPaths = textPaths || _diagram.selectAllDefs('path.edge-label-path');
         var nullSel = d3.select(null); // no enters
-        draw(node, nullSel, edge, nullSel, edgeHover, nullSel, edgeLabels, nullSel, textPaths, nullSel, false);
+        draw(node, nullSel, edge, nullSel, edgeHover, nullSel, edgeLabels, nullSel, edgeArrows, nullSel, textPaths, nullSel, false);
         return this;
     };
 
@@ -4219,8 +4382,7 @@ dc_graph.diagram = function (parent, chartGroup) {
                     return e.pos.new.orienttail;
                 });
         })
-            .attr('d', render_edge_path('new'))
-            .each(dash_edges_for_arrows);
+            .attr('d', render_edge_path('new'));
         return this;
     };
 
@@ -4300,17 +4462,49 @@ dc_graph.diagram = function (parent, chartGroup) {
                 path.points.reverse();
             if(_diagram.enforceEdgeDirection())
                 path = enforce_path_direction(path, source.cola, target.cola);
+            var path0 = {
+                points: path.points,
+                bezDegree: path.bezDegree
+            };
+            var alengths = scaled_arrow_lengths(parallel.edges[p]);
+            path = clip_path_to_arrows(alengths.headLength, alengths.tailLength, path);
+            var points = path.points, points0 = path0.points;
             parallel.edges[p].pos[age] = {
                 path: path,
-                orienthead: calculate_arrowhead_orientation(path.points, 'head'),
-                orienttail: calculate_arrowhead_orientation(path.points, 'tail')
+                full: path0,
+                orienthead: angle_between_points(points[points.length-1], points0[points0.length-1]) + 'rad',
+                orienttail: angle_between_points(points[0], points0[0]) + 'rad'
             };
         }
     }
 
-    function render_edge_path(age) {
+    function clip_path_to_arrows(headLength, tailLength, path) {
+        var points0 = as_bezier3(path),
+            points = chop_bezier(points0, 'head', headLength);
+        return {
+            bezDegree: 3,
+            points: chop_bezier(points, 'tail', tailLength),
+            sourcePort: path.sourcePort,
+            targetPort: path.targetPort
+        };
+    }
+
+    function scaled_arrow_lengths(e) {
+        var arrowSize = _diagram.edgeArrowSize.eval(e),
+            stemWidth = _diagram.edgeStrokeWidth.eval(e) / arrowSize;
+        var headLength = arrowSize *
+            (arrow_length(arrow_parts(_arrows, _diagram.edgeArrowhead.eval(e)), stemWidth) +
+             _diagram.nodeStrokeWidth.eval(e.target) / 2),
+            tailLength = arrowSize *
+            (arrow_length(arrow_parts(_arrows, _diagram.edgeArrowtail.eval(e)), stemWidth) +
+             _diagram.nodeStrokeWidth.eval(e.source) / 2);
+        return {headLength: headLength, tailLength: tailLength};
+    }
+
+    function render_edge_path(age, full) {
+        var field = full ? 'full' : 'path';
         return function(e) {
-            var path = e.pos[age].path;
+            var path = e.pos[age][field];
             return generate_path(path.points, path.bezDegree);
         };
     }
@@ -4340,14 +4534,19 @@ dc_graph.diagram = function (parent, chartGroup) {
     function node_bounds(n) {
         var bounds = {left: n.cola.x - n.dcg_rx, top: n.cola.y - n.dcg_ry,
                       right: n.cola.x + n.dcg_rx, bottom: n.cola.y + n.dcg_ry};
-        var ports = _nodePorts[_diagram.nodeKey.eval(n)];
-        if(ports)
-            ports.forEach(function(p) {
-                var pb = _diagram.portStyle(_diagram.portStyleName.eval(p)).portBounds(p);
-                pb.left += n.cola.x; pb.top += n.cola.y;
-                pb.right += n.cola.x; pb.bottom += n.cola.y;
-                bounds = union_bounds(bounds, pb);
-            });
+        if(_diagram.portStyle.enum().length) {
+            var ports = _nodePorts[_diagram.nodeKey.eval(n)];
+            if(ports)
+                ports.forEach(function(p) {
+                    var portStyle =_diagram.portStyleName.eval(p);
+                    if(!portStyle || !_diagram.portStyle(portStyle))
+                        return;
+                    var pb = _diagram.portStyle(portStyle).portBounds(p);
+                    pb.left += n.cola.x; pb.top += n.cola.y;
+                    pb.right += n.cola.x; pb.bottom += n.cola.y;
+                    bounds = union_bounds(bounds, pb);
+                });
+        }
         return bounds;
     }
 
@@ -4392,6 +4591,11 @@ dc_graph.diagram = function (parent, chartGroup) {
             });
     }
 
+    _diagram.calc_bounds0 = function(ndata, edata) {
+        // assumption: there can be no edges without nodes
+        var bounds = ndata.map(node_bounds).reduce(union_bounds);
+        return edata.map(edge_bounds).reduce(union_bounds, bounds);
+    };
     var _bounds;
     function calc_bounds(node, edge) {
         if((_diagram.fitStrategy() || _diagram.restrictPan()) && node.size()) {
@@ -4484,7 +4688,9 @@ dc_graph.diagram = function (parent, chartGroup) {
         return oldang + 'rad';
     }
 
-    function draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter, edgeLabels, edgeLabelsEnter, textPaths, textPathsEnter, animatePositions) {
+    function draw(node, nodeEnter, edge, edgeEnter, edgeHover, edgeHoverEnter,
+                  edgeLabels, edgeLabelsEnter, edgeArrows, edgeArrowsEnter,
+                  textPaths, textPathsEnter, animatePositions) {
         console.assert(edge.data().every(has_source_and_target));
 
         var nodeEntered = {};
@@ -4519,13 +4725,17 @@ dc_graph.diagram = function (parent, chartGroup) {
         });
         edge.each(function(e) {
             if(e.cola.points) {
+                var alengths = scaled_arrow_lengths(e);
+                var path0 = {
+                    points: e.cola.points,
+                    bezDegree: 3
+                };
+                var path = clip_path_to_arrows(alengths.headLength, alengths.tailLength, path0);
                 e.pos.new = {
-                    path: {
-                        points: e.cola.points,
-                        bezDegree: 3
-                    },
-                    orienthead: calculate_arrowhead_orientation(e.cola.points, 'head'),
-                    orienttail: calculate_arrowhead_orientation(e.cola.points, 'tail')
+                    path: path,
+                    full: path0,
+                    orienthead: angle_between_points(path.points[path.points.length-1], path0.points[path0.points.length-1]) + 'rad', //calculate_arrowhead_orientation(e.cola.points, 'head'),
+                    orienttail: angle_between_points(path.points[0], path0.points[0]) + 'rad' //calculate_arrowhead_orientation(e.cola.points, 'tail')
                 };
             }
             else {
@@ -4563,6 +4773,9 @@ dc_graph.diagram = function (parent, chartGroup) {
             .each(function(e) {
                 edgeEntered[_diagram.edgeKey.eval(e)] = true;
             })
+            .attr('d', render_edge_path(_diagram.stageTransitions() === 'modins' ? 'new' : 'old'));
+
+        edgeArrowsEnter
             .each(function(e) {
                 // if staging transitions, just fade new edges in at new position
                 // else start new edges at old positions of nodes, if any, else new positions
@@ -4578,47 +4791,53 @@ dc_graph.diagram = function (parent, chartGroup) {
                         return e.pos[age].orienttail;
                     });
             })
-            .attr('d', render_edge_path(_diagram.stageTransitions() === 'modins' ? 'new' : 'old'));
+            .attr('d', render_edge_path(_diagram.stageTransitions() === 'modins' ? 'new' : 'old', true));
 
-        edge.each(dash_edges_for_arrows);
+        edgeArrows
+            .each(function(e) {
+                if(_diagram.edgeArrowhead.eval(e))
+                    d3.select('#' + _diagram.arrowId(e, 'head'))
+                    .attr('orient', unsurprising_orient(e.pos.old.orienthead, e.pos.new.orienthead))
+                    .transition().duration(_diagram.stagedDuration())
+                    .delay(_diagram.stagedDelay(false))
+                    .attr('orient', function() {
+                        return e.pos.new.orienthead;
+                    });
+                if(_diagram.edgeArrowtail.eval(e))
+                    d3.select('#' + _diagram.arrowId(e, 'tail'))
+                    .attr('orient', unsurprising_orient(e.pos.old.orienttail, e.pos.new.orienttail))
+                    .transition().duration(_diagram.stagedDuration())
+                    .delay(_diagram.stagedDelay(false))
+                    .attr('orient', function() {
+                        return e.pos.new.orienttail;
+                    });
+            });
 
         var etrans = edge
-                .each(function(e) {
-                    if(_diagram.edgeArrowhead.eval(e))
-                        d3.select('#' + _diagram.arrowId(e, 'head'))
-                            .attr('orient', unsurprising_orient(e.pos.old.orienthead, e.pos.new.orienthead))
-                            .transition().duration(_diagram.stagedDuration())
-                            .delay(_diagram.stagedDelay(false))
-                            .attr('orient', function() {
-                                return e.pos.new.orienthead;
-                            });
-                    if(_diagram.edgeArrowtail.eval(e))
-                        d3.select('#' + _diagram.arrowId(e, 'tail'))
-                            .attr('orient', unsurprising_orient(e.pos.old.orienttail, e.pos.new.orienttail))
-                            .transition().duration(_diagram.stagedDuration())
-                            .delay(_diagram.stagedDelay(false))
-                            .attr('orient', function() {
-                                return e.pos.new.orienttail;
-                            });
-                })
               .transition()
                 .duration(_diagram.stagedDuration())
                 .delay(function(e) {
                     return _diagram.stagedDelay(edgeEntered[_diagram.edgeKey.eval(e)]);
                 })
                 .attr('opacity', _diagram.edgeOpacity.eval);
-        if(animatePositions)
-            etrans
+        var arrowtrans = edgeArrows
+              .transition()
+                .duration(_diagram.stagedDuration())
+                .delay(function(e) {
+                    return _diagram.stagedDelay(edgeEntered[_diagram.edgeKey.eval(e)]);
+                })
+                .attr('opacity', _diagram.edgeOpacity.eval);
+        (animatePositions ? etrans : edge)
             .attr('d', function(e) {
                 var when = _diagram.stageTransitions() === 'insmod' &&
                         edgeEntered[_diagram.edgeKey.eval(e)] ? 'old' : 'new';
                 return render_edge_path(when)(e);
-            })
-            .tween('dashes', function(e) {
-                var that = this;
-                return function(t) {
-                    dash_edges_for_arrows.call(that, e);
-                };
+            });
+        (animatePositions ? arrowtrans : edgeArrows)
+            .attr('d', function(e) {
+                var when = _diagram.stageTransitions() === 'insmod' &&
+                        edgeEntered[_diagram.edgeKey.eval(e)] ? 'old' : 'new';
+                return render_edge_path(when, true)(e);
             });
         var elabels = edgeLabels
             .selectAll('text').data(function(e) {
@@ -4639,17 +4858,17 @@ dc_graph.diagram = function (parent, chartGroup) {
                 }
             })
           .append('textPath')
-            .attr('startOffset', '50%')
-            .attr('xlink:href', function(e) {
-                var id = _diagram.textpathId(d3.select(this.parentNode.parentNode).datum());
-                // angular on firefox needs absolute paths for fragments
-                return window.location.href.split('#')[0] + '#' + id;
-            });
+            .attr('startOffset', '50%');
         elabels
           .select('textPath')
             .text(function(t) { return t; })
             .attr('opacity', function() {
-                _diagram.edgeOpacity.eval(d3.select(this.parentNode.parentNode).datum());
+                return _diagram.edgeOpacity.eval(d3.select(this.parentNode.parentNode).datum());
+            })
+            .attr('xlink:href', function(e) {
+                var id = _diagram.textpathId(d3.select(this.parentNode.parentNode).datum());
+                // angular on firefox needs absolute paths for fragments
+                return window.location.href.split('#')[0] + '#' + id;
             });
         textPathsEnter
             .attr('d', render_edge_label_path(_diagram.stageTransitions() === 'modins' ? 'new' : 'old'));
@@ -4674,6 +4893,9 @@ dc_graph.diagram = function (parent, chartGroup) {
                 textTrans = textTrans.transition()
                     .duration(_diagram.stagedDuration())
                     .attr('d', render_edge_label_path('new'));
+                arrowtrans.transition()
+                    .duration(_diagram.stagedDuration())
+                    .attr('d', render_edge_path('new', true));
             } else {
                 // if transitions are too short, we run into various problems,
                 // from transitions not completing to objects not found
@@ -4683,6 +4905,8 @@ dc_graph.diagram = function (parent, chartGroup) {
                     .attr('d', render_edge_path('new'));
                 textTrans
                     .attr('d', render_edge_path('new'));
+                arrowtrans
+                    .attr('d', render_edge_path('new', true));
             }
         }
 
@@ -4726,20 +4950,6 @@ dc_graph.diagram = function (parent, chartGroup) {
             var port = _diagram.selectNodePortsOfStyle(node, style);
             _diagram.portStyle(style).drawPorts(port, nodePorts2, node);
         });
-    }
-
-    function dash_edges_for_arrows(e) {
-        var totlength = this.getTotalLength(),
-            arrowSize = _diagram.edgeArrowSize.eval(e),
-            stemWidth = _diagram.edgeStrokeWidth.eval(e) / arrowSize;
-        var headlength = arrowSize*arrow_length(arrow_parts(_arrows, _diagram.edgeArrowhead.eval(e)), stemWidth),
-            taillength = arrowSize*arrow_length(arrow_parts(_arrows, _diagram.edgeArrowtail.eval(e)), stemWidth);
-        var tailStroke = _diagram.nodeStrokeWidth.eval(e.source),
-            headStroke = _diagram.nodeStrokeWidth.eval(e.target),
-            length = Math.max(0, totlength-headlength-taillength - (tailStroke+headStroke)/2);
-        d3.select(this)
-            .attr('stroke-dasharray', length + ' ' + totlength*2)
-            .attr('stroke-dashoffset', -(taillength + tailStroke/2));
     }
 
     /**
@@ -4955,6 +5165,7 @@ dc_graph.diagram = function (parent, chartGroup) {
         var svg = _svg || _diagram.select('svg');
         svg.remove();
         _svg = null;
+        _diagram.x(null).y(null);
         return generateSvg();
     };
 
@@ -5156,7 +5367,7 @@ dc_graph.diagram = function (parent, chartGroup) {
                      .domain([0, _diagram.height()])
                      .range([0, _diagram.height()]));
         _zoom = d3.behavior.zoom()
-            .on('zoom', doZoom)
+            .on('zoom.diagram', doZoom)
             .x(_diagram.x()).y(_diagram.y())
             .scaleExtent(_diagram.zoomExtent());
         if(_diagram.mouseZoomable()) {
@@ -5333,6 +5544,12 @@ dc_graph._engines = [
         instantiate: function() {
             return dc_graph.cola_layout();
         }
+    },
+    {
+        name: 'manual',
+        instantiate: function() {
+            return dc_graph.manual_layout();
+        }
     }
 ];
 dc_graph._default_engine = 'cola';
@@ -5484,8 +5701,8 @@ dc_graph.webworker_layout = function(layoutEngine) {
         return layoutEngine;
     };
     // somewhat sketchy - do we want this object to be transparent or not?
-    var passthroughs = ['layoutAlgorithm', 'needsStage',
-                        'populateLayoutNode', 'populateLayoutEdge', 'rankdir', 'ranksep'];
+    var passthroughs = ['layoutAlgorithm', 'populateLayoutNode', 'populateLayoutEdge',
+                        'rankdir', 'ranksep'];
     passthroughs.concat(layoutEngine.optionNames()).forEach(function(name) {
         engine[name] = function() {
             var ret = layoutEngine[name].apply(layoutEngine, arguments);
@@ -5507,7 +5724,7 @@ dc_graph.webworker_layout = function(layoutEngine) {
 /**
  * `dc_graph.graphviz_attrs defines a basic set of attributes which layout engines should
  * implement - although these are not required, they make it easier for clients and
- * behaviors (like expand_collapse) to work with multiple layout engines.
+ * modes (like expand_collapse) to work with multiple layout engines.
  *
  * these attributes are {@link http://www.graphviz.org/doc/info/attrs.html from graphviz}
  * @class graphviz_attrs
@@ -5540,6 +5757,117 @@ dc_graph.graphviz_attrs = function() {
          * @param {String} [ranksep=40]
          **/
         ranksep: property(40)
+    };
+};
+
+// graphlib-dot seems to wrap nodes in an extra {value}
+// actually this is quite a common problem with generic libs
+function nvalue(n) {
+    return n.value.value ? n.value.value : n.value;
+}
+
+// apply standard accessors to a diagram in order to style it as graphviz would
+// this is a work in progress
+dc_graph.apply_graphviz_accessors = function(diagram) {
+    diagram
+        .nodeLabel(function(n) {
+            var label = nvalue(n).label;
+            if(label === undefined)
+                label = n.key;
+            return label && label.split(/\n|\\n/);
+        })
+        .nodeRadius(function(n) {
+            // should do width & height instead, #25
+            return nvalue(n).radius || 25;
+        })
+        .nodeShape(function(n) { return nvalue(n).shape; })
+        .nodeFill(function(n) { return nvalue(n).fillcolor || 'white'; })
+        .nodeOpacity(function(n) {
+            // not standard gv
+            return nvalue(n).opacity || 1;
+        })
+        .nodeLabelFill(function(n) { return nvalue(n).fontcolor || 'black'; })
+        .nodeStrokeWidth(function(n) {
+            // it is debatable whether a point === a pixel but they are close
+            // https://graphicdesign.stackexchange.com/questions/199/point-vs-pixel-what-is-the-difference
+            var penwidth = nvalue(n).penwidth;
+            return penwidth !== undefined ? +penwidth : 1;
+        })
+        .edgeLabel(function(e) { return e.value.label ? e.value.label.split(/\n|\\n/) : ''; })
+        .edgeStroke(function(e) { return e.value.color || 'black'; })
+        .edgeOpacity(function(e) {
+            // not standard gv
+            return e.value.opacity || 1;
+        })
+        .edgeArrowSize(function(e) {
+            return e.value.arrowsize || 1;
+        })
+        // need directedness to default these correctly, see #106
+        .edgeArrowhead(function(e) {
+            var head = e.value.arrowhead;
+            return head !== undefined ? head : 'vee';
+        })
+        .edgeArrowtail(function(e) {
+            var tail = e.value.arrowtail;
+            return tail !== undefined ? tail : null;
+        })
+        .edgeStrokeDashArray(function(e) {
+            switch(e.value.style) {
+            case 'dotted':
+                return [1,5];
+            }
+            return null;
+        });
+};
+
+dc_graph.snapshot_graphviz = function(diagram) {
+    var xDomain = diagram.x().domain(), yDomain = diagram.y().domain();
+    return {
+        nodes: diagram.nodeGroup().all().map(function(n) {
+            return diagram.getWholeNode(n.key);
+        })
+            .filter(function(x) { return x; })
+            .map(function(n) {
+                return {
+                    key: diagram.nodeKey.eval(n),
+                    label: diagram.nodeLabel.eval(n),
+                    fillcolor: diagram.nodeFillScale()(diagram.nodeFill.eval(n)),
+                    penwidth: diagram.nodeStrokeWidth.eval(n),
+                    // not supported as input, see dc.graph.js#25
+                    // width: n.cola.dcg_rx*2,
+                    // height: n.cola.dcg_ry*2,
+
+                    // not graphviz attributes
+                    // until we have w/h
+                    radius: diagram.nodeRadius.eval(n),
+                    // does not seem to exist in gv
+                    opacity: diagram.nodeOpacity.eval(n),
+                    // should be pos
+                    x: n.cola.x,
+                    y: n.cola.y
+                };
+            }),
+        edges: diagram.edgeGroup().all().map(function(e) {
+            return diagram.getWholeEdge(e.key);
+        }).map(function(e) {
+            return {
+                key: diagram.edgeKey.eval(e),
+                source: diagram.edgeSource.eval(e),
+                target: diagram.edgeTarget.eval(e),
+                color: diagram.edgeStroke.eval(e),
+                arrowsize: diagram.edgeArrowSize.eval(e),
+                opacity: diagram.edgeOpacity.eval(e),
+                // should support dir, see dc.graph.js#106
+                arrowhead: diagram.edgeArrowhead.eval(e),
+                arrowtail: diagram.edgeArrowtail.eval(e)
+            };
+        }),
+        bounds: {
+            left: xDomain[0],
+            top: yDomain[0],
+            right: xDomain[1],
+            bottom: yDomain[1]
+        }
     };
 };
 
@@ -5678,9 +6006,6 @@ dc_graph.cola_layout = function(id) {
         },
         supportsWebworker: function() {
             return true;
-        },
-        needsStage: function(stage) { // stopgap until we have engine chaining
-            return stage === 'ports' || stage === 'edgepos';
         },
         parent: property(null),
         on: function(event, f) {
@@ -5887,9 +6212,6 @@ dc_graph.dagre_layout = function(id) {
         },
         supportsWebworker: function() {
             return true;
-        },
-        needsStage: function(stage) { // stopgap until we have engine chaining
-            return stage === 'ports' || stage === 'edgepos';
         },
         on: function(event, f) {
             if(arguments.length === 1)
@@ -6287,6 +6609,14 @@ dc_graph.d3_force_layout = function(id) {
 
         _simulation = d3.layout.force()
             .size([options.width, options.height]);
+        if(options.linkDistance) {
+            if(typeof options.linkDistance === 'number')
+                _simulation.linkDistance(options.linkDistance);
+            else if(options.linkDistance === 'auto')
+                _simulation.linkDistance(function(e) {
+                    return e.dcg_edgeLength;
+                });
+        }
 
         _simulation.on('tick', /* _tick = */ function() {
             dispatchState('tick');
@@ -6512,7 +6842,7 @@ dc_graph.d3_force_layout = function(id) {
         restorePositions: restorePositions,
         optionNames: function() {
             return ['iterations', 'angleForce', 'chargeForce', 'gravityStrength',
-                    'initialCharge', 'fixOffPathNodes']
+                    'initialCharge', 'linkDistance', 'fixOffPathNodes']
                 .concat(graphviz_keys);
         },
         iterations: property(300),
@@ -6520,6 +6850,7 @@ dc_graph.d3_force_layout = function(id) {
         chargeForce: property(-500),
         gravityStrength: property(1.0),
         initialCharge: property(-400),
+        linkDistance: property(20),
         fixOffPathNodes: property(false),
         populateLayoutNode: function() {},
         populateLayoutEdge: function() {}
@@ -6869,9 +7200,6 @@ dc_graph.flexbox_layout = function(id) {
         supportsWebworker: function() {
             return true;
         },
-        needsStage: function(stage) { // stopgap until we have engine chaining
-            return stage === 'ports' || stage === 'edgepos';
-        },
         parent: property(null),
         on: function(event, f) {
             if(arguments.length === 1)
@@ -6947,10 +7275,7 @@ dc_graph.manual_layout = function(id) {
             return _layoutId;
         },
         supportsWebworker: function() {
-            return true;
-        },
-        needsStage: function(stage) { // stopgap until we have engine chaining
-            return stage === 'ports' || stage === 'edgepos';
+            return false;
         },
         parent: property(null),
         on: function(event, f) {
@@ -7053,7 +7378,7 @@ dc_graph.place_ports = function() {
         }
         function misses(p, p2) {
             var dist = distance(p, p2);
-            var misses = dist > _behavior.minDistance();
+            var misses = dist > _mode.minDistance();
             return misses;
         }
         function rand_within(a, b) {
@@ -7147,7 +7472,7 @@ dc_graph.place_ports = function() {
             inside = inside.filter(function(p) { return !unplaced.includes(p); });
 
             // place any remaining by trying random spots within the range until it misses all or we give up
-            var patience = _behavior.patience(), maxdist = 0, maxvec;
+            var patience = _mode.patience(), maxdist = 0, maxvec;
             while(unplaced.length) {
                 var p = unplaced[0];
                 p.vec = a_to_v(rand_within(p.abounds[0], p.abounds[1]));
@@ -7157,7 +7482,7 @@ dc_graph.place_ports = function() {
                     maxdist = mindist;
                     maxvec = p.vec;
                 }
-                if(!patience-- || mindist > _behavior.minDistance()) {
+                if(!patience-- || mindist > _mode.minDistance()) {
                     if(patience<0) {
                         console.warn('ran out of patience placing a port');
                         p.vec = maxvec;
@@ -7165,18 +7490,18 @@ dc_graph.place_ports = function() {
                     }
                     inside.push(p);
                     unplaced.shift();
-                    patience = _behavior.patience();
+                    patience = _mode.patience();
                     maxdist = 0;
                 }
             }
         }
     };
-    var _behavior = {
+    var _mode = {
         parent: property(null).react(function(p) {
             if(p) {
                 p.on('receivedLayout.place-ports', received_layout);
-            } else if(_behavior.parent())
-                _behavior.parent().on('receivedLayout.place-ports', null);
+            } else if(_mode.parent())
+                _mode.parent().on('receivedLayout.place-ports', null);
         }),
         // minimum distance between ports
         minDistance: property(20),
@@ -7184,18 +7509,18 @@ dc_graph.place_ports = function() {
         patience: property(20)
     };
 
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.grid = function() {
     var _gridLayer = null;
     var _translate, _scale, _xDomain, _yDomain;
 
-    function add_behavior(diagram, node, edge, ehover) {
+    function draw(diagram, node, edge, ehover) {
         //infer_and_draw(diagram);
     }
 
-    function remove_behavior(diagram, node, edge, ehover) {
+    function remove(diagram, node, edge, ehover) {
         if(_gridLayer)
             _gridLayer.remove();
     }
@@ -7203,8 +7528,8 @@ dc_graph.grid = function() {
     function draw(diagram) {
         _gridLayer = diagram.g().selectAll('g.grid-layer').data([0]);
         _gridLayer.enter().append('g').attr('class', 'grid-layer');
-        var ofs = _behavior.wholeOnLines() ? 0 : 0.5;
-        var vline_data = _scale >= _behavior.threshold() ? d3.range(Math.floor(_xDomain[0]), Math.ceil(_xDomain[1]) + 1) : [];
+        var ofs = _mode.wholeOnLines() ? 0 : 0.5;
+        var vline_data = _scale >= _mode.threshold() ? d3.range(Math.floor(_xDomain[0]), Math.ceil(_xDomain[1]) + 1) : [];
         var vlines = _gridLayer.selectAll('line.grid-line.vertical')
             .data(vline_data, function(d) { return d - ofs; });
         vlines.exit().remove();
@@ -7219,7 +7544,7 @@ dc_graph.grid = function() {
             y1: _yDomain[0],
             y2: _yDomain[1]
         });
-        var hline_data = _scale >= _behavior.threshold() ? d3.range(Math.floor(_yDomain[0]), Math.ceil(_yDomain[1]) + 1) : [];
+        var hline_data = _scale >= _mode.threshold() ? d3.range(Math.floor(_yDomain[0]), Math.ceil(_yDomain[1]) + 1) : [];
         var hlines = _gridLayer.selectAll('line.grid-line.horizontal')
             .data(hline_data, function(d) { return d - ofs; });
         hlines.exit().remove();
@@ -7241,7 +7566,7 @@ dc_graph.grid = function() {
         _scale = scale;
         _xDomain = xDomain,
         _yDomain = yDomain;
-        draw(_behavior.parent());
+        draw(_mode.parent());
     }
 
     function infer_and_draw(diagram) {
@@ -7252,9 +7577,9 @@ dc_graph.grid = function() {
         draw(diagram);
     }
 
-    var _behavior = dc_graph.behavior('highlight-paths', {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode('highlight-paths', {
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             if(p) {
                 p.on('zoomed.grid', on_zoom);
@@ -7263,10 +7588,10 @@ dc_graph.grid = function() {
         }
     });
 
-    _behavior.threshold = property(4);
-    _behavior.wholeOnLines = property(true);
+    _mode.threshold = property(4);
+    _mode.wholeOnLines = property(true);
 
-    return _behavior;
+    return _mode;
 };
 
 
@@ -7275,7 +7600,7 @@ dc_graph.troubleshoot = function() {
     var _debugLayer = null;
     var _translate, _scale = 1, _xDomain, _yDomain;
 
-    function add_behavior(diagram, node, edge, ehover) {
+    function draw(diagram, node, edge, ehover) {
         if(!_debugLayer)
             _debugLayer = diagram.g().append('g').attr({
                 class: 'troubleshoot',
@@ -7292,11 +7617,11 @@ dc_graph.troubleshoot = function() {
         crosshairs.enter().append('path').attr('class', 'nodecenter');
         crosshairs.attr({
             d: function(c) {
-                return 'M' + (c.x - _behavior.xhairWidth()/2) + ',' + c.y + ' h' + _behavior.xhairWidth() +
-                    ' M' + c.x + ',' + (c.y - _behavior.xhairHeight()/2) + ' v' + _behavior.xhairHeight();
+                return 'M' + (c.x - _mode.xhairWidth()/2) + ',' + c.y + ' h' + _mode.xhairWidth() +
+                    ' M' + c.x + ',' + (c.y - _mode.xhairHeight()/2) + ' v' + _mode.xhairHeight();
             },
-            opacity: _behavior.xhairOpacity() !== null ? _behavior.xhairOpacity() : _behavior.opacity(),
-            stroke: _behavior.xhairColor(),
+            opacity: _mode.xhairOpacity() !== null ? _mode.xhairOpacity() : _mode.opacity(),
+            stroke: _mode.xhairColor(),
             'stroke-width': 1/_scale
         });
         function cola_point(n) {
@@ -7306,7 +7631,7 @@ dc_graph.troubleshoot = function() {
             return boundary(cola_point(n), n.cola.width, n.cola.height);
         });
         var colaboundary = _debugLayer.selectAll('path.colaboundary').data(colabounds);
-        draw_corners(colaboundary, 'colaboundary', _behavior.boundsColor());
+        draw_corners(colaboundary, 'colaboundary', _mode.boundsColor());
 
         var textbounds = node.data().map(function(n) {
             if(!n.bbox || (!n.bbox.width && !n.bbox.height))
@@ -7314,7 +7639,7 @@ dc_graph.troubleshoot = function() {
             return boundary(cola_point(n), n.bbox.width, n.bbox.height);
         }).filter(function(n) { return !!n; });
         var textboundary = _debugLayer.selectAll('path.textboundary').data(textbounds);
-        draw_corners(textboundary, 'textboundary', _behavior.boundsColor());
+        draw_corners(textboundary, 'textboundary', _mode.boundsColor());
 
         var radiibounds = node.data().map(function(n) {
             if(typeof n.dcg_rx !== 'number')
@@ -7322,27 +7647,27 @@ dc_graph.troubleshoot = function() {
             return boundary(cola_point(n), n.dcg_rx*2, n.dcg_ry*2);
         }).filter(function(n) { return !!n; });
         var radiiboundary = _debugLayer.selectAll('path.radiiboundary').data(radiibounds);
-        draw_corners(radiiboundary, 'radiiboundary', _behavior.boundsColor());
+        draw_corners(radiiboundary, 'radiiboundary', _mode.boundsColor());
 
         diagram.addOrRemoveDef('debug-orient-marker-head',
                                true,
                                'svg:marker',
-                               orient_marker.bind(null, _behavior.arrowHeadColor()));
+                               orient_marker.bind(null, _mode.arrowHeadColor()));
         diagram.addOrRemoveDef('debug-orient-marker-tail',
                                true,
                                'svg:marker',
-                               orient_marker.bind(null, _behavior.arrowTailColor()));
-        var heads = _behavior.arrowLength() ? edge.data().map(function(e) {
+                               orient_marker.bind(null, _mode.arrowTailColor()));
+        var heads = _mode.arrowLength() ? edge.data().map(function(e) {
             return {pos: e.pos.new.path.points[e.pos.new.path.points.length-1], orient: e.pos.new.orienthead};
         }) : [];
         var headOrients = _debugLayer.selectAll('line.heads').data(heads);
-        draw_arrow_orient(headOrients, 'heads', _behavior.arrowHeadColor(), '#debug-orient-marker-head');
+        draw_arrow_orient(headOrients, 'heads', _mode.arrowHeadColor(), '#debug-orient-marker-head');
 
-        var tails = _behavior.arrowLength() ? edge.data().map(function(e) {
+        var tails = _mode.arrowLength() ? edge.data().map(function(e) {
             return {pos: e.pos.new.path.points[0], orient: e.pos.new.orienttail};
         }) : [];
         var tailOrients = _debugLayer.selectAll('line.tails').data(tails);
-        draw_arrow_orient(tailOrients, 'tails', _behavior.arrowTailColor(), '#debug-orient-marker-tail');
+        draw_arrow_orient(tailOrients, 'tails', _mode.arrowTailColor(), '#debug-orient-marker-tail');
 
         var headpts = Array.prototype.concat.apply([], edge.data().map(function(e) {
             var arrowSize = diagram.edgeArrowSize.eval(e);
@@ -7352,12 +7677,12 @@ dc_graph.troubleshoot = function() {
                 arrowSize,
                 diagram.edgeStrokeWidth.eval(e) / arrowSize,
                 unrad(e.pos.new.orienthead),
-                e.pos.new.path.points[e.pos.new.path.points.length-1],
+                e.pos.new.full.points[e.pos.new.full.points.length-1],
                 diagram.nodeStrokeWidth.eval(e.target)
             );
         }));
         var hp = _debugLayer.selectAll('path.head-point').data(headpts);
-        draw_x(hp, 'head-point', _behavior.arrowHeadColor());
+        draw_x(hp, 'head-point', _mode.arrowHeadColor());
 
         var tailpts = Array.prototype.concat.apply([], edge.data().map(function(e) {
             var arrowSize = diagram.edgeArrowSize.eval(e);
@@ -7367,22 +7692,22 @@ dc_graph.troubleshoot = function() {
                 arrowSize,
                 diagram.edgeStrokeWidth.eval(e) / arrowSize,
                 unrad(e.pos.new.orienttail),
-                e.pos.new.path.points[0],
+                e.pos.new.full.points[0],
                 diagram.nodeStrokeWidth.eval(e.source)
             );
         }));
         var tp = _debugLayer.selectAll('path.tail-point').data(tailpts);
-        draw_x(tp, 'tail-point', _behavior.arrowTailColor());
+        draw_x(tp, 'tail-point', _mode.arrowTailColor());
 
         var domain = _debugLayer.selectAll('rect.domain').data([0]);
         domain.enter().append('rect');
-        var xd = _behavior.parent().x().domain(), yd = _behavior.parent().y().domain();
+        var xd = _mode.parent().x().domain(), yd = _mode.parent().y().domain();
         domain.attr({
             class: 'domain',
             fill: 'none',
-            opacity: _behavior.domainOpacity(),
-            stroke: _behavior.domainColor(),
-            'stroke-width': _behavior.domainStrokeWidth()/_scale,
+            opacity: _mode.domainOpacity(),
+            stroke: _mode.domainColor(),
+            'stroke-width': _mode.domainStrokeWidth()/_scale,
             x: xd[0],
             y: yd[0],
             width: xd[1] - xd[0],
@@ -7394,7 +7719,7 @@ dc_graph.troubleshoot = function() {
         _scale = scale;
         _xDomain = xDomain;
         _yDomain = yDomain;
-        add_behavior(_behavior.parent(), _behavior.parent().selectAllNodes(), _behavior.parent().selectAllEdges());
+        draw(_mode.parent(), _mode.parent().selectAllNodes(), _mode.parent().selectAllEdges());
     }
 
     function boundary(point, wid, hei) {
@@ -7410,10 +7735,10 @@ dc_graph.troubleshoot = function() {
     }
     function corners(bounds) {
         return [
-            bound_tick(bounds.left, bounds.top, _behavior.boundsWidth(), _behavior.boundsHeight()),
-            bound_tick(bounds.right, bounds.top, -_behavior.boundsWidth(), _behavior.boundsHeight()),
-            bound_tick(bounds.right, bounds.bottom, -_behavior.boundsWidth(), -_behavior.boundsHeight()),
-            bound_tick(bounds.left, bounds.bottom, _behavior.boundsWidth(), -_behavior.boundsHeight()),
+            bound_tick(bounds.left, bounds.top, _mode.boundsWidth(), _mode.boundsHeight()),
+            bound_tick(bounds.right, bounds.top, -_mode.boundsWidth(), _mode.boundsHeight()),
+            bound_tick(bounds.right, bounds.bottom, -_mode.boundsWidth(), -_mode.boundsHeight()),
+            bound_tick(bounds.left, bounds.bottom, _mode.boundsWidth(), -_mode.boundsHeight()),
         ].join(' ');
     }
     function draw_corners(binding, classname, color) {
@@ -7421,7 +7746,7 @@ dc_graph.troubleshoot = function() {
         binding.enter().append('path').attr('class', classname);
         binding.attr({
             d: corners,
-            opacity: _behavior.boundsOpacity() !== null ? _behavior.boundsOpacity() : _behavior.opacity(),
+            opacity: _mode.boundsOpacity() !== null ? _mode.boundsOpacity() : _mode.opacity(),
             stroke: color,
             'stroke-width': 1/_scale,
             fill: 'none'
@@ -7436,11 +7761,11 @@ dc_graph.troubleshoot = function() {
         binding.attr({
             x1: function(d) { return d.pos.x; },
             y1: function(d) { return d.pos.y; },
-            x2: function(d) { return d.pos.x - Math.cos(unrad(d.orient))*_behavior.arrowLength(); },
-            y2: function(d) { return d.pos.y - Math.sin(unrad(d.orient))*_behavior.arrowLength(); },
+            x2: function(d) { return d.pos.x - Math.cos(unrad(d.orient))*_mode.arrowLength(); },
+            y2: function(d) { return d.pos.y - Math.sin(unrad(d.orient))*_mode.arrowLength(); },
             stroke: color,
-            'stroke-width': _behavior.arrowStrokeWidth()/_scale,
-            opacity: _behavior.arrowOpacity() !== null ? _behavior.arrowOpacity() : _behavior.opacity(),
+            'stroke-width': _mode.arrowStrokeWidth()/_scale,
+            opacity: _mode.arrowOpacity() !== null ? _mode.arrowOpacity() : _mode.opacity(),
             'marker-end': 'url(' + markerUrl + ')'
         });
     }
@@ -7490,7 +7815,7 @@ dc_graph.troubleshoot = function() {
 
 
     function draw_x(binding, classname, color) {
-        var xw = _behavior.xWidth()/2, xh = _behavior.xHeight()/2;
+        var xw = _mode.xWidth()/2, xh = _mode.xHeight()/2;
         binding.exit().remove();
         binding.enter().append('path').attr('class', classname);
         binding.attr({
@@ -7503,55 +7828,55 @@ dc_graph.troubleshoot = function() {
             },
             'stroke-width': 2/_scale,
             stroke: color,
-            opacity: _behavior.xOpacity()
+            opacity: _mode.xOpacity()
         });
     }
-    function remove_behavior(diagram, node, edge, ehover) {
+    function remove(diagram, node, edge, ehover) {
         if(_debugLayer)
             _debugLayer.remove();
     }
 
-    var _behavior = dc_graph.behavior('highlight-paths', {
+    var _mode = dc_graph.mode('highlight-paths', {
         laterDraw: true,
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             if(p) {
                 _translate = p.translate();
                 _scale = p.scale();
                 p.on('zoomed.troubleshoot', on_zoom);
             }
-            else if(_behavior.parent())
-                _behavior.parent().on('zoomed.troubleshoot', null);
+            else if(_mode.parent())
+                _mode.parent().on('zoomed.troubleshoot', null);
         }
     });
-    _behavior.opacity = property(0.75);
+    _mode.opacity = property(0.75);
 
-    _behavior.xhairOpacity = property(null);
-    _behavior.xhairWidth = property(10);
-    _behavior.xhairHeight = property(10);
-    _behavior.xhairColor = property('blue');
+    _mode.xhairOpacity = property(null);
+    _mode.xhairWidth = property(10);
+    _mode.xhairHeight = property(10);
+    _mode.xhairColor = property('blue');
 
-    _behavior.boundsOpacity = property(null);
-    _behavior.boundsWidth = property(10);
-    _behavior.boundsHeight = property(10);
-    _behavior.boundsColor = property('green');
+    _mode.boundsOpacity = property(null);
+    _mode.boundsWidth = property(10);
+    _mode.boundsHeight = property(10);
+    _mode.boundsColor = property('green');
 
-    _behavior.arrowOpacity = property(null);
-    _behavior.arrowStrokeWidth = property(3);
-    _behavior.arrowColor = _behavior.arrowHeadColor = property('darkorange');
-    _behavior.arrowTailColor = property('red');
-    _behavior.arrowLength = property(100);
+    _mode.arrowOpacity = property(null);
+    _mode.arrowStrokeWidth = property(3);
+    _mode.arrowColor = _mode.arrowHeadColor = property('darkorange');
+    _mode.arrowTailColor = property('red');
+    _mode.arrowLength = property(100);
 
-    _behavior.xWidth = property(1);
-    _behavior.xHeight = property(1);
-    _behavior.xOpacity = property(0.8);
+    _mode.xWidth = property(1);
+    _mode.xHeight = property(1);
+    _mode.xOpacity = property(0.8);
 
-    _behavior.domainOpacity = property(0.6);
-    _behavior.domainColor = property('darkorange');
-    _behavior.domainStrokeWidth = property(4);
+    _mode.domainOpacity = property(0.6);
+    _mode.domainColor = property('darkorange');
+    _mode.domainStrokeWidth = property(4);
 
-    return _behavior;
+    return _mode;
 };
 
 
@@ -7581,7 +7906,7 @@ dc_graph.troubleshoot = function() {
             null;
     }
     function validate() {
-        var diagram = _behavior.parent();
+        var diagram = _mode.parent();
         var nodes = diagram.nodeGroup().all(),
             edges = diagram.edgeGroup().all(),
             ports = diagram.portGroup() ? diagram.portGroup().all() : [];
@@ -7643,22 +7968,22 @@ dc_graph.troubleshoot = function() {
         if(errors.length) {
             console.warn('validation of ' + title + ' failed with ' + count_text() + ':');
             errors.forEach(function(err) {
-                console.warn.apply(null, err);
+                console.warn.apply(console, err);
             });
         }
         else
             console.log('validation of ' + title + ' succeeded with ' + count_text() + '.');
     }
-    var _behavior = {
+    var _mode = {
         parent: property(null).react(function(p) {
             if(p)
                 p.on('data.validate', validate);
             else
-                _behavior.parent().on('data.validate', null);
+                _mode.parent().on('data.validate', null);
         })
     };
 
-    return _behavior;
+    return _mode;
 };
 
 /**
@@ -7681,9 +8006,9 @@ dc_graph.legend = function(legend_namespace) {
         }
     }
 
-    var _legend = dc_graph.behavior(legend_namespace, {
-        add_behavior: redraw,
-        remove_behavior: function() {},
+    var _legend = dc_graph.mode(legend_namespace, {
+        draw: redraw,
+        remove: function() {},
         parent: function(p) {
             if(p) {
                 p
@@ -7775,6 +8100,7 @@ dc_graph.legend = function(legend_namespace) {
             _counts = _legend.counter()(wnodes.map(get_original), wedges.map(get_original), wports.map(get_original));
     }
 
+    _legend.redraw = deprecate_function("dc_graph.legend is an ordinary mode now; redraw will go away soon", redraw);
     function redraw() {
         var legend = _legend.parent().svg()
                 .selectAll('g.dc-graph-legend.' + legend_namespace)
@@ -7821,20 +8147,20 @@ dc_graph.legend = function(legend_namespace) {
                 .attr('dx', function(d) {
                     return (_legend.itemWidth()/2+_legend.gap()) + getBBoxNoThrow(d3.select(this.parentNode).select('text.legend-label').node()).width;
                 })
-                .on('mouseenter', function(n) {
+                .on('mouseenter.' + legend_namespace, function(n) {
                     var rect = this.getBoundingClientRect();
                     var key = _legend.parent().nodeKey.eval(n);
                     _legend.dropdown()
                         .show(key, rect.x, rect.y);
                 });
             item
-                .on('mouseenter', function(d) {
+                .on('mouseenter.' + legend_namespace, function(d) {
                     if(_counts && _counts[d.orig.key]) {
                         d3.select(this).selectAll('.dropdown-caret')
                             .style('visibility', 'visible');
                     }
                 })
-                .on('mouseleave', function(d) {
+                .on('mouseleave.' + legend_namespace, function(d) {
                     d3.select(this).selectAll('.dropdown-caret')
                         .style('visibility', 'hidden');
                 });
@@ -7842,7 +8168,7 @@ dc_graph.legend = function(legend_namespace) {
 
         if(_legend.dimension()) {
             item.attr('cursor', 'pointer')
-                .on('click.legend', function(d) {
+                .on('click.' + legend_namespace, function(d) {
                     var key = _legend.parent().nodeKey.eval(d);
                     if(!_included.length)
                         _included = _items.map(_legend.parent().nodeKey.eval);
@@ -7855,7 +8181,7 @@ dc_graph.legend = function(legend_namespace) {
                 });
         } else {
             item.attr('cursor', 'auto')
-                .on('click.legend', null);
+                .on('click.' + legend_namespace, null);
         }
         item.transition().duration(1000)
             .attr('opacity', function(d) {
@@ -7864,13 +8190,14 @@ dc_graph.legend = function(legend_namespace) {
     };
 
     _legend.countBaseline = function() {
-        if(_legend.counter)
+        if(_legend.counter())
             _totals = _legend.counter()(
                 _legend.parent().nodeGroup().all(),
                 _legend.parent().edgeGroup().all(),
                 _legend.parent().portGroup() && _legend.parent().portGroup().all());
     };
 
+    _legend.render = deprecate_function("dc_graph.legend is an ordinary mode now; render will go away soon", render);
     function render() {
         var exemplars = _legend.exemplars();
         _legend.countBaseline();
@@ -7974,7 +8301,7 @@ dc_graph.legend.edge_legend = function() {
         fakeNodeRadius: property(10),
         length: property(50),
         draw: function(diagram, itemEnter, item) {
-            diagram._updateEdge(itemEnter.select('path.edge'));
+            diagram._updateEdge(itemEnter.select('path.edge'), diagram.selectAllEdges('.edge-arrows'));
         }
     };
     return _type;
@@ -8311,22 +8638,32 @@ dc_graph.tree_constraints = function(rootf, treef, xgap, ygap) {
     };
 };
 
-dc_graph.behavior = function(event_namespace, options) {
-    var _behavior = {};
+dc_graph.mode = function(event_namespace, options) {
+    var _mode = {};
     var _eventName = options.laterDraw ? 'transitionsStarted' : 'drawn';
+    var draw = options.draw, remove = options.remove;
+
+    if(!draw) {
+        console.warn('behavior.draw has been replaced by mode.draw');
+        draw = options.draw;
+    }
+    if(!remove) {
+        console.warn('behavior.remove has been replaced by mode.remove');
+        remove = options.remove;
+    }
 
     /**
      #### .parent([object])
-     Assigns this behavior to a diagram.
+     Assigns this mode to a diagram.
      **/
-    _behavior.parent = property(null)
+    _mode.parent = property(null)
         .react(function(p) {
             var diagram;
             if(p) {
                 var first = true;
                 diagram = p;
                 p.on(_eventName + '.' + event_namespace, function(node, edge, ehover) {
-                    options.add_behavior(diagram, node, edge, ehover);
+                    draw(diagram, node, edge, ehover);
                     if(first && options.first) {
                         options.first(diagram, node, edge, ehover);
                         first = false;
@@ -8335,20 +8672,22 @@ dc_graph.behavior = function(event_namespace, options) {
                         options.rest(diagram, node, edge, ehover);
                 });
                 p.on('reset.' + event_namespace, function() {
-                    options.remove_behavior(diagram, diagram.selectAllNodes(), diagram.selectAllEdges(), diagram.selectAllEdges('.edge-hover'));
+                    remove(diagram, diagram.selectAllNodes(), diagram.selectAllEdges(), diagram.selectAllEdges('.edge-hover'));
                 });
             }
-            else if(_behavior.parent()) {
-                diagram = _behavior.parent();
+            else if(_mode.parent()) {
+                diagram = _mode.parent();
                 diagram.on(_eventName + '.' + event_namespace, function(node, edge, ehover) {
-                    options.remove_behavior(diagram, node, edge, ehover);
+                    remove(diagram, node, edge, ehover);
                     diagram.on(_eventName + '.' + event_namespace, null);
                 });
             }
             options.parent && options.parent(p);
         });
-    return _behavior;
+    return _mode;
 };
+
+dc_graph.behavior = deprecate_function('dc_graph.behavior has been renamed dc_graph.mode', dc_graph.mode);
 
 /**
  * Asynchronous [d3.tip](https://github.com/Caged/d3-tip) support for dc.graph.js
@@ -8375,45 +8714,45 @@ dc_graph.tip = function(options) {
             _d3tip = d3.tip()
                 .attr('class', options.class || 'd3-tip')
                 .html(function(d) { return "<span>" + d + "</span>"; })
-                .direction(_behavior.direction());
-            if(_behavior.offset())
-                _d3tip.offset(_behavior.offset());
+                .direction(_mode.direction());
+            if(_mode.offset())
+                _d3tip.offset(_mode.offset());
             parent.svg().call(_d3tip);
         }
     }
     function fetch_and_show_content(d) {
-        if(_behavior.disabled() || _behavior.selection().exclude && _behavior.selection().exclude(d3.event.target)) {
+        if(_mode.disabled() || _mode.selection().exclude && _mode.selection().exclude(d3.event.target)) {
             hide_tip.call(this);
             return;
         }
         var target = this,
             next = function() {
-                _behavior.content()(d, function(content) {
+                _mode.content()(d, function(content) {
                     _d3tip.show.call(target, content, target);
                     d3.select('div.d3-tip')
                         .selectAll('a.tip-link')
-                        .on('click', function() {
+                        .on('click.' + _namespace, function() {
                             d3.event.preventDefault();
-                            if(_behavior.linkCallback())
-                                _behavior.linkCallback()(this.id);
+                            if(_mode.linkCallback())
+                                _mode.linkCallback()(this.id);
                         });
                     _dispatch.tipped(d);
                 });
             };
         if(_hideTimeout)
             window.clearTimeout(_hideTimeout);
-        if(_behavior.delay()) {
+        if(_mode.delay()) {
             window.clearTimeout(_showTimeout);
-            _showTimeout = window.setTimeout(next, _behavior.delay());
+            _showTimeout = window.setTimeout(next, _mode.delay());
         }
         else next();
     }
 
     function check_hide_tip() {
         if(d3.event.relatedTarget &&
-           (!_behavior.selection().exclude || !_behavior.selection().exclude(d3.event.target)) &&
+           (!_mode.selection().exclude || !_mode.selection().exclude(d3.event.target)) &&
            (this && this.contains(d3.event.relatedTarget) || // do not hide when mouse is still over a child
-            _behavior.clickable() && d3.event.relatedTarget.classList.contains('d3-tip')))
+            _mode.clickable() && d3.event.relatedTarget.classList.contains('d3-tip')))
             return false;
         return true;
     }
@@ -8436,20 +8775,20 @@ dc_graph.tip = function(options) {
         if(!check_hide_tip.apply(this))
             return;
         preempt_tip();
-        if(_behavior.hideDelay())
+        if(_mode.hideDelay())
             _hideTimeout = window.setTimeout(function () {
                 _d3tip.hide();
-            }, _behavior.hideDelay());
+            }, _mode.hideDelay());
         else
             _d3tip.hide();
     }
 
-    function add_behavior(diagram, node, edge, ehover) {
+    function draw(diagram, node, edge, ehover) {
         init(diagram);
-        _behavior.programmatic() || _behavior.selection().select(diagram, node, edge, ehover)
+        _mode.programmatic() || _mode.selection().select(diagram, node, edge, ehover)
             .on('mouseover.' + _namespace, fetch_and_show_content)
             .on('mouseout.' + _namespace, hide_tip_delay);
-        if(_behavior.clickable()) {
+        if(_mode.clickable()) {
             d3.select('div.d3-tip')
                 .on('mouseover.' + _namespace, function() {
                     if(_hideTimeout)
@@ -8458,15 +8797,15 @@ dc_graph.tip = function(options) {
                 .on('mouseout.' + _namespace, hide_tip_delay);
         }
     }
-    function remove_behavior(diagram, node, edge, ehover) {
-        _behavior.programmatic() || _behavior.selection().select(diagram, node, edge, ehover)
+    function remove(diagram, node, edge, ehover) {
+        _mode.programmatic() || _mode.selection().select(diagram, node, edge, ehover)
             .on('mouseover.' + _namespace, null)
             .on('mouseout.' + _namespace, null);
     }
 
-    var _behavior = dc_graph.behavior(_namespace, {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode(_namespace, {
+        draw: draw,
+        remove: remove,
         laterDraw: true
     });
     /**
@@ -8485,7 +8824,7 @@ dc_graph.tip = function(options) {
      * var tip = dc_graph.tip();
      * tip.content(tip.table());
      **/
-    _behavior.direction = property('n');
+    _mode.direction = property('n');
 
     /**
      * Specifies the function to generate content for the tooltip. This function has the
@@ -8498,28 +8837,28 @@ dc_graph.tip = function(options) {
      * @param {Function} [content]
      * @return {Function}
      * @example
-     * // Default behavior: assume it's a node, show node title
+     * // Default mode: assume it's a node, show node title
      * var tip = dc_graph.tip().content(function(n, k) {
-     *     k(_behavior.parent() ? _behavior.parent().nodeTitle.eval(n) : '');
+     *     k(_mode.parent() ? _mode.parent().nodeTitle.eval(n) : '');
      * });
      **/
-    _behavior.content = property(function(n, k) {
-        k(_behavior.parent() ? _behavior.parent().nodeTitle.eval(n) : '');
+    _mode.content = property(function(n, k) {
+        k(_mode.parent() ? _mode.parent().nodeTitle.eval(n) : '');
     });
 
-    _behavior.on = function(event, f) {
+    _mode.on = function(event, f) {
         return _dispatch.on(event, f);
     };
 
-    _behavior.disabled = property(false);
-    _behavior.programmatic = property(false);
+    _mode.disabled = property(false);
+    _mode.programmatic = property(false);
 
-    _behavior.displayTip = function(filter, n, cb) {
+    _mode.displayTip = function(filter, n, cb) {
         if(typeof filter !== 'function') {
             var d = filter;
             filter = function(d2) { return d2 === d; };
         }
-        var found = _behavior.selection().select(_behavior.parent(), _behavior.parent().selectAllNodes(), _behavior.parent().selectAllEdges(), null)
+        var found = _mode.selection().select(_mode.parent(), _mode.parent().selectAllNodes(), _mode.parent().selectAllEdges(), null)
             .filter(filter);
         if(found.size() > 0) {
             var action = fetch_and_show_content;
@@ -8533,29 +8872,29 @@ dc_graph.tip = function(options) {
             d = d3.select(flattened[which]).datum();
             if(cb)
                 cb(d);
-            if(_behavior.programmatic())
-                found.on('mouseout', hide_tip_delay);
+            if(_mode.programmatic())
+                found.on('mouseout.' + _namespace, hide_tip_delay);
         }
-        return _behavior;
+        return _mode;
     };
 
-    _behavior.hideTip = function(delay) {
+    _mode.hideTip = function(delay) {
         if(_d3tip) {
             if(delay)
                 hide_tip_delay();
             else
                 hide_tip();
         }
-        return _behavior;
+        return _mode;
     };
-    _behavior.selection = property(dc_graph.tip.select_node_and_edge());
-    _behavior.showDelay = _behavior.delay = property(0);
-    _behavior.hideDelay = property(200);
-    _behavior.offset = property(null);
-    _behavior.clickable = property(false);
-    _behavior.linkCallback = property(null);
+    _mode.selection = property(dc_graph.tip.select_node_and_edge());
+    _mode.showDelay = _mode.delay = property(0);
+    _mode.hideDelay = property(200);
+    _mode.offset = property(null);
+    _mode.clickable = property(false);
+    _mode.linkCallback = property(null);
 
-    return _behavior;
+    return _mode;
 };
 
 /**
@@ -8732,7 +9071,7 @@ dc_graph.keyboard = function() {
     function keyup() {
         _dispatch.keyup();
     }
-    function add_behavior(diagram) {
+    function draw(diagram) {
         _input_anchor = diagram.svg().selectAll('a#dcgraph-keyboard').data([1]);
         _input_anchor.enter()
             .insert('a', ':first-child').attr({
@@ -8744,32 +9083,33 @@ dc_graph.keyboard = function() {
 
         // grab focus whenever svg is interacted with (?)
         diagram.svg().on('mouseup.keyboard', function() {
-            _behavior.focus();
+            _mode.focus();
         });
     }
-    function remove_behavior(diagram) {
+    function remove(diagram) {
         _input_anchor.remove();
     }
-    var _behavior = dc_graph.behavior('brush', {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior
+    var _mode = dc_graph.mode('brush', {
+        draw: draw,
+        remove: remove
     });
 
-    _behavior.on = function(event, f) {
+    _mode.on = function(event, f) {
         if(arguments.length === 1)
             return _dispatch.on(event);
         _dispatch.on(event, f);
         return this;
     };
 
-    _behavior.focus = function() {
-        if(!_behavior.disableFocus())
-            _input_anchor.node().focus();
+    _mode.focus = function() {
+        if(!_mode.disableFocus()) {
+            _input_anchor.node().focus && _input_anchor.node().focus();
+        }
     };
 
-    _behavior.disableFocus = property(false);
+    _mode.disableFocus = property(false);
 
-    return _behavior;
+    return _mode;
 };
 
 // adapted from
@@ -8780,11 +9120,12 @@ dc_graph.edit_text = function(parent, options) {
         height: '100%',
         width: '100%' // don't wrap
     });
+    var padding = options.padding !== undefined ? options.padding : 2;
     function reposition() {
         var pos;
         switch(options.align) {
         case 'left':
-            pos = [options.box.x, options.box.y];
+            pos = [options.box.x-padding, options.box.y-padding];
             break;
         default:
         case 'center':
@@ -8800,47 +9141,48 @@ dc_graph.edit_text = function(parent, options) {
     var text = options.text || "type on me";
     textdiv.text(text).attr({
         contenteditable: true,
-        width: 'auto'
+        width: 'auto',
+        class: options.class || null
     }).style({
         display: 'inline-block',
         'background-color': 'white',
-        padding: '2px'
+        padding: padding + 'px'
     });
 
     function stopProp() {
         d3.event.stopPropagation();
     }
     foreign
-        .on('mousedown', stopProp)
-        .on('mousemove', stopProp)
-        .on('mouseup', stopProp)
-        .on('dblclick', stopProp);
+        .on('mousedown.edit-text', stopProp)
+        .on('mousemove.edit-text', stopProp)
+        .on('mouseup.edit-text', stopProp)
+        .on('dblclick.edit-text', stopProp);
 
     function accept() {
         options.accept && options.accept(textdiv.text());
-        textdiv.on('blur.edittext', null);
+        textdiv.on('blur.edit-text', null);
         foreign.remove();
         options.finally && options.finally();
     }
     function cancel() {
         options.cancel && options.cancel();
-        textdiv.on('blur.edittext', null);
+        textdiv.on('blur.edit-text', null);
         foreign.remove();
         options.finally && options.finally();
     }
 
-    textdiv.on('keydown.edittext', function() {
+    textdiv.on('keydown.edit-text', function() {
         if(d3.event.keyCode===13) {
             d3.event.preventDefault();
         }
-    }).on('keyup.edittext', function() {
+    }).on('keyup.edit-text', function() {
         if(d3.event.keyCode===13) {
             accept();
         } else if(d3.event.keyCode===27) {
             cancel();
         }
         reposition();
-    }).on('blur.edittext', cancel);
+    }).on('blur.edit-text', cancel);
     reposition();
     textdiv.node().focus();
 
@@ -8856,6 +9198,13 @@ dc_graph.edit_text = function(parent, options) {
     sel.addRange(range);
 };
 
+/**
+ * `dc_graph.brush` is a {@link dc_graph.mode mode} providing a simple wrapper over
+ * [d3.svg.brush](https://github.com/d3/d3-3.x-api-reference/blob/master/SVG-Controls.md#brush)
+ * @class brush
+ * @memberof dc_graph
+ * @return {dc_graph.brush}
+ **/
 dc_graph.brush = function() {
     var _brush = null, _gBrush, _dispatch = d3.dispatch('brushstart', 'brushmove', 'brushend');
 
@@ -8874,9 +9223,9 @@ dc_graph.brush = function() {
         if(!_brush) {
             _brush = d3.svg.brush()
                 .x(diagram.x()).y(diagram.y())
-                .on('brushstart', brushstart)
-                .on('brush', brushmove)
-                .on('brushend', brushend);
+                .on('brushstart.brush-mode', brushstart)
+                .on('brush.brush-mode', brushmove)
+                .on('brushend.brush-mode', brushend);
         }
         if(!_gBrush) {
             _gBrush = diagram.svg().insert('g', ':first-child')
@@ -8890,30 +9239,61 @@ dc_graph.brush = function() {
             _gBrush = null;
         }
     }
-    var _behavior = dc_graph.behavior('brush', {
-        add_behavior: function() {},
-        remove_behavior: remove_brush
+    var _mode = dc_graph.mode('brush', {
+        draw: function() {},
+        remove: remove_brush
     });
 
-    _behavior.on = function(event, f) {
+    /**
+     * Subscribe to a brush event, currently `brushstart`, `brushmove`, or `brushend`
+     * @method on
+     * @memberof dc_graph.brush
+     * @instance
+     * @param {String} event the name of the event; please namespace with `'namespace.event'`
+     * @param {Function} [f] the handler function; if omitted, returns the current handler
+     * @return {dc_graph.brush}
+     * @return {Function}
+     **/
+    _mode.on = function(event, f) {
         if(arguments.length === 1)
             return _dispatch.on(event);
         _dispatch.on(event, f);
         return this;
     };
-    _behavior.activate = function() {
-        install_brush(_behavior.parent());
+    /**
+     * Add the brush to the parent diagram's SVG
+     * @method activate
+     * @memberof dc_graph.brush
+     * @instance
+     * @return {dc_graph.brush}
+     **/
+    _mode.activate = function() {
+        install_brush(_mode.parent());
         return this;
     };
-    _behavior.deactivate = function() {
+    /**
+     * Remove the brush from the parent diagram's SVG
+     * @method deactivate
+     * @memberof dc_graph.brush
+     * @instance
+     * @return {dc_graph.brush}
+     **/
+    _mode.deactivate = function() {
         remove_brush();
         return this;
     };
-    _behavior.isActive = function () {
+    /**
+     * Retrieve whether the brush is currently active
+     * @method isActive
+     * @memberof dc_graph.brush
+     * @instance
+     * @return {Boolean}
+     **/
+    _mode.isActive = function () {
         return !!_gBrush;
     };
 
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.select_things = function(things_group, things_name, thinginess) {
@@ -8953,7 +9333,7 @@ dc_graph.select_things = function(things_group, things_name, thinginess) {
                 refresh = true;
             _selected = selection;
             if(refresh)
-                diagram.refresh();
+                diagram.requestRefresh();
         };
     }
     var _have_bce = false;
@@ -8989,8 +9369,8 @@ dc_graph.select_things = function(things_group, things_name, thinginess) {
         things_group.set_changed(newSelected);
     }
 
-    function add_behavior(diagram, node, edge) {
-        var condition = _behavior.noneIsAll() ? function(t) {
+    function draw(diagram, node, edge) {
+        var condition = _mode.noneIsAll() ? function(t) {
             return !_selected.length || contains(_selected, thinginess.key(t));
         } : function(t) {
             return contains(_selected, thinginess.key(t));
@@ -9009,7 +9389,7 @@ dc_graph.select_things = function(things_group, things_name, thinginess) {
             if(_mousedownThing !== t)
                 return;
             var key = thinginess.key(t), newSelected;
-            if(_behavior.multipleSelect()) {
+            if(_mode.multipleSelect()) {
                 if(isUnion(d3.event))
                     newSelected = add_array(_selected, key);
                 else if(isToggle(d3.event))
@@ -9020,14 +9400,14 @@ dc_graph.select_things = function(things_group, things_name, thinginess) {
             things_group.set_changed(newSelected);
         });
 
-        if(_behavior.multipleSelect()) {
+        if(_mode.multipleSelect()) {
             var brush_mode = diagram.child('brush');
             brush_mode.activate();
         }
         else
-            background_click_event(diagram, _behavior.clickBackgroundClears());
+            background_click_event(diagram, _mode.clickBackgroundClears());
 
-        if(_behavior.autoCropSelection()) {
+        if(_mode.autoCropSelection()) {
             // drop any selected which no longer exist in the diagram
             var present = thinginess.clickables(diagram, node, edge).data().map(thinginess.key);
             var now_selected = _selected.filter(function(k) { return contains(present, k); });
@@ -9036,18 +9416,18 @@ dc_graph.select_things = function(things_group, things_name, thinginess) {
         }
     }
 
-    function remove_behavior(diagram, node, edge) {
+    function remove(diagram, node, edge) {
         thinginess.clickables(diagram, node, edge).on('click.' + things_name, null);
         diagram.svg().on('click.' + things_name, null);
         thinginess.removeStyles();
     }
 
-    var _behavior = dc_graph.behavior(things_name, {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode(things_name, {
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             things_group.on('set_changed.' + things_name, p ? selection_changed(p) : null);
-            if(p && _behavior.multipleSelect()) {
+            if(p && _mode.multipleSelect()) {
                 var brush_mode = p.child('brush');
                 if(!brush_mode) {
                     brush_mode = dc_graph.brush();
@@ -9061,21 +9441,21 @@ dc_graph.select_things = function(things_group, things_name, thinginess) {
         laterDraw: thinginess.laterDraw || false
     });
 
-    _behavior.multipleSelect = property(true);
-    _behavior.clickBackgroundClears = property(true, false).react(function(v) {
-        if(!_behavior.multipleSelect() && _behavior.parent())
-            background_click_event(_behavior.parent(), v);
+    _mode.multipleSelect = property(true);
+    _mode.clickBackgroundClears = property(true, false).react(function(v) {
+        if(!_mode.multipleSelect() && _mode.parent())
+            background_click_event(_mode.parent(), v);
     });
-    _behavior.noneIsAll = property(false);
+    _mode.noneIsAll = property(false);
     // if you're replacing the data, you probably want the selection not to be preserved when a thing
     // with the same key re-appears later (true). however, if you're filtering dc.js-style, you
     // probably want filters to be independent between diagrams (false)
-    _behavior.autoCropSelection = property(true);
+    _mode.autoCropSelection = property(true);
     // if you want to do the cool things select_things can do
-    _behavior.thinginess = function() {
+    _mode.thinginess = function() {
         return thinginess;
     };
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.select_things_group = function(brushgroup, type) {
@@ -9092,7 +9472,7 @@ dc_graph.select_nodes = function(props, options) {
 
     var thinginess = {
         intersectRect: function(ext) {
-            return _behavior.parent().selectAllNodes().data().filter(function(n) {
+            return _mode.parent().selectAllNodes().data().filter(function(n) {
                 return n && ext[0][0] < n.cola.x && n.cola.x < ext[1][0] &&
                     ext[0][1] < n.cola.y && n.cola.y < ext[1][1];
             }).map(this.key);
@@ -9104,17 +9484,17 @@ dc_graph.select_nodes = function(props, options) {
             return ancestor_has_class(element, 'port');
         },
         key: function(n) {
-            return _behavior.parent().nodeKey.eval(n);
+            return _mode.parent().nodeKey.eval(n);
         },
         applyStyles: function(pred) {
-            _behavior.parent().cascade(50, true, node_edge_conditions(pred, null, props));
+            _mode.parent().cascade(50, true, node_edge_conditions(pred, null, props));
         },
         removeStyles: function() {
-            _behavior.parent().cascade(50, false, props);
+            _mode.parent().cascade(50, false, props);
         }
     };
-    var _behavior = dc_graph.select_things(select_nodes_group, 'select-nodes', thinginess);
-    return _behavior;
+    var _mode = dc_graph.select_things(select_nodes_group, 'select-nodes', thinginess);
+    return _mode;
 };
 
 dc_graph.select_edges = function(props, options) {
@@ -9139,20 +9519,20 @@ dc_graph.select_edges = function(props, options) {
             }).map(this.key);
         },
         clickables: function() {
-            return _behavior.parent().selectAllEdges('.edge-hover');
+            return _mode.parent().selectAllEdges('.edge-hover');
         },
         key: function(e) {
-            return _behavior.parent().edgeKey.eval(e);
+            return _mode.parent().edgeKey.eval(e);
         },
         applyStyles: function(pred) {
-            _behavior.parent().cascade(50, true, node_edge_conditions(null, pred, props));
+            _mode.parent().cascade(50, true, node_edge_conditions(null, pred, props));
         },
         removeStyles: function() {
-            _behavior.parent().cascade(50, false, props);
+            _mode.parent().cascade(50, false, props);
         }
     };
-    var _behavior = dc_graph.select_things(select_edges_group, 'select-edges', thinginess);
-    return _behavior;
+    var _mode = dc_graph.select_things(select_edges_group, 'select-edges', thinginess);
+    return _mode;
 };
 
 dc_graph.select_ports = function(props, options) {
@@ -9163,26 +9543,26 @@ dc_graph.select_ports = function(props, options) {
         laterDraw: true,
         intersectRect: null, // multiple selection not supported for now
         clickables: function() {
-            return _behavior.parent().selectAllNodes('g.port');
+            return _mode.parent().selectAllNodes('g.port');
         },
         key: function(p) {
             // this scheme also won't work with multiselect
             return p.named ?
-                {node: _behavior.parent().nodeKey.eval(p.node), name: p.name} :
-            {edge: _behavior.parent().edgeKey.eval(p.edges[0]), name: p.name};
+                {node: _mode.parent().nodeKey.eval(p.node), name: p.name} :
+            {edge: _mode.parent().edgeKey.eval(p.edges[0]), name: p.name};
         },
         applyStyles: function(pred) {
-            _behavior.parent().portStyle(port_style).cascade(50, true, conditional_properties(pred, props));
+            _mode.parent().portStyle(port_style).cascade(50, true, conditional_properties(pred, props));
         },
         removeStyles: function() {
-            _behavior.parent().portStyle(port_style).cascade(50, false, props);
+            _mode.parent().portStyle(port_style).cascade(50, false, props);
         },
         keysEqual: function(k1, k2) {
             return k1.name === k2.name && (k1.node ? k1.node === k2.node : k1.edge === k2.edge);
         }
     };
-    var _behavior = dc_graph.select_things(select_ports_group, 'select-ports', thinginess);
-    return _behavior;
+    var _mode = dc_graph.select_things(select_ports_group, 'select-ports', thinginess);
+    return _mode;
 };
 
 dc_graph.move_nodes = function(options) {
@@ -9210,11 +9590,11 @@ dc_graph.move_nodes = function(options) {
     function for_each_selected(f, selected) {
         selected = selected || _selected;
         selected.forEach(function(key) {
-            var n = _behavior.parent().getWholeNode(key);
+            var n = _mode.parent().getWholeNode(key);
             f(n, key);
         });
     }
-    function add_behavior(diagram, node, edge) {
+    function draw(diagram, node, edge) {
         node.on('mousedown.move-nodes', function(n) {
             // Need a more general way for modes to say "I got this"
             if(_drawGraphs && _drawGraphs.usePorts() && _drawGraphs.usePorts().eventPort())
@@ -9247,7 +9627,7 @@ dc_graph.move_nodes = function(options) {
                 var pos = dc_graph.event_coords(diagram);
                 var dx = pos[0] - _startPos[0],
                     dy = pos[1] - _startPos[1];
-                if(!_moveStarted && Math.hypot(dx, dy) > _behavior.dragSize()) {
+                if(!_moveStarted && Math.hypot(dx, dy) > _mode.dragSize()) {
                     _moveStarted = true;
                     // prevent click event for this node setting selection just to this
                     if(_downNode)
@@ -9292,27 +9672,30 @@ dc_graph.move_nodes = function(options) {
             .on('mouseup.move-nodes', mouse_up);
     }
 
-    function remove_behavior(diagram, node, edge) {
+    function remove(diagram, node, edge) {
         node.on('mousedown.move-nodes', null);
         node.on('mousemove.move-nodes', null);
         node.on('mouseup.move-nodes', null);
     }
 
-    var _behavior = dc_graph.behavior('move-nodes', {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode('move-nodes', {
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             select_nodes_group.on('set_changed.move-nodes', p ? selection_changed(p) : null);
-            _brush = p.child('brush');
-            _drawGraphs = p.child('draw-graphs');
-            _selectNodes = p.child('select-nodes');
+            if(p) {
+                _brush = p.child('brush');
+                _drawGraphs = p.child('draw-graphs');
+                _selectNodes = p.child('select-nodes');
+            }
+            else _brush = _drawGraphs = _selectNodes = null;
         }
     });
 
     // minimum distance that is considered a drag, not a click
-    _behavior.dragSize = property(5);
+    _mode.dragSize = property(5);
 
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.fix_nodes = function(options) {
@@ -9323,16 +9706,16 @@ dc_graph.fix_nodes = function(options) {
 
     var _execute = {
         nodeid: function(n) {
-            return _behavior.parent().nodeKey.eval(n);
+            return _mode.parent().nodeKey.eval(n);
         },
         sourceid: function(e) {
-            return _behavior.parent().edgeSource.eval(e);
+            return _mode.parent().edgeSource.eval(e);
         },
         targetid: function(e) {
-            return _behavior.parent().edgeTarget.eval(e);
+            return _mode.parent().edgeTarget.eval(e);
         },
         get_fix: function(n) {
-            return _behavior.parent().nodeFixed.eval(n);
+            return _mode.parent().nodeFixed.eval(n);
         },
         fix_node: function(n, pos) {
             n[_fixedPosTag] = pos;
@@ -9349,22 +9732,22 @@ dc_graph.fix_nodes = function(options) {
     };
 
     function request_fixes(fixes) {
-        _behavior.strategy().request_fixes(_execute, fixes);
+        _mode.strategy().request_fixes(_execute, fixes);
         tell_then_set(find_changes()).then(function() {
-            _behavior.parent().redraw();
+            _mode.parent().redraw();
         });
     }
     function new_node(nid, n, pos) {
-        _behavior.strategy().new_node(_execute, nid, n, pos);
+        _mode.strategy().new_node(_execute, nid, n, pos);
     }
     function new_edge(eid, sourceid, targetid) {
         var source = _nodes[sourceid], target = _nodes[targetid];
-        _behavior.strategy().new_edge(_execute, eid, source, target);
+        _mode.strategy().new_edge(_execute, eid, source, target);
     }
     function find_changes() {
         var changes = [];
         _wnodes.forEach(function(n) {
-            var key = _behavior.parent().nodeKey.eval(n),
+            var key = _mode.parent().nodeKey.eval(n),
                 fixPos = _fixes[key],
                 oldFixed = n.orig.value[_fixedPosTag],
                 changed = false;
@@ -9385,9 +9768,9 @@ dc_graph.fix_nodes = function(options) {
             _execute.unfix_node(n.orig.value);
     }
     function tell_then_set(changes) {
-        var callback = _behavior.fixNode() || function(n, pos) { return Promise.resolve(pos); };
+        var callback = _mode.fixNode() || function(n, pos) { return Promise.resolve(pos); };
         var promises = changes.map(function(change) {
-            var key = _behavior.parent().nodeKey.eval(change.n);
+            var key = _mode.parent().nodeKey.eval(change.n);
             return callback(key, change.fixed)
                 .then(function(fixed) {
                     execute_change(change.n, fixed);
@@ -9401,9 +9784,9 @@ dc_graph.fix_nodes = function(options) {
         });
     }
     function tell_changes(changes) {
-        var callback = _behavior.fixNode() || function(n, pos) { return Promise.resolve(pos); };
+        var callback = _mode.fixNode() || function(n, pos) { return Promise.resolve(pos); };
         var promises = changes.map(function(change) {
-            var key = _behavior.parent().nodeKey.eval(change.n);
+            var key = _mode.parent().nodeKey.eval(change.n);
             return callback(key, change.fixed);
         });
         return Promise.all(promises);
@@ -9422,7 +9805,7 @@ dc_graph.fix_nodes = function(options) {
         }
     }
     function clear_fixes() {
-        _behavior.strategy().clear_all_fixes && _behavior.strategy().clear_all_fixes();
+        _mode.strategy().clear_all_fixes && _mode.strategy().clear_all_fixes();
         _execute.clear_fixes();
     }
     function on_data(diagram, nodes, wnodes, edges, wedges, ports, wports) {
@@ -9430,17 +9813,17 @@ dc_graph.fix_nodes = function(options) {
         _wnodes = wnodes;
         _edges = edges;
         _wedges = wedges;
-        if(_behavior.strategy().on_data) {
-            _behavior.strategy().on_data(_execute, nodes, wnodes, edges, wedges, ports, wports); // ghastly
+        if(_mode.strategy().on_data) {
+            _mode.strategy().on_data(_execute, nodes, wnodes, edges, wedges, ports, wports); // ghastly
             var changes = find_changes();
             set_changes(changes);
             // can't wait for backend to acknowledge/approve so just set then blast
-            if(_behavior.reportOverridesAsynchronously())
+            if(_mode.reportOverridesAsynchronously())
                 tell_changes(changes); // dangling promise
         }
     }
 
-    var _behavior = {
+    var _mode = {
         parent: property(null).react(function(p) {
             fix_nodes_group
                 .on('request_fixes.fix-nodes', p ? request_fixes : null)
@@ -9448,8 +9831,8 @@ dc_graph.fix_nodes = function(options) {
                 .on('new_edge.fix_nodes', p ? new_edge : null);
             if(p) {
                 p.on('data.fix-nodes', on_data);
-            } else if(_behavior.parent())
-                _behavior.parent().on('data.fix-nodes', null);
+            } else if(_mode.parent())
+                _mode.parent().on('data.fix-nodes', null);
         }),
         // callback for setting & fixing node position
         fixNode: property(null),
@@ -9461,7 +9844,7 @@ dc_graph.fix_nodes = function(options) {
         reportOverridesAsynchronously: property(true)
     };
 
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.fix_nodes.strategy = {};
@@ -9595,23 +9978,23 @@ dc_graph.filter_selection = function(things_group, things_name) {
         return function(selection) {
             if(selection.length) {
                 var set = d3.set(selection);
-                _behavior.dimensionAccessor()(diagram).filterFunction(function(k) {
+                _mode.dimensionAccessor()(diagram).filterFunction(function(k) {
                     return set.has(k);
                 });
-            } else _behavior.dimensionAccessor()(diagram).filter(null);
+            } else _mode.dimensionAccessor()(diagram).filter(null);
             diagram.redrawGroup();
         };
     }
 
-    var _behavior = {
+    var _mode = {
         parent: property(null).react(function(p) {
             select_nodes_group.on('set_changed.filter-selection-' + things_name, p ? selection_changed(p) : null);
         })
     };
-    _behavior.dimensionAccessor = property(function(diagram) {
+    _mode.dimensionAccessor = property(function(diagram) {
         return diagram.nodeDimension();
     });
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.delete_things = function(things_group, mode_name, id_tag) {
@@ -9625,20 +10008,20 @@ dc_graph.delete_things = function(things_group, mode_name, id_tag) {
         return r[id_tag];
     }
     function delete_selection(selection) {
-        if(!_behavior.crossfilterAccessor())
+        if(!_mode.crossfilterAccessor())
             throw new Error('need crossfilterAccessor');
-        if(!_behavior.dimensionAccessor())
+        if(!_mode.dimensionAccessor())
             throw new Error('need dimensionAccessor');
         selection = selection || _selected;
         if(selection.length === 0)
             return Promise.resolve([]);
-        var promise = _behavior.preDelete() ? _behavior.preDelete()(selection) : Promise.resolve(selection);
-        if(_behavior.onDelete())
-            promise = promise.then(_behavior.onDelete());
+        var promise = _mode.preDelete() ? _mode.preDelete()(selection) : Promise.resolve(selection);
+        if(_mode.onDelete())
+            promise = promise.then(_mode.onDelete());
         return promise.then(function(selection) {
             if(selection && selection.length) {
-                var crossfilter = _behavior.crossfilterAccessor()(_behavior.parent()),
-                    dimension = _behavior.dimensionAccessor()(_behavior.parent());
+                var crossfilter = _mode.crossfilterAccessor()(_mode.parent()),
+                    dimension = _mode.dimensionAccessor()(_mode.parent());
                 var all = crossfilter.all().slice(), n = all.length;
                 dimension.filter(null);
                 crossfilter.remove();
@@ -9650,22 +10033,22 @@ dc_graph.delete_things = function(things_group, mode_name, id_tag) {
                                  filtered.map(row_id), all.map(row_id), selection);
                 crossfilter.add(filtered);
 
-                _behavior.parent().redrawGroup();
+                _mode.parent().redrawGroup();
             }
             return true;
         });
     }
-    function add_behavior(diagram) {
+    function draw(diagram) {
         _keyboard.on('keyup.' + mode_name, function() {
             if(d3.event.code === _deleteKey)
                 delete_selection();
         });
     }
-    function remove_behavior(diagram) {
+    function remove(diagram) {
     }
-    var _behavior = dc_graph.behavior(mode_name, {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode(mode_name, {
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             things_group.on('set_changed.' + mode_name, selection_changed);
             if(p) {
@@ -9675,24 +10058,24 @@ dc_graph.delete_things = function(things_group, mode_name, id_tag) {
             }
         }
     });
-    _behavior.preDelete = property(null);
-    _behavior.onDelete = property(null);
-    _behavior.crossfilterAccessor = property(null);
-    _behavior.dimensionAccessor = property(null);
-    _behavior.deleteSelection = delete_selection;
-    return _behavior;
+    _mode.preDelete = property(null);
+    _mode.onDelete = property(null);
+    _mode.crossfilterAccessor = property(null);
+    _mode.dimensionAccessor = property(null);
+    _mode.deleteSelection = delete_selection;
+    return _mode;
 };
 
 dc_graph.delete_nodes = function(id_tag, options) {
     options = options || {};
     var select_nodes_group = dc_graph.select_things_group(options.select_nodes_group || 'select-nodes-group', 'select-nodes');
     var select_edges_group = dc_graph.select_things_group(options.select_edges_group || 'select-edges-group', 'select-edges');
-    var _behavior = dc_graph.delete_things(select_nodes_group, 'delete-nodes', id_tag);
+    var _mode = dc_graph.delete_things(select_nodes_group, 'delete-nodes', id_tag);
 
-    _behavior.preDelete(function(nodes) {
+    _mode.preDelete(function(nodes) {
         // request a delete of all attached edges, using the delete edges mode
         // kind of horrible
-        var diagram = _behavior.parent();
+        var diagram = _mode.parent();
         var deleteEdgesMode = diagram.child('delete-edges');
         if(!deleteEdgesMode)
             return null; // reject if we can't delete the edges
@@ -9714,7 +10097,7 @@ dc_graph.delete_nodes = function(id_tag, options) {
             });
         });
     });
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.label_things = function(options) {
@@ -9743,6 +10126,7 @@ dc_graph.label_things = function(options) {
                 {
                     text: eventOptions.text || options.thing_label(thing) || options.default_label,
                     align: options.align,
+                    class: options.class,
                     box: box,
                     selectText: eventOptions.selectText,
                     accept: function(text) {
@@ -9770,7 +10154,7 @@ dc_graph.label_things = function(options) {
         }
         label_things_group.edit_label(thing, eventOptions);
     }
-    function add_behavior(diagram, node, edge) {
+    function draw(diagram, node, edge) {
         _keyboard.on('keyup.' + options.label_type, function() {
             if(_selected.length) {
                 // printable characters should start edit
@@ -9785,12 +10169,12 @@ dc_graph.label_things = function(options) {
             });
     }
 
-    function remove_behavior(diagram, node, edge) {
+    function remove(diagram, node, edge) {
     }
 
-    var _behavior = dc_graph.behavior(options.label_type, {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode(options.label_type, {
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             select_things_group.on('set_changed.' + options.label_type, p ? selection_changed_listener(p) : null);
             label_things_group.on('edit_label.' + options.label_type, p ? edit_label_listener(p) : null);
@@ -9802,10 +10186,10 @@ dc_graph.label_things = function(options) {
             }
         }
     });
-    _behavior.editSelection = function(eventOptions) {
-        edit_selection(_behavior.parent().selectAllNodes(), _behavior.parent().selectAllEdges(), eventOptions);
+    _mode.editSelection = function(eventOptions) {
+        edit_selection(_mode.parent().selectAllNodes(), _mode.parent().selectAllEdges(), eventOptions);
     };
-    return _behavior;
+    return _mode;
 };
 
 dc_graph.label_things_group = function(brushgroup, type) {
@@ -9827,37 +10211,37 @@ dc_graph.label_nodes = function(options) {
 
     options.find_thing = function(key, node, edge) {
         return node.filter(function(n) {
-            return _behavior.parent().nodeKey.eval(n) === key;
+            return _mode.parent().nodeKey.eval(n) === key;
         });
     };
     options.hide_thing_label = function(node, whether) {
-        var contents = _behavior.parent().content(_behavior.parent().nodeContent.eval(node.datum()));
+        var contents = _mode.parent().content(_mode.parent().nodeContent.eval(node.datum()));
         contents.selectText(node).attr('visibility', whether ? 'hidden' : 'visible');
     };
     options.thing_box = function(node, eventOptions) {
-        var contents = _behavior.parent().content(_behavior.parent().nodeContent.eval(node.datum())),
+        var contents = _mode.parent().content(_mode.parent().nodeContent.eval(node.datum())),
             box = contents.textbox(node);
         box.x += node.datum().cola.x;
         box.y += node.datum().cola.y;
         return box;
     };
     options.thing_label = function(node) {
-        return _behavior.parent().nodeLabel.eval(node.datum());
+        return _mode.parent().nodeLabel.eval(node.datum());
     };
     options.accept = function(node, text) {
-        var callback = _behavior.changeNodeLabel() ?
-                _behavior.changeNodeLabel()(_behavior.parent().nodeKey.eval(node.datum()), text) :
+        var callback = _mode.changeNodeLabel() ?
+                _mode.changeNodeLabel()(_mode.parent().nodeKey.eval(node.datum()), text) :
                 Promise.resolve(text);
         return callback.then(function(text2) {
             var n = node.datum();
             n.orig.value[_labelTag] = text2;
-            _behavior.parent().redrawGroup();
+            _mode.parent().redrawGroup();
         });
     };
 
-    var _behavior = dc_graph.label_things(options);
-    _behavior.changeNodeLabel = property(null);
-    return _behavior;
+    var _mode = dc_graph.label_things(options);
+    _mode.changeNodeLabel = property(null);
+    return _mode;
 };
 
 dc_graph.label_edges = function(options) {
@@ -9871,11 +10255,11 @@ dc_graph.label_edges = function(options) {
 
     options.find_thing = function(key, node, edge) {
         return edge.filter(function(e) {
-            return _behavior.parent().edgeKey.eval(e) === key;
+            return _mode.parent().edgeKey.eval(e) === key;
         });
     };
     options.hide_thing_label = function(edge, whether) {
-        var label = _behavior.parent().selectAll('#' + _behavior.parent().edgeId(edge.datum()) + '-label textPath');
+        var label = _mode.parent().selectAll('#' + _mode.parent().edgeId(edge.datum()) + '-label textPath');
         label.attr('visibility', whether ? 'hidden' : 'visible');
     };
     options.thing_box = function(edge, eventOptions) {
@@ -9885,22 +10269,22 @@ dc_graph.label_edges = function(options) {
         return {x: x, y: y-10, width:0, height: 20};
     };
     options.thing_label = function(edge) {
-        return _behavior.parent().edgeLabel.eval(edge.datum());
+        return _mode.parent().edgeLabel.eval(edge.datum());
     };
     options.accept = function(edge, text) {
-        var callback = _behavior.changeEdgeLabel() ?
-                _behavior.changeEdgeLabel()(_behavior.parent().edgeKey.eval(edge.datum()), text) :
+        var callback = _mode.changeEdgeLabel() ?
+                _mode.changeEdgeLabel()(_mode.parent().edgeKey.eval(edge.datum()), text) :
                 Promise.resolve(text);
         return callback.then(function(text2) {
             var e = edge.datum();
             e.orig.value[_labelTag] = text2;
-            _behavior.parent().redrawGroup();
+            _mode.parent().redrawGroup();
         });
     };
 
-    var _behavior = dc_graph.label_things(options);
-    _behavior.changeEdgeLabel = property(null);
-    return _behavior;
+    var _mode = dc_graph.label_things(options);
+    _mode.changeEdgeLabel = property(null);
+    return _mode;
 };
 
 dc_graph.register_highlight_things_group = function(thingsgroup) {
@@ -9920,35 +10304,35 @@ dc_graph.highlight_things = function(includeprops, excludeprops, modename, group
         _active = nodeset || edgeset;
         _nodeset = nodeset || {};
         _edgeset = edgeset || {};
-        _behavior.parent().requestRefresh(_behavior.durationOverride());
+        _mode.parent().requestRefresh(_mode.durationOverride());
     }
-    function add_behavior(diagram) {
+    function draw(diagram) {
         diagram.cascade(cascbase, true, node_edge_conditions(
             function(n) {
-                return _nodeset[_behavior.parent().nodeKey.eval(n)];
+                return _nodeset[_mode.parent().nodeKey.eval(n)];
             }, function(e) {
-                return _edgeset[_behavior.parent().edgeKey.eval(e)];
+                return _edgeset[_mode.parent().edgeKey.eval(e)];
             }, includeprops));
         diagram.cascade(cascbase+10, true, node_edge_conditions(
             function(n) {
-                return _active && !_nodeset[_behavior.parent().nodeKey.eval(n)];
+                return _active && !_nodeset[_mode.parent().nodeKey.eval(n)];
             }, function(e) {
-                return _active && !_edgeset[_behavior.parent().edgeKey.eval(e)];
+                return _active && !_edgeset[_mode.parent().edgeKey.eval(e)];
             }, excludeprops));
     }
-    function remove_behavior(diagram) {
+    function remove(diagram) {
         diagram.cascade(cascbase, false, includeprops);
         diagram.cascade(cascbase + 10, false, excludeprops);
     }
-    var _behavior = dc_graph.behavior(modename, {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode(modename, {
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             highlight_things_group.on('highlight.' + modename, p ? highlight : null);
         }
     });
-    _behavior.durationOverride = property(undefined);
-    return _behavior;
+    _mode.durationOverride = property(undefined);
+    return _mode;
 };
 
 dc_graph.register_highlight_neighbors_group = function(neighborsgroup) {
@@ -9964,11 +10348,11 @@ dc_graph.highlight_neighbors = function(includeprops, excludeprops, neighborsgro
     var highlight_things_group = dc_graph.register_highlight_things_group(thingsgroup || 'highlight-things-group');
 
     function highlight_node(nodeid) {
-        var diagram = _behavior.parent();
+        var diagram = _mode.parent();
         var nodeset = {}, edgeset = {};
         if(nodeid) {
             nodeset[nodeid] = true;
-            _behavior.parent().selectAllEdges().each(function(e) {
+            _mode.parent().selectAllEdges().each(function(e) {
                 if(diagram.nodeKey.eval(e.source) === nodeid) {
                     edgeset[diagram.edgeKey.eval(e)] = true;
                     nodeset[diagram.nodeKey.eval(e.target)] = true;
@@ -9982,38 +10366,38 @@ dc_graph.highlight_neighbors = function(includeprops, excludeprops, neighborsgro
         }
         else highlight_things_group.highlight(null, null);
     }
-    function add_behavior(diagram, node, edge) {
+    function draw(diagram, node, edge) {
         node
             .on('mouseover.highlight-neighbors', function(n) {
-                highlight_neighbors_group.highlight_node(_behavior.parent().nodeKey.eval(n));
+                highlight_neighbors_group.highlight_node(_mode.parent().nodeKey.eval(n));
             })
             .on('mouseout.highlight-neighbors', function(n) {
                 highlight_neighbors_group.highlight_node(null);
             });
     }
 
-    function remove_behavior(diagram, node, edge) {
+    function remove(diagram, node, edge) {
         node
             .on('mouseover.highlight-neighbors', null)
             .on('mouseout.highlight-neighbors', null);
         highlight_neighbors_group.highlight_node(null);
     }
 
-    var _behavior = dc_graph.behavior('highlight-neighbors', {
-        add_behavior: add_behavior,
-        remove_behavior: function(diagram, node, edge) {
-            remove_behavior(diagram, node, edge);
+    var _mode = dc_graph.mode('highlight-neighbors', {
+        draw: draw,
+        remove: function(diagram, node, edge) {
+            remove(diagram, node, edge);
         },
         parent: function(p) {
-            highlight_neighbors_group.on('highlight_node.highlight', p ? highlight_node : null);
-            if(!p.child('highlight-things'))
+            highlight_neighbors_group.on('highlight_node.highlight-neighbors', p ? highlight_node : null);
+            if(p && !p.child('highlight-things'))
                 p.child('highlight-things',
                         dc_graph.highlight_things(includeprops, excludeprops)
-                          .durationOverride(_behavior.durationOverride()));
+                          .durationOverride(_mode.durationOverride()));
         }
     });
-    _behavior.durationOverride = property(undefined);
-    return _behavior;
+    _mode.durationOverride = property(undefined);
+    return _mode;
 };
 
 
@@ -10045,7 +10429,7 @@ dc_graph.highlight_radius = function(options) {
         console.assert(_graph);
         var nodeset = {}, edgeset = {};
         nodes.forEach(function(nkey) {
-            recurse(_graph.node(nkey), _behavior.radius(), nodeset, edgeset);
+            recurse(_graph.node(nkey), _mode.radius(), nodeset, edgeset);
         });
         if(!Object.keys(nodeset).length && !Object.keys(edgeset).length)
             nodeset = edgeset = null;
@@ -10067,17 +10451,17 @@ dc_graph.highlight_radius = function(options) {
                 select_nodes_group.set_changed(sel2);
             }, 0);
     }
-    var _behavior = {
+    var _mode = {
         parent: function(p) {
             if(p) {
-                p.on('data.fix-nodes', on_data);
-            } else if(_behavior.parent())
-                _behavior.parent().on('data.fix-nodes', null);
-            select_nodes_group.on('set_changed', selection_changed);
+                p.on('data.highlight-radius', on_data);
+            } else if(_mode.parent())
+                _mode.parent().on('data.highlight-radius', null);
+            select_nodes_group.on('set_changed.highlight-radius', selection_changed);
         }
     };
-    _behavior.radius = property(1);
-    return _behavior;
+    _mode.radius = property(1);
+    return _mode;
 };
 
 dc_graph.register_highlight_paths_group = function(pathsgroup) {
@@ -10097,10 +10481,10 @@ dc_graph.highlight_paths = function(pathprops, hoverprops, selectprops, pathsgro
     var _anchor;
 
     function refresh() {
-        if(_behavior.doRedraw())
-            _behavior.parent().relayout().redraw();
+        if(_mode.doRedraw())
+            _mode.parent().relayout().redraw();
         else
-            _behavior.parent().refresh();
+            _mode.parent().refresh();
     }
 
     function paths_changed(nop, eop) {
@@ -10163,7 +10547,7 @@ dc_graph.highlight_paths = function(pathprops, hoverprops, selectprops, pathsgro
         else return pathsA.concat(pathsB.filter(doesnt_contain_path(pathsA)));
     }
 
-    function add_behavior(diagram, node, edge, ehover) {
+    function draw(diagram, node, edge, ehover) {
         diagram
             .cascade(200, true, node_edge_conditions(function(n) {
                 return !!node_on_paths[diagram.nodeKey.eval(n)];
@@ -10205,7 +10589,7 @@ dc_graph.highlight_paths = function(pathprops, hoverprops, selectprops, pathsgro
             });
     }
 
-    function remove_behavior(diagram, node, edge, ehover) {
+    function remove(diagram, node, edge, ehover) {
         node
             .on('mouseover.highlight-paths', null)
             .on('mouseout.highlight-paths', null)
@@ -10221,30 +10605,30 @@ dc_graph.highlight_paths = function(pathprops, hoverprops, selectprops, pathsgro
             .cascade(400, false, hoverprops);
     }
 
-    var _behavior = dc_graph.behavior('highlight-paths', {
-        add_behavior: add_behavior,
-        remove_behavior: function(diagram, node, edge, ehover) {
-            remove_behavior(diagram, node, edge, ehover);
+    var _mode = dc_graph.mode('highlight-paths', {
+        draw: draw,
+        remove: function(diagram, node, edge, ehover) {
+            remove(diagram, node, edge, ehover);
             return this;
         },
         parent: function(p) {
             if(p)
                 _anchor = p.anchorName();
             // else we should have received anchor earlier
-            highlight_paths_group.on('paths_changed.highlight' + _anchor, p ? paths_changed : null);
-            highlight_paths_group.on('hover_changed.highlight' + _anchor, p ? hover_changed : null);
-            highlight_paths_group.on('select_changed.highlight' + _anchor, p ? select_changed : null);
+            highlight_paths_group.on('paths_changed.highlight-paths-' + _anchor, p ? paths_changed : null);
+            highlight_paths_group.on('hover_changed.highlight-paths-' + _anchor, p ? hover_changed : null);
+            highlight_paths_group.on('select_changed.highlight-paths-' + _anchor, p ? select_changed : null);
         }
     });
 
     // whether to do relayout & redraw (true) or just refresh (false)
-    _behavior.doRedraw = property(false);
+    _mode.doRedraw = property(false);
 
-    return _behavior;
+    return _mode;
 };
 
 
-dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectprops, pathsgroup) {
+dc_graph.spline_paths = function(pathreader, pathprops, hoverprops, selectprops, pathsgroup) {
     var highlight_paths_group = dc_graph.register_highlight_paths_group(pathsgroup || 'highlight-paths-group');
     pathprops = pathprops || {};
     hoverprops = hoverprops || {};
@@ -10256,7 +10640,7 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
     function paths_changed(nop, eop, paths) {
         _paths = paths;
 
-        var engine = _behavior.parent().layoutEngine(),
+        var engine = _mode.parent().layoutEngine(),
             localPaths = paths.filter(pathIsPresent);
         if(localPaths.length) {
             var nidpaths = localPaths.map(function(lpath) {
@@ -10264,7 +10648,7 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
                 if(typeof strength !== 'number')
                     strength = 1;
                 if(_selected && _selected.indexOf(lpath) !== -1)
-                    strength *= _behavior.selectedStrength();
+                    strength *= _mode.selectedStrength();
                 return {
                     nodes: path_keys(lpath),
                     strength: strength
@@ -10278,7 +10662,7 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
         }
         if(_selected)
             _selected = _selected.filter(function(p) { return localPaths.indexOf(p) !== -1; });
-        _behavior.parent().redraw();
+        _mode.parent().redraw();
     }
 
     function select_changed(sp) {
@@ -10302,14 +10686,14 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
     function pathIsPresent(path) {
         return pathreader.elementList.eval(path).every(function(element) {
             return pathreader.elementType.eval(element) !== 'node' ||
-                _behavior.parent().getWholeNode(pathreader.nodeKey.eval(element));
+                _mode.parent().getWholeNode(pathreader.nodeKey.eval(element));
         });
     }
 
     // get the positions of nodes on path
     function getNodePositions(path, old) {
         return path_keys(path, false).map(function(key) {
-            var node = _behavior.parent().getWholeNode(key);
+            var node = _mode.parent().getWholeNode(key);
             return {x: old && node.prevX !== undefined ? node.prevX : node.cola.x,
                     y: old && node.prevY !== undefined ? node.prevY : node.cola.y};
         });
@@ -10617,7 +11001,7 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
     // draw the spline for paths
     function drawSpline(paths) {
         if(paths === null) {
-            _savedPositions = _behavior.parent().layoutEngine().savePositions();
+            _savedPositions = _mode.parent().layoutEngine().savePositions();
             return;
         }
 
@@ -10633,7 +11017,7 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
             .attr('id', function(d, i) { return "spline-path-"+i; })
             .attr('stroke-width', pathprops.edgeStrokeWidth || 1)
             .attr('fill', 'none')
-            .attr('d', function(d) { return genPath(d, true, pathprops.lineTension, _behavior.avoidSharpTurns()); });
+            .attr('d', function(d) { return genPath(d, true, pathprops.lineTension, _mode.avoidSharpTurns()); });
         edge
             .attr('stroke', function(p) {
                 return selected.indexOf(p) !== -1 && selectprops.edgeStroke ||
@@ -10655,8 +11039,8 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
         });
         _layer.selectAll('.spline-edge-hover')
             .each(function() {this.parentNode.appendChild(this);});
-        edge.transition().duration(_behavior.parent().transitionDuration())
-            .attr('d', function(d) { return genPath(d, false, pathprops.lineTension, _behavior.avoidSharpTurns()); });
+        edge.transition().duration(_mode.parent().transitionDuration())
+            .attr('d', function(d) { return genPath(d, false, pathprops.lineTension, _mode.avoidSharpTurns()); });
 
         // another wider copy of the edge just for hover events
         var edgeHover = _layer.selectAll('.spline-edge-hover')
@@ -10664,18 +11048,18 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
         edgeHover.exit().remove();
         var edgeHoverEnter = edgeHover.enter().append('svg:path')
             .attr('class', 'spline-edge-hover')
-            .attr('d', function(d) { return genPath(d, true, pathprops.lineTension, _behavior.avoidSharpTurns()); })
+            .attr('d', function(d) { return genPath(d, true, pathprops.lineTension, _mode.avoidSharpTurns()); })
             .attr('opacity', 0)
             .attr('stroke', 'green')
             .attr('stroke-width', (pathprops.edgeStrokeWidth || 1) + 4)
             .attr('fill', 'none')
-            .on('mouseover', function(d) {
+            .on('mouseover.spline-paths', function(d) {
                 highlight_paths_group.hover_changed([d]);
              })
-            .on('mouseout', function(d) {
+            .on('mouseout.spline-paths', function(d) {
                 highlight_paths_group.hover_changed(null);
              })
-            .on('click', function(d) {
+            .on('click.spline-paths', function(d) {
                 var selected = _selected && _selected.slice(0) || [],
                     i = selected.indexOf(d);
                 if(i !== -1)
@@ -10686,25 +11070,25 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
                     selected = [d];
                 highlight_paths_group.select_changed(selected);
              });
-        edgeHover.transition().duration(_behavior.parent().transitionDuration())
-            .attr('d', function(d) { return genPath(d, false, pathprops.lineTension, _behavior.avoidSharpTurns()); });
+        edgeHover.transition().duration(_mode.parent().transitionDuration())
+            .attr('d', function(d) { return genPath(d, false, pathprops.lineTension, _mode.avoidSharpTurns()); });
     };
 
-    function add_behavior(diagram, node, edge, ehover) {
-        _layer = _behavior.parent().select('g.draw').selectAll('g.spline-layer').data([0]);
+    function draw(diagram, node, edge, ehover) {
+        _layer = _mode.parent().select('g.draw').selectAll('g.spline-layer').data([0]);
         _layer.enter().append('g').attr('class', 'spline-layer');
 
         drawSpline(_paths);
     }
 
-    function remove_behavior(diagram, node, edge, ehover) {
+    function remove(diagram, node, edge, ehover) {
     }
 
-    var _behavior = dc_graph.behavior('draw-spline-paths', {
+    var _mode = dc_graph.mode('draw-spline-paths', {
         laterDraw: true,
-        add_behavior: add_behavior,
-        remove_behavior: function(diagram, node, edge, ehover) {
-            remove_behavior(diagram, node, edge, ehover);
+        draw: draw,
+        remove: function(diagram, node, edge, ehover) {
+            remove(diagram, node, edge, ehover);
             return this;
         },
         parent: function(p) {
@@ -10719,11 +11103,13 @@ dc_graph.draw_spline_paths = function(pathreader, pathprops, hoverprops, selectp
                 } : null);
         }
     });
-    _behavior.selectedStrength = property(1);
-    _behavior.avoidSharpTurns = property(true);
+    _mode.selectedStrength = property(1);
+    _mode.avoidSharpTurns = property(true);
 
-    return _behavior;
+    return _mode;
 };
+
+dc_graph.draw_spline_paths = deprecate_function("draw_spline_paths has been renamed spline_paths, please update", dc_graph.spline_paths);
 
 dc_graph.expand_collapse = function(options) {
     if(typeof options === 'function') {
@@ -10865,7 +11251,7 @@ dc_graph.expand_collapse = function(options) {
                 width: 25,
                 height: 3,
                 fill: function(s) {
-                    var color = s.edge ? diagram.edgeStroke()(s.edge) : 'black';
+                    var color = s.edge ? dc_graph.functor_wrap(diagram.edgeStroke())(s.edge) : 'black';
                     add_gradient_def(color, diagram);
                     return 'url(#spike-gradient-' + color + ')';
                 },
@@ -10972,14 +11358,14 @@ dc_graph.expand_collapse = function(options) {
         });
     }
 
-    function add_behavior(diagram, node, edge, ehover) {
-        function enter_node(n) {
+    function draw(diagram, node, edge, ehover) {
+        function over_node(n) {
             var dir = zonedir(diagram, d3.event, options.dirs, n);
             _overNode = n;
             _overDir = dir;
             if(options.hideNode && detect_key(options.hideKey))
                 highlight_hiding_node(diagram, n, edge);
-            else if(_overNode.orig.value.value.URL && detect_key(options.linkKey)) {
+            else if(_mode.nodeURL.eval(_overNode) && detect_key(options.linkKey)) {
                 diagram.selectAllNodes()
                     .filter(function(n) {
                         return n === _overNode;
@@ -11004,8 +11390,8 @@ dc_graph.expand_collapse = function(options) {
             if(options.hideNode && detect_key(options.hideKey))
                 options.hideNode(nk);
             else if(detect_key(options.linkKey)) {
-                if(n.orig.value.value.URL)
-                    window.open(n.orig.value.value.URL, 'dcgraphlink');
+                if(_mode.nodeURL.eval(n) && _mode.urlOpener)
+                    _mode.urlOpener()(_mode, n, _mode.nodeURL.eval(n));
             } else {
                 clear_stubs(diagram, node, edge);
                 var dir = zonedir(diagram, d3.event, options.dirs, n);
@@ -11028,10 +11414,11 @@ dc_graph.expand_collapse = function(options) {
         }
 
         node
-            .on('mouseenter.expand-collapse', enter_node)
+            .on('mouseenter.expand-collapse', over_node)
+            .on('mousemove.expand-collapse', over_node)
             .on('mouseout.expand-collapse', leave_node)
-            .on('click', click_node)
-            .on('dblclick', click_node);
+            .on('click.expand-collapse', click_node)
+            .on('dblclick.expand-collapse', click_node);
 
         ehover
             .on('mouseenter.expand-collapse', enter_edge)
@@ -11049,7 +11436,7 @@ dc_graph.expand_collapse = function(options) {
                     collapse_highlight_group.highlight({}, {});
                 }
                 else if(d3.event.key === options.linkKey && _overNode) {
-                    if(_overNode && _overNode.orig.value.value.URL) {
+                    if(_overNode && _mode.nodeURL.eval(_overNode)) {
                         diagram.selectAllNodes()
                             .filter(function(n) {
                                 return n === _overNode;
@@ -11065,7 +11452,7 @@ dc_graph.expand_collapse = function(options) {
                     hide_highlight_group.highlight({}, {});
                     if(_overNode) {
                         highlight_collapse(diagram, _overNode, node, edge, _overDir);
-                        if(_overNode.orig.value.value.URL) {
+                        if(_mode.nodeURL.eval(_overNode)) {
                             diagram.selectAllNodes()
                                 .filter(function(n) {
                                     return n === _overNode;
@@ -11076,7 +11463,7 @@ dc_graph.expand_collapse = function(options) {
             });
         diagram.cascade(97, true, conditional_properties(
             function(n) {
-                return n === _overNode && n.orig.value.value.URL;
+                return n === _overNode && n.orig.value.value && n.orig.value.value.URL;
             },
             {
                 nodeLabelDecoration: 'underline'
@@ -11084,10 +11471,17 @@ dc_graph.expand_collapse = function(options) {
         ));
     }
 
-    function remove_behavior(diagram, node, edge) {
+    function remove(diagram, node, edge, ehover) {
         node
-            .on('mouseover.expand-collapse', null)
-            .on('mouseout.expand-collapse', null);
+            .on('mouseenter.expand-collapse', null)
+            .on('mousemove.expand-collapse', null)
+            .on('mouseout.expand-collapse', null)
+            .on('click.expand-collapse', null)
+            .on('dblclick.expand-collapse', null);
+        ehover
+            .on('mouseenter.expand-collapse', null)
+            .on('mouseout.expand-collapse', null)
+            .on('click.expand-collapse', null);
         clear_stubs(diagram, node, edge);
     }
 
@@ -11137,9 +11531,9 @@ dc_graph.expand_collapse = function(options) {
         options.expandedNodes(map);
     }
 
-    var _behavior = dc_graph.behavior('expand-collapse', {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior,
+    var _mode = dc_graph.mode('expand-collapse', {
+        draw: draw,
+        remove: remove,
         parent: function(p) {
             if(p) {
                 _keyboard = p.child('keyboard');
@@ -11149,10 +11543,19 @@ dc_graph.expand_collapse = function(options) {
         }
     });
 
-    _behavior.expand = expand;
-    _behavior.expandNodes = expandNodes;
-    _behavior.clickableLinks = deprecated_property("warning - clickableLinks doesn't belong in collapse_expand and will be moved", false);
-    return _behavior;
+    _mode.expand = expand;
+    _mode.expandNodes = expandNodes;
+    _mode.clickableLinks = deprecated_property("warning - clickableLinks doesn't belong in collapse_expand and will be moved", false);
+    _mode.nodeURL = property(function(n) {
+        return n.value && n.value.value && n.value.value.URL;
+    });
+    _mode.urlTargetWindow = property('dcgraphlink');
+    _mode.urlOpener = property(dc_graph.expand_collapse.default_url_opener);
+    return _mode;
+};
+
+dc_graph.expand_collapse.default_url_opener = function(mode, node, url) {
+    window.open(mode.nodeURL.eval(node), mode.urlTargetWindow());
 };
 
 dc_graph.expand_collapse.shown_hidden = function(opts) {
@@ -11484,7 +11887,7 @@ dc_graph.draw_graphs = function(options) {
     }
 
     function port_pos(p) {
-        var style = _behavior.parent().portStyle(_behavior.parent().portStyleName.eval(p));
+        var style = _mode.parent().portStyle(_mode.parent().portStyleName.eval(p));
         var pos = style.portPosition(p);
         pos.x += p.node.cola.x;
         pos.y += p.node.cola.y;
@@ -11494,14 +11897,14 @@ dc_graph.draw_graphs = function(options) {
     function update_crossout() {
         var data;
         if(_crossout) {
-            if(_behavior.usePorts())
+            if(_mode.usePorts())
                 data = [port_pos(_crossout)];
             else
                 data = [{x: _crossout.node.cola.x, y: _crossout.node.cola.y}];
         }
         else data = [];
 
-        var size = _behavior.crossSize(), wid = _behavior.crossWidth();
+        var size = _mode.crossSize(), wid = _mode.crossWidth();
         var cross = _edgeLayer.selectAll('polygon.graph-draw-crossout').data(data);
         cross.exit().remove();
         cross.enter().append('polygon')
@@ -11527,9 +11930,9 @@ dc_graph.draw_graphs = function(options) {
     }
 
     function create_node(diagram, pos, data) {
-        if(!_behavior.nodeCrossfilter())
+        if(!_mode.nodeCrossfilter())
             throw new Error('need nodeCrossfilter');
-        var node, callback = _behavior.addNode() || promise_identity;
+        var node, callback = _mode.addNode() || promise_identity;
         if(data)
             node = data;
         else {
@@ -11542,19 +11945,19 @@ dc_graph.draw_graphs = function(options) {
         callback(node).then(function(node2) {
             if(!node2)
                 return;
-            _behavior.nodeCrossfilter().add([node2]);
+            _mode.nodeCrossfilter().add([node2]);
             diagram.redrawGroup();
             select_nodes_group.set_changed([node2[_nodeIdTag]]);
         });
     }
 
     function create_edge(diagram, source, target) {
-        if(!_behavior.edgeCrossfilter())
+        if(!_mode.edgeCrossfilter())
             throw new Error('need edgeCrossfilter');
-        var edge = {}, callback = _behavior.addEdge() || promise_identity;
+        var edge = {}, callback = _mode.addEdge() || promise_identity;
         edge[_edgeIdTag] = uuid();
         edge[_edgeLabelTag] = '';
-        if(_behavior.conduct().detectReversedEdge && _behavior.conduct().detectReversedEdge(edge, source.port, target.port)) {
+        if(_mode.conduct().detectReversedEdge && _mode.conduct().detectReversedEdge(edge, source.port, target.port)) {
             edge[_sourceTag] = target.node.orig.key;
             edge[_targetTag] = source.node.orig.key;
             var t;
@@ -11567,7 +11970,7 @@ dc_graph.draw_graphs = function(options) {
             if(!edge2)
                 return;
             fix_nodes_group.new_edge(edge[_edgeIdTag], edge2[_sourceTag], edge2[_targetTag]);
-            _behavior.edgeCrossfilter().add([edge2]);
+            _mode.edgeCrossfilter().add([edge2]);
             select_nodes_group.set_changed([], false);
             select_edges_group.set_changed([edge2[_edgeIdTag]], false);
             diagram.redrawGroup();
@@ -11579,24 +11982,24 @@ dc_graph.draw_graphs = function(options) {
         if(!(d3.event.buttons & 1)) {
             // mouse button was released but we missed it
             _crossout = null;
-            if(_behavior.conduct().cancelDragEdge)
-                _behavior.conduct().cancelDragEdge(_sourceDown);
+            if(_mode.conduct().cancelDragEdge)
+                _mode.conduct().cancelDragEdge(_sourceDown);
             erase_hint();
             update_crossout();
             return true;
         }
-        if(!_sourceDown.started && Math.hypot(coords[0] - _hintData[0].source.x, coords[1] - _hintData[0].source.y) > _behavior.dragSize()) {
-            if(_behavior.conduct().startDragEdge) {
-                if(_behavior.conduct().startDragEdge(_sourceDown)) {
+        if(!_sourceDown.started && Math.hypot(coords[0] - _hintData[0].source.x, coords[1] - _hintData[0].source.y) > _mode.dragSize()) {
+            if(_mode.conduct().startDragEdge) {
+                if(_mode.conduct().startDragEdge(_sourceDown)) {
                     _sourceDown.started = true;
                 } else {
-                    if(_behavior.conduct().invalidSourceMessage) {
-                        msg = _behavior.conduct().invalidSourceMessage(_sourceDown);
+                    if(_mode.conduct().invalidSourceMessage) {
+                        msg = _mode.conduct().invalidSourceMessage(_sourceDown);
                         console.log(msg);
                         if(options.negativeTip) {
                             options.negativeTip
                                 .content(function(_, k) { k(msg); })
-                                .displayTip(_behavior.usePorts() ? _sourceDown.port : _sourceDown.node);
+                                .displayTip(_mode.usePorts() ? _sourceDown.port : _sourceDown.node);
                         }
                     }
                     erase_hint();
@@ -11607,16 +12010,16 @@ dc_graph.draw_graphs = function(options) {
         return false;
     }
 
-    function add_behavior(diagram, node, edge, ehover) {
+    function draw(diagram, node, edge, ehover) {
         var select_nodes = diagram.child('select-nodes');
         if(select_nodes) {
-            if(_behavior.clickCreatesNodes())
+            if(_mode.clickCreatesNodes())
                 select_nodes.clickBackgroundClears(false);
         }
         node
             .on('mousedown.draw-graphs', function(n) {
                 d3.event.stopPropagation();
-                if(!_behavior.dragCreatesEdges())
+                if(!_mode.dragCreatesEdges())
                     return;
                 if(options.tipsDisable)
                     options.tipsDisable.forEach(function(tip) {
@@ -11624,10 +12027,10 @@ dc_graph.draw_graphs = function(options) {
                             .hideTip()
                             .disabled(true);
                     });
-                if(_behavior.usePorts()) {
+                if(_mode.usePorts()) {
                     var activePort;
-                    if(typeof _behavior.usePorts() === 'object' && _behavior.usePorts().eventPort)
-                        activePort = _behavior.usePorts().eventPort();
+                    if(typeof _mode.usePorts() === 'object' && _mode.usePorts().eventPort)
+                        activePort = _mode.usePorts().eventPort();
                     else activePort = diagram.getPort(diagram.nodeKey.eval(n), null, 'out')
                         || diagram.getPort(diagram.nodeKey.eval(n), null, 'in');
                     if(!activePort)
@@ -11648,15 +12051,15 @@ dc_graph.draw_graphs = function(options) {
                         return;
                     var oldTarget = _targetMove;
                     if(n === _sourceDown.node) {
-                        _behavior.conduct().invalidTargetMessage &&
-                            console.log(_behavior.conduct().invalidTargetMessage(_sourceDown, _sourceDown));
+                        _mode.conduct().invalidTargetMessage &&
+                            console.log(_mode.conduct().invalidTargetMessage(_sourceDown, _sourceDown));
                         _targetMove = null;
                         _hintData[0].target = null;
                     }
-                    else if(_behavior.usePorts()) {
+                    else if(_mode.usePorts()) {
                         var activePort;
-                        if(typeof _behavior.usePorts() === 'object' && _behavior.usePorts().eventPort)
-                            activePort = _behavior.usePorts().eventPort();
+                        if(typeof _mode.usePorts() === 'object' && _mode.usePorts().eventPort)
+                            activePort = _mode.usePorts().eventPort();
                         else activePort = diagram.getPort(diagram.nodeKey.eval(n), null, 'in')
                             || diagram.getPort(diagram.nodeKey.eval(n), null, 'out');
                         if(activePort)
@@ -11666,9 +12069,9 @@ dc_graph.draw_graphs = function(options) {
                     } else if(!_targetMove || n !== _targetMove.node) {
                         _targetMove = {node: n};
                     }
-                    if(_behavior.conduct().changeDragTarget) {
+                    if(_mode.conduct().changeDragTarget) {
                         var change;
-                        if(_behavior.usePorts()) {
+                        if(_mode.usePorts()) {
                             var oldPort = oldTarget && oldTarget.port,
                                 newPort = _targetMove && _targetMove.port;
                             change = oldPort !== newPort;
@@ -11678,31 +12081,31 @@ dc_graph.draw_graphs = function(options) {
                              change = oldNode !== newNode;
                         }
                         if(change)
-                            if(_behavior.conduct().changeDragTarget(_sourceDown, _targetMove)) {
+                            if(_mode.conduct().changeDragTarget(_sourceDown, _targetMove)) {
                                 _crossout = null;
                                 if(options.negativeTip)
                                     options.negativeTip.hideTip();
-                                msg = _behavior.conduct().validTargetMessage && _behavior.conduct().validTargetMessage() ||
+                                msg = _mode.conduct().validTargetMessage && _mode.conduct().validTargetMessage() ||
                                     'matches';
                                 if(options.positiveTip) {
                                     options.positiveTip
                                         .content(function(_, k) { k(msg); })
-                                        .displayTip(_behavior.usePorts() ? _targetMove.port : _targetMove.node);
+                                        .displayTip(_mode.usePorts() ? _targetMove.port : _targetMove.node);
                                 }
                                 _targetValid = true;
                             } else {
-                                _crossout = _behavior.usePorts() ?
+                                _crossout = _mode.usePorts() ?
                                     _targetMove && _targetMove.port :
                                     _targetMove && _targetMove.node;
-                                if(_targetMove && _behavior.conduct().invalidTargetMessage) {
+                                if(_targetMove && _mode.conduct().invalidTargetMessage) {
                                     if(options.positiveTip)
                                         options.positiveTip.hideTip();
-                                    msg = _behavior.conduct().invalidTargetMessage(_sourceDown, _targetMove);
+                                    msg = _mode.conduct().invalidTargetMessage(_sourceDown, _targetMove);
                                     console.log(msg);
                                     if(options.negativeTip) {
                                         options.negativeTip
                                             .content(function(_, k) { k(msg); })
-                                            .displayTip(_behavior.usePorts() ? _targetMove.port : _targetMove.node);
+                                            .displayTip(_mode.usePorts() ? _targetMove.port : _targetMove.node);
                                     }
                                 }
                                 _targetValid = false;
@@ -11735,8 +12138,8 @@ dc_graph.draw_graphs = function(options) {
                 // d3.event.stopPropagation();
                 if(_sourceDown && _targetValid) {
                     var finishPromise;
-                    if(_behavior.conduct().finishDragEdge)
-                        finishPromise = _behavior.conduct().finishDragEdge(_sourceDown, _targetMove);
+                    if(_mode.conduct().finishDragEdge)
+                        finishPromise = _mode.conduct().finishDragEdge(_sourceDown, _targetMove);
                     else finishPromise = Promise.resolve(true);
                     var source = _sourceDown, target = _targetMove;
                     finishPromise.then(function(ok) {
@@ -11745,8 +12148,8 @@ dc_graph.draw_graphs = function(options) {
                     });
                 }
                 else if(_sourceDown) {
-                    if(_behavior.conduct().cancelDragEdge)
-                        _behavior.conduct().cancelDragEdge(_sourceDown);
+                    if(_mode.conduct().cancelDragEdge)
+                        _mode.conduct().cancelDragEdge(_sourceDown);
                 }
                 erase_hint();
                 update_crossout();
@@ -11762,10 +12165,10 @@ dc_graph.draw_graphs = function(options) {
                     _crossout = null;
                     if(check_invalid_drag(coords))
                         return;
-                    if(_behavior.conduct().dragCanvas)
-                        _behavior.conduct().dragCanvas(_sourceDown, coords);
-                    if(_behavior.conduct().changeDragTarget && _targetMove)
-                        _behavior.conduct().changeDragTarget(_sourceDown, null);
+                    if(_mode.conduct().dragCanvas)
+                        _mode.conduct().dragCanvas(_sourceDown, coords);
+                    if(_mode.conduct().changeDragTarget && _targetMove)
+                        _mode.conduct().changeDragTarget(_sourceDown, null);
                     _targetMove = null;
                     _hintData[0].target = {x: coords[0], y: coords[1]};
                     update_hint();
@@ -11783,11 +12186,11 @@ dc_graph.draw_graphs = function(options) {
                         tip.disabled(false);
                     });
                 if(_sourceDown) { // drag-edge
-                    if(_behavior.conduct().cancelDragEdge)
-                        _behavior.conduct().cancelDragEdge(_sourceDown);
+                    if(_mode.conduct().cancelDragEdge)
+                        _mode.conduct().cancelDragEdge(_sourceDown);
                     erase_hint();
                 } else { // click-node
-                    if(d3.event.target === this && _behavior.clickCreatesNodes())
+                    if(d3.event.target === this && _mode.clickCreatesNodes())
                         create_node(diagram, dc_graph.event_coords(diagram));
                 }
                 update_crossout();
@@ -11796,7 +12199,7 @@ dc_graph.draw_graphs = function(options) {
             _edgeLayer = diagram.g().append('g').attr('class', 'draw-graphs');
     }
 
-    function remove_behavior(diagram, node, edge, ehover) {
+    function remove(diagram, node, edge, ehover) {
         node
             .on('mousedown.draw-graphs', null)
             .on('mousemove.draw-graphs', null)
@@ -11807,40 +12210,39 @@ dc_graph.draw_graphs = function(options) {
             .on('mouseup.draw-graphs', null);
     }
 
-    var _behavior = dc_graph.behavior('highlight-paths', {
-        add_behavior: add_behavior,
-        remove_behavior: remove_behavior
+    var _mode = dc_graph.mode('highlight-paths', {
+        draw: draw,
+        remove: remove
     });
 
     // update the data source/destination
-    _behavior.nodeCrossfilter = property(options.nodeCrossfilter);
-    _behavior.edgeCrossfilter = property(options.edgeCrossfilter);
+    _mode.nodeCrossfilter = property(options.nodeCrossfilter);
+    _mode.edgeCrossfilter = property(options.edgeCrossfilter);
 
-    // behavioral options
-    _behavior.usePorts = property(null);
-    _behavior.clickCreatesNodes = property(true);
-    _behavior.dragCreatesEdges = property(true);
-    _behavior.dragSize = property(5);
+    // modeal options
+    _mode.usePorts = property(null);
+    _mode.clickCreatesNodes = property(true);
+    _mode.dragCreatesEdges = property(true);
+    _mode.dragSize = property(5);
 
     // draw attributes of indicator for failed edge
-    _behavior.crossSize = property(15);
-    _behavior.crossWidth = property(5);
+    _mode.crossSize = property(15);
+    _mode.crossWidth = property(5);
 
-    // really this is a behavior, and what we've been calling behaviors are modes
-    // but i'm on a deadline
-    _behavior.conduct = property({});
+    // really this is a behavior or strategy
+    _mode.conduct = property({});
 
     // callbacks to modify data as it's being added
     // as of 0.6, function returns a promise of the new data
-    _behavior.addNode = property(null); // node -> promise(node2)
-    _behavior.addEdge = property(null); // edge, sourceport, targetport -> promise(edge2)
+    _mode.addNode = property(null); // node -> promise(node2)
+    _mode.addEdge = property(null); // edge, sourceport, targetport -> promise(edge2)
 
     // or, if you want to drive..
-    _behavior.createNode = function(pos, data) {
-        create_node(_behavior.parent(), pos, data);
+    _mode.createNode = function(pos, data) {
+        create_node(_mode.parent(), pos, data);
     };
 
-    return _behavior;
+    return _mode;
 };
 
 
@@ -11851,7 +12253,7 @@ dc_graph.match_ports = function(diagram, symbolPorts) {
         _wports = wports;
         _wedges = wedges;
     });
-    diagram.on('transitionsStarted', function() {
+    diagram.on('transitionsStarted.match-ports', function() {
         symbolPorts.enableHover(true);
     });
     function change_state(ports, state) {
@@ -11872,14 +12274,14 @@ dc_graph.match_ports = function(diagram, symbolPorts) {
         });
     }
     function is_valid(sourcePort, targetPort) {
-        return (_behavior.allowParallel() || !has_parallel(sourcePort, targetPort))
-            && _behavior.isValid()(sourcePort, targetPort);
+        return (_strategy.allowParallel() || !has_parallel(sourcePort, targetPort))
+            && _strategy.isValid()(sourcePort, targetPort);
     }
     function why_invalid(sourcePort, targetPort) {
-        return !_behavior.allowParallel() && has_parallel(sourcePort, targetPort) && "can't connect two edges between the same two ports" ||
-            _behavior.whyInvalid()(sourcePort, targetPort);
+        return !_strategy.allowParallel() && has_parallel(sourcePort, targetPort) && "can't connect two edges between the same two ports" ||
+            _strategy.whyInvalid()(sourcePort, targetPort);
     }
-    var _behavior = {
+    var _strategy = {
         isValid: property(function(sourcePort, targetPort) {
             return targetPort !== sourcePort && targetPort.name === sourcePort.name;
         }),
@@ -11943,7 +12345,7 @@ dc_graph.match_ports = function(diagram, symbolPorts) {
             return true;
         }
     };
-    return _behavior;
+    return _strategy;
 };
 
 dc_graph.match_opposites = function(diagram, deleteProps, options) {
@@ -11965,9 +12367,9 @@ dc_graph.match_opposites = function(diagram, deleteProps, options) {
         return { x: p.node.cola.x + p.pos.x, y: p.node.cola.y + p.pos.y };
     }
     function is_valid(sourcePort, targetPort) {
-        return (_behavior.allowParallel() || !_wedges.some(function(e) {
+        return (_strategy.allowParallel() || !_wedges.some(function(e) {
             return sourcePort.edges.indexOf(e) >= 0 && targetPort.edges.indexOf(e) >= 0;
-        })) && _behavior.isValid()(sourcePort, targetPort);
+        })) && _strategy.isValid()(sourcePort, targetPort);
     }
     function reset_deletables(source, targets) {
         targets.forEach(function(p) {
@@ -11980,7 +12382,7 @@ dc_graph.match_opposites = function(diagram, deleteProps, options) {
                 e.deleting = 0;
             });
     }
-    var _behavior = {
+    var _strategy = {
         isValid: property(function(sourcePort, targetPort) {
             // draw_graphs is already enforcing this, but this makes more sense and i use xor any chance i get
             return (diagram.portName.eval(sourcePort) === 'in') ^ (diagram.portName.eval(targetPort) === 'in');
@@ -12053,7 +12455,7 @@ dc_graph.match_opposites = function(diagram, deleteProps, options) {
             return diagram.portName.eval(sourcePort) === 'in';
         }
     };
-    return _behavior;
+    return _strategy;
 };
 
 dc_graph.wildcard_ports = function(options) {
@@ -12698,6 +13100,62 @@ function process_dsv(callback, error, data) {
     });
 }
 
+dc_graph.file_formats = [
+    {
+        exts: 'json',
+        from_url: d3.json,
+        from_text: function(text, callback) {
+            callback(null, JSON.parse(text));
+        }
+    },
+    {
+        exts: ['gv', 'dot'],
+        from_url: function(url, callback) {
+            d3.text(url, process_dot.bind(null, callback));
+        },
+        from_text: function(text, callback) {
+            process_dot(callback, null, text);
+        }
+    },
+    {
+        exts: 'psv',
+        from_url: function(url, callback) {
+            d3.dsv('|', 'text/plain')(url, process_dsv.bind(null, callback));
+        },
+        from_text: function(text, callback) {
+            process_dsv(callback, null, d3.dsv('|').parse(text));
+        }
+    },
+    {
+        exts: 'csv',
+        from_url: function(url, callback) {
+            d3.csv(url, process_dsv.bind(null, callback));
+        },
+        from_text: function(text, callback) {
+            process_dsv(callback, null, d3.csv.parse(text));
+        }
+    }
+];
+
+dc_graph.match_file_format = function(filename) {
+    return dc_graph.file_formats.find(function(format) {
+        var exts = format.exts;
+        if(!Array.isArray(exts))
+            exts = [exts];
+        return exts.find(function(ext) {
+                return new RegExp('\.' + ext + '$').test(filename);
+        });
+    });
+};
+
+function unknown_format_error(filename) {
+    var spl = filename.split('.');
+    if(spl.length)
+        return new Error('do not know how to process graph file extension ' + spl[spl.length-1]);
+    else
+        return new Error('need file extension to process graph file automatically, filename ' + filename);
+}
+
 // load a graph from various formats and return the data in consistent {nodes, links} format
 dc_graph.load_graph = function() {
     // ignore any query parameters for checking extension
@@ -12729,14 +13187,20 @@ dc_graph.load_graph = function() {
                     callback(null, {nodes: nodes.results, edges: edges.results});
             });
     }
-    else if(/\.json$/.test(ignore_query(file1)))
-        d3.json(file1, callback);
-    else if(/\.gv|\.dot$/.test(ignore_query(file1)))
-        d3.text(file1, process_dot.bind(null, callback));
-    else if(/\.psv$/.test(ignore_query(file1)))
-        d3.dsv('|', 'text/plain')(file1, process_dsv.bind(null, callback));
-    else if(/\.csv$/.test(ignore_query(file1)))
-        d3.csv(file1, process_dsv.bind(null, callback));
+    else {
+        var file1noq = ignore_query(file1);
+        var format = dc_graph.match_file_format(file1noq);
+        if(format)
+            format.from_url(file1, callback);
+        else callback(unknown_format_error(file1noq));
+    }
+};
+
+dc_graph.load_graph_text = function(text, filename, callback) {
+    var format = dc_graph.match_file_format(filename);
+    if(format)
+        format.from_text(text, callback);
+    else callback(unknown_format_error(filename));
 };
 
 function can_get_graph_from_this(data) {
@@ -12820,7 +13284,7 @@ dc_graph.munge_graph = function(data, nodekeyattr, sourceattr, targetattr) {
     }
     var node0 = nodes[0];
     if(node0[nka] === undefined) {
-        var nodekeyattrs = nodekeyattr ? [nodekeyattr] : ['ecomp_uid', 'id', '_id'];
+        var nodekeyattrs = nodekeyattr ? [nodekeyattr] : ['ecomp_uid', 'id', '_id', 'key'];
         var nodewrappers = ['vertex'];
         candidates = find_attr(node0, nodekeyattrs);
         if(!candidates.length) {
@@ -12852,32 +13316,13 @@ dc_graph.munge_graph = function(data, nodekeyattr, sourceattr, targetattr) {
 }
 
 /**
- * `dc_graph.flat_group` implements a special ["fake group"](https://github.com/dc-js/dc.js/wiki/FAQ#fake-groups)
- * for the special case where you want a group that represents the filtered rows of the crossfilter.
+ * `dc_graph.flat_group` implements a
+ * ["fake crossfilter group"](https://github.com/dc-js/dc.js/wiki/FAQ#fake-groups)
+ * for the case of a group which is 1:1 with the rows of the data array.
  *
- * Although `dc_graph` can be used with reduced data, typically the nodes and edges are just rows of
- * the corresponding data arrays, and each array has a column which contains the unique identifier
- * for the node or edge. In this setup, there are other dimensions and groups which are aggregated
- * for the use of dc.js charts, but the graph just shows or does not show the nodes and edges from
- * the rows.
- *
- * This simple class supports that use case in three steps:
- *  1. It creates a dimension keyed on the unique identifier (specified to `flat_group.make`)
- *  2. It creates a group from the dimension with a reduction function that returns the row when the
- *  row is filtered in, and `null` when the row is filtered out.
- *  3. It wraps the group in a fake group which filters out the resulting nulls.
- *
- * The result is a fake group whose `.all()` method returns an array of the currently filtered-in
- * `{key, value}` pairs, where the key is that returned by the ID accessor, and the value is the raw
- * row object from the data.
- *
- * This could be a useful crossfilter utility outside of dc.graph. For example, bubble charts and
- * scatter plots often use similar functionality because each observation is either shown or not,
- * and it is helpful to have the entire row available as reduced data.
- *
- * But it would need to be generalized and cleaned up. (For example, the way it has to create the
- * crossfilter and dimension is kinda dumb.) And there is currently no such crossfilter utility
- * library to put it in.
+ * Although `dc_graph` can be used with aggregated or reduced data, typically the nodes and edges
+ * are rows of two data arrays, and each row has a column which contains the unique identifier for
+ * the node or edge.
  *
  * @namespace flat_group
  * @memberof dc_graph
@@ -12914,35 +13359,45 @@ dc_graph.flat_group = (function() {
 
     return {
         /**
-         * Create a crossfilter, dimension, and flat group, as described in {@link dc_graph.flat_group flat_group}.
-         * Returns an object containing all three.
-
+         * Create a crossfilter, dimension, and flat group. Returns an object containing all three.
+         *
+         *  1. If `source` is an array, create a crossfilter from it. Otherwise assume it is a
+         *  crossfilter instance.
+         *  2. Create a dimension on the crossfilter keyed by `id_accessor`
+         *  3. Create a group from the dimension, reducing to the row when it's filtered in, or
+         * `null` when it's out.
+         *  4. Wrap the group in a fake group which filters out the nulls.
+         *
+         * The resulting fake group's `.all()` method returns an array of the currently filtered-in
+         * `{key, value}` pairs where the key is `id_accessor(row)` and the value is the row.
          * @method make
          * @memberof dc_graph.flat_group
-         * @param {Array} vec - the data array for crossfilter
+         * @param {Array} source - the data array for crossfilter, or a crossfilter
          * @param {Function} id_accessor - accessor function taking a row object and returning its
          * unique identifier
          * @return {Object} `{crossfilter, dimension, group}`
          **/
-        make: function(vec, id_accessor) {
-            var ndx = crossfilter(vec);
-            return dim_group(ndx, id_accessor);
+        make: function(source, id_accessor) {
+            var cf;
+            if(Array.isArray(source))
+                cf = crossfilter(source);
+            else cf = source;
+            return dim_group(cf, id_accessor);
         },
         /**
          * Create a flat dimension and group from an existing crossfilter.
          *
-         * This is a wretched name for this function.
-
          * @method another
          * @memberof dc_graph.flat_group
+         * @deprecated use .make() instead
          * @param {Object} ndx - crossfilter instance
          * @param {Function} id_accessor - accessor function taking a row object and returning its
          * unique identifier
          * @return {Object} `{crossfilter, dimension, group}`
          **/
-        another: function(ndx, id_accessor) {
-            return dim_group(ndx, id_accessor);
-        }
+        another: deprecate_function('use .make() instead', function(cf, id_accessor) {
+            return this.make(cf, id_accessor);
+        })
     };
 })();
 
@@ -13246,13 +13701,13 @@ dc_graph.path_selector = function(parent, reader, pathsgroup, chartgroup) {
               .attr('class', 'path_label')
               .attr('x', 0)
               .attr('y', radius*1.7)
-              .on('mouseover', function() {
+              .on('mouseover.path-selector', function() {
                   highlight_paths_group.hover_changed([path_data]);
               })
-              .on('mouseout', function() {
+              .on('mouseout.path-selector', function() {
                   highlight_paths_group.hover_changed(null);
               })
-              .on('click', function() {
+              .on('click.path-selector', function() {
                   highlight_paths_group.select_changed(toggle_paths(selected, [path_data]));
               });
           });
@@ -13291,16 +13746,16 @@ dc_graph.path_selector = function(parent, reader, pathsgroup, chartgroup) {
     }
 
     highlight_paths_group
-        .on('paths_changed.selector', function(nop, eop, paths) {
+        .on('paths_changed.path-selector', function(nop, eop, paths) {
             hovered = selected = null;
             paths_ = paths;
             selector.redraw();
         })
-        .on('hover_changed.selector', function(hpaths) {
+        .on('hover_changed.path-selector', function(hpaths) {
             hovered = hpaths;
             draw_hovered();
         })
-        .on('select_changed.selector', function(spaths) {
+        .on('select_changed.path-selector', function(spaths) {
             selected = spaths;
             draw_selected();
         });

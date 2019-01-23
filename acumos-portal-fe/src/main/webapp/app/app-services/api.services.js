@@ -108,6 +108,7 @@ angular.module('AcumosApp')
         var urlPreferredTag ="api/preferredTags"; 	
         var urlsetPreferredTag = "api/tags/createUserTag";
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
+        var urlJupyterUrl = 'api/users/jupyterUrl';
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
@@ -548,4 +549,9 @@ angular.module('AcumosApp')
         this.deleteSolution = function(solution){
             return $http.put(urlSolutions + '/' + solution.request_body.solutionId + '/' + solution.request_body.revisionId, solution);
         };
+        
+        this.getJupyterUrl = function () {
+        	return $http.get(urlJupyterUrl);
+        };
+
     }]);

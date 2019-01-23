@@ -42,10 +42,37 @@ limitations under the License.
 		    	<span class="icon-header icon-onboarding-model"></span>
 		    	<span class="headertxtspan">ON-BOARDING MODEL</span>
 		    </a> 
-		   <a class="mdl-navigation__link" ng-class="{ active: isActive('/designStudio') }" ui-sref="designStudio" title="Design Studio"  ng-click="$root.parentActive = ''">
-		   		<span class="icon-header icon-design_studio"></span>
-				<span class="headertxtspan">Design Studio <sup class="ds-text">BETA</sup></span>
-		   </a>
+		   	
+		   	<a id="ds-nav-menu" class="mdl-navigation__link ds-nav-link" title="Design Studio" ng-click="dropdownDS()">
+                      <span class="icon-header icon-design_studio"></span>
+                     <span class="headertxtspan">Design Studio <sup class="ds-text">BETA</sup></span>
+                     <i class="material-icons ds-nav-indicator1">navigate_next</i>
+              </a>
+              <div id="ds-nav-sub-menu" class="ds-side-menu">
+                      <div>
+                           <a id="ds-nav-modelB" class="mdl-navigation__link" ng-click="dropModelBuilder()">
+                                <span class="headertxtspan">Model Builder</span> 
+                                <i class="material-icons">navigate_next</i>
+                           </a>
+                           <div id="ds-nav-modelB-sub" class="ds-side-sub-menu">
+                           		<a class="mdl-navigation__link" ng-class="{ active: isActive('/jupyter') }" href='{{jupyterUrl}}' title="JupyterLink" ng-click="$root.parentActive = ''" target="_blank" style="padding-left: 30px">
+                                <span class="headertxtspan">Jupyter</span>
+                           		</a>
+                           </div>
+                           
+                      </div>
+                      <div>
+                           <a id="ds-nav-modelC" class="mdl-navigation__link" ng-click="dropModelComposer()">
+                                <span class="headertxtspan">Model Composer</span>
+                                <i class="material-icons">navigate_next</i>
+                           </a>
+                           <div id="ds-nav-modelC-sub" class="ds-side-sub-menu1">
+                           		<a class="mdl-navigation__link" ng-class="{ active: isActive('/designStudio') }" ui-sref="designStudio" ng-click="$root.parentActive = ''" style="padding-left: 30px">
+                           		<span class="headertxtspan">Acu-compose</span></a>
+                           </div>
+                         
+                      </div>
+              </div>
 		   
 		   <a ng-if="$root.userRoleAdmin" class="mdl-navigation__link" ng-class="{ active: isActive('/admin') }" ui-sref="admin" title="Site Admin" ng-click="$root.parentActive = ''">
 		   		<span class="icon-header icon-site-admin"></span>

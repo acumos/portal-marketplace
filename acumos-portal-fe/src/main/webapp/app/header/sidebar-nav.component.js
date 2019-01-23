@@ -23,6 +23,52 @@ limitations under the License.
 app.component('sidebarNav',{
 	templateUrl : '/app/header/sidebar-nav.template.html',
 	controller : function($scope, $state, $timeout, $rootScope, $window, $http, $location, apiService, browserStorageService) {
+		
+		$scope.dropdownDS = function(){
+			if (document.getElementById("ds-nav-sub-menu").style.display === "block") {
+				$('#ds-nav-menu').removeClass('active');
+				document.getElementById("ds-nav-sub-menu").style.display = "none";
+			} else {
+				$('#ds-nav-menu').addClass('active');
+				document.getElementById("ds-nav-sub-menu").style.display = "block";
+			}
+		}
+		
+		$scope.dropModelBuilder = function(){
+			if (document.getElementById("ds-nav-modelB-sub").style.display === "block") {
+				$('#ds-nav-modelB').removeClass('selected-item');
+				document.getElementById("ds-nav-modelB-sub").style.display = "none";
+			} else {
+				$('#ds-nav-modelB').addClass('selected-item');
+				document.getElementById("ds-nav-modelB-sub").style.display = "block";
+			}
+		}
+		
+		$scope.dropModelComposer = function(){
+			if (document.getElementById("ds-nav-modelC-sub").style.display === "block") {
+				$('#ds-nav-modelC').removeClass('selected-item');
+				document.getElementById("ds-nav-modelC-sub").style.display = "none";
+			} else {
+				$('#ds-nav-modelC').addClass('selected-item');
+				document.getElementById("ds-nav-modelC-sub").style.display = "block";
+			}
+		}
+		
+		/*var pathArray = location.href.split( '/' );
+	    var protocol = pathArray[0];
+	    var host = pathArray[2];
+	    var baseURL = protocol + '//' + host;
+	    var urlBase = baseURL + '/jupyter/'; */
+	    
+	    $scope.showJupyterUrl = false;
+		$scope.jupyterUrl = '';
+		
+		apiService.getJupyterUrl().then( function(response){
+			$scope.jupyterUrl = response.data.response_body;
+			if(browserStorageService.getAuthToken()!='')
+				$scope.showJupyterUrl = true;
+		});
+		
 		$scope.isActive = function (viewLocation) {
 		     //var active = (viewLocation === $location.path());
 		     return (viewLocation === $location.path());

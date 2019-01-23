@@ -116,6 +116,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/solution/{solutionId}/revision/{revisionId}/{accessType}/document").permitAll()
         .antMatchers(HttpMethod.GET, "/solution/revision/{revisionId}/{accessType}/description").permitAll()
         .antMatchers(HttpMethod.GET, "/users/k8s/docs/help").permitAll()
+        .antMatchers(HttpMethod.GET, "/users/jupyterUrl").permitAll()
         
         
         .anyRequest().authenticated();

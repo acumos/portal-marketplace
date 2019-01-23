@@ -2116,6 +2116,21 @@ label.model-name{color:#0366d6;}
 .btn-request{padding: 0 4px;}
 /****** publish request ends *******/
 
+/*** DS menu style starts */
+.ds-side-menu {background: #F4F1F8; display:none;}
+.ds-side-sub-menu {background: #F4F1F8; display:none;}
+.ds-side-sub-menu1 {background: #F4F1F8; display:none;}
+.ds-side-menu .mdl-navigation__link {border-bottom: 1px dashed #B2B2B2;display:flex; flex-wrap: nowrap;justify-content:space-between; }
+.ds-side-menu .mdl-navigation__link .material-icons {position: relative;right:5px;}
+.ds-nav-indicator1 {position:relative; left: 15px;}
+.ds-side-menu div .mdl-navigation__link .headertxtspan {margin-left:3px;font-weight:400; font-size:13px;}
+.cg-sidebar .mdl-navigation__link.ds-nav-link.active .ds-nav-indicator1 {transform:rotate(90deg);color: #671C9D;}
+.ds-side-menu div .mdl-navigation__link.selected-item > .material-icons {transform:rotate(90deg); }
+.ds-side-menu div .mdl-navigation__link.selected-item + .mdl-navigation__link {background: #fff; color: #671C9D;}
+.ds-side-menu div .mdl-navigation__link.selected-item + .mdl-navigation__link .headertxtspan {color: #671C9D;}
+
+/*** DS menu style ends */
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {

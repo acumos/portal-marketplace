@@ -127,7 +127,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     };
     $scope.handleDragStart = function(e){
         this.style.opacity = '0.4';
-        e.dataTransfer.setData('text/plain', this.innerHTML);
+        e.dataTransfer.setData('text', this.innerHTML);
     };
     $scope.handleDragEnd = function(e){
         var dataText = e.dataTransfer.getData('text/plain');
@@ -144,7 +144,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var bound = _diagram.root().node().getBoundingClientRect();
         var pos = _diagram.invertCoord([e.clientX - bound.left,
                                         e.clientY - bound.top]);
-        var type = e.dataTransfer.getData('text/plain');
+        var type = e.dataTransfer.getData('text');
 
 
         var max = 0; var getrev; var revision; var revRemove;
@@ -2839,7 +2839,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 msgs = messages;
 
             return op + '(' + msgs.map(function(msg) {
-                return '<a style="color:white" href="#" class="tip-link" id="' + op + '_' + msg + '">' + msg + '</a>';
+                return '<a style="color:white" class="tip-link" id="' + op + '_' + msg + '">' + msg + '</a>';
             }).join(', ') + ')';
         }
 
@@ -2865,7 +2865,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
                 msgs = messages;
 
             return op + '(' + msgs.map(function(msg) {
-                return '<a style="color:white" href="#" class="tip-link" id="' + op + '_' + msg + '">' + msg + '</a>';
+                return '<a style="color:white" class="tip-link" id="' + op + '_' + msg + '">' + msg + '</a>';
             }).join(', ') + ')';
         }
 

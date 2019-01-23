@@ -817,5 +817,19 @@ public class UserServiceController extends AbstractController {
 		responseVO.setStatusCode(HttpServletResponse.SC_OK);
 		return responseVO;
 	}
+    
+    @ApiOperation(value = "Get Jupyter URL", response = JsonResponse.class)
+    @RequestMapping(value = {"/jupyterUrl"}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+	public JsonResponse<String> getJupyterurl(HttpServletRequest request, HttpServletResponse response) {
+		
+		String jupyterUrl = env.getProperty("jupyter.url", "");
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		responseVO.setResponseBody(jupyterUrl);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
 }
 
