@@ -26,13 +26,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.acumos.cds.CodeNameType;
-import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
@@ -71,6 +69,8 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 	
 	@Autowired
 	private NotificationService notificationService;
+	
+	private static final String MSG_SEVERITY_ME = "ME";
 
 	@Override
 	public MLPublishRequest getPublishRequestById(Long publishRequestId) {
@@ -225,7 +225,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 	private void generateNotification(String message, String userId) {
 
 		MLPNotification notificationObj = new MLPNotification();
-		notificationObj.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+		notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);
 		notificationObj.setMessage(message);
 		notificationObj.setTitle(message);
 		notificationService.generateNotification(notificationObj, userId);

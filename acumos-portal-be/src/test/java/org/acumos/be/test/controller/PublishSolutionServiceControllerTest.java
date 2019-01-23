@@ -68,7 +68,6 @@ public class PublishSolutionServiceControllerTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
@@ -115,7 +114,6 @@ public class PublishSolutionServiceControllerTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);

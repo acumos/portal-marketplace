@@ -19,8 +19,8 @@
  */
 package org.acumos.be.test.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
-import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.UserServiceException;
@@ -40,7 +39,6 @@ import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
-import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -77,7 +75,7 @@ public class UserRoleControllerTest {
 			MLRole mlRole = new MLRole();
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
@@ -110,7 +108,7 @@ public class UserRoleControllerTest {
 			MLRole mlRole = new MLRole();
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
@@ -137,7 +135,7 @@ public class UserRoleControllerTest {
 		try {
 			MLPRole mlpRole = new MLPRole();
 			mlpRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpRole.setCreated(created);
 			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlpRole);
@@ -192,7 +190,7 @@ public class UserRoleControllerTest {
 		try {
 			MLPRole mlpRole = new MLPRole();
 			mlpRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpRole.setCreated(created);
 			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlpRole);
@@ -228,7 +226,7 @@ public class UserRoleControllerTest {
 		try {
 			MLPRole mlpRole = new MLPRole();
 			mlpRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpRole.setCreated(created);
 			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlpRole);
@@ -271,7 +269,7 @@ public class UserRoleControllerTest {
 			MLRole mlRole = new MLRole();
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
@@ -313,7 +311,7 @@ public class UserRoleControllerTest {
 			MLRole mlRole = new MLRole();
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
@@ -345,7 +343,7 @@ public class UserRoleControllerTest {
 			MLRole mlRole = new MLRole();
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
@@ -384,7 +382,7 @@ public class UserRoleControllerTest {
 			MLRole mlRole = new MLRole();
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlRole);
@@ -432,7 +430,7 @@ public class UserRoleControllerTest {
 	public void updateUserRoleTest() {
 		MLPRole mlpRole = new MLPRole();
 		mlpRole.setName("Admin");
-		Date created = new Date();
+		Instant created = Instant.now();
 		mlpRole.setCreated(created);
 		mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 		Assert.assertNotNull(mlpRole);
@@ -532,7 +530,7 @@ public class UserRoleControllerTest {
 		MLRole mlRole = new MLRole();
 		mlRole.setActive(true);
 		mlRole.setName("Admin");
-		Date created = new Date();
+		Instant created = Instant.now();
 		mlRole.setCreated(created);
 		mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 		

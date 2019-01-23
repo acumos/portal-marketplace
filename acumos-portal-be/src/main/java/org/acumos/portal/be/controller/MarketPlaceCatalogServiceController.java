@@ -27,26 +27,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPNotification;
-import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
@@ -65,7 +59,6 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
-import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
@@ -73,7 +66,6 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
@@ -87,9 +79,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import io.jsonwebtoken.lang.Collections;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
@@ -116,6 +105,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
   
   	/*@Autowired
 	private NexusArtifactClient nexusArtifactClient;*/
+	
+	private static final String MSG_SEVERITY_ME = "ME";
 	
 	/**
 	 * 
@@ -642,7 +633,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();				
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
-					notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+					notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 					notificationService.generateNotification(notification, mlpUser.getUserId());
 				}
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -685,7 +676,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				notificationMsg = solutionDetail.getName() + " unshared with " + user.getLoginName();				
 				notification.setMessage(notificationMsg);
 				notification.setTitle(notificationMsg);
-				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+				notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 				notificationService.generateNotification(notification, userId);
 				
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -724,7 +715,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				notificationMsg = "View count for " + solution.getName() + " increased by 10";
 				notification.setMessage(notificationMsg);
 				notification.setTitle(notificationMsg);
-				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+				notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 				notificationService.generateNotification(notification, solution.getOwnerId());
 			}
 			data.setResponseBody(solution);
@@ -755,7 +746,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			notificationMsg = "Ratings updated for " + solution.getName();
 			notification.setMessage(notificationMsg);
 			notification.setTitle(notificationMsg);
-			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
 			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -784,7 +775,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			notificationMsg = "Ratings updated for " + solution.getName();
 			notification.setMessage(notificationMsg);
 			notification.setTitle(notificationMsg);
-			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
 			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -852,7 +843,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			favorite = "Favorite created for " + solution.getName();
 			notification.setMessage(favorite);
 			notification.setTitle(favorite);
-			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
 			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -881,7 +872,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			favorite = "Favorite deleted for " + solution.getName();		
 			notification.setMessage(favorite);
 			notification.setTitle(favorite);
-			notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
 			
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1184,7 +1175,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 	
-	@ApiOperation(value = "Get avg ratings for a solution Id", response = MLPSolutionWeb.class, responseContainer = "List")
+	/*@ApiOperation(value = "Get avg ratings for a solution Id", response = MLPSolutionWeb.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
@@ -1210,7 +1201,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAvgRatingsForSol", e);
 		}
 		return data;
-	}
+	}*/
 	
 	/**
 	 * @param solutionId
@@ -1511,31 +1502,55 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 	
-	@ApiOperation(value = "Updates Solution Image. ")
-    @RequestMapping(value = {"/solution/{solutionId}/updateImage"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ApiOperation(value = "Fetches Solution Image. ")
+    @RequestMapping(value = {APINames.SOLUTIONS_PICTURE}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
-    public JsonResponse updateSolutionImage(HttpServletRequest request, @RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionImage={}");
+    public JsonResponse<byte[]> getSolutionImage(HttpServletRequest request, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getSolutionImage={}");
         
         solutionId = SanitizeUtils.sanitize(solutionId);
         
-        JsonResponse<MLSolution> responseVO = new JsonResponse<>();
+        JsonResponse<byte[]> responseVO = new JsonResponse<>();
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
 				log.error(EELFLoggerDelegate.errorLogger, "Bad request: solutionId empty");
 			}
-			MLSolution mlSolution = null;
+			byte[] picture = null;
 			if (solutionId != null) {
-				mlSolution = catalogService.getSolution(solutionId);
-				if (mlSolution != null) {
-					mlSolution.setPicture(file.getBytes());
-					mlSolution = catalogService.updateSolution(mlSolution, solutionId);
-				}
-				
+				picture = catalogService.getSolutionPicture(solutionId);
 			}
 			responseVO.setStatus(true);
 			responseVO.setResponseDetail("Success");
-			responseVO.setResponseBody(mlSolution);
+			responseVO.setResponseBody(picture);
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		} catch (Exception e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail("Failed");
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getSolutionImage()", e);
+		}
+		return responseVO;
+    }
+	
+	@ApiOperation(value = "Updates Solution Image. ")
+    @RequestMapping(value = {APINames.SOLUTIONS_PICTURE}, method = RequestMethod.POST, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<Boolean> updateSolutionImage(HttpServletRequest request, @RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+        log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionImage={}");
+        
+        solutionId = SanitizeUtils.sanitize(solutionId);
+        
+        JsonResponse<Boolean> responseVO = new JsonResponse<>();
+		try {
+			if (PortalUtils.isEmptyOrNullString(solutionId)) {
+				log.error(EELFLoggerDelegate.errorLogger, "Bad request: solutionId empty");
+			}
+			if (solutionId != null) {
+				catalogService.updateSolutionPicture(solutionId, file.getBytes());
+			}
+			responseVO.setStatus(true);
+			responseVO.setResponseDetail("Success");
+			responseVO.setResponseBody(true);
 			responseVO.setStatusCode(HttpServletResponse.SC_OK);
 		} catch (Exception e) {
 			responseVO.setStatus(false);

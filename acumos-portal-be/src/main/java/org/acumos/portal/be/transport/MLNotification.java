@@ -20,7 +20,7 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class MLNotification {
 
@@ -28,8 +28,8 @@ public class MLNotification {
 	private String title;
 	private String message;
 	private String url;
-	private Date start;
-	private Date end;
+	private Instant start;
+	private Instant end;
 	private int count;
 
 	public String getNotificationId() {
@@ -64,19 +64,19 @@ public class MLNotification {
 		this.url = url;
 	}
 
-	public Date getStart() {
+	public Instant getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(Instant start) {
 		this.start = start;
 	}
 
-	public Date getEnd() {
+	public Instant getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(Instant end) {
 		this.end = end;
 	}
 

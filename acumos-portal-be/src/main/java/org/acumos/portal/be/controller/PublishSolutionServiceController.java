@@ -28,12 +28,10 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonResponse;
-import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.transport.ResponseVO;
@@ -61,8 +59,7 @@ public class PublishSolutionServiceController extends AbstractController {
 	@Autowired
 	private NotificationService notificationService;
 	
-	@Autowired
-	private MarketPlaceCatalogService catalogService;
+	private static final String MSG_SEVERITY_ME = "ME";
 	
 	/**
 	 * 
@@ -96,7 +93,7 @@ public class PublishSolutionServiceController extends AbstractController {
 			String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
 			// code to create notification
             MLPNotification notificationObj = new MLPNotification();
-            notificationObj.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+            notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);
 
 			notificationObj.setMessage(publishStatus);
 			notificationObj.setTitle(publishStatus);

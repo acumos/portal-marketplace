@@ -48,14 +48,11 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
-import org.acumos.cds.ValidationStatusCode;
-import org.acumos.cds.ValidationTypeCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPSolutionValidation;
 
 @Service
 public class ValidationStatusServiceImpl extends AbstractServiceImpl implements ValidationStatusService {
@@ -83,7 +80,7 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 	/* (non-Javadoc)
 	 * @see org.acumos.portal.be.service.ValidationStatusService#updateValidationTaskStatus(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	@Override
+	/*@Override
 	public boolean updateValidationTaskStatus(String taskId, MLModelValidationStatus newMLModelValidationStatus) {
 		if(newMLModelValidationStatus != null) {
 			log.debug(EELFLoggerDelegate.debugLogger, "updateValidationTaskStatus ={}", newMLModelValidationStatus.toString());
@@ -219,7 +216,7 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 				mlpSolutionRevision.setValidationStatusCode(CommonConstants.STATUS_PASSED);
 				client.updateSolutionRevision(mlpSolutionRevision);
 				log.debug(EELFLoggerDelegate.debugLogger, "determinStatusAndPublishModel =Model Published successfully: {}", mlpSolution.toString());
-				/*try {
+				try {
 					MLPSolution solutionDetail = client.getSolution(mlModelValidationStatus.getSolutionId());
 					String notification = null;
 					if (visibility.equals("PB"))
@@ -232,7 +229,7 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 				} catch (Exception e) {
 					log.debug(EELFLoggerDelegate.debugLogger, "determinStatusAndPublishModel = Exception occurred while generating User Notification for validation status of solutionId : {} and revisionId {}",
 							mlModelValidationStatus.getSolutionId(), mlModelValidationStatus.getRevisionId() );
-				}*/
+				}
 				
 			}
 		}
@@ -284,10 +281,10 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 									.getValidationTaskType().equalsIgnoreCase(ValidationTypeCode.LC.toString()))
 							.collect(Collectors.toList());
 
-					/*mlArtifactValidationStatusForOQ = mlArtifactValidations
+					mlArtifactValidationStatusForOQ = mlArtifactValidations
 							.stream().filter(mlArtifactValidationStatus -> mlArtifactValidationStatus
 									.getValidationTaskType().equalsIgnoreCase(ValidationTypeCode.OQ.toString()))
-							.collect(Collectors.toList());*/
+							.collect(Collectors.toList());
 
 					//Security Scan
 					if(!PortalUtils.isEmptyList(mlArtifactValidationStatusForSS)) {
@@ -302,9 +299,9 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 						mlModelValidationStepStatus.add(getMLModelValidationStepStatus(mlArtifactValidationStatusForLC, ValidationTypeCode.LC.toString(), artifacts));
 					}
 					//OSS Quantification
-					/*if(!PortalUtils.isEmptyList(mlArtifactValidationStatusForOQ)) {
+					if(!PortalUtils.isEmptyList(mlArtifactValidationStatusForOQ)) {
 						mlModelValidationStepStatus.add(getMLModelValidationStepStatus(mlArtifactValidationStatusForOQ, ValidationTypeCode.OQ.toString(), artifacts));
-					}*/
+					}
 					mlModelValidationCheck.setMlModelValidationStepStatus(mlModelValidationStepStatus);
 					break;
 				}
@@ -334,9 +331,9 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 			
 			for(MLArtifactValidationStatus artifactValidationStatus : artifactValidationStatusList) {
 				
-				/*if(artifactValidationStatus.getValidationTaskType().equalsIgnoreCase(validationStep) && artifactValidationStatus.getStatus().equalsIgnoreCase(ValidationStatusCode.PS.toString())) {
+				if(artifactValidationStatus.getValidationTaskType().equalsIgnoreCase(validationStep) && artifactValidationStatus.getStatus().equalsIgnoreCase(ValidationStatusCode.PS.toString())) {
 					
-				}*/
+				}
 				if(artifactValidationStatus.getValidationTaskType().equalsIgnoreCase(validationStep) && artifactValidationStatus.getStatus().equalsIgnoreCase(ValidationStatusCode.IP.toString())) {
 					hasSomeInProgress = true;
 				}
@@ -395,9 +392,9 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 			
 			for(MLArtifactValidationStatus artifactValidationStatus : artifactValidationStatusList) {
 				
-				/*if(artifactValidationStatus.getValidationTaskType().equalsIgnoreCase(validationStep) && artifactValidationStatus.getStatus().equalsIgnoreCase(ValidationStatusCode.PS.toString())) {
+				if(artifactValidationStatus.getValidationTaskType().equalsIgnoreCase(validationStep) && artifactValidationStatus.getStatus().equalsIgnoreCase(ValidationStatusCode.PS.toString())) {
 					
-				}*/
+				}
 				if(artifactValidationStatus.getValidationTaskType().equalsIgnoreCase(validationStep) && artifactValidationStatus.getStatus().equalsIgnoreCase(ValidationStatusCode.IP.toString())) {
 					hasSomeInProgress = true;
 				}
@@ -504,10 +501,10 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 									.getValidationTaskType().equalsIgnoreCase(ValidationTypeCode.LC.toString()))
 							.collect(Collectors.toList());
 
-					/*mlArtifactValidationStatusForOQ = mlArtifactValidations
+					mlArtifactValidationStatusForOQ = mlArtifactValidations
 							.stream().filter(mlArtifactValidationStatus -> mlArtifactValidationStatus
 									.getValidationTaskType().equalsIgnoreCase(ValidationTypeCode.OQ.toString()))
-							.collect(Collectors.toList());*/
+							.collect(Collectors.toList());
 
 					//Security Scan
 					if(!PortalUtils.isEmptyList(mlArtifactValidationStatusForSS)) {
@@ -522,9 +519,9 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 						mlModelValidationStepStatus.add(getSLModelValidationStepStatus(mlArtifactValidationStatusForLC, ValidationTypeCode.LC.toString(), artifacts));
 					}
 					//OSS Quantification
-					/*if(!PortalUtils.isEmptyList(mlArtifactValidationStatusForOQ)) {
+					if(!PortalUtils.isEmptyList(mlArtifactValidationStatusForOQ)) {
 						mlModelValidationStepStatus.add(getMLModelValidationStepStatus(mlArtifactValidationStatusForOQ, ValidationTypeCode.OQ.toString(), artifacts));
-					}*/
+					}
 					mlModelValidationCheck.setMlModelValidationStepStatus(mlModelValidationStepStatus);
 					break;
 				}
@@ -535,5 +532,5 @@ public class ValidationStatusServiceImpl extends AbstractServiceImpl implements 
 					mlModelValidationCheck.toString());
 		}
 		return mlModelValidationCheck;
-	}
+	}*/
 }

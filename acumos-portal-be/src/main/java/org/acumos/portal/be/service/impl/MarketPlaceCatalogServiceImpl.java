@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,8 +37,6 @@ import java.util.stream.Collectors;
 
 import org.acumos.cds.AccessTypeCode;
 import org.acumos.cds.CodeNameType;
-import org.acumos.cds.StepStatusCode;
-import org.acumos.cds.ValidationStatusCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPCodeNamePair;
@@ -49,7 +46,6 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
@@ -71,21 +67,17 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
-import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
-import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.maven.wagon.ConnectionException;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.authorization.AuthorizationException;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -116,6 +108,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	/*@Autowired
 	private NexusArtifactClient nexusArtifactClient;
 	*/
+	
+	private static final String STEP_STATUS_FAILED = "FA";
+	
 	/*
 	 * No
 	 */
@@ -134,11 +129,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			// TODO: revisit this code to pass query parameters to CCDS Service
 			Map<String, Object> queryParameters = new HashMap<>();
 			queryParameters.put("active", "Y"); // Fetch all active solutions
-			queryParameters.put("accessTypeCode", AccessTypeCode.PB.toString()); // Assuming
-																					// 1
-																					// is
-																					// public
-			queryParameters.put("validationStatusCode", ValidationStatusCode.PS.toString());
+			queryParameters.put("accessTypeCode", AccessTypeCode.PB.toString());
 			List<MLPSolution> mlpSolutions = new ArrayList<MLPSolution>();
 			// dataServiceRestClient.searchSolutions(queryParameters, false);
 			///////////////////////////////////////
@@ -181,11 +172,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			Map<String, Object> queryParameters = new HashMap<>();
 			// queryParameters.put("active", "Y"); //Fetch all active solutions
-			queryParameters.put("accessTypeCode", AccessTypeCode.PB.toString()); // Assuming
-																					// 1
-																					// is
-																					// public
-			queryParameters.put("validationStatusCode", ValidationStatusCode.PS.toString());
+			queryParameters.put("accessTypeCode", AccessTypeCode.PB.toString());
 			// TODO Lets keep it simple by using List for now. Need to modify
 			// this to use Pagination by providing page number and result fetch
 			// size
@@ -245,19 +232,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				MLPUser mlpUser = dataServiceRestClient.getUser(mlpSolution.getUserId());
 				if (mlpUser != null) {
 					mlSolution.setOwnerName(mlpUser.getFirstName().concat(" " + mlpUser.getLastName()));
-				}
-
-				// fetch download count, rating count
-				try {
-					MLPSolutionWeb solutionStats = dataServiceRestClient
-							.getSolutionWebMetadata(mlSolution.getSolutionId());
-					mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
-					mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
-					mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-					mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue() / 10);
-				} catch (Exception e) {
-					log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
-							mlSolution.getSolutionId());
 				}
 
 				List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(solutionId);
@@ -354,15 +328,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		log.debug(EELFLoggerDelegate.debugLogger, "updateSolution");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
-
-			// fetch the solution to populate the solution picture so that it does not get wiped off
-			//Check if Image is present in the object. if not then fetch the solution image and then populate it
-			if (mlSolution.getPicture() == null) {
-				MLPSolution oldSolObj = dataServiceRestClient.getSolution(solutionId);
-				if(oldSolObj.getPicture() !=null) {
-					mlSolution.setPicture(oldSolObj.getPicture());
-				}
-			}
 			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
 			try {
 				List<MLPTag> taglist = dataServiceRestClient.getSolutionTags(solutionId);
@@ -394,12 +359,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 			// fetch the solution to populate the solution picture so that it does not get wiped off
 			//Check if Image is present in the object. if not then fetch the solution image and then populate it
-			if (mlSolution.getPicture() == null) {
-				MLPSolution oldSolObj = dataServiceRestClient.getSolution(solutionId);
-				if(oldSolObj.getPicture() !=null) {
-					mlSolution.setPicture(oldSolObj.getPicture());
-				}
-			}
+			
 			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
 			try {
 				List<MLPTag> taglist = dataServiceRestClient.getSolutionTags(solutionId);
@@ -1028,17 +988,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 							mlSolution.setOwnerName(userName);
 						}
-						try {
-							MLPSolutionWeb solutionStats = dataServiceRestClient
-									.getSolutionWebMetadata(mlSolution.getSolutionId());
-							mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
-							mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
-							mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-							mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().intValue() / 10);
-						} catch (Exception e) {
-							log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
-									mlSolution.getSolutionId());
-						}
 
 						List<MLPTag> tagList = dataServiceRestClient
 								.getSolutionTags(filteredMLPSolutions.get(i).getSolutionId());
@@ -1051,9 +1000,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						content.add(mlSolution);
 						i++;
 					}
-					mlSolutionsRest.setContent(content);
+					mlSolutionsRest = new RestPageResponseBE<>(content);
 				}
-				mlpSolutionsRest.setNumberOfElements(filteredMLPSolutions.size());
+//				mlpSolutionsRest.setNumberOfElements(filteredMLPSolutions.size());
 				mlSolutionsRest.setFilteredTagSet(filteredTagSet);
 			}
 		} catch (IllegalArgumentException e) {
@@ -1130,7 +1079,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
 				pageReqPortal.getOwnerIds(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
-				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
+				pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -1152,9 +1101,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		/*RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKw(pageReqPortal.getNameKeyword(), true, null,
 				accessTypeCodes, null, null, pageReqPortal.getPageRequest());*/
 
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKw(pageReqPortal.getNameKeyword(), 
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKwAndTags(pageReqPortal.getNameKeyword(), 
 				pageReqPortal.isActive(), pageReqPortal.getOwnerIds(),
-				accessTypeCodes, pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
+				accessTypeCodes, pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
 		
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -1183,20 +1132,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			//CDS does not return the picture in list of solution. So we need to fetch the solution separately and then populate the picture
 			MLPSolution sol = dataServiceRestClient.getSolution(mlpSol.getSolutionId());
 			MLSolution mlSolution = PortalUtils.convertToMLSolution(sol);
-
-			// set rating, view, download count for model
-			try {
-				MLPSolutionWeb solutionStats = dataServiceRestClient
-						.getSolutionWebMetadata(mlSolution.getSolutionId());
-				mlSolution.setDownloadCount(solutionStats.getDownloadCount().intValue());
-				mlSolution.setRatingCount(solutionStats.getRatingCount().intValue());
-				mlSolution.setViewCount(solutionStats.getViewCount().intValue());
-				mlSolution.setSolutionRating(solutionStats.getRatingCount().intValue());
-				mlSolution.setSolutionRatingAvg(solutionStats.getRatingAverageTenths().floatValue() / 10);
-			} catch (Exception e) {
-				log.error(EELFLoggerDelegate.errorLogger, "No stats found for SolutionId={}",
-						mlSolution.getSolutionId());
-			}
 
 			// add tags for models
 			List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(mlSolution.getSolutionId());
@@ -1269,7 +1204,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				if (trackingStepResultList != null && !PortalUtils.isEmptyList(trackingStepResultList)) {
 					// check if any of the step result is Failed
 					for(MLPStepResult step : trackingStepResultList) {
-						if(StepStatusCode.FA.toString().equals(step.getStatusCode())) {
+						if(STEP_STATUS_FAILED.equals(step.getStatusCode())) {
 							onboardingStatusFailed = true;
 							errorStatusDetails=step.getResult();
 							break;
@@ -1360,7 +1295,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			}
 		}
 
-		mlSolutionsRest.setContent(content);
+		mlSolutionsRest = new RestPageResponseBE<>(content);
 		mlSolutionsRest.setFilteredTagSet(filteredTagSet);
 
 		return mlSolutionsRest;
@@ -1374,7 +1309,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findUserSolutions(
 				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
 				pageReqPortal.getUserId(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
-				pageReqPortal.getValidationStatusCodes(), pageReqPortal.getTags(), pageReqPortal.getPageRequest());
+				pageReqPortal.getTags(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -1430,7 +1365,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		return mlSolutions;
 	}
 
-	@Override
+	/*@Override
 	public MLSolutionWeb getSolutionWebMetadata(String solutionId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionWebMetadata");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -1442,7 +1377,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		
 		
 		return mlSolutionweb;
-	}
+	}*/
 
 	@Override
 	public List<Author> getSolutionRevisionAuthors(String solutionId, String revisionId) {
@@ -1616,7 +1551,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			Map<String, String> queryParameters = new HashMap<>();
 			//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
 			RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-					accessTypeCodes, null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+					accessTypeCodes, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 			List<MLPSolution> searchSolList = searchSolResp.getContent();
 	
 			//removing the same solutionId from the list
@@ -1664,28 +1599,33 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		UploadArtifactInfo uploadInfo = null;
 		MLPDocument document = null;
 		try {
-			uploadInfo = nexusClient.uploadArtifact(getNexusGroupId(solutionId, revisionId), name, accessType, extension, size, file.getInputStream());
-		} catch (ConnectionException | IOException | AuthenticationException | AuthorizationException | TransferFailedException | ResourceDoesNotExistException e) {
-			log.error(EELFLoggerDelegate.errorLogger,
-					"Failed to upload the document", e);
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
-		}
-		
-		if (uploadInfo != null) {
-			/*document = new MLPDocument(null, name,
-					uploadInfo.getArtifactMvnPath(), (int) size, "1628acd3-37d6-4c53-a722-0396d0590235");*/
-			document = new MLPDocument();
-			document.setName(file.getOriginalFilename());
-			document.setUri(uploadInfo.getArtifactMvnPath());
-			document.setSize((int) size);
-			document.setUserId(userId);
-			document = dataServiceRestClient.createDocument(document);
+			try {
+				uploadInfo = nexusClient.uploadArtifact(getNexusGroupId(solutionId, revisionId), name, accessType, extension, size, file.getInputStream());
+			} catch (ConnectionException | IOException | AuthenticationException | AuthorizationException | TransferFailedException | ResourceDoesNotExistException e) {
+				log.error(EELFLoggerDelegate.errorLogger,
+						"Failed to upload the document", e);
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+			}
 			
-			dataServiceRestClient.addSolutionRevisionDocument(revisionId, accessType, document.getDocumentId());
-		} else {
-			log.error(EELFLoggerDelegate.errorLogger,
-					"Cannot upload the Document to the specified path");
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Cannot upload the Document to the specified path");
+			if (uploadInfo != null) {
+				/*document = new MLPDocument(null, name,
+						uploadInfo.getArtifactMvnPath(), (int) size, "1628acd3-37d6-4c53-a722-0396d0590235");*/
+				document = new MLPDocument();
+				document.setName(file.getOriginalFilename());
+				document.setUri(uploadInfo.getArtifactMvnPath());
+				document.setSize((int) size);
+				document.setUserId(userId);
+				document = dataServiceRestClient.createDocument(document);
+				
+				dataServiceRestClient.addSolutionRevisionDocument(revisionId, accessType, document.getDocumentId());
+			} else {
+				log.error(EELFLoggerDelegate.errorLogger,
+						"Cannot upload the Document to the specified path");
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Cannot upload the Document to the specified path");
+			}
+		} catch (Exception e) {
+			log.error(EELFLoggerDelegate.errorLogger, "Exception during addRevisionDocument ={}", e);
+			throw new AcumosServiceException(e.getMessage());
 		}
 		return document;
 	}
@@ -1841,4 +1781,18 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		return description;
 	}
 
+	@Override
+	public byte[] getSolutionPicture(String solutionId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionPicture");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		return dataServiceRestClient.getSolutionPicture(solutionId);
+	}
+
+	@Override
+	public void updateSolutionPicture(String solutionId, byte[] image) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionPicture");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.saveSolutionPicture(solutionId, image);
+	}
+	
 }

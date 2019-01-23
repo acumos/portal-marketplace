@@ -19,7 +19,7 @@
  */
 package org.acumos.be.test.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.acumos.portal.be.transport.MLNotification;
 import org.junit.Assert;
@@ -34,8 +34,8 @@ public class MLNotificationTest {
 	    String title = "sample";
 	    String message = "hello";
 	    String url = "http://test.com";
-	    Date start = new Date();
-	    Date end = new Date();
+	    Instant start = Instant.now();
+	    Instant end = Instant.now();
 	    int count = 10;
 	    
 	    MLNotification mlNotification = new  MLNotification();

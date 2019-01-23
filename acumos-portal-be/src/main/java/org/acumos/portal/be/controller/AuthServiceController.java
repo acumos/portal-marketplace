@@ -24,8 +24,8 @@
 package org.acumos.portal.be.controller;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +64,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpStatusCodeException;
 
@@ -142,10 +141,9 @@ public class AuthServiceController extends AbstractController {
 					validUser = PortalUtils.convertToMLPuser(mlpUser);
 					responseObject = new User(validUser);
 					// check password expire date
-					Date todaysDate = new Date();
 					responseObject.setLoginPassExpire(false);
 					if (mlpUser.getLoginPassExpire() != null) {
-						if (mlpUser.getLoginPassExpire().compareTo(todaysDate) <= 0) {
+						if (mlpUser.getLoginPassExpire().compareTo(Instant.now()) <= 0) {
 							responseObject.setLoginPassExpire(true);
 						}
 					}
@@ -262,10 +260,9 @@ public class AuthServiceController extends AbstractController {
 						userObj = PortalUtils.convertToMLPuser(mlpUser);
 						// responseObject = new User(userObj);
 						// check password expire date
-						Date todaysDate = new Date();
 						responseObject.setLoginPassExpire(false);
 						if (mlpUser.getLoginPassExpire() != null) {
-							if (mlpUser.getLoginPassExpire().compareTo(todaysDate) <= 0) {
+							if (mlpUser.getLoginPassExpire().compareTo(Instant.now()) <= 0) {
 								responseObject.setLoginPassExpire(true);
 
 						}

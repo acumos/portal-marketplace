@@ -21,7 +21,7 @@ package org.acumos.be.test.service.impl;
 
 import static org.mockito.Mockito.mock;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -101,16 +101,16 @@ public class AsyncServiceImplTest {
 		String message = "On-boarding failed: " + reason
 				+ " Please restart the process again to upload the solution.";
 		MLPNotification mlpNotification = new MLPNotification();
-		Date created = new Date();
+		Instant created = Instant.now();
 		mlpNotification.setCreated(created);
 		mlpNotification.setMessage(message);
-		Date modified = new Date();
+		Instant modified = Instant.now();
 		mlpNotification.setModified(modified);
 		mlpNotification.setTitle("Web Based Onboarding");
 		mlpNotification.setUrl("http://notify.com");
-		Date end = new Date();
+		Instant end = Instant.now();
 		mlpNotification.setEnd(end);
-		Date start = new Date();
+		Instant start = Instant.now();
 		mlpNotification.setStart(start);
 		MLNotification notf = PortalUtils.convertToMLNotification(mlpNotification);
 

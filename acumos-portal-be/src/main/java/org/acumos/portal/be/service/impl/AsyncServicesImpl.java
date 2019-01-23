@@ -31,13 +31,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Future;
-import org.acumos.cds.MessageSeverityCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
@@ -48,7 +46,6 @@ import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.logging.ONAPLogConstants;
 import org.acumos.portal.be.service.AsyncServices;
-import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.UserService;
@@ -64,13 +61,13 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -98,13 +95,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	private UserService userService;
 	
 	@Autowired
-	private MarketPlaceCatalogService catalogService;
-	
-	@Autowired
 	private MessagingService messagingService;
 	
 	private static final String NOTIFICATION_TITLE = "Web Based Onboarding";
 	private static final String STEP_SUCCESS = "SU";
+	private static final String MSG_SEVERITY_ME = "ME";
 	
 	private static final String ENV_MODELSTORAGE = "model.storage.folder.name";
 	private static final String ENV_MODELURL = "onboarding.push.model.url";
@@ -125,7 +120,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			throws InterruptedException, ClientProtocolException, IOException {
 
 		log.info("CallOnboarding service start");
-		HttpClient httpclient = new DefaultHttpClient();
+		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
+		CloseableHttpClient httpclient = hcbuilder.build();
 		HttpResponse response = null;
 		
 		try {
@@ -200,7 +196,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 				response = httpclient.execute(post);
 				log.info("inside callOnboarding response.getStatusLine().getStatusCode() ---->>>"+response.getStatusLine().getStatusCode());
-				notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+				notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 				if (response.getStatusLine().getStatusCode() == 200 || response.getStatusLine().getStatusCode() == 201) {
 					InputStream instream = response.getEntity().getContent();
 					String result = convertStreamToString(instream);
@@ -292,7 +288,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			// Email) a notification to the user based on notification preference
 			sendEmailNotification(user.getUserId(), solution, e.getMessage());
 		} finally {
-			httpclient.getConnectionManager().shutdown();
+			httpclient.close();
 			// Remove all files once the process is completed
 			log.info("inside finallly callOnboarding ---->>>");
 			
@@ -389,7 +385,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		MLPNotification notification = new MLPNotification();
 		notification.setMessage(notifMsg);
 		notification.setTitle(NOTIFICATION_TITLE);
-		notification.setMsgSeverityCode(MessageSeverityCode.ME.toString());
+		notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 		notificationService.generateNotification(notification, userId);
 		
 		List<MLNotification> list = notificationService.getNotifications();
@@ -511,69 +507,73 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	
 	
 	public HttpResponse convertSolutioToONAP(String solutionId, String revisionId, String userId, String tracking_id, String modName) {
-
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		HttpResponse response = null;
-		HttpClient httpclient = new DefaultHttpClient();
-		
-		URIBuilder builder = null;
 		try {
-			builder = new URIBuilder(env.getProperty("onboarding.push.model.dcae_url"));
-		} catch (URISyntaxException e1) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
-		}
-
-		if (!StringUtils.isEmpty(solutionId)) {
-			builder.setParameter("solutioId", solutionId);
-			if(!StringUtils.isEmpty(modName) && !("null".equalsIgnoreCase(modName))){
-				builder.setParameter("modName", modName);
-				log.debug("ONAP model name from user : " + modName);
-			}else{
-				MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
-				if(solution != null) {
-					log.debug("No Solution Name given by user");
-					String solutionName = env.getProperty("dcae.model.name.prefix") + "_" + solution.getName();
-					builder.setParameter("modName", solutionName);
+			ICommonDataServiceRestClient dataServiceRestClient = getClient();
+			HttpClientBuilder hcbuilder = HttpClientBuilder.create();
+			CloseableHttpClient httpclient = hcbuilder.build();
+			
+			URIBuilder builder = null;
+			try {
+				builder = new URIBuilder(env.getProperty("onboarding.push.model.dcae_url"));
+			} catch (URISyntaxException e1) {
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
+			}
+	
+			if (!StringUtils.isEmpty(solutionId)) {
+				builder.setParameter("solutioId", solutionId);
+				if(!StringUtils.isEmpty(modName) && !("null".equalsIgnoreCase(modName))){
+					builder.setParameter("modName", modName);
+					log.debug("ONAP model name from user : " + modName);
+				}else{
+					MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
+					if(solution != null) {
+						log.debug("No Solution Name given by user");
+						String solutionName = env.getProperty("dcae.model.name.prefix") + "_" + solution.getName();
+						builder.setParameter("modName", solutionName);
+					}
 				}
 			}
-		}
-		if (!StringUtils.isEmpty(revisionId)) {
-			builder.setParameter("revisionId", revisionId);
-			builder.setParameter("deployment_env", "2");
-		}
-		
-		HttpPost post = null;
-		try {
-			post = new HttpPost(builder.build());
-		} catch (URISyntaxException e1) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
-		}
-		
-		if (!StringUtils.isEmpty(userId)) {
-			MLPUser user = userService.findUserByUserId(userId);
-			String jwtToken = user.getAuthToken();
-			post.setHeader("Authorization", jwtToken);
-		}
-
-		if (!StringUtils.isEmpty(tracking_id)) {
-			post.addHeader("tracking_id", tracking_id);
-			post.setHeader("deployment_env", "2");
-		}
-		
-		post.setHeader("X-ACUMOS-Request-Id", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
-		log.info("Call on-boarding to convertSolutioToONAP wit request Id : "+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
-
-		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "Call Onboarding URI : " + post.getURI());
-			response = httpclient.execute(post);
-		} catch (UnsupportedEncodingException e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
-		} catch (ClientProtocolException e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			if (!StringUtils.isEmpty(revisionId)) {
+				builder.setParameter("revisionId", revisionId);
+				builder.setParameter("deployment_env", "2");
+			}
+			
+			HttpPost post = null;
+			try {
+				post = new HttpPost(builder.build());
+			} catch (URISyntaxException e1) {
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
+			}
+			
+			if (!StringUtils.isEmpty(userId)) {
+				MLPUser user = userService.findUserByUserId(userId);
+				String jwtToken = user.getAuthToken();
+				post.setHeader("Authorization", jwtToken);
+			}
+	
+			if (!StringUtils.isEmpty(tracking_id)) {
+				post.addHeader("tracking_id", tracking_id);
+				post.setHeader("deployment_env", "2");
+			}
+			
+			post.setHeader("X-ACUMOS-Request-Id", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+			log.info("Call on-boarding to convertSolutioToONAP wit request Id : "+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+	
+			try {
+				log.debug(EELFLoggerDelegate.debugLogger, "Call Onboarding URI : " + post.getURI());
+				response = httpclient.execute(post);
+			} catch (UnsupportedEncodingException e) {
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			} catch (ClientProtocolException e) {
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			} catch (IOException e) {
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			} finally {
+				httpclient.close();
+			}
 		} catch (IOException e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
-		} finally {
-			httpclient.getConnectionManager().shutdown();
 		}
 
 		return response;

@@ -20,7 +20,7 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class MLSolutionRating {
 	
@@ -28,8 +28,8 @@ public class MLSolutionRating {
 	private String userId;
 	private Integer rating;
 	private String textReview;
-	private Date created;
-	private Date modified;
+	private Instant created;
+	private Instant modified;
 	private String userName;
 	public String getSolutionId() {
 		return solutionId;
@@ -55,16 +55,16 @@ public class MLSolutionRating {
 	public void setTextReview(String textReview) {
 		this.textReview = textReview;
 	}
-	public Date getCreated() {
+	public Instant getCreated() {
 		return created;
 	}
-	public void setCreated(Date created) {
+	public void setCreated(Instant created) {
 		this.created = created;
 	}
-	public Date getModified() {
+	public Instant getModified() {
 		return modified;
 	}
-	public void setModified(Date modified) {
+	public void setModified(Instant modified) {
 		this.modified = modified;
 	}
 	@Override

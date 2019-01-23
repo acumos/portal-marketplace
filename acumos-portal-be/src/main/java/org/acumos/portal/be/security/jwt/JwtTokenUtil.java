@@ -24,22 +24,18 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import org.acumos.portal.be.security.AuthenticationTokenFilter;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-/*import org.springframework.mobile.device.Device;*/
 import org.springframework.stereotype.Component;
 
 import org.acumos.cds.domain.MLPUser;
 import com.github.dockerjava.api.model.Device;
-import org.acumos.cds.domain.MLPRole;
 
-import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +87,7 @@ public class JwtTokenUtil {
 	//String secret = "secret"; //env.getProperty("jwt.auth.secret.key");
 
 	// @Value("${jwt.expiration}")
-	private Long expiration;
+    // private Long expiration;
 
 	public String getUsernameFromToken(String token) {	
 		String username;
@@ -145,8 +141,8 @@ public class JwtTokenUtil {
 		return expiration.before(timeProvider.now());
 	}
 
-	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-		return (lastPasswordReset != null && created.before(lastPasswordReset));
+	private Boolean isCreatedBeforeLastPasswordReset(Instant created, Instant lastPasswordReset) {
+		return (lastPasswordReset != null && created.isBefore(lastPasswordReset));
 	}
 
 	/*
@@ -215,7 +211,7 @@ public class JwtTokenUtil {
 
 	public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
 		final Date created = getCreatedDateFromToken(token);
-		return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
+		return !isCreatedBeforeLastPasswordReset(created.toInstant(), lastPasswordReset.toInstant())
 				&& (!isTokenExpired(token) || ignoreTokenExpiration(token));
 	}
 
@@ -255,6 +251,6 @@ public class JwtTokenUtil {
 		
 		
 		return (username.equals(user.getLoginName()) && !isTokenExpired(token))
-				&& !isCreatedBeforeLastPasswordReset(created, user.getLoginPassExpire());
+				&& !isCreatedBeforeLastPasswordReset(created.toInstant(), user.getLoginPassExpire());
 	}
 }

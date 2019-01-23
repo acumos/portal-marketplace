@@ -20,15 +20,13 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.acumos.cds.NotificationDeliveryMechanismCode;
-import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPUser;
@@ -153,10 +151,8 @@ public class NotificationServiceImpl extends AbstractServiceImpl implements Noti
 		log.debug(EELFLoggerDelegate.debugLogger, "generateNotification");
 		try {
 			if (notification != null) {
-				Calendar cal = Calendar.getInstance();
-				Date startDate = cal.getTime();
-				cal.add(Calendar.YEAR, 1);
-				Date endDate = cal.getTime();
+				Instant startDate = Instant.now();
+				Instant endDate = startDate.plus(1, ChronoUnit.YEARS);
 
 				notification.setStart(startDate);
 				notification.setEnd(endDate);
@@ -237,7 +233,7 @@ public class NotificationServiceImpl extends AbstractServiceImpl implements Noti
 		for (MLPUserNotifPref mlpUserNotifPref : mlpNotificationList) {
 			if (mlpUserNotifPref.getMsgSeverityCode().equals(notificationRequest.getSeverity())) {
 				
-				if(NotificationDeliveryMechanismCode.EM.toString().equals(mlpUserNotifPref.getNotfDelvMechCode())) {
+				if("Email".equals(mlpUserNotifPref.getNotfDelvMechCode())) {
 					MailData mailData = new MailData();
 			        mailData.setSubject(notificationRequest.getSubject());
 			        mailData.setFrom(env.getProperty(ConfigConstants.portal_feature_email_from));

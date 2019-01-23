@@ -20,7 +20,7 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class MLRoleFunction {
 
@@ -31,8 +31,8 @@ public class MLRoleFunction {
 	private String roleFunctionId;
 	private MLRole mlRole;
 	private String name;
-	private Date created;
-	private Date modified;
+	private Instant created;
+	private Instant modified;
 	public String getRoleFunctionId() {
 		return roleFunctionId;
 	}
@@ -52,16 +52,16 @@ public class MLRoleFunction {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getCreated() {
+	public Instant getCreated() {
 		return created;
 	}
-	public void setCreated(Date created) {
+	public void setCreated(Instant created) {
 		this.created = created;
 	}
-	public Date getModified() {
+	public Instant getModified() {
 		return modified;
 	}
-	public void setModified(Date modified) {
+	public void setModified(Instant modified) {
 		this.modified = modified;
 	}
 	

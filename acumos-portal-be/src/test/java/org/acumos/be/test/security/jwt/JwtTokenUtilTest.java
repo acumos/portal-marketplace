@@ -20,7 +20,7 @@
  
 package org.acumos.be.test.security.jwt;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
@@ -32,7 +32,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 
 public class JwtTokenUtilTest {
 
@@ -58,8 +57,8 @@ public class JwtTokenUtilTest {
 			userDetails.setEmail("john@techmahindra.com");
 			userDetails.setUserId("9d1f8220-3aba-4371-8c1a-abc229930652");
 			userDetails.setActive(true);
-			userDetails.setCreated(new Date());
-			userDetails.setModified(new Date());
+			userDetails.setCreated(Instant.now());
+			userDetails.setModified(Instant.now());
 
 			jwtToken = jwtTokenUtil.generateToken(userDetails, null);
 			logger.info("JWT Token :    " + jwtToken);

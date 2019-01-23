@@ -60,7 +60,7 @@ private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(Valid
 		// TODO Auto-generated constructor stub
 	}
 
-	@ApiOperation(value = "Updates the validation status for the given TaskId, solutionId and revision Id in the Database. To be invoked by Validation Backend", response = JsonResponse.class)
+	/*@ApiOperation(value = "Updates the validation status for the given TaskId, solutionId and revision Id in the Database. To be invoked by Validation Backend", response = JsonResponse.class)
     @RequestMapping(value = {APINames.MODEL_VALIDATION_UPDATE},method = RequestMethod.PUT, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<Object> updateValidationTaskStatus(HttpServletRequest request, @PathVariable("taskId") String taskId, @RequestBody MLModelValidationStatus mlModelValidationStatus,
@@ -82,9 +82,9 @@ private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(Valid
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateValidationTaskStatus()", e);
 		}
 		return data;
-	}
+	}*/
 	
-	@ApiOperation(value = "Gets the validation status for the given solutionId and revision Id", response = MLModelValidationCheck.class)
+	/*@ApiOperation(value = "Gets the validation status for the given solutionId and revision Id", response = MLModelValidationCheck.class)
     @RequestMapping(value = {APINames.MODEL_VALIDATION},method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLModelValidationCheck> getValidationTaskStatus(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, 
@@ -114,6 +114,6 @@ private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(Valid
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getValidationTaskStatus()", e);
 		}
 		return data;
-	}
+	}*/
 	
 }

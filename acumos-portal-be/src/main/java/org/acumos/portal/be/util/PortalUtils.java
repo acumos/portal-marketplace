@@ -29,9 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.acumos.cds.ValidationStatusCode;
-import org.acumos.cds.ValidationTypeCode;
-import org.acumos.cds.domain.MLPAccessType;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPublishRequest;
@@ -43,8 +40,6 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
-import org.acumos.cds.domain.MLPSolutionValidation;
-import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPStepResult;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.domain.MLPUserLoginProvider;
@@ -54,7 +49,6 @@ import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLComment;
-import org.acumos.portal.be.transport.MLModelValidationStatus;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLPublishRequest;
 import org.acumos.portal.be.transport.MLRole;
@@ -63,16 +57,15 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
-import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.OauthUser;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
-import org.apache.commons.lang.ArrayUtils;
 import org.joda.time.DateTime;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -146,12 +139,14 @@ public class PortalUtils {
 		mlSolution.setCreated(mlpSolution.getCreated());
 		mlSolution.setModified(mlpSolution.getModified());
 		mlSolution.setActive(mlpSolution.isActive());
-		mlSolution.setDescription(mlpSolution.getDescription());
 		if(mlpSolution.getMetadata()!=null)
 			mlSolution.setMetadata(mlpSolution.getMetadata());
 		mlSolution.setTookitType(mlpSolution.getToolkitTypeCode());
 		mlSolution.setModelType(mlpSolution.getModelTypeCode());
-		mlSolution.setPicture(mlpSolution.getPicture());
+		mlSolution.setDownloadCount(mlpSolution.getDownloadCount().intValue());
+		mlSolution.setRatingCount(mlpSolution.getRatingCount().intValue());
+		mlSolution.setViewCount(mlpSolution.getViewCount().intValue());
+		mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths() / 10);
 		return mlSolution;
 	}
 	
@@ -176,9 +171,6 @@ public class PortalUtils {
 
 		mlpSolution.setActive(mlSolution.isActive());
 
-		if (!PortalUtils.isEmptyOrNullString(mlSolution.getDescription())) {
-			mlpSolution.setDescription(mlSolution.getDescription());
-		}
 		if (!PortalUtils.isEmptyOrNullString(mlSolution.getMetadata())) {
 			mlpSolution.setMetadata(mlSolution.getMetadata());
 		}
@@ -189,41 +181,43 @@ public class PortalUtils {
 		if (!PortalUtils.isEmptyOrNullString(mlSolution.getModelType())) {
 			mlpSolution.setModelTypeCode(mlSolution.getModelType());
 		}
-		if (mlSolution.getPicture() != null) {
-			mlpSolution.setPicture(mlSolution.getPicture());
-		}
+		mlpSolution.setDownloadCount((long) mlSolution.getDownloadCount());
+		mlpSolution.setRatingCount((long) mlSolution.getRatingCount());
+		mlpSolution.setViewCount((long) mlSolution.getViewCount());
+		mlpSolution.setRatingAverageTenths((long) mlSolution.getSolutionRatingAvg() * 10);
+		
 
 		return mlpSolution;
 	}
 	
-	/**
-	 * 
-	 * @param accessType Access type value
-	 * @return
-	 * 		MLPAccessType object for Storing in DB
-	 */
-	public static MLPAccessType getMLPAccessType(String accessType) {
-		MLPAccessType mlpAccessType = null;
-		
-		if(!isEmptyOrNullString(accessType)) {
-			mlpAccessType = new MLPAccessType();
-			if(accessType.equals("PB")) {
-				
-				mlpAccessType.setCode("PB");
-				mlpAccessType.setName("Public");
-			} else if(accessType.equals("OR")) {
-				mlpAccessType.setCode("OR");
-				mlpAccessType.setName("Organization");
-			} else if(accessType.equals("PR")) {
-				mlpAccessType.setCode("PR");
-				mlpAccessType.setName("Private");
-			} else {//Default
-				mlpAccessType.setCode("PR");
-				mlpAccessType.setName("Private");
-			}
-		} 
-		return mlpAccessType;
-	}
+//	/**
+//	 * 
+//	 * @param accessType Access type value
+//	 * @return
+//	 * 		MLPAccessType object for Storing in DB
+//	 */
+//	public static MLPAccessType getMLPAccessType(String accessType) {
+//		MLPAccessType mlpAccessType = null;
+//		
+//		if(!isEmptyOrNullString(accessType)) {
+//			mlpAccessType = new MLPAccessType();
+//			if(accessType.equals("PB")) {
+//				
+//				mlpAccessType.setCode("PB");
+//				mlpAccessType.setName("Public");
+//			} else if(accessType.equals("OR")) {
+//				mlpAccessType.setCode("OR");
+//				mlpAccessType.setName("Organization");
+//			} else if(accessType.equals("PR")) {
+//				mlpAccessType.setCode("PR");
+//				mlpAccessType.setName("Private");
+//			} else {//Default
+//				mlpAccessType.setCode("PR");
+//				mlpAccessType.setName("Private");
+//			}
+//		} 
+//		return mlpAccessType;
+//	}
 	
 	
 	public static String getEnvProperty(Environment env, String property) throws AcumosServiceException {
@@ -448,33 +442,33 @@ public class PortalUtils {
 		
 	}
 	
-	public static MLPSolutionValidation convertMLPSolutionValidation(MLModelValidationStatus mlModelValidationStatus) {
-		MLPSolutionValidation mlpSolutionValidation = new MLPSolutionValidation();
-		mlpSolutionValidation.setSolutionId(mlModelValidationStatus.getSolutionId());
-		mlpSolutionValidation.setRevisionId(mlModelValidationStatus.getRevisionId());
-		mlpSolutionValidation.setTaskId(mlModelValidationStatus.getTaskId());
-		String valStatus = mlModelValidationStatus.getStatus();
-		if(!isEmptyOrNullString(valStatus)) {
-			if(valStatus.equalsIgnoreCase("Success") || valStatus.equalsIgnoreCase("Pass") || valStatus.equalsIgnoreCase("PS")) {
-				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.PS.toString());
-			} else if(valStatus.equalsIgnoreCase("In Progress") || valStatus.equalsIgnoreCase("IP") || valStatus.contains("Pending")) {
-				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.IP.toString());
-			} else if(valStatus.equalsIgnoreCase("Failed") || valStatus.equalsIgnoreCase("FA")) {
-				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.FA.toString());
-			} else {
-				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.NV.toString());
-			}
-		} else {
-			mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.SB.toString());
-		}
-		mlpSolutionValidation.setValidationTypeCode(ValidationTypeCode.SS.toString());
-		if(!isEmptyList(mlModelValidationStatus.getArtifactValidationStatus())) {
-			mlpSolutionValidation.setDetail(JsonUtils.serializer().toString(mlModelValidationStatus.getArtifactValidationStatus()));
-		}
-		
-		log.debug(EELFLoggerDelegate.debugLogger, "convertMLPSolutionValidation ={}", JsonUtils.serializer().toPrettyString(mlpSolutionValidation));
-		return mlpSolutionValidation;
-	}
+//	public static MLPSolutionValidation convertMLPSolutionValidation(MLModelValidationStatus mlModelValidationStatus) {
+//		MLPSolutionValidation mlpSolutionValidation = new MLPSolutionValidation();
+//		mlpSolutionValidation.setSolutionId(mlModelValidationStatus.getSolutionId());
+//		mlpSolutionValidation.setRevisionId(mlModelValidationStatus.getRevisionId());
+//		mlpSolutionValidation.setTaskId(mlModelValidationStatus.getTaskId());
+//		String valStatus = mlModelValidationStatus.getStatus();
+//		if(!isEmptyOrNullString(valStatus)) {
+//			if(valStatus.equalsIgnoreCase("Success") || valStatus.equalsIgnoreCase("Pass") || valStatus.equalsIgnoreCase("PS")) {
+//				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.PS.toString());
+//			} else if(valStatus.equalsIgnoreCase("In Progress") || valStatus.equalsIgnoreCase("IP") || valStatus.contains("Pending")) {
+//				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.IP.toString());
+//			} else if(valStatus.equalsIgnoreCase("Failed") || valStatus.equalsIgnoreCase("FA")) {
+//				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.FA.toString());
+//			} else {
+//				mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.NV.toString());
+//			}
+//		} else {
+//			mlpSolutionValidation.setValidationStatusCode(ValidationStatusCode.SB.toString());
+//		}
+//		mlpSolutionValidation.setValidationTypeCode(ValidationTypeCode.SS.toString());
+//		if(!isEmptyList(mlModelValidationStatus.getArtifactValidationStatus())) {
+//			mlpSolutionValidation.setDetail(JsonUtils.serializer().toString(mlModelValidationStatus.getArtifactValidationStatus()));
+//		}
+//		
+//		log.debug(EELFLoggerDelegate.debugLogger, "convertMLPSolutionValidation ={}", JsonUtils.serializer().toPrettyString(mlpSolutionValidation));
+//		return mlpSolutionValidation;
+//	}
 	
 	
 
@@ -574,34 +568,30 @@ public class PortalUtils {
 	
 	public static RestPageResponse<MLSolutionRating> convertToMLSolutionRatingRestPageResponse(
 			List<MLSolutionRating> mlSolutionRatingList, RestPageResponse<MLPSolutionRating> mlpSolutionRating) {
-		RestPageResponse<MLSolutionRating> mlSolutionRating = new RestPageResponse<MLSolutionRating>(
-				mlSolutionRatingList);
-		mlSolutionRating.setFirst(mlpSolutionRating.isFirst());
-		mlSolutionRating.setLast(mlpSolutionRating.isLast());
-		mlSolutionRating.setNumber(mlpSolutionRating.getNumber());
-		mlSolutionRating.setNumberOfElements(mlpSolutionRating.getNumberOfElements());
-		mlSolutionRating.setSize(mlpSolutionRating.getSize());
-		mlSolutionRating.setSort(mlpSolutionRating.getSort());
-		mlSolutionRating.setTotalElements(mlpSolutionRating.getTotalElements());
-		mlSolutionRating.setTotalPages(mlpSolutionRating.getTotalPages());
-		mlSolutionRating.setNextPage(mlpSolutionRating.isNextPage());
-		mlSolutionRating.setPreviousPage(mlpSolutionRating.isPreviousPage());
+		RestPageResponse<MLSolutionRating> mlSolutionRating = 
+				new RestPageResponse<MLSolutionRating>(
+						mlSolutionRatingList,
+						PageRequest.of(
+								mlpSolutionRating.getNumber(),
+								mlpSolutionRating.getSize(),
+								mlpSolutionRating.getSort()),
+						mlpSolutionRating.getTotalElements());
 		return mlSolutionRating;
 	}
 
-	public static MLSolutionWeb convertToMLSolutionWeb(MLPSolutionWeb mlpSolutionweb) {
-        
-        MLSolutionWeb mlSolutionWeb = new MLSolutionWeb();    
-        mlSolutionWeb.setSolutionId(mlpSolutionweb.getSolutionId());
-        mlSolutionWeb.setViewCount(mlpSolutionweb.getViewCount());
-        mlSolutionWeb.setDownloadCount(mlpSolutionweb.getDownloadCount());
-        mlSolutionWeb.setLastDownload(mlpSolutionweb.getLastDownload());
-        mlSolutionWeb.setRatingCount(mlpSolutionweb.getRatingCount());
-        mlSolutionWeb.setRatingAverageTenths(mlpSolutionweb.getRatingAverageTenths());
-        mlSolutionWeb.setFeatured(mlpSolutionweb.isFeatured()); 
-
-        return mlSolutionWeb;
-    }
+//	public static MLSolutionWeb convertToMLSolutionWeb(MLPSolutionWeb mlpSolutionweb) {
+//        
+//        MLSolutionWeb mlSolutionWeb = new MLSolutionWeb();    
+//        mlSolutionWeb.setSolutionId(mlpSolutionweb.getSolutionId());
+//        mlSolutionWeb.setViewCount(mlpSolutionweb.getViewCount());
+//        mlSolutionWeb.setDownloadCount(mlpSolutionweb.getDownloadCount());
+//        mlSolutionWeb.setLastDownload(mlpSolutionweb.getLastDownload());
+//        mlSolutionWeb.setRatingCount(mlpSolutionweb.getRatingCount());
+//        mlSolutionWeb.setRatingAverageTenths(mlpSolutionweb.getRatingAverageTenths());
+//        mlSolutionWeb.setFeatured(mlpSolutionweb.isFeatured()); 
+//
+//        return mlSolutionWeb;
+//    }
 	
 	public static MLComment convertToMLComment(MLPComment mlpComment, String userTimeZone) {
         
@@ -615,7 +605,7 @@ public class PortalUtils {
 		mlComment.setCreated(mlpComment.getCreated()); 
 		mlComment.setModified(mlpComment.getModified());
 		if(userTimeZone != null)
-			mlComment.setStringDate(dateUtils.formatCommentTime(new DateTime(mlComment.getModified().getTime()), userTimeZone));
+			mlComment.setStringDate(dateUtils.formatCommentTime(new DateTime(mlComment.getModified().toEpochMilli()), userTimeZone));
 
         return mlComment;
     }

@@ -23,6 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -113,7 +114,7 @@ public class PushAndPullSolutionServiceControllerTest {
 			MLPSiteConfig mlPSiteConfig = new MLPSiteConfig();
 			mlPSiteConfig.setConfigKey("configKey");
 			mlPSiteConfig.setConfigValue("configValue");
-			mlPSiteConfig.setCreated(new Date(System.currentTimeMillis()));
+			mlPSiteConfig.setCreated(Instant.now());
 			mlPSiteConfig.setUserId(userId);
 			MultipartFile dfsdf = null;
 			MultipartFile file = dfsdf ;
@@ -143,7 +144,6 @@ public class PushAndPullSolutionServiceControllerTest {
 		MLSolution mlsolution = new MLSolution();
 		mlsolution.setSolutionId("Solution1");
 		mlsolution.setName("Test_Solution data");
-		mlsolution.setDescription("Test data");
 		mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 		mlsolution.setAccessType("PB");
 		mlsolution.setActive(true);
@@ -158,7 +158,6 @@ public class PushAndPullSolutionServiceControllerTest {
 		mlpSolRev.setRevisionId("REV2");
 		mlpSolRev.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
 		mlpSolRev.setVersion("v.0.0");
-		mlpSolRev.setDescription("test data for revision");
 		mlpSolRev.setSolutionId(mlsolution.getSolutionId());
 		return mlpSolRev;
 	}

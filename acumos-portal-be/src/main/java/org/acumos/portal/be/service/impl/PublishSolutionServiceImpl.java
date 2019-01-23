@@ -134,7 +134,6 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		
 		mlpSolutionRevision.setPublisher(getSiteInstanceName());
 		mlpSolutionRevision.setAccessTypeCode(accessType);
-		mlpSolutionRevision.setValidationStatusCode(CommonConstants.STATUS_PASSED);
 		dataServiceRestClient.updateSolutionRevision(mlpSolutionRevision);
 	}
 	
@@ -205,7 +204,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		Map<String, String> queryParameters = new HashMap<>();
 		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
 		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-				accessTypeCodes, null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+				accessTypeCodes, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 		List<MLPSolution> searchSolList = searchSolResp.getContent();
 
 		//removing the same solutionId from the list

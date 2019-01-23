@@ -154,6 +154,14 @@ angular.module('AcumosApp')
             return $http.get(urlSolutions + '/' + solutionId);
         };
         
+        this.getSolutionPicture = function (solutionId) {
+            return $http.get(urlSolutions + '/' + solutionId + "/picture");
+        };
+        
+        this.setSolutionPicture = function (solutionId, image) {
+            return $http.post(urlSolutions + '/' + solutionId + "/picture", image);
+        };
+        
         this.getPeer = function(peerId){
         	return $http.get(urlPeers + '/' + peerId);
         };

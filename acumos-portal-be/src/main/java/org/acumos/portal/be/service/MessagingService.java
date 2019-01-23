@@ -24,8 +24,6 @@ package org.acumos.portal.be.service;
 import java.util.List;
 
 import org.acumos.cds.domain.MLPStepResult;
-import org.acumos.cds.domain.MLPStepStatus;
-import org.acumos.cds.domain.MLPStepType;
 import org.acumos.portal.be.transport.MLStepResult;
 
 public interface MessagingService {
@@ -37,10 +35,6 @@ public interface MessagingService {
 	void updateStepResult(MLPStepResult stepResult);
 
 	void deleteStepResult(Long stepResultId);
-
-	List<MLPStepStatus> getStepStatuses();
-
-	List<MLPStepType> getStepTypes();
 
 	List<MLPStepResult> findStepresultBySolutionId(String solutionId, String revisionId);
 }

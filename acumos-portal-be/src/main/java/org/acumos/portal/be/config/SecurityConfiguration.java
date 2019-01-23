@@ -74,6 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/auth/validateToken").permitAll()
         .antMatchers("/users/register").permitAll()
         .antMatchers("/solutions").permitAll()
+        .antMatchers("/solutions/{solutionId}/picture").permitAll()
         .antMatchers("/portal/solutions").permitAll()
         .antMatchers("/searchSolutionBykeyword").permitAll()
         .antMatchers("/solutions/{solutionId}").permitAll()

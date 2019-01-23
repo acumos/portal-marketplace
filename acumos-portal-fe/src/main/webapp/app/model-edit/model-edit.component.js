@@ -481,6 +481,15 @@ angular
 													$scope.getCompanySolutionDocuments();
 													$scope.getAuthorList();
 													$scope.getPublishRequestDetail();
+													apiService.getSolutionPicture($scope.solution.solutionId)
+													 .then(
+															 function(response) {
+																 $scope.solution.picture = response.data.response_body;
+															 },
+															 function(error) {
+																 $scope.status = 'Unable to load picture data: '
+																		+ error.data.error;
+															 });
 												} else {
 													// alert("Error Fetching
 													// Data");
@@ -2148,7 +2157,7 @@ angular
 				            $scope.error = false;
 
 							console.clear();
-							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/updateImage";
+							var uploadUrl = "/api/solutions/" + $scope.solution.solutionId + "/picture";
 							var promise = modelUploadService.uploadFileToUrl(
 									file, uploadUrl);
 

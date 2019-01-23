@@ -19,7 +19,7 @@
  */
 package org.acumos.be.test.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.junit.Assert;
@@ -36,11 +36,11 @@ public class UserMasterObjectTest {
 		String emailId = "zbc@techm.com";
 		String username = "zbc";
 		boolean active = true;
-		Date lastLogin = new Date();
-		Date created = new Date();
-		Date modified = new Date();
-		Date createdDate = new Date();
-		Date modifiedDate= new Date();
+		Instant lastLogin = Instant.now();
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
+		Instant createdDate = Instant.now();
+		Instant modifiedDate = Instant.now();
 		String providerCd = "dsds";
 		String providerUserId = "dd24fs";
 		String userId = "83d5259f-48b7-4fe1-9fd6-d1166f8f3691";
@@ -51,7 +51,7 @@ public class UserMasterObjectTest {
 		String secret = "sffsf";
 		String accessToken = "453thfhy5y6";
 		String refreshToken = "3f4f5g22ds";
-		Date expireTime = new Date();		
+		Instant expireTime = Instant.now();		
 		
 		
 		UserMasterObject userMasterObject = new UserMasterObject();

@@ -20,7 +20,7 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import org.acumos.portal.be.common.JSONTags;
@@ -42,9 +42,9 @@ public class MLRole {
 	@JsonProperty(value=JSONTags.ROLE_ACTIVE)
 	private boolean active;
 	@JsonProperty(value=JSONTags.ROLE_CREATED)
-	private Date created;
+	private Instant created;
 	@JsonProperty(value=JSONTags.ROLE_MODIFIED)
-	private Date modified;
+	private Instant modified;
 	private List<String> permissionList;
 	private int roleCount;
 	
@@ -72,19 +72,19 @@ public class MLRole {
 		this.active = active;
 	}
 
-	public Date getCreated() {
+	public Instant getCreated() {
 		return created;
 	}
 
-	public void setCreated(Date created) {
+	public void setCreated(Instant created) {
 		this.created = created;
 	}
 
-	public Date getModified() {
+	public Instant getModified() {
 		return modified;
 	}
 
-	public void setModified(Date modified) {
+	public void setModified(Instant modified) {
 		this.modified = modified;
 	}
 

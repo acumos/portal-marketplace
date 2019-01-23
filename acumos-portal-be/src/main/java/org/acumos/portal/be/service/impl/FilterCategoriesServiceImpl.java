@@ -31,13 +31,10 @@ import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
+import org.acumos.cds.CodeNameType;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPAccessType;
-import org.acumos.cds.domain.MLPModelType;
-import org.acumos.cds.domain.MLPToolkitType;
-import org.acumos.cds.domain.MLPAccessType;
+import org.acumos.cds.domain.MLPCodeNamePair;
 
 @Service
 public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements FilterCategoriesService {
@@ -49,11 +46,11 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 	
 	
 	@Override
-	public List<MLPModelType> getSolutionCategoryTypes() {
+	public List<MLPCodeNamePair> getSolutionCategoryTypes() {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionCategoryTypes");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPModelType> mlpModelTypes = null;
-		mlpModelTypes = dataServiceRestClient.getModelTypes();
+		List<MLPCodeNamePair> mlpModelTypes = null;
+		mlpModelTypes = dataServiceRestClient.getCodeNamePairs(CodeNameType.MODEL_TYPE);
 		if(mlpModelTypes !=null) {
 			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionCategoryTypes : ", mlpModelTypes.size());
 		}
@@ -61,11 +58,11 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 	}
 	
 	@Override
-	public List<MLPAccessType> getSolutionAccessTypes() {
+	public List<MLPCodeNamePair> getSolutionAccessTypes() {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionAccessTypes");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPAccessType> mlpAccessTypes = null;
-		mlpAccessTypes = dataServiceRestClient.getAccessTypes();
+		List<MLPCodeNamePair> mlpAccessTypes = null;
+		mlpAccessTypes = dataServiceRestClient.getCodeNamePairs(CodeNameType.ACCESS_TYPE);
 		if(mlpAccessTypes !=null) {
 			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionCategoryTypes : ", mlpAccessTypes.size());
 		}
@@ -73,11 +70,11 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 	}
 
 	@Override
-	public List<MLPToolkitType> getToolkitTypes() {
+	public List<MLPCodeNamePair> getToolkitTypes() {
 		log.debug(EELFLoggerDelegate.debugLogger, "getToolkitTypes");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPToolkitType> mlpToolkitTypes = null;
-		mlpToolkitTypes = dataServiceRestClient.getToolkitTypes();
+		List<MLPCodeNamePair> mlpToolkitTypes = null;
+		mlpToolkitTypes = dataServiceRestClient.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
 		if(mlpToolkitTypes !=null) {
 			log.debug(EELFLoggerDelegate.debugLogger, "getToolkitTypes : ", mlpToolkitTypes.size());
 		}

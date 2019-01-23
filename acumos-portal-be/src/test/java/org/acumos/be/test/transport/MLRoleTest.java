@@ -19,8 +19,8 @@
  */
 package org.acumos.be.test.transport;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.acumos.portal.be.transport.MLRole;
@@ -35,8 +35,8 @@ public class MLRoleTest {
 		String roleId = "5435sf";
 		String name ="abc";
 		boolean active = true;
-		Date created = new Date();
-		Date modified = new Date();
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
 		List<String> permissionList = new ArrayList<String>();
 		permissionList.add("a");
 		permissionList.add("b");

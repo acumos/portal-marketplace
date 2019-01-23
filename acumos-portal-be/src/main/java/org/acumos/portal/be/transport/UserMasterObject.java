@@ -20,7 +20,7 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class UserMasterObject {
 	
@@ -37,18 +37,18 @@ public class UserMasterObject {
 	private String secret;
 	private String accessToken;
 	private String refreshToken;
-	private Date expireTime;
-	private Date createdDate;
-	private Date modifiedDate;
+	private Instant expireTime;
+	private Instant createdDate;
+	private Instant modifiedDate;
 	
 	private String firstName;
 	private String lastName;
 	private String emailId;
 	private String username;
 	private boolean active;
-	private Date lastLogin;
-	private Date created;
-	private Date modified;
+	private Instant lastLogin;
+	private Instant created;
+	private Instant modified;
 	/**
 	 * @return the userId
 	 */
@@ -172,37 +172,37 @@ public class UserMasterObject {
 	/**
 	 * @return the expireTime
 	 */
-	public Date getExpireTime() {
+	public Instant getExpireTime() {
 		return expireTime;
 	}
 	/**
 	 * @param expireTime the expireTime to set
 	 */
-	public void setExpireTime(Date expireTime) {
+	public void setExpireTime(Instant expireTime) {
 		this.expireTime = expireTime;
 	}
 	/**
 	 * @return the createdDate
 	 */
-	public Date getCreatedDate() {
+	public Instant getCreatedDate() {
 		return createdDate;
 	}
 	/**
 	 * @param createdDate the createdDate to set
 	 */
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(Instant createdDate) {
 		this.createdDate = createdDate;
 	}
 	/**
 	 * @return the modifiedDate
 	 */
-	public Date getModifiedDate() {
+	public Instant getModifiedDate() {
 		return modifiedDate;
 	}
 	/**
 	 * @param modifiedDate the modifiedDate to set
 	 */
-	public void setModifiedDate(Date modifiedDate) {
+	public void setModifiedDate(Instant modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 	/**
@@ -268,37 +268,37 @@ public class UserMasterObject {
 	/**
 	 * @return the lastLogin
 	 */
-	public Date getLastLogin() {
+	public Instant getLastLogin() {
 		return lastLogin;
 	}
 	/**
 	 * @param lastLogin the lastLogin to set
 	 */
-	public void setLastLogin(Date lastLogin) {
+	public void setLastLogin(Instant lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 	/**
 	 * @return the created
 	 */
-	public Date getCreated() {
+	public Instant getCreated() {
 		return created;
 	}
 	/**
 	 * @param created the created to set
 	 */
-	public void setCreated(Date created) {
+	public void setCreated(Instant created) {
 		this.created = created;
 	}
 	/**
 	 * @return the modified
 	 */
-	public Date getModified() {
+	public Instant getModified() {
 		return modified;
 	}
 	/**
 	 * @param modified the modified to set
 	 */
-	public void setModified(Date modified) {
+	public void setModified(Instant modified) {
 		this.modified = modified;
 	}
 	
