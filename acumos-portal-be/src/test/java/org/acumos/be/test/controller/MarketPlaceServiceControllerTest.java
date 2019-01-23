@@ -285,7 +285,7 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solutionres);
 			Mockito.when(service.deleteSolutionArtifacts(mlSolutionRes.getBody(), solutionId, revisionId))
 					.thenReturn(mlsolution);
-			solutionres = marketPlaceController.updateSolutionDetails(request, response, solutionId, mlSolutionRes);
+			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, revisionId, mlSolutionRes);
 			logger.info("Succseefully delete Solution Artifacts : " + solutionres.getResponseBody());
 			Assert.assertNotNull(solutionres);
 		} catch (Exception e) {
