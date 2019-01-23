@@ -19,7 +19,7 @@
  */
 package org.acumos.be.test.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.junit.Assert;
@@ -32,7 +32,7 @@ public class MLSolutionDownloadTest {
 		
 		String solutionId = "02a87750-7ba3-4ea7-8c20-c1286930f57c";
 		String userId = "83d5259f-48b7-4fe1-9fd6-d1166f8f3691";
-		Date downloadDate = new Date();
+		Instant downloadDate = Instant.now();
 		
 
 		MLSolutionDownload mlSolutionDownload = new  MLSolutionDownload();

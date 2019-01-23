@@ -33,8 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPStepResult;
-import org.acumos.cds.domain.MLPStepStatus;
-import org.acumos.cds.domain.MLPStepType;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
@@ -262,69 +260,69 @@ public class WebBasedOnboardingController  extends AbstractController {
 		return data;
 	}
 	
-	/**
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@ApiOperation(value = "Fetch Step statuses", response = MLPStepStatus.class)
-	@RequestMapping(value = { APINames.GET_STEP_STATUSES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<List<MLPStepStatus>> getStepStatuses(HttpServletRequest request, HttpServletResponse response) {
-		JsonResponse<List<MLPStepStatus>> data = new JsonResponse<>();
-		try {
-			List<MLPStepStatus> stepStatusesList = messagingService.getStepStatuses();
-			if (stepStatusesList != null) {
-				data.setResponseBody(stepStatusesList);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Step result created Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "Step result created Successfully :  ");
-			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("Error occured while createStepResult");
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createStepResult :");
-			}
-
-		} catch (Exception e) {
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			data.setResponseDetail("Exception occured while createStepResult");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createStepResult :", e);
-		}
-		return data;
-	}
-
-	/**
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@ApiOperation(value = "Fetch Step types", response = MLPStepType.class)
-	@RequestMapping(value = { APINames.GET_STEP_TYPES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
-	@ResponseBody
-	public JsonResponse<List<MLPStepType>> getStepTypes(HttpServletRequest request, HttpServletResponse response) {
-		JsonResponse<List<MLPStepType>> data = new JsonResponse<>();
-		try {
-			List<MLPStepType> stepStatusesList = messagingService.getStepTypes();
-			if (stepStatusesList != null) {
-				data.setResponseBody(stepStatusesList);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Step statuses fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "Step statuses fetched Successfully :  ");
-			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("Error occured while getStepTypes");
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred getStepTypes :");
-			}
-
-		} catch (Exception e) {
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			data.setResponseDetail("Exception occured while getStepTypes");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getStepTypes :", e);
-		}
-		return data;
-	}
+//	/**
+//	 * 
+//	 * @param request
+//	 * @param response
+//	 * @return
+//	 */
+//	@ApiOperation(value = "Fetch Step statuses", response = MLPStepStatus.class)
+//	@RequestMapping(value = { APINames.GET_STEP_STATUSES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+//	@ResponseBody
+//	public JsonResponse<List<MLPStepStatus>> getStepStatuses(HttpServletRequest request, HttpServletResponse response) {
+//		JsonResponse<List<MLPStepStatus>> data = new JsonResponse<>();
+//		try {
+//			List<MLPStepStatus> stepStatusesList = messagingService.getStepStatuses();
+//			if (stepStatusesList != null) {
+//				data.setResponseBody(stepStatusesList);
+//				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+//				data.setResponseDetail("Step result created Successfully");
+//				log.debug(EELFLoggerDelegate.debugLogger, "Step result created Successfully :  ");
+//			} else {
+//				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+//				data.setResponseDetail("Error occured while createStepResult");
+//				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createStepResult :");
+//			}
+//
+//		} catch (Exception e) {
+//			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+//			data.setResponseDetail("Exception occured while createStepResult");
+//			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createStepResult :", e);
+//		}
+//		return data;
+//	}
+//
+//	/**
+//	 * 
+//	 * @param request
+//	 * @param response
+//	 * @return
+//	 */
+//	@ApiOperation(value = "Fetch Step types", response = MLPStepType.class)
+//	@RequestMapping(value = { APINames.GET_STEP_TYPES }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+//	@ResponseBody
+//	public JsonResponse<List<MLPStepType>> getStepTypes(HttpServletRequest request, HttpServletResponse response) {
+//		JsonResponse<List<MLPStepType>> data = new JsonResponse<>();
+//		try {
+//			List<MLPStepType> stepStatusesList = messagingService.getStepTypes();
+//			if (stepStatusesList != null) {
+//				data.setResponseBody(stepStatusesList);
+//				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+//				data.setResponseDetail("Step statuses fetched Successfully");
+//				log.debug(EELFLoggerDelegate.debugLogger, "Step statuses fetched Successfully :  ");
+//			} else {
+//				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+//				data.setResponseDetail("Error occured while getStepTypes");
+//				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred getStepTypes :");
+//			}
+//
+//		} catch (Exception e) {
+//			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+//			data.setResponseDetail("Exception occured while getStepTypes");
+//			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getStepTypes :", e);
+//		}
+//		return data;
+//	}
 	
 	@ApiOperation(value = "Searching step result with solution id", response = MLPStepResult.class)
 	   @RequestMapping(value = {APINames.SEARCH_STEP_RESULT}, method = RequestMethod.GET, produces = APPLICATION_JSON)

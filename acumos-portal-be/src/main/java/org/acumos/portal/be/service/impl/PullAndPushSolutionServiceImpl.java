@@ -25,17 +25,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.time.Instant;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.cds.ArtifactTypeCode;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPSolutionDownload;
 import org.acumos.nexus.client.NexusArtifactClient;
-import org.acumos.nexus.client.RepositoryLocation;
 import org.acumos.portal.be.docker.DockerClientFactory;
 import org.acumos.portal.be.docker.DockerConfiguration;
 import org.acumos.portal.be.docker.cmd.SaveImageCommand;
@@ -60,6 +58,8 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 	
 	@Autowired
 	private DockerConfiguration dockerConfiguration;
+	
+	private static final String ARTIFACT_TYPE_DI = "DI";
 
 	@Override
 	public File downloadModelDockerImage(String modelName, String imageName, String version) {
@@ -108,7 +108,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			MLPArtifact mlpArtifact = dataServiceRestClient.getArtifact(artifactId);
 			if (mlpArtifact != null && !mlpArtifact.getUri().isEmpty()) {
-				if (mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ArtifactTypeCode.DI.toString())) {
+				if (mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ARTIFACT_TYPE_DI)) {
 					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
 					try {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
@@ -156,7 +156,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			MLPArtifact mlpArtifact = dataServiceRestClient.getArtifact(artifactId);
 			if (mlpArtifact != null && !mlpArtifact.getUri().isEmpty()) {
-				if (mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ArtifactTypeCode.DI.toString())) {
+				if (mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ARTIFACT_TYPE_DI)) {
 					DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
 					try {
 						SaveImageCommand saveImageCommand = new SaveImageCommand(mlpArtifact.getUri(), null, null, null,
@@ -207,7 +207,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
             String uri = mlpArtifact.getUri();
             if (!uri.isEmpty()) {
                 artifactFileName = uri.substring(uri.lastIndexOf("/") + 1, uri.length());
-                if(mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ArtifactTypeCode.DI.toString())) {
+                if(mlpArtifact.getArtifactTypeCode().equalsIgnoreCase(ARTIFACT_TYPE_DI)) {
                 	artifactFileName += ".tar";
                 	}
                 }
@@ -261,7 +261,7 @@ public class PullAndPushSolutionServiceImpl extends AbstractServiceImpl implemen
 		download.setSolutionId(solutionId);
 		download.setArtifactId(artifactId);
 		download.setUserId(userId);
-		download.setDownloadDate(new Date());
+		download.setDownloadDate(Instant.now());
 		MLSolutionDownload mlSolutionDownload = PortalUtils
 				.convertToMLSolutionDownload(dataServiceRestClient.createSolutionDownload(download));
 		return mlSolutionDownload;

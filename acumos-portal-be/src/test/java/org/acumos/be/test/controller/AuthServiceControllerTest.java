@@ -22,8 +22,8 @@ package org.acumos.be.test.controller;
 
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,7 +117,7 @@ public class AuthServiceControllerTest {
 		
 		mlpUser.setActive(false);
 		mlpUser.setEmail(null);
-		mlpUser.setLoginPassExpire(new Date());
+		mlpUser.setLoginPassExpire(Instant.now());
 		responseObject  = authServiceController.login(request, user , response);
 	}
 	
@@ -160,7 +160,7 @@ public class AuthServiceControllerTest {
 		
 		MLPRole mlpRole = new MLPRole();
 		mlpRole.setName("Admin");
-		Date created = new Date();
+		Instant created = Instant.now();
 		mlpRole.setCreated(created);
 		mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 		Assert.assertNotNull(mlpRole);

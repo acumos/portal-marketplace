@@ -304,7 +304,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 			for(MLPComment mlpComment : pageResponse.getContent()){				
 				mlcommentList.add(PortalUtils.convertToMLComment(mlpComment, clientTimeZone));
 			}
-			commentResponse.setContent(mlcommentList);
+			commentResponse = new RestPageResponseBE<>(mlcommentList);
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {
@@ -331,7 +331,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 					mlcommentList.add(PortalUtils.convertToMLComment(mlpComment, clientTimeZone));
 				}
 			}
-			commentResponse.setContent(mlcommentList);
+			commentResponse = new RestPageResponseBE<>(mlcommentList);
 		} catch (IllegalArgumentException e) {
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
 		} catch (HttpClientErrorException e) {

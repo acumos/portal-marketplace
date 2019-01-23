@@ -518,6 +518,16 @@ angular
 											$scope.getProtoFile();
 											
 											var solutionName = $scope.solution.name;
+											
+											apiService.getSolutionPicture($scope.solution.solutionId)
+											 .then(
+													 function(response) {
+														 $scope.solution.picture = response.data.response_body;
+													 },
+													 function(error) {
+														 $scope.status = 'Unable to load picture data: '
+																+ error.data.error;
+													 });
 										})
 										
 								.error(function(data, status, headers, config) {

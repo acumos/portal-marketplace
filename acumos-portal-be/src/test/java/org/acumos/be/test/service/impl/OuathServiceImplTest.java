@@ -19,7 +19,7 @@
  */
 package org.acumos.be.test.service.impl;
 
-import java.util.Date;
+import java.time.Instant;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPUserLoginProvider;
@@ -53,7 +53,7 @@ public class OuathServiceImplTest {
 
 			OauthUser oauthUser = new OauthUser();
 			oauthUser.setUserId("09514016-2f24-4a0c-8587-f0f0d2ff03b3");
-			Date created = new Date();
+			Instant created = Instant.now();
 			oauthUser.setCreatedDate(created);
 			oauthUser.setDisplayName("Tester");
 			oauthUser.setAccessToken(
@@ -78,7 +78,7 @@ public class OuathServiceImplTest {
 			MLPUserLoginProvider loginProvider = new MLPUserLoginProvider();
 			loginProvider.setAccessToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYW5pbW96aGlUMSIsInJvbGUiOlt7InBlcm1pc3Npb25MaXN0IjpudWxsLCJyb2xlSWQiOiIxIiwibmFtZSI6IlVzZXIiLCJhY3RpdmUiOmZhbHNlLCJjcmVhdGVkIjoxNTEwMjIwMDQzMDAwLCJtb2RpZmllZCI6MTUxMDIyMDA0MzAwMH1dLCJjcmVhdGVkIjoxNTEwNzUzMjgzMDUyLCJleHAiOjE1MTEzNTgwODMsIm1scHVzZXIiOnsiY3JlYXRlZCI6MTUwODIzNDY5NjAwMCwibW9kaWZpZWQiOjE1MTAyMjkyMzkwMDAsInVzZXJJZCI6IjQxMDU4MTA1LTY3ZjQtNDQ2MS1hMTkyLWY0Y2I3ZmRhZmQzNCIsImZpcnN0TmFtZSI6InNkZnNkZiIsIm1pZGRsZU5hbWUiOiJzZGZzZGYiLCJsYXN0TmFtZSI6ImRmc2RmIiwib3JnTmFtZSI6InNkZnNkZiIsImVtYWlsIjoiZGZzZGYiLCJsb2dpbk5hbWUiOiJNYW5pbW96aGlUMSIsImxvZ2luSGFzaCI6bnVsbCwibG9naW5QYXNzRXhwaXJlIjpudWxsLCJhdXRoVG9rZW4iOm51bGwsImFjdGl2ZSI6dHJ1ZSwibGFzdExvZ2luIjpudWxsLCJwaWN0dXJlIjpudWxsfX0.8LuG8jsQvDDhhS037R6I1AwGOFkq3jTMxg2mLYbtEsKqzJcrS7fa0iwOGpvAMejx0GKoEZAhfWLgR6YVaSwK1w");
 			loginProvider.setUserId("09514016-2f24-4a0c-8587-f0f0d2ff03b3");
-			Date created = new Date();
+			Instant created = Instant.now();
 			loginProvider.setCreated(created);
 			loginProvider.setDisplayName("Tester");
 			loginProvider.setAccessToken(

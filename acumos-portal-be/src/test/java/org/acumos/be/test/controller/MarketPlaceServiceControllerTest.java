@@ -21,10 +21,9 @@ package org.acumos.be.test.controller;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +33,6 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
@@ -63,6 +61,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -230,8 +229,9 @@ public class MarketPlaceServiceControllerTest {
 			JsonRequest<MLSolution> mlSolutionReq = new JsonRequest<>();
 			mlSolutionReq.setBody(mlsolution);
 			Assert.assertNotNull(mlSolutionReq);
-			RestPageResponse<MLPSolution> responseBody = new RestPageResponse<>(solutionList);
-			responseBody.setSize(1);
+			RestPageResponse<MLPSolution> responseBody = 
+					new RestPageResponse<>(solutionList,
+							PageRequest.of(0, 1), 1);
 			Assert.assertNotNull(responseBody);
 			JsonResponse<RestPageResponse<MLPSolution>> value = new JsonResponse<>();
 			value.setResponseBody(responseBody);
@@ -303,7 +303,6 @@ public class MarketPlaceServiceControllerTest {
 			mlpSolRev.setRevisionId("REV2");
 			mlpSolRev.setUserId(mlsolution.getOwnerId());
 			mlpSolRev.setVersion("v.0.0");
-			mlpSolRev.setDescription("test data for revision");
 			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
 			Assert.assertNotNull(mlpSolRev);
 			String solutionId = mlpSolRev.getSolutionId();
@@ -332,7 +331,6 @@ public class MarketPlaceServiceControllerTest {
 			mlpSolRev.setRevisionId("REV2");
 			mlpSolRev.setUserId(mlsolution.getOwnerId());
 			mlpSolRev.setVersion("v.0.0");
-			mlpSolRev.setDescription("test data for revision");
 			mlpSolRev.setSolutionId(mlsolution.getSolutionId());
 			Assert.assertNotNull(mlpSolRev);
 			MLPArtifact mockMLPArtifact = new MLPArtifact();
@@ -508,7 +506,7 @@ public class MarketPlaceServiceControllerTest {
 			restPageReq.setBody(body);
 
 			RestPageResponseBE<MLSolution> responseBody = new RestPageResponseBE<>(solutionList);
-			responseBody.setContent(solutionList);
+			responseBody = new RestPageResponseBE<>(solutionList);
 
 			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
 			value.setResponseBody(responseBody);
@@ -572,9 +570,9 @@ public class MarketPlaceServiceControllerTest {
 		try {
 			MLSolution mlsolution = getMLSolution();
 			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSolutionRating.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSolutionRating.setModified(modified);
 			mlpSolutionRating.setRating(2);
 			mlpSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
@@ -600,9 +598,9 @@ public class MarketPlaceServiceControllerTest {
 	public void updateRatingTest() {
 		try {
 			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSolutionRating.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSolutionRating.setModified(modified);
 			mlpSolutionRating.setRating(2);
 			mlpSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
@@ -743,7 +741,7 @@ public class MarketPlaceServiceControllerTest {
 			List<MLSolution> mlSolutionList = new ArrayList<MLSolution>();
 			mlSolutionList.add(mlsolution);
 			RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(mlSolutionList);
-			mlSolutionsRest.setContent(mlSolutionList);
+			mlSolutionsRest = new RestPageResponseBE<>(mlSolutionList);
 			RestPageRequestBE body = new RestPageRequestBE();
 			body.setPage(0);
 			body.setSize(9);
@@ -932,9 +930,9 @@ public class MarketPlaceServiceControllerTest {
 		List<MLPSolution> solutionList = new ArrayList<MLPSolution>();
 		solutionList.add(solution);
 		Assert.assertNotNull(solutionList);
-		RestPageResponse<MLPSolution> responseBody = new RestPageResponse<>(solutionList);
-		responseBody.setSize(1);
-		responseBody.setNumberOfElements(1);
+		RestPageResponse<MLPSolution> responseBody = 
+				new RestPageResponse<>(solutionList,
+						PageRequest.of(0, 1), 1);
 		Assert.assertNotNull(responseBody);
 		String userId = "1213505-67f4-4461-a192-f4cb7fdafd34";
 		Mockito.when(service.getUserAccessSolutions(userId, new RestPageRequest(0, 99))).thenReturn(responseBody);
@@ -944,7 +942,7 @@ public class MarketPlaceServiceControllerTest {
 	}
 	
 
-	@Test
+	/*@Test
 	public void getAvgRatingsForSol() {
 		MLSolutionWeb solutionStats = new MLSolutionWeb();
 		solutionStats.setDownloadCount((long) 4);
@@ -954,13 +952,12 @@ public class MarketPlaceServiceControllerTest {
 		Mockito.when(service.getSolutionWebMetadata(solutionId)).thenReturn(solutionStats);
 		JsonResponse<MLSolutionWeb> data = marketPlaceController.getAvgRatingsForSol(solutionId);
 		Assert.assertNotNull(data);
-	}
+	}*/
 	
 	private MLSolution getMLSolution(){
 		MLSolution mlsolution = new MLSolution();
 		mlsolution.setSolutionId("Solution1");
 		mlsolution.setName("Test_Solution data");
-		mlsolution.setDescription("Test data");
 		mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 		mlsolution.setAccessType("PB");
 		mlsolution.setActive(true);

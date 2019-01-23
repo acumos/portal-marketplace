@@ -23,9 +23,9 @@
  */
 package org.acumos.portal.be.service.impl;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,12 +84,10 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         mlpUser.setLoginName(user.getUsername());
 
         if(isVerifyAccountEnabled()) {
-            DateTime dt = new DateTime();
-            //Get expiration hours from properties
-            
-            DateTime verifyExpireDate = dt.plusHours(getVerifyExpirationhours());
+            Instant expirationTime = Instant.now()
+            		.plus(getVerifyExpirationhours(), ChronoUnit.HOURS);
 	        mlpUser.setVerifyTokenHash(verifyToken.toString());
-	        mlpUser.setVerifyExpiration(verifyExpireDate.toDate());
+	        mlpUser.setVerifyExpiration(expirationTime);
         }
 
         if(!PortalUtils.isEmptyOrNullString(user.getPassword()))
@@ -169,7 +167,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
 	        if(user != null && user.isActive() && user.getVerifyExpiration() != null) {
 	        	//Check for the verification token expiration date
-	        	DateTime verificationExpirationTime = new DateTime(user.getVerifyExpiration().getTime());
+	        	DateTime verificationExpirationTime = new DateTime(user.getVerifyExpiration().toEpochMilli());
 	        	if (verificationExpirationTime.isBeforeNow()) {
 	        		log.debug(EELFLoggerDelegate.debugLogger, "Token expired for user : {}", user.getUserId());
 	        		throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Verification Token Expired");
@@ -211,11 +209,10 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	        if(user != null && user.isActive() && user.getVerifyExpiration() != null && isVerifyAccountEnabled()) {
 	        	//Check for the verification token expiration date
 	        	UUID verifyToken = UUID.randomUUID();
-	            DateTime dt = new DateTime();
-	            //Get expiration hours from properties
-	            DateTime verifyExpireDate = dt.plusHours(getVerifyExpirationhours());
+	            Instant expirationTime = Instant.now()
+	            		.plus(getVerifyExpirationhours(), ChronoUnit.HOURS);
 	            user.setVerifyTokenHash(verifyToken.toString());
-	            user.setVerifyExpiration(verifyExpireDate.toDate());
+	            user.setVerifyExpiration(expirationTime);
 	            dataServiceRestClient.updateUser(user);
 
 	            //Send new user account created notification
@@ -453,11 +450,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
          // set expire date 24 hours for new password
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, 1);
-        mlpUser.setLoginPassExpire(cal.getTime());
+        Instant tomorrow = Instant.now().plus(1, ChronoUnit.DAYS);
+        mlpUser.setLoginPassExpire(tomorrow);
         mlpUser.setAuthToken(null);
 
         // Update users password & password expire date
@@ -598,11 +592,8 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
          // set expire date 24 hours for new password
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, 1);
-        mlpUser.setLoginPassExpire(cal.getTime());
+        Instant tomorrow = Instant.now().plus(1, ChronoUnit.DAYS);
+        mlpUser.setLoginPassExpire(tomorrow);
         mlpUser.setAuthToken(null);
 
         // Update users password & password expire date

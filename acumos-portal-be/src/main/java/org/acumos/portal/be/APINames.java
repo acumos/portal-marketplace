@@ -65,6 +65,7 @@ public class APINames {
     public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}";
     public static final String PAGINATED_SOLUTIONS = "/paginatedSolutions";
     public static final String SOLUTIONS_UPDATE = "/solutions/{solutionId}";
+    public static final String SOLUTIONS_PICTURE = "/solutions/{solutionId}/picture";
     
     public static final String SOLUTIONS_REVISIONS = "/solutions/{solutionId}/revisions";
     public static final String SOLUTIONS_REVISIONS_ARTIFACTS = "/solutions/{solutionId}/revisions/{revisionId}";

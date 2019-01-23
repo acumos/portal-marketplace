@@ -19,8 +19,7 @@
  */
 
 package org.acumos.portal.be.service;
- 
-import java.io.InputStream;
+
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
@@ -34,20 +33,15 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
-import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.User;
 import org.springframework.web.multipart.MultipartFile;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPDocument;
-import org.acumos.cds.domain.MLPRevisionDescription;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPSolutionWeb;
 import org.acumos.cds.domain.MLPTag;
-import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
@@ -148,8 +142,6 @@ public interface MarketPlaceCatalogService {
 
 	RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest);
 
-	MLSolutionWeb getSolutionWebMetadata(String solutionId); 
-
 	String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException;
 
 	boolean checkUniqueSolName(String solutionId, String solName);
@@ -178,4 +170,7 @@ public interface MarketPlaceCatalogService {
 
 	RestPageResponseBE<MLSolution> searchSolutionsByKeyword(RestPageRequestPortal pageReqPortal);
 	
+	byte[] getSolutionPicture(String solutionId);
+	
+	void updateSolutionPicture(String solutionId, byte[] image);
 }

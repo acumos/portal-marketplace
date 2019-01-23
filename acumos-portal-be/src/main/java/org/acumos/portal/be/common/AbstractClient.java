@@ -27,6 +27,7 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.client.HttpClient;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.util.function.SingletonSupplier;
 import org.springframework.web.client.RestTemplate;
 /**
  * 
@@ -65,9 +66,8 @@ public abstract class AbstractClient {
 		}
 
 		this.restTemplate = new RestTemplateBuilder()
-														.requestFactory(
-															new HttpComponentsClientHttpRequestFactory(theClient))	
-														.rootUri(this.baseUrl)
-														.build();
+				.requestFactory(SingletonSupplier.of(
+					new HttpComponentsClientHttpRequestFactory(theClient)))	
+				.rootUri(this.baseUrl).build();
 	}
 }	

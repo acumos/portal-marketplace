@@ -29,9 +29,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.cds.domain.MLPAccessType;
-import org.acumos.cds.domain.MLPModelType;
-import org.acumos.cds.domain.MLPToolkitType;
+import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonResponse;
@@ -68,10 +66,10 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * 
 	 * @return List of ML Solutions Categories in JSON format.
 	 */
-	@ApiOperation(value = "Gets a list of ML Solutions Categories for Market Place Catalog.", response = MLPModelType.class, responseContainer = "List")
+	@ApiOperation(value = "Gets a list of ML Solutions Categories for Market Place Catalog.", response = MLPCodeNamePair.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.FILTER_MODELTYPE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<MLPModelType>> getSolutionsCategoryTypes(HttpServletRequest request,
+	public JsonResponse<List<MLPCodeNamePair>> getSolutionsCategoryTypes(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		Enumeration headerNames = request.getHeaderNames();
@@ -81,8 +79,8 @@ public class FilterCategoriesServiceController extends AbstractController {
 		TokenValidation tokenValidation = new TokenValidation();
 
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsCategoryTypes: Entering");
-		List<MLPModelType> mlpModelTypes = null;
-		JsonResponse<List<MLPModelType>> data = new JsonResponse<>();
+		List<MLPCodeNamePair> mlpModelTypes = null;
+		JsonResponse<List<MLPCodeNamePair>> data = new JsonResponse<>();
 		try {
 			mlpModelTypes = filterCategoriesService.getSolutionCategoryTypes();
 			if (mlpModelTypes != null) {
@@ -260,13 +258,13 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * "deleteSolutionsCategoryType: Exception Occurred deleting ML Solutions Category"
 	 * , e); } return data; }
 	 */
-	@ApiOperation(value = "Gets a list of ML Solutions Access for Market Place Catalog.", response = MLPAccessType.class, responseContainer = "List")
+	@ApiOperation(value = "Gets a list of ML Solutions Access for Market Place Catalog.", response = MLPCodeNamePair.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.FILTER_ACCESSTYPE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<MLPAccessType>> getSolutionsAccessTypes() {
+	public JsonResponse<List<MLPCodeNamePair>> getSolutionsAccessTypes() {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsAccessTypes: Entering");
-		List<MLPAccessType> mlpAccessTypes = null;
-		JsonResponse<List<MLPAccessType>> data = new JsonResponse<>();
+		List<MLPCodeNamePair> mlpAccessTypes = null;
+		JsonResponse<List<MLPCodeNamePair>> data = new JsonResponse<>();
 		try {
 			mlpAccessTypes = filterCategoriesService.getSolutionAccessTypes();
 			if (mlpAccessTypes != null) {
@@ -294,14 +292,14 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * 
 	 * @return Returns a response code as JSON for successful or failure transaction
 	 */
-	@ApiOperation(value = "Gets a list of ToolKit Type Categories for Market Place Catalog.", response = MLPToolkitType.class, responseContainer = "List")
+	@ApiOperation(value = "Gets a list of ToolKit Type Categories for Market Place Catalog.", response = MLPCodeNamePair.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.FILTER_TOOLKITTYPE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<MLPToolkitType>> getToolkitTypes(HttpServletRequest request,
+	public JsonResponse<List<MLPCodeNamePair>> getToolkitTypes(HttpServletRequest request,
 			HttpServletResponse response) {
 		log.debug(EELFLoggerDelegate.debugLogger, "getToolkitTypes: Entering");
-		List<MLPToolkitType> mlpToolkitTypes = null;
-		JsonResponse<List<MLPToolkitType>> data = new JsonResponse<>();
+		List<MLPCodeNamePair> mlpToolkitTypes = null;
+		JsonResponse<List<MLPCodeNamePair>> data = new JsonResponse<>();
 		try {
 			mlpToolkitTypes = filterCategoriesService.getToolkitTypes();
 			if (mlpToolkitTypes != null) {
