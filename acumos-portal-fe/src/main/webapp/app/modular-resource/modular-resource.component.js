@@ -426,7 +426,8 @@ angular.module('modelResource')
 										case 'Dockerize' :  var counter = 6; ( statusCode == 'FA' ) ?  $scope.errorDO = data[i].result : $scope.errorDO = ''; break;
 										case 'AddDockerImage' :  var counter = 8; ( statusCode == 'FA' ) ?  $scope.errorDI = data[i].result : $scope.errorDI = ''; break;							
 									}
-									var onboardingComponent = '.onboarding-web';
+									var onboardingComponent = '.onboarding-web';									
+									$rootScope.$broadcast('updateNotifications');
 								} else {
 									switch(stepName){
 										case 'CheckCompatibility': var counter = 2; ( statusCode == 'FA' ) ?  $scope.errorCC = data[i].result : $scope.errorCC = ''; break;
@@ -442,6 +443,7 @@ angular.module('modelResource')
 									}
 
 									var onboardingComponent = '#onap-onboarding';
+									$rootScope.$broadcast('updateNotifications');
 								} 
 								
 								if (counter != -1) {

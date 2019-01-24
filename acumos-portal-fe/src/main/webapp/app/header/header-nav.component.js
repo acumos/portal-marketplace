@@ -153,6 +153,11 @@ angular.module('headerNav')
 			$scope.userDetails.userName = $scope.userDetails[0];
 		})
 		
+		$scope.$on("updateNotifications",function(event)
+		 {
+			$scope.getNotificationMessage($scope.userDetails[1], 0,true);			
+		 });
+			 
 		var notificationCount = 0;
 		$scope.getNotificationMessage=function (userId, page,methodCallFlag){
 			var req = {

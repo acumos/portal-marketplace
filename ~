@@ -1,0 +1,15 @@
+Html interation for restricted fedrration.
+
+Isuue-ID: ACUMOS-1090
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js
+#	modified:   acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html
+#	modified:   acumos-portal-fe/src/main/webapp/css/styles.css
+#	new file:   acumos-portal-fe/src/main/webapp/images/general-icons/arrow_left.png
+#	new file:   acumos-portal-fe/src/main/webapp/images/general-icons/arrow_right.png
+#
