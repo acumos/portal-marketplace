@@ -97,6 +97,8 @@ angular.module('modelResource')
 			$scope.keepModelName = false;
 			$scope.model = {};
 			$scope.disableOnboardingButton = false;
+			
+			$scope.disableRefreshButton = true;
 			//alert(sessionStorage.getItem("userDetail"));
 			$rootScope.progressBar = 0;
 			
@@ -475,15 +477,17 @@ angular.module('modelResource')
 										}
 									}
 								}
+								if( $rootScope.trackId != false && ( $scope.allSuccess != true && $scope.stepfailed != true ) ) {
+									$scope.disableOnboardingButton = true;
+								}
+								
+								if( $scope.allSuccess || $scope.stepfailed ){
+									$scope.clearNotificationInterval();
+									$scope.disableRefreshButton = false;
+								}
 							}
 							
-							if( $rootScope.trackId != false && ( $scope.allSuccess != true && $scope.stepfailed != true ) ) {
-								$scope.disableOnboardingButton = true;
-							}
-							
-							if( $scope.allSuccess || $scope.stepfailed ){
-								$scope.clearNotificationInterval();
-							}
+
 						},
 						function(error) {
 							
@@ -509,13 +513,15 @@ angular.module('modelResource')
 			}
 			
 			$scope.clearExistingNotifications = function(){
-				$rootScope.trackId = false;
-				angular.element(angular.element('li div')).removeClass('completed incomplet active');
-		    	angular.element(angular.element('li')).removeClass('green completed');
-		    	angular.element('.progress .progress-bar').css({ "width" : '0%'});
-		    	$scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';
-				$scope.errorCC = '';
-			}
+                $scope.disableRefreshButton = true;
+                $scope.fileSubmit = false;
+                $rootScope.trackId = false;
+                angular.element(angular.element('li div')).removeClass('completed incomplet active');
+                angular.element(angular.element('li')).removeClass('green completed');
+                angular.element('.progress .progress-bar').css({ "width" : '0%'});
+                $scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';
+                $scope.errorCC = '';
+             }
 
 			$scope.$watchGroup(['toolkitNameValue','install','file','fileSubmit'], function(newValues, oldValues) {
 				if(newValues[0].length>=1 && newValues[1] && newValues[2] && newValues[3]){
@@ -527,6 +533,7 @@ angular.module('modelResource')
 				
 				$scope.statusReult = [];
 				$scope.disableOnboardingButton = true;
+				
 				if($scope.onap == false){
 					
 					if($scope.disableOnboardingButton == true ){
