@@ -30,8 +30,10 @@ import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPublishRequest;
+import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPUser;
+
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.common.CommonConstants;
@@ -172,8 +174,13 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		if(mlpPublishRequestResponse !=null) {
 			List<MLPPublishRequest> mlpPublishRequestList = mlpPublishRequestResponse.getContent();
 			for(MLPPublishRequest mlpPublishRequest : mlpPublishRequestList) {
-				MLPublishRequest mlPublishRequest = getPublishRequestDetails(mlpPublishRequest);
-				publishrequestList.add(mlPublishRequest);
+				MLPSolution solutionDetail = dataServiceRestClient.getSolution(mlpPublishRequest.getSolutionId());
+				if(solutionDetail != null && solutionDetail.isActive()){
+					MLPublishRequest mlPublishRequest = getPublishRequestDetails(mlpPublishRequest);
+					publishrequestList.add(mlPublishRequest);
+				} else {
+					log.debug(EELFLoggerDelegate.debugLogger, "getAllPublishRequest : Solution is not active, SolutionId : " +mlpPublishRequest.getSolutionId());
+				}
 			}
 		}
 		response.setResponseBody(publishrequestList);
