@@ -30,7 +30,7 @@ limitations under the License.
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.16.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 		<!-- silence warning about parent relative path -->
 		<relativePath />
 	</parent>
@@ -45,6 +45,7 @@ limitations under the License.
 		<docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
 		<!-- Supplied by Jenkins -->
 		<docker.push.registry>${env.NEXUS3_PUSH_REGISTRY}</docker.push.registry>
+		<mockito.version>1.10.19</mockito.version>
 	</properties>
 	<!-- Some dependencies are specific to Acumos, but this POM defines no repositories 
 		section. The Jenkins server specifies Acumos repositories. Developers should 
@@ -55,7 +56,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>1.18.2</version>
+			<version>2.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.acumos.acumos-nexus-client</groupId>
@@ -124,11 +125,11 @@ limitations under the License.
 			<artifactId>spring-boot-starter-security</artifactId>
 			<!-- spring sets version -->
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mobile</artifactId>
-			<!-- spring sets version -->
-		</dependency>
+			spring sets version
+		</dependency> -->
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>

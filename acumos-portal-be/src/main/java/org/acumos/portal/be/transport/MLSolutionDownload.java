@@ -20,11 +20,11 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class MLSolutionDownload {
 	public String solutionId;
-	public Date downloadDate;
+	public Instant downloadDate;
 	public String userId;
 	public String getSolutionId() {
 		return solutionId;
@@ -32,10 +32,10 @@ public class MLSolutionDownload {
 	public void setSolutionId(String solutionId) {
 		this.solutionId = solutionId;
 	}
-	public Date getDownloadDate() {
+	public Instant getDownloadDate() {
 		return downloadDate;
 	}
-	public void setDownloadDate(Date downloadDate) {
+	public void setDownloadDate(Instant downloadDate) {
 		this.downloadDate = downloadDate;
 	}
 	public String getUserId() {

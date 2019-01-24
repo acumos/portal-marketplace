@@ -24,8 +24,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -107,7 +109,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -141,7 +143,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -212,7 +214,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -246,7 +248,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -281,7 +283,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -315,7 +317,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -362,9 +364,9 @@ public class AdminServiceControllerTest {
 			mlpSiteConfig.setConfigValue(
 					"{\"siteInstanceName\":\"Acumos\",\"ConnectionConfig\": {\"socketTimeout\":\"300\",\"connectionTimeout\":\"10\"}}");
 			mlpSiteConfig.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSiteConfig.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSiteConfig.setModified(modified);
 			Assert.assertNotNull(mlpSiteConfig);
 			JsonResponse<MLPSiteConfig> configRes = new JsonResponse<>();
@@ -388,9 +390,9 @@ public class AdminServiceControllerTest {
 			mlpSiteConfig.setConfigValue(
 					"{\"siteInstanceName\":\"Acumos\",\"ConnectionConfig\": {\"socketTimeout\":\"300\",\"connectionTimeout\":\"10\"}}");
 			mlpSiteConfig.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSiteConfig.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSiteConfig.setModified(modified);
 			Assert.assertNotNull(mlpSiteConfig);
 			JsonResponse<MLPSiteConfig> configRes = new JsonResponse<>();
@@ -424,9 +426,9 @@ public class AdminServiceControllerTest {
 			mlpSiteConfig.setConfigValue(
 					"{\"siteInstanceName\":\"Acumos\",\"ConnectionConfig\": {\"socketTimeout\":\"300\",\"connectionTimeout\":\"10\"}}");
 			mlpSiteConfig.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSiteConfig.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSiteConfig.setModified(modified);
 			Assert.assertNotNull(mlpSiteConfig);
 			JsonResponse<MLPSiteConfig> configRes = new JsonResponse<>();
@@ -458,9 +460,9 @@ public class AdminServiceControllerTest {
 			mlpSiteConfig.setConfigValue(
 					"{\"siteInstanceName\":\"Acumos\",\"ConnectionConfig\": {\"socketTimeout\":\"300\",\"connectionTimeout\":\"10\"}}");
 			mlpSiteConfig.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSiteConfig.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSiteConfig.setModified(modified);
 			Assert.assertNotNull(mlpSiteConfig);
 			JsonResponse<Object> configRes = new JsonResponse<>();
@@ -488,7 +490,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -498,8 +500,8 @@ public class AdminServiceControllerTest {
 			mlpPeer.setWebUrl("https://web-url");
 			Assert.assertNotNull(mlpPeer);
 			JsonResponse<RestPageResponse<MLPPeer>> peerRes = new JsonResponse<>();
-			RestPageResponse<MLPPeer> responseBody = new RestPageResponse<>();
-			responseBody.setNumberOfElements(2);
+			RestPageResponse<MLPPeer> responseBody = 
+					new RestPageResponse<>(null, PageRequest.of(0, 1), 2);
 			peerRes.setResponseBody(responseBody);
 
 			RestPageRequest restPageReq = new RestPageRequest();
@@ -524,7 +526,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -552,7 +554,7 @@ public class AdminServiceControllerTest {
 			MLPPeer mlpPeer = new MLPPeer();
 			mlpPeer.setApiUrl("http://peer-api");
 			mlpPeer.setContact1("Contact1");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpPeer.setCreated(created);
 			mlpPeer.setDescription("Peer description");
 			mlpPeer.setName("Peer-1509357629935");
@@ -669,7 +671,7 @@ public class AdminServiceControllerTest {
 		try {
 			MLPRole mlpRole = new MLPRole();
 			mlpRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpRole.setCreated(created);
 			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			Assert.assertNotNull(mlpRole);

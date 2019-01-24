@@ -33,7 +33,13 @@ import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.User;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
 
 public class RestPageResponseBE<T> extends PageImpl<T>{
@@ -45,8 +51,7 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 	
 	private String jwtToken;
 	private AbstractResponseObject responseObject;
-	private Future<String> async; 
-	List<T> content = new ArrayList<>();	
+	private Future<String> async;
 	private Set<String> allTagsSet;	
 	private List<String> tags;	
 	private List<HashMap<String,String>> prefTags;
@@ -64,21 +69,14 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
     private List<MLPSolution> modelsSharedWithUser;
     private List<MLRequest> requestList;
     private int pageCount;
-    
-	public int getPageCount() {
-		return pageCount;
-	}
-
-	public void setPageCount(int pageCount) {
-		this.pageCount = pageCount;
-	}
 
 	public RestPageResponseBE() {
-		super(new ArrayList<T>());
+		super(new ArrayList<T>(), PageRequest.of(0, 10), 0);
 	}
 
 	public RestPageResponseBE(List<T> content) {
-		super(content);
+		super(content, PageRequest.of(0, (content.size() > 0) ? content.size() : 10),
+				content.size());
 		// TODO Auto-generated constructor stub
 	}
 
@@ -86,14 +84,15 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 		super(content, pageable, total);
 		// TODO Auto-generated constructor stub
 	}
-
-	public List<T> getContent() {
-		return content;
-	}
-
-	public void setContent(List<T> content) {
-		this.content = content;
-	}
+	
+	@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+	@JsonIgnoreProperties(ignoreUnknown = true)
+    public RestPageResponseBE(@JsonProperty("content") List<T> content, @JsonProperty("number") int number, @JsonProperty("size") int size,
+                    @JsonProperty("totalElements") Long totalElements, @JsonProperty("pageable") JsonNode pageable, @JsonProperty("last") boolean last,
+                    @JsonProperty("totalPages") int totalPages, @JsonProperty("sort") JsonNode sort, @JsonProperty("first") boolean first,
+                    @JsonProperty("numberOfElements") int numberOfElements) {
+        super(content, PageRequest.of(number, size), totalElements);
+    }
 
 	public String getJwtToken() {
 		return jwtToken;
@@ -243,5 +242,13 @@ public class RestPageResponseBE<T> extends PageImpl<T>{
 	}
 	public void setPrefTags(List<HashMap<String, String>> prefTags) {
 		this.prefTags = prefTags;
+	}
+    
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
 	}
 }

@@ -20,7 +20,7 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 
 public class OauthUser extends AbstractResponseObject {
@@ -35,9 +35,9 @@ public class OauthUser extends AbstractResponseObject {
 	private String secret;
 	private String accessToken;
 	private String refreshToken;
-	private Date expireTime;
-	private Date createdDate;
-	private Date modifiedDate;
+	private Instant expireTime;
+	private Instant createdDate;
+	private Instant modifiedDate;
 	
 
 	public String getUserId() {
@@ -190,37 +190,37 @@ public class OauthUser extends AbstractResponseObject {
 	/**
 	 * @return the expireTime
 	 */
-	public Date getExpireTime() {
+	public Instant getExpireTime() {
 		return expireTime;
 	}
 	/**
 	 * @param expireTime the expireTime to set
 	 */
-	public void setExpireTime(Date expireTime) {
+	public void setExpireTime(Instant expireTime) {
 		this.expireTime = expireTime;
 	}
 	/**
 	 * @return the createdDate
 	 */
-	public Date getCreatedDate() {
+	public Instant getCreatedDate() {
 		return createdDate;
 	}
 	/**
 	 * @param createdDate the createdDate to set
 	 */
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(Instant createdDate) {
 		this.createdDate = createdDate;
 	}
 	/**
 	 * @return the modifiedDate
 	 */
-	public Date getModifiedDate() {
+	public Instant getModifiedDate() {
 		return modifiedDate;
 	}
 	/**
 	 * @param modifiedDate the modifiedDate to set
 	 */
-	public void setModifiedDate(Date modifiedDate) {
+	public void setModifiedDate(Instant modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 	

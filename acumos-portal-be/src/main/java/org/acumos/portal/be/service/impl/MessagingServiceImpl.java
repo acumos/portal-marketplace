@@ -25,12 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPSolutionValidation;
 import org.acumos.cds.domain.MLPStepResult;
-import org.acumos.cds.domain.MLPStepStatus;
-import org.acumos.cds.domain.MLPStepType;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.MessagingService;
@@ -38,18 +34,12 @@ import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessagingServiceImpl extends AbstractServiceImpl implements MessagingService{
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MarketPlaceCatalogServiceImpl.class);
-
-	@Autowired
-	private Environment env;
-
 
 	@Override
 	public List<MLStepResult> callOnBoardingStatusList(String userId, String trackingId) {
@@ -96,7 +86,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		dataServiceRestClient.deleteStepResult(stepResultId);	
 	}
 
-	@Override
+	/*@Override
 	public List<MLPStepStatus> getStepStatuses() {
 		log.debug(EELFLoggerDelegate.debugLogger, "createStepResult`");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -110,7 +100,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPStepType> stepStatusesList  = dataServiceRestClient.getStepTypes();	
 		return stepStatusesList;
-	}
+	}*/
 	
 	@Override
 	public List<MLPStepResult> findStepresultBySolutionId(String solutionId, String revisionId) {
@@ -121,11 +111,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		RestPageRequest pageRequest = new RestPageRequest();
 		pageRequest.setPage(0);
 		pageRequest.setSize(100);
-		List<MLPSolutionValidation> mlPSolutionValidations =  dataServiceRestClient.getSolutionValidations(solutionId, revisionId);
-		MLPSolutionValidation mlPSolutionValidation = mlPSolutionValidations.get(0);
-		String trackingId = mlPSolutionValidation.getTaskId();
 		queryParams.put("solutionId", solutionId);
-		//queryParams.put("trackingId", trackingId);
 		queryParams.put("revisionId", revisionId);
 		RestPageResponse<MLPStepResult> stepResultList = dataServiceRestClient.searchStepResults(queryParams, false,
 				pageRequest);

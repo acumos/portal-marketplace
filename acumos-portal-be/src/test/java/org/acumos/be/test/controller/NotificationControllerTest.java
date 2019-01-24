@@ -22,8 +22,8 @@ package org.acumos.be.test.controller;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,10 +73,10 @@ public class NotificationControllerTest {
 
 		MLPNotification mlpNotification = new MLPNotification();
 		JsonResponse<MLNotification> data = new JsonResponse<>();
-		Date created = new Date();
+		Instant created = Instant.now();
 		mlpNotification.setCreated(created);
 		mlpNotification.setMessage("notification created");
-		Date modified = new Date();
+		Instant modified = Instant.now();
 		mlpNotification.setModified(modified);
 		mlpNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
 		mlpNotification.setTitle("Notification");
@@ -126,15 +126,15 @@ public class NotificationControllerTest {
 	@Test
 	public void getUserNotifications() {
 		MLPUserNotification mlpUserNotification = new MLPUserNotification();
-		Date created = new Date();
+		Instant created = Instant.now();
 		mlpUserNotification.setCreated(created);
 		mlpUserNotification.setMessage("notification created");
-		Date modified = new Date();
+		Instant modified = Instant.now();
 		mlpUserNotification.setModified(modified);
 		mlpUserNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
 		mlpUserNotification.setTitle("Notification");
 		mlpUserNotification.setUrl("http://notify.com");
-		Date viewed = new Date();
+		Instant viewed = Instant.now();
 		mlpUserNotification.setViewed(viewed);
 		Assert.assertNotNull(mlpUserNotification);
 		MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();

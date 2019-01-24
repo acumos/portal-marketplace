@@ -2151,11 +2151,12 @@ limitations under the License.
 																					<!-- images changed for demo  -->
 																					<figure ng-show="solution.picture">
 																				 		<img ng-src="data:image/JPEG;base64,{{solution.picture}}" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;">
+																				 		<img ng-if="!solution.picture"
+																							ng-src="images/default-model.png" class="modelimg1"
+																							style="max-width: 400px; margin: 0 auto; display: block;">
 																					</figure>
 																					
-																					<img ng-if="!solution.picture"
-																						ng-src="images/default-model.png" class="modelimg1"
-																						style="max-width: 400px; margin: 0 auto; display: block;">	
+																					
 																						
 																						
 																				</div>

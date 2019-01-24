@@ -20,6 +20,7 @@
 
 package org.acumos.be.test.service.impl;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -350,7 +351,7 @@ public class UserServcieImplTest {
 			
 			MLPRole mlpRole = new MLPRole();
 			mlpRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpRole.setCreated(created);
 			mlpRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			
@@ -440,7 +441,7 @@ public class UserServcieImplTest {
 			MLRole mlRole = new MLRole();
 			mlRole.setActive(true);
 			mlRole.setName("Admin");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlRole.setCreated(created);
 			mlRole.setRoleId("12345678-abcd-90ab-cdef-1234567890ab");
 			

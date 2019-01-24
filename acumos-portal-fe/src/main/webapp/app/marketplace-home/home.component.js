@@ -269,7 +269,7 @@ angular
 									.then(
 											function(response) {
 												$scope.homeSolutions.slides = response.data.response_body.content;
-												
+
 												angular.forEach($scope.homeSolutions.slides,function( value, key) {
 													if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
 													{
@@ -279,14 +279,24 @@ angular
 														
 													}
 													 value.solutionRatingAvg = $scope.startRatingWidth;
-													});
-										
+													 
+													 apiService.getSolutionPicture(value.solutionId)
+													 .then(
+															 function(response) {
+																 value.picture = response.data.response_body;
+															 },
+															 function(error) {
+																 $scope.status = 'Unable to load picture data: '
+																		+ error.data.error;
+															 });
+												});
 											},
 											function(error) {
 												$scope.status = 'Unable to load data: '
 														+ error.data.error;
 												
 											});
+		                         
 			 						
 		                         $scope.onClickModel = function(id, ownerId){
 		 							/*if($scope.loginUserID == ownerId){
@@ -311,7 +321,6 @@ angular
 		 													console.log("Error: "+error.data);
 		 													$state.go('marketSolutions', {solutionId : id});
 		 												});
-
 		 							}
 		 							$scope.updateViewCount();
 		 						}

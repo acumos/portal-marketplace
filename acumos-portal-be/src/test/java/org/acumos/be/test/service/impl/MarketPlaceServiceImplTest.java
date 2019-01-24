@@ -19,8 +19,8 @@
  */
 package org.acumos.be.test.service.impl;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,6 +49,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.*;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -73,9 +75,8 @@ public class MarketPlaceServiceImplTest {
 			Integer page = 0;
 			Integer size = 9;
 			String sortingOrder = "ASC";
-			RestPageResponse<MLPSolution> mlpSolution = new RestPageResponse<>();
-			mlpSolution.setNumberOfElements(1);
-			mlpSolution.setSize(0);
+			RestPageResponse<MLPSolution> mlpSolution = 
+					new RestPageResponse<>(null, PageRequest.of(0, 1), 1);
 
 			if (page != null && size != null && sortingOrder != null) {
 
@@ -95,7 +96,6 @@ public class MarketPlaceServiceImplTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
@@ -123,7 +123,6 @@ public class MarketPlaceServiceImplTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
@@ -228,7 +227,6 @@ public class MarketPlaceServiceImplTest {
 		try {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
@@ -451,9 +449,9 @@ public class MarketPlaceServiceImplTest {
 		try {
 
 			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSolutionRating.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSolutionRating.setModified(modified);
 			mlpSolutionRating.setRating(2);
 			mlpSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
@@ -482,9 +480,9 @@ public class MarketPlaceServiceImplTest {
 			MarketPlaceCatalogServiceImpl mockimpl = mock(MarketPlaceCatalogServiceImpl.class);
 
 			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSolutionRating.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSolutionRating.setModified(modified);
 			mlpSolutionRating.setRating(4);
 			mlpSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
@@ -518,9 +516,9 @@ public class MarketPlaceServiceImplTest {
 			pageRequest.setSize(9);
 
 			MLPSolutionRating mlpSolutionRating = new MLPSolutionRating();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpSolutionRating.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpSolutionRating.setModified(modified);
 			mlpSolutionRating.setRating(4);
 			mlpSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
@@ -554,7 +552,6 @@ public class MarketPlaceServiceImplTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
@@ -611,7 +608,6 @@ public class MarketPlaceServiceImplTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
@@ -659,7 +655,6 @@ public class MarketPlaceServiceImplTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
@@ -702,7 +697,6 @@ public class MarketPlaceServiceImplTest {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
 			mlsolution.setName("Test_Solution data");
-			mlsolution.setDescription("Test data");
 			mlsolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
 			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);

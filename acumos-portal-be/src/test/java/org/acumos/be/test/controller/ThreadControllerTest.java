@@ -19,7 +19,7 @@
  */
 package org.acumos.be.test.controller;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -175,9 +175,9 @@ public class ThreadControllerTest {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpcomment.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpcomment.setModified(modified );
 			mlpcomment.setParentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
 			mlpcomment.setText("CommentsTitile");
@@ -211,9 +211,9 @@ public class ThreadControllerTest {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpcomment.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpcomment.setModified(modified);
 			mlpcomment.setParentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
 			mlpcomment.setText("CommentsTitile");
@@ -248,9 +248,9 @@ public class ThreadControllerTest {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpcomment.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpcomment.setModified(modified);
 			mlpcomment.setParentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
 			mlpcomment.setText("CommentsTitile");
@@ -278,9 +278,9 @@ public class ThreadControllerTest {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpcomment.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpcomment.setModified(modified);
 			mlpcomment.setParentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
 			mlpcomment.setText("CommentsTitile");
@@ -340,9 +340,9 @@ public class ThreadControllerTest {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpcomment.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpcomment.setModified(modified);
 			mlpcomment.setParentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
 			mlpcomment.setText("CommentsTitile");
@@ -412,9 +412,9 @@ public class ThreadControllerTest {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpcomment.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpcomment.setModified(modified);
 			mlpcomment.setParentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
 			mlpcomment.setText("CommentsTitile");
@@ -487,9 +487,9 @@ public class ThreadControllerTest {
 		try {
 			MLPComment mlpcomment = new MLPComment();
 			mlpcomment.setCommentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpcomment.setCreated(created);
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpcomment.setModified(modified);
 			mlpcomment.setParentId("8ccf5de8-a565-4f57-a36a-7341b5c7cf9b");
 			mlpcomment.setText("CommentsTitile");

@@ -20,7 +20,7 @@
 
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class MLPublishRequest{
 	private long publishRequestId;
@@ -37,8 +37,8 @@ public class MLPublishRequest{
 	private String revisionStatusCode;
 	private String revisionStatusName;
 	private String requestStatusName;
-	private Date creationDate;
-	private Date lastModifiedDate;
+	private Instant creationDate;
+	private Instant lastModifiedDate;
 	/**
 	 * @return the publishRequestId
 	 */
@@ -138,25 +138,25 @@ public class MLPublishRequest{
 	/**
 	 * @return the creationDate
 	 */
-	public Date getCreationDate() {
+	public Instant getCreationDate() {
 		return creationDate;
 	}
 	/**
 	 * @param creationDate the creationDate to set
 	 */
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(Instant creationDate) {
 		this.creationDate = creationDate;
 	}
 	/**
 	 * @return the lastModifiedDate
 	 */
-	public Date getLastModifiedDate() {
+	public Instant getLastModifiedDate() {
 		return lastModifiedDate;
 	}
 	/**
 	 * @param lastModifiedDate the lastModifiedDate to set
 	 */
-	public void setLastModifiedDate(Date lastModifiedDate) {
+	public void setLastModifiedDate(Instant lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 	/**

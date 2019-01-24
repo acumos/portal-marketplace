@@ -19,7 +19,7 @@
  */
 package org.acumos.be.test.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.junit.Assert;
@@ -33,8 +33,8 @@ public class MLSolutionRatingTest {
 		String userId = "83d5259f-48b7-4fe1-9fd6-d1166f8f3691";
 		Integer rating = 23;
 		String textReview = "fsfsf";
-		Date created = new Date();
-		Date modified = new Date();;
+		Instant created = Instant.now();
+		Instant modified = Instant.now();;
 		
 		MLSolutionRating mlSolutionRating = new  MLSolutionRating();
 

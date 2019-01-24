@@ -922,6 +922,15 @@ angular.module('manageModule')
 									// push this item to our final output array
 									output.push(item.solutionId);
 									solutions.push(item);
+									apiService.getSolutionPicture(item.solutionId)
+									 .then(
+											 function(response) {
+												 item.picture = response.data.response_body;
+											 },
+											 function(error) {
+												 $scope.status = 'Unable to load picture data: '
+														+ error.data.error;
+											 });
 								}
 							});
 							return solutions;

@@ -19,8 +19,8 @@
  */
 package org.acumos.be.test.service.impl;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,16 +58,16 @@ public class NotificationServiceTestImpl {
 	public void createNotificationTest() {
 		try {
 			MLPNotification mlpNotification = new MLPNotification();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpNotification.setCreated(created);
 			mlpNotification.setMessage("notification created for view count");
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpNotification.setModified(modified);
 			mlpNotification.setTitle("Notification");
 			mlpNotification.setUrl("http://notify.com");
-			Date end = new Date();
+			Instant end = Instant.now();
 			mlpNotification.setEnd(end);
-			Date start = new Date();
+			Instant start = Instant.now();
 			mlpNotification.setStart(start);
 
 			MLNotification notifiacation = PortalUtils.convertToMLNotification(mlpNotification);
@@ -86,16 +86,16 @@ public class NotificationServiceTestImpl {
 	public void getNotificationsTest() {
 		try {
 			MLPNotification mlpNotification = new MLPNotification();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpNotification.setCreated(created);
 			mlpNotification.setMessage("notification created for view count");
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpNotification.setModified(modified);
 			mlpNotification.setTitle("Notification");
 			mlpNotification.setUrl("http://notify.com");
-			Date end = new Date();
+			Instant end = Instant.now();
 			mlpNotification.setEnd(end);
-			Date start = new Date();
+			Instant start = Instant.now();
 			mlpNotification.setStart(start);
 
 			MLNotification notifiacation = PortalUtils.convertToMLNotification(mlpNotification);
@@ -120,15 +120,15 @@ public class NotificationServiceTestImpl {
 			restPageRequest.setSize(9);
 			restPageRequest.setPage(1);
 			MLPUserNotification mlpUserNotification = new MLPUserNotification();
-			Date created = new Date();
+			Instant created = Instant.now();
 			mlpUserNotification.setCreated(created);
 			mlpUserNotification.setMessage("notification created");
-			Date modified = new Date();
+			Instant modified = Instant.now();
 			mlpUserNotification.setModified(modified);
 			mlpUserNotification.setNotificationId("037ad773-3ae2-472b-89d3-9e185a2cbfc9");
 			mlpUserNotification.setTitle("Notification");
 			mlpUserNotification.setUrl("http://notify.com");
-			Date viewed = new Date();
+			Instant viewed = Instant.now();
 			mlpUserNotification.setViewed(viewed);
 
 			MLPNotifUserMap mlpNotificationUserMap = new MLPNotifUserMap();

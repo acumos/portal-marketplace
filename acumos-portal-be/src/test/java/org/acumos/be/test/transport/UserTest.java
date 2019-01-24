@@ -19,8 +19,8 @@
  */
 package org.acumos.be.test.transport;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.acumos.cds.domain.MLPRole;
@@ -39,9 +39,9 @@ public class UserTest {
 		String username = "zbc";
 		String password = "f24sfs";
 		String active = "Y";
-		Date lastLogin = new Date();
-		Date created =new Date();
-		Date modified = new Date();
+		Instant lastLogin = Instant.now();
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
 		String userId = "83d5259f-48b7-4fe1-9fd6-d1166f8f3691";
 		String loginName = "afaf";
 		String orgName = "gdggege";

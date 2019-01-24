@@ -23,7 +23,7 @@
  */
 package org.acumos.portal.be.transport;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import org.acumos.cds.domain.MLPSolutionRevision;
@@ -37,14 +37,13 @@ public class MLSolution {
 
 	private String solutionId;
 	private String name;
-	private String description;
 	private String ownerId;
 	private String ownerName;
 	private String metadata;
 	private boolean active;
 	private String accessType;
-	private Date created;
-	private Date modified;
+	private Instant created;
+	private Instant modified;
 	private String tookitType;
 	private String tookitTypeName;
     private List<MLPSolutionRevision> revisions;
@@ -79,7 +78,6 @@ public class MLSolution {
 	private long commentsCount;
 	private String publisher;
 	private List<Author> authors;
-	private byte[] picture;
 	private boolean pendingApproval;
 
 	/**
@@ -137,20 +135,6 @@ public class MLSolution {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**
@@ -226,28 +210,28 @@ public class MLSolution {
 	/**
 	 * @return the created
 	 */
-	public Date getCreated() {
+	public Instant getCreated() {
 		return created;
 	}
 
 	/**
 	 * @param created the created to set
 	 */
-	public void setCreated(Date created) {
+	public void setCreated(Instant created) {
 		this.created = created;
 	}
 
 	/**
 	 * @return the modified
 	 */
-	public Date getModified() {
+	public Instant getModified() {
 		return modified;
 	}
 
 	/**
 	 * @param modified the modified to set
 	 */
-	public void setModified(Date modified) {
+	public void setModified(Instant modified) {
 		this.modified = modified;
 	}
 
@@ -312,8 +296,6 @@ public class MLSolution {
 		builder.append(solutionId);
 		builder.append(", name=");
 		builder.append(name);
-		builder.append(", description=");
-		builder.append(description);
 		builder.append(", ownerId=");
 		builder.append(ownerId);
 		builder.append(", ownerName=");
@@ -562,20 +544,6 @@ public class MLSolution {
 		 */
 		public void setPublisher(String publisher) {
 			this.publisher = publisher;
-		}
-
-		/**
-		 * @return the picture
-		 */
-		public byte[] getPicture() {
-			return picture;
-		}
-
-		/**
-		 * @param picture the picture to set
-		 */
-		public void setPicture(byte[] picture) {
-			this.picture = picture;
 		}
 
 		/**

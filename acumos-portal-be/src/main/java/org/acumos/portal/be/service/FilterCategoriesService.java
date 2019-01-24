@@ -25,9 +25,7 @@ package org.acumos.portal.be.service;
 
 import java.util.List;
 
-import org.acumos.cds.domain.MLPAccessType;
-import org.acumos.cds.domain.MLPModelType;
-import org.acumos.cds.domain.MLPToolkitType;
+import org.acumos.cds.domain.MLPCodeNamePair;
 
 public interface FilterCategoriesService {
 	/**
@@ -35,11 +33,11 @@ public interface FilterCategoriesService {
 	 * 
 	 * @return List of Solution Types
 	 */
-	List<MLPModelType> getSolutionCategoryTypes();
+	List<MLPCodeNamePair> getSolutionCategoryTypes();
 	
-	List<MLPAccessType> getSolutionAccessTypes();
+	List<MLPCodeNamePair> getSolutionAccessTypes();
 	
-	List<MLPToolkitType> getToolkitTypes();
+	List<MLPCodeNamePair> getToolkitTypes();
 	
 	/**
 	 *  Creates a Model Category Type in Database

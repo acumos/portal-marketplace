@@ -368,7 +368,15 @@ angular
 							$scope.dataLoading = false;
 							if (response.data.response_body.content.length >= 0) {
 								angular.forEach($scope.mlsolutions, function(value,key) {
-									$scope.getSolutionImages(value.solutionId);
+									apiService.getSolutionPicture(value.solutionId)
+									 .then(
+											 function(response) {
+												 value.picture = response.data.response_body;
+											 },
+											 function(error) {
+												 $scope.status = 'Unable to load picture data: '
+														+ error.data.error;
+											 });
 								});
 								if ($scope.loginUserID) {
 									apiService
@@ -624,7 +632,8 @@ angular
 									.getPreferredTag($scope.loginUserID, dataObj)
 									.then(
 											function(response) {												
-												$scope.siteConfigTag = response.data.response_body.prefTags;																										
+												$scope.siteConfigTag = response.data.response_body.prefTags;
+
 												for(var i = 0; i < 2 ; i++)
 												 {					 
 													 if ($scope.siteConfigTag[i].preferred == "Yes") {

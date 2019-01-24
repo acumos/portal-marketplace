@@ -19,7 +19,7 @@
  */
 package org.acumos.be.test.transport;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.acumos.portal.be.transport.OauthUser;
 import org.junit.Assert;
@@ -41,9 +41,9 @@ public class OauthUserTest {
 		String secret = "sffsf";
 		String accessToken = "453thfhy5y6";
 		String refreshToken = "3f4f5g22ds";
-		Date expireTime = new Date();
-		Date createdDate = new Date();
-		Date modifiedDate = new Date();
+		Instant expireTime = Instant.now();
+		Instant createdDate = Instant.now();
+		Instant modifiedDate = Instant.now();
 
 		OauthUser oauthUser = new  OauthUser();
 		

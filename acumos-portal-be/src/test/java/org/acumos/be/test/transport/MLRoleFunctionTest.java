@@ -19,8 +19,8 @@
  */
 package org.acumos.be.test.transport;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.acumos.portal.be.transport.MLRole;
@@ -37,8 +37,8 @@ public class MLRoleFunctionTest {
 		String roleId = "5435sf";
 		String name1 ="abc";
 		boolean active = true;
-		Date created1 = new Date();
-		Date modified1 = new Date();
+		Instant created1 = Instant.now();
+		Instant modified1 = Instant.now();
 		List<String> permissionList = new ArrayList<String>();
 		permissionList.add("a");
 		permissionList.add("b");
@@ -52,8 +52,8 @@ public class MLRoleFunctionTest {
 		mlRole.setRoleCount(roleCount);
 		mlRole.setRoleId(roleId);
 		String name = "abc";
-		Date created = new Date();
-		Date modified = new Date();
+		Instant created = Instant.now();
+		Instant modified = Instant.now();
 		
 		MLRoleFunction mlRoleFunction = new MLRoleFunction();
 		mlRoleFunction.setCreated(created);
