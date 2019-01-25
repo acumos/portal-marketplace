@@ -56,9 +56,9 @@ spring.mail.template.folder.path=/fmtemplates/
 #portal.mailjet.address.from=cusomerservice@acumos.org
 
 # Max file size.
-spring.http.multipart.max-file-size=-1
+spring.servlet.multipart.max-file-size=-1
 # Max request size.
-spring.http.multipart.max-request-size=-1
+spring.servlet.multipart.max-request-size=-1
 
 #Nexus Configuration
 nexus.url=http://mvnrepo.com:8081/repository/repo_acumos_model_maven/
