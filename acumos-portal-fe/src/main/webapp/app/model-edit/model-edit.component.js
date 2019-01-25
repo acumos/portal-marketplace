@@ -464,10 +464,6 @@ angular
 																});
 
 													}
-													if($scope.solution.picture) {
-														$scope.showSolutionImage = true;
-														$scope.imgURLdefault = " "
-													}
 													$scope.showSolutionDocs = false;
 													$scope.showPublicSolutionDocs = false;
 													$scope.supportingPublicDocs = [];
@@ -485,6 +481,8 @@ angular
 													 .then(
 															 function(response) {
 																 $scope.solution.picture = response.data.response_body;
+																 $scope.showSolutionImage = true;
+																 $scope.imgURLdefault = " "
 															 },
 															 function(error) {
 																 $scope.status = 'Unable to load picture data: '
@@ -2164,13 +2162,21 @@ angular
 							promise
 									.then(
 											function(response) {
-												console.log(response);
-												$scope.showSolutionImage = true;
-												$scope.solution = response.response_body;
-												$scope.imgURLdefault = "";
+												apiService.getSolutionPicture($scope.solution.solutionId)
+												 .then(
+														 function(response) {
+															 $scope.solution.picture = response.data.response_body;
+															 $scope.showSolutionImage = true;
+															 $scope.imgURLdefault = " "
+														 },
+														 function(error) {
+															 $scope.status = 'Unable to load picture data: '
+																	+ error.data.error;
+														 });
 											})
-											.catch(function() {
-												
+											.catch(function(error) { 
+												$scope.status = 'Error updating picture data: '
+														+ error.data.error;
 											});
 				            }
 						}
