@@ -20,6 +20,24 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.1.0,  25th January 2019
+=================================
+* IST2: Publish request entry is displaying for a deleted model.(ACUMOS-1904)
+* legacy federated models can't be changed (ACUMOS-1810)
+* As a User , I want to Remove generated artifacts (docker etc.) when deleting a model (ACUMOS-1196)
+* Azure deployer must accept user-specified username and password for VM (ACUMOS-1351)
+* As a User , I want  pagination consistency in  Marketplace and  My Models (ACUMOS-1355)
+* Improve usability of Federation Add Peer screen in Portal (ACUMOS-1550)
+* Portal on deploy show user a dialog re policy that requires confirmation (ACUMOS-2120)
+* Publisher User Guide missing from documentation (ACUMOS-2148)
+* Portal Change for CDS 2.0.0 (ACUMOS-2357)
+* IST: Complete Model Name is not displaying in single line on model description screen (ACUMOS-2135)
+* IST: FedrationUI:Full/Partial dropdown display at wrong place (ACUMOS-2373)
+* IST: Long Model name  cause distorted model description screen (ACUMOS-2374)
+* IST: Approve button getting disable when user enter something after spaces e.g. good to go (ACUMOS-2376)
+* <IST>|AUTOMATION| No unique id for textarea for comments section in approve publish request pop-up (ACUMOS-2378)
+
+
 Version 2.0.5,  11th January 2019
 =================================
 * Portal show name below icon for models shared with other users (ACUMOS-2116)
