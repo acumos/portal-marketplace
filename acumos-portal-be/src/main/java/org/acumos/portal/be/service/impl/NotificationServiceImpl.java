@@ -152,7 +152,7 @@ public class NotificationServiceImpl extends AbstractServiceImpl implements Noti
 		try {
 			if (notification != null) {
 				Instant startDate = Instant.now();
-				Instant endDate = startDate.plus(1, ChronoUnit.YEARS);
+				Instant endDate = startDate.plus(365, ChronoUnit.DAYS);
 
 				notification.setStart(startDate);
 				notification.setEnd(endDate);
