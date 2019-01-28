@@ -79,6 +79,8 @@ public class MLSolution {
 	private String publisher;
 	private List<Author> authors;
 	private boolean pendingApproval;
+	private Instant lastDownload;
+	private boolean featured;
 
 	/**
 	 * @return the onboardingStatusFailed
@@ -558,5 +560,21 @@ public class MLSolution {
 		 */
 		public void setPendingApproval(boolean pendingApproval) {
 			this.pendingApproval = pendingApproval;
+		}
+
+		public Instant getLastDownload() {
+			return lastDownload;
+		}
+
+		public void setLastDownload(Instant lastDownload) {
+			this.lastDownload = lastDownload;
+		}
+
+		public boolean isFeatured() {
+			return featured;
+		}
+
+		public void setFeatured(boolean featured) {
+			this.featured = featured;
 		}
 }

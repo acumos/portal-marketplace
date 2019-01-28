@@ -799,7 +799,14 @@ angular
 									// }
 									// ],
 									// "sortingOrder": "string",
-									"tookitType" : $scope.toolkitname
+									"tookitType" : $scope.toolkitname,
+									"viewCount" : $scope.solution.viewCount,
+									"downloadCount" : $scope.solution.downloadCount,
+									"lastDownload" : $scope.solution.lastDownload,
+									"ratingCount" : $scope.solution.ratingCount,
+									"ratingAverageTenths" : $scope.solution.ratingAverageTenths,
+									"featured" : $scope.solution.featured
+									
 								}
 							// ,
 							// "request_from": "string",

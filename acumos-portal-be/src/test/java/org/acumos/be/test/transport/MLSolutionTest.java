@@ -68,6 +68,8 @@ public class MLSolutionTest {
 		 String commentId="cm2001";
 		 List<MLPThread> threadList = new ArrayList<MLPThread>();
 		  float solutionRatingAvg=3;
+		  Instant lastDownload = Instant.now();
+		  boolean featured = false;
 				
 		MLPSolutionRevision mlPSolutionRevision = new MLPSolutionRevision();
 		mlPSolutionRevision.setCreated(Instant.now());
@@ -117,6 +119,8 @@ public class MLSolutionTest {
 		mlRole.setOwnerListForSol(ownerListForSol);
 		mlRole.setThreadList(threadList);
 		mlRole.setSolutionRatingAvg(solutionRatingAvg);
+		mlRole.setLastDownload(lastDownload);
+		mlRole.setFeatured(featured);
 		
 		Assert.assertEquals(privateModelCount, mlRole.getPrivateModelCount());
 		Assert.assertEquals(publicModelCount, mlRole.getPublicModelCount());
@@ -153,5 +157,7 @@ public class MLSolutionTest {
 		Assert.assertEquals(viewCount, mlRole.getViewCount());
 		Assert.assertEquals(tookitTypeName, mlRole.getTookitTypeName());
 		Assert.assertEquals(active, mlRole.isActive());
+		Assert.assertEquals(lastDownload, mlRole.getLastDownload());
+		Assert.assertEquals(featured, mlRole.isFeatured());
 	}
 }

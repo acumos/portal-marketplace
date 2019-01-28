@@ -147,6 +147,8 @@ public class PortalUtils {
 		mlSolution.setRatingCount(mlpSolution.getRatingCount().intValue());
 		mlSolution.setViewCount(mlpSolution.getViewCount().intValue());
 		mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths() / 10);
+		mlSolution.setLastDownload(mlpSolution.getLastDownload());
+		mlSolution.setFeatured(mlpSolution.isFeatured());
 		return mlSolution;
 	}
 	
@@ -185,7 +187,10 @@ public class PortalUtils {
 		mlpSolution.setRatingCount((long) mlSolution.getRatingCount());
 		mlpSolution.setViewCount((long) mlSolution.getViewCount());
 		mlpSolution.setRatingAverageTenths((long) mlSolution.getSolutionRatingAvg() * 10);
-		
+		if (mlSolution.getLastDownload() != null) {
+			mlpSolution.setLastDownload(mlSolution.getLastDownload());
+		}
+		mlpSolution.setFeatured(mlSolution.isFeatured());
 
 		return mlpSolution;
 	}

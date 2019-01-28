@@ -415,21 +415,16 @@ public class MarketPlaceControllerTest {
 				urlEqualTo("/ccds/solution/search/portal?atc=PB&atc=OR&active=true&page=0&size=9&sort=modified,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody(
-						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":\"\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}")));
+						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/tag")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody("[{\"tag\":\"Test\"}]")));
-
-		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/web")).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody(
-						"{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
 
 		stubFor(get(urlEqualTo("/ccds/user/bc961e2a-9506-4cf5-bbdb-009558b79e29")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
@@ -513,21 +508,16 @@ public class MarketPlaceControllerTest {
 				"/ccds/solution/search/user?atc=PB&atc=OR&active=true&user=bc961e2a-9506-4cf5-bbdb-009558b79e29&page=0&size=9&sort=modified,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody(
-						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":\"\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}")));
+						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/tag")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody("[{\"tag\":\"Test\"}]")));
-
-		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/web")).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody(
-						"{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
 
 		stubFor(get(urlEqualTo("/ccds/user/bc961e2a-9506-4cf5-bbdb-009558b79e29")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
@@ -613,21 +603,16 @@ public class MarketPlaceControllerTest {
 				"/ccds/solution/search/portal/kwtag?atc=PB&atc=OR&active=true&kw=Test&page=0&size=9&sort=modified,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody(
-						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"description\":null,\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"picture\":\"\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"webStats\":{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}}")));
+						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
 
 		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/tag")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody("[{\"tag\":\"Test\"}]")));
-
-		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/web")).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody(
-						"{\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
 
 		stubFor(get(urlEqualTo("/ccds/user/bc961e2a-9506-4cf5-bbdb-009558b79e29")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
