@@ -20,7 +20,7 @@
 Portal Marketplace Release Notes
 ================================
 
-Version 2.1.0,  25th January 2019
+Version 2.1.6,  29th January 2019
 =================================
 * IST2: Publish request entry is displaying for a deleted model.(ACUMOS-1904)
 * legacy federated models can't be changed (ACUMOS-1810)
