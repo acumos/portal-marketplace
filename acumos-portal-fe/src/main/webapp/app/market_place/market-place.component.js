@@ -152,10 +152,10 @@ angular
 		                },{
 		                    name : "Created Date",
 		                    value : "created"
-		                },{
+		                }/*,{
 		                    name : "Author",
 		                    value : "ownerName"
-		                }];
+		                }*/];
 
 						$scope.checkBox = [ "Private", "Shared", "Company",
 								"Public" ];
@@ -265,17 +265,27 @@ angular
 
 							var fieldToSort = {};
 							
-							if( $scope.sortBy == 'MR' )
+							if( $scope.sortBy == 'ML' ) {
+								fieldToSort = { "ratingAverageTenths" : "DESC" };
+							} else if( $scope.sortBy == 'FL' ) {
+								fieldToSort = { "ratingAverageTenths" : "ASC" };
+							} else if( $scope.sortBy == 'MD' ) {
+								fieldToSort = { "downloadCount" : "DESC" };
+							} else if( $scope.sortBy == 'FD' ) {
+								fieldToSort = { "downloadCount" : "ASC" };
+							} else if( $scope.sortBy == 'HR' ) {
+								fieldToSort = { "viewCount" : "DESC" };
+							} else if( $scope.sortBy == 'LR' ) {
+								fieldToSort = { "viewCount" : "ASC" };
+							} else if( $scope.sortBy == 'MR' ) {
 								fieldToSort = { "modified" : "DESC" };
-							if( $scope.sortBy == 'name' ){
-                                                                fieldToSort = { "name" : "ASC" };
-                                                   	}
-                                                	if( $scope.sortBy == 'created' ){
-                                                                fieldToSort = { "created" : "DESC" };
-                                                        }
-                                                	if( $scope.sortBy == 'author' ){
-                                                               fieldToSort = { "ownerName" : "ASC" };
-                                                   	}
+							} else if( $scope.sortBy == 'OLD' ) {
+								fieldToSort = { "modified" : "ASC" };
+							} else if( $scope.sortBy == 'name' ) {
+								fieldToSort = { "name" : "ASC" };
+			                } else if( $scope.sortBy == 'created' ) {
+								fieldToSort = { "created" : "DESC" };
+			                }
 
 							if ($rootScope.relatedModelType) {
 								$scope.categoryFilter.push($rootScope.relatedModelType);
@@ -501,7 +511,7 @@ angular
 							$scope.tagFilter = tagArr;
 							$scope.mktPlaceStorage.tagFilter = $scope.tagFilter;
 							if (type == 'sortBy') {
-//								$scope.sortBy = checkbox.value;
+								$scope.sortBy = checkbox.value;
 								$scope.mktPlaceStorage.sortBy = checkbox.value;
 								$scope.selectedAction = checkbox.name;
 							} else if (type == 'sortById')
