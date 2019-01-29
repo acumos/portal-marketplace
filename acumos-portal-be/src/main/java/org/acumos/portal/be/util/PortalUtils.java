@@ -148,7 +148,9 @@ public class PortalUtils {
 		mlSolution.setViewCount(mlpSolution.getViewCount().intValue());
 		mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths() / 10);
 		mlSolution.setLastDownload(mlpSolution.getLastDownload());
-		mlSolution.setFeatured(mlpSolution.isFeatured());
+		if(mlpSolution.isFeatured() !=null) {
+		  mlSolution.setFeatured(mlpSolution.isFeatured());
+		}
 		return mlSolution;
 	}
 	
@@ -190,7 +192,9 @@ public class PortalUtils {
 		if (mlSolution.getLastDownload() != null) {
 			mlpSolution.setLastDownload(mlSolution.getLastDownload());
 		}
-		mlpSolution.setFeatured(mlSolution.isFeatured());
+		if(mlpSolution.isFeatured() !=null) {
+		    mlpSolution.setFeatured(mlSolution.isFeatured());
+		}
 
 		return mlpSolution;
 	}
