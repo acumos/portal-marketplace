@@ -86,6 +86,7 @@ angular.module('AcumosApp')
         var rolesCount = '/api/roles/count';
         var urlSearchSolution = "api/searchSolutions";
         var urlGetVersion	= "api/admin/version";
+        var urlImplementor = "api/admin/";
 		 var urlComment = "api/comments";
         var urlThread = "api/thread";
         var urlUserProfileImage = "api/users/userProfileImage";
@@ -109,6 +110,7 @@ angular.module('AcumosApp')
         var urlsetPreferredTag = "api/tags/createUserTag";
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
         var urlJupyterUrl = 'api/users/jupyterUrl';
+        var urlGetPropertyValue = "api/admin/getProperty";
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
             return $http.get(urlGetCloudEnabledUrl);
@@ -239,7 +241,10 @@ angular.module('AcumosApp')
         	return $http.put(updateUserRoleNew, userDetails);
         }
         
-        this.getVersion = function(){
+        this.getVersion = function(implementor){
+        	if(implementor && implementor != 'null' && implementor != 'NULL'){
+        		return $http.get(urlImplementor+implementor+'version');
+        	}
         	return $http.get(urlGetVersion);
         }
 		
@@ -561,5 +566,8 @@ angular.module('AcumosApp')
         this.getJupyterUrl = function () {
         	return $http.get(urlJupyterUrl);
         };
-
+        
+        this.getPropertyValue = function (propertyName) {
+            return $http.get(urlGetPropertyValue+'?propertyName='+propertyName);
+        };
     }]);

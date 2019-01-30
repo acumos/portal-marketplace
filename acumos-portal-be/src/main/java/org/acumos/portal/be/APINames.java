@@ -242,4 +242,6 @@ public class APINames {
 	   public static final String PROPERTIES = "/properties";
 	   public static final String CLI_PUSH_URL = "/cliPushUrl";
 	   public static final String CLI_AUTH_URL = "/cliAuthUrl";
+
+	   public static final String GET_PROPERTY = "/getProperty";
 }

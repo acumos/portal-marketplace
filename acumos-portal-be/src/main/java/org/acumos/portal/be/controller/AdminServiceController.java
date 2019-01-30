@@ -806,4 +806,22 @@ public class AdminServiceController extends AbstractController {
                 log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
             }
         }
+    
+	@ApiOperation(value = "Get property value by property name", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.GET_PROPERTY }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> getProperty(@RequestParam(value = "propertyName", required = false) String propertyName,HttpServletRequest request, HttpServletResponse response) {
+		
+		String propertyValue = env.getProperty(propertyName);
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		if(propertyValue == null) {
+			propertyValue = "";
+		}
+		responseVO.setResponseBody(propertyValue);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
+
 }

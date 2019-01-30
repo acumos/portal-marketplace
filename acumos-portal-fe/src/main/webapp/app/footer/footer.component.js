@@ -25,21 +25,26 @@ app.component('marketFooter',{
 	controller : function(apiService, $scope, $http) { 
 		
 		$scope.loadCategory = function() {
-			apiService
-					.getVersion()
-					.then(
-							function(response) {
-								$scope.responseData = response.data;
-								if($scope.responseData.status == 200){
-									$scope.versionNumber = $scope.responseData.data	
-								}else{
-									$scope.versionNumber = "Version number not fetched."
-								}
-							},
-							function(error) {
-								console.warn($scope.status);
-								$scope.versionNumber = "Error: Version number not fetched."
-							});
+			apiService.getPropertyValue("portal.implementor").then(function(response) {
+				$scope.implementor = response.response_body;
+				debugger;
+				apiService
+				.getVersion(response.response_body)
+				.then(
+						function(response) {
+							$scope.responseData = response.data;
+							if($scope.responseData.status == 200){
+								$scope.versionNumber = $scope.responseData.data	
+							}else{
+								$scope.versionNumber = "Version number not fetched."
+							}
+						},
+						function(error) {
+							console.warn($scope.status);
+							$scope.versionNumber = "Error: Version number not fetched."
+						});
+
+				});
 		}
 		$scope.loadCategory();
 		

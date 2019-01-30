@@ -31,6 +31,13 @@ angular.module('headerNav')
 			$scope.toggleHeaderClass();
 			$rootScope.hambergerClicked=false;
 		})
+		
+		apiService.getPropertyValue("portal.implementor").then(function(response) {
+			$scope.implementor = response.response_body;
+			sessionStorage.setItem('implementor', $scope.implementor);
+		});
+	
+
 		componentHandler.upgradeAllRegistered();
 		$rootScope.sidebarHeader = false;
 		$scope.provider = sessionStorage.getItem("provider");
