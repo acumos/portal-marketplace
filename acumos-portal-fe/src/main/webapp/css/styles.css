@@ -21,6 +21,10 @@ limitations under the License.
 body.md-default-theme, body, html.md-default-theme, html {background:#fff;}
 html,body, button,input, select, textarea,.mdl-button {font-family: 'Open Sans', sans-serif;} 
 p {font-size: 1em;}
+
+h1, h2, h3{font-family: 'Open Sans', sans-serif !important; background:none !important;}
+body{color: rgba(0,0,0,0.87) !important; font-family: 'Open Sans', sans-serif !important;}
+b{font-family: 'Open Sans', sans-serif !important;}
 /*********** Common CSS classes start  **********/
 .mobile-msg-wrapper {display: none;}
 .validation-msgs span {color:#ff0000 !important; font-size: 12px;}
