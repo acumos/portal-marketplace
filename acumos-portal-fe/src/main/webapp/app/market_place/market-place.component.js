@@ -619,11 +619,13 @@ angular
                      	}
 						
 						 $scope.$on("loadMarketplace",function(event, data) {
+							 $scope.tagFilter.length = 0;
 							 $scope.loadMore(0);
 							 $scope.getalltags();
 						 });
 						 $scope.getalltags = function() {
-						  $scope.selected = [];		 
+						  $scope.selected = [];
+						  $scope.tagFilter.length = 0;						  
 						  if (JSON.parse(browserStorageService.getUserDetail())) {
 							  $scope.loginUserID = JSON.parse(browserStorageService
 										.getUserDetail())[1];
