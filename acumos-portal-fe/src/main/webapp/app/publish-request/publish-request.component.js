@@ -80,6 +80,7 @@ angular
 			            	$scope.pbReqId = publishRequestId;
 			            	$scope.requestApprovalModal = req;
 			            	$scope.requestedModelName = modelName;
+			            	$scope.descriptionPop = '';
 			        	  $mdDialog.show({
 			        		  contentElement: '#publishRequestModal',
 			        		  parent: angular.element(document.body),
