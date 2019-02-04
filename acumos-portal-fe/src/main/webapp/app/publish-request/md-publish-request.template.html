@@ -137,7 +137,7 @@ limitations under the License.
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label>{{publishReq.revisionName}}</label> <label
 							class="small">Revision ID: {{publishReq.revisionId}}</label></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.requestorName}}</td>
-						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.textDate}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}" >{{publishReq.creationDate | date : "MM/dd/yyyy"}}</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.revisionStatusName}}</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label
 							ng-class="{'text-green': publishReq.requestStatusName == 'Approved' , 
@@ -235,13 +235,12 @@ limitations under the License.
 
 								<p class="peerpara1">Please add note (Required).</p>
 								<br />
-								<textarea  id="pbReqId={{pbReqId}}" ng-model="descriptionPop" rows="4" valid-name name="descriptionPop" pattern="[A-Za-z\s]{1,}"  required ng-blur="descriptionPopVisited=true"  ng-focus="descriptionPopVisited=false"></textarea> 
+								<textarea  id="pbReqId={{pbReqId}}" ng-model="descriptionPop" rows="4"  name="descriptionPop"   required ng-blur="descriptionPopVisited=true"  ng-focus="descriptionPopVisited=false"></textarea> 
 								<div class="help-inline validation-msgs" ng-class="{validationmsg:!publishRequestForm.descriptionPop.$valid}">
 								<span ng-show="!!publishRequestForm.descriptionPop.$error.required && publishRequestForm.descriptionPop.$touched && descriptionPopVisited">
 								Please enter comments
 								</span>
-								<span
-							       ng-show="!!publishRequestForm.descriptionPop.$error.pattern && descriptionPopVisited">Comments must contain character only</span>
+								
 								
 								
 								</div>
