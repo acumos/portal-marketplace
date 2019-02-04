@@ -137,6 +137,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			log.error(EELFLoggerDelegate.errorLogger,
 					"Exception Occurred Fetching Solutions Detail for solutionId :" + "solutionId", e);
 		}
@@ -628,7 +629,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				for (String userID : userIdList) {
 					MLPNotification notification = new MLPNotification();
 					String notifMsg = null;
-					MLSolution solutionDetail = catalogService.getSolution(solutionId);
+					MLSolution solutionDetail = catalogService.getSolution(solutionId, (String) request.getAttribute("loginUserId"));
 					MLPUser mlpUser = userService.findUserByUserId(userID);
 					notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();				
 					notification.setMessage(notifMsg);
@@ -671,7 +672,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				// code to create notification
 				MLPNotification notification = new MLPNotification();
 				String notificationMsg = null;
-				MLSolution solutionDetail = catalogService.getSolution(solutionId);
+				MLSolution solutionDetail = catalogService.getSolution(solutionId, (String) request.getAttribute("loginUserId"));
 				MLPUser user = userService.findUserByUserId(userId);				
 				notificationMsg = solutionDetail.getName() + " unshared with " + user.getLoginName();				
 				notification.setMessage(notificationMsg);
@@ -707,7 +708,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			catalogService.incrementSolutionViewCount(solutionId);
 			// code to create notification	
-			MLSolution solution = catalogService.getSolution(solutionId);
+			MLSolution solution = catalogService.getSolution(solutionId, (String) request.getAttribute("loginUserId"));
 			int viewCount = solution.getViewCount();
 			if (viewCount != 0 && viewCount % 10 == 0) {
 				MLPNotification notification = new MLPNotification();
@@ -742,7 +743,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String notificationMsg = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId());
+			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId(), (String) request.getAttribute("loginUserId"));
 			notificationMsg = "Ratings updated for " + solution.getName();
 			notification.setMessage(notificationMsg);
 			notification.setTitle(notificationMsg);
@@ -771,7 +772,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String notificationMsg = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId());
+			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId(), (String) request.getAttribute("loginUserId"));
 			notificationMsg = "Ratings updated for " + solution.getName();
 			notification.setMessage(notificationMsg);
 			notification.setTitle(notificationMsg);
@@ -839,7 +840,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String favorite = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
+			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId(), (String) request.getAttribute("loginUserId"));
 			favorite = "Favorite created for " + solution.getName();
 			notification.setMessage(favorite);
 			notification.setTitle(favorite);
@@ -868,7 +869,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String favorite = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
+			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId(), (String) request.getAttribute("loginUserId"));
 			favorite = "Favorite deleted for " + solution.getName();		
 			notification.setMessage(favorite);
 			notification.setTitle(favorite);

@@ -117,7 +117,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		// Get Requested solutionId and populate the publish request transport object
 		if (!PortalUtils.isEmptyOrNullString(publishRequest.getSolutionId())) {
 			try {
-				MLSolution solutionDetail = catalogService.getSolution(publishRequest.getSolutionId());
+				MLSolution solutionDetail = catalogService.getSolution(publishRequest.getSolutionId(),publishRequest.getRequestUserId());
 				mlPublishRequest.setSolutionName(solutionDetail.getName());
 			} catch (AcumosServiceException e) {
 				// Log the error and do nothing. Continue populating the remaining fields
