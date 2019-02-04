@@ -11,7 +11,7 @@
     "src/main/webapp/bower_components"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
   	"bower": "1.7.9",
     "browser-sync": "2.17.0",
