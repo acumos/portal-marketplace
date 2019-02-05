@@ -225,11 +225,17 @@ angular.module('manageModule')
 								
 								$scope.mlSolutionPrivate = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalPrivateSolCount = data.response_body.totalElements;
-
-								$scope.loadpage =  $scope.pageNumPrivate;
-								$scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
-								$scope.endPageSize =(($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalPrivateSolCount ? (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalPrivateSolCount; 
+    
+								if($scope.mlSolutionPrivate == 0){
+									$scope.startPageSizePR = 0;
+									$scope.endPageSizePR = 0;
+								}
+								else {
 								
+								$scope.loadpagePR =  $scope.pageNumPrivate;
+								$scope.startPageSizePR = $scope.loadpagePR *  $scope.defaultSize + 1;
+								$scope.endPageSizePR =(($scope.loadpagePR + 1) * $scope.defaultSize) < $scope.totalPrivateSolCount ? (($scope.loadpagePR + 1) * $scope.defaultSize) : $scope.totalPrivateSolCount; 
+								}
 								
 								if($scope.mlSolutionPrivate.length != 0){
 									privatePrevCounter = $scope.mlSolutionPrivate.length;
@@ -279,6 +285,8 @@ angular.module('manageModule')
 											
 						
 						$scope.getCompanyModels=function(){
+							$scope.startPageSize = 0;
+							$scope.endPageSize = 0;
 							$scope.companyDataLoaded = true;
 							$scope.mlsolutions = [];
 							dataObj = {
@@ -310,10 +318,17 @@ angular.module('manageModule')
 								
 								$scope.mlSolutionCompany = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalCompanySolCount = data.response_body.totalElements;
-	                            $scope.loadpage =  $scope.pageNumCompany;
-                                $scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
-								$scope.endPageSize = (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalCompanySolCount ? (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalCompanySolCount; 
-							
+								
+                             if($scope.mlSolutionCompany == 0){
+									
+									$scope.startPageSizeOR = 0;
+									$scope.endPageSizeOR = 0;
+								 }
+                             else {
+	                            $scope.loadpageOR =  $scope.pageNumCompany;
+                                $scope.startPageSizeOR = $scope.loadpageOR *  $scope.defaultSize + 1;
+								$scope.endPageSizeOR = (($scope.loadpageOR + 1) * $scope.defaultSize) < $scope.totalCompanySolCount ? (($scope.loadpageOR + 1) * $scope.defaultSize) : $scope.totalCompanySolCount; 
+                             }
 								
 								
 								
@@ -396,10 +411,17 @@ angular.module('manageModule')
 								$scope.mlSolutionPublic = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalPublicSolCount = data.response_body.totalElements;
 								
-							    $scope.loadpage = $scope.pageNumPublic;
-							    $scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
-								$scope.endPageSize =  (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalPublicSolCount ?  (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalPublicSolCount
+								 if($scope.mlSolutionPublic == 0){
+										
+										$scope.startPageSizePB = 0;
+										$scope.endPageSizePB = 0;
+									 }
+								 else{
 								
+							    $scope.loadpagePB = $scope.pageNumPublic;
+							    $scope.startPageSizePB = $scope.loadpagePB *  $scope.defaultSize + 1;
+								$scope.endPageSizePB =  (($scope.loadpagePB + 1) * $scope.defaultSize) < $scope.totalPublicSolCount ?  (($scope.loadpagePB + 1) * $scope.defaultSize) : $scope.totalPublicSolCount
+								 }
 								
 								
 								
@@ -481,10 +503,18 @@ angular.module('manageModule')
 								$scope.deleteDataLoaded = false;
 								$scope.mlSolutionDelete = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalDeletedSolCount = data.response_body.totalElements;
-								$scope.loadpage = $scope.pageNumDelete;
-							    $scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
-								$scope.endPageSize = (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalDeletedSolCount ? (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalDeletedSolCount; 
-								        
+								
+								 if($scope.mlSolutionDelete == 0){
+										
+										$scope.startPageSizeN = 0;
+										$scope.endPageSizeN = 0;
+									 }
+								 else {
+								$scope.loadpageN = $scope.pageNumDelete;
+							    $scope.startPageSizeN = $scope.loadpageN *  $scope.defaultSize + 1;
+								$scope.endPageSizeN = (($scope.loadpageN + 1) * $scope.defaultSize) < $scope.totalDeletedSolCount ? (($scope.loadpageN + 1) * $scope.defaultSize) : $scope.totalDeletedSolCount; 
+								 }
+								 
 								if($scope.mlSolutionDelete.length != 0){
 									deletedPrevCounter = $scope.mlSolutionDelete.length;
 								}
@@ -539,7 +569,12 @@ angular.module('manageModule')
                  ///Pagination Starts for counting navigation
 						
 						$scope.Navigation = function( selectedPage,Type ){
-							   $scope.defaultSize = 10;
+							   
+							   if($scope.defaultSize <= 10)
+								   $scope.defaultSize = 10;
+							   else
+								   $scope.defaultSize;
+									   
 							   $scope.mlsolutions = [];
 							   $scope.pageNumber = selectedPage ;
 							   $scope.selectedPage = selectedPage;
@@ -988,7 +1023,7 @@ angular.module('manageModule')
 							apiService.fetchUserSolutions(dataObj).then(function(response) {
 								$scope.SetDataLoaded = false;
 								$rootScope.setLoader = false;
-
+								$scope.totalPages = response.data.response_body.pageCount;
 											angular.forEach(response.data.response_body.content,function(value,key) {
 												if(response.data.response_body.content[key].active){$scope.modelCount = $scope.modelCount+1;}
 											});
@@ -1113,29 +1148,54 @@ angular.module('manageModule')
 												
 												if(type == 'PB') {
 													$scope.mlSolutionPublic =  $scope.getUniqueSolutions($scope.mlsolutions);
-													$scope.loadpage = $scope.pageNumber;
-													$scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
-													$scope.endPageSize =  (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalPublicSolCount ?  (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalPublicSolCount
-													
+													$scope.totalPages = response.data.response_body.pageCount;
+													if($scope.mlsolutions == 0){
+														$scope.startPageSizePB = 0;
+														$scope.endPageSizePB = 0;
+													}
+													else{
+													$scope.loadpagePB = $scope.pageNumber;
+													$scope.startPageSizePB = $scope.loadpagePB *  $scope.defaultSize + 1;
+													$scope.endPageSizePB =  (($scope.loadpagePB + 1) * $scope.defaultSize) < $scope.totalPublicSolCount ?  (($scope.loadpagePB + 1) * $scope.defaultSize) : $scope.totalPublicSolCount
+													}
 												} else if(type == 'PR') {
 													$scope.mlSolutionPrivate =  $scope.getUniqueSolutions($scope.mlsolutions);
-													$scope.loadpage = $scope.pageNumber;
-													$scope.startPageSize = $scope.loadpage * $scope.defaultSize + 1;
-													$scope.endPageSize = (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalPrivateSolCount ? (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalPrivateSolCount; 
-													
-													
-													//$scope.mlSolutionPrivateCount = $scope.mlSolutionPrivate.length ;
+													$scope.totalPages = response.data.response_body.pageCount;
+													if($scope.mlsolutions == 0){
+														$scope.startPageSizePR = 0;
+														$scope.endPageSizePR = 0;
+													}
+													else{
+														$scope.loadpagePR = $scope.pageNumber;
+														$scope.startPageSizePR = $scope.loadpagePR *  $scope.defaultSize + 1;
+														$scope.endPageSizePR =  (($scope.loadpagePR + 1) * $scope.defaultSize) < $scope.totalPrivateSolCount ?  (($scope.loadpagePR + 1) * $scope.defaultSize) : $scope.totalPrivateSolCount
+														}
+				
 												} else if(type == 'OR') {
 													$scope.mlSolutionCompany =  $scope.getUniqueSolutions($scope.mlsolutions);
-													//$scope.totalCompanySolCount = data.response_body.totalElements;
-						                            $scope.loadpage =  $scope.pageNumber;
-					                                $scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
-													$scope.endPageSize =  (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalCompanySolCount ? (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalCompanySolCount; 
+													$scope.totalPages = response.data.response_body.pageCount;
+													if($scope.mlsolutions == 0){
+														$scope.startPageSizeOR = 0;
+														$scope.endPageSizeOR = 0;
+													}
+													else {
+						                            $scope.loadpageOR =  $scope.pageNumber;
+					                                $scope.startPageSizeOR = $scope.loadpageOR *  $scope.defaultSize + 1;
+													$scope.endPageSizeOR =  (($scope.loadpageOR + 1) * $scope.defaultSize) < $scope.totalCompanySolCount ? (($scope.loadpageOR + 1) * $scope.defaultSize) : $scope.totalCompanySolCount; 
+													}
+													
 												} else if(type == 'N') {
 													$scope.mlSolutionDelete =  $scope.getUniqueSolutions($scope.mlsolutions);
-													$scope.loadpage = $scope.pageNumber;
-												    $scope.startPageSize = $scope.loadpage *  $scope.defaultSize + 1;
-													$scope.endPageSize = (($scope.loadpage + 1) * $scope.defaultSize) < $scope.totalDeletedSolCount ? (($scope.loadpage + 1) * $scope.defaultSize) : $scope.totalDeletedSolCount; 
+													$scope.totalPages = response.data.response_body.pageCount;
+													if($scope.mlsolutions == 0){
+														$scope.startPageSizeN = 0;
+														$scope.endPageSizeN = 0;
+													}
+													else {
+													$scope.loadpageN = $scope.pageNumber;
+												    $scope.startPageSizeN = $scope.loadpageN *  $scope.defaultSize + 1;
+													$scope.endPageSizeN = (($scope.loadpageN + 1) * $scope.defaultSize) < $scope.totalDeletedSolCount ? (($scope.loadpageN + 1) * $scope.defaultSize) : $scope.totalDeletedSolCount; 
+												}
 												}
 
 											},function(error) {
