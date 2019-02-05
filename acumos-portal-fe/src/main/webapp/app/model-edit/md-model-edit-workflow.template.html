@@ -2567,7 +2567,7 @@ limitations under the License.
 									
 									<li md-labeled-by-tooltip="md-tooltip-25" aria-hidden="false" >
 										<div class="imageplace"
-											ng-class="{'completed': publishRequest.requestStatusCode === 'AP', 'active': publishRequest.requestStatusCode === 'PE', 'incomplet' : publishRequest.requestStatusCode === 'DC'}">
+											ng-class="{'completed': publishRequest.requestStatusCode === 'AP' && version.accessTypeCode != 'OR', 'active': publishRequest.requestStatusCode === 'PE', 'incomplet' : publishRequest.requestStatusCode === 'DC'}">
 											<span class="imagecontent request-approval" alt="Security Scan" title=" Request Approval "></span>
 										</div>
 										<md-tooltip>{{publishRequest.comment}}</md-tooltip>
