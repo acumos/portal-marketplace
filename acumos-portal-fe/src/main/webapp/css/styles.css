@@ -39,7 +39,7 @@ b{font-family: 'Open Sans', sans-serif !important;}
 .pull-left {float:left;}
 .pull-right {float:right;}
 .clear_both {clear:both;}
-.wrap_text {word-break: break-all;}
+.wrap_text {word-break: normal;}
 
 .rowcontainer {clear: both;margin-bottom: 15px;}
 .page-wrapper {padding: 10px 20px 15px 20px;}
