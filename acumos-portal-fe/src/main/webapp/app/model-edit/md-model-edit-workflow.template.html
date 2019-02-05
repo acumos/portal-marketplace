@@ -1301,7 +1301,7 @@ limitations under the License.
 																						uploadid="documentuploadid" id="uploadFile"
 																						filename="$parent.privatefilename"
 																						ng-model="solutionFile" accept = ""
-																						size=10000000 docerror="docerror" readonly alt="Browse" title="Browse">	
+																						size=10000000 docerror="docerror" validfilename="validfilename" readonly alt="Browse" title="Browse">	
 																			</div>
 																		
 																			<div class="upload-image-input files-uploaded">
@@ -1320,7 +1320,11 @@ limitations under the License.
 														            <div class="help-inline validation-msgs">
 																		<span ng-show="docerror">Document should be of max size 10MB.</span>
 																	</div>
-														         </div>
+																	<div class="help-inline validation-msgs">
+																		<span ng-show="validfilename">Spaces not
+																			allowed in file name</span>
+																	</div>
+																			</div>
 																		</div>
 																	</form>
 																</div>
@@ -1340,7 +1344,7 @@ limitations under the License.
 																	<md-button ng-show="!showSolutionDocs"
 																		ng-click="updateSolutionFiles('documentuploadid');"
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																		type="button" ng-disabled = "!solutionFile || docerror == true"
+																		type="button" ng-disabled = "!solutionFile || docerror == true || validfilename"
 																		data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																	<span class="ng-scope"> Done </span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
@@ -1350,7 +1354,7 @@ limitations under the License.
 																		<md-button ng-show="showSolutionDocs"
 																		ng-click="updateSolutionFiles('documentuploadid'); "
 																		class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																		type="button"
+																		type="button" ng-disabled = "validfilename"
 																		data-upgraded=",MaterialButton,MaterialRipple" alt="Update" title="Update">
 																	<span class="ng-scope"> Update</span> <span
 																		class="mdl-button__ripple-container ng-scope"><span
@@ -3164,7 +3168,7 @@ limitations under the License.
 																						uploadid="publicDocumentuploadid" id="publicUploadFile"
 																						filename="$parent.publicfilename" 
 																						ng-model="solutionFile" accept = ""
-																						size=10000000 docerror="docerror" readonly alt="Browse" title="Browse">
+																						size=10000000 docerror="docerror" validfilename="validfilename" readonly alt="Browse" title="Browse">
 																						
 																		</div>
 																		<div class="upload-image-input files-uploaded upload-txtbox">
@@ -3179,7 +3183,11 @@ limitations under the License.
 													            		</div>
 													            		 <div class="help-inline validation-msgs">
 																			<span ng-show="docerror">Document should be of max size 10MB.</span>
-																		 </div>
+																		 </div>																		
+																		<div class="help-inline validation-msgs">
+																			<span ng-show="validfilename">Spaces not
+																				allowed in file name</span>
+																		</div>
 																	</div>
 																</form>
 															</div>
@@ -3199,7 +3207,7 @@ limitations under the License.
 																<md-button ng-show="!showPublicSolutionDocs"
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid');"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																	type="button" ng-disabled = "!solutionFile || docerror == true"
+																	type="button" ng-disabled = "!solutionFile || docerror == true || validfilename"
 																	data-upgraded=",MaterialButton,MaterialRipple" alt="Done" title="Done">
 																<span class="ng-scope"> Done </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
@@ -3208,7 +3216,7 @@ limitations under the License.
 																<md-button ng-show="showPublicSolutionDocs"
 																	ng-click="updatePublicSolutionFiles('publicDocumentuploadid');"
 																	class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary md-button md-ink-ripple"
-																	type="button"
+																	type="button" ng-disabled = "validfilename"
 																	data-upgraded=",MaterialButton,MaterialRipple">
 																<span class="ng-scope"> Update </span> <span
 																	class="mdl-button__ripple-container ng-scope"><span
