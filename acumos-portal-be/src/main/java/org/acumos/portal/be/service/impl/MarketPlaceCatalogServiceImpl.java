@@ -379,9 +379,14 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					for (MLPArtifact mlp : mlpArtifactsList) {
 						boolean deleteNexus = false;
 						// Delete the file from the Nexus
-						String nexusUrl = env.getProperty("nexus.url");
-						String nexusUserName = env.getProperty("nexus.username");
-						String nexusPd = env.getProperty("nexus.password");
+						log.info(EELFLoggerDelegate.auditLogger, "mlp.getUri ----->>"+mlp.getUri());
+		                // Delete the file from the Nexus
+		                String nexusUrl = env.getProperty("nexus.url");
+		                String nexusUserName = env.getProperty("nexus.username");
+		                String nexusPd = env.getProperty("nexus.password");
+		                log.info(EELFLoggerDelegate.auditLogger, "nexusUrl ----->>"+nexusUrl);
+		                log.info(EELFLoggerDelegate.auditLogger, "nexusUserName ----->>"+nexusUserName);
+		                log.info(EELFLoggerDelegate.auditLogger, "nexusPd ----->>"+nexusPd);
 						NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName, nexusPd);
 						nexusArtifactClient.deleteArtifact(mlp.getUri());
 						deleteNexus = true;
