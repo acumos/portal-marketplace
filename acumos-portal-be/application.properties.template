@@ -107,6 +107,8 @@ onboarding.directory.blacklist=(MAC)
 onboarding.errorlog.filename=OnboardingLog.txt
 microservice.errorlog.filename=MicroserviceGenerationLog.txt
 
+version.class=default
+
 #ImageSize
 image.size=800KB
 document.size=10000000

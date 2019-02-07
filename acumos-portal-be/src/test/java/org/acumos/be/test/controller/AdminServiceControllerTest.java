@@ -611,6 +611,21 @@ public class AdminServiceControllerTest {
 	
 	@Test
 	public void getVersionTest() {
+		when(env.getProperty("version.class", "default")).thenReturn("Application");
+		TransportData data=adminController.getVersion();
+		Assert.assertNotNull(data);
+	}
+	
+	@Test
+	public void getVersionDefaultTest() {
+		when(env.getProperty("version.class", "default")).thenReturn("default");
+		TransportData data=adminController.getVersion();
+		Assert.assertNotNull(data);
+	}
+
+	@Test
+	public void getVersionEmptyTest() {
+		when(env.getProperty("version.class", "default")).thenReturn("");
 		TransportData data=adminController.getVersion();
 		Assert.assertNotNull(data);
 	}
