@@ -71,18 +71,19 @@ angular.module('admin').filter('abs', function() {
                 $http({
                     method : "GET",
                     url : url
-                }).then(function mySuccess(response) {console.log(response);
+                }).then(function mySuccess(response) {console.log("Ping,",response);
                 	if(response.data.status_code == 400){
                 		$scope.verified=false;
-                		$scope.errorMessage = response.data.response_detail
+                		$scope.errorMessage = response.data.error_code + ": " + response.data.response_detail;
             		}
                 	else{
                 		$scope.verified=true;
-                		$scope.successMessage = response.data.response_detail
+                		$scope.successMessage = response.data.response_detail;
             		}
                 }, function myError(response) {
                 	console.log("Error response", response);
-                	$scope.verified=false;$scope.errorMessage = response.data.response_detail
+                	$scope.verified=false;
+                	$scope.errorMessage = response.data.error_code + ": " + response.data.response_detail;
                 });
 			}
 			$scope.accessType = 
