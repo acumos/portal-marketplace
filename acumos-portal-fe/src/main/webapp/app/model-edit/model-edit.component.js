@@ -1330,6 +1330,7 @@ angular
 															$scope.icon = '';
 															$scope.styleclass = 'c-success';
 															$scope.modelDocumentation = true;
+															$scope.activePublishBtnPB = false;
 														}else{
 															$scope.status = response.data.response_detail;
 															$scope.msg = "Unexpected Error Occured";
