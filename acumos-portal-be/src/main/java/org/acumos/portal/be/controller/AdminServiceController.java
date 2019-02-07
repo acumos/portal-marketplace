@@ -21,8 +21,6 @@
 package org.acumos.portal.be.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +29,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPRole;
@@ -46,7 +43,6 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageResponseBE;
-import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.service.MailService;
@@ -61,7 +57,6 @@ import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -607,11 +602,20 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.GET_VERSION}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public TransportData getVersion() {
-         String className = this.getClass().getSimpleName() + ".class";
-         String classPath = this.getClass().getResource(className).toString();
-         String version = classPath.startsWith("jar") ? Application.class.getPackage().getImplementationVersion()
-                 : "no version, classpath is not jar";
-         return new TransportData(200, version);
+    	TransportData out = null;
+    	String className = env.getProperty("version.class","default");
+		String lookupClassName = "default".equals(className) ? this.getClass().getName() : className;
+		try {
+		    Class<?> clazz = Class.forName(lookupClassName);
+		    String classPath = clazz.getResource(clazz.getSimpleName() + ".class").toString();
+		    String version = classPath.startsWith("jar") ? clazz.getPackage().getImplementationVersion()
+		        : "no version, classpath is not jar";
+	        out = new TransportData(200, version);
+		} catch (ClassNotFoundException ex) {
+		    log.warn("getVersion: failed to get class for name {}", lookupClassName);
+	        out = new TransportData(400, ex.toString());
+		}
+		return out;
      }
     
     @ApiOperation(value = "Get Dashboard URL", response = JsonResponse.class)
