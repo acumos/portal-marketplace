@@ -1867,14 +1867,6 @@ limitations under the License.
 							<label>API URL</label> <input type="text" required
 								ng-model='apiUrlPop' ng-change="checkUrlChange()"/> </md-input-container>
 						</div>
-						<div class="fed-err-msg" ng-if="!verified&&!verify">
-							<!-- <span class="disblock text-red text-xsmall">Error-01-Host unreachable:Network error Please check your URL.</span> -->
-							<span class="disblock text-red text-xsmall"
-								ng-bind="errorMessage"></span>
-						</div>
-						<div class="fed-err-msg" ng-if="verified&&!verify">
-							<span class="disblock text-green text-xsmall">Connection successful.</span>
-						</div>
 					</div>
 					<div flex="10" class="fed-container2">						 
 							<a class="mdl-button mdl-js-button btn-secondary btn-fed1" 
@@ -1893,6 +1885,14 @@ limitations under the License.
 						<md-input-container class="md-block"> <label>Description</label>
 						<!-- <textarea ng-model="addPeer.biography" rows="4" md-select-on-focus></textarea> -->
 						<textarea ng-model="descriptionPop" rows="2"></textarea> </md-input-container>
+					</div>
+					<div class="fed-err-msg" ng-if="!verified&&!verify">
+						<!-- <span class="disblock text-red text-xsmall">Error-01-Host unreachable:Network error Please check your URL.</span> -->
+						<span class="disblock text-red text-xsmall"
+							ng-bind="errorMessage"></span>
+					</div>
+					<div class="fed-err-msg" ng-if="verified&&!verify">
+						<span class="disblock text-green text-xsmall">Connection successful.</span>
 					</div>
 
 				</div>
