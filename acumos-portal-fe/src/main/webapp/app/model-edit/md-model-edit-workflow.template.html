@@ -3660,7 +3660,7 @@ limitations under the License.
 								</div>
 								<div class="">
 									<button ng-click="publishtoMarket('PB')"
-										ng-disabled="activePublishBtnPB == false"
+										ng-disabled="activePublishBtnPB == false || (version.accessTypeCode=='PB' || publishRequest.requestStatusCode=='PE')"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 										Submit to Publication</button>
 									<button
