@@ -60,6 +60,7 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.docker.cmd.DeleteImageCommand;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.UserService;
@@ -380,17 +381,24 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						boolean deleteNexus = false;
 						// Delete the file from the Nexus
 						log.info(EELFLoggerDelegate.auditLogger, "mlp.getUri ----->>"+mlp.getUri());
-		                // Delete the file from the Nexus
-		                String nexusUrl = env.getProperty("nexus.url");
-		                String nexusUserName = env.getProperty("nexus.username");
-		                String nexusPd = env.getProperty("nexus.password");
-		                log.info(EELFLoggerDelegate.auditLogger, "nexusUrl ----->>"+nexusUrl);
-		                log.info(EELFLoggerDelegate.auditLogger, "nexusUserName ----->>"+nexusUserName);
-		                log.info(EELFLoggerDelegate.auditLogger, "nexusPd ----->>"+nexusPd);
-						NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName, nexusPd);
-						nexusArtifactClient.deleteArtifact(mlp.getUri());
-						deleteNexus = true;
+						log.info(EELFLoggerDelegate.auditLogger, "mlp.getArtifactTypeCode ----->>"+mlp.getArtifactTypeCode());
 						
+						if ("DI".equals(mlp.getArtifactTypeCode())){
+							DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
+							deleteNexus = true;
+						} else {
+							// Delete the file from the Nexus
+			                String nexusUrl = env.getProperty("nexus.url");
+			                String nexusUserName = env.getProperty("nexus.username");
+			                String nexusPd = env.getProperty("nexus.password");
+			                log.info(EELFLoggerDelegate.auditLogger, "nexusUrl ----->>"+nexusUrl);
+			                log.info(EELFLoggerDelegate.auditLogger, "nexusUserName ----->>"+nexusUserName);
+			                log.info(EELFLoggerDelegate.auditLogger, "nexusPd ----->>"+nexusPd);
+							NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName, nexusPd);
+							nexusArtifactClient.deleteArtifact(mlp.getUri());
+							deleteNexus = true;
+						}
+		                						
 						if(deleteNexus){
 		                    String mlpArtifactTypeCode = mlp.getArtifactTypeCode();		                     
 							String artifactId = mlp.getArtifactId();
