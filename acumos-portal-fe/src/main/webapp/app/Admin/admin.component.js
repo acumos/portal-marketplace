@@ -661,6 +661,21 @@ angular.module('admin').filter('abs', function() {
                           $scope.queryParam = $scope.string.slice(0, -1);
                           $scope.queryParam= $scope.queryParam + '}"';
                       }
+                      
+                      //Access type JSON 
+                      $scope.accessTypeJson = function(){
+                    	  $scope.accessTypeJson = [{
+						                    		  "access_type_cd": "PR",
+						                    		  "access_type_name": "Private"
+						                    		}, {
+						                    		  "access_type_cd": "OR",
+						                    		  "access_type_name": "Company"
+						                    		}, {
+						                    		  "access_type_cd": "PB",
+						                    		  "access_type_name": "Public"
+						                    		}]
+                      }
+                      $scope.accessTypeJson();
                       //Add peer
                       $scope.addEditPeer = '';
                       $scope.addPeer = function(){
@@ -1596,12 +1611,13 @@ angular.module('admin').filter('abs', function() {
                                         		  toolKit = '"toolkitTypeCode":"' +value.toolkitTypeCode 
                                         	  }
                                         	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}';
+                                        	  $scope.accessTypeCode;
        										addAllSolObj.push(
 	    		                        				 {
-		 	    		              					  "accessType" : "PB",
+		 	    		              					  "accessType" : $scope.accessTypeCode,
 		 	    		              					  "ownerId" : userId,
 		 	    		              					  /*"peerId" : $scope.peerIdForSubsList,*/
-		 	    		              					  "scopeType" : $scope.AccessValue || "FL",
+		 	    		              					  "scopeType" : "Full",
 		 	    		              					  "tookitType" :value.tookitType,
 		 	    		              					  "modelType": value.modelType,
 		 	    		              					  "refreshInterval": freqChangeValue,
