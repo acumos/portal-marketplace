@@ -68,6 +68,7 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
@@ -1322,6 +1323,17 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		return mlSolutionweb;
 	}*/
 
+	@Override
+    public MLSolutionWeb getSolutionWebMetadata(String solutionId) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getSolutionWebMetadata");
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        MLPSolution sol = dataServiceRestClient.getSolution(solutionId);
+        MLSolution mlSolution = PortalUtils.convertToMLSolution(sol);
+        MLSolutionWeb mlSolutionweb=new MLSolutionWeb();    
+        mlSolutionweb.setRatingAverageTenths(mlSolution.getSolutionRatingAvg());
+        return mlSolutionweb;
+    }
+	
 	@Override
 	public List<Author> getSolutionRevisionAuthors(String solutionId, String revisionId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionAuthors");

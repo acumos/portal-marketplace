@@ -59,6 +59,7 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
@@ -1203,6 +1204,33 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}*/
 	
+	@ApiOperation(value = "Get avg ratings for a solution Id", response = MLSolutionWeb.class, responseContainer = "List")
+    @RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<MLSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
+        JsonResponse<MLSolutionWeb> data = new JsonResponse<>();
+        
+       solutionId = SanitizeUtils.sanitize(solutionId);
+
+        try {
+            MLSolutionWeb  mlSolutionWeb  = catalogService.getSolutionWebMetadata(solutionId);
+            if (mlSolutionWeb != null) {
+                data.setResponseBody(mlSolutionWeb);
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                data.setResponseDetail("Solution ratings fetched Successfully");
+                log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");
+            }else {
+                data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+                data.setResponseDetail("No ratings found for solution :"+ solutionId);
+                log.error(EELFLoggerDelegate.errorLogger, "Error Occurred Fetching ratings for model :" + solutionId);
+            }
+        } catch (Exception e) {
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+            data.setResponseDetail("Exception Occurred while getAvgRatingsForSol");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAvgRatingsForSol", e);
+        }
+        return data;
+    }
 	/**
 	 * @param solutionId
 	 *            Solution ID
