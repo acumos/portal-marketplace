@@ -20,6 +20,30 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.1.7  7th February 2019
+================================
+* IST: Sort By ID: Issues on the filter given under sort by ID (ACUMOS-1652)
+* IST: Error message is not displaying in proper format after FQDN is not verified (ACUMOS-2152)
+* Portal reduce page load time by sending send links to solution images (ACUMOS-2040)
+* As a User , I want to View Model Signature for composite solution model (ACUMOS-1554)
+* Portal extend getVersion endpoint to benefit proprietary portal implementations (ACUMOS-2427)
+* <IST> Not able to delete the unpublished models. (ACUMOS-2465)
+* <IST> Pop-ups are getting highlited everywhere in the page. (ACUMOS-2464)
+* <IST>Not able to browse and upload the model documents while publishing the model in public marketplace (ACUMOS-2401)
+* Dev: User is not able to delete the uploaded document  from manage my model when file name contain special character and spaces (ACUMOS-2274)
+* Documents not available for model published to company (ACUMOS-2462)
+* IST: Created Date field value getting blank after the publisher approval, when user refresh the screen value get displayed (ACUMOS-2375)
+* IST: Pagination is displaying incorrect in the My Model Section (ACUMOS-2444)
+* IST: Please should display in one line on dialog re policy popup (ACUMOS-2445)
+* IST: Publish Request: Approval Button getting disable when user uses enter while writing the approval comment (ACUMOS-2452)
+* IST: Status circle color is incorrect in publish to public tab when a publish to public model is published to company (ACUMOS-2113)
+* Portal allows creation of multiple publish requests for exact same model (ACUMOS-2441)
+* Portal cannot clear web on-boarding results (ACUMOS-2317)
+* Portal publication request approve/decline dialog textbox carries old text (ACUMOS-2442)
+* metadata file incorrectly lists "ISC" as the license (ACUMOS-2429)
+
+
+
 Version 2.1.6,  29th January 2019
 =================================
 * IST2: Publish request entry is displaying for a deleted model.(ACUMOS-1904)
