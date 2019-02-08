@@ -58,7 +58,14 @@ app.factory('authenticationInterceptor', function ( $q, $state, $rootScope, $inj
     			});
 
     		return $q.reject(response);
-          } else if(response.status == -1 && ( response.config.url && (response.config.url).split(".").pop() == "html")) {
+          } 
+       	
+    	else if(response.status === 503 ){
+    		$state.go('503Error');
+    		return $q.reject(response);
+    	}
+    	
+    	else if(response.status == -1 && ( response.config.url && (response.config.url).split(".").pop() == "html")) {
         		modalService = $injector.get('$mdDialog'); 
           		if($rootScope.showNetworkError) {
     	    		modalService.show({

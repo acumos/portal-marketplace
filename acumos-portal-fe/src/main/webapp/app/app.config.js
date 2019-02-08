@@ -34,6 +34,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 	         url: '/404Error',
 	         templateUrl: '/app/error-page/error-404.template.html',
 	     })
+	       .state('503Error', {
+	         url: '/503Error',
+	         templateUrl: '/app/error-page/error-503.template.html',
+	     })
 		.state('home', {
 			url: '/home',
 			component: 'marketHome'
