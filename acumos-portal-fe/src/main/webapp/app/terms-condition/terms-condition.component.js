@@ -33,8 +33,8 @@ angular
                                     .getTermsCondition()
                                     .then(
                                             function(response){
-                                                $scope.termsCondition = response.data.description;
-                                                console.log(response);
+                                            	var terms = JSON.parse(atob(response.data.response_body.contentValue));
+                                                $scope.termsCondition = terms.description;
                                             },
                                             function(error){
                                             	console.log(error);
