@@ -1,0 +1,467 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f9d3612_6530aa39",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Why capital S?  everything else seems to use lowercase, should be consistent",
+      "range": {
+        "startLine": 185,
+        "startChar": 55,
+        "endLine": 185,
+        "endChar": 56
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c489d75_0d5f1f6a",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Method??",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edb0e9c7_5cf8471a",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Method?  Surely you don\u0027t want to allow create \u0026 update for non-authenticated users?",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bdd6297_b3972e6c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/SiteContentServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "please add license header",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5004399_a2a84ec6",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/SiteContentServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "No need for empty no-arg constructor, you get this for free",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 44
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b59f592_83e01307",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/SiteContentServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "no method to delete the co-branding logo?",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cb5838a_a2dee3fb",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/SiteContentServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Why is the indentation inconsistent? I recommend using the Eclipse code formatter",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 9
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16721df7_b51f068f",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/SiteContentService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "license header please",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41925589_b9460577",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/SiteContentService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Interface classes should have nice Javadoc defining the contract for the method. :/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3a9d061_17318433",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/SiteContentServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "pls add license",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7deeb56c_13811e8b",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/SiteContentControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "pls add license",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46174f1f_fc548778",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/SiteContentControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "why are these constants up here?  I\u0027m a little unfamiliar with the usage, but this looks odd.",
+      "range": {
+        "startLine": 42,
+        "startChar": 37,
+        "endLine": 42,
+        "endChar": 64
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f61af032_6efcc45c",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/SiteContentControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Please factor out constants if at all possible",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 73
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cf68978_ba19c014",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/SiteContentServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "License please",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a472e2d_9a703717",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/SiteContentServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Could these be put into a constants class, instead of repeated in multiple files?",
+      "range": {
+        "startLine": 52,
+        "startChar": 49,
+        "endLine": 52,
+        "endChar": 73
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ffae02a_3e6f06ce",
+        "filename": "acumos-portal-fe/application.yml.cognita-dev1-vm01-core",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "This file should NOT be committed to git, it has a deployment specific host name suffix, please remove",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ed7175c_2fe439f3",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Can this hardcoded string be put into a constant somewhere?",
+      "range": {
+        "startLine": 870,
+        "startChar": 35,
+        "endLine": 870,
+        "endChar": 59
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c20605aa_a8e15408",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1825,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "what about PNG?",
+      "range": {
+        "startLine": 1825,
+        "startChar": 0,
+        "endLine": 1825,
+        "endChar": 89
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bd1db63_03755194",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "pls remove, don\u0027t comment out",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c3f1279_3f9d4af0",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.template.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "076b501c_ada7da64",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "upper case here also",
+      "range": {
+        "startLine": 109,
+        "startChar": 49,
+        "endLine": 109,
+        "endChar": 50
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c059c2f2_a3659877",
+        "filename": "acumos-portal-fe/src/main/webapp/app/footer/footer.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "Maybe the name \"Cms\" should not have been built in here?  Can it be changed?",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 39
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51a18e9d_1cc0135c",
+        "filename": "acumos-portal-fe/src/main/webapp/app/footer/footer.component.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-12T21:18:40Z",
+      "side": 1,
+      "message": "This is a classic anti pattern.  why a JSON parse?  Angular does this for you, unless you\u0027re double-encoding the JSON.  And if you\u0027re double encoding, something is usually wrong.",
+      "range": {
+        "startLine": 58,
+        "startChar": 17,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "d6e8d500072c406cef2eb37f6a504cda3c2d20fe",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
