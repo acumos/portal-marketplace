@@ -10,11 +10,6 @@ zuul:
       path: /api/**
       sensitiveHeaders:
       url: http://10.1.0.6:8083
-    site:
-      path: /site/**
-      sensitiveHeaders:
-      url: http://localhost:8080
-      stripPrefix: false
     cmnt:
       path: /cmnt/**
       sensitiveHeaders:

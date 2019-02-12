@@ -179,6 +179,16 @@ public class APINames {
     public static final String UPDATE_REQUEST = "/request/update";
 
     public static final String ADD_USER = "/addUser";
+    
+    // Site Content API's
+    public static final String SITE_PATH = "/api-manual";
+    public static final String GET_TERMS_CONDITION = "/Solution/global/termsCondition";
+    public static final String GET_CONTACT_INFO = "/Solution/global/footer/contactinfo";
+    public static final String GET_COBRAND_LOGO = "/Solution/global/coBrandLogo";
+    public static final String UPDATE_COBRAND_LOGO = "/Solution/global/coBrandLogo";
+    public static final String GET_CAROUSEL_PICTURE = "/Solution/carouselImages/{key}";
+    public static final String UPDATE_CAROUSEL_PICTURE = "/Solution/carouselImages";
+    public static final String DELETE_CAROUSEL_PICTURE = "/Solution/carouselImages/{key}";
 
     // Notifications
     public static final String CREATE_NOTIFICATION = "/notifications/createNotification";

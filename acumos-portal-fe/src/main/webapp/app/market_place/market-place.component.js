@@ -332,7 +332,7 @@ angular
 											console.log(error);
 											
 										})
-							} else{
+							} else {
 								apiService.insertSolutionDetail(dataObj).then(
 										function(response) {
 											$scope.totalPages = response.data.response_body.pageCount;
@@ -350,9 +350,8 @@ angular
 											$rootScope.setLoader = false;
 											console.log(error);
 											
-										})
+										});
 							}
-
 						}
 
 						$scope.loadMore($scope.mktPlaceStorage.pageNumber);
@@ -691,27 +690,6 @@ angular
 						};
 
 						$scope.imageUrls = {};
-						$scope.getSolutionImages = function(solutionId) {
-
-							apiService
-									.getSolutionImage(solutionId)
-									.then(
-											function(response) {
-												
-												if (response.data.response_body.length > 0)
-													$scope.imageUrls[solutionId] = "/site/binaries/content/gallery/acumoscms/solution/"
-															+ solutionId
-															+ "/"
-															+ response.data.response_body[0];
-												else
-													$scope.imageUrls[solutionId] = "images/default-model.png";
-											},
-											function(data) {
-												$scope.imageUrls[solutionId] = "images/default-model.png";
-											});
-						}
-						
-
 					}
 
 				}).config([ '$compileProvider', function($compileProvider) {

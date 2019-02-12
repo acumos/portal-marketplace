@@ -24,11 +24,6 @@ zuul:
       path: /dsce/**
       url: http://localhost:8088
       sensitiveHeaders:
-    site:
-      path: /site/**
-      url: http://localhost:9080
-      stripPrefix: false
-      sensitiveHeaders:
     azure:
       path: /azure/**
       url: http://localhost:9081

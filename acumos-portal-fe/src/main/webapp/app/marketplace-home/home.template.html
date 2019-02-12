@@ -102,21 +102,7 @@ limitations under the License.
   				    slides-to-scroll="1"
   				   	dots="true">
   				   <carousel-item>
-						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-						  <div class="mdl-card__title">
-							<figure>
-							<img ng-show="item.picture" ng-src="data:image/JPEG;base64,{{item.picture}}" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId + '&revisionId=' + item.revisionId)" class="img-rounded">
-							<img ng-hide="item.picture" ng-src="images/default-model.png" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId + '&revisionId=' + item.revisionId)" class="img-rounded">
-									</figure>
-						  </div>
-						  <div class="mdl-card__supporting-text">
-                                                    <div class="disblock detail-content">{{item.name}}</div>
-                                                          <div class="stars-outer">
-                                                                  <div class="stars-inner" style="width:{{item.solutionRatingAvg}}">
-                                                          </div>
-                                                    </div>
-						  </div>
-						</div>
+  				   <div  ng-bind-html = "item | to_trusted" compile = "item" ></div>
 					</carousel-item>
 					<carousel-prev>
 				   <span>

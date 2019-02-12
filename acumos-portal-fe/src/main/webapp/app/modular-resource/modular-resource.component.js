@@ -196,20 +196,7 @@ angular.module('modelResource')
 	           	$scope.modelUploadError = false;
 	        }
 			
-			$scope.getscikitLearnContent = function(modelName){
-				apiService
-				.getModelerResourcesContent(modelName)
-				.then(
-						function(response) {
-							$scope.scikitlearn = response.data.description;
-						},
-						function(error) {
-							$scope.scikitlearn = 'No Contents Available';
-						});
-			}
-			
 			$scope.getOnboardingCLIUrls = function() {
-
                 apiService
                 .getCLIPushUrl()
                 .then(
@@ -290,109 +277,6 @@ angular.module('modelResource')
 							$scope.java = 'No Contents Available';
 						});
 			}
-			
-			
-			$scope.getCmsH2OWebContents = function(){
-           	 var req = {
-						method : 'GET',
-						url : '/site/api-manual/Solution/solDescription?path=global/web-model-resource&name=h2o',
-				};
-           	 $http(req)
-					.success(
-							function(data, status, headers,
-									config) {
-								$scope.webh2o = data.description;
-							}).error(
-									function(data, status, headers,
-											config) {
-										return "No Contents Available"
-									});
-			}
-			
-			$scope.getonboardingOverview = function(){
-	           	 var req = {
-							method : 'GET',
-							url : '/site/api-manual/Solution/solDescription?path=global/onboarding-model-screen&name=overview',
-					};
-	           	 $http(req)
-						.success(
-								function(data, status, headers,
-										config) {
-									$scope.onboard_overview = data.description;
-								}).error(
-										function(data, status, headers,
-												config) {
-											return "No Contents Available"
-										});
-				}
-			
-			$scope.getCmsRWebContents = function(){
-	           	 var req = {
-							method : 'GET',
-							url : '/site/api-manual/Solution/solDescription?path=global/web-model-resource&name=r',
-					};
-	           	 $http(req)
-						.success(
-								function(data, status, headers,
-										config) {
-									$scope.webr = data.description;
-								}).error(
-										function(data, status, headers,
-												config) {
-											return "No Contents Available"
-										});
-				}
-			
-			$scope.getCmsScikitLearnWebContents = function(){
-	           	 var req = {
-							method : 'GET',
-							url : '/site/api-manual/Solution/solDescription?path=global/web-model-resource&name=scikit-learn',
-					};
-	           	 $http(req)
-						.success(
-								function(data, status, headers,
-										config) {
-									$scope.webscikitlearn = data.description;
-								}).error(
-										function(data, status, headers,
-												config) {
-											return "No Contents Available"
-										});
-				}
-			
-			$scope.getCmsTensorflowWebContents = function(){
-	           	 var req = {
-							method : 'GET',
-							url : '/site/api-manual/Solution/solDescription?path=global/web-model-resource&name=tensor-flow',
-					};
-	           	 $http(req)
-						.success(
-								function(data, status, headers,
-										config) {
-									$scope.webtensorflow = data.description;
-								}).error(
-										function(data, status, headers,
-												config) {
-											return "No Contents Available"
-										});
-				}
-			
-			$scope.getCmsJavaWebContents = function(){
-	           	 var req = {
-							method : 'GET',
-							url : '/site/api-manual/Solution/solDescription?path=global/web-model-resource&name=java',
-					};
-	           	 $http(req)
-						.success(
-								function(data, status, headers,
-										config) {
-									$scope.webjava = data.description;
-								}).error(
-										function(data, status, headers,
-												config) {
-											return "No Contents Available"
-										});
-				}
 			
 			$scope.userId = JSON.parse(browserStorageService.getUserDetail());
 			$scope.completedSteps = [];

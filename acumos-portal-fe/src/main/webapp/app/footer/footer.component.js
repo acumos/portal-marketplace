@@ -51,18 +51,16 @@ app.component('marketFooter',{
          $scope.getCmsfooterContactInfo = function(){
          	 var req = {
 						method : 'GET',
-						url : '/site/api-manual/Solution/solDescription?path=global/footer&name=contactinfo',
+						url : '/api/api-manual/Solution/global/footer/contactinfo',
 				};
          	 $http(req)
-					.success(
-							function(data, status, headers,
-									config) {
-								$scope.contactInfo = data.description;
-							}).error(
-									function(data, status, headers,
-											config) {
-										return "No Contents Available"
-									});
+					.success(function(response) {
+							var info = JSON.parse(atob(response.response_body.contentValue));
+							$scope.contactInfo = info.description;
+						})
+					.error(function(response) {
+							return "No Contents Available"
+						});
 			}
 	},
 
