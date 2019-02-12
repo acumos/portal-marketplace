@@ -20,7 +20,6 @@
 package org.acumos.be.test.service.impl;
 
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.time.Instant;
 
 import org.acumos.cds.domain.MLPArtifact;
@@ -45,26 +44,21 @@ public class PullAndPushSolutionServiceImplTest {
 
 	@Test
 	public void downloadModelArtifact(){
-		try {
-			String artifactId = "00c9bc79-7703-471c-9f44-e1537bf61d9b";
-			MLPArtifact mlpArtifact = new MLPArtifact();
-			mlpArtifact.setArtifactId(artifactId);
-			mlpArtifact.setArtifactTypeCode("BP");
-			mlpArtifact.setCreated(Instant.now());
-			mlpArtifact.setDescription("Artifact");
-			mlpArtifact.setUri("http://abc.com");
+		String artifactId = "00c9bc79-7703-471c-9f44-e1537bf61d9b";
+		MLPArtifact mlpArtifact = new MLPArtifact();
+		mlpArtifact.setArtifactId(artifactId);
+		mlpArtifact.setArtifactTypeCode("BP");
+		mlpArtifact.setCreated(Instant.now());
+		mlpArtifact.setDescription("Artifact");
+		mlpArtifact.setUri("http://abc.com");
 
-			InputStream inputStream = null;
-			if(mlpArtifact != null && !mlpArtifact.getUri().isEmpty()) {
-				SaveImageCommand saveImageCommand = mock(SaveImageCommand.class);
-				inputStream = saveImageCommand.getDockerImageStream();
-				Mockito.when(impl.downloadModelArtifact(artifactId)).thenReturn(inputStream);
-				Assert.assertEquals(inputStream, inputStream);
-				logger.info("Successfully return downloadModelArtifact");
-
-			}
-		} catch (URISyntaxException e) {
-			Assert.fail();
+		InputStream inputStream = null;
+		if(mlpArtifact != null && !mlpArtifact.getUri().isEmpty()) {
+			SaveImageCommand saveImageCommand = mock(SaveImageCommand.class);
+			inputStream = saveImageCommand.getDockerImageStream();
+			Mockito.when(impl.downloadModelArtifact(artifactId)).thenReturn(inputStream);
+			Assert.assertEquals(inputStream, inputStream);
+			logger.info("Successfully return downloadModelArtifact");
 		}
 	}
 }

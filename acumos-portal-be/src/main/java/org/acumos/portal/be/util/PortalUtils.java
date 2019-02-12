@@ -185,16 +185,6 @@ public class PortalUtils {
 		if (!PortalUtils.isEmptyOrNullString(mlSolution.getModelType())) {
 			mlpSolution.setModelTypeCode(mlSolution.getModelType());
 		}
-		mlpSolution.setDownloadCount((long) mlSolution.getDownloadCount());
-		mlpSolution.setRatingCount((long) mlSolution.getRatingCount());
-		mlpSolution.setViewCount((long) mlSolution.getViewCount());
-		mlpSolution.setRatingAverageTenths((long) mlSolution.getSolutionRatingAvg() * 10);
-		if (mlSolution.getLastDownload() != null) {
-			mlpSolution.setLastDownload(mlSolution.getLastDownload());
-		}
-		if(mlpSolution.isFeatured() !=null) {
-		    mlpSolution.setFeatured(mlSolution.isFeatured());
-		}
 
 		return mlpSolution;
 	}

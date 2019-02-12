@@ -799,14 +799,7 @@ angular
 									// }
 									// ],
 									// "sortingOrder": "string",
-									"tookitType" : $scope.toolkitname,
-									"viewCount" : $scope.solution.viewCount,
-									"downloadCount" : $scope.solution.downloadCount,
-									"lastDownload" : $scope.solution.lastDownload,
-									"ratingCount" : $scope.solution.ratingCount,
-									"ratingAverageTenths" : $scope.solution.ratingAverageTenths,
-									"featured" : $scope.solution.featured
-									
+									"tookitType" : $scope.toolkitname
 								}
 							// ,
 							// "request_from": "string",
@@ -2181,8 +2174,8 @@ angular
 															 $scope.status = 'Unable to load picture data: '
 																	+ error.data.error;
 														 });
-											})
-											.catch(function(error) { 
+											},
+											function(error) { 
 												$scope.status = 'Error updating picture data: '
 														+ error.data.error;
 											});
@@ -2215,8 +2208,8 @@ angular
 												$scope.showSolutionDocs = true;
 												$scope.showFileUpload = !$scope.showFileUpload;
 												$rootScope.progressBar = 0;
-											})
-											.catch(function(error) {
+											},
+											function(error) {
 												$scope.modelUploadError = true;
 												$scope.modelUploadErrorMsg = error;
 												$rootScope.progressBar = 0;
@@ -2241,8 +2234,8 @@ angular
 												$scope.showPublicSolutionDocs = true;
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
-											})
-											.catch(function(error) {
+											},
+											function(error) {
 												$scope.modelUploadErrorPublic = true;
 												$scope.modelUploadErrorMsgPublic = error;
 												$rootScope.progressBar = 0;
