@@ -118,6 +118,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/solution/revision/{revisionId}/{accessType}/description").permitAll()
         .antMatchers(HttpMethod.GET, "/users/k8s/docs/help").permitAll()
         .antMatchers(HttpMethod.GET, "/users/jupyterUrl").permitAll()
+        .antMatchers(HttpMethod.GET, "/api-manual/solution/global/termsCondition").permitAll()
+        .antMatchers(HttpMethod.GET, "/api-manual/solution/global/footer/contactinfo").permitAll()
+        .antMatchers(HttpMethod.GET, "/api-manual/solution/global/coBrandLogo").permitAll()
+        .antMatchers(HttpMethod.GET, "/api-manual/solution/carouselImages/{key}").permitAll()
         
         
         .anyRequest().authenticated();

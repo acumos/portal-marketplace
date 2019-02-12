@@ -2643,7 +2643,8 @@ limitations under the License.
 			<form name="carouselForm" ng-cloak>
 				<div class="md-dialog-content add-top-carousel">
 					<div class="mdl-grid">
-						
+					<alert-message msg="msg" icon="icon" styleclass="styleclass"
+						ng-show="invalidImage"></alert-message>
 						<div class="mdl-cell mdl-cell--6-col" >
 							<md-input-container class="md-block"> <label>Slide
 								Name</label> <input type="text" ng-model="carouselSlide.name"
@@ -2753,11 +2754,6 @@ limitations under the License.
 										upload-image-model="carouselSlide.backGround"
 										data-ng-model="carouselSlide.backGround" />
 								</div>
-								<span> <md-button ng-click="uploadbackGroundImg()"
-										class="mdl-button mdl-js-button btn-secondary" title="Upload"
-										alt="Upload"> Upload </md-button>
-								</span>
-
 							</div>
 							<div class="help-inline">
 								<span class="text-green" ng-show="showSuccessBgImage">
@@ -2863,10 +2859,6 @@ limitations under the License.
 										upload-image-model="carouselSlide.infoGraphic"
 										data-ng-model="carouselSlide.infoGraphic" />
 								</div>
-								<span> <md-button ng-click="uploadinfoGraphic()"
-										class="mdl-button mdl-js-button btn-secondary" title="Upload"
-										alt="Upload"> Upload </md-button>
-								</span>
 							</div>
 							<div class="help-inline">
 								<span class="text-green" ng-show="showSuccessinfoImage">
@@ -3096,12 +3088,7 @@ limitations under the License.
 											placeholder="Upload File" type="text"
 											ng-model="eventCarousel.backGround.name" readonly />
 									</div>
-
 								</div>
-								<span> <md-button ng-click="uploadEventBGImg()"
-										class="mdl-button mdl-js-button btn-secondary" title="Upload"
-										alt="Upload"> Upload </md-button>
-								</span>
 
 							</div>
 							<div class="help-inline">
@@ -3154,10 +3141,6 @@ limitations under the License.
 										placeholder="Upload File" type="text"
 										ng-model="eventCarousel.infoGraphic.name" readonly />
 								</div>
-								<span> <md-button ng-click="uploadEventInfoGraphic()"
-										class="mdl-button mdl-js-button btn-secondary" title="Upload"
-										alt="Upload"> Upload </md-button>
-								</span>
 							</div>
 							<div class="help-inline">
 								<span class="text-green" ng-show="showSuccessEventInfoImage">
