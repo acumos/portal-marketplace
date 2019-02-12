@@ -33,6 +33,7 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
+import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.User;
 import org.springframework.web.multipart.MultipartFile;
 import org.acumos.cds.domain.MLPArtifact;
@@ -173,4 +174,6 @@ public interface MarketPlaceCatalogService {
 	byte[] getSolutionPicture(String solutionId);
 	
 	void updateSolutionPicture(String solutionId, byte[] image);
+	
+	MLSolutionWeb getSolutionWebMetadata(String solutionId);
 }
