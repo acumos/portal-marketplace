@@ -251,7 +251,6 @@ angular.module('manageModule')
 								}
 								
 								angular.forEach($scope.mlSolutionPrivate, function(value,key) {
-									$scope.getSolutionImages(value.solutionId);
 									angular.forEach($scope.favouriteSolutions,
 											function(mlsolutionValue,mlsolutionKey) {
 												if (mlsolutionValue.solutionId == value.solutionId) {
@@ -346,7 +345,6 @@ angular.module('manageModule')
 								}
 								
 								angular.forEach($scope.mlSolutionCompany, function(value,key) {
-									$scope.getSolutionImages(value.solutionId);
 									angular.forEach($scope.favouriteSolutions,
 											function(mlsolutionValue,mlsolutionKey) {
 												if (mlsolutionValue.solutionId == value.solutionId) {
@@ -440,7 +438,6 @@ angular.module('manageModule')
 								}
 								
 								angular.forEach($scope.mlSolutionPublic, function(value,key) {
-									$scope.getSolutionImages(value.solutionId);
 									angular.forEach($scope.favouriteSolutions,
 											function(mlsolutionValue,mlsolutionKey) {
 												if (mlsolutionValue.solutionId == value.solutionId) {
@@ -529,7 +526,6 @@ angular.module('manageModule')
 								}
 								
 								angular.forEach($scope.mlSolutionDelete, function(value,key) {
-									$scope.getSolutionImages(value.solutionId);
 									angular.forEach($scope.favouriteSolutions,
 											function(mlsolutionValue,mlsolutionKey) {
 												if (mlsolutionValue.solutionId == value.solutionId) {
@@ -978,18 +974,6 @@ angular.module('manageModule')
 						var duplicate = false;
 						$scope.imageUrls = {};
 						
-						$scope.getSolutionImages = function(solutionId) {
-							apiService.getSolutionImage(solutionId)
-							.then(function(response) {
-								if(response.data.response_body.length > 0)
-									  $scope.imageUrls[solutionId] = "/site/binaries/content/gallery/acumoscms/solution/" + solutionId + "/" + response.data.response_body[0];
-								  else
-									  $scope.imageUrls[solutionId] = "images/default-model.png";
-								}, function(data) {
-									$scope.imageUrls[solutionId] = "images/default-model.png";
-								});
-						}
-						
 						$scope.loadMore = function(type) {
 							if ($scope.isBusy)
 								return;
@@ -1031,7 +1015,6 @@ angular.module('manageModule')
 												if($scope.pageNumber==0){
 													$scope.mlsolutions = response.data.response_body.content;
 													angular.forEach($scope.mlsolutions, function(value,key) {
-														$scope.getSolutionImages(value.solutionId);
 														angular.forEach($scope.favouriteSolutions,
 																function(mlsolutionValue,mlsolutionKey) {
 																	if (mlsolutionValue.solutionId == value.solutionId) {
@@ -1072,7 +1055,6 @@ angular.module('manageModule')
 																			}
 																		});
 														if (!duplicate) {
-															//$scope.getSolutionImages(response.data.response_body.content[i].solutionId);
 															$scope.mlsolutions
 																	.push({
 																		// id:$scope.mlsolutions[i].id,

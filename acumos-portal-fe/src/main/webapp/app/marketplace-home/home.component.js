@@ -105,52 +105,51 @@ angular
 												   var slideObj = value[Object.keys(value)[0]];													  
 												      if(slideObj.slideEnabled === true || slideObj.slideEnabled === "true"){
 													      var bannerSt = '<div class='; 
-													                    if(slideObj.textAling == 'right'){
-													                    	bannerSt = bannerSt + '"home-screen-lfimg" ';
-													                    } else {
-													                    	bannerSt = bannerSt + '"home-screen2" ';
-													                    }
+										                    if(slideObj.textAling == 'right'){
+										                    	bannerSt = bannerSt + '"home-screen-lfimg" ';
+										                    } else {
+										                    	bannerSt = bannerSt + '"home-screen2" ';
+										                    }
 													                   
-													                    bannerSt = bannerSt + 'style="background-image:url(/site/binaries/content/gallery/acumoscms/global/carousel_background/' + slideObj.bgImageUrl + ') !important;background-color : '+ slideObj.bgColor +'">' + 
-																	    '<div class="slide-content">' +
-																	        '<div class="slide-text">' +
-																	            '<h4>' + slideObj.headline + '</h4>' +
-																	            '<p ng-if="slideObj.supportingContent">' + slideObj.supportingContent  +'</p>';
-													                             if (slideObj.links.enableLink){
-													                            	 if (!angular.isUndefined(slideObj.links.primary) && !angular.isUndefined(slideObj.links.primary) && !angular.isUndefined(slideObj.links.primary.address)){
-												                                         if ((slideObj.links.primary.address).indexOf("modelerResource") != -1) {
-												                                        	 if($rootScope.enableOnBoarding) 
-												                                        		 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.primary.address + '\');" >' + slideObj.links.primary.label + '</md-button>';
-												                                         } else {
-												                                        	 if(slideObj.links.primary.address == 'other') {
-												                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'href=\"' + slideObj.links.primary.url + '" target="_blank">' + slideObj.links.primary.label + '</md-button>';
-												                                        		 } else {
-												                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.primary.address + '\');" >' + slideObj.links.primary.label + '</md-button>';
-												                                        		}
-												                                        	}
-														                             }
-											                                    
-													                            	 if (!angular.isUndefined(slideObj.links.secondary) && !angular.isUndefined(slideObj.links.secondary) && !angular.isUndefined(slideObj.links.secondary.address)){
-														                            	 if(slideObj.links.secondary.address) {
-													                                         if ((slideObj.links.secondary.address).indexOf("modelerResource") != -1) {
-													                                    		 if($rootScope.enableOnBoarding)
-													                                    			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.secondary.address  + '\');" >' + slideObj.links.secondary.label + '</md-button>';
-													                                         } else {
-													                                        	 if(slideObj.links.secondary.address == 'other') {
-													                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'href=\"' + slideObj.links.secondary.url + '" target="_blank">' + slideObj.links.secondary.label + '</md-button>';
-													                                        		 } else {
-													                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.secondary.address + '\');" >' + slideObj.links.secondary.label + '</md-button>';
-													                                        		}
-													                                         }
-												                                          }
-													                            	 }													                                 
-													                             }
+										                    bannerSt = bannerSt + 'style="background-image:url(/api/site/content/carouselImages/' + slideObj.bgImgKey + ') !important;background-color : '+ slideObj.bgColor +'">' + 
+														    '<div class="slide-content">' +
+														        '<div class="slide-text">' +
+														            '<h4>' + slideObj.headline + '</h4>' +
+														            '<p ng-if="slideObj.supportingContent">' + slideObj.supportingContent  +'</p>';
+								                             if (slideObj.links.enableLink){
+								                            	 if (!angular.isUndefined(slideObj.links.primary) && !angular.isUndefined(slideObj.links.primary) && !angular.isUndefined(slideObj.links.primary.address)){
+							                                         if ((slideObj.links.primary.address).indexOf("modelerResource") != -1) {
+							                                        	 if($rootScope.enableOnBoarding) 
+							                                        		 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.primary.address + '\');" >' + slideObj.links.primary.label + '</md-button>';
+							                                         } else {
+							                                        	 if(slideObj.links.primary.address == 'other') {
+							                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'href=\"' + slideObj.links.primary.url + '" target="_blank">' + slideObj.links.primary.label + '</md-button>';
+						                                        		 } else {
+						                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect active" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.primary.address + '\');" >' + slideObj.links.primary.label + '</md-button>';
+						                                        		 }
+							                                         }
+									                             }
+						                                    
+								                            	 if (!angular.isUndefined(slideObj.links.secondary) && !angular.isUndefined(slideObj.links.secondary) && !angular.isUndefined(slideObj.links.secondary.address)){
+									                            	 if(slideObj.links.secondary.address) {
+								                                         if ((slideObj.links.secondary.address).indexOf("modelerResource") != -1) {
+								                                    		 if($rootScope.enableOnBoarding)
+								                                    			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.secondary.address  + '\');" >' + slideObj.links.secondary.label + '</md-button>';
+								                                         } else {
+								                                        	 if(slideObj.links.secondary.address == 'other') {
+								                                        		 	bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'href=\"' + slideObj.links.secondary.url + '" target="_blank">' + slideObj.links.secondary.label + '</md-button>';
+							                                        		 } else {
+							                                        			 bannerSt = bannerSt + '<md-button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ' + 'ng-click=\"ctrl.go(\'' + slideObj.links.secondary.address + '\');" >' + slideObj.links.secondary.label + '</md-button>';
+							                                        		 }
+								                                         }
+							                                          }
+								                            	 }													                                 
+								                             }
 	
-													                             bannerSt = bannerSt + '</div> <div class="image-container"><img src="/site/binaries/content/gallery/acumoscms/global/carousel_infoGraphic/' + slideObj.InfoImageUrl + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
-													                             $scope.banner.slides[index] = bannerSt;
-													                             index++;
-												      } 
-												//}
+								                             bannerSt = bannerSt + '</div> <div class="image-container"><img src="/api/site/content/carouselImages/' + slideObj.infoImgKey + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
+								                             $scope.banner.slides[index] = bannerSt;
+								                             index++;
+												      }
 												});
 											} else {
 												//default slides if no config is present
@@ -182,8 +181,8 @@ angular
 												angular.forEach($scope.eventConfig, function (value, key) {
 													if(value['slideEnabled'] === true || value['slideEnabled'] === 'true'){
 														var storyhtml = '<div class="hackathon-container">' + 
-															'<div ng-hide="'+!value["bgImageUrl"]+'" class="hackathon-image">' + 
-															'<img src="/site/binaries/content/gallery/acumoscms/global/event_carousel_bg/' + value["bgImageUrl"] +'"/>' + 
+															'<div class="hackathon-image">' + 
+															'<img src="/api/site/content/carouselImages/' + value['bgImgKey'] +'" onerror="this.style.display=\'none\'"/>' + 
 															'</div>' +
 															'<div class="hackathon-text">' + 
 															'<h3>' + value["headline"] + '</h3>' + 
@@ -191,7 +190,7 @@ angular
 															'</div>' + 
 															'</div>';
 														$scope.event.slides[index] = storyhtml;
-							                             index++;
+														index++;
 													}
 													
 												});
@@ -321,7 +320,7 @@ angular
 		 													console.log("Error: "+error.data);
 		 													$state.go('marketSolutions', {solutionId : id});
 		 												});
-		 							}
+		 							};
 		 							$scope.updateViewCount();
 		 						}
 
@@ -476,13 +475,13 @@ angular
 		                        	 		                        
 		                        	 		                       $scope.closePoup = function(){
 		                        	 			                	  $mdDialog.hide();
-		                        	 			                  }
+		                        	 			                  };
 		                        	 		                       
 		                        	 		                       $scope.navigateTo = function(){
 		                        	 		                    	   if($rootScope.enableOnBoarding) 
 		                        	 		                    		  $state.go("modularResource");
 		                        	 		                    	   else return false;
-		                        	 		                       }
+		                        	 		                       };
 		 						
 								},
 								

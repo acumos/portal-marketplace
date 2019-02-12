@@ -523,6 +523,7 @@ angular
 											 .then(
 													 function(response) {
 														 $scope.solution.picture = response.data.response_body;
+														 $scope.imgURLdefault = response.data.response_body;
 													 },
 													 function(error) {
 														 $scope.status = 'Unable to load picture data: '
@@ -974,31 +975,6 @@ angular
 						}
 						$scope.getSolPublicDesc();
 						
-						$scope.getSolutionImages = function(){
-	                       	 var getSolutionImagesReq = {
-										method : 'GET',
-										url : '/site/api-manual/Solution/solutionImages/'+$scope.solutionId
-								};
-
-	                       	 $http(getSolutionImagesReq)
-									.success(
-											function(data, status, headers,
-													config) {
-												if(data.response_body.length > 0) {
-													$scope.showSolutionImage = true;
-													$scope.solutionImageName = data[0];
-													$scope.imgURLdefault = "/site/binaries/content/gallery/acumoscms/solution/" + $scope.solutionId + "/" + data.response_body[0];
-
-													$scope.previewImage = $scope.imgURLdefault;
-												
-												}
-											}).error(
-													function(data, status, headers,
-															config) {
-														$scope.showSolutionImage = false;
-													});
-							}
-							$scope.getSolutionImages();
 							
 							/**********************************END*****************************/
 						
@@ -1355,27 +1331,6 @@ angular
 						$scope.imgURLChat = "images/ChatBot.png";
 						$scope.imgURLSensitive = "images/Sensitive.png";
 						$scope.imgURLdefault ="images/default-model.png";
-						
-						$scope.getSolutionImages = function(){
-	                       	 var getSolutionImagesReq = {
-										method : 'GET',
-										url : '/site/api-manual/Solution/solutionImages/'+$scope.solutionId
-								};
-	                       	 $http(getSolutionImagesReq)
-									.success(
-											function(data, status, headers,
-													config) {
-												if(data.response_body.length > 0)
-													$scope.imgURLdefault = "/site/binaries/content/gallery/acumoscms/solution/" + $scope.solutionId + "/" + data.response_body[0];
-												else
-													$scope.imgURLdefault = "images/default-model.png";
-											}).error(
-													function(data, status, headers,
-															config) {
-														return "No Contents Available"
-													});
-							}
-							$scope.getSolutionImages();
 						
 							$scope.getPublicSolutionDocuments = function(type){
 								var accessType;
