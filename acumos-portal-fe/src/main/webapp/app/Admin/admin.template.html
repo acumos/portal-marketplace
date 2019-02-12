@@ -2147,17 +2147,17 @@ limitations under the License.
 					</div>
 					<div class="fedcontainer2" ng-show="subscripDetails1">
 					
-						<div class="select-control access-type-sec" ng-hide="!subscripDetails1">
+						<!-- <div class="select-control access-type-sec" ng-hide="!subscripDetails1">
 							<label class="fedlbl1 fedlbl4">Access Type</label>
 							<md-select ng-model="AccessValue"
 								placeholder="Select Frequency of update"
 								ng-change="freqChange(freqOfUpdatePass)"> <md-option
 								ng-repeat="freq in accessType" ng-value="freq.value">{{freq.name}}</md-option>
 							</md-select>
-						</div>
+						</div> -->
 						
 						<div class="filter-container">
-							<div class="fed-search-container">
+							<!-- <div class="fed-search-container">
 								<label class="fedlbl1 fedlbl4">Model ID</label>
 								<div
 									class="mdl-textfield mdl-js-textfield admin-search-container">
@@ -2165,7 +2165,7 @@ limitations under the License.
 										ng-change="modelEdit()"
 										ng-disabled="toolKitTypeValue||categoryValue|| allSubs=='true'"
 										type="text" placeholder="Filter" ng-model="modelIDValue">
-									<!-- <input class="mdl-textfield__input admin-search-control" ng-change="solutionDetail=false;browseSolution=false;noData=false" ng-disabled="toolKitTypeValue||categoryValue|| allSubs=='true'" type="text" placeholder="Filter" ng-model = "modelIDValue"> -->
+									<input class="mdl-textfield__input admin-search-control" ng-change="solutionDetail=false;browseSolution=false;noData=false" ng-disabled="toolKitTypeValue||categoryValue|| allSubs=='true'" type="text" placeholder="Filter" ng-model = "modelIDValue">
 									<span ng-click="modelEdit();browseSolution=true"
 										class="admin-btn-search"><i
 										class="material-icons search-icon" alt="Search" title="Search">search</i></span>
@@ -2173,7 +2173,7 @@ limitations under the License.
 							</div>
 							<div>
 								<span class="fedlbl5">OR</span>
-							</div>
+							</div> -->
 							<div>
 								<div class="select-control admin-select">
 									<label class="fedlbl4">Category</label>
@@ -2191,7 +2191,8 @@ limitations under the License.
 								<div class="select-control admin-select">
 									<label class="fedlbl4">Toolkit type</label>
 									<md-select ng-model="toolKitTypeValue"
-										ng-change="addedToSubs = false;solutionDetail=false;catChange(categoryValue,toolKitTypeValue);showSolutionTable=false"
+										ng-change="addedToSubs = false;solutionDetail=false;
+										catChange(categoryValue,toolKitTypeValue);showSolutionTable=false"
 										ng-disabled="modelIDValue || allSubs=='true'"
 										placeholder="Select toolkit"> <md-option
 										ng-selected="true" value="">Select toolkit</md-option> <md-option
@@ -2199,29 +2200,21 @@ limitations under the License.
 									{{tool.name}}</md-option> </md-select>
 								</div>
 							</div>
-						
+							<div>
+								<div class="select-control admin-select">
+									<label class="fedlbl4">Federate to</label>
+									<md-select ng-model="accessTypeCode"
+										ng-change="addedToSubs = false;solutionDetail=false;
+										catChange(categoryValue,toolKitTypeValue);showSolutionTable=false"
+										ng-disabled="modelIDValue || allSubs=='true'"
+										placeholder="Federate To"> <md-option
+										ng-selected="true" value="">Federate to</md-option> <md-option
+										ng-repeat="accessType in accessTypeJson" ng-value="accessType.access_type_cd">
+										{{accessType.access_type_name}} ('{{accessType.access_type_cd}}')</md-option> </md-select>
+								</div>
+							</div>
 						</div>
-
-						<!-- <div class="fedgridcontainer ng-hide" ng-show='modelIDValue'>
-														<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list"> 
-															<colgroup>
-																
-																
-																<col>															
-																<col style="width:20%;">																
-															</colgroup>														 
-														  <tbody>
-															<tr>
-																<td ng-hide="browseSolution"><button ng-click="modelEdit();browseSolution=true" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Browse Remote Catalog</button></td>
-																<td ng-show="browseSolution"><button ng-click="solutionDetail=false;browseSolution=false;noData=false" class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary btn-fedgrid">Clear Catalog</button></td>
-																<td></td>
-															</tr>														
-																												
-														  </tbody>
-														</table>
-													</div> -->
-
-
+						
 						<div class="fedgridcontainer"
 							ng-show="solutionDetail&&(modelIDValue!='')">
 							<table
