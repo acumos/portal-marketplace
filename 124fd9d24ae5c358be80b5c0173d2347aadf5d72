@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9c99723_4a719630",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T19:11:44Z",
+      "side": 1,
+      "message": "I don\u0027t see update T\u0026C, or update contact info; how will the site admin put in new values here?",
+      "range": {
+        "startLine": 182,
+        "startChar": 28,
+        "endLine": 183,
+        "endChar": 45
+      },
+      "revId": "124fd9d24ae5c358be80b5c0173d2347aadf5d72",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2434fa1e_3f05c35a",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/SiteContentServiceController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T19:11:44Z",
+      "side": 1,
+      "message": "maybe, just maybe, this should be plural?",
+      "range": {
+        "startLine": 55,
+        "startChar": 53,
+        "endLine": 55,
+        "endChar": 54
+      },
+      "revId": "124fd9d24ae5c358be80b5c0173d2347aadf5d72",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27502215_cee28bef",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/SiteContentServiceController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T19:11:44Z",
+      "side": 1,
+      "message": "I think you will need methods updateTermsConditions and updateContactInfo (?)",
+      "revId": "124fd9d24ae5c358be80b5c0173d2347aadf5d72",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c0a80a7_c11875e0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/SiteContentService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T19:11:44Z",
+      "side": 1,
+      "message": "I think you will need methods to setTermsConditionS (note plural :) and also setContactInfo()",
+      "revId": "124fd9d24ae5c358be80b5c0173d2347aadf5d72",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f6cacc6_1913f6dd",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/header-nav.component.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T19:11:44Z",
+      "side": 1,
+      "message": "Is there a way to define these paths in a service and reference them, instead of hardcoding them repeatedly?",
+      "range": {
+        "startLine": 537,
+        "startChar": 13,
+        "endLine": 537,
+        "endChar": 50
+      },
+      "revId": "124fd9d24ae5c358be80b5c0173d2347aadf5d72",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
