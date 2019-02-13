@@ -1,0 +1,360 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07f208bc_f9bbeaa0",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "Missed this in the first round.  I sort of expected \"SITE_PATH\" to have the string \u0027site\u0027 within it, but it does not, is that intentional?",
+      "range": {
+        "startLine": 184,
+        "startChar": 45,
+        "endLine": 184,
+        "endChar": 48
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64f0264a_ff2df0df",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "solution? is this intermediate path really needed?  Now I\u0027m a little confused.",
+      "range": {
+        "startLine": 185,
+        "startChar": 55,
+        "endLine": 185,
+        "endChar": 63
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b708bb94_b67f3bcc",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "solution instead of site?  isn\u0027t that confusing?",
+      "range": {
+        "startLine": 121,
+        "startChar": 50,
+        "endLine": 121,
+        "endChar": 58
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f50b204d_f3fd3fd5",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/SiteContentServiceController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "Perhaps use 2019 on new files in 2019 :)",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e376b9de_2e70019c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/SiteContentServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "I think these constants should be published for use by test classes, is that reasonable to ask?",
+      "range": {
+        "startLine": 32,
+        "startChar": 29,
+        "endLine": 32,
+        "endChar": 46
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7a8bd4a_d7fe6b90",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/SiteContentControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "personally I think this should reuse a constant",
+      "range": {
+        "startLine": 83,
+        "startChar": 27,
+        "endLine": 83,
+        "endChar": 48
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "60d88520_f1a3bedd",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/SiteContentServiceImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "should be private",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 2
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc9c272_9c65e7e9",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/SiteContentServiceImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "should be private",
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77ce7af9_1a908a0d",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "Why is this change in here?  This affects solutions, but the back-end affects carousel picture, co-brand logo, etc.  Are you combining two here?",
+      "range": {
+        "startLine": 881,
+        "startChar": 23,
+        "endLine": 881,
+        "endChar": 72
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f5cc8ec_cda6f784",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1858,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "Why are co-brand images sent as inlined data?  This blocks caching in the browser.",
+      "range": {
+        "startLine": 1858,
+        "startChar": 74,
+        "endLine": 1858,
+        "endChar": 109
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ceae2338_b0629b26",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 2380,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "pls remove, don\u0027t comment out",
+      "range": {
+        "startLine": 2380,
+        "startChar": 25,
+        "endLine": 2380,
+        "endChar": 31
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bec38e8_19e6e687",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "I still think it\u0027s weird that global things are on a \"solution\" path",
+      "range": {
+        "startLine": 65,
+        "startChar": 49,
+        "endLine": 65,
+        "endChar": 57
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6189dd11_7275da78",
+        "filename": "acumos-portal-fe/src/main/webapp/app/footer/footer.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "same as elsewhere",
+      "range": {
+        "startLine": 54,
+        "startChar": 29,
+        "endLine": 54,
+        "endChar": 37
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6221138_a165baab",
+        "filename": "acumos-portal-fe/src/main/webapp/app/header/header-nav.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "Can these be served out as links so the browser can cache the image?",
+      "range": {
+        "startLine": 544,
+        "startChar": 37,
+        "endLine": 544,
+        "endChar": 41
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc8dba5d_e22960f4",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/model-details.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "How is the model details image related to global carousel, footer, or contact info?  This does not seem to belong here, or am I misinterpreting?",
+      "range": {
+        "startLine": 526,
+        "startChar": 0,
+        "endLine": 526,
+        "endChar": 66
+      },
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31d92353_372e8801",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-edit/model-edit.component.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "Why are changes being made in this changeset to the code that fetches solution images?  Or is the name of this function just confusing me?",
+      "revId": "a29ab5b129d8515ffebcc7517607e49ad6d057f0",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
