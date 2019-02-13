@@ -1,11 +1,19 @@
 package org.acumos.portal.be.docker.cmd;
 
+import org.acumos.portal.be.docker.DockerClientFactory;
+import org.acumos.portal.be.docker.DockerConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.RemoveImageCmd;
 import com.github.dockerjava.api.exception.DockerException;
 
 public class DeleteImageCommand extends DockerCommand{
 
 	private final String pathUri;
+  
+        @Autowired
+	private DockerConfiguration dockerConfiguration;
 			
 	public DeleteImageCommand(final String pathUri) {
 		this.pathUri = pathUri;
@@ -26,9 +34,11 @@ public class DeleteImageCommand extends DockerCommand{
 	    //String imageFullName = CommandUtils.imageFullNameFrom(registry, image, tag); 
 	    
 	    try{
-	    	client = getClient();
-		    RemoveImageCmd removeImageCmd = client.removeImageCmd(imageFullName);
-		    removeImageCmd.exec();
+	    	
+			DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
+			System.out.println( "dockerClient=" + dockerClient);
+			RemoveImageCmd removeImageCmd = dockerClient.removeImageCmd(imageFullName).withForce(true);
+			removeImageCmd.exec();
 		    logger.info("execute DeleteImageCommand:", removeImageCmd);
 		    		    
 	    }catch (Exception e)
