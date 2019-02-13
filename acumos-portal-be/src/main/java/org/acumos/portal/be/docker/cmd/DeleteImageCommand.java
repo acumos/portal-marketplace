@@ -1,5 +1,6 @@
 package org.acumos.portal.be.docker.cmd;
 
+import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.RemoveImageCmd;
 import com.github.dockerjava.api.exception.DockerException;
 
@@ -26,9 +27,11 @@ public class DeleteImageCommand extends DockerCommand{
 	    //String imageFullName = CommandUtils.imageFullNameFrom(registry, image, tag); 
 	    
 	    try{
-	    	client = getClient();
-		    RemoveImageCmd removeImageCmd = client.removeImageCmd(imageFullName);
-		    removeImageCmd.exec();
+	    	
+			final DockerClient client = getClient();		
+			System.out.println( "client=" + client);
+			RemoveImageCmd removeImageCmd = client.removeImageCmd(imageFullName).withForce(true);
+			removeImageCmd.exec();
 		    logger.info("execute DeleteImageCommand:", removeImageCmd);
 		    		    
 	    }catch (Exception e)
