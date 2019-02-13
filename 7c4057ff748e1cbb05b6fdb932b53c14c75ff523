@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e1167d0_8a9d8834",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-13T16:02:54Z",
+      "side": 1,
+      "message": "Please be careful of trailing ws",
+      "range": {
+        "startLine": 198,
+        "startChar": 78,
+        "endLine": 198,
+        "endChar": 82
+      },
+      "revId": "7c4057ff748e1cbb05b6fdb932b53c14c75ff523",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
