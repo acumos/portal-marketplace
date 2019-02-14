@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5188061_184e0e1a",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-14T16:25:59Z",
+      "side": 1,
+      "message": "if you absolutely MUST have it duplicated, how about writing UPDATE_TERMS_CONDITIONS \u003d GET_TERMS_CONDITIONS ?",
+      "range": {
+        "startLine": 183,
+        "startChar": 28,
+        "endLine": 183,
+        "endChar": 51
+      },
+      "revId": "fb0f3f4bb6782feee61c0222a8f484e5a4ea4f8b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0050476a_a362f40e",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-14T16:25:59Z",
+      "side": 1,
+      "message": "why repeat the same string?  this is silly and duplicative",
+      "range": {
+        "startLine": 185,
+        "startChar": 28,
+        "endLine": 185,
+        "endChar": 47
+      },
+      "revId": "fb0f3f4bb6782feee61c0222a8f484e5a4ea4f8b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c3a181_04cfaa48",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/APINames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-14T16:25:59Z",
+      "side": 1,
+      "message": "I see now that I missed the same problem yesterday on these entries :(",
+      "range": {
+        "startLine": 188,
+        "startChar": 28,
+        "endLine": 188,
+        "endChar": 47
+      },
+      "revId": "fb0f3f4bb6782feee61c0222a8f484e5a4ea4f8b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54dc1ecf_b8b849ad",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-14T16:25:59Z",
+      "side": 1,
+      "message": "you didn\u0027t replicate it here :)",
+      "range": {
+        "startLine": 65,
+        "startChar": 34,
+        "endLine": 65,
+        "endChar": 74
+      },
+      "revId": "fb0f3f4bb6782feee61c0222a8f484e5a4ea4f8b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
