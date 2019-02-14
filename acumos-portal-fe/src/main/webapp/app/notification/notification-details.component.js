@@ -84,6 +84,7 @@ app.component('notificationModule',{
 		$scope.refreshNotification=function(){
 			$scope.page = 0;
 			$scope.notificationManageObj=[];
+			$scope.selectAllStatus = false;
 			$scope.getNotificationMessage($scope.loginUserID, $scope.page);
 		}
 		
