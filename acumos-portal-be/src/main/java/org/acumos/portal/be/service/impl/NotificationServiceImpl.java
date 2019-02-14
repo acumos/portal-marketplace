@@ -282,5 +282,13 @@ public class NotificationServiceImpl extends AbstractServiceImpl implements Noti
 		}
 		return template;
 	}
+	
+	@Override
+    public int getUserUnreadNotificationCount(String userId){
+        log.debug(EELFLoggerDelegate.debugLogger, "getUserUnreadNotificationCount");
+        ICommonDataServiceRestClient dataServiceRestClient = getClient();
+        Long count=dataServiceRestClient.getUserUnreadNotificationCount(userId);
+        return count.intValue();
+    }
 
 }

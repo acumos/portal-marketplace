@@ -131,5 +131,12 @@ public interface NotificationService {
 	 * @throws AcumosServiceException
 	 */
 	void sendUserNotification(NotificationRequestObject notificationRequest) throws AcumosServiceException;
+	
+	/**
+     * Get Count of User unread notifications
+     *
+     * @return Number of notifications
+     */
+    int getUserUnreadNotificationCount(String userId);
 
 }

@@ -155,10 +155,19 @@ angular.module('headerNav')
 		
 		$scope.$on("updateNotifications",function(event)
 		 {
-			$scope.getNotificationMessage($scope.userDetails[1], 0,true);			
+			$scope.getNotificationMessage($scope.userDetails[1], 0,true);	
+			$scope.getNotificationCount($scope.userDetails[1]);
 		 });
 			 
-		var notificationCount = 0;
+		
+		//Notification Count
+		$scope.getNotificationCount=function (userId){
+			apiService.getUnreadNotificationCount(userId).then(function(response) {
+				$scope.auth = browserStorageService.getAuthToken();
+					$rootScope.notificationCount = response.data.response_body.count;
+			});
+		}
+		
 		$scope.getNotificationMessage=function (userId, page,methodCallFlag){
 			var req = {
 			    	  "request_body": {
@@ -175,8 +184,6 @@ angular.module('headerNav')
 
 				if(response.data!=null && response.data.response_body.length >0 ){
 					if(methodCallFlag){
-						$rootScope.notificationCount = 0;
-						notificationCount = 0;
 						$scope.notificationManageObj=[];
 					}
 					angular.forEach(response.data.response_body,function(value,key){
@@ -188,12 +195,10 @@ angular.module('headerNav')
 								start : value.start,
 								notificationId : value.notificationId
 							});
-							notificationCount = notificationCount + 1;
 						}
 						
 					});
 					$scope.totalCount = response.data.response_body.length;
-					$rootScope.notificationCount = notificationCount;
 					if($scope.totalCount == 20){
 						$scope.page = $scope.page + 1;
 						$scope.totalCount = 0;
@@ -202,14 +207,6 @@ angular.module('headerNav')
 					}else{
 						$scope.moreNotif = false;
 					}
-				}else{
-					if($scope.page == 0){
-						$rootScope.notificationCount = 0;	
-					}else{
-						$rootScope.notificationCount = notificationCount;
-					}
-					
-					//$scope.notificationManageObj=[];
 				}
 			});
 		}
@@ -217,11 +214,13 @@ angular.module('headerNav')
 
 		if($scope.loginUserID!=null && $scope.loginUserID!=''){
 			$scope.getNotificationMessage($scope.loginUserID, $scope.page, true);
+			$scope.getNotificationCount($scope.loginUserID);
 			$interval(function () {
 				var userId = JSON.parse(browserStorageService.getUserDetail())[1]
 				if(userId){
 					$scope.page = 0;
 					$scope.getNotificationMessage(userId,$scope.page,true);
+					$scope.getNotificationCount(userId);
 				}
 		    }, 30000);
 		}
@@ -237,8 +236,8 @@ angular.module('headerNav')
 				if(data!=null){
 					$scope.page =0;
 					//$scope.notificationManageObj=[];
-					//$rootScope.notificationCount=0;
 					$scope.getNotificationMessage($scope.loginUserID, $scope.page, true);
+					$scope.getNotificationCount($scope.loginUserID);
 					$state.go('notificationModule');
 				 }
 			}).error(function(data, status, headers, config) {
@@ -253,22 +252,9 @@ angular.module('headerNav')
 			.then(function(response) {
 				$scope.page =0;
 				//$scope.notificationManageObj=[];
-				//$rootScope.notificationCount=0;
-				$rootScope.notificationCount = $rootScope.notificationCount-1;
 				$scope.getNotificationMessage($scope.loginUserID, $scope.page, true);
+				$scope.getNotificationCount($scope.loginUserID);
 			});
-			/*var req = {
-				    method: 'DELETE',
-				    //url: '/api/notifications/delete/'+notificationId
-				    url: '/api/notifications/drop/'+notificationId+'/user/'+$scope.loginUserID
-				};
-			$http(req).success(function(data, status, headers,config) {
-				if(data!=null){
-					$scope.getNotificationMessage($scope.loginUserID);
-				  }
-			}).error(function(data, status, headers, config) {
-				
-			});*/
 		}
 			
 		
@@ -340,6 +326,7 @@ angular.module('headerNav')
 				$scope.emitedmessage = data.message;
 				$scope.userfirstname = data.username;
 				$scope.getNotificationMessage( userId, $scope.page);
+				$scope.getNotificationCount(userId);
 				if ($scope.emitedmessage == 'true'
 						|| $scope.emitedmessage == true) {
 					$scope.successfulLogin = true;
