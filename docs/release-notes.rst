@@ -20,6 +20,19 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.0  14th February 2019
+=================================
+* CDS clients pass request ID from front-end thru in client calls (ACUMOS-1801)
+* As a admin user I want to have subscriptions publish to private or company (ACUMOS-2435)
+* As a User , I want Portal Migrate from CMS to  CDS  for web-site admin content like carousel, images etc. (ACUMOS-1992)
+* IST: Submitted Rating and count is not displaying on model description page. (ACUMOS-2450)
+* IST: Notification: Checkbox is getting selected when user click on refresh (ACUMOS-2475)
+* <IST><Portal Marketplace> Notifications: Bell notifications are not refreshing when model onboarding is failed (ACUMOS-2322)
+* Sort By / Most Downloaded is broken (ACUMOS-2081)
+* IST - Model Builder -Jupyter shows no connection - broken link (ACUMOS-2448)
+* <IST> For every model's description 'R' in coming in the heading line. (ACUMOS-2466)
+
+
 Version 2.1.7  7th February 2019
 ================================
 * IST: Sort By ID: Issues on the filter given under sort by ID (ACUMOS-1652)
