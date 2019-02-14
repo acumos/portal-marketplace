@@ -1845,7 +1845,6 @@ angular.module('admin').filter('abs', function() {
 			                      							apiService.uploadCobrandLogo(toSend)
 			                      									.then(
 			                      											function(response) {
-			                      												$scope.getLogoImages();
 			                      												$location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
 		                                                                        $anchorScroll();
 		                                                                        $scope.msg = "Updated successfully.";
@@ -1855,7 +1854,6 @@ angular.module('admin').filter('abs', function() {
 		                                                                        $timeout(function() {
 		                                                                            $scope.showAlertMessage = false;
 		                                                                        }, 5000);
-		                                                                        $rootScope.coBrandingImage = "data:" + toSend.request_body.mimeType + ";base64," + toSend.request_body.contentValue;
 			                      											},
 			                      											function(error) {
 			                      												$scope.serverResponse = 'An error has occurred';

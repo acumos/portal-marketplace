@@ -74,29 +74,87 @@ public class SiteContentControllerTest {
 	int randomServerPort;
 
 	@Test
-	public void getTermsConditionTest() {
+	public void getTermsConditionsTest() {
 		String contentString = "{\"description\":\"<p>Test</p>\"}";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITION))
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_TERMS_CONDITION + "\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS + "\","
 								+ "\"contentValue\": \"" + contentValue + "\","
 								+ "\"mimeType\": \"text/javascript\"}")));
 
 		ResponseEntity<JsonResponse<MLPSiteContent>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/termsCondition", HttpMethod.GET, null,
+				"http://localhost:" + randomServerPort + "/site/content/global/termsConditions", HttpMethod.GET, null,
 				new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
 				});
 
 		assertNotNull(contentResponse);
 		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
 		MLPSiteContent content = contentResponse.getBody().getResponseBody();
-		assertEquals(SiteContentServiceImpl.KEY_TERMS_CONDITION, content.getContentKey());
+		assertEquals(SiteContentServiceImpl.KEY_TERMS_CONDITIONS, content.getContentKey());
 		assertEquals(contentString, new String(content.getContentValue()));
 		assertEquals("text/javascript", content.getMimeType());
+	}
+
+	@Test
+	public void createTermsConditionsTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_TERMS_CONDITIONS,
+				contentValue.getBytes(), "text/javascript");
+		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
+		reqObj.setBody(request);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
+						MediaType.APPLICATION_JSON.toString())));
+
+		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
+		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + "/site/content/global/termsConditions", HttpMethod.POST,
+				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				});
+
+		assertNotNull(contentResponse);
+		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
+	}
+
+	@Test
+	public void updateTermsConditionsTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_TERMS_CONDITIONS,
+				contentValue.getBytes(), "text/javascript");
+		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
+		reqObj.setBody(request);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS + "\","
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+
+		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
+						MediaType.APPLICATION_JSON.toString())));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
+		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + "/site/content/global/termsConditions", HttpMethod.POST,
+				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				});
+
+		assertNotNull(contentResponse);
+		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
 	}
 
 	@Test
@@ -121,6 +179,61 @@ public class SiteContentControllerTest {
 		assertEquals(SiteContentServiceImpl.KEY_CONTACT_INFO, content.getContentKey());
 		assertEquals(contentString, new String(content.getContentValue()));
 		assertEquals("text/javascript", content.getMimeType());
+	}
+
+	@Test
+	public void createContactInfoTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_CONTACT_INFO, contentValue.getBytes(),
+				"text/javascript");
+		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
+		reqObj.setBody(request);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
+
+		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
+		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + "/site/content/global/footer/contactinfo", HttpMethod.POST,
+				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				});
+
+		assertNotNull(contentResponse);
+		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
+	}
+
+	@Test
+	public void updateContactInfoTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_CONTACT_INFO, contentValue.getBytes(),
+				"text/javascript");
+		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
+		reqObj.setBody(request);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+						+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_CONTACT_INFO + "\","
+						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+
+		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
+		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + "/site/content/global/footer/contactinfo", HttpMethod.POST,
+				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				});
+
+		assertNotNull(contentResponse);
+		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
 	}
 
 	@Test
