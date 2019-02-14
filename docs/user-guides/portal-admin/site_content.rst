@@ -16,16 +16,10 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
+.. _site-content:
 
-.. toctree::
-       :maxdepth: 2
+============
+Site Content
+============
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+Admin users should verify that the 'Auth URL' and 'Push URL' values shown on the 'On-Boarding Model' page are correct for the Acumos platform. The values are defined in the component template for the Portal-BE component, and can be updated by modifying the template used to deploy the Portal-BE component, and then removing/re-deploying the Portal-BE component.

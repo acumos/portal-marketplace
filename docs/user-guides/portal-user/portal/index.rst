@@ -16,16 +16,17 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
+=========================
+The Portal - For Modelers
+=========================
 
 .. toctree::
-       :maxdepth: 2
+   :maxdepth: 2
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+   portal-overview.rst
+    portal-notifications.rst
+   portal-onboarding-intro.rst
+   portal-onboarding-web.rst
+   portal-my-models.rst
+   portal-manage-model.rst
+

@@ -16,16 +16,12 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
+.. _monitoring:
 
-.. toctree::
-       :maxdepth: 2
-
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+===============
+Site Monitoring
+===============
+Site monitoring requires the installation of the ELK stack components. Please
+see the :doc:`../../../submodules/platform-oam/docs/user-guide` for
+installation instructions as well as how to access the Kibana dashboards from
+the **Monitoring** tab.

@@ -16,16 +16,36 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
+.. _site-config:
+
 ==================
-Portal Marketplace
+Site Configuration
 ==================
 
-.. toctree::
-       :maxdepth: 2
+This tab enables configuration of the following:
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+-  Logos enabling the portal owner (typically a company or other
+   organization) to brand the site: ***TODO: explain how these are
+   presented***
+
+   -  Co-Branding Logo
+
+   -  Header Logo
+
+   -  Footer Logo
+
+-  siteInstanceName: Name for the portal site, used to differentiate the
+   site when users first visit (before login), ala “Explore the
+   <siteInstanceName> Marketplace”, “Discover <siteInstanceName>”, etc.
+
+-  ConnectionConfig: set parameters for networking ***(TODO: clarify how
+   these are used)***
+
+   -  socketTimeout
+
+   -  connectionTimeout
+
+-  EnableOnboarding: option to enable or disable the onboarding feature
+   for modelers
+
+-  validationText: If you have Text Check configured as part of your Publishing workflow, a keyword scan will be performed on a model's artifacts. That keyword scan will use the comma separated list of keywords entered in this field.

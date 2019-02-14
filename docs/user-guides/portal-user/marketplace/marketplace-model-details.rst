@@ -16,16 +16,20 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
 
-.. toctree::
-       :maxdepth: 2
+=====================
+Viewing Model Details
+=====================
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+
+Much more information about a model is available on a Model Details page. From the search results, clicking on any model image shows the Model Detail page for that model. Sections on the Model Detail page include:
+
+- Introduction
+- Ratings
+- Comments
+- Signatures:  the description of the model incoming data feed and output
+- Documents: any supporting documentation the Modeler wishes to include
+- Version History
+- Author/Publisher Details
+
+Most of the information on the detail page is contributed by the creator of the model to showcase the model and tell potential users about its capabilities and use. Ratings and Comments are contributed by other users of this model.

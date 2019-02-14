@@ -16,16 +16,12 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
+========
+Addendum
+========
 
 .. toctree::
-       :maxdepth: 2
+   :maxdepth: 2
+   :numbered:
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+   onboard-ds-toolkits

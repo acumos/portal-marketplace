@@ -16,16 +16,10 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
+.. _requests:
 
-.. toctree::
-       :maxdepth: 2
+========
+Requests
+========
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+@TODO what is this tab for? this tab contains nothing but dummy data

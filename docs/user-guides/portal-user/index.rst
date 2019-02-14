@@ -16,16 +16,15 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
+=================================
+Portal and Marketplace User Guide
+=================================
 
 .. toctree::
-       :maxdepth: 2
+   :maxdepth: 3
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+   overview.rst
+   accounts.rst
+   marketplace/index
+   portal/index
+   design-studio/index

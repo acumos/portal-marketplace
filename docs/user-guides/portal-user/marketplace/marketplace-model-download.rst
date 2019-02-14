@@ -1,7 +1,7 @@
 .. ===============LICENSE_START=======================================================
 .. Acumos CC-BY-4.0
 .. ===================================================================================
-.. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+.. Copyright (C) 2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
 .. ===================================================================================
 .. This Acumos documentation file is distributed by AT&T and Tech Mahindra
 .. under the Creative Commons Attribution 4.0 International License (the "License");
@@ -16,16 +16,20 @@
 .. limitations under the License.
 .. ===============LICENSE_END=========================================================
 
-==================
-Portal Marketplace
-==================
+===================
+Downloading a Model
+===================
 
-.. toctree::
-       :maxdepth: 2
+Logged-in users may download a model bundle from the Model Detail page.
 
-       release-notes
-       developer-guide
-       user-guides/portal-admin/index
-       user-guides/portal-user/index
-       user-guides/portal-publisher/index
-       
+    .. image:: ../images/portal/models_downloadFromMPJourney.png
+
+
+The steps to download a model are as follows:
+
+#. Select the Download button from the Model Detail page
+#. Select the model file you wish to download. The bottom file is the
+   complete zip file
+
+    .. image:: ../images/portal/models_downloadFromMPSteps.png
+
