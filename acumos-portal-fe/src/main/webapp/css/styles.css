@@ -1980,7 +1980,8 @@ box-shadow: -1px 1px 30px -2px rgba(103,28,157,1);}
 .colorChamber.active{border:2px solid #f77204;}
 .defaultextinfo{font-size:12px; margin-bottom:10px; line-height:16px;}
 .add-top-carousel .ql-tooltip.ql-editing{left: 25% !important; margin-top: -10px; padding: 2px 12px;}
-.sa-dragdropimg {width: 88% !important;}
+.sa-dragdrop {height: inherit;}
+.sa-dragdropimg {max-height: 75%; object-fit: contain; width: 88% !important;}
 /*end*/
 
 /* partial onboarding related css changes */

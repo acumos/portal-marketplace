@@ -146,7 +146,7 @@ angular
 								                            	 }													                                 
 								                             }
 	
-								                             bannerSt = bannerSt + '</div> <div class="image-container"><img src="/api/site/content/carouselImages/' + slideObj.infoImgKey + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
+								                             bannerSt = bannerSt + '</div> <div class="image-container"><img ng-show="' + slideObj.graphicImgEnabled + '" src="/api/site/content/carouselImages/' + slideObj.infoImgKey + '" alt="" title="" /></div> </div> <div class="mountain"></div> </div>';
 								                             $scope.banner.slides[index] = bannerSt;
 								                             index++;
 												      }

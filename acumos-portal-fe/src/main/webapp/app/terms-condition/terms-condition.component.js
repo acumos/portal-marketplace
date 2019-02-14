@@ -30,7 +30,7 @@ angular
                     controller : function($scope, $uibModal, sharedProperties, apiService) {
                         
                         apiService
-                                    .getTermsCondition()
+                                    .getTermsConditions()
                                     .then(
                                             function(response){
                                             	var terms = JSON.parse(atob(response.data.response_body.contentValue));
