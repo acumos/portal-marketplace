@@ -187,7 +187,7 @@ public class APINames {
 	public static final String GET_CAROUSEL_PICTURE = "/content/carouselImages/{key}";
 	public static final String UPDATE_CAROUSEL_PICTURE = "/content/carouselImages";
 	public static final String DELETE_CAROUSEL_PICTURE = "/content/carouselImages/{key}";
-
+	public static final String UNREAD_NOTIFICATIONS_COUNT = "/unreadnotifications/count/{userId}";
 	// Notifications
 	public static final String CREATE_NOTIFICATION = "/notifications/createNotification";
 	public static final String ADD_USER_NOTIFICATIONS = "/notifications/create/{notificationId}/user/{userId}";

@@ -460,4 +460,31 @@ public class NotificationController extends AbstractController {
 		}
 		return data;
 	}
+	
+	/*
+     *     /**
+     *
+     * @return User Unread Notification count
+     */
+    @ApiOperation(value = "Gets User Unread Notifications count for Market Place Catalog.", response = MLNotification.class, responseContainer = "List")
+    @RequestMapping(value = { APINames.UNREAD_NOTIFICATIONS_COUNT }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<MLNotification> getUnreadNotificationCount(HttpServletRequest request,
+               @PathVariable("userId") String userId, HttpServletResponse response) {
+        MLNotification notification = new MLNotification();
+        JsonResponse<MLNotification> data = new JsonResponse<>();
+        try {
+            int count = notificationService.getUserUnreadNotificationCount(userId);
+            notification.setCount(count);
+            data.setResponseBody(notification);
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+            data.setResponseDetail("User Unread Notification count fetched Successfully");
+            log.debug(EELFLoggerDelegate.debugLogger, "getUnreadNotificationCount: size is {} ", count);
+        } catch (Exception e) {
+            data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+            data.setResponseDetail("Exception Occurred while getUnreadNotificationCount");
+            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUnreadNotificationCount", e);
+        }
+        return data;
+    }
 }

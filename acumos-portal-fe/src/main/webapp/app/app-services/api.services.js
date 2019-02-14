@@ -108,6 +108,7 @@ angular.module('AcumosApp')
         var urlJupyterUrl = 'api/users/jupyterUrl';
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
         var urlCarouselPictureUrl = "/api/site/content/carouselImages";
+        var urlUnreadNotification =  "/api/unreadnotifications/count"
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -253,6 +254,11 @@ angular.module('AcumosApp')
         this.getAuthors = function (solutionId , revisionId) {
             return $http.get("/api/solution/" + solutionId + "/revision/" + revisionId + "/authors");
         }
+        
+        this.getUnreadNotificationCount = function(userID){
+            return $http.get(urlUnreadNotification + '/' + userID);
+        }
+        
         /**************** ALL PUT ******************/
         this.updateSolutions = function(solution){
         	return $http.put(urlSolutions + '/' + solution.request_body.solutionId, solution);
