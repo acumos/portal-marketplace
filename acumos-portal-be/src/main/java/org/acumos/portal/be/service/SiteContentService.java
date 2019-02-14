@@ -29,7 +29,15 @@ public interface SiteContentService {
 	 * 
 	 * @return html embedded in json string
 	 */
-	public MLPSiteContent getTermsCondition();
+	public MLPSiteContent getTermsConditions();
+
+	/**
+	 * Method to create or update terms and conditions
+	 * 
+	 * @param content
+	 *            html embedded in json string
+	 */
+	public void setTermsConditions(MLPSiteContent content);
 
 	/**
 	 * Method to fetch the co-brand logo
@@ -57,6 +65,14 @@ public interface SiteContentService {
 	 * @return html embedded in json string
 	 */
 	public MLPSiteContent getContactInfo();
+
+	/**
+	 * Method to create or update the footer contact information
+	 * 
+	 * @param content
+	 *            html embedded in json string
+	 */
+	public void setContactInfo(MLPSiteContent content);
 
 	/**
 	 * Method to fetch the carousel picture stored under the given key
