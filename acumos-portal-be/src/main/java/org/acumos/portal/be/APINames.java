@@ -179,8 +179,10 @@ public class APINames {
 
 	// Site Content API's
 	public static final String SITE_PATH = "/site";
-	public static final String GET_TERMS_CONDITION = "/content/global/termsCondition";
+	public static final String GET_TERMS_CONDITIONS = "/content/global/termsConditions";
+	public static final String UPDATE_TERMS_CONDITIONS = "/content/global/termsConditions";
 	public static final String GET_CONTACT_INFO = "/content/global/footer/contactinfo";
+	public static final String UPDATE_CONTACT_INFO = "/content/global/footer/contactinfo";
 	public static final String GET_COBRAND_LOGO = "/content/global/coBrandLogo";
 	public static final String UPDATE_COBRAND_LOGO = "/content/global/coBrandLogo";
 	public static final String DELETE_COBRAND_LOGO = "/content/global/coBrandLogo";

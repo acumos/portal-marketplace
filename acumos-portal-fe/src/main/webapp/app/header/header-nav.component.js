@@ -519,15 +519,10 @@ angular.module('headerNav')
 		
 		//Get Logo Images
 		$scope.getLogoImages = function(){
-          	 var getLogoImagesReq = {
-						method : 'GET',
-						url : '/api/site/content/global/coBrandLogo' 
-				};
-
-          	 $http(getLogoImagesReq)
-					.success(function(data, status, headers, config) {
-						if (data) {
-							$rootScope.coBrandingImage = '/api/site/content/global/coBrandLogo';
+          	 apiService.getCobrandLogo()
+					.success(function(response) {
+						if (response) {
+							$rootScope.coBrandingImage = apiService.getCobrandLogoUrl();
 						}
 					}).error(function(error) {
 						console.log(error);

@@ -29,17 +29,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteContentService {
 
-	public static final String KEY_TERMS_CONDITION = "global.termsCondition";
+	public static final String KEY_TERMS_CONDITIONS = "global.termsCondition";
 	public static final String KEY_COBRAND_LOGO = "global.coBrandLogo";
 	public static final String KEY_CONTACT_INFO = "global.footer.contactInfo";
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(SiteContentServiceImpl.class);
 
 	@Override
-	public MLPSiteContent getTermsCondition() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getTermsCondition");
+	public MLPSiteContent getTermsConditions() {
+		log.debug(EELFLoggerDelegate.debugLogger, "getTermsConditions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		return dataServiceRestClient.getSiteContent(KEY_TERMS_CONDITION);
+		return dataServiceRestClient.getSiteContent(KEY_TERMS_CONDITIONS);
+	}
+	
+	@Override
+	public void setTermsConditions(MLPSiteContent content) {
+		log.debug(EELFLoggerDelegate.debugLogger, "setTermsConditions");
+		content.setContentKey(KEY_TERMS_CONDITIONS);
+		createOrUpdateContent(content);
 	}
 
 	@Override
@@ -53,7 +60,7 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 	public void setCobrandLogo(MLPSiteContent picture) {
 		log.debug(EELFLoggerDelegate.debugLogger, "setCobrandLogo");
 		picture.setContentKey(KEY_COBRAND_LOGO);
-		createOrUpdateContentPicture(picture);
+		createOrUpdateContent(picture);
 	}
 
 	@Override
@@ -69,6 +76,13 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_CONTACT_INFO);
 	}
+	
+	@Override
+	public void setContactInfo(MLPSiteContent content) {
+		log.debug(EELFLoggerDelegate.debugLogger, "setContactInfo");
+		content.setContentKey(KEY_CONTACT_INFO);
+		createOrUpdateContent(content);
+	}
 
 	@Override
 	public MLPSiteContent getCarouselPicture(String key) {
@@ -80,7 +94,7 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 	@Override
 	public void setCarouselPicture(MLPSiteContent picture) {
 		log.debug(EELFLoggerDelegate.debugLogger, "setCarouselPicture ={}", picture.getContentKey());
-		createOrUpdateContentPicture(picture);
+		createOrUpdateContent(picture);
 	}
 
 	@Override
@@ -90,13 +104,13 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 		dataServiceRestClient.deleteSiteContent(key);
 	}
 
-	private void createOrUpdateContentPicture(MLPSiteContent picture) {
+	private void createOrUpdateContent(MLPSiteContent content) {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPSiteContent content = dataServiceRestClient.getSiteContent(picture.getContentKey());
-		if (content != null) {
-			dataServiceRestClient.updateSiteContent(picture);
+		MLPSiteContent existing = dataServiceRestClient.getSiteContent(content.getContentKey());
+		if (existing != null) {
+			dataServiceRestClient.updateSiteContent(content);
 		} else {
-			dataServiceRestClient.createSiteContent(picture);
+			dataServiceRestClient.createSiteContent(content);
 		}
 	}
 
