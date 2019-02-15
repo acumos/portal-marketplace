@@ -2574,6 +2574,7 @@ label.model-name{color:#0366d6;}
 @-moz-document url-prefix() { 
 	html,body, button,input, select, textarea,.mdl-button {font-family: 'Open Sans', sans-serif !important;}
   #btn_header {position: relative;}
+  .header-controls .search-button{margin-top: -5px !important;}
   #account-info.header-ddl {display:block;}
   .mdl-badge[data-badge]:after { right: 0px !important;}
   .mdl-layout__header-row .mdl-navigation .header-ddl:first-child {margin-right: 10px;}
@@ -2582,7 +2583,8 @@ label.model-name{color:#0366d6;}
   
   .cg-dialog-sign_up {overflow:hidden;}
   .mpimage1 figure {display:flex;}
-  .a-acc-container + .material-icons { top: -3px;position:relative; }  
+  .a-acc-container + .material-icons { top: -3px;position:relative; } 
+  .mdl-textfield__input.loggedin-header-search {width: 90% !important;} 
 }
 													 
 
@@ -2598,7 +2600,8 @@ label.model-name{color:#0366d6;}
     .mpimage1 img {max-width: 180px !important; max-height: 180px !important;}
     .mpimage1 {display: table;}
     .mp-grid-list figure {display: table-cell !important; vertical-align: middle;}
-    .explore .mdl-card__title img{max-width: 185px !important; max-height: 150px;}    
+    .explore .mdl-card__title img{max-width: 185px !important; max-height: 150px;}  
+    .mdl-textfield__input.loggedin-header-search {width: 90% !important;}  
      
 }
 
