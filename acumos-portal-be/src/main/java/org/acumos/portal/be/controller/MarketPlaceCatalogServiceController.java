@@ -480,6 +480,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		log.debug(EELFLoggerDelegate.debugLogger, "getPreferredTagsList");
 		List<String> mlTagsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
+		userId = SanitizeUtils.sanitize(userId);
 		try {			 
 			List<Map<String, String>> prefTagsList = catalogService.getPreferredTagsList(restPageReq, userId);
 			if (mlTagsList != null) {
