@@ -139,7 +139,7 @@ limitations under the License.
 			<div>
 				<div>
 					<span class="text-medium font600"><span
-						class="md-created-label" style="text-overflow: unset; max-width: none;">Created by {{solution.ownerName}}</span></span>
+						class="md-created-label" style="text-overflow: unset; max-width: none;">Created by {{(authorList) ? authorList[0].name: solution.ownerName}}</span></span>
 					| <span class="text-xsmall">Created on {{solution.created |
 						date:'MM/dd/yyyy'}} </span><span ng-if="!audit">|
 					<button
