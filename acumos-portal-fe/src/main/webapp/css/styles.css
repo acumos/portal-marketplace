@@ -200,15 +200,15 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 /*********** Left side navigation style start************/
 .icon-header {display:inline-block;}
 
-.mdl-navigation__link .icon-home {width: 26px; height: 16px; background: url("../images/sidebar-icons/home.png") no-repeat center center;}
-.mdl-navigation__link .icon-marketplace {width: 26px; height: 19px; background: url("../images/sidebar-icons/marketplace.png") no-repeat center center;}
+.mdl-navigation__link .icon-home {width: 25px; height: 19px; background: url("../images/sidebar-icons/home.png") no-repeat center center;}
+.mdl-navigation__link .icon-marketplace {width: 23px; height: 22px; background: url("../images/sidebar-icons/marketplace.png") no-repeat center center;}
 .mdl-navigation__link .icon-manage_model {width: 26px; height: 31px; background: url("../images/sidebar-icons/manage_my_model.png") no-repeat center center;}
-.mdl-navigation__link .icon-onboarding-model {width: 26px; height: 37px; background: url("../images/sidebar-icons/on_boarding.png") no-repeat center center;}
+.mdl-navigation__link .icon-onboarding-model {width: 25px; height: 24px; background: url("../images/sidebar-icons/on_boarding.png") no-repeat center center;}
 .mdl-navigation__link .icon-design_studio {width: 26px; height: 24px; background: url("../images/sidebar-icons/design_studio.png") no-repeat center center;}
 .mdl-navigation__link .icon-site-admin {width: 26px; height: 24px; background: url("../images/sidebar-icons/site_admin.png") no-repeat center center;}
 .mdl-navigation__link .icon-qa {width: 28px; height: 26px; background: url("../images/sidebar-icons/qa.png") no-repeat center center;}
 .mdl-navigation__link .icon-documentation {width: 27px; height: 24px; background: url("../images/sidebar-icons/Documentation.png") no-repeat center center;}
-.mdl-navigation__link .icon-publish-request {width: 25px; height: 29px; background: url("../images/sidebar-icons/publish_request.png") no-repeat center center;}
+.mdl-navigation__link .icon-publish-request {width: 24px; height: 37px; background: url("../images/sidebar-icons/publish_request.png") no-repeat center center;}
 
 .mdl-navigation__link.active .icon-home {background: url("../images/sidebar-icons/home_selected.png") no-repeat center center;}
 .mdl-navigation__link.active .icon-marketplace {background: url("../images/sidebar-icons/marketplace_selected.png") no-repeat center center;}
@@ -2574,6 +2574,7 @@ label.model-name{color:#0366d6;}
 @-moz-document url-prefix() { 
 	html,body, button,input, select, textarea,.mdl-button {font-family: 'Open Sans', sans-serif !important;}
   #btn_header {position: relative;}
+  .header-controls .search-button{margin-top: -5px !important;}
   #account-info.header-ddl {display:block;}
   .mdl-badge[data-badge]:after { right: 0px !important;}
   .mdl-layout__header-row .mdl-navigation .header-ddl:first-child {margin-right: 10px;}
@@ -2582,7 +2583,8 @@ label.model-name{color:#0366d6;}
   
   .cg-dialog-sign_up {overflow:hidden;}
   .mpimage1 figure {display:flex;}
-  .a-acc-container + .material-icons { top: -3px;position:relative; }  
+  .a-acc-container + .material-icons { top: -3px;position:relative; } 
+  .mdl-textfield__input.loggedin-header-search {width: 90% !important;} 
 }
 													 
 
@@ -2598,7 +2600,8 @@ label.model-name{color:#0366d6;}
     .mpimage1 img {max-width: 180px !important; max-height: 180px !important;}
     .mpimage1 {display: table;}
     .mp-grid-list figure {display: table-cell !important; vertical-align: middle;}
-    .explore .mdl-card__title img{max-width: 185px !important; max-height: 150px;}    
+    .explore .mdl-card__title img{max-width: 185px !important; max-height: 150px;}  
+    .mdl-textfield__input.loggedin-header-search {width: 90% !important;}  
      
 }
 
