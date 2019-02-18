@@ -69,7 +69,9 @@ import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -1531,30 +1533,28 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 	
 	@ApiOperation(value = "Fetches Solution Image. ")
-    @RequestMapping(value = {APINames.SOLUTIONS_PICTURE}, method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @RequestMapping(value = {APINames.SOLUTIONS_PICTURE}, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public JsonResponse<byte[]> getSolutionImage(HttpServletRequest request, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getSolutionImage={}");
+    public ResponseEntity<byte[]> getSolutionImage(@PathVariable("solutionId") String solutionId) {
+        log.debug(EELFLoggerDelegate.debugLogger, "getSolutionImage={}", solutionId);
         
         solutionId = SanitizeUtils.sanitize(solutionId);
         
-        JsonResponse<byte[]> responseVO = new JsonResponse<>();
+        ResponseEntity<byte[]> responseVO = null;
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
 				log.error(EELFLoggerDelegate.errorLogger, "Bad request: solutionId empty");
+				throw new AcumosServiceException("Bad request: solutionId empty");
+			} else {
+				byte[] picture = catalogService.getSolutionPicture(solutionId);
+				if (picture != null) {
+					responseVO = new ResponseEntity<byte[]>(picture, HttpStatus.OK);
+				} else {
+					responseVO = new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+				}
 			}
-			byte[] picture = null;
-			if (solutionId != null) {
-				picture = catalogService.getSolutionPicture(solutionId);
-			}
-			responseVO.setStatus(true);
-			responseVO.setResponseDetail("Success");
-			responseVO.setResponseBody(picture);
-			responseVO.setStatusCode(HttpServletResponse.SC_OK);
 		} catch (Exception e) {
-			responseVO.setStatus(false);
-			responseVO.setResponseDetail("Failed");
-			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			responseVO = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getSolutionImage()", e);
 		}
 		return responseVO;

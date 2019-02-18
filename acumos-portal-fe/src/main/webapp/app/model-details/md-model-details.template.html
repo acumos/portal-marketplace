@@ -27,9 +27,8 @@ limitations under the License.
 		<div class="md-head-container1">
 			<div class="md-head-containerinner1">
 				<span  class="md-headline4 mob-disblock" title="{{solution.name}}">
-				
-					<img ng-if="solution.picture"  class="solutions-img" src="data:image/JPEG;base64,{{solution.picture}}" />	
-					<img ng-if="!solution.picture"  class="solutions-img" src="images/default-model.png" />{{solution.name}}	</span>				
+					<img class="solutions-img" ng-src="/api/solutions/{{solution.solutionId}}/picture"
+						onerror="this.onerror=null;this.src='images/default-model.png'"/>{{solution.name}}	</span>				
 				<div class="md-head-container3">
 					<div class="md-head-containerinner-seperator"></div>
 					<div class="version-container">
@@ -304,15 +303,9 @@ limitations under the License.
 						</div>
 
 						<div class="description-img-container">
-							<!-- <img class="modelimg1" src="images/imagegallery2.jpg" /> -->
-
 							<!-- images changed for demo  -->
-							<!-- <img
-								ng-src="{{previewImage}}" class="modelimg1"
-								style="max-width: 400px; margin: 0 auto; display: block;"> -->
-								<img ng-show="solution.picture" ng-src="data:image/JPEG;base64,{{solution.picture}}" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;">
-								<img ng-hide="solution.picture" ng-src="images/default-model.png" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;">
-
+								<img ng-src="/api/solutions/{{solution.solutionId}}/picture" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;"
+									onerror="this.onerror=null;this.src='images/default-model.png'"/>
 						</div>
 						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
 							<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
