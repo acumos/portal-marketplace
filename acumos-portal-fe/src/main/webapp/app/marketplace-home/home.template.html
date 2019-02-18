@@ -105,8 +105,8 @@ limitations under the License.
 						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						  <div class="mdl-card__title">
 							<figure>
-							<img ng-show="item.picture" ng-src="data:image/JPEG;base64,{{item.picture}}" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId + '&revisionId=' + item.revisionId)" class="img-rounded">
-							<img ng-hide="item.picture" ng-src="images/default-model.png" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId + '&revisionId=' + item.revisionId)" class="img-rounded">
+							<img ng-src="/api/solutions/{{item.solutionId}}/picture" ng-click="ctrl.go('/marketSolutions?solutionId='+ item.solutionId + '&revisionId=' + item.revisionId)"
+								class="img-rounded" onerror="this.onerror=null;this.src='images/default-model.png'"/>
 									</figure>
 						  </div>
 						  <div class="mdl-card__supporting-text">
