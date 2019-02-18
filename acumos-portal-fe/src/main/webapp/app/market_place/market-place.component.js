@@ -376,17 +376,6 @@ angular
 
 							$scope.dataLoading = false;
 							if (response.data.response_body.content.length >= 0) {
-								angular.forEach($scope.mlsolutions, function(value,key) {
-									apiService.getSolutionPicture(value.solutionId)
-									 .then(
-											 function(response) {
-												 value.picture = response.data.response_body;
-											 },
-											 function(error) {
-												 $scope.status = 'Unable to load picture data: '
-														+ error.data.error;
-											 });
-								});
 								if ($scope.loginUserID) {
 									apiService
 											.getFavoriteSolutions(

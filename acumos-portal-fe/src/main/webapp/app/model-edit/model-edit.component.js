@@ -380,6 +380,25 @@ angular
 										});
 						}
 						
+						$scope.updateSolutionPictureSources = function() {
+							angular.forEach(document.querySelectorAll('img[src*="/picture"], img[src*="default-model.png"'), function(img, key) {
+								img.src = "/api/solutions/" + $scope.solution.solutionId + "/picture#" + new Date().getTime();
+							});
+						};
+						
+						$scope.getSolutionPicture = function() {
+							apiService.getSolutionPicture($scope.solution.solutionId)
+							 .then(
+									 function(response) {
+										 $scope.showSolutionImage = (response.data) ? true : false;
+										 $scope.imgURLdefault = " ";
+									 },
+									 function(error) {
+										 $scope.status = 'Unable to load picture data: '
+												+ error.data.error;
+									 });
+						};
+						
 						$scope.loadData = function() {
 							$scope.apiUrl;
 							angular.element('.md-version-ddl1').hide();
@@ -477,17 +496,7 @@ angular
 													$scope.getCompanySolutionDocuments();
 													$scope.getAuthorList();
 													$scope.getPublishRequestDetail();
-													apiService.getSolutionPicture($scope.solution.solutionId)
-													 .then(
-															 function(response) {
-																 $scope.solution.picture = response.data.response_body;
-																 $scope.showSolutionImage = true;
-																 $scope.imgURLdefault = " "
-															 },
-															 function(error) {
-																 $scope.status = 'Unable to load picture data: '
-																		+ error.data.error;
-															 });
+													$scope.getSolutionPicture();
 												} else {
 													// alert("Error Fetching
 													// Data");
@@ -2163,17 +2172,8 @@ angular
 							promise
 									.then(
 											function(response) {
-												apiService.getSolutionPicture($scope.solution.solutionId)
-												 .then(
-														 function(response) {
-															 $scope.solution.picture = response.data.response_body;
-															 $scope.showSolutionImage = true;
-															 $scope.imgURLdefault = " "
-														 },
-														 function(error) {
-															 $scope.status = 'Unable to load picture data: '
-																	+ error.data.error;
-														 });
+												$scope.getSolutionPicture();
+												$scope.updateSolutionPictureSources();
 											},
 											function(error) { 
 												$scope.status = 'Error updating picture data: '

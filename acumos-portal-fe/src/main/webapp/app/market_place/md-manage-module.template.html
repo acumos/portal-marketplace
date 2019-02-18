@@ -310,10 +310,8 @@ limitations under the License.
 								<div class="grid-top-section">
 									<div class="product-image">
 										<figure>
-												<img ng-show="privateSolution.picture" ng-src="data:image/JPEG;base64,{{privateSolution.picture}}" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
-												class="img-rounded">
-												<img ng-hide="privateSolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
-												class="img-rounded">
+												<img ng-src="/api/solutions/{{privateSolution.solutionId}}/picture" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
+													class="img-rounded" onerror="this.src='images/default-model.png'"/>
 										</figure>
 										<!-- <span class="img-ctag"><i class="material-icons">copyright</i> </span> -->
 									</div>
@@ -467,10 +465,8 @@ limitations under the License.
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">
 										<figure>
-												<img ng-show="privateSolution.picture" ng-src="data:image/JPEG;base64,{{privateSolution.picture}}" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
-												class="img-rounded">
-												<img ng-hide="privateSolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
-												class="img-rounded">
+												<img ng-src="/api/solutions/{{privateSolution.solutionId}}/picture" ng-click="onClickModel(privateSolution.solutionId, privateSolution.ownerId, privateSolution.latestRevisionId)"
+													class="img-rounded" onerror="this.src='images/default-model.png'"/>
 
 										</figure>										
 									</div>
@@ -600,10 +596,8 @@ limitations under the License.
 										<!-- <div class="mpimgcontainer">
 												<div class="mpimage1"> -->
 										<figure>
-												<img ng-show="companySolution.picture" ng-src="data:image/JPEG;base64,{{companySolution.picture}}" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId,companySolution.latestRevisionId)"
-												class="img-rounded">
-												<img ng-hide="companySolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)"
-												class="img-rounded">
+												<img ng-src="/api/solutions/{{companySolution.solutionId}}/picture" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId,companySolution.latestRevisionId)"
+													class="img-rounded" onerror="this.src='images/default-model.png'"/>
 										</figure>
 										<!-- </div>
 												</span>
@@ -714,10 +708,8 @@ limitations under the License.
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">
 										<figure>
-												<img ng-show="companySolution.picture" ng-src="data:image/JPEG;base64,{{companySolution.picture}}" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId,companySolution.latestRevisionId)"
-												class="img-rounded">
-												<img ng-hide="companySolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)"
-												class="img-rounded">
+												<img ng-src="/api/solutions/{{companySolution.solutionId}}/picture" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId,companySolution.latestRevisionId)"
+													class="img-rounded" onerror="this.src='images/default-model.png'"/>
 										</figure>
 									</div>
 									<div class="mpbtncontainer">
@@ -894,10 +886,8 @@ limitations under the License.
 										<!-- <div class="mpimgcontainer">
 														<div class="mpimage1"> -->
 										<figure>
-												<img ng-show="publicSolution.picture" ng-src="data:image/JPEG;base64,{{publicSolution.picture}}" ng-click="onClickModel(publicSolution.solutionId, publicSolution.ownerId,publicSolution.latestRevisionId)"
-												class="img-rounded">
-												<img ng-hide="publicSolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(publicSolution.solutionId, publicSolution.ownerId, publicSolution.latestRevisionId)"
-												class="img-rounded">
+												<img ng-src="/api/solutions/{{publicSolution.solutionId}}/picture" ng-click="onClickModel(publicSolution.solutionId, publicSolution.ownerId,publicSolution.latestRevisionId)"
+													class="img-rounded" onerror="this.src='images/default-model.png'"/>
 										</figure>
 									</div>
 									<div class="mpdetailscontainer">
@@ -997,10 +987,8 @@ limitations under the License.
 								<div class="mp-grid-list-image-cell">
 									<div class="mpimage1">
 										<figure>
-												<img ng-show="mlsolution.picture" ng-src="data:image/JPEG;base64,{{mlsolution.picture}}" ng-click="onClickModel(mlsolution.solutionId, mlsolution.ownerId,mlsolution.latestRevisionId)"
-												class="img-rounded">
-												<img ng-hide="mlsolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(mlsolution.solutionId, mlsolution.ownerId, mlsolution.latestRevisionId)"
-												class="img-rounded">
+												<img ng-src="/api/solutions/{{mlsolution.solutionId}}/picture" ng-click="onClickModel(mlsolution.solutionId, mlsolution.ownerId,mlsolution.latestRevisionId)"
+													class="img-rounded" onerror="this.src='images/default-model.png'"/>
 										</figure>
 									</div>
 									<div class="mpbtncontainer">
@@ -1177,10 +1165,8 @@ limitations under the License.
 									<div class="grid-top-section">
 										<div class="product-image">
 											<figure>
-													<img ng-show="deletedSolution.picture" ng-src="data:image/JPEG;base64,{{deletedSolution.picture}}" ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId,deletedSolution.latestRevisionId)"
-													class="img-rounded">
-													<img ng-hide="deletedSolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId, deletedSolution.latestRevisionId)"
-													class="img-rounded">
+													<img ng-src="/api/solutions/{{deletedSolution.solutionId}}/picture" ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId,deletedSolution.latestRevisionId)"
+														class="img-rounded" onerror="this.src='images/default-model.png'"/>
 											</figure>
 											<!-- <span class="img-ctag"><i class="material-icons">copyright</i> </span> -->
 										</div>
@@ -1283,10 +1269,8 @@ limitations under the License.
 									<div class="mp-grid-list-image-cell">
 										<div class="mpimage1">
 											<figure>
-													<img ng-show="deletedSolution.picture" ng-src="data:image/JPEG;base64,{{deletedSolution.picture}}" ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId,deletedSolution.latestRevisionId)"
-													class="img-rounded">
-													<img ng-hide="deletedSolution.picture" ng-src="images/default-model.png" ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId, deletedSolution.latestRevisionId)"
-													class="img-rounded">
+													<img ng-src="/api/solutions/{{deletedSolution.solutionId}}/picture" ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId,deletedSolution.latestRevisionId)"
+														class="img-rounded" onerror="this.src='images/default-model.png'"/>
 											</figure>
 										</div>
 									</div>
