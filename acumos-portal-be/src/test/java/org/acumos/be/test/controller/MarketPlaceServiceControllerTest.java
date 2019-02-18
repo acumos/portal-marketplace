@@ -62,6 +62,8 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -96,35 +98,6 @@ public class MarketPlaceServiceControllerTest {
 		mockMvc = standaloneSetup(marketPlaceController).build();
 
 	}
-	
-	/*@Test
-	public void getSolutionsListTest() {
-		try {
-			MLSolution mlsolution = getMLSolution();
-			Assert.assertNotNull(mlsolution);
-			JsonRequest<RestPageRequestBE> restPageReq = new JsonRequest<>();
-			RestPageRequestBE body = new RestPageRequestBE();
-			body.setPage(0);
-			body.setSize(9);
-			JsonResponse<MLSolution> solutionRes = new JsonResponse<>();
-			if (body.getPage() != null && body.getSize() != null) {
-				solutionRes.setResponseBody(mlsolution);
-			}
-			restPageReq.setBody(body);
-			List<MLSolution> solutionList = new ArrayList<MLSolution>();
-			solutionList.add(mlsolution);
-			Assert.assertNotNull(solutionList);
-			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
-			RestPageResponseBE<MLSolution> responseBody = new RestPageResponseBE<>(solutionList);
-			value.setResponseBody(responseBody);			
-			Mockito.when(service.getSearchSolution(restPageReq)).thenReturn(responseBody);
-			JsonResponse<RestPageResponseBE<MLSolution>> results =  marketPlaceController.getSolutionsList(request, restPageReq, response);
-			logger.info("Solution List : " + value.getResponseBody());
-			Assert.assertNotNull(results);
-		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
-		}
-	}*/
 
 	@Test
 	public void getSolutionsDetailsTest() {
@@ -142,75 +115,50 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Solution Details : " + value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getSolutionDetails testcase", e);
 		}
 	}
 
-	/*@Test
-	public void getAllMySolutionsTest() {
+	@Test
+	public void getSolutionImageTest() {
+		try {
+			String picString = "Placeholder for an image";
+			byte[] picture = picString.getBytes();
+			Assert.assertNotNull(picture);
+			MLSolution mlsolution = getMLSolution();
+			Assert.assertNotNull(mlsolution);
+			ResponseEntity<byte[]> value = null;
+			
+			String solutionId = mlsolution.getSolutionId();
+			Assert.assertNotNull(solutionId);
+			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(picture);
+			value = marketPlaceController.getSolutionImage(solutionId);
+			Assert.assertNotNull(value);
+			logger.info("Solution Image : " + new String(value.getBody()));
+			Assert.assertEquals(picString, new String(value.getBody()));
+		} catch (Exception e) {
+			logger.error("Failed to execute getSolutionImage testcase", e);
+		}
+	}
+
+	@Test
+	public void getSolutionImage404Test() {
 		try {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
-			JsonRequest<RestPageRequestBE> restPageReq = new JsonRequest<>();
-			RestPageRequestBE body = new RestPageRequestBE();
-			body.setPage(0);
-			body.setSize(9);
-			JsonResponse<MLSolution> solutionRes = new JsonResponse<>();
-			if (body.getPage() != null && body.getSize() != null) {
-				solutionRes.setResponseBody(mlsolution);
-			}
-			restPageReq.setBody(body);
-			List<MLSolution> solutionList = new ArrayList<MLSolution>();
-			solutionList.add(mlsolution);
-			Assert.assertNotNull(solutionList);
-			String userId = mlsolution.getOwnerId();
-			Assert.assertNotNull(userId);
-			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
-			RestPageResponseBE<MLSolution> responseBody = new RestPageResponseBE<>(solutionList);
-			responseBody.setContent(solutionList);
-			value.setResponseBody(responseBody);
-			Mockito.when(service.getAllMySolutions(userId, restPageReq))
-					.thenReturn(responseBody);
-			value = marketPlaceController.getAllMySolutions(request, userId, restPageReq, response);
-			logger.info("Manage my solutions : " + value.getResponseBody());
+			ResponseEntity<byte[]> value = null;
+			
+			String solutionId = mlsolution.getSolutionId();
+			Assert.assertNotNull(solutionId);
+			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(null);
+			value = marketPlaceController.getSolutionImage(solutionId);
 			Assert.assertNotNull(value);
+			logger.info("Solution Image : " + value.getStatusCode());
+			Assert.assertEquals(HttpStatus.NOT_FOUND, value.getStatusCode());
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getSolutionImage404 testcase", e);
 		}
-	}*/
-
-	/*@Test
-	public void getSearchSolutionsTest() {
-		try {
-			MLSolution mlsolution = getMLSolution();
-			JsonRequest<RestPageRequestBE> restPageReq = new JsonRequest<>();
-			RestPageRequestBE body = new RestPageRequestBE();
-			body.setPage(0);
-			body.setSize(9);
-			body.setSearchTerm("Solution1");
-			JsonResponse<MLSolution> solutionRes = new JsonResponse<>();
-			if (body.getPage() != null && body.getSize() != null && body.getSearchTerm() != null) {
-				solutionRes.setResponseBody(mlsolution);
-			}
-			restPageReq.setBody(body);
-
-			List<MLSolution> solutionList = new ArrayList<MLSolution>();
-			solutionList.add(mlsolution);
-			Assert.assertNotNull(solutionList);
-			String userId = mlsolution.getOwnerId();
-			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
-			RestPageResponseBE<MLSolution> responseBody = new RestPageResponseBE<>(solutionList);
-			responseBody.setContent(solutionList);
-			value.setResponseBody(responseBody);
-			Mockito.when(service.getAllMySolutions(userId, restPageReq))
-					.thenReturn(responseBody);
-			value = marketPlaceController.getAllMySolutions(request, userId, restPageReq, response);
-			logger.info("Solutions are fetched according to search term  : " + value.getResponseBody());
-			Assert.assertNotNull(value);
-		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
-		}
-	}*/
+	}
 
 	@Test
 	public void getPaginatedListTest() {
@@ -240,7 +188,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Solutions are paginated : " + value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getPaginatedList testcase", e);
 		}
 
 	}
@@ -264,7 +212,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Succseefully updated solution details : " + solutionres.getResponseBody());
 			Assert.assertNotNull(solutionres);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute updateSolutionDetails testcase", e);
 		}
 	}
 	
@@ -289,7 +237,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Succseefully delete Solution Artifacts : " + solutionres.getResponseBody());
 			Assert.assertNotNull(solutionres);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute deleteSolutionArtifacts testcase", e);
 		}
 	}
 
@@ -317,7 +265,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("RevisionList " + revisionRes.getResponseBody());
 			Assert.assertNotNull(revisionRes);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getSolutionsRevisionList testcase", e);
 		}
 	}
 
@@ -359,7 +307,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Artifact List : " + artifactRes.getResponseBody());
 			Assert.assertNotNull(artifactRes);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getSolutionsRevisionArtifactList testcase", e);
 		}
 	}
 
@@ -389,7 +337,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Successfully added tags : " + solRes.getResponseBody());
 			Assert.assertNotNull(solRes);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute addSolutionTag testcase", e);
 		}
 	}
 
@@ -421,7 +369,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Successfully dropped  tags : " + solRes.getResponseBody());
 			Assert.assertNotNull(solRes);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute dropSolutionTag testcase", e);
 		}
 
 	}
@@ -467,7 +415,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Get Tag List : " + value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getTagsList testcase", e);
 		}
 	}
 
@@ -516,7 +464,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("Tag for solution  " + value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getTagsSolutions testcase", e);
 		}
 	}
 
@@ -540,7 +488,7 @@ public class MarketPlaceServiceControllerTest {
 //					.thenReturn(value);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute dropSolutionUserAccess testcase", e);
 
 		}
 	}
@@ -560,7 +508,7 @@ public class MarketPlaceServiceControllerTest {
 					.thenReturn(value);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute incrementSolutionViewCount testcase", e);
 
 		}
 	}
@@ -588,7 +536,7 @@ public class MarketPlaceServiceControllerTest {
 			value = marketPlaceController.createSolutionRating(request, mlpSolutionRatingREs, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute createRating testcase", e);
 
 		}
 
@@ -615,7 +563,7 @@ public class MarketPlaceServiceControllerTest {
 //					.thenReturn(value);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute updateRating testcase", e);
 
 		}
 
@@ -640,7 +588,7 @@ public class MarketPlaceServiceControllerTest {
 			value = marketPlaceController.getSolutionRatings(solutionId, rest);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getsSolutionRatings testcase", e);
 
 		}
 	}
@@ -661,7 +609,7 @@ public class MarketPlaceServiceControllerTest {
 			value = marketPlaceController.getMySharedModels(request, userId, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getMysharedModels testcase", e);
 
 		}
 	}
@@ -682,7 +630,7 @@ public class MarketPlaceServiceControllerTest {
 			value = marketPlaceController.createSolutionFavorite(request, mlpSolutionFavoriteRes, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute createSolutionFavorite testcase", e);
 
 		}
 	}
@@ -704,7 +652,7 @@ public class MarketPlaceServiceControllerTest {
 			value = marketPlaceController.deleteSolutionFavorite(request, mlpSolutionFavoriteRes, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute deleteSolutionFavorite testcase", e);
 
 		}
 	}
@@ -728,7 +676,7 @@ public class MarketPlaceServiceControllerTest {
 			value = marketPlaceController.getFavoriteSolutions(request, userId, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getFavoriteSolutions testcase", e);
 
 		}
 	}
@@ -751,7 +699,7 @@ public class MarketPlaceServiceControllerTest {
 			value =marketPlaceController.getRelatedMySolutions(restPageReqBe);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getRelatedMySolutions testcase", e);
 
 		}
 	}
@@ -765,7 +713,7 @@ public class MarketPlaceServiceControllerTest {
 			marketPlaceController.readArtifactSolutions(artifactId, request, response);
 			Assert.assertNotNull(artifactId);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute readArtifactSolutions testcase", e);
 
 		}
 	}
@@ -809,7 +757,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.info("RevisionList " + data.getResponseBody());
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getSolutionUserAccess testcase", e);
 		}
 	}
 	
@@ -853,7 +801,7 @@ public class MarketPlaceServiceControllerTest {
 			//logger.info("RevisionList " + data.getResponseBody());
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute addSolutionUserAccess testcase", e);
 		}
 	}
 	
@@ -871,7 +819,7 @@ public class MarketPlaceServiceControllerTest {
 			data = marketPlaceController.createTag(request, tags, response);
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute createTag testcase", e);
 
 		}
 	}
@@ -892,7 +840,7 @@ public class MarketPlaceServiceControllerTest {
 			data = marketPlaceController.getUserRatings(request,solutionId, userId, response);
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute getUserRatings testcase", e);
 
 		}
 	}
@@ -916,7 +864,7 @@ public class MarketPlaceServiceControllerTest {
 			data = marketPlaceController.findPortalSolutions(request,restPageReqPortal, response);
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
-			logger.info("Failed to execute the testcase");
+			logger.error("Failed to execute findPortalSolutions testcase", e);
 
 		}
 	}
@@ -940,19 +888,6 @@ public class MarketPlaceServiceControllerTest {
 		JsonResponse<RestPageResponse<MLPSolution>> data = marketPlaceController.getUserAccessSolutions(userId, restPageReq);
 		Assert.assertNotNull(data);
 	}
-	
-
-	/*@Test
-	public void getAvgRatingsForSol() {
-		MLSolutionWeb solutionStats = new MLSolutionWeb();
-		solutionStats.setDownloadCount((long) 4);
-		solutionStats.setRatingCount((long) 5);
-		solutionStats.setViewCount((long) 10);
-		String solutionId = "1213505-67f4-4461-a192-f4cb7fdafd34";
-		Mockito.when(service.getSolutionWebMetadata(solutionId)).thenReturn(solutionStats);
-		JsonResponse<MLSolutionWeb> data = marketPlaceController.getAvgRatingsForSol(solutionId);
-		Assert.assertNotNull(data);
-	}*/
 	
 	private MLSolution getMLSolution(){
 		MLSolution mlsolution = new MLSolution();
