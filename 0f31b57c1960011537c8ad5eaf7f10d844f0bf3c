@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3489cf53_4c3abc66",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-18T20:03:31Z",
+      "side": 1,
+      "message": "some solutions have no picture. CDS will answer null. you may wish to send back 404 in that case?",
+      "range": {
+        "startLine": 1551,
+        "startChar": 0,
+        "endLine": 1551,
+        "endChar": 68
+      },
+      "revId": "0f31b57c1960011537c8ad5eaf7f10d844f0bf3c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8d9aa99_c26faad1",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/MarketPlaceServiceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-18T20:03:31Z",
+      "side": 1,
+      "message": "might want to test the path when a solution has no image",
+      "revId": "0f31b57c1960011537c8ad5eaf7f10d844f0bf3c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13d3acc5_aadfb5cd",
+        "filename": "acumos-portal-fe/src/main/webapp/app/model-details/md-model-details.template.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-18T20:03:31Z",
+      "side": 1,
+      "message": "this is commented out - can it be removed entirely??",
+      "range": {
+        "startLine": 309,
+        "startChar": 7,
+        "endLine": 309,
+        "endChar": 16
+      },
+      "revId": "0f31b57c1960011537c8ad5eaf7f10d844f0bf3c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
