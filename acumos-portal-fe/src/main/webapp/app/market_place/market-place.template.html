@@ -225,8 +225,8 @@ limitations under the License.
 													<!-- <div class="mpimgcontainer"> -->
 											        	<!-- <div class="mpimage1"> -->
 											        	   <figure>
-																	<img ng-show="mlsolution.picture" ng-src="data:image/JPEG;base64,{{mlsolution.picture}}" ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)" class="img-rounded">
-																	<img ng-hide="mlsolution.picture" ng-src="images/default-model.png" ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)" class="img-rounded">
+																	<img ng-src="/api/solutions/{{mlsolution.solutionId}}/picture" ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)"
+																		class="img-rounded" onerror="this.src='images/default-model.png'"/>
 															</figure>
 											        	<!-- </div> -->
 											        	<!-- <div class="mpbtncontainer">
@@ -285,8 +285,8 @@ limitations under the License.
 												<div class="mp-grid-list-image-cell">
 													<div class="mpimage1">
 														 <figure>
-																	<img ng-show="mlsolution.picture" ng-src="data:image/JPEG;base64,{{mlsolution.picture}}" ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)" class="img-rounded">
-																	<img ng-hide="mlsolution.picture" ng-src="images/default-model.png" ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)" class="img-rounded">
+																	<img ng-src="/api/solutions/{{mlsolution.solutionId}}/picture" ng-click="onClickModel($index, mlsolution.solutionId, mlsolution.latestRevisionId)"
+																		class="img-rounded" onerror="this.src='images/default-model.png'"/>
 								                         </figure>
 													</div>
 														<div class="mpbtncontainer">

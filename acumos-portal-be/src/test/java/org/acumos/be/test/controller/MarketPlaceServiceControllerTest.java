@@ -62,6 +62,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -141,6 +142,28 @@ public class MarketPlaceServiceControllerTest {
 			value = marketPlaceController.getSolutionsDetails(request, solutionId, response);
 			logger.info("Solution Details : " + value.getResponseBody());
 			Assert.assertNotNull(value);
+		} catch (Exception e) {
+			logger.info("Failed to execute the testcase");
+		}
+	}
+
+	@Test
+	public void getSolutionImageTest() {
+		try {
+			String picString = "Placeholder for an image";
+			byte[] picture = picString.getBytes();
+			Assert.assertNotNull(picture);
+			MLSolution mlsolution = getMLSolution();
+			Assert.assertNotNull(mlsolution);
+			ResponseEntity<byte[]> value = null;
+			
+			String solutionId = mlsolution.getSolutionId();
+			Assert.assertNotNull(solutionId);
+			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(picture);
+			value = marketPlaceController.getSolutionImage(solutionId);
+			Assert.assertNotNull(value);
+			logger.info("Solution Image : " + new String(value.getBody()));
+			Assert.assertEquals(picString, new String(value.getBody()));
 		} catch (Exception e) {
 			logger.info("Failed to execute the testcase");
 		}
