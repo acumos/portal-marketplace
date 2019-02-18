@@ -278,16 +278,6 @@ angular
 														
 													}
 													 value.solutionRatingAvg = $scope.startRatingWidth;
-													 
-													 apiService.getSolutionPicture(value.solutionId)
-													 .then(
-															 function(response) {
-																 value.picture = response.data.response_body;
-															 },
-															 function(error) {
-																 $scope.status = 'Unable to load picture data: '
-																		+ error.data.error;
-															 });
 												});
 											},
 											function(error) {

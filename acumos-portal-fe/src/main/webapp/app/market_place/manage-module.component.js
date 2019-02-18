@@ -953,15 +953,6 @@ angular.module('manageModule')
 									// push this item to our final output array
 									output.push(item.solutionId);
 									solutions.push(item);
-									apiService.getSolutionPicture(item.solutionId)
-									 .then(
-											 function(response) {
-												 item.picture = response.data.response_body;
-											 },
-											 function(error) {
-												 $scope.status = 'Unable to load picture data: '
-														+ error.data.error;
-											 });
 								}
 							});
 							return solutions;
@@ -1072,7 +1063,6 @@ angular.module('manageModule')
 																		ownerName: response.data.response_body.content[i].ownerName,
 																		modelType : response.data.response_body.content[i].modelType,
 																		ratingCount: response.data.response_body.content[i].ratingCount,
-																		picture: response.data.response_body.content[i].picture,
 																		onboardingStatusFailed: response.data.response_body.content[i].onboardingStatusFailed,
 																		pendingApproval: response.data.response_body.content[i].pendingApproval,
 																		latestRevisionId: response.data.response_body.content[i].latestRevisionId
