@@ -442,7 +442,9 @@ angular
 														} else {
 															$scope.revisionId = $scope.version.revisionId;
 															$scope.versionId = $scope.version.version;
+															$scope.solution.created = $scope.version.modified;
 														}
+														
 														$scope.getComment();
 														$scope.getProtoFile();
 													}
