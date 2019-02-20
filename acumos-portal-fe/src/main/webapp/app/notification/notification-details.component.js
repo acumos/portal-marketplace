@@ -22,7 +22,7 @@ limitations under the License.
 
 app.component('notificationModule',{
 	templateUrl : '/app/notification/notification-details.template.html',
-	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, $sce, apiService, browserStorageService) {
+	controller : function($scope, $state,$anchorScroll, $timeout, $location, $rootScope, $window, $http, $mdDialog, $sce, apiService, browserStorageService, $filter) {
 		$scope.loginUserID='';
 		$scope.totalCount = 0;
 		$scope.page = 0;
@@ -61,7 +61,7 @@ app.component('notificationModule',{
 						$scope.notificationManageObj
 						.push({
 							message : $sce.trustAsHtml(value.message),
-							start : value.start,
+							start : $filter('date')(value.start, "MM/dd/yyyy"),
 							viewed : value.viewed,
 							notificationId : value.notificationId
 						});
@@ -234,6 +234,12 @@ app.component('notificationModule',{
 					});
 			}
 			$scope.userDetailsFetch();
+			
+			$scope.filterByDateSubject = function(notification) {	
+				if(!$scope.search) return true; 
+				return ( (angular.lowercase(notification.start).indexOf(angular.lowercase($scope.search)) !== -1) ||
+						(angular.lowercase((notification.message.toString())).indexOf(angular.lowercase($scope.search)) !== -1) );  		
+		    };
 			
 
 	},

@@ -41,13 +41,13 @@ limitations under the License.
 					</section>
 					<div class="page-wrapper2">
 						<!-- copy from here (start) -->
-						<div class="notification-btn-container" ng-if="filtertedNotification.length">
+						<div class="notification-btn-container" ng-if="filtertedNotification.length || search.length > 0">
 							<div class="note-btn-inner">
 								<button class="mdl-button mdl-js-button btn-secondary" ng-click="refreshNotification()"><i class="fas fa-sync"></i> Refresh</button>
 								<button class="mdl-button mdl-js-button btn-secondary" ng-click="markRead()"><i class="fa fa-eye" aria-hidden="true"></i> Mark as read</button>							
 								<button class="mdl-button mdl-js-button btn-secondary" ng-click="trashNotification()"><i class="far fa-trash-alt"></i> Move to trash</button>
 								<div class="mdl-textfield mdl-js-textfield">
-									<input class="mdl-textfield__input notification-search" type="text" placeholder="Filter" ng-model = "search">
+									<input class="mdl-textfield__input notification-search" type="text" placeholder="Filter" ng-model = "$parent.search">
 									<!-- <label class="mdl-textfield__label" for="module-search"></label> -->
 								</div>
 							</div>
@@ -89,7 +89,7 @@ limitations under the License.
 								</tr>
 							  </thead>
 							  <tbody>
-								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:{message : search}))) | orderBy:orderByField:reverseSort">
+								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:filterByDateSubject))) | orderBy:orderByField:reverseSort">
 								<td  ng-class="{'read-notification': notification.viewed}">
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" id="checkBox_{{$index}}">
 									  <input type="checkbox"  class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected" ng-click="removeSelectAll()">
@@ -98,7 +98,7 @@ limitations under the License.
 								</td>
 								
 								  <td class="sub-container" ng-bind-html="notification.message" ng-class="{'read-notification': notification.viewed}" compile></td>
-								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start | date:"MM/dd/yyyy"}}</td>
+								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start}}</td>
 								</tr>
 							  </tbody>
 							</table>
