@@ -370,7 +370,7 @@ limitations under the License.
 						<image>
 							<name>acumos-portal-be:${project.version}</name>
 							<build>
-								<from>frolvlad/alpine-oraclejre8:slim</from>
+								<from>openjdk:8-jre-slim</from>
 								<tags>
 									<tag>${project.version}-b${build.number}</tag>
 								</tags>

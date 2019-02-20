@@ -216,7 +216,7 @@ limitations under the License.
 							<name>acumos-portal-fe:${project.version}</name>
 							<build>
 								<!-- This is the same FROM used in a Dockerfile -->
-								<from>frolvlad/alpine-oraclejre8:slim</from>
+								<from>openjdk:8-jre-slim</from>
 								<tags>
 									<!-- Add tag with build number -->
 									<tag>${project.version}-b${build.number}</tag>
