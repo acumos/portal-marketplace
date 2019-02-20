@@ -386,6 +386,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						
 						if ("DI".equals(mlp.getArtifactTypeCode())){
 							DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
+							deleteImg.execute();
 							deleteNexus = true;
 						} else {
 							// Delete the file from the Nexus
