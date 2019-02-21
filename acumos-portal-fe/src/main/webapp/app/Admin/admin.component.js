@@ -668,7 +668,7 @@ angular.module('admin').filter('abs', function() {
 						                    		  "access_type_cd": "PR",
 						                    		  "access_type_name": "Private"
 						                    		}, {
-						                    		  "access_type_cd": "OR",
+						                    		  "access_type_cd": "CO",
 						                    		  "access_type_name": "Company"
 						                    		}, {
 						                    		  "access_type_cd": "PB",
