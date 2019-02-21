@@ -131,7 +131,8 @@ public class MarketPlaceServiceImplTest {
 
 			if (mlsolution != null) {
 				String solutionId = "6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4";
-				Mockito.when(impl.getSolution(solutionId)).thenReturn(mlsolution);
+				String revisionId = "5d893b98-d131-4657-a890-978cac70456c";;
+				Mockito.when(impl.getSolution(solutionId, revisionId, mlsolution.getOwnerId())).thenReturn(mlsolution);
 				logger.info("Solution fetched successfully for solution given id");
 				Assert.assertNotNull(solutionId);
 				Assert.assertEquals(mlsolution, mlsolution);

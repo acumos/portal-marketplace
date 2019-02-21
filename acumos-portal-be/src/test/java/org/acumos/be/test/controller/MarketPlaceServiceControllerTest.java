@@ -136,9 +136,10 @@ public class MarketPlaceServiceControllerTest {
 			value.setResponseBody(mlsolution);
 			
 			String solutionId = mlsolution.getSolutionId();
+			String revisionId = "5d893b98-d131-4657-a890-978cac70456c";
 			Assert.assertNotNull(solutionId);
 			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
-			value = marketPlaceController.getSolutionsDetails(request, solutionId, response);
+			value = marketPlaceController.getSolutionsDetails(request, solutionId, revisionId,  response);
 			logger.info("Solution Details : " + value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {

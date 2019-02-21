@@ -148,8 +148,8 @@ angular.module('AcumosApp')
             return $http.get(urlToolkitTypes);
         };
         
-        this.getSolutionDetail = function (solutionId) {
-            return $http.get(urlSolutions + '/' + solutionId);
+        this.getSolutionDetail = function (solutionId, revisionId) {
+            return $http.get(urlSolutions + '/' + solutionId + '/' + revisionId);
         };
         
         this.getSolutionPicture = function (solutionId) {

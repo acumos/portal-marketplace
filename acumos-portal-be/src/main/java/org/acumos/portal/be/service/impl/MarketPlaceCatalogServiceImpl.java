@@ -1751,4 +1751,125 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		dataServiceRestClient.saveSolutionPicture(solutionId, image);
 	}
 	
+	@Override
+	public MLSolution getSolution(String solutionId, String revisionId, String loginUserId) throws AcumosServiceException {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolution");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLSolution mlSolution = null;
+		try {
+			MLPSolution mlpSolution = dataServiceRestClient.getSolution(solutionId);
+			MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+			if (mlpSolution != null) {
+				if(mlpSolutionRevision != null) {
+					if (((loginUserId == null || loginUserId.length() == 0) && !CommonConstants.PRIVATE.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())) || 
+						((loginUserId != null && loginUserId.length() != 0) && 
+						(CommonConstants.PUBLIC.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode()) || CommonConstants.ORGANIZATION.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode()))) ||
+						((loginUserId != null && loginUserId.length() != 0) &&
+						(CommonConstants.PRIVATE.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode()) && (loginUserId.equals(mlpSolution.getUserId()))))) {
+						
+						mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
+						List<MLPCodeNamePair> toolkitTypeList = dataServiceRestClient.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
+						if (toolkitTypeList.size() > 0) {
+							for (MLPCodeNamePair toolkitType : toolkitTypeList) {
+								if (toolkitType.getCode() != null) {
+									if (toolkitType.getCode().equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())) {
+										mlSolution.setTookitTypeName(toolkitType.getName());
+		 								break;
+		 							}
+		 						}
+		 					}
+						}
+						List<MLPCodeNamePair> modelTypeList = dataServiceRestClient.getCodeNamePairs(CodeNameType.MODEL_TYPE);
+						if (modelTypeList.size() > 0) {
+							for (MLPCodeNamePair modelType : modelTypeList) {
+								if (modelType.getCode() != null) {
+									if (modelType.getCode().equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())) {
+										mlSolution.setModelTypeName(modelType.getName());
+		 								break;
+		 							}
+		 						}
+							}
+						}
+		
+						MLPUser mlpUser = dataServiceRestClient.getUser(mlpSolution.getUserId());
+						if (mlpUser != null) {
+							mlSolution.setOwnerName(mlpUser.getFirstName().concat(" " + mlpUser.getLastName()));
+						}
+		
+						List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(solutionId);
+						if (tagList.size() > 0) {
+							mlSolution.setSolutionTagList(tagList);
+						}
+		
+						List<User> users = null;
+						//Set co-owners list for model
+						try {
+							
+							List<MLPUser> mlpUsersList = dataServiceRestClient
+									.getSolutionAccessUsers(mlSolution.getSolutionId());
+							if (!PortalUtils.isEmptyList(mlpUsersList)) {
+								users = new ArrayList<>();
+								for (MLPUser mlpusers : mlpUsersList) {
+									User user = PortalUtils.convertToMLPuser(mlpusers);
+									users.add(user);
+								}
+							}
+							mlSolution.setOwnerListForSol(users);
+						} catch (Exception e) {
+							log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
+									mlSolution.getSolutionId());
+						}
+		
+						List<String> co_owners_Id = new ArrayList<String>();
+						if(users != null) {
+							co_owners_Id = users.stream().map(User :: getUserId).collect(Collectors.toList());
+						}
+						List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
+						List<MLPSolutionRevision> filterRevisionList = new ArrayList<>();
+						if (revisionList.size() > 0) {
+							//filter the private versions if loggedIn User is not the owner of solution
+							List<String> accessCodes = new ArrayList<String>();
+							accessCodes.add(CommonConstants.PUBLIC);
+							if (loginUserId != null) {
+								//if logged In user is owner/co-owner then add private revisions
+								if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId) || userService.isPublisherRole(loginUserId)) {
+									accessCodes.add(CommonConstants.PRIVATE);
+									accessCodes.add(CommonConstants.ORGANIZATION);
+								} else {
+									//if user is logged in but he not the owner/co-owner then add Company revisions
+									accessCodes.add(CommonConstants.ORGANIZATION);
+								}
+							}
+		
+							filterRevisionList = revisionList.stream().filter(revision -> accessCodes.contains(revision.getAccessTypeCode())).collect(Collectors.toList());
+							if(filterRevisionList.size() > 0) {
+								mlSolution.setRevisions(filterRevisionList);
+								//Add the access Type code for the latest revision for the categorization while display
+								mlSolution.setAccessType(filterRevisionList.get(0).getAccessTypeCode());
+							}
+						}
+					} else {
+						throw new AcumosServiceException(AcumosServiceException.ErrorCode.ACCESS_DENIED, "Invalid User");
+					}
+				} else {
+					log.debug(EELFLoggerDelegate.debugLogger, "getSolution :  Revison Id is null for the solution Id :" + mlpSolution.getSolutionId());
+				}
+			}
+		} catch (ArithmeticException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.ARITHMATIC_EXCEPTION, e.getMessage());
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return mlSolution;
+	}
+	
+	/*public JsonResponse<MLSolution> acumosException(JsonResponse<MLSolution> data, HttpServletResponse response, AcumosServiceException e){
+		data.setErrorCode(e.getErrorCode());
+		data.setResponseDetail(e.getMessage());
+		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		return data;
+	}*/
+	
 }

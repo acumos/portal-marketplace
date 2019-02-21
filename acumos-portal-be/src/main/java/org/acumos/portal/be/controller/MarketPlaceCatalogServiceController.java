@@ -120,24 +120,33 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.SOLUTIONS_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLSolution> getSolutionsDetails(HttpServletRequest request,
-			@PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, HttpServletResponse response) {
 		
         solutionId = SanitizeUtils.sanitize(solutionId);
-
+        revisionId = SanitizeUtils.sanitize(revisionId);
+        
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			solutionDetail = catalogService.getSolution(solutionId, (String) request.getAttribute("loginUserId"));
+			//solutionDetail = catalogService.getSolution(solutionId, (String) request.getAttribute("loginUserId"));
+			solutionDetail = catalogService.getSolution(solutionId, revisionId, (String) request.getAttribute("loginUserId"));
 			if (solutionDetail != null) {
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsDetails :  ", solutionDetail);
+				response.setStatus(HttpServletResponse.SC_OK);
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Solutions Not fetched Successfully");
+				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsDetails :  ", solutionDetail);
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			}
-			response.setStatus(HttpServletResponse.SC_OK);
+			
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			log.error(EELFLoggerDelegate.errorLogger,
 					"Exception Occurred Fetching Solutions Detail for solutionId :" + "solutionId", e);
 		}
