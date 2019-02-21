@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaf9359a_d2c5a16a",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/MarketPlaceServiceControllerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-21T14:48:42Z",
+      "side": 1,
+      "message": "Use logger.error and send the exception as the last argument to the logger",
+      "revId": "ce42029d98e8178cf94ca8cb6160b748b69ce9d5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55b7921e_066dcbad",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/MarketPlaceServiceControllerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-02-21T14:48:42Z",
+      "side": 1,
+      "message": "Use logger.error and send the exception as the last argument to the logger",
+      "range": {
+        "startLine": 188,
+        "startChar": 46,
+        "endLine": 188,
+        "endChar": 49
+      },
+      "revId": "ce42029d98e8178cf94ca8cb6160b748b69ce9d5",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
