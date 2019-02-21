@@ -394,7 +394,7 @@ angular
 								+ $scope.solutionId;
 					} else {
 						$scope.apiUrl = '/api/solutions/'
-								+ $stateParams.solutionId
+								+ $stateParams.solutionId + '/' + $stateParams.revisionId;
 					}
 					
 					$scope.getModelDetails = function() {

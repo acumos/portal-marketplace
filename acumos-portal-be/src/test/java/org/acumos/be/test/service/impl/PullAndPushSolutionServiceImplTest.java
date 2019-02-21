@@ -20,6 +20,7 @@
 package org.acumos.be.test.service.impl;
 
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.time.Instant;
 
 import org.acumos.cds.domain.MLPArtifact;
@@ -43,7 +44,7 @@ public class PullAndPushSolutionServiceImplTest {
 	PullAndPushSolutionServiceImpl impl = new PullAndPushSolutionServiceImpl();
 
 	@Test
-	public void downloadModelArtifact(){
+	public void downloadModelArtifact() throws URISyntaxException{
 		String artifactId = "00c9bc79-7703-471c-9f44-e1537bf61d9b";
 		MLPArtifact mlpArtifact = new MLPArtifact();
 		mlpArtifact.setArtifactId(artifactId);
