@@ -36,6 +36,7 @@ public class MLArtifact {
 	private Date created;
 	private Date modified;
 	
+	
 	public MLArtifact() {
 		// TODO Auto-generated constructor stub
 	}
