@@ -31,6 +31,7 @@ public class MLArtifact {
 	private String name;
 	private String description;
 	private String artifactUri;
+	
 	private Long ownerId;
 	private String metadata;
 	private Date created;
