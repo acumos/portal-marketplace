@@ -20,6 +20,16 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.1  25th February 2019
+=================================
+* Portal refine left navigation bar icons to match user expectations (ACUMOS-2400)
+* IST: Notification Screen: Search Bar is not working (ACUMOS-2521)
+* IST: Mozilla Browser: Search Bar on header is overlapping with bell icon (ACUMOS-2525)
+* <IST> <Portal Marketplace> Tag functionality is not working properly after searching the values (ACUMOS-2319)
+* <IST><Portal Marketplace> Manage My Model: model onboarding date not getting refreshed as per the default selected version. (ACUMOS-2526)
+* Portal page title forever shows "Loading.." (ACUMOS-2531)
+* Manage Authors - Created by field does not display the author of a model (ACUMOS-2514)
+
 Version 2.2.0  14th February 2019
 =================================
 * CDS clients pass request ID from front-end thru in client calls (ACUMOS-1801)
