@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e9b83d9_c8aa0a0c",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/docker/cmd/DeleteImageCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-02-25T20:12:49Z",
+      "side": 1,
+      "message": "Remove Autowiring here and this object itself.",
+      "revId": "f0064ee59f853957d9010d7fce5d4b25fe692d03",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5b331a0_9533d41e",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/docker/cmd/DeleteImageCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-02-25T20:12:49Z",
+      "side": 1,
+      "message": "Use the Docker client injected via setter from Service",
+      "revId": "f0064ee59f853957d9010d7fce5d4b25fe692d03",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
