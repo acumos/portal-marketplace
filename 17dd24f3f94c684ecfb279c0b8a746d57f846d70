@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d873a62_ed0be145",
+        "filename": "acumos-portal-fe/src/main/webapp/app/Admin/admin.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-02-26T15:18:29Z",
+      "side": 1,
+      "message": "This needs to be \"PR\"",
+      "revId": "17dd24f3f94c684ecfb279c0b8a746d57f846d70",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
