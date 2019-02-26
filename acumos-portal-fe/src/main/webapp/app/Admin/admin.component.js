@@ -2247,6 +2247,8 @@ angular.module('admin').filter('abs', function() {
                          function(response) {
                          	$scope.getCarouselConfig();
                          	$scope.changeAction = "Enable/Disable Slides";
+                         	
+                         	if($scope.carouselCheckedList.length >= 1){
                          	if(!singleSlideFlag){
                          	$scope.msg = "Carousel Updated successfully.";
                             $scope.icon = '';
@@ -2256,6 +2258,20 @@ angular.module('admin').filter('abs', function() {
                                 $scope.showAlertMessage = false;
                             }, 5000);
                          	}
+                         	}
+                         	else{
+                         		  $scope.showWarningMessage = false;
+   							   $scope.warning = "Please Select any Slides";
+                                  $scope.icon = '';
+                                  $scope.styleclass = 'c-success';
+                                  $scope.changeAction = "Enable/Disable Slides";
+                                  $scope.showWarningMessage = true;
+   							   
+                                  $timeout(function() {
+                                      $scope.showWarningMessage = false;
+                                  }, 5000);
+                         	}
+                         //}
                          });
                 	   
                    }
@@ -2597,6 +2613,7 @@ angular.module('admin').filter('abs', function() {
 				          	   apiService.updateSiteConfig("event_carousel", reqObj)
 				                  .then(
 				                          function(response) {
+				                          		  if($scope.eventCheckedList.length >= 1){
 				                          	$scope.getEventCarousel();
 				                          	$scope.msg = "Carousel Updated successfully.";
 				                            $scope.icon = '';
@@ -2606,6 +2623,19 @@ angular.module('admin').filter('abs', function() {
 				                            $timeout(function() {
 				                                 $scope.showAlertMessage = false;
 				                             }, 5000);
+				                        	  }
+				                        	  else{
+				                        		  $scope.showWarningMessage = false;
+				      							   $scope.warning = "Please Select any Slides";
+				                                     $scope.icon = '';
+				                                     $scope.styleclass = 'c-success';
+				                                     $scope.changeEventAction = "Enable/Disable Slides";
+				                                     $scope.showWarningMessage = true;
+				      							   
+				                                     $timeout(function() {
+				                                         $scope.showWarningMessage = false;
+				                                     }, 5000);
+				                        	  }
 				                          });
 	                 	   
 	                    }
@@ -2624,15 +2654,29 @@ angular.module('admin').filter('abs', function() {
 		          	   apiService.updateSiteConfig("event_carousel", reqObj)
 		                  .then(
 		                          function(response) {
-		                          	$scope.getEventCarousel();
-		                          	$scope.msg = "Carousel Updated successfully.";
-		                             $scope.icon = '';
-		                             $scope.styleclass = 'c-success';
-		                             $scope.changeEventAction = "Enable/Disable Slides";
-		                             $scope.showAlertMessage = true;
-		                             $timeout(function() {
-		                                 $scope.showAlertMessage = false;
-		                             }, 5000);
+		                            if($scope.eventCheckedList.length >= 1){
+				                          	$scope.getEventCarousel();
+				                          	$scope.msg = "Carousel Updated successfully.";
+				                            $scope.icon = '';
+				                            $scope.styleclass = 'c-success';
+				                            $scope.changeEventAction = "Enable/Disable Slides";
+				                            $scope.showAlertMessage = true;
+				                            $timeout(function() {
+				                                 $scope.showAlertMessage = false;
+				                             }, 5000);
+				                        	  }
+				                        	  else{
+				                        		  $scope.showWarningMessage = false;
+				      							   $scope.warning = "Please Select any Slides";
+				                                     $scope.icon = '';
+				                                     $scope.styleclass = 'c-success';
+				                                     $scope.changeEventAction = "Enable/Disable Slides";
+				                                     $scope.showWarningMessage = true;
+				      							   
+				                                     $timeout(function() {
+				                                         $scope.showWarningMessage = false;
+				                                     }, 5000);
+				                        	  }
 		                          });
 	                    }
 	                  
@@ -2877,7 +2921,8 @@ angular.module('admin').filter('abs', function() {
 	          	   apiService.updateSiteConfig("story_carousel", reqObj)
 	                  .then(
 	                          function(response) {
-	                          	$scope.getStoryCarousel();
+	                          	 	if( $scope.storyCheckedList.length >= 1){
+	                          		$scope.getStoryCarousel();
 	                          	$scope.msg = "Carousel Updated successfully.";
 	                             $scope.icon = '';
 	                             $scope.styleclass = 'c-success';
@@ -2886,6 +2931,19 @@ angular.module('admin').filter('abs', function() {
 	                             $timeout(function() {
 	                                 $scope.showAlertMessage = false;
 	                             }, 5000);
+	                          	}
+	                          	else{
+	                          		 $scope.showWarningMessage = false;
+	      							   $scope.warning = "Please Select any Slides";
+	                                     $scope.icon = '';
+	                                     $scope.styleclass = 'c-success';
+	                                     $scope.changeStoryAction = "Enable/Disable Slides";
+	                                     $scope.showWarningMessage = true;
+	      							   
+	                                     $timeout(function() {
+	                                         $scope.showWarningMessage = false;
+	                                     }, 5000);
+	                          	}
 	                          });
 	                 	   
 	                    }
@@ -2904,15 +2962,29 @@ angular.module('admin').filter('abs', function() {
 		          	   apiService.updateSiteConfig("story_carousel", reqObj)
 		                  .then(
 		                          function(response) {
-		                          	$scope.getStoryCarousel();
-		                          	$scope.msg = "Carousel Updated successfully.";
-		                             $scope.icon = '';
-		                             $scope.styleclass = 'c-success';
-		                             $scope.changeEventAction = "Enable/Disable Slides";
-		                             $scope.showAlertMessage = true;
-		                             $timeout(function() {
-		                                 $scope.showAlertMessage = false;
-		                             }, 5000);
+		                          	if( $scope.storyCheckedList.length >= 1){
+			                          		$scope.getStoryCarousel();
+			                          	$scope.msg = "Carousel Updated successfully.";
+			                             $scope.icon = '';
+			                             $scope.styleclass = 'c-success';
+			                             $scope.changeStoryAction = "Enable/Disable Slides";
+			                             $scope.showAlertMessage = true;
+			                             $timeout(function() {
+			                                 $scope.showAlertMessage = false;
+			                             }, 5000);
+			                          	}
+			                          	else{
+			                          		 $scope.showWarningMessage = false;
+			      							   $scope.warning = "Please Select any Slides";
+			                                     $scope.icon = '';
+			                                     $scope.styleclass = 'c-success';
+			                                     $scope.changeStoryAction = "Enable/Disable Slides";
+			                                     $scope.showWarningMessage = true;
+			      							   
+			                                     $timeout(function() {
+			                                         $scope.showWarningMessage = false;
+			                                     }, 5000);
+			                          	}
 		                          });
 	                    }
 	                    
