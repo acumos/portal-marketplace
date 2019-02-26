@@ -50,28 +50,51 @@ public class SiteContentServiceController extends AbstractController {
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(SiteContentServiceController.class);
 
 	@ApiOperation(value = "Gets terms and conditions ", response = MLPSiteContent.class)
-	@RequestMapping(value = { APINames.GET_TERMS_CONDITION }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.GET_TERMS_CONDITIONS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSiteContent> getTermsCondition() {
+	public JsonResponse<MLPSiteContent> getTermsConditions() {
 		log.debug(EELFLoggerDelegate.debugLogger, "getTermsCondition");
 		MLPSiteContent content = null;
 		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
 		try {
-			content = siteContentService.getTermsCondition();
+			content = siteContentService.getTermsConditions();
 			if (content != null) {
 				data.setResponseBody(content);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Terms conditions fetched successfully");
+				data.setResponseDetail("Terms and conditions fetched successfully");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Exception Occurred Fetching Terms Conditions");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Terms Conditions", e);
+			data.setResponseDetail("Exception Occurred Fetching Terms and Conditions");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Terms and Conditions", e);
 		}
 		return data;
 	}
 
-	@ApiOperation(value = "Gets contact info ", response = MLPSiteContent.class)
+	@ApiOperation(value = "Updates terms and conditions ", response = JsonResponse.class)
+	@RequestMapping(value = {
+			APINames.UPDATE_TERMS_CONDITIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> updateTermsConditions(@RequestBody JsonRequest<MLPSiteContent> content) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateTermsConditions");
+		JsonResponse<Object> data = new JsonResponse<>();
+		MLPSiteContent mlpContent = content.getBody();
+		if (mlpContent != null) {
+			try {
+				siteContentService.setTermsConditions(mlpContent);
+				data.setStatus(true);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Terms and conditions updated successfully");
+			} catch (Exception e) {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Exception Occurred Updating Terms and Conditions");
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Terms and Conditions", e);
+			}
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Gets footer contact information ", response = MLPSiteContent.class)
 	@RequestMapping(value = { APINames.GET_CONTACT_INFO }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLPSiteContent> getContactInfo() {
@@ -89,6 +112,28 @@ public class SiteContentServiceController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching Contact Info");
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Contact Info", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Updates footer contact information ", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.UPDATE_CONTACT_INFO }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> updateContactInfo(@RequestBody JsonRequest<MLPSiteContent> content) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateContactInfo");
+		JsonResponse<Object> data = new JsonResponse<>();
+		MLPSiteContent mlpContent = content.getBody();
+		if (mlpContent != null) {
+			try {
+				siteContentService.setContactInfo(mlpContent);
+				data.setStatus(true);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Contact info updated successfully");
+			} catch (Exception e) {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Exception Occurred Updating Contact Info");
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Contact Info", e);
+			}
 		}
 		return data;
 	}

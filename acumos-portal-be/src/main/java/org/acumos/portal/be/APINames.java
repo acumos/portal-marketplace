@@ -179,14 +179,16 @@ public class APINames {
 
 	// Site Content API's
 	public static final String SITE_PATH = "/site";
-	public static final String GET_TERMS_CONDITION = "/content/global/termsCondition";
+	public static final String GET_TERMS_CONDITIONS = "/content/global/termsConditions";
+	public static final String UPDATE_TERMS_CONDITIONS = GET_TERMS_CONDITIONS;
 	public static final String GET_CONTACT_INFO = "/content/global/footer/contactinfo";
+	public static final String UPDATE_CONTACT_INFO = GET_CONTACT_INFO;
 	public static final String GET_COBRAND_LOGO = "/content/global/coBrandLogo";
-	public static final String UPDATE_COBRAND_LOGO = "/content/global/coBrandLogo";
-	public static final String DELETE_COBRAND_LOGO = "/content/global/coBrandLogo";
+	public static final String UPDATE_COBRAND_LOGO = GET_COBRAND_LOGO;
+	public static final String DELETE_COBRAND_LOGO = GET_COBRAND_LOGO;
 	public static final String GET_CAROUSEL_PICTURE = "/content/carouselImages/{key}";
 	public static final String UPDATE_CAROUSEL_PICTURE = "/content/carouselImages";
-	public static final String DELETE_CAROUSEL_PICTURE = "/content/carouselImages/{key}";
+	public static final String DELETE_CAROUSEL_PICTURE = GET_CAROUSEL_PICTURE;
 	public static final String UNREAD_NOTIFICATIONS_COUNT = "/unreadnotifications/count/{userId}";
 	// Notifications
 	public static final String CREATE_NOTIFICATION = "/notifications/createNotification";

@@ -2689,20 +2689,13 @@ limitations under the License.
 							<md-input-container class="md-block"> <label>Main
 								Background</label>
 							<div class="drag-drop-CustomFile">
-								<!-- <div class="drag-drop-files hide">
-																<p>doc.pdf</p>
-															</div>
-															<div>
-																<img src="images/upload-doc-vector.png" alt="" title=""/>
-																<div class="destext">Drag & Drop your file here!</div>
-															</div> -->
 								<div class="drag-drop-files hide">
 									<p>doc.pdf</p>
 								</div>
 								<div file-droppable filename="filename"
-									file=carouselSlide.backGround>
-									<!-- <img src="images/upload-doc-vector.png" ng-src = "{{bgImagePreview}}" alt="" title=""/> -->
-									<img class="sa-dragdropimg" src="images/upload-doc-vector.png" alt="" title="" />
+									file=carouselSlide.backGround filepreview="bgImagePreview">
+									<img class="sa-dragdropimg" src="images/upload-doc-vector.png"
+										ng-src="{{bgImagePreview}}" alt="" title="" />
 									<div class="destext">Drag & Drop your file here!</div>
 								</div>
 							</div>
@@ -2729,7 +2722,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="upload-bg-image">
-								<div class="upload-image-input">
+								<div class="upload-image-input" style="width:100%">
 									<div ng-model="backGround">
 										<div file-upload size="800000"
 											ng-click="imageSizeError = false"
@@ -2742,7 +2735,6 @@ limitations under the License.
 											placeholder="Upload File" type="text"
 											ng-model="carouselSlide.backGround.name" readonly />
 									</div>
-									<!-- <input class="mdl-textfield__input ng-pristine ng-untouched ng-valid ng-empty" placeholder="Upload Image" type="text" ng-model="filename" readonly="" aria-invalid="false"> -->
 									<input type="file"
 										upload-image-model="carouselSlide.backGround"
 										data-ng-model="carouselSlide.backGround" />
@@ -2782,8 +2774,9 @@ limitations under the License.
 								<div class="drag-drop-files hide">
 									<p>doc.pdf</p>
 								</div>
-								<div file-droppable file=carouselSlide.infoGraphic>
-									<img src="images/upload-doc-vector.png"
+								<div file-droppable file=carouselSlide.infoGraphic
+									filepreview="infoImagePreview">
+									<img class="sa-dragdropimg" src="images/upload-doc-vector.png"
 										ng-src="{{infoImagePreview}}" alt="" title="" />
 									<div class="destext">Drag & Drop your file here!</div>
 								</div>
@@ -2803,8 +2796,6 @@ limitations under the License.
 												class="image-size" class="image-size" file-draggable
 												imgsrc="carouselSlide.infoGraphic"
 												imgpreview="infoImagePreview">
-											<!--<div class="selected"><i class="material-icons">check_circle</i></div> -->
-											<!-- commented for now, required later -->
 										</div>
 										<div class="image-Container">
 											<img src="../images/Layer_2.png" class="image-size"
@@ -2836,7 +2827,7 @@ limitations under the License.
 							</div>
 							</md-input-container>
 							<div class="upload-bg-image">
-								<div class="upload-image-input">
+								<div class="upload-image-input" style="width:100%">
 									<div>
 										<div file-upload uploadid="infographicUploadid"
 											id="uploadFile" filepreview="infoImagePreview"
@@ -3058,23 +3049,25 @@ limitations under the License.
 						<div class="mdl-cell mdl-cell--6-col add-document">
 							<md-input-container class="md-block"> <label>Main
 								Background</label>
-							<div class="drag-drop">
+							<div class="drag-drop" style="height:195px">
 								<div class="drag-drop-files hide">
 									<p>doc.pdf</p>
 								</div>
-								<div file-droppable filename="filename"
-									file=eventCarousel.backGround>
-									<img src="images/upload-doc-vector.png" alt="" title="" />
+								<div class="sa-dragdrop" file-droppable filename="filename"
+									file=eventCarousel.backGround filepreview="eventBgImagePreview">
+									<img class="sa-dragdropimg" src="images/upload-doc-vector.png"
+										ng-src="{{eventBgImagePreview}}" alt="" title=""/>
 									<div class="destext">Drag & Drop your file here!</div>
 								</div>
 							</div>
 							<div class="upload-bg-image">
-								<div class="upload-image-input">
+								<div class="upload-image-input" style="width:100%">
 									<div ng-model="backGround">
 										<div file-upload size="800000"
 											ng-click="imageSizeError = false"
 											uploadid="eventCarouselUploadid" id="uploadFile"
 											filename="filename" file="eventCarousel.backGround"
+											filepreview="eventBgImagePreview"
 											ng-model="eventCarousel.backGround" accept="" alt="Browse"
 											title="Browse" readonly></div>
 										<input class="mdl-textfield__input disabledClick"
@@ -3114,19 +3107,22 @@ limitations under the License.
 									</span>
 								</div>
 							</div>
-							<div class="drag-drop">
+							<div class="drag-drop" style="height:195px">
 								<div class="drag-drop-files hide">
 									<p>doc.pdf</p>
 								</div>
-								<div file-droppable file=eventCarousel.infoGraphic>
-									<img src="images/upload-doc-vector.png" alt="" title="" />
+								<div class="sa-dragdrop" file-droppable file=eventCarousel.infoGraphic
+										filepreview="eventInfoImagePreview">
+									<img class="sa-dragdropimg" src="images/upload-doc-vector.png"
+										ng-src="{{eventInfoImagePreview}}" alt="" title=""/>
 									<div class="destext">Drag & Drop your file here!</div>
 								</div>
 							</div>
 							<div class="upload-bg-image">
-								<div class="upload-image-input">
+								<div class="upload-image-input" style="width:100%">
 									<div file-upload uploadid="eventInfographicUploadid"
 										id="uploadFile" file="eventCarousel.infoGraphic"
+										filepreview="eventInfoImagePreview"
 										ng-click="imageSizeError = false"
 										ng-model="eventCarousel.infoGraphic" accept="" alt="Browse"
 										title="Browse" readonly></div>
@@ -3229,125 +3225,6 @@ limitations under the License.
 								</md-input-container>
 						</div>
 					</div>
-					<!-- <div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--6-col add-document">
-							<md-input-container class="md-block"> <label>Main
-								Background Image/Color</label>
-							<div class="drag-drop">
-								<div class="drag-drop-files hide">
-									<p>doc.pdf</p>
-								</div>
-								<div file-droppable filename="filename"
-									file=successCarousel.backGround>
-									<img src="images/upload-doc-vector.png" alt="" title="" />
-									<div class="destext">Drag & Drop your file here!</div>
-								</div>
-							</div>
-							<div class="upload-bg-image">
-								<div class="upload-image-input">
-									<div ng-model="backGround">
-										<div file-upload size="800000"
-											ng-click="imageSizeError = false"
-											uploadid="successCarouselUploadid" id="uploadFile"
-											filename="filename" file="successCarousel.backGround"
-											ng-model="successCarousel.backGround" accept="" alt="Browse"
-											title="Browse" readonly></div>
-										<input class="mdl-textfield__input disabledClick"
-											placeholder="Upload File" type="text"
-											ng-model="successCarousel.backGround.name" readonly />
-									</div>
-								</div>
-								<span> <md-button ng-click="uploadsuccessBGImg()"
-										class="mdl-button mdl-js-button btn-secondary" title="Upload"
-										alt="Upload"> Upload </md-button>
-								</span>
-							</div>
-							<div class="help-inline">
-								<span class="text-green" ng-show="showSuccessStoryBgImage">
-									Image Uploaded Successfully.</span>
-							</div>
-							<div class="help-inline validation-msgs">
-								<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image
-									should be max size of 800KB.</span>
-							</div>
-							<span class="modal-note"> Please upload background image
-								(png,gif,jpeg). Background size should be less than 2560px X
-								524px. </span> </md-input-container>
-						</div>
-						<div class="mdl-cell mdl-cell--6-col add-document">
-							<md-input-container class="md-block">
-							<div class="infographics">
-								<div>
-									<label>Add Infographics</label>
-								</div>
-								<div>
-									<span> <md-switch ng-model="successIgImg"
-											aria-label="Switch 1" class="md-warn"> <span
-											class="text-xsmall text-green"
-											ng-show="successCarousel.eventIgImg == true">Enabled</span> <span
-											class="text-xsmall text-red"
-											ng-show="successCarousel.eventIgImg == false || successCarousel.eventIgImg == null ">Disabled</span>
-										</md-switch>
-									</span>
-								</div>
-							</div>
-							<div class="drag-drop">
-								<div class="drag-drop-files hide">
-									<p>doc.pdf</p>
-								</div>
-								<div file-droppable filename="filename"
-									file=successCarousel.infoGraphic>
-									<img src="images/upload-doc-vector.png" alt="" title="" />
-									<div class="destext">Drag & Drop your file here!</div>
-								</div>
-							</div>
-							<div class="upload-bg-image">
-								<div class="upload-image-input">
-									<div>
-										<div ng-model="backGround">
-											<div file-upload size="800000"
-												ng-click="imageSizeError = false"
-												uploadid="successCarouselUploadid" id="uploadFile"
-												filename="filename" file="successCarousel.infoGraphic"
-												ng-model="successCarousel.infoGraphic" accept=""
-												alt="Browse" title="Browse" readonly></div>
-											<input class="mdl-textfield__input disabledClick"
-												placeholder="Upload File" type="text"
-												ng-model="successCarousel.infoGraphic.name" readonly />
-										</div>
-									</div>
-
-								</div>
-								<span> <md-button ng-click="uploadsuccessInfoGraphic()"
-										class="mdl-button mdl-js-button btn-secondary" title="Upload"
-										alt="Upload"> Upload </md-button>
-								</span>
-							</div>
-							<div class="help-inline">
-								<span class="text-green" ng-show="showSuccessStoryInfoImage">
-									Image Uploaded Successfully.</span>
-							</div>
-							<div class="help-inline validation-msgs">
-								<span ng-show="imageError" aria-hidden="true" class="ng-hide">Image
-									should be max size of 800KB.</span>
-							</div>
-							<span class="modal-note"> Please upload background image
-								(png,gif,jpeg). Background size should be less than 372px X
-								260px. </span> </md-input-container>
-						</div>
-					</div>
-
-					<div class="md-grid">
-						<div class="mdl-cell mdl-cell--6-col infographics-align"
-							style="float: left">
-							<md-input-container class="md-block"> <label
-								class="md-required">Infographics and text alignment</label> </md-input-container>
-							<md-radio-group ng-model="successCarousel.textAling">
-							<md-radio-button value="left">Text align left,
-							Infographics align right</md-radio-button> <md-radio-button value="right">Text
-							align right, Infographics align left</md-radio-button> </md-radio-group>
-						</div>
-					</div> -->
 				</div>
 			</form>
 			</md-dialog-content> <md-dialog-actions>
