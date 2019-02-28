@@ -136,11 +136,11 @@ limitations under the License.
 											</div>
 											<div class="managelefttext">
 												<article>On - Boarding</article>
-												<ul class="green" ng-if="solution.created">
-													<li>Completed on {{solution.created |
+												<ul class="green" ng-if="version.onboarded">
+													<li>Completed on {{version.onboarded |
 														date:'MM/dd/yyyy' }}</li>
 												</ul>
-												<ul class="red" ng-if="!solution.created">
+												<ul class="red" ng-if="!version.onboarded">
 													<li>Not Started</li>
 												</ul>
 											</div>
@@ -310,7 +310,7 @@ limitations under the License.
 													<div class="timeline-label">
 														<h2>
 															Client Library selected and downloaded | <span
-																class="green">Completed on {{solution.created |
+																class="green">Completed on {{version.onboarded |
 																date:'MM/dd/yyyy' }}</span>
 														</h2>
 														<p></p>
@@ -325,7 +325,7 @@ limitations under the License.
 													<div class="timeline-label">
 														<h2>
 															Introspection | <span class="green">Completed on
-																{{solution.created | date:'MM/dd/yyyy' }}</span>
+																{{version.onboarded | date:'MM/dd/yyyy' }}</span>
 														</h2>
 														<p></p>
 													</div>
@@ -339,7 +339,7 @@ limitations under the License.
 													<div class="timeline-label">
 														<h2>
 															Model and artifacts uploaded | <span class="green">Completed
-																on {{solution.created | date:'MM/dd/yyyy' }}</span>
+																on {{version.onboarded | date:'MM/dd/yyyy' }}</span>
 														</h2>
 														<p></p>
 													</div>
@@ -353,7 +353,7 @@ limitations under the License.
 													<div class="timeline-label">
 														<h2>
 															Tosca model generated | <span class="green">Completed
-																on {{solution.created | date:'MM/dd/yyyy' }}</span>
+																on {{version.onboarded | date:'MM/dd/yyyy' }}</span>
 														</h2>
 														<p></p>
 													</div>
@@ -367,7 +367,7 @@ limitations under the License.
 													<div class="timeline-label last">
 														<h2>
 															Model available in private catalog | <span class="green">Completed
-																on {{solution.created | date:'MM/dd/yyyy' }}</span>
+																on {{version.onboarded | date:'MM/dd/yyyy' }}</span>
 														</h2>
 														<p></p>
 													</div>

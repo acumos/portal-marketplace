@@ -445,18 +445,18 @@ public class MarketPlaceControllerTest {
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 								.withBody("{\"count\":0}")));
-
+		
 		stubFor(get(urlEqualTo(
-				"/ccds/stepresult/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=startDate,DESC"))
+				"/ccds/task/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=startDate,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"stepResultId\":28,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"255c59b2-42a1-4fae-bb92-33ce1356eb20\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"taskId\":5,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"taskCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"created\":1535603254000,\"modified\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo(
-				"/ccds/stepresult/search?trackingId=fd1ea3aa-5a91-454a-9f8b-87c674e25417&_j=a&page=0&size=25"))
+				"/ccds/task/5/stepresult"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"stepResultId\":32,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"121dcb0f-c714-48cf-89c4-588d0e43f05d\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddArtifact\",\"statusCode\":\"SU\",\"result\":\"Add Artifact foronboardingLog_fd1ea3aa-5a91-454a-9f8b-87c674e25417.log Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":true,\"totalPages\":1,\"totalElements\":18,\"size\":25,\"number\":0,\"sort\":null,\"numberOfElements\":18,\"first\":true}")));
+										"[{\"stepResultId\":28,\"taskId\":5,\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}]")));
 
 		stubFor(get(urlEqualTo(
 				"/ccds/pubreq/search?revisionId=02c5f263-c612-4bd2-abaa-d12ccc0d2476&solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&statusCode=PE&page=0&size=1"))
@@ -540,16 +540,16 @@ public class MarketPlaceControllerTest {
 								.withBody("{\"count\":0}")));
 
 		stubFor(get(urlEqualTo(
-				"/ccds/stepresult/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=startDate,DESC"))
+				"/ccds/task/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=startDate,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"stepResultId\":28,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"255c59b2-42a1-4fae-bb92-33ce1356eb20\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"taskId\":5,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"taskCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"created\":1535603254000,\"modified\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo(
-				"/ccds/stepresult/search?trackingId=fd1ea3aa-5a91-454a-9f8b-87c674e25417&_j=a&page=0&size=25"))
+				"/ccds/task/5/stepresult"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"stepResultId\":32,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"121dcb0f-c714-48cf-89c4-588d0e43f05d\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddArtifact\",\"statusCode\":\"SU\",\"result\":\"Add Artifact foronboardingLog_fd1ea3aa-5a91-454a-9f8b-87c674e25417.log Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":true,\"totalPages\":1,\"totalElements\":18,\"size\":25,\"number\":0,\"sort\":null,\"numberOfElements\":18,\"first\":true}")));
+										"[{\"stepResultId\":28,\"taskId\":5,\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}]")));
 
 		stubFor(get(urlEqualTo(
 				"/ccds/pubreq/search?revisionId=02c5f263-c612-4bd2-abaa-d12ccc0d2476&solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&statusCode=PE&page=0&size=1"))
@@ -635,16 +635,16 @@ public class MarketPlaceControllerTest {
 								.withBody("{\"count\":0}")));
 
 		stubFor(get(urlEqualTo(
-				"/ccds/stepresult/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=startDate,DESC"))
+				"/ccds/task/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=startDate,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"stepResultId\":28,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"255c59b2-42a1-4fae-bb92-33ce1356eb20\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+										"{\"content\":[{\"taskId\":5,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"taskCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"created\":1535603254000,\"modified\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
 
 		stubFor(get(urlEqualTo(
-				"/ccds/stepresult/search?trackingId=fd1ea3aa-5a91-454a-9f8b-87c674e25417&_j=a&page=0&size=25"))
+				"/ccds/task/5/stepresult"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
-										"{\"content\":[{\"stepResultId\":32,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"stepCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"artifactId\":\"121dcb0f-c714-48cf-89c4-588d0e43f05d\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddArtifact\",\"statusCode\":\"SU\",\"result\":\"Add Artifact foronboardingLog_fd1ea3aa-5a91-454a-9f8b-87c674e25417.log Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}],\"last\":true,\"totalPages\":1,\"totalElements\":18,\"size\":25,\"number\":0,\"sort\":null,\"numberOfElements\":18,\"first\":true}")));
+										"[{\"stepResultId\":28,\"taskId\":5,\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}]")));
 
 		stubFor(get(urlEqualTo(
 				"/ccds/pubreq/search?revisionId=02c5f263-c612-4bd2-abaa-d12ccc0d2476&solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&statusCode=PE&page=0&size=1"))

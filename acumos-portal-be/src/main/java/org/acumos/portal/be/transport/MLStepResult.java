@@ -22,8 +22,8 @@ package org.acumos.portal.be.transport;
 import java.util.Date;
 
 public class MLStepResult {
-	
-	
+
+	private Long taskId;
 	private Long stepResultId;
 	private String trackingId;
 	private String stepCode;
@@ -36,78 +36,107 @@ public class MLStepResult {
 	private String result;
 	private Date startDate;
 	private Date endDate;
-	
-	
-	
+
+	public Long getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(Long taskId) {
+		this.taskId = taskId;
+	}
+
 	public Long getStepResultId() {
 		return stepResultId;
 	}
+
 	public void setStepResultId(Long stepResultId) {
 		this.stepResultId = stepResultId;
 	}
+
 	public String getTrackingId() {
 		return trackingId;
 	}
+
 	public void setTrackingId(String trackingId) {
 		this.trackingId = trackingId;
 	}
+
 	public String getStepCode() {
 		return stepCode;
 	}
+
 	public void setStepCode(String stepCode) {
 		this.stepCode = stepCode;
 	}
+
 	public String getSolutionId() {
 		return solutionId;
 	}
+
 	public void setSolutionId(String solutionId) {
 		this.solutionId = solutionId;
 	}
+
 	public String getRevisionId() {
 		return revisionId;
 	}
+
 	public void setRevisionId(String revisionId) {
 		this.revisionId = revisionId;
 	}
+
 	public String getArtifactId() {
 		return artifactId;
 	}
+
 	public void setArtifactId(String artifactId) {
 		this.artifactId = artifactId;
 	}
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getStatusCode() {
 		return statusCode;
 	}
+
 	public void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
+
 	public String getResult() {
 		return result;
 	}
+
 	public void setResult(String result) {
 		this.result = result;
 	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
+
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+
 	public Date getEndDate() {
 		return endDate;
 	}
+
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
