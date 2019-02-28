@@ -59,6 +59,9 @@ angular.module('manageModule')
 						                	{name:"Most Downloaded",value:"MD"},
 						                	{name:"Fewest Downloaded",value:"LD"}, 
 						                	{name:"Highest Reach",value:"HR"},
+											{name:"Lowest Reach",value:"LR"},
+						                	{name:"Most Recent",value:"MR"},
+						                	{name:"Older",value:"OLD"},
 						                	{name:"Name",value:"name"},
                                             {name:"Created Date",value:"created"},
                                             {name:"Author",value:"ownerName"}];
@@ -187,7 +190,7 @@ angular.module('manageModule')
 							
 							
 							$scope.mlsolutions = [];
-							if($scope.sortBy == "ML" || $scope.sortBy == "FL" || $scope.sortBy == "HR" )
+							if($scope.sortBy == "ML" || $scope.sortBy == "FL" || $scope.sortBy == "HR" || $scope.sortBy == "LR" )
 							 {
 								$scope.mlSolutionPrivate =[];
 								$scope.msg = "No Data";
@@ -467,8 +470,8 @@ angular.module('manageModule')
 						};
 						$scope.getDeleteModels=function(){
 							$scope.mlsolutions = [];
-							if($scope.sortBy == "ML" || $scope.sortBy == "FL" || $scope.sortBy == "HR" ||
-							   $scope.sortBy == "name" || $scope.sortBy == "created" || $scope.sortBy == "ownerName")
+							if($scope.sortBy == "ML" || $scope.sortBy == "FL" || $scope.sortBy == "HR" || $scope.sortBy == "LR" ||
+							   $scope.sortBy == "name" || $scope.sortBy == "created" || $scope.sortBy == "ownerName" || $scope.sortBy == "OLD" || $scope.sortBy == "MR")
 							 {
 								$scope.mlSolutionDelete =[];
 								$scope.totalDeletedSolCount = 0;
@@ -896,6 +899,30 @@ angular.module('manageModule')
                         	if( $scope.sortBy == 'ownerName' ){
                                $scope.fieldToSort = { "ownerName" : "ASC" };
                             }
+							if( $scope.sortBy == 'OLD' ){
+                                $scope.fieldToSort = { "modified" : "ASC" };
+                             }
+                        	if( $scope.sortBy == 'MR' ){
+                                $scope.fieldToSort = { "modified" : "DESC" };
+                             }
+                        	if( $scope.sortBy == 'HR' ){
+                                $scope.fieldToSort = { "viewCount" : "DESC" };
+                             }
+                        	if( $scope.sortBy == 'LR' ){
+                                $scope.fieldToSort = { "viewCount" : "ASC" };
+                             }
+                        	if( $scope.sortBy == 'ML' ){
+                                $scope.fieldToSort = { "ratingAverageTenths" : "DESC" };
+                             }
+                        	if( $scope.sortBy == 'FL' ){
+                                $scope.fieldToSort = { "ratingAverageTenths" : "ASC" };
+                             }
+                        	if( $scope.sortBy == 'MD' ){
+                                $scope.fieldToSort = { "downloadCount" : "DESC" };
+                             }
+                        	if( $scope.sortBy == 'FD' ){
+                                $scope.fieldToSort = { "downloadCount" : "ASC" };
+                             }
 							getModels();
 						}
 						
