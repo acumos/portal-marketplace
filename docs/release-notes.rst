@@ -20,6 +20,16 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.3  1st March 2019
+=================================
+* IST: Sort By: Values of drop down on the filter is different in the marketplace and manage my model.(ACUMOS-2523)
+* IST: Federation: Drop Down value is displaying wrong on View add subscription popup (ACUMOS-2537)
+* Portal reduce page load time by sending send links to solution images	(ACUMOS-2040)
+* Portal cannot clear web on-boarding results (ACUMOS-2317
+* Portal cannot edit/upload carousel slide image (ACUMOS-2530)
+* Top Carousel - Unable to remove top section from the Top carousel (ACUMOS-2479)
+* Allow sharing private solution created from DesignStudio with other users (ACUMOS-1670)
+
 Version 2.2.1  25th February 2019
 =================================
 * Portal refine left navigation bar icons to match user expectations (ACUMOS-2400)
