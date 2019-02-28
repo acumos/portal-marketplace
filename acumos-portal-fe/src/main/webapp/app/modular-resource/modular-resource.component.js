@@ -171,6 +171,7 @@ angular.module('modelResource')
 							chkCount();
 							$scope.uploadModel = false;
 							$scope.uploadingFile = false;
+							angular.element('.input-div').addClass('disabledClick');
 						},
 						function(error) {
 								$scope.modelUploadError = true;
@@ -194,6 +195,7 @@ angular.module('modelResource')
 				$scope.fileSubmit = false;
 	           	angular.element('#file').val('');
 	           	$scope.modelUploadError = false;
+	           	angular.element('.input-div').removeClass('disabledClick');
 	        }
 			
 			$scope.getOnboardingCLIUrls = function() {
@@ -354,6 +356,7 @@ angular.module('modelResource')
 											$scope.errorVM = '';
 											$scope.completedSteps['ViewModel'] = 'ViewModel';
 											$scope.allSuccess = true;
+											
 										}
 										
 										if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
@@ -407,6 +410,7 @@ angular.module('modelResource')
                 angular.element('.progress .progress-bar').css({ "width" : '0%'});
                 $scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';
                 $scope.errorCC = '';
+                angular.element('.input-div').removeClass('disabledClick');
              }
 
 			$scope.$watchGroup(['toolkitNameValue','install','file','fileSubmit'], function(newValues, oldValues) {
@@ -424,6 +428,7 @@ angular.module('modelResource')
 					
 					if($scope.disableOnboardingButton == true ){
 						$scope.clearExistingNotifications();
+						angular.element('.input-div').addClass('disabledClick');
 					}
 					
 					$scope.addToReqObj = {
