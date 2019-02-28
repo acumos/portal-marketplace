@@ -23,18 +23,27 @@ package org.acumos.portal.be.service;
 
 import java.util.List;
 
-import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPTask;
+import org.acumos.cds.domain.MLPTaskStepResult;
 import org.acumos.portal.be.transport.MLStepResult;
 
 public interface MessagingService {
 
 	List<MLStepResult> callOnBoardingStatusList(String userId, String trackingId);
 	
-	MLPStepResult createStepResult(MLPStepResult stepResult);
+	MLPTask createTask(MLPTask task);
+	
+	void updateTask(MLPTask task);
+	
+	void deleteTask(long taskId);
 
-	void updateStepResult(MLPStepResult stepResult);
+	MLPTask findTaskByTrackingId(String trackingId);
+	
+	MLPTaskStepResult createStepResult(MLPTaskStepResult stepResult);
+
+	void updateStepResult(MLPTaskStepResult stepResult);
 
 	void deleteStepResult(Long stepResultId);
 
-	List<MLPStepResult> findStepresultBySolutionId(String solutionId, String revisionId);
+	List<MLPTaskStepResult> findStepresultBySolutionId(String solutionId, String revisionId);
 }

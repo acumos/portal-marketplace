@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPTask;
+import org.acumos.cds.domain.MLPTaskStepResult;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.MessagingService;
@@ -37,9 +38,9 @@ import org.acumos.portal.be.util.PortalUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MessagingServiceImpl extends AbstractServiceImpl implements MessagingService{
+public class MessagingServiceImpl extends AbstractServiceImpl implements MessagingService {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MarketPlaceCatalogServiceImpl.class);
+	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MessagingServiceImpl.class);
 
 	@Override
 	public List<MLStepResult> callOnBoardingStatusList(String userId, String trackingId) {
@@ -47,75 +48,99 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		List<MLStepResult> messageStatus = new ArrayList<>();
 		log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		
-		RestPageRequest pageRequest = new RestPageRequest();
-		Map<String,Object> queryParam = new HashMap<String, Object>();
-		queryParam.put("trackingId", trackingId);
-		//To fetch the step results while on-boarding solution. By default CDS sends 20 records. Where as convert to onap produces more that 20 step results
-		// Setting a random value fo 200 to fetch all the step results
-		pageRequest.setPage(0);
-		pageRequest.setSize(200);
-		RestPageResponse<MLPStepResult> pageResponse = dataServiceRestClient.searchStepResults(queryParam, false, pageRequest);
-		
-		for(int i=0; i< pageResponse.getContent().size(); i++){
-			messageStatus.add(PortalUtils.convertToMLStepResult(pageResponse.getContent().get(i)));
+		MLPTask task = findTaskByTrackingId(trackingId);
+		if (task != null) {
+			for (MLPTaskStepResult step : dataServiceRestClient.getTaskStepResults(task.getTaskId())) {
+				messageStatus.add(PortalUtils.convertToMLStepResult(task, step));
+			}
 		}
-
 		return messageStatus;
 	}
-	
+
 	@Override
-	public MLPStepResult createStepResult(MLPStepResult stepResult) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createStepResult : "+ JsonUtils.serializer().toPrettyString(stepResult));
+	public MLPTask createTask(MLPTask task) {
+		log.debug(EELFLoggerDelegate.debugLogger, "createTask : " + JsonUtils.serializer().toPrettyString(task));
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPStepResult result = dataServiceRestClient.createStepResult(stepResult);	
+		return dataServiceRestClient.createTask(task);
+	}
+
+	@Override
+	public void updateTask(MLPTask task) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateTask ");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.updateTask(task);
+	}
+
+	@Override
+	public void deleteTask(long taskId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "deleteTask ");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		dataServiceRestClient.deleteTask(taskId);
+	}
+
+	@Override
+	public MLPTask findTaskByTrackingId(String trackingId) {
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPTask task = null;
+
+		RestPageRequest pageRequest = new RestPageRequest();
+		Map<String, Object> queryParam = new HashMap<String, Object>();
+		queryParam.put("trackingId", trackingId);
+		// To fetch the step results while on-boarding solution. By default CDS
+		// sends 20 records. Where as convert to ONAP produces more that 20 step
+		// results
+		// Setting a random value of 200 to fetch all the step results
+		pageRequest.setPage(0);
+		pageRequest.setSize(200);
+		RestPageResponse<MLPTask> pageResponse = dataServiceRestClient.searchTasks(queryParam, false, pageRequest);
+		if (!PortalUtils.isEmptyList(pageResponse.getContent())) {
+			task = pageResponse.getContent().get(0);
+		}
+
+		return task;
+	}
+
+	@Override
+	public MLPTaskStepResult createStepResult(MLPTaskStepResult stepResult) {
+		log.debug(EELFLoggerDelegate.debugLogger,
+				"createStepResult : " + JsonUtils.serializer().toPrettyString(stepResult));
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPTaskStepResult result = dataServiceRestClient.createTaskStepResult(stepResult);
 		return result;
 	}
 
 	@Override
-	public void updateStepResult(MLPStepResult stepResult) {
+	public void updateStepResult(MLPTaskStepResult stepResult) {
 		log.debug(EELFLoggerDelegate.debugLogger, "updateStepResult`");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		dataServiceRestClient.updateStepResult(stepResult);	
+		dataServiceRestClient.updateTaskStepResult(stepResult);
 	}
 
 	@Override
 	public void deleteStepResult(Long stepResultId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "deleteStepResult`");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		dataServiceRestClient.deleteStepResult(stepResultId);	
-	}
-
-	/*@Override
-	public List<MLPStepStatus> getStepStatuses() {
-		log.debug(EELFLoggerDelegate.debugLogger, "createStepResult`");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPStepStatus> stepStatusesList  = dataServiceRestClient.getStepStatuses();	
-		return stepStatusesList;
+		dataServiceRestClient.deleteTaskStepResult(stepResultId);
 	}
 
 	@Override
-	public List<MLPStepType> getStepTypes() {
-		log.debug(EELFLoggerDelegate.debugLogger, "createStepResult`");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPStepType> stepStatusesList  = dataServiceRestClient.getStepTypes();	
-		return stepStatusesList;
-	}*/
-	
-	@Override
-	public List<MLPStepResult> findStepresultBySolutionId(String solutionId, String revisionId) {
+	public List<MLPTaskStepResult> findStepresultBySolutionId(String solutionId, String revisionId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "findStepresultBySolutionId ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		List<MLPTaskStepResult> mlpStepResultList = new ArrayList<>();
 		Map<String, Object> queryParams = new HashMap<>();
-		//queryParams.put("solutionId", solutionId);
+		// queryParams.put("solutionId", solutionId);
 		RestPageRequest pageRequest = new RestPageRequest();
 		pageRequest.setPage(0);
 		pageRequest.setSize(100);
 		queryParams.put("solutionId", solutionId);
 		queryParams.put("revisionId", revisionId);
-		RestPageResponse<MLPStepResult> stepResultList = dataServiceRestClient.searchStepResults(queryParams, false,
-				pageRequest);
-		List<MLPStepResult> mlpStepResultList = stepResultList.getContent();
+		RestPageResponse<MLPTask> taskList = dataServiceRestClient.searchTasks(queryParams, false, pageRequest);
+		if (!PortalUtils.isEmptyList(taskList.getContent())) {
+			for (MLPTask task : taskList.getContent()) {
+				mlpStepResultList.addAll(dataServiceRestClient.getTaskStepResults(task.getTaskId()));
+			}
+		}
 		return mlpStepResultList;
 	}
 }

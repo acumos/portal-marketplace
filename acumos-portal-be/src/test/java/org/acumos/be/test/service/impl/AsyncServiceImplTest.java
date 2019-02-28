@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPNotification;
-import org.acumos.cds.domain.MLPStepResult;
+import org.acumos.cds.domain.MLPTaskStepResult;
 import org.acumos.portal.be.service.impl.AsyncServicesImpl;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.UploadSolution;
@@ -43,7 +43,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AsyncServiceImplTest { 
+public class AsyncServiceImplTest {
 
 	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(AsyncServiceImplTest.class);
 
@@ -52,43 +52,42 @@ public class AsyncServiceImplTest {
 
 	@Mock
 	AsyncServicesImpl impl = new AsyncServicesImpl();
-	
+
 	@Test
-	public void initiateAsyncProcess(){
-		try{
+	public void initiateAsyncProcess() {
+		try {
 			AsyncServicesImpl mockimpl = mock(AsyncServicesImpl.class);
 			mockimpl.initiateAsyncProcess();
 			Assert.assertNotNull(mockimpl);
 			logger.debug("Initialized process");
 		} catch (Exception e) {
-			logger.error("Exception occured while initiateAsyncProcess: " + e);	
+			logger.error("Exception occured while initiateAsyncProcess: " + e);
 		}
 	}
-	
+
 	@Test
-	public void callOnboarding(){
-		try{
+	public void callOnboarding() {
+		try {
 			String userId = "1810f833-8698-4233-add4-091e34b8703c";
 			UploadSolution solution = new UploadSolution();
 			solution.setName("Test Solution");
 			solution.setVersion("1.0.0");
-			String provider = "FB"; 
+			String provider = "FB";
 			String access_token = "PB";
 			AsyncServicesImpl mockimpl = mock(AsyncServicesImpl.class);
-			//mockimpl.callOnboarding(userId, solution, provider, access_token);
+			// mockimpl.callOnboarding(userId, solution, provider,
+			// access_token);
 			Assert.assertEquals(userId, userId);
 			Assert.assertNotNull(userId);
 			Assert.assertNotNull(solution);
 			Assert.assertNotNull(provider);
 			Assert.assertNotNull(access_token);
-			
+
 		} catch (Exception e) {
-			logger.error("Exception occured while callOnboarding: " + e);	
+			logger.error("Exception occured while callOnboarding: " + e);
 		}
 	}
-	
 
-	
 	@Test
 	public void sendBellNotification() {
 		String userId = "1810f833-8698-4233-add4-091e34b8703c";
@@ -96,10 +95,9 @@ public class AsyncServiceImplTest {
 		solution.setName("Test Solution");
 		solution.setVersion("1.0.0");
 		AsyncServicesImpl mockAsync = mock(AsyncServicesImpl.class);
-		
+
 		String reason = "Test case";
-		String message = "On-boarding failed: " + reason
-				+ " Please restart the process again to upload the solution.";
+		String message = "On-boarding failed: " + reason + " Please restart the process again to upload the solution.";
 		MLPNotification mlpNotification = new MLPNotification();
 		Instant created = Instant.now();
 		mlpNotification.setCreated(created);
@@ -118,29 +116,27 @@ public class AsyncServiceImplTest {
 		logger.info("Successfully created notification " + notf);
 		Assert.assertNotNull(notf);
 		Assert.assertEquals(notf.getMessage(), message);
-		
+
 	}
-	
+
 	@Test
 	public void sendTrackerErrorNotification() {
 		String uuid = "f43898dc-2d3e-4680-afef-f2a93884c52a";
 		String userId = "1810f833-8698-4233-add4-091e34b8703c";
 		String message = "Failed to connect to onboarding";
 		AsyncServicesImpl mockAsync = mock(AsyncServicesImpl.class);
-		
-		MLPStepResult step = new MLPStepResult();
-		step.setTrackingId(uuid);
-		step.setUserId(userId);
-		step.setStepCode("OB");
+
+		MLPTaskStepResult step = new MLPTaskStepResult();
+		step.setTaskId(new Long(1));
 		step.setStatusCode("FA");
 		step.setName("CreateSolution");
 		step.setResult(message);
-		
+
 		Mockito.when(mockAsync.sendTrackerErrorNotification(uuid, userId, message)).thenReturn(step);
 		logger.info("Successfully created step " + step);
 		Assert.assertNotNull(step);
 		Assert.assertEquals(message, step.getResult());
-		
+
 	}
-		
+
 }
