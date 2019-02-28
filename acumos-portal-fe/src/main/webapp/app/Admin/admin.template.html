@@ -2207,8 +2207,7 @@ limitations under the License.
 										ng-change="addedToSubs = false;solutionDetail=false;
 										catChange(categoryValue,toolKitTypeValue);showSolutionTable=false"
 										ng-disabled="modelIDValue || allSubs=='true'"
-										placeholder="Federate To"> <md-option
-										ng-selected="true" value="">Federate to</md-option> <md-option
+										placeholder="Select"> <md-option
 										ng-repeat="accessType in accessTypeJson" ng-value="accessType.access_type_cd">
 										{{accessType.access_type_name}} ('{{accessType.access_type_cd}}')</md-option> </md-select>
 								</div>
