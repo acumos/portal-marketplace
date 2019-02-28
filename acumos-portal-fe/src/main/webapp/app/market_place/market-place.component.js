@@ -292,9 +292,10 @@ angular
 							}
 							
 							for(var i = 0 ;i < $scope.selected.length; i++)
-                            {
-                            $scope.tagFilter.push($scope.selected[i].tagName)
-                            }
+                                                            {
+                                                                   if($scope.tagFilter.indexOf($scope.selected[i].tagName) == -1)
+                                +                                     $scope.tagFilter.push($scope.selected[i].tagName)
+                                                            }
 							
 							dataObj = {
 								"request_body" : {
