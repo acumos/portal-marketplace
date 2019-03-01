@@ -2134,10 +2134,15 @@ angular.module('admin').filter('abs', function() {
                 	   $scope.carouselSlide = val;
                 	   $scope.carouselBGFileName = val['bgImageUrl'];
                 	   $scope.carouselInfoFileName = val['InfoImageUrl'];
-                	   
+                	   if( $scope.topSC == ""){
+                		   $scope.keyval = key;
+                    	   $scope.showAddSlidesPopup();
+                	   }
+                	   else{
                 	   $scope.topSC = val['supportingContent'].replace(/<(?:.|\n)*?>/gm, '');
                 	   $scope.keyval = key;
                 	   $scope.showAddSlidesPopup();
+                	   }
                    }
                    $scope.order = {};
                    $scope.changeCarouselSlideOrder = function (ev){
@@ -2396,7 +2401,7 @@ angular.module('admin').filter('abs', function() {
 								var slide_supportingContent = $scope.eventCarousel.supportingContent;
 								slide['name']= slide_name;
 								slide['headline'] = slide_headline;
-								slide['supportingContent']= slide_supportingContent.trim();
+								slide['supportingContent']= slide_supportingContent;
 								slide['infoImageAling']= $scope.carousel_Info_Aling;
 								slide['textAling']= $scope.carousel_Text_Aling;
 								
@@ -2492,9 +2497,15 @@ angular.module('admin').filter('abs', function() {
 	                 	   
 	                 	   $scope.event_Text_Aling = val['textAling'];
 	                 	   $scope.event_Info_Aling = val['infoImageAling'];
+	                 	   if($scope.eventSC == ""){
+	                 		  $scope.keyval = key;
+		                 	   $scope.showEventSlidesPopup();
+	                 	   }
+	                 	   else{
 	                 	   $scope.eventSC = val['supportingContent'].replace(/<(?:.|\n)*?>/gm, '');
 	                 	   $scope.keyval = key;
 	                 	   $scope.showEventSlidesPopup();
+	                 	   }
 	                    }
 	                    
 	                    
