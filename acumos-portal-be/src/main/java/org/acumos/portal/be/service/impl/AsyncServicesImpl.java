@@ -386,8 +386,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	public MLPTaskStepResult sendTrackerErrorNotification(String uuid, String userId, String message) {
 		log.debug(EELFLoggerDelegate.debugLogger, "inside sendTrackerErrorNotification");
 		MLPTaskStepResult res = null;
-		MLPTask task = messagingService.findTaskByTrackingId(uuid);
-		if (task == null) {
+		MLPTask task = null;
+		List<MLPTask> tasks = messagingService.findTasksByTrackingId(uuid);
+		if (PortalUtils.isEmptyList(tasks)) {
 			task = new MLPTask();
 			task.setUserId(userId);
 			task.setTrackingId(uuid);
@@ -395,6 +396,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			task.setStatusCode("FA");
 			task.setTaskCode("OB");
 			task = messagingService.createTask(task);
+		} else {
+			task = tasks.get(0);
 		}
 
 		List<MLStepResult> status = messagingService.callOnBoardingStatusList(userId, uuid);
@@ -445,10 +448,11 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 
 		MLPTaskStepResult stepResult = new MLPTaskStepResult();
+		MLPTask task = null;
 
 		if (tracking_id != null) {
-			MLPTask task = messagingService.findTaskByTrackingId(tracking_id);
-			if (task == null) {
+			List<MLPTask> tasks = messagingService.findTasksByTrackingId(tracking_id);
+			if (PortalUtils.isEmptyList(tasks)) {
 				task = new MLPTask();
 				task.setTrackingId(tracking_id);
 				task.setUserId(userId);
@@ -462,6 +466,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				task.setStatusCode("ST");
 				task.setTaskCode("SV");
 				task = messagingService.createTask(task);
+			} else {
+				task = tasks.get(0);
 			}
 			stepResult.setTaskId(task.getTaskId());
 			stepResult.setName("CheckCompatibility");

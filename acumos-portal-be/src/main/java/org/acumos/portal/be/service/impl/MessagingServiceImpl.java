@@ -48,10 +48,12 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		List<MLStepResult> messageStatus = new ArrayList<>();
 		log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPTask task = findTaskByTrackingId(trackingId);
-		if (task != null) {
-			for (MLPTaskStepResult step : dataServiceRestClient.getTaskStepResults(task.getTaskId())) {
-				messageStatus.add(PortalUtils.convertToMLStepResult(task, step));
+		List<MLPTask> tasks = findTasksByTrackingId(trackingId);
+		if (!PortalUtils.isEmptyList(tasks)) {
+			for (MLPTask task : tasks) {
+				for (MLPTaskStepResult step : dataServiceRestClient.getTaskStepResults(task.getTaskId())) {
+					messageStatus.add(PortalUtils.convertToMLStepResult(task, step));
+				}
 			}
 		}
 		return messageStatus;
@@ -79,9 +81,9 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 	}
 
 	@Override
-	public MLPTask findTaskByTrackingId(String trackingId) {
+	public List<MLPTask> findTasksByTrackingId(String trackingId) {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPTask task = null;
+		List<MLPTask> tasks = null;
 
 		RestPageRequest pageRequest = new RestPageRequest();
 		Map<String, Object> queryParam = new HashMap<String, Object>();
@@ -94,10 +96,10 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		pageRequest.setSize(200);
 		RestPageResponse<MLPTask> pageResponse = dataServiceRestClient.searchTasks(queryParam, false, pageRequest);
 		if (!PortalUtils.isEmptyList(pageResponse.getContent())) {
-			task = pageResponse.getContent().get(0);
+			tasks = pageResponse.getContent();
 		}
 
-		return task;
+		return tasks;
 	}
 
 	@Override

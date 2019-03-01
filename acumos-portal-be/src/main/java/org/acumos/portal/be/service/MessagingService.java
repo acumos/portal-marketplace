@@ -37,7 +37,7 @@ public interface MessagingService {
 	
 	void deleteTask(long taskId);
 
-	MLPTask findTaskByTrackingId(String trackingId);
+	List<MLPTask> findTasksByTrackingId(String trackingId);
 	
 	MLPTaskStepResult createStepResult(MLPTaskStepResult stepResult);
 
