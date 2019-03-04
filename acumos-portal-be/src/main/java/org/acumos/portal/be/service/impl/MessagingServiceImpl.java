@@ -21,6 +21,7 @@
 package org.acumos.portal.be.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 					messageStatus.add(PortalUtils.convertToMLStepResult(task, step));
 				}
 			}
+			Collections.sort(messageStatus, (a, b) -> a.getStepResultId().compareTo(b.getStepResultId()));
 			log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus:messageStatus.length=" + messageStatus.size());
 		}
 		return messageStatus;
