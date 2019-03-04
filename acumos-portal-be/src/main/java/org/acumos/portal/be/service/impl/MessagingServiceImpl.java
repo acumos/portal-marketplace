@@ -51,10 +51,12 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		List<MLPTask> tasks = findTasksByTrackingId(trackingId);
 		if (!PortalUtils.isEmptyList(tasks)) {
 			for (MLPTask task : tasks) {
+				log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus:TaskId=" + task.getTaskId());
 				for (MLPTaskStepResult step : dataServiceRestClient.getTaskStepResults(task.getTaskId())) {
 					messageStatus.add(PortalUtils.convertToMLStepResult(task, step));
 				}
 			}
+			log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus:messageStatus.length=" + messageStatus.size());
 		}
 		return messageStatus;
 	}
@@ -97,6 +99,10 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		RestPageResponse<MLPTask> pageResponse = dataServiceRestClient.searchTasks(queryParam, false, pageRequest);
 		if (!PortalUtils.isEmptyList(pageResponse.getContent())) {
 			tasks = pageResponse.getContent();
+		}
+		
+		if(tasks!=null) {
+			log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus:findTasksByTrackingId() : tasks size=" + tasks.size());
 		}
 
 		return tasks;
