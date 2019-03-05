@@ -36,6 +36,7 @@ angular.module('manageModule')
 						$scope.hideDelete = true;
 						$scope.defaultSize = 4;
 						$scope.seeAllSelected = false;
+						$scope.Loadcheck = false;
 						$scope.selectedChip = [];
 						$scope.mlsolutions = [];
 						$scope.fieldToSort = { "modified" : "DESC" };
@@ -221,7 +222,18 @@ angular.module('manageModule')
 										  }
 										};
 							
+							
+							if($scope.Loadcheck){
+								$scope.SetDataLoaded = true;
+								$rootScope.setLoader = true;
+							}
+							else{
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+							}
 							apiService.fetchUserSolutions(dataObj).then(function(response) {
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
 								var data = response.data;
 								privatePrevTotal = privatePrevCounter;
 								$scope.privateDataLoaded = false;
@@ -229,6 +241,8 @@ angular.module('manageModule')
 								$scope.mlSolutionPrivate = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalPrivateSolCount = data.response_body.totalElements;
     
+								$scope.totalPages = data.response_body.pageCount;
+								
 								if($scope.mlSolutionPrivate == 0){
 									$scope.startPageSizePR = 0;
 									$scope.endPageSizePR = 0;
@@ -310,7 +324,19 @@ angular.module('manageModule')
 										  }
 										};
 							
+							
+							if($scope.Loadcheck){
+								$scope.SetDataLoaded = true;
+								$rootScope.setLoader = true;
+							}
+							else{
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+							}
+							
 							apiService.fetchUserSolutions(dataObj).then(function(response) {
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
 								var data = response.data;
 								companyPrevTotal = companyPrevCounter;
 								$scope.companyDataLoaded = false;
@@ -320,6 +346,7 @@ angular.module('manageModule')
 								
 								$scope.mlSolutionCompany = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalCompanySolCount = data.response_body.totalElements;
+								$scope.totalPages = data.response_body.pageCount;
 								
                              if($scope.mlSolutionCompany == 0){
 									
@@ -403,7 +430,21 @@ angular.module('manageModule')
 										  }
 										};
 							
+							
+							
+							if($scope.Loadcheck){
+								$scope.SetDataLoaded = true;
+								$rootScope.setLoader = true;
+							}
+							else{
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+							}
+							
 							apiService.fetchUserSolutions(dataObj).then(function(response) {
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+								
 								var data = response.data;
 							
 								publicPrevTotal = publicPrevCounter;
@@ -411,6 +452,8 @@ angular.module('manageModule')
 								
 								$scope.mlSolutionPublic = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalPublicSolCount = data.response_body.totalElements;
+								$scope.totalPages = data.response_body.pageCount;
+								
 								
 								 if($scope.mlSolutionPublic == 0){
 										
@@ -496,13 +539,27 @@ angular.module('manageModule')
 										  }
 										};
 							
+							if($scope.Loadcheck){
+								$scope.SetDataLoaded = true;
+								$rootScope.setLoader = true;
+							}
+							else{
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+							}
+							
 							apiService.fetchUserSolutions(dataObj).then(function(response) {
+								$scope.SetDataLoaded = false;
+								$rootScope.setLoader = false;
+								
 								publicPrevTotal = deletedPrevCounter;
 								var data = response.data;
 
 								$scope.deleteDataLoaded = false;
 								$scope.mlSolutionDelete = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalDeletedSolCount = data.response_body.totalElements;
+								$scope.totalPages = data.response_body.pageCount;
+								
 								
 								 if($scope.mlSolutionDelete == 0){
 										
@@ -700,6 +757,7 @@ angular.module('manageModule')
 							$scope.hideCompany = true;
 							$scope.hideDelete = true;
 							$scope.seeAllSelected = false;
+							$scope.Loadcheck = false;
 							$scope.defaultSize = 4;
 							$scope.pageNumPrivate = 0;
 							$scope.pageNumPublic = 0;
@@ -759,6 +817,7 @@ angular.module('manageModule')
 						
 						//Change pagination Size starts 
 						$scope.paginationSize = function(size, accessType){
+							$scope.Loadcheck = true;
 							$scope.selectedPage = 0;
 							$scope.defaultSize = size;
 							if(accessType == 'PR'){
@@ -775,7 +834,7 @@ angular.module('manageModule')
 							}
 							
 							
-							$scope.loadMore(0);
+						
 						}
 						//Change pagination Size ends
 						
