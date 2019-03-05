@@ -55,17 +55,17 @@ angular.module('manageModule')
 						}
 						
 						localStorage.setItem('HeaderNameVar','manageModule');
-						$scope.actions = [ 	{name:"Most Liked",value:"ML"}, 
-						                	{name:"Fewest Liked",value:"FL"},
-						                	{name:"Most Downloaded",value:"MD"},
-						                	{name:"Fewest Downloaded",value:"LD"}, 
-						                	{name:"Highest Reach",value:"HR"},
-											{name:"Lowest Reach",value:"LR"},
-						                	{name:"Most Recent",value:"MR"},
-						                	{name:"Older",value:"OLD"},
-						                	{name:"Name",value:"name"},
-                                            {name:"Created Date",value:"created"},
-                                            {name:"Author",value:"ownerName"}];
+						$scope.actions = [ {name: "Most Liked", value: "ML"}, 
+						                   {name: "Fewest Liked", value: "FL"},
+						                   {name: "Most Downloaded", value: "MD"},
+						                   {name: "Fewest Downloaded", value: "LD"}, 
+						                   {name: "Highest Reach", value: "HR"},
+						                   {name: "Lowest Reach", value: "LR"},
+						                   {name: "Most Recent", value: "MR"},
+						                   {name: "Older", value: "OLD"},
+						                   {name: "Name", value: "name"},
+						                   {name: "Created Date", value: "created"} ];
+						
 						$scope.filterids = [ "001", "002", "003", "004", "005",
 								"006" ];
 
@@ -1007,7 +1007,7 @@ angular.module('manageModule')
 													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel'});
 												});
 
-							}
+							};
 							$scope.updateViewCount();
 						}
 						
