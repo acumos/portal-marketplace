@@ -674,7 +674,7 @@ limitations under the License.
 																					<div class="input-div">
 																						<div  file-upload file="file" ng-hide="uploadingFile"
 																						uploadid="bundleuploadid" id="uploadFile"
-																						filename="filename" fileinput="file" validfilename="validfilename"
+																						filename="filename" fileinput="file" 
 																						ng-model="file" accept = ""
 																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
 																						</div>																						
@@ -685,16 +685,12 @@ limitations under the License.
 																						</div>
 																					</div>
 																					<div class="input-upload-button">
-																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-transclude="" ng-disabled="!file || uploadingFile || validfilename" ng-click="fileUpload();" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-transclude="" ng-disabled="!file || uploadingFile" ng-click="fileUpload();" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
 																						 	<span> Upload </span>
 																						</button>
 																					</div>
-																				</div>
-																				<div class="help-inline validation-msgs">
-																					<span ng-show="validfilename">Spaces not allowed in file name</span>
-																		 		</div>
-																		 
-																				<div class="progress-bar-div" ng-show="file.name" ng-if="!validfilename">
+																				</div>																																						 
+																				<div class="progress-bar-div" ng-show="file.name">
 																					<div>
 																						<span class="namelength">{{file.name}}</span>
 																					</div>

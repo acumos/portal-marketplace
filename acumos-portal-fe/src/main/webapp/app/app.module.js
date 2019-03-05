@@ -460,8 +460,7 @@ angular
             size: "=", //in bytes
             imageerror: "=",
             docerror: "=",
-            imagetypeerror : "=",
-            validfilename : "="
+            imagetypeerror : "="           
           },
         link: function (scope, element) {
 
@@ -470,8 +469,7 @@ angular
             element.bind('change', function () {
                 scope.$apply(function () {
                 	//scope.fileinput = changeEvent.target.files[0];
-                	scope.imageerror = false;
-                	scope.validfilename = false;
+                	scope.imageerror = false;                	
                     scope.fileinput = document.getElementById(scope.uploadid).files[0];
                     scope.file = scope.fileinput;
                     scope.fileType = scope.file.name.split('.').pop();
@@ -479,13 +477,6 @@ angular
                     var reader = new FileReader();
 					var imgpath = new Image();
                 	var size = scope.fileinput.size;
-                	if(scope.fileinput.name.split(" ").length-1 > 0)
-                		{
-                		if( scope.validfilename != null ){
-                			scope.validfilename = true;
-                		}
-                		return;
-                		}
                 	if( scope.docerror != null ){
                 		if(size >= scope.size){
                 			scope.docerror = true;
