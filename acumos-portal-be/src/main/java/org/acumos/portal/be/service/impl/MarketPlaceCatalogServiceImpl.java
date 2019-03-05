@@ -1232,7 +1232,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			stepResultCriteria.put("solutionId", mlpSol.getSolutionId());
 
 			Map<String, String> queryParameters = new HashMap<>();
-			queryParameters.put("startDate", "DESC");
+			queryParameters.put("createdDate", "DESC");
 			// Fetch latest step result for the solution to get the tracking id
 			RestPageResponse<MLPTask> taskResponse = dataServiceRestClient.searchTasks(stepResultCriteria, false,
 					new RestPageRequest(0, 1, queryParameters));
