@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.portal-marketplace</groupId>
 	<artifactId>portal-marketplace-parent</artifactId>
-	<version>2.2.3-SNAPSHOT</version>
+	<version>2.2.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Acumos Portal Marketplace parent project</name>
 	<properties>
