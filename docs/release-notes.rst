@@ -20,6 +20,16 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.5  7th March 2019
+=================================
+* Dev: User is not able to delete the uploaded document  from manage my model when file name contain special character and spaces (ACUMOS-12680)
+* IST: Sort By: Values of drop down on the filter is different in the marketplace and manage my model. (ACUMOS-12980)
+* IST: Pagination is displaying incorrect in the my model section when user select values from showing dropdown (ACUMOS-13021)
+* IST: Top Carousel : Edit of slide is not working (ACUMOS-13031)
+* <IST> <Portal Marketplace> Tag functionality is not working properly after searching the values	(ACUMOS-12725)
+* Portal cannot clear web on-boarding results (ACUMOS-12723)
+
+
 Version 2.2.3  1st March 2019
 =================================
 * IST: Sort By: Values of drop down on the filter is different in the marketplace and manage my model.(ACUMOS-2523)
