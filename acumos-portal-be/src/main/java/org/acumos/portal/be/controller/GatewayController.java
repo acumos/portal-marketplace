@@ -56,24 +56,22 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(APINames.GATEWAY)
 public class GatewayController extends AbstractController {
-	
+
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(GatewayController.class);
-	
-	
+
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	Clients clients;
-	
+
 	/**
 	 * 
 	 */
 	public GatewayController() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 	/**
 	 * @param request
 	 *            HttpServletRequest
@@ -83,32 +81,34 @@ public class GatewayController extends AbstractController {
 	 * @return MLP Peer
 	 */
 	@ApiOperation(value = "Check the connectivity to gateway instance", response = JsonResponse.class)
-	@RequestMapping(value = {APINames.PING},method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.PING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPPeer> pingGateway(HttpServletRequest request, @PathVariable("peerId") String peerId, HttpServletResponse response) {
-		
+	public JsonResponse<MLPPeer> pingGateway(HttpServletRequest request, @PathVariable("peerId") String peerId,
+			HttpServletResponse response) {
+
 		peerId = SanitizeUtils.sanitize(peerId);
-		
+
 		JsonResponse<MLPPeer> data = new JsonResponse<>();
 		JsonResponse<MLPPeer> peer = null;
 		try {
-			if(peerId != null && peerId != "") {
+			if (peerId != null && peerId != "") {
 				GatewayClient gateway = clients.getGatewayClient();
 				peer = gateway.ping(peerId);
 			}
-			if (peer == null){
-				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Cannot Establish Connection");
+			if (peer == null) {
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND,
+						"Cannot Establish Connection");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseBody(peer.getContent());
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			data = new JsonResponse<>();
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
 			data.setResponseCode(String.valueOf(HttpServletResponse.SC_BAD_GATEWAY));
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Failed to get Connection",e);
+			log.error(EELFLoggerDelegate.errorLogger, "Failed to get Connection", e);
 		}
 		return data;
 	}
@@ -122,38 +122,40 @@ public class GatewayController extends AbstractController {
 	 * @return MLPSolution Solution
 	 */
 	@ApiOperation(value = "Get All the solutions according to the catagories or toolkit type selected", response = JsonResponse.class)
-	@RequestMapping(value = {"/solutions"},method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@RequestMapping(value = { "/solutions" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<MLPSolution>> getSolutions(HttpServletRequest request, @RequestBody JsonRequest<MLPPeerSubscription> peerSubscription, HttpServletResponse response) {
+	public JsonResponse<List<MLPSolution>> getSolutions(HttpServletRequest request,
+			@RequestBody JsonRequest<MLPPeerSubscription> peerSubscription, HttpServletResponse response) {
 		JsonResponse<List<MLPSolution>> data = new JsonResponse<>();
 		String selector = null;
 		Map<String, Object> selectorMap = new HashMap<>();
 		JsonResponse<List<MLPSolution>> solutions = null;
-		if(peerSubscription != null) {
+		if (peerSubscription != null) {
 			try {
 				MLPPeerSubscription mlpPeerSubscription = peerSubscription.getBody();
-				if  (mlpPeerSubscription != null ) {
+				if (mlpPeerSubscription != null) {
 					selector = mlpPeerSubscription.getSelector();
 					selectorMap = JsonUtils.serializer().mapFromJson(selector);
 				}
 				if (selectorMap != null && selectorMap.size() > 0) {
 					GatewayClient gateway = clients.getGatewayClient();
 					solutions = gateway.getSolutions(mlpPeerSubscription.getPeerId(), selector);
-					
+
 					log.info(JsonUtils.serializer().toPrettyString(solutions));
 				}
-				if (solutions == null){
-					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
+				if (solutions == null) {
+					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND,
+							"Solution Not Found");
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 					data.setResponseBody(solutions.getContent());
 				}
-			}catch(Exception e) {
+			} catch (Exception e) {
 				data = new JsonResponse<>();
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				data.setResponseDetail(e.getMessage());
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occured while fetching the solutions",e);
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occured while fetching the solutions", e);
 			}
 		}
 		return data;
@@ -168,27 +170,30 @@ public class GatewayController extends AbstractController {
 	 * @return MLPSolution Solution
 	 */
 	@ApiOperation(value = "Get Solution with the provided solutionId", response = JsonResponse.class)
-	@RequestMapping(value = {"{solutionId}/solution/{peerId}"},method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"{solutionId}/solution/{peerId}" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSolution> getSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId,
-			@PathVariable("peerId") String peerId, HttpServletResponse response) {
-		
+	public JsonResponse<MLPSolution> getSolution(HttpServletRequest request,
+			@PathVariable("solutionId") String solutionId, @PathVariable("peerId") String peerId,
+			HttpServletResponse response) {
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		peerId = SanitizeUtils.sanitize(peerId);
-		
+
 		JsonResponse<MLPSolution> data = new JsonResponse<MLPSolution>();
 		JsonResponse<MLPSolution> solution = null;
-		if(solutionId != null) {
+		if (solutionId != null) {
 			try {
 				GatewayClient gateway = clients.getGatewayClient();
-				solution = gateway.getSolution(peerId,solutionId);
-				if (solution == null){
-					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Solution Not Found");
+				solution = gateway.getSolution(peerId, solutionId);
+				if (solution == null) {
+					throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND,
+							"Solution Not Found");
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 					data.setResponseBody(solution.getContent());
 				}
-			}catch(Exception e) {
+			} catch (Exception e) {
 				data = new JsonResponse<>();
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);

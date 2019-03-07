@@ -44,97 +44,79 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
-
 /**
  */
 @RunWith(SpringRunner.class)
-@ContextHierarchy({
-	@ContextConfiguration(classes = org.acumos.portal.be.config.GatewayClientConfiguration.class)
-})
-@SpringBootTest(classes = org.acumos.portal.be.Application.class,
-								webEnvironment = WebEnvironment.RANDOM_PORT,
-								properties = {
-										"client.ssl.key-store=classpath:acumosa.pkcs12",
-										"client.ssl.key-store-password=acumosa",
-										"client.ssl.key-store-type=PKCS12",
-										"client.ssl.key-password = acumosa",
-										"client.ssl.trust-store=classpath:acumosTrustStore.jks",
-										"client.ssl.trust-store-password=acumos",
-										"client.ssl.client-auth=need",
-										"gateway.url=http://localhost/gateway"
-								})
+@ContextHierarchy({ @ContextConfiguration(classes = org.acumos.portal.be.config.GatewayClientConfiguration.class) })
+@SpringBootTest(classes = org.acumos.portal.be.Application.class, webEnvironment = WebEnvironment.RANDOM_PORT, properties = {
+		"client.ssl.key-store=classpath:acumosa.pkcs12", "client.ssl.key-store-password=acumosa",
+		"client.ssl.key-store-type=PKCS12", "client.ssl.key-password = acumosa",
+		"client.ssl.trust-store=classpath:acumosTrustStore.jks", "client.ssl.trust-store-password=acumos",
+		"client.ssl.client-auth=need", "gateway.url=http://localhost/gateway" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FederationClientTest {
 
 	private final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(getClass().getName());
-		
+
 	@Autowired
 	private Clients clients;
-	
-	
+
 	@Test
 	public void testHttpClient() {
-		
-		HttpClient client  = prepareHttpClient();
-		assertTrue(client != null);		
-	}	
-	
+
+		HttpClient client = prepareHttpClient();
+		assertTrue(client != null);
+	}
+
 	@Test
 	public void testFederationClient() {
-		
-		GatewayClient  federationClient = clients.getGatewayClient();
-		assertTrue(federationClient  != null);		
+
+		GatewayClient federationClient = clients.getGatewayClient();
+		assertTrue(federationClient != null);
 	}
-	
+
 	@Test
 	public void testPing() {
-		
-		GatewayClient  federationClient = clients.getGatewayClient();
-		assertTrue(federationClient  != null);
-		String peerId="b87b36f0-a600-441d-bd7c-8472bebf81ce";
-		JsonResponse<MLPPeer> response  = federationClient.ping(peerId);		
-		assertTrue(response == null);				
+
+		GatewayClient federationClient = clients.getGatewayClient();
+		assertTrue(federationClient != null);
+		String peerId = "b87b36f0-a600-441d-bd7c-8472bebf81ce";
+		JsonResponse<MLPPeer> response = federationClient.ping(peerId);
+		assertTrue(response == null);
 	}
-	
+
 	@Test
 	public void testGetSolutions() {
-		
-		GatewayClient  federationClient = clients.getGatewayClient();
-		assertTrue(federationClient  != null);
-		//Map<String, Object> theSelection = new HashMap<String, Object>();
-		//String selection = "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"SK\"}";
-		//theSelection.put("modelTypeCode", "CL");
-		String peerId="b87b36f0-a600-441d-bd7c-8472bebf81ce";
+
+		GatewayClient federationClient = clients.getGatewayClient();
+		assertTrue(federationClient != null);
+		// Map<String, Object> theSelection = new HashMap<String, Object>();
+		// String selection =
+		// "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"SK\"}";
+		// theSelection.put("modelTypeCode", "CL");
+		String peerId = "b87b36f0-a600-441d-bd7c-8472bebf81ce";
 		String theSelection = "{\"modelTypeCode\":\"CL\",\"toolKitTypeCode\":\"SK\"}";
-		//String theSelection = "toolkit:CL";
-		JsonResponse<List<MLPSolution>> response  = federationClient.getSolutions(peerId,theSelection);		
-		assertTrue(response == null);				
+		// String theSelection = "toolkit:CL";
+		JsonResponse<List<MLPSolution>> response = federationClient.getSolutions(peerId, theSelection);
+		assertTrue(response == null);
 	}
-	
+
 	@Test
 	public void testSolution() {
-		
-		GatewayClient  federationClient = clients.getGatewayClient();
-		assertTrue(federationClient  != null);
-		String peerId="b87b36f0-a600-441d-bd7c-8472bebf81ce";
+
+		GatewayClient federationClient = clients.getGatewayClient();
+		assertTrue(federationClient != null);
+		String peerId = "b87b36f0-a600-441d-bd7c-8472bebf81ce";
 		String solutionId = "test1c351f5d-3e38-419a-873a-ce2e63bb1d7d";
-		JsonResponse<MLPSolution> response = federationClient.getSolution(peerId,solutionId);		
-		assertTrue(response == null);				
+		JsonResponse<MLPSolution> response = federationClient.getSolution(peerId, solutionId);
+		assertTrue(response == null);
 	}
 
 	private HttpClient prepareHttpClient() {
-		return new HttpClientConfigurationBuilder()
-								.withSSL(new HttpClientConfigurationBuilder.SSLBuilder()
-															.withKeyStore("classpath:/acumosa.pkcs12")
-															.withKeyStorePassword("acumosa")
-															//.withKeyPassword("acumosb")
-															.withTrustStore("classpath:/acumosTrustStore.jks")
-															.withTrustStoreType("JKS")
-															.withTrustStorePassword("acumos")
-															.build())
-								.buildConfig()
-								.buildClient();
+		return new HttpClientConfigurationBuilder().withSSL(new HttpClientConfigurationBuilder.SSLBuilder()
+				.withKeyStore("classpath:/acumosa.pkcs12").withKeyStorePassword("acumosa")
+				// .withKeyPassword("acumosb")
+				.withTrustStore("classpath:/acumosTrustStore.jks").withTrustStoreType("JKS")
+				.withTrustStorePassword("acumos").build()).buildConfig().buildClient();
 	}
 }
-
