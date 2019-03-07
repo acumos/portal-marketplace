@@ -122,40 +122,16 @@ angular
 						$scope.modelCount = 0;
 						$scope.categoryFilter = $scope.mktPlaceStorage.categoryFilter;
 						console.log("market-place-component");
-						$scope.actions = [ {
-							name : "Most Liked",
-							value : "ML"
-						}, {
-							name : "Fewest Liked",
-							value : "FL"
-						}, {
-							name : "Most Downloaded",
-							value : "MD"
-						}, {
-							name : "Fewest Downloaded",
-							value : "FD"
-						}, {
-							name : "Highest Reach",
-							value : "HR"
-						}, {
-							name : "Lowest Reach",
-							value : "LR"
-						}, {
-							name : "Most Recent",
-							value : "MR"
-						}, {
-							name : "Older",
-							value : "OLD"
-						},{
-		                    name : "Name",
-		                    value : "name"
-		                },{
-		                    name : "Created Date",
-		                    value : "created"
-		                }/*,{
-		                    name : "Author",
-		                    value : "ownerName"
-		                }*/];
+						$scope.actions = [ {name: "Most Liked", value: "ML"},
+						                   {name: "Fewest Liked", value: "FL"},
+						                   {name: "Most Downloaded", value: "MD"},
+						                   {name: "Fewest Downloaded", value: "FD"},
+						                   {name: "Highest Reach", value: "HR"},
+						                   {name: "Lowest Reach", value: "LR"},
+						                   {name: "Most Recent", value: "MR"},
+						                   {name: "Older", value: "OLD"},
+						                   {name: "Name", value: "name"},
+						                   {name: "Created Date", value: "created"} ];
 
 						$scope.checkBox = [ "Private", "Shared", "Company",
 								"Public" ];
