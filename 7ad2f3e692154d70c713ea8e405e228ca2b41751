@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6099089b_c60b5c52",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "pls remove don\u0027t comment out",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 112,
+        "endChar": 4
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6bfbde2_7805f7f6",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "Pls remove not comment out",
+      "range": {
+        "startLine": 361,
+        "startChar": 4,
+        "endLine": 369,
+        "endChar": 7
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7231c0eb_698f3741",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "Pls remove not comment",
+      "range": {
+        "startLine": 398,
+        "startChar": 2,
+        "endLine": 398,
+        "endChar": 39
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37504539_a13c3569",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 427,
+        "startChar": 2,
+        "endLine": 427,
+        "endChar": 39
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb3ababf_613cc527",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "preFeRRed",
+      "range": {
+        "startLine": 483,
+        "startChar": 39,
+        "endLine": 483,
+        "endChar": 48
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f608f15_95ddf833",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "Pls remove don\u0027t comment out",
+      "range": {
+        "startLine": 543,
+        "startChar": 2,
+        "endLine": 545,
+        "endChar": 41
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0396a3f1_01f1fecb",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "Pls remove dead code",
+      "range": {
+        "startLine": 1190,
+        "startChar": 1,
+        "endLine": 1217,
+        "endChar": 4
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7dd94bcc_516d16a7",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/MarketPlaceCatalogServiceController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-12T17:32:37Z",
+      "side": 1,
+      "message": "Pls remove",
+      "range": {
+        "startLine": 1271,
+        "startChar": 3,
+        "endLine": 1273,
+        "endChar": 22
+      },
+      "revId": "7ad2f3e692154d70c713ea8e405e228ca2b41751",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
