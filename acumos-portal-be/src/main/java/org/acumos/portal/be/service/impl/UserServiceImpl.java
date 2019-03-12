@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.security.RoleAuthorityConstants;
 import org.acumos.portal.be.service.MailJet;
@@ -142,20 +143,24 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         model.put("verifyUrl",  portalAddress +"/#/confirm_verification?user=" + mlpUser.getLoginName() + "&token=" + verifyToken);
         mailData.setModel(model);
 
-        try {
-        	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
-        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
-        	
-        		//Use SMTP setup
-                mailservice.sendMail(mailData);
-        		}else {
-        			if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
-                    		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet")) 
-            			mailJet.sendMail(mailData);
-        		}
-            } catch (MailException ex) {
-                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
-            }
+		try {
+			if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
+					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("smtp")) {
+				log.debug(EELFLoggerDelegate.debugLogger, "sendEmailNotification: using SMTP service");
+				mailservice.sendMail(mailData);
+			} else if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
+					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("mailjet")) {
+				log.debug(EELFLoggerDelegate.debugLogger, "sendEmailNotification: using mailjet service");
+				mailJet.sendMail(mailData);
+			} else {
+				log.debug(EELFLoggerDelegate.debugLogger, "sendEmailNotification: no email service configured in key "
+						+ ConfigConstants.portal_feature_email_service);
+			}
+		} catch (MailException ex) {
+			log.error(EELFLoggerDelegate.errorLogger,
+					"sendUserNotification: failed to send mail to user " + mlpUser.getEmail(), ex);
+		}
+
     }
 
     @Override

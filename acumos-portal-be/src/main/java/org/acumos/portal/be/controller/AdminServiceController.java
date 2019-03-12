@@ -39,6 +39,7 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.Application;
+import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
@@ -782,32 +783,40 @@ public class AdminServiceController extends AbstractController {
 		return data;
 	}
 
-    private void sendCredentialsmail(User mlpUser) { 
-        //Send mail to user
-        MailData mailData = new MailData();
-        mailData.setSubject("Acumos New User Credentials");
-        mailData.setFrom("support@acumos.org");
-        mailData.setTemplate("newuserCredentials.ftl");
-        List<String> to = new ArrayList<String>();
-        to.add(mlpUser.getEmailId());
-        mailData.setTo(to);
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("user", mlpUser);
-        model.put("signature", "Acumos Customer Service");
-        mailData.setModel(model);
-
-        try {
-        	if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
-        		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("smtp")) {
-        		//Use SMTP setup
-                mailservice.sendMail(mailData);
-        		}else {
-        			if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.email_service")) 
-                    		&& env.getProperty("portal.feature.email_service").equalsIgnoreCase("mailjet")) 
-            			mailJet.sendMail(mailData);
-        		}
-            } catch (MailException ex) {
-                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
-            }
-        }
+	/**
+	 * Send mail to user
+	 * 
+	 * @param mlpUser
+	 *                    User to receive the email
+	 */
+	private void sendCredentialsmail(User mlpUser) {
+		MailData mailData = new MailData();
+		mailData.setSubject("Acumos New User Credentials");
+		mailData.setFrom("support@acumos.org");
+		mailData.setTemplate("newuserCredentials.ftl");
+		List<String> to = new ArrayList<String>();
+		to.add(mlpUser.getEmailId());
+		mailData.setTo(to);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("user", mlpUser);
+		model.put("signature", "Acumos Customer Service");
+		mailData.setModel(model);
+		try {
+			if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
+					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("smtp")) {
+				log.debug(EELFLoggerDelegate.debugLogger, "sendCredentialsmail: using SMTP service");
+				mailservice.sendMail(mailData);
+			} else if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
+					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("mailjet")) {
+				log.debug(EELFLoggerDelegate.debugLogger, "sendCredentialsmail: using MailJet service");
+				mailJet.sendMail(mailData);
+			} else {
+				log.debug(EELFLoggerDelegate.debugLogger,
+						"sendCredentialsmail: no email service configured in key " + ConfigConstants.portal_feature_email_service);
+			}
+		} catch (MailException ex) {
+			log.error(EELFLoggerDelegate.errorLogger,
+					"sendCredentialsmail: failed to send mail to user " + mlpUser.getEmailId(), ex);
+		}
+	}
 }

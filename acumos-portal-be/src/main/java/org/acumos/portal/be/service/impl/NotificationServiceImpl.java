@@ -246,20 +246,29 @@ public class NotificationServiceImpl extends AbstractServiceImpl implements Noti
 			        model.put("notificationData", notificationRequest.getNotificationData());
 			        mailData.setModel(model);
 
-			        try {
-			        	if(!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service)) 
-			        		&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("smtp")) {
-			        	
-			        		//Use SMTP setup
-			                mailservice.sendMail(mailData);
-			        		}else {
-			        			if(!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service)) 
-			                    		&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("mailjet")) 
-			            			mailJet.sendMail(mailData);
-			        		}
-			            } catch (MailException ex) {
-			                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
-			            }
+					try {
+						if (!PortalUtils
+								.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
+								&& env.getProperty(ConfigConstants.portal_feature_email_service)
+										.equalsIgnoreCase("smtp")) {
+							log.debug(EELFLoggerDelegate.debugLogger, "sendUserNotification: using SMTP service");
+							mailservice.sendMail(mailData);
+						} else if (!PortalUtils
+								.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
+								&& env.getProperty(ConfigConstants.portal_feature_email_service)
+										.equalsIgnoreCase("mailjet")) {
+							log.debug(EELFLoggerDelegate.debugLogger, "sendUserNotification: using MailJet service");
+							mailJet.sendMail(mailData);
+						} else {
+							log.debug(EELFLoggerDelegate.debugLogger,
+									"sendUserNotification: no email service configured in key "
+											+ ConfigConstants.portal_feature_email_service);
+						}
+					} catch (MailException ex) {
+						log.error(EELFLoggerDelegate.errorLogger,
+								"sendUserNotification: failed to send mail to user " + user.getEmail(), ex);
+					}
+					
 				} else {
 					//If notification Delivery mechanism is not found or if the mechanism is not present then log error 
 					//and iterate to next Mechanism if present with same severity.
