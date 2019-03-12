@@ -181,6 +181,8 @@ public class APINames {
 	public static final String SITE_PATH = "/site";
 	public static final String GET_TERMS_CONDITIONS = "/content/global/termsConditions";
 	public static final String UPDATE_TERMS_CONDITIONS = GET_TERMS_CONDITIONS;
+	public static final String GET_ONBOARDING_OVERVIEW = "/content/global/onboarding/overview";
+	public static final String UPDATE_ONBOARDING_OVERVIEW = GET_ONBOARDING_OVERVIEW;
 	public static final String GET_CONTACT_INFO = "/content/global/footer/contactinfo";
 	public static final String UPDATE_CONTACT_INFO = GET_CONTACT_INFO;
 	public static final String GET_COBRAND_LOGO = "/content/global/coBrandLogo";
