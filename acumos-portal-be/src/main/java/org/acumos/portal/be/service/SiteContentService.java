@@ -60,6 +60,21 @@ public interface SiteContentService {
 	public void deleteCobrandLogo();
 
 	/**
+	 * Method to fetch onboarding overview
+	 * 
+	 * @return html embedded in json string
+	 */
+	public MLPSiteContent getOnboardingOverview();
+
+	/**
+	 * Method to create or update onboarding overview
+	 * 
+	 * @param content
+	 *            html embedded in json string
+	 */
+	public void setOnboardingOverview(MLPSiteContent content);
+
+	/**
 	 * Method to fetch the footer contact information
 	 * 
 	 * @return html embedded in json string

@@ -20,6 +20,8 @@
 
 package org.acumos.portal.be.controller;
 
+import java.util.concurrent.TimeUnit;
+
 import org.acumos.cds.domain.MLPSiteContent;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
@@ -28,6 +30,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.SiteContentService;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -94,6 +97,52 @@ public class SiteContentServiceController extends AbstractController {
 		return data;
 	}
 
+	@ApiOperation(value = "Gets onboarding overview ", response = MLPSiteContent.class)
+	@RequestMapping(value = {
+			APINames.GET_ONBOARDING_OVERVIEW }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<MLPSiteContent> getOnboardingOverview() {
+		log.debug(EELFLoggerDelegate.debugLogger, "getOnboardingOverview");
+		MLPSiteContent content = null;
+		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
+		try {
+			content = siteContentService.getOnboardingOverview();
+			if (content != null) {
+				data.setResponseBody(content);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Onboarding overview fetched successfully");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred Fetching Onboarding Overview");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Onboarding Overview", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "Updates onboarding overview ", response = JsonResponse.class)
+	@RequestMapping(value = {
+			APINames.UPDATE_ONBOARDING_OVERVIEW }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> updateOnboardingOverview(@RequestBody JsonRequest<MLPSiteContent> content) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateOnboardingOverview");
+		JsonResponse<Object> data = new JsonResponse<>();
+		MLPSiteContent mlpContent = content.getBody();
+		if (mlpContent != null) {
+			try {
+				siteContentService.setOnboardingOverview(mlpContent);
+				data.setStatus(true);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Onboarding overview updated successfully");
+			} catch (Exception e) {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("Exception Occurred Updating Onboarding Overview");
+				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Onboarding Overview", e);
+			}
+		}
+		return data;
+	}
+
 	@ApiOperation(value = "Gets footer contact information ", response = MLPSiteContent.class)
 	@RequestMapping(value = { APINames.GET_CONTACT_INFO }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
@@ -149,10 +198,13 @@ public class SiteContentServiceController extends AbstractController {
 		try {
 			content = siteContentService.getCobrandLogo();
 			if (content != null) {
-				resp = new ResponseEntity<byte[]>(content.getContentValue(), HttpStatus.OK);
+				resp = ResponseEntity.ok().cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
+						.body(content.getContentValue());
+			} else {
+				resp = ResponseEntity.noContent().build();
 			}
 		} catch (Exception e) {
-			resp = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+			resp = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Cobrand Logo", e);
 		}
 		return resp;
