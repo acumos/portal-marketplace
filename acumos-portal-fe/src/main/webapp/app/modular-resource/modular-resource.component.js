@@ -280,6 +280,19 @@ angular.module('modelResource')
 						});
 			}
 			
+			$scope.getonboardingOverview = function() {
+				apiService.getOnboardingOverview()
+					.success(
+							function(response) {
+                            	var overview = JSON.parse(atob(response.response_body.contentValue));
+								$scope.onboard_overview = overview.description;
+							})
+					.error(
+							function(error) {
+								return "No Contents Available";
+							});
+			}
+			
 			$scope.userId = JSON.parse(browserStorageService.getUserDetail());
 			$scope.completedSteps = [];
 			$scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';

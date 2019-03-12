@@ -62,7 +62,6 @@ angular.module('AcumosApp')
         var kubernetesHelpDocUrl = 'api/users/k8s/docs/help';
         var dashboardUrl = 'api/admin/dashboard';
         var urlmodelFileUpload = 'api/model/upload';
-        var urlTermsConditions = '/api/site/content/global/termsConditions';
         var urlDownloadArtifact = '/api/downloads';
         var urladdToCatalog = 'api/webBasedOnBoarding/addToCatalog';
         var urlCreateRating = 'api/solution/createRating';
@@ -106,6 +105,8 @@ angular.module('AcumosApp')
         var urlsetPreferredTag = "api/tags/createUserTag";
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
         var urlJupyterUrl = 'api/users/jupyterUrl';
+        var urlTermsConditions = '/api/site/content/global/termsConditions';
+        var urlOnboardingOverviewUrl = '/api/site/content/global/onboarding/overview';
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
         var urlCarouselPictureUrl = "/api/site/content/carouselImages";
         var urlUnreadNotification =  "/api/unreadnotifications/count"
@@ -558,6 +559,10 @@ angular.module('AcumosApp')
         this.getJupyterUrl = function () {
         	return $http.get(urlJupyterUrl);
         };
+        
+        this.getOnboardingOverview = function() {
+        	return $http.get(urlOnboardingOverviewUrl);
+        }
         
         this.getCobrandLogo = function() {
         	return $http.get(urlCobrandLogoUrl);

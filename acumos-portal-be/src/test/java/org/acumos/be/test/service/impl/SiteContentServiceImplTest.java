@@ -107,13 +107,70 @@ public class SiteContentServiceImplTest {
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS + "\","
-								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+								+ "\"contentValue\": \"" + contentValue + "\","
+								+ "\"mimeType\": \"text/javascript\"}")));
 
 		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
 						MediaType.APPLICATION_JSON.toString())));
 
 		siteContentService.setTermsConditions(request);
+	}
+
+	@Test
+	public void getOnboardingOverviewTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW + "\","
+								+ "\"contentValue\": \"" + contentValue + "\","
+								+ "\"mimeType\": \"text/javascript\"}")));
+
+		MLPSiteContent content = siteContentService.getOnboardingOverview();
+		assertEquals(contentString, new String(content.getContentValue()));
+	}
+
+	@Test
+	public void createOnboardingOverviewTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW,
+				contentValue.getBytes(), "text/javascript");
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
+						MediaType.APPLICATION_JSON.toString())));
+
+		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
+
+		siteContentService.setOnboardingOverview(request);
+	}
+
+	@Test
+	public void updateOnboardingOverviewTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW,
+				contentValue.getBytes(), "text/javascript");
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW + "\","
+								+ "\"contentValue\": \"" + contentValue + "\","
+								+ "\"mimeType\": \"text/javascript\"}")));
+
+		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
+						MediaType.APPLICATION_JSON.toString())));
+
+		siteContentService.setOnboardingOverview(request);
 	}
 
 	@Test
@@ -158,7 +215,7 @@ public class SiteContentServiceImplTest {
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 						+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_CONTACT_INFO + "\","
-						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"text/javascript\"}")));
 
 		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));

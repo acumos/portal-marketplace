@@ -140,7 +140,7 @@ public class SiteContentControllerTest {
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS + "\","
-								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"text/javascript\"}")));
 
 		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
@@ -150,6 +150,90 @@ public class SiteContentControllerTest {
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
 				"http://localhost:" + randomServerPort + "/site/content/global/termsConditions", HttpMethod.POST,
+				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				});
+
+		assertNotNull(contentResponse);
+		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
+	}
+
+	@Test
+	public void getOnboardingOverviewTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW + "\","
+								+ "\"contentValue\": \"" + contentValue + "\","
+								+ "\"mimeType\": \"text/javascript\"}")));
+
+		ResponseEntity<JsonResponse<MLPSiteContent>> contentResponse = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + "/site/content/global/onboarding/overview", HttpMethod.GET, null,
+				new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
+				});
+
+		assertNotNull(contentResponse);
+		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
+		MLPSiteContent content = contentResponse.getBody().getResponseBody();
+		assertEquals(SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW, content.getContentKey());
+		assertEquals(contentString, new String(content.getContentValue()));
+		assertEquals("text/javascript", content.getMimeType());
+	}
+
+	@Test
+	public void createOnboardingOverviewTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW,
+				contentValue.getBytes(), "text/javascript");
+		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
+		reqObj.setBody(request);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
+						MediaType.APPLICATION_JSON.toString())));
+
+		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
+		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + "/site/content/global/onboarding/overview", HttpMethod.POST,
+				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				});
+
+		assertNotNull(contentResponse);
+		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
+	}
+
+	@Test
+	public void updateOnboardingOverviewTest() {
+		String contentString = "{\"description\":\"<p>Test</p>\"}";
+		String contentValue = Base64.encodeAsString(contentString);
+		MLPSiteContent request = new MLPSiteContent(SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW,
+				contentValue.getBytes(), "text/javascript");
+		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
+		reqObj.setBody(request);
+
+		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW + "\","
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"text/javascript\"}")));
+
+		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
+						MediaType.APPLICATION_JSON.toString())));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
+		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + "/site/content/global/onboarding/overview", HttpMethod.POST,
 				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
@@ -220,7 +304,7 @@ public class SiteContentControllerTest {
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
 				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 						+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_CONTACT_INFO + "\","
-						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"text/javascript\"}")));
 
 		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
