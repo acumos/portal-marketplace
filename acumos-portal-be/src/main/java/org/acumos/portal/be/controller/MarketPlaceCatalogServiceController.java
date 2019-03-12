@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ import org.acumos.cds.domain.MLPSolutionRevision;
 import org.acumos.cds.domain.MLPTag;
 import org.acumos.cds.domain.MLPUser;
 import org.acumos.cds.transport.RestPageRequest;
-import org.acumos.cds.transport.RestPageResponse; 
+import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
@@ -69,7 +70,7 @@ import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -104,13 +105,14 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	private PushAndPullSolutionService pushAndPullSolutionService;
 
 	@Autowired
-    	private Environment env;
-  
-  	/*@Autowired
-	private NexusArtifactClient nexusArtifactClient;*/
-	
+	private Environment env;
+
+	/*
+	 * @Autowired private NexusArtifactClient nexusArtifactClient;
+	 */
+
 	private static final String MSG_SEVERITY_ME = "ME";
-	
+
 	/**
 	 * 
 	 */
@@ -123,8 +125,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLSolution> getSolutionsDetails(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, HttpServletResponse response) {
-		
-        solutionId = SanitizeUtils.sanitize(solutionId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
@@ -208,22 +210,23 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> updateSolutionDetails(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("solutionId") String solutionId, @RequestBody JsonRequest<MLSolution> mlSolution) {
 		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionDetails={}", solutionId);
-		
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		
+
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			if (mlSolution.getBody() != null) {
-				
-				//Check for the unique name in the market place before publishing.
+
+				// Check for the unique name in the market place before
+				// publishing.
 				if (!catalogService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 					data.setResponseDetail("Model name is not unique. Please update model name before publishing");
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					return data;
 				}
-				
+
 				catalogService.updateSolution(mlSolution.getBody(), solutionId);
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -240,30 +243,30 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
-	
 	@ApiOperation(value = "Delete Artifacts of a given Solution for a provided SolutionId and RevisionId.", response = MLSolution.class)
 	@RequestMapping(value = { APINames.ARTIFACT_DELETE }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLSolution> deleteSolutionArtifacts(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, 
+			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId,
 			@RequestBody JsonRequest<MLSolution> mlSolution) {
 		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionArtifacts={}", solutionId, revisionId);
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		
+
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			if (mlSolution.getBody() != null) {
-				
-				//Check for the unique name in the market place before publishing.
+
+				// Check for the unique name in the market place before
+				// publishing.
 				if (!catalogService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 					data.setResponseDetail("Model name is not unique. Please update model name before publishing");
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					return data;
 				}
-				
+
 				catalogService.deleteSolutionArtifacts(mlSolution.getBody(), solutionId, revisionId);
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -275,18 +278,18 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "AcumosServiceException Occurred while updateSolutionDetails()", e);
-		}catch (URISyntaxException uriEx) {
+			log.error(EELFLoggerDelegate.errorLogger, "AcumosServiceException Occurred while updateSolutionDetails()",
+					e);
+		} catch (URISyntaxException uriEx) {
 			data.setErrorCode("401");
 			data.setResponseDetail("Unable to delete  Artifact from Nexus");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "URISyntaxException Occurred while updateSolutionDetails()", uriEx);
+			log.error(EELFLoggerDelegate.errorLogger, "URISyntaxException Occurred while updateSolutionDetails()",
+					uriEx);
 		}
 		return data;
 	}
-	
-	
-	
+
 	/**
 	 * @param request
 	 *            HttpServletRequest
@@ -301,8 +304,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLPSolutionRevision>> getSolutionsRevisionList(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable("solutionId") String solutionId) {
-		
-        solutionId = SanitizeUtils.sanitize(solutionId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		JsonResponse<List<MLPSolutionRevision>> data = new JsonResponse<List<MLPSolutionRevision>>();
 		List<MLPSolutionRevision> peerCatalogSolutionRevisions = null;
@@ -346,9 +349,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<List<MLPArtifact>> getSolutionsRevisionArtifactList(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable("solutionId") String solutionId,
 			@PathVariable("revisionId") String revisionId) {
-		
-        solutionId = SanitizeUtils.sanitize(solutionId);
-        revisionId = SanitizeUtils.sanitize(revisionId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		JsonResponse<List<MLPArtifact>> data = new JsonResponse<List<MLPArtifact>>();
 		List<MLPArtifact> peerSolutionArtifacts = null;
@@ -356,9 +359,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			peerSolutionArtifacts = catalogService.getSolutionArtifacts(solutionId, revisionId);
 			if (peerSolutionArtifacts != null) {
 				/*
-				 * //re-encode the artifact uri { UriComponentsBuilder uriBuilder =
-				 * UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString()); for
-				 * (MLPArtifact artifact: peerSolutionArtifacts) {
+				 * //re-encode the artifact uri { UriComponentsBuilder
+				 * uriBuilder =
+				 * UriComponentsBuilder.fromHttpUrl(request.getRequestURL().
+				 * toString()); for (MLPArtifact artifact:
+				 * peerSolutionArtifacts) {
 				 * artifact.setUri(uriBuilder.replacePath("/artifacts/" +
 				 * artifact.getArtifactId() + "/download") .toUriString()); } }
 				 */
@@ -388,10 +393,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> addSolutionTag(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("tag") String tag,
 			HttpServletResponse response) {
-		
-		 solutionId = SanitizeUtils.sanitize(solutionId);
-		 //tag = SanitizeUtils.sanitize(tag);
-		 
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		// tag = SanitizeUtils.sanitize(tag);
+
 		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -417,10 +422,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> dropSolutionTag(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("tag") String tag,
 			HttpServletResponse response) {
-		
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		//tag = SanitizeUtils.sanitize(tag);
-		
+		// tag = SanitizeUtils.sanitize(tag);
+
 		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -474,16 +479,17 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return data;
 	}
+
 	@ApiOperation(value = "Gets a list of preffered tags for Market Place Catalog.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.PREFERRED_TAGS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponseBE> getPreferredTagsList(
-			@RequestBody JsonRequest<RestPageRequest> restPageReq, @PathVariable("userId") String userId) {
+	public JsonResponse<RestPageResponseBE> getPreferredTagsList(@RequestBody JsonRequest<RestPageRequest> restPageReq,
+			@PathVariable("userId") String userId) {
 		log.debug(EELFLoggerDelegate.debugLogger, "getPreferredTagsList");
 		List<String> mlTagsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		userId = SanitizeUtils.sanitize(userId);
-		try {			 
+		try {
 			List<Map<String, String>> prefTagsList = catalogService.getPreferredTagsList(restPageReq, userId);
 			if (mlTagsList != null) {
 				List content = new ArrayList<>();
@@ -506,11 +512,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return data;
 	}
+
 	@ApiOperation(value = "Create User Tag", response = MLPTag.class)
 	@RequestMapping(value = { APINames.CREATE_USER_TAG }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponseBE> createUserTag(@PathVariable("userId") String userId, 
-													@RequestBody JsonRequest<RestPageRequestBE> tagListReq) {
+	public JsonResponse<RestPageResponseBE> createUserTag(@PathVariable("userId") String userId,
+			@RequestBody JsonRequest<RestPageRequestBE> tagListReq) {
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
 			List<String> tagList = tagListReq.getBody().getTagList();
@@ -532,9 +539,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> getTagsSolutions(@PathVariable("tags") String tags,
 			@RequestBody JsonRequest<RestPageRequestBE> restPageReq) {
-		
-		//tags = SanitizeUtils.sanitize(tags);
-		
+
+		// tags = SanitizeUtils.sanitize(tags);
+
 		// List<MLSolution> mlSolutions = null;
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		// JsonResponse<List<MLSolution>> data = null;
@@ -562,9 +569,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getSolutionUserAccess(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, HttpServletResponse response) {
-		
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		
+
 		List<User> userList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
@@ -605,9 +612,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<User> addSolutionUserAccess(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @RequestBody JsonRequest<List<String>> userId,
 			HttpServletResponse response) {
-		
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		
+
 		JsonResponse<User> data = new JsonResponse<>();
 		List<User> userList = new ArrayList<>();
 		boolean exist = false;
@@ -634,7 +641,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					String notifMsg = null;
 					MLSolution solutionDetail = catalogService.getSolution(solutionId);
 					MLPUser mlpUser = userService.findUserByUserId(userID);
-					notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();				
+					notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();
 					notification.setMessage(notifMsg);
 					notification.setTitle(notifMsg);
 					notification.setMsgSeverityCode(MSG_SEVERITY_ME);
@@ -664,10 +671,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<User> dropSolutionUserAccess(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("userId") String userId,
 			HttpServletResponse response) {
-		
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		userId = SanitizeUtils.sanitize(userId);
-		
+
 		JsonResponse<User> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(userId)) {
@@ -676,13 +683,13 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				MLPNotification notification = new MLPNotification();
 				String notificationMsg = null;
 				MLSolution solutionDetail = catalogService.getSolution(solutionId);
-				MLPUser user = userService.findUserByUserId(userId);				
-				notificationMsg = solutionDetail.getName() + " unshared with " + user.getLoginName();				
+				MLPUser user = userService.findUserByUserId(userId);
+				notificationMsg = solutionDetail.getName() + " unshared with " + user.getLoginName();
 				notification.setMessage(notificationMsg);
 				notification.setTitle(notificationMsg);
 				notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 				notificationService.generateNotification(notification, userId);
-				
+
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Users access for solution droped Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "dropSolutionUserAccess :  ");
@@ -710,7 +717,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			catalogService.incrementSolutionViewCount(solutionId);
-			// code to create notification	
+			// code to create notification
 			MLSolution solution = catalogService.getSolution(solutionId);
 			int viewCount = solution.getViewCount();
 			if (viewCount != 0 && viewCount % 10 == 0) {
@@ -752,7 +759,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			notification.setTitle(notificationMsg);
 			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
-			
+
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully updated solution rating");
 			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionRating :  ");
@@ -781,7 +788,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			notification.setTitle(notificationMsg);
 			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
-			
+
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions fetched Successfully");
 			log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionRating :  ");
@@ -799,8 +806,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLSolution>> getMySharedModels(HttpServletRequest request,
 			@PathVariable("userId") String userId, HttpServletResponse response) {
-		
-        userId = SanitizeUtils.sanitize(userId);
+
+		userId = SanitizeUtils.sanitize(userId);
 
 		List<MLSolution> modelList = new ArrayList<>();
 		JsonResponse<List<MLSolution>> data = new JsonResponse<>();
@@ -849,7 +856,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			notification.setTitle(favorite);
 			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
-			
+
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully created solution favorite");
 			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionFavorite :  ");
@@ -873,12 +880,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			MLPNotification notification = new MLPNotification();
 			String favorite = null;
 			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
-			favorite = "Favorite deleted for " + solution.getName();		
+			favorite = "Favorite deleted for " + solution.getName();
 			notification.setMessage(favorite);
 			notification.setTitle(favorite);
 			notification.setMsgSeverityCode(MSG_SEVERITY_ME);
 			notificationService.generateNotification(notification, solution.getOwnerId());
-			
+
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully deleted solution favorite");
 			log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionFavorite :  ");
@@ -896,8 +903,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLSolution>> getFavoriteSolutions(HttpServletRequest request,
 			@PathVariable("userId") String userId, HttpServletResponse response) {
-		
-        userId = SanitizeUtils.sanitize(userId);
+
+		userId = SanitizeUtils.sanitize(userId);
 
 		JsonResponse<List<MLSolution>> data = new JsonResponse<>();
 		try {
@@ -952,8 +959,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public String readArtifactSolutions(@PathVariable("artifactId") String artifactId, HttpServletRequest request,
 			HttpServletResponse response) {
-		
-        artifactId = SanitizeUtils.sanitize(artifactId);
+
+		artifactId = SanitizeUtils.sanitize(artifactId);
 
 		InputStream resource = null;
 		String outputString = "";
@@ -981,14 +988,14 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return outputString;
 	}
-	
+
 	@ApiOperation(value = "Get ratings for a solution Id", response = MLSolution.class, responseContainer = "List")
-    	@RequestMapping(value = { APINames.GET_SOLUTION_RATING }, method = RequestMethod.POST, produces = APPLICATION_JSON)
-    	@ResponseBody
-    	public JsonResponse<RestPageResponse<MLSolutionRating>> getSolutionRatings(@PathVariable String solutionId,
+	@RequestMapping(value = { APINames.GET_SOLUTION_RATING }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponse<MLSolutionRating>> getSolutionRatings(@PathVariable String solutionId,
 			@RequestBody JsonRequest<RestPageRequest> pageRequest) {
-		
-        solutionId = SanitizeUtils.sanitize(solutionId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		RestPageResponse<MLPSolutionRating> mlpSolutionRating = null;
 		List<MLSolutionRating> mlSolutionRatingList = new ArrayList<MLSolutionRating>();
@@ -1004,7 +1011,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				mlSolutionRatingList.add(mlSolRating);
 			}
 
-			RestPageResponse<MLSolutionRating> mlSolutionRating = PortalUtils.convertToMLSolutionRatingRestPageResponse(mlSolutionRatingList, mlpSolutionRating);
+			RestPageResponse<MLSolutionRating> mlSolutionRating = PortalUtils
+					.convertToMLSolutionRatingRestPageResponse(mlSolutionRatingList, mlpSolutionRating);
 
 			if (mlSolutionRating != null) {
 				data.setResponseBody(mlSolutionRating);
@@ -1049,9 +1057,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLPSolutionRating> getUserRatings(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, @PathVariable("userId") String userId,
 			HttpServletResponse response) {
-		
-        solutionId = SanitizeUtils.sanitize(solutionId);
-        userId = SanitizeUtils.sanitize(userId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		userId = SanitizeUtils.sanitize(userId);
 
 		JsonResponse<MLPSolutionRating> data = new JsonResponse<>();
 		try {
@@ -1076,19 +1084,19 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> findPortalSolutions(HttpServletRequest request,
 			@RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal, HttpServletResponse response) {
-		
+
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
-		String userId = (String)request.getAttribute("loginUserId");
+		String userId = (String) request.getAttribute("loginUserId");
 		Set<MLPTag> prefTags = null;
-		if(userId != null && !StringUtils.isEmpty(userId)) {
+		if (userId != null && !StringUtils.isEmpty(userId)) {
 			MLPUser user = userService.findUserByUserId(userId);
-			if(user != null ) {
+			if (user != null) {
 				prefTags = user.getTags();
 			}
 		}
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
-			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody(),prefTags);
+			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody(), prefTags);
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1103,13 +1111,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
-
 	@ApiOperation(value = "searchSolutionBykeyword", response = MLSolution.class, responseContainer = "List")
 	@RequestMapping(value = { "/searchSolutionBykeyword" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> searchSolutionsByKeyword(HttpServletRequest request,
 			@RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal, HttpServletResponse response) {
-		
+
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
@@ -1118,7 +1125,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "searchSolutionsByKeyword: size is {} ", mlSolutions.getSize());
+				log.debug(EELFLoggerDelegate.debugLogger, "searchSolutionsByKeyword: size is {} ",
+						mlSolutions.getSize());
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -1158,8 +1166,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponse<MLPSolution>> getUserAccessSolutions(@PathVariable("userId") String userId,
 			@RequestBody JsonRequest<RestPageRequest> pageRequest) {
-		
-        userId = SanitizeUtils.sanitize(userId);
+
+		userId = SanitizeUtils.sanitize(userId);
 
 		RestPageResponse<MLPSolution> mlSolutions = null;
 		JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<>();
@@ -1178,25 +1186,55 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return data;
 	}
-	
-	/*@ApiOperation(value = "Get avg ratings for a solution Id", response = MLPSolutionWeb.class, responseContainer = "List")
-	@RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+
+	/*
+	 * @ApiOperation(value = "Get avg ratings for a solution Id", response =
+	 * MLPSolutionWeb.class, responseContainer = "List")
+	 * 
+	 * @RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method =
+	 * RequestMethod.GET, produces = APPLICATION_JSON)
+	 * 
+	 * @ResponseBody public JsonResponse<MLSolutionWeb>
+	 * getAvgRatingsForSol(@PathVariable String solutionId) {
+	 * JsonResponse<MLSolutionWeb> data = new JsonResponse<>();
+	 * 
+	 * solutionId = SanitizeUtils.sanitize(solutionId);
+	 * 
+	 * try { MLSolutionWeb mlSolutionWeb =
+	 * catalogService.getSolutionWebMetadata(solutionId); if (mlSolutionWeb !=
+	 * null) { data.setResponseBody(mlSolutionWeb);
+	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+	 * data.setResponseDetail("Solution ratings fetched Successfully");
+	 * log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");
+	 * }else { data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+	 * data.setResponseDetail("No ratings found for solution :"+ solutionId);
+	 * log.error(EELFLoggerDelegate.errorLogger,
+	 * "Error Occurred Fetching ratings for model :" + solutionId); } } catch
+	 * (Exception e) { data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+	 * data.setResponseDetail("Exception Occurred while getAvgRatingsForSol");
+	 * log.error(EELFLoggerDelegate.errorLogger,
+	 * "Exception Occurred while getAvgRatingsForSol", e); } return data; }
+	 */
+
+	@ApiOperation(value = "Get avg ratings for a solution Id", response = MLSolutionWeb.class, responseContainer = "List")
+	@RequestMapping(value = {
+			APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
 		JsonResponse<MLSolutionWeb> data = new JsonResponse<>();
-		
-        solutionId = SanitizeUtils.sanitize(solutionId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		try {
-			MLSolutionWeb  mlSolutionWeb  = catalogService.getSolutionWebMetadata(solutionId);
+			MLSolutionWeb mlSolutionWeb = catalogService.getSolutionWebMetadata(solutionId);
 			if (mlSolutionWeb != null) {
 				data.setResponseBody(mlSolutionWeb);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solution ratings fetched Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");
-			}else {
+			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("No ratings found for solution :"+ solutionId);
+				data.setResponseDetail("No ratings found for solution :" + solutionId);
 				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred Fetching ratings for model :" + solutionId);
 			}
 		} catch (Exception e) {
@@ -1205,76 +1243,48 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAvgRatingsForSol", e);
 		}
 		return data;
-	}*/
-	
-	@ApiOperation(value = "Get avg ratings for a solution Id", response = MLSolutionWeb.class, responseContainer = "List")
-    @RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
-    @ResponseBody
-    public JsonResponse<MLSolutionWeb> getAvgRatingsForSol(@PathVariable String solutionId) {
-        JsonResponse<MLSolutionWeb> data = new JsonResponse<>();
-        
-       solutionId = SanitizeUtils.sanitize(solutionId);
+	}
 
-        try {
-            MLSolutionWeb  mlSolutionWeb  = catalogService.getSolutionWebMetadata(solutionId);
-            if (mlSolutionWeb != null) {
-                data.setResponseBody(mlSolutionWeb);
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                data.setResponseDetail("Solution ratings fetched Successfully");
-                log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");
-            }else {
-                data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-                data.setResponseDetail("No ratings found for solution :"+ solutionId);
-                log.error(EELFLoggerDelegate.errorLogger, "Error Occurred Fetching ratings for model :" + solutionId);
-            }
-        } catch (Exception e) {
-            data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-            data.setResponseDetail("Exception Occurred while getAvgRatingsForSol");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAvgRatingsForSol", e);
-        }
-        return data;
-    }
 	/**
 	 * @param solutionId
 	 *            Solution ID
 	 * @param version
 	 *            Version
 	 * @return Protobuf file details
-	 * @throws AcumosServiceException 
+	 * @throws AcumosServiceException
 	 */
 	@ApiOperation(value = "Get the profobuf file details for specified solutionID and version")
-	@RequestMapping(value = {APINames.GET_PROTO_FILE}, method = RequestMethod.GET, produces = "text/plain")
+	@RequestMapping(value = { APINames.GET_PROTO_FILE }, method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String fetchProtoFile(@RequestParam(value = "solutionId", required = true) String solutionId,
 			@RequestParam(value = "version", required = true) String version) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger,
-				" fetchProtoFile() : Begin");
+		log.debug(EELFLoggerDelegate.debugLogger, " fetchProtoFile() : Begin");
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		String result = "";
 		try {
-			result = catalogService.getProtoUrl(solutionId, version, "MI","proto");
+			result = catalogService.getProtoUrl(solutionId, version, "MI", "proto");
 
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception in fetchProtoFile() ", e);
-			//throw new AcumosServiceException(AcumosServiceException.ErrorCode.FILE_NOT_FOUND, e.getMessage());
+			// throw new
+			// AcumosServiceException(AcumosServiceException.ErrorCode.FILE_NOT_FOUND,
+			// e.getMessage());
 		}
-		log.debug(EELFLoggerDelegate.debugLogger,
-				"fetchProtoFile() : End");
-		
+		log.debug(EELFLoggerDelegate.debugLogger, "fetchProtoFile() : End");
+
 		return result;
 	}
-	
-	
+
 	@ApiOperation(value = "Get Cloud Enables or not for that model", response = JsonResponse.class)
-    @RequestMapping(value = {APINames.CLOUD_ENABLED_LIST}, method = RequestMethod.GET, produces = APPLICATION_JSON)
-    @ResponseBody
+	@RequestMapping(value = { APINames.CLOUD_ENABLED_LIST }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
 	public JsonResponse<String> getCloudEnabledList(HttpServletRequest request, HttpServletResponse response) {
-		
-		JsonResponse<String> responseVO = new JsonResponse<String>();		
+
+		JsonResponse<String> responseVO = new JsonResponse<String>();
 		String cloudEnabled = env.getProperty("portal.feature.cloud_enabled");
-							
+
 		responseVO.setResponseBody(cloudEnabled);
 		responseVO.setStatus(true);
 		responseVO.setResponseDetail("Success");
@@ -1283,14 +1293,16 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Get Authors of Solution Revision", response = Author.class, responseContainer = "List")
-	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/authors" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/authors" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<Author>> getAuthors(@PathVariable String solutionId, @PathVariable String revisionId, HttpServletResponse response) {
+	public JsonResponse<List<Author>> getAuthors(@PathVariable String solutionId, @PathVariable String revisionId,
+			HttpServletResponse response) {
 		JsonResponse<List<Author>> data = new JsonResponse<>();
-		
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-        revisionId = SanitizeUtils.sanitize(revisionId);
-		
+		revisionId = SanitizeUtils.sanitize(revisionId);
+
 		try {
 			List<Author> authors = catalogService.getSolutionRevisionAuthors(solutionId, revisionId);
 			data.setResponseBody(authors);
@@ -1302,21 +1314,24 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while fetching Authors");
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Authors", e);
-	}
+		}
 		return data;
 	}
 
 	@ApiOperation(value = "Add Authors of Solution Revision", response = Author.class, responseContainer = "List")
-	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/authors" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/authors" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<Author>> addAuthors(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
+	public JsonResponse<List<Author>> addAuthors(HttpServletRequest request, @PathVariable String solutionId,
+			@PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
 		JsonResponse<List<Author>> data = new JsonResponse<>();
-		
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-        revisionId = SanitizeUtils.sanitize(revisionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		try {
-			List<Author> authors = catalogService.addSolutionRevisionAuthors(solutionId, revisionId, authorReq.getBody());
+			List<Author> authors = catalogService.addSolutionRevisionAuthors(solutionId, revisionId,
+					authorReq.getBody());
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Author added Successfully");
@@ -1326,8 +1341,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while addAuthors", e);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
@@ -1337,16 +1351,19 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Remove Author from Solution Revision", response = Author.class, responseContainer = "List")
-	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/removeAuthor" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/removeAuthor" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<Author>> removeAuthor(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
-		
+	public JsonResponse<List<Author>> removeAuthor(HttpServletRequest request, @PathVariable String solutionId,
+			@PathVariable String revisionId, @RequestBody JsonRequest<Author> authorReq, HttpServletResponse response) {
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-        revisionId = SanitizeUtils.sanitize(revisionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		JsonResponse<List<Author>> data = new JsonResponse<>();
 		try {
-			List<Author> authors = catalogService.removeSolutionRevisionAuthors(solutionId, revisionId, authorReq.getBody());
+			List<Author> authors = catalogService.removeSolutionRevisionAuthors(solutionId, revisionId,
+					authorReq.getBody());
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Author removed Successfully");
@@ -1361,10 +1378,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Add Solution Revision Document", response = MLPDocument.class)
-	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPDocument> addRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
-			@PathVariable String accessType, @RequestParam("file") MultipartFile file, HttpServletResponse response) {
+	public JsonResponse<MLPDocument> addRevisionDocument(HttpServletRequest request, @PathVariable String solutionId,
+			@PathVariable String revisionId, @PathVariable String accessType, @RequestParam("file") MultipartFile file,
+			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
@@ -1373,15 +1392,16 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString()); 
-			long fileSizeByKB =  file.getBytes().length;
-			if(fileSizeByKB <= maxFileSizeByKB){
-				MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId, file);
+			double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString());
+			long fileSizeByKB = file.getBytes().length;
+			if (fileSizeByKB <= maxFileSizeByKB) {
+				MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId,
+						file);
 				data.setResponseBody(document);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Document Added Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "addDocument: {} ");
-			}else{
+			} else {
 				MLPDocument document = null;
 				data.setResponseBody(document);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
@@ -1398,20 +1418,23 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Remove Solution Revision Document", response = MLPDocument.class)
-	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/document/{documentId}" }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/{accessType}/document/{documentId}" }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPDocument> removeRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
-			@PathVariable String accessType, @PathVariable String documentId, HttpServletResponse response) {
+	public JsonResponse<MLPDocument> removeRevisionDocument(HttpServletRequest request, @PathVariable String solutionId,
+			@PathVariable String revisionId, @PathVariable String accessType, @PathVariable String documentId,
+			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
 		accessType = SanitizeUtils.sanitize(accessType);
 		documentId = SanitizeUtils.sanitize(documentId);
-		
+
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			MLPDocument document = catalogService.removeRevisionDocument(solutionId, revisionId, accessType, userId, documentId);
+			MLPDocument document = catalogService.removeRevisionDocument(solutionId, revisionId, accessType, userId,
+					documentId);
 			data.setResponseBody(document);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Document Removed Successfully");
@@ -1426,19 +1449,22 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Get Solution Revision Documents", response = MLPDocument.class, responseContainer = "List")
-	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<MLPDocument>> getRevisionDocument(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
-			@PathVariable String accessType,  HttpServletResponse response) {
+	public JsonResponse<List<MLPDocument>> getRevisionDocument(HttpServletRequest request,
+			@PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String accessType,
+			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
 		accessType = SanitizeUtils.sanitize(accessType);
-		
+
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			List<MLPDocument> documents = catalogService.getRevisionDocument(solutionId, revisionId, accessType, userId);
+			List<MLPDocument> documents = catalogService.getRevisionDocument(solutionId, revisionId, accessType,
+					userId);
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Documents Fetched Successfully");
@@ -1453,20 +1479,23 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Copy Solution Revision Documents", response = MLPDocument.class, responseContainer = "List")
-	@RequestMapping(value = { "/solution/{solutionId}/revision/{revisionId}/{accessType}/copyDocuments/{fromRevisionId}" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/{accessType}/copyDocuments/{fromRevisionId}" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<List<MLPDocument>> copyRevisionDocuments(HttpServletRequest request, @PathVariable String solutionId, @PathVariable String revisionId,
-			@PathVariable String accessType, @PathVariable String fromRevisionId,  HttpServletResponse response) {
+	public JsonResponse<List<MLPDocument>> copyRevisionDocuments(HttpServletRequest request,
+			@PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String accessType,
+			@PathVariable String fromRevisionId, HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
 		accessType = SanitizeUtils.sanitize(accessType);
 		fromRevisionId = SanitizeUtils.sanitize(fromRevisionId);
-		
+
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			List<MLPDocument> documents = catalogService.copyRevisionDocuments(solutionId, revisionId, accessType, userId, fromRevisionId);
+			List<MLPDocument> documents = catalogService.copyRevisionDocuments(solutionId, revisionId, accessType,
+					userId, fromRevisionId);
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Documents Fetched Successfully");
@@ -1481,14 +1510,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Get Solution Revision Description", response = RevisionDescription.class)
-	@RequestMapping(value = { "/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RevisionDescription> getSolRevDescription(HttpServletRequest request, @PathVariable String revisionId,
-			@PathVariable String accessType, HttpServletResponse response) {
+	public JsonResponse<RevisionDescription> getSolRevDescription(HttpServletRequest request,
+			@PathVariable String revisionId, @PathVariable String accessType, HttpServletResponse response) {
 
 		revisionId = SanitizeUtils.sanitize(revisionId);
 		accessType = SanitizeUtils.sanitize(accessType);
-		
+
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
@@ -1507,14 +1537,16 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Add/Update Solution Revision Description", response = RevisionDescription.class)
-	@RequestMapping(value = { "/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@RequestMapping(value = {
+			"/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request, @PathVariable String revisionId,
-			@PathVariable String accessType, @RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
+	public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request,
+			@PathVariable String revisionId, @PathVariable String accessType,
+			@RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
 
 		revisionId = SanitizeUtils.sanitize(revisionId);
 		accessType = SanitizeUtils.sanitize(accessType);
-		
+
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		RevisionDescription description = revisionDescription.getBody();
@@ -1532,44 +1564,49 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		return data;
 	}
-	
+
 	@ApiOperation(value = "Fetches Solution Image. ")
-    @RequestMapping(value = {APINames.SOLUTIONS_PICTURE}, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    @ResponseBody
-    public ResponseEntity<byte[]> getSolutionImage(@PathVariable("solutionId") String solutionId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getSolutionImage={}", solutionId);
-        
-        solutionId = SanitizeUtils.sanitize(solutionId);
-        
-        ResponseEntity<byte[]> responseVO = null;
+	@RequestMapping(value = {
+			APINames.SOLUTIONS_PICTURE }, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public ResponseEntity<byte[]> getSolutionImage(@PathVariable("solutionId") String solutionId) {
+		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionImage={}", solutionId);
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+
+		ResponseEntity<byte[]> responseVO = null;
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
-				log.error(EELFLoggerDelegate.errorLogger, "Bad request: solutionId empty");
-				throw new AcumosServiceException("Bad request: solutionId empty");
+				String errMsg = "Bad request: solutionId empty";
+				log.error(EELFLoggerDelegate.errorLogger, errMsg);
+				throw new AcumosServiceException(errMsg);
 			} else {
 				byte[] picture = catalogService.getSolutionPicture(solutionId);
 				if (picture != null) {
-					responseVO = new ResponseEntity<byte[]>(picture, HttpStatus.OK);
+					responseVO = ResponseEntity.ok().cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
+							.body(picture);
 				} else {
-					responseVO = new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+					responseVO = ResponseEntity.notFound().build();
 				}
 			}
 		} catch (Exception e) {
-			responseVO = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+			responseVO = ResponseEntity.badRequest().build();
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getSolutionImage()", e);
 		}
 		return responseVO;
-    }
-	
+	}
+
 	@ApiOperation(value = "Updates Solution Image. ")
-    @RequestMapping(value = {APINames.SOLUTIONS_PICTURE}, method = RequestMethod.POST, produces = APPLICATION_JSON)
-    @ResponseBody
-    public JsonResponse<Boolean> updateSolutionImage(HttpServletRequest request, @RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionImage={}");
-        
-        solutionId = SanitizeUtils.sanitize(solutionId);
-        
-        JsonResponse<Boolean> responseVO = new JsonResponse<>();
+	@RequestMapping(value = { APINames.SOLUTIONS_PICTURE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Boolean> updateSolutionImage(HttpServletRequest request,
+			@RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId,
+			HttpServletResponse response) {
+		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionImage={}");
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+
+		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
 				log.error(EELFLoggerDelegate.errorLogger, "Bad request: solutionId empty");
@@ -1588,5 +1625,5 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionImage()", e);
 		}
 		return responseVO;
-    }
+	}
 }
