@@ -31,6 +31,7 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 
 	public static final String KEY_TERMS_CONDITIONS = "global.termsCondition";
 	public static final String KEY_COBRAND_LOGO = "global.coBrandLogo";
+	public static final String KEY_ONBOARDING_OVERVIEW = "global.onboarding.overview";
 	public static final String KEY_CONTACT_INFO = "global.footer.contactInfo";
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(SiteContentServiceImpl.class);
@@ -41,7 +42,7 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_TERMS_CONDITIONS);
 	}
-	
+
 	@Override
 	public void setTermsConditions(MLPSiteContent content) {
 		log.debug(EELFLoggerDelegate.debugLogger, "setTermsConditions");
@@ -71,12 +72,26 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 	}
 
 	@Override
+	public MLPSiteContent getOnboardingOverview() {
+		log.debug(EELFLoggerDelegate.debugLogger, "getOnboardingOverview");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		return dataServiceRestClient.getSiteContent(KEY_ONBOARDING_OVERVIEW);
+	}
+
+	@Override
+	public void setOnboardingOverview(MLPSiteContent content) {
+		log.debug(EELFLoggerDelegate.debugLogger, "setOnboardingOverview");
+		content.setContentKey(KEY_ONBOARDING_OVERVIEW);
+		createOrUpdateContent(content);
+	}
+
+	@Override
 	public MLPSiteContent getContactInfo() {
 		log.debug(EELFLoggerDelegate.debugLogger, "getContactInfo");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_CONTACT_INFO);
 	}
-	
+
 	@Override
 	public void setContactInfo(MLPSiteContent content) {
 		log.debug(EELFLoggerDelegate.debugLogger, "setContactInfo");
