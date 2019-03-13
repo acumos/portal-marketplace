@@ -33,6 +33,7 @@ import static org.junit.Assert.*;
 import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPSiteContent;
+import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
@@ -73,21 +74,32 @@ public class SiteContentControllerTest {
 	@LocalServerPort
 	int randomServerPort;
 
+	private static final String PATH_TERMS_CONDITIONS = APINames.SITE_PATH + APINames.GET_TERMS_CONDITIONS;
+	private static final String PATH_ONBOARDING_OVERVIEW = APINames.SITE_PATH + APINames.GET_ONBOARDING_OVERVIEW;
+	private static final String PATH_CONTACT_INFO = APINames.SITE_PATH + APINames.GET_CONTACT_INFO;
+	private static final String PATH_COBRAND_LOGO = APINames.SITE_PATH + APINames.GET_COBRAND_LOGO;
+	private static final String PATH_GET_CAROUSEL_PICTURE = APINames.SITE_PATH + APINames.UPDATE_CAROUSEL_PICTURE + "/";
+	private static final String PATH_SET_CAROUSEL_PICTURE = APINames.SITE_PATH + APINames.UPDATE_CAROUSEL_PICTURE;
+	private static final String PATH_DELETE_CAROUSEL_PICTURE = PATH_GET_CAROUSEL_PICTURE;
+
+	private static final String GET_CONTENT = "/ccds/site/content/";
+	private static final String SET_CONTENT = "/ccds/site/content";
+	private static final String CAROUSEL_TEST_KEY = "carousel.top.test.bgImg";
+
 	@Test
 	public void getTermsConditionsTest() {
 		String contentString = "{\"description\":\"<p>Test</p>\"}";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_TERMS_CONDITIONS)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS + "\","
-								+ "\"contentValue\": \"" + contentValue + "\","
-								+ "\"mimeType\": \"" + MediaType.APPLICATION_JSON_VALUE + "\"}")));
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
+								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
 		ResponseEntity<JsonResponse<MLPSiteContent>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/termsConditions", HttpMethod.GET, null,
+				"http://localhost:" + randomServerPort + PATH_TERMS_CONDITIONS, HttpMethod.GET, null,
 				new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
 				});
 
@@ -108,18 +120,17 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
-						MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_TERMS_CONDITIONS)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(post(urlEqualTo(SET_CONTENT)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/termsConditions", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_TERMS_CONDITIONS, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -135,22 +146,21 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_TERMS_CONDITIONS)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS + "\","
-								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"" + MediaType.APPLICATION_JSON_VALUE + "\"}")));
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
+								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
-		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_TERMS_CONDITIONS))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
-						MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(put(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_TERMS_CONDITIONS)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/termsConditions", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_TERMS_CONDITIONS, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -162,16 +172,15 @@ public class SiteContentControllerTest {
 		String contentString = "{\"description\":\"<p>Test</p>\"}";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW + "\","
-								+ "\"contentValue\": \"" + contentValue + "\","
-								+ "\"mimeType\": \"" + MediaType.APPLICATION_JSON_VALUE + "\"}")));
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
+								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
 		ResponseEntity<JsonResponse<MLPSiteContent>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/onboarding/overview", HttpMethod.GET, null,
+				"http://localhost:" + randomServerPort + PATH_ONBOARDING_OVERVIEW, HttpMethod.GET, null,
 				new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
 				});
 
@@ -192,18 +201,17 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
-						MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(post(urlEqualTo(SET_CONTENT)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/onboarding/overview", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_ONBOARDING_OVERVIEW, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -219,22 +227,21 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
 								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW + "\","
-								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"" + MediaType.APPLICATION_JSON_VALUE + "\"}")));
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
+								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
-		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
-						MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(put(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_ONBOARDING_OVERVIEW)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/onboarding/overview", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_ONBOARDING_OVERVIEW, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -246,15 +253,16 @@ public class SiteContentControllerTest {
 		String contentString = "{\"description\":\"<p>Test</p>\"}";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_CONTACT_INFO + "\","
-						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"" + MediaType.APPLICATION_JSON_VALUE + "\"}")));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_CONTACT_INFO + "\","
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
+								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
 		ResponseEntity<JsonResponse<MLPSiteContent>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/footer/contactinfo", HttpMethod.GET,
-				null, new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
+				"http://localhost:" + randomServerPort + PATH_CONTACT_INFO, HttpMethod.GET, null,
+				new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -274,17 +282,17 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(post(urlEqualTo(SET_CONTENT)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/footer/contactinfo", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_CONTACT_INFO, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -300,20 +308,21 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_CONTACT_INFO + "\","
-						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"" + MediaType.APPLICATION_JSON_VALUE + "\"}")));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_CONTACT_INFO + "\","
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
+								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
-		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(put(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_CONTACT_INFO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/footer/contactinfo", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_CONTACT_INFO, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -325,14 +334,14 @@ public class SiteContentControllerTest {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_COBRAND_LOGO + "\","
-						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_COBRAND_LOGO + "\","
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
 
 		ResponseEntity<byte[]> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/coBrandLogo", HttpMethod.GET, null,
+				"http://localhost:" + randomServerPort + PATH_COBRAND_LOGO, HttpMethod.GET, null,
 				new ParameterizedTypeReference<byte[]>() {
 				});
 
@@ -350,17 +359,17 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(post(urlEqualTo(SET_CONTENT)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/coBrandLogo", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_COBRAND_LOGO, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -376,20 +385,20 @@ public class SiteContentControllerTest {
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_COBRAND_LOGO + "\","
-						+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
+		stubFor(get(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + SiteContentServiceImpl.KEY_COBRAND_LOGO + "\","
+								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
 
-		stubFor(put(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(put(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/coBrandLogo", HttpMethod.POST,
-				requestEntity, new ParameterizedTypeReference<JsonResponse<Object>>() {
+				"http://localhost:" + randomServerPort + PATH_COBRAND_LOGO, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
@@ -398,12 +407,11 @@ public class SiteContentControllerTest {
 
 	@Test
 	public void deleteCobrandLogoTest() {
-		stubFor(delete(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_COBRAND_LOGO))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
-						MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(delete(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/coBrandLogo", HttpMethod.DELETE, null,
+				"http://localhost:" + randomServerPort + PATH_COBRAND_LOGO, HttpMethod.DELETE, null,
 				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
@@ -413,12 +421,11 @@ public class SiteContentControllerTest {
 
 	@Test
 	public void deleteCobrandLogoFailTest() {
-		stubFor(delete(urlEqualTo("/ccds/site/content/" + SiteContentServiceImpl.KEY_COBRAND_LOGO))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_BAD_REQUEST).withHeader("Content-Type",
-						MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(delete(urlEqualTo(GET_CONTENT + SiteContentServiceImpl.KEY_COBRAND_LOGO)).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_BAD_REQUEST).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/global/coBrandLogo", HttpMethod.DELETE, null,
+				"http://localhost:" + randomServerPort + PATH_COBRAND_LOGO, HttpMethod.DELETE, null,
 				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
@@ -431,14 +438,14 @@ public class SiteContentControllerTest {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
-						+ "\"mimeType\": \"image/png\"}")));
+		stubFor(get(urlEqualTo(GET_CONTENT + CAROUSEL_TEST_KEY)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + CAROUSEL_TEST_KEY + "\"," + "\"contentValue\": \""
+								+ contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
 
 		ResponseEntity<byte[]> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages/top.test.bgImg", HttpMethod.GET,
+				"http://localhost:" + randomServerPort + PATH_GET_CAROUSEL_PICTURE + CAROUSEL_TEST_KEY, HttpMethod.GET,
 				null, new ParameterizedTypeReference<byte[]>() {
 				});
 
@@ -451,20 +458,20 @@ public class SiteContentControllerTest {
 	public void createCarouselPictureTest() {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
-		MLPSiteContent request = new MLPSiteContent("top.test.bgImg", contentValue.getBytes(), "image/png");
+		MLPSiteContent request = new MLPSiteContent(CAROUSEL_TEST_KEY, contentValue.getBytes(), "image/png");
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(get(urlEqualTo(GET_CONTENT + CAROUSEL_TEST_KEY)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(post(urlEqualTo(SET_CONTENT)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages", HttpMethod.POST, requestEntity,
+				"http://localhost:" + randomServerPort + PATH_SET_CAROUSEL_PICTURE, HttpMethod.POST, requestEntity,
 				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
@@ -476,23 +483,23 @@ public class SiteContentControllerTest {
 	public void updateCarouselPictureTest() {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
-		MLPSiteContent request = new MLPSiteContent("top.test.bgImg", contentValue.getBytes(), "image/png");
+		MLPSiteContent request = new MLPSiteContent(CAROUSEL_TEST_KEY, contentValue.getBytes(), "image/png");
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
-						+ "\"mimeType\": \"image/png\"}")));
+		stubFor(get(urlEqualTo(GET_CONTENT + CAROUSEL_TEST_KEY)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
+								+ "\"contentKey\": \"" + CAROUSEL_TEST_KEY + "\"," + "\"contentValue\": \""
+								+ contentValue + "\"," + "\"mimeType\": \"image/png\"}")));
 
-		stubFor(put(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(put(urlEqualTo(GET_CONTENT + CAROUSEL_TEST_KEY)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<MLPSiteContent>> requestEntity = new HttpEntity<>(reqObj, headers);
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages", HttpMethod.POST, requestEntity,
+				"http://localhost:" + randomServerPort + PATH_SET_CAROUSEL_PICTURE, HttpMethod.POST, requestEntity,
 				new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
@@ -502,11 +509,11 @@ public class SiteContentControllerTest {
 
 	@Test
 	public void deleteCarouselPictureTest() {
-		stubFor(delete(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse()
-				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(delete(urlEqualTo(GET_CONTENT + CAROUSEL_TEST_KEY)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages/top.test.bgImg",
+				"http://localhost:" + randomServerPort + PATH_DELETE_CAROUSEL_PICTURE + CAROUSEL_TEST_KEY,
 				HttpMethod.DELETE, null, new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
@@ -516,16 +523,15 @@ public class SiteContentControllerTest {
 
 	@Test
 	public void deleteCarouselPictureFailTest() {
-		stubFor(delete(urlEqualTo("/ccds/site/content/top.test.bgImg"))
-				.willReturn(aResponse().withStatus(HttpStatus.SC_BAD_REQUEST).withHeader("Content-Type",
-						MediaType.APPLICATION_JSON_VALUE)));
+		stubFor(delete(urlEqualTo(GET_CONTENT + CAROUSEL_TEST_KEY)).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_BAD_REQUEST).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages/top.test.bgImg",
+				"http://localhost:" + randomServerPort + PATH_DELETE_CAROUSEL_PICTURE + CAROUSEL_TEST_KEY,
 				HttpMethod.DELETE, null, new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
 		assertNotNull(contentResponse);
-		assertEquals("Exception Occurred Updating Carousel Picture", contentResponse.getBody().getResponseDetail());
+		assertEquals("Exception Occurred Deleting Carousel Picture", contentResponse.getBody().getResponseDetail());
 	}
 }

@@ -18,9 +18,6 @@
  * ===============LICENSE_END=========================================================
  */
 
-/**
- * 
- */
 package org.acumos.portal.be.controller;
 
 import java.io.IOException;
@@ -106,10 +103,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@Autowired
 	private Environment env;
-
-	/*
-	 * @Autowired private NexusArtifactClient nexusArtifactClient;
-	 */
 
 	private static final String MSG_SEVERITY_ME = "ME";
 
@@ -358,15 +351,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			peerSolutionArtifacts = catalogService.getSolutionArtifacts(solutionId, revisionId);
 			if (peerSolutionArtifacts != null) {
-				/*
-				 * //re-encode the artifact uri { UriComponentsBuilder
-				 * uriBuilder =
-				 * UriComponentsBuilder.fromHttpUrl(request.getRequestURL().
-				 * toString()); for (MLPArtifact artifact:
-				 * peerSolutionArtifacts) {
-				 * artifact.setUri(uriBuilder.replacePath("/artifacts/" +
-				 * artifact.getArtifactId() + "/download") .toUriString()); } }
-				 */
 				data.setResponseBody(peerSolutionArtifacts);
 				data.setResponseCode(String.valueOf(HttpServletResponse.SC_OK));
 				data.setResponseDetail(JSONTags.TAG_STATUS_SUCCESS);
@@ -395,7 +379,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		// tag = SanitizeUtils.sanitize(tag);
 
 		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
@@ -424,7 +407,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		// tag = SanitizeUtils.sanitize(tag);
 
 		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
@@ -480,7 +462,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
-	@ApiOperation(value = "Gets a list of preffered tags for Market Place Catalog.", response = RestPageResponseBE.class)
+	@ApiOperation(value = "Gets a list of preferred tags for Market Place Catalog.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.PREFERRED_TAGS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getPreferredTagsList(@RequestBody JsonRequest<RestPageRequest> restPageReq,
@@ -539,12 +521,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> getTagsSolutions(@PathVariable("tags") String tags,
 			@RequestBody JsonRequest<RestPageRequestBE> restPageReq) {
-
-		// tags = SanitizeUtils.sanitize(tags);
-
-		// List<MLSolution> mlSolutions = null;
 		RestPageResponseBE<MLSolution> mlSolutions = null;
-		// JsonResponse<List<MLSolution>> data = null;
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		try {
 			mlSolutions = catalogService.getTagBasedSolutions(tags, restPageReq);
@@ -554,7 +531,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseDetail("Solutions fetched Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "getMySolutions: size is {} ", mlSolutions.getSize());
 			}
-			// response.setStatus(HttpServletResponse.SC_OK);
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
@@ -933,9 +909,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> getRelatedMySolutions(
 			@RequestBody JsonRequest<RestPageRequestBE> restPageReq) {
-		// List<MLSolution> mlSolutions = null;
 		RestPageResponseBE<MLSolution> mlSolutions = null;
-		// JsonResponse<List<MLSolution>> data = null;
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		try {
 			mlSolutions = catalogService.getRelatedMySolutions(restPageReq);
@@ -945,7 +919,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseDetail("Solutions fetched Successfully");
 				log.debug(EELFLoggerDelegate.debugLogger, "getRelatedMySolutions: size is {} ", mlSolutions.getSize());
 			}
-			// response.setStatus(HttpServletResponse.SC_OK);
 		} catch (AcumosServiceException e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getRelatedMySolutions", e);
 			data.setErrorCode(e.getErrorCode());
@@ -1187,35 +1160,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		return data;
 	}
 
-	/*
-	 * @ApiOperation(value = "Get avg ratings for a solution Id", response =
-	 * MLPSolutionWeb.class, responseContainer = "List")
-	 * 
-	 * @RequestMapping(value = { APINames.GET_AVG_SOLUTION_RATING }, method =
-	 * RequestMethod.GET, produces = APPLICATION_JSON)
-	 * 
-	 * @ResponseBody public JsonResponse<MLSolutionWeb>
-	 * getAvgRatingsForSol(@PathVariable String solutionId) {
-	 * JsonResponse<MLSolutionWeb> data = new JsonResponse<>();
-	 * 
-	 * solutionId = SanitizeUtils.sanitize(solutionId);
-	 * 
-	 * try { MLSolutionWeb mlSolutionWeb =
-	 * catalogService.getSolutionWebMetadata(solutionId); if (mlSolutionWeb !=
-	 * null) { data.setResponseBody(mlSolutionWeb);
-	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-	 * data.setResponseDetail("Solution ratings fetched Successfully");
-	 * log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");
-	 * }else { data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-	 * data.setResponseDetail("No ratings found for solution :"+ solutionId);
-	 * log.error(EELFLoggerDelegate.errorLogger,
-	 * "Error Occurred Fetching ratings for model :" + solutionId); } } catch
-	 * (Exception e) { data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-	 * data.setResponseDetail("Exception Occurred while getAvgRatingsForSol");
-	 * log.error(EELFLoggerDelegate.errorLogger,
-	 * "Exception Occurred while getAvgRatingsForSol", e); } return data; }
-	 */
-
 	@ApiOperation(value = "Get avg ratings for a solution Id", response = MLSolutionWeb.class, responseContainer = "List")
 	@RequestMapping(value = {
 			APINames.GET_AVG_SOLUTION_RATING }, method = RequestMethod.GET, produces = APPLICATION_JSON)
@@ -1268,9 +1212,6 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		} catch (Exception e) {
 			log.error(EELFLoggerDelegate.errorLogger, "Exception in fetchProtoFile() ", e);
-			// throw new
-			// AcumosServiceException(AcumosServiceException.ErrorCode.FILE_NOT_FOUND,
-			// e.getMessage());
 		}
 		log.debug(EELFLoggerDelegate.debugLogger, "fetchProtoFile() : End");
 

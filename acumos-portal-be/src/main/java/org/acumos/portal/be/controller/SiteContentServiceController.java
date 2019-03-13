@@ -263,10 +263,13 @@ public class SiteContentServiceController extends AbstractController {
 		try {
 			content = siteContentService.getCarouselPicture(key);
 			if (content != null) {
-				resp = new ResponseEntity<byte[]>(content.getContentValue(), HttpStatus.OK);
+				resp = ResponseEntity.ok().cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS))
+						.body(content.getContentValue());
+			} else {
+				resp = ResponseEntity.noContent().build();
 			}
 		} catch (Exception e) {
-			resp = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+			resp = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Carousel Picture", e);
 		}
 		return resp;
@@ -309,8 +312,8 @@ public class SiteContentServiceController extends AbstractController {
 			data.setResponseDetail("Carousel picture updated successfully");
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
-			data.setResponseDetail("Exception Occurred Updating Carousel Picture");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Carousel Picture", e);
+			data.setResponseDetail("Exception Occurred Deleting Carousel Picture");
+			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Deleting Carousel Picture", e);
 		}
 		return data;
 	}

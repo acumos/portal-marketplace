@@ -1998,8 +1998,8 @@ angular.module('admin').filter('abs', function() {
 							slide['tagName'] = slide_tagName; 
 							slide['bgImageUrl'] = $scope.carouselBGFileName;
 							slide['InfoImageUrl'] = $scope.carouselInfoFileName;
-							slide['bgImgKey'] = "top." + slide['uniqueKey'] + ".bgImg";
-							slide['infoImgKey'] = "top." + slide['uniqueKey'] + ".infoImg";
+							slide['bgImgKey'] = "carousel.top." + slide['uniqueKey'] + ".bgImg";
+							slide['infoImgKey'] = "carousel.top." + slide['uniqueKey'] + ".infoImg";
 							slide['hasInfoGraphic'] = $scope.carouselSlide.hasInfoGraphic || ($scope.carouselSlide.infoGraphic != null);
 							
 							if ($scope.carouselSlide.links) {
@@ -2419,8 +2419,8 @@ angular.module('admin').filter('abs', function() {
 								
 								slide['bgImageUrl'] = $scope.eventBGFileName;
 								slide['InfoImageUrl'] = $scope.eventInfoFileName;
-								slide['bgImgKey'] = "event." + slide['uniqueKey'] + ".bgImg";
-								slide['infoImgKey'] = "event." + slide['uniqueKey'] + ".infoImg";
+								slide['bgImgKey'] = "carousel.event." + slide['uniqueKey'] + ".bgImg";
+								slide['infoImgKey'] = "carousel.event." + slide['uniqueKey'] + ".infoImg";
 								slide['hasInfoGraphic'] = $scope.eventCarousel.hasInfoGraphic || ($scope.eventCarousel.infoGraphic != null);
 								
 								
