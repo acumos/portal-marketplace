@@ -90,7 +90,7 @@ limitations under the License.
                     <!-- Through Properties File -->
                     <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
                           <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
-                              	ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()"
+                              	ng-click="showazurePopup()"
                            		class="opacityZero deploy-to-cloud" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
                            		title="{{deployVal.cloudDisplayText}}"
                            		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center"
@@ -853,7 +853,7 @@ limitations under the License.
 				</div>
 				<div layout="row" class="pull-right">
 						<md-button class="mdl-button mdl-js-button btn-primary"
-								ng-disabled="deploy.$invalid" ng-click="showazurePopup()">Deploy
+								ng-disabled="deploy.$invalid" ng-click="authenticateAnddeployToAzure();closePoup();">Deploy
 						</md-button>
 				</div>
 				</form>
@@ -1257,7 +1257,7 @@ limitations under the License.
 			<md-dialog-actions>		  
 		   		<div class="dialog-footer-container1">	   
 					<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
-					<button ng-click="authenticateAnddeployToAzure();closePoup();" class="mdl-button mdl-js-button btn-primary">OK</button>	        
+					<button ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()" class="mdl-button mdl-js-button btn-primary">OK</button>	        
 			</md-dialog-actions>
 		  </md-dialog>
 		  </div>
