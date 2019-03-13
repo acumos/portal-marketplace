@@ -431,14 +431,14 @@ public class SiteContentControllerTest {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(get(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
+						+ "\"contentKey\": \"carousel.top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
 						+ "\"mimeType\": \"image/png\"}")));
 
 		ResponseEntity<byte[]> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages/top.test.bgImg", HttpMethod.GET,
+				"http://localhost:" + randomServerPort + "/site/content/carouselImages/carousel.top.test.bgImg", HttpMethod.GET,
 				null, new ParameterizedTypeReference<byte[]>() {
 				});
 
@@ -451,11 +451,11 @@ public class SiteContentControllerTest {
 	public void createCarouselPictureTest() {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
-		MLPSiteContent request = new MLPSiteContent("top.test.bgImg", contentValue.getBytes(), "image/png");
+		MLPSiteContent request = new MLPSiteContent("carousel.top.test.bgImg", contentValue.getBytes(), "image/png");
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(get(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
@@ -476,17 +476,17 @@ public class SiteContentControllerTest {
 	public void updateCarouselPictureTest() {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
-		MLPSiteContent request = new MLPSiteContent("top.test.bgImg", contentValue.getBytes(), "image/png");
+		MLPSiteContent request = new MLPSiteContent("carousel.top.test.bgImg", contentValue.getBytes(), "image/png");
 		JsonRequest<MLPSiteContent> reqObj = new JsonRequest<>();
 		reqObj.setBody(request);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(get(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
+						+ "\"contentKey\": \"carousel.top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
 						+ "\"mimeType\": \"image/png\"}")));
 
-		stubFor(put(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(put(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		HttpHeaders headers = new HttpHeaders();
@@ -502,11 +502,11 @@ public class SiteContentControllerTest {
 
 	@Test
 	public void deleteCarouselPictureTest() {
-		stubFor(delete(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse()
+		stubFor(delete(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages/top.test.bgImg",
+				"http://localhost:" + randomServerPort + "/site/content/carouselImages/carousel.top.test.bgImg",
 				HttpMethod.DELETE, null, new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 
@@ -516,12 +516,12 @@ public class SiteContentControllerTest {
 
 	@Test
 	public void deleteCarouselPictureFailTest() {
-		stubFor(delete(urlEqualTo("/ccds/site/content/top.test.bgImg"))
+		stubFor(delete(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg"))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_BAD_REQUEST).withHeader("Content-Type",
 						MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> contentResponse = restTemplate.exchange(
-				"http://localhost:" + randomServerPort + "/site/content/carouselImages/top.test.bgImg",
+				"http://localhost:" + randomServerPort + "/site/content/carouselImages/carousel.top.test.bgImg",
 				HttpMethod.DELETE, null, new ParameterizedTypeReference<JsonResponse<Object>>() {
 				});
 

@@ -263,10 +263,13 @@ public class SiteContentServiceController extends AbstractController {
 		try {
 			content = siteContentService.getCarouselPicture(key);
 			if (content != null) {
-				resp = new ResponseEntity<byte[]>(content.getContentValue(), HttpStatus.OK);
+				resp = ResponseEntity.ok().cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS))
+						.body(content.getContentValue());
+			} else {
+				resp = ResponseEntity.noContent().build();
 			}
 		} catch (Exception e) {
-			resp = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+			resp = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Carousel Picture", e);
 		}
 		return resp;

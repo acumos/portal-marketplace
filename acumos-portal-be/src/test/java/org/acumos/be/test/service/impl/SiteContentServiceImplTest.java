@@ -287,13 +287,13 @@ public class SiteContentServiceImplTest {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(get(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
+						+ "\"contentKey\": \"carousel.top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
 						+ "\"mimeType\": \"image/png\"}")));
 
-		MLPSiteContent content = siteContentService.getCarouselPicture("top.test.bgImg");
+		MLPSiteContent content = siteContentService.getCarouselPicture("carousel.top.test.bgImg");
 		assertEquals(contentString, new String(content.getContentValue()));
 	}
 
@@ -301,9 +301,9 @@ public class SiteContentServiceImplTest {
 	public void createCarouselPictureTest() {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
-		MLPSiteContent request = new MLPSiteContent("top.test.bgImg", contentValue.getBytes(), "image/png");
+		MLPSiteContent request = new MLPSiteContent("carousel.top.test.bgImg", contentValue.getBytes(), "image/png");
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(get(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		stubFor(post(urlEqualTo("/ccds/site/content")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
@@ -316,15 +316,15 @@ public class SiteContentServiceImplTest {
 	public void updateCarouselPictureTest() {
 		String contentString = "Placeholder for an actual image";
 		String contentValue = Base64.encodeAsString(contentString);
-		MLPSiteContent request = new MLPSiteContent("top.test.bgImg", contentValue.getBytes(), "image/png");
+		MLPSiteContent request = new MLPSiteContent("carousel.top.test.bgImg", contentValue.getBytes(), "image/png");
 
-		stubFor(get(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(get(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 				.withBody("{\"created\": \"2019-02-01T21:58:49Z\"," + "\"modified\": \"2019-02-01T21:58:49Z\","
-						+ "\"contentKey\": \"top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
+						+ "\"contentKey\": \"carousel.top.test.bgImg\"," + "\"contentValue\": \"" + contentValue + "\","
 						+ "\"mimeType\": \"image/png\"}")));
 
-		stubFor(put(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(put(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		siteContentService.setCarouselPicture(request);
@@ -332,9 +332,9 @@ public class SiteContentServiceImplTest {
 
 	@Test
 	public void deleteCarouselPictureTest() {
-		stubFor(delete(urlEqualTo("/ccds/site/content/top.test.bgImg")).willReturn(aResponse()
+		stubFor(delete(urlEqualTo("/ccds/site/content/carousel.top.test.bgImg")).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
-		siteContentService.deleteCarouselPicture("top.test.bgImg");
+		siteContentService.deleteCarouselPicture("carousel.top.test.bgImg");
 	}
 }
