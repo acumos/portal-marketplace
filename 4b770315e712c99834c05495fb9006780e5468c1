@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d974ade7_c36ed09d",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/SiteContentControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-13T17:22:07Z",
+      "side": 1,
+      "message": "can you possibly put these paths into constants, or construct the path here from constants?\n\nThe repetition is enormous here.",
+      "range": {
+        "startLine": 434,
+        "startChar": 25,
+        "endLine": 434,
+        "endChar": 68
+      },
+      "revId": "4b770315e712c99834c05495fb9006780e5468c1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c8314a9_b3438847",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/service/impl/SiteContentServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-03-13T17:22:07Z",
+      "side": 1,
+      "message": "Ditto about constants and repetition",
+      "range": {
+        "startLine": 290,
+        "startChar": 26,
+        "endLine": 290,
+        "endChar": 68
+      },
+      "revId": "4b770315e712c99834c05495fb9006780e5468c1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
