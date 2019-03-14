@@ -1648,7 +1648,7 @@ limitations under the License.
 																				<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																				<div class="upload-image-input">
 																					<div file-upload file="previewImage" ng-click = "cancelSolImage()"
-																						uploadid="companyuploadid" id="solImage" size = 800000 imageerror = "imageerror"
+																						uploadid="companyuploadid" id="solImage" size = 1000000 imageerror = "imageerror"
 																						filename="filename" fileinput="file" accept="image/*" imagetypeerror = "imagetypeerror"
 																						filepreview="previewImage" ng-model="solImage"
 																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
@@ -1658,7 +1658,7 @@ limitations under the License.
 																					
 																				</div>
 																				<div class="help-inline validation-msgs">
-																					<span ng-show = "imageerror">Image should be max size of 800KB.</span>
+																					<span ng-show = "imageerror">Image should be max size of 1MB.</span>
 																				</div>
 																				<div class="help-inline validation-msgs">
 																					<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
@@ -1689,7 +1689,7 @@ limitations under the License.
                                                                              </div> -->
                                                                              
 																				<div>
-																					<p>JPG, GIF or PNG Max Size 800KB {{iconFile}}</p>
+																					<p>JPG, GIF or PNG Max Size 1MB {{iconFile}}</p>
 																				</div>
 																			</div>
 																		</div>
@@ -3318,7 +3318,7 @@ limitations under the License.
 																			<md-input-container><label class="md-required">Upload Image</label></md-input-container>
 																			<div class="upload-image-input">
 																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
-																					uploadid="publicuploadid" id="solImage" size = 800000 imageerror = "imageerror"
+																					uploadid="publicuploadid" id="solImage" size = 1000000 imageerror = "imageerror"
 																					imagetypeerror = "imagetypeerror"
 																					filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
 																					filepreview="previewImage" ng-model="solImage"
@@ -3328,7 +3328,7 @@ limitations under the License.
 																					ng-model="filename" readonly />
 																			</div>
 																			<div class="help-inline validation-msgs">
-																				<span ng-show = "imageerror">Image should be max size of 800KB.</span>
+																				<span ng-show = "imageerror">Image should be max size of 1MB.</span>
 																			</div>
 																			<div class="help-inline validation-msgs">
 																				<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
@@ -3358,7 +3358,7 @@ limitations under the License.
                                                                                 </div>
                                                                              </div> -->
 																			<div>
-																				<p>JPG, GIF or PNG Max Size 800KB {{iconFile}}</p>
+																				<p>JPG, GIF or PNG Max Size 1MB {{iconFile}}</p>
 																			</div>
 																		</div>
 																	</div>
