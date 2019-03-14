@@ -81,7 +81,7 @@ limitations under the License.
 										ng-if='orderByField=="message"'
 										ng-class="reverseSort?'ascending':'descending'"
 										class="gridcell-sort"></span></th>
-								  <th ng-click="orderByField='start'; reverseSortDate = !reverseSortDate; reverseSort = reverseSortDate;">Date<span ng-if='orderByField!="start"'
+								  <th ng-click="orderByField='start'; reverseSortDate = !reverseSortDate; reverseSort = reverseSortDate;">Date <span ng-if='orderByField!="start"'
 										class="gridcell-sort deactivate"></span><span
 										ng-if='orderByField=="start"'
 										ng-class="reverseSort?'ascending':'descending'"
@@ -89,7 +89,9 @@ limitations under the License.
 								</tr>
 							  </thead>
 							  <tbody>
+							 
 								<tr ng-repeat="notification in ( ($parent.filtertedNotification = (notificationManageObj | filter:filterByDateSubject))) | orderBy:orderByField:reverseSort">
+								
 								<td  ng-class="{'read-notification': notification.viewed}">
 									<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkBox_{{$index}}" id="checkBox_{{$index}}">
 									  <input type="checkbox"  class="mdl-checkbox__input" ng-model = "notification.Selected"  ng-checked="notification.Selected" ng-click="removeSelectAll()">
@@ -98,7 +100,7 @@ limitations under the License.
 								</td>
 								
 								  <td class="sub-container" ng-bind-html="notification.message" ng-class="{'read-notification': notification.viewed}" compile></td>
-								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start}}</td>
+								  <td  ng-class="{'read-notification': notification.viewed}">{{notification.start | date : "MM/dd/yyyy" }}</td> 
 								</tr>
 							  </tbody>
 							</table>
