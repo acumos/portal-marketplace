@@ -61,7 +61,8 @@ app.component('notificationModule',{
 						$scope.notificationManageObj
 						.push({
 							message : $sce.trustAsHtml(value.message),
-							start : $filter('date')(value.start, "MM/dd/yyyy"),
+							start : value.start,
+							startdateForSorting : $filter('date')(value.start, "MM/dd/yyyy"),
 							viewed : value.viewed,
 							notificationId : value.notificationId
 						});
@@ -237,7 +238,7 @@ app.component('notificationModule',{
 			
 			$scope.filterByDateSubject = function(notification) {	
 				if(!$scope.search) return true; 
-				return ( (angular.lowercase(notification.start).indexOf(angular.lowercase($scope.search)) !== -1) ||
+				return ( (angular.lowercase(notification.startdateForSorting).indexOf(angular.lowercase($scope.search)) !== -1) ||
 						(angular.lowercase((notification.message.toString())).indexOf(angular.lowercase($scope.search)) !== -1) );  		
 		    };
 			
