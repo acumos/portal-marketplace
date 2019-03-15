@@ -118,6 +118,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			url: '/publishRequest',
 			component: 'publishRequest'
 		})
+		.state('onboardingHistory',{
+			url: '/onboardingHistory',
+			component: 'onboardingHistory'
+		})
 		;
 	
 		$authProvider.facebook({

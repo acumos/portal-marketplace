@@ -2136,6 +2136,27 @@ label.model-name{color:#0366d6;}
 
 /*** DS menu style ends */
 
+.btn-secondary-small {background: #fff; color: #2B262D;border:1px solid #B1B1B1;font-size: 12px; padding: 0px 5px; height: 26px; line-height: 26px;}
+.truncate-tbltext{white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width:90%; max-width:150px;}
+.revisionrow{color:#000000; }
+.revisionrow td{border-top:1px dotted #aaa; border-bottom:1px dotted #aaa;}
+.accordianrow p{margin-bottom:0px; font-size:13px; font-weight:600; float:left;}
+.dottedborder td{border-bottom:1px dotted #aaa;}
+.admin-tbl2{width:100%; background-color:#f1f1f1;}
+.admin-tbl2 thead tr th{color: #000; text-transform: uppercase; background-color:#f1f1f1; border-bottom:1px solid #9E9E9E;}
+.accordiandata{background-color:#f1f1f1;}
+.accordiandata > td{padding-bottom:0px; border-bottom:1px dotted #aaa; border-top: 1px solid #ddd;}
+.admin-tbl2 tr:last-child td{border-bottom:0px}
+.truncate-tbltext1{white-space:nowrap; text-overflow:ellipsis; max-width:120px; overflow:hidden;}
+
+/* popup onboarding */
+.historypopup{background-color:#f1f1f1; border-bottom:1px solid rgba(0,0,0,0.12); padding: 10px 20px; display: flex;  justify-content: space-between;}
+.historypopup label{color:#2B262D; font-weight:600;}
+.historypopup .createdon{font-size:11px;}
+.historypopup > div{margin-right:5px;}
+.detectnum{ border-radius: 50%; background-color: #FFF; border: 1px solid #000; width:48px; height:48px; text-align:center; line-height:48px; font-weight: 600; font-size: 20px;}
+/* popup onboarding */
+
 /*********** MEDIA QUERIES SECTION START************/
 
 @media (max-width: 450px) {
