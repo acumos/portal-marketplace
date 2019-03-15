@@ -110,6 +110,8 @@ angular.module('AcumosApp')
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
         var urlCarouselPictureUrl = "/api/site/content/carouselImages";
         var urlUnreadNotification =  "/api/unreadnotifications/count"
+        var urlOnBoardingHistoryTaskList =  "/api/onboardinghistory/getTasks"
+        var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult"        	
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -586,6 +588,12 @@ angular.module('AcumosApp')
         
         this.deleteCarouselPicture = function(key) {
         	return $http.delete(urlCarouselPictureUrl + "/" + key);
+        }; 
+        this.onBoardingHistoryTaskList = function(userId,pageRequest) {
+        	return $http.post(urlOnBoardingHistoryTaskList + "/" + userId, pageRequest);
+        }; 
+        this.onBoardingHistoryStepResult = function(taskId) {
+        	return $http.post(urlOnBoardingHistoryStepResult + "/" + taskId);
         };
         
 
