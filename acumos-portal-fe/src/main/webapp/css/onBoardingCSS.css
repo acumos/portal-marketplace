@@ -167,6 +167,21 @@ box-sizing: border-box;}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-info {background-color: #21a9e1;color: #fff;}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-warning {background-color: #fad839;color: #fff;}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-danger {background-color: #cc2424;color: #fff;}
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.errormsg,
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.sucessmsg{-webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 18px;}
+    
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.errormsg::before{color:#cc3333; content: "\f00d";}
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.errormsg{box-shadow: 0 0 0 2px #cc3333;}
+    
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.sucessmsg::before{ color:#009901;content: "\f00c";}
+    .timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.sucessmsg{box-shadow: 0 0 0 2px #009901;}
+    .timeline-centered .timeline-entry.section-disabled{opacity:0.3; cursor:not-allowed;}
+    
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label {position: relative;padding: 0 0 20px 0;margin-left: 40px;-webkit-background-clip: padding-box;
 -moz-background-clip: padding;background-clip: padding-box;border-bottom:1px solid #DBCBE8; margin-bottom:15px;
 }
@@ -395,7 +410,15 @@ md-tabs-content-wrapper {
 .timeline-label-steps p {margin-top: 30px !important;margin-bottom: 0px;}
 .mrgTpNon {margin-top:0px;}
 .timeline-label-steps.cont {padding-left: 0px;}
-.onboardpeer{font-size:14px; padding:20px 20px 0;  min-height: auto;}
+.onboardpeer{font-size: 14px; padding: 20px 20px 0; min-height: auto;}
+.onboardpeerinner{font-size:14px; margin:0px 20px 0;  min-height: auto; border-bottom:1px solid #DDDDDD;}
+.onboardpeerinner .mdl-textfield{padding:10px 0;}
+.onboardpeerinner .admin-button-row1{padding-bottom:0px;}
+.historypopup ~ .md-dialog-content > .timeline .timeline-centered{margin-bottom:0px;}
+.errorul{ padding: 5px 0 0 20px; margin: 0; font-size: 13px; color:#cc3333;} 
+.btnhistory{margin: 0 0 20px 20px;}
+.onboard-history{font-size: 14px; padding: 0 20px 20px 20px; min-height: auto;}
+
 md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 158) !important;}
 .onboarding .timeline h6{padding: }
 @keyframes flashicons {
