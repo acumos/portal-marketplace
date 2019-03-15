@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,7 @@ import org.acumos.portal.be.transport.MLSolutionDownload;
 import org.acumos.portal.be.transport.MLSolutionFavorite;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.MLTask;
 import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.OauthUser;
 import org.acumos.portal.be.transport.RevisionDescription;
@@ -524,6 +526,37 @@ public class PortalUtils {
 
 		return mlStepResult;
 
+	}
+
+	public static MLStepResult convertToMLStepResults(MLPTaskStepResult mlPTaskStepResult) {
+		MLStepResult mlStepResult = new MLStepResult();
+		mlStepResult.setTaskId(mlPTaskStepResult.getTaskId());
+		mlStepResult.setStatusCode(mlPTaskStepResult.getStatusCode());
+		mlStepResult.setResult(mlPTaskStepResult.getResult());
+		mlStepResult.setName(mlPTaskStepResult.getName());
+		mlStepResult.setStepResultId(mlPTaskStepResult.getStepResultId());
+		mlStepResult.setStartDate(
+				mlPTaskStepResult.getStartDate() != null ? Date.from(mlPTaskStepResult.getStartDate()) : null);
+		mlStepResult.setEndDate(
+				Date.from(mlPTaskStepResult.getEndDate()) != null ? Date.from(mlPTaskStepResult.getEndDate()) : null);
+
+		return mlStepResult;
+	}
+
+	public static MLTask convertToMLTask(MLPTask task) {
+		MLTask mlTask = new MLTask();
+		mlTask.setCreatedtDate(task.getCreated() != null ? Date.from(task.getCreated()) : null);
+		mlTask.setModifiedDate(task.getModified() != null ? Date.from(task.getModified()) : null);
+		mlTask.setTaskCode(task.getTaskCode());
+		mlTask.setSolutionId(task.getSolutionId());
+		mlTask.setRevisionId(task.getRevisionId());
+		mlTask.setStatusCode(task.getStatusCode());
+		mlTask.setName(task.getName());
+		mlTask.setUserId(task.getUserId());
+		mlTask.setTrackingId(task.getTrackingId());
+		mlTask.setTaskId(task.getTaskId());
+
+		return mlTask;
 	}
 
 	public static String mapToJsonString(Map<String, ?> theMap) {
