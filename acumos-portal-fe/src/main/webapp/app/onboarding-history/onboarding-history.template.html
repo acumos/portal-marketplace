@@ -1,0 +1,335 @@
+<!--  
+===============LICENSE_START=======================================================
+Acumos Apache-2.0
+===================================================================================
+Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+===================================================================================
+This Acumos software file is distributed by AT&T and Tech Mahindra
+under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+This file is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+===============LICENSE_END=========================================================
+-->
+<style>
+@import url('css/onBoardingCSS.css');
+</style>
+<section class="pageheadsection gray-bg">
+	<div layout="row" layout-xs="column" layout-fill
+		layout-align="start start" class="mdl-grid mdl-grid--no-spacing">
+		<div
+			class="mdl-cell mdl-cell--5-col mdl-cell--4-col-phone mdl-cell--5-col-tablet">
+			<div>
+				<span class="headline mob-disblock">View On-Boarding History</span>
+			</div>
+			<ul class="c-breadcrumb">
+				<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+				<li><span>On-Boarding Model</span></li>
+				<li><span>View On-Boarding History</span></li>
+			</ul>
+		</div>
+	</div>
+</section>
+<section class="onboardpeerinner">
+	<div class="admin-button-row1">
+		<div class="admin-container-row1-inner3">
+			<a class="admin-selected-link" ng-click="loadOnBoardingHistoryTaskList(0)">All</a> <span>|</span> <a
+			ng-click="loadOnBoardingHistoryTaskList(0,'ST')">In Progress</a> <span>|</span> <a ng-click="loadOnBoardingHistoryTaskList(0,'FA')">Fail</a> <span>|</span>
+			<a ng-click="loadOnBoardingHistoryTaskList(0,'SU')">Successful</a>
+		</div>
+		<div>
+			<span class="admin-search-lbl">Search</span>
+			<div
+				class="mdl-textfield mdl-js-textfield user-mgmt-search-container is-upgraded"
+				data-upgraded=",MaterialTextfield">
+				<input
+					class="mdl-textfield__input adminsearchicon ng-pristine ng-untouched ng-valid ng-empty"
+					type="text" ng-model="searchOnHistoryList" aria-invalid="false">
+			</div>
+		</div>
+	</div>
+</section>
+<div class="onboard-history">
+	<!-- table start -->
+	<div class="admin-grid-container">
+		<table
+			class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1" style="table-layout: fixed;">
+			<colgroup>
+				<col width="15%">
+				<col width="10%">
+				<col width="20%">
+				<col width="20%">
+				<col width="15%">
+				<col width="10%">
+				<col width="10%">
+			</colgroup>
+			<thead >
+				<tr>
+					<th>MODEL NAME</th> 				
+					<th>STEP CODE</th>					
+					<th>SOLUTION ID</th>
+					<th>REVISION ID</th>
+					<th>DATE & TIME</th>
+					<th>STATUS</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchOnHistoryList" >						
+					<td><span class="md-breadcrumb-item">{{Task.modelName}}</span></td>
+					<td>{{Task.taskCode}}</td>			
+					<td><span class="md-breadcrumb-item"> {{Task.solutionId}}</span></td>
+					<td><span class="md-breadcrumb-item"> {{Task.revisionId}}</span></td>
+					<td>{{Task.modifiedDate | date :  "MM/dd/yyyy '|' h:mm a"}}</td>
+					<td class="status-color"
+						ng-class="{'history-error': Task.statusCode == 'FA', 
+						'history-progress': Task.statusCode == 'ST', 
+						'history-success': Task.statusCode == 'SU' }" >{{Task.statusCode == "ST" ? "InProgress" : Task.statusCode == "SU" ? "Success" : "Fail"}}</td>
+					<td>					
+						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA" || Task.statusCode == "ST" ' ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode)">View
+							Results</button>
+						<span ng-if='Task.statusCode == "SU" '> -- </span>											
+					</td>
+					
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+	<!-- table end -->
+	
+	<div class="pagination-wrapper" ng-if="allOnboardingListLength > 0">
+			<div class="pagination-left-section">
+				<span>Showing </span>
+				<div class="select-control">
+					<md-select ng-model="requestResultSize" name="requestResultSize"
+						ng-change="filterChange('paginationSize',requestResultSize)">
+					<md-option ng-value="10" class="pagination-list-item">10</md-option>
+					<md-option ng-value="25" class="pagination-list-item">25</md-option>
+					<md-option ng-value="50" class="pagination-list-item">50</md-option>
+					<md-option ng-value="100" class="pagination-list-item">100</md-option>
+					</md-select>
+
+				</div>
+
+				<span class="page-stats"> Publish Requests</span>
+
+			</div>
+			<div class="pagination-right-section">
+				<div class="count-btn-container">
+					<button class="mdl-button mdl-js-button btn-secondary"
+						ng-disabled="selectedPage==0 || SetDataLoaded"
+						ng-click="setStartCount('pre');loadOnBoardingHistoryTaskList(selectedPage)">Previous</button>
+				</div>
+				<div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
+					<button class="mdl-button mdl-js-button btn-secondary count-btn"
+						ng-click="setStartCount('preBunch');loadOnBoardingHistoryTaskList(setPageStart)"
+						ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+				</div>
+				<div class="count-btn-container">
+					<button class="mdl-button mdl-js-button btn-secondary count-btn"
+						ng-class="{'selected-btn': setPageStart == selectedPage}"
+						ng-click="loadOnBoardingHistoryTaskList(setPageStart);">{{setPageStart+1}}</button>
+				</div>
+				<div class="count-btn-container"
+					ng-hide="totalPages<=(setPageStart+1)">
+					<button class="mdl-button mdl-js-button btn-secondary count-btn"
+						ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
+						ng-click="loadOnBoardingHistoryTaskList(setPageStart+1);">{{setPageStart+2}}</button>
+				</div>
+				<div class="count-btn-container"
+					ng-hide="totalPages<=(setPageStart+2)">
+					<button class="mdl-button mdl-js-button btn-secondary count-btn"
+						ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
+						ng-click="loadOnBoardingHistoryTaskList(setPageStart+2);">{{setPageStart+3}}</button>
+				</div>
+				<div class="count-btn-container"
+					ng-hide="totalPages<=(setPageStart+3)">
+					<button class="mdl-button mdl-js-button btn-secondary count-btn"
+						ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
+						ng-click="loadOnBoardingHistoryTaskList(setPageStart+3);">{{setPageStart+4}}</button>
+				</div>
+				<div class="count-btn-container"
+					ng-hide="(totalPages)<=(setPageStart+4)">
+					<button class="mdl-button mdl-js-button btn-secondary count-btn"
+						ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
+						ng-click="loadOnBoardingHistoryTaskList(setPageStart+4);">{{setPageStart+5}}</button>
+				</div>
+				<div class="count-btn-container"
+					ng-hide="(totalPages)<=(setPageStart + 5)">
+					<button class="mdl-button mdl-js-button btn-secondary count-btn"
+						ng-click="setStartCount('nextBunch');loadOnBoardingHistoryTaskList(setPageStart);"
+						ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+				</div>
+				<div class="count-btn-container">
+					<button class="mdl-button mdl-js-button btn-secondary"
+						ng-click="setStartCount('next');loadOnBoardingHistoryTaskList(selectedPage);"
+						ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
+				</div>
+			</div>
+		</div> 
+
+</div>
+
+<!-- Modal box start Add new Role-->
+<div class="md-dialog-container" id="ViewResult" style="height: 0;">
+	<md-dialog aria-label="Step Result" class="cg-dialog-admin2">
+	<!-- <form ng-cloak> --> <md-toolbar>
+	<div class="md-toolbar-tools">
+		<div class="md-toolbar-tools">
+			<h2>FraudDetect</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click='closePoup()'>
+			<i class="material-icons">close</i> </md-button>
+		</div>
+	</div>
+	</md-toolbar> <md-dialog-content>
+	<div class="historypopup">		
+		<div>
+			<div>
+				<label>Revision Id: </label>{{revId}}
+			</div>
+			<div class="createdon">Created On: {{modDate | date :  "MM/dd/yyyy h:mm a"}}</div>
+		</div>
+		<div>
+			<label>Solution Id: </label>{{solId}}
+		</div>
+		<div>
+			<label>Status: </label><span class="red"
+					ng-class="{'history-error': Task.statusCode == 'FA', 
+						'history-progress': Task.statusCode == 'ST', 
+						'history-success': Task.statusCode == 'SU' }" >{{statusCd == "ST" ? "InProgress" : Task.statusCode == "SU" ? "Success" : "Fail"}}</span>
+		</div>
+	</div>
+	<div class="md-dialog-content" ng-if="stepResults">
+		<div class="timeline">
+			<div>
+				<div class="timeline-centered">
+					<article ng-class="resultCreateSln == false ? 'timeline-centered timeline-entry section-disabled' : 'timeline-entry '">
+						<div class="timeline-entry-inner">	
+						 <div class="timeline-icon" ng-if="!resultCreateSln">
+								<span>1</span>
+							</div>					
+							<div ng-class="statusCreateSln == 'SU'? 'timeline-icon fas sucessmsg' : 'timeline-icon fas fa-time errormsg'" ng-if="resultCreateSln">								
+							</div>
+							<div class="timeline-label">
+								<h2>
+									CreateSolution
+									<!-- | <span class="green">Completed
+										on </span>  -->
+								</h2>
+								<div ng-if="divCreateSln">
+								<p><b>Errors:</b></p>
+								<ul class="errorul">
+									<li><strong>CreateSolution:</strong> {{errorMSGCS}}</li>									
+								</ul>
+								</div>
+							</div>
+						</div>
+					</article>
+					<article ng-class="resultAddArtifact == false ? 'timeline-centered timeline-entry section-disabled' : 'timeline-entry '">					
+						<div class="timeline-entry-inner">
+						   <div class="timeline-icon" ng-if="!resultAddArtifact">
+								<span>2</span>
+							</div>
+							<div ng-class="statusAddArtifact == 'SU'? 'timeline-icon fas sucessmsg' : 'timeline-icon fas fa-time errormsg'" ng-if="resultAddArtifact">								
+							</div>
+							<div class="timeline-label">
+								<h2>
+									AddArtifact
+									<!-- | <span class="green">Completed on </span> <span> {{dateAddArtifact}} </span> -->
+								</h2>
+								<div ng-if="divAddArtifact">
+								<p><b>Errors:</b></p>
+								<ul class="errorul">
+									<li><strong>Add Artifacts:</strong> {{errorMSGAA}}</li>									
+								</ul>
+								</div>
+							</div>
+						</div>
+					</article>
+					<article ng-class="resultCreateTOSCA == false ? 'timeline-centered timeline-entry section-disabled' : 'timeline-entry '">
+						<div class="timeline-entry-inner">
+						<div class="timeline-icon" ng-if="!resultCreateTOSCA">
+								<span>3</span>
+							</div>
+							<div ng-class="statusCreateTOSCA == 'SU' ? 'timeline-icon fas sucessmsg' : 'timeline-icon fas fa-time errormsg'" ng-if="resultCreateTOSCA">								 							
+							</div>
+							<div class="timeline-label">
+								<h2>
+									CreateTOSCA
+									<!-- | <span class="green">Completed
+										on </span> <span> {{dateCreateTOSCA}} </span> -->
+								</h2>
+								<div ng-if="divCreateTOSCA">
+								<p><b>Errors:</b></p>
+								<ul class="errorul">
+									<li ><strong>Create TOSCA:</strong> {{errorMSGCT}}</li>								
+								</ul>
+								</div>
+							</div>
+						</div>
+					</article>
+					<article ng-class="resultDockerize == false ? 'timeline-centered timeline-entry section-disabled' : 'timeline-entry '">
+						<div class="timeline-entry-inner">
+							<div class="timeline-icon" ng-if="!resultDockerize">
+								<span>4</span>
+							</div>
+							<div ng-class="statusDockerize == 'SU' ? 'timeline-icon fas sucessmsg' : 'timeline-icon fas fa-time errormsg'" ng-if="resultDockerize">								 							
+							</div>
+							<div class="timeline-label">
+								<h2>
+									Dockerize 
+										<!-- | <span class="green" >Completed on
+									</span>  <span> {{dateDockerize}} </span> -->
+								</h2>
+								<div ng-if="divDockerize">
+								<p><b>Errors:</b></p>
+								<ul class="errorul">
+										<li ><strong>Dockerize:</strong> {{errorMSGDZ}}</li>								
+								</ul>
+								</div>
+							</div>
+						</div>
+					</article>
+					<article ng-class="resultAddDockerImage == false ? 'timeline-centered timeline-entry section-disabled' : 'timeline-entry '">					
+						<div class="timeline-entry-inner">
+							<div class="timeline-icon" ng-if="!resultAddDockerImage">
+								<span>5</span>
+							</div>
+							<div ng-class="statusAddDockerImage == 'SU'? 'timeline-icon fas sucessmsg' : 'timeline-icon fas fa-time errormsg'" ng-if="resultAddDockerImage">								 							
+							</div>
+							<div class="timeline-label last">
+								<h2>
+									AddDockerImage 
+								<!-- 	| <span class="green">Completed on </span> <span> {{dateAddDockerImage}} </span>  -->
+										
+								</h2>
+								<div ng-if="divAddDockerImage">
+								<p><b>Errors:</b></p>
+								<ul class="errorul">
+									<li><strong>Add Docker Image:</strong> {{errorMSGAD}}</li>									
+								</ul>
+								</div>
+							</div>
+						</div>
+					</article>
+				</div>
+			</div>
+		</div>
+	</div>	
+	</md-dialog-content> <md-dialog-actions>
+	<div class="dialog-footer-container1">
+		<button ng-click='closePoup()'
+			class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+		<button ng-click='closePoup()'
+			class="mdl-button mdl-js-button btn-primary">Ok</button>
+	</div>
+	</md-dialog-actions> <!-- </form> --> </md-dialog>
+</div>
+<!-- Modal box end -->
