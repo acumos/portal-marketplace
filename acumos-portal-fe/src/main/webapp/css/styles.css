@@ -1490,7 +1490,7 @@ md-menu-content.menu-content1 {padding-top:0; padding-bottom:0;position:relative
 .notification-text {max-width: 232px;}
 
 md-menu-content.notelist_1 {width: 300px;max-height: 400px !important;padding-top:0;padding-bottom:0;position:relative; box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);}
-md-menu-content.notelist_1 md-menu-item {border-top: 1px dotted #b1b1b1;margin: 3px 10px; position:relative;height:auto;}
+md-menu-content.notelist_1 md-menu-item {border-top: 1px dotted #b1b1b1;margin: 3px 10px; position:relative; height: auto !important; min-height: auto !important;}}
 md-menu-content.notelist_1 md-menu-item:first-child {border-top: none;}
 md-menu-content.notelist_1 md-menu-item.readall-btn-container {position: relative;border-top: 1px dotted #b1b1b1;margin: 3px 0; padding-top: 10px !important; }
 
