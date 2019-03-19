@@ -56,13 +56,14 @@ public class FileSystemStorageService implements StorageService {
 	private Environment env;
 
 	private static final String ENV_BLACKLIST = "onboarding.directory.blacklist";
+	private static final String LICENSE_FILE = "license.json";
 
 	@Override
-	public void store(MultipartFile file, String userId) {
+	public boolean store(MultipartFile file, String userId, boolean flag) {
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 		
-		log.debug(EELFLoggerDelegate.debugLogger, "uploadModel for user " + userId + " file name " + filename);
-		
+		log.debug(EELFLoggerDelegate.debugLogger, "uploadModel for user " + userId + " file nameeee: " + filename + "fileeee: "+file+ "Fodlerrrrrrrrrrr    "+env.getProperty("model.storage.folder.name"));
+		boolean result = false;
 		try {
 			if (file.isEmpty()) {
 				log.error(EELFLoggerDelegate.errorLogger, "Failed to store empty file " + filename );
@@ -74,45 +75,71 @@ public class FileSystemStorageService implements StorageService {
 				throw new StorageException(
 						"Cannot store file with relative path outside current directory " + filename);
 			}
-
-			if (!filename.contains(".zip")) {
-				// This is a security check
-				log.error(EELFLoggerDelegate.errorLogger, "Zip File Required. Original File :  " + filename );
-				throw new StorageException("Zip File Required. Original File : " + filename);
-			}
-
-			if (!validateFile(file)) {
-				log.error(EELFLoggerDelegate.errorLogger, "Zip File does not contain required files " + filename );
-				throw new StorageException("Zip File does not contain required files: " + getMissingFiles(file));
-			}
-			// Remove older files before uploading another solution files
-			deleteAll(userId);
-			log.debug(EELFLoggerDelegate.debugLogger, "Remove Previously Uploaded files for User  " + userId );
-			Path modelFolderLocation = Paths
-					.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
 			
-			log.debug(EELFLoggerDelegate.debugLogger, "Upload Location Path  " + modelFolderLocation);
-			
-			Files.createDirectories(modelFolderLocation);
-			
-			log.debug(EELFLoggerDelegate.debugLogger, "Directory Created at Upload Location Path  " + modelFolderLocation);
+			if(flag){
+				
+				if (!filename.endsWith(".json")) {				
+					log.error(EELFLoggerDelegate.errorLogger, "json File Required. Original File :  " + filename );
+					throw new StorageException("json File Required. Original File : " + filename);
+				}		
+				
+				log.debug(EELFLoggerDelegate.debugLogger, "Remove Previously Uploaded files for User  " + userId );
+				Path modelFolderLocation = Paths
+						.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
 
-			try {
-				FileUtils.extractZipFile(file, env.getProperty("model.storage.folder.name") + File.separator + userId);
-				log.debug(EELFLoggerDelegate.debugLogger, "Close all File Resource ");
+				log.debug(EELFLoggerDelegate.debugLogger, "Upload Location Path  " + modelFolderLocation);
+				
+				Files.createDirectories(modelFolderLocation);
+				
+				log.debug(EELFLoggerDelegate.debugLogger, "Directory Created at Upload Location Path  " + modelFolderLocation);
+	
+				try {
+					file.transferTo(new File( env.getProperty("model.storage.folder.name") + File.separator + userId + File.separator + FileSystemStorageService.LICENSE_FILE ));	
 
-			} catch (Exception e) {
-				throw new StorageException("Failed to store file " + filename, e);
+				} catch (Exception e) {
+					throw new StorageException("Failed to store file " + filename, e);
+				}
+				
+			} else {
+				if (!filename.endsWith(".zip")) {
+					log.error(EELFLoggerDelegate.errorLogger, "Zip File Required. Original File :  " + filename );
+					throw new StorageException("Zip File Required. Original File : " + filename);
+				}
+	
+				if (!validateFile(file)) {
+					log.error(EELFLoggerDelegate.errorLogger, "Zip File does not contain required files " + filename );
+					throw new StorageException("Zip File does not contain required files: " + getMissingFiles(file));
+				}
+				// Remove older files before uploading another solution files
+				deleteAll(userId);
+				log.debug(EELFLoggerDelegate.debugLogger, "Remove Previously Uploaded files for User  " + userId );
+				Path modelFolderLocation = Paths
+						.get(env.getProperty("model.storage.folder.name") + File.separator + userId);
+				
+				log.debug(EELFLoggerDelegate.debugLogger, "Upload Location Path  " + modelFolderLocation);
+				
+				Files.createDirectories(modelFolderLocation);
+				
+				log.debug(EELFLoggerDelegate.debugLogger, "Directory Created at Upload Location Path  " + modelFolderLocation);
+	
+				try {
+					result = FileUtils.extractZipFile(file, env.getProperty("model.storage.folder.name") + File.separator + userId);
+					log.debug(EELFLoggerDelegate.debugLogger, "Close all File Resource ");
+				} catch (Exception e) {
+					throw new StorageException("Failed to store file " + filename, e);
+				}
 			}
 		} catch (AcumosServiceException | IOException e) {
 			throw new StorageException("Failed to store file " + filename, e);
 		}
+		return result;
 	}
 
 	private Boolean validateFile(MultipartFile file) throws IOException, AcumosServiceException {
 		Boolean zipFilePresent = false;
 		Boolean schemaFilePresent = false;
 		Boolean metadataFilePresent = false;
+		Boolean onnxPfaFilePresent = false;
 		String blacklist = PortalUtils.getEnvProperty(env, ENV_BLACKLIST);
 		String pattern = "(?!^.*(" + blacklist + ")\\/.*$)^.*$";
 		Predicate<ZipEntry> filter = entry -> 
@@ -121,14 +148,17 @@ public class FileSystemStorageService implements StorageService {
 		ZipEntry zipEntry = zis.getNextEntry();
 		while (zipEntry != null) {
 			if (filter.test(zipEntry)) {
-				if (zipEntry.getName().contains(".zip") || zipEntry.getName().contains(".jar") || zipEntry.getName().contains(".bin") || zipEntry.getName().contains(".tar") || zipEntry.getName().toUpperCase().contains(".R"))
+				if (zipEntry.getName().endsWith(".zip") || zipEntry.getName().endsWith(".jar") || zipEntry.getName().endsWith(".bin") || zipEntry.getName().endsWith(".tar") || zipEntry.getName().toUpperCase().endsWith(".R"))
 					zipFilePresent = true;
 	
-				if (zipEntry.getName().contains(".proto"))
+				if (zipEntry.getName().endsWith(".proto"))
 					schemaFilePresent = true;
 	
-				if (zipEntry.getName().contains(".json"))
+				if (zipEntry.getName().endsWith(".json"))
 					metadataFilePresent = true;
+				
+				if (zipEntry.getName().endsWith(".onnx") || zipEntry.getName().endsWith(".pfa"))
+					onnxPfaFilePresent = true;
 			}
 			zis.closeEntry();
 			zipEntry = zis.getNextEntry();
@@ -136,6 +166,8 @@ public class FileSystemStorageService implements StorageService {
 		zis.close();
 
 		if (zipFilePresent && schemaFilePresent && metadataFilePresent)
+			return true;
+		else if(onnxPfaFilePresent)
 			return true;
 		else
 			return false;
@@ -153,13 +185,13 @@ public class FileSystemStorageService implements StorageService {
 		ZipEntry zipEntry = zis.getNextEntry();
 		while (zipEntry != null) {
 			if (filter.test(zipEntry)) {
-				if (zipEntry.getName().contains(".zip") || zipEntry.getName().contains(".jar") || zipEntry.getName().contains(".bin") || zipEntry.getName().contains(".tar") || zipEntry.getName().toUpperCase().contains(".R"))
+				if (zipEntry.getName().endsWith(".zip") || zipEntry.getName().endsWith(".jar") || zipEntry.getName().endsWith(".bin") || zipEntry.getName().endsWith(".tar") || zipEntry.getName().toUpperCase().endsWith(".R"))
 					zipFilePresent = true;
 	
-				if (zipEntry.getName().contains(".proto"))
+				if (zipEntry.getName().endsWith(".proto"))
 					schemaFilePresent = true;
 	
-				if (zipEntry.getName().contains(".json"))
+				if (zipEntry.getName().endsWith(".json"))
 					metadataFilePresent = true;
 			}
 			zis.closeEntry();

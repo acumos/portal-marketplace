@@ -106,6 +106,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	private static final String ENV_MODELURL = "onboarding.push.model.url";
 	private static final String ENV_TOKENMODE = "onboarding.tokenmode";
 	private static final String ENV_BLACKLIST = "onboarding.directory.blacklist";
+	private static final String ENV_ADVANCED_MODELURL = "onboarding.push.advancedmodel.url";
 
 	@Async
 	public Future<String> initiateAsyncProcess() throws InterruptedException {
@@ -118,7 +119,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 	@Override
 	public Future<HttpResponse> callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
-			String access_token) throws InterruptedException, ClientProtocolException, IOException {
+			String access_token, String modelName) throws InterruptedException, ClientProtocolException, IOException {
 
 		log.info("CallOnboarding service start");
 		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
@@ -131,6 +132,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			File modelFile = null;
 			File schemaFile = null;
 			File metadataFile = null;
+			File onnxFile = null;
+			File pfaFile = null;
+			File licenseFile = null;
 			MLPNotification notification = new MLPNotification();
 
 			fileList = getListOfFiles(directory, fileList);
@@ -148,13 +152,28 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					if (file.isFile() && file.getName().contains(".json")) {
 						metadataFile = new File(file.getAbsolutePath());
 					}
+					if (file.isFile() && file.getName().contains(".onnx")) {
+						onnxFile = new File(file.getAbsolutePath());
+					}
+					if (file.isFile() && file.getName().contains(".pfa")) {
+						pfaFile = new File(file.getAbsolutePath());
+					}
+					if (file.isFile() && file.getName().contains("license.json")) {
+						licenseFile = new File(file.getAbsolutePath());
+					}
 
 				}
 			}
 
-			if (modelFile != null && schemaFile != null && metadataFile != null) {
+			if ((modelFile != null && schemaFile != null && metadataFile != null)
+					|| (onnxFile != null || pfaFile != null)) {
+				HttpPost post = null;
 
-				HttpPost post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_MODELURL));
+				if ((onnxFile != null || pfaFile != null)) {
+					post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_ADVANCED_MODELURL));
+				} else {
+					post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_MODELURL));
+				}
 
 				String tokenMode = PortalUtils.getEnvProperty(env, ENV_TOKENMODE);
 				if (tokenMode.equals("jwtToken")) {
@@ -187,13 +206,28 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				builder.setBoundary(UUID.randomUUID().toString());
 				builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-				builder.addBinaryBody("model", new FileInputStream(modelFile), ContentType.MULTIPART_FORM_DATA,
-						modelFile.getName());
-				builder.addBinaryBody("metadata", new FileInputStream(metadataFile), ContentType.MULTIPART_FORM_DATA,
-						metadataFile.getName());
-				builder.addBinaryBody("schema", new FileInputStream(schemaFile), ContentType.MULTIPART_FORM_DATA,
-						schemaFile.getName());
-
+				if (onnxFile != null) {
+					builder.addBinaryBody("model", new FileInputStream(onnxFile), ContentType.MULTIPART_FORM_DATA,
+							onnxFile.getName());
+					post.setHeader("modelname", modelName);
+					
+				} else if (pfaFile != null) {
+					builder.addBinaryBody("model", new FileInputStream(pfaFile), ContentType.MULTIPART_FORM_DATA,
+							pfaFile.getName());
+					post.setHeader("modelname", modelName);
+				} else {
+					builder.addBinaryBody("model", new FileInputStream(modelFile), ContentType.MULTIPART_FORM_DATA,
+							modelFile.getName());
+					builder.addBinaryBody("metadata", new FileInputStream(metadataFile),
+							ContentType.MULTIPART_FORM_DATA, metadataFile.getName());
+					builder.addBinaryBody("schema", new FileInputStream(schemaFile), ContentType.MULTIPART_FORM_DATA,
+							schemaFile.getName());
+					
+				}
+				if (licenseFile != null) {
+					builder.addBinaryBody("license", new FileInputStream(licenseFile), ContentType.MULTIPART_FORM_DATA,
+							licenseFile.getName());
+				}
 				HttpEntity entity = builder.build();
 				post.setEntity(entity);
 
@@ -264,6 +298,13 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				if (metadataFile == null) {
 					files.add("metadata json");
 				}
+				if (onnxFile == null) {
+					files.add("onnx file");
+				}
+				if (pfaFile == null) {
+					files.add("pfa file");
+				}
+
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
 						"Malformed bundle, missing required files: " + String.join(", ", files)
 								+ ". Check your model and try again.");

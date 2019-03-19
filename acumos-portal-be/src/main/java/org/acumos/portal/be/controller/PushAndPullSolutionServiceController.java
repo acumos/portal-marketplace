@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
@@ -155,10 +156,12 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	@RequestMapping(value = {
 			APINames.UPLOAD_USER_MODEL }, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseBody
-	public void uploadModel(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId,
-			HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public JsonResponse<Boolean> uploadModel(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId, 
+			@RequestParam("licUploadFlag") boolean licUploadFlag, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		userId = SanitizeUtils.sanitize(userId);
+		
+		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		
 		log.debug(EELFLoggerDelegate.debugLogger, "uploadModel for user " + userId);
 
@@ -179,7 +182,12 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 								if ("Disabled".equalsIgnoreCase(val)) {
 									log.info("Uploading the model is Disabled from Admin");
 									response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-									return;
+									responseVO.setStatus(false);
+									responseVO.setResponseDetail("Uploading the model is Disabled from Admin");
+									responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+									
+									response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+									response.getWriter().write("Uploading the model is Disabled from Admin");
 								}
 							}
 						}
@@ -200,13 +208,25 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		if (StringUtils.isEmpty(userId)) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			log.info("User Id Required to uplpoad the model");
-			return;
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail("User Id Required to uplpoad the model");
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write("User Id Required to uplpoad the model");
 		}
+		
 		try {
-
-			storageService.store(file, userId);
-
+			boolean resultFlag = storageService.store(file, userId, licUploadFlag);
+			responseVO.setStatus(resultFlag);
+			responseVO.setResponseDetail("Success");
+			responseVO.setResponseBody(resultFlag);
+			responseVO.setStatusCode(HttpServletResponse.SC_OK);
 		} catch (StorageException e) {
+			responseVO.setStatus(false);
+			responseVO.setResponseDetail(e.getMessage());
+			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
+			
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().write(e.getMessage());
 			response.flushBuffer();
@@ -219,7 +239,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			log.error(EELFLoggerDelegate.errorLogger,
 					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
 		}
-		// return resource;
+		return responseVO;
 	}
 
 	/**

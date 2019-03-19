@@ -99,26 +99,16 @@ angular.module('modelResource')
 			$scope.disableOnboardingButton = false;
 			
 			$scope.disableRefreshButton = true;
-			//alert(sessionStorage.getItem("userDetail"));
+			$scope.disableUploadLicense = false;
+			$scope.disableUploadCheckbox = false;
+			
 			$rootScope.progressBar = 0;
 			
 			$scope.activeViewModel = false;
 			if(browserStorageService.getUserDetail()){
 				$scope.userLoggedIn = true;
 			}else $scope.userLoggedIn = false;
-			$scope.loadToolkitType = function() {
-				apiService
-						.getToolkitTypes()
-						.then(
-								function(response) {
-									$scope.alltoolkitType = response.data.response_body;
-									componentHandler.upgradeAllRegistered();
-								},
-								function(error) {
-									console.log("Error in loading");
-								});
-			}
-			$scope.loadToolkitType();
+
 			$scope.expCont = function() {
 			    var x = document.getElementById("expContTxt");
 			    var y = document.getElementById("expCont");
@@ -143,59 +133,97 @@ angular.module('modelResource')
 			}
 			$scope.fileSubmit = false;
 			$scope.uploadingFile = false;
+			$scope.fileSubmitLicense = false;
 			$scope.resetProgress = function(){
 				$rootScope.progressBar = 0;
 				$scope.file = undefined;
 				$scope.filename = undefined;
 				$scope.modelUploadErrorMsg = undefined;
-				$scope.modelUploadError = false;
+				$scope.modelUploadError = false;				
 			}
-			$scope.fileUpload = function(){
-				//$scope.uploadModel = false;
-				$scope.modelUploadError = false;
-				var file = $scope.file;
+			
+			$scope.resetLicenseUpload = function(){
+				$rootScope.progressBar = 0;
+				$scope.licensefile = undefined;
+				$scope.licenseFilename = undefined;
+				$scope.modelLicUploadErrorMsg = undefined;
+				$scope.modelLicUploadError = false;
+				
+			}
+			$scope.fileUpload = function(licUploadFlag){
+				
+				$scope.licUploadFlag = licUploadFlag;
 				var userId = JSON.parse(browserStorageService.getUserDetail());
 				
-				var uploadUrl = "api/model/upload/" + userId[1];
+				if(!licUploadFlag){
+					var file = $scope.file;
+					$scope.modelUploadError = false;
+				} else {
+					var file = $scope.licensefile;
+					$scope.modelLicUploadError = false;
+				}		
+				
+				var uploadUrl = "api/model/upload/" + userId[1] +"/?licUploadFlag=" + licUploadFlag;
 				var promise = modelUploadService.uploadFileToUrl(
 						file, uploadUrl);
-				$scope.tempfilename = file.name;
+				
 				$scope.uploadingFile = true;
 				promise
 				.then(
 						function(response) {
 							$scope.modelUploadError = false;
-							$scope.fileSubmit = true;
-							$scope.filename = $scope.tempfilename;
+							
 							$rootScope.progressBar = 100;
-							chkCount();
+							if(licUploadFlag){
+								$scope.modelLicProgressBar = $rootScope.progressBar;
+								$rootScope.progressBar = 0;
+								$scope.fileSubmitLicense = true;
+							} else {
+								$scope.modelProgressBar = $rootScope.progressBar;
+								$rootScope.progressBar = 0;								
+								$scope.fileSubmit = true;
+								$rootScope.isOnnxOrPFAModel = response.response_body;
+							}
+														
 							$scope.uploadModel = false;
 							$scope.uploadingFile = false;
-							angular.element('.input-div').addClass('disabledClick');
+														
 						},
 						function(error) {
+							if(licUploadFlag){
+								$scope.modelLicUploadError = true;
+								$scope.modelLicUploadErrorMsg = error;
+							} else {
 								$scope.modelUploadError = true;
 								$scope.modelUploadErrorMsg = error;
-								$scope.filename = '';
-								$rootScope.progressBar = 0;
-								$scope.uploadModel = false;
-								chkCount();
-								$scope.uploadingFile = false;
+							}
+							$scope.filename = '';
+							$rootScope.progressBar = 0;
+							$scope.uploadModel = false;
+							$scope.uploadingFile = false;
 						});
 			}
 			
-			$scope.closePoup = function(){
+			$scope.closePoup = function(licUploadFlag){
 				if ($scope.uploadingFile && $rootScope.progressBar < 100){
 					modelUploadService.cancelUpload("Upload cancelled by user");
 				}
+				
 				$scope.uploadModel = !$scope.uploadModel;
-				$scope.file = false;
-				$scope.filename = "";
-				$scope.file = "";
-				$scope.fileSubmit = false;
-	           	angular.element('#file').val('');
-	           	$scope.modelUploadError = false;
-	           	angular.element('.input-div').removeClass('disabledClick');
+				if(licUploadFlag) {
+					$scope.licenseFilename = "";
+					$scope.licensefile = "";
+					$scope.fileSubmitLicense = false;
+					$scope.modelLicUploadError = false;
+				} else {
+					$scope.filename = "";
+					$scope.file = "";
+					$scope.fileSubmit = false;
+					$scope.modelUploadError = false;
+					$scope.isLicenseUploaded = false;
+				}
+	           	angular.element('#file').val('');			
+	           	
 	        }
 			
 			$scope.getOnboardingCLIUrls = function() {
@@ -219,80 +247,7 @@ angular.module('modelResource')
                             $scope.cliAuthUrl = 'Auth URL unavailable';
                         });
             }
-			
-			$scope.getTensorflowContent = function(modelName){
-				apiService
-				.getModelerResourcesContent(modelName)
-				.then(
-						function(response) {
-							$scope.tensorflow = response.data.description;
-						},
-						function(error) {
-							$scope.tensorflow = 'No Contents Available';
-						});
-			}
-			
-			$scope.getH2OContent = function(modelName){
-				apiService
-				.getModelerResourcesContent(modelName)
-				.then(
-						function(response) {
-							$scope.h2o = response.data.description;
-						},
-						function(error) {
-							$scope.h2o = 'No Contents Available';
-						});
-			}
-			
-			$scope.getRCloudContent = function(modelName){
-				apiService
-				.getModelerResourcesContent(modelName)
-				.then(
-						function(response) {
-							$scope.RCloud = response.data.description;
-						},
-						function(error) {
-							$scope.RCloud = 'No Contents Available';
-						});
-			}
-			
-			$scope.getRContent = function(modelName){
-				apiService
-				.getModelerResourcesContent(modelName)
-				.then(
-						function(response) {
-							$scope.R = response.data.description;
-						},
-						function(error) {
-							$scope.R = 'No Contents Available';
-						});
-			}
-			
-			$scope.getJavaContent = function(modelName){
-				apiService
-				.getModelerResourcesContent(modelName)
-				.then(
-						function(response) {
-							$scope.java = response.data.description;
-						},
-						function(error) {
-							$scope.java = 'No Contents Available';
-						});
-			}
-			
-			$scope.getonboardingOverview = function() {
-				apiService.getOnboardingOverview()
-					.success(
-							function(response) {
-                            	var overview = JSON.parse(atob(response.response_body.contentValue));
-								$scope.onboard_overview = overview.description;
-							})
-					.error(
-							function(error) {
-								return "No Contents Available";
-							});
-			}
-			
+
 			$scope.userId = JSON.parse(browserStorageService.getUserDetail());
 			$scope.completedSteps = [];
 			$scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';
@@ -362,14 +317,18 @@ angular.module('modelResource')
 										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 										$scope.completedSteps[stepName] = stepName;
 
-										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) ) && $scope.stepfailed == false ) {
-											counter = counter + 2;
+										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) || ($rootScope.isOnnxOrPFAModel == true && counter == 2 ) ) && $scope.stepfailed == false ) {
+											if($rootScope.isOnnxOrPFAModel){
+												counter = 10;
+												width = 85;
+											} else {
+												counter = counter + 2;
+											}											
 											angular.element(angular.element(onboardingComponent + ' li div')[counter]).addClass('completed');
 											angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 											$scope.errorVM = '';
 											$scope.completedSteps['ViewModel'] = 'ViewModel';
 											$scope.allSuccess = true;
-											
 										}
 										
 										if($scope.completedSteps.indexOf(stepName) == -1 && $scope.stepfailed == false){
@@ -411,27 +370,25 @@ angular.module('modelResource')
 			$scope.clearNotificationInterval = function(){
 				$scope.disableOnboardingButton = false;
 				$scope.file = '';
+				$scope.licensefile = "";
 				$interval.cancel($scope.clearInterval);
 			}
 			
 			$scope.clearExistingNotifications = function(){
                 $scope.disableRefreshButton = true;
                 $scope.fileSubmit = false;
+                $scope.fileSubmitLicense = false;
+                $scope.disableUploadCheckbox = false;
                 $rootScope.trackId = false;
+               
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');
                 angular.element(angular.element('li')).removeClass('green completed');
                 angular.element('.progress .progress-bar').css({ "width" : '0%'});
                 $scope.errorCS = ''; $scope.errorCT = ''; $scope.errorDO = ''; $scope.errorAA = ''; $scope.errorDI = '';
                 $scope.errorCC = '';
-                angular.element('.input-div').removeClass('disabledClick');
-             }
 
-			$scope.$watchGroup(['toolkitNameValue','install','file','fileSubmit'], function(newValues, oldValues) {
-				if(newValues[0].length>=1 && newValues[1] && newValues[2] && newValues[3]){
-					$scope.clearExistingNotifications();
-				}
-			});
-			
+             }
+		
 			$scope.addToCatalog = function(){
 				
 				$scope.statusReult = [];
@@ -441,21 +398,25 @@ angular.module('modelResource')
 					
 					if($scope.disableOnboardingButton == true ){
 						$scope.clearExistingNotifications();
-						angular.element('.input-div').addClass('disabledClick');
+					}
+					$scope.disableUploadCheckbox = true;
+					$scope.addToReqObj = { };
+
+					if($rootScope.isOnnxOrPFAModel) {
+						$scope.addToReqObj = { 
+						  "request_body": {
+							    "name": $scope.modelName,
+							  }
+						}
 					}
 					
-					$scope.addToReqObj = {
-							  "request_body": {
-								    /*"version": $scope.toolkitNameValue,
-								    "name": $scope.user.name,*/
-								  }
-								};
 					apiService
 					.postAddToCatalog($scope.userId[1], $scope.addToReqObj)
 					.then(
 							function(response) {
 								$location.hash('webonboarding');  // id of a container on the top of the page - where to scroll (top)
-		                        $anchorScroll(); 
+		                        $anchorScroll();
+		                       
 		                        $scope.msg = "Onboarding process has started and it will take 30 seconds to reflect the change in status."; 
 		                        $scope.icon = '';
 		                        $scope.styleclass = 'c-warning';
@@ -465,6 +426,7 @@ angular.module('modelResource')
 		                        }, 8000);
 		                        
 								$scope.trackId = response.data.response_detail;
+
 								$scope.clearInterval = $interval(function(){
 									$scope.showValidationStatus();
 								}, 25000);
@@ -473,8 +435,7 @@ angular.module('modelResource')
 							function(error) {
 					});
 				} else {
-				    
-					
+				    					
 					apiService
 					.addToCatalogONAP($stateParams.solutionId,$stateParams.revisionId,$scope.userId[1], $scope.model.modelName)
 					.then(
@@ -509,22 +470,6 @@ angular.module('modelResource')
 			$scope.viewModel = function(){
 				$state.go('manageModule');
 			}
-			//cHECK FOR the count of success
-			$scope.statusCount = 0;
-			function chkCount(){
-				var count = 0;
-				if($scope.toolkitNameValue)count++;
-				if($scope.install)count++;
-				if($scope.file && $scope.fileSubmit && $scope.modelUploadError == false)count++;
-				$scope.statusCount = count;
-				/*if(count === 4){
-					$scope.activeViewModel = true;
-				}*/
-			}
-			 
-			$scope.$watch('toolkitNameValue', function() {$scope.file=null; chkCount();});
-			$scope.$watch('install', function() {chkCount();});
-			$scope.$watch('file', function() {chkCount(); $scope.filename = $scope.file.name;});
 			
 			/*if a popup is open other should close*/
 			$scope.closeOtherPopovers = function(variableName, variableValue){
@@ -544,6 +489,10 @@ angular.module('modelResource')
 					// TODO : This is quick fix. Need to convert to query parameter or passed as body parameter
 					$scope.model.modelName = 'null';
 				}
+		    }
+		    
+		    $scope.dockerURIOnboardingSetting = function(){
+		    	$scope.resetLicenseUpload();
 		    }
 		    
 			}

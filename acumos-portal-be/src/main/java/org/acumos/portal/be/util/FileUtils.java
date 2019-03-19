@@ -35,13 +35,19 @@ public class FileUtils {
 
 	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(FileUtils.class);
 
-	public static void extractZipFile(MultipartFile file, String destinationPath) {
+	public static boolean extractZipFile(MultipartFile file, String destinationPath) {
 	  	
 	    byte[] buf = new byte[1024];
 	    ZipEntry zipentry;
-	       
+	    boolean flag = false;
+	   
 	    try (ZipInputStream zipinputstream = new ZipInputStream(file.getInputStream())){
 	        zipentry = zipinputstream.getNextEntry();
+	        
+	        if(zipentry.getName().endsWith(".onnx") || zipentry.getName().endsWith(".pfa")){
+		    	flag = true;
+	        }
+	        
 	        while (zipentry != null) {
 		            //for each entry to be extracted
 		            String entryName = destinationPath+File.separator + zipentry.getName();
@@ -70,6 +76,8 @@ public class FileUtils {
 	     } catch (IOException e) {
 	        log.error("Exception occured during extracting File", e.getMessage());
 	       }
+		return flag;
 	    
 	}
+
 }
