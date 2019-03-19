@@ -120,7 +120,7 @@ public class PushAndPullSolutionServiceControllerTest {
 			MultipartFile file = dfsdf ;
 			Mockito.when(adminService.getSiteConfig("site_config")).thenReturn(mlPSiteConfig);
 			//PushAndPullSolutionServiceController mockController = mock(PushAndPullSolutionServiceController.class);
-			pushPullController.uploadModel(file, userId, request, response);
+			pushPullController.uploadModel(file, userId, true, request, response);
 			Assert.assertNotNull(userId);
 			logger.error("Successfully uploaded models");
 		}catch (Exception e) {

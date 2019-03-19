@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface StorageService {
 
 
-    void store(MultipartFile file, String userId);
+    boolean store(MultipartFile file, String userId, boolean flag);
 
 	void deleteAll(String userId);
 

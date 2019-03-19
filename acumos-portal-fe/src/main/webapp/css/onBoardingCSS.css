@@ -67,6 +67,7 @@ limitations under the License.
 .managelefttext ul{margin:0; padding:0; font-size:12px; line-height: 16px;}
 .managelefttext ul li{list-style-type:none;}
 .tabs-left>li>a ul li ul li:first-child{width:auto;}
+#modelName{ margin-top : 20px;}
 .tabs-left>li>a ul li.green, .tabs-left i.green, .company-market ul li.progress-status.green, .green{color:#009901;}
 /*.tabs-left>li>a ul li.green:after{content:"|"; padding: 0 2px 0 5px;}*/
 .tabs-left>li>a ul li.blue, .blue{color:#1347c2;}

@@ -49,7 +49,7 @@ public class FileSystemStorageserviceImplTest {
 		String userId = "1810f833-8698-4233-add4-091e34b8703c";
 		try{
 			FileSystemStorageService mockimpl = mock(FileSystemStorageService.class);
-			mockimpl.store(file, userId);
+			mockimpl.store(file, userId, true);
 			Assert.assertEquals(mockimpl, mockimpl);
 		} catch (Exception e) {
 			logger.error("Exception occured while store: " + e);	

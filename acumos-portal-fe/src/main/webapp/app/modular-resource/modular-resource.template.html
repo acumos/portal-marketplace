@@ -80,26 +80,13 @@ limitations under the License.
 									<!-- <div class="mdl-tabs__tab-bar"> -->
 									<div class="mdl-tabs__tab-bar">
 										<ul class="tabs-left">
-											<!-- <li><a href="#onboard" class="mdl-tabs__tab"> 
-												<div class="managelefticon"> 
-													<i class="R"></i> 
-												</div>
-													<div class="managelefttext">
-														<article>RCloud</article>
-														ul class="green">
-                                      <li>5 Completed on 05/27/2017</li>
-                                    </ul
-													</div>
-											</a></li> -->
+											
 											<li><a href="#public" class="mdl-tabs__tab is-active" title="R" ng-click="toolkitHeader='R'">
 											 	<div class="managelefticon">
 											 	 	<i class="R-cloud"></i>
 											 	 </div>
 													<div class="managelefttext">
-														<article>R</article>
-														<!--ul class="red">
-                                      <li>Not started</li>
-                                    </ul-->
+														<article>R</article>														
 													</div>
 											</a></li>
 											<li><a href="#cloud" class="mdl-tabs__tab" title="Java" ng-click="toolkitHeader='Java and H2O'"> 
@@ -107,10 +94,7 @@ limitations under the License.
 											 <i class="java"></i> 											 
 											</div>
 													<div class="managelefttext">
-														<article>Java and H2O</article>
-														<!--ul class="red">
-                                      <li>Not started</li>
-                                    </ul-->
+														<article>Java and H2O</article>														
 													</div>
 											</a></li>
 											<li><a href="#company" class="mdl-tabs__tab" title="TensorFlow" ng-click="toolkitHeader='Python, Tensor Flow, Keras and Scikit Learn'"> 
@@ -119,9 +103,7 @@ limitations under the License.
 												</div>
 													<div class="managelefttext">
 														<article>Python, Tensor Flow, Keras and Scikit Learn</article>
-														<!--ul class="red">
-                                      <li>Not Started</li>
-                                    </ul-->
+														
 													</div>
 											</a></li>
 											<!-- <li><a href="#share" class="mdl-tabs__tab" title="H2O" ng-click="toolkitHeader='H2O'"> 
@@ -537,7 +519,7 @@ limitations under the License.
                                          
                                   </li>
                                   <li class="progress-status"></li>                                                       
-                                  <li>
+                                  <li  ng-hide="$root.isOnnxOrPFAModel">
                                          <div class="imageplace">
                                                 <span class="imagecontent create-tosca" alt="Create TOSCA" title="TOSCA Generation"></span>
                                          </div>
@@ -548,8 +530,8 @@ limitations under the License.
 	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
 	                                         View Error</button>                                        
                                   </li>
-                                  <li class="progress-status"></li>
-                                  <li>
+                                  <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel"></li>
+                                  <li  ng-hide="$root.isOnnxOrPFAModel">
                                          <div class="imageplace">
                                                 <span class="imagecontent dockerize" alt="Dockerize" title="Create Docker Image"></span>
                                          </div>
@@ -560,8 +542,8 @@ limitations under the License.
 	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
 	                                         View Error</button>                                         
                                   </li>
-                                  <li class="progress-status"></li>
-                                  <li>
+                                  <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel"></li>
+                                  <li  ng-hide="$root.isOnnxOrPFAModel">
                                          <div class="imageplace">
                                                 <span class="imagecontent package" alt="Add Docker Image" title="Add Docker Image to repository"></span>
                                          </div>
@@ -572,7 +554,7 @@ limitations under the License.
 	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
 	                                         View Error</button>                                      
                                   </li>
-                                  <li class="progress-status"></li>
+                                  <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel"></li>
                                   <li>
                                          <div class="imageplace">
                                                 <span class="imagecontent not-yet-onboarded" alt="Onboarding Status" title="Onboarding Status"></span>
@@ -650,7 +632,7 @@ limitations under the License.
 						<div class="progress">
 							<div class="progress-bar" style="width:0%;"></div>
 						</div>
-<div class="clearfix"></div>
+						<div class="clearfix"></div>
 						<!-- on-boarding-web -->
 						<div class="timeline">
 							<h6 class="onboard-heading" >								
@@ -661,13 +643,13 @@ limitations under the License.
 								<!-- left section -->
 								  <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone upload-model-bundle-left">
 								  	<div class="mdl-grid mdl-grid--no-spacing deploy-grid add-document">
-																	<form class="ng-pristine ng-valid">
+																	<form class="ng-pristine ng-valid" name="onboardingForm">
 																		<h5>Upload Model Bundle</h5>
 																		<div
 																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
 																			
-																			<div class="drag-drop"  id = "private-dropbox" ng-hide="uploadingFile">
+																			<div class="drag-drop"  id = "private-dropbox" ng-hide="uploadingFile && licUploadFlag == false">
 																			       <div class="drag-drop-files hide">
 																			              <p>doc.pdf</p>
 																			       </div>
@@ -691,9 +673,8 @@ limitations under the License.
 																						</div>
 																					</div>
 																					<div class="input-upload-button">
-																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" 
-																							ng-transclude="" ng-disabled="!file || uploadingFile || validfilename" ng-click="fileUpload();" title="Upload"
-																						 	alt="Upload" data-upgraded=",MaterialButton">
+																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!file || uploadingFile || fileSubmit" ng-click="fileUpload(false);" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+
 																						 	<span> Upload </span>
 																						</button>
 																					</div>
@@ -712,7 +693,7 @@ limitations under the License.
 																					<div ng-if="file.size/1024/1024 > 1">
 																						{{Math.ceil(file.size/1024/1024)}}MB
 																					</div>
-																					<div ng-show = "$root.progressBar > 0" style="width:80%"> <!-- ng-show="progressVisible" -->
+																					<div ng-show = "$root.progressBar > 0 && licUploadFlag == false" style="width:80%">
 																				            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
 																				               
 																				            </div>
@@ -723,21 +704,94 @@ limitations under the License.
 																		            			<!-- <span ng-show = "$root.progressBar == 100">100%</span> -->
 																				            </div>
 																				         </div>
-																				     <div class="pro-status">
+																				     <div class="pro-status" ng-show="$root.progressBar > 0 && licUploadFlag == false">
 																					     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
 																				         <span ng-show="$root.progressBar == 100" >Done</span>   		
 																				     </div>
-																				     <div class="fileclose" ng-click="closePoup()">
+																				     <div class="fileclose" ng-click="closePoup(false)">
 																				     	<i class="material-icons">close</i>
 																				     </div>
 																				</div>
-																				
-																				
-																						
+																		</div>
+																		<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
+																		<md-input-container class="md-block" id="modelName" flex-gt-sm ng-show="$root.isOnnxOrPFAModel">
+																			<label>Model Name </label>
+																			<input type="text" name="modelName" ng-model="modelName" required ng-blur="modelNameVisited=true" ng-focus="modelNameVisited=false" >
+																			<div class="help-inline validation-msgs"
+																				ng-class="{validationmsg:!onboardingForm.modelName.$valid}">
+																				<span ng-show="( !!onboardingForm.modelName.$error.required && onboardingForm.modelName.$touched && modelNameVisited)">Model
+																					Name Required.</span>
+																			</div>																			
+																		</md-input-container>
+																		
+																		<div id="modelName">
+																			<md-checkbox aria-label="Upload License" ng-disabled="disableUploadCheckbox == true || fileSubmit == false" ng-model="isLicenseUploaded" ></md-checkbox>					
+																			<span>Upload License</span>
+																		</div>
+																		
+																		<div ng-show="isLicenseUploaded">
+																			<div
+																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
+																			data-upgraded=",MaterialTextfield">
+
+																				<div class="upload-file-container">
+																					<div class="input-div">
+																						<div  file-upload file="licensefile"
+																						uploadid="licenseuploadid" id="uploadFile"
+																						filename="licenseFilename" fileinput="licensefile" validfilename="validfilename"
+																						ng-model="licensefile" accept = ""
+																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetLicenseUpload()" readonly>
+																						</div>																						
+																						<div class="upload-image-input files-uploaded" >
+																		    				<input class="mdl-textfield__input disabledClick"
+																							placeholder="Upload License" type="text"
+																							ng-model="licenseFilename" readonly />
+																						</div>
+																					</div> 
+																					<div class="input-upload-button">
+																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!licensefile || fileSubmitLicense" ng-click="fileUpload(true);" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																						 	<span> Upload </span>
+																						</button>
+																					</div>
+																				</div>
+																				<div class="help-inline validation-msgs">
+																					<span ng-show="validfilename">Spaces not allowed in file name</span>
+																		 		</div>
+																		 
+																				<div class="progress-bar-div" ng-show="licensefile.name" ng-if="!validfilename">
+																					<div>
+																						<span class="namelength">{{licensefile.name}}</span>
+																					</div>
+																					<div ng-if="file.size/1024/1024 < 1">
+																						{{Math.ceil(licensefile.size/1024)}}KB
+																					</div>
+																					<div ng-if="file.size/1024/1024 > 1">
+																						{{Math.ceil(licensefile.size/1024/1024)}}MB
+																					</div>
+																					<div ng-show = "$root.progressBar > 0 && licUploadFlag == true" style="width:80%"> <!-- ng-show="progressVisible" -->
+																				            <div class="progress-bar" ng-style="{'width': $root.progressBar+'%'}">
+																				               
+																				            </div>
+																				            <div class="" style="text-align:center;">
+																				            	<span>
+																				            		{{$root.progressBar| number : 0}}%
+																			            		</span>
+																		            			<!-- <span ng-show = "$root.progressBar == 100">100%</span> -->
+																				            </div>
+																				         </div>
+																				     <div class="pro-status" ng-show = "$root.progressBar > 0 && licUploadFlag == true">
+																					     <span ng-show="$root.progressBar != 100 && $root.progressBar != 0" >Uploading</span>
+																				         <span ng-show="$root.progressBar == 100" >Done</span>   		
+																				     </div>
+																				     <div class="fileclose" ng-click="closePoup(true)">
+																				     	<i class="material-icons">close</i>
+																				     </div>
+																				</div>
+																		</div>
 																		</div>
 																	</form>
 																</div>	
-												<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
+												<small ng-show="modelLicUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelLicUploadErrorMsg}}</small>
 								  </div>
 								<!-- left section end -->
 								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone upload-model-bundle-right ">
@@ -746,22 +800,17 @@ limitations under the License.
 													<p><a href="https://docs.acumos.org/en/latest/submodules/acumos-r-client/docs/developer-guide.html" target="_blank">Create a R model bundle</a></p>
 													<p><a href="https://pypi.org/project/acumos/#exporting-models" target="_blank">Create a Python model bundle</a></p>
 													<p><a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/onboarding-java-guide.html" target="_blank">Create a Java or H20 model bundle</a></p>
+													<p><a href="https://docs.acumos.org/en/latest/submodules/on-boarding/docs/onboarding-ONNX-PFA-guide.html" target="_blank">On-board an ONNX or PFA model</a></p>
 											</div>								  
-								  </div>
-								 
+								  </div>								 
 								</div>
 								
-							
-							
-								
 								<div class="onboardbtn">
-									<!--button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "> Preview Model </button-->
-
 									<button ng-click="addToCatalog()"
-										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError"
+										 ng-disabled= "! (file && fileSubmit) || ( disableOnboardingButton == true ) || modelUploadError || modelLicUploadError || ( $root.isOnnxOrPFAModel && !modelName ) || (isLicenseUploaded && !(licensefile && fileSubmitLicense))"
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 										On-board Model</button>
-										<button ng-click="clearExistingNotifications()"
+										<button ng-click="clearExistingNotifications(); isLicenseUploaded = false; $root.isOnnxOrPFAModel = false"
 										 ng-disabled= "!(stepfailed == true || allSuccess == true) || (disableRefreshButton == true)" 
 										class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Add to Catalog" title="Add to Catalog">
 											Upload New</button>
@@ -772,7 +821,9 @@ limitations under the License.
 						<!-- on-boarding-web end-->
 						</div>
 
-						</md-content> </md-tab> </md-tabs>
+						</md-content> </md-tab>						
+						</md-tabs>
+						
 					</div>
 				</div>
 			</div>

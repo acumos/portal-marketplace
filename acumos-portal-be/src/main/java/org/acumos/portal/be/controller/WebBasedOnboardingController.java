@@ -45,6 +45,7 @@ import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.transport.Broker;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
+import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.UploadSolution;
 import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.SanitizeUtils;
@@ -74,6 +75,7 @@ public class WebBasedOnboardingController extends AbstractController {
 
 	@Autowired
 	private MessagingService messagingService;
+	private String modelName;
 
 	@ApiOperation(value = "adding Solution for Market Place Catalog.", response = RestPageResponseBE.class)
 	@RequestMapping(value = { APINames.ADD_TO_CATALOG }, method = RequestMethod.POST, produces = APPLICATION_JSON)
@@ -87,6 +89,10 @@ public class WebBasedOnboardingController extends AbstractController {
 		log.info(EELFLoggerDelegate.auditLogger, "addToCatalog");
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		String uuid = UUID.randomUUID().toString();
+		
+		if (restPageReq.getBody() != null){
+			modelName = restPageReq.getBody().getName();
+		}
 		final String requestId = MDC.get(ONAPLogConstants.MDCs.REQUEST_ID);
 
 		if (request.getAttribute("mlpuser") == null) {
@@ -118,7 +124,7 @@ public class WebBasedOnboardingController extends AbstractController {
 								InterruptedException, IOException {
 							MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
 							return (HttpResponse) asyncService.callOnboarding(uuid, requestUser, solution, provider,
-									access_token);
+									access_token, modelName);
 						}
 					});
 					executor.execute(futureTask_1);
