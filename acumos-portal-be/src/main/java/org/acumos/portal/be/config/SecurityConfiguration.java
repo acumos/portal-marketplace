@@ -79,6 +79,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/searchSolutionBykeyword").permitAll()
         .antMatchers("/solutions/{solutionId}").permitAll()
         .antMatchers("/webBasedOnBoarding/messagingStatus/{userId}/{trackingId}").permitAll()
+        
+        .antMatchers("/onboardinghistory/getTasks/{userId}").permitAll()
+        
         .antMatchers("/webBasedOnBoarding/stepResult/create").permitAll()
         .antMatchers("/auth/jwtToken").permitAll()
         .antMatchers("/filter/modeltype").permitAll()
@@ -122,6 +125,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/site/content/global/footer/contactinfo").permitAll()
         .antMatchers(HttpMethod.GET, "/site/content/global/coBrandLogo").permitAll()
         .antMatchers(HttpMethod.GET, "/site/content/carouselImages/{key}").permitAll()
+        
+        
         
         
         .anyRequest().authenticated();

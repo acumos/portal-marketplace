@@ -671,7 +671,7 @@ limitations under the License.
 																			       <div class="drag-drop-files hide">
 																			              <p>doc.pdf</p>
 																			       </div>
-																			<div file-droppable filename="filename" file=file>
+																			<div file-droppable filename="filename" file=file validfilename = "validfilename">
 																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
 																			              <div class="destext">Drag & Drop your file here!</div>
 																			       </div>
@@ -681,7 +681,7 @@ limitations under the License.
 																						<div  file-upload file="file" ng-hide="uploadingFile"
 																						uploadid="bundleuploadid" id="uploadFile"
 																						filename="filename" fileinput="file" 
-																						ng-model="file" accept = ""
+																						ng-model="file" accept = "" validfilename="validfilename"
 																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
 																						</div>																						
 																						<div class="upload-image-input files-uploaded" >
@@ -691,11 +691,17 @@ limitations under the License.
 																						</div>
 																					</div>
 																					<div class="input-upload-button">
-																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-transclude="" ng-disabled="!file || uploadingFile" ng-click="fileUpload();" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" 
+																							ng-transclude="" ng-disabled="!file || uploadingFile || validfilename" ng-click="fileUpload();" title="Upload"
+																						 	alt="Upload" data-upgraded=",MaterialButton">
 																						 	<span> Upload </span>
 																						</button>
 																					</div>
-																				</div>																																						 
+																				</div>		
+																				<div class="help-inline validation-msgs">
+																					<span ng-show="validfilename">Spaces and special characters are not allowed in file name.</span>
+																				</div>	
+																		 																																				 
 																				<div class="progress-bar-div" ng-show="file.name">
 																					<div>
 																						<span class="namelength">{{file.name}}</span>

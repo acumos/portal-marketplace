@@ -460,7 +460,8 @@ angular
             size: "=", //in bytes
             imageerror: "=",
             docerror: "=",
-            imagetypeerror : "="           
+            imagetypeerror : "=",
+            validfilename : "="           
           },
         link: function (scope, element) {
 
@@ -469,14 +470,26 @@ angular
             element.bind('change', function () {
                 scope.$apply(function () {
                 	//scope.fileinput = changeEvent.target.files[0];
-                	scope.imageerror = false;                	
+                	scope.imageerror = false;  
+                	scope.validfilename = false;
                     scope.fileinput = document.getElementById(scope.uploadid).files[0];
                     scope.file = scope.fileinput;
                     scope.fileType = scope.file.name.split('.').pop();
                     scope.validFormats = ['jpg','jpeg','png','gif'];
+                    
                     var reader = new FileReader();
 					var imgpath = new Image();
                 	var size = scope.fileinput.size;
+                	var regEx = /[^0-9A-Za-z]/;
+                	var fileInputName = scope.file.name.substr(0, scope.file.name.indexOf('.'));
+                	scope.filename = scope.fileinput.name;
+                	if( regEx.test(fileInputName)) //scope.fileinput.name.split(" ").length-1 > 0
+            		{
+	            		if( scope.validfilename != null ){
+	            			scope.validfilename = true;
+	            		}
+	            		return;
+            		}
                 	if( scope.docerror != null ){
                 		if(size >= scope.size){
                 			scope.docerror = true;
@@ -532,7 +545,9 @@ angular
            filepreview: "=",
            filename: "=",
            size: "=",
-           docerror: "="
+           docerror: "=",
+           validfilename : "=" 
+        	   
           },
         link: function (scope, element, attrs) {
             element.bind('dragover', function (evt) {
@@ -542,15 +557,29 @@ angular
                 var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0
            });
             element.bind('drop', function (evt) {
-                //console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)))
                 evt.stopPropagation()
                 evt.preventDefault()
-                   var files = evt.originalEvent.dataTransfer.files
+                var files = evt.originalEvent.dataTransfer.files;
+                
                 if (files.length > 0) {
                     scope.$apply(function(){
                         scope.file = files[0];
                         scope.filename = scope.file.name;
                         var size = scope.file.size;
+                        
+                        scope.validfilename = false;
+                        var regEx = /[^0-9A-Za-z]/;
+                        var fileInputName = scope.filename.substr(0, scope.filename.indexOf('.'));
+                    	if(regEx.test(fileInputName)) //scope.fileinput.name.split(" ").length-1 > 0
+                		{
+    	            		if( scope.validfilename != null ){
+    	            			scope.validfilename = true;
+    	            		}
+    	            		return;
+                		}
+                        
+                        
+                        
                     	if( scope.docerror != null ){
                     		if(size >= scope.size){
                     			scope.docerror = true;
@@ -559,7 +588,6 @@ angular
                     		}
                     		return;
                     	}
-                    	
                         var reader = new FileReader();
                         var imgpath = new Image();
                         reader.readAsDataURL(files[0]);
