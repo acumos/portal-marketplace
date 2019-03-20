@@ -527,7 +527,7 @@ public class AuthServiceController extends AbstractController {
 
 		log.debug(EELFLoggerDelegate.debugLogger, "provide the Validation status for the application");
 
-		String validationAccess = env.getProperty("portal.feature.validateModel");
+		String validationAccess = env.getProperty("portal.feature.enablePublication");
 				
 		return validationAccess;
 		

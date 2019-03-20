@@ -73,7 +73,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
 			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				//Invoke the Validation API if the validation with Backend is enabled.
-				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.validateModel")) && env.getProperty("portal.feature.validateModel").equalsIgnoreCase("true")) {
+				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.enablePublication")) && env.getProperty("portal.feature.enablePublication").equalsIgnoreCase("true")) {
 					MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 					if(mlpSolutionRevision != null) {
 						//Check if validation is required

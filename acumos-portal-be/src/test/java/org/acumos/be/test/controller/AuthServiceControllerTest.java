@@ -237,8 +237,8 @@ public class AuthServiceControllerTest {
 	
 	@Test
 	public void validationStatusTest(){
-		String validateModel ="false";
-		when(env.getProperty("portal.feature.validateModel")).thenReturn(validateModel);
+		String enablePublication ="false";
+		when(env.getProperty("portal.feature.enablePublication")).thenReturn(enablePublication);
 		String validationAccess=authServiceController.validationStatus();
 		Assert.assertNotNull(validationAccess);
 	}
