@@ -149,7 +149,7 @@ public class PortalUtils {
 		mlSolution.setDownloadCount(mlpSolution.getDownloadCount().intValue());
 		mlSolution.setRatingCount(mlpSolution.getRatingCount().intValue());
 		mlSolution.setViewCount(mlpSolution.getViewCount().intValue());
-		mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths() / 10);
+		mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths().floatValue() / 10);
 		mlSolution.setLastDownload(mlpSolution.getLastDownload());
 		if (mlpSolution.isFeatured() != null) {
 			mlSolution.setFeatured(mlpSolution.isFeatured());
