@@ -24,6 +24,7 @@
 package org.acumos.portal.be.service.impl;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,6 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.acumos.portal.be.service.OauthUserService;
 import org.acumos.portal.be.transport.OauthUser;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -44,6 +44,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -59,7 +61,7 @@ import org.acumos.cds.domain.MLPUserLoginProvider;
 public class OauthUserServiceImpl extends AbstractServiceImpl implements OauthUserService {
 
 	
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(OauthUserServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private Environment env;
@@ -68,7 +70,7 @@ public class OauthUserServiceImpl extends AbstractServiceImpl implements OauthUs
 
 	@Override
 	public OauthUser save(OauthUser oauthUser) {
-		log.debug(EELFLoggerDelegate.debugLogger, "OauthUserServiceImpl: save Oauth user={}", oauthUser);
+		log.debug("OauthUserServiceImpl: save Oauth user={}", oauthUser);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		//Lets Create a User Account
 		MLPUserLoginProvider mlpOauthUser = new MLPUserLoginProvider();
@@ -91,7 +93,7 @@ public class OauthUserServiceImpl extends AbstractServiceImpl implements OauthUs
 		if(mlpOauthUser!=null) {		
 		oauthUser = PortalUtils.convertToOathUser(mlpOauthUser);
 		}else {
-			log.debug(EELFLoggerDelegate.debugLogger, "Error in creating UserLoginProvider, OauthUserServiceImpl: save Oauth user={}", oauthUser);
+			log.debug("Error in creating UserLoginProvider, OauthUserServiceImpl: save Oauth user={}", oauthUser);
 			oauthUser=null; //let us set the return to null
 		}
 		
@@ -126,7 +128,7 @@ public class OauthUserServiceImpl extends AbstractServiceImpl implements OauthUs
 
 	@Override
 	public MLPUserLoginProvider findUserByEmail(String emailId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "OauthUserServiceImpl:findUserByEmail ={}", emailId);
+		log.debug("OauthUserServiceImpl:findUserByEmail ={}", emailId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPUserLoginProvider oauthUser = null;
 		

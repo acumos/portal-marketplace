@@ -24,6 +24,7 @@
 package org.acumos.portal.be.controller;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,6 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -56,6 +56,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -75,7 +77,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/" + APINames.AUTH)
 public class AuthServiceController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AuthServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private UserService userService;
@@ -107,7 +109,7 @@ public class AuthServiceController extends AbstractController {
 	@ResponseBody
 	public AbstractResponseObject login(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "login={}", user);
+		log.debug( "login={}", user);
 		AbstractResponseObject responseObject = null;
 		User validUser = null;
 		boolean isValid = false;
@@ -115,7 +117,7 @@ public class AuthServiceController extends AbstractController {
 		// Check if the UserName or emailId is null or not.
 		if (PortalUtils.isEmptyOrNullString(user.getBody().getEmailId())
 				&& PortalUtils.isEmptyOrNullString(user.getBody().getUsername())) {
-			log.debug(EELFLoggerDelegate.errorLogger, "Invalid Parameters");
+			log.debug( "Invalid Parameters");
 			responseObject = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Login Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
@@ -158,7 +160,7 @@ public class AuthServiceController extends AbstractController {
 			} catch (Exception e) {
 				responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, "Login Failed");
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
+				log.error( "Exception Occurred while login()", e);
 			}
 		}
 
@@ -179,8 +181,8 @@ public class AuthServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<Object> logout(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "logout={}", user.getBody());
-		log.info(EELFLoggerDelegate.auditLogger, "logout={}", user.getBody());
+		log.debug( "logout={}", user.getBody());
+		log.info( "logout={}", user.getBody());
 		JsonResponse<Object> responseObject = null;
 		// TODO Need to add code to invalidate JWT Token
 
@@ -192,8 +194,8 @@ public class AuthServiceController extends AbstractController {
 	@ResponseBody
 	public AbstractResponseObject jwtLogin(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response , @RequestHeader(value="provider", required=false) String provider) {
-		log.debug(EELFLoggerDelegate.debugLogger, "login={}", user);
-		log.info(EELFLoggerDelegate.auditLogger, "login={}", user);
+		log.debug( "login={}", user);
+		log.info( "login={}", user);
 		AbstractResponseObject responseObject = new AbstractResponseObject();
 		User userObj = null;
 		String jwtToken = null;
@@ -204,7 +206,7 @@ public class AuthServiceController extends AbstractController {
 		
 		// Check if the UserName or emailId is null or not.
 		if (PortalUtils.isEmptyOrNullString(user.getBody().getUsername()) && PortalUtils.isEmptyOrNullString(user.getBody().getEmailId())) {
-			log.debug(EELFLoggerDelegate.errorLogger, "Invalid Parameters");
+			log.debug( "Invalid Parameters");
 			responseObject = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Login Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
@@ -216,12 +218,12 @@ public class AuthServiceController extends AbstractController {
 						userAssignedRolesList = userService.getUserRole(mlpUser.getUserId());
 						isValid = true;
 					} catch(HttpStatusCodeException exc) {
-						log.error(EELFLoggerDelegate.errorLogger, exc.getResponseBodyAsString(), exc);
+						log.error( exc.getResponseBodyAsString(), exc);
 
 						ObjectMapper mapper = new ObjectMapper();
 						Map<String, Object> errResp = mapper.readValue(exc.getResponseBodyAsString(), Map.class);
 						String errorMsg = (String) errResp.get("error");
-						log.error(EELFLoggerDelegate.errorLogger, errorMsg, exc);
+						log.error( errorMsg, exc);
 
 						responseObject = new ResponseVO(HttpServletResponse.SC_BAD_GATEWAY, errorMsg);
 						response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
@@ -230,7 +232,7 @@ public class AuthServiceController extends AbstractController {
 						responseObject = new ResponseVO(HttpServletResponse.SC_BAD_GATEWAY,
 								"Login  Failed. Invalid Password.");
 						response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
-						log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
+						log.error( "Exception Occurred while login()", e);
 					}
 				} else 
 					if (!PortalUtils.isEmptyOrNullString(user.getBody().getEmailId()) && !PortalUtils.isEmptyOrNullString(provider) && "LFCAS".equals(provider)) {
@@ -351,7 +353,7 @@ public class AuthServiceController extends AbstractController {
 				if (response.getStatus() == HttpServletResponse.SC_BAD_GATEWAY) {
 					responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 					response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
-					log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
+					log.error( "Exception Occurred while login()", e);
 				}
 			}
 		}
@@ -376,7 +378,7 @@ public class AuthServiceController extends AbstractController {
 	public JsonResponse<Object> validateToken(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody JsonRequest<User> userObj, @RequestHeader(value="provider", required=false) String provider) throws MalformedException {
 
-		log.debug(EELFLoggerDelegate.debugLogger, "Validate the jwt Token for third party access={}");
+		log.debug( "Validate the jwt Token for third party access={}");
 
 		JsonResponse<Object> responseVO = new JsonResponse<Object>();
 
@@ -479,7 +481,7 @@ public class AuthServiceController extends AbstractController {
 	public JsonResponse<Object> validateApiToken(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody JsonRequest<User> userObj, @RequestHeader(value="provider", required=false) String provider) throws MalformedException {
 
-		log.debug(EELFLoggerDelegate.debugLogger, "Validate the Api Token for third party access={}", userObj);
+		log.debug( "Validate the Api Token for third party access={}", userObj);
 
 		JsonResponse<Object> responseVO = new JsonResponse<Object>();
 		String apiToken = userObj.getBody().getApiTokenHash();
@@ -525,9 +527,9 @@ public class AuthServiceController extends AbstractController {
 	@ResponseBody
 	public String validationStatus(){
 
-		log.debug(EELFLoggerDelegate.debugLogger, "provide the Validation status for the application");
+		log.debug( "provide the Validation status for the application");
 
-		String validationAccess = env.getProperty("portal.feature.validateModel");
+		String validationAccess = env.getProperty("portal.feature.enablePublication");
 				
 		return validationAccess;
 		

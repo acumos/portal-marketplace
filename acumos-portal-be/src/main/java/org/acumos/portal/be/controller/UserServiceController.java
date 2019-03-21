@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,11 +52,12 @@ import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.PasswordDTO;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,7 +75,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping(APINames.USERS)
 public class UserServiceController extends AbstractController {
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(UserServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	public enum Operations{
 		DELETE,
@@ -110,11 +112,11 @@ public class UserServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<Object> createUser(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response) throws UserServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "createUser={}", user.getBody());
+		log.debug("createUser={}", user.getBody());
 		JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			if (user.getBody() == null) {
-				log.debug(EELFLoggerDelegate.errorLogger, "createUser: Invalid Parameters");
+				log.debug("createUser: Invalid Parameters");
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Login Failed");
 			}
@@ -169,7 +171,7 @@ public class UserServiceController extends AbstractController {
 		catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Failed");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createUser()", e);
+			log.error("Exception Occurred while createUser()", e);
 		}
 		return data;
 	}
@@ -178,13 +180,13 @@ public class UserServiceController extends AbstractController {
     @RequestMapping(value = {"/verifyUser"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
 	public JsonResponse<Object> verifyUser(HttpServletRequest request, @RequestBody JsonRequest<User> userObj, HttpServletResponse response) {
-    	log.debug(EELFLoggerDelegate.debugLogger, "verifyUser={}", userObj.getBody());
+    	log.debug("verifyUser={}", userObj.getBody());
 		JsonResponse<Object> data = new JsonResponse<>();
 		User user = userObj.getBody();
 		try {
 			userService.verifyUser(user.getLoginName(), user.getVerifyToken());
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while verifyUser()", e);
+			log.error("Exception Occurred while verifyUser()", e);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
@@ -198,13 +200,13 @@ public class UserServiceController extends AbstractController {
     @RequestMapping(value = {"/resendVerifyToken"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
 	public JsonResponse<Object> resendVerifyToken(HttpServletRequest request, @RequestBody JsonRequest<User> userObj, HttpServletResponse response) {
-    	log.debug(EELFLoggerDelegate.debugLogger, "resendVerifyToken={}", userObj.getBody());
+    	log.debug("resendVerifyToken={}", userObj.getBody());
 		JsonResponse<Object> data = new JsonResponse<>();
 		User user = userObj.getBody();
 		try {
 			userService.regenerateVerifyToken(user.getLoginName());
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while regenerating VerifyToken()", e);
+			log.error("Exception Occurred while regenerating VerifyToken()", e);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
@@ -218,13 +220,13 @@ public class UserServiceController extends AbstractController {
     @RequestMapping(value = {"/refreshApiToken"}, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
 	public JsonResponse<Object> refreshApiToken(HttpServletRequest request, @RequestBody JsonRequest<User> userObj, HttpServletResponse response) {
-    	log.debug(EELFLoggerDelegate.debugLogger, "resendVerifyToken={}", userObj.getBody());
+    	log.debug("resendVerifyToken={}", userObj.getBody());
 		JsonResponse<Object> data = new JsonResponse<>();
 		User user = userObj.getBody();
 		try {
 			userService.refreshApiToken(user.getUserId());
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while regenerating VerifyToken()", e);
+			log.error("Exception Occurred while regenerating VerifyToken()", e);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
@@ -238,14 +240,14 @@ public class UserServiceController extends AbstractController {
 	@RequestMapping(value = {APINames.UPADATE_USER}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> updateUser(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUser={}");
+		log.debug("updateUser={}");
 		JsonResponse<Object> responseObj = new JsonResponse<>();
 		String authToken = "";
 		String apiToken = "";
 		Set<MLPTag> tags = null;
 		try {
 			if (user.getBody() == null) {
-				log.debug(EELFLoggerDelegate.errorLogger, "updateUser: Invalid Parameters");
+				log.debug("updateUser: Invalid Parameters");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				responseObj.setResponseDetail("Update Failed");
                           	return responseObj;
@@ -258,7 +260,7 @@ public class UserServiceController extends AbstractController {
 			responseObj.setStatus(false);
 			responseObj.setResponseDetail("Failed");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateUser()", e);
+			log.error("Exception Occurred while updateUser()", e);
 		}
 				
 		return responseObj;
@@ -269,13 +271,13 @@ public class UserServiceController extends AbstractController {
 	@RequestMapping(value = {APINames.DELETE_TOKEN}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> deleteToken(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteToken={}");
+		log.debug("deleteToken={}");
 		JsonResponse<Object> responseObj = new JsonResponse<>();		 
 		 		
 		
 		try {
 			if (user.getBody() == null) {
-				log.debug(EELFLoggerDelegate.errorLogger, "deleteToken: Invalid Parameters");
+				log.debug("deleteToken: Invalid Parameters");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				responseObj.setResponseDetail("Delete Token Failed");
                           	return responseObj;
@@ -288,7 +290,7 @@ public class UserServiceController extends AbstractController {
 			responseObj.setStatus(false);
 			responseObj.setResponseDetail("Failed");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deleteToken()", e);
+			log.error("Exception Occurred while deleteToken()", e);
 		}
 		return responseObj;
 	}
@@ -296,7 +298,7 @@ public class UserServiceController extends AbstractController {
 	/*protected void updateInfo( @RequestBody JsonRequest<User> user, JsonResponse<Object> responseObj, String authToken, String apiToken, 
 			Set<MLPTag> tags, Operations flag ){*/
 	protected void updateInfo( @RequestBody JsonRequest<User> user, JsonResponse<Object> responseObj, Operations flag ){
-		log.debug(EELFLoggerDelegate.debugLogger, "updateInfo={}");
+		log.debug("updateInfo={}");
 		try {
 			String authToken = "";
 			String apiToken = "";
@@ -329,7 +331,7 @@ public class UserServiceController extends AbstractController {
 				}
 			} catch (Exception e) {
 				isUserExists = false;
-				log.debug(EELFLoggerDelegate.errorLogger, "updateInfo: Invalid Parameters");
+				log.debug("updateInfo: Invalid Parameters");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				responseObj.setResponseDetail("updateInfo Failed");
 			}
@@ -350,7 +352,7 @@ public class UserServiceController extends AbstractController {
 				responseObj.setResponseDetail("Success");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			} else {
-				log.debug(EELFLoggerDelegate.errorLogger, "updateInfo: Invalid User");
+				log.debug("updateInfo: Invalid User");
 				responseObj.setResponseDetail("Failed");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			}
@@ -359,7 +361,7 @@ public class UserServiceController extends AbstractController {
 			responseObj.setStatus(false);
 			responseObj.setResponseDetail("Failed");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateInfo()", e);
+			log.error("Exception Occurred while updateInfo()", e);
 		}
 	}
 
@@ -368,12 +370,12 @@ public class UserServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<Object> forgetPassword(HttpServletRequest request, @RequestBody JsonRequest<User> user,
 			HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "forgetPassword={}");
+		log.debug("forgetPassword={}");
 		JsonResponse<Object> responseObj = new JsonResponse<>();
 		MLPUser mlpUser = null;
 		try {
 			if (user.getBody() == null) {
-				log.debug(EELFLoggerDelegate.errorLogger, "forgetPassword: Invalid Parameters");
+				log.debug("forgetPassword: Invalid Parameters");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				responseObj.setResponseDetail("forgetPassword Failed");
 			}
@@ -395,7 +397,7 @@ public class UserServiceController extends AbstractController {
 				}
 			} catch (Exception e) {
 				isUserExists = false;
-				log.debug(EELFLoggerDelegate.errorLogger, "forgetPassword: Invalid Parameters");
+				log.debug("forgetPassword: Invalid Parameters");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 				responseObj.setResponseDetail("Failed");
 			}
@@ -406,7 +408,7 @@ public class UserServiceController extends AbstractController {
 				responseObj.setResponseDetail("Success");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			} else {
-				log.debug(EELFLoggerDelegate.errorLogger, "forgetPassword: Invalid User");
+				log.debug("forgetPassword: Invalid User");
 				responseObj.setResponseDetail("Email id not exist");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			}
@@ -416,7 +418,7 @@ public class UserServiceController extends AbstractController {
 			responseObj.setStatus(false);
 			responseObj.setResponseDetail("Failed");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while forgetPassword()", e);
+			log.error("Exception Occurred while forgetPassword()", e);
 		}
 		return responseObj;
 	}
@@ -425,13 +427,13 @@ public class UserServiceController extends AbstractController {
     @RequestMapping(value = {APINames.CHANGE_PASSWORD}, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
     public JsonResponse changeUserPassword(HttpServletRequest request, @RequestBody PasswordDTO passwordDTO, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "changeUserPassword={}");
+        log.debug("changeUserPassword={}");
         //Object responseVO = null;
         JsonResponse responseVO = new JsonResponse<>();
         try {
             if((passwordDTO == null) || (passwordDTO != null && (PortalUtils.isEmptyOrNullString(passwordDTO.getNewPassword()) || 
                     (PortalUtils.isEmptyOrNullString(passwordDTO.getOldPassword()))))) {
-                log.error(EELFLoggerDelegate.errorLogger, "Bad request: NewPassword or OldPassword is empty");
+                log.error("Bad request: NewPassword or OldPassword is empty");
             }
             //TODO As of now it does not check if User Account already exists. Need to first check if the account exists in DB
             boolean changePassword = userService.changeUserPassword(passwordDTO.getUserId(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
@@ -448,7 +450,7 @@ public class UserServiceController extends AbstractController {
             responseVO.setStatus(false);
             responseVO.setResponseDetail("Failed");
             responseVO.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while changeUserPassword()", e);
+            log.error("Exception Occurred while changeUserPassword()", e);
         }
         return responseVO;
     }
@@ -459,12 +461,12 @@ public class UserServiceController extends AbstractController {
     @ResponseBody
 	public JsonResponse<MLPUser> getUserAccountDetails(@RequestBody JsonRequest<User> userDetails) {
 		// public JsonResponse getUserAccountDetails() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getUserAccountDetails={}");
+		log.debug("getUserAccountDetails={}");
 		// Object responseVO = null;
 		JsonResponse<MLPUser> responseVO = new JsonResponse<>();
 		try {
 			if ((PortalUtils.isEmptyOrNullString(userDetails.getBody().getUserId()))) {
-				log.error(EELFLoggerDelegate.errorLogger, "Bad request: UserId or EmailId is empty");
+				log.error("Bad request: UserId or EmailId is empty");
 			}
 			// TODO As of now it does not check if User Account already exists.
 			// Need to first check if the account exists in DB
@@ -479,7 +481,7 @@ public class UserServiceController extends AbstractController {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail("Failed");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserAccountDetails()", e);
+			log.error("Exception Occurred while getUserAccountDetails()", e);
 		}
 		return responseVO;
 	}  
@@ -490,7 +492,7 @@ public class UserServiceController extends AbstractController {
     @ResponseBody
 	public JsonResponse<List<User>> getAllUsers(HttpServletRequest request, HttpServletResponse response) {
 		// public JsonResponse getUserAccountDetails() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getAllUsers={}");
+		log.debug("getAllUsers={}");
 		// Object responseVO = null;
 		JsonResponse<List<User>> responseVO = new JsonResponse<>();
 		try {
@@ -503,7 +505,7 @@ public class UserServiceController extends AbstractController {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail("Failed");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAllUsers()", e);
+			log.error("Exception Occurred while getAllUsers()", e);
 		}
 		return responseVO;
 	} 
@@ -516,7 +518,7 @@ public class UserServiceController extends AbstractController {
 		
     	userId = SanitizeUtils.sanitize(userId);
     	
-    	log.debug(EELFLoggerDelegate.debugLogger, "changeUserPassword={}");
+    	log.debug("changeUserPassword={}");
 		// Object responseVO = null;
 		JsonResponse<List<MLPRole>> responseVO = new JsonResponse<>();
 		try {
@@ -529,7 +531,7 @@ public class UserServiceController extends AbstractController {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail("Failed");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserRole()", e);
+			log.error("Exception Occurred while getUserRole()", e);
 		}
 		return responseVO;
 	} 
@@ -542,11 +544,11 @@ public class UserServiceController extends AbstractController {
         
     	userId = SanitizeUtils.sanitize(userId);
     	
-    	log.debug(EELFLoggerDelegate.debugLogger, "updateUserImage={}");
+    	log.debug("updateUserImage={}");
         JsonResponse<MLPUser> responseVO = new JsonResponse<>();
 		try {
 			if (PortalUtils.isEmptyOrNullString(userId)) {
-				log.error(EELFLoggerDelegate.errorLogger, "Bad request: UserId empty");
+				log.error("Bad request: UserId empty");
 			}
 			if (userId != null) {
 				MLPUser mlpUser = userService.findUserByUserId(userId);
@@ -563,7 +565,7 @@ public class UserServiceController extends AbstractController {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail("Failed");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateUserImage()", e);
+			log.error("Exception Occurred while updateUserImage()", e);
 		}
 		return responseVO;
     }
@@ -577,12 +579,12 @@ public class UserServiceController extends AbstractController {
 		
 		userId = SanitizeUtils.sanitize(userId);
 		
-		log.debug(EELFLoggerDelegate.debugLogger, "getUserImage={}");
+		log.debug("getUserImage={}");
 		// Object responseVO = null;
 		JsonResponse<byte []> responseVO = new JsonResponse<>();
 		try {
 			if (PortalUtils.isEmptyOrNullString(userId)) {
-				log.error(EELFLoggerDelegate.errorLogger, "Bad request: UserId is empty");
+				log.error("Bad request: UserId is empty");
 			}
 			// TODO As of now it does not check if User Account already exists.
 			// Need to first check if the account exists in DB
@@ -598,14 +600,14 @@ public class UserServiceController extends AbstractController {
 					responseVO.setStatus(false);
 					responseVO.setResponseDetail("Failed");
 					responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-					log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserImage()");
+					log.error("Exception Occurred while getUserImage()");
 				}
 			}
 		} catch (Exception e) {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail("Failed");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserImage()", e);
+			log.error("Exception Occurred while getUserImage()", e);
 		}
 		return responseVO;
 	}
@@ -616,7 +618,7 @@ public class UserServiceController extends AbstractController {
     @ResponseBody
 	public MLPUser userProfile(HttpServletRequest request) throws MalformedException {
 		// public JsonResponse getUserAccountDetails() {
-		log.debug(EELFLoggerDelegate.debugLogger, "get User account from jwt={}");
+		log.debug("get User account from jwt={}");
 		String authorization = request.getHeader("jwtToken");
 		
 		JsonResponse<MLPUser> responseVO = new JsonResponse<MLPUser>();
@@ -671,7 +673,7 @@ public class UserServiceController extends AbstractController {
 	@PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
 	@ResponseBody
 	public JsonResponse<Object> updateBulkUsers(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUser={}");
+		log.debug("updateUser={}");
 		JsonResponse<Object> responseObj = new JsonResponse<>();
 		
 		try{
@@ -687,13 +689,13 @@ public class UserServiceController extends AbstractController {
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				responseObj.setResponseDetail("Users deactivated succesfuly");
 			}else{
-				log.debug(EELFLoggerDelegate.errorLogger, "UserId not found");
+				log.debug("UserId not found");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				responseObj.setResponseDetail("UserId not found");
 			}
 			
 		}catch(Exception e){
-			log.debug(EELFLoggerDelegate.errorLogger, "Exception occured while updateBulkUsers");
+			log.debug("Exception occured while updateBulkUsers");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			responseObj.setResponseDetail("Exception occured while updateBulkUsers");
 		}
@@ -707,7 +709,7 @@ public class UserServiceController extends AbstractController {
 	@PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
 	@ResponseBody
 	public JsonResponse<Object> deleteBulkUsers(HttpServletRequest request, @RequestBody JsonRequest<User> user, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteUser={}");
+		log.debug("deleteUser={}");
 		JsonResponse<Object> responseObj = new JsonResponse<>();
 		
 		try{
@@ -727,16 +729,16 @@ public class UserServiceController extends AbstractController {
 						userService.updateUser(userObj);
 					}
 				}
-				log.debug(EELFLoggerDelegate.errorLogger, "User detals updated succesfully");
+				log.debug("User detals updated succesfully");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				responseObj.setResponseDetail("Users deleted succesfuly");
 			}else{
-				log.debug(EELFLoggerDelegate.errorLogger, "UserId not found");
+				log.debug("UserId not found");
 				responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				responseObj.setResponseDetail("UserId not found");
 			}		
 		}catch(Exception e){
-			log.debug(EELFLoggerDelegate.errorLogger, "Exception occured while deleteBulkUsers");
+			log.debug("Exception occured while deleteBulkUsers");
 			responseObj.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			responseObj.setResponseDetail("Exception occured while deleteBulkUsers");
 		}	
@@ -748,7 +750,7 @@ public class UserServiceController extends AbstractController {
 	   @ResponseBody
 	    public JsonResponse<List<User>> getAllActiveUsers(HttpServletRequest request, HttpServletResponse response,@PathVariable("active") boolean activeFlag) {
 	        // public JsonResponse getUserAccountDetails() { 
-	        log.debug(EELFLoggerDelegate.debugLogger, "getAllActiveUsers={}");
+	        log.debug("getAllActiveUsers={}");
 	        // Object responseVO = null;
 	        JsonResponse<List<User>> responseVO = new JsonResponse<>();
 	        try {
@@ -773,7 +775,7 @@ public class UserServiceController extends AbstractController {
 	            responseVO.setStatus(false);
 	            responseVO.setResponseDetail("Failed");
 	            responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-	            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAllActiveUsers()", e);
+	            log.error("Exception Occurred while getAllActiveUsers()", e);
 	        }
 	        return responseVO;
 	    }

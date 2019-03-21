@@ -22,6 +22,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +40,10 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -57,7 +59,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(APINames.GATEWAY)
 public class GatewayController extends AbstractController {
 	
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(GatewayController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	
 	@Autowired
@@ -108,7 +110,7 @@ public class GatewayController extends AbstractController {
 			response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
 			data.setResponseCode(String.valueOf(HttpServletResponse.SC_BAD_GATEWAY));
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Failed to get Connection",e);
+			log.error( "Failed to get Connection",e);
 		}
 		return data;
 	}
@@ -153,7 +155,7 @@ public class GatewayController extends AbstractController {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				data.setResponseDetail(e.getMessage());
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occured while fetching the solutions",e);
+				log.error( "Exception Occured while fetching the solutions",e);
 			}
 		}
 		return data;
@@ -193,7 +195,7 @@ public class GatewayController extends AbstractController {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				data.setResponseDetail(e.getMessage());
-				log.error(EELFLoggerDelegate.errorLogger, "No Solution Found for Dolution Id : " + solutionId, e);
+				log.error( "No Solution Found for Dolution Id : " + solutionId, e);
 			}
 		}
 		return data;

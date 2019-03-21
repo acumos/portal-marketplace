@@ -23,15 +23,17 @@
  */
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Map;
 
 import org.acumos.portal.be.service.MailJet;
 import org.acumos.portal.be.transport.MailData;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -49,7 +51,7 @@ import freemarker.template.Configuration;
 @Service
 public class MailJetService implements MailJet {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MailJetService.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private Configuration freemarkerConfiguration;
@@ -68,11 +70,11 @@ public class MailJetService implements MailJet {
 		String fromAddress = env.getProperty("portal.mailjet.address.from");
 
 		if (PortalUtils.isEmptyOrNullString(apiKey))
-			log.error(EELFLoggerDelegate.errorLogger, "sendMail: failed to find required key " + apiKey);
+			log.error("sendMail: failed to find required key " + apiKey);
 		if (PortalUtils.isEmptyOrNullString(secretKey))
-			log.error(EELFLoggerDelegate.errorLogger, "sendMail: failed to find required key " + secretKey);
+			log.error("sendMail: failed to find required key " + secretKey);
 		if (PortalUtils.isEmptyOrNullString(fromAddress))
-			log.error(EELFLoggerDelegate.errorLogger, "sendMail: failed to find required key " + fromAddress);
+			log.error("sendMail: failed to find required key " + fromAddress);
 
 		client = new MailjetClient(apiKey, secretKey);
 		String text = getFreeMarkerTemplateContent(mailData.getTemplate(), mailData.getModel());
@@ -82,7 +84,7 @@ public class MailJetService implements MailJet {
 			try {
 				toJsonArray.put(new JSONObject().put("Email", address));
 			} catch (JSONException e) {
-				log.error(EELFLoggerDelegate.errorLogger, "sendMail: failed to add address " + address);
+				log.error("sendMail: failed to add address " + address);
 			}
 		}
 		request = new MailjetRequest(Email.resource) //
@@ -92,12 +94,11 @@ public class MailJetService implements MailJet {
 				.property(Email.HTMLPART, text) //
 				.property(Email.RECIPIENTS, toJsonArray);
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "sendMail: request: " + request.toString());
+			log.debug("sendMail: request: " + request.toString());
 			response = client.post(request);
-			log.debug(EELFLoggerDelegate.debugLogger, "sendMail: client response: " + response.getData().toString());
+			log.debug("sendMail: client response: " + response.getData().toString());
 		} catch (MailjetException | MailjetSocketTimeoutException e) {
-			log.error(EELFLoggerDelegate.errorLogger,
-					"sendMail: failed to post email with subject " + mailData.getSubject(), e);
+			log.error("sendMail: failed to post email with subject " + mailData.getSubject(), e);
 			return;
 		}
 	}
@@ -109,7 +110,7 @@ public class MailJetService implements MailJet {
 					.processTemplateIntoString(freemarkerConfiguration.getTemplate(template), model));
 			return content.toString();
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "getFreeMarkerTemplateContent: failed to get content", e);
+			log.error("getFreeMarkerTemplateContent: failed to get content", e);
 		}
 		return "";
 	}

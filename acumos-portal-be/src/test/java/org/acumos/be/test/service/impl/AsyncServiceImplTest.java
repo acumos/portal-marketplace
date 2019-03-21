@@ -21,6 +21,7 @@ package org.acumos.be.test.service.impl;
 
 import static org.mockito.Mockito.mock;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,6 @@ import org.acumos.cds.domain.MLPTaskStepResult;
 import org.acumos.portal.be.service.impl.AsyncServicesImpl;
 import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.UploadSolution;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,13 +39,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AsyncServiceImplTest {
 
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(AsyncServiceImplTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();

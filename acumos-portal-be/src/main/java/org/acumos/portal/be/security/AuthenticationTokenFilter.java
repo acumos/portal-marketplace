@@ -21,6 +21,7 @@
 package org.acumos.portal.be.security;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,6 @@ import org.acumos.portal.be.common.exception.MalformedException;
 import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.security.jwt.TokenValidation;
 import org.acumos.portal.be.service.UserService;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -45,6 +45,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -64,7 +66,7 @@ import org.acumos.cds.domain.MLPUser;
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AuthenticationTokenFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	 @Autowired
 	 private TokenValidation tokenValidation;

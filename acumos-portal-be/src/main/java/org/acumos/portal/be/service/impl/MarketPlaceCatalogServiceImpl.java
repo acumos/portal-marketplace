@@ -22,6 +22,7 @@ package org.acumos.portal.be.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +75,6 @@ import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.wagon.ConnectionException;
@@ -82,6 +82,8 @@ import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.authorization.AuthorizationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -97,7 +99,7 @@ import com.github.dockerjava.api.DockerClient;
 @Service
 public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implements MarketPlaceCatalogService {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MarketPlaceCatalogServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private Environment env;
@@ -120,7 +122,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public RestPageResponse<MLPSolution> getAllPaginatedSolutions(Integer page, Integer size, String sortingOrder)
 			throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getAllPaginatedSolutions");
+		log.debug("getAllPaginatedSolutions");
 		RestPageResponse<MLPSolution> mlpSolutionsPaged = null;
 		List<MLSolution> mlSolutions = null;
 		try {
@@ -165,7 +167,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public List<MLSolution> getAllPublishedSolutions() throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getAllPublishedSolutions");
+		log.debug("getAllPublishedSolutions");
 		List<MLSolution> mlSolutions = null;
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -198,7 +200,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public MLSolution getSolution(String solutionId, String loginUserId) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolution");
+		log.debug("getSolution");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLSolution mlSolution = null;
 		try {
@@ -254,7 +256,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					}
 					mlSolution.setOwnerListForSol(users);
 				} catch (Exception e) {
-					log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}",
+					log.error("No co-owner for SolutionId={}",
 							mlSolution.getSolutionId());
 				}
 
@@ -317,7 +319,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public List<MLSolution> getSearchSolution(String search) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSearchedSolutions");
+		log.debug("getSearchedSolutions");
 		List<MLSolution> mlSolutions = null;
 
 		return mlSolutions;
@@ -331,7 +333,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public MLSolution updateSolution(MLSolution mlSolution, String solutionId) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateSolution");
+		log.debug("updateSolution");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			MLPSolution solution = PortalUtils.convertToMLPSolution(mlSolution);
@@ -342,7 +344,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					tags.add(tag);
 				solution.setTags(tags);
 			} catch (HttpStatusCodeException e) {
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Could not fetch tag list for update solution: " + e.getMessage());
 			} finally {
 				dataServiceRestClient.updateSolution(solution);
@@ -358,7 +360,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public MLSolution deleteSolutionArtifacts(MLSolution mlSolution, String solutionId, String revisionId)
 			throws AcumosServiceException, URISyntaxException {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionArtifacts");
+		log.debug("deleteSolutionArtifacts");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 
@@ -375,7 +377,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					tags.add(tag);
 				solution.setTags(tags);
 			} catch (HttpStatusCodeException e) {
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Could not fetch tag list for delete solution artifacts: " + e.getMessage());
 			} finally {
 				// start
@@ -388,8 +390,8 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					for (MLPArtifact mlp : mlpArtifactsList) {
 						boolean deleteNexus = false;
 						// Delete the file from the Nexus
-						log.info(EELFLoggerDelegate.auditLogger, "mlp.getUri ----->>" + mlp.getUri());
-						log.info(EELFLoggerDelegate.auditLogger,
+						log.info("mlp.getUri ----->>" + mlp.getUri());
+						log.info(
 								"mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
 
 						if ("DI".equals(mlp.getArtifactTypeCode())) {
@@ -403,9 +405,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							String nexusUrl = env.getProperty("nexus.url");
 							String nexusUserName = env.getProperty("nexus.username");
 							String nexusPd = env.getProperty("nexus.password");
-							log.info(EELFLoggerDelegate.auditLogger, "nexusUrl ----->>" + nexusUrl);
-							log.info(EELFLoggerDelegate.auditLogger, "nexusUserName ----->>" + nexusUserName);
-							log.info(EELFLoggerDelegate.auditLogger, "nexusPd ----->>" + nexusPd);
+							log.info("nexusUrl ----->>" + nexusUrl);
+							log.info("nexusUserName ----->>" + nexusUserName);
+							log.info("nexusPd ----->>" + nexusPd);
 							NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName,
 									nexusPd);
 							nexusArtifactClient.deleteArtifact(mlp.getUri());
@@ -417,11 +419,11 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							String artifactId = mlp.getArtifactId();
 							// Delete SolutionRevisionArtifact
 							dataServiceRestClient.dropSolutionRevisionArtifact(solutionId, revisionId, artifactId);
-							log.debug(EELFLoggerDelegate.debugLogger,
+							log.debug(
 									" Successfully Deleted the SolutionRevisionArtifact ");
 							// Delete Artifact from CDS
 							dataServiceRestClient.deleteArtifact(artifactId);
-							log.debug(EELFLoggerDelegate.debugLogger, " Successfully Deleted the CDump Artifact ");
+							log.debug(" Successfully Deleted the CDump Artifact ");
 						} else {
 							throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER,
 									"Unable to delete  solution from Database");
@@ -466,7 +468,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public List<MLPSolutionRevision> getSolutionRevision(String solutionId) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevision`");
+		log.debug("getSolutionRevision`");
 		List<MLPSolutionRevision> mlpSolutionRevisions = null;
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -481,7 +483,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public List<MLPArtifact> getSolutionArtifacts(String solutionId, String revisionId) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionArtifacts`");
+		log.debug("getSolutionArtifacts`");
 		List<MLPArtifact> mlpSolutionRevisions = null;
 		List<MLPArtifact> artifactList = new ArrayList<MLPArtifact>();
 		try {
@@ -505,7 +507,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public void addSolutionTag(String solutionId, String tag) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag`");
+		log.debug("addSolutionTag`");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.addSolutionTag(solutionId, tag);
@@ -518,7 +520,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public void dropSolutionTag(String solutionId, String tag) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag`");
+		log.debug("addSolutionTag`");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.dropSolutionTag(solutionId, tag);
@@ -602,7 +604,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	public void createUserTag(String userId, List<String> tagList, List<String> dropTagList)
 			throws AcumosServiceException {
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "createUserTag");
+			log.debug("createUserTag");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			if (dropTagList.size() != 0) {
 				for (String dropTag : dropTagList) {
@@ -624,7 +626,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public List<User> getSolutionUserAccess(String solutionId) throws AcumosServiceException {
 		List<User> users = null;
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionUserAccess");
+		log.debug("getSolutionUserAccess");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			List<MLPUser> mlpUsers = dataServiceRestClient.getSolutionAccessUsers(solutionId);
@@ -645,7 +647,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public void dropSolutionUserAccess(String solutionId, String userId) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionUserAccess");
+		log.debug("addSolutionUserAccess");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.dropSolutionUserAccess(solutionId, userId);
@@ -659,7 +661,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public void incrementSolutionViewCount(String solutionId) throws AcumosServiceException {
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "incrementSolutionViewCount");
+			log.debug("incrementSolutionViewCount");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.incrementSolutionViewCount(solutionId);
 		} catch (IllegalArgumentException e) {
@@ -673,7 +675,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	public MLSolutionRating createSolutionrating(MLPSolutionRating mlpSolutionRating) throws AcumosServiceException {
 		MLSolutionRating mlSolutionRating = null;
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionrating");
+			log.debug("createSolutionrating");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			mlSolutionRating = PortalUtils
 					.convertToMLSolutionRating(dataServiceRestClient.createSolutionRating(mlpSolutionRating));
@@ -689,7 +691,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public void updateSolutionRating(MLPSolutionRating mlpSolutionRating) throws AcumosServiceException {
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionRating");
+			log.debug("updateSolutionRating");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.updateSolutionRating(mlpSolutionRating);
 		} catch (IllegalArgumentException e) {
@@ -704,7 +706,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throws AcumosServiceException {
 		RestPageResponse<MLPSolutionRating> mlpSolutionRating = null;
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRating");
+			log.debug("getSolutionRating");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			mlpSolutionRating = dataServiceRestClient.getSolutionRatings(solutionId, pageRequest);
 		} catch (IllegalArgumentException e) {
@@ -719,7 +721,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	public List<MLSolution> getMySharedModels(String userId, RestPageRequest restPageReq)
 			throws AcumosServiceException {
 		List<MLSolution> mlSolutionList = null;
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionUserAccess");
+		log.debug("getSolutionUserAccess");
 		try {
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPSolution> mlpSolutions = dataServiceRestClient.getSolutions(restPageReq);
@@ -749,7 +751,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		RestPageResponseBE<MLPSolution> mlpSolutionsRest = new RestPageResponseBE<MLPSolution>(content);
 		try {
 			if (!PortalUtils.isEmptyOrNullString(tag)) {
-				log.debug(EELFLoggerDelegate.debugLogger, "getTagSearchedSolutions: searching Solutions with tags:",
+				log.debug("getTagSearchedSolutions: searching Solutions with tags:",
 						tag);
 				RestPageRequest pageRequest = new RestPageRequest();
 				RestPageResponse<MLPSolution> pageResponse = new RestPageResponse<>();
@@ -775,7 +777,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throws AcumosServiceException {
 		MLSolutionFavorite mlSolutionFavorite = null;
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionFavorite");
+			log.debug("createSolutionFavorite");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			mlSolutionFavorite = PortalUtils
 					.convertToMLSolutionFavorite(dataServiceRestClient.createSolutionFavorite(mlpSolutionFavorite));
@@ -791,7 +793,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public void deleteSolutionFavorite(MLPSolutionFavorite mlpSolutionFavorite) throws AcumosServiceException {
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionFavorite");
+			log.debug("deleteSolutionFavorite");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.deleteSolutionFavorite(mlpSolutionFavorite);
 		} catch (IllegalArgumentException e) {
@@ -806,7 +808,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throws AcumosServiceException {
 		List<MLSolution> mlSolutionList = new ArrayList<>();
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "getFavoriteSolutions : ");
+			log.debug("getFavoriteSolutions : ");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPSolution> mlpSolutionsFav = dataServiceRestClient.getFavoriteSolutions(userId,
 					restPageReq);
@@ -829,7 +831,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public RestPageResponseBE<MLSolution> getRelatedMySolutions(JsonRequest<RestPageRequestBE> restPageReqBe)
 			throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getRealtedMySolutions");
+		log.debug("getRealtedMySolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		Map<String, String> queryParameters = new HashMap<>();
 		RestPageResponse<MLPSolution> mlpSolutionsRest = null;
@@ -871,7 +873,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					// 1. Check if searchTerm exists, if yes then use
 					// findSolutionsBySearchTerm
 					if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getSearchTerm())) {
-						log.debug(EELFLoggerDelegate.debugLogger,
+						log.debug(
 								"getSearchedSolutions: searching Solutions with searcTerm:",
 								restPageReqBe.getBody().getSearchTerm());
 						mlpSolutionsRest = dataServiceRestClient.findSolutionsBySearchTerm(
@@ -1058,7 +1060,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public void addSolutionUserAccess(String solutionId, List<String> userList) throws AcumosServiceException {
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "addSolutionUserAccess");
+			log.debug("addSolutionUserAccess");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			for (String userId : userList) {
 				dataServiceRestClient.addSolutionUserAccess(solutionId, userId);
@@ -1074,7 +1076,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	public MLPTag createTag(MLPTag tag) throws AcumosServiceException {
 		MLPTag mlpTag = null;
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "createTag");
+			log.debug("createTag");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			mlpTag = dataServiceRestClient.createTag(tag);
 		} catch (IllegalArgumentException e) {
@@ -1087,7 +1089,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public MLPSolutionRating getUserRatings(String solutionId, String userId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionUserAccess");
+		log.debug("addSolutionUserAccess");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRating rating = dataServiceRestClient.getSolutionRating(solutionId, userId);
 		return rating;
@@ -1096,7 +1098,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal,
 			Set<MLPTag> preferredTags) {
-		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions(pageReqPortal, prefTags");
+		log.debug("findPortalSolutions(pageReqPortal, prefTags");
 
 		Set<String> mergedTags = new HashSet<>();
 
@@ -1116,7 +1118,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal) {
-		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
+		log.debug("findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
@@ -1137,7 +1139,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public RestPageResponseBE<MLSolution> searchSolutionsByKeyword(RestPageRequestPortal pageReqPortal) {
-		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
+		log.debug("findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
 
@@ -1165,7 +1167,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	private RestPageResponseBE<MLSolution> fetchDetailsForSolutions(List<MLPSolution> mlpSolList,
 			RestPageRequestPortal pageReqPortal) {
-		log.debug(EELFLoggerDelegate.debugLogger, "fetchDetailsForSolution");
+		log.debug("fetchDetailsForSolution");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -1208,7 +1210,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				}
 				mlSolution.setOwnerListForSol(users);
 			} catch (Exception e) {
-				log.error(EELFLoggerDelegate.errorLogger, "No co-owner for SolutionId={}", mlSolution.getSolutionId());
+				log.error("No co-owner for SolutionId={}", mlSolution.getSolutionId());
 			}
 
 			// To categorize the solution on display fetch latest revision and
@@ -1273,7 +1275,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public RestPageResponseBE<MLSolution> findUserSolutions(RestPageRequestPortal pageReqPortal) {
-		log.debug(EELFLoggerDelegate.debugLogger, "findUserSolutions");
+		log.debug("findUserSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findUserSolutions(pageReqPortal.getNameKeyword(),
@@ -1294,7 +1296,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	}
 
 	private MLPSolutionRevision getLatestSolRevision(String solutionId, String[] accessTypeCode) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getLatestSolRevision");
+		log.debug("getLatestSolRevision");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 
 		// for inactive solutions no accessTypeCode is required
@@ -1330,7 +1332,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest) {
-		log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions");
+		log.debug("findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPSolution> mlSolutions = dataServiceRestClient.getUserAccessSolutions(userId, pageRequest);
 		return mlSolutions;
@@ -1338,7 +1340,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public MLSolutionWeb getSolutionWebMetadata(String solutionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionWebMetadata");
+		log.debug("getSolutionWebMetadata");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolution sol = dataServiceRestClient.getSolution(solutionId);
 		MLSolution mlSolution = PortalUtils.convertToMLSolution(sol);
@@ -1349,7 +1351,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public List<Author> getSolutionRevisionAuthors(String solutionId, String revisionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionAuthors");
+		log.debug("getSolutionRevisionAuthors");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 		AuthorTransport[] authorTransport = revision.getAuthors();
@@ -1360,7 +1362,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public List<Author> addSolutionRevisionAuthors(String solutionId, String revisionId, Author author)
 			throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionRevisionAuthors");
+		log.debug("addSolutionRevisionAuthors");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		AuthorTransport newAuthor = new AuthorTransport(author.getName(), author.getContact());
 		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
@@ -1378,7 +1380,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		try {
 			updatedAuthor = updateRevisionAuthors(revision, authorTransportList);
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
 					"Internal Server Error");
 		}
@@ -1388,7 +1390,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public List<Author> removeSolutionRevisionAuthors(String solutionId, String revisionId, Author author) {
-		log.debug(EELFLoggerDelegate.debugLogger, "removeSolutionRevisionAuthors");
+		log.debug("removeSolutionRevisionAuthors");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		AuthorTransport removeAuthor = new AuthorTransport(author.getName(), author.getContact());
 		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
@@ -1403,6 +1405,31 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 		return updateRevisionAuthors(revision, authorTransportList);
 	}
+	
+    @Override
+	public String getSolutionRevisionPublisher(String solutionId, String revisionId)
+			throws AcumosServiceException {
+		log.debug("getSolutionRevisionPublisher");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+		return revision.getPublisher();
+		
+	}
+		
+	
+    @Override
+	public void addSolutionRevisionPublisher(String solutionId, String revisionId, String newPublisher)
+			throws AcumosServiceException {
+		log.debug("addSolutionRevisionPublisher");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+		
+		if(!newPublisher.isEmpty() && !newPublisher.equals("") && newPublisher != null)
+		revision.setPublisher(newPublisher);
+		dataServiceRestClient.updateSolutionRevision(revision);
+		
+	}
+
 
 	private List<Author> updateRevisionAuthors(MLPSolutionRevision revision,
 			ArrayList<AuthorTransport> authorTransportList) {
@@ -1423,7 +1450,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			outputStream = artifactClient.getArtifact(uri);
 		} catch (Exception ex) {
 
-			log.error(EELFLoggerDelegate.errorLogger, " Exception in getPayload() ", ex);
+			log.error(" Exception in getPayload() ", ex);
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_STREAM_EXCEPTION, ex.getMessage());
 
 		}
@@ -1433,7 +1460,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	@Override
 	public String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension)
 			throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, "getProtoUrl() : Begin");
+		log.debug("getProtoUrl() : Begin");
 
 		String result = "";
 
@@ -1450,10 +1477,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			if (null != mlpSolutionRevisionList && !mlpSolutionRevisionList.isEmpty()) {
 				solutionRevisionId = mlpSolutionRevisionList.stream().filter(mlp -> mlp.getVersion().equals(version))
 						.findFirst().get().getRevisionId();
-				log.debug(EELFLoggerDelegate.debugLogger, " SolutionRevisonId for Version :  {} ", solutionRevisionId);
+				log.debug(" SolutionRevisonId for Version :  {} ", solutionRevisionId);
 			}
 		} catch (NoSuchElementException | NullPointerException e) {
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Error : Exception in getProtoUrl() : Failed to fetch the Solution Revision Id", e);
 			throw new NoSuchElementException("Failed to fetch the Solution Revision Id of the solutionId for the user");
 		}
@@ -1478,16 +1505,16 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						}
 					}
 
-					log.debug(EELFLoggerDelegate.debugLogger, " Nexus URI :  {} ", nexusURI);
+					log.debug(" Nexus URI :  {} ", nexusURI);
 
 					if (null != nexusURI) {
 						byteArrayOutputStream = getPayload(nexusURI);
-						log.debug(EELFLoggerDelegate.debugLogger, " Response in String Format :  {} ",
+						log.debug(" Response in String Format :  {} ",
 								byteArrayOutputStream.toString());
 						result = byteArrayOutputStream.toString();
 					}
 				} catch (NoSuchElementException | NullPointerException e) {
-					log.error(EELFLoggerDelegate.errorLogger,
+					log.error(
 							"Error : Exception in getProtoUrl() : Failed to fetch the artifact URI for artifactType",
 							e);
 					throw new NoSuchElementException(
@@ -1498,21 +1525,21 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							byteArrayOutputStream.close();
 						}
 					} catch (IOException e) {
-						log.error(EELFLoggerDelegate.errorLogger,
+						log.error(
 								"Error : Exception in getProtoUrl() : Failed to close the byteArrayOutputStream", e);
 						throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 					}
 				}
 			}
 		}
-		log.debug(EELFLoggerDelegate.debugLogger, "getProtoUrl() : End");
+		log.debug("getProtoUrl() : End");
 
 		return result;
 	}
 
 	@Override
 	public boolean checkUniqueSolName(String solutionId, String solName) {
-		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
+		log.debug("checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		String[] accessTypeCodes = {
 				CommonConstants.PUBLIC/* , CommonConstants.ORGANIZATION */ };
@@ -1564,7 +1591,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		List<MLPDocument> documents = dataServiceRestClient.getSolutionRevisionDocuments(revisionId, accessType);
 		for (MLPDocument doc : documents) {
 			if (doc.getName().equalsIgnoreCase(name)) {
-				log.error(EELFLoggerDelegate.errorLogger, "Document Already exists with the same name.");
+				log.error("Document Already exists with the same name.");
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
 						"Document Already exists with the same name.");
 			}
@@ -1581,7 +1608,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						extension, size, file.getInputStream());
 			} catch (ConnectionException | IOException | AuthenticationException | AuthorizationException
 					| TransferFailedException | ResourceDoesNotExistException e) {
-				log.error(EELFLoggerDelegate.errorLogger, "Failed to upload the document", e);
+				log.error("Failed to upload the document", e);
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 			}
 
@@ -1600,12 +1627,12 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 				dataServiceRestClient.addSolutionRevisionDocument(revisionId, accessType, document.getDocumentId());
 			} else {
-				log.error(EELFLoggerDelegate.errorLogger, "Cannot upload the Document to the specified path");
+				log.error("Cannot upload the Document to the specified path");
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
 						"Cannot upload the Document to the specified path");
 			}
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception during addRevisionDocument ={}", e);
+			log.error("Exception during addRevisionDocument ={}", e);
 			throw new AcumosServiceException(e.getMessage());
 		}
 		return document;
@@ -1621,7 +1648,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 		MLPDocument document = dataServiceRestClient.getDocument(documentId);
 		if (document == null) {
-			log.error(EELFLoggerDelegate.errorLogger, "Failed to fetch document for revisionId : " + revisionId);
+			log.error("Failed to fetch document for revisionId : " + revisionId);
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
 					"Failed to fetch document for revisionId : " + revisionId);
 		}
@@ -1644,7 +1671,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				}
 			} catch (Exception e) {
 				// Log error and Do Nothing
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Failed to fetch document for revisionId : " + revision.getRevisionId(), e);
 			}
 		}
@@ -1658,7 +1685,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			try {
 				nexusClient.deleteArtifact(document.getUri());
 			} catch (URISyntaxException e) {
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Failed to delete the document from Nexus with documentId : " + document.getDocumentId(), e);
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 			}
@@ -1714,7 +1741,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		MLPRevisionDescription description = dataServiceRestClient.getRevisionDescription(revisionId, accessType);
 
 		if (description == null) {
-			log.error(EELFLoggerDelegate.errorLogger, "No description Found.");
+			log.error("No description Found.");
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "No description Found.");
 		}
 		return PortalUtils.convertToRevisionDescription(description);
@@ -1733,12 +1760,12 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 
 		if (accessCode == null) {
-			log.error(EELFLoggerDelegate.errorLogger, "Cannot Recognize the accessTypeCode");
+			log.error("Cannot Recognize the accessTypeCode");
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Invalid Access Type Code");
 		}
 
 		if (PortalUtils.isEmptyOrNullString(description.getDescription())) {
-			log.error(EELFLoggerDelegate.errorLogger, "Description is Empty");
+			log.error("Description is Empty");
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Description is Empty");
 		}
 
@@ -1774,14 +1801,14 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Override
 	public byte[] getSolutionPicture(String solutionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionPicture");
+		log.debug("getSolutionPicture");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSolutionPicture(solutionId);
 	}
 
 	@Override
 	public void updateSolutionPicture(String solutionId, byte[] image) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionPicture");
+		log.debug("updateSolutionPicture");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.saveSolutionPicture(solutionId, image);
 	}

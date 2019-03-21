@@ -23,12 +23,14 @@
  */
 package org.acumos.portal.be;
 
+import java.lang.invoke.MethodHandles;
 import java.util.concurrent.Future;
 
 import javax.annotation.Resource;
 
 import org.acumos.portal.be.service.AsyncServices;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -50,7 +52,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootApplication
 public class Application implements ApplicationContextAware, CommandLineRunner {
 
-	private final static EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(Application.class);
+	private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	public static final String CONFIG_ENV_VAR_NAME = "SPRING_APPLICATION_JSON";
 	

@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,6 +68,8 @@ import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 
@@ -75,7 +78,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PortalUtils {
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(PortalUtils.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	public static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -474,7 +477,7 @@ public class PortalUtils {
 	// mlpSolutionValidation.setDetail(JsonUtils.serializer().toString(mlModelValidationStatus.getArtifactValidationStatus()));
 	// }
 	//
-	// log.debug(EELFLoggerDelegate.debugLogger, "convertMLPSolutionValidation
+	// log.debug("convertMLPSolutionValidation
 	// ={}", JsonUtils.serializer().toPrettyString(mlpSolutionValidation));
 	// return mlpSolutionValidation;
 	// }

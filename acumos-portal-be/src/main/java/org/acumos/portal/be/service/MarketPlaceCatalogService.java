@@ -152,6 +152,10 @@ public interface MarketPlaceCatalogService {
 	List<Author> addSolutionRevisionAuthors(String solutionId, String revisionId, Author author) throws AcumosServiceException;
 
 	List<Author> removeSolutionRevisionAuthors(String solutionId, String revisionId, Author author) throws AcumosServiceException;
+	
+    String getSolutionRevisionPublisher(String solutionId, String revisionId) throws AcumosServiceException;
+	
+   	void addSolutionRevisionPublisher(String solutionId, String revisionId, String newPublisher) throws AcumosServiceException;
 
 	MLPDocument addRevisionDocument(String solutionId, String revisionId, String accessType, String userId, MultipartFile file) throws AcumosServiceException;
 

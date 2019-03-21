@@ -26,14 +26,17 @@ package org.acumos.portal.be.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtils {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(FileUtils.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	public static boolean extractZipFile(MultipartFile file, String destinationPath) {
 	  	

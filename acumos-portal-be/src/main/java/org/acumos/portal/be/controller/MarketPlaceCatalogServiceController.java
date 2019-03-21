@@ -22,6 +22,7 @@ package org.acumos.portal.be.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +62,11 @@ import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.CacheControl;
@@ -86,8 +88,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/")
 public class MarketPlaceCatalogServiceController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate
-			.getLogger(MarketPlaceCatalogServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private MarketPlaceCatalogService catalogService;
@@ -129,13 +130,13 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsDetails :  ", solutionDetail);
+				log.debug("getSolutionsDetails :  ", solutionDetail);
 			}
 			response.setStatus(HttpServletResponse.SC_OK);
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching Solutions Detail for solutionId :" + "solutionId", e);
 		}
 		return data;
@@ -154,12 +155,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsList: size is {} ", mlSolutions.size());
+				log.debug("getSolutionsList: size is {} ", mlSolutions.size());
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions for Market Place Catalog",
+			log.error("Exception Occurred Fetching Solutions for Market Place Catalog",
 					e);
 		}
 		return data;
@@ -186,12 +187,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(paginatedSolution);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsList: size is {} ", paginatedSolution.getSize());
+				log.debug("getSolutionsList: size is {} ", paginatedSolution.getSize());
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions for Market Place Catalog",
+			log.error("Exception Occurred Fetching Solutions for Market Place Catalog",
 					e);
 		}
 		return data;
@@ -202,7 +203,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLSolution> updateSolutionDetails(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("solutionId") String solutionId, @RequestBody JsonRequest<MLSolution> mlSolution) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionDetails={}", solutionId);
+		log.debug("updateSolutionDetails={}", solutionId);
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
@@ -231,7 +232,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionDetails()", e);
+			log.error("Exception Occurred while updateSolutionDetails()", e);
 		}
 		return data;
 	}
@@ -242,7 +243,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> deleteSolutionArtifacts(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId,
 			@RequestBody JsonRequest<MLSolution> mlSolution) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionArtifacts={}", solutionId, revisionId);
+		log.debug("deleteSolutionArtifacts={}", solutionId, revisionId);
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
@@ -271,13 +272,13 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "AcumosServiceException Occurred while updateSolutionDetails()",
+			log.error("AcumosServiceException Occurred while updateSolutionDetails()",
 					e);
 		} catch (URISyntaxException uriEx) {
 			data.setErrorCode("401");
 			data.setResponseDetail("Unable to delete  Artifact from Nexus");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "URISyntaxException Occurred while updateSolutionDetails()",
+			log.error("URISyntaxException Occurred while updateSolutionDetails()",
 					uriEx);
 		}
 		return data;
@@ -310,7 +311,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseDetail(JSONTags.TAG_STATUS_SUCCESS);
 				data.setStatus(true);
 				response.setStatus(HttpServletResponse.SC_OK);
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsRevisionList: size is {} ",
+				log.debug("getSolutionsRevisionList: size is {} ",
 						peerCatalogSolutionRevisions.size());
 			}
 		} catch (AcumosServiceException e) {
@@ -318,7 +319,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseDetail(e.getMessage());
 			data.setStatus(false);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching Solution Revisions for Market Place Catalog", e);
 		}
 		return data;
@@ -356,7 +357,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseDetail(JSONTags.TAG_STATUS_SUCCESS);
 				data.setStatus(true);
 				response.setStatus(HttpServletResponse.SC_OK);
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsRevisionArtifactList: size is {} ",
+				log.debug("getSolutionsRevisionArtifactList: size is {} ",
 						peerSolutionArtifacts.size());
 			}
 		} catch (AcumosServiceException e) {
@@ -365,7 +366,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseDetail(e.getMessage());
 			data.setStatus(false);
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching Solution Revisions Artifacts for Market Place Catalog", e);
 		}
 		return data;
@@ -380,7 +381,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
-		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
+		log.debug("addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(tag)) {
@@ -394,7 +395,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionDetails()", e);
+			log.error("Exception Occurred while updateSolutionDetails()", e);
 		}
 		return data;
 	}
@@ -408,7 +409,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
-		log.debug(EELFLoggerDelegate.debugLogger, "addSolutionTag={}", solutionId);
+		log.debug("addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(tag)) {
@@ -422,7 +423,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionDetails()", e);
+			log.error("Exception Occurred while updateSolutionDetails()", e);
 		}
 		return data;
 	}
@@ -437,7 +438,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.TAGS }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getTagsList(@RequestBody JsonRequest<RestPageRequest> restPageReq) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getTagsList");
+		log.debug("getTagsList");
 		List<String> mlTagsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
@@ -452,12 +453,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Fetching tags for Market Place Catalog");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching tags for Market Place Catalog");
+				log.error("Exception Occurred Fetching tags for Market Place Catalog");
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching tags for Market Place Catalog", e);
+			log.error("Exception Occurred Fetching tags for Market Place Catalog", e);
 		}
 		return data;
 	}
@@ -467,7 +468,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getPreferredTagsList(@RequestBody JsonRequest<RestPageRequest> restPageReq,
 			@PathVariable("userId") String userId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getPreferredTagsList");
+		log.debug("getPreferredTagsList");
 		List<String> mlTagsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		userId = SanitizeUtils.sanitize(userId);
@@ -483,13 +484,13 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Fetching Preferred tags for Market Place Catalog");
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Exception Occurred Fetching Preferred tags for Market Place Catalog");
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching Preferred tags for Market Place Catalog", e);
 		}
 		return data;
@@ -507,11 +508,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			catalogService.createUserTag(userId, tagList, dropTagList);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("User Tags created Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "createUserTag :  ");
+			log.debug("createUserTag :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while createUserTag");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createUserTag :", e);
+			log.error("Exception Occurred createUserTag :", e);
 		}
 		return data;
 	}
@@ -529,12 +530,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getMySolutions: size is {} ", mlSolutions.getSize());
+				log.debug("getMySolutions: size is {} ", mlSolutions.getSize());
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching Solutions for a User for Manage My Models", e);
 		}
 		return data;
@@ -560,11 +561,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					data.setResponseBody(responseBody);
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 					data.setResponseDetail("Users for solution fetched Successfully");
-					log.debug(EELFLoggerDelegate.debugLogger, "getSolutionUserAccess :  ", userList);
+					log.debug("getSolutionUserAccess :  ", userList);
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 					data.setResponseDetail("Error occured while fetching Users for solution");
-					log.error(EELFLoggerDelegate.errorLogger,
+					log.error(
 							"Error Occurred Fetching Users for solution :" + solutionId);
 				}
 			} else {
@@ -575,7 +576,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching Solutions Detail for solutionId :" + "solutionId", e);
 		}
 		return data;
@@ -625,16 +626,16 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				}
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Users access for solution added Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "addSolutionUserAccess :  ");
+				log.debug("addSolutionUserAccess :  ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("User already assigned for solution");
-				log.error(EELFLoggerDelegate.errorLogger, "Error User already assigned for solution :" + solutionId);
+				log.error("Error User already assigned for solution :" + solutionId);
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred while addSolutionUserAccess() :" + "solutionId", e);
 		}
 		return data;
@@ -668,17 +669,17 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Users access for solution droped Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "dropSolutionUserAccess :  ");
+				log.debug("dropSolutionUserAccess :  ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Failure solutionId/userId not present");
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Exception Occurred Fetching Users for solution :" + solutionId);
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred while dropSolutionUserAccess() :" + "solutionId", e);
 		}
 		return data;
@@ -708,11 +709,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(solution);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "incrementSolutionViewCount :  ");
+			log.debug("incrementSolutionViewCount :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred incrementSolutionViewCount :" + "solutionId",
+			log.error("Exception Occurred incrementSolutionViewCount :" + "solutionId",
 					e);
 		}
 		return data;
@@ -738,11 +739,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully updated solution rating");
-			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionRating :  ");
+			log.debug("createSolutionRating :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createSolutionRating :", e);
+			log.error("Exception Occurred createSolutionRating :", e);
 		}
 		return data;
 	}
@@ -767,11 +768,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionRating :  ");
+			log.debug("updateSolutionRating :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateSolutionRating :", e);
+			log.error("Exception Occurred updateSolutionRating :", e);
 		}
 		return data;
 	}
@@ -795,11 +796,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 					data.setResponseBody(modelList);
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 					data.setResponseDetail("Models shared with user fetched Successfully");
-					log.debug(EELFLoggerDelegate.debugLogger, "getMySharedModels :  ", modelList);
+					log.debug("getMySharedModels :  ", modelList);
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 					data.setResponseDetail("No any model shared for userId : " + userId);
-					log.error(EELFLoggerDelegate.errorLogger, "No any model shared for userId : " + userId);
+					log.error("No any model shared for userId : " + userId);
 				}
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
@@ -809,7 +810,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception occured while fetching models shared with userId :" + userId, e);
 		}
 		return data;
@@ -835,11 +836,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully created solution favorite");
-			log.debug(EELFLoggerDelegate.debugLogger, "createSolutionFavorite :  ");
+			log.debug("createSolutionFavorite :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createSolutionFavorite :", e);
+			log.error("Exception Occurred createSolutionFavorite :", e);
 		}
 		return data;
 	}
@@ -864,11 +865,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Successfully deleted solution favorite");
-			log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionFavorite :  ");
+			log.debug("deleteSolutionFavorite :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteSolutionFavorite :", e);
+			log.error("Exception Occurred deleteSolutionFavorite :", e);
 		}
 		return data;
 	}
@@ -890,16 +891,16 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutionList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Favorite solutions  fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getFavoriteSolutions: size is {} ", mlSolutionList.size());
+				log.debug("getFavoriteSolutions: size is {} ", mlSolutionList.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("No favorite solutions exist for user : " + userId);
-				log.debug(EELFLoggerDelegate.debugLogger, "No favorite solutions exist for user : " + userId);
+				log.debug("No favorite solutions exist for user : " + userId);
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getFavoriteSolutions", e);
+			log.error("Exception Occurred while getFavoriteSolutions", e);
 		}
 		return data;
 	}
@@ -917,10 +918,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getRelatedMySolutions: size is {} ", mlSolutions.getSize());
+				log.debug("getRelatedMySolutions: size is {} ", mlSolutions.getSize());
 			}
 		} catch (AcumosServiceException e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getRelatedMySolutions", e);
+			log.error("Exception Occurred while getRelatedMySolutions", e);
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
 		}
@@ -956,8 +957,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			}
 		} catch (AcumosServiceException e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger,
-					"Exception Occurred reading a artifact for a Solution in Market Place serive", e);
+			log.error("Exception Occurred reading a artifact for a Solution in Market Place serive", e);
 		}
 		return outputString;
 	}
@@ -992,13 +992,13 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setStatusCode(200);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRatings: size is {} ",
+				log.debug("getSolutionRatings: size is {} ",
 						mlSolutionRating.getSize());
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching Ratings for Solutions");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Ratings for Solutions", e);
+			log.error("Exception Occurred Fetching Ratings for Solutions", e);
 		}
 		return data;
 	}
@@ -1014,11 +1014,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(tag);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Tags created Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "createTag :  ");
+			log.debug("createTag :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while createTag");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createTag :", e);
+			log.error("Exception Occurred createTag :", e);
 		}
 		return data;
 	}
@@ -1042,12 +1042,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setStatusCode(200);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Ratings fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getUserRatings:  {} ", mlSolutionRating);
+				log.debug("getUserRatings:  {} ", mlSolutionRating);
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching Ratings for Solutions");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Ratings for Solutions", e);
+			log.error("Exception Occurred Fetching Ratings for Solutions", e);
 		}
 		return data;
 	}
@@ -1074,12 +1074,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "findPortalSolutions: size is {} ", mlSolutions.getSize());
+				log.debug("findPortalSolutions: size is {} ", mlSolutions.getSize());
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions", e);
+			log.error("Exception Occurred Fetching Solutions", e);
 		}
 		return data;
 	}
@@ -1098,14 +1098,14 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "searchSolutionsByKeyword: size is {} ",
+				log.debug("searchSolutionsByKeyword: size is {} ",
 						mlSolutions.getSize());
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions", e);
+			log.error("Exception Occurred Fetching Solutions", e);
 		}
 		return data;
 	}
@@ -1123,12 +1123,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "findUserSolutions: size is {} ", mlSolutions.getSize());
+				log.debug("findUserSolutions: size is {} ", mlSolutions.getSize());
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Solutions", e);
+			log.error("Exception Occurred Fetching Solutions", e);
 		}
 		return data;
 	}
@@ -1151,11 +1151,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(mlSolutions);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("solution for user fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "getUserAccessSolutions :  ", mlSolutions);
+			log.debug("getUserAccessSolutions :  ", mlSolutions);
 		} else {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			data.setResponseDetail("Error occured while fetching solutions for user");
-			log.error(EELFLoggerDelegate.errorLogger, "Error Occurred Fetching solutions for user :" + userId);
+			log.error("Error Occurred Fetching solutions for user :" + userId);
 		}
 		return data;
 	}
@@ -1175,16 +1175,16 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(mlSolutionWeb);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solution ratings fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getAvgRatingsForSol: {} ");
+				log.debug("getAvgRatingsForSol: {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("No ratings found for solution :" + solutionId);
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred Fetching ratings for model :" + solutionId);
+				log.error("Error Occurred Fetching ratings for model :" + solutionId);
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while getAvgRatingsForSol");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getAvgRatingsForSol", e);
+			log.error("Exception Occurred while getAvgRatingsForSol", e);
 		}
 		return data;
 	}
@@ -1202,7 +1202,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public String fetchProtoFile(@RequestParam(value = "solutionId", required = true) String solutionId,
 			@RequestParam(value = "version", required = true) String version) throws AcumosServiceException {
-		log.debug(EELFLoggerDelegate.debugLogger, " fetchProtoFile() : Begin");
+		log.debug(" fetchProtoFile() : Begin");
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
@@ -1211,9 +1211,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			result = catalogService.getProtoUrl(solutionId, version, "MI", "proto");
 
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception in fetchProtoFile() ", e);
+			log.error("Exception in fetchProtoFile() ", e);
 		}
-		log.debug(EELFLoggerDelegate.debugLogger, "fetchProtoFile() : End");
+		log.debug("fetchProtoFile() : End");
 
 		return result;
 	}
@@ -1249,12 +1249,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Author fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "getAuthors: {} ");
+			log.debug("getAuthors: {} ");
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while fetching Authors");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Authors", e);
+			log.error("Exception Occurred while fetching Authors", e);
 		}
 		return data;
 	}
@@ -1276,17 +1276,17 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Author added Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "addAuthors: {} ");
+			log.debug("addAuthors: {} ");
 		} catch (AcumosServiceException e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while addAuthors", e);
+			log.error("Exception Occurred while addAuthors", e);
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while addAuthors", e);
+			log.error("Exception Occurred while addAuthors", e);
 		}
 		return data;
 	}
@@ -1308,15 +1308,81 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Author removed Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "removeAuthor: {} ");
+			log.debug("removeAuthor: {} ");
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while removeAuthor", e);
+			log.error("Exception Occurred while removeAuthor", e);
 		}
 		return data;
 	}
+	
+	
+	@ApiOperation(value = "Get Publisher of Solution Revision", responseContainer = "String")
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/publisher" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> getPublisher(HttpServletRequest request, @PathVariable String solutionId,
+			@PathVariable String revisionId, HttpServletResponse response) {
+		JsonResponse<String> data = new JsonResponse<>();
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+
+		try {
+			String publisher = catalogService.getSolutionRevisionPublisher(solutionId, revisionId);
+			data.setResponseBody(publisher);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Get Publisher Successfully");
+			log.debug("addPublisher: {} ");
+		} catch (AcumosServiceException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error("Exception Occurred while getPublisher", e);
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error("Exception Occurred while getPublisher", e);
+		}
+		return data;
+	}
+	
+	
+	@ApiOperation(value = "Add Publisher of Solution Revision", responseContainer = "String")
+	@RequestMapping(value = {
+			"/solution/{solutionId}/revision/{revisionId}/publisher" }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> addPublisher(HttpServletRequest request, @PathVariable String solutionId,
+			@PathVariable String revisionId, @RequestBody String publisher, HttpServletResponse response) {
+		JsonResponse<String> data = new JsonResponse<>();
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+
+		try {
+			catalogService.addSolutionRevisionPublisher(solutionId, revisionId,
+					publisher);
+			//data.setResponseBody(authors);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Publisher added Successfully");
+			log.debug("addPublisher: {} ");
+		} catch (AcumosServiceException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error("Exception Occurred while addPublisher", e);
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error("Exception Occurred while addPublisher", e);
+		}
+		return data;
+	}
+
 
 	@ApiOperation(value = "Add Solution Revision Document", response = MLPDocument.class)
 	@RequestMapping(value = {
@@ -1341,19 +1407,19 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				data.setResponseBody(document);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Document Added Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "addDocument: {} ");
+				log.debug("addDocument: {} ");
 			} else {
 				MLPDocument document = null;
 				data.setResponseBody(document);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 				data.setResponseDetail("Document size is greater than allowed size");
-				log.debug(EELFLoggerDelegate.debugLogger, "addDocument: {} ");
+				log.debug("addDocument: {} ");
 			}
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while adding Document", e);
+			log.error("Exception Occurred while adding Document", e);
 		}
 		return data;
 	}
@@ -1379,12 +1445,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(document);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Document Removed Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+			log.debug("removeDocument: {} ");
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while removing Document", e);
+			log.error("Exception Occurred while removing Document", e);
 		}
 		return data;
 	}
@@ -1409,12 +1475,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Documents Fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+			log.debug("removeDocument: {} ");
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Documents", e);
+			log.error("Exception Occurred while fetching Documents", e);
 		}
 		return data;
 	}
@@ -1440,12 +1506,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Documents Fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+			log.debug("removeDocument: {} ");
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Documents", e);
+			log.error("Exception Occurred while fetching Documents", e);
 		}
 		return data;
 	}
@@ -1467,12 +1533,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(description);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Description Fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+			log.debug("removeDocument: {} ");
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Description", e);
+			log.error("Exception Occurred while fetching Description", e);
 		}
 		return data;
 	}
@@ -1496,12 +1562,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			data.setResponseBody(description);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Description Fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "removeDocument: {} ");
+			log.debug("removeDocument: {} ");
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while fetching Description", e);
+			log.error("Exception Occurred while fetching Description", e);
 		}
 		return data;
 	}
@@ -1511,7 +1577,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			APINames.SOLUTIONS_PICTURE }, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public ResponseEntity<byte[]> getSolutionImage(@PathVariable("solutionId") String solutionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionImage={}", solutionId);
+		log.debug("getSolutionImage={}", solutionId);
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
@@ -1519,7 +1585,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
 				String errMsg = "Bad request: solutionId empty";
-				log.error(EELFLoggerDelegate.errorLogger, errMsg);
+				log.error(errMsg);
 				throw new AcumosServiceException(errMsg);
 			} else {
 				byte[] picture = catalogService.getSolutionPicture(solutionId);
@@ -1532,7 +1598,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			}
 		} catch (Exception e) {
 			responseVO = ResponseEntity.badRequest().build();
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getSolutionImage()", e);
+			log.error("Exception Occurred while getSolutionImage()", e);
 		}
 		return responseVO;
 	}
@@ -1543,14 +1609,14 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<Boolean> updateSolutionImage(HttpServletRequest request,
 			@RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId,
 			HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionImage={}");
+		log.debug("updateSolutionImage={}");
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
-				log.error(EELFLoggerDelegate.errorLogger, "Bad request: solutionId empty");
+				log.error("Bad request: solutionId empty");
 			}
 			if (solutionId != null) {
 				catalogService.updateSolutionPicture(solutionId, file.getBytes());
@@ -1563,7 +1629,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail("Failed");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updateSolutionImage()", e);
+			log.error("Exception Occurred while updateSolutionImage()", e);
 		}
 		return responseVO;
 	}

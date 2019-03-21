@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.concurrent.TimeUnit;
 
 import org.acumos.cds.domain.MLPSiteContent;
@@ -28,7 +29,8 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.SiteContentService;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
@@ -50,13 +52,13 @@ public class SiteContentServiceController extends AbstractController {
 	@Autowired
 	SiteContentService siteContentService;
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(SiteContentServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@ApiOperation(value = "Gets terms and conditions ", response = MLPSiteContent.class)
 	@RequestMapping(value = { APINames.GET_TERMS_CONDITIONS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLPSiteContent> getTermsConditions() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getTermsCondition");
+		log.debug("getTermsCondition");
 		MLPSiteContent content = null;
 		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
 		try {
@@ -69,7 +71,7 @@ public class SiteContentServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching Terms and Conditions");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Terms and Conditions", e);
+			log.error("Exception Occurred Fetching Terms and Conditions", e);
 		}
 		return data;
 	}
@@ -79,7 +81,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.UPDATE_TERMS_CONDITIONS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> updateTermsConditions(@RequestBody JsonRequest<MLPSiteContent> content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateTermsConditions");
+		log.debug("updateTermsConditions");
 		JsonResponse<Object> data = new JsonResponse<>();
 		MLPSiteContent mlpContent = content.getBody();
 		if (mlpContent != null) {
@@ -91,7 +93,7 @@ public class SiteContentServiceController extends AbstractController {
 			} catch (Exception e) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Updating Terms and Conditions");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Terms and Conditions", e);
+				log.error("Exception Occurred Updating Terms and Conditions", e);
 			}
 		}
 		return data;
@@ -102,7 +104,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.GET_ONBOARDING_OVERVIEW }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLPSiteContent> getOnboardingOverview() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getOnboardingOverview");
+		log.debug("getOnboardingOverview");
 		MLPSiteContent content = null;
 		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
 		try {
@@ -115,7 +117,7 @@ public class SiteContentServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching Onboarding Overview");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Onboarding Overview", e);
+			log.error("Exception Occurred Fetching Onboarding Overview", e);
 		}
 		return data;
 	}
@@ -125,7 +127,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.UPDATE_ONBOARDING_OVERVIEW }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> updateOnboardingOverview(@RequestBody JsonRequest<MLPSiteContent> content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateOnboardingOverview");
+		log.debug("updateOnboardingOverview");
 		JsonResponse<Object> data = new JsonResponse<>();
 		MLPSiteContent mlpContent = content.getBody();
 		if (mlpContent != null) {
@@ -137,7 +139,7 @@ public class SiteContentServiceController extends AbstractController {
 			} catch (Exception e) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Updating Onboarding Overview");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Onboarding Overview", e);
+				log.error("Exception Occurred Updating Onboarding Overview", e);
 			}
 		}
 		return data;
@@ -147,7 +149,7 @@ public class SiteContentServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_CONTACT_INFO }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLPSiteContent> getContactInfo() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getContactInfo");
+		log.debug("getContactInfo");
 		MLPSiteContent content = null;
 		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
 		try {
@@ -160,7 +162,7 @@ public class SiteContentServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching Contact Info");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Contact Info", e);
+			log.error("Exception Occurred Fetching Contact Info", e);
 		}
 		return data;
 	}
@@ -169,7 +171,7 @@ public class SiteContentServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.UPDATE_CONTACT_INFO }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> updateContactInfo(@RequestBody JsonRequest<MLPSiteContent> content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateContactInfo");
+		log.debug("updateContactInfo");
 		JsonResponse<Object> data = new JsonResponse<>();
 		MLPSiteContent mlpContent = content.getBody();
 		if (mlpContent != null) {
@@ -181,7 +183,7 @@ public class SiteContentServiceController extends AbstractController {
 			} catch (Exception e) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Updating Contact Info");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Contact Info", e);
+				log.error("Exception Occurred Updating Contact Info", e);
 			}
 		}
 		return data;
@@ -192,7 +194,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.GET_COBRAND_LOGO }, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public ResponseEntity<byte[]> getCobrandLogo() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getCobrandLogo");
+		log.debug("getCobrandLogo");
 		MLPSiteContent content = null;
 		ResponseEntity<byte[]> resp = null;
 		try {
@@ -205,7 +207,7 @@ public class SiteContentServiceController extends AbstractController {
 			}
 		} catch (Exception e) {
 			resp = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Cobrand Logo", e);
+			log.error("Exception Occurred Fetching Cobrand Logo", e);
 		}
 		return resp;
 	}
@@ -214,7 +216,7 @@ public class SiteContentServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.UPDATE_COBRAND_LOGO }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> updateCobrandLogo(@RequestBody JsonRequest<MLPSiteContent> content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateCobrandLogo");
+		log.debug("updateCobrandLogo");
 		JsonResponse<Object> data = new JsonResponse<>();
 		MLPSiteContent picture = content.getBody();
 		if (picture != null) {
@@ -226,7 +228,7 @@ public class SiteContentServiceController extends AbstractController {
 			} catch (Exception e) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Updating Cobrand Logo");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Cobrand Logo", e);
+				log.error("Exception Occurred Updating Cobrand Logo", e);
 			}
 		}
 		return data;
@@ -237,7 +239,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.DELETE_COBRAND_LOGO }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> deleteCobrandLogo() {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteCobrandLogo");
+		log.debug("deleteCobrandLogo");
 		JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			siteContentService.deleteCobrandLogo();
@@ -247,7 +249,7 @@ public class SiteContentServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Deleting Cobrand Logo");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Deleting Cobrand Logo", e);
+			log.error("Exception Occurred Deleting Cobrand Logo", e);
 		}
 		return data;
 	}
@@ -257,7 +259,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.GET_CAROUSEL_PICTURE }, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public ResponseEntity<byte[]> getCarouselPicture(@PathVariable("key") String key) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getCarouselPicture");
+		log.debug("getCarouselPicture");
 		MLPSiteContent content = null;
 		ResponseEntity<byte[]> resp = null;
 		try {
@@ -270,7 +272,7 @@ public class SiteContentServiceController extends AbstractController {
 			}
 		} catch (Exception e) {
 			resp = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Carousel Picture", e);
+			log.error("Exception Occurred Fetching Carousel Picture", e);
 		}
 		return resp;
 	}
@@ -280,7 +282,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.UPDATE_CAROUSEL_PICTURE }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> updateCarouselPicture(@RequestBody JsonRequest<MLPSiteContent> content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateCarouselPicture");
+		log.debug("updateCarouselPicture");
 		JsonResponse<Object> data = new JsonResponse<>();
 		MLPSiteContent picture = content.getBody();
 		if (picture != null) {
@@ -292,7 +294,7 @@ public class SiteContentServiceController extends AbstractController {
 			} catch (Exception e) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Updating Carousel Picture");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Updating Carousel Picture", e);
+				log.error("Exception Occurred Updating Carousel Picture", e);
 			}
 		}
 		return data;
@@ -303,7 +305,7 @@ public class SiteContentServiceController extends AbstractController {
 			APINames.DELETE_CAROUSEL_PICTURE }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<Object> updateCarouselPicture(@PathVariable("key") String key) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteCarouselPicture");
+		log.debug("deleteCarouselPicture");
 		JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			siteContentService.deleteCarouselPicture(key);
@@ -313,7 +315,7 @@ public class SiteContentServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Deleting Carousel Picture");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Deleting Carousel Picture", e);
+			log.error("Exception Occurred Deleting Carousel Picture", e);
 		}
 		return data;
 	}

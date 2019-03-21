@@ -19,18 +19,20 @@
  */
 package org.acumos.be.test.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.acumos.cds.domain.MLPUserLoginProvider;
 import org.acumos.portal.be.service.impl.OauthUserServiceImpl;
 import org.acumos.portal.be.transport.OauthUser;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.junit.Assert;
@@ -39,7 +41,7 @@ import org.junit.Assert;
 @RunWith(MockitoJUnitRunner.class)
 public class OuathServiceImplTest {
 
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(OuathServiceImplTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();

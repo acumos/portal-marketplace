@@ -27,7 +27,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.acumos.portal.be.service.UserRoleService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,7 @@ import org.springframework.stereotype.Component;
 import org.acumos.cds.domain.MLPUser;
 import com.github.dockerjava.api.model.Device;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,7 +46,7 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil {
 	
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(JwtTokenUtil.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	
 	MLRoleFunction roleFunction = new MLRoleFunction();

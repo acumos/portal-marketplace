@@ -19,6 +19,7 @@
  */
 package org.acumos.be.test.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,18 +36,19 @@ import org.acumos.portal.be.controller.ThreadController;
 import org.acumos.portal.be.service.ThreadService;
 import org.acumos.portal.be.service.impl.ThreadServiceImpl;
 import org.acumos.portal.be.transport.MLComment;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 public class ThreadControllerTest {
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(ThreadControllerTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Rule
 	public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -73,9 +75,9 @@ public class ThreadControllerTest {
 		threadService.createThread(thread);
 		JsonResponse<MLPThread> mlpthreadRes = threadController.createThread(request, mlpthread , response);
 		if(mlpthreadRes != null){
-			logger.debug(EELFLoggerDelegate.debugLogger, "createThread :  ");
+			logger.debug("createThread :  ");
 		}else{
-			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createThread :");
+			logger.error("Exception Occurred createThread :");
 		}
 		//Negative Scenario 
 		MLPThread thread1 = new MLPThread();
@@ -103,10 +105,10 @@ public class ThreadControllerTest {
 			threadService.updateThread(thread);
 			JsonResponse<MLPThread> mlpthreadRes = threadController.updateThread(request, mlpthread , response);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "updateThread :  ");
+				logger.debug("updateThread :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateThread :",e);
+				logger.error("Exception Occurred updateThread :",e);
 		}
 		
 		//Negative Scenario 
@@ -133,10 +135,10 @@ public class ThreadControllerTest {
 			threadService.deleteThread(threadId );
 			JsonResponse<MLPThread> mlpthreadRes = threadController.deleteThread(request, threadId , response);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "updateThread :  ");
+				logger.debug("updateThread :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateThread :",e);
+				logger.error("Exception Occurred updateThread :",e);
 		}
 		
 		//Negative Scenario 
@@ -158,10 +160,10 @@ public class ThreadControllerTest {
 			threadService.getThread(threadId );
 			JsonResponse<MLPThread> mlpthreadRes = threadController.getThread(request, threadId , response);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "updateThread :  ");
+				logger.debug("updateThread :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateThread :",e);
+				logger.error("Exception Occurred updateThread :",e);
 		}
 		//Negative Scenario 
 		
@@ -187,10 +189,10 @@ public class ThreadControllerTest {
 			JsonRequest<MLPComment> mlpCommentReq = new JsonRequest<>();
 			JsonResponse<MLPComment> commentRes = threadController.createComment(request, mlpCommentReq , response);
 			if(commentRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "createComment :  ");
+				logger.debug("createComment :  ");
 			}
 		} catch (AcumosServiceException e) {
-			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createComment :", e);
+			logger.error("Exception Occurred createComment :", e);
 		}
 		//Negative Scenario
 		MLPComment mlpcomment1 = new MLPComment();
@@ -223,10 +225,10 @@ public class ThreadControllerTest {
 			JsonRequest<MLPComment> mlpCommentReq = new JsonRequest<>();
 			JsonResponse<MLPComment> commentRes = threadController.updateComment(request, mlpCommentReq, response);
 			if (commentRes != null) {
-				logger.debug(EELFLoggerDelegate.debugLogger, "updateComment :  ");
+				logger.debug("updateComment :  ");
 			}
 		} catch (AcumosServiceException e) {
-			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateComment :", e);
+			logger.error("Exception Occurred updateComment :", e);
 		}
 		
 		//Negative Scenario
@@ -261,10 +263,10 @@ public class ThreadControllerTest {
 			threadService.deleteComment(commentId,threadId);
 			JsonResponse<MLPComment> commentRes = threadController.deleteComment(request, threadId, commentId, response);
 			if (commentRes != null) {
-				logger.debug(EELFLoggerDelegate.debugLogger, "deleteComment :  ");
+				logger.debug("deleteComment :  ");
 			}
 		} catch (AcumosServiceException e) {
-			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteComment :", e);
+			logger.error("Exception Occurred deleteComment :", e);
 		}
 		//Negative Scenario
 		String threadId= null;
@@ -291,10 +293,10 @@ public class ThreadControllerTest {
 			threadService.getComment(commentId,threadId);
 			JsonResponse<MLPComment> commentRes = threadController.getComment(request, threadId, commentId, response);
 			if (commentRes != null) {
-				logger.debug(EELFLoggerDelegate.debugLogger, "getComment :  ");
+				logger.debug("getComment :  ");
 			}
 		} catch (AcumosServiceException e) {
-			logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getComment :", e);
+			logger.error("Exception Occurred getComment :", e);
 		}
 		
 		//Negative Scenario
@@ -320,10 +322,10 @@ public class ThreadControllerTest {
 			threadService.getThreads(restPageReq);
 			JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreads(restPageReq);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getThreads :  ");
+				logger.debug("getThreads :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreads :",e);
+				logger.error("Exception Occurred getThreads :",e);
 		}
 		//Negative Scenario
 		RestPageRequest body = new RestPageRequest();
@@ -357,10 +359,10 @@ public class ThreadControllerTest {
 			threadService.getThreadComments(threadId,body);
 			JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreadComments(threadId, restPageReq);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getThreadCommentsTest :  ");
+				logger.debug("getThreadCommentsTest :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreadCommentsTest :",e);
+				logger.error("Exception Occurred getThreadCommentsTest :",e);
 		}
 		
 		//Negative Scenario
@@ -390,10 +392,10 @@ public class ThreadControllerTest {
 			threadService.getThreadCount();
 			JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreadCount();
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getThreadCountTest :  ");
+				logger.debug("getThreadCountTest :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreadCountTest :",e);
+				logger.error("Exception Occurred getThreadCountTest :",e);
 		}
 		
 		//Negative Scenario
@@ -429,10 +431,10 @@ public class ThreadControllerTest {
 			threadService.getThreadCommentsCount(threadId);
 			JsonResponse<RestPageResponseBE> mlpthreadRes = threadController.getThreadCommentsCount(threadId);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getThreadCommentsCountTest :  ");
+				logger.debug("getThreadCommentsCountTest :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThreadCommentsCountTest :",e);
+				logger.error("Exception Occurred getThreadCommentsCountTest :",e);
 		}
 		
 		//Negative Scenario
@@ -464,10 +466,10 @@ public class ThreadControllerTest {
 			threadService.getSolutionRevisionThreads(solutionId, revisionId, pageRequest);
 			JsonResponse<RestPageResponseBE<MLPThread>> mlpthreadRes = threadController.getSolutionRevisionThreads(solutionId, revisionId, restPageReq);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreadsTest :  ");
+				logger.debug("getSolutionRevisionThreadsTest :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getSolutionRevisionThreadsTest :",e);
+				logger.error("Exception Occurred getSolutionRevisionThreadsTest :",e);
 		}
 		//Negative Scenario
 				String threadId= null;
@@ -507,10 +509,10 @@ public class ThreadControllerTest {
 			threadService.getSolutionRevisionComments(solutionId, revisionId,clientTimeZone, pageRequest);
             JsonResponse<RestPageResponseBE<MLComment>> mlpthreadRes = threadController.getSolutionRevisionComments(solutionId, revisionId, restPageReq, clientTimeZone);
 			if(mlpthreadRes != null){
-				logger.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionCommentsTest :  ");
+				logger.debug("getSolutionRevisionCommentsTest :  ");
 			}
 		} catch (AcumosServiceException e) {
-				logger.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getSolutionRevisionCommentsTest :",e);
+				logger.error("Exception Occurred getSolutionRevisionCommentsTest :",e);
 		}
 		
 		//Negative Scenario

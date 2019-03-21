@@ -25,6 +25,7 @@ package org.acumos.portal.be.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +39,9 @@ import org.acumos.portal.be.common.exception.StorageException;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.StorageService;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -61,8 +63,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/")
 public class PushAndPullSolutionServiceController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate
-			.getLogger(PushAndPullSolutionServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private StorageService storageService;
@@ -134,7 +135,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred downloading a artifact for a Solution in Push and Pull Solution serive", e);
 		}
 		// return resource;
@@ -163,7 +164,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 		
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		
-		log.debug(EELFLoggerDelegate.debugLogger, "uploadModel for user " + userId);
+		log.debug("uploadModel for user " + userId);
 
 		// Check if the Onboarding is enabled in the site configuration
 		MLPSiteConfig mlpSiteConfig = adminService.getSiteConfig("site_config");
@@ -231,12 +232,12 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			response.getWriter().write(e.getMessage());
 			response.flushBuffer();
 			
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
 		}
 		catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
 		}
 		return responseVO;
@@ -274,7 +275,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred downloading a document for a Solution in Push and Pull Solution serive", e);
 		}
 	}

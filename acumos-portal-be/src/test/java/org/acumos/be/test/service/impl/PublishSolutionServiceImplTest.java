@@ -19,21 +19,23 @@
  */
 package org.acumos.be.test.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.UUID;
 
 import org.acumos.portal.be.service.impl.PublishSolutionServiceImpl;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PublishSolutionServiceImplTest {
 
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(PublishSolutionServiceImplTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Mock
 	PublishSolutionServiceImpl impl = new PublishSolutionServiceImpl();

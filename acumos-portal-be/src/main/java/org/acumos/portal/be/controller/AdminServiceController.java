@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,11 +55,12 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.TransportData;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -97,7 +99,7 @@ public class AdminServiceController extends AbstractController {
     @Autowired
     private Environment env;
 
-    private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AdminServiceController.class);
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 
     public AdminServiceController() {
@@ -109,7 +111,7 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.PEERS_PAGINATED }, method = RequestMethod.POST, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<RestPageResponse<MLPPeer>> getPeerList(@RequestBody RestPageRequest restPageReq) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getPeerList"); 
+        log.debug( "getPeerList"); 
         RestPageResponse<MLPPeer> mlpPeers = null;
         JsonResponse<RestPageResponse<MLPPeer>> data = new JsonResponse<>();
         try {
@@ -124,7 +126,7 @@ public class AdminServiceController extends AbstractController {
             
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching Peers for Admin Configuration");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Peers for Admin Configuration", e);
+            log.error( "Exception Occurred Fetching Peers for Admin Configuration", e);
         }
         return data;
     }
@@ -134,7 +136,7 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.PEER_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLPPeer> getPeerDetails(@PathVariable("peerId") String peerId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getPeerDetails");
+        log.debug( "getPeerDetails");
         MLPPeer mlpPeer = null;
         
         peerId = SanitizeUtils.sanitize(peerId);
@@ -150,7 +152,7 @@ public class AdminServiceController extends AbstractController {
         } catch (Exception e) {            
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching Peer for Admin Configuration");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Peer for Admin Configuration", e);
+            log.error( "Exception Occurred Fetching Peer for Admin Configuration", e);
         }
         return data;
     }
@@ -161,7 +163,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> createPeer(@RequestBody JsonRequest<MLPPeer> peer) {
-        log.debug(EELFLoggerDelegate.debugLogger, "createPeer={}", peer);
+        log.debug( "createPeer={}", peer);
         JsonResponse<Object> data = new JsonResponse<>();
         MLPPeer newPeer = null;
         try {
@@ -187,7 +189,7 @@ public class AdminServiceController extends AbstractController {
                     data.setResponseDetail("Reset_Content");
                 } 
             } else {
-                log.debug(EELFLoggerDelegate.errorLogger, "createPeer: Invalid Parameters");
+                log.debug( "createPeer: Invalid Parameters");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                 data.setResponseDetail("Create Peer Failed");
             } 
@@ -196,7 +198,7 @@ public class AdminServiceController extends AbstractController {
         catch (Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeer()", e);
+            log.error( "Exception Occurred while createPeer()", e);
         }
         return data;
     }
@@ -207,7 +209,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> updatePeer(@PathVariable("peerId") String peerId, @RequestBody JsonRequest<MLPPeer> peer) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updatePeer={}", peer);
+        log.debug( "updatePeer={}", peer);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
             if (peer != null && peer.getBody() != null) {
@@ -216,14 +218,14 @@ public class AdminServiceController extends AbstractController {
                data.setResponseDetail("Success");
                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
             } else {  
-               log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
+               log.debug( "updatePeer: Invalid Parameters");
                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                data.setResponseDetail("Update Peer Failed");
             }
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updatePeer()", e);
+            log.error( "Exception Occurred while updatePeer()", e);
         }
         return data;
     }
@@ -237,12 +239,12 @@ public class AdminServiceController extends AbstractController {
     	
     	peerId = SanitizeUtils.sanitize(peerId);
     	
-        log.debug(EELFLoggerDelegate.debugLogger, "removePeer={}", peerId);
+        log.debug( "removePeer={}", peerId);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
             
             if (PortalUtils.isEmptyOrNullString(peerId)) {
-                log.debug(EELFLoggerDelegate.errorLogger, "removePeer: Invalid Parameters");
+                log.debug( "removePeer: Invalid Parameters");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                 data.setResponseDetail("Remove Peer Failed");
             } else {
@@ -254,7 +256,7 @@ public class AdminServiceController extends AbstractController {
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while removePeer()", e);
+            log.error( "Exception Occurred while removePeer()", e);
         }
         return data;
     }
@@ -264,7 +266,7 @@ public class AdminServiceController extends AbstractController {
     @ResponseBody
     public JsonResponse<List<MLPPeerSubscription>> getPeerSubscriptions(
             @PathVariable("peerId") String peerId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getPeerList");
+        log.debug( "getPeerList");
         
         peerId = SanitizeUtils.sanitize(peerId);
         
@@ -281,7 +283,7 @@ public class AdminServiceController extends AbstractController {
             
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching PeerSubscription for Admin Configuration");
-            log.error(EELFLoggerDelegate.errorLogger,
+            log.error(
                     "Exception Occurred Fetching PeerSubscription for Admin Configuration", e);
         }
         return data;
@@ -293,7 +295,7 @@ public class AdminServiceController extends AbstractController {
     @ResponseBody
     public JsonResponse<Map<String,Integer>> getPeerSubscriptionCounts(
             @RequestBody JsonRequest<List<String>> jsonPeerIds) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getPeerSubscriptionCounts");
+        log.debug( "getPeerSubscriptionCounts");
         List<String> peerIds = jsonPeerIds.getBody();
         
         if (peerIds != null) {
@@ -317,7 +319,7 @@ public class AdminServiceController extends AbstractController {
         } catch (Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching PeerSubscriptionCounts for Admin Configuration");
-            log.error(EELFLoggerDelegate.errorLogger,
+            log.error(
                     "Exception Occurred Fetching PeerSubscriptionCounts for Admin Configuration", e);
         }
         return data;
@@ -327,7 +329,7 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.SUBSCRIPTION_DETAILS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLPPeerSubscription> getPeerSubscriptionDetails(@PathVariable("subId") Long subId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getPeerDetails");
+        log.debug( "getPeerDetails");
         MLPPeerSubscription mlpSubscription = null;
         JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
         try {
@@ -341,7 +343,7 @@ public class AdminServiceController extends AbstractController {
             
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching mlpSubscription for Admin Configuration");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching mlpSubscription for Admin Configuration", e);
+            log.error( "Exception Occurred Fetching mlpSubscription for Admin Configuration", e);
         }
         return data;
     }
@@ -351,7 +353,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<MLPPeerSubscription> createPeerSubscription(@RequestBody JsonRequest<MLPPeerSubscription> peerSub) {
-        log.debug(EELFLoggerDelegate.debugLogger, "createPeer={}", peerSub);
+        log.debug( "createPeer={}", peerSub);
         JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
         MLPPeerSubscription peerSubscription = null;
         try {
@@ -361,7 +363,7 @@ public class AdminServiceController extends AbstractController {
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
                 data.setResponseDetail("Success");
             } else {
-                log.debug(EELFLoggerDelegate.errorLogger, "createPeerSubscription: Invalid Parameters");
+                log.debug( "createPeerSubscription: Invalid Parameters");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                 data.setResponseDetail("Create PeerSubscription Failed");
             }
@@ -369,7 +371,7 @@ public class AdminServiceController extends AbstractController {
         } catch (Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerSubscription()", e);
+            log.error( "Exception Occurred while createPeerSubscription()", e);
         }
         return data;
     }
@@ -379,7 +381,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> updatePeerSubscription(@RequestBody JsonRequest<MLPPeerSubscription> peerSub) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updatePeerSubscription={}", peerSub);
+        log.debug( "updatePeerSubscription={}", peerSub);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
             if (peerSub!= null && peerSub.getBody() != null) {
@@ -388,14 +390,14 @@ public class AdminServiceController extends AbstractController {
                 data.setResponseDetail("Success");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
             } else {
-                log.debug(EELFLoggerDelegate.errorLogger, "updatePeer: Invalid Parameters");
+                log.debug( "updatePeer: Invalid Parameters");
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                 data.setResponseDetail("Update Peer subscription Failed");
             }
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updatePeerSubscription()", e);
+            log.error( "Exception Occurred while updatePeerSubscription()", e);
         }
         return data;
     }
@@ -405,7 +407,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> deletePeerSubscription(@PathVariable("subId") Long subId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "deletePeerSubscription={}", subId);
+        log.debug( "deletePeerSubscription={}", subId);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
              if (subId != null) {
@@ -414,14 +416,14 @@ public class AdminServiceController extends AbstractController {
                  data.setResponseDetail("Success");
                  data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
              } else {
-                 log.debug(EELFLoggerDelegate.errorLogger, "removePeer: Invalid Parameters");
+                 log.debug( "removePeer: Invalid Parameters");
                  data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                  data.setResponseDetail("Remove Peer Subscription Failed");
              }
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deletePeerSubscription()", e);
+            log.error( "Exception Occurred while deletePeerSubscription()", e);
         }
         return data;
     }
@@ -431,7 +433,7 @@ public class AdminServiceController extends AbstractController {
     @RequestMapping(value = { APINames.GET_SITE_CONFIG}, method = RequestMethod.GET, produces = APPLICATION_JSON)
     @ResponseBody
     public JsonResponse<MLPSiteConfig> getSiteConfiguration(@PathVariable("configKey") String configKey, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
+        log.debug( "getSiteConfig");
 		
         configKey = SanitizeUtils.sanitize(configKey);
 
@@ -449,7 +451,7 @@ public class AdminServiceController extends AbstractController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
-            log.error(EELFLoggerDelegate.errorLogger,
+            log.error(
                     "Exception Occurred Fetching Site Configuration for Admin Configuration with Id " + configKey);
         }
         return data;
@@ -461,7 +463,7 @@ public class AdminServiceController extends AbstractController {
     @ResponseBody
 	public JsonResponse<List<Map>> getUserCarousalConfiguration(
 			@RequestParam(value = "userId", required = false) String userId, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig");
+		log.debug( "getSiteConfig");
 
 		MLPSiteConfig mlpSiteConfig = null;
 		JsonResponse<List<Map>> data = null;
@@ -506,7 +508,7 @@ public class AdminServiceController extends AbstractController {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching SiteConfiguration for Admin Configuration");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching Site Configuration for Admin Configuration with Id " + PortalConstants.CAROUSEL_CONFIG_KEY);
 		}
 		return data;
@@ -518,7 +520,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<MLPSiteConfig> createSiteConfig(@RequestBody JsonRequest<MLPSiteConfig> mlpSiteConfig, HttpServletResponse response) {
-        log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig={}", mlpSiteConfig);
+        log.debug( "createSiteConfig={}", mlpSiteConfig);
         JsonResponse<MLPSiteConfig> data = null;
         MLPSiteConfig siteConfiguration = null;
         try {
@@ -531,12 +533,12 @@ public class AdminServiceController extends AbstractController {
             } else {
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             }
-            log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig :  ");
+            log.debug( "createSiteConfig :  ");
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception occured while createSiteConfig");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createSiteConfig :", e);
+            log.error( "Exception Occurred createSiteConfig :", e);
         }
         return data;
     }
@@ -549,7 +551,7 @@ public class AdminServiceController extends AbstractController {
         
     	configKey = SanitizeUtils.sanitize(configKey);
     	
-    	log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig={}", mlpSiteConfig);
+    	log.debug( "updateSiteConfig={}", mlpSiteConfig);
         JsonResponse<MLPSiteConfig> data = null;
         try {
             data = new JsonResponse<>();
@@ -559,7 +561,7 @@ public class AdminServiceController extends AbstractController {
                 //data.setResponseBody(adminService.updateSiteConfig(mlpSiteConfig.getBody()));
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
                 data.setResponseDetail("Successfully updated siteconfig");
-                log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig :  ");
+                log.debug( "updateSiteConfig :  ");
             } else {
                 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             }
@@ -567,7 +569,7 @@ public class AdminServiceController extends AbstractController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Exception occured while updateSiteConfig");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateSiteConfig :", e);
+            log.error( "Exception Occurred updateSiteConfig :", e);
         }
         return data;
     }
@@ -582,7 +584,7 @@ public class AdminServiceController extends AbstractController {
         
     	configKey = SanitizeUtils.sanitize(configKey);
     	
-    	log.debug(EELFLoggerDelegate.debugLogger, "deleteSiteConfig={}", configKey);
+    	log.debug( "deleteSiteConfig={}", configKey);
         JsonResponse<Object> data = null;
         try {
             data = new JsonResponse<>();
@@ -594,7 +596,7 @@ public class AdminServiceController extends AbstractController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             data.setErrorCode(JSONTags.TAG_ERROR_RESPONSE);
             data.setResponseDetail("Failed while deleting site config");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deleteSiteConfig()", e);
+            log.error( "Exception Occurred while deleteSiteConfig()", e);
         }
         return data;
     }
@@ -637,7 +639,7 @@ public class AdminServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_REQUESTS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getAllRequests(@RequestBody RestPageRequest restPageReq) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getRequests");
+		log.debug( "getRequests");
 		List<MLRequest> requestList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		requestList = adminService.getAllRequests(restPageReq);
@@ -651,7 +653,7 @@ public class AdminServiceController extends AbstractController {
 		} else {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching requests");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching requests");
+			log.error( "Exception Occurred Fetching requests");
 		}
 		return data;
 	}
@@ -661,7 +663,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
     public JsonResponse<Object> updateRequest(@RequestBody JsonRequest<MLRequest> mlrequest) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updateRequest={}", mlrequest);
+        log.debug( "updateRequest={}", mlrequest);
         JsonResponse<Object> data = new JsonResponse<>();
         try {
             if (mlrequest != null && mlrequest.getBody() != null) {
@@ -670,14 +672,14 @@ public class AdminServiceController extends AbstractController {
                data.setResponseDetail("Success");
                data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
             } else {  
-               log.debug(EELFLoggerDelegate.errorLogger, "updateRequest: Invalid Parameters");
+               log.debug( "updateRequest: Invalid Parameters");
                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                data.setResponseDetail("Update Request Failed");
             }
         }catch(Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE);
             data.setResponseDetail("Failed");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while updaterequest()", e);
+            log.error( "Exception Occurred while updaterequest()", e);
         }
         return data;
     }
@@ -687,7 +689,7 @@ public class AdminServiceController extends AbstractController {
     @PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).ADMIN)")
     @ResponseBody
        public JsonResponse<MLPPeerSubscription> createSubscription(@RequestBody JsonRequest<List<MLSolution>> solList,@PathVariable("peerId") String peerId) {
-           log.debug(EELFLoggerDelegate.debugLogger, "createSubscription={}");
+           log.debug( "createSubscription={}");
            JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
            try {
                if (!solList.getBody().isEmpty() && peerId != null) {              
@@ -695,7 +697,7 @@ public class AdminServiceController extends AbstractController {
                    data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
                    data.setResponseDetail("Success");
                } else {
-                   log.debug(EELFLoggerDelegate.errorLogger, "createPeerSubscription: Invalid Parameters");
+                   log.debug( "createPeerSubscription: Invalid Parameters");
                    data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                    data.setResponseDetail("Create PeerSubscription Failed");
                }
@@ -704,7 +706,7 @@ public class AdminServiceController extends AbstractController {
                e.printStackTrace();
                data.setErrorCode(JSONTags.TAG_ERROR_CODE);
                data.setResponseDetail("Failed");
-               log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createPeerSubscription()", e);
+               log.error( "Exception Occurred while createPeerSubscription()", e);
            }
            return data;
        }
@@ -762,7 +764,7 @@ public class AdminServiceController extends AbstractController {
 						}
 						data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 						data.setResponseDetail("Role created Successfully");
-						log.debug(EELFLoggerDelegate.debugLogger, "addUserRole :  ");
+						log.debug( "addUserRole :  ");
 						
 						sendCredentialsmail(userDetails);
 					} else {
@@ -778,7 +780,7 @@ public class AdminServiceController extends AbstractController {
 			e.printStackTrace();
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Error occured while creating role");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while creating role :", e);
+			log.error( "Exception Occurred while creating role :", e);
 		}
 		return data;
 	}
@@ -804,18 +806,18 @@ public class AdminServiceController extends AbstractController {
 		try {
 			if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
 					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("smtp")) {
-				log.debug(EELFLoggerDelegate.debugLogger, "sendCredentialsmail: using SMTP service");
+				log.debug( "sendCredentialsmail: using SMTP service");
 				mailservice.sendMail(mailData);
 			} else if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
 					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("mailjet")) {
-				log.debug(EELFLoggerDelegate.debugLogger, "sendCredentialsmail: using MailJet service");
+				log.debug( "sendCredentialsmail: using MailJet service");
 				mailJet.sendMail(mailData);
 			} else {
-				log.debug(EELFLoggerDelegate.debugLogger,
+				log.debug(
 						"sendCredentialsmail: no email service configured in key " + ConfigConstants.portal_feature_email_service);
 			}
 		} catch (MailException ex) {
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"sendCredentialsmail: failed to send mail to user " + mlpUser.getEmailId(), ex);
 		}
 	}

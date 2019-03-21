@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,9 @@ import java.util.stream.Collectors;
 import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PublishSolutionService;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -50,7 +52,7 @@ import org.acumos.cds.transport.RestPageResponse;
 @Service
 public class PublishSolutionServiceImpl extends AbstractServiceImpl implements PublishSolutionService {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(PublishSolutionServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	@Autowired
 	private Environment env;
@@ -64,7 +66,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	
 	@Override
 	public String publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "publishModelBySolution ={}", solutionId);
+		log.debug("publishModelBySolution ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolution mlpSolution2 = null;
 		
@@ -73,7 +75,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
 			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
 				//Invoke the Validation API if the validation with Backend is enabled.
-				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.validateModel")) && env.getProperty("portal.feature.validateModel").equalsIgnoreCase("true")) {
+				if(!PortalUtils.isEmptyOrNullString(env.getProperty("portal.feature.enablePublication")) && env.getProperty("portal.feature.enablePublication").equalsIgnoreCase("true")) {
 					MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 					if(mlpSolutionRevision != null) {
 						//Check if validation is required
@@ -89,7 +91,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							//Create separate service for creating request and use single service all over the code
 							publishRequest = dataServiceRestClient.createPublishRequest(publishRequest);
 							
-							log.info(EELFLoggerDelegate.debugLogger, "publish request has been created for solution {} with request Id as {}  ", solutionId, publishRequest.getRequestId());
+							log.info("publish request has been created for solution {} with request Id as {}  ", solutionId, publishRequest.getRequestId());
 							// Change the return type to send the message that request has been created 
 							publishStatus = "Solution "+mlpSolution2.getName()+" Pending for Publisher Approval";
 						} else {
@@ -104,7 +106,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			}
 		} catch (Exception e) {
 			publishStatus = "Failed to publish the solution";
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Publishing Solution ={}", e);
+			log.error("Exception Occurred while Publishing Solution ={}", e);
 		}
 		return publishStatus;
 	}
@@ -153,7 +155,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			}
 
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "getSiteInstanceName");
+			log.error("getSiteInstanceName");
 			//Log error and do nothing. Return the null value in site name cannot be found
 		} 
 		return siteInstanceName;
@@ -162,7 +164,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	@Override
 	public boolean unpublishSolution(String solutionId, String accessType, String userId) {
 		//TODO: Need to revisit the un-publish the solution revision. Currently this service is not being used in portal.
-		log.debug(EELFLoggerDelegate.debugLogger, "unpublishModelBySolutionId ={}", solutionId);
+		log.debug("unpublishModelBySolutionId ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		PortalRestClienttImpl portalRestClienttImpl = null;
 		MLPSolution mlpSolution = new MLPSolution();
@@ -186,7 +188,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			
 		} catch (Exception e) {
 			unpublished = false;
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while UnPublishing Solution ={}", e);
+			log.error("Exception Occurred while UnPublishing Solution ={}", e);
 		}
 		
 		return unpublished;
@@ -194,7 +196,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 
 	@Override
 	public boolean checkUniqueSolName(String solutionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "checkUniqueSolName ={}", solutionId);
+		log.debug("checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
 

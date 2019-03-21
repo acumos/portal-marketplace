@@ -25,11 +25,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.security.KeyStore;
 
 import javax.net.ssl.SSLContext;
 
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.client.HttpClient;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -43,6 +43,8 @@ import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
@@ -56,7 +58,7 @@ public class HttpClientConfiguration {
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
-	protected static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(HttpClientConfiguration.class);	
+	protected static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());		
 
 	private SSL ssl;
 	
@@ -160,13 +162,13 @@ public class HttpClientConfiguration {
 	public HttpClient buildClient() {
 
 		SSLContext sslContext = null;
-		log.info(EELFLoggerDelegate.debugLogger, "Build HttpClient with " + this);
+		log.info( "Build HttpClient with " + this);
 
 		if (this.resourceLoader == null)
 			this.resourceLoader = new DefaultResourceLoader();
 
 		if (this.ssl == null) {
-			log.info(EELFLoggerDelegate.debugLogger, "No ssl config was provided");
+			log.info( "No ssl config was provided");
 		} else {
 			KeyStore keyStore = null;
 			if (this.ssl.hasKeyStoreInfo()) {
@@ -189,7 +191,7 @@ public class HttpClientConfiguration {
 				try {
 					keyStore = KeyStore.getInstance(this.ssl.keyStoreType);
 					keyStore.load(keyStoreSource,	this.ssl.keyStorePasswd.toCharArray());
-					log.info(EELFLoggerDelegate.debugLogger, "Loaded key store: " + this.ssl.keyStore);
+					log.info( "Loaded key store: " + this.ssl.keyStore);
 				}
 				catch (Exception x) {
 					throw new IllegalStateException("Error loading key material: " + x, x);
@@ -217,7 +219,7 @@ public class HttpClientConfiguration {
 				try {
 					trustStore = KeyStore.getInstance(this.ssl.trustStoreType);
 					trustStore.load(trustStoreSource,	this.ssl.trustStorePasswd.toCharArray());
-					log.info(EELFLoggerDelegate.debugLogger, "Loaded trust store: " + this.ssl.trustStore);
+					log.info( "Loaded trust store: " + this.ssl.trustStore);
 				}
 				catch (Exception x) {
 					throw new IllegalStateException("Error loading trust material: " + x, x);
@@ -250,7 +252,7 @@ public class HttpClientConfiguration {
 		if (sslContext != null) {
 			sslSocketFactory = new SSLConnectionSocketFactory(sslContext, new String[] { "TLSv1.2" }, null,
 					SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-			log.info(EELFLoggerDelegate.debugLogger, "SSL connection factory configured");
+			log.info( "SSL connection factory configured");
 		}
 
 		RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.<ConnectionSocketFactory>create();
@@ -271,9 +273,9 @@ public class HttpClientConfiguration {
 		if (hasClient()) {
 			credsProvider = new BasicCredentialsProvider();
 			credsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(this.client.getUsername(), this.client.getPassword()));
-			log.info(EELFLoggerDelegate.debugLogger, "Credentials configured");
+			log.info( "Credentials configured");
 		} else {
-			log.info(EELFLoggerDelegate.debugLogger, "No credentials were provided");
+			log.info( "No credentials were provided");
 		}*/
 
 		HttpClientBuilder clientBuilder = HttpClients.custom();
@@ -302,13 +304,13 @@ public class HttpClientConfiguration {
 	/*public HttpClient buildClient() {
 
 		SSLContext sslContext = null;
-		log.info(EELFLoggerDelegate.debugLogger, "Build HttpClient with " + this);
+		log.info( "Build HttpClient with " + this);
 
 		if (this.resourceLoader == null)
 			this.resourceLoader = new DefaultResourceLoader();
 
 		if (this.ssl == null) {
-			log.info(EELFLoggerDelegate.debugLogger, "No ssl config was provided");
+			log.info( "No ssl config was provided");
 		} else {
 			KeyStore keyStore = null;
 			if (this.ssl.hasKeyStoreInfo()) {
@@ -331,7 +333,7 @@ public class HttpClientConfiguration {
 				try {
 					keyStore = KeyStore.getInstance(this.ssl.keyStoreType);
 					keyStore.load(keyStoreSource,	this.ssl.keyStorePasswd.toCharArray());
-					log.info(EELFLoggerDelegate.debugLogger, "Loaded key store: " + this.ssl.keyStore);
+					log.info( "Loaded key store: " + this.ssl.keyStore);
 				}
 				catch (Exception x) {
 					throw new IllegalStateException("Error loading key material: " + x, x);
@@ -359,7 +361,7 @@ public class HttpClientConfiguration {
 				try {
 					trustStore = KeyStore.getInstance(this.ssl.trustStoreType);
 					trustStore.load(trustStoreSource,	this.ssl.trustStorePasswd.toCharArray());
-					log.info(EELFLoggerDelegate.debugLogger, "Loaded trust store: " + this.ssl.trustStore);
+					log.info( "Loaded trust store: " + this.ssl.trustStore);
 				}
 				catch (Exception x) {
 					throw new IllegalStateException("Error loading trust material: " + x, x);
@@ -386,7 +388,7 @@ public class HttpClientConfiguration {
 		if (sslContext != null) {
 			sslSocketFactory = new SSLConnectionSocketFactory(sslContext, new String[] { "TLSv1.2" }, null,
 					SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-			log.info(EELFLoggerDelegate.debugLogger, "SSL connection factory configured");
+			log.info( "SSL connection factory configured");
 		}
 
 		RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.<ConnectionSocketFactory>create();

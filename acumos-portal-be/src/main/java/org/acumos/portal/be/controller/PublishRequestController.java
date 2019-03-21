@@ -19,6 +19,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +35,9 @@ import org.acumos.portal.be.service.PublishRequestService;
 import org.acumos.portal.be.transport.MLPublishRequest;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -54,7 +56,7 @@ public class PublishRequestController extends AbstractController {
 	@Autowired
 	private PublishRequestService publishRequestService;
 	
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(PublishRequestController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	/**
 	 * 
@@ -76,13 +78,13 @@ public class PublishRequestController extends AbstractController {
 			data.setResponseBody(mlPublishRequest);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Publish Request fetched Successfully.");
-			log.debug(EELFLoggerDelegate.debugLogger, "searchPublishRequestByRevId: size is {} ", mlPublishRequest);
+			log.debug("searchPublishRequestByRevId: size is {} ", mlPublishRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while fetching the request");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Publish Request", e);
+			log.error("Exception Occurred Fetching Publish Request", e);
 		}
 		return data;
 	}
@@ -96,10 +98,10 @@ public class PublishRequestController extends AbstractController {
 		try {
 			mlPublishRequestList = publishRequestService.getAllPublishRequest(restPageReq.getBody().getPageRequest());
 			
-			log.debug(EELFLoggerDelegate.debugLogger, "getAllPublishRequest: size is {} ", mlPublishRequestList.getSize());
+			log.debug("getAllPublishRequest: size is {} ", mlPublishRequestList.getSize());
 		} catch (Exception e) {
 			mlPublishRequestList.setResponseDetail("Exception Occurred Fetching Publish Request");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching Publish Request", e);
+			log.error("Exception Occurred Fetching Publish Request", e);
 		}
 		return mlPublishRequestList;
 	}
@@ -115,12 +117,12 @@ public class PublishRequestController extends AbstractController {
 			data.setResponseBody(publishRequest);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Publish Request fetched Successfully.");
-			log.debug(EELFLoggerDelegate.debugLogger, "Publish Request fetched Successfully : {}", publishRequestId);
+			log.debug("Publish Request fetched Successfully : {}", publishRequestId);
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while fetching the request");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception occured while fetching the request :", e);
+			log.error("Exception occured while fetching the request :", e);
 		}
 		return data;
 	}
@@ -136,12 +138,12 @@ public class PublishRequestController extends AbstractController {
 			data.setResponseBody(updatedPublishRequest);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Publish Request updated Successfully.");
-			log.debug(EELFLoggerDelegate.debugLogger, "Publish Request updated Successfully : {}", updatedPublishRequest.getPublishRequestId());
+			log.debug("Publish Request updated Successfully : {}", updatedPublishRequest.getPublishRequestId());
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while Updating the request");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception occured while Updating the request :", e);
+			log.error("Exception occured while Updating the request :", e);
 		}
 		return data;
 	}
@@ -156,12 +158,12 @@ public class PublishRequestController extends AbstractController {
 			data.setResponseBody(updatedPublishRequest);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Publish Request updated Successfully.");
-			log.debug(EELFLoggerDelegate.debugLogger, "Publish Request updated Successfully : {}", updatedPublishRequest.getPublishRequestId());
+			log.debug("Publish Request updated Successfully : {}", updatedPublishRequest.getPublishRequestId());
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while Updating the request");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception occured while Updating the request :", e);
+			log.error("Exception occured while Updating the request :", e);
 		}
 		return data;
 	}

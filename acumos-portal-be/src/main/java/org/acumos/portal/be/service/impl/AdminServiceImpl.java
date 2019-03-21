@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,8 +32,9 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.transport.MLRequest;
 import org.acumos.portal.be.transport.MLSolution;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -46,7 +48,7 @@ import org.acumos.cds.transport.RestPageResponse;
 public class AdminServiceImpl extends AbstractServiceImpl implements AdminService {
 
 
-    private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AdminServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
     private static List<MLRequest> mlRequestList = requestList();
     
@@ -59,7 +61,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
     @Override
     public MLPPeer getPeerDetail(String peerId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "savePeer ={}", peerId);
+        log.debug("savePeer ={}", peerId);
         MLPPeer mlpPeer = null;
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         if(peerId != null) {
@@ -70,7 +72,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
     @Override
     public MLPPeer findPeerByApiAndWebUrl(String apiUrl, String webUrl) {
-        log.debug(EELFLoggerDelegate.debugLogger, "findPeerByApiAndWebUrl ={}", apiUrl + " and " + webUrl);
+        log.debug("findPeerByApiAndWebUrl ={}", apiUrl + " and " + webUrl);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPPeer mlpPeer = null;
         Map<String, Object> queryParams = new HashMap<>();
@@ -96,7 +98,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
     @Override
     public MLPPeer savePeer(MLPPeer peer) {
-        log.debug(EELFLoggerDelegate.debugLogger, "savePeer ={}", peer);
+        log.debug("savePeer ={}", peer);
         MLPPeer mlpPeer = null;
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         if(peer != null) {
@@ -107,7 +109,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
     @Override
     public void updatePeer(MLPPeer peer) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updatePeer ={}", peer);
+        log.debug("updatePeer ={}", peer);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         if(peer != null) {
             dataServiceRestClient.updatePeer(peer);
@@ -116,7 +118,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
     @Override
     public void removePeer(String peerId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "removePeer ={}", peerId);
+        log.debug("removePeer ={}", peerId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         if(peerId != null) {
             dataServiceRestClient.deletePeer(peerId);
@@ -127,7 +129,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	@Override
 
 	public List<MLPPeerSubscription> getPeerSubscriptions(String peerId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getPeerSubscriptions ={}", peerId);
+		log.debug("getPeerSubscriptions ={}", peerId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPPeerSubscription> PeerSubscriptionList = dataServiceRestClient.getPeerSubscriptions(peerId); 
 		return PeerSubscriptionList;
@@ -135,7 +137,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	@Override
 	public MLPPeerSubscription getPeerSubscription(Long subId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getPeerSubscription ={}", subId);
+		log.debug("getPeerSubscription ={}", subId);
 		MLPPeerSubscription peerSubscription = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient(); 
 		if (subId != null) {
@@ -146,7 +148,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	
 	@Override
 	public Map<String,Integer> getPeerSubscriptionCounts(List<String> peerIds) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getPeerSubscriptionCounts ={}", peerIds);
+		log.debug("getPeerSubscriptionCounts ={}", peerIds);
 		HashMap<String,Integer> counts = new HashMap<>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (peerIds != null) {
@@ -162,7 +164,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	@Override
 	public MLPPeerSubscription createPeerSubscription(MLPPeerSubscription peerSub) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createPeerSubscription ={}", peerSub);
+		log.debug("createPeerSubscription ={}", peerSub);
 		MLPPeerSubscription peerSubscription = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (peerSub != null) {
@@ -173,7 +175,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	@Override
 	public void updatePeerSubscription(MLPPeerSubscription peerSub) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updatePeerSubscription ={}", peerSub);
+		log.debug("updatePeerSubscription ={}", peerSub);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (peerSub != null) {
 			dataServiceRestClient.updatePeerSubscription(peerSub);
@@ -182,7 +184,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	@Override
 	public void deletePeerSubscription(Long subId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deletePeerSubscription ={}", subId);
+		log.debug("deletePeerSubscription ={}", subId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (subId != null) {
 			dataServiceRestClient.deletePeerSubscription(subId);
@@ -191,7 +193,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	@Override
 	public MLPSiteConfig getSiteConfig(String configKey) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSiteConfig ={}", configKey);
+		log.debug("getSiteConfig ={}", configKey);
 		MLPSiteConfig siteConfig = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (configKey != null) {
@@ -203,7 +205,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	 @Override
 	    public MLPSiteConfig createSiteConfig(MLPSiteConfig mlpSiteConfig){
-	    	log.debug(EELFLoggerDelegate.debugLogger, "createSiteConfig");
+	    	log.debug("createSiteConfig");
 	    	ICommonDataServiceRestClient dataServiceRestClient = getClient();
 	    	MLPSiteConfig mlSiteConfig = PortalUtils.convertMLSiteConfigToMLPSiteConfig(dataServiceRestClient.createSiteConfig(mlpSiteConfig));
 	      return mlSiteConfig;
@@ -212,7 +214,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	
 	@Override
 	public void updateSiteConfig(MLPSiteConfig config) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateSiteConfig ={}", config);
+		log.debug("updateSiteConfig ={}", config);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (config != null) {
 			//MLPSiteConfig mlpSiteConfig = PortalUtils.convertMLSiteConfigToMLPSiteConfig(config);
@@ -223,7 +225,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	@Override
 	public void deleteSiteConfig(String configKey) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteSiteConfig ={}", configKey);
+		log.debug("deleteSiteConfig ={}", configKey);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (configKey != null) {
 			dataServiceRestClient.deleteSiteConfig(configKey);
@@ -232,7 +234,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	
 	@Override
 	public List<MLRequest> getAllRequests(RestPageRequest restPageReq){
-		log.debug(EELFLoggerDelegate.debugLogger, "getRequests ={}");
+		log.debug("getRequests ={}");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return getMlRequestList();
 				
@@ -240,7 +242,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 
 	@Override
 	public void updateMLRequest(MLRequest mlRequest) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateMLRequest ={}", mlRequest);
+		log.debug("updateMLRequest ={}", mlRequest);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (mlRequest != null) {
 			// MLPSiteConfig mlpSiteConfig =

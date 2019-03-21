@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,53 +34,54 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.MessagingService;
 import org.acumos.portal.be.transport.MLStepResult;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessagingServiceImpl extends AbstractServiceImpl implements MessagingService {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MessagingServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Override
 	public List<MLStepResult> callOnBoardingStatusList(String userId, String trackingId) {
 
 		List<MLStepResult> messageStatus = new ArrayList<>();
-		log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus");
+		log.debug("callOnBoardingStatus");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPTask> tasks = findTasksByTrackingId(trackingId);
 		if (!PortalUtils.isEmptyList(tasks)) {
 			for (MLPTask task : tasks) {
-				log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus:TaskId=" + task.getTaskId());
+				log.debug("callOnBoardingStatus:TaskId=" + task.getTaskId());
 				for (MLPTaskStepResult step : dataServiceRestClient.getTaskStepResults(task.getTaskId())) {
 					messageStatus.add(PortalUtils.convertToMLStepResult(task, step));
 				}
 			}
 			Collections.sort(messageStatus, (a, b) -> a.getStepResultId().compareTo(b.getStepResultId()));
-			log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus:messageStatus.length=" + messageStatus.size());
+			log.debug("callOnBoardingStatus:messageStatus.length=" + messageStatus.size());
 		}
 		return messageStatus;
 	}
 
 	@Override
 	public MLPTask createTask(MLPTask task) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createTask : " + JsonUtils.serializer().toPrettyString(task));
+		log.debug("createTask : " + JsonUtils.serializer().toPrettyString(task));
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.createTask(task);
 	}
 
 	@Override
 	public void updateTask(MLPTask task) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateTask ");
+		log.debug("updateTask ");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.updateTask(task);
 	}
 
 	@Override
 	public void deleteTask(long taskId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteTask ");
+		log.debug("deleteTask ");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.deleteTask(taskId);
 	}
@@ -104,7 +106,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 		}
 		
 		if(tasks!=null) {
-			log.debug(EELFLoggerDelegate.debugLogger, "callOnBoardingStatus:findTasksByTrackingId() : tasks size=" + tasks.size());
+			log.debug("callOnBoardingStatus:findTasksByTrackingId() : tasks size=" + tasks.size());
 		}
 
 		return tasks;
@@ -112,7 +114,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 
 	@Override
 	public MLPTaskStepResult createStepResult(MLPTaskStepResult stepResult) {
-		log.debug(EELFLoggerDelegate.debugLogger,
+		log.debug(
 				"createStepResult : " + JsonUtils.serializer().toPrettyString(stepResult));
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPTaskStepResult result = dataServiceRestClient.createTaskStepResult(stepResult);
@@ -121,21 +123,21 @@ public class MessagingServiceImpl extends AbstractServiceImpl implements Messagi
 
 	@Override
 	public void updateStepResult(MLPTaskStepResult stepResult) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateStepResult`");
+		log.debug("updateStepResult`");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.updateTaskStepResult(stepResult);
 	}
 
 	@Override
 	public void deleteStepResult(Long stepResultId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteStepResult`");
+		log.debug("deleteStepResult`");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.deleteTaskStepResult(stepResultId);
 	}
 
 	@Override
 	public List<MLPTaskStepResult> findStepresultBySolutionId(String solutionId, String revisionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "findStepresultBySolutionId ={}", solutionId);
+		log.debug("findStepresultBySolutionId ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPTaskStepResult> mlpStepResultList = new ArrayList<>();
 		Map<String, Object> queryParams = new HashMap<>();

@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Map;
 
 import javax.mail.Address;
@@ -29,7 +30,8 @@ import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.acumos.portal.be.service.MailService;
 import org.acumos.portal.be.transport.MailData;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -43,7 +45,7 @@ import freemarker.template.Configuration;
 @Service
 public class MailServiceImpl implements MailService {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(MailServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private Configuration freemarkerConfiguration;
@@ -55,11 +57,11 @@ public class MailServiceImpl implements MailService {
 	public void sendMail(final MailData mailData) {
 		MimeMessagePreparator preparator = getMessagePreparator(mailData);
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "sendMail: sending mail with subject: " + mailData.getSubject());
+			log.debug("sendMail: sending mail with subject: " + mailData.getSubject());
 			mailSender.send(preparator);
-			log.debug(EELFLoggerDelegate.debugLogger, "sendMail: sent mail with subject: " + mailData.getSubject());
+			log.debug("sendMail: sent mail with subject: " + mailData.getSubject());
 		} catch (MailException ex) {
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"sendMail: failed to send mail with subject: " + mailData.getSubject(), ex);
 		}
 	}
@@ -83,7 +85,7 @@ public class MailServiceImpl implements MailService {
 				mimeMessage.addRecipients(RecipientType.TO, internetAddress);
 
 				String text = getFreeMarkerTemplateContent(mailData.getTemplate(), mailData.getModel());
-				log.debug(EELFLoggerDelegate.debugLogger, "getMessagePreparator: template content : " + text);
+				log.debug("getMessagePreparator: template content : " + text);
 
 				// use the true flag to indicate you need a multipart message
 				helper.setText(text, true);
@@ -103,7 +105,7 @@ public class MailServiceImpl implements MailService {
 					.processTemplateIntoString(freemarkerConfiguration.getTemplate(template), model));
 			return content.toString();
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "getFreeMarkerTemplateContent: failed to get content", e);
+			log.error("getFreeMarkerTemplateContent: failed to get content", e);
 		}
 		return "";
 	}

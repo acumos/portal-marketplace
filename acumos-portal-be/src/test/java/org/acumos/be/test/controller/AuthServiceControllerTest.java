@@ -22,6 +22,7 @@ package org.acumos.be.test.controller;
 
 import static org.mockito.Mockito.when;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,6 @@ import org.acumos.portal.be.security.jwt.JwtTokenUtil;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -50,13 +50,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 public class AuthServiceControllerTest {
 	
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(AuthServiceControllerTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Rule
 	public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -237,8 +239,8 @@ public class AuthServiceControllerTest {
 	
 	@Test
 	public void validationStatusTest(){
-		String validateModel ="false";
-		when(env.getProperty("portal.feature.validateModel")).thenReturn(validateModel);
+		String enablePublication ="false";
+		when(env.getProperty("portal.feature.enablePublication")).thenReturn(enablePublication);
 		String validationAccess=authServiceController.validationStatus();
 		Assert.assertNotNull(validationAccess);
 	}

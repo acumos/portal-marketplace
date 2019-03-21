@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.security.jwt;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +44,9 @@ import org.acumos.portal.be.transport.AbstractResponseObject;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -68,7 +70,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/" + APINames.AUTH)
 public class JwtController extends AbstractController {
 	
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(JwtController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	
 	@Autowired

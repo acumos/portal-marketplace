@@ -21,6 +21,7 @@
 package org.acumos.portal.be.controller;
 
 import java.io.StringReader;
+import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -48,11 +49,12 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -80,7 +82,7 @@ public class CASAuthController extends AbstractController {
 	@Autowired
 	private UserRoleService userRoleService;
 
-    private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(CASAuthController.class);
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 
     public CASAuthController() {
@@ -121,7 +123,7 @@ public class CASAuthController extends AbstractController {
 			@RequestParam(value = "ticket") String ticket
 			, @RequestParam(value = "service") String service) {
 		
-		log.debug(EELFLoggerDelegate.debugLogger, "ticket=" + ticket + " service=" + service);
+		log.debug( "ticket=" + ticket + " service=" + service);
 		JsonResponse<Object> jsonResponse = new JsonResponse<>();
 		
 		Map<String, Object> queryParams = new HashMap<String, Object>();
@@ -160,7 +162,7 @@ public class CASAuthController extends AbstractController {
 				jsonResponse.setStatusCode(400);
 				theHttpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				jsonResponse.setResponseDetail("Error occured while authentication user");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while serviceValidate()", resp.getAuthenticationFailure());
+				log.error( "Exception Occurred while serviceValidate()", resp.getAuthenticationFailure());
 				return jsonResponse;
 			} else {
 				
@@ -179,7 +181,7 @@ public class CASAuthController extends AbstractController {
 					jsonResponse.setStatusCode(400);
 					theHttpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					jsonResponse.setResponseDetail("Error occured while authentication user");
-					log.error(EELFLoggerDelegate.errorLogger, "Cannot fetch user credentials from response ", resp.getAuthenticationSuccess());
+					log.error( "Cannot fetch user credentials from response ", resp.getAuthenticationSuccess());
 					return jsonResponse;
 				}
 
@@ -227,10 +229,10 @@ public class CASAuthController extends AbstractController {
 			jsonResponse.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			jsonResponse.setStatusCode(400);
 			jsonResponse.setResponseDetail("Cas Service Validation Failed" + x.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while serviceValidate()", x);
+			log.error( "Exception Occurred while serviceValidate()", x);
 		}
 		finally {
-			log.info(EELFLoggerDelegate.debugLogger, uri + " response " + response);
+			log.info( uri + " response " + response);
 		}		
 		return jsonResponse;		
 	}
@@ -266,12 +268,12 @@ public class CASAuthController extends AbstractController {
 				}
 
 			} else {
-				log.error(EELFLoggerDelegate.errorLogger, "User already have an role");
+				log.error( "User already have an role");
 			}
 		} catch (UserServiceException e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createRole :", e);
+			log.error( "Exception Occurred while createRole :", e);
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createRole :", e);
+			log.error( "Exception Occurred while createRole :", e);
 		}
 	}
 	

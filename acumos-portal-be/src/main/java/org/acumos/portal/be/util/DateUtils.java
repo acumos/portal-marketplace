@@ -20,6 +20,7 @@
 package org.acumos.portal.be.util;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.invoke.MethodHandles;
 import java.net.URLDecoder;
 
 import org.acumos.portal.be.transport.MLComment;
@@ -28,13 +29,14 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DateUtils {
     private static final String FEW_SECONDS_AGO = "Just Now";
     private static final String MINUTES_AGO = "Minutes Ago";
     private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm a";
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate
-			.getLogger(DateUtils.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	
 	public String formatCommentTime(DateTime commentTime, String clientTimeZone) {

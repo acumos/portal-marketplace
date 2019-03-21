@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,9 @@ import org.acumos.portal.be.transport.OauthUser;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,7 +60,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(APINames.OAUTH_LOGIN)
 public class OauthUserServiceController extends AbstractController {
 	
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(OauthUserServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private OauthUserService oauthUserService;
@@ -88,11 +90,11 @@ public class OauthUserServiceController extends AbstractController {
 	@RequestMapping(value = {APINames.ACCOUNT_SIGNUP}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public Object createUser(HttpServletRequest request, @RequestBody UserMasterObject userMasterObject, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createUser={}", userMasterObject);
+		log.debug("createUser={}", userMasterObject);
 		Object responseVO = null;
 		try {
 			if(userMasterObject == null) {
-				log.debug(EELFLoggerDelegate.errorLogger, "createUser: Invalid Parameters");
+				log.debug("createUser: Invalid Parameters");
 				responseVO = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Login Failed");
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			}
@@ -149,12 +151,12 @@ public class OauthUserServiceController extends AbstractController {
 		catch (UserServiceException e) {
 			responseVO = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createUser()", e);
+			log.error("Exception Occurred while createUser()", e);
 		}
 		catch (Exception e) {
 			responseVO = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while createUser()", e);
+			log.error("Exception Occurred while createUser()", e);
 		}
 		return responseVO;
 	}
@@ -163,14 +165,14 @@ public class OauthUserServiceController extends AbstractController {
 	@RequestMapping(value = {}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public AbstractResponseObject login(HttpServletRequest request, @RequestBody User user, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "login={}", user);
+		log.debug("login={}", user);
 		AbstractResponseObject responseObject = null;
 		List<MLPRole> userAssignedRolesList = new ArrayList<>();
 		User validUser = null;
 		String jwtToken = null;
 		//Check if the UserName or emailId is null or not.
 		if(PortalUtils.isEmptyOrNullString(user.getEmailId())) {
-			log.debug(EELFLoggerDelegate.errorLogger, "Invalid Parameters");
+			log.debug("Invalid Parameters");
 			responseObject = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Login Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
@@ -254,7 +256,7 @@ public class OauthUserServiceController extends AbstractController {
 			} catch (Exception e) {
 				responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, "Login Failed");
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
+				log.error("Exception Occurred while login()", e);
 			}
 		}
 		responseObject.setUserAssignedRolesList(userAssignedRolesList);
@@ -266,13 +268,13 @@ public class OauthUserServiceController extends AbstractController {
 	@RequestMapping(value = {}, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public AbstractResponseObject getGitHubAccessToken(HttpServletRequest request, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getGitHubAccessToken={}", request.getHeader("code"));
+		log.debug("getGitHubAccessToken={}", request.getHeader("code"));
 		AbstractResponseObject responseObject = null;
 		
 		String code = request.getHeader("code");
 		//Check if the UserName or emailId is null or not.
 		if(PortalUtils.isEmptyOrNullString(code)) {
-			log.debug(EELFLoggerDelegate.errorLogger, "Invalid Parameters");
+			log.debug("Invalid Parameters");
 			responseObject = new ResponseVO(HttpServletResponse.SC_BAD_REQUEST, "Login Failed");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
@@ -286,7 +288,7 @@ public class OauthUserServiceController extends AbstractController {
 			} catch (Exception e) {
 				responseObject = new ResponseVO(HttpServletResponse.SC_UNAUTHORIZED, "Login Failed");
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while login()", e);
+				log.error("Exception Occurred while login()", e);
 			}
 		}
 		

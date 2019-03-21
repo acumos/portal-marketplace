@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,9 +39,10 @@ import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.NotificationRequestObject;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,7 +57,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/")
 public class NotificationController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(NotificationController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private NotificationService notificationService;
@@ -89,16 +91,16 @@ public class NotificationController extends AbstractController {
 				data.setResponseBody(mlNotification);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notification created Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "Notification created Successfully :  ");
+				log.debug("Notification created Successfully :  ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error occured while createNotification");
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createNotification :");
+				log.error("Error Occurred createNotification :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while createNotification");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createNotification :", e);
+			log.error("Exception Occurred createNotification :", e);
 		}
 		return data;
 	}
@@ -117,16 +119,16 @@ public class NotificationController extends AbstractController {
 				data.setResponseBody(mlNotificationList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getNotifications: size is {} ", mlNotificationList.size());
+				log.debug("getNotifications: size is {} ", mlNotificationList.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while getNotifications");
-				log.debug(EELFLoggerDelegate.debugLogger, "Error Occurred while getNotifications ");
+				log.debug("Error Occurred while getNotifications ");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while getNotifications");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotifications", e);
+			log.error("Exception Occurred while getNotifications", e);
 		}
 		return data;
 	}
@@ -160,17 +162,17 @@ public class NotificationController extends AbstractController {
 				data.setResponseBody(mlNotificationList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getUserNotifications: size is {} ",
+				log.debug("getUserNotifications: size is {} ",
 						mlNotificationList.size());
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("No notifications exist for user : " + userId);
-				log.debug(EELFLoggerDelegate.debugLogger, "No notifications exist for user : " + userId);
+				log.debug("No notifications exist for user : " + userId);
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while getUserNotifications");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserNotifications", e);
+			log.error("Exception Occurred while getUserNotifications", e);
 		}
 		return data;
 	}
@@ -200,16 +202,16 @@ public class NotificationController extends AbstractController {
 				notificationService.addNotificationUser(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "addNotificationUser: size is {} ");
+				log.debug("addNotificationUser: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while addNotificationUser");
-				log.debug(EELFLoggerDelegate.debugLogger, "Error Occurred while addNotificationUser ");
+				log.debug("Error Occurred while addNotificationUser ");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while addNotificationUser");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while addNotificationUser", e);
+			log.error("Exception Occurred while addNotificationUser", e);
 		}
 		return data;
 	}
@@ -239,16 +241,16 @@ public class NotificationController extends AbstractController {
 				notificationService.dropNotificationUser(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications droped Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "dropNotificationUser: size is {} ");
+				log.debug("dropNotificationUser: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while dropNotificationUser");
-				log.debug(EELFLoggerDelegate.debugLogger, "Error Occurred while dropNotificationUser ");
+				log.debug("Error Occurred while dropNotificationUser ");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while dropNotificationUser");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while dropNotificationUser", e);
+			log.error("Exception Occurred while dropNotificationUser", e);
 		}
 		return data;
 	}
@@ -278,16 +280,16 @@ public class NotificationController extends AbstractController {
 				notificationService.setNotificationUserViewed(notificationId, userId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Set Notifications viewed by user Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "setNotificationUserViewed: size is {} ");
+				log.debug("setNotificationUserViewed: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while setNotificationUserViewed");
-				log.debug(EELFLoggerDelegate.debugLogger, "Error Occurred while setNotificationUserViewed ");
+				log.debug("Error Occurred while setNotificationUserViewed ");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while setNotificationUserViewed");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while setNotificationUserViewed", e);
+			log.error("Exception Occurred while setNotificationUserViewed", e);
 		}
 		return data;
 	}
@@ -314,16 +316,16 @@ public class NotificationController extends AbstractController {
 				notificationService.deleteNotification(notificationId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notifications droped Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "deleteNotification: size is {} ");
+				log.debug("deleteNotification: size is {} ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error Occurred while deleteNotification");
-				log.debug(EELFLoggerDelegate.debugLogger, "Error Occurred while deleteNotification ");
+				log.debug("Error Occurred while deleteNotification ");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while deleteNotification");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while deleteNotification", e);
+			log.error("Exception Occurred while deleteNotification", e);
 		}
 		return data;
 	}
@@ -344,11 +346,11 @@ public class NotificationController extends AbstractController {
 			data.setResponseBody(notification);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Notification count fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "getNotificationCount: size is {} ", count);
+			log.debug("getNotificationCount: size is {} ", count);
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while getNotificationCount");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getNotificationCount", e);
+			log.error("Exception Occurred while getNotificationCount", e);
 		}
 		return data;
 	}
@@ -368,17 +370,17 @@ public class NotificationController extends AbstractController {
 	               data.setResponseBody(mlUserNotifPrefList);
 	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 	               data.setResponseDetail("Notification preferences fetched Successfully");
-	               log.debug(EELFLoggerDelegate.debugLogger, "getUserNotificationPreferences: size is {} ",
+	               log.debug("getUserNotificationPreferences: size is {} ",
 	                                   mlUserNotifPrefList.size());
 	          } else {
 	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 	               data.setResponseDetail("No notification preferences for : " + userId);
-	               log.debug(EELFLoggerDelegate.debugLogger, "No notification preferences : " + userId);
+	               log.debug("No notification preferences : " + userId);
 	           }
 	       } catch (Exception e) {
 	           data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 	           data.setResponseDetail("Exception Occurred while getUserNotificationPreferences");
-	           log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUserNotificationPreferences", e);
+	           log.error("Exception Occurred while getUserNotificationPreferences", e);
 	       }
 	       return data;
 	   }
@@ -396,21 +398,21 @@ public class NotificationController extends AbstractController {
 	                   data.setResponseBody(mlNotificationPrefObj);
 	                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 	                   data.setResponseDetail("Notification Preference created Successfully");
-	                   log.debug(EELFLoggerDelegate.debugLogger, "Notification Preference created Successfully :  ");
+	                   log.debug("Notification Preference created Successfully :  ");
 	               } else {
 	                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 	                   data.setResponseDetail("Error occured while createUserNotificationPreference");
-	                   log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createUserNotificationPreference :");
+	                   log.error("Error Occurred createUserNotificationPreference :");
 	               }
 	           } else {
 	               data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 	               data.setResponseDetail("Error occured while createUserNotificationPreference");
-	               log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createUserNotificationPreference :");
+	               log.error("Error Occurred createUserNotificationPreference :");
 	           }
 	       } catch (Exception e) {
 	           data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 	           data.setResponseDetail("Exception occured while createNotification");
-	           log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createUserNotificationPreference :", e);
+	           log.error("Exception Occurred createUserNotificationPreference :", e);
 	       }
 	       return data;
 	   }
@@ -427,16 +429,16 @@ public class NotificationController extends AbstractController {
 				data.setResponseBody(mlNotificationPref.getBody());
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Notification Preference Update Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "Notification Preference Update Successfully :  ");
+				log.debug("Notification Preference Update Successfully :  ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error occured while updateUserNotificationPreference");
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred updateUserNotificationPreference :");
+				log.error("Error Occurred updateUserNotificationPreference :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while updateUserNotificationPreference");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateUserNotificationPreference :", e);
+			log.error("Exception Occurred updateUserNotificationPreference :", e);
 		}
 		return data;
 	}
@@ -446,7 +448,7 @@ public class NotificationController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<String> sendUserNotification(HttpServletRequest request,
 			@RequestBody JsonRequest<NotificationRequestObject> mlNotification, HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "Send User Notification={}", mlNotification);
+		log.debug("Send User Notification={}", mlNotification);
 		JsonResponse<String> data = new JsonResponse<>();
 		try {
 			if (mlNotification.getBody() != null && mlNotification.getBody().getUserId() != null) {
@@ -456,7 +458,7 @@ public class NotificationController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while sending user notification");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred sending user notification :", e);
+			log.error("Exception Occurred sending user notification :", e);
 		}
 		return data;
 	}
@@ -479,11 +481,11 @@ public class NotificationController extends AbstractController {
             data.setResponseBody(notification);
             data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
             data.setResponseDetail("User Unread Notification count fetched Successfully");
-            log.debug(EELFLoggerDelegate.debugLogger, "getUnreadNotificationCount: size is {} ", count);
+            log.debug("getUnreadNotificationCount: size is {} ", count);
         } catch (Exception e) {
             data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
             data.setResponseDetail("Exception Occurred while getUnreadNotificationCount");
-            log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getUnreadNotificationCount", e);
+            log.error("Exception Occurred while getUnreadNotificationCount", e);
         }
         return data;
     }

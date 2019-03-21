@@ -63,8 +63,6 @@ public class LogConstantTest {
     @Test
     public void testHeaders() {
         assertThat(ONAPLogConstants.Headers.REQUEST_ID, is("X-ACUMOS-Request-Id"));
-        assertThat(ONAPLogConstants.Headers.INVOCATION_ID, is("Invocation-ID"));
-        assertThat(ONAPLogConstants.Headers.PARTNER_NAME, is("PartnerName"));
     }
    
 
@@ -84,10 +82,6 @@ public class LogConstantTest {
         assertThat(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP.toString(), is("InvokeTimestamp"));
 
         assertThat(ONAPLogConstants.MDCs.REQUEST_ID.toString(), is("X-ACUMOS-Request-Id"));
-        assertThat(ONAPLogConstants.MDCs.INVOCATION_ID.toString(), is("InvocationID"));
-        assertThat(ONAPLogConstants.MDCs.PARTNER_NAME.toString(), is("PartnerName"));
-        assertThat(ONAPLogConstants.MDCs.INSTANCE_UUID.toString(), is("InstanceUUID"));
-        assertThat(ONAPLogConstants.MDCs.SERVICE_NAME.toString(), is("ServiceName"));
         assertThat(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME.toString(), is("TargetServiceName"));
 
     }

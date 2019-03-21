@@ -23,11 +23,13 @@
  */
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import org.acumos.portal.be.service.FilterCategoriesService;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ import org.acumos.cds.domain.MLPCodeNamePair;
 @Service
 public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements FilterCategoriesService {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(FilterCategoriesServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	@Autowired
 	private Environment env;
@@ -47,36 +49,36 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 	
 	@Override
 	public List<MLPCodeNamePair> getSolutionCategoryTypes() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionCategoryTypes");
+		log.debug("getSolutionCategoryTypes");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPCodeNamePair> mlpModelTypes = null;
 		mlpModelTypes = dataServiceRestClient.getCodeNamePairs(CodeNameType.MODEL_TYPE);
 		if(mlpModelTypes !=null) {
-			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionCategoryTypes : ", mlpModelTypes.size());
+			log.debug("getSolutionCategoryTypes : ", mlpModelTypes.size());
 		}
 		return mlpModelTypes;
 	}
 	
 	@Override
 	public List<MLPCodeNamePair> getSolutionAccessTypes() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionAccessTypes");
+		log.debug("getSolutionAccessTypes");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPCodeNamePair> mlpAccessTypes = null;
 		mlpAccessTypes = dataServiceRestClient.getCodeNamePairs(CodeNameType.ACCESS_TYPE);
 		if(mlpAccessTypes !=null) {
-			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionCategoryTypes : ", mlpAccessTypes.size());
+			log.debug("getSolutionCategoryTypes : ", mlpAccessTypes.size());
 		}
 		return mlpAccessTypes;
 	}
 
 	@Override
 	public List<MLPCodeNamePair> getToolkitTypes() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getToolkitTypes");
+		log.debug("getToolkitTypes");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPCodeNamePair> mlpToolkitTypes = null;
 		mlpToolkitTypes = dataServiceRestClient.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
 		if(mlpToolkitTypes !=null) {
-			log.debug(EELFLoggerDelegate.debugLogger, "getToolkitTypes : ", mlpToolkitTypes.size());
+			log.debug("getToolkitTypes : ", mlpToolkitTypes.size());
 		}
 		return mlpToolkitTypes;
 	}
@@ -86,14 +88,14 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 	/*@Deprecated
 	@Override
 	public MLPModelType createSolutionCategoryType(MLPModelType mlpModelType) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createSolutionCategoryType");
+		log.debug("createSolutionCategoryType");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPModelType> mlpModelTypes = dataServiceRestClient.getModelTypes();
 		boolean isModelTypeExists = false;
 		if(!PortalUtils.isEmptyList(mlpModelTypes)) {
 			for(MLPModelType type : mlpModelTypes) {
 				if(type != null && type.getTypeCode().equalsIgnoreCase(mlpModelType.getTypeCode())) {
-					log.error(EELFLoggerDelegate.debugLogger, "Model Type code already exists");
+					log.error("Model Type code already exists");
 					isModelTypeExists = true;
 					break;
 				}
@@ -102,7 +104,7 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 		if(!isModelTypeExists) {
 			mlpModelType = dataServiceRestClient.createModelType(mlpModelType);
 			if(mlpModelType !=null) {
-				log.debug(EELFLoggerDelegate.debugLogger, "createSolutionCategoryType : ", mlpModelType.toString());
+				log.debug("createSolutionCategoryType : ", mlpModelType.toString());
 			}
 		} 
 		return mlpModelType;
@@ -110,7 +112,7 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 
 	/*@Override
 	public boolean updateSolutionCategoryType(MLPModelType mlpModelType) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionCategoryType");
+		log.debug("updateSolutionCategoryType");
 		boolean modelTypeUpdated = false;
 		boolean isModelTypeExists = false;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -119,7 +121,7 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 			for(MLPModelType type : mlpModelTypes) {
 				if(type != null && type.getTypeCode().equalsIgnoreCase(mlpModelType.getTypeCode())) {
 					//Model Type Code already exists. Lets update it with new value.
-					log.debug(EELFLoggerDelegate.debugLogger, "Model Type code already exists. Need to update");
+					log.debug("Model Type code already exists. Need to update");
 					isModelTypeExists = true;
 					break;
 				}
@@ -129,7 +131,7 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 			dataServiceRestClient.updateModelType(mlpModelType);
 			modelTypeUpdated = true;
 			if(mlpModelType !=null) {
-				log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionCategoryType : ", mlpModelType.toString());
+				log.debug("updateSolutionCategoryType : ", mlpModelType.toString());
 			}
 		} 
 		return modelTypeUpdated;
@@ -137,7 +139,7 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 
 	@Override
 	public boolean deleteSolutionCategoryType(String categoryTypeCode) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionCategoryType={}", categoryTypeCode );
+		log.debug("deleteSolutionCategoryType={}", categoryTypeCode );
 		boolean modelTypeDeleted = false;
 		boolean isModelTypeExists = false;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -146,7 +148,7 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 			for(MLPModelType type : mlpModelTypes) {
 				if(type != null && type.getTypeCode().equalsIgnoreCase(categoryTypeCode)) {
 					//Model Type Code already exists. Lets update it with new value.
-					log.debug(EELFLoggerDelegate.debugLogger, "Model Type code already exists. Need to update");
+					log.debug("Model Type code already exists. Need to update");
 					isModelTypeExists = true;
 					break;
 				}
@@ -155,7 +157,7 @@ public class FilterCategoriesServiceImpl extends AbstractServiceImpl implements 
 		if(isModelTypeExists) {
 			dataServiceRestClient.deleteModelType(categoryTypeCode);
 			modelTypeDeleted = true;
-			log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionCategoryType");
+			log.debug("deleteSolutionCategoryType");
 		} 
 		return modelTypeDeleted;
 	}*/

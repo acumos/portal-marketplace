@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,18 +40,19 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.MLTask;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements OnboardingHistoryService {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(OnboardingHistoryServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Override
 	public PagableResponse<List<MLTask>> getTasks(RestPageRequestPortal pageRequestPortal, String userId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getTasks");
+		log.debug( "getTasks");
 		PagableResponse<List<MLTask>> response = new PagableResponse<>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		RestPageResponse<MLPTask> pageResponse = findTasksByUserId(pageRequestPortal, userId);
@@ -79,7 +81,7 @@ public class OnboardingHistoryServiceImpl extends AbstractServiceImpl implements
 
 	@Override
 	public List<MLStepResult> getStepResults(Long taskId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getStepResults");
+		log.debug( "getStepResults");
 		List<MLStepResult> mlStepResultList = new ArrayList<MLStepResult>();
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		List<MLPTaskStepResult> results = dataServiceRestClient.getTaskStepResults(taskId);

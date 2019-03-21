@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -35,7 +36,8 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.security.jwt.TokenValidation;
 import org.acumos.portal.be.service.FilterCategoriesService;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +50,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(APINames.FILTER)
 public class FilterCategoriesServiceController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(FilterCategoriesServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private FilterCategoriesService filterCategoriesService;
@@ -78,7 +80,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 
 		TokenValidation tokenValidation = new TokenValidation();
 
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsCategoryTypes: Entering");
+		log.debug("getSolutionsCategoryTypes: Entering");
 		List<MLPCodeNamePair> mlpModelTypes = null;
 		JsonResponse<List<MLPCodeNamePair>> data = new JsonResponse<>();
 		try {
@@ -87,13 +89,13 @@ public class FilterCategoriesServiceController extends AbstractController {
 				data.setResponseBody(mlpModelTypes);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("ML Solutions Categories fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsCategoryTypes: size is {} ",
+				log.debug("getSolutionsCategoryTypes: size is {} ",
 						mlpModelTypes.size());
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching ML Solutions Categories for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching ML Solutions Categories for Market Place Catalog", e);
 		}
 		return data;
@@ -124,8 +126,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * @ResponseBody public JsonResponse<MLPModelType>
 	 * createSolutionsCategoryType(HttpServletRequest request, HttpServletResponse
 	 * response, MLPModelType mlpModelType) {
-	 * log.debug(EELFLoggerDelegate.debugLogger,
-	 * "createSolutionsCategoryType: Entering"); JsonResponse<MLPModelType> data =
+	 * log.debug("createSolutionsCategoryType: Entering"); JsonResponse<MLPModelType> data =
 	 * new JsonResponse<>(); try { if(mlpModelType != null &&
 	 * !PortalUtils.isEmptyOrNullString(mlpModelType.getTypeCode())) { mlpModelType
 	 * = filterCategoriesService.createSolutionCategoryType(mlpModelType); }
@@ -135,7 +136,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 	 * data.setResponseDetail("ML Solution Category created Successfully");
 	 * response.setStatus(HttpServletResponse.SC_CREATED);
-	 * log.debug(EELFLoggerDelegate.debugLogger, "createSolutionsCategoryType:  ",
+	 * log.debug("createSolutionsCategoryType:  ",
 	 * mlpModelType.toString()); } else {
 	 * data.setResponseCode(JSONTags.TAG_ERROR_CODE_EXCEPTION); //Need to remove
 	 * error code. Only Use Response Code for both Success and Error Cases
@@ -147,7 +148,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 	 * response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	 * data.setResponseDetail("Exception Occurred Creating ML Solutions Category");
-	 * log.error(EELFLoggerDelegate.errorLogger,
+	 * log.error(
 	 * "createSolutionsCategoryType: Exception Occurred creating ML Solutions Category"
 	 * , e); } return data; }
 	 */
@@ -177,8 +178,8 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * @ResponseBody public JsonResponse<MLPModelType>
 	 * updateSolutionsCategoryType(HttpServletRequest request, HttpServletResponse
 	 * response, MLPModelType mlpModelType) {
-	 * log.debug(EELFLoggerDelegate.debugLogger,
-	 * "updateSolutionsCategoryType: Entering"); JsonResponse<MLPModelType> data =
+	 * log.debug("updateSolutionsCategoryType: Entering"); 
+	 * JsonResponse<MLPModelType> data =
 	 * new JsonResponse<>(); boolean isSuccessfullyUpdated = false; try {
 	 * if(mlpModelType != null &&
 	 * !PortalUtils.isEmptyOrNullString(mlpModelType.getTypeCode())) {
@@ -190,7 +191,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 	 * data.setResponseDetail("ML Solution Category updated Successfully");
 	 * response.setStatus(HttpServletResponse.SC_OK);
-	 * log.debug(EELFLoggerDelegate.debugLogger, "updateSolutionsCategoryType:  ",
+	 * log.debug("updateSolutionsCategoryType:  ",
 	 * mlpModelType.toString()); } else {
 	 * data.setResponseCode(JSONTags.TAG_ERROR_CODE_EXCEPTION); //Need to remove
 	 * error code. Only Use Response Code for both Success and Error Cases
@@ -202,7 +203,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 	 * response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	 * data.setResponseDetail("Exception Occurred updating ML Solutions Category");
-	 * log.error(EELFLoggerDelegate.errorLogger,
+	 * log.error(
 	 * "updateSolutionsCategoryType: Exception Occurred updating ML Solutions Category"
 	 * , e); } return data; }
 	 */
@@ -230,7 +231,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * @ResponseBody public JsonResponse
 	 * deleteSolutionsCategoryType(HttpServletRequest request, HttpServletResponse
 	 * response, @PathVariable("categoryTypeCode") String categoryTypeCode) {
-	 * log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionsCategoryType: {}",
+	 * log.debug("deleteSolutionsCategoryType: {}",
 	 * categoryTypeCode); JsonResponse data = new JsonResponse<>(); boolean
 	 * isSuccessfullyDeleted= false; try {
 	 * if(!PortalUtils.isEmptyOrNullString(categoryTypeCode)) {
@@ -242,7 +243,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 	 * data.setResponseDetail("ML Solution Category deleted Successfully");
 	 * response.setStatus(HttpServletResponse.SC_OK);
-	 * log.debug(EELFLoggerDelegate.debugLogger, "deleteSolutionsCategoryType:{}  ",
+	 * log.debug("deleteSolutionsCategoryType:{}  ",
 	 * categoryTypeCode); } else {
 	 * data.setResponseCode(JSONTags.TAG_ERROR_CODE_EXCEPTION); //Need to remove
 	 * error code. Only Use Response Code for both Success and Error Cases
@@ -254,7 +255,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	 * data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 	 * response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	 * data.setResponseDetail("Exception Occurred deleted ML Solutions Category");
-	 * log.error(EELFLoggerDelegate.errorLogger,
+	 * log.error(
 	 * "deleteSolutionsCategoryType: Exception Occurred deleting ML Solutions Category"
 	 * , e); } return data; }
 	 */
@@ -262,7 +263,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.FILTER_ACCESSTYPE }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLPCodeNamePair>> getSolutionsAccessTypes() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsAccessTypes: Entering");
+		log.debug("getSolutionsAccessTypes: Entering");
 		List<MLPCodeNamePair> mlpAccessTypes = null;
 		JsonResponse<List<MLPCodeNamePair>> data = new JsonResponse<>();
 		try {
@@ -271,13 +272,13 @@ public class FilterCategoriesServiceController extends AbstractController {
 				data.setResponseBody(mlpAccessTypes);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("ML Solutions Access type fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsAccessTypes: size is {} ",
+				log.debug("getSolutionsAccessTypes: size is {} ",
 						mlpAccessTypes.size());
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching ML Solutions Access Types for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching ML Solutions Access Type for Market Place Catalog", e);
 		}
 		return data;
@@ -297,7 +298,7 @@ public class FilterCategoriesServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<List<MLPCodeNamePair>> getToolkitTypes(HttpServletRequest request,
 			HttpServletResponse response) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getToolkitTypes: Entering");
+		log.debug("getToolkitTypes: Entering");
 		List<MLPCodeNamePair> mlpToolkitTypes = null;
 		JsonResponse<List<MLPCodeNamePair>> data = new JsonResponse<>();
 		try {
@@ -306,13 +307,13 @@ public class FilterCategoriesServiceController extends AbstractController {
 				data.setResponseBody(mlpToolkitTypes);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("ML Solutions Categories fetched Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "getSolutionsCategoryTypes: size is {} ",
+				log.debug("getSolutionsCategoryTypes: size is {} ",
 						mlpToolkitTypes.size());
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching ML Solutions Categories for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred Fetching ML Solutions Categories for Market Place Catalog", e);
 		}
 		return data;

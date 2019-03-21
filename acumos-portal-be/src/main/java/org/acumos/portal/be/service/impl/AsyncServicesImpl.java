@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.invoke.MethodHandles;
 import java.net.ConnectException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -54,7 +55,6 @@ import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.transport.UploadSolution;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.StringUtils;
@@ -69,6 +69,8 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -81,7 +83,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServices {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(AsyncServicesImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private Environment env;
@@ -111,7 +113,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	@Async
 	public Future<String> initiateAsyncProcess() throws InterruptedException {
 		log.info("###Start Processing with Thread id: " + Thread.currentThread().getId());
-		log.debug(EELFLoggerDelegate.debugLogger, "process");
+		log.debug("process");
 
 		String processInfo = String.format("Processing is Done with Thread id= %d", Thread.currentThread().getId());
 		return new AsyncResult<>(processInfo);
@@ -312,7 +314,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			// If disconnected from onboarding service, catch related exceptions
 			// here
 		} catch (ConnectException | NoHttpResponseException e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution - No response ", e);
+			log.error("Exception Occurred Onboarding the solution - No response ", e);
 
 			String reason = "Failed to connect to onboarding";
 
@@ -326,7 +328,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			// preference
 			sendEmailNotification(user.getUserId(), solution, e.getMessage());
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Onboarding the solution ", e);
+			log.error("Exception Occurred Onboarding the solution ", e);
 
 			// Send a bell notification to the user to alert of failure
 			sendBellNotification(user.getUserId(), e.getMessage());
@@ -402,7 +404,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			notifyBody.put("errorMessage", errorMessage);
 			notifyOnboardingStatus(userId, "HI", "Add To Catalog Failed for solution ", notifyBody, "ONBD_FAIL");
 		} catch (Exception e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred sending notification email ", e);
+			log.error("Exception Occurred sending notification email ", e);
 		}
 	}
 
@@ -425,7 +427,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	}
 
 	public MLPTaskStepResult sendTrackerErrorNotification(String uuid, String userId, String message) {
-		log.debug(EELFLoggerDelegate.debugLogger, "inside sendTrackerErrorNotification");
+		log.debug("inside sendTrackerErrorNotification");
 		MLPTaskStepResult res = null;
 		MLPTask task = null;
 		List<MLPTask> tasks = messagingService.findTasksByTrackingId(uuid);
@@ -484,7 +486,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	// Only Python models are considered to be Compatible with ONAP
 	@Override
 	public Boolean checkONAPCompatible(String solutionId, String revisionId, String userId, String tracking_id) {
-		log.debug(EELFLoggerDelegate.debugLogger, "checkONAPCompatible");
+		log.debug("checkONAPCompatible");
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 
@@ -537,7 +539,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			try {
 				byteArrayOutputStream = artifactClient.getArtifact(metaDataUrl);
 			} catch (Exception e) {
-				log.error(EELFLoggerDelegate.errorLogger, "Failed to get artifact for SolutionId={} and RevisionId ={}",
+				log.error("Failed to get artifact for SolutionId={} and RevisionId ={}",
 						solutionId, revisionId);
 				if (tracking_id != null) {
 					stepResult.setStatusCode("FA");
@@ -548,7 +550,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			}
 
 			if (byteArrayOutputStream == null) {
-				log.debug(EELFLoggerDelegate.debugLogger, "Artifact not for SolutionId={} and RevisionId ={}",
+				log.debug("Artifact not for SolutionId={} and RevisionId ={}",
 						solutionId, revisionId);
 				if (tracking_id != null) {
 					stepResult.setStatusCode("FA");
@@ -559,7 +561,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			}
 
 			String metaDatajsonString = byteArrayOutputStream.toString();
-			log.debug(EELFLoggerDelegate.debugLogger, "MetaData Json : " + metaDatajsonString);
+			log.debug("MetaData Json : " + metaDatajsonString);
 
 			if (PortalUtils.isEmptyOrNullString(metaDatajsonString)) {
 				if (tracking_id != null) {
@@ -607,7 +609,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			try {
 				builder = new URIBuilder(env.getProperty("onboarding.push.model.dcae_url"));
 			} catch (URISyntaxException e1) {
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
 			}
 
@@ -634,7 +636,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			try {
 				post = new HttpPost(builder.build());
 			} catch (URISyntaxException e1) {
-				log.error(EELFLoggerDelegate.errorLogger,
+				log.error(
 						"Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
 			}
 
@@ -654,19 +656,19 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					+ (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 
 			try {
-				log.debug(EELFLoggerDelegate.debugLogger, "Call Onboarding URI : " + post.getURI());
+				log.debug("Call Onboarding URI : " + post.getURI());
 				response = httpclient.execute(post);
 			} catch (UnsupportedEncodingException e) {
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+				log.error("Exception Occurred while convertSolutioToONAP ", e);
 			} catch (ClientProtocolException e) {
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+				log.error("Exception Occurred while convertSolutioToONAP ", e);
 			} catch (IOException e) {
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+				log.error("Exception Occurred while convertSolutioToONAP ", e);
 			} finally {
 				httpclient.close();
 			}
 		} catch (IOException e) {
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while convertSolutioToONAP ", e);
+			log.error("Exception Occurred while convertSolutioToONAP ", e);
 		}
 
 		return response;

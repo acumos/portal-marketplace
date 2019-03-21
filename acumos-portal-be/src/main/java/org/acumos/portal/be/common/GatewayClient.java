@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.common;
 
+import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,10 +29,11 @@ import java.util.Map;
 
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.http.client.HttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,7 @@ import org.springframework.web.client.HttpStatusCodeException;
  */
 public class GatewayClient extends AbstractClient {
 	
-	protected static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(GatewayClient.class);	
+	protected static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());		
 
 
 	/**
@@ -65,7 +67,7 @@ public class GatewayClient extends AbstractClient {
 		Map<String, String> uriParams = new HashMap<String, String>();
 		uriParams.put("peerId", peerId);		
 		URI uri = FederationAPI.PING.buildUri(this.baseUrl,uriParams);		
-		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
+		log.info( "Query for " + uri);
 		ResponseEntity<JsonResponse<MLPPeer>> response = null;
 		try {
 			response = restTemplate.exchange(uri, HttpMethod.GET, null,
@@ -73,14 +75,14 @@ public class GatewayClient extends AbstractClient {
 					});
 		}
 		catch (HttpStatusCodeException x) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " failed" + ((response == null) ? "" : (" " + response)), x);
+			log.error( uri + " failed" + ((response == null) ? "" : (" " + response)), x);
 			throw x;
 		}
 		catch (Throwable t) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " unexpected failure.", t);
+			log.error( uri + " unexpected failure.", t);
 		}
 		finally {
-			log.info(EELFLoggerDelegate.debugLogger, uri + " response " + response);
+			log.info( uri + " response " + response);
 		}
 		return response == null ? null : response.getBody();	
    }
@@ -112,7 +114,7 @@ public class GatewayClient extends AbstractClient {
 		URI uri = FederationAPI.SOLUTIONS.buildUri(this.baseUrl, selectorParam == null ? Collections.EMPTY_MAP
 				: Collections.singletonMap(FederationAPI.QueryParameters.SOLUTIONS_SELECTOR, selectorParam),uriParams);
 		
-		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
+		log.info( "Query for " + uri);
 		//System.out.println("uri=" + uri);
 		ResponseEntity<JsonResponse<List<MLPSolution>>> response = null;
 		try {
@@ -124,14 +126,14 @@ public class GatewayClient extends AbstractClient {
 			
 		}
 		catch (HttpStatusCodeException x) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " failed" + ((response == null) ? "" : (" " + response)), x);
+			log.error( uri + " failed" + ((response == null) ? "" : (" " + response)), x);
 			throw x;
 		}
 		catch (Throwable t) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " unexpected failure.", t);
+			log.error( uri + " unexpected failure.", t);
 		}
 		finally {
-			log.info(EELFLoggerDelegate.debugLogger, uri + " response " + response);
+			log.info( uri + " response " + response);
 		}
 		return response == null ? null : response.getBody();
 	}	
@@ -145,7 +147,7 @@ public class GatewayClient extends AbstractClient {
 		uriParams.put("peerId", peerId);
 		uriParams.put("solutionId", theSolutionId);
 		URI uri = FederationAPI.SOLUTION_DETAIL.buildUri(this.baseUrl, peerId,theSolutionId);
-		log.info(EELFLoggerDelegate.debugLogger, "Query for " + uri);
+		log.info( "Query for " + uri);
 		ResponseEntity<JsonResponse<MLPSolution>> response = null;
 		try {
 			response = restTemplate.exchange(uri, HttpMethod.GET, null,
@@ -153,14 +155,14 @@ public class GatewayClient extends AbstractClient {
 					});
 		}
 		catch (HttpStatusCodeException x) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " failed" + ((response == null) ? "" : (" " + response)), x);
+			log.error( uri + " failed" + ((response == null) ? "" : (" " + response)), x);
 			throw x;
 		}
 		catch (Throwable t) {
-			log.error(EELFLoggerDelegate.errorLogger, uri + " unexpected failure.", t);
+			log.error( uri + " unexpected failure.", t);
 		}
 		finally {
-			log.info(EELFLoggerDelegate.debugLogger, uri + " response " + response);
+			log.info( uri + " response " + response);
 		}
 		return response == null ? null : response.getBody();
 	}

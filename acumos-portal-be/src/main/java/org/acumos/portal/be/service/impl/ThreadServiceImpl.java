@@ -20,6 +20,7 @@
 package org.acumos.portal.be.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.invoke.MethodHandles;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +36,14 @@ import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
 import org.acumos.portal.be.transport.MLComment;
 import org.acumos.portal.be.util.DateUtils;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -53,8 +55,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
     private static final String FEW_SECONDS_AGO = "Just Now";
     private static final String MINUTES_AGO = "Minutes Ago";
     private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm a";
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate
-			.getLogger(ThreadServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	
 	@Autowired
@@ -71,7 +72,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	public MLPComment createComment(MLPComment comment) throws AcumosServiceException {
 		MLPComment mlpComment = null;
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "createComment");
+			log.debug("createComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			mlpComment = dataServiceRestClient.createComment(comment);
 		} catch (IllegalArgumentException e) {
@@ -85,7 +86,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	@Override
 	public void updateComment(MLPComment comment) throws AcumosServiceException {
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "updateComment");
+			log.debug("updateComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.updateComment(comment);
 		} catch (IllegalArgumentException e) {
@@ -98,7 +99,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	@Override
 	public void deleteComment(String threadId, String commentId) throws AcumosServiceException {
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "deleteComment");
+			log.debug("deleteComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.deleteComment(threadId, commentId);
 		} catch (IllegalArgumentException e) {
@@ -112,7 +113,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	public MLPComment getComment(String threadId, String commentId) throws AcumosServiceException {
 		MLPComment comment = null;
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "getComment");
+			log.debug("getComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			comment =  dataServiceRestClient.getComment(threadId, commentId);
 		} catch (IllegalArgumentException e) {
@@ -127,7 +128,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	@Override
 	public MLPThread createThread(MLPThread thread) throws AcumosServiceException{
 	    try {
-	    	log.debug(EELFLoggerDelegate.debugLogger, "getComment");
+	    	log.debug("getComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			thread = dataServiceRestClient.createThread(thread);
 			
@@ -144,7 +145,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	@Override
 	public void updateThread(MLPThread thread) throws AcumosServiceException{
 	    try {
-	    	log.debug(EELFLoggerDelegate.debugLogger, "getComment");
+	    	log.debug("getComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.updateThread(thread);
 		} catch (IllegalArgumentException e) {
@@ -158,7 +159,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	@Override
 	public void deleteThread(String threadId) throws AcumosServiceException{
 	    try {
-	    	log.debug(EELFLoggerDelegate.debugLogger, "getComment");
+	    	log.debug("getComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			dataServiceRestClient.deleteThread(threadId);
 		} catch (IllegalArgumentException e) {
@@ -173,7 +174,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	public MLPThread getThread(String threadId) throws AcumosServiceException{
 		MLPThread thread = null;
 	    try {
-	    	log.debug(EELFLoggerDelegate.debugLogger, "getComment");
+	    	log.debug("getComment");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			thread = dataServiceRestClient.getThread(threadId);
 			
@@ -192,7 +193,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		List<String> threads = new ArrayList<>();
 		List<MLPThread> mlpThreadList = new ArrayList<MLPThread>();
 	    try {
-	    	log.debug(EELFLoggerDelegate.debugLogger, "getThreads");
+	    	log.debug("getThreads");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPThread> threadList  = dataServiceRestClient.getThreads(null);
 			
@@ -216,7 +217,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		List<String> comments = new ArrayList<>();
 		List<MLPComment> mlpCommentList = new ArrayList<MLPComment>();
 	    try {
-	    	log.debug(EELFLoggerDelegate.debugLogger, "getThreadComments");
+	    	log.debug("getThreadComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPComment> commentList  = dataServiceRestClient.getThreadComments(threadId,pageRequest);
 			
@@ -239,7 +240,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	public long getThreadCount() throws AcumosServiceException{
 		long count;
 		try{
-			log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+			log.debug("getThreadCount");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			count = dataServiceRestClient.getThreadCount();
 		}catch (IllegalArgumentException e) {
@@ -255,7 +256,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 	public long getThreadCommentsCount(String threadId) throws AcumosServiceException{
 		long count;
 		try{
-			log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+			log.debug("getThreadCount");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			count = dataServiceRestClient.getThreadCommentCount(threadId);
 		}catch (IllegalArgumentException e) {
@@ -271,7 +272,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		List<MLPThread> threadList = new ArrayList<MLPThread>();
 		RestPageResponseBE<MLPThread> threadResponse = new RestPageResponseBE<>(threadList);
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreads");
+			log.debug("getSolutionRevisionThreads");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPThread> pageResponse = new RestPageResponse<>();
 			pageResponse = dataServiceRestClient.getSolutionRevisionThreads(solutionId, revisionId, pageRequest);
@@ -296,7 +297,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		
 		DateUtils dateUtils = new DateUtils();
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
+			log.debug("getSolutionRevisionComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
 			pageResponse = dataServiceRestClient.getSolutionRevisionComments(solutionId, revisionId, pageRequest);
@@ -320,7 +321,7 @@ public class ThreadServiceImpl extends AbstractServiceImpl implements ThreadServ
 		DateUtils dateUtils = new DateUtils();
 		RestPageResponseBE<MLComment> commentResponse = new RestPageResponseBE<>(content);
 		try {
-			log.debug(EELFLoggerDelegate.debugLogger, "getThreadChildComments");
+			log.debug("getThreadChildComments");
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			RestPageResponse<MLPComment> pageResponse = new RestPageResponse<>();
 			pageResponse = dataServiceRestClient.getThreadComments(threadId, pageRequest);

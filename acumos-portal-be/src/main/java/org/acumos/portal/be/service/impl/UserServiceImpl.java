@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -40,10 +41,11 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MailData;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -66,14 +68,14 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     @Autowired
     MailJet mailJet;
 
-    private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(UserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
     @Autowired
     private Environment env;
 
     @Override
     public User save(User user) {
-        log.debug(EELFLoggerDelegate.debugLogger, "save user={}", user);
+        log.debug("save user={}", user);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         UUID verifyToken = UUID.randomUUID();
 
@@ -98,7 +100,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
         //Use different UUID for api token
         String tokenKeyString = UUID.randomUUID().toString();
         mlpUser.setApiToken(tokenKeyString.replace("-",""));
-        log.info(EELFLoggerDelegate.debugLogger, " user={}", mlpUser);
+        log.info(" user={}", mlpUser);
         mlpUser = dataServiceRestClient.createUser(mlpUser);
         user = PortalUtils.convertToMLPuser(mlpUser);
 
@@ -146,18 +148,18 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 		try {
 			if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
 					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("smtp")) {
-				log.debug(EELFLoggerDelegate.debugLogger, "sendEmailNotification: using SMTP service");
+				log.debug("sendEmailNotification: using SMTP service");
 				mailservice.sendMail(mailData);
 			} else if (!PortalUtils.isEmptyOrNullString(env.getProperty(ConfigConstants.portal_feature_email_service))
 					&& env.getProperty(ConfigConstants.portal_feature_email_service).equalsIgnoreCase("mailjet")) {
-				log.debug(EELFLoggerDelegate.debugLogger, "sendEmailNotification: using mailjet service");
+				log.debug("sendEmailNotification: using mailjet service");
 				mailJet.sendMail(mailData);
 			} else {
-				log.debug(EELFLoggerDelegate.debugLogger, "sendEmailNotification: no email service configured in key "
+				log.debug("sendEmailNotification: no email service configured in key "
 						+ ConfigConstants.portal_feature_email_service);
 			}
 		} catch (MailException ex) {
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"sendUserNotification: failed to send mail to user " + mlpUser.getEmail(), ex);
 		}
 
@@ -165,7 +167,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public Boolean verifyUser(String username, String token) throws AcumosServiceException {
-        log.debug(EELFLoggerDelegate.debugLogger, "verifyUser ={}", username);
+        log.debug("verifyUser ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         try {
 	        MLPUser user = dataServiceRestClient.verifyUser(username, token);
@@ -174,7 +176,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	        	//Check for the verification token expiration date
 	        	DateTime verificationExpirationTime = new DateTime(user.getVerifyExpiration().toEpochMilli());
 	        	if (verificationExpirationTime.isBeforeNow()) {
-	        		log.debug(EELFLoggerDelegate.debugLogger, "Token expired for user : {}", user.getUserId());
+	        		log.debug("Token expired for user : {}", user.getUserId());
 	        		throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Verification Token Expired");
 	        	}
 	        }
@@ -182,7 +184,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	        user.setVerifyExpiration(null);
 	        dataServiceRestClient.updateUser(user);
         }catch (Exception e) {
-        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	log.error(e.getMessage());
         	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Token Validation Failed");
         }
         return Boolean.TRUE;
@@ -190,7 +192,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser verifyApiToken(String username, String token) throws AcumosServiceException {
-        log.debug(EELFLoggerDelegate.debugLogger, "verifyUser ={}", username);
+        log.debug("verifyUser ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPUser user = null;
         try {
@@ -198,7 +200,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	        //API tokens does not have any expiration date. No further checks
 
         }catch (Exception e) {
-        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	log.error(e.getMessage());
         	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Token Validation Failed");
         }
         return user;
@@ -206,7 +208,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public Boolean regenerateVerifyToken(String username) throws AcumosServiceException {
-        log.debug(EELFLoggerDelegate.debugLogger, "regenerateVerifyToken ={}", username);
+        log.debug("regenerateVerifyToken ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         try {
 	        MLPUser user = findUserByUsername(username);
@@ -225,7 +227,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	        }
 
         }catch (Exception e) {
-        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	log.error(e.getMessage());
         	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Token Regeneration Failed");
         }
         return Boolean.TRUE;
@@ -233,7 +235,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public void refreshApiToken(String userId) throws AcumosServiceException {
-        log.debug(EELFLoggerDelegate.debugLogger, "refreshApiToken ={}", userId);
+        log.debug("refreshApiToken ={}", userId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         try {
 	        MLPUser user = findUserByUserId(userId);
@@ -243,12 +245,12 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	            user.setApiToken(tokenKeyString.replace("-",""));
 	            dataServiceRestClient.updateUser(user);
 	        } else {
-	        	log.error(EELFLoggerDelegate.debugLogger, "Api token Refresh Failed");
+	        	log.error("Api token Refresh Failed");
 	        	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Api token Refresh Failed");
 	        }
 
         }catch (Exception e) {
-        	log.error(EELFLoggerDelegate.debugLogger, e.getMessage());
+        	log.error(e.getMessage());
         	throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, "Api token Refresh Failed");
         }
     }
@@ -258,7 +260,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
         List<User> user = null;
         List<MLPUser> mlpUser = null;
-        log.debug(EELFLoggerDelegate.debugLogger, "getAllUser");
+        log.debug("getAllUser");
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         Map<String, Object> queryParameters = new HashMap<>();
         //queryParameters.put("active_yn","Y");
@@ -292,7 +294,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser findUserByEmail(String emailId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "findUserByEmail ={}", emailId);
+        log.debug("findUserByEmail ={}", emailId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPUser mlpUser = null;
         //TODO WorkAround for emailId as there is no method available for finding user using emailId
@@ -319,7 +321,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser findUserByUsername(String username) {
-        log.debug(EELFLoggerDelegate.debugLogger, "findUserByUsername ={}", username);
+        log.debug("findUserByUsername ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         MLPUser mlpUser = null;
         Map<String, Object> queryParams = new HashMap<>();
@@ -350,7 +352,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public MLPUser login(String username, String password) {
-        log.debug(EELFLoggerDelegate.debugLogger, "login ={}", username);
+        log.debug("login ={}", username);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         return dataServiceRestClient.loginUser(username, password);
         //PortalRestClienttImpl portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.user.name"), env.getProperty("cdms.client.password"));;
@@ -368,7 +370,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
 	 @Override
 	public boolean changeUserPassword(String userId, String oldPassword, String newPassword) throws Exception {
-		log.debug(EELFLoggerDelegate.debugLogger, "changeUserPassword ={}", userId);
+		log.debug("changeUserPassword ={}", userId);
 		boolean passwordChangeSuccessful = false;
 		boolean oldPass = false;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -385,7 +387,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 				oldPass = true;
 			} catch (Exception e) {
 				oldPass = false;
-				log.error(EELFLoggerDelegate.errorLogger, "Old password not matches : changeUserPassword ={}", e);
+				log.error( "Old password not matches : changeUserPassword ={}", e);
 			}
 			// If Successful then try to change the password
 			if (oldPass) {
@@ -420,7 +422,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	            			mailJet.sendMail(mailData);
 	        		}
 	            } catch (MailException ex) {
-	                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+	                log.error( "Exception Occurred while Sending Mail to user ={}", ex);
 	            }
 		}
 		return passwordChangeSuccessful;
@@ -428,21 +430,21 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
     @Override
     public void updateUser(User user) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updateUser ={}", user);
+        log.debug("updateUser ={}", user);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(PortalUtils.convertToMLPUserForUpdate(user));
     }
     
     @Override
     public void updateMLPUser(MLPUser mlpUser) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updateMLPUser ={}", mlpUser);
+        log.debug("updateMLPUser ={}", mlpUser);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(mlpUser);
     }
     
     @Override
     public void deleteToken(User user) {
-        log.debug(EELFLoggerDelegate.debugLogger, "updateUser ={}", user);
+        log.debug("updateUser ={}", user);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
        // dataServiceRestClient.updateUser(PortalUtils.convertToMLPUserForDelete(user));
     }
@@ -487,13 +489,13 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
             			mailJet.sendMail(mailData);
         		}
             } catch (MailException ex) {
-                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+                log.error( "Exception Occurred while Sending Mail to user ={}", ex);
             }
         }
 
 	@Override
 	public MLPUser findUserByUserId(String userId) {
-			log.debug(EELFLoggerDelegate.debugLogger, "findUserByUserId ={}", userId);
+			log.debug("findUserByUserId ={}", userId);
 	        ICommonDataServiceRestClient dataServiceRestClient = getClient();
 	        MLPUser mlpUser = null;
 	        Map<String, Object> queryParams = new HashMap<>();
@@ -508,7 +510,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     @Override
     public List<MLPRole> getUserRole(String userId) {
 
-        log.debug(EELFLoggerDelegate.debugLogger, "getUserRole for user {}", userId);
+        log.debug("getUserRole for user {}", userId);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         //queryParameters.put("active_yn","Y");
         List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
@@ -538,7 +540,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     }
     @Override
     public MLRole getRoleCountForUser(RestPageRequest pageRequest) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getAllRoles");
+        log.debug("getAllRoles");
         MLRole roleUserMap = new MLRole();
         ICommonDataServiceRestClient dataServiceRestClient = getClient();        
 		RestPageResponse<MLPUser> userList = dataServiceRestClient.getUsers(pageRequest);
@@ -570,21 +572,21 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
     
     @Override
     public void updateUserImage(MLPUser user) {
-    	log.debug(EELFLoggerDelegate.debugLogger, "updateUserImage ={}", user);
+    	log.debug("updateUserImage ={}", user);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(user);
     }
 
 	@Override
 	public void updateBulkUsers(MLPUser mlpUser) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUserImage ={}", mlpUser);
+		log.debug("updateUserImage ={}", mlpUser);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.updateUser(mlpUser);
 	}
 	
 	@Override
 	public void deleteBulkUsers(String mlpUser) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUserImage ={}", mlpUser);
+		log.debug("updateUserImage ={}", mlpUser);
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         dataServiceRestClient.deleteUser(mlpUser);
 	}
@@ -629,7 +631,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
             			mailJet.sendMail(mailData);
         		}
             } catch (MailException ex) {
-                log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Sending Mail to user ={}", ex);
+                log.error( "Exception Occurred while Sending Mail to user ={}", ex);
             }
         }
 }

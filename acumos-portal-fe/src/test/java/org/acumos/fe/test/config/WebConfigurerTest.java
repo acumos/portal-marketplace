@@ -20,13 +20,15 @@
 package org.acumos.fe.test.config;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import org.acumos.portal.fe.AcumosPortalApplication;
-import org.acumos.portal.fe.config.EELFLoggerDelegate;
 import org.acumos.portal.fe.config.WebConfigurer;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.AbstractConfigurableEmbeddedServletContainer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 
@@ -35,7 +37,7 @@ public class WebConfigurerTest {
 	
 	 private static final int _DEFAULT_PORT = 8080;
 
-	private final static EELFLoggerDelegate  logger = EELFLoggerDelegate.getLogger(AcumosPortalApplication.class);
+	 private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	
 	 private AbstractConfigurableEmbeddedServletContainer dummyconfigurableEmbeddedServletContainer = new AbstractConfigurableEmbeddedServletContainer() {
 		 

@@ -19,6 +19,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,9 @@ import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
 import org.acumos.portal.be.service.ThreadService;
 import org.acumos.portal.be.transport.MLComment;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,7 +54,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 @RequestMapping("/")
 public class ThreadController extends AbstractController {
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(ThreadController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private ThreadService threadService;
@@ -72,11 +74,11 @@ public class ThreadController extends AbstractController {
 			data.setResponseBody(thread);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Thread created Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "createThread :  ");
+			log.debug("createThread :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while createThread");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createThread :", e);
+			log.error("Exception Occurred createThread :", e);
 		}
 		return data;
 	}
@@ -91,11 +93,11 @@ public class ThreadController extends AbstractController {
 			threadService.updateThread(mlpthread.getBody());
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Thread Updated Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "updateThread :  ");
+			log.debug("updateThread :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while updateThread");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateThread :", e);
+			log.error("Exception Occurred updateThread :", e);
 		}
 		return data;
 	}
@@ -110,11 +112,11 @@ public class ThreadController extends AbstractController {
 			threadService.deleteThread(threadId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Thread deleted Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "deleteThread :  ");
+			log.debug("deleteThread :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while deleteThread");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteThread :", e);
+			log.error("Exception Occurred deleteThread :", e);
 		}
 		return data;
 	}
@@ -133,11 +135,11 @@ public class ThreadController extends AbstractController {
 			data.setResponseBody(thread);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Threads fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "getThread :  ");
+			log.debug("getThread :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while getThread");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred getThread :", e);
+			log.error("Exception Occurred getThread :", e);
 		}
 		return data;
 	}
@@ -153,11 +155,11 @@ public class ThreadController extends AbstractController {
 			data.setResponseBody(comment);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Comments created Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "createComment :  ");
+			log.debug("createComment :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while createComment");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createComment :", e);
+			log.error("Exception Occurred createComment :", e);
 		}
 		return data;
 	}
@@ -172,11 +174,11 @@ public class ThreadController extends AbstractController {
 			threadService.updateComment(mlpComment.getBody());
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Comments updated Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "updateComment :  ");
+			log.debug("updateComment :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while updateComment");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateComment :", e);
+			log.error("Exception Occurred updateComment :", e);
 		}
 		return data;
 	}
@@ -191,11 +193,11 @@ public class ThreadController extends AbstractController {
 			threadService.deleteComment(threadId, commentId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Comments deleted Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "deleteComment :  ");
+			log.debug("deleteComment :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while deleteComment");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteComment :", e);
+			log.error("Exception Occurred deleteComment :", e);
 		}
 		return data;
 	}
@@ -215,11 +217,11 @@ public class ThreadController extends AbstractController {
 			data.setResponseBody(comment);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Comments fetched Successfully");
-			log.debug(EELFLoggerDelegate.debugLogger, "deleteComment :  ");
+			log.debug("deleteComment :  ");
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while deleteComment");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteComment :", e);
+			log.error("Exception Occurred deleteComment :", e);
 		}
 		return data;
 	}
@@ -228,7 +230,7 @@ public class ThreadController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_THREADS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getThreads(@RequestBody JsonRequest<RestPageRequest> restPageReq) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getThreads");
+		log.debug("getThreads");
 		List<String> threadList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
@@ -243,12 +245,12 @@ public class ThreadController extends AbstractController {
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Fetching thread");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread");
+				log.error("Exception Occurred Fetching thread");
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread", e);
+			log.error("Exception Occurred Fetching thread", e);
 		}
 		return data;
 	}
@@ -258,7 +260,7 @@ public class ThreadController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_THREAD_COMMENTS}, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getThreadComments(@PathVariable String threadId,@RequestBody JsonRequest<RestPageRequest> restPageReq) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getThreadComments");
+		log.debug("getThreadComments");
 		List<String> commentsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
@@ -276,12 +278,12 @@ public class ThreadController extends AbstractController {
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Exception Occurred Fetching thread");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread");
+				log.error("Exception Occurred Fetching thread");
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread", e);
+			log.error("Exception Occurred Fetching thread", e);
 		}
 		return data;
 	}
@@ -291,7 +293,7 @@ public class ThreadController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_THREADCOUNT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getThreadCount(){
-		log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+		log.debug("getThreadCount");
 		long threadCount;
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		List content = new ArrayList<>();
@@ -308,7 +310,7 @@ public class ThreadController extends AbstractController {
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread", e);
+			log.error("Exception Occurred Fetching thread", e);
 		}
 		
 		return data;
@@ -320,7 +322,7 @@ public class ThreadController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_THREADCOMMENTSCOUNT}, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getThreadCommentsCount(@PathVariable String threadId){
-		log.debug(EELFLoggerDelegate.debugLogger, "getThreadCount");
+		log.debug("getThreadCount");
 		long threadCommentCount;
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		List content = new ArrayList<>();
@@ -337,7 +339,7 @@ public class ThreadController extends AbstractController {
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
 			data.setResponseDetail(e.getMessage());
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching threadCommentsCount", e);
+			log.error("Exception Occurred Fetching threadCommentsCount", e);
 		}
 		
 		return data;
@@ -348,7 +350,7 @@ public class ThreadController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_THREAD_SOLUTIONREVISION }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLPThread>> getSolutionRevisionThreads(@PathVariable String solutionId,@PathVariable String revisionId, @RequestBody JsonRequest<RestPageRequest> restPageReq) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreads");
+		log.debug("getSolutionRevisionThreads");
 		RestPageResponseBE<MLPThread> mlpThread = null;
 		JsonResponse<RestPageResponseBE<MLPThread>> data = new JsonResponse<>();
 		try {
@@ -364,7 +366,7 @@ public class ThreadController extends AbstractController {
 			data.setStatus(false);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching thread for solution and revision Id's");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread for solution and revision Id's", e);
+			log.error("Exception Occurred Fetching thread for solution and revision Id's", e);
 		}
 		return data;
 	}
@@ -375,7 +377,7 @@ public class ThreadController extends AbstractController {
 	public JsonResponse<RestPageResponseBE<MLComment>> getThreadChildComments(@PathVariable String threadId, 
 			@RequestBody JsonRequest<RestPageRequest> restPageReq,
 			@RequestHeader(value = "clientTimeZone", required = false) String clientTimeZone) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionThreads");
+		log.debug("getSolutionRevisionThreads");
 		RestPageResponseBE<MLComment> mlComment = null;
 		JsonResponse<RestPageResponseBE<MLComment>> data = new JsonResponse<>();
 		try {
@@ -391,7 +393,7 @@ public class ThreadController extends AbstractController {
 			data.setStatus(false);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching thread for solution and revision Id's");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching thread for solution and revision Id's", e);
+			log.error("Exception Occurred Fetching thread for solution and revision Id's", e);
 		}
 		return data;
 	}
@@ -401,7 +403,7 @@ public class ThreadController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLComment>> getSolutionRevisionComments(@PathVariable String solutionId,@PathVariable String revisionId, @RequestBody JsonRequest<RestPageRequest> restPageReq,
 			@RequestHeader(value = "UserTimeZone", required = false) String clientTimeZone) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getSolutionRevisionComments");
+		log.debug("getSolutionRevisionComments");
 		RestPageResponseBE<MLComment> mlComment = null;
 		JsonResponse<RestPageResponseBE<MLComment>> data = new JsonResponse<>();
 		try {
@@ -417,7 +419,7 @@ public class ThreadController extends AbstractController {
 			data.setStatus(false);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred Fetching comments for solution and revision Id's");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred Fetching comments for solution and revision Id's", e);
+			log.error("Exception Occurred Fetching comments for solution and revision Id's", e);
 		}
 		return data;
 	}

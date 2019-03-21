@@ -149,21 +149,10 @@ public class ONAPLogAdapter {
 
 		// Extract MDC values from standard HTTP headers.
 		final String requestID = defaultToUUID(request.getHeader(ONAPLogConstants.Headers.REQUEST_ID));
-		final String invocationID = defaultToUUID(request.getHeader(ONAPLogConstants.Headers.INVOCATION_ID));
-		final String partnerName = defaultToEmpty(request.getHeader(ONAPLogConstants.Headers.PARTNER_NAME));
-		
 		// Get the UserName
 		final String userName = defaultToEmpty(request.getUser());
 		MDC.put(ONAPLogConstants.MDCs.USER,userName);
-				
-
-		// Set standard MDCs. 
-		MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
-				ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
 		MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestID);
-		MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationID);
-		if (!partnerName.isEmpty())
-			MDC.put(ONAPLogConstants.MDCs.PARTNER_NAME, partnerName);
 		MDC.put(ONAPLogConstants.MDCs.CLIENT_IP_ADDRESS, defaultToEmpty(request.getClientAddress()));
 		MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, defaultToEmpty(request.getServerAddress()));	
 

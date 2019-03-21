@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +33,9 @@ import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.MLRole;
 import org.acumos.portal.be.transport.MLRoleFunction;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +49,7 @@ import org.acumos.cds.transport.RestPageResponse;
 @Service
 public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRoleService{
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(UserRoleServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	@Autowired
 	private UserService userService;
@@ -58,7 +60,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	
 	@Override
 	public List<MLRole> getAllRoles() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getAllRoles");
+		log.debug("getAllRoles");
 		List<MLRole> mlRoles = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 
@@ -84,7 +86,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	
 	@Override
     public List<MLRole> getRolesForUser(String userId) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getAllRoles");
+        log.debug("getAllRoles");
         List<MLRole> mlRoles = null;
         ICommonDataServiceRestClient dataServiceRestClient = getClient();
         List<MLPRole> mlpRoles = dataServiceRestClient.getUserRoles(userId);
@@ -102,7 +104,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 
 	@Override
 	public MLRole getRole(String roleId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getRole");
+		log.debug("getRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLRole mlRole = null;
 		MLPRole mlpRole = dataServiceRestClient.getRole(roleId);
@@ -114,7 +116,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 
 	@Override
 	public MLPRole createRole(MLRole role) {
-		log.debug(EELFLoggerDelegate.debugLogger, "createRole");
+		log.debug("createRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPRole mlpRole = null;
 		//Always create the role with active status
@@ -125,21 +127,21 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 
 	@Override
 	public void updateRole(JsonRequest<MLPRole> role) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateRole");
+		log.debug("updateRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.updateRole(role.getBody());
 	}
 
 	@Override
 	public void deleteRole(String roleId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteRole");
+		log.debug("deleteRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.deleteRole(roleId);
 	}
 
 	@Override
 	public MLRoleFunction getRoleFunction(String roleId, String roleFunctionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getRole");
+		log.debug("getRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLRoleFunction mlRoleFunction = null;
 		MLPRoleFunction mlpRoleFunction = dataServiceRestClient.getRoleFunction(roleId,roleFunctionId);	
@@ -151,7 +153,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 
 	@Override
 	public MLPRoleFunction createRoleFunction(MLPRoleFunction mlRoleFunction) {  
-		log.debug(EELFLoggerDelegate.debugLogger, "createRole");
+		log.debug("createRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPRoleFunction mlpRolefunction = null;
 		mlpRolefunction = dataServiceRestClient.createRoleFunction(mlRoleFunction);
@@ -160,28 +162,28 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 
 	@Override
 	public void updateRoleFunction(JsonRequest<MLPRoleFunction> mlpRoleFunction) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteRole");
+		log.debug("deleteRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.updateRoleFunction(mlpRoleFunction.getBody());		
 	}
 	
 	@Override
 	public void deleteRoleFunction(String roleId, String roleFunctionId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteRole");
+		log.debug("deleteRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.deleteRoleFunction(roleId,roleFunctionId);
 	}
 
 	@Override
 	public void addUserRole(String userId, String roleId) {
-		log.debug(EELFLoggerDelegate.debugLogger, "addUserRole");
+		log.debug("addUserRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.addUserRole(userId,roleId);
 	}	
 	
 	@Override
 	public void updateUserRole(User user) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUserRole");
+		log.debug("updateUserRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if(user.getUserAssignedRolesList() !=null && user.getUserId() != null){
 			for(MLPRole role : user.getUserAssignedRolesList())
@@ -197,7 +199,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	
 	@Override
 	public void updateUserRoleMulti(List<String> userIdList, List<String> roleIdList,List<String> updatedRoleIdList) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUserRole");
+		log.debug("updateUserRole");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		for (String userId : userIdList) {
 			for (String updatedRoleId : updatedRoleIdList) {
@@ -216,7 +218,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 
 	@Override
     public MLRole getRoleCountForUser(RestPageRequest pageRequest) {
-        log.debug(EELFLoggerDelegate.debugLogger, "getAllRoles");
+        log.debug("getAllRoles");
         MLRole roleUserMap = new MLRole();
         ICommonDataServiceRestClient dataServiceRestClient = getClient();        
 		RestPageResponse<MLPUser> userList = dataServiceRestClient.getUsers(pageRequest);
@@ -248,7 +250,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 
 	@Override
 	public void updateUserRoles(User user) {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUserRoles");
+		log.debug("updateUserRoles");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();		
 		if(user.getUserIdList() != null && user.getUserNewRoleList()!= null){
 			for(String userId : user.getUserIdList()){				
@@ -259,7 +261,7 @@ public class UserRoleServiceImpl extends AbstractServiceImpl implements UserRole
 	
 	@Override
 	public List<MLRole> getRoleUsersCount() {
-		log.debug(EELFLoggerDelegate.debugLogger, "updateUserRoles");
+		log.debug("updateUserRoles");
 		List<MLRole> mlRoleList = new ArrayList<>();
 
 		Map<String, List<MLRole>> mlRoleMap = new HashMap<>();

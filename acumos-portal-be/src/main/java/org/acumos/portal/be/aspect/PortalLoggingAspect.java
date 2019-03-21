@@ -20,13 +20,16 @@
 
 package org.acumos.portal.be.aspect;
 
+import java.lang.invoke.MethodHandles;
+
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 /**
@@ -37,7 +40,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PortalLoggingAspect  {
 	
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(PortalLoggingAspect.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 		
 	@Pointcut("within(@org.springframework.stereotype.Controller *)")
 	   public void controller() {
@@ -55,12 +58,11 @@ public class PortalLoggingAspect  {
 				@SuppressWarnings("unchecked")
 				org.acumos.portal.be.common.JsonRequest<User> user = (org.acumos.portal.be.common.JsonRequest<User>) signatureArg;
 				String username = user.getBody().getUsername();
-				MDC.put("user", username);
-				MDC.put("contextName", "Acumos");
-				log.info(EELFLoggerDelegate.securityLogger, "User Logging in");
-				log.info(EELFLoggerDelegate.auditLogger, "User Logging in");
-				MDC.remove("user");
-				MDC.remove("contextName");				
+				MDC.put("User", username);
+				//MDC.put("contextName", "Acumos");
+				log.info( "User Logging in");
+				MDC.remove("User");
+				//MDC.remove("contextName");				
 			}
 		}		
 	}
@@ -73,19 +75,18 @@ public class PortalLoggingAspect  {
 				@SuppressWarnings("unchecked")
 				org.acumos.portal.be.common.JsonRequest<User> user = (org.acumos.portal.be.common.JsonRequest<User>) signatureArg;
 				String username = user.getBody().getUsername();
-				MDC.put("user", username);
-				MDC.put("contextName", "Acumos");												
+				MDC.put("User", username);
+				//MDC.put("contextName", "Acumos");												
 			}
 		}		
 		if(result instanceof org.acumos.portal.be.transport.ResponseVO) {
-			log.info(EELFLoggerDelegate.securityLogger, ((org.acumos.portal.be.transport.ResponseVO)result).getMessage());
+			log.info( ((org.acumos.portal.be.transport.ResponseVO)result).getMessage());
 		} else if(result instanceof org.acumos.portal.be.transport.AbstractResponseObject){
-			log.info(EELFLoggerDelegate.securityLogger, "User Logged Successfully");
-			log.info(EELFLoggerDelegate.auditLogger, "User Logged Successfully");
+			log.info( "User Logged Successfully");
 		}		
 		
-		MDC.remove("user");
-		MDC.remove("contextName");
+		MDC.remove("User");
+		//MDC.remove("contextName");
 	}
 	
 }

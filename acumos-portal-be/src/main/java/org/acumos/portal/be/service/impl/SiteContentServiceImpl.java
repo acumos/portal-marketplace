@@ -20,10 +20,13 @@
 
 package org.acumos.portal.be.service.impl;
 
+import java.lang.invoke.MethodHandles;
+
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPSiteContent;
 import org.acumos.portal.be.service.SiteContentService;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,87 +37,87 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 	public static final String KEY_ONBOARDING_OVERVIEW = "global.onboarding.overview";
 	public static final String KEY_CONTACT_INFO = "global.footer.contactInfo";
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(SiteContentServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Override
 	public MLPSiteContent getTermsConditions() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getTermsConditions");
+		log.debug("getTermsConditions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_TERMS_CONDITIONS);
 	}
 
 	@Override
 	public void setTermsConditions(MLPSiteContent content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "setTermsConditions");
+		log.debug("setTermsConditions");
 		content.setContentKey(KEY_TERMS_CONDITIONS);
 		createOrUpdateContent(content);
 	}
 
 	@Override
 	public MLPSiteContent getCobrandLogo() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getCobrandLogo");
+		log.debug("getCobrandLogo");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_COBRAND_LOGO);
 	}
 
 	@Override
 	public void setCobrandLogo(MLPSiteContent picture) {
-		log.debug(EELFLoggerDelegate.debugLogger, "setCobrandLogo");
+		log.debug("setCobrandLogo");
 		picture.setContentKey(KEY_COBRAND_LOGO);
 		createOrUpdateContent(picture);
 	}
 
 	@Override
 	public void deleteCobrandLogo() {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteCobrandLogo");
+		log.debug("deleteCobrandLogo");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.deleteSiteContent(KEY_COBRAND_LOGO);
 	}
 
 	@Override
 	public MLPSiteContent getOnboardingOverview() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getOnboardingOverview");
+		log.debug("getOnboardingOverview");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_ONBOARDING_OVERVIEW);
 	}
 
 	@Override
 	public void setOnboardingOverview(MLPSiteContent content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "setOnboardingOverview");
+		log.debug("setOnboardingOverview");
 		content.setContentKey(KEY_ONBOARDING_OVERVIEW);
 		createOrUpdateContent(content);
 	}
 
 	@Override
 	public MLPSiteContent getContactInfo() {
-		log.debug(EELFLoggerDelegate.debugLogger, "getContactInfo");
+		log.debug("getContactInfo");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_CONTACT_INFO);
 	}
 
 	@Override
 	public void setContactInfo(MLPSiteContent content) {
-		log.debug(EELFLoggerDelegate.debugLogger, "setContactInfo");
+		log.debug("setContactInfo");
 		content.setContentKey(KEY_CONTACT_INFO);
 		createOrUpdateContent(content);
 	}
 
 	@Override
 	public MLPSiteContent getCarouselPicture(String key) {
-		log.debug(EELFLoggerDelegate.debugLogger, "getCarouselPicture ={}", key);
+		log.debug("getCarouselPicture ={}", key);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(key);
 	}
 
 	@Override
 	public void setCarouselPicture(MLPSiteContent picture) {
-		log.debug(EELFLoggerDelegate.debugLogger, "setCarouselPicture ={}", picture.getContentKey());
+		log.debug("setCarouselPicture ={}", picture.getContentKey());
 		createOrUpdateContent(picture);
 	}
 
 	@Override
 	public void deleteCarouselPicture(String key) {
-		log.debug(EELFLoggerDelegate.debugLogger, "deleteCarouselPicture ={}", key);
+		log.debug("deleteCarouselPicture ={}", key);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.deleteSiteContent(key);
 	}

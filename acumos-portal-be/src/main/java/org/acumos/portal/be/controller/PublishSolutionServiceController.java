@@ -23,6 +23,7 @@
  */
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +36,9 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.transport.ResponseVO;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,7 +53,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/")
 public class PublishSolutionServiceController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(PublishSolutionServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 	
 	@Autowired
 	private PublishSolutionService publishSolutionService;
@@ -76,8 +78,8 @@ public class PublishSolutionServiceController extends AbstractController {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		
-		log.debug(EELFLoggerDelegate.debugLogger, "publishSolution={}", solutionId, visibility);
-		log.info(EELFLoggerDelegate.auditLogger, "publishSolution={}", solutionId, visibility);
+		log.debug("publishSolution={}", solutionId, visibility);
+		log.info("publishSolution={}", solutionId, visibility);
 		JsonResponse<Object> data = new JsonResponse<>();
 		UUID trackingId = UUID.randomUUID();
 		try {
@@ -103,7 +105,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while Publishing Model");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while publishSolution()", e);
+			log.error( "Exception Occurred while publishSolution()", e);
 		}
 		return data;
 	}
@@ -116,7 +118,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		
-		log.debug(EELFLoggerDelegate.debugLogger, "unpublishSolution={}", solutionId, visibility);
+		log.debug("unpublishSolution={}", solutionId, visibility);
 		 JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			//TODO As of now it does not check if User Account already exists. Need to first check if the account exists in DB
@@ -126,7 +128,7 @@ public class PublishSolutionServiceController extends AbstractController {
 		} catch (Exception e) {
 			 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
  			 data.setResponseDetail("Exception Occurred while unpublishSolution()");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while unpublishSolution()", e);
+			log.error( "Exception Occurred while unpublishSolution()", e);
 		}
 		return data;
 	}

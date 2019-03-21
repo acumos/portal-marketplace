@@ -23,7 +23,11 @@
  */
 package org.acumos.portal.fe;
 
-import org.acumos.portal.fe.config.EELFLoggerDelegate;
+import java.lang.invoke.MethodHandles;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -38,7 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableZuulProxy
 public class AcumosPortalApplication implements ApplicationContextAware {
 
-	private final static EELFLoggerDelegate  logger = EELFLoggerDelegate.getLogger(AcumosPortalApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	public static final String CONFIG_ENV_VAR_NAME = "SPRING_APPLICATION_JSON";
 

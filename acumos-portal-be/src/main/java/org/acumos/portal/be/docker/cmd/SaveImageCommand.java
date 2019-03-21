@@ -31,8 +31,9 @@ import java.lang.invoke.MethodHandles;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerException;
@@ -44,7 +45,7 @@ import com.github.dockerjava.core.command.PullImageResultCallback;
  */
 public class SaveImageCommand extends DockerCommand
 {
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(MethodHandles.lookup().lookupClass());
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	private final String imageName;
 

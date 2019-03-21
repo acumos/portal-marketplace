@@ -30,15 +30,18 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.junit.Assert.assertEquals;
 
+import java.lang.invoke.MethodHandles;
+
 import org.acumos.cds.domain.MLPSiteContent;
 import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.service.impl.SiteContentServiceImpl;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.apache.http.HttpStatus;
 import org.glassfish.jersey.internal.util.Base64;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -53,7 +56,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 		ConfigConstants.cdms_client_username + "=ccds_test", ConfigConstants.cdms_client_password + "=ccds_test" })
 public class SiteContentServiceImplTest {
 
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(SiteContentServiceImplTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8000));

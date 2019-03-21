@@ -12,154 +12,61 @@
   <!-- Can easily relocate debug logs by modifying this path. -->
   <property name="debugLogDirectory" value="${logDirPrefix}/${componentName}" />
   
- <property name="p_tim" value="%d{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;, UTC}"/>
- <property name="p_thr" value="%thread"/>
- <property name="p_thr" value="%thread"/>
- <property name="p_lvl" value="%level"/>
- <property name="TargetServiceName" value="%logger"/>
- <property name="p_log" value="%logger"/>
- <property name="p_mdc" value="%replace(%replace(%mdc){'\t','\\\\t'}){'\n', '\\\\n'}"/>
- <property name="p_msg" value="%replace(%replace(%msg){'\t', '\\\\t'}){'\n','\\\\n'}"/>
- <property name="p_exc" value="%replace(%replace(%rootException){'\t', '\\\\t'}){'\n','\\\\n'}"/>
- <property name="p_mrk" value="%replace(%replace(%marker){'\t', '\\\\t'}){'\n','\\\\n'}"/>
- <property name="singleLinePattern" value="%nopexception${p_tim}\t${p_thr}\t${p_lvl}\t${p_log}\t${p_mdc}\t${p_msg}\t${p_exc}\t${p_mrk}\t%n"/>
- <property name="multiLinePattern" value="%nopexception${p_tim}\t${p_thr}\t${p_lvl}\t${p_log}\t%mdc\t%msg\t%rootException\t%marker\t%n"/>
- <property name="ServiceName" value="%M"/>
-  
-  <!--  log file names -->
-  <property name="generalLogName" value="audit" />
-  <property name="errorLogName" value="error" />
-  <property name="debugLogName" value="debug" />
-   
-  <!-- <property name="defaultPattern" value="%date{ISO8601}|%X{RequestId}|%X{ServiceInstanceId}|%thread|%X{VirtualServerName}|%X{ServiceName}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{ServerFQDN}|%X{RemoteHost}|%X{ClassName}|%X{Timer}| %msg%n" />
-  <property name="debugLoggerPattern" value="%date{ISO8601}|%X{RequestId}|%X{ServiceInstanceId}|%thread|%X{VirtualServerName}|%X{ServiceName}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{ServerFQDN}|%X{RemoteHost}|%X{ClassName}|%X{Timer}| %msg%n" />
-  
-  <property name="debugAccessPattern" value="%date{ISO8601}|%X{contextName}|%X{user}|%thread|%.-5level|%X{AlertSeverity}|%X{ClassName}| %msg%n" /> -->
-  
-  
-  <property name="newmultiLinePattern"
-		value="%date{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;,UTC}|%X{EntryTimestamp}|%X{InvokeTimestamp}|%X{RequestID}|%X{InvocationID}|%X{InstanceUUID}|%X{ServiceInstanceID}|${p_thr}|${ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%.-5level|%X{Severity}|%X{ServerIPAddress}|%X{Timer}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{VirtualServerName}|%X{ContextName}|%X{TargetEntity}|%X{ClassName}|%X{TargetElement}|%X{User}|${p_log}|${p_mdc}|%msg|${p_mrk}%n" />
-   
-   
-  <!-- Example evaluator filter applied against console appender -->
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <pattern>${newmultiLinePattern}</pattern>
-    </encoder>
-  </appender>   
-  
-  <appender name="ACCESS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logDirectory}/access.log</file>
-         <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>access.log.%d{yyyy-MM-dd}.log</FileNamePattern>
-        </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-        <encoder>
-            <pattern>${newmultiLinePattern}</pattern>
-        </encoder>
-    </appender>
+
+	<!-- Based on https://wiki.acumos.org/display/OAM/Log+Standards -->
+	<property name="p_tim" value="%d{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;, UTC}" />
+	<property name="p_thr" value="%thread" />
+	<property name="p_lvl" value="%.-5level" />
+	<!-- Logger yields original class name in SLF4J loggers -->
+	<property name="p_log" value="%logger" />
+	<property name="p_mrk" value="%replace(%replace(%marker){'\t', '\\\\t'}){'\n','\\\\n'}" />
+	<property name="p_mdc" value="%replace(%replace(%mdc){'\t','\\\\t'}){'\n', '\\\\n'}" />
+	<property name="p_msg" value="%replace(%replace(%msg){'\t', '\\\\t'}){'\n','\\\\n'}" />
+	<!--  Gather exception stack trace with no linebreaks -->
+	<property name="p_exc" value="%replace(%replace(%ex){'\t', '\\\t'}){'\n','\\\n'}" />
+
+  <!-- <property name="multiLineBoreasPattern"
+		value="${p_tim}|%X{RequestID}|${p_thr}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|${p_lvl}|%X{Severity}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{TargetEntity}|%X{ClassName}|%X{User}|${p_log}|${p_mdc}|%msg|${p_mrk}%n" />
+    -->
     
-  <appender name="EELF"
-    class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${logDirectory}/${generalLogName}.log</file>
-    <rollingPolicy
-      class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-      <fileNamePattern>${logDirectory}/${generalLogName}.%i.log.zip
-      </fileNamePattern>
-      <minIndex>1</minIndex>
-      <maxIndex>9</maxIndex>
-    </rollingPolicy>
-    <triggeringPolicy
-      class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-      <maxFileSize>5MB</maxFileSize>
-    </triggeringPolicy>
-    <encoder>
-      <pattern>${newmultiLinePattern}</pattern>
-    </encoder>
-  </appender>
-  
-  <appender name="asyncEELF" class="ch.qos.logback.classic.AsyncAppender">
-    <queueSize>256</queueSize>
-    <appender-ref ref="EELF" />
-    <includeCallerData>true</includeCallerData>
-  </appender>
-   
-  <appender name="EELFError"
-    class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${logDirectory}/${errorLogName}.log</file>
-    <rollingPolicy
-      class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-      <fileNamePattern>${logDirectory}/${errorLogName}.%i.log.zip
-      </fileNamePattern>
-      <minIndex>1</minIndex>
-      <maxIndex>9</maxIndex>
-    </rollingPolicy>
-    <triggeringPolicy
-      class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-      <maxFileSize>5MB</maxFileSize>
-    </triggeringPolicy>
-    <encoder>
-      <pattern>${newmultiLinePattern}</pattern>
-    </encoder>
-  </appender>
-  
-  <appender name="asyncEELFError" class="ch.qos.logback.classic.AsyncAppender">
-    <queueSize>256</queueSize>
-    <appender-ref ref="EELFError"/>
-    <includeCallerData>true</includeCallerData>
-  </appender>
-  
-   <appender name="EELFDebug"
-    class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${debugLogDirectory}/${debugLogName}.log</file>
-    <rollingPolicy
-      class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-      <fileNamePattern>${debugLogDirectory}/${debugLogName}.%i.log.zip
-      </fileNamePattern>
-      <minIndex>1</minIndex>
-      <maxIndex>9</maxIndex>
-    </rollingPolicy>
-    <triggeringPolicy
-      class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-      <maxFileSize>5MB</maxFileSize>
-    </triggeringPolicy>
-    <encoder>
-      <pattern>${newmultiLinePattern}</pattern>
-    </encoder>
-  </appender>
-  
-  <appender name="asyncEELFDebug" class="ch.qos.logback.classic.AsyncAppender">
-    <queueSize>256</queueSize>
-    <appender-ref ref="EELFDebug" />
-    <includeCallerData>true</includeCallerData>
-  </appender>
- 
-  
-  <!-- ============================================================================ -->
-  <!--  EELF loggers -->
-  <!-- ============================================================================ -->
-  <logger name="com.att.eelf" level="info" additivity="false">
-    <appender-ref ref="asyncEELF" />
-  </logger>
-  
-  <logger name="com.att.eelf.error" level="info" additivity="false">
-  	<appender-ref ref="asyncEELFError" />
-  </logger>
-  
-   <logger name="com.att.eelf.debug" level="debug" additivity="false">
-        <appender-ref ref="asyncEELFDebug" />
-  </logger>
-  
-  <logger name="com.att.eelf.security" level="info" additivity="false">
-        <appender-ref ref="ACCESS_FILE" />        
-  </logger>
-  
-  <root level="info">
-		<appender-ref ref="asyncEELF" />
-		<appender-ref ref="STDOUT" />
+    <property name="singleLineBoreasPattern" value="%nopexception${p_tim}\t${p_thr}\t${p_lvl}\t${p_log}\t${p_mrk}\t${p_mdc}\t${p_msg}\t${p_exc}%n" />
+	<property name="multiLineBoreasPattern" value="${p_tim}\t${p_thr}\t${p_lvl}\t${p_log}\t${p_mrk}\t${p_mdc}\t%msg\t%ex%n" />
+    
+	<!-- Show events with level WARN or above on the console (docker log) -->
+	<appender name="console-warn" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
+		<encoder>
+			<pattern>${multiLineBoreasPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Show all events in the rolling log file -->
+	<appender name="file-rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logDirectory}/${componentName}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${logDirectory}/${componentName}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<!-- keep 30 days' worth of history capped at 3GB total size -->
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>3GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${singleLineBoreasPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="file-async" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>256</queueSize>
+		<appender-ref ref="file-rolling" />
+	</appender>
+
+	<!-- The root level is the default for all loggers, NOT a filter on any appender.
+		 This level can be set with property logging.level.root=LEVEL. -->
+	<root level="INFO">
+		<appender-ref ref="file-async" />
+		<appender-ref ref="console-warn" />
 	</root>
 
 

@@ -110,6 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/admin/signup/enabled").permitAll()
         .antMatchers(HttpMethod.GET, "/getProtoFile").permitAll()
         .antMatchers(HttpMethod.GET, "/solution/{solutionId}/revision/{revisionId}/authors").permitAll()
+        .antMatchers(HttpMethod.GET, "/solution/{solutionId}/revision/{revisionId}/publisher").permitAll()
         .antMatchers(HttpMethod.GET, "/cloudEnabled").permitAll()
         .antMatchers(HttpMethod.POST, "/users/verifyUser").permitAll()
         .antMatchers(HttpMethod.POST, "/users/resendVerifyToken").permitAll()

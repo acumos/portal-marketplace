@@ -27,10 +27,14 @@ import org.acumos.portal.be.service.impl.AbstractServiceImpl;
 import org.acumos.portal.be.service.impl.JWTTokenValidation;
 import org.acumos.portal.be.service.impl.PortalRestClienttImpl;
 import org.acumos.portal.be.transport.User;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.PortalUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.lang.invoke.MethodHandles;
+
 import org.acumos.cds.domain.MLPUser;
 
 
@@ -44,7 +48,7 @@ public class TokenValidation extends AbstractServiceImpl implements JWTTokenVali
 	UserService userService;
 	
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(TokenValidation.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 
 	public boolean tokenRegnerationAndValidation(String userToken) throws MalformedException {

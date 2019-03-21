@@ -19,6 +19,7 @@
  */
 package org.acumos.be.test.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,6 @@ import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.service.impl.PublishSolutionServiceImpl;
 import org.acumos.portal.be.transport.MLSolution;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,13 +38,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PublishSolutionServiceControllerTest {
 
-	private static final EELFLoggerDelegate logger = EELFLoggerDelegate.getLogger(PublishSolutionServiceControllerTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();

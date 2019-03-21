@@ -20,6 +20,7 @@
 
 package org.acumos.portal.be.controller;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +35,9 @@ import org.acumos.portal.be.service.OnboardingHistoryService;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.MLTask;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +51,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/onboardinghistory")
 public class OnboardingHistoryController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate.getLogger(OnboardingHistoryController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private OnboardingHistoryService onboardingHistoryService;
@@ -62,19 +64,19 @@ public class OnboardingHistoryController extends AbstractController {
 
 		userId = SanitizeUtils.sanitize(userId);
 
-		log.debug(EELFLoggerDelegate.debugLogger, "getTasks");
+		log.debug("getTasks");
 		PagableResponse<List<MLTask>> data = new PagableResponse<>();
 		try {
 			data = onboardingHistoryService.getTasks(restPageReqPortal.getBody(), userId);
 
-			log.debug(EELFLoggerDelegate.debugLogger, "getTasks : size is {} " + data.getSize());
+			log.debug("getTasks : size is {} " + data.getSize());
 			data.setResponseDetail("getTasks Successful");
 			data.setResponseCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 		} catch (Exception e) {
 
 			data.setResponseCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while Retrieving Tasks");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while Retrieving Tasks", e);
+			log.error("Exception Occurred while Retrieving Tasks", e);
 			response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
 		}
 		return data;
@@ -88,7 +90,7 @@ public class OnboardingHistoryController extends AbstractController {
 
 		taskId = SanitizeUtils.sanitize(taskId);
 
-		log.debug(EELFLoggerDelegate.debugLogger, " getStepResults");
+		log.debug(" getStepResults");
 		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
 		try {
 			List<MLStepResult> responseBody = onboardingHistoryService.getStepResults(Long.valueOf(taskId));
@@ -100,7 +102,7 @@ public class OnboardingHistoryController extends AbstractController {
 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while getStepResults");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred while getStepResults", e);
+			log.error("Exception Occurred while getStepResults", e);
 			response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
 		}
 		return data;

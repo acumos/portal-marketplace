@@ -22,6 +22,7 @@ package org.acumos.portal.be.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -47,10 +48,11 @@ import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.UploadSolution;
-import org.acumos.portal.be.util.EELFLoggerDelegate;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,8 +69,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/webBasedOnBoarding")
 public class WebBasedOnboardingController extends AbstractController {
 
-	private static final EELFLoggerDelegate log = EELFLoggerDelegate
-			.getLogger(MarketPlaceCatalogServiceController.class);
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
 
 	@Autowired
 	private AsyncServices asyncService;
@@ -85,8 +86,7 @@ public class WebBasedOnboardingController extends AbstractController {
 			@RequestHeader(value = "provider", required = false) String provider,
 			@RequestBody JsonRequest<UploadSolution> restPageReq, @PathVariable("userId") String userId) {
 
-		log.debug(EELFLoggerDelegate.debugLogger, "addToCatalog");
-		log.info(EELFLoggerDelegate.auditLogger, "addToCatalog");
+		log.info("addToCatalog");
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		String uuid = UUID.randomUUID().toString();
 		
@@ -99,7 +99,7 @@ public class WebBasedOnboardingController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(
 					"Exception Occurred OnBoarding Solutions for Market Place Catalog: User Not Logged In");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred OnBoarding Solutions for Market Place Catalog: User Not Logged In");
 			return data;
 		}
@@ -139,7 +139,7 @@ public class WebBasedOnboardingController extends AbstractController {
 
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred OnBoarding Solutions for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred OnBoarding Solutions for Market Place Catalog", e);
 		}
 		return data;
@@ -154,7 +154,7 @@ public class WebBasedOnboardingController extends AbstractController {
 		userId = SanitizeUtils.sanitize(userId);
 		trackingId = SanitizeUtils.sanitize(trackingId);
 
-		log.debug(EELFLoggerDelegate.debugLogger, "messagingStatus");
+		log.debug("messagingStatus");
 		JsonResponse<List<MLStepResult>> data = new JsonResponse<>();
 
 		try {
@@ -169,7 +169,7 @@ public class WebBasedOnboardingController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(
 					"Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog", e);
 		}
 		return data;
@@ -195,21 +195,21 @@ public class WebBasedOnboardingController extends AbstractController {
 					data.setResponseBody(result);
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 					data.setResponseDetail("Step result created Successfully");
-					log.debug(EELFLoggerDelegate.debugLogger, "Step result created Successfully :  ");
+					log.debug("Step result created Successfully :  ");
 				} else {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 					data.setResponseDetail("Error occured while createStepResult");
-					log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createStepResult :");
+					log.error( "Error Occurred createStepResult :");
 				}
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error occured while createStepResult");
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred createStepResult :");
+				log.error( "Error Occurred createStepResult :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while createStepResult");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred createStepResult :", e);
+			log.error( "Exception Occurred createStepResult :", e);
 		}
 		return data;
 	}
@@ -232,16 +232,16 @@ public class WebBasedOnboardingController extends AbstractController {
 				messagingService.updateStepResult(stepResult);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Step result updated Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "Step result updated Successfully :  ");
+				log.debug("Step result updated Successfully :  ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error occured while updateStepResult");
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred updateStepResult :");
+				log.error( "Error Occurred updateStepResult :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while updateStepResult");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred updateStepResult :", e);
+			log.error( "Exception Occurred updateStepResult :", e);
 		}
 		return data;
 	}
@@ -258,16 +258,16 @@ public class WebBasedOnboardingController extends AbstractController {
 				messagingService.deleteStepResult(stepResultId);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Step result deleted Successfully");
-				log.debug(EELFLoggerDelegate.debugLogger, "Step result deleted Successfully :  ");
+				log.debug("Step result deleted Successfully :  ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 				data.setResponseDetail("Error occured while deleteStepResult");
-				log.error(EELFLoggerDelegate.errorLogger, "Error Occurred deleteStepResult :");
+				log.error( "Error Occurred deleteStepResult :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception occured while deleteStepResult");
-			log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred deleteStepResult :", e);
+			log.error( "Exception Occurred deleteStepResult :", e);
 		}
 		return data;
 	}
@@ -290,12 +290,12 @@ public class WebBasedOnboardingController extends AbstractController {
 					data.setResponseBody(mlpStepresult);
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 					data.setResponseDetail("Step result fetched Successfully");
-					log.debug(EELFLoggerDelegate.debugLogger, "Step result fetched Successfully :  ");
+					log.debug("Step result fetched Successfully :  ");
 				}
 			} catch (Exception e) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 				data.setResponseDetail("Exception occured while searchStepResults");
-				log.error(EELFLoggerDelegate.errorLogger, "Exception Occurred searchStepResults :", e);
+				log.error( "Exception Occurred searchStepResults :", e);
 			}
 		}
 		return data;
@@ -306,7 +306,7 @@ public class WebBasedOnboardingController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<Broker> messagingStatus(@RequestBody JsonRequest<Broker> brokerDetail) {
 
-		log.debug(EELFLoggerDelegate.debugLogger, "broker details");
+		log.debug("broker details");
 
 		JsonResponse<Broker> data = new JsonResponse<>();
 
@@ -321,7 +321,7 @@ public class WebBasedOnboardingController extends AbstractController {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail(
 					"Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog");
-			log.error(EELFLoggerDelegate.errorLogger,
+			log.error(
 					"Exception Occurred while providing Status of the Solutions OnBoarded for Market Place Catalog", e);
 		}
 		return data;
