@@ -380,7 +380,8 @@ angular.module('modelResource')
                 $scope.fileSubmitLicense = false;
                 $scope.disableUploadCheckbox = false;
                 $rootScope.trackId = false;
-               
+                $scope.filename = '';
+                $scope.licenseFilename = '';
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');
                 angular.element(angular.element('li')).removeClass('green completed');
                 angular.element('.progress .progress-bar').css({ "width" : '0%'});
