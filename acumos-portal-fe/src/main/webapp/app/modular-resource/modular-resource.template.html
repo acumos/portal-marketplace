@@ -55,12 +55,12 @@ limitations under the License.
 						 <span>To know more about on-boarding, please have a look at : </span>					
 						 <b><a href="https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html" target="_blank">https://docs.acumos.org/en/latest/AcumosUser/portal-user/portal/index.html</a></b> </p>
 						</div>
-					<div>
-						<button ui-sref="onboardingHistory"
-                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btnhistory"
-                            alt="View Onboarding History" title="View Onboarding History">
-                            View Onboarding History &nbsp;<img src="images/model_details/onboarding_history.png" alt="" title=""/></button>
-					</div>
+						<div>
+						    <button ui-sref="onboardingHistory"
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary btnhistory"
+								alt="View Onboarding History" title="View Onboarding History">
+								View Onboarding History &nbsp;<img src="images/model_details/onboarding_history.png" alt="" title=""/></button>
+						</div>
 					<div class="posrel">
 						<md-tabs md-dynamic-height md-border-bottom> <md-tab
 							label="On-Boarding By Command Line"> <md-content
@@ -653,7 +653,7 @@ limitations under the License.
 																			       <div class="drag-drop-files hide">
 																			              <p>doc.pdf</p>
 																			       </div>
-																			<div file-droppable filename="filename" file=file validfilename = "validfilename">
+																					<div file-droppable filename="filename" file=file>
 																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
 																			              <div class="destext">Drag & Drop your file here!</div>
 																			       </div>
@@ -663,7 +663,7 @@ limitations under the License.
 																						<div  file-upload file="file" ng-hide="uploadingFile"
 																						uploadid="bundleuploadid" id="uploadFile"
 																						filename="filename" fileinput="file" 
-																						ng-model="file" accept = "" validfilename="validfilename"
+																						ng-model="file" accept = ""
 																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetProgress()" readonly>
 																						</div>																						
 																						<div class="upload-image-input files-uploaded" >
@@ -674,15 +674,10 @@ limitations under the License.
 																					</div>
 																					<div class="input-upload-button">
 																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" type="button" ng-disabled="!file || uploadingFile || fileSubmit" ng-click="fileUpload(false);" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
-
 																						 	<span> Upload </span>
 																						</button>
 																					</div>
-																				</div>		
-																				<div class="help-inline validation-msgs">
-																					<span ng-show="validfilename">Spaces and special characters are not allowed in file name.</span>
-																				</div>	
-																		 																																				 
+																				</div>																																						 
 																				<div class="progress-bar-div" ng-show="file.name">
 																					<div>
 																						<span class="namelength">{{file.name}}</span>
@@ -714,15 +709,18 @@ limitations under the License.
 																				</div>
 																		</div>
 																		<small ng-show="modelUploadError" style="color:red"><strong>Error Occurred:</strong> {{modelUploadErrorMsg}}</small>
-																		<md-input-container class="md-block" id="modelName" flex-gt-sm ng-show="$root.isOnnxOrPFAModel">
-																			<label>Model Name </label>
-																			<input type="text" name="modelName" ng-model="modelName" required ng-blur="modelNameVisited=true" ng-focus="modelNameVisited=false" >
-																			<div class="help-inline validation-msgs"
-																				ng-class="{validationmsg:!onboardingForm.modelName.$valid}">
-																				<span ng-show="( !!onboardingForm.modelName.$error.required && onboardingForm.modelName.$touched && modelNameVisited)">Model
-																					Name Required.</span>
-																			</div>																			
-																		</md-input-container>
+																		
+																		<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+																			<md-input-container class="md-block" id="modelName" flex-gt-sm ng-show="$root.isOnnxOrPFAModel">
+																				<label>Model Name </label>
+																				<input type="text" name="modelName" ng-model="modelName" required ng-blur="modelNameVisited=true" ng-focus="modelNameVisited=false" >
+																				<div class="help-inline validation-msgs"
+																					ng-class="{validationmsg:!onboardingForm.modelName.$valid}">
+																					<span ng-show="( !!onboardingForm.modelName.$error.required && onboardingForm.modelName.$touched && modelNameVisited)">Model
+																						Name Required.</span>
+																				</div>																			
+																			</md-input-container>
+																		</div>
 																		
 																		<div id="modelName">
 																			<md-checkbox aria-label="Upload License" ng-disabled="disableUploadCheckbox == true || fileSubmit == false" ng-model="isLicenseUploaded" ></md-checkbox>					
@@ -733,12 +731,20 @@ limitations under the License.
 																			<div
 																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
 																			data-upgraded=",MaterialTextfield">
-
+																				<div class="drag-drop"  id = "private-dropbox" ng-hide="uploadingFile">
+																			       <div class="drag-drop-files hide">
+																			              <p>doc.pdf</p>
+																			       </div>
+																					<div file-droppable filename="licenseFilename" file=licensefile>
+																			              <img src="images/upload-doc-vector.png" alt="" title=""/>
+																			              <div class="destext">Drag & Drop your file here!</div>
+																			       </div>
+																			     </div>
 																				<div class="upload-file-container">
 																					<div class="input-div">
 																						<div  file-upload file="licensefile"
 																						uploadid="licenseuploadid" id="uploadFile"
-																						filename="licenseFilename" fileinput="licensefile" validfilename="validfilename"
+																						filename="licenseFilename" fileinput="licensefile"
 																						ng-model="licensefile" accept = ""
 																						upload-image-model="file" alt="Browse" title="Browse" ng-click="resetLicenseUpload()" readonly>
 																						</div>																						
@@ -754,11 +760,8 @@ limitations under the License.
 																						</button>
 																					</div>
 																				</div>
-																				<div class="help-inline validation-msgs">
-																					<span ng-show="validfilename">Spaces not allowed in file name</span>
-																		 		</div>
-																		 
-																				<div class="progress-bar-div" ng-show="licensefile.name" ng-if="!validfilename">
+																		 		
+																				<div class="progress-bar-div" ng-show="licensefile.name">
 																					<div>
 																						<span class="namelength">{{licensefile.name}}</span>
 																					</div>
@@ -788,6 +791,7 @@ limitations under the License.
 																				     </div>
 																				</div>
 																		</div>
+																		<small>Maximum file size: 1mb | Supported files type: .json</small>	
 																		</div>
 																	</form>
 																</div>	
@@ -821,7 +825,8 @@ limitations under the License.
 						<!-- on-boarding-web end-->
 						</div>
 
-						</md-content> </md-tab>						
+						</md-content> </md-tab> 
+
 						</md-tabs>
 						
 					</div>
