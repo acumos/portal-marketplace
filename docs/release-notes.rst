@@ -20,6 +20,22 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.6  22nd March 2019
+=================================
+
+* Dev: User is not able to delete the uploaded document  from manage my model when file name contain special character and spaces  (ACUMOS-2274)
+* <IST> <Portal Marketplace> Text not properly displayed on bell notification (ACUMOS-2576)
+* Portal cannot clear web on-boarding results (ACUMOS-2317)
+* As a model builder I would like to view and manage on-boarding history with detailed results (ACUMOS-1128)
+* Portal reduce page load time by sending send links to solution images (ACUMOS-2040)
+* As a User , I need  different Flag for publishing validation (ACUMOS-1753)
+* Components use revised CDS data model for Onboarding History (ACUMOS-2387)
+* Logging Standardization- Portal (ACUMOS-2325)
+* Detect automatically ONNX, PFA models in Web-on-boarding (ACUMOS-2244)
+* Modify web on-boarding UI page to take into account licence (ACUMOS-2288)
+* Portal use CDS back-end to manage web-site content like Carousel etc (ACUMOS-2419)
+* Portal use CDS 2.1 task and step result objects to manage onboarding history (ACUMOS-2511)
+
 Version 2.2.5  7th March 2019
 =================================
 * Dev: User is not able to delete the uploaded document  from manage my model when file name contain special character and spaces (ACUMOS-12680)
