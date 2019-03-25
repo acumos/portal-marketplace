@@ -184,7 +184,7 @@ public class SiteContentServiceImplTest {
 								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
 								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
-		MLPSiteContent content = siteContentService.getContactInfo();
+		MLPSiteContent content = siteContentService.getContactInformationByKey(contentValue);
 		assertEquals(contentString, new String(content.getContentValue()));
 	}
 

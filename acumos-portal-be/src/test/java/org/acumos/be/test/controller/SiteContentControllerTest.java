@@ -76,7 +76,7 @@ public class SiteContentControllerTest {
 
 	private static final String PATH_TERMS_CONDITIONS = APINames.SITE_PATH + APINames.GET_TERMS_CONDITIONS;
 	private static final String PATH_ONBOARDING_OVERVIEW = APINames.SITE_PATH + APINames.GET_ONBOARDING_OVERVIEW;
-	private static final String PATH_CONTACT_INFO = APINames.SITE_PATH + APINames.GET_CONTACT_INFO;
+	private static final String PATH_CONTACT_INFO = APINames.SITE_PATH + APINames.GET_CONTACT_INFORMATION_BY_KEY;
 	private static final String PATH_COBRAND_LOGO = APINames.SITE_PATH + APINames.GET_COBRAND_LOGO;
 	private static final String PATH_GET_CAROUSEL_PICTURE = APINames.SITE_PATH + APINames.UPDATE_CAROUSEL_PICTURE + "/";
 	private static final String PATH_SET_CAROUSEL_PICTURE = APINames.SITE_PATH + APINames.UPDATE_CAROUSEL_PICTURE;

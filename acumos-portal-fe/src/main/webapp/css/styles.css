@@ -1885,7 +1885,12 @@ padding: 20px;background:#e5e5e5;}
 .sc-child1 md-switch { margin:0;}
 .sc-button-container {border-top: 1px solid #d5d5d5; padding-top: 10px;}
 .sc-button-container button {margin-right: 5px;}
-/**********Site Content page style start ***********/
+
+.site-content-wrapper {position: relative; margin-left: -20px; margin-right: -20px;}
+.site-content-tabcontrol > md-tabs-content-wrapper {border-right: none; border-bottom: none; border-left: none;}
+.sc-container1-child-right md-tabs md-tabs-wrapper {border-top: 1px solid #d5d5d5;border-left: 1px solid #d5d5d5;border-right: 1px solid #d5d5d5;}
+.c-alert.site-content-alert-box {position:relative;width: 100%;top: 0;right: 0;margin:0; }
+/**********Site Content page style ends ***********/
 /*  add slide for top carousel start*/
 /*---- File upload ----------*/
 .top-carousel-admin{/* width:700px; */ width:850px; max-height: 85%;}

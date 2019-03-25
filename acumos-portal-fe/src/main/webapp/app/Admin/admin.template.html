@@ -350,211 +350,281 @@ limitations under the License.
 						<div class="admin-tab-heading">
 							<span class="admin-title2">Site Content</span>
 						</div>
-						<h6 class="sectiontitle6">Customize Home Page</h6>
-						<div class="sc-container1">
-							<div class="sc-container1-child-left">
-								<div class="sc-child1">
-									<span>Top Carousel</span>
+	<div class="site-content-wrapper">
+							<md-tabs class="site-content-tabcontrol" md-dynamic-height md-border-bottom>
+						      <md-tab label="Content Pages">
+						        <md-content class="md-padding">
+						          
+									
 									<div>
-										<button class="mdl-button mdl-js-button btn-secondary sc-btn1"
-											ng-click='carouselSlide={};topSC="";showAddSlidesPopup()'>Add Slide</button>
-										<div class="select-control">
-											<md-select placeholder="Enable/Disable Slides"
-												class="dc-cloud-list" ng-model="changeAction"
-												ng-change='changeCarouselSlides()'> <md-option
-												title="Enable" value="true">Enable</md-option> <md-option
-												title="Disable" value="false">Disable</md-option> </md-select>
+										<h6 class="sectiontitle6">Footer Contact Information</h6>
+										<!-- Rich text control goes here -->
+										<div class="rowcontainer admin-sccontainer1"> 
+						<ng-quill-editor ng-model="siteContent" placeholder="Add your Contact Information here...
+						Address:,EMAIL:,ContactNo:,Fax:etc"   name="siteContent"   required ng-blur="siteContentVisited=true"  ng-focus="siteContentVisited=false"></ng-quill-editor>
+			
+					              </div>		
+										<div>
+											<button class="mdl-button mdl-js-button btn-secondary"  ng-click="TopostContactupdate()" ng-if="siteContent1 != siteContent">
+											
+											
+											
+											                            <span ng-if="!siteContent">Save</span> 
+																		<span ng-if="siteContent">Save</span>
+											
+											</button>
 										</div>
 									</div>
-								</div>
-								<div ng-repeat="(key,item) in carouselConfig">
-									<section class="sc-cell-container"
-										ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
-										<div class="sc-cell-childtop">
-											<div>
-												<md-checkbox aria-label="Checkbox 1"
-													ng-click="toggleCarouselCheckedList(key)"> </md-checkbox>
-												<span class="sc-slide-title">{{item.name}}</span> <span
-													class="sc-slide-status text-green"
-													ng-show="item.slideEnabled == 'true'">Enabled</span> <span
-													class="sc-slide-status text-red"
-													ng-show="item.slideEnabled == 'false'">Disabled</span>
-											</div>
-											<div>
-												<md-button class="sc-link-btn1"
-													ng-click="editCarouselSlide(key, item)">Edit</md-button>
-												<span>|</span>
-												<md-button class="sc-link-btn1" ng-if="key != 0"
-													ng-click="confirmDeleteTopCarousel($event, key)">Delete</md-button>
-												<span ng-if="key != 0">|</span>
-												<md-button class="sc-link-btn1"
-													ng-click="showOrderSlidesPopup($event, key)">Set
-												order</md-button>
-												<label class="sc-counter-container"><span
-													class="sc-slide-counter">{{key}}</span></label>
-											</div>
-										</div>
-										<div class="sc-cell-childmiddle">
-											<div class="sc-img-container">
-												<img src="../images/default-model.png" />
-											</div>
-											<div class="sc-text-container">
-												<span>{{item.headline}}</span>
-												<p ng-bind-html="item.supportingContent"></p>
-											</div>
-										</div>
-										<div class="sc-cell-childbottom">
-											<label class="sc-bottom-text1">Button Names</label>
-											<div>
-												<span>{{item.links.primary.label}}</span> <span>{{item.links.secondary.label}}</span>
-											</div>
-										</div>
-									</section>
-								</div>
-							</div>
-							<div class="sc-container1-child-right">
-								<md-tabs md-dynamic-height md-border-bottom> <md-tab
-									label="Event Carousel"> <md-content>
-								<div class="sc-child1">
-									<div>
-										<button class="mdl-button mdl-js-button btn-secondary sc-btn1"
-											ng-click='eventCarousel={};eventSC="";showEventSlidesPopup()'>Add Slide</button>
-										<div class="select-control">
-											<md-select placeholder="Enable/Disable Slides"
-												class="dc-cloud-list" ng-model="changeEventAction"
-												ng-change="changeEventSlides()"> <md-option
-												value="true">Enable</md-option> <md-option value="false">Disable</md-option>
-											</md-select>
-										</div>
-									</div>
-									<div>
-										<md-switch ng-model="eventConfig.enabled"
-											aria-label="Switch 1" class="md-warn"
-											ng-change="disableEventCarousel()"> <span
-											class="text-xsmall text-green"
-											ng-if="eventConfig.enabled == true">Enabled</span> <span
-											class="text-xsmall text-red"
-											ng-if="eventConfig.enabled == false || eventConfig.enabled == null ">Disabled</span>
-										</md-switch>
-									</div>
-								</div>
-								<div ng-repeat="(key,item) in eventConfig"
-									ng-if="key != 'enabled'">
-									<section class="sc-cell-container"
-										ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
-										<div class="sc-cell-childtop">
-											<div>
-												<md-checkbox aria-label="Checkbox 1"
-													ng-click="toggleEventCheckedList(key)"> </md-checkbox>
-												<span class="sc-slide-title">{{item.name}}</span> <span
-													class="sc-slide-status text-green"
-													ng-show="item.slideEnabled == 'true'">Enabled</span> <span
-													class="sc-slide-status text-red"
-													ng-show="item.slideEnabled == 'false'">Disabled</span>
-											</div>
-											<div>
-												<md-button class="sc-link-btn1"
-													ng-click="editEventSlide(key, item)">Edit</md-button>
-												<span>|</span>
-												<md-button class="sc-link-btn1"
-													ng-click="confirmDeleteEventCarousel($event, key)">Delete</md-button>
-												<span>|</span>
-												<md-button class="sc-link-btn1"
-													ng-click="showOrderEventSlidesPopup($event, key)">Set
-												order</md-button>
-												<label class="sc-counter-container"><span
-													class="sc-slide-counter">{{key}}</span></label>
-											</div>
-										</div>
-										<div class="sc-cell-childmiddle">
-											<div class="sc-img-container">
-												<img src="../images/default-model.png" />
-											</div>
-											<div class="sc-text-container">
-												<span>{{item.headline}}</span>
-												<p ng-bind-html="item.supportingContent"></p>
-											</div>
-										</div>
-										<div class="sc-cell-childbottom">
-											<label class="sc-bottom-text1">Button Names</label>
-											<div>
-												<span>Not mentioned</span>
-											</div>
-										</div>
-									</section>
-								</div>
-								</md-content> </md-tab> <md-tab label="Success Story Carousel"> <md-content>
-								<div class="sc-child1">
-									<div>
-										<button class="mdl-button mdl-js-button btn-secondary sc-btn1"
-											ng-click="successCarousel={};successSC='';showStorySlidesPopup()">Add Slide</button>
-										<div class="select-control">
-											<md-select placeholder="Enable/Disable Slides"
-												class="dc-cloud-list" ng-model="changeStoryAction"
-												ng-change="changeStorySlides()"> <md-option
-												value="true">Enable</md-option> <md-option value="false">Disable</md-option>
-											</md-select>
-										</div>
-									</div>
-									<div>
-										<md-switch ng-model="storyConfig.enabled"
-											aria-label="Switch 1" class="md-warn"
-											ng-change="disableStoryCarousel()"> <span
-											class="text-xsmall text-green"
-											ng-if="storyConfig.enabled == true">Enabled</span> <span
-											class="text-xsmall text-red"
-											ng-if="storyConfig.enabled == false || storyConfig.enabled == null ">Disabled</span>
-										</md-switch>
-									</div>
-								</div>
-								<div ng-repeat="(key,item) in storyConfig"
-									ng-if="key != 'enabled'">
-									<section class="sc-cell-container"
-										ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
-										<div class="sc-cell-childtop">
-											<div>
-												<md-checkbox ng-click="toggleStoryCheckedList(key)"
-													aria-label="Checkbox 1"> </md-checkbox>
-												<span class="sc-slide-title">{{item.name}}</span> <span
-													class="sc-slide-status text-green"
-													ng-show="item.slideEnabled == 'true'">Enabled</span> <span
-													class="sc-slide-status text-red"
-													ng-show="item.slideEnabled == 'false'">Disabled</span>
-											</div>
-											<div>
-												<md-button class="sc-link-btn1"
-													ng-click="editStorySlide(key, item)">Edit</md-button>
-												<span>|</span>
-												<md-button class="sc-link-btn1"
-													ng-click="confirmDeleteStoryCarousel($event, key)">Delete</md-button>
-												<span>|</span>
-												<md-button class="sc-link-btn1"
-													ng-click="showOrderStorySlidesPopup($event, key)">Set
-												order</md-button>
-												<label class="sc-counter-container"><span
-													class="sc-slide-counter">{{key}}</span></label>
-											</div>
-										</div>
-										<div class="sc-cell-childmiddle">
-											<div class="sc-img-container">
-												<img src="../images/Success_badge.png" />
-											</div>
-											<div class="sc-text-container">
-												<p ng-bind-html="item.supportingContent"></p>
-											</div>
-										</div>
-										<div class="sc-cell-childbottom">
-											<label class="sc-bottom-text1">{{item.authorName}}</label>
-										</div>
-									</section>
-								</div>
-								</md-content> </md-tab> </md-tabs>
-							</div>
+									
+								<!-- 	<div>
+										<h6 class="sectiontitle6">Onboarding Model</h6>
+										Rich text control goes here
+							<div class="rowcontainer admin-sccontainer1"> 
+						<ng-quill-editor ng-model="OnboardingOverview" placeholder="Add Onboarding information here...."></ng-quill-editor>
 						</div>
-						<!-- <div class="sc-button-container">
-														<button type="button" class="mdl-button mdl-js-button btn-primary">Publish Home Page</button>
-														<button type="button" class="mdl-button mdl-js-button btn-secondary">Save As Draft</button>
-													</div> -->
+										
+										<div>
+											<button class="mdl-button mdl-js-button btn-secondary"   ng-disabled="!OnboardingOverview">
+											
+											                            <span ng-if="!OnboardingOverview">Edit</span> 
+																		<span ng-if="OnboardingOverview">Edit</span>
+											
+											</button>
+										</div>
+									</div> -->
+									<div>
+										<h6 class="sectiontitle6">Terms and Conditions</h6>
+										<!-- Rich text control goes here -->
+											<div class="rowcontainer admin-sccontainer1">Terms and Condition
+					
+						<ng-quill-editor ng-model="termcondition1"  placeholder="Add terms and conditions here."></ng-quill-editor>
+				
+						</div>
+										
+										<div>
+											<button class="mdl-button mdl-js-button btn-secondary" ng-click = "TopostConditionupdate()" ng-if="termcondition1 != termcondition2">
+											
+											                            <span ng-if="!termcondition1">Save</span> 
+																		<span ng-if="termcondition1">Save</span>
+											
+											</button>
+										</div>
+									</div>
+									
+									<br />
+									<br />
+									
+									</form>		          
+						        </md-content>
+						      </md-tab>
+						      <md-tab label="Carousels">
+						        <md-content class="md-padding">
+						        	<h6 class="sectiontitle6">Customize Home Page</h6>
+							        <div class="sc-container1">
+										<div class="sc-container1-child-left">
+											<div class="sc-child1">
+												<span>Top Carousel</span>
+												<div>
+													<button class="mdl-button mdl-js-button btn-secondary sc-btn1"
+														ng-click='carouselSlide={};topSC="";showAddSlidesPopup()'>Add Slide</button>
+													<div class="select-control">
+														<md-select placeholder="Enable/Disable Slides"
+															class="dc-cloud-list" ng-model="changeAction"
+															ng-change='changeCarouselSlides()'> <md-option
+															title="Enable" value="true">Enable</md-option> <md-option
+															title="Disable" value="false">Disable</md-option> </md-select>
+													</div>
+												</div>
+											</div>
+									<div ng-repeat="(key,item) in carouselConfig">
+										<section class="sc-cell-container"
+											ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
+											<div class="sc-cell-childtop">
+												<div>
+													<md-checkbox aria-label="Checkbox 1"
+														ng-click="toggleCarouselCheckedList(key)"> </md-checkbox>
+													<span class="sc-slide-title">{{item.name}}</span> <span
+														class="sc-slide-status text-green"
+														ng-show="item.slideEnabled == 'true'">Enabled</span> <span
+														class="sc-slide-status text-red"
+														ng-show="item.slideEnabled == 'false'">Disabled</span>
+												</div>
+												<div>
+													<md-button class="sc-link-btn1"
+														ng-click="editCarouselSlide(key, item)">Edit</md-button>
+													<span>|</span>
+													<md-button class="sc-link-btn1" ng-if="key != 0"
+														ng-click="confirmDeleteTopCarousel($event, key)">Delete</md-button>
+													<span ng-if="key != 0">|</span>
+													<md-button class="sc-link-btn1"
+														ng-click="showOrderSlidesPopup($event, key)">Set
+													order</md-button>
+													<label class="sc-counter-container"><span
+														class="sc-slide-counter">{{key}}</span></label>
+												</div>
+											</div>
+											<div class="sc-cell-childmiddle">
+												<div class="sc-img-container">
+													<img src="../images/default-model.png" />
+												</div>
+												<div class="sc-text-container">
+													<span>{{item.headline}}</span>
+													<p ng-bind-html="item.supportingContent"></p>
+												</div>
+											</div>
+											<div class="sc-cell-childbottom">
+												<label class="sc-bottom-text1">Button Names</label>
+												<div>
+													<span>{{item.links.primary.label}}</span> <span>{{item.links.secondary.label}}</span>
+												</div>
+											</div>
+										</section>
+									</div>
+								</div>
+								<div class="sc-container1-child-right">
+									<md-tabs md-dynamic-height md-border-bottom> <md-tab
+										label="Event Carousel"> <md-content>
+									<div class="sc-child1">
+										<div>
+											<button class="mdl-button mdl-js-button btn-secondary sc-btn1"
+												ng-click='eventCarousel={};eventSC="";showEventSlidesPopup()'>Add Slide</button>
+											<div class="select-control">
+												<md-select placeholder="Enable/Disable Slides"
+													class="dc-cloud-list" ng-model="changeEventAction"
+													ng-change="changeEventSlides()"> <md-option
+													value="true">Enable</md-option> <md-option value="false">Disable</md-option>
+												</md-select>
+											</div>
+										</div>
+										<div>
+											<md-switch ng-model="eventConfig.enabled"
+												aria-label="Switch 1" class="md-warn"
+												ng-change="disableEventCarousel()"> <span
+												class="text-xsmall text-green"
+												ng-if="eventConfig.enabled == true">Enabled</span> <span
+												class="text-xsmall text-red"
+												ng-if="eventConfig.enabled == false || eventConfig.enabled == null ">Disabled</span>
+											</md-switch>
+										</div>
+									</div>
+									<div ng-repeat="(key,item) in eventConfig"
+										ng-if="key != 'enabled'">
+										<section class="sc-cell-container"
+											ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
+											<div class="sc-cell-childtop">
+												<div>
+													<md-checkbox aria-label="Checkbox 1"
+														ng-click="toggleEventCheckedList(key)"> </md-checkbox>
+													<span class="sc-slide-title">{{item.name}}</span> <span
+														class="sc-slide-status text-green"
+														ng-show="item.slideEnabled == 'true'">Enabled</span> <span
+														class="sc-slide-status text-red"
+														ng-show="item.slideEnabled == 'false'">Disabled</span>
+												</div>
+												<div>
+													<md-button class="sc-link-btn1"
+														ng-click="editEventSlide(key, item)">Edit</md-button>
+													<span>|</span>
+													<md-button class="sc-link-btn1"
+														ng-click="confirmDeleteEventCarousel($event, key)">Delete</md-button>
+													<span>|</span>
+													<md-button class="sc-link-btn1"
+														ng-click="showOrderEventSlidesPopup($event, key)">Set
+													order</md-button>
+													<label class="sc-counter-container"><span
+														class="sc-slide-counter">{{key}}</span></label>
+												</div>
+											</div>
+											<div class="sc-cell-childmiddle">
+												<div class="sc-img-container">
+													<img src="../images/default-model.png" />
+												</div>
+												<div class="sc-text-container">
+													<span>{{item.headline}}</span>
+													<p ng-bind-html="item.supportingContent"></p>
+												</div>
+											</div>
+											<div class="sc-cell-childbottom">
+												<label class="sc-bottom-text1">Button Names</label>
+												<div>
+													<span>Not mentioned</span>
+												</div>
+											</div>
+										</section>
+									</div>
+									</md-content> </md-tab> <md-tab label="Success Story Carousel"> <md-content>
+									<div class="sc-child1">
+										<div>
+											<button class="mdl-button mdl-js-button btn-secondary sc-btn1"
+												ng-click="successCarousel={};successSC='';showStorySlidesPopup()">Add Slide</button>
+											<div class="select-control">
+												<md-select placeholder="Enable/Disable Slides"
+													class="dc-cloud-list" ng-model="changeStoryAction"
+													ng-change="changeStorySlides()"> <md-option
+													value="true">Enable</md-option> <md-option value="false">Disable</md-option>
+												</md-select>
+											</div>
+										</div>
+										<div>
+											<md-switch ng-model="storyConfig.enabled"
+												aria-label="Switch 1" class="md-warn"
+												ng-change="disableStoryCarousel()"> <span
+												class="text-xsmall text-green"
+												ng-if="storyConfig.enabled == true">Enabled</span> <span
+												class="text-xsmall text-red"
+												ng-if="storyConfig.enabled == false || storyConfig.enabled == null ">Disabled</span>
+											</md-switch>
+										</div>
+									</div>
+									<div ng-repeat="(key,item) in storyConfig"
+										ng-if="key != 'enabled'">
+										<section class="sc-cell-container"
+											ng-class="item.slideEnabled == 'false' ? 'disabled-container' : ''">
+											<div class="sc-cell-childtop">
+												<div>
+													<md-checkbox ng-click="toggleStoryCheckedList(key)"
+														aria-label="Checkbox 1"> </md-checkbox>
+													<span class="sc-slide-title">{{item.name}}</span> <span
+														class="sc-slide-status text-green"
+														ng-show="item.slideEnabled == 'true'">Enabled</span> <span
+														class="sc-slide-status text-red"
+														ng-show="item.slideEnabled == 'false'">Disabled</span>
+												</div>
+												<div>
+													<md-button class="sc-link-btn1"
+														ng-click="editStorySlide(key, item)">Edit</md-button>
+													<span>|</span>
+													<md-button class="sc-link-btn1"
+														ng-click="confirmDeleteStoryCarousel($event, key)">Delete</md-button>
+													<span>|</span>
+													<md-button class="sc-link-btn1"
+														ng-click="showOrderStorySlidesPopup($event, key)">Set
+													order</md-button>
+													<label class="sc-counter-container"><span
+														class="sc-slide-counter">{{key}}</span></label>
+												</div>
+											</div>
+											<div class="sc-cell-childmiddle">
+												<div class="sc-img-container">
+													<img src="../images/Success_badge.png" />
+												</div>
+												<div class="sc-text-container">
+													<p ng-bind-html="item.supportingContent"></p>
+												</div>
+											</div>
+											<div class="sc-cell-childbottom">
+												<label class="sc-bottom-text1">{{item.authorName}}</label>
+											</div>
+										</section>
+									</div>
+									</md-content> </md-tab> </md-tabs>
+								</div>
+							</div>
+							
+						        </md-content>
+						      </md-tab>					      
+						    </md-tabs>
+					    </div>
 					</div>
 
 					<div class="mdl-tabs__panel" id="tab4-panel">

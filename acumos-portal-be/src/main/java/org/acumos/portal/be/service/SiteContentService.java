@@ -79,7 +79,7 @@ public interface SiteContentService {
 	 * 
 	 * @return html embedded in json string
 	 */
-	public MLPSiteContent getContactInfo();
+	public MLPSiteContent getContactInformationByKey(String key);
 
 	/**
 	 * Method to create or update the footer contact information

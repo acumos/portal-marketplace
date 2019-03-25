@@ -74,6 +74,13 @@ angular.module('AcumosApp')
         var urlValidationStatus = 'api/validation';
         var urlCreateRole = 'api/createRole';
         var urlSiteConfig = 'api/admin/config';
+        
+        var urlSiteContent = 'api/site/content/global/footer/contactinfo';
+        var urlTermsCondition = 'api/site/content/global/termsConditions'
+       
+        
+        var urlcreateSiteContent = 'api/site/content/global/footer/contactinfo'
+        	
         var urlCreateTags = 'api/tags/create'
         var urlAddUser =  'api/admin/addUser';
         var urlAddPeer = 'api/admin/peer/subcription/create';
@@ -105,13 +112,9 @@ angular.module('AcumosApp')
         var urlsetPreferredTag = "api/tags/createUserTag";
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
         var urlJupyterUrl = 'api/users/jupyterUrl';
-        var urlTermsConditions = '/api/site/content/global/termsConditions';
-        var urlOnboardingOverviewUrl = '/api/site/content/global/onboarding/overview';
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
         var urlCarouselPictureUrl = "/api/site/content/carouselImages";
-        var urlUnreadNotification =  "/api/unreadnotifications/count";
-        var urlOnBoardingHistoryTaskList =  "/api/onboardinghistory/getTasks";
-        var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult";        	
+        var urlUnreadNotification =  "/api/unreadnotifications/count"
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -206,9 +209,9 @@ angular.module('AcumosApp')
         	return $http.get(urlDownloadArtifact + '/' + solutionId + '?artifactId=' + artifactId + '&revisionId=' + revisionId);
         };
         
-        this.getTermsConditions = function (){
+       /* this.getTermsConditions = function (){
         	return $http.get(urlTermsConditions);
-        };
+        };*/
         
         this.getFavoriteSolutions = function (userId){
         	return $http.get(urlFavoriteSolution + '/'+ userId);
@@ -225,6 +228,15 @@ angular.module('AcumosApp')
         this.getSiteConfig = function(configKey){
         	return $http.get(urlSiteConfig + '/' + configKey);
         };
+        
+        //Site content
+        this.getSiteContent = function(configKey){
+        	return $http.get(urlSiteContent + '/' + configKey );
+        }
+        
+        this.getTermsCondition = function(){
+        	return $http.get(urlTermsCondition);
+        }
         
         this.updateUserRole = function(userDetails){
         	return $http.post(updateUserRole, userDetails);
@@ -332,6 +344,15 @@ angular.module('AcumosApp')
         /**************** ALL POST ******************/
         this.postGlobalUserDetails = function(){
         	return $http.put(urlPostGlobalLogin);
+        }
+        
+        this.postTermsCondition = function(request){
+        	return $http.post(urlTermsCondition,request);
+        }
+        
+        
+        this.postContactInformation = function(request){
+        	return $http.post(urlcreateSiteContent, request);
         }
         
         this.updateUser = function(){

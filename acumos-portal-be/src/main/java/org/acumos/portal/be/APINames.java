@@ -183,8 +183,8 @@ public class APINames {
 	public static final String UPDATE_TERMS_CONDITIONS = GET_TERMS_CONDITIONS;
 	public static final String GET_ONBOARDING_OVERVIEW = "/content/global/onboarding/overview";
 	public static final String UPDATE_ONBOARDING_OVERVIEW = GET_ONBOARDING_OVERVIEW;
-	public static final String GET_CONTACT_INFO = "/content/global/footer/contactinfo";
-	public static final String UPDATE_CONTACT_INFO = GET_CONTACT_INFO;
+		public static final String GET_CONTACT_INFORMATION_BY_KEY = "/content/global/footer/contactinfo/{key}";
+	public static final String UPDATE_CONTACT_INFO = "/content/global/footer/contactinfo";
 	public static final String GET_COBRAND_LOGO = "/content/global/coBrandLogo";
 	public static final String UPDATE_COBRAND_LOGO = GET_COBRAND_LOGO;
 	public static final String DELETE_COBRAND_LOGO = GET_COBRAND_LOGO;

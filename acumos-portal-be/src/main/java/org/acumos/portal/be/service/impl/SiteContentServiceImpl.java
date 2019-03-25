@@ -89,7 +89,7 @@ public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteC
 	}
 
 	@Override
-	public MLPSiteContent getContactInfo() {
+		public MLPSiteContent getContactInformationByKey(String key) {
 		log.debug("getContactInfo");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return dataServiceRestClient.getSiteContent(KEY_CONTACT_INFO);

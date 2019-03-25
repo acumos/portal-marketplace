@@ -29,6 +29,7 @@ import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.SiteContentService;
+import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +58,14 @@ public class SiteContentServiceController extends AbstractController {
 	@ApiOperation(value = "Gets terms and conditions ", response = MLPSiteContent.class)
 	@RequestMapping(value = { APINames.GET_TERMS_CONDITIONS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSiteContent> getTermsConditions() {
+	public JsonResponse<String> getTermsConditions() {
 		log.debug("getTermsCondition");
 		MLPSiteContent content = null;
-		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
+		JsonResponse<String> data = new JsonResponse<>();
 		try {
 			content = siteContentService.getTermsConditions();
 			if (content != null) {
-				data.setResponseBody(content);
+				data.setResponseBody(new String(content.getContentValue()));
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Terms and conditions fetched successfully");
 			}
@@ -146,18 +147,26 @@ public class SiteContentServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Gets footer contact information ", response = MLPSiteContent.class)
-	@RequestMapping(value = { APINames.GET_CONTACT_INFO }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@RequestMapping(value = { APINames.GET_CONTACT_INFORMATION_BY_KEY }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSiteContent> getContactInfo() {
-		log.debug("getContactInfo");
+	public JsonResponse<String> getContactInfoByKey(@PathVariable("key") String key) {
+		log.debug("getContactInformationByKey");
 		MLPSiteContent content = null;
-		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
+		JsonResponse<String> data = new JsonResponse<>();
+		key = SanitizeUtils.sanitize(key);
+		
 		try {
-			content = siteContentService.getContactInfo();
+			content = siteContentService.getContactInformationByKey(key);
 			if (content != null) {
-				data.setResponseBody(content);
+				
+				data.setResponseBody(new String(content.getContentValue()));
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Contact info fetched successfully");
+			}
+			else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while getting contact Information");
+				log.error("Error Occurred in Fetching Contact Info :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
