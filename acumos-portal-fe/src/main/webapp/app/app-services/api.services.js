@@ -206,6 +206,10 @@ angular.module('AcumosApp')
         	return $http.get(urlDownloadArtifact + '/' + solutionId + '?artifactId=' + artifactId + '&revisionId=' + revisionId);
         };
         
+        this.performSVScan = function (solutionId, revisionId) {
+        	return $http.get(urlSolutions + '/' + solutionId + '/revisions/' + revisionId + "/verify");
+        };
+        
         this.getTermsConditions = function (){
         	return $http.get(urlTermsConditions);
         };

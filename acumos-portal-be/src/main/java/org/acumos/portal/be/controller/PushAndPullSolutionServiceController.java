@@ -40,6 +40,8 @@ import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.StorageService;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.acumos.securityverification.domain.Workflow;
+import org.acumos.securityverification.utils.SVConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +65,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/")
 public class PushAndPullSolutionServiceController extends AbstractController {
 
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	private StorageService storageService;
@@ -106,64 +108,65 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			@RequestParam("artifactId") String artifactId, @RequestParam("revisionId") String revisionId,
 			@RequestParam("userId") String userId, HttpServletRequest request, HttpServletResponse response) {
 		try {
-
 			/**
-			 * Steps to be implemented a. Invoke Common Data Service to get the Solution &
-			 * Artifact Details b. Invoke download downloadModelDockerImage() to get the
-			 * Docker Image File c. Send back the file as a tar file to the UI
+			 * Steps to be implemented a. Invoke Common Data Service to get the
+			 * Solution & Artifact Details b. Invoke download
+			 * downloadModelDockerImage() to get the Docker Image File c. Send
+			 * back the file as a tar file to the UI
 			 */
-			
+
 			solutionId = SanitizeUtils.sanitize(solutionId);
-			
-			String artifactFileName = pushAndPullSolutionService.getFileNameByArtifactId(artifactId);
-			response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-			response.setHeader("Pragma", "no-cache");
-			response.setHeader("Expires", "0");
-			response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-			response.setHeader("x-filename", artifactFileName);
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + artifactFileName + "\"");
-			response.setStatus(HttpServletResponse.SC_OK);
 
-			pushAndPullSolutionService.downloadModelArtifact(artifactId, response);
-			pushAndPullSolutionService.getSolutionDownload(solutionId, artifactId, userId);
-			/*if (resource.available() > 0) {
-				org.apache.commons.io.IOUtils.copy(resource, response.getOutputStream());
-				response.flushBuffer();
+			Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.DOWNLOAD);
+			if (workflow.isWorkflowAllowed()) {
+				String artifactFileName = pushAndPullSolutionService.getFileNameByArtifactId(artifactId);
+				response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+				response.setHeader("Pragma", "no-cache");
+				response.setHeader("Expires", "0");
+				response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+				response.setHeader("x-filename", artifactFileName);
+				response.setHeader("Content-Disposition", "attachment; filename=\"" + artifactFileName + "\"");
+				response.setStatus(HttpServletResponse.SC_OK);
+
+				pushAndPullSolutionService.downloadModelArtifact(artifactId, response);
+				pushAndPullSolutionService.getSolutionDownload(solutionId, artifactId, userId);
 			} else {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			}*/
-
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				log.error("SV failure occurred downloading a artifact for a Solution in Push and Pull Solution service",
+						workflow.getReason());
+			}
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(
-					"Exception Occurred downloading a artifact for a Solution in Push and Pull Solution serive", e);
+			log.error("Exception Occurred downloading a artifact for a Solution in Push and Pull Solution service", e);
 		}
 		// return resource;
 	}
 
 	/**
 	 * Upload the model zip file to the temporary folder on server.
-	 * @param file 
-	 * zip file
+	 * 
+	 * @param file
+	 *            zip file
 	 * @param userId
-	 * user ID 
+	 *            user ID
 	 * @param request
 	 *            HttpServletRequest
 	 * @param response
 	 *            HttpServletResponse
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@ApiOperation(value = "API to Upload the model to the server")
 	@RequestMapping(value = {
 			APINames.UPLOAD_USER_MODEL }, method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseBody
-	public JsonResponse<Boolean> uploadModel(@RequestParam("file") MultipartFile file, @PathVariable("userId") String userId, 
-			@RequestParam("licUploadFlag") boolean licUploadFlag, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
+	public JsonResponse<Boolean> uploadModel(@RequestParam("file") MultipartFile file,
+			@PathVariable("userId") String userId, @RequestParam("licUploadFlag") boolean licUploadFlag,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
+
 		userId = SanitizeUtils.sanitize(userId);
-		
+
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
-		
+
 		log.debug("uploadModel for user " + userId);
 
 		// Check if the Onboarding is enabled in the site configuration
@@ -186,7 +189,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 									responseVO.setStatus(false);
 									responseVO.setResponseDetail("Uploading the model is Disabled from Admin");
 									responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-									
+
 									response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 									response.getWriter().write("Uploading the model is Disabled from Admin");
 								}
@@ -212,11 +215,11 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail("User Id Required to uplpoad the model");
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			
+
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().write("User Id Required to uplpoad the model");
 		}
-		
+
 		try {
 			boolean resultFlag = storageService.store(file, userId, licUploadFlag);
 			responseVO.setStatus(resultFlag);
@@ -227,18 +230,15 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 			responseVO.setStatus(false);
 			responseVO.setResponseDetail(e.getMessage());
 			responseVO.setStatusCode(HttpServletResponse.SC_BAD_REQUEST);
-			
+
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().write(e.getMessage());
 			response.flushBuffer();
-			
-			log.error(
-					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
-		}
-		catch (Exception e) {
+
+			log.error("Exception Occurred while uploading the model in Push and Pull Solution serive", e);
+		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(
-					"Exception Occurred while uploading the model in Push and Pull Solution serive", e);
+			log.error("Exception Occurred while uploading the model in Push and Pull Solution serive", e);
 		}
 		return responseVO;
 	}
@@ -254,12 +254,13 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 	 *            HttpServletResponse
 	 */
 	@ApiOperation(value = "API to download the documents of the Solution", response = InputStream.class, responseContainer = "List", code = 200)
-	@RequestMapping(value = { "/solution/revision/document/{documentId}" },
-	method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@RequestMapping(value = {
+			"/solution/revision/document/{documentId}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
-	public void downloadSolRevDocument(@PathVariable String documentId, HttpServletRequest request, HttpServletResponse response) {
+	public void downloadSolRevDocument(@PathVariable String documentId, HttpServletRequest request,
+			HttpServletResponse response) {
 		try {
-			
+
 			documentId = SanitizeUtils.sanitize(documentId);
 
 			String documentName = pushAndPullSolutionService.getFileNameByDocumentId(documentId);
@@ -275,8 +276,7 @@ public class PushAndPullSolutionServiceController extends AbstractController {
 
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error(
-					"Exception Occurred downloading a document for a Solution in Push and Pull Solution serive", e);
+			log.error("Exception Occurred downloading a document for a Solution in Push and Pull Solution serive", e);
 		}
 	}
 }
