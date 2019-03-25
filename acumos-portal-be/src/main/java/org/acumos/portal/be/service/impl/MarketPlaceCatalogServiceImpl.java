@@ -41,6 +41,7 @@ import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPDocument;
 import org.acumos.cds.domain.MLPRevisionDescription;
+import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
 import org.acumos.cds.domain.MLPSolutionRating;
@@ -64,6 +65,7 @@ import org.acumos.portal.be.docker.DockerClientFactory;
 import org.acumos.portal.be.docker.DockerConfiguration;
 import org.acumos.portal.be.docker.cmd.DeleteImageCommand;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
@@ -73,6 +75,7 @@ import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.wagon.ConnectionException;
@@ -84,6 +87,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -104,6 +108,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AdminService adminService;
 
 	@Autowired
 	private DockerConfiguration dockerConfiguration;
@@ -1211,7 +1218,21 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			if (revision != null) {
 				mlSolution.setAccessType(revision.getAccessTypeCode());
 				mlSolution.setLatestRevisionId(revision.getRevisionId());
-				mlSolution.setPublisher(revision.getPublisher());
+				if (PortalUtils.isEmptyOrNullString(revision.getPublisher())) {
+					MLPSiteConfig siteConfig = adminService.getSiteConfig("site_config");
+					if (siteConfig != null && !PortalUtils.isEmptyOrNullString(siteConfig.getConfigValue())) {
+						Map<String, Object> mapSiteConfig = JsonUtils.serializer().mapFromJson(siteConfig.getConfigValue());
+						List<Map<String, String>> fields = (List<Map<String, String>>) mapSiteConfig.get("fields");
+						for (Map<String, String> field : fields) {
+							if (field.get("name").equals("siteInstanceName")) {
+								mlSolution.setPublisher(field.get("data"));
+								break;
+							}
+						}
+					}
+				} else {
+					mlSolution.setPublisher(revision.getPublisher());
+				}
 				List<Author> authors = PortalUtils.convertToAuthor(revision.getAuthors());
 				mlSolution.setAuthors(authors);
 				long Count = dataServiceRestClient.getSolutionRevisionCommentCount(mlpSol.getSolutionId(),
