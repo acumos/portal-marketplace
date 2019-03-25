@@ -195,7 +195,7 @@ angular
 													$scope.allPublishRequest[$scope.requestIndex] = response.data.response_body;
 												}
 											},function errorCallback(response) {
-												$scope.msg = "Error Occured while updating the publish request";
+												$scope.msg = (response.data.error_code == "500") ? response.data.response_detail : "Error Occured while updating the publish request";
 												$scope.icon = 'report_problem';
 												$scope.styleclass = 'c-error';
 												$scope.showAlertMessage = true;
@@ -203,6 +203,7 @@ angular
 														function() {
 															$scope.showAlertMessage = false;
 														}, 3000);
+												$mdDialog.hide();
 										});
 							
 						}

@@ -966,8 +966,7 @@ limitations under the License.
 					<form name="deployToLocal">
 						<md-input-container class="md-icon-float md-block">
 							<label>Click here to download Deployable Solution Package for Private Kubernetes Cloud</label> 
-							<md-button class="mdl-button mdl-js-button btn-secondary"
-							href="/package/getSolutionZip/{{solutionId}}/{{revisionId}}" target="_blank"> Download Solution Package</md-button>
+							<md-button class="mdl-button mdl-js-button btn-secondary" ng-click="deployLocalPackage()"> Download Solution Package</md-button>
 						</md-input-container>
 						<br />
 						<p>More Info at <a href="{{kubernetesDocUrl}}" target="_blank">help</a></p>
@@ -1087,7 +1086,7 @@ limitations under the License.
 							<label class="downloadlbl2"><span class="font600">Uploaded
 							on</span> - {{value.created | date:'MM/dd/yyyy'}}</label>
 					</div>
-					<md-button class="md-raised mdl-js-button btn-secondary" ng-click="getModelDetails()" href="/api/downloads/{{solution.solutionId}}?artifactId={{value.artifactId}}&revisionId={{revisionId}}&userId={{loginUserID}}&jwtToken={{auth}}">
+					<md-button class="md-raised mdl-js-button btn-secondary" ng-click="downloadArtifact(value.artifactId); getModelDetails()">
 						Download
 					</md-button>
 				</div>

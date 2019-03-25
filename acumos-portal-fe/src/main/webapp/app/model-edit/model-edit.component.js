@@ -1366,7 +1366,7 @@ angular
 														$scope.msg = "Error encountered: "
 																+ $scope.status;
 														$scope.icon = 'report_problem';
-														$scope.styleclass = 'c-warning';
+														$scope.styleclass = 'c-error';
 														$scope.showAlertMessage = true;
 														$timeout(
 																function() {
@@ -1759,6 +1759,21 @@ angular
 					                               $timeout(function() {
 					                                   $scope.showAlertMessage = false;
 					                               }, 2000);
+												$scope.loadShareWithTeam();
+												// $scope.selectedGroups = ""
+												// $scope.searchText=undefined;
+												clear();
+											} else if(response.data.error_code == 500){
+												/*alert("Shared Successfully");*/
+												$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+					                               $anchorScroll();
+					                               $scope.msg = response.data.response_detail;
+					                               $scope.icon = '';
+					                               $scope.styleclass = 'c-error';
+					                               $scope.showAlertMessage = true;
+					                               $timeout(function() {
+					                                   $scope.showAlertMessage = false;
+					                               }, 5000);
 												$scope.loadShareWithTeam();
 												// $scope.selectedGroups = ""
 												// $scope.searchText=undefined;

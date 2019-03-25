@@ -31,12 +31,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.acumos.securityverification.domain.Workflow;
+import org.acumos.securityverification.utils.SVConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,16 +56,16 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/")
 public class PublishSolutionServiceController extends AbstractController {
 
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
-	
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
 	@Autowired
 	private PublishSolutionService publishSolutionService;
-	
+
 	@Autowired
 	private NotificationService notificationService;
-	
+
 	private static final String MSG_SEVERITY_ME = "ME";
-	
+
 	/**
 	 * 
 	 */
@@ -71,64 +74,76 @@ public class PublishSolutionServiceController extends AbstractController {
 	}
 
 	@ApiOperation(value = "Publishes a given SolutionId for userId with selected visibility.", response = ResponseVO.class)
-    @RequestMapping(value = {APINames.PUBLISH},method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    @ResponseBody
-    public JsonResponse<Object> publishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
-			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId, HttpServletResponse response) {
-		
+	@RequestMapping(value = { APINames.PUBLISH }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> publishSolution(HttpServletRequest request,
+			@PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
+			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId,
+			HttpServletResponse response) {
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		
+
 		log.debug("publishSolution={}", solutionId, visibility);
 		log.info("publishSolution={}", solutionId, visibility);
 		JsonResponse<Object> data = new JsonResponse<>();
 		UUID trackingId = UUID.randomUUID();
 		try {
-
-			//Check for the unique name in the market place before publishing.
-			if (!publishSolutionService.checkUniqueSolName(solutionId)) {
+			String workflowId = (visibility.equalsIgnoreCase(CommonConstants.PUBLIC) ? SVConstants.PUBLISHPUBLIC
+					: SVConstants.PUBLISHCOMPANY);
+			Workflow workflow = performSVScan(solutionId, revisionId, workflowId);
+			if (!workflow.isWorkflowAllowed()) {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("SV failure during publish: " + workflow.getReason());
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				log.error("SV failure during publish: " + workflow.getReason());
+				// Check for the unique name in the market place before
+				// publishing.
+			} else if (!publishSolutionService.checkUniqueSolName(solutionId)) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Model name is not unique. Please update model name before publishing");
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				return data;
+			} else {
+				String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId,
+						trackingId);
+				// code to create notification
+				MLPNotification notificationObj = new MLPNotification();
+				notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);
+	
+				notificationObj.setMessage(publishStatus);
+				notificationObj.setTitle(publishStatus);
+				notificationService.generateNotification(notificationObj, userId);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail(trackingId.toString());
 			}
-			
-			String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
-			// code to create notification
-            MLPNotification notificationObj = new MLPNotification();
-            notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);
-
-			notificationObj.setMessage(publishStatus);
-			notificationObj.setTitle(publishStatus);
-			notificationService.generateNotification(notificationObj, userId);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail(trackingId.toString());
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception Occurred while Publishing Model");
-			log.error( "Exception Occurred while publishSolution()", e);
+			log.error("Exception Occurred while publishSolution()", e);
 		}
 		return data;
 	}
-	
+
 	@ApiOperation(value = "Unpublishes a given SolutionId for userId with selected visibility.", response = ResponseVO.class)
-    @RequestMapping(value = {APINames.UNPUBLISH},method = RequestMethod.PUT, produces = APPLICATION_JSON)
-    @ResponseBody
-    public JsonResponse<Object> unpublishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
-    		@RequestParam("userId") String userId, HttpServletResponse response) {
-		
+	@RequestMapping(value = { APINames.UNPUBLISH }, method = RequestMethod.PUT, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Object> unpublishSolution(HttpServletRequest request,
+			@PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
+			@RequestParam("userId") String userId, HttpServletResponse response) {
+
 		solutionId = SanitizeUtils.sanitize(solutionId);
-		
+
 		log.debug("unpublishSolution={}", solutionId, visibility);
-		 JsonResponse<Object> data = new JsonResponse<>();
+		JsonResponse<Object> data = new JsonResponse<>();
 		try {
-			//TODO As of now it does not check if User Account already exists. Need to first check if the account exists in DB
+			// TODO As of now it does not check if User Account already exists.
+			// Need to first check if the account exists in DB
 			publishSolutionService.unpublishSolution(solutionId, visibility, userId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions unpublished Successfully");
 		} catch (Exception e) {
-			 data.setErrorCode(JSONTags.TAG_ERROR_CODE);
- 			 data.setResponseDetail("Exception Occurred while unpublishSolution()");
-			log.error( "Exception Occurred while unpublishSolution()", e);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception Occurred while unpublishSolution()");
+			log.error("Exception Occurred while unpublishSolution()", e);
 		}
 		return data;
 	}
