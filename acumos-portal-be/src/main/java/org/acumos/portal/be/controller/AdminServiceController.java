@@ -58,6 +58,7 @@ import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.acumos.securityverification.domain.Workflow;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -692,10 +693,26 @@ public class AdminServiceController extends AbstractController {
            log.debug( "createSubscription={}");
            JsonResponse<MLPPeerSubscription> data = new JsonResponse<>();
            try {
-               if (!solList.getBody().isEmpty() && peerId != null) {              
-                   adminService.createSubscription(solList.getBody(),peerId);
-                   data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-                   data.setResponseDetail("Success");
+               if (!solList.getBody().isEmpty() && peerId != null) {
+            	   List<MLSolution> solutions = solList.getBody();
+            	   boolean valid = true;
+            	   Workflow workflow = getDefaultWorkflow();
+            	   for (MLSolution solution : solutions) {
+            		   workflow = performSVScan(solution.getSolutionId(), "subscribe");
+            		   if (!workflow.isWorkflowAllowed()) {
+            			   valid = false;
+            			   break;
+            		   }
+            	   }
+            	   if (valid) {
+                       adminService.createSubscription(solutions,peerId);
+                       data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+                       data.setResponseDetail("Success");
+            	   } else {
+                       log.debug( "createPeerSubscription: SV failure");
+                       data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+                       data.setResponseDetail("SV failure during peer subscription creation");
+            	   }
                } else {
                    log.debug( "createPeerSubscription: Invalid Parameters");
                    data.setErrorCode(JSONTags.TAG_ERROR_CODE);

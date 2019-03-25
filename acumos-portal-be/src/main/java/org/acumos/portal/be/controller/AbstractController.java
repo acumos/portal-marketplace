@@ -20,10 +20,24 @@
 
 package org.acumos.portal.be.controller;
 
+import java.util.List;
+
+import org.acumos.cds.domain.MLPSolutionRevision;
+import org.acumos.portal.be.service.MarketPlaceCatalogService;
+import org.acumos.securityverification.domain.Workflow;
+import org.acumos.securityverification.service.SecurityVerificationServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 public abstract class AbstractController {
+
+	@Autowired
+	private Environment env;
+
+	@Autowired
+	private MarketPlaceCatalogService catalogService;
 
 	protected static final String APPLICATION_JSON = "application/json";
 
@@ -33,4 +47,40 @@ public abstract class AbstractController {
 		mapper = new ObjectMapper();
 	}
 
+	public Workflow performSVScan(String solutionId, String revisionId, String workflowId) throws Exception {
+		Workflow workflow = getDefaultWorkflow();
+		if (Boolean.parseBoolean(env.getProperty("portal.feature.sv.enabled"))) {
+			SecurityVerificationServiceImpl sv = getSVClient();
+			workflow = sv.securityVerificationScan(solutionId, revisionId, workflowId);
+		}
+		return workflow;
+	}
+
+	public Workflow performSVScan(String solutionId, String workflowId) throws Exception {
+		Workflow workflow = getDefaultWorkflow();
+		if (Boolean.parseBoolean(env.getProperty("portal.feature.sv.enabled"))) {
+			SecurityVerificationServiceImpl sv = getSVClient();
+			List<MLPSolutionRevision> revs = catalogService.getSolutionRevision(solutionId);
+			for (MLPSolutionRevision rev : revs) {
+				workflow = sv.securityVerificationScan(solutionId, rev.getRevisionId(), workflowId);
+				if (!workflow.isWorkflowAllowed()) {
+					break;
+				}
+			}
+		}
+		return workflow;
+	}
+	
+	private SecurityVerificationServiceImpl getSVClient() {
+		return new SecurityVerificationServiceImpl();
+		/* // For when SV constructor is updated:
+		 * return new SecurityVerificationServiceImpl(env.getProperty("portal.feature.sv.api"));
+		 */
+	}
+	
+	protected Workflow getDefaultWorkflow() {
+		Workflow workflow = new Workflow();
+		workflow.setWorkflowAllowed(true);
+		return workflow;
+	}
 }
