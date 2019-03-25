@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SiteContentServiceImpl extends AbstractServiceImpl implements SiteContentService {
 
-	public static final String KEY_TERMS_CONDITIONS = "global.termsCondition";
+	public static final String KEY_TERMS_CONDITIONS = "global.termsConditions";
 	public static final String KEY_COBRAND_LOGO = "global.coBrandLogo";
 	public static final String KEY_ONBOARDING_OVERVIEW = "global.onboarding.overview";
 	public static final String KEY_CONTACT_INFO = "global.footer.contactInfo";
