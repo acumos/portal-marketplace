@@ -86,6 +86,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -1220,7 +1221,19 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			if (revision != null) {
 				mlSolution.setAccessType(revision.getAccessTypeCode());
 				mlSolution.setLatestRevisionId(revision.getRevisionId());
-				mlSolution.setPublisher(revision.getPublisher());
+				if (PortalUtils.isEmptyOrNullString(revision.getPublisher())) {
+					List<MLPUser> users = dataServiceRestClient.getUsers(new RestPageRequest(0, 100)).getContent();
+					if (!users.isEmpty()) {
+						for (MLPUser user : users) {
+							if (userService.isAdminRole(user.getUserId())) {
+								mlSolution.setPublisher(user.getFirstName() + " " + user.getLastName());
+								break;
+							}
+						}
+					}
+				} else {
+					mlSolution.setPublisher(revision.getPublisher());
+				}
 				List<Author> authors = PortalUtils.convertToAuthor(revision.getAuthors());
 				mlSolution.setAuthors(authors);
 				long Count = dataServiceRestClient.getSolutionRevisionCommentCount(mlpSol.getSolutionId(),
