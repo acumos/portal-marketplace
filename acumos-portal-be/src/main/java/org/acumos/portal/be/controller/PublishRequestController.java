@@ -36,6 +36,8 @@ import org.acumos.portal.be.transport.MLPublishRequest;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.acumos.securityverification.domain.Workflow;
+import org.acumos.securityverification.utils.SVConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,16 +136,29 @@ public class PublishRequestController extends AbstractController {
     public JsonResponse<MLPublishRequest> updatePublishRequest(HttpServletRequest request, @PathVariable("publishRequestId") String publishRequestId, @RequestBody JsonRequest<MLPublishRequest> mlPublishRequest, HttpServletResponse response) {
 		JsonResponse<MLPublishRequest> data = new JsonResponse<>();
 		try {
-			MLPublishRequest updatedPublishRequest = publishRequestService.updatePublishRequest(mlPublishRequest.getBody());
-			data.setResponseBody(updatedPublishRequest);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail("Publish Request updated Successfully.");
-			log.debug("Publish Request updated Successfully : {}", updatedPublishRequest.getPublishRequestId());
-		} catch (AcumosServiceException e) {
+			MLPublishRequest pendingRequest = mlPublishRequest.getBody();
+			Workflow workflow = getDefaultWorkflow();
+			if (pendingRequest.getRequestStatusCode().equalsIgnoreCase("AP")) {
+				MLPublishRequest oldRequest = publishRequestService.getPublishRequestById(pendingRequest.getPublishRequestId());
+				workflow = performSVScan(oldRequest.getSolutionId(), oldRequest.getRevisionId(), SVConstants.PUBLISHPUBLIC);
+			}
+			if (workflow.isWorkflowAllowed()) {
+				MLPublishRequest updatedPublishRequest = publishRequestService.updatePublishRequest(pendingRequest);
+				data.setResponseBody(updatedPublishRequest);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Publish Request updated Successfully.");
+				log.debug("Publish Request updated Successfully : {}", updatedPublishRequest.getPublishRequestId());
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+				data.setResponseDetail("SV failure occured while Updating the request");
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				log.error("SV failure occurred while Updating the request : ", workflow.getReason());
+			}
+		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 			data.setResponseDetail("Exception occured while Updating the request");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			log.error("Exception occured while Updating the request :", e);
+			log.error("Exception occurred while Updating the request : ", e);
 		}
 		return data;
 	}

@@ -64,6 +64,8 @@ import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.acumos.securityverification.domain.Workflow;
+import org.acumos.securityverification.utils.SVConstants;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -596,44 +598,56 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		List<User> userList = new ArrayList<>();
 		boolean exist = false;
 		try {
-			List<String> userIdList = userId.getBody();
-			if (!PortalUtils.isEmptyOrNullString(solutionId)) {
-				userList = catalogService.getSolutionUserAccess(solutionId);
-				if (userList != null) {
-					for (User user : userList) {
-						if (user.getUserId().equals(userId)) {
-							exist = true;
-							break;
+			Workflow workflow = performSVScan(solutionId, SVConstants.SHARE);
+			if (workflow.isWorkflowAllowed()) {
+				List<String> userIdList = userId.getBody();
+				if (!PortalUtils.isEmptyOrNullString(solutionId)) {
+					userList = catalogService.getSolutionUserAccess(solutionId);
+					if (userList != null) {
+						for (User user : userList) {
+							if (user.getUserId().equals(userId)) {
+								exist = true;
+								break;
+							}
 						}
 					}
 				}
-			}
-
-			if (!exist) {
-				catalogService.addSolutionUserAccess(solutionId, userIdList);
-
-				// code to create notification
-				for (String userID : userIdList) {
-					MLPNotification notification = new MLPNotification();
-					String notifMsg = null;
-					MLSolution solutionDetail = catalogService.getSolution(solutionId);
-					MLPUser mlpUser = userService.findUserByUserId(userID);
-					notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();
-					notification.setMessage(notifMsg);
-					notification.setTitle(notifMsg);
-					notification.setMsgSeverityCode(MSG_SEVERITY_ME);
-					notificationService.generateNotification(notification, mlpUser.getUserId());
+	
+				if (!exist) {
+					catalogService.addSolutionUserAccess(solutionId, userIdList);
+	
+					// code to create notification
+					for (String userID : userIdList) {
+						MLPNotification notification = new MLPNotification();
+						String notifMsg = null;
+						MLSolution solutionDetail = catalogService.getSolution(solutionId);
+						MLPUser mlpUser = userService.findUserByUserId(userID);
+						notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();
+						notification.setMessage(notifMsg);
+						notification.setTitle(notifMsg);
+						notification.setMsgSeverityCode(MSG_SEVERITY_ME);
+						notificationService.generateNotification(notification, mlpUser.getUserId());
+					}
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Users access for solution added Successfully");
+					log.debug("addSolutionUserAccess :  ");
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					data.setResponseDetail("User already assigned for solution");
+					log.error("Error User already assigned for solution :" + solutionId);
 				}
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Users access for solution added Successfully");
-				log.debug("addSolutionUserAccess :  ");
 			} else {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("User already assigned for solution");
-				log.error("Error User already assigned for solution :" + solutionId);
+				data.setResponseDetail("SV failure during sharing: " + workflow.getReason());
+				log.error("SV failure during sharing: " + workflow.getReason());
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
+			data.setResponseDetail(e.getMessage());
+			log.error(
+					"Exception Occurred while addSolutionUserAccess() :" + "solutionId", e);
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
 			data.setResponseDetail(e.getMessage());
 			log.error(
 					"Exception Occurred while addSolutionUserAccess() :" + "solutionId", e);
@@ -1632,5 +1646,36 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error("Exception Occurred while updateSolutionImage()", e);
 		}
 		return responseVO;
+	}
+	
+	@ApiOperation(value = "Perform SV Scan for given solution ID and revision ID, intended for pre-deployment use", response = Workflow.class)
+	@RequestMapping(value = { APINames.SOLUTIONS_REVISIONS_VERIFY }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Workflow> verifySolutionRevision(HttpServletRequest request,
+			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, HttpServletResponse response) {
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+
+		Workflow workflow = null;
+		JsonResponse<Workflow> data = new JsonResponse<>();
+		try {
+			workflow = performSVScan(solutionId, revisionId, SVConstants.DEPLOY);
+			if (workflow != null) {
+				data.setResponseBody(workflow);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("SV Scan completed");
+				log.debug("SV Scan completed :  ", workflow);
+			}
+			response.setStatus(HttpServletResponse.SC_OK);
+		} catch (AcumosServiceException e) {
+			data.setErrorCode(e.getErrorCode());
+			data.setResponseDetail(e.getMessage());
+			log.error("Exception Occurred performing SV Scan ={}", e);
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+			data.setResponseDetail(e.getMessage());
+			log.error("Exception Occurred performing SV Scan ={}", e);
+		}
+		return data;
 	}
 }

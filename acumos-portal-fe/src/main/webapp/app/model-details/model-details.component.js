@@ -1092,113 +1092,124 @@ angular
 						}
 						
 						$scope.authenticateAnddeployToAzure = function() {
-							var imageTagUri = '';
-							if ($scope.artifactType != null
-									&& $scope.artifactType == 'DI') {
-								imageTagUri = $scope.artifactUri;
-							}
-							if($scope.solution.tookitType != "CP") {
-                                var reqObject = '';
-                                if($scope.exportTo == 'azure'){
-                                	
-                                      var url = '/azure/singleImageAzureDeployment';
-                                      reqObject = {
-                                    	
-                                                        'acrName': $scope.acrName,
-                                                        'client': $scope.applicationId,
-                                                        'key': $scope.secretKey,
-                                                        'rgName': $scope.resourceGroup,
-                                                        'solutionId': $scope.solution.solutionId,
-                                                        'solutionRevisionId': $scope.revisionId,
-                                                        'storageAccount': $scope.storageAccount,
-                                                        'subscriptionKey':  $scope.subscriptionKey,
-                                                        'tenant': $scope.tenantId,
-                                                        'imagetag': imageTagUri,
-                                                        'userId':  $scope.loginUserID
-                                                        
-                                                        
-                                      }
-                                }
-                                else if($scope.exportTo == 'rackspace'){
-                                      var url =  '/openstack/singleImageOpenstackDeployment';
-                                      reqObject ={
-                          'vmName': $scope.vmName,
-                          'solutionId': $scope.solution.solutionId,
-                          'solutionRevisionId': $scope.revisionId,
-                          'imagetag': imageTagUri,
-                          'userId':  $scope.loginUserID
-                                      }
-                                }
-                                $http({
-                                      method : 'POST',
-                                      url : url,
-                                      data: reqObject
-                                      
-                                }).then(function(response) {
-                                	$mdDialog.hide();
-                                	$location.hash('md-model-detail-template');  // id of a container on the top of the page - where to scroll (top)
-									$anchorScroll(); 							// used to scroll to the id 
-									$scope.msg = "Deployment Started Successfully. "; 
-									$scope.icon = '';
-									$scope.styleclass = 'c-success';
-									$scope.showAlertMessage = true;
-									$timeout(function() {
-										$scope.showAlertMessage = false;
-									}, 2000);
-                                      },
-                                      function(error) {
-                                            console.warn("Error occured")
+							apiService.performSVScan($scope.solution.solutionId, $scope.revisionId)
+								.then(
+									function(response) {
+										if (!response.data.response_body.workflowAllowed) {
+											console.log("Error during SV Scan,", response.data.response_body.reason);
+										} else {
+											var imageTagUri = '';
+											if ($scope.artifactType != null
+													&& $scope.artifactType == 'DI') {
+												imageTagUri = $scope.artifactUri;
+											}
+											if($scope.solution.tookitType != "CP") {
+				                                var reqObject = '';
+				                                if($scope.exportTo == 'azure'){
+				                                	
+				                                      var url = '/azure/singleImageAzureDeployment';
+				                                      reqObject = {
+				                                    	
+				                                                        'acrName': $scope.acrName,
+				                                                        'client': $scope.applicationId,
+				                                                        'key': $scope.secretKey,
+				                                                        'rgName': $scope.resourceGroup,
+				                                                        'solutionId': $scope.solution.solutionId,
+				                                                        'solutionRevisionId': $scope.revisionId,
+				                                                        'storageAccount': $scope.storageAccount,
+				                                                        'subscriptionKey':  $scope.subscriptionKey,
+				                                                        'tenant': $scope.tenantId,
+				                                                        'imagetag': imageTagUri,
+				                                                        'userId':  $scope.loginUserID
+				                                                        
+				                                                        
+				                                      }
+				                                }
+				                                else if($scope.exportTo == 'rackspace'){
+				                                      var url =  '/openstack/singleImageOpenstackDeployment';
+				                                      reqObject ={
+				                          'vmName': $scope.vmName,
+				                          'solutionId': $scope.solution.solutionId,
+				                          'solutionRevisionId': $scope.revisionId,
+				                          'imagetag': imageTagUri,
+				                          'userId':  $scope.loginUserID
+				                                      }
+				                                }
+				                                $http({
+				                                      method : 'POST',
+				                                      url : url,
+				                                      data: reqObject
+				                                      
+				                                }).then(function(response) {
+				                                	$mdDialog.hide();
+				                                	$location.hash('md-model-detail-template');  // id of a container on the top of the page - where to scroll (top)
+													$anchorScroll(); 							// used to scroll to the id 
+													$scope.msg = "Deployment Started Successfully. "; 
+													$scope.icon = '';
+													$scope.styleclass = 'c-success';
+													$scope.showAlertMessage = true;
+													$timeout(function() {
+														$scope.showAlertMessage = false;
+													}, 2000);
+				                                      },
+				                                      function(error) {
+				                                            console.warn("Error occured")
 
-                                      });
-                                
-                          } else {
-                                var reqObject = '';
-                                if($scope.exportTo == 'azure'){
-                                      var url = '/azure/compositeSolutionAzureDeployment';
-                                      reqObject = {
-                                                        'acrName': $scope.acrName,
-                                                        'client': $scope.applicationId,
-                                                        'key': $scope.secretKey,
-                                                        'rgName': $scope.resourceGroup,
-                                                        'solutionId': $scope.solution.solutionId,
-                                                        'solutionRevisionId': $scope.revisionId,
-                                                        'storageAccount': $scope.storageAccount,
-                                                        'subscriptionKey':  $scope.subscriptionKey,
-                                                        'tenant': $scope.tenantId,
-                                                        'userId':  $scope.loginUserID
-                                      }
-                                }
-                                else if($scope.exportTo == 'rackspace'){
-                                      var url = "/openstack/compositeSolutionOpenstackDeployment";
-                                      reqObject ={
-                          'vmName': $scope.vmName,
-                          'solutionId': $scope.solution.solutionId,
-                          'solutionRevisionId': $scope.revisionId,
-                          'imagetag': imageTagUri,
-                          'userId':  $scope.loginUserID
-                                      }
-                                }
-                                $http({
-                                      method : 'POST',
-                                      url : url,
-                                      data: reqObject
-                                }).then(function(response) {
-                                	$mdDialog.hide();
-                                	$location.hash('md-model-detail-template');  // id of a container on the top of the page - where to scroll (top)
-									$anchorScroll(); 							// used to scroll to the id 
-									$scope.msg = "Deployment Started Successfully. "; 
-									$scope.icon = '';
-									$scope.styleclass = 'c-success';
-									$scope.showAlertMessage = true;
-									$timeout(function() {
-										$scope.showAlertMessage = false;
-									}, 2000);
-                                },
-                                function(error) {
-                                      console.warn("Error occured")
+				                                      });
+				                                
+				                          } else {
+				                                var reqObject = '';
+				                                if($scope.exportTo == 'azure'){
+				                                      var url = '/azure/compositeSolutionAzureDeployment';
+				                                      reqObject = {
+				                                                        'acrName': $scope.acrName,
+				                                                        'client': $scope.applicationId,
+				                                                        'key': $scope.secretKey,
+				                                                        'rgName': $scope.resourceGroup,
+				                                                        'solutionId': $scope.solution.solutionId,
+				                                                        'solutionRevisionId': $scope.revisionId,
+				                                                        'storageAccount': $scope.storageAccount,
+				                                                        'subscriptionKey':  $scope.subscriptionKey,
+				                                                        'tenant': $scope.tenantId,
+				                                                        'userId':  $scope.loginUserID
+				                                      }
+				                                }
+				                                else if($scope.exportTo == 'rackspace'){
+				                                      var url = "/openstack/compositeSolutionOpenstackDeployment";
+				                                      reqObject ={
+				                          'vmName': $scope.vmName,
+				                          'solutionId': $scope.solution.solutionId,
+				                          'solutionRevisionId': $scope.revisionId,
+				                          'imagetag': imageTagUri,
+				                          'userId':  $scope.loginUserID
+				                                      }
+				                                }
+				                                $http({
+				                                      method : 'POST',
+				                                      url : url,
+				                                      data: reqObject
+				                                }).then(function(response) {
+				                                	$mdDialog.hide();
+				                                	$location.hash('md-model-detail-template');  // id of a container on the top of the page - where to scroll (top)
+													$anchorScroll(); 							// used to scroll to the id 
+													$scope.msg = "Deployment Started Successfully. "; 
+													$scope.icon = '';
+													$scope.styleclass = 'c-success';
+													$scope.showAlertMessage = true;
+													$timeout(function() {
+														$scope.showAlertMessage = false;
+													}, 2000);
+				                                },
+				                                function(error) {
+				                                      console.warn("Error occured")
 
-                                });
-                          }
+				                                });
+				                          }
+										}
+	                                },
+	                            	function(error) {
+	                                	console.warn("Error occured")
+	                                });
 						}
 						
 						/*Deploy to Local method*/
