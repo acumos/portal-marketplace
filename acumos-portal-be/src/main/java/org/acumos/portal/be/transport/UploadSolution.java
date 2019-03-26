@@ -24,6 +24,7 @@ public class UploadSolution {
 	
 	private String name;
 	private String version;
+	private String dockerfileURI;
 	/**
 	 * @return the name
 	 */
@@ -55,5 +56,18 @@ public class UploadSolution {
 	public String toString() {
 		return "UploadSolution [name=" + name + ", version=" + version + "]";
 	}
+	
+	/**
+     * @return the dockerfileURI
+     */
+    public String getDockerfileURI() {
+        return dockerfileURI;
+    }
+    /**
+     * @param dockerfileURI the dockerfileURI to set
+     */
+    public void setDockerfileURI(String dockerfileURI) {
+        this.dockerfileURI = dockerfileURI;
+    }
 	
 }
