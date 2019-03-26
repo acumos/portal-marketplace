@@ -121,7 +121,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 	@Override
 	public Future<HttpResponse> callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
-			String access_token, String modelName) throws InterruptedException, ClientProtocolException, IOException {
+			String access_token, String modelName, String dockerfileURI) throws InterruptedException, ClientProtocolException, IOException {
 
 		log.info("CallOnboarding service start");
 		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
@@ -138,7 +138,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			File pfaFile = null;
 			File licenseFile = null;
 			MLPNotification notification = new MLPNotification();
-
+			if (StringUtils.isEmpty(dockerfileURI) || ("null".equalsIgnoreCase(dockerfileURI))) {
+				dockerfileURI = null;
+			}
 			fileList = getListOfFiles(directory, fileList);
 
 			if (fileList != null) {
@@ -168,10 +170,10 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			}
 
 			if ((modelFile != null && schemaFile != null && metadataFile != null)
-					|| (onnxFile != null || pfaFile != null)) {
+					|| (onnxFile != null || pfaFile != null) || dockerfileURI != null) {
 				HttpPost post = null;
 
-				if ((onnxFile != null || pfaFile != null)) {
+				if ((onnxFile != null || pfaFile != null || dockerfileURI != null)) {
 					post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_ADVANCED_MODELURL));
 				} else {
 					post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_MODELURL));
@@ -207,8 +209,10 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 				builder.setBoundary(UUID.randomUUID().toString());
 				builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-				if (onnxFile != null) {
+				if(dockerfileURI !=null){
+					post.setHeader("modelname", modelName);
+					post.setHeader("dockerfileURL", dockerfileURI);
+				} else if (onnxFile != null) {
 					builder.addBinaryBody("model", new FileInputStream(onnxFile), ContentType.MULTIPART_FORM_DATA,
 							onnxFile.getName());
 					post.setHeader("modelname", modelName);
@@ -306,7 +310,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				if (pfaFile == null) {
 					files.add("pfa file");
 				}
-
+				if(dockerfileURI == null){
+	                    files.add("docker file URI");
+	            }
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
 						"Malformed bundle, missing required files: " + String.join(", ", files)
 								+ ". Check your model and try again.");
