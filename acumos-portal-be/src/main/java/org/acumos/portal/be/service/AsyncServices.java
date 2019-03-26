@@ -33,7 +33,7 @@ public interface AsyncServices {
 
 	Future<String> initiateAsyncProcess() throws InterruptedException;
 	
-	Future<HttpResponse> callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider, String access_token, String modelName) throws InterruptedException, FileNotFoundException, ClientProtocolException, IOException;
+	Future<HttpResponse> callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider, String access_token, String modelName, String dockerfileURI) throws InterruptedException, FileNotFoundException, ClientProtocolException, IOException;
 
 	Boolean checkONAPCompatible(String solutioId, String revisionId, String userId, String tracking_id);
 
