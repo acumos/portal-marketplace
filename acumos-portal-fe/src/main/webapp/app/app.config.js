@@ -80,7 +80,8 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			component: 'modelEdit',
 			params: {solutionId: null,
 				revisionId: null,
-				deployStatus:null}
+				deployStatus:null,
+				deployValue:null}
          })
 		.state('modularResource', {
 			url: '/modelerResource?ONAP=?solutionId=?revisionId=?',

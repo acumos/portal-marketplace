@@ -80,7 +80,8 @@ angular
 						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
 						}
 						else {$scope.workflowTitle='On-Boarding';$scope.tab='onboard'}
-
+						if($stateParams.deployValue !== null)
+							$scope.checkboxExport = $stateParams.deployValue;
 						$scope.revisionId = $stateParams.revisionId;
 						$scope.status;
 						$scope.activePublishBtn = false;
@@ -1911,7 +1912,8 @@ angular
 						/** ****** Export to local ends *** */
 
 						/** ****** Export/Deploy to Azure starts *** */
-						$scope.checkboxExport = 'azure';
+						if($scope.checkboxExport === undefined)
+							$scope.checkboxExport = 'azure';
 						$scope.authenticateAnddeployToAzure = function() {
 							var imageTagUri = '';
 							if ($scope.artifactType != null
