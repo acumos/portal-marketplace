@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de02378c_470833ae",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "If you check further down at Line 131, this code already exists for allowing GETs to this endpoint. Please remove this unnecessary duplicate code.",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 90
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea3038f_64db2761",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "We don\u0027t want just anyone to be able to update the contact footer information. Please remove this line.",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 91
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57db0797_311637c2",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Same as above, this already exists at line 130. Please remove it.",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 87
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ae6b53b_82648ddc",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/config/SecurityConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Same story here, do not expose the ability to update site content to anyone who isn\u0027t even logged in.",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 88
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ef1e7cc_95f575a7",
+        "filename": "acumos-portal-be/src/test/java/org/acumos/be/test/controller/MarketPlaceControllerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Why is this test being commented out? This worked before, and if it is broken now, you need to figure out how to fix it. This will reduce coverage otherwise, and Mukesh is not going to be happy about that.",
+      "range": {
+        "startLine": 671,
+        "startChar": 1,
+        "endLine": 671,
+        "endChar": 3
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "341fb766_97df3163",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Given that this only refers to contact info and not site content overall, could we perhaps rename this variable to something more accurate in description?",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 26
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "117b017b_d2559f06",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Either recycle this function or delete it, we don\u0027t want commented code when we can help it.",
+      "range": {
+        "startLine": 217,
+        "startChar": 7,
+        "endLine": 219,
+        "endChar": 12
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd4d533_550746f0",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Again, we should make this more specific to what it is actually fetching, in this case the contact information.",
+      "range": {
+        "startLine": 238,
+        "startChar": 13,
+        "endLine": 238,
+        "endChar": 27
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcb04474_8bcde9f6",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "This is a minor thing, but Chris Lott has gotten onto me so many times for it. Instead of getTermsCondition, can we add an \"s\" to make this getTermsConditions? Like the function you commented out previously? There\u0027s normally more than one condition in a TAC. Same goes for the urlTermsCondition variable you use. Ultimately, we need to keep them all consistent, especially given how the URL for the endpoint contains \"termsConditions\".",
+      "range": {
+        "startLine": 242,
+        "startChar": 13,
+        "endLine": 242,
+        "endChar": 30
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6b172a0_095369f2",
+        "filename": "acumos-portal-fe/src/main/webapp/app/app-services/api.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Same as before, please add an \"s\" so it\u0027s postTermsConditions.",
+      "range": {
+        "startLine": 362,
+        "startChar": 13,
+        "endLine": 362,
+        "endChar": 31
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "261692a0_a2567036",
+        "filename": "acumos-portal-fe/src/main/webapp/app/footer/footer.component.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 101
+      },
+      "writtenOn": "2019-03-28T16:56:41Z",
+      "side": 1,
+      "message": "Terms and conditions are loaded within their own page, why do we need it loaded here inside of the footer? Remove this.",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 6
+      },
+      "revId": "8d68db8d76bbd9e9806edd50513794cbe6190672",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
