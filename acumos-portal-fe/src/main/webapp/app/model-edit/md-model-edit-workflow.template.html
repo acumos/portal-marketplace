@@ -165,7 +165,7 @@ limitations under the License.
 												<i class="authorsimg"></i>
 											</div>
 											<div class="managelefttext">
-												<article>Manage Authors</article>
+												<article>Manage Publisher/Authors</article>
 												<ul class="">
 													<!-- <li>Shared with {{sharedWith.length}} co-worker<span ng-show="sharedWith.length>1">s</span></li> -->
 												</ul>
@@ -590,9 +590,50 @@ limitations under the License.
 							</div>
 							<!-- share end -->
 							<!--  Manage Authors start -->
-							<div class="mdl-tabs__panel authors" id="Authors" ng-show="tab=='Authors'"
-								ng-class="{'isActive':tab=='Authors'}">
-								<h4 class="gridlistheading">Existing Authors</h4>
+						<div class="mdl-tabs__panel authors" id="Authors" ng-show="tab=='Authors'"
+                                ng-class="{'isActive':tab=='Authors'}">
+                                <h4 class="gridlistheading">Publisher</h4>
+                                <div class="publisher">
+                                    <ng-form name = "AddPublisher" class="" >
+                                        <div class="removeformspace mdl-grid">
+                                            <div
+                                                class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                                                <md-input-container class="md-icon-float md-block">
+                                                <label>Publisher Name </label> <input
+                                                    ng-model="publisherName" valid-name name="publisherName" type="text"
+                                                    required ng-blur="NameVisited=true" ng-minlength="2"
+                                                    ng-focus="NameVisited=false">
+                                                    </md-input-container>  
+                                                
+                                                
+                                            
+                                            <div class="help-inline validation-msgs"
+														ng-class="{validationmsg:!AddPublisher.Name.$valid}">
+														<span
+															ng-show="!!AddPublisher.publisherName.$error.required && AddPublisher.publisherName.$touched && NameVisited">
+															Name Required.</span>
+															<span
+																ng-show="!!AddPublisher.publisherName.$error.invalidChars && NameVisited">First
+																name must contain letters only.</span>
+															<span
+																ng-show="!!AddPublisher.publisherName.$error.minlength && NameVisited">Publisher name should contain atleast 2 characters.</span>
+											</div> 
+											</div> 
+											                                       
+                                        </div>
+                                        <div layout="row" class="mdl-grid remove-left-padd">
+                                            <md-button
+                                                class="mdl-button mdl-js-button btn-primary"
+                                                alt="Add publisher" ng-hide="flag" ng-click="setPublisher()" disabled="disabled" ng-disabled="AddPublisher.$invalid" title="save"> Save
+                                            </md-button>  
+                                                                                    
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="clearfix"></div> 
+                                <!-- publisher end -->
+                                
+                                <h4 class="gridlistheading">Authors</h4>
 								
 								<tags-input ng-model="AuthorsTag" class="mdl-chip__text" display-property="name"  
 									placeholder="Add a author" key-property="nameContact" on-tag-clicked="updateTag($tag)"									
@@ -674,7 +715,7 @@ limitations under the License.
 												</md-input-container>
 											</div>
 										</div> 
-										<div layout="row" class="pull-right mdl-grid">
+										<div layout="row" class="pull-left mdl-grid">
 											<md-button 
 												class="mdl-button mdl-js-button btn-primary"
 												alt="Add author" ng-hide="flag" ng-click="setAuthor()" disabled="disabled" ng-disabled="AddAuthor.$invalid" title="Add author"> Add author
