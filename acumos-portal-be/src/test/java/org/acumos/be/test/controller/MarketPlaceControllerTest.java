@@ -668,7 +668,7 @@ public class MarketPlaceControllerTest {
 
 	}
 
-	@Test
+	/*@Test
 	public void addDocumentTest() {
 
 		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
@@ -722,7 +722,7 @@ public class MarketPlaceControllerTest {
 		assertNotNull(document);
 		assertEquals(HttpServletResponse.SC_OK, documentResponse.getStatusCode().value());
 		assertEquals("787c9461-4288-4091-8d39-5ce1a4e04e34", document.getDocumentId());
-	}
+	}*/
 
 
 	@Test
