@@ -34,6 +34,15 @@ public class APINames {
 	public static final String LOGIN = "/login";
 	public static final String LOGOUT = "/logout";
 
+	//RTU Config
+	public static final String RTU_USERS = "/rtuUsers";
+	public static final String RTU_SEARCH_SOLUTION = "/rtuSearchSolutions";
+	
+	//Pre-Dockerized model
+	public static final String DOCKER_SEARCH_SOLUTION = "/dockerSearchSolutions";
+	//public static final String CREATE_DOCKER_SOLUTION = "/createDockerSolution";
+	public static final String ARTIFACTS_URL ="/artifactsUrl/{solutionId}";
+	
 	// User Service APIs
 	public static final String USERS = "/users";
 	public static final String ACCOUNT_SIGNUP = "/register";
@@ -60,8 +69,9 @@ public class APINames {
 	public static final String CHECK_API_KEY = "oauth";
 
 	// Solutions APIs for MarketPlace Catalog
+	public static final String CREATE_SOLUTION = "/createSolution";
 	public static final String SOLUTIONS = "/solutions";
-	public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}/{revisionId}";
+	public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}";
 	public static final String PAGINATED_SOLUTIONS = "/paginatedSolutions";
 	public static final String SOLUTIONS_UPDATE = "/solutions/{solutionId}";
 	public static final String SOLUTIONS_PICTURE = "/solutions/{solutionId}/picture";
