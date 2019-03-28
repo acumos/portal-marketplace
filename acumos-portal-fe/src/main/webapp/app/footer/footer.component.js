@@ -47,21 +47,12 @@ app.component('marketFooter',{
 			$scope.docUrl = response.data.response_body;
 		});
 		
-		
-         $scope.getFooterContactInfo = function(){
-         	 var req = {
-						method : 'GET',
-						url : '/api/site/content/global/footer/contactinfo',
-				};
-         	 $http(req)
-					.success(function(response) {
-							var info = JSON.parse(atob(response.response_body.contentValue));
-							$scope.contactInfo = info.description;
-						})
-					.error(function(response) {
-							return "No Contents Available"
-						});
-			}
-	},
-
+	   apiService.getContactInfo().then(
+       		function(response){
+       			$scope.contactInfo = (response.data.response_body);
+       		},
+       		function(error) {
+       			console.log(error);
+   			});
+	}
 });

@@ -463,30 +463,109 @@ angular.module('admin').filter('abs', function() {
             };
             
             //Dynamic form implementation
-            apiService
-			.getSiteConfig("site_config")
-			.then(
+            apiService.getSiteConfig("site_config")
+				.then(
 					function(response) {
 						$scope.siteConfig = angular.fromJson(response.data.response_body.configValue);
-						
 					},
-					function(error) {console.log(error);
-			});
+					function(error) {
+						console.log(error);
+					});
             
-            /*$scope.entity = {
-            	      name : "Course", 
-            	      fields :
-            	        [
-            	          {type: "text", name: "firstname", label: "Name" , required: true, data:""},
-            	          {type: "radio", name: "color_id", label: "Colors" , options:[{id: 1, name: "orange"},{id: 2, name: "pink"},{id: 3, name: "gray"},{id: 4, name: "cyan"}], required: true, data:""},
-            	          {type: "email", name: "emailUser", label: "Email" , required: true, data:""},
-            	          {type: "text", name: "city", label: "City" , required: true, data:""},
-            	          {type: "password", name: "pass", label: "Password" , min: 6, max:20, required: true, data:""},
-            	          {type: "select", name: "teacher_id", label: "Teacher" , options:[{name: "Mark"},{name: "Claire"},{name: "Daniel"},{name: "Gary"}], required: true, data:""},
-            	          {type: "checkbox", name: "car_id", label: "Cars" , options:[{id: 1, name: "bmw"},{id: 2, name: "audi"},{id: 3, name: "porche"},{id: 4, name: "jaguar"}], required: true, data:""}
-            	        ]
-            	      };*/
+            apiService.getTermsConditions()
+            	.then(
+					function(response) {
+						$scope.termcondition1 = (response.data.response_body);
+						$scope.termcondition2 = angular.copy($scope.termcondition1);
+					},
+					function(error) {
+						console.log(error);
+					});
+							              
+            //for site content:
+            apiService.getContactInfo()
+            	.then(
+            		function(response){
+            			$scope.contactInfo = (response.data.response_body);
+            			$scope.contactInfo1 = angular.copy($scope.contactInfo);
+            		},
+            		function(error) {
+            			console.log(error);
+        			});
+            
+       // for post information
+       $scope.TopostContactupdate = function(){
+            $scope.siteContenttInfo = unescape(encodeURIComponent($scope.contactInfo));
+                     
+            var arrayCheck = [];
+            for (var i = 0; i < $scope.siteContenttInfo.length; i++) {
+            	arrayCheck.push($scope.siteContenttInfo.charCodeAt(i));
+            }
+            
+            var toSendrequest = {
+            		"request_body": {
+							"contentKey" : "global.footer.contactInfo",
+							"contentValue" : arrayCheck,	
+							"mimeType" : "application/json"
+						}
+					};
+            
+            apiService.updateContactInfo(toSendrequest)
+            	.then(
+                            function(response) {
+                            	 $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                 $anchorScroll(); 
+                                 $scope.msg = "Updated successfully."; 
+                                 $scope.icon = '';
+                                 $scope.styleclass = 'c-success';
+                                 $scope.showAlertMessage = true;
+                                 $timeout(function() {
+                                 	$scope.showAlertMessage = false;
+                                 }, 5000);
 
+                     			$scope.contactInfo1 = angular.copy($scope.contactInfo);
+                             },
+                             function(error) {console.log(error);
+                     });
+       }
+       
+       // for post Term condition Information
+       $scope.TopostConditionupdate = function(){
+           $scope.siteConditionInfo = unescape(encodeURIComponent($scope.termcondition1));
+       
+           var arrayConditionCheck = [];
+           for (var i = 0; i < $scope.siteConditionInfo.length; i++) {
+        	   arrayConditionCheck.push($scope.siteConditionInfo.charCodeAt(i));
+           }
+       
+           var toSendConditionrequest = {
+           		"request_body": {
+							"contentKey" : "global.termsConditions",
+							"contentValue" : arrayConditionCheck,	
+							"mimeType" : "application/json"
+						}
+					};
+                    
+           apiService.updateTermsConditions(toSendConditionrequest)
+           		.then(
+                           function(response) {
+                        	   $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                $anchorScroll(); 
+                                $scope.msg = "Updated successfully."; 
+                                $scope.icon = '';
+                                $scope.styleclass = 'c-success';
+                                $scope.showAlertMessage = true;
+                                $timeout(function() {
+                                	$scope.showAlertMessage = false;
+                                }, 5000);
+
+        						$scope.termcondition2 = angular.copy($scope.termcondition1);
+                            },
+                            function(error) {console.log(error);
+                    });
+           
+      }      
+      
             $scope.submitForm = function(){  
 				angular
                   .forEach(
