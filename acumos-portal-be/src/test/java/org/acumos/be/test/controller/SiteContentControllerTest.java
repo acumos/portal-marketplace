@@ -98,17 +98,15 @@ public class SiteContentControllerTest {
 								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
 								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
-		ResponseEntity<JsonResponse<MLPSiteContent>> contentResponse = restTemplate.exchange(
+		ResponseEntity<JsonResponse<String>> contentResponse = restTemplate.exchange(
 				"http://localhost:" + randomServerPort + PATH_TERMS_CONDITIONS, HttpMethod.GET, null,
-				new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
+				new ParameterizedTypeReference<JsonResponse<String>>() {
 				});
 
 		assertNotNull(contentResponse);
 		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
-		MLPSiteContent content = contentResponse.getBody().getResponseBody();
-		assertEquals(SiteContentServiceImpl.KEY_TERMS_CONDITIONS, content.getContentKey());
-		assertEquals(contentString, new String(content.getContentValue()));
-		assertEquals(MediaType.APPLICATION_JSON_VALUE, content.getMimeType());
+		String content = contentResponse.getBody().getResponseBody();
+		assertEquals(contentString, content);
 	}
 
 	@Test
@@ -260,17 +258,15 @@ public class SiteContentControllerTest {
 								+ "\"contentValue\": \"" + contentValue + "\"," + "\"mimeType\": \""
 								+ MediaType.APPLICATION_JSON_VALUE + "\"}")));
 
-		ResponseEntity<JsonResponse<MLPSiteContent>> contentResponse = restTemplate.exchange(
+		ResponseEntity<JsonResponse<String>> contentResponse = restTemplate.exchange(
 				"http://localhost:" + randomServerPort + PATH_CONTACT_INFO, HttpMethod.GET, null,
-				new ParameterizedTypeReference<JsonResponse<MLPSiteContent>>() {
+				new ParameterizedTypeReference<JsonResponse<String>>() {
 				});
 
 		assertNotNull(contentResponse);
 		assertEquals(HttpServletResponse.SC_OK, contentResponse.getStatusCode().value());
-		MLPSiteContent content = contentResponse.getBody().getResponseBody();
-		assertEquals(SiteContentServiceImpl.KEY_CONTACT_INFO, content.getContentKey());
-		assertEquals(contentString, new String(content.getContentValue()));
-		assertEquals(MediaType.APPLICATION_JSON_VALUE, content.getMimeType());
+		String content = contentResponse.getBody().getResponseBody();
+		assertEquals(contentString, content);
 	}
 
 	@Test

@@ -57,16 +57,21 @@ public class SiteContentServiceController extends AbstractController {
 	@ApiOperation(value = "Gets terms and conditions ", response = MLPSiteContent.class)
 	@RequestMapping(value = { APINames.GET_TERMS_CONDITIONS }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSiteContent> getTermsConditions() {
+	public JsonResponse<String> getTermsConditions() {
 		log.debug("getTermsCondition");
 		MLPSiteContent content = null;
-		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
+		JsonResponse<String> data = new JsonResponse<>();
 		try {
 			content = siteContentService.getTermsConditions();
 			if (content != null) {
-				data.setResponseBody(content);
+				data.setResponseBody(new String(content.getContentValue()));
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Terms and conditions fetched successfully");
+			}
+				else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while getting Term and Condition");
+				log.error("Error Occurred in Fetching Contact Info :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
@@ -148,16 +153,24 @@ public class SiteContentServiceController extends AbstractController {
 	@ApiOperation(value = "Gets footer contact information ", response = MLPSiteContent.class)
 	@RequestMapping(value = { APINames.GET_CONTACT_INFO }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<MLPSiteContent> getContactInfo() {
+	public JsonResponse<String> getContactInfo() {
 		log.debug("getContactInfo");
 		MLPSiteContent content = null;
-		JsonResponse<MLPSiteContent> data = new JsonResponse<>();
+		JsonResponse<String> data = new JsonResponse<>();
+		
+		
 		try {
 			content = siteContentService.getContactInfo();
 			if (content != null) {
-				data.setResponseBody(content);
+				
+				data.setResponseBody(new String(content.getContentValue()));
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Contact info fetched successfully");
+			}
+			else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				data.setResponseDetail("Error occured while getting contact Information");
+				log.error("Error Occurred in Fetching Contact Info :");
 			}
 		} catch (Exception e) {
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
