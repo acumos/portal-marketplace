@@ -1767,7 +1767,7 @@ md-option.dc-att-cloud:hover { background: none !important; background: #fff url
 .dc-att-cloud[disabled], .dc-att-cloud[disabled]:hover {background: #f2f2f2 url("../images/deploy-cloud/at&t_internet_cloud_logo_disabled.png") no-repeat 10px center !important;cursor: not-allowed;}
 .opacityZero .md-text{opacity:0 !important;}
 
-.deploy-to-cloud[disabled], .deploy-to-cloud[disabled]:hover{opacity:0.3; cursor: not-allowed; pointer-events:none;}
+.deploy-to-cloud[disabled], .deploy-to-cloud[disabled]:hover{opacity:0.3 !important; cursor: not-allowed; pointer-events:none;}
 .deploy-to-cloud-input input[disabled], .deploy-to-cloud-input input[disabled]:hover,
 .deploy-to-cloud-input input[disabled] + span 
 {opacity:0.3; cursor: not-allowed; }

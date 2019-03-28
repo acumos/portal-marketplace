@@ -91,6 +91,7 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
     var baseURL = protocol + '//' + host;
     var nodeIdCnt = 1, countComSol = 0; var jsonProto= null;
     var protoJsonRead = new Map();var changeNode = new Object();
+    var p2PortDetails;
     var jsonProtoNode= new Map(); var jsonProtoMap;
     var draggedNodes = new Map();
     var dataMaps = new Map();
@@ -1594,8 +1595,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                                port.type = JSON.stringify(makeTypeFromComplex([p2.orig.value.originalType[0].messageargumentList[0].complexType]));
 	                                port.fullType = [p2.orig.value.originalType[0].messageargumentList[0].complexType];
 	                            } else {
-	                            	p1.orig.value.type = null;
-	                            	p1.orig.value.fullType = p1.orig.value.originalType;
+	                            	p2PortDetails = _diagram.getPort(port.nodeId, null, port.portname);
+		                        	if(p2PortDetails.edges.length === 0){
+			                        	p1.orig.value.type = null;
+			                        	p1.orig.value.fullType = p1.orig.value.originalType;
+			                        	p2PortDetails.orig.value.type = null;
+			                	    	p2PortDetails.orig.value.fullType = p2PortDetails.orig.value.originalType;
+		                        	}
 	                            }
 	            			} 
 	        			});
@@ -1610,8 +1616,13 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                                port.type = JSON.stringify(removeMsgNames([portMsg]));
 	                                port.fullType = [portMsg];
 	                            } else {
-	                            	p1.orig.value.type = null;
-	                            	p1.orig.value.fullType = p1.orig.value.originalType;
+	                            	p2PortDetails = _diagram.getPort(port.nodeId, null, port.portname);
+		                        	if(p2PortDetails.edges.length === 0){
+			                        	p1.orig.value.type = null;
+			                        	p1.orig.value.fullType = p1.orig.value.originalType;
+			                        	p2PortDetails.orig.value.type = null;
+			                	    	p2PortDetails.orig.value.fullType = p2PortDetails.orig.value.originalType;
+		                        	}
 	                            }
 	            			}
 	        			});
@@ -1647,8 +1658,14 @@ function DSController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
 	                            port.type = p2.orig.value.type;
 	                            port.fullType = p2.orig.value.fullType;
 	                        } else {
-	                        	p1.orig.value.type = null;
-	                        	p1.orig.value.fullType = p1.orig.value.originalType;
+	                        	p2PortDetails = _diagram.getPort(port.nodeId, null, port.portname);
+	                        	if(p2PortDetails.edges.length === 0){
+		                        	p1.orig.value.type = null;
+		                        	p1.orig.value.fullType = p1.orig.value.originalType;
+		                        	p2PortDetails.orig.value.type = null;
+		                	    	p2PortDetails.orig.value.fullType = p2PortDetails.orig.value.originalType;
+	                        	}
+	                	    		
 	                        }
 	        			}
 	        		});

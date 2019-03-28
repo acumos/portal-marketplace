@@ -236,10 +236,10 @@ limitations under the License.
 							</button>
 							<ul	class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
 								for="demo-menu-lower-right4">
-								<li class="mdl-menu__item dc-microsoft-azure" ng-repeat = "deployVal in checkDeployToCloudResponse track by $index" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
+								<li class="mdl-menu__item deploy-to-cloud" ng-repeat = "deployVal in checkDeployToCloudResponse track by $index" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
                            		title="{{deployVal.cloudDisplayText}}"
-                           		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center"
-                           		ng-disabled="deployVal.cloudEnabled=='false'" ui-sref="modelEdit ({solutionId: solutionIdDeploy,deployStatus: true})">
+                           		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center !important; border-bottom: 1px solid #d5d5d5;"
+                           		ng-disabled="deployVal.cloudEnabled=='false'" ui-sref="modelEdit ({solutionId: solutionIdDeploy,deployStatus: true,deployValue: deployVal.cloudName})">
                            		</li>
 								
 							</ul>
