@@ -111,7 +111,8 @@ angular.module('AcumosApp')
         var urlCarouselPictureUrl = "/api/site/content/carouselImages";
         var urlUnreadNotification =  "/api/unreadnotifications/count";
         var urlOnBoardingHistoryTaskList =  "/api/onboardinghistory/getTasks";
-        var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult";        	
+        var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult";
+        var urlPublisher =  "/api/solution";        
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -258,6 +259,10 @@ angular.module('AcumosApp')
             return $http.get("/api/solution/" + solutionId + "/revision/" + revisionId + "/authors");
         }
         
+        this.getPublisher = function (solutionId , revisionId) {
+            return $http.get(urlPublisher + '/'+solutionId + "/revision/" + revisionId + "/publisher");
+        }
+        
         this.getUnreadNotificationCount = function(userID){
             return $http.get(urlUnreadNotification + '/' + userID);
         }
@@ -328,6 +333,10 @@ angular.module('AcumosApp')
         
         this.removeAuthor = function (solutionId , revisionId, obj) {
             return $http.put("/api/solution/" + solutionId + "/revision/" + revisionId + "/removeAuthor", obj);
+        }
+       
+        this.addPublisher = function (solutionId , revisionId, obj) {
+            return $http.put(urlPublisher + '/' + solutionId + "/revision/" + revisionId + "/publisher", obj);
         }
         /**************** ALL POST ******************/
         this.postGlobalUserDetails = function(){

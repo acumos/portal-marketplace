@@ -499,6 +499,7 @@ angular
 													$scope.getAuthorList();
 													$scope.getPublishRequestDetail();
 													$scope.getSolutionPicture();
+													$scope.getPublisher();
 												} else {
 													// alert("Error Fetching
 													// Data");
@@ -709,6 +710,56 @@ angular
 						    	});
 						    	}
 							}
+						  
+						  
+						  $scope.getPublisher = function(){
+							  
+							  apiService.getPublisher($scope.solutionId, $scope.revisionId)
+					    		.then(function successCallback(response) {
+					    			$scope.publisherName = response.data.response_body;
+					    		},
+					    		function errorCallback(response) {						    		
+					    			$scope.publisherName = "Error Fetching Publisher's Name."
+					    		});
+							  
+						  }
+						 
+						  
+						  $scope.setPublisher = function(){						    	
+						    	var vart = $scope.AddPublisher.$valid;
+						    	if($scope.AddPublisher.$valid) {
+						    		var obj = $scope.publisherName;
+						    		};
+						    		
+						    	apiService.addPublisher($scope.solutionId, $scope.revisionId, obj)
+						    		.then(function successCallback(response) {
+						    			
+						    			if(response.data.error_code == 100){
+						    				$location.hash('manage-models');
+											$anchorScroll();
+						    				$scope.msg = response.data.response_detail;
+								    		$scope.icon = '';
+								    		$scope.styleclass = 'c-success';									
+								    		$scope.showAlertMessage = true;
+								    		$timeout(
+												function() {
+													$scope.showAlertMessage = false;
+												}, 3000);
+						    			}
+								    		
+						    	},
+						    	function errorCallback(response) {						    		
+						    		$scope.msg = "Error while adding Publisher :  " + response.data.response_detail;
+									$scope.icon = 'report_problem';
+									$scope.styleclass = 'c-error';
+									$scope.showAlertMessage = true;
+									$timeout(
+											function() {
+												$scope.showAlertMessage = false;
+											}, 8000);
+						    		});
+						    	}
+				
 						  $scope.updateTag = function(tag)
 						  {
 							  $scope.selectedtagindex = $scope.AuthorsTag.indexOf(tag);							  
