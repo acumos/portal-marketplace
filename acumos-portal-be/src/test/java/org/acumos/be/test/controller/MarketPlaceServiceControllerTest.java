@@ -73,28 +73,28 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(MockitoJUnitRunner.class)
 public class MarketPlaceServiceControllerTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	final HttpServletResponse response = new MockHttpServletResponse();
 	final HttpServletRequest request = new MockHttpServletRequest();
 
 	@Mock
 	private UserService userService;
-	
+
 	@Mock
 	private MarketPlaceCatalogServiceImpl service;
-	
+
 	@Mock
 	private PushAndPullSolutionService pushAndPullSolutionService;
-	
+
 	private MockMvc mockMvc;
-	
+
 	@Mock
 	private Environment env;
-	
+
 	@InjectMocks
 	private MarketPlaceCatalogServiceController marketPlaceController;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		mockMvc = standaloneSetup(marketPlaceController).build();
@@ -109,11 +109,13 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(mlsolution);
 			JsonResponse<MLSolution> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
-			
+
 			String solutionId = mlsolution.getSolutionId();
+			String revisionId = "5d893b98-d131-4657-a890-978cac70456c";
+			String loginUserId = "41058105-67f4-4461-a192-f4cb7fdafd34";
 			Assert.assertNotNull(solutionId);
-			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
-			value = marketPlaceController.getSolutionsDetails(request, solutionId, response);
+			Mockito.when(service.getSolution(solutionId, revisionId, loginUserId)).thenReturn(mlsolution);
+			value = marketPlaceController.getSolutionsDetails(request, solutionId, revisionId, response);
 			logger.info("Solution Details : " + value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -130,7 +132,7 @@ public class MarketPlaceServiceControllerTest {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			ResponseEntity<byte[]> value = null;
-			
+
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
 			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(picture);
@@ -149,7 +151,7 @@ public class MarketPlaceServiceControllerTest {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
 			ResponseEntity<byte[]> value = null;
-			
+
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
 			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(null);
@@ -179,9 +181,7 @@ public class MarketPlaceServiceControllerTest {
 			JsonRequest<MLSolution> mlSolutionReq = new JsonRequest<>();
 			mlSolutionReq.setBody(mlsolution);
 			Assert.assertNotNull(mlSolutionReq);
-			RestPageResponse<MLPSolution> responseBody = 
-					new RestPageResponse<>(solutionList,
-							PageRequest.of(0, 1), 1);
+			RestPageResponse<MLPSolution> responseBody = new RestPageResponse<>(solutionList, PageRequest.of(0, 1), 1);
 			Assert.assertNotNull(responseBody);
 			JsonResponse<RestPageResponse<MLPSolution>> value = new JsonResponse<>();
 			value.setResponseBody(responseBody);
@@ -208,8 +208,7 @@ public class MarketPlaceServiceControllerTest {
 			JsonResponse<MLSolution> solutionres = new JsonResponse<>();
 			solutionres.setResponseBody(mlsolution);
 			Assert.assertNotNull(solutionres);
-			Mockito.when(service.updateSolution(mlSolutionRes.getBody(), solutionId))
-					.thenReturn(mlsolution);
+			Mockito.when(service.updateSolution(mlSolutionRes.getBody(), solutionId)).thenReturn(mlsolution);
 			solutionres = marketPlaceController.updateSolutionDetails(request, response, solutionId, mlSolutionRes);
 			logger.info("Succseefully updated solution details : " + solutionres.getResponseBody());
 			Assert.assertNotNull(solutionres);
@@ -217,13 +216,13 @@ public class MarketPlaceServiceControllerTest {
 			logger.error("Failed to execute updateSolutionDetails testcase", e);
 		}
 	}
-	
+
 	@Test
 	public void deleteSolutionArtifactsTest() {
 		try {
 			MLSolution mlsolution = getMLSolution();
 			Assert.assertNotNull(mlsolution);
-			String solutionId = mlsolution.getSolutionId();			
+			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
 			String revisionId = mlsolution.getRevisions().get(0).getRevisionId();
 			Assert.assertNotNull(revisionId);
@@ -235,7 +234,8 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solutionres);
 			Mockito.when(service.deleteSolutionArtifacts(mlSolutionRes.getBody(), solutionId, revisionId))
 					.thenReturn(mlsolution);
-			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, revisionId, mlSolutionRes);
+			solutionres = marketPlaceController.deleteSolutionArtifacts(request, response, solutionId, revisionId,
+					mlSolutionRes);
 			logger.info("Succseefully delete Solution Artifacts : " + solutionres.getResponseBody());
 			Assert.assertNotNull(solutionres);
 		} catch (Exception e) {
@@ -305,7 +305,8 @@ public class MarketPlaceServiceControllerTest {
 			artifactRes.setResponseBody(artifactList);
 			String revisionId = mlpSolRev.getRevisionId();
 			Mockito.when(service.getSolutionArtifacts(solutionId, revisionId)).thenReturn(artifactList);
-			artifactRes = marketPlaceController.getSolutionsRevisionArtifactList(request, response, solutionId, revisionId);
+			artifactRes = marketPlaceController.getSolutionsRevisionArtifactList(request, response, solutionId,
+					revisionId);
 			logger.info("Artifact List : " + artifactRes.getResponseBody());
 			Assert.assertNotNull(artifactRes);
 		} catch (Exception e) {
@@ -342,7 +343,7 @@ public class MarketPlaceServiceControllerTest {
 			logger.error("Failed to execute addSolutionTag testcase", e);
 		}
 	}
-	
+
 	@Test
 	public void addPublisherTest() {
 		try {
@@ -350,20 +351,20 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solRes);
 			String solutionId = "49f1882d-3f83-47eb-9ed0-ec955db48163";
 			String revisionId = "790b449e-de72-49c1-b819-e0353efd6f25";
-			String publisher = "AcumosTest";		
+			String publisher = "AcumosTest";
 			Assert.assertNotNull(solutionId);
 			Assert.assertNotNull(revisionId);
 			Assert.assertNotNull(publisher);
 			solRes.setResponseBody(publisher);
-			Mockito.when(marketPlaceController.addPublisher(request, solutionId, revisionId,publisher, response)).thenReturn(solRes);
+			Mockito.when(marketPlaceController.addPublisher(request, solutionId, revisionId, publisher, response))
+					.thenReturn(solRes);
 			logger.info("Successfully added Publisher : " + solRes.getResponseBody());
 			Assert.assertNotNull(solRes);
 		} catch (Exception e) {
 			logger.error("Failed to execute addSolutionTag testcase", e);
 		}
 	}
-	
-	
+
 	@Test
 	public void getPublisherTest() {
 		try {
@@ -371,18 +372,18 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solRes);
 			String solutionId = "49f1882d-3f83-47eb-9ed0-ec955db48163";
 			String revisionId = "790b449e-de72-49c1-b819-e0353efd6f25";
-			String publisher = "AcumosTest";		
+			String publisher = "AcumosTest";
 			Assert.assertNotNull(solutionId);
 			Assert.assertNotNull(revisionId);
 			Assert.assertNotNull(publisher);
-			Mockito.when(marketPlaceController.getPublisher(request, solutionId, revisionId,response)).thenReturn(solRes);
+			Mockito.when(marketPlaceController.getPublisher(request, solutionId, revisionId, response))
+					.thenReturn(solRes);
 			logger.info("Successfully added Publisher : " + solRes.getResponseBody());
 			Assert.assertNotNull(solRes);
 		} catch (Exception e) {
 			logger.error("Failed to execute addSolutionTag testcase", e);
 		}
 	}
-	
 
 	@Test
 	public void dropSolutionTagTest() {
@@ -408,7 +409,8 @@ public class MarketPlaceServiceControllerTest {
 			String tag = mlpTag.getTag();
 			String solutionId = mlsolution.getSolutionId();
 			solRes = marketPlaceController.dropSolutionTag(request, solutionId, tag, response);
-			//Mockito.when(marketPlaceController.dropSolutionTag(request, solutionId, tag, response)).thenReturn(solRes);
+			// Mockito.when(marketPlaceController.dropSolutionTag(request,
+			// solutionId, tag, response)).thenReturn(solRes);
 			logger.info("Successfully dropped  tags : " + solRes.getResponseBody());
 			Assert.assertNotNull(solRes);
 		} catch (Exception e) {
@@ -451,10 +453,10 @@ public class MarketPlaceServiceControllerTest {
 			RestPageResponseBE responseBody = new RestPageResponseBE<>(tagList);
 			responseBody.setTags(tagList);
 			value.setResponseBody(responseBody);
-			List<String> mlTagsList = new ArrayList<String>();			
+			List<String> mlTagsList = new ArrayList<String>();
 			mlTagsList.add(mlpTag.getTag());
 			Mockito.when(service.getTags(restPageReq)).thenReturn(mlTagsList);
-			value =marketPlaceController.getTagsList(restPageReq);
+			value = marketPlaceController.getTagsList(restPageReq);
 			logger.info("Get Tag List : " + value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -521,14 +523,15 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertNotNull(solutionId);
 			Assert.assertNotNull(userId);
 			JsonResponse<User> value = new JsonResponse<>();
-			
+
 			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
 			MLPUser user = getMLPUser();
 			Mockito.when(userService.findUserByUserId(userId)).thenReturn(user);
-//			userService.findUserByUserId(userId)
+			// userService.findUserByUserId(userId)
 			value = marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response);
-//			Mockito.when(marketPlaceController.dropSolutionUserAccess(request, solutionId, userId, response))
-//					.thenReturn(value);
+			// Mockito.when(marketPlaceController.dropSolutionUserAccess(request,
+			// solutionId, userId, response))
+			// .thenReturn(value);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			logger.error("Failed to execute dropSolutionUserAccess testcase", e);
@@ -574,8 +577,7 @@ public class MarketPlaceServiceControllerTest {
 			mlpSolutionRatingREs.setBody(mlpSolutionRating);
 			Assert.assertNotNull(mlpSolutionRatingREs);
 			JsonResponse<MLSolution> value = new JsonResponse<>();
-			Mockito.when(service.getSolution(mlpSolutionRatingREs.getBody().getSolutionId()))
-					.thenReturn(mlsolution);
+			Mockito.when(service.getSolution(mlpSolutionRatingREs.getBody().getSolutionId())).thenReturn(mlsolution);
 			value = marketPlaceController.createSolutionRating(request, mlpSolutionRatingREs, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -601,9 +603,11 @@ public class MarketPlaceServiceControllerTest {
 			JsonRequest<MLPSolutionRating> mlpSolutionRatingREs = new JsonRequest<>();
 			mlpSolutionRatingREs.setBody(mlpSolutionRating);
 			Assert.assertNotNull(mlpSolutionRatingREs);
-			JsonResponse<MLSolution> value = marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs, response);
-//			Mockito.when(marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs, response))
-//					.thenReturn(value);
+			JsonResponse<MLSolution> value = marketPlaceController.updateSolutionRating(request, mlpSolutionRatingREs,
+					response);
+			// Mockito.when(marketPlaceController.updateSolutionRating(request,
+			// mlpSolutionRatingREs, response))
+			// .thenReturn(value);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			logger.error("Failed to execute updateRating testcase", e);
@@ -626,7 +630,7 @@ public class MarketPlaceServiceControllerTest {
 			rest.setBody(pageRequest);
 			RestPageResponse<MLPSolutionRating> mlSolutionRating = new RestPageResponse<MLPSolutionRating>();
 			JsonResponse<RestPageResponse<MLSolutionRating>> value = new JsonResponse<>();
-			
+
 			Mockito.when(service.getSolutionRating(solutionId, pageRequest)).thenReturn(mlSolutionRating);
 			value = marketPlaceController.getSolutionRatings(solutionId, rest);
 			Assert.assertNotNull(value);
@@ -690,8 +694,7 @@ public class MarketPlaceServiceControllerTest {
 			mlpSolutionFavoriteRes.setBody(mlpSolutionFavorite);
 			Assert.assertNotNull(mlpSolutionFavoriteRes);
 			JsonResponse<MLSolution> value = new JsonResponse<>();
-			Mockito.when(service.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId()))
-					.thenReturn(mlsolution);
+			Mockito.when(service.getSolution(mlpSolutionFavoriteRes.getBody().getSolutionId())).thenReturn(mlsolution);
 			value = marketPlaceController.deleteSolutionFavorite(request, mlpSolutionFavoriteRes, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -715,7 +718,7 @@ public class MarketPlaceServiceControllerTest {
 			Assert.assertEquals(userId, mlpSolutionFavorite.getUserId());
 			JsonResponse<List<MLSolution>> value = new JsonResponse<>();
 			RestPageRequest restPageReq = new RestPageRequest();
-			Mockito.when(service.getFavoriteSolutions(userId,restPageReq)).thenReturn(mlSolutionList);
+			Mockito.when(service.getFavoriteSolutions(userId, restPageReq)).thenReturn(mlSolutionList);
 			value = marketPlaceController.getFavoriteSolutions(request, userId, response);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
@@ -739,7 +742,7 @@ public class MarketPlaceServiceControllerTest {
 			restPageReqBe.setBody(body);
 			JsonResponse<RestPageResponseBE<MLSolution>> value = new JsonResponse<>();
 			Mockito.when(service.getRelatedMySolutions(restPageReqBe)).thenReturn(mlSolutionsRest);
-			value =marketPlaceController.getRelatedMySolutions(restPageReqBe);
+			value = marketPlaceController.getRelatedMySolutions(restPageReqBe);
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
 			logger.error("Failed to execute getRelatedMySolutions testcase", e);
@@ -764,38 +767,37 @@ public class MarketPlaceServiceControllerTest {
 	@Test
 	public void getSolutionUserAccessTest() {
 		try {
-			
-			MLSolution mlsolution = getMLSolution();			
+
+			MLSolution mlsolution = getMLSolution();
 			User user = new User();
 			user.setActive("Y");
 			user.setFirstName("Surya");
 			user.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			user.setEmailId("surya@techm.com");
-		
+
 			Assert.assertNotNull(user);
-			
+
 			User user2 = new User();
 			user2.setActive("Y");
 			user2.setFirstName("nitin");
 			user2.setUserId("1213505-67f4-4461-a192-f4cb7fdafd34");
 			user2.setEmailId("nitin@techm.com");
-		
+
 			Assert.assertNotNull(user2);
-			
+
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
-			
+
 			List<User> userList = new ArrayList<User>();
 			userList.add(user);
 			userList.add(user2);
-			Assert.assertNotNull(userList);	
+			Assert.assertNotNull(userList);
 			JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 			List test = new ArrayList<>();
 			RestPageResponseBE responseBody = new RestPageResponseBE<>(test);
 			responseBody.setUserList(userList);
 			data.setResponseBody(responseBody);
-			Mockito.when(service.getSolutionUserAccess(solutionId))
-					.thenReturn(userList);
+			Mockito.when(service.getSolutionUserAccess(solutionId)).thenReturn(userList);
 			data = marketPlaceController.getSolutionUserAccess(request, solutionId, response);
 			logger.info("RevisionList " + data.getResponseBody());
 			Assert.assertNotNull(data);
@@ -803,35 +805,35 @@ public class MarketPlaceServiceControllerTest {
 			logger.error("Failed to execute getSolutionUserAccess testcase", e);
 		}
 	}
-	
+
 	@Test
 	public void addSolutionUserAccessTest() {
 		try {
-			
+
 			MLSolution mlsolution = getMLSolution();
-			
+
 			User user = new User();
 			user.setActive("Y");
 			user.setFirstName("Surya");
 			user.setUserId("41058105-67f4-4461-a192-f4cb7fdafd34");
 			user.setEmailId("surya@techm.com");
-		
+
 			Assert.assertNotNull(user);
-			
+
 			User user2 = new User();
 			user2.setActive("Y");
 			user2.setFirstName("nitin");
 			user2.setUserId("1213505-67f4-4461-a192-f4cb7fdafd34");
 			user2.setEmailId("nitin@techm.com");
-		
+
 			Assert.assertNotNull(user2);
-			
+
 			String solutionId = mlsolution.getSolutionId();
-			Assert.assertNotNull(solutionId);			
+			Assert.assertNotNull(solutionId);
 			List<String> userList = new ArrayList<String>();
 			userList.add("1213505-67f4-4461-a192-f4cb7fdafd34");
 			userList.add("41058105-67f4-4461-a192-f4cb7fdafd34");
-			Assert.assertNotNull(userList);	
+			Assert.assertNotNull(userList);
 			List<User> userList1 = new ArrayList<>();
 			userList1.add(user);
 			userList1.add(user2);
@@ -840,25 +842,24 @@ public class MarketPlaceServiceControllerTest {
 			JsonResponse<User> data = new JsonResponse<>();
 			data.setResponseDetail("Users access for solution added Successfully");
 			Mockito.when(service.getSolutionUserAccess(solutionId)).thenReturn(userList1);
-			data = marketPlaceController.addSolutionUserAccess(request, solutionId,userIdList,response );
-			//logger.info("RevisionList " + data.getResponseBody());
+			data = marketPlaceController.addSolutionUserAccess(request, solutionId, userIdList, response);
+			// logger.info("RevisionList " + data.getResponseBody());
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
 			logger.error("Failed to execute addSolutionUserAccess testcase", e);
 		}
 	}
-	
+
 	@Test
 	public void createTagTest() {
 		try {
 			MLPTag mlpTag = new MLPTag();
 			mlpTag.setTag("abc");
-			JsonRequest<MLPTag> tags = new  JsonRequest<MLPTag>();
+			JsonRequest<MLPTag> tags = new JsonRequest<MLPTag>();
 			tags.setBody(mlpTag);
-			JsonResponse<MLPTag> data = new JsonResponse<MLPTag>();	
+			JsonResponse<MLPTag> data = new JsonResponse<MLPTag>();
 			data.setResponseDetail("Tags created Successfully");
-			Mockito.when(service.createTag(tags.getBody()))
-					.thenReturn(mlpTag);
+			Mockito.when(service.createTag(tags.getBody())).thenReturn(mlpTag);
 			data = marketPlaceController.createTag(request, tags, response);
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
@@ -875,19 +876,18 @@ public class MarketPlaceServiceControllerTest {
 			mlSolutionRating.setRating(4);
 			mlSolutionRating.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
 			mlSolutionRating.setUserId("1213505-67f4-4461-a192-f4cb7fdafd34");
-			String solutionId ="6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4";
+			String solutionId = "6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4";
 			String userId = "1213505-67f4-4461-a192-f4cb7fdafd34";
 			data.setResponseDetail("Ratings fetched Successfully");
-			Mockito.when(service.getUserRatings(solutionId, userId))
-					.thenReturn(mlSolutionRating);
-			data = marketPlaceController.getUserRatings(request,solutionId, userId, response);
+			Mockito.when(service.getUserRatings(solutionId, userId)).thenReturn(mlSolutionRating);
+			data = marketPlaceController.getUserRatings(request, solutionId, userId, response);
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
 			logger.error("Failed to execute getUserRatings testcase", e);
 
 		}
 	}
-	
+
 	@Test
 	public void findPortalSolutionsTest() {
 		try {
@@ -901,17 +901,16 @@ public class MarketPlaceServiceControllerTest {
 			restPageRequestPortal.setActive(true);
 			restPageReqPortal.setBody(restPageRequestPortal);
 			data.setResponseDetail("Solutions fetched Successfully");
-			Mockito.when(service.findPortalSolutions(restPageReqPortal.getBody()))
-					.thenReturn(mlSolutionsRest);
+			Mockito.when(service.findPortalSolutions(restPageReqPortal.getBody())).thenReturn(mlSolutionsRest);
 			Assert.assertNotNull(mlSolutionsRest);
-			data = marketPlaceController.findPortalSolutions(request,restPageReqPortal, response);
+			data = marketPlaceController.findPortalSolutions(request, restPageReqPortal, response);
 			Assert.assertNotNull(data);
 		} catch (Exception e) {
 			logger.error("Failed to execute findPortalSolutions testcase", e);
 
 		}
 	}
-	
+
 	@Test
 	public void getUserAccessSolutions() {
 		MLSolution mlsolution = getMLSolution();
@@ -921,18 +920,17 @@ public class MarketPlaceServiceControllerTest {
 		List<MLPSolution> solutionList = new ArrayList<MLPSolution>();
 		solutionList.add(solution);
 		Assert.assertNotNull(solutionList);
-		RestPageResponse<MLPSolution> responseBody = 
-				new RestPageResponse<>(solutionList,
-						PageRequest.of(0, 1), 1);
+		RestPageResponse<MLPSolution> responseBody = new RestPageResponse<>(solutionList, PageRequest.of(0, 1), 1);
 		Assert.assertNotNull(responseBody);
 		String userId = "1213505-67f4-4461-a192-f4cb7fdafd34";
 		Mockito.when(service.getUserAccessSolutions(userId, new RestPageRequest(0, 99))).thenReturn(responseBody);
 		JsonRequest<RestPageRequest> restPageReq = new JsonRequest<>();
-		JsonResponse<RestPageResponse<MLPSolution>> data = marketPlaceController.getUserAccessSolutions(userId, restPageReq);
+		JsonResponse<RestPageResponse<MLPSolution>> data = marketPlaceController.getUserAccessSolutions(userId,
+				restPageReq);
 		Assert.assertNotNull(data);
 	}
-	
-	private MLSolution getMLSolution(){
+
+	private MLSolution getMLSolution() {
 		MLSolution mlsolution = new MLSolution();
 		mlsolution.setSolutionId("Solution1");
 		mlsolution.setName("Test_Solution data");
@@ -943,17 +941,18 @@ public class MarketPlaceServiceControllerTest {
 		mlsolution.setTookitType("DS");
 		return mlsolution;
 	}
-	private MLPUser getMLPUser(){
+
+	private MLPUser getMLPUser() {
 		MLPUser mlpUser = new MLPUser();
 		mlpUser.setActive(true);
-		mlpUser.setFirstName("test-first-name");			
+		mlpUser.setFirstName("test-first-name");
 		mlpUser.setUserId("f0ebe707-d436-40cf-9b0a-ed1ce8da1f2b");
 		mlpUser.setLoginName("test-User-Name");
 		return mlpUser;
 	}
-	
+
 	@Test
-	public void getCloudEnabledList(){
+	public void getCloudEnabledList() {
 		JsonResponse<String> responseVO = marketPlaceController.getCloudEnabledList(request, response);
 		Assert.assertNotNull(responseVO);
 	}

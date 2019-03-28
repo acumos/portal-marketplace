@@ -412,7 +412,7 @@ angular
 								$scope.solutionId = $scope.solutionId;
 							}
 							apiService
-									.getSolutionDetail($scope.solutionId)
+									.getSolutionDetail($scope.solutionId, $scope.revisionId)
 									.then(
 											function(response) {
 												if (response.data.response_body) {
@@ -422,6 +422,7 @@ angular
 													$scope.toolkitname = $scope.solution.tookitType;
 													$scope.solutionName = $scope.solution.name;
 													$scope.popupSolutionId = $scope.solution.solutionId;
+													$scope.popupRevisionId = $scope.solution.revisionId;
 													if($scope.completedOnDate){
 														$scope.solution.created = $scope.completedOnDate;
 														$scope.solution.modified = $scope.completedOnDate;
