@@ -97,6 +97,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/solutions/{solutionId}/revisions/{revisionId}").permitAll()
         .antMatchers("/validation/{solutionId}/{revisionId}").permitAll()
         .antMatchers("/solution/avgRating/{solutionId}").permitAll()
+        
+        .antMatchers(HttpMethod.GET,"/site/content/global/footer/contactinfo").permitAll()
+        .antMatchers(HttpMethod.POST,"/site/content/global/footer/contactinfo").permitAll()
+        
+        .antMatchers(HttpMethod.GET,"/site/content/global/termsConditions").permitAll()
+        .antMatchers(HttpMethod.POST,"/site/content/global/termsConditions").permitAll()
+        
+        
         .antMatchers(HttpMethod.POST, "/users/userAccountDetails").permitAll()
         .antMatchers("/roleCounts").permitAll()
         .antMatchers(HttpMethod.GET, "/admin/config/{configKey}").permitAll()

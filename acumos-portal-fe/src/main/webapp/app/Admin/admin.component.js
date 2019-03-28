@@ -473,6 +473,135 @@ angular.module('admin').filter('abs', function() {
 					function(error) {console.log(error);
 			});
             
+            apiService
+            .getTermsCondition()
+            .then(
+					function(response) {
+						
+						$scope.termcondition1 = (response.data.response_body);
+						$scope.termcondition2 = angular.copy($scope.termcondition1);
+					},
+					function(error) {console.log(error);
+			});
+			
+           
+            
+      
+            					              
+            //for site content:
+            apiService
+            .getSiteContent()
+            .then(
+            		function(response){
+            			 
+            			$scope.siteContent = (response.data.response_body);
+            			$scope.siteContent1 = angular.copy($scope.siteContent);
+            			
+            		},
+            		function(error) {console.log(error);
+        			});
+            
+  /// for post information
+    
+    	         
+       $scope.TopostContactupdate = function(){
+    	    
+            $scope.siteContenttInfo = unescape(encodeURIComponent($scope.siteContent));
+                     
+            var arrayCheck = [];
+            for (var i = 0; i < $scope.siteContenttInfo.length; i++) {
+            	arrayCheck.push($scope.siteContenttInfo.charCodeAt(i));
+            }
+            
+           
+            
+            var toSendrequest = {
+            		"request_body": {
+							"contentKey" : "global.footer.contactInfo",
+							"contentValue" : arrayCheck,	
+							"mimeType" : "application/json"
+						}
+					};
+            
+           
+            
+            apiService
+            .postContactInformation(toSendrequest)
+            .then(
+                            function(response) {
+                            	
+                            	 $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                 $anchorScroll(); 
+                                 $scope.msg = "Updated successfully."; 
+                                 $scope.icon = '';
+                                 $scope.styleclass = 'c-success';
+                                 $scope.showAlertMessage = true;
+                                 $timeout(function() {
+                                 	$scope.showAlertMessage = false;
+                                 }, 5000);
+                             },
+                             function(error) {console.log(error);
+                     });
+       }
+       
+            
+      
+       
+      
+           
+           // for post Term condition Information
+       
+       $scope.TopostConditionupdate = function(){
+           $scope.siteConditionInfo = unescape(encodeURIComponent($scope.termcondition1));
+       
+           var arrayConditionCheck = [];
+           for (var i = 0; i < $scope.siteConditionInfo.length; i++) {
+        	   arrayConditionCheck.push($scope.siteConditionInfo.charCodeAt(i));
+           }
+       
+       
+           var toSendConditionrequest = {
+           		"request_body": {
+							"contentKey" : "global.termsConditions",
+							"contentValue" : arrayConditionCheck,	
+							"mimeType" : "application/json"
+						}
+					};
+                    
+           
+           
+           apiService
+           .postTermsCondition(toSendConditionrequest)
+           .then(
+                           function(response) {
+                           	
+                           	 $location.hash('myDialog');  // id of a container on the top of the page - where to scroll (top)
+                                $anchorScroll(); 
+                                $scope.msg = "Updated successfully."; 
+                                $scope.icon = '';
+                                $scope.styleclass = 'c-success';
+                                $scope.showAlertMessage = true;
+                                $timeout(function() {
+                                	$scope.showAlertMessage = false;
+                                }, 5000);
+                            },
+                            function(error) {console.log(error);
+                    });
+           
+      }      
+      
+                 
+      
+           
+          
+          
+                                    
+       	
+            
+       
+			
+            
+            
             /*$scope.entity = {
             	      name : "Course", 
             	      fields :

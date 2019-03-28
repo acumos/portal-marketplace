@@ -48,6 +48,35 @@ app.component('marketFooter',{
 		});
 		
 		
+		
+		
+		
+		
+		   apiService
+           .getSiteContent()
+           .then(
+           		function(response){
+           			 
+           			$scope.siteContent = (response.data.response_body);
+           			
+           			
+           		},
+           		function(error) {console.log(error);
+       			});
+		
+		apiService
+		   .getTermsCondition()
+           .then(
+					function(response) {
+						
+						$scope.termcondition1 = (response.data.response_body);
+						
+					},
+					function(error) {console.log(error);
+			});
+		
+		
+		
          $scope.getFooterContactInfo = function(){
          	 var req = {
 						method : 'GET',
