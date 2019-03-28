@@ -61,7 +61,7 @@ public class APINames {
 
 	// Solutions APIs for MarketPlace Catalog
 	public static final String SOLUTIONS = "/solutions";
-	public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}";
+	public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}/{revisionId}";
 	public static final String PAGINATED_SOLUTIONS = "/paginatedSolutions";
 	public static final String SOLUTIONS_UPDATE = "/solutions/{solutionId}";
 	public static final String SOLUTIONS_PICTURE = "/solutions/{solutionId}/picture";

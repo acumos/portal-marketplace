@@ -25,7 +25,7 @@ var app = angular.module('AcumosApp', ['ui.router','ngMaterial', 'ngMdIcons','sa
                                         'ngAnimate', 'modelDetails','ui.bootstrap','infinite-scroll','ngStorage',
                                         'modelEdit','ngTagsInput','resetPswd','userDetail','forgotPswd', 'ngSanitize',
                                         'angularFileUpload', 'imageupload','angular-jwt', 'peerConfig', 'ngQuill',
-                                        'marketFooter','notificationModule', 'termsCondition', 'ui.carousel','admin',
+                                        'marketFooter','notificationModule', 'termsCondition', 'ui.carousel','admin','403Error',
                                         '404Error','ngDragDrop','naif.base64','confirmVerification', 'publishRequest','onboardingHistory'/*'socialLogin'*/]);
 
 /*app.config(function(socialProvider){

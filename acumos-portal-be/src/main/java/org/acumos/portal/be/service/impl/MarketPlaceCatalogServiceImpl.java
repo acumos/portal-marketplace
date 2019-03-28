@@ -35,8 +35,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.acumos.cds.AccessTypeCode;
 import org.acumos.cds.CodeNameType;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
@@ -99,7 +97,7 @@ import com.github.dockerjava.api.DockerClient;
 @Service
 public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implements MarketPlaceCatalogService {
 
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	private Environment env;
@@ -130,7 +128,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			// TODO: revisit this code to pass query parameters to CCDS Service
 			Map<String, Object> queryParameters = new HashMap<>();
 			queryParameters.put("active", "Y"); // Fetch all active solutions
-			queryParameters.put("accessTypeCode", AccessTypeCode.PB.toString());
+			queryParameters.put("accessTypeCode", CommonConstants.PUBLIC);
 			List<MLPSolution> mlpSolutions = new ArrayList<MLPSolution>();
 			// dataServiceRestClient.searchSolutions(queryParameters, false);
 			///////////////////////////////////////
@@ -173,12 +171,12 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			ICommonDataServiceRestClient dataServiceRestClient = getClient();
 			Map<String, Object> queryParameters = new HashMap<>();
 			// queryParameters.put("active", "Y"); //Fetch all active solutions
-			queryParameters.put("accessTypeCode", AccessTypeCode.PB.toString());
+			queryParameters.put("accessTypeCode", CommonConstants.PUBLIC);
 			// TODO Lets keep it simple by using List for now. Need to modify
 			// this to use Pagination by providing page number and result fetch
 			// size
 			List<MLPSolution> mlpSolutions = new ArrayList<MLPSolution>();// dataServiceRestClient.searchSolutions(queryParameters,
-																			// false);
+			// false);
 			if (!PortalUtils.isEmptyList(mlpSolutions)) {
 				mlSolutions = new ArrayList<>();
 				for (MLPSolution mlpSolution : mlpSolutions) {
@@ -256,8 +254,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					}
 					mlSolution.setOwnerListForSol(users);
 				} catch (Exception e) {
-					log.error("No co-owner for SolutionId={}",
-							mlSolution.getSolutionId());
+					log.error("No co-owner for SolutionId={}", mlSolution.getSolutionId());
 				}
 
 				List<String> co_owners_Id = new ArrayList<String>();
@@ -344,8 +341,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					tags.add(tag);
 				solution.setTags(tags);
 			} catch (HttpStatusCodeException e) {
-				log.error(
-						"Could not fetch tag list for update solution: " + e.getMessage());
+				log.error("Could not fetch tag list for update solution: " + e.getMessage());
 			} finally {
 				dataServiceRestClient.updateSolution(solution);
 			}
@@ -377,8 +373,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					tags.add(tag);
 				solution.setTags(tags);
 			} catch (HttpStatusCodeException e) {
-				log.error(
-						"Could not fetch tag list for delete solution artifacts: " + e.getMessage());
+				log.error("Could not fetch tag list for delete solution artifacts: " + e.getMessage());
 			} finally {
 				// start
 
@@ -391,8 +386,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						boolean deleteNexus = false;
 						// Delete the file from the Nexus
 						log.info("mlp.getUri ----->>" + mlp.getUri());
-						log.info(
-								"mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
+						log.info("mlp.getArtifactTypeCode ----->>" + mlp.getArtifactTypeCode());
 
 						if ("DI".equals(mlp.getArtifactTypeCode())) {
 							DockerClient dockerClient = DockerClientFactory.getDockerClient(dockerConfiguration);
@@ -419,8 +413,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							String artifactId = mlp.getArtifactId();
 							// Delete SolutionRevisionArtifact
 							dataServiceRestClient.dropSolutionRevisionArtifact(solutionId, revisionId, artifactId);
-							log.debug(
-									" Successfully Deleted the SolutionRevisionArtifact ");
+							log.debug(" Successfully Deleted the SolutionRevisionArtifact ");
 							// Delete Artifact from CDS
 							dataServiceRestClient.deleteArtifact(artifactId);
 							log.debug(" Successfully Deleted the CDump Artifact ");
@@ -751,8 +744,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		RestPageResponseBE<MLPSolution> mlpSolutionsRest = new RestPageResponseBE<MLPSolution>(content);
 		try {
 			if (!PortalUtils.isEmptyOrNullString(tag)) {
-				log.debug("getTagSearchedSolutions: searching Solutions with tags:",
-						tag);
+				log.debug("getTagSearchedSolutions: searching Solutions with tags:", tag);
 				RestPageRequest pageRequest = new RestPageRequest();
 				RestPageResponse<MLPSolution> pageResponse = new RestPageResponse<>();
 				// RestPageRequest pageRequest = restPageReqBe.getBody();
@@ -873,8 +865,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					// 1. Check if searchTerm exists, if yes then use
 					// findSolutionsBySearchTerm
 					if (!PortalUtils.isEmptyOrNullString(restPageReqBe.getBody().getSearchTerm())) {
-						log.debug(
-								"getSearchedSolutions: searching Solutions with searcTerm:",
+						log.debug("getSearchedSolutions: searching Solutions with searcTerm:",
 								restPageReqBe.getBody().getSearchTerm());
 						mlpSolutionsRest = dataServiceRestClient.findSolutionsBySearchTerm(
 								restPageReqBe.getBody().getSearchTerm(),
@@ -1405,31 +1396,28 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 		return updateRevisionAuthors(revision, authorTransportList);
 	}
-	
-    @Override
-	public String getSolutionRevisionPublisher(String solutionId, String revisionId)
-			throws AcumosServiceException {
+
+	@Override
+	public String getSolutionRevisionPublisher(String solutionId, String revisionId) throws AcumosServiceException {
 		log.debug("getSolutionRevisionPublisher");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 		return revision.getPublisher();
-		
+
 	}
-		
-	
-    @Override
+
+	@Override
 	public void addSolutionRevisionPublisher(String solutionId, String revisionId, String newPublisher)
 			throws AcumosServiceException {
 		log.debug("addSolutionRevisionPublisher");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
-		
-		if(!newPublisher.isEmpty() && !newPublisher.equals("") && newPublisher != null)
-		revision.setPublisher(newPublisher);
-		dataServiceRestClient.updateSolutionRevision(revision);
-		
-	}
 
+		if (!newPublisher.isEmpty() && !newPublisher.equals("") && newPublisher != null)
+			revision.setPublisher(newPublisher);
+		dataServiceRestClient.updateSolutionRevision(revision);
+
+	}
 
 	private List<Author> updateRevisionAuthors(MLPSolutionRevision revision,
 			ArrayList<AuthorTransport> authorTransportList) {
@@ -1480,8 +1468,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				log.debug(" SolutionRevisonId for Version :  {} ", solutionRevisionId);
 			}
 		} catch (NoSuchElementException | NullPointerException e) {
-			log.error(
-					"Error : Exception in getProtoUrl() : Failed to fetch the Solution Revision Id", e);
+			log.error("Error : Exception in getProtoUrl() : Failed to fetch the Solution Revision Id", e);
 			throw new NoSuchElementException("Failed to fetch the Solution Revision Id of the solutionId for the user");
 		}
 
@@ -1509,13 +1496,11 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 					if (null != nexusURI) {
 						byteArrayOutputStream = getPayload(nexusURI);
-						log.debug(" Response in String Format :  {} ",
-								byteArrayOutputStream.toString());
+						log.debug(" Response in String Format :  {} ", byteArrayOutputStream.toString());
 						result = byteArrayOutputStream.toString();
 					}
 				} catch (NoSuchElementException | NullPointerException e) {
-					log.error(
-							"Error : Exception in getProtoUrl() : Failed to fetch the artifact URI for artifactType",
+					log.error("Error : Exception in getProtoUrl() : Failed to fetch the artifact URI for artifactType",
 							e);
 					throw new NoSuchElementException(
 							"Could not search the artifact URI for artifactType " + artifactType);
@@ -1525,8 +1510,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							byteArrayOutputStream.close();
 						}
 					} catch (IOException e) {
-						log.error(
-								"Error : Exception in getProtoUrl() : Failed to close the byteArrayOutputStream", e);
+						log.error("Error : Exception in getProtoUrl() : Failed to close the byteArrayOutputStream", e);
 						throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 					}
 				}
@@ -1671,8 +1655,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				}
 			} catch (Exception e) {
 				// Log error and Do Nothing
-				log.error(
-						"Failed to fetch document for revisionId : " + revision.getRevisionId(), e);
+				log.error("Failed to fetch document for revisionId : " + revision.getRevisionId(), e);
 			}
 		}
 
@@ -1685,8 +1668,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			try {
 				nexusClient.deleteArtifact(document.getUri());
 			} catch (URISyntaxException e) {
-				log.error(
-						"Failed to delete the document from Nexus with documentId : " + document.getDocumentId(), e);
+				log.error("Failed to delete the document from Nexus with documentId : " + document.getDocumentId(), e);
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
 			}
 		}
@@ -1811,6 +1793,135 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		log.debug("updateSolutionPicture");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		dataServiceRestClient.saveSolutionPicture(solutionId, image);
+	}
+
+	@Override
+	public MLSolution getSolution(String solutionId, String revisionId, String loginUserId)
+			throws AcumosServiceException {
+		log.debug("getSolution");
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+		MLSolution mlSolution = null;
+		try {
+			MLPSolution mlpSolution = dataServiceRestClient.getSolution(solutionId);
+			MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
+			if (mlpSolution != null) {
+				if (mlpSolutionRevision != null) {
+					if (((loginUserId == null || loginUserId.length() == 0)
+							&& !CommonConstants.PRIVATE.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode()))
+							|| ((loginUserId != null && loginUserId.length() != 0)
+									&& (CommonConstants.PUBLIC.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())
+											|| CommonConstants.ORGANIZATION
+											.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())))
+							|| ((loginUserId != null && loginUserId.length() != 0) && (CommonConstants.PRIVATE
+									.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())
+									&& (loginUserId.equals(mlpSolution.getUserId()))))) {
+
+						mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
+						List<MLPCodeNamePair> toolkitTypeList = dataServiceRestClient
+								.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
+						if (toolkitTypeList.size() > 0) {
+							for (MLPCodeNamePair toolkitType : toolkitTypeList) {
+								if (toolkitType.getCode() != null) {
+									if (toolkitType.getCode()
+											.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())) {
+										mlSolution.setTookitTypeName(toolkitType.getName());
+										break;
+									}
+								}
+							}
+						}
+						List<MLPCodeNamePair> modelTypeList = dataServiceRestClient
+								.getCodeNamePairs(CodeNameType.MODEL_TYPE);
+						if (modelTypeList.size() > 0) {
+							for (MLPCodeNamePair modelType : modelTypeList) {
+								if (modelType.getCode() != null) {
+									if (modelType.getCode().equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())) {
+										mlSolution.setModelTypeName(modelType.getName());
+										break;
+									}
+								}
+							}
+						}
+
+						MLPUser mlpUser = dataServiceRestClient.getUser(mlpSolution.getUserId());
+						if (mlpUser != null) {
+							mlSolution.setOwnerName(mlpUser.getFirstName().concat(" " + mlpUser.getLastName()));
+						}
+
+						List<MLPTag> tagList = dataServiceRestClient.getSolutionTags(solutionId);
+						if (tagList.size() > 0) {
+							mlSolution.setSolutionTagList(tagList);
+						}
+
+						List<User> users = null;
+						// Set co-owners list for model
+						try {
+
+							List<MLPUser> mlpUsersList = dataServiceRestClient
+									.getSolutionAccessUsers(mlSolution.getSolutionId());
+							if (!PortalUtils.isEmptyList(mlpUsersList)) {
+								users = new ArrayList<>();
+								for (MLPUser mlpusers : mlpUsersList) {
+									User user = PortalUtils.convertToMLPuser(mlpusers);
+									users.add(user);
+								}
+							}
+							mlSolution.setOwnerListForSol(users);
+						} catch (Exception e) {
+							log.error("No co-owner for SolutionId={}", mlSolution.getSolutionId());
+						}
+
+						List<String> co_owners_Id = new ArrayList<String>();
+						if (users != null) {
+							co_owners_Id = users.stream().map(User::getUserId).collect(Collectors.toList());
+						}
+						List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
+						List<MLPSolutionRevision> filterRevisionList = new ArrayList<>();
+						if (revisionList.size() > 0) {
+							// filter the private versions if loggedIn User is
+							// not the owner of solution
+							List<String> accessCodes = new ArrayList<String>();
+							accessCodes.add(CommonConstants.PUBLIC);
+							if (loginUserId != null) {
+								// if logged In user is owner/co-owner then add
+								// private revisions
+								if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId)
+										|| userService.isPublisherRole(loginUserId)) {
+									accessCodes.add(CommonConstants.PRIVATE);
+									accessCodes.add(CommonConstants.ORGANIZATION);
+								} else {
+									// if user is logged in but he not the
+									// owner/co-owner then add Company revisions
+									accessCodes.add(CommonConstants.ORGANIZATION);
+								}
+							}
+
+							filterRevisionList = revisionList.stream()
+									.filter(revision -> accessCodes.contains(revision.getAccessTypeCode()))
+									.collect(Collectors.toList());
+							if (filterRevisionList.size() > 0) {
+								mlSolution.setRevisions(filterRevisionList);
+								// Add the access Type code for the latest
+								// revision for the categorization while display
+								mlSolution.setAccessType(filterRevisionList.get(0).getAccessTypeCode());
+							}
+						}
+					} else {
+						throw new AcumosServiceException(AcumosServiceException.ErrorCode.ACCESS_DENIED,
+								"Invalid User");
+					}
+				} else {
+					log.debug("getSolution :  Revison Id is null for the solution Id :" + mlpSolution.getSolutionId());
+				}
+			}
+		} catch (ArithmeticException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.ARITHMATIC_EXCEPTION, e.getMessage());
+		} catch (IllegalArgumentException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+		} catch (HttpClientErrorException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
+		return mlSolution;
 	}
 
 }

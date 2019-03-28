@@ -61,6 +61,8 @@ public interface MarketPlaceCatalogService {
 
 	MLSolution getSolution(String solutionId, String loginUserId) throws AcumosServiceException;
 
+	MLSolution getSolution(String solutionId, String revisionId, String loginUserId) throws AcumosServiceException;
+	
 	List<MLSolution> getAllSolutions() throws AcumosServiceException;
 	
 	//List<MLSolution> getAllMySolutions(String userId);
