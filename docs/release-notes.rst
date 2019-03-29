@@ -20,6 +20,18 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.7  29th March 2019
+=================================
+* Portal create user screen to edit contact details shown in page footer	(ACUMOS-2548)
+* IST: Federation: Add Peer Details :Error message is not displaying in user understandable format	(ACUMOS-2522)
+* IST | Incorrect option selection shows for deploy to local on modelEdit screen when user selects deploy to local from design studio screen.	(ACUMOS-2527)
+* Portal allows users to browse private models of other users	(ACUMOS-2137)
+* As a User , I want  add editable Publisher field for use by modelers per Authorship proposal	(ACUMOS-1595)
+* Modify Web on-boarding UI to allow user to copy paste docker URI and type a name	(ACUMOS-2245)
+* Portal cannot clear web on-boarding results	(ACUMOS-2317)
+* <IST> <Portal Marketplace> Manage My Model: Upload image acceptance criteria is not working properly	(ACUMOS-2539)
+
+
 Version 2.2.6  22nd March 2019
 =================================
 
