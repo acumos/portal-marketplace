@@ -68,6 +68,7 @@ public class APINames {
 
 	public static final String SOLUTIONS_REVISIONS = "/solutions/{solutionId}/revisions";
 	public static final String SOLUTIONS_REVISIONS_ARTIFACTS = "/solutions/{solutionId}/revisions/{revisionId}";
+	public static final String SOLUTIONS_REVISIONS_VERIFY = "/solutions/{solutionId}/revisions/{revisionId}/verify/{workflowId}";
 
 	public static final String ARTIFACT = "/artifacts";
 	public static final String ARTIFACT_DETAILS = "/artifacts/{artifactId}";

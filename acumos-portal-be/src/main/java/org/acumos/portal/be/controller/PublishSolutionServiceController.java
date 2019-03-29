@@ -31,12 +31,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.portal.be.APINames;
+import org.acumos.portal.be.common.CommonConstants;
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.transport.ResponseVO;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.acumos.securityverification.domain.Workflow;
+import org.acumos.securityverification.utils.SVConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,33 +80,40 @@ public class PublishSolutionServiceController extends AbstractController {
 			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId, HttpServletResponse response) {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
 		
 		log.debug("publishSolution={}", solutionId, visibility);
 		log.info("publishSolution={}", solutionId, visibility);
 		JsonResponse<Object> data = new JsonResponse<>();
 		UUID trackingId = UUID.randomUUID();
 		try {
-
-			//Check for the unique name in the market place before publishing.
-			if (!publishSolutionService.checkUniqueSolName(solutionId)) {
+			String workflowId = (visibility.equalsIgnoreCase(CommonConstants.PUBLIC)
+					? SVConstants.PUBLISHPUBLIC : SVConstants.PUBLISHCOMPANY);
+			Workflow workflow = performSVScan(solutionId, revisionId, workflowId);
+			if (!workflow.isWorkflowAllowed()) {
+				data.setErrorCode(JSONTags.TAG_ERROR_SV);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				data.setResponseDetail(workflow.getReason());
+				log.error("SV failure during publish: " + workflow.getReason());
+				// Check for the unique name in the market place before publishing.
+			} else if (!publishSolutionService.checkUniqueSolName(solutionId)) {
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 				data.setResponseDetail("Model name is not unique. Please update model name before publishing");
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				return data;
+			} else {
+				String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
+				// code to create notification
+	            MLPNotification notificationObj = new MLPNotification();
+	            notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);
+	
+				notificationObj.setMessage(publishStatus);
+				notificationObj.setTitle(publishStatus);
+				notificationService.generateNotification(notificationObj, userId);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail(trackingId.toString());
 			}
-			
-			String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
-			// code to create notification
-            MLPNotification notificationObj = new MLPNotification();
-            notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);
-
-			notificationObj.setMessage(publishStatus);
-			notificationObj.setTitle(publishStatus);
-			notificationService.generateNotification(notificationObj, userId);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-			data.setResponseDetail(trackingId.toString());
 		} catch (Exception e) {
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail("Exception Occurred while Publishing Model");
 			log.error( "Exception Occurred while publishSolution()", e);
 		}
