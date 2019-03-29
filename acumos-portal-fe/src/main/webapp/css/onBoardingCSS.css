@@ -423,6 +423,7 @@ md-tabs-content-wrapper {
 .errorul{ padding: 5px 0 0 20px; margin: 0; font-size: 13px; color:#cc3333;} 
 .btnhistory{margin: 0 0 20px 20px;}
 .onboard-history{font-size: 14px; padding: 0 20px 20px 20px; min-height: auto;}
+.onboard-history table.admin-tbl1 tbody tr td span{white-space:normal; word-break:break-all;}
 
 md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 158) !important;}
 .onboarding .timeline h6{padding: }

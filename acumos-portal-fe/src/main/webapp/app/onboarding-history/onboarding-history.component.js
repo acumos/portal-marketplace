@@ -65,7 +65,8 @@ angular
                         }
 											
 						//Open popup 
-			            $scope.showViewResult = function(taskId, solId, revId, modDate, statusCd){
+			            $scope.showViewResult = function(taskId, solId, revId, modDate, statusCd, modelName){
+			             $scope.modelName = modelName;
 			        	  $mdDialog.show({
 			        		  contentElement: '#ViewResult',
 			        		  parent: angular.element(document.body),
@@ -107,7 +108,11 @@ angular
 							    .onBoardingHistoryTaskList($scope.loginUserID, reqObject)
 									.then(
 											function successCallback(response) {
-												$scope.allOnBoardingHistoryTaskList = response.data.response_body;	
+												$scope.allOnBoardingHistoryTaskList = response.data.response_body;
+												$scope.allOnBoardingHistoryTaskList.forEach(function(element) {
+												element.textDate = $filter('date')(element.modifiedDate, "MM/dd/yyyy '|' h:mm a");
+												element.status = element.statusCode == "ST" ? "InProgress" : element.statusCode == "SU" ? "Successful" : "Failed"
+											    });
 												$scope.totalPages = response.data.totalPages;
 												$scope.totalElements = response.data.totalElements;
 												$scope.allOnboardingListLength = response.data.totalElements;
@@ -119,7 +124,17 @@ angular
 											});																			
 						}
 						if($scope.loginUserID)
-							$scope.loadOnBoardingHistoryTaskList(0);						
+							$scope.loadOnBoardingHistoryTaskList(0);
+						
+						//Search Data 
+  						$scope.searchData = function (searchValue) {  							  							
+  							if(!$scope.searchOnHistoryList) return true; 
+  					        return (angular.lowercase(searchValue.modelName).indexOf(angular.lowercase($scope.searchOnHistoryList) || '') !== -1 ||
+  					                angular.lowercase(searchValue.solutionId).indexOf(angular.lowercase($scope.searchOnHistoryList) || '') !== -1 ||
+  					                angular.lowercase(searchValue.revisionId).indexOf(angular.lowercase($scope.searchOnHistoryList) || '') !== -1 ||
+  					                angular.lowercase(searchValue.textDate).indexOf(angular.lowercase($scope.searchOnHistoryList) || '') !== -1 ||  					              					               
+  					        		angular.lowercase(searchValue.status).indexOf(angular.lowercase($scope.searchOnHistoryList) || '') !== -1);
+  					    };
 												
 						//get step result of the particular task id
 			            $scope.viewTaskResults = function(taskId, solId, revId, modDate, statusCd){

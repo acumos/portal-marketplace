@@ -30,7 +30,7 @@ limitations under the License.
 			</div>
 			<ul class="c-breadcrumb">
 				<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
-				<li><span>On-Boarding Model</span></li>
+				<li> <a ui-sref="modularResource" >On-Boarding Model</a></li>				
 				<li><span>View On-Boarding History</span></li>
 			</ul>
 		</div>
@@ -40,7 +40,7 @@ limitations under the License.
 	<div class="admin-button-row1">
 		<div class="admin-container-row1-inner3">
 			<a class="admin-selected-link" ng-click="loadOnBoardingHistoryTaskList(0)">All</a> <span>|</span> <a
-			ng-click="loadOnBoardingHistoryTaskList(0,'ST')">In Progress</a> <span>|</span> <a ng-click="loadOnBoardingHistoryTaskList(0,'FA')">Fail</a> <span>|</span>
+			ng-click="loadOnBoardingHistoryTaskList(0,'ST')">In Progress</a> <span>|</span> <a ng-click="loadOnBoardingHistoryTaskList(0,'FA')">Failed</a> <span>|</span>
 			<a ng-click="loadOnBoardingHistoryTaskList(0,'SU')">Successful</a>
 		</div>
 		<div>
@@ -72,7 +72,7 @@ limitations under the License.
 			<thead >
 				<tr>
 					<th>MODEL NAME</th> 				
-					<th>STEP CODE</th>					
+					<th>STATUS CODE</th>					
 					<th>SOLUTION ID</th>
 					<th>REVISION ID</th>
 					<th>DATE & TIME</th>
@@ -81,20 +81,20 @@ limitations under the License.
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchOnHistoryList" >						
+				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchData" >						
 					<td><span class="md-breadcrumb-item">{{Task.modelName}}</span></td>
 					<td>{{Task.taskCode}}</td>			
 					<td><span class="md-breadcrumb-item"> {{Task.solutionId}}</span></td>
 					<td><span class="md-breadcrumb-item"> {{Task.revisionId}}</span></td>
-					<td>{{Task.modifiedDate | date :  "MM/dd/yyyy '|' h:mm a"}}</td>
+					<td>{{Task.textDate}}</td>
 					<td class="status-color"
 						ng-class="{'history-error': Task.statusCode == 'FA', 
 						'history-progress': Task.statusCode == 'ST', 
-						'history-success': Task.statusCode == 'SU' }" >{{Task.statusCode == "ST" ? "InProgress" : Task.statusCode == "SU" ? "Success" : "Fail"}}</td>
+						'history-success': Task.statusCode == 'SU' }" >{{Task.status}}</td>
 					<td>					
-						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA" || Task.statusCode == "ST" ' ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode)">View
+						<button class="mdl-button btn-secondary-small" ng-if='Task.statusCode == "FA"' ng-click="showViewResult(Task.taskId, Task.solutionId, Task.revisionId , Task.modifiedDate, Task.statusCode, Task.modelName)">View
 							Results</button>
-						<span ng-if='Task.statusCode == "SU" '> -- </span>											
+						<span ng-if='Task.statusCode == "SU" || Task.statusCode == "ST" '> -- </span>											
 					</td>
 					
 				</tr>				
@@ -117,7 +117,7 @@ limitations under the License.
 
 				</div>
 
-				<span class="page-stats"> Publish Requests</span>
+				<span class="page-stats"> Model's</span>
 
 			</div>
 			<div class="pagination-right-section">
@@ -182,7 +182,7 @@ limitations under the License.
 	<!-- <form ng-cloak> --> <md-toolbar>
 	<div class="md-toolbar-tools">
 		<div class="md-toolbar-tools">
-			<h2>FraudDetect</h2>
+			<h2>{{modelName}}</h2>
 			<span flex></span>
 			<md-button class="md-icon-button" ng-click='closePoup()'>
 			<i class="material-icons">close</i> </md-button>
