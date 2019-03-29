@@ -64,6 +64,8 @@ import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
+import org.acumos.securityverification.domain.Workflow;
+import org.acumos.securityverification.utils.SVConstants;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -592,41 +594,49 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		List<User> userList = new ArrayList<>();
 		boolean exist = false;
 		try {
-			List<String> userIdList = userId.getBody();
-			if (!PortalUtils.isEmptyOrNullString(solutionId)) {
-				userList = catalogService.getSolutionUserAccess(solutionId);
-				if (userList != null) {
-					for (User user : userList) {
-						if (user.getUserId().equals(userId)) {
-							exist = true;
-							break;
+			Workflow workflow = performSVScan(solutionId, SVConstants.SHARE);
+			if (workflow.isWorkflowAllowed()) {
+				List<String> userIdList = userId.getBody();
+				if (!PortalUtils.isEmptyOrNullString(solutionId)) {
+					userList = catalogService.getSolutionUserAccess(solutionId);
+					if (userList != null) {
+						for (User user : userList) {
+							if (user.getUserId().equals(userId)) {
+								exist = true;
+								break;
+							}
 						}
 					}
 				}
-			}
-
-			if (!exist) {
-				catalogService.addSolutionUserAccess(solutionId, userIdList);
-
-				// code to create notification
-				for (String userID : userIdList) {
-					MLPNotification notification = new MLPNotification();
-					String notifMsg = null;
-					MLSolution solutionDetail = catalogService.getSolution(solutionId);
-					MLPUser mlpUser = userService.findUserByUserId(userID);
-					notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();
-					notification.setMessage(notifMsg);
-					notification.setTitle(notifMsg);
-					notification.setMsgSeverityCode(MSG_SEVERITY_ME);
-					notificationService.generateNotification(notification, mlpUser.getUserId());
+	
+				if (!exist) {
+					catalogService.addSolutionUserAccess(solutionId, userIdList);
+	
+					// code to create notification
+					for (String userID : userIdList) {
+						MLPNotification notification = new MLPNotification();
+						String notifMsg = null;
+						MLSolution solutionDetail = catalogService.getSolution(solutionId);
+						MLPUser mlpUser = userService.findUserByUserId(userID);
+						notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();
+						notification.setMessage(notifMsg);
+						notification.setTitle(notifMsg);
+						notification.setMsgSeverityCode(MSG_SEVERITY_ME);
+						notificationService.generateNotification(notification, mlpUser.getUserId());
+					}
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Users access for solution added Successfully");
+					log.debug("addSolutionUserAccess :  ");
+				} else {
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+					data.setResponseDetail("User already assigned for solution");
+					log.error("Error User already assigned for solution :" + solutionId);
 				}
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Users access for solution added Successfully");
-				log.debug("addSolutionUserAccess :  ");
 			} else {
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
-				data.setResponseDetail("User already assigned for solution");
-				log.error("Error User already assigned for solution :" + solutionId);
+				data.setErrorCode(JSONTags.TAG_ERROR_SV);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				data.setResponseDetail(workflow.getReason());
+				log.error("SV failure while addSolutionUserAccess() : " + workflow.getReason());
 			}
 		} catch (AcumosServiceException e) {
 			data.setErrorCode(e.getErrorCode());
@@ -1384,25 +1394,33 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString());
-			long fileSizeByKB = file.getBytes().length;
-			if (fileSizeByKB <= maxFileSizeByKB) {
-				MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId,
-						file);
-				data.setResponseBody(document);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
-				data.setResponseDetail("Document Added Successfully");
-				log.debug("addDocument: {} ");
+			Workflow workflow = performSVScan(solutionId, revisionId, SVConstants.UPDATED);
+			if (workflow.isWorkflowAllowed()) {
+				double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString());
+				long fileSizeByKB = file.getBytes().length;
+				if (fileSizeByKB <= maxFileSizeByKB) {
+					MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId,
+							file);
+					data.setResponseBody(document);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+					data.setResponseDetail("Document Added Successfully");
+					log.debug("addDocument: {} ");
+				} else {
+					MLPDocument document = null;
+					data.setResponseBody(document);
+					data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+					data.setResponseDetail("Document size is greater than allowed size");
+					log.debug("addDocument: {} ");
+				}
 			} else {
-				MLPDocument document = null;
-				data.setResponseBody(document);
-				data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
-				data.setResponseDetail("Document size is greater than allowed size");
-				log.debug("addDocument: {} ");
+				data.setErrorCode(JSONTags.TAG_ERROR_SV);
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				data.setResponseDetail(workflow.getReason());
+				log.error("SV failure while adding document : " + workflow.getReason());
 			}
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
 			data.setResponseDetail(e.getMessage());
 			log.error("Exception Occurred while adding Document", e);
 		}
@@ -1617,5 +1635,32 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error("Exception Occurred while updateSolutionImage()", e);
 		}
 		return responseVO;
+	}
+	
+	@ApiOperation(value = "Perform SV Scan for given solution ID and revision ID, intended for pre-deployment use", response = Workflow.class)
+	@RequestMapping(value = { APINames.SOLUTIONS_REVISIONS_VERIFY }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<Workflow> verifySolutionRevision(HttpServletRequest request,
+			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, @PathVariable("workflowId") String workflowId, HttpServletResponse response) {
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		
+		JsonResponse<Workflow> data = new JsonResponse<>();
+		workflowId = (workflowId.equalsIgnoreCase("deploy")) ? SVConstants.DEPLOY : SVConstants.DOWNLOAD;
+		Workflow workflow = performSVScan(solutionId, revisionId, workflowId);
+		if (workflow != null) {
+			data.setResponseBody(workflow);
+			response.setStatus(HttpServletResponse.SC_OK);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("SV Scan completed");
+			log.debug("SV Scan completed :  ", workflow);
+		} else {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+			data.setResponseDetail("SV Scan failed");
+			log.debug("SV Scan failed, workflow null");
+		}
+		return data;
 	}
 }

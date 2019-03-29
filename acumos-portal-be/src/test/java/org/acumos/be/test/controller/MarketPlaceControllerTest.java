@@ -40,6 +40,7 @@ import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
+import org.acumos.securityverification.domain.Workflow;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
@@ -83,6 +84,7 @@ import static org.junit.Assert.assertNotNull;
 		ConfigConstants.spring_mail_template_folder_path + "=/fmtemplates/",
 		ConfigConstants.cdms_client_url + "=http://localhost:8000/ccds",
 		ConfigConstants.cdms_client_username + "=ccds_test", ConfigConstants.cdms_client_password + "=ccds_test",
+		ConfigConstants.portal_feature_sv_enabled + "=false",
 		"nexus.url=http://localhost:8000/repository/repo_acumos_model_maven/", "nexus.username=foo",
 		"nexus.password=bar", "nexus.groupId=com.artifact", "document.size=100000" })
 @EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class })
@@ -845,5 +847,45 @@ public class MarketPlaceControllerTest {
 
 		assertNotNull(preferedTagsList);
 		assertEquals(HttpServletResponse.SC_OK, preferedTagsList.getStatusCode().value());
+	}
+	
+	@Test
+	public void performSVScanDeployTest() {
+
+		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
+		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
+		String workflowId = "deploy";
+
+		ResponseEntity<JsonResponse<Workflow>> resp = restTemplate.exchange(
+				host + ":" + randomServerPort + "/solutions/" + solutionId + "/revisions/" + revisionId + "/verify/" + workflowId,
+				HttpMethod.GET, null, new ParameterizedTypeReference<JsonResponse<Workflow>>() {
+				});
+
+		assertNotNull(resp);
+		assertEquals(HttpServletResponse.SC_OK, resp.getStatusCode().value());
+		assertNotNull(resp.getBody());
+		Workflow workflow = resp.getBody().getResponseBody();
+		assertNotNull(workflow);
+		assertEquals(workflow.isWorkflowAllowed(), true);
+	}
+	
+	@Test
+	public void performSVScanDownloadTest() {
+
+		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
+		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
+		String workflowId = "download";
+
+		ResponseEntity<JsonResponse<Workflow>> resp = restTemplate.exchange(
+				host + ":" + randomServerPort + "/solutions/" + solutionId + "/revisions/" + revisionId + "/verify/" + workflowId,
+				HttpMethod.GET, null, new ParameterizedTypeReference<JsonResponse<Workflow>>() {
+				});
+
+		assertNotNull(resp);
+		assertEquals(HttpServletResponse.SC_OK, resp.getStatusCode().value());
+		assertNotNull(resp.getBody());
+		Workflow workflow = resp.getBody().getResponseBody();
+		assertNotNull(workflow);
+		assertEquals(workflow.isWorkflowAllowed(), true);
 	}
 }
