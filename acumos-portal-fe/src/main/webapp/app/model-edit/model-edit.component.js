@@ -1406,26 +1406,39 @@ angular
 
 													},
 													function(error) {
-														$scope.handleError = true;
-														$timeout(
-																function() {
-																	$scope.handleError = false;
-																}, 4500);
-
-														$scope.status = error.data.response_detail;
-														$location
-																.hash('manage-models');
-														$anchorScroll();
-														$scope.msg = "Error encountered: "
-																+ $scope.status;
-														$scope.icon = 'report_problem';
-														$scope.styleclass = 'c-warning';
-														$scope.showAlertMessage = true;
-														$timeout(
-																function() {
-																	$scope.showAlertMessage = false;
-																}, 2500);
-
+														if (error.data.error_code == "sv_error") {
+															$mdDialog.show({
+																templateUrl : '../app/error-page/sv-modal.template.html',
+																clickOutsideToClose : true,
+																locals: { reasons: error.data.response_detail },
+																controller : function DialogController($scope, reasons) {
+																	$scope.reasons = reasons;
+																	$scope.closePoup = function(){
+																		$mdDialog.hide();
+																	}
+																}
+															});
+														} else {
+															$scope.handleError = true;
+															$timeout(
+																	function() {
+																		$scope.handleError = false;
+																	}, 4500);
+	
+															$scope.status = error.data.response_detail;
+															$location
+																	.hash('manage-models');
+															$anchorScroll();
+															$scope.msg = "Error encountered: "
+																	+ $scope.status;
+															$scope.icon = 'report_problem';
+															$scope.styleclass = 'c-error';
+															$scope.showAlertMessage = true;
+															$timeout(
+																	function() {
+																		$scope.showAlertMessage = false;
+																	}, 2500);
+														}
 													});
 
 								} else {
@@ -1772,32 +1785,7 @@ angular
 	                                   $scope.showAlertMessage = false;
 	                               }, 2000);
 								return
-							}
-							/*else if($scope.alreadySharedWithUser == true){
-								$scope.alreadySharedWithUsersName = [];
-								$scope.allUserDetails.map(function(item1) {
-									$scope.alreadySharedWithUserId.map(function(item2) {
-										if (item1.userId == item2) {
-											$scope.alreadySharedWithUsersName.push({
-												'firstName' : item1.firstName,
-												'lastName' : item1.lastName
-											});
-										}
-									})
-								})
-								
-								$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
-	                               $anchorScroll();
-	                               $scope.msg = "Already shared with "+$scope.alreadySharedWithUsersName[0].firstName+' '+$scope.alreadySharedWithUsersName[0].lastName;
-	                               $scope.icon = 'report_problem';
-	                               $scope.styleclass = 'c-warning';
-	                               $scope.showAlertMessage = true;
-	                               $timeout(function() {
-	                                   $scope.showAlertMessage = false;
-	                               }, 2000);
-								return
-							}*/
-							else{
+							} else{
 								apiService.insertMultipleShare($scope.solutionId,
 										$scope.reqSharedWith).then(
 										function(response) {
@@ -1821,8 +1809,22 @@ angular
 											clear();
 										},
 										function(error) {
-											alert("Error "
-													+ error.data.response_detail);
+											if (error.data.error_code == "sv_error") {
+												$mdDialog.show({
+													templateUrl : '../app/error-page/sv-modal.template.html',
+													clickOutsideToClose : true,
+													locals: { reasons: error.data.response_detail },
+													controller : function DialogController($scope, reasons) {
+														$scope.reasons = reasons;
+														$scope.closePoup = function(){
+															$mdDialog.hide();
+														}
+													}
+												});
+											} else {
+												alert("Error "
+														+ error.data.response_detail);
+											}
 										});
 							}
 						}
@@ -2266,8 +2268,22 @@ angular
 												$rootScope.progressBar = 0;
 											},
 											function(error) {
-												$scope.modelUploadError = true;
-												$scope.modelUploadErrorMsg = error;
+												if (error.error_code == "sv_error") {
+													$mdDialog.show({
+														templateUrl : '../app/error-page/sv-modal.template.html',
+														clickOutsideToClose : true,
+														locals: { reasons: error.response_detail },
+														controller : function DialogController($scope, reasons) {
+															$scope.reasons = reasons;
+															$scope.closePoup = function(){
+																$mdDialog.hide();
+															}
+														}
+													});
+												} else {
+													$scope.modelUploadError = true;
+													$scope.modelUploadErrorMsg = error;
+												}
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
 											});
@@ -2292,8 +2308,22 @@ angular
 												$scope.showFileUpload = !$scope.showFileUpload;
 											},
 											function(error) {
-												$scope.modelUploadErrorPublic = true;
-												$scope.modelUploadErrorMsgPublic = error;
+												if (error.error_code == "sv_error") {
+													$mdDialog.show({
+														templateUrl : '../app/error-page/sv-modal.template.html',
+														clickOutsideToClose : true,
+														locals: { reasons: error.response_detail },
+														controller : function DialogController($scope, reasons) {
+															$scope.reasons = reasons;
+															$scope.closePoup = function(){
+																$mdDialog.hide();
+															}
+														}
+													});
+												} else {
+													$scope.modelUploadErrorPublic = true;
+													$scope.modelUploadErrorMsgPublic = error;
+												}
 												$rootScope.progressBar = 0;
 												$scope.showFileUpload = !$scope.showFileUpload;
 											});
