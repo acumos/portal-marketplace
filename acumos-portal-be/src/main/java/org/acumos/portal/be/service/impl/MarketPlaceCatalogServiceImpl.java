@@ -1844,7 +1844,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							for (MLPCodeNamePair toolkitType : toolkitTypeList) {
 								if (toolkitType.getCode() != null) {
 									if (toolkitType.getCode()
-											.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())) {
+											.equalsIgnoreCase(mlpSolution.getToolkitTypeCode())) {
 										mlSolution.setTookitTypeName(toolkitType.getName());
 										break;
 									}
@@ -1856,7 +1856,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						if (modelTypeList.size() > 0) {
 							for (MLPCodeNamePair modelType : modelTypeList) {
 								if (modelType.getCode() != null) {
-									if (modelType.getCode().equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())) {
+									if (modelType.getCode().equalsIgnoreCase(mlpSolution.getModelTypeCode())) {
 										mlSolution.setModelTypeName(modelType.getName());
 										break;
 									}
