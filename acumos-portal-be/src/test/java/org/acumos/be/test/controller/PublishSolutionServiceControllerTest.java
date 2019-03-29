@@ -40,6 +40,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -63,6 +64,9 @@ public class PublishSolutionServiceControllerTest {
 	
 	@Mock
 	private MarketPlaceCatalogService catalogService;
+	
+	@Mock
+	private Environment env;
 	
 	@Test
 	public void publishSolutionTest() {
@@ -88,6 +92,7 @@ public class PublishSolutionServiceControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			String accessType = "PB";
+			Mockito.when(env.getProperty("portal.feature.sv.enabled")).thenReturn("false");
 			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
 			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);

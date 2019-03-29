@@ -195,14 +195,28 @@ angular
 													$scope.allPublishRequest[$scope.requestIndex] = response.data.response_body;
 												}
 											},function errorCallback(response) {
-												$scope.msg = "Error Occured while updating the publish request";
-												$scope.icon = 'report_problem';
-												$scope.styleclass = 'c-error';
-												$scope.showAlertMessage = true;
-												$timeout(
-														function() {
-															$scope.showAlertMessage = false;
-														}, 3000);
+												if (response.data.error_code == "sv_error") {
+													$mdDialog.show({
+														templateUrl : '../app/error-page/sv-modal.template.html',
+														clickOutsideToClose : true,
+														locals: { reasons: response.data.response_detail },
+														controller : function DialogController($scope, reasons) {
+															$scope.reasons = reasons;
+															$scope.closePoup = function(){
+																$mdDialog.hide();
+															}
+														}
+													});
+												} else {
+													$scope.msg = "Error Occured while updating the publish request";
+													$scope.icon = 'report_problem';
+													$scope.styleclass = 'c-error';
+													$scope.showAlertMessage = true;
+													$timeout(
+															function() {
+																$scope.showAlertMessage = false;
+															}, 3000);
+												}
 										});
 							
 						}

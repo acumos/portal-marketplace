@@ -49,6 +49,7 @@ public class JSONTags {
 	public static final String TAG_ERROR_CODE_RESET_EMAILID = "203";
 	public static final String TAG_ERROR_CODE_OLDPASS_NOTMATCH = "204";
 	public static final String TAG_ERROR_RESPONSE = "205";
+	public static final String TAG_ERROR_SV = "sv_error";
 	
 	public static final String ROLE_ID = "roleId";
 	public static final String ROLE_NAME = "name";
