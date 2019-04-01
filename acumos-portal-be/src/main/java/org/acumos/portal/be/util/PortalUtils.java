@@ -149,10 +149,18 @@ public class PortalUtils {
 			mlSolution.setMetadata(mlpSolution.getMetadata());
 		mlSolution.setTookitType(mlpSolution.getToolkitTypeCode());
 		mlSolution.setModelType(mlpSolution.getModelTypeCode());
-		mlSolution.setDownloadCount(mlpSolution.getDownloadCount().intValue());
-		mlSolution.setRatingCount(mlpSolution.getRatingCount().intValue());
-		mlSolution.setViewCount(mlpSolution.getViewCount().intValue());
-		mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths() / 10);
+		if(mlpSolution.getDownloadCount() != null) {
+			mlSolution.setDownloadCount(mlpSolution.getDownloadCount().intValue());
+		}
+		if(mlpSolution.getRatingCount() != null) {
+			mlSolution.setRatingCount(mlpSolution.getRatingCount().intValue());
+		}
+		if(mlpSolution.getViewCount() != null) {
+			mlSolution.setViewCount(mlpSolution.getViewCount().intValue());
+		}
+		if(mlpSolution.getRatingAverageTenths() != null) {
+			mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths() / 10);
+		}
 		mlSolution.setLastDownload(mlpSolution.getLastDownload());
 		if (mlpSolution.isFeatured() != null) {
 			mlSolution.setFeatured(mlpSolution.isFeatured());
