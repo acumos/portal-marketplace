@@ -821,4 +821,19 @@ public class AdminServiceController extends AbstractController {
 					"sendCredentialsmail: failed to send mail to user " + mlpUser.getEmailId(), ex);
 		}
 	}
+	
+	@ApiOperation(value = "Get dynamic list for menu", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.GET_DYNAMIC_MENU }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> getDynamicMenu(HttpServletRequest request, HttpServletResponse response) {
+
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		String cloudEnabled = env.getProperty("portal.feature.menu");
+
+		responseVO.setResponseBody(cloudEnabled);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
 }
