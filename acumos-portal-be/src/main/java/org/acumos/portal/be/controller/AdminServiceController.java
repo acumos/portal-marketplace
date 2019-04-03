@@ -821,4 +821,20 @@ public class AdminServiceController extends AbstractController {
 					"sendCredentialsmail: failed to send mail to user " + mlpUser.getEmailId(), ex);
 		}
 	}
+	
+	@ApiOperation(value = "Get Application Properites value for the key provided", response = JsonResponse.class)
+	@RequestMapping(value = { APINames.GET_APP_PROPERTY }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<String> getProperty(@PathVariable("key") String key) {
+		
+		key = SanitizeUtils.sanitize(key);
+		JsonResponse<String> responseVO = new JsonResponse<String>();
+		String cloudEnabled = env.getProperty(key);
+
+		responseVO.setResponseBody(cloudEnabled);
+		responseVO.setStatus(true);
+		responseVO.setResponseDetail("Success");
+		responseVO.setStatusCode(HttpServletResponse.SC_OK);
+		return responseVO;
+	}
 }

@@ -113,7 +113,8 @@ angular.module('AcumosApp')
         var urlUnreadNotification =  "/api/unreadnotifications/count";
         var urlOnBoardingHistoryTaskList =  "/api/onboardinghistory/getTasks";
         var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult";
-        var urlPublisher =  "/api/solution";        
+        var urlPublisher =  "/api/solution";  
+	var urlgetAppPropertyUrl = 'api/admin/getProperty';	      
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -619,5 +620,8 @@ angular.module('AcumosApp')
         	return $http.post(urlOnBoardingHistoryStepResult + "/" + taskId);
         };
         
+	this.getMenu = function (key) {
+            return $http.get(urlgetAppPropertyUrl + "/" + key);
+        };   
 
     }]);

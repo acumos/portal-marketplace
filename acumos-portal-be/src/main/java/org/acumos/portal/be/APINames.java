@@ -153,7 +153,8 @@ public class APINames {
 	public static final String PEERS_PAGINATED = "/paginatedPeers";
 	public static final String PEERS = "/peers";
 	public static final String PEER_DETAILS = "/peers/{peerId}";
-
+	public static final String GET_APP_PROPERTY = "/getProperty/{key}";
+	
 	// Peer subscription API for Admin
 	public static final String PEERSUBSCRIPTION_PAGINATED = "/peer/subcriptions/{peerId}";
 	public static final String PEERSUBSCRIPTION_COUNTS = "/peer/subcriptions/counts";

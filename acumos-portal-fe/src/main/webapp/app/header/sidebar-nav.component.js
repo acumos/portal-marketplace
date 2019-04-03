@@ -81,6 +81,23 @@ app.component('sidebarNav',{
 			if(browserStorageService.getAuthToken()!='')
 				$scope.showQandAUrl = true;
 		});
+			
+		$scope.getMenuLsit = function(){					
+			//$scope.listResponse =
+			//[{"name": "Test","url":"https://www.google.com/","imagePath":"../images/sidebar-icons/icon_competition_inactive.png"}]
+	       apiService.getMenu("portal.feature.menu")
+	       .then(
+	                function(response) {
+	                    if(response.status == 200){
+	                        $scope.listResponse = JSON.parse(response.data.response_body);	                      
+	                    }
+	                },
+	                function(error) {
+	                    console.log(error);
+	                }); 
+	    };
+	    $scope.getMenuLsit();
+	    
 
 		//Hide show of sidebar in mobile device
 		$scope.hamberClick = function(){$rootScope.$broadcast('menuClickToggle');}
