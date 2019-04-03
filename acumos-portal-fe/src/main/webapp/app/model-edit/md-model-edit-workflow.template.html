@@ -1693,7 +1693,7 @@ limitations under the License.
 																				<div class="upload-image-input">
 																					<div file-upload file="previewImage" ng-click = "cancelSolImage()"
 																						uploadid="companyuploadid" id="solImage" size = 1000000 imageerror = "imageerror"
-																						filename="filename" fileinput="file" accept="image/*" imagetypeerror = "imagetypeerror"
+																						filename="filename" fileinput="file" accept="image/*" validfilename = "validfilename" imagetypeerror = "imagetypeerror"
 																						filepreview="previewImage" ng-model="solImage"
 																						icon="icon" upload-image-model="solImage" alt="Browse" title="Browse" readonly ></div>
 																					<input class="mdl-textfield__input disabledClick"
@@ -1707,6 +1707,9 @@ limitations under the License.
 																				<div class="help-inline validation-msgs">
 																					<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
 																				</div>
+																				<div class="help-inline validation-msgs">
+																			     <span ng-show="validfilename">Spaces and special characters are not allowed in file name.</span>
+																		        </div>
 																				<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
                                                                                 data-drop="true" 
@@ -3368,7 +3371,7 @@ limitations under the License.
 																				<div file-upload file=previewImage ng-click = "cancelSolImage()"
 																					uploadid="publicuploadid" id="solImage" size = 1000000 imageerror = "imageerror"
 																					imagetypeerror = "imagetypeerror"
-																					filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif"
+																					filename="filename" fileinput="file" accept = "image/png, image/jpeg, image/gif" validfilename = "validfilename"
 																					filepreview="previewImage" ng-model="solImage"
 																					icon="icon" upload-image-model="solImage" readonly alt="Browse" title="Browse"></div>
 																				<input class="mdl-textfield__input"
@@ -3381,6 +3384,9 @@ limitations under the License.
 																			<div class="help-inline validation-msgs">
 																				<span ng-show = "imagetypeerror" >Image should be in 'jpg','jpeg','png' or 'gif' file format.</span>
 																			</div>
+																			<div class="help-inline validation-msgs">
+																			<span ng-show="validfilename">Spaces and special characters are not allowed in file name.</span>
+																		 </div>
 																			<!-- <div
                                                                                 class="mdl-textfield mdl-js-textfield mdl-textfield--file fullwidth"
                                                                                 data-drop="true" 

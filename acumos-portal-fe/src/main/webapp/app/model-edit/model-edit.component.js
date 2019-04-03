@@ -2207,7 +2207,7 @@ angular
 							}
 							var file = $scope.solImage;
 							var fileName = file.name;
-							var validFormats = ['jpg','jpeg','png','gif'];
+							var validFormats = ['jpg','jpeg','png','gif','JPG','PNG','JPEG','GIF'];
 							$scope.solutionImageName = fileName;
 
 							var ext = fileName.split('.').pop();
