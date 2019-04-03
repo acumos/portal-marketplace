@@ -225,6 +225,9 @@ border-radius: 2px; height: 30px; line-height: 30px; background: url('../images/
 .cg-sidebar .mdl-navigation__link {opacity:1; display: flex !important; text-shadow:none; align-items: center; border-bottom: 1px solid #D8D8D8;}
 .cg-sidebar .mdl-navigation__link span {text-shadow:none;}
 
+.mdl-layout__drawer .mdl-navigation ul{list-style:none; margin:0; padding:0;}
+
+
 /*********** Left side navigation style end  ************/
 
 /*********** Breadcrumb style start************/
