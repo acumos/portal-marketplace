@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c4df01d_2b5fd707",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/controller/AdminServiceController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-04-04T12:33:15Z",
+      "side": 1,
+      "message": "Need to move it to CONSTANT file rather hardcoding it here",
+      "range": {
+        "startLine": 831,
+        "startChar": 41,
+        "endLine": 831,
+        "endChar": 60
+      },
+      "revId": "91a7761d7f1d3bbf413d0792a5723436ee30c087",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
