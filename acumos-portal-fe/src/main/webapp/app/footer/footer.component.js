@@ -50,6 +50,8 @@ app.component('marketFooter',{
 	   apiService.getContactInfo().then(
        		function(response){
        			$scope.contactInfo = (response.data.response_body);
+       			$scope.contactInfo1 = $scope.contactInfo.replace(/<br>/g,'');
+       			
        		},
        		function(error) {
        			console.log(error);
