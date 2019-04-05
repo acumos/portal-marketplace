@@ -253,7 +253,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		log.debug("deleteSolutionArtifacts={}", solutionId, revisionId);
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
-
+		revisionId = SanitizeUtils.sanitize(revisionId);
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -381,7 +381,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
-
+		tag = SanitizeUtils.sanitize(tag);
+		
 		log.debug("addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -409,7 +410,8 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
-
+		tag = SanitizeUtils.sanitize(tag);
+		
 		log.debug("addSolutionTag={}", solutionId);
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -521,6 +523,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE<MLSolution>> getTagsSolutions(@PathVariable("tags") String tags,
 			@RequestBody JsonRequest<RestPageRequestBE> restPageReq) {
+		
+		tags = SanitizeUtils.sanitize(tags);
+		
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		try {
@@ -683,6 +688,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLSolution> incrementSolutionViewCount(HttpServletRequest request,
 			@PathVariable("solutionId") String solutionId, HttpServletResponse response) {
+		
+		solutionId = SanitizeUtils.sanitize(solutionId);
+		
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
