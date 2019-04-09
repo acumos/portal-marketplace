@@ -159,7 +159,7 @@ public class PortalUtils {
 			mlSolution.setViewCount(mlpSolution.getViewCount().intValue());
 		}
 		if(mlpSolution.getRatingAverageTenths() != null) {
-			mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths() / 10);
+			mlSolution.setSolutionRatingAvg(mlpSolution.getRatingAverageTenths().floatValue() / 10);
 		}
 		mlSolution.setLastDownload(mlpSolution.getLastDownload());
 		if (mlpSolution.isFeatured() != null) {
