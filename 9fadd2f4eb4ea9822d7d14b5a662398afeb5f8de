@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "907e375c_57eba8ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T17:46:28Z",
+      "side": 1,
+      "message": "Is it essential to use \"ATT\" here?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "9fadd2f4eb4ea9822d7d14b5a662398afeb5f8de",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc1ca638_74a3f880",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T17:46:28Z",
+      "side": 1,
+      "message": "Acumos-R issues should never be referenced in public LF commits",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "9fadd2f4eb4ea9822d7d14b5a662398afeb5f8de",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebc717f9_40ca7019",
+        "filename": "acumos-portal-fe/debug-logs/EELF/debug.log",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-10T17:46:28Z",
+      "side": 1,
+      "message": "never ever commit a log file",
+      "revId": "9fadd2f4eb4ea9822d7d14b5a662398afeb5f8de",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
