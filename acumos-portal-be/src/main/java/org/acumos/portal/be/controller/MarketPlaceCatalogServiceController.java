@@ -1379,15 +1379,15 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@ApiOperation(value = "Add Solution Revision Document", response = MLPDocument.class)
 	@RequestMapping(value = {
-			"/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+			"/solution/{solutionId}/revision/{revisionId}/{catalogId}/document" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLPDocument> addRevisionDocument(HttpServletRequest request, @PathVariable String solutionId,
-			@PathVariable String revisionId, @PathVariable String accessType, @RequestParam("file") MultipartFile file,
+			@PathVariable String revisionId, @PathVariable String catalogId, @RequestParam("file") MultipartFile file,
 			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
-		accessType = SanitizeUtils.sanitize(accessType);
+		catalogId = SanitizeUtils.sanitize(catalogId);
 
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
@@ -1395,7 +1395,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString());
 			long fileSizeByKB = file.getBytes().length;
 			if (fileSizeByKB <= maxFileSizeByKB) {
-				MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, accessType, userId,
+				MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, catalogId, userId,
 						file);
 				data.setResponseBody(document);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1419,21 +1419,21 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@ApiOperation(value = "Remove Solution Revision Document", response = MLPDocument.class)
 	@RequestMapping(value = {
-			"/solution/{solutionId}/revision/{revisionId}/{accessType}/document/{documentId}" }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
+			"/solution/{solutionId}/revision/{revisionId}/{catalogId}/document/{documentId}" }, method = RequestMethod.DELETE, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<MLPDocument> removeRevisionDocument(HttpServletRequest request, @PathVariable String solutionId,
-			@PathVariable String revisionId, @PathVariable String accessType, @PathVariable String documentId,
+			@PathVariable String revisionId, @PathVariable String catalogId, @PathVariable String documentId,
 			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
-		accessType = SanitizeUtils.sanitize(accessType);
+		catalogId = SanitizeUtils.sanitize(catalogId);
 		documentId = SanitizeUtils.sanitize(documentId);
 
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			MLPDocument document = catalogService.removeRevisionDocument(solutionId, revisionId, accessType, userId,
+			MLPDocument document = catalogService.removeRevisionDocument(solutionId, revisionId, catalogId, userId,
 					documentId);
 			data.setResponseBody(document);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1450,20 +1450,20 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@ApiOperation(value = "Get Solution Revision Documents", response = MLPDocument.class, responseContainer = "List")
 	@RequestMapping(value = {
-			"/solution/{solutionId}/revision/{revisionId}/{accessType}/document" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+			"/solution/{solutionId}/revision/{revisionId}/{catalogId}/document" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLPDocument>> getRevisionDocument(HttpServletRequest request,
-			@PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String accessType,
+			@PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String catalogId,
 			HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
-		accessType = SanitizeUtils.sanitize(accessType);
+		catalogId = SanitizeUtils.sanitize(catalogId);
 
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			List<MLPDocument> documents = catalogService.getRevisionDocument(solutionId, revisionId, accessType,
+			List<MLPDocument> documents = catalogService.getRevisionDocument(solutionId, revisionId, catalogId,
 					userId);
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1480,21 +1480,21 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@ApiOperation(value = "Copy Solution Revision Documents", response = MLPDocument.class, responseContainer = "List")
 	@RequestMapping(value = {
-			"/solution/{solutionId}/revision/{revisionId}/{accessType}/copyDocuments/{fromRevisionId}" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+			"/solution/{solutionId}/revision/{revisionId}/{catalogId}/copyDocuments/{fromRevisionId}" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLPDocument>> copyRevisionDocuments(HttpServletRequest request,
-			@PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String accessType,
+			@PathVariable String solutionId, @PathVariable String revisionId, @PathVariable String catalogId,
 			@PathVariable String fromRevisionId, HttpServletResponse response) {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
-		accessType = SanitizeUtils.sanitize(accessType);
+		catalogId = SanitizeUtils.sanitize(catalogId);
 		fromRevisionId = SanitizeUtils.sanitize(fromRevisionId);
 
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			List<MLPDocument> documents = catalogService.copyRevisionDocuments(solutionId, revisionId, accessType,
+			List<MLPDocument> documents = catalogService.copyRevisionDocuments(solutionId, revisionId, catalogId,
 					userId, fromRevisionId);
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1511,18 +1511,18 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@ApiOperation(value = "Get Solution Revision Description", response = RevisionDescription.class)
 	@RequestMapping(value = {
-			"/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
+			"/solution/revision/{revisionId}/{catalogId}/description" }, method = RequestMethod.GET, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RevisionDescription> getSolRevDescription(HttpServletRequest request,
-			@PathVariable String revisionId, @PathVariable String accessType, HttpServletResponse response) {
+			@PathVariable String revisionId, @PathVariable String catalogId, HttpServletResponse response) {
 
 		revisionId = SanitizeUtils.sanitize(revisionId);
-		accessType = SanitizeUtils.sanitize(accessType);
+		catalogId = SanitizeUtils.sanitize(catalogId);
 
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			RevisionDescription description = catalogService.getRevisionDescription(revisionId, accessType);
+			RevisionDescription description = catalogService.getRevisionDescription(revisionId, catalogId);
 			data.setResponseBody(description);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Description Fetched Successfully");
@@ -1538,20 +1538,20 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 	@ApiOperation(value = "Add/Update Solution Revision Description", response = RevisionDescription.class)
 	@RequestMapping(value = {
-			"/solution/revision/{revisionId}/{accessType}/description" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+			"/solution/revision/{revisionId}/{catalogId}/description" }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RevisionDescription> addSolRevDescription(HttpServletRequest request,
-			@PathVariable String revisionId, @PathVariable String accessType,
+			@PathVariable String revisionId, @PathVariable String catalogId,
 			@RequestBody JsonRequest<RevisionDescription> revisionDescription, HttpServletResponse response) {
 
 		revisionId = SanitizeUtils.sanitize(revisionId);
-		accessType = SanitizeUtils.sanitize(accessType);
+		catalogId = SanitizeUtils.sanitize(catalogId);
 
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		RevisionDescription description = revisionDescription.getBody();
 		try {
-			description = catalogService.addUpdateRevisionDescription(revisionId, accessType, description);
+			description = catalogService.addUpdateRevisionDescription(revisionId, catalogId, description);
 			data.setResponseBody(description);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Description Fetched Successfully");

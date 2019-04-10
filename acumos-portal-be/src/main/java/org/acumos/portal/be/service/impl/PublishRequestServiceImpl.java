@@ -134,18 +134,6 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 			MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(publishRequest.getSolutionId(),
 					publishRequest.getRevisionId());
 			mlPublishRequest.setRevisionName(revision.getVersion());
-			mlPublishRequest.setRevisionStatusCode(revision.getAccessTypeCode());
-			List<MLPCodeNamePair> accessTypeList = dataServiceRestClient.getCodeNamePairs(CodeNameType.ACCESS_TYPE);
-			if (accessTypeList.size() > 0) {
-				for (MLPCodeNamePair accessType : accessTypeList) {
-					if (accessType.getCode() != null) {
-						if (accessType.getCode().equalsIgnoreCase(revision.getAccessTypeCode())) {
-							mlPublishRequest.setRevisionStatusName(accessType.getName());
-							break;
-						}
-					}
-				}
-			}
 		}
 
 		if (!PortalUtils.isEmptyOrNullString(publishRequest.getStatusCode())) {

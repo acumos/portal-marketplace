@@ -123,6 +123,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/site/content/global/footer/contactinfo").permitAll()
         .antMatchers(HttpMethod.GET, "/site/content/global/coBrandLogo").permitAll()
         .antMatchers(HttpMethod.GET, "/site/content/carouselImages/{key}").permitAll()
+        .antMatchers(HttpMethod.POST, "/catalogs").permitAll()
+        .antMatchers(HttpMethod.POST, "/catalogs/search").permitAll()
+        .antMatchers(HttpMethod.POST, "/catalogs/solutions").permitAll()
+        .antMatchers(HttpMethod.GET, "/catalog/{catalogId}").permitAll()
+        .antMatchers(HttpMethod.GET, "/catalog/{catalogId}/solution/count").permitAll()
+        .antMatchers(HttpMethod.GET, "/catalog/solution/{solutionId}").permitAll()
         
         
         .anyRequest().authenticated();

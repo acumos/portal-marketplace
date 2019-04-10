@@ -95,7 +95,6 @@ public class WebBasedOnboardingTest {
 			mlSolution.setTookitType("CP");
 			mlSolution.setTookitTypeName("Composite Solution");
 			mlSolution.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
-			mlSolution.setAccessType("OR");
 			mlSolution.setActive(true);
 			Instant date = Instant.now();
 			mlSolution.setCreated(date);

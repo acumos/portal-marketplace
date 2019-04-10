@@ -135,7 +135,6 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		}
 		
 		mlpSolutionRevision.setPublisher(getSiteInstanceName());
-		mlpSolutionRevision.setAccessTypeCode(accessType);
 		dataServiceRestClient.updateSolutionRevision(mlpSolutionRevision);
 	}
 	
@@ -198,7 +197,6 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	public boolean checkUniqueSolName(String solutionId) {
 		log.debug("checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
 
 		MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
 		String[] name = { solution.getName() };
@@ -206,7 +204,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		Map<String, String> queryParameters = new HashMap<>();
 		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
 		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-				accessTypeCodes, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+				null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 		List<MLPSolution> searchSolList = searchSolResp.getContent();
 
 		//removing the same solutionId from the list

@@ -41,7 +41,6 @@ public class MLSolutionTest {
 		String ownerName = "abc";
 		String metadata = "sffsf";
 		boolean active = true;
-		String accessType = "PR";
 		Instant created = Instant.now();
 		Instant modified = Instant.now();
 		String tookitType = "SK";
@@ -85,7 +84,6 @@ public class MLSolutionTest {
 		revisions.add(mlPSolutionRevision);
 
 		MLSolution mlRole = new  MLSolution();
-		mlRole.setAccessType(accessType);
 		mlRole.setActive(active);
 		mlRole.setCreated(created);
 		mlRole.setDownloadCount(downloadCount);
@@ -132,7 +130,6 @@ public class MLSolutionTest {
 		Assert.assertNotNull(mlRole.getOwnerListForSol());
 		Assert.assertNotNull(mlRole.getThreadList());
 		
-		Assert.assertEquals(accessType, mlRole.getAccessType());
 		Assert.assertEquals(created, mlRole.getCreated());
 		Assert.assertEquals(modified, mlRole.getModified());
 		Assert.assertEquals(downloadCount, mlRole.getDownloadCount());

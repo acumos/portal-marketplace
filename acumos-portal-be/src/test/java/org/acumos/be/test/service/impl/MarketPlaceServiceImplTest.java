@@ -99,7 +99,6 @@ public class MarketPlaceServiceImplTest {
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
@@ -126,7 +125,6 @@ public class MarketPlaceServiceImplTest {
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
@@ -145,73 +143,12 @@ public class MarketPlaceServiceImplTest {
 		}
 	}
 
-	/*
-	 * @Test public void getSearchSolutionTest() { try {
-	 * JsonRequest<RestPageRequestBE> restPageReqBe = new JsonRequest<>();
-	 * RestPageRequestBE body = new RestPageRequestBE();
-	 * body.setSearchTerm("Solution"); body.setPage(1); body.setSize(9);
-	 * body.setAccessType("OR"); body.setActiveType("Y");
-	 * restPageReqBe.setBody(body);
-	 * 
-	 * MLSolution mlsolution = new MLSolution();
-	 * mlsolution.setSolutionId("Solution1"); mlsolution.setName(
-	 * "Test_Solution data"); mlsolution.setDescription("Test data");
-	 * mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-	 * mlsolution.setAccessType("PB"); mlsolution.setActive(true);
-	 * mlsolution.setModelType("CL"); mlsolution.setTookitType("DS");
-	 * 
-	 * List<MLSolution> mlSolutions = new ArrayList<>();
-	 * mlSolutions.add(mlsolution); RestPageResponseBE<MLSolution> response =
-	 * new RestPageResponseBE<>(mlSolutions); response.setContent(mlSolutions);
-	 * 
-	 * if (body != null) {
-	 * Mockito.when(impl.getSearchSolution(restPageReqBe)).thenReturn(response);
-	 * logger.info("Solution searched successfully");
-	 * Assert.assertNotNull(response); }
-	 * 
-	 * } catch (Exception e) { logger.info("Failed to fetch solutions " + e); }
-	 * }
-	 */
-
-	/*
-	 * @Test public void getAllMySolutionsTest() { try {
-	 * 
-	 * JsonRequest<RestPageRequestBE> restPageReqBe = new JsonRequest<>();
-	 * RestPageRequestBE body = new RestPageRequestBE();
-	 * body.setSearchTerm("Solution"); body.setPage(1); body.setSize(9);
-	 * body.setAccessType("OR"); body.setActiveType("Y");
-	 * restPageReqBe.setBody(body);
-	 * 
-	 * String userId = "1810f833-8698-4233-add4-091e34b8703c";
-	 * 
-	 * MLSolution mlsolution = new MLSolution();
-	 * mlsolution.setSolutionId("Solution1"); mlsolution.setName(
-	 * "Test_Solution data"); mlsolution.setDescription("Test data");
-	 * mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-	 * mlsolution.setAccessType("PB"); mlsolution.setActive(true);
-	 * mlsolution.setModelType("CL"); mlsolution.setTookitType("DS");
-	 * 
-	 * List<MLSolution> mlSolutions = new ArrayList<>();
-	 * mlSolutions.add(mlsolution); RestPageResponseBE<MLSolution> response =
-	 * new RestPageResponseBE<>(mlSolutions); response.setContent(mlSolutions);
-	 * 
-	 * if (userId != null) { Mockito.when(impl.getAllMySolutions(userId,
-	 * restPageReqBe)).thenReturn(response); logger.info(
-	 * "Solutions fecthed successfully according to userId ");
-	 * Assert.assertNotNull(userId); Assert.assertEquals(mlSolutions,
-	 * mlSolutions); }
-	 * 
-	 * } catch (Exception e) { logger.info("Failed to fetch solutions " + e); }
-	 * }
-	 */
-
 	@Test
 	public void updateSolutionTest() throws AcumosServiceException {
 		try {
 			MLSolution mlsolution = new MLSolution();
 			mlsolution.setName("Test_Solution data");
 			mlsolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
-			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
@@ -536,7 +473,6 @@ public class MarketPlaceServiceImplTest {
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
@@ -592,7 +528,6 @@ public class MarketPlaceServiceImplTest {
 			mlsolution.setSolutionId("Solution1");
 			mlsolution.setName("Test_Solution data");
 			mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
@@ -639,7 +574,6 @@ public class MarketPlaceServiceImplTest {
 			mlsolution.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
 			mlsolution.setName("Test_Solution data");
 			mlsolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
-			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");
@@ -681,7 +615,6 @@ public class MarketPlaceServiceImplTest {
 			mlsolution.setSolutionId("6e5036e0-6e20-4425-bd9d-b4ce55cfd8a4");
 			mlsolution.setName("Test_Solution data");
 			mlsolution.setOwnerId("601f8aa5-5978-44e2-996e-2dbfc321ee73");
-			mlsolution.setAccessType("PB");
 			mlsolution.setActive(true);
 			mlsolution.setModelType("CL");
 			mlsolution.setTookitType("DS");

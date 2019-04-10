@@ -41,7 +41,6 @@ public class MLSolution {
 	private String ownerName;
 	private String metadata;
 	private boolean active;
-	private String accessType;
 	private Instant created;
 	private Instant modified;
 	private String tookitType;
@@ -196,20 +195,6 @@ public class MLSolution {
 	}
 
 	/**
-	 * @return the accessType
-	 */
-	public String getAccessType() {
-		return accessType;
-	}
-
-	/**
-	 * @param accessType the accessType to set
-	 */
-	public void setAccessType(String accessType) {
-		this.accessType = accessType;
-	}
-
-	/**
 	 * @return the created
 	 */
 	public Instant getCreated() {
@@ -306,8 +291,6 @@ public class MLSolution {
 		builder.append(metadata);
 		builder.append(", active=");
 		builder.append(active);
-		builder.append(", accessType=");
-		builder.append(accessType);
 		builder.append(", created=");
 		builder.append(created);
 		builder.append(", modified=");

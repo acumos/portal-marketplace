@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -147,7 +146,6 @@ public class PushAndPullSolutionServiceControllerTest {
 		mlsolution.setSolutionId("Solution1");
 		mlsolution.setName("Test_Solution data");
 		mlsolution.setOwnerId("41058105-67f4-4461-a192-f4cb7fdafd34");
-		mlsolution.setAccessType("PB");
 		mlsolution.setActive(true);
 		mlsolution.setModelType("CL");
 		mlsolution.setTookitType("DS");

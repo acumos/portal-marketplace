@@ -28,7 +28,7 @@ public class RevisionDescription {
 	private static final long serialVersionUID = 1L;
 	private String description;
 	private String revisionId;
-	private String accessTypeCode;
+	private String catalogId;
 	
 	/**
 	 * @return the description
@@ -59,16 +59,16 @@ public class RevisionDescription {
 	}
 
 	/**
-	 * @return the accessTypeCode
+	 * @return the catalogId
 	 */
-	public String getAccessTypeCode() {
-		return accessTypeCode;
+	public String getCatalogId() {
+		return catalogId;
 	}
 
 	/**
-	 * @param accessTypeCode the accessTypeCode to set
+	 * @param catalogId the catalogId to set
 	 */
-	public void setAccessTypeCode(String accessTypeCode) {
-		this.accessTypeCode = accessTypeCode;
+	public void setCatalogId(String catalogId) {
+		this.catalogId = catalogId;
 	}
 }

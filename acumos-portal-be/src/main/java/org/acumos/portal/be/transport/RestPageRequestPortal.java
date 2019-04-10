@@ -33,7 +33,7 @@ public class RestPageRequestPortal {
 	private String authorKeyword;
 	private boolean active;
 	private String[] modelTypeCodes;
-	private String[] accessTypeCodes;
+	private boolean published;
 	private String[] validationStatusCodes;
 	private String[] tags;
 	private RestPageRequest pageRequest;
@@ -85,11 +85,11 @@ public class RestPageRequestPortal {
 	public void setModelTypeCodes(String[] modelTypeCodes) {
 		this.modelTypeCodes = modelTypeCodes;
 	}
-	public String[] getAccessTypeCodes() {
-		return accessTypeCodes;
+	public boolean isPublished() {
+		return published;
 	}
-	public void setAccessTypeCodes(String[] accessTypeCodes) {
-		this.accessTypeCodes = accessTypeCodes;
+	public void setPublished(boolean published) {
+		this.published = published;
 	}
 	public String[] getValidationStatusCodes() {
 		return validationStatusCodes;

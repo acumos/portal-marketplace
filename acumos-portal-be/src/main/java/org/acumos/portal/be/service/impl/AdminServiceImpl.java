@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.acumos.portal.be.common.JSONTags;
 import org.acumos.portal.be.service.AdminService;
@@ -235,7 +234,6 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	@Override
 	public List<MLRequest> getAllRequests(RestPageRequest restPageReq){
 		log.debug("getRequests ={}");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		return getMlRequestList();
 				
 	}
@@ -243,7 +241,6 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
 	@Override
 	public void updateMLRequest(MLRequest mlRequest) {
 		log.debug("updateMLRequest ={}", mlRequest);
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		if (mlRequest != null) {
 			// MLPSiteConfig mlpSiteConfig =
 			// PortalUtils.convertMLSiteConfigToMLPSiteConfig(config);
@@ -295,9 +292,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
         for (MLSolution sol : solList) {
             MLPPeerSubscription sub = new MLPPeerSubscription();
             sub.setSelector(sol.getSelector());
-            sub.setAccessType(sol.getAccessType());
             sub.setPeerId(peerId);
-            sub.setScopeType("FL");
             sub.setUserId(sol.getOwnerId());
             if (sol.getRefreshInterval() != null){
                 sub.setRefreshInterval(sol.getRefreshInterval());

@@ -56,71 +56,65 @@ public class MarketPlaceCatalogServiceImplTest {
 
 	@Test
 	public void addRevisionDescriptionTest() {
-
-		stubFor(get(urlEqualTo("/ccds/code/pair/ACCESS_TYPE")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody("[" + "  {" + "    \"code\": \"RS\"," + "    \"name\": \"Restricted\"" + "  }," + "  {"
-						+ "    \"code\": \"PR\"," + "    \"name\": \"Private\"" + "  }," + "  {"
-						+ "    \"code\": \"PB\"," + "    \"name\": \"Public\"" + "  }," + "  {"
-						+ "    \"code\": \"OR\"," + "    \"name\": \"Organization\"" + "  }" + "]")));
-
+		String revisionId = "1234-1234-1234-1234-1234";
+		String catalogId = "4321-4321-4321-4321-4321";
+		String descriptionText = "Test";
+		String ccdsRevCatDescrPath = String.format("/ccds/revision/%s/catalog/%s/descr", revisionId, catalogId);
+		
 		//Return null response to create a description
-		stubFor(get(urlEqualTo("/ccds/revision/1234-1234-1234-1234-1234/access/OR/descr")).willReturn(aResponse()
+		stubFor(get(urlEqualTo(ccdsRevCatDescrPath)).willReturn(aResponse()
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
 
 		//Return null response to create a description
-		stubFor(post(urlEqualTo("/ccds/revision/1234-1234-1234-1234-1234/access/OR/descr"))
+		stubFor(post(urlEqualTo(ccdsRevCatDescrPath))
 				.willReturn(aResponse().withBody(
-						"{\"created\":null,\"modified\":null,\"revisionId\":\"1234-1234-1234-1234-1234\",\"accessTypeCode\":\"OR\",\"description\":\"Test\"}")
+						"{\"created\":null,\"modified\":null,\"revisionId\":\"1234-1234-1234-1234-1234\",\"catalogId\":\"4321-4321-4321-4321-4321\",\"description\":\"Test\"}")
 						.withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
 
 		RevisionDescription createdDesc = null;
 
 		RevisionDescription description = new RevisionDescription();
-		description.setAccessTypeCode("OR");
-		description.setRevisionId("1234-1234-1234-1234-1234");
-		description.setDescription("Test");
+		description.setRevisionId(revisionId);
+		description.setCatalogId(catalogId);
+		description.setDescription(descriptionText);
 
 		try {
-			createdDesc = catalogService.addUpdateRevisionDescription("1234-1234-1234-1234-1234", "OR", description);
+			createdDesc = catalogService.addUpdateRevisionDescription(revisionId, catalogId, description);
 		} catch (AcumosServiceException e) {
 			Assert.assertFalse("Exception while Add Description", true);
 		}
 		Assert.assertNotNull(createdDesc);
-		Assert.assertEquals("Test", description.getDescription());
+		Assert.assertEquals(descriptionText, description.getDescription());
 	}
 
 	@Test
 	public void updateRevisionDescriptionTest() {
-
-		stubFor(get(urlEqualTo("/ccds/code/pair/ACCESS_TYPE")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody("[" + "  {" + "    \"code\": \"RS\"," + "    \"name\": \"Restricted\"" + "  }," + "  {"
-						+ "    \"code\": \"PR\"," + "    \"name\": \"Private\"" + "  }," + "  {"
-						+ "    \"code\": \"PB\"," + "    \"name\": \"Public\"" + "  }," + "  {"
-						+ "    \"code\": \"OR\"," + "    \"name\": \"Organization\"" + "  }" + "]")));
-
-		stubFor(get(urlEqualTo("/ccds/revision/1234-1234-1234-1234-1234/access/OR/descr")).willReturn(aResponse()
+		String revisionId = "1234-1234-1234-1234-1234";
+		String catalogId = "4321-4321-4321-4321-4321";
+		String descriptionText = "UpdatedTest";
+		String ccdsRevCatDescrPath = String.format("/ccds/revision/%s/catalog/%s/descr", revisionId, catalogId);
+		
+		stubFor(get(urlEqualTo(ccdsRevCatDescrPath)).willReturn(aResponse()
 				.withBody("{" + "  \"created\": 1534289584000," + "  \"modified\": 1534289584000,"
 						+ "  \"revisionId\": \"dac8ef87-0e66-4406-8374-95c78799b07c\","
-						+ "  \"accessTypeCode\": \"OR\"," + "  \"description\": \"Test\"" + "}")
+						+ "  \"catalogId\":\"4321-4321-4321-4321-4321\"," + "  \"description\": \"Test\"" + "}")
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
 
-		stubFor(put(urlEqualTo("/ccds/revision/1234-1234-1234-1234-1234/access/OR/descr")).willReturn(aResponse()
+		stubFor(put(urlEqualTo(ccdsRevCatDescrPath)).willReturn(aResponse()
 				.withBody(
-						"{\"created\":null,\"modified\":null,\"revisionId\":\"1234-1234-1234-1234-1234\",\"accessTypeCode\":\"OR\",\"description\":\"UpdatedTest\"}")
+						"{\"created\":null,\"modified\":null,\"revisionId\":\"1234-1234-1234-1234-1234\",\"catalogId\":\"4321-4321-4321-4321-4321\",\"description\":\"UpdatedTest\"}")
 				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())));
 
 		RevisionDescription createdDesc = null;
 
 		RevisionDescription description = new RevisionDescription();
-		description.setAccessTypeCode("OR");
-		description.setRevisionId("1234-1234-1234-1234-1234");
-		description.setDescription("UpdatedTest");
+		description.setRevisionId(revisionId);
+		description.setCatalogId(catalogId);
+		description.setDescription(descriptionText);
 
 		try {
-			createdDesc = catalogService.addUpdateRevisionDescription("1234-1234-1234-1234-1234", "OR", description);
+			createdDesc = catalogService.addUpdateRevisionDescription(revisionId, catalogId, description);
 		} catch (AcumosServiceException e) {
 			Assert.assertFalse("Exception while Updating Description Description", true);
 		}
