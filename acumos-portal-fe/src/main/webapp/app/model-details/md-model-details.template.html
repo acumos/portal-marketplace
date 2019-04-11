@@ -3,6 +3,7 @@
 Acumos Apache-2.0
 ===================================================================================
 Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+Modifications Copyright (C) 2019 Nordix Foundation.
 ===================================================================================
 This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
@@ -213,6 +214,12 @@ limitations under the License.
 							class="tab-box"> <span class="tab-icons tab-description"></span>
 								<span>Description</span>
 						</span>
+						</a> 
+						<a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
+							<span class="tab-box"> 
+								<span class="tab-icons fas fa-certificate"></span>
+								<span>Licenses</span>
+							</span>
 						</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
 							class="tab-box"> <span class="tab-icons tab-signatures"></span>
 								<span>Signatures</span>
@@ -449,6 +456,11 @@ limitations under the License.
 								</tr>
 							</tbody>
 						</table>
+					</div>
+
+					<div class="mdl-tabs__panel" id="tab7-panel">
+						<h6 class="sectiontitle6">LICENSE</h6>
+						<div ng-show= "modelLicense"><pre class="license-pre">{{modelLicense | json}}</pre></div>
 					</div>
 					
 					<div class="mdl-tabs__panel" id="tab5-panel">Content 5</div>

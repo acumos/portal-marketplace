@@ -867,6 +867,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .mdl-data-table td:first-of-type, .mdl-data-table th:first-of-type {padding-left: 20px;}
 
 .model-details-tabwrapper .mdl-tabs__panel {border: 1px solid #671C9D; border-top: none; margin-bottom:20px;}
+.model-details-tabwrapper .mdl-tabs__panel .license-pre {overflow: auto;}
 .btn-grid-action {color: #0366d6;padding:0; min-width:10px;}
 .btn-grid-action i {font-size:14px !important;}
 .btn-grid-action:hover {background: none;color: #0366d6;}
