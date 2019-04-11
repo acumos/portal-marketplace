@@ -3,6 +3,7 @@
  * Acumos
  * ===================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ===================================================================================
  * This Acumos software file is distributed by AT&T and Tech Mahindra
  * under the Apache License, Version 2.0 (the "License");
@@ -1211,6 +1212,34 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			log.error("Exception in fetchProtoFile() ", e);
 		}
 		log.debug("fetchProtoFile() : End");
+
+		return result;
+	}
+	/**
+	 * @param solutionId
+	 *            Solution ID
+	 * @param version
+	 *            Version
+	 * @return License file details
+	 * @throws AcumosServiceException
+	 */
+	@ApiOperation(value = "Get the license file details for specified solutionID and version")
+	@RequestMapping(value = { APINames.GET_LICENSE_FILE }, method = RequestMethod.GET, produces = "text/plain")
+	@ResponseBody
+	public String fetchLicenseFile(@RequestParam(value = "solutionId", required = true) String solutionId,
+			@RequestParam(value = "version", required = true) String version) throws AcumosServiceException {
+		log.debug(" fetchLicenseFile() : Begin");
+
+		solutionId = SanitizeUtils.sanitize(solutionId);
+
+		String result = "";
+		try {
+			result = catalogService.getLicenseUrl(solutionId, version, "LG", "license");
+
+		} catch (Exception e) {
+			log.error("Exception in fetchLicenseFile() ", e);
+		}
+		log.debug("fetchLicenseFile() : End");
 
 		return result;
 	}

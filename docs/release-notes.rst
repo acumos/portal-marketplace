@@ -20,6 +20,12 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.8  11th April 2019
+=================================
+
+* Add License tab to Acumos Platform Before Signature tab (ACUMOS-2633)
+
+
 Version 2.2.7  29th March 2019
 =================================
 
