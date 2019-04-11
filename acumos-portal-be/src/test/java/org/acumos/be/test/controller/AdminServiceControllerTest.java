@@ -772,5 +772,11 @@ public class AdminServiceControllerTest {
 		jresponse=adminController.isSignUpEnabled(request, response);
 		Assert.assertNotNull(jresponse);
 	}
+	
+	@Test
+	public void getDynamicMenu() {
+		JsonResponse<String> responseVO = adminController.getDynamicMenu(request, response);
+		Assert.assertNotNull(responseVO);
+	}
 		
 }
