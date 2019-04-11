@@ -81,6 +81,21 @@ app.component('sidebarNav',{
 			if(browserStorageService.getAuthToken()!='')
 				$scope.showQandAUrl = true;
 		});
+			
+	    $scope.getMenuLsit = function(){								
+	       apiService.getMenu()
+	       .then(
+	                function(response) {
+	                    if(response.status == 200){
+	                        $scope.listResponse = JSON.parse(response.data.response_body);	                      
+	                    }
+	                },
+	                function(error) {
+	                    console.log(error);
+	                }); 
+	    };
+	    $scope.getMenuLsit();
+	    
 
 		//Hide show of sidebar in mobile device
 		$scope.hamberClick = function(){$rootScope.$broadcast('menuClickToggle');}
