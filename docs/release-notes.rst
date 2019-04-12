@@ -2,6 +2,7 @@
 .. Acumos CC-BY-4.0
 .. ===================================================================================
 .. Copyright (C) 2017-2018 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+.. Modifications Copyright (C) 2019 Nordix Foundation.
 .. ===================================================================================
 .. This Acumos documentation file is distributed by AT&T and Tech Mahindra
 .. under the Creative Commons Attribution 4.0 International License (the "License");
@@ -19,6 +20,12 @@
 ================================
 Portal Marketplace Release Notes
 ================================
+
+Version 2.2.8  11th April 2019
+=================================
+
+* Add License tab to Acumos Platform Before Signature tab (ACUMOS-2633)
+
 
 Version 2.2.7  29th March 2019
 =================================
