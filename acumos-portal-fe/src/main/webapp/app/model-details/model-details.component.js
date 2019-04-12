@@ -3,6 +3,7 @@
 Acumos Apache-2.0
 ===================================================================================
 Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+Modifications Copyright (C) 2019 Nordix Foundation.
 ===================================================================================
 This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
@@ -516,6 +517,8 @@ angular
 											$scope.checkOnapCompatibility();
 											
 											$scope.getProtoFile();
+
+											$scope.getLicenseFile();
 											
 											var solutionName = $scope.solution.name;
 										})
@@ -561,6 +564,22 @@ angular
 												$scope.modelSignature = response.data;
 											});
 					}
+					$scope.getLicenseFile = function() {
+						$scope.modelLicense = "";
+						$scope.modelLicenseError = "";
+						var url = 'api/getLicenseFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
+						$http({
+								method : 'GET',
+								url : url
+						}).then(function successCallback(response) {
+							console.log(response);
+							if (response.data) {
+								$scope.modelLicense = response.data;
+							} else {
+								$scope.modelLicenseError = "No license found";
+							}		
+						});
+				 	}
 						$scope.totalCommentCount = 0;
 						$scope.postComment = function() {
 							if (browserStorageService.getUserDetail()) {
@@ -949,6 +968,7 @@ angular
 							$scope.getArtifacts();
 							$scope.checkOnapCompatibility();
 							$scope.getProtoFile();
+							$scope.getLicenseFile();
 						}
 										
 						

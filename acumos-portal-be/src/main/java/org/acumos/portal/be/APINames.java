@@ -3,6 +3,7 @@
  * Acumos
  * ===================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ===================================================================================
  * This Acumos software file is distributed by AT&T and Tech Mahindra
  * under the Apache License, Version 2.0 (the "License");
@@ -130,6 +131,7 @@ public class APINames {
 	public static final String JWTTOKENVALIDATION = "/validateToken";
 	public static final String VALIDATION_STATUS = "/validationStatus";
 	public static final String GET_PROTO_FILE = "/getProtoFile";
+	public static final String GET_LICENSE_FILE = "/getLicenseFile";
 	public static final String APITOKENVALIDATION = "/validateApiToken";
 
 	// Role APIs for MarketPlace user

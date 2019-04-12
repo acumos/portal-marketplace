@@ -3,6 +3,7 @@
  * Acumos
  * ===================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ===================================================================================
  * This Acumos software file is distributed by AT&T and Tech Mahindra
  * under the Apache License, Version 2.0 (the "License");
@@ -146,6 +147,8 @@ public interface MarketPlaceCatalogService {
 	RestPageResponse<MLPSolution> getUserAccessSolutions(String userId, RestPageRequest pageRequest);
 
 	String getProtoUrl(String solutionId, String version, String artifactType, String fileExtension) throws AcumosServiceException;
+
+	String getLicenseUrl(String solutionId, String version, String artifactType, String fileNamePrefix) throws AcumosServiceException;
 
 	boolean checkUniqueSolName(String solutionId, String solName);
 

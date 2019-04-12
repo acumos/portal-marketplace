@@ -3,6 +3,7 @@
  * Acumos 
  * ===================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+ * Modifications Copyright (C) 2019 Nordix Foundation.
  * ===================================================================================
  * This Acumos software file is distributed by AT&T and Tech Mahindra
  * under the Apache License, Version 2.0 (the "License");
@@ -1538,6 +1539,73 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			}
 		}
 		log.debug("getProtoUrl() : End");
+
+		return result;
+	}
+
+	@Override
+	public String getLicenseUrl(String solutionId, String version, String artifactType, String fileNamePrefix)
+			throws AcumosServiceException {
+		log.debug("getLicenseUrl() : Begin");
+
+		String result = "";
+
+		List<MLPSolutionRevision> mlpSolutionRevisionList;
+		String solutionRevisionId = null;
+		ByteArrayOutputStream byteArrayOutputStream = null;
+		List<MLPArtifact> mlpArtifactList;
+		try {
+			// 1. Get the list of SolutionRevision for the solutionId.
+			mlpSolutionRevisionList = getSolutionRevision(solutionId);
+
+			// 2. Match the version with the SolutionRevision and get the
+			// solutionRevisionId.
+			if (null != mlpSolutionRevisionList && !mlpSolutionRevisionList.isEmpty()) {
+				solutionRevisionId = mlpSolutionRevisionList.stream().filter(mlp -> mlp.getVersion().equals(version))
+						.findFirst().get().getRevisionId();
+				log.debug(" SolutionRevisonId for Version :  {} ", solutionRevisionId);
+			}
+		} catch (NoSuchElementException | NullPointerException e) {
+			log.error("Error : Exception in getLicenseUrl() : Failed to fetch the Solution Revision Id", e);
+			throw new NoSuchElementException("Failed to fetch the Solution Revision Id of the solutionId for the user");
+		}
+
+		if (null != solutionRevisionId) {
+			// 3. Get the list of Artifact for the SolutionId and
+			// SolutionRevisionId.
+			mlpArtifactList = getSolutionArtifacts(solutionId, solutionRevisionId);
+			String nexusURI = "";
+			if (null != mlpArtifactList && !mlpArtifactList.isEmpty()) {
+				try {
+					nexusURI = mlpArtifactList.stream()
+							.filter(mlpArt -> mlpArt.getArtifactTypeCode().equalsIgnoreCase(artifactType) && (mlpArt.getName().contains(fileNamePrefix) || mlpArt.getName().contains("licence"))).findFirst()
+							.get().getUri();
+
+					log.debug(" Nexus URI :  {} ", nexusURI);
+
+					if (null != nexusURI) {
+						byteArrayOutputStream = getPayload(nexusURI);
+						log.debug(" Response in String Format :  {} ", byteArrayOutputStream.toString());
+						result = byteArrayOutputStream.toString();
+					}
+				} catch (NoSuchElementException | NullPointerException e) {
+					log.error("Error : Exception in getLicenseUrl() : Failed to fetch the artifact URI for artifactType",
+							e);
+					throw new NoSuchElementException(
+							"Could not search the artifact URI for artifactType " + artifactType);
+				} finally {
+					try {
+						if (byteArrayOutputStream != null) {
+							byteArrayOutputStream.close();
+						}
+					} catch (IOException e) {
+						log.error("Error : Exception in getLicenseUrl() : Failed to close the byteArrayOutputStream", e);
+						throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, e.getMessage());
+					}
+				}
+			}
+		}
+		log.debug("getLicenseUrl() : End");
 
 		return result;
 	}
