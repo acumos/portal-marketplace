@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f95774e8_d0688f42",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-12T11:43:46Z",
+      "side": 1,
+      "message": "I don\u0027t think this is appropriate. We have not been extending individual file header for every contributor. We have been keeping all license headers identical to facilitate maintenance by the license maven plugin.\n\nInstead you probably should add Nordix to the LICENSES.TXT file at the root.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 51
+      },
+      "revId": "57c86e1a4d16f549b0b80ea4314c7fd405fbfbee",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21b30a43_091a35fd",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-12T11:43:46Z",
+      "side": 1,
+      "message": "The maven docker plugin doc seems to say that \u003cenv\u003e must be inside a \u003crun\u003e block, but here it\u0027s inside the build block, did I misinterpret??",
+      "range": {
+        "startLine": 387,
+        "startChar": 9,
+        "endLine": 387,
+        "endChar": 12
+      },
+      "revId": "57c86e1a4d16f549b0b80ea4314c7fd405fbfbee",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96a5f9b4_a6ef8c1e",
+        "filename": "acumos-portal-fe/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-04-12T11:43:46Z",
+      "side": 1,
+      "message": "Same comments as other POM",
+      "revId": "57c86e1a4d16f549b0b80ea4314c7fd405fbfbee",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
