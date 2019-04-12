@@ -41,10 +41,10 @@ import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
-import org.acumos.portal.be.APINames;
 import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.service.impl.CatalogServiceImpl;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
+import org.acumos.portal.be.transport.MLCatalog;
 import org.apache.http.HttpStatus;
 import org.junit.Rule;
 import org.junit.Test;
@@ -105,11 +105,15 @@ public class CatalogServiceImplTest {
 						+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
 						+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
 
-		RestPageResponse<MLPCatalog> response = catalogService.getCatalogs(getTestRestPageRequest());
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+
+		RestPageResponse<MLCatalog> response = catalogService.getCatalogs(getTestRestPageRequest());
 		assertValidRestPageResponse(response);
-		List<MLPCatalog> catalogs = response.getContent();
+		List<MLCatalog> catalogs = response.getContent();
 		assertEquals(catalogs.size(), 1);
-		MLPCatalog catalog = catalogs.get(0);
+		MLCatalog catalog = catalogs.get(0);
 		assertNotNull(catalog);
 	}
 
@@ -242,7 +246,7 @@ public class CatalogServiceImplTest {
 	public void getCatalogSolutionCountTest() {
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 		Long count = new Long(7);
-		
+
 		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, catalogId)))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody(count.toString())));

@@ -27,9 +27,10 @@ import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
+import org.acumos.portal.be.transport.MLCatalog;
 
 public interface CatalogService {
-	RestPageResponse<MLPCatalog> getCatalogs(RestPageRequest pageRequest);
+	RestPageResponse<MLCatalog> getCatalogs(RestPageRequest pageRequest);
 	
 	RestPageResponse<MLPCatalog> searchCatalogs(CatalogSearchRequest catalogRequest);
 	

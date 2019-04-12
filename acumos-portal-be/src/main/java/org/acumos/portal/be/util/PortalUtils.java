@@ -692,4 +692,8 @@ public class PortalUtils {
 		}
 		return mlPublishRequest;
 	}
+	
+	public static <T, E> RestPageResponse<E> convertRestPageResponse(RestPageResponse<T> first, List<E> content) {
+		return new RestPageResponse<>(content, first.getPageable(), first.getTotalElements());
+	}
 }

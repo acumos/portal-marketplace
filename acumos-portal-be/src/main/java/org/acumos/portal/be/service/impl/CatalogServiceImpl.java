@@ -21,6 +21,7 @@
 package org.acumos.portal.be.service.impl;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -30,6 +31,8 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 import org.acumos.portal.be.service.CatalogService;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
+import org.acumos.portal.be.transport.MLCatalog;
+import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,10 +43,22 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Override
-	public RestPageResponse<MLPCatalog> getCatalogs(RestPageRequest pageRequest) {
+	public RestPageResponse<MLCatalog> getCatalogs(RestPageRequest pageRequest) {
 		log.debug("getCatalogs");
+		RestPageResponse<MLCatalog> out = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		return dataServiceRestClient.getCatalogs(pageRequest);
+		RestPageResponse<MLPCatalog> response = dataServiceRestClient.getCatalogs(pageRequest);
+		if (response != null) {
+			List<MLPCatalog> mlpCatalogs = response.getContent();
+			ArrayList<MLCatalog> mlCatalogs = new ArrayList<>();
+			long count;
+			for (MLPCatalog catalog : mlpCatalogs) {
+				count = dataServiceRestClient.getCatalogSolutionCount(catalog.getCatalogId());
+				mlCatalogs.add(new MLCatalog(catalog, count));
+			}
+			out = PortalUtils.convertRestPageResponse(response, mlCatalogs);
+		}
+		return out;
 	}
 
 	@Override

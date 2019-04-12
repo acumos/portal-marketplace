@@ -36,6 +36,7 @@ import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.CatalogService;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
+import org.acumos.portal.be.transport.MLCatalog;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,11 +63,11 @@ public class CatalogServiceController extends AbstractController {
 	@ApiOperation(value = "Fetches catalogs, optionally sorted", response = MLPCatalog.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.GET_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponse<MLPCatalog>> getCatalogs(HttpServletRequest request,
+	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,
 			@RequestBody JsonRequest<RestPageRequest> pageRequestJson, HttpServletResponse response) {
 		log.debug("getCatalogs");
-		RestPageResponse<MLPCatalog> catalogs = null;
-		JsonResponse<RestPageResponse<MLPCatalog>> data = new JsonResponse<>();
+		RestPageResponse<MLCatalog> catalogs = null;
+		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
 		try {
 			catalogs = catalogService.getCatalogs(pageRequestJson.getBody());
 			if (catalogs != null) {
