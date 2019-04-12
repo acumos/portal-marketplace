@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0997393f_4ab9c27c",
+        "filename": "acumos-portal-be/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2019-04-12T17:06:43Z",
+      "side": 1,
+      "message": "Chris, the project does not have a policy to that effect. Copyright holders are allowed to add a copyright header to each and every module/file that they modify as part of the project. Only if a file is incompatible with the notices in some way, should no license be added there, and if desired a specific reference made in the root-level license.txt.",
+      "parentUuid": "f95774e8_d0688f42",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 51
+      },
+      "revId": "57c86e1a4d16f549b0b80ea4314c7fd405fbfbee",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21b30a43_091a35fd",
         "filename": "acumos-portal-be/pom.xml",
         "patchSetId": 3
