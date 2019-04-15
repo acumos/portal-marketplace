@@ -65,7 +65,7 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	public RestPageResponse<MLPCatalog> searchCatalogs(CatalogSearchRequest catalogRequest) {
 		log.debug("searchCatalogs");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		return dataServiceRestClient.searchCatalogs(catalogRequest.getParamsMap(), catalogRequest.isOr(),
+		return dataServiceRestClient.searchCatalogs(catalogRequest.paramsMap(), catalogRequest.isOr(),
 				catalogRequest.getPageRequest());
 	}
 

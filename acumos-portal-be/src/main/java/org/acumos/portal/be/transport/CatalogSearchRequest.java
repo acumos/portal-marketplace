@@ -23,6 +23,7 @@ package org.acumos.portal.be.transport;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.acumos.cds.domain.MLPCatalog_;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.util.PortalUtils;
 
@@ -37,7 +38,7 @@ public class CatalogSearchRequest {
 	private String url;
 	private boolean isOr;
 	private RestPageRequest pageRequest;
-
+	
 	/* Default constructor */
 	public CatalogSearchRequest() {}
 	
@@ -120,22 +121,22 @@ public class CatalogSearchRequest {
 				+ ", url=" + url + ", isOr=" + isOr + ", pageRequest=" + pageRequest + "]";
 	}
 	
-	public Map<String, Object> getParamsMap() {
+	public Map<String, Object> paramsMap() {
 		HashMap<String, Object> map = new HashMap<>();
 		if (!PortalUtils.isEmptyOrNullString(accessTypeCode))
-			map.put("accessTypeCode", accessTypeCode);
+			map.put(MLPCatalog_.ACCESS_TYPE_CODE, accessTypeCode);
 		if (!PortalUtils.isEmptyOrNullString(selfPublish))
-			map.put("selfPublish", selfPublish);
+			map.put(MLPCatalog_.SELF_PUBLISH, selfPublish);
 		if (!PortalUtils.isEmptyOrNullString(description))
-			map.put("description", description);
+			map.put(MLPCatalog_.DESCRIPTION, description);
 		if (!PortalUtils.isEmptyOrNullString(name))
-			map.put("name", name);
+			map.put(MLPCatalog_.NAME, name);
 		if (!PortalUtils.isEmptyOrNullString(origin))
-			map.put("origin", origin);
+			map.put(MLPCatalog_.ORIGIN, origin);
 		if (!PortalUtils.isEmptyOrNullString(publisher))
-			map.put("publisher", publisher);
+			map.put(MLPCatalog_.PUBLISHER, publisher);
 		if (!PortalUtils.isEmptyOrNullString(url))
-			map.put("url", url);
+			map.put(MLPCatalog_.URL, url);
 		return map;
 	}
 }
