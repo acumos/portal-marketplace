@@ -127,7 +127,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			url: '/onboardingHistory',
 			component: 'onboardingHistory'
 		})
-		;
+		.state('catalog',{
+          url: '/catalog',
+          component: 'catalog'
+         });
 	
 		$authProvider.facebook({
 			 clientId: '1013632248810824',

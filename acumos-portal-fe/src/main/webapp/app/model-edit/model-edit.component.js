@@ -3104,7 +3104,28 @@ angular
 														$scope.showAlertMessage = false;
 													}, 3500);
 										}); 
-							}									    
+							}		
+										
+					$scope.getCatalogs = function(){
+						var solutionObj = {
+								"request_body" : {
+									 "fieldToDirectionMap": {},
+									    "page": 0,
+									    "size": 100
+								}
+							}
+						
+				        apiService
+				        .getCatalogs(solutionObj)
+				        .then(
+				                function(response) {
+				                    if(response.status == 200){
+				                    	
+				                        $scope.catalogsList = response.data.response_body.content;				                        
+				                    }
+				                });
+				    };
+				    $scope.getCatalogs();
 					}
 
 				});
