@@ -901,7 +901,7 @@ public class MarketPlaceServiceControllerTest {
 			restPageRequestPortal.setActive(true);
 			restPageReqPortal.setBody(restPageRequestPortal);
 			data.setResponseDetail("Solutions fetched Successfully");
-			Mockito.when(service.findPortalSolutions(restPageReqPortal.getBody())).thenReturn(mlSolutionsRest);
+			Mockito.when(service.searchSolutionsByKeyword(restPageReqPortal.getBody())).thenReturn(mlSolutionsRest);
 			Assert.assertNotNull(mlSolutionsRest);
 			data = marketPlaceController.findPortalSolutions(request, restPageReqPortal, response);
 			Assert.assertNotNull(data);

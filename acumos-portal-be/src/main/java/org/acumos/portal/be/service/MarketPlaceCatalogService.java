@@ -137,8 +137,6 @@ public interface MarketPlaceCatalogService {
 
 	MLPSolutionRating getUserRatings(String solutionId, String userId); 
 
-	RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageRequestPortal); 
-
 	RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageRequestPortal, Set<MLPTag> prefTags); 
 
 	RestPageResponseBE<MLSolution> findUserSolutions(RestPageRequestPortal pageRequestPortal); 

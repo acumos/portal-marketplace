@@ -371,6 +371,12 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				log.error("Could not fetch tag list for delete solution artifacts: " + e.getMessage());
 			} finally {
 				// start
+				List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(solutionId);
+				if (catalogs != null) {
+					for (MLPCatalog catalog : catalogs) {
+						dataServiceRestClient.dropSolutionFromCatalog(solutionId, catalog.getCatalogId());
+					}
+				}
 
 				if (revisionId != null) {
 					List<MLPArtifact> mlpArtifactsList = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId,
@@ -1095,27 +1101,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 		pageReqPortal.setTags(mergedTags.toArray(new String[mergedTags.size()]));
 
-		return findPortalSolutions(pageReqPortal);
-	}
-
-	@Override
-	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal) {
-		log.debug("findPortalSolutions");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
-				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
-				pageReqPortal.getOwnerIds(), pageReqPortal.getModelTypeCodes(),
-				pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
-
-		List<MLSolution> content = new ArrayList<>();
-		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
-
-		if (response.getContent() != null) {
-			mlSolutionsRest = fetchDetailsForSolutions(response.getContent(), pageReqPortal);
-			mlSolutionsRest.setPageCount(response.getTotalPages());
-			mlSolutionsRest.setTotalElements((int) response.getTotalElements());
-		}
-		return mlSolutionsRest;
+		return searchSolutionsByKeyword(pageReqPortal);
 	}
 
 	@Override
@@ -1123,7 +1109,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		log.debug("findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKwAndTags(
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPublishedSolutionsByKwAndTags(
 				pageReqPortal.getNameKeyword(), pageReqPortal.isActive(), pageReqPortal.getOwnerIds(),
 				pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
 

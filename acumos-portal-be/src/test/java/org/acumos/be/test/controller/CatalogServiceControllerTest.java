@@ -84,29 +84,30 @@ public class CatalogServiceControllerTest {
 	int randomServerPort;
 
 	private static final String VARIABLE = "/%s";
-	private static final String CATALOG_PATH = "/ccds/catalog";
+	private static final String CCDS_PATH = "/ccds";
+	private static final String CATALOG_PATH = "/catalog";
+	private static final String CCDS_CATALOG_PATH = CCDS_PATH + CATALOG_PATH;
 	private static final String PAGE_REQUEST_PARAMS = "page=0&size=9&sort=modified,DESC";
-	private static final String SEARCH_PATH = CATALOG_PATH + "/search?selfPublish=false&_j=a&" + PAGE_REQUEST_PARAMS;
-	private static final String CATALOG_ID_PATH = CATALOG_PATH + VARIABLE;
-	private static final String PEER_PATH = "/peer" + VARIABLE;
-	private static final String PEER_ACCESS_PATH = CATALOG_PATH + PEER_PATH + "/access";
-	private static final String ADD_DROP_PEER_ACCESS_PATH = CATALOG_ID_PATH + PEER_PATH;
+	private static final String SEARCH_PATH = CCDS_CATALOG_PATH + "/search?selfPublish=false&_j=a&" + PAGE_REQUEST_PARAMS;
+	private static final String CATALOG_ID_PATH = CCDS_CATALOG_PATH + VARIABLE;
+	private static final String PEER_ACCESS_PATH = CCDS_PATH + "/access/peer" + VARIABLE + CATALOG_PATH;
+	private static final String ADD_DROP_PEER_ACCESS_PATH = PEER_ACCESS_PATH + VARIABLE;
 	private static final String SOLUTION_PATH = "/solution";
 	private static final String SOLUTION_ID_PATH = SOLUTION_PATH + VARIABLE;
 	private static final String CATALOG_SOLUTION_COUNT_PATH = CATALOG_ID_PATH + SOLUTION_PATH + "/count";
-	private static final String CATALOG_SOLUTION_PATH = CATALOG_PATH + SOLUTION_PATH;
-	private static final String CATALOG_SOLUTION_ID_PATH = CATALOG_PATH + SOLUTION_ID_PATH;
+	private static final String CATALOG_SOLUTION_PATH = CCDS_CATALOG_PATH + SOLUTION_PATH;
+	private static final String CATALOG_SOLUTION_ID_PATH = CCDS_CATALOG_PATH + SOLUTION_ID_PATH;
 	private static final String ADD_DROP_SOLUTION_PATH = CATALOG_ID_PATH + SOLUTION_ID_PATH;
 	private static final String USER_FAVORITE_PATH = "/user" + VARIABLE + "/favorite";
-	private static final String GET_USER_FAVORITES_PATH = CATALOG_PATH + USER_FAVORITE_PATH;
+	private static final String GET_USER_FAVORITES_PATH = CCDS_CATALOG_PATH + USER_FAVORITE_PATH;
 	private static final String ADD_DROP_FAVORITES_PATH = CATALOG_ID_PATH + USER_FAVORITE_PATH;
-
+	
 	@Test
 	public void getCatalogsTest() {
 		JsonRequest<RestPageRequest> requestJson = new JsonRequest<>();
 		requestJson.setBody(getTestRestPageRequest());
 
-		stubFor(get(urlEqualTo(CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(
+		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 						.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
 								+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
@@ -209,7 +210,7 @@ public class CatalogServiceControllerTest {
 		JsonRequest<MLPCatalog> requestJson = new JsonRequest<>();
 		requestJson.setBody(catalog);
 
-		stubFor(post(urlEqualTo(CATALOG_PATH)).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+		stubFor(post(urlEqualTo(CCDS_CATALOG_PATH)).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 				.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 				.withBody("{\"accessTypeCode\": \"PB\"," + "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
 						+ "\"created\": \"2018-12-16T12:34:56.789Z\","
@@ -304,7 +305,7 @@ public class CatalogServiceControllerTest {
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 		String peerId = "1234-1234-1234-1234-1234";
 
-		stubFor(post(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, catalogId, peerId))).willReturn(
+		stubFor(post(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, peerId, catalogId))).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> respEntity = restTemplate.exchange(
@@ -321,7 +322,7 @@ public class CatalogServiceControllerTest {
 		String catalogId = "12345678-abcd-90ab-cdef-1234567890ab";
 		String peerId = "1234-1234-1234-1234-1234";
 
-		stubFor(delete(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, catalogId, peerId))).willReturn(
+		stubFor(delete(urlEqualTo(String.format(ADD_DROP_PEER_ACCESS_PATH, peerId, catalogId))).willReturn(
 				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
 
 		ResponseEntity<JsonResponse<Object>> respEntity = restTemplate.exchange(
