@@ -29,7 +29,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
@@ -110,12 +112,44 @@ public class CatalogServiceImplTest {
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
 
-		RestPageResponse<MLCatalog> response = catalogService.getCatalogs(getTestRestPageRequest());
+		RestPageResponse<MLCatalog> response = catalogService.getCatalogs(null, getTestRestPageRequest());
 		assertValidRestPageResponse(response);
 		List<MLCatalog> catalogs = response.getContent();
 		assertEquals(catalogs.size(), 1);
 		MLCatalog catalog = catalogs.get(0);
 		assertNotNull(catalog);
+		assertFalse(catalog.isFavorite());
+	}
+	
+	@Test
+	public void getCatalogsWithUserIdTest() {
+		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("{\"content\":" + "[{\"created\": \"2019-04-05T20:47:03Z\","
+						+ "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}],"
+						+ "\"last\":true," + "\"totalPages\":1," + "\"totalElements\":1," + "\"size\":9,"
+						+ "\"number\":0," + "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+						+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+						+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+		
+		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, "testUser")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
+
+		RestPageResponse<MLCatalog> response = catalogService.getCatalogs("testUser", getTestRestPageRequest());
+		assertValidRestPageResponse(response);
+		List<MLCatalog> catalogs = response.getContent();
+		assertEquals(catalogs.size(), 1);
+		MLCatalog catalog = catalogs.get(0);
+		assertNotNull(catalog);
+		assertTrue(catalog.isFavorite());
 	}
 
 	@Test

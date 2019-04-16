@@ -1111,7 +1111,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPublishedSolutionsByKwAndTags(
 				pageReqPortal.getNameKeyword(), pageReqPortal.isActive(), pageReqPortal.getOwnerIds(),
-				pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
+				pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), null, pageReqPortal.getCatalogIds(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);

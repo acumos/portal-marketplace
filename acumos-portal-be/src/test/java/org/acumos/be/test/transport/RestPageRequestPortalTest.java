@@ -41,6 +41,7 @@ public class RestPageRequestPortalTest {
 		RestPageRequest pageRequest = new RestPageRequest();
 		String sortBy = "MD";
 		String sortById = "5d33dee4-7833-413f-b56c-f90eaa0e2f09";
+		String[] catalogIds = { "1234", "4321" };
 
 		RestPageRequestPortal portal = new RestPageRequestPortal();
 		portal.setPublished(published);
@@ -54,6 +55,7 @@ public class RestPageRequestPortalTest {
 		portal.setTags(tags);
 		portal.setPageRequest(pageRequest);
 		portal.setValidationStatusCodes(validationStatusCodes);
+		portal.setCatalogIds(catalogIds);
 
 		Assert.assertNotNull(portal);
 		Assert.assertEquals(nameKeyword, portal.getNameKeyword());
@@ -68,6 +70,7 @@ public class RestPageRequestPortalTest {
 		Assert.assertNotNull(portal.getValidationStatusCodes());
 		Assert.assertNotNull(portal.getTags());
 		Assert.assertEquals(pageRequest, portal.getPageRequest());
+		Assert.assertEquals(catalogIds, portal.getCatalogIds());
 		
 	}
 }

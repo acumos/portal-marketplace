@@ -32,7 +32,9 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import javax.servlet.http.HttpServletResponse;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -125,7 +127,7 @@ public class CatalogServiceControllerTest {
 		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
-
+		
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
 
@@ -142,6 +144,53 @@ public class CatalogServiceControllerTest {
 		assertEquals(catalogs.size(), 1);
 		MLCatalog catalog = catalogs.get(0);
 		assertNotNull(catalog);
+		assertFalse(catalog.isFavorite());
+	}
+	
+	@Test
+	public void getCatalogsWithUserIdTest() {
+		JsonRequest<RestPageRequest> requestJson = new JsonRequest<>();
+		requestJson.setBody(getTestRestPageRequest());
+
+		stubFor(get(urlEqualTo(CCDS_CATALOG_PATH + "?" + PAGE_REQUEST_PARAMS)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
+								+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
+								+ "\"created\": \"2018-12-16T12:34:56.789Z\","
+								+ "\"description\": \"A catalog of test models\","
+								+ "\"modified\": \"2018-12-16T12:34:56.789Z\"," + "\"name\": \"Test Catalog\","
+								+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
+								+ "\"url\": \"http://test.company.com/api\"}]," + "\"last\":true," + "\"totalPages\":1,"
+								+ "\"totalElements\":1," + "\"size\":9," + "\"number\":0,"
+								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+		
+		stubFor(get(urlEqualTo(String.format(GET_USER_FAVORITES_PATH, "testUser")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("[\"12345678-abcd-90ab-cdef-1234567890ab\"]")));
+
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
+
+		ResponseEntity<JsonResponse<RestPageResponse<MLCatalog>>> respEntity = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + APINames.GET_CATALOGS + "?userId=testUser", HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
+				});
+
+		assertNotNull(respEntity);
+		assertEquals(HttpServletResponse.SC_OK, respEntity.getStatusCode().value());
+		RestPageResponse<MLCatalog> restPageResponse = respEntity.getBody().getResponseBody();
+		assertValidRestPageResponse(restPageResponse);
+		List<MLCatalog> catalogs = restPageResponse.getContent();
+		assertEquals(catalogs.size(), 1);
+		MLCatalog catalog = catalogs.get(0);
+		assertNotNull(catalog);
+		assertTrue(catalog.isFavorite());
 	}
 
 	@Test

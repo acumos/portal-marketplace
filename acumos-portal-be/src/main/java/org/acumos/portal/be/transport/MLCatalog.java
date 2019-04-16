@@ -25,13 +25,13 @@ import org.acumos.cds.domain.MLPCatalog;
 public class MLCatalog extends MLPCatalog {
 	
 	private long solutionCount;
+	private boolean favorite;
 	
 	/* default constructor */
 	public MLCatalog() {}
 	
-	public MLCatalog(MLPCatalog that, long solutionCount) {
+	public MLCatalog(MLPCatalog that) {
 		super(that);
-		this.solutionCount = solutionCount;
 	}
 
 	public long getSolutionCount() {
@@ -42,12 +42,20 @@ public class MLCatalog extends MLPCatalog {
 		this.solutionCount = solutionCount;
 	}
 
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+	}
+
 	@Override
 	public String toString() {
 		return "MLCatalog [accessTypeCode=" + getAccessTypeCode()
 				+ ", selfPublish=" + isSelfPublish() + ", catalogId=" + getCatalogId() + ", name="
 				+ getName() + ", description=" + getDescription() + ", origin=" + getOrigin()
-				+ ", publisher=" + getPublisher() + ", url=" + getUrl() + ", solutionCount=" + solutionCount + ", created=" + getCreated() + ", modified="
+				+ ", publisher=" + getPublisher() + ", url=" + getUrl() + ", solutionCount=" + solutionCount + ", created=" + getCreated() + ", favorite=" + favorite + ", modified="
 				+ getModified() + "]";
 	}
 	

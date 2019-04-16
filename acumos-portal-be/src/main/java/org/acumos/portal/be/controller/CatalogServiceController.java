@@ -64,12 +64,12 @@ public class CatalogServiceController extends AbstractController {
 	@RequestMapping(value = { APINames.GET_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<RestPageResponse<MLCatalog>> getCatalogs(HttpServletRequest request,
-			@RequestBody JsonRequest<RestPageRequest> pageRequestJson, HttpServletResponse response) {
+			@RequestBody JsonRequest<RestPageRequest> pageRequestJson, @RequestParam(required = false) String userId, HttpServletResponse response) {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> catalogs = null;
 		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
 		try {
-			catalogs = catalogService.getCatalogs(pageRequestJson.getBody());
+			catalogs = catalogService.getCatalogs(userId, pageRequestJson.getBody());
 			if (catalogs != null) {
 				data.setResponseBody(catalogs);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);

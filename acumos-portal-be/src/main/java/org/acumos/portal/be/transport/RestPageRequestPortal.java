@@ -42,6 +42,7 @@ public class RestPageRequestPortal {
 	private String[] ownerIds;
 	private String userId;
 	private String taskStatus;
+	private String[] catalogIds;
 	
 	/**
 	 * @return the ownerIds
@@ -138,5 +139,11 @@ public class RestPageRequestPortal {
 	}
 	public void setTaskStatus(String taskStatus) {
 		this.taskStatus = taskStatus;
-	}		
+	}
+	public String[] getCatalogIds() {
+		return catalogIds;
+	}
+	public void setCatalogIds(String[] catalogIds) {
+		this.catalogIds = catalogIds;
+	}
 }

@@ -43,7 +43,7 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Override
-	public RestPageResponse<MLCatalog> getCatalogs(RestPageRequest pageRequest) {
+	public RestPageResponse<MLCatalog> getCatalogs(String userId, RestPageRequest pageRequest) {
 		log.debug("getCatalogs");
 		RestPageResponse<MLCatalog> out = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -51,10 +51,14 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 		if (response != null) {
 			List<MLPCatalog> mlpCatalogs = response.getContent();
 			ArrayList<MLCatalog> mlCatalogs = new ArrayList<>();
-			long count;
-			for (MLPCatalog catalog : mlpCatalogs) {
-				count = dataServiceRestClient.getCatalogSolutionCount(catalog.getCatalogId());
-				mlCatalogs.add(new MLCatalog(catalog, count));
+			MLCatalog mlCatalog;
+			List<String> favorites = (PortalUtils.isEmptyOrNullString(userId)) ? new ArrayList<>()
+					: dataServiceRestClient.getUserFavoriteCatalogIds(userId);
+			for (MLPCatalog mlpCatalog : mlpCatalogs) {
+				mlCatalog = new MLCatalog(mlpCatalog);
+				mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
+				mlCatalog.setFavorite(favorites.contains(mlpCatalog.getCatalogId()));
+				mlCatalogs.add(mlCatalog);
 			}
 			out = PortalUtils.convertRestPageResponse(response, mlCatalogs);
 		}
