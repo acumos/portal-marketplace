@@ -759,6 +759,8 @@ md-toolbar {background: #671C9D !important;min-height:39px;}
 .btn-md-edit {position:relative; top: 5px;margin-left:10px;font-size: 12px;font-weight: normal; background:#671c9d; color:#fff; border: 1px solid #671c9d;text-transform: none;line-height: 24px; height: 25px;padding-left: 8px; padding-right: 8px; margin-left: 3px; min-width: 20px;}
 .btn-md-edit:hover, .btn-md-edit:focus {background: #4f147a; }
 .btn-md-edit i {font-size: 14px;position:relative; top:-1px; }
+.createMicroservice { top: 5px; height: 25px; }
+.createMicroserviceModel {height:250px;}  
 .publish-text {position:relative; top:-5px;}
 
 .signinfooter {display:flex; flex-direction: row; justify-content:space-between;}
@@ -1802,6 +1804,9 @@ md-dialog-actions .mdl-button[disabled] {border-color: #dadada !important;}
 .dialog-btn-container-deploy-to-cloud {display: flex;flex-wrap:nowrap;align-items:center;
 justify-content: space-between; position:relative; margin: 25px -20px -20px -20px; 
 padding: 20px;background:#e5e5e5;}
+.search-select {position:relative;}
+.search-select input{font-size:14px; border: 1px solid #d5d5d5; padding-right:30px;padding-left: 10px;}
+.search-select span.search-icon{width: 20px; height: 25px; background: url(../images/sidebar-icons/search_icon.png) no-repeat right center !important; position:absolute; right:10px; top:0;}
 
 /**** Build for ONAP style starts ****/
 .onap-section {padding: 0 15px !important;}

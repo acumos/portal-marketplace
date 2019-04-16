@@ -40,7 +40,8 @@ angular
 						$scope.showPBDocs = false;
 						$rootScope.isONAPCompatible = false;
 						$scope.version;
-						
+						$scope.showMicroService = false;
+						$scope.devEnv = '1';
 						$location.hash('md-model-detail-template');  
 						$anchorScroll(); 
 						
@@ -399,6 +400,7 @@ angular
 					}
 					
 					$scope.getModelDetails = function() {
+						
 						$http({
 							method : 'GET',
 							url : $scope.apiUrl,
@@ -1124,7 +1126,9 @@ angular
 						/** ****** Export/Deploy to Azure starts *** */
 						
 						$scope.getArtifacts = function() {
-
+							$scope.showMicroService = false;
+							var isDockerArtifactFound = false;
+							$scope.dockerUrlOfModel = '';
 							$http(
 									{
 										method : 'GET',
@@ -1144,7 +1148,15 @@ angular
 														$scope.artifactName = response.data.response_body[x].name;
 														$scope.artifactVersion = response.data.response_body[x].version;
 														$scope.artifactUri = response.data.response_body[x].uri;
+														
+														if(response.data.response_body.length == 2){
+															$scope.dockerUrlOfModel = response.data.response_body[x].uri;
+														}
+														isDockerArtifactFound = true;
 													}
+												}
+												if(isDockerArtifactFound == false){
+													$scope.showMicroService = true;
 												}
 
 											},
@@ -1683,7 +1695,49 @@ angular
 									  targetEvent: ev,
 									  clickOutsideToClose: true
 								  });
-							 }	
+							 }
+							 
+							 $scope.createMicroservice = function(){
+								 
+								 var requestObj =	{
+									 "request_body": {									 
+									   "deploymentEnv": $scope.devEnv,
+									   "modName": $scope.solution.name,
+									   "revisionId": $scope.revisionId,
+									   "solutioId": $scope.solutionId,									   
+									 }
+									};
+								 
+								 $scope.showMicroService = false;
+								 apiService
+							        .createMicroservice(requestObj)
+							        .then(
+							                function(response) {
+							                	$scope.disableCreateButton = false;
+							                    if(response.status == 200){
+							                        $mdDialog.hide();
+													$scope.msg = "Micro service creation has been launched, you will see the micro service in the Model Artifacts once it will be created.";
+													$scope.icon = '';
+													$scope.styleclass = 'c-success';
+													$scope.showAlertMessage = true;
+													$timeout(
+													function() {
+														$scope.showAlertMessage = false;
+													}, 5000);
+							                       
+							                    }
+							                },  function(response) {
+							                	$scope.showMicroService = true;
+							                });
+							 }
+							 
+							 $scope.showMicroservice = function(){
+								 $mdDialog.show({
+									  contentElement: '#createMicroservice',
+									  parent: angular.element(document.body),
+									  clickOutsideToClose: true
+								  });
+							 }
 							
 					}
 

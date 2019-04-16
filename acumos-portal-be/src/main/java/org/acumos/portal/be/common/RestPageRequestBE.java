@@ -24,7 +24,7 @@ import java.util.List;
 public class RestPageRequestBE {
 
 	private Integer page, size; 
-	private String sortingOrder, searchTerm, modelType, modelToolkitType, name, description, accessType, activeType, sortBy, sortById ;
+	private String sortingOrder, searchTerm, modelType, modelToolkitType, userId, name, description, accessType, activeType, sortBy, sortById ;
 	private List<String> tagList, dropTagList;
 	 
 	public Integer getPage() {
@@ -110,6 +110,12 @@ public class RestPageRequestBE {
 	}
 	public void setDropTagList(List<String> dropTagList) {
 		this.dropTagList = dropTagList;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	} 
 	
 	

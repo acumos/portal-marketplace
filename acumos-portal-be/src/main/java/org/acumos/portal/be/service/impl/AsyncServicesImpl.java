@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPNotification;
@@ -55,6 +58,7 @@ import org.acumos.portal.be.transport.MLNotification;
 import org.acumos.portal.be.transport.MLStepResult;
 import org.acumos.portal.be.transport.NotificationRequestObject;
 import org.acumos.portal.be.transport.UploadSolution;
+import org.acumos.portal.be.util.DockerUploadResult;
 import org.acumos.portal.be.util.JsonUtils;
 import org.acumos.portal.be.util.PortalUtils;
 import org.apache.commons.lang.StringUtils;
@@ -83,7 +87,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServices {
 
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	private Environment env;
@@ -120,14 +124,42 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	}
 
 	@Override
-	public Future<HttpResponse> callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
-			String access_token, String modelName, String dockerfileURI) throws InterruptedException, ClientProtocolException, IOException {
+	public HttpResponse callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
+			String access_token, String modelName, String dockerfileURI,
+			String deploymentEnv) throws InterruptedException, ClientProtocolException, IOException {
 
-		log.info("CallOnboarding service start");
+		log.info("CallOnboarding service Async");
 		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
 		CloseableHttpClient httpclient = hcbuilder.build();
 		HttpResponse response = null;
 
+		HttpResponse retObject = processService(uuid, user, solution, provider, access_token, modelName, dockerfileURI,
+				deploymentEnv, httpclient, response,null);
+
+		return retObject;
+	}
+	
+	@Override
+	public HttpResponse callOnboarding(String uuid, MLPUser user, UploadSolution solution, String provider,
+			String access_token, String modelName,  String dockerfileURI,
+			String deploymentEnv, DockerUploadResult dockerUploadResult)
+			throws InterruptedException, FileNotFoundException, ClientProtocolException, IOException {
+		
+		log.info("CallOnboarding service Async");
+		HttpClientBuilder hcbuilder = HttpClientBuilder.create();
+		CloseableHttpClient httpclient = hcbuilder.build();
+		HttpResponse response = null;
+
+		HttpResponse retObject = processService(uuid, user, solution, provider, access_token, modelName, dockerfileURI,
+				deploymentEnv, httpclient, response,dockerUploadResult);
+
+		return retObject;
+	}	
+
+	private HttpResponse processService(String uuid, MLPUser user, UploadSolution solution, String provider,
+			String access_token, String modelName, String dockerfileURI, String deploymentEnv,
+			CloseableHttpClient httpclient, HttpResponse response,DockerUploadResult dockerUploadResult) throws IOException {
+		
 		try {
 			String directory = PortalUtils.getEnvProperty(env, ENV_MODELSTORAGE) + File.separator + user.getUserId();
 			List<File> fileList = new ArrayList<>();
@@ -177,6 +209,8 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_ADVANCED_MODELURL));
 				} else {
 					post = new HttpPost(PortalUtils.getEnvProperty(env, ENV_MODELURL));
+					post.setHeader("isCreateMicroservice", "true");
+					post.setHeader("deployment_env", deploymentEnv);
 				}
 
 				String tokenMode = PortalUtils.getEnvProperty(env, ENV_TOKENMODE);
@@ -202,6 +236,10 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					post.addHeader("tracking_id", uuid);
 				}
 
+				if (StringUtils.isEmpty(deploymentEnv) || deploymentEnv == null) {
+					post.setHeader("isCreateMicroservice", "false");					
+				}
+
 				post.setHeader("X-ACUMOS-Request-Id", (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 				log.info("CallOnboarding wit request Id : " + (String) MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
 
@@ -209,14 +247,18 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 				builder.setBoundary(UUID.randomUUID().toString());
 				builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-				if(dockerfileURI !=null){
+				if (dockerfileURI != null) {
 					post.setHeader("modelname", modelName);
-					post.setHeader("dockerfileURL", dockerfileURI);
+					if (!dockerfileURI.equals("DockerModel")) {
+						post.setHeader("dockerfileURL", dockerfileURI);
+						post.setHeader("isCreateMicroservice", "true");
+					}
+
 				} else if (onnxFile != null) {
 					builder.addBinaryBody("model", new FileInputStream(onnxFile), ContentType.MULTIPART_FORM_DATA,
 							onnxFile.getName());
 					post.setHeader("modelname", modelName);
-					
+
 				} else if (pfaFile != null) {
 					builder.addBinaryBody("model", new FileInputStream(pfaFile), ContentType.MULTIPART_FORM_DATA,
 							pfaFile.getName());
@@ -228,7 +270,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 							ContentType.MULTIPART_FORM_DATA, metadataFile.getName());
 					builder.addBinaryBody("schema", new FileInputStream(schemaFile), ContentType.MULTIPART_FORM_DATA,
 							schemaFile.getName());
-					
+
 				}
 				if (licenseFile != null) {
 					builder.addBinaryBody("license", new FileInputStream(licenseFile), ContentType.MULTIPART_FORM_DATA,
@@ -247,11 +289,17 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					String result = convertStreamToString(instream);
 
 					ObjectMapper mapper = new ObjectMapper();
-					log.info("inside callOnboarding if before readValue ---->>>");
 					Map<String, Object> resp = mapper.readValue(result, Map.class);
-					log.info("inside callOnboarding if after readValue ---->>>");
 					log.info("inside callOnboarding if after resp.toString() ---->>>" + resp.toString());
 					Map<String, Object> solutionStr = (Map<String, Object>) resp.get("result");
+					
+					if(dockerUploadResult != null) {
+
+					   String dockerfileURIStr = resp.entrySet().stream().filter(x -> "dockerImageUri".equals(x.getKey()))
+							.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)).get("dockerImageUri")
+							.toString();
+					   dockerUploadResult.setDockerArtifcatUrl( dockerfileURIStr);
+					}
 
 					log.info("Response From Onboarding : {}", resp.toString());
 
@@ -310,9 +358,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 				if (pfaFile == null) {
 					files.add("pfa file");
 				}
-				if(dockerfileURI == null){
-	                    files.add("docker file URI");
-	            }
+				if (dockerfileURI == null) {
+					files.add("docker file URI");
+				}
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
 						"Malformed bundle, missing required files: " + String.join(", ", files)
 								+ ". Check your model and try again.");
@@ -352,10 +400,9 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 
 			fileSystemStorageService.deleteAll(user.getUserId());
 		}
-
-		return new AsyncResult<HttpResponse>(response);
+		return response;
 	}
-
+	
 	private String getErrorLogArtiffact(String trackingId, String userId) {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -545,8 +592,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			try {
 				byteArrayOutputStream = artifactClient.getArtifact(metaDataUrl);
 			} catch (Exception e) {
-				log.error("Failed to get artifact for SolutionId={} and RevisionId ={}",
-						solutionId, revisionId);
+				log.error("Failed to get artifact for SolutionId={} and RevisionId ={}", solutionId, revisionId);
 				if (tracking_id != null) {
 					stepResult.setStatusCode("FA");
 					stepResult.setResult("Cannot Fetch MetaData Json");
@@ -556,8 +602,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			}
 
 			if (byteArrayOutputStream == null) {
-				log.debug("Artifact not for SolutionId={} and RevisionId ={}",
-						solutionId, revisionId);
+				log.debug("Artifact not for SolutionId={} and RevisionId ={}", solutionId, revisionId);
 				if (tracking_id != null) {
 					stepResult.setStatusCode("FA");
 					stepResult.setResult("Cannot Fetch MetaData Json");
@@ -615,8 +660,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			try {
 				builder = new URIBuilder(env.getProperty("onboarding.push.model.dcae_url"));
 			} catch (URISyntaxException e1) {
-				log.error(
-						"Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
+				log.error("Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
 			}
 
 			if (!StringUtils.isEmpty(solutionId)) {
@@ -642,8 +686,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 			try {
 				post = new HttpPost(builder.build());
 			} catch (URISyntaxException e1) {
-				log.error(
-						"Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
+				log.error("Exception Occurred while calling onboarding convertSolutioToONAP ", e1);
 			}
 
 			if (!StringUtils.isEmpty(userId)) {
@@ -705,4 +748,6 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 	public void setEnvironment(Environment environment) {
 		env = environment;
 	}
+
+	
 }

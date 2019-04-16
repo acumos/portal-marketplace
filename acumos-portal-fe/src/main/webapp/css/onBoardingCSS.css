@@ -620,6 +620,26 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .dc-row { display: flex; flex-wrap: nowrap; justify-content: flex-start;}
 .dc-row > div{margin-right:20px;}
 .colloncenter{display:flex; flex-direction:column; text-align:center; justify-content:center;}
+/*new onboarding dockerized model */
+.onboard-new-docker{margin-top:10px;}
+.update-docker{margin-top:20px;}
+.new-docker{position:relative; border-bottom:1px solid #ddd;}
+.new-docker h5{padding-bottom:17px;}
+.new-docker button{position:absolute; right:0; top:6px;}
+#blacktext{color:black;}
+.align-btn{display:flex; fles-wrap:nowrap; align-items:flex-start; margin-top:30px;}
+.checking-loader{background-image:url(../images/checking-loader.gif); background-repeat:no-repeat;height:16px; width:110px; padding:0 22px 0 0; background-position:0 7px;}   
+.available-docker input{color:#009900;border-color:#009900;}
+.available-docker .btn-primary{color:#009900; border-color:#009900; background-color: #fff;}
+.available-docker .btn-primary:hover{background-color:#FFF !important;}
+.non-available-docker input{border-color:#FF2527;color:#FF2527;}
+.non-available-docker .btn-primary{color:#FF2527; border-color:#FF2527; background-color: #fff;}
+.non-available-docker .btn-primary:hover{background-color:#FFF !important;}
+.notetext{font-size:12px; color:#888; line-height:15px; padding-top:5px;}
+.notetext.red{color:#FF2527;}
+input::-webkit-calendar-picker-indicator { display: none;}
+.btn-or{ width: 30px; height: 30px; border-radius: 30px; background-color: #EBEBEB; border:1px solid #671C9D; text-align: center; line-height:28px; display:inline-block;}
+/*new onboarding dockerized model end*/
 /* media query start */
 @media(max-width:1024px){
 body,  ul, ol{font-size:12px;}

@@ -185,4 +185,7 @@ public interface MarketPlaceCatalogService {
 	void updateSolutionPicture(String solutionId, byte[] image);
 	
 	MLSolutionWeb getSolutionWebMetadata(String solutionId);
+	
+	RestPageResponse<MLPSolution> getMLPSolutionBySolutionName(Map<String, Object> solutoinNameParameter, boolean flag, RestPageRequest restPageRequest) throws AcumosServiceException;
+		   
 }

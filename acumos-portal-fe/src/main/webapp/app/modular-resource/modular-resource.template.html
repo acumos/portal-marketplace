@@ -186,7 +186,7 @@ limitations under the License.
 	                                         View Error</button>                                        
                                   </li>
                                   <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel"></li>
-                                  <li  ng-hide="$root.isOnnxOrPFAModel">
+                                  <li  ng-hide="$root.isOnnxOrPFAModel || !$root.isMicroserviceEnabled">
                                          <div class="imageplace">
                                                 <span class="imagecontent dockerize" alt="Dockerize" title="Create Docker Image"></span>
                                          </div>
@@ -197,8 +197,8 @@ limitations under the License.
 	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
 	                                         View Error</button>                                         
                                   </li>
-                                  <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel"></li>
-                                  <li  ng-hide="$root.isOnnxOrPFAModel">
+                                  <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel  || !$root.isMicroserviceEnabled"></li>
+                                  <li  ng-hide="$root.isOnnxOrPFAModel || !$root.isMicroserviceEnabled">
                                          <div class="imageplace">
                                                 <span class="imagecontent package" alt="Add Docker Image" title="Add Docker Image to repository"></span>
                                          </div>
@@ -209,7 +209,7 @@ limitations under the License.
 	                                         class="btn-publish-left-margin mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish">
 	                                         View Error</button>                                      
                                   </li>
-                                  <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel"></li>
+                                  <li class="progress-status"  ng-hide="$root.isOnnxOrPFAModel || !$root.isMicroserviceEnabled"></li>
                                   <li>
                                          <div class="imageplace">
                                                 <span class="imagecontent not-yet-onboarded" alt="Onboarding Status" title="Onboarding Status"></span>
@@ -376,12 +376,25 @@ limitations under the License.
 																				</div>																			
 																			</md-input-container>
 																		</div>
-																		
+																		<div id="modelName">
+																			<md-checkbox aria-label="Create micro-service during on-boarding" ng-model="$root.isMicroserviceEnabled" ng-disabled="disableOnboardingButton==true"></md-checkbox>					
+																			<span>Create micro-service during on-boarding</span>
+																		</div>
+																		<div ng-show="$root.isMicroserviceEnabled" class="mdl-cell mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+																			<div class="select-control">
+																				<label class="fedlbl4">Select Deployment Environment</label>
+																				<md-select ng-model="devEnv">
+																						<md-option value="1">X86</md-option>
+																						<!-- <md-option value="ARM">ARM</md-option>
+																						<md-option value="ONAP">ONAP</md-option> -->
+																				</md-select>
+																			</div>
+																		</div>
 																		<div id="modelName">
 																			<md-checkbox aria-label="Upload License" ng-disabled="disableUploadCheckbox == true || fileSubmit == false" ng-model="isLicenseUploaded" ></md-checkbox>					
 																			<span>Upload License</span>
 																		</div>
-																		
+
 																		<div ng-show="isLicenseUploaded">
 																			<div
 																			class="mdl-textfield mdl-js-textfield mdl-textfield--file has-placeholder is-upgraded upload-image-input"
@@ -615,7 +628,7 @@ limitations under the License.
 										      </div>
 										   </div>
 										</div>
-												 
+
 									<div id="modelName">
 										<md-checkbox aria-label="Upload License" ng-disabled="disableUploadDLCheckbox == true" ng-model="isDockerLicUploaded" ></md-checkbox>					
 										<span>Upload License</span>
@@ -629,7 +642,9 @@ limitations under the License.
 										       <div class="drag-drop-files hide">
 										              <p>doc.pdf</p>
 										       </div>
+
 												<div file-droppable filename="licenseDockerFilename" file=licenseDocfile>
+
 										              <img src="images/upload-doc-vector.png" alt="" title=""/>
 										              <div class="destext">Drag & Drop your file here!</div>
 										       </div>
@@ -716,7 +731,161 @@ limitations under the License.
 						<!-- on-boarding-web end-->
 						</div>
 
-						</md-content> </md-tab>  </md-tab> 
+						</md-content> </md-tab>
+						
+						<md-tab label="OnBoard Dockerized model" ng-click="backToDocker()"> 
+						<alert-message msg="msg" icon="icon" styleclass="styleclass" ng-show="showAlertMessage"></alert-message>
+						 <div class="mdl-tabs__panel" >
+						 <md-content class="md-padding company-market " ng-show="!userLoggedIn">Please
+						<a ng-click="$root.showAdvancedLogin()">login</a> to upload the
+						model using the Web Experience</md-content> <md-content
+							class="md-padding company-market onboardingwebContent" ng-show="userLoggedIn">
+						<div>
+							<ul class="onboarding-docker-model" id="webonboarding">
+		                          
+                                <li>
+                                    <div class="imageplace" ng-class="{'completed':artifactUrl}">
+                                        <span class="imagecontent micro-service" alt="Create Solution" title="Create Solution"></span>
+                                    </div>                                      
+                                    <div class="text" id="blacktext">Create Solution</div>                                       
+                                </li>                                                   
+                           </ul>
+						</div>
+
+						<div class="progress" >
+							<div class="progress-bar" style="width:0%;"></div>
+						</div>
+						<div class="clearfix"></div>
+						<!-- on-boarding-web -->
+						<div class="timeline">
+							<h6 class="onboard-heading" >								
+								Onboard dockerized model							
+							</h6>
+							<div class="upload-model-bundle">
+								<div class="mdl-grid">
+								<!-- left section -->
+								  <div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone upload-model-bundle-left">
+								  	<div class="mdl-grid mdl-grid--no-spacing deploy-grid add-document">
+									<form class="ng-pristine ng-valid" name="dockerForm">
+																		
+									  <div class="onboard-new-docker" ng-show="dockerBackScreen">
+											<div class="dc-row" >
+												<div>
+													<button class="mdl-button btn-primary" ng-click="newDockerModel=true;dockerBackScreen=false;">
+														Upload New
+													</button>
+												</div>
+												<div>
+													<span class="btn-or">OR</span>
+												</div>																		
+												<div>
+													<button class="mdl-button btn-primary" ng-click="newDockerModel=false;dockerBackScreen=false;">
+														Upload Revision
+													</button>
+												</div>
+											</div>																														
+										</div>
+										
+										<div ng-show="newDockerModel && !dockerBackScreen">
+											<div class="new-docker">
+											   <h5>Upload New Dockerized Model</h5>
+											   <button class="mdl-button btn-secondary" ng-click="backToDocker()">back</button>
+											</div>
+											<div class="dc-row">
+										      <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+										         <md-input-container ng-class="{'available-docker':(availableSolution && (disableCreateDocker == true)),'non-available-docker':notavailableSolution}" class="md-block">
+										            <label for="" class="md-required">Model Name</label> 
+										            <input type="text" class="md-input" ng-model="searchModelName" ng-disabled="createDockerRef">
+										            <div ng-if="notavailableSolution" class="help-inline validation-msgs validationmsg"><span>Model name already taken, Please use different model name.</span></div>
+										         </md-input-container>
+										      </div>
+										      <div class="align-btn" ng-hide="createDockerRef" ng-class="{'available-docker':availableSolution,'non-available-docker':notavailableSolution}">
+										         <button ng-class="{'checking-loader':checkingSolution}" ng-disabled="!searchModelName" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+										         		<span ng-if="!checkingSolution && !notavailableSolution && !availableSolution"  alt="Check availability" title="Check availability" ng-click="checkModelName(searchModelName, 'exactSearch')">Check availability</span>
+										         		<span ng-if="checkingSolution && !notavailableSolution" alt="Check availability" title="Check availability">Checking</span>
+										         		<span ng-if="notavailableSolution" alt="Not Available" title="Not Available">Not Available</span>
+										         		<span ng-if="availableSolution" alt="Available" title="Available">Available</span>
+										         </button>										        	         
+										      </div>
+										       
+										   </div>
+										   
+										   <div class="dc-row" ng-if="availableSolution && ((artifactUrl + '').length == 0)">
+											   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled="disableCreateDocker" ng-click="createDockerImageRef(false, searchModelName);disableCreateDocker=true;">Create Docker Image Reference</button>
+											</div>
+											<div class="dc-row update-docker" ng-if="artifactUrl">
+											     <div class="mdl-cell--10-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+											        <md-input-container class="md-block">
+											           <label for="" class="md-required">My Image Model</label> 
+											           <input type="text" class="md-input" name="artifactUrl" ng-model="artifactUrl" id="artifactUrl1">
+											           <div class="notetext">Note: Please log in the Acumos docker registry and tag docker image with the image model</div>
+											        </md-input-container>
+											     </div>
+											     <div class="align-btn">
+											        <button  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="copyText('#artifactUrl1')" alt="Copy" title="Copy" >Copy</button>
+											     </div>
+											  </div>
+									   </div>
+									   
+									   <div ng-show="newDockerModel===false && !dockerBackScreen">
+									   
+									   	   <div class="new-docker">
+									   	   		<h5>Upload Revision</h5>
+									   	   		<button class="mdl-button btn-secondary" ng-click="backToDocker()">back</button>
+									   	   </div>
+									   	   <div class="onboard-new-docker dc-row">
+										   	   <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+										   	   		<label>Select Model	</label>
+													<div class="search-select">
+														<input name="modelList" id="modelList" list="solutions" type="text" ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" class="mdl-textfield__input onboard-new-docker">
+														<span class="search-icon" ng-click="checkModelName(searchModel, 'relatedSearch')"></span>
+													</div>
+													<datalist id="solutions">
+	    												<select class="select-control">
+	    													<option ng-repeat="solution in solutionList" value="{{solution.name}}">{{solution.name}}</option>
+	    												</select>    
+													</datalist>
+													<div ng-if="availableSolution" class="help-inline validation-msgs validationmsg"><span>Model revision is not present for this model name, Please use different model.</span></div>
+												</div>
+											</div> 
+											<div class="dc-row update-docker" ng-if="selectedSolutionId && solutionList && (artifactUrl + '').length == 0">
+											   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled="disableCreateDocker" ng-click="createDockerImageRef(true, searchModel);disableCreateDocker=true;">Update Docker Image Reference</button>
+											</div>
+											<div class="dc-row update-docker" ng-if="artifactUrl">
+											     <div class="mdl-cell--10-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+											        <md-input-container class="md-block">
+											           <label for="" class="md-required">My Image Model</label> 
+											           <input type="text" class="md-input" name="artifactUrl" ng-model="artifactUrl" id="artifactUrl2">
+											           <div class="notetext">Note: Please log in the Acumos docker registry and tag docker image with the image model</div>
+											        </md-input-container>
+											     </div>
+											     <div class="align-btn">
+											        <button  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary" ng-click="copyText('#artifactUrl2')" alt="Copy" title="Copy" >Copy</button>
+											     </div>
+											  </div>										 							  
+										</div>
+								
+									</div>										
+								</div>
+								<!-- left section end -->
+								  <div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--4-col-phone upload-model-bundle-right ">
+								  	<div class="upload-model-bundle-right-content">
+									<h5>Instruction for dockerized model onboarding</h5>
+									<p><a href="https://wiki.acumos.org/display/MOB/Pre-Dockerized+model">Onboard a dockerized model</a></p>
+									</div>								  
+								  </div>								 
+								</div>
+								
+								
+								<div class="clearfix"></div>
+							</div>
+						</div>
+						<!-- on-boarding-web end-->
+						</div>
+
+						</md-content> </md-tab>
+						
+						</md-tab> 
 
 						</md-tabs>
 						

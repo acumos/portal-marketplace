@@ -2013,4 +2013,17 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		return mlSolution;
 	}
 
+    public RestPageResponse<MLPSolution> getMLPSolutionBySolutionName(Map<String, Object> solutoinNameParameter, boolean flag, RestPageRequest restPageRequest) throws AcumosServiceException {
+        log.debug("getMLPSolutionBySolutionName");
+        RestPageResponse<MLPSolution> mlpSolutionByServiceName = null;
+        try {
+            ICommonDataServiceRestClient dataServiceRestClient = getClient();
+            mlpSolutionByServiceName = dataServiceRestClient.searchSolutions(solutoinNameParameter, false, new RestPageRequest());;
+        } catch (IllegalArgumentException e) {
+            throw new AcumosServiceException(AcumosServiceException.ErrorCode.INVALID_PARAMETER, e.getMessage());
+        } catch (HttpClientErrorException e) {
+            throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return mlpSolutionByServiceName;
+    }
 }

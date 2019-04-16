@@ -25,6 +25,8 @@ public class UploadSolution {
 	private String name;
 	private String version;
 	private String dockerfileURI;
+	private String deploymentEnv;
+	
 	/**
 	 * @return the name
 	 */
@@ -49,13 +51,7 @@ public class UploadSolution {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "UploadSolution [name=" + name + ", version=" + version + "]";
-	}
+	
 	
 	/**
      * @return the dockerfileURI
@@ -69,5 +65,17 @@ public class UploadSolution {
     public void setDockerfileURI(String dockerfileURI) {
         this.dockerfileURI = dockerfileURI;
     }
-	
+	/**
+	 * @return the deploymentEnv
+	 */
+	public String getDeploymentEnv() {
+		return deploymentEnv;
+	}
+	/**
+	 * @param deploymentEnv the deploymentEnv to set
+	 */
+	public void setDeploymentEnv(String deploymentEnv) {
+		this.deploymentEnv = deploymentEnv;
+	}  
+
 }
