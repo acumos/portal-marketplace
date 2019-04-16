@@ -32,7 +32,6 @@ angular.module('manageModule')
 						$scope.autoHeight = true;
 						$scope.hidePrivate = true;
 						$scope.hidePublic = true;
-						$scope.hideCompany = true;
 						$scope.hideDelete = true;
 						$scope.defaultSize = 4;
 						$scope.seeAllSelected = false;
@@ -86,46 +85,34 @@ angular.module('manageModule')
 						$scope.modelCount = 0;
 						var dataObjPrivate = {};
 						var dataObjPublic = {};
-						var dataObjCompany = {};
 						var dataObjDelete = {};
 						$scope.pageNumPrivate = 0;
 						$scope.pageNumPublic = 0;
-						$scope.pageNumCompany = 0;
 						$scope.pageNumDelete = 0;
 						$scope.mlSolutionPrivate=[];
-						$scope.mlSolutionCompany=[];
 						$scope.mlSolutionPublic=[];
 						$scope.mlSolutionDelete=[];
 						$scope.tags =[];
 						$scope.newTagName=[];
 						$scope.privateAlertMessage=false;
-						$scope.companyAlertMessage=false;
 						$scope.publicAlertMessage=false;
 						$scope.searchActiveType='';
 						
 						$scope.mlSolutionPrivateCount = 0;
 						$scope.mlSolutionPublicCount = 0;
-						$scope.mlSolutionCompanyCount = 0;
 						$scope.mlSolutionDeletedCount = 0;
 						
 						$scope.totalPrivateSolCount = 0;
-						$scope.totalCompanySolCount = 0;
 						$scope.totalPublicSolCount = 0;
 						$scope.totalDeletedSolCount = 0;
 						
 						var privatePrevCounter = 0;
 						var publicPrevCounter = 0;
-						var companyPrevCounter = 0;
 						var deletedPrevCounter = 0;
 						
 						var privatePrevTotal = 0;
 						var publicPrevTotal = 0;
-						var companyPrevTotal = 0;
 						var deletedPrevTotal = 0;
-						
-						
-						
-  
                         
                         $scope.setPageStart = 0;
                         $scope.selectedPage = 0;
@@ -152,23 +139,14 @@ angular.module('manageModule')
                                     }
                         }
 						
-						
-						
-						
-						
-						
 						//added functionality for deleted model category filter starts
 						$scope.delete1=true;
 						$scope.get = function(){
-							 if($scope.checked)
-                            {
-								 
+							if($scope.checked){ 
 								 $scope.removeFilter();
-                            }
-                        else
-                            {
-                        	$scope.delete1=false;
-                       	     $scope.Navigation(0,'N');
+                            } else {
+                            	$scope.delete1=false;
+                            	$scope.Navigation(0,'N');
                             }
 						}
 						
@@ -189,7 +167,6 @@ angular.module('manageModule')
 						
 						$scope.getPrivateModels=function(){
 							
-							
 							$scope.mlsolutions = [];
 							if($scope.sortBy == "ML" || $scope.sortBy == "FL" || $scope.sortBy == "HR" || $scope.sortBy == "LR" )
 							 {
@@ -205,10 +182,8 @@ angular.module('manageModule')
 							$scope.privateDataLoaded = true;
 							dataObj = {
 									  "request_body": {
-										    "accessTypeCodes": [
-										      "PR"
-										    ],
 										    "active": true,
+										    "published" : false,
 										    "tags" : $scope.tagFilter,
 										    "nameKeyword" :  $scope.toBeSearch,
 										    "modelTypeCodes": $scope.categoryFilter,
@@ -298,113 +273,7 @@ angular.module('manageModule')
 								});
 							
 						    }; 
-											
-						
-						$scope.getCompanyModels=function(){
-							$scope.startPageSize = 0;
-							$scope.endPageSize = 0;
-							$scope.companyDataLoaded = true;
-							$scope.mlsolutions = [];
-							dataObj = {
-									  "request_body": {
-										    "accessTypeCodes": [
-										      "OR"
-										    ],
-										    "active": true,
-										    "tags" : $scope.tagFilter,
-										    "nameKeyword" :  $scope.toBeSearch,
-										    "modelTypeCodes": $scope.categoryFilter,
-										    "userId": $scope.loginUserID,
-											"sortBy": $scope.sortBy,
-										    "pageRequest": {
-										      "fieldToDirectionMap": $scope.fieldToSort,
-										      "page" : $scope.pageNumCompany,
-										      "size" : $scope.defaultSize
-										    }
-										  }
-										};
-							
-							
-							if($scope.Loadcheck){
-								$scope.SetDataLoaded = true;
-								$rootScope.setLoader = true;
-							}
-							else{
-								$scope.SetDataLoaded = false;
-								$rootScope.setLoader = false;
-							}
-							
-							apiService.fetchUserSolutions(dataObj).then(function(response) {
-								$scope.SetDataLoaded = false;
-								$rootScope.setLoader = false;
-								var data = response.data;
-								companyPrevTotal = companyPrevCounter;
-								$scope.companyDataLoaded = false;
-
-								
-								
-								
-								$scope.mlSolutionCompany = $scope.getUniqueSolutions(data.response_body.content);
-								$scope.totalCompanySolCount = data.response_body.totalElements;
-								$scope.totalPages = data.response_body.pageCount;
-								
-                             if($scope.mlSolutionCompany == 0){
-									
-									$scope.startPageSizeOR = 0;
-									$scope.endPageSizeOR = 0;
-								 }
-                             else {
-	                            $scope.loadpageOR =  $scope.pageNumCompany;
-                                $scope.startPageSizeOR = $scope.loadpageOR *  $scope.defaultSize + 1;
-								$scope.endPageSizeOR = (($scope.loadpageOR + 1) * $scope.defaultSize) < $scope.totalCompanySolCount ? (($scope.loadpageOR + 1) * $scope.defaultSize) : $scope.totalCompanySolCount; 
-                             }
-								
-								
-								
-								if($scope.mlSolutionCompany.length != 0){
-									companyPrevCounter = $scope.mlSolutionCompany.length;
-								}
-								
-								if($scope.cpOperator == 'Add' || $scope.cpOperator == undefined){
-									$scope.mlSolutionCompanyCount = $scope.mlSolutionCompany.length + $scope.mlSolutionCompanyCount;
-									if($scope.toBeSearch.length > 0){
-										$scope.mlSolutionCompanyCount = $scope.mlSolutionCompany.length;
-									}
-								}else if($scope.cpOperator == 'Subtract'){
-									$scope.mlSolutionCompanyCount = $scope.mlSolutionCompanyCount - companyPrevTotal;
-								}
-								
-								angular.forEach($scope.mlSolutionCompany, function(value,key) {
-									angular.forEach($scope.favouriteSolutions,
-											function(mlsolutionValue,mlsolutionKey) {
-												if (mlsolutionValue.solutionId == value.solutionId) {
-													$scope.mlSolutionCompany[key].selectFav = true;
-												}
-									});
-								});
-								if(data.response_body.filteredTagSet.length > 0){
-									for(var i=0;i< data.response_body.filteredTagSet.length;i++){
-										var tag=data.response_body.filteredTagSet[i];
-										$scope.tags.push(tag);
-									}
-									$scope.tags=$scope.getUniqueArrayElements($scope.tags);	
-								}
-								if($scope.mlSolutionCompany.length <1){
-									$scope.msg = "No Data";
-									$scope.icon = 'info_outline';
-									$scope.styleclass = 'c-info';
-									$scope.companyAlertMessage = true;
-									$timeout(function() {
-										$scope.companyAlertMessage = false;
-									}, 3500);
-								}
-								}, function(error) {
-										$scope.isBusy = false
-								});
-
-							
-						}; 
-						
+				
 						
 						$scope.getPublicModels=function(){
 							$scope.dataLoading = true;
@@ -413,9 +282,7 @@ angular.module('manageModule')
 							
 							dataObj = {
 									  "request_body": {
-										    "accessTypeCodes": [
-										      "PB"
-										    ],
+										    "published" : true,
 										    "active": true,
 										    "nameKeyword" :  $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
@@ -454,21 +321,16 @@ angular.module('manageModule')
 								$scope.totalPublicSolCount = data.response_body.totalElements;
 								$scope.totalPages = data.response_body.pageCount;
 								
-								
 								 if($scope.mlSolutionPublic == 0){
 										
 										$scope.startPageSizePB = 0;
 										$scope.endPageSizePB = 0;
-									 }
-								 else{
+								 } else {
 								
-							    $scope.loadpagePB = $scope.pageNumPublic;
-							    $scope.startPageSizePB = $scope.loadpagePB *  $scope.defaultSize + 1;
-								$scope.endPageSizePB =  (($scope.loadpagePB + 1) * $scope.defaultSize) < $scope.totalPublicSolCount ?  (($scope.loadpagePB + 1) * $scope.defaultSize) : $scope.totalPublicSolCount
+								    $scope.loadpagePB = $scope.pageNumPublic;
+								    $scope.startPageSizePB = $scope.loadpagePB *  $scope.defaultSize + 1;
+									$scope.endPageSizePB =  (($scope.loadpagePB + 1) * $scope.defaultSize) < $scope.totalPublicSolCount ?  (($scope.loadpagePB + 1) * $scope.defaultSize) : $scope.totalPublicSolCount
 								 }
-								
-								
-								
 								
 								if($scope.mlSolutionPublic.length != 0){
 									publicPrevCounter = $scope.mlSolutionPublic.length;
@@ -559,18 +421,14 @@ angular.module('manageModule')
 								$scope.mlSolutionDelete = $scope.getUniqueSolutions(data.response_body.content);
 								$scope.totalDeletedSolCount = data.response_body.totalElements;
 								$scope.totalPages = data.response_body.pageCount;
-								
-								
-								 if($scope.mlSolutionDelete == 0){
-										
-										$scope.startPageSizeN = 0;
-										$scope.endPageSizeN = 0;
-									 }
-								 else {
-								$scope.loadpageN = $scope.pageNumDelete;
-							    $scope.startPageSizeN = $scope.loadpageN *  $scope.defaultSize + 1;
-								$scope.endPageSizeN = (($scope.loadpageN + 1) * $scope.defaultSize) < $scope.totalDeletedSolCount ? (($scope.loadpageN + 1) * $scope.defaultSize) : $scope.totalDeletedSolCount; 
-								 }
+								if($scope.mlSolutionDelete == 0){										
+									$scope.startPageSizeN = 0;
+									$scope.endPageSizeN = 0;
+								} else {
+									$scope.loadpageN = $scope.pageNumDelete;
+								    $scope.startPageSizeN = $scope.loadpageN *  $scope.defaultSize + 1;
+									$scope.endPageSizeN = (($scope.loadpageN + 1) * $scope.defaultSize) < $scope.totalDeletedSolCount ? (($scope.loadpageN + 1) * $scope.defaultSize) : $scope.totalDeletedSolCount; 
+								}
 								 
 								if($scope.mlSolutionDelete.length != 0){
 									deletedPrevCounter = $scope.mlSolutionDelete.length;
@@ -614,7 +472,6 @@ angular.module('manageModule')
 							else 
 								 $scope.toBeSearch = [];		
 							$scope.getPrivateModels();
-							$scope.getCompanyModels();
 							$scope.getPublicModels();
 							$scope.getDeleteModels();
                             $rootScope.valueToSearch = '';
@@ -638,8 +495,7 @@ angular.module('manageModule')
 							if(Type == 'PR'){
 								$scope.seeAllSelected = true;
 								$scope.hidePrivate = true;
-								$scope.hidePublic = false;
-								$scope.hideCompany = false;
+								$scope.hidePublic = false;								
 								$scope.hideDelete = false;
 								$scope.filterOptions = ['MY UNPUBLISHED MODELS'];
 								$scope.privacyFilter = 'PR';
@@ -652,7 +508,6 @@ angular.module('manageModule')
                         	 $scope.seeAllSelected = true;
 								$scope.hidePrivate = false;
 								$scope.hidePublic = true;
-								$scope.hideCompany = false;
 								$scope.hideDelete = false;
 								$scope.filterOptions = ['PUBLISHED TO PUBLIC MARKETPLACE'];
 								$scope.privacyFilter = 'PB';
@@ -661,24 +516,10 @@ angular.module('manageModule')
 								$scope.loadMore('PB');	
 						}
 							
-                         if(Type == 'OR'){
-                        	 $scope.seeAllSelected = true;
-								$scope.hidePrivate = false;
-								$scope.hidePublic = false;
-								$scope.hideCompany = true;
-								$scope.hideDelete = false;
-								$scope.filterOptions = ['PUBLISHED TO COMPANY MARKETPLACE'];
-								$scope.privacyFilter = 'OR';
-								$scope.activeType = true;
-								
-								$scope.loadMore('OR');
-							}
-							
                          if(Type == 'N'){
                         	 $scope.seeAllSelected = true;
 								$scope.hidePrivate = false;
 								$scope.hidePublic = false;
-								$scope.hideCompany = false;
 								$scope.hideDelete = true;
 								$scope.filterOptions = ['MY DELETED MODELS'];
 								$scope.activeType = false;
@@ -704,22 +545,7 @@ angular.module('manageModule')
 							}
 						}
                         
-                
-                        $scope.CompanyNav=function(NavName, loadmore){
-
-							if(NavName=='Next'){
-								$scope.pageNumCompany = $scope.pageNumCompany+1;
-								$scope.cpOperator = 'Add';
-								$scope.getCompanyModels();
-							}else if(NavName=='Pre'){
-								if($scope.pageNumCompany > 0){
-									$scope.pageNumCompany = $scope.pageNumCompany-1;
-									$scope.cpOperator = 'Subtract';
-								}
-								$scope.getCompanyModels();
-							}
-						} 
-                      
+                     
 						$scope.privateNav=function(NavName,loadmore){
 
 							if(NavName=='Next'){
@@ -754,32 +580,26 @@ angular.module('manageModule')
 						$scope.removeFilter=function(){
 							$scope.hidePrivate = true;
 							$scope.hidePublic = true;
-							$scope.hideCompany = true;
 							$scope.hideDelete = true;
 							$scope.seeAllSelected = false;
 							$scope.Loadcheck = false;
 							$scope.defaultSize = 4;
 							$scope.pageNumPrivate = 0;
 							$scope.pageNumPublic = 0;
-							$scope.pageNumCompany = 0;
 							$scope.pageNumDelete = 0;
 							$scope.mlSolutionPrivateCount = 0;
 							$scope.mlSolutionPublicCount = 0;
-							$scope.mlSolutionCompanyCount = 0;
 							$scope.mlSolutionDeletedCount = 0;
 							$scope.categoryFilter = [];
 							$scope.privacyFilter = '';
 							$scope.prOperator = 'Add';
-							$scope.cpOperator = 'Add';
 							$scope.pbOperator = 'Add';
 							$scope.dlOperator = 'Add';
 							$scope.filterOptions = [];
 							$scope.mlSolutionPrivate=[];
-							$scope.mlSolutionCompany=[];
 							$scope.mlSolutionPublic=[];
 							$scope.mlSolutionDelete=[];
 							$scope.getPrivateModels();
-							$scope.getCompanyModels();
 							$scope.getPublicModels();
 							$scope.getDeleteModels();
 							$scope.selectedPage = 0;
@@ -826,19 +646,11 @@ angular.module('manageModule')
 								
 								$scope.getPublicModels();
 							}
-							else if(accessType == 'OR'){
-								$scope.getCompanyModels();
-							}
 							else if(accessType == 'N'){
 								$scope.getDeleteModels();
 							}
-							
-							
-						
 						}
 						//Change pagination Size ends
-						
-						
 						
 						// filter functionlity
 						var privacyArr = [];
@@ -853,19 +665,17 @@ angular.module('manageModule')
 						$scope.filterChange = function(checkbox, type) {
 							$scope.mlSolutionPrivateCount = 0;
 							$scope.mlSolutionPublicCount = 0;
-							$scope.mlSolutionCompanyCount = 0;
 							$scope.mlSolutionDeletedCount = 0;
 							$scope.pageNumPrivate = 0;
 							$scope.pageNumPublic = 0;
-							$scope.pageNumCompany = 0;
 							$scope.pageNumDelete = 0;
 							if(checkbox == 'yes'){
 								$scope.activeType = false;
 							}else if(checkbox == 'no' )$scope.activeType = true;
-							$scope.pageNumber = 0;
-							$scope.mlsolutions = [];
-							$scope.modelCount = 0;
-							$scope.isBusy = false;
+								$scope.pageNumber = 0;
+								$scope.mlsolutions = [];
+								$scope.modelCount = 0;
+								$scope.isBusy = false;
 							if (type == 'solution') {
 
 							} else if (type == 'privacy') {
@@ -919,13 +729,8 @@ angular.module('manageModule')
 								}
 								$scope.mlSolutionPrivateCount = 0;
 								$scope.mlSolutionPublicCount = 0;
-								$scope.mlSolutionCompanyCount = 0;
 								$scope.mlSolutionDeletedCount = 0;
-							} else if(type == 'tag'){/*
-								if (tagArr.includes(checkbox))
-									tagArr = tagArr.filter(val => val != checkbox);
-								else tagArr.push(checkbox);
-							*/
+							} else if(type == 'tag'){
 								var dupli = false,index=0;
 								angular.forEach(tagArr, function(value,
 										key) {
@@ -936,7 +741,7 @@ angular.module('manageModule')
 								});
 								if(dupli == false)tagArr.push(checkbox);
 								else tagArr.splice(index, 1);
-								}
+							}
 							$scope.categoryFilter = caegoryArr;
 							$scope.privacyFilter = privacyUrl;
 							$scope.tagFilter = tagArr;
@@ -1002,8 +807,7 @@ angular.module('manageModule')
 													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel' });
 												},
 												function(error) {
-													$scope.status = 'Unable to load data: '
-															+ error.data.error;
+													
 													$state.go('marketSolutions', {solutionId : id, revisionId : revisionId, parentUrl:'mymodel'});
 												});
 
@@ -1062,7 +866,6 @@ angular.module('manageModule')
 							
 							dataObj = {
 									  "request_body": {
-										    "accessTypeCodes": [$scope.privacyFilter],
 										    "active": $scope.activeType,
 										    "nameKeyword" :  $scope.toBeSearch,
 										    "tags" : $scope.tagFilter,
@@ -1177,10 +980,7 @@ angular.module('manageModule')
 																			}
 																	});
 															});
-														},function(error) {
-															$scope.status = 'Unable to load data: '
-																+ error.data.error;
-													});
+												});
 												
 												$scope.isBusy = false;
 												// Show deleted solutions on
@@ -1229,19 +1029,6 @@ angular.module('manageModule')
 														$scope.endPageSizePR =  (($scope.loadpagePR + 1) * $scope.defaultSize) < $scope.totalPrivateSolCount ?  (($scope.loadpagePR + 1) * $scope.defaultSize) : $scope.totalPrivateSolCount
 														}
 				
-												} else if(type == 'OR') {
-													$scope.mlSolutionCompany =  $scope.getUniqueSolutions($scope.mlsolutions);
-													$scope.totalPages = response.data.response_body.pageCount;
-													if($scope.mlsolutions == 0){
-														$scope.startPageSizeOR = 0;
-														$scope.endPageSizeOR = 0;
-													}
-													else {
-						                            $scope.loadpageOR =  $scope.pageNumber;
-					                                $scope.startPageSizeOR = $scope.loadpageOR *  $scope.defaultSize + 1;
-													$scope.endPageSizeOR =  (($scope.loadpageOR + 1) * $scope.defaultSize) < $scope.totalCompanySolCount ? (($scope.loadpageOR + 1) * $scope.defaultSize) : $scope.totalCompanySolCount; 
-													}
-													
 												} else if(type == 'N') {
 													$scope.mlSolutionDelete =  $scope.getUniqueSolutions($scope.mlsolutions);
 													$scope.totalPages = response.data.response_body.pageCount;
@@ -1256,10 +1043,7 @@ angular.module('manageModule')
 												}
 												}
 
-											},function(error) {
-												$scope.status = 'Unable to load data: '
-													+ error.data.error;
-										});
+											});
 											
 							count += 9;
 						}
@@ -1279,9 +1063,7 @@ angular.module('manageModule')
 								favourite = $scope.mlSolutionPrivate[key].selectFav;
 							} else if(type == 'PB'){
 								favourite = $scope.mlSolutionPublic[key].selectFav;
-							} else if(type == 'OR'){
-								favourite = $scope.mlSolutionCompany[key].selectFav;
-							}else if(type == 'D'){
+							} else if(type == 'D'){
 								favourite = $scope.mlSolutionDelete[key].selectFav;
 							}
 							

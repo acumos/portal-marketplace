@@ -281,6 +281,7 @@ angular
 									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
 									"tags" : $scope.tagFilter,
+									"published": true,
 									"pageRequest" : {
 										"fieldToDirectionMap": fieldToSort,
 										"page" : pageNumber,

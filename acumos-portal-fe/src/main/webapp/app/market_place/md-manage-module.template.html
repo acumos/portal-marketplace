@@ -554,307 +554,11 @@ limitations under the License.
 					</div>
                 </div>
                </div>
-                             
-
-					<!-- PUBLISHED TO COMPANY MARKETPLACE -->
-					<!-- PUBLISHED TO COMPANY MARKETPLACE -->
-                        <div class="grid-outer-wrapper">
-					<div class="grid-container" ng-if="hideCompany">
-						<h4 class="gridlistheading">
-							My Models: Published to Company Marketplace
-							<span class="text-colorgray1">Showing - {{startPageSizeOR }} to {{endPageSizeOR }} of {{totalCompanySolCount}} Models</span><span
-								class="pull-right"><span
-								class="mp-grid-head-buttons-container"
-								ng-hide="seeAllSelected || mlSolutionCompany.length < 1 || ( pageNumCompany < 1 && mlSolutionCompanyCount == totalCompanySolCount )"><a
-									 class="btnseeall"
-									ng-click="Navigation(selectedPage,'OR')"
-									ng-class="{ removetop: !(pageNumCompany < 1 || mlSolutionCompany.length < 4)}">See
-										All</a> <a href="" ng-click="CompanyNav('Pre');"
-									class="seeall-icons" ng-hide="pageNumCompany < 1" ng-class="{disabledClick:companyDataLoaded==true}"><i
-									class="material-icons" alt="Previous" title="Previous">navigate_before</i></a><a href=""
-									ng-click="CompanyNav('Next');" class="seeall-icons"
-									ng-class="{disabledClick:companyDataLoaded==true}"								
-									ng-hide="mlSolutionCompanyCount == totalCompanySolCount"><i
-										class="material-icons" alt="Next" title="Next">navigate_next</i></a> </span></span>
-						</h4>
-						<div class="posrel" ng-if="mlSolutionCompany.length < 1">
-							<!-- <alert-message-Company msg="msg" class="c-alert-inline-container"
-								icon="icon" styleclass="styleclass"
-								ng-show="companyAlertMessage"></alert-message-Company> -->
-						</div>
-						<!-- <div infinite-scroll='onLoad()' infinite-scroll-distance="2"> -->
-						<div class="mp-grid" ng-show="Viewtile">
-							<div class="alert c-info" ng-if="mlSolutionCompany.length < 1">
-								<strong>No Result found</strong>
-							</div>
-
-							<div class="grid-item"
-								ng-repeat="companySolution in mlSolutionCompany">
-								<!-- | filter: {accessType:'OR'} | filter: {active:true} -->
-								<div class="grid-top-section">
-									<div class="product-image">
-										<!-- <div class="mpimgcontainer">
-												<div class="mpimage1"> -->
-										<figure>
-												<img ng-src="/api/solutions/{{companySolution.solutionId}}/picture" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId,companySolution.latestRevisionId)"
-													class="img-rounded" onerror="this.onerror=null;this.src='images/default-model.png'"/>
-										</figure>
-										<!-- </div>
-												</span>
-											</div> -->
-									</div>
-									<div class="mpdetailscontainer">
-										<div class="tilecontainer1">
-											<label class="griditem-title"><span class="griditem-title-text2">{{companySolution.name}}</span>
-												<span class="text-xsmall link-orange">In Process</span>
-											</label>
-											<div>
-												<!-- Shared With/ Shared By Icon -->
-												<span class="md-share-with-me" title="Shared With Me" ng-show="companySolution.ownerId != loginUserID"></span>
-												<span class="md-share-with-others" title="Shared With Others" ng-show="companySolution.ownerId == loginUserID && companySolution.ownerListForSol.length > 0"></span>
-											</div>
-										</div>
-										<label class="grid-item-text-container"><span
-											class="griditem-text2 grid-item-lbl"
-												ng-bind="((companySolution.authors.length > 0) ? companySolution.authors[0].name : companySolution.ownerName)"></span> | <span class="griditem-text2">
-												{{companySolution.modified || companySolution.created |
-												date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
-											ng-if="mlsolution.active != ''">New</span></label>
-										</div>
-									<div>
-									<!-- 	<div class="rating clear_both">
-											<span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 1}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 2}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 3}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 4}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 5}"
-												aria-hidden="true"></i></span>
-										</div> -->
-
-										<div class="a-mp-container1">
-											<div class="stars-outer">
-												<div class="stars-inner"
-													ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div>
-											</div>
-											<div class="posrel"
-												ng-if="companySolution.solutionTagList.length > 0">
-												<div class="manage-taglist">
-													<span class="mg-tag-circle"></span><span
-														class="mg-tag-text">{{companySolution.solutionTagList.length
-														> 0 ? companySolution.solutionTagList[0].tag : ""}}</span><span
-														class="icon-showmore"
-														ng-show="companySolution.solutionTagList.length > 1"
-														ng-click="showListTag(companySolution.solutionId)"><i
-														class="material-icons">add</i></span>
-												</div>
-												<div class="manage-tag-list-container"
-													ng-show="companySolution.solutionId === slnID && Tag ">
-													<ul class="manage-tag-list">
-														<li ng-repeat="taglist in companySolution.solutionTagList"><div
-																class="manage-taglist2">
-																<span class="mg-tag-circle2"></span><span
-																	class="mg-tag-text2">{{taglist.tag}}</span>
-															</div></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-
-											<div class="md-icons md-icons-tiles">
-												<span><span class="statistics-icons icon-chat"
-													alt="Comment" title="Comment"></span> {{companySolution.commentsCount}}</span> <span><span
-													class="statistics-icons icon-view" alt="View" title="View"></span>
-													{{companySolution.viewCount == null ? 0 :
-													companySolution.viewCount}}</span> <span><span
-													class="statistics-icons icon-download" alt="Download"
-													title="Download"></span> {{companySolution.downloadCount ==
-													null ? 0 : companySolution.downloadCount}}</span>
-												<button
-													class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-													ng-click="companySolution.selectFav = !companySolution.selectFav; updateFavorite(companySolution.solutionId, $index, 'OR')"
-													alt="Favorite" title="Favorite">
-													<i class="material-icons"
-														ng-class="{'unselected-fav':!companySolution.selectFav ,'selected-fav':companySolution.selectFav}">favorite_border</i>
-												</button>
-											</div>
-										</div>
-
-									</div>
-								<div class="grid-item-error-container" ng-show="companySolution.onboardingStatusFailed">
-									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
-								</div>
-								<div class="grid-item-error-container" ng-show="companySolution.pendingApproval" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)">
-									<div class="grid-error-msg"> Pending For Approval </div>
-								</div>
-							</div>
-						</div>
-						<div class="mp-grid-list" ng-show="!Viewtile">
-						<div class="alert c-info" ng-if="mlSolutionCompany.length < 1">
-								<strong>No Result found</strong>
-							</div>
-							<div class="mp-grid-list-row posrel"
-								ng-repeat="companySolution in mlSolutionCompany">
-								<div class="grid-item-error-container" ng-show="companySolution.onboardingStatusFailed">
-									<div class="grid-error-msg"> <span class="grid-error-icon">&#33;</span> Error found </div>
-								</div>
-								<div class="grid-item-error-container" ng-show="companySolution.pendingApproval" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId, companySolution.latestRevisionId)">
-									<div class="grid-error-msg"> Pending For Approval </div>
-								</div>
-								<div class="mp-grid-list-image-cell">
-									<div class="mpimage1">
-										<figure>
-												<img ng-src="/api/solutions/{{companySolution.solutionId}}/picture" ng-click="onClickModel(companySolution.solutionId, companySolution.ownerId,companySolution.latestRevisionId)"
-													class="img-rounded" onerror="this.onerror=null;this.src='images/default-model.png'"/>
-										</figure>
-									</div>
-									<div class="mpbtncontainer">
-										<md-button class="text-small" alt="Anomoly Detection" title="Anomoly Detection">anomoly detection</md-button>
-										<md-button class="text-small" alt="Classification" title="Classification">classification</md-button>
-									</div>
-								</div>
-								<div class="mp-grid-list-details-cell">
-									<div class="listview-title-container">
-										<label class="griditem-title"><span class="griditem-title-text">{{companySolution.name}}</span>
-											<span class="text-xsmall link-orange">In progress</span>
-										</label>
-										<div>
-											<!-- Shared With/ Shared By Icon -->
-											<span class="md-share-with-me" title="Shared With Me" ng-show="companySolution.ownerId != loginUserID"></span>
-											<span class="md-share-with-others" title="Shared With Others" ng-show="companySolution.ownerId == loginUserID && companySolution.ownerListForSol.length > 0"></span>
-										</div>									
-									</div>
-									<div class="disblock detail-content">
-										<span class="griditem-text2"
-												ng-bind="'by ' + ((companySolution.authors.length > 0) ? companySolution.authors[0].name : companySolution.ownerName)"></span> | <span class="griditem-text2">on
-											{{companySolution.modified || companySolution.created |
-											date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange"
-											ng-if="companySolution.active != ''">New</span>
-									</div>
-									<div>
-									<!-- 	<div class="rating clear_both">
-											<span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 1}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 2}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 3}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 4}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': companySolution.solutionRatingAvg == null || companySolution.solutionRatingAvg < 5}"
-												aria-hidden="true"></i></span>
-										</div>  -->
-										<div class="a-mp-container1">
-											<div class="stars-outer">
-												<div class="stars-inner"
-													ng-style="getAvgRating(companySolution.solutionRatingAvg)"></div>
-											</div>
-											<div class="posrel"
-												ng-if="companySolution.solutionTagList.length > 0">
-												<div class="manage-taglist">
-													<span class="mg-tag-circle"></span><span
-														class="mg-tag-text">{{companySolution.solutionTagList.length
-														> 0 ? companySolution.solutionTagList[0].tag : ""}}</span><span
-														class="icon-showmore"
-														ng-show="companySolution.solutionTagList.length > 1"
-														ng-click="showListTag(companySolution.solutionId)"><i
-														class="material-icons">add</i></span>
-												</div>
-												<div class="manage-tag-list-container"
-													ng-show="companySolution.solutionId === slnID && Tag ">
-													<ul class="manage-tag-list">
-														<li ng-repeat="taglist in companySolution.solutionTagList"><div
-																class="manage-taglist2">
-																<span class="mg-tag-circle2"></span><span
-																	class="mg-tag-text2">{{taglist.tag}}</span>
-															</div></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="md-icons md-icons-tiles">
-										<span><span class="statistics-icons icon-chat" alt="Comment" title="Comment"></span> {{companySolution.commentsCount}}
-											</span> <span><span class="statistics-icons icon-view" alt="View" title="View"></span>
-											{{companySolution.viewCount == null ? 0 :
-											companySolution.viewCount}}</span> <span><span
-											class="statistics-icons icon-download" alt="Download" title="Download"></span>
-											{{companySolution.downloadCount == null ? 0 :
-											companySolution.downloadCount}}</span>
-
-											<button
-												class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-												ng-click="companySolution.selectFav = !companySolution.selectFav; updateFavorite(companySolution.solutionId, $index, 'OR')" alt="Favorite" title="Favorite">
-												<i class="material-icons"
-													ng-class="{'unselected-fav':!companySolution.selectFav ,'selected-fav':companySolution.selectFav}">favorite_border</i>
-											</button>
-
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="text-center" ng-if="seeAllSelected">
-						<div class="pagination-wrapper" ng-if="totalCompanySolCount > 0">
-								<div class="pagination-left-section">
-					    			<span>Showing </span>
-					    			<div class="select-control" >
-								        <md-select ng-model="defaultSize" name="defaultSize" ng-change="paginationSize(defaultSize,'OR')" >
-								           <md-option ng-value="10" class="pagination-list-item">10</md-option>
-								           <md-option ng-value="25" class="pagination-list-item">25</md-option>
-								           <md-option ng-value="50" class="pagination-list-item">50</md-option>
-								           <md-option ng-value="100" class="pagination-list-item">100</md-option>
-								     	</md-select>
-
-									</div> 
-									
-									<span class="page-stats"> Models</span>
-					    		
-					    		</div>
-					    	
-									<div class="pagination-right-section" >
-                                                <div class="count-btn-container" >
-                                                <button class="mdl-button mdl-js-button btn-secondary"  ng-disabled="selectedPage==0 || SetDataLoaded"  ng-click="setStartCount('pre');Navigation(selectedPage,'OR')">Previous</button>
-                                                </div>
-                                                <div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
-                                                <button class="mdl-button mdl-js-button btn-secondary count-btn"   ng-click="setStartCount('preBunch');Navigation(setPageStart,'OR')" ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-                                                </div>
-                                                <div class="count-btn-container" >
-                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart == selectedPage}" ng-click="Navigation(setPageStart,'OR');">{{setPageStart+1}} </button>
-                                                </div>
-                                                <div class="count-btn-container" ng-hide="totalPages<=(setPageStart+1)">
-                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+1 == selectedPage}" ng-click="Navigation(setPageStart+1,'OR');">{{setPageStart+2}} </button>
-                                                </div>
-                                                <div class="count-btn-container" ng-hide="totalPages<=(setPageStart+2)">
-                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+2 == selectedPage}" ng-click="Navigation(setPageStart+2,'OR');">{{setPageStart+3}} </button>
-                                                </div>
-                                                <div class="count-btn-container" ng-hide="totalPages<=(setPageStart+3)">
-                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+3 == selectedPage}" ng-click="Navigation(setPageStart+3,'OR');">{{setPageStart+4}} </button>
-                                                </div>
-                                                <div class="count-btn-container" ng-hide="(totalPages)<=(setPageStart+4)">
-                                                      <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-class="{'selected-btn': setPageStart+4 == selectedPage}" ng-click="Navigation(setPageStart+4,'OR'); ">{{setPageStart+5}} </button>
-                                                </div>
-                                                <div class="count-btn-container" ng-hide="(totalPages)<=(setPageStart + 5)">
-                                                <button class="mdl-button mdl-js-button btn-secondary count-btn" ng-click="setStartCount('nextBunch'); Navigation(setPageStart+4,'OR');" ng-class="{disabledClick:SetDataLoaded==true}">...</button>
-                                                </div>
-                                                <div class="count-btn-container" >
-                                                <button class="mdl-button mdl-js-button btn-secondary" ng-click="setStartCount('next'); Navigation(selectedPage,'OR')" ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
-                                                </div>
-                                  </div>
-						</div>
-					</div>
-                          </div>
-                            </div>
-                         
                           
-                     <div class="grid-outer-wrapper">
+              <div class="grid-outer-wrapper">
 				<div class="grid-container" ng-if="hidePublic">
 					<h4 class="gridlistheading">
-						My Models: Published to Public Marketplace
+						My Published Models
 						<span class="text-colorgray1">Showing - {{startPageSizePB }} to {{endPageSizePB }} of {{totalPublicSolCount}} Models</span><span
 							class="pull-right"><span
 							class="mp-grid-head-buttons-container"
@@ -867,12 +571,10 @@ limitations under the License.
 									class="material-icons" alt="Next" title="Next">navigate_next</i></a> </span></span>
 					</h4>
 					<div class="posrel" ng-if="publicSolution.length < 1">
-						<!-- <alert-message-public msg="msg" class="c-alert-inline-container"
-								icon="icon" styleclass="styleclass" ng-show="publicAlertMessage"></alert-message-public> -->
+
 					</div>
 					<div>
-						<!-- infinite-scroll='onLoad()' infinite-scroll-distance="2" -->
-						<!-- PUBLISH TO PUBLIC MARKETPLACE -->
+
 						<div class="mp-grid" ng-show="Viewtile">
 							<div class="alert c-info" ng-if="mlSolutionPublic.length < 1">
 								<strong>No Result found</strong>
@@ -880,11 +582,10 @@ limitations under the License.
 
 							<div class="grid-item"
 								ng-repeat="publicSolution in mlSolutionPublic">
-								<!--  | filter: {accessType:'PB'} | filter: {active:true}  -->
+								
 								<div class="grid-top-section">
 									<div class="product-image">
-										<!-- <div class="mpimgcontainer">
-														<div class="mpimage1"> -->
+										
 										<figure>
 												<img ng-src="/api/solutions/{{publicSolution.solutionId}}/picture" ng-click="onClickModel(publicSolution.solutionId, publicSolution.ownerId,publicSolution.latestRevisionId)"
 													class="img-rounded" onerror="this.onerror=null;this.src='images/default-model.png'"/>
@@ -909,19 +610,6 @@ limitations under the License.
 											ng-if="mlsolution.active != ''">New</span></label>
 									</div>
 									<div>
-									<!-- 	<div class="rating clear_both">
-											<span><i class="fa fa-star"
-												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 1}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 2}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 3}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 4}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': publicSolution.solutionRatingAvg == null || publicSolution.solutionRatingAvg < 5}"
-												aria-hidden="true"></i></span>
-										</div>  -->
 											<div class="a-mp-container1">
 												<div class="stars-outer">
 													<div class="stars-inner"
@@ -1014,20 +702,7 @@ limitations under the License.
 											ng-if="mlsolution.active != ''">New</span>
 									</div>
 									<div>
-									<!-- 	<div class="rating clear_both">
-											<span><i class="fa fa-star"
-												ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 1}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 2}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 3}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 4}"
-												aria-hidden="true"></i></span> <span><i class="fa fa-star"
-												ng-class="{'fa-star1': mlsolution.solutionRatingAvg == null || mlsolution.solutionRatingAvg < 5}"
-												aria-hidden="true"></i></span>
-										</div>  -->
-
+									
 											<div class="a-mp-container1">
 												<div class="stars-outer">
 													<div class="stars-inner"
@@ -1149,8 +824,7 @@ limitations under the License.
 						</span>
 					</h4>
 					<div class="posrel" ng-if="publicSolution.length < 1">
-						<!-- <alert-message-public msg="msg" class="c-alert-inline-container"
-								icon="icon" styleclass="styleclass" ng-show="publicAlertMessage"></alert-message-public> -->
+						
 					</div>
 					<div>
 						<div>
@@ -1168,7 +842,7 @@ limitations under the License.
 													<img ng-src="/api/solutions/{{deletedSolution.solutionId}}/picture" ng-click="onClickModel(deletedSolution.solutionId, deletedSolution.ownerId,deletedSolution.latestRevisionId)"
 														class="img-rounded" onerror="this.onerror=null;this.src='images/default-model.png'"/>
 											</figure>
-											<!-- <span class="img-ctag"><i class="material-icons">copyright</i> </span> -->
+											
 										</div>
 										<div class="mpdetailscontainer">
 										<div class="tilecontainer1">

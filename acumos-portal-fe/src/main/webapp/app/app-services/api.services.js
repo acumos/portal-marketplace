@@ -29,7 +29,7 @@ angular.module('AcumosApp')
         var urlPortalSolutions = '/api/portal/solutions';
         var urlSearchSolutions = '/api/searchSolutionBykeyword';
         var urlUserSolutions = '/api/user/solutions';
-        var urlPublishSolution = '/api/publish';
+        var urlPublishSolution = '/api/catalog';
        	var urlSignUp = 'api/users/register';
         var urlSocialSignUp = 'api/oauth/login/register';
         var urlSignIn = 'api/auth/login';//'api/auth/jwtToken';
@@ -114,7 +114,9 @@ angular.module('AcumosApp')
         var urlOnBoardingHistoryTaskList =  "/api/onboardinghistory/getTasks";
         var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult";
         var urlPublisher =  "/api/solution";
-        var urlCatalogsList =  "/api/catalogs"; 
+        
+        var urlAllCatalogsList =  "/api/catalogs"; 
+        var urlCatalogsList =  "/api/catalog/solution"; 
         
         
 			
@@ -286,8 +288,8 @@ angular.module('AcumosApp')
         }
         
         
-        this.updatePublishSolution = function(solutionId, data){
-        	return $http.put(urlPublishSolution + '/' + solutionId + '?' + data);
+        this.publishSolution = function(catalogId, solutionId){
+        	return $http.post(urlPublishSolution + '/' + catalogId + '/solution/'+ solutionId);
         }
         
         this.updateAddTag = function(solutionid, tag){
@@ -622,12 +624,12 @@ angular.module('AcumosApp')
         	return $http.post(urlOnBoardingHistoryStepResult + "/" + taskId);
         };
                 
-        this.getCatalogs = function(solutionObj) {
-        	return $http.post(urlCatalogsList, solutionObj);
+        this.getCatalogs = function(request) {
+        	return $http.post(urlAllCatalogsList, request);
         };
         
-        this.getCatalogsForSolutions = function(solutionObj) {
-        	return $http.post(urlCatalogsList, solutionId);
+        this.getCatalogsForSolutions = function(solutionId) {
+        	return $http.get(urlCatalogsList+'/'+solutionId);
         };
 
     }]);

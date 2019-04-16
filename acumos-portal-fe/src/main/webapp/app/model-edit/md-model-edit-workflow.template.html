@@ -616,26 +616,26 @@ limitations under the License.
 							<div class="mdl-tabs__panel company-market" id="company-market"
 								ng-show="tab=='company'" ng-class="{'isActive':tab=='company'}">
 								<div>
-								
+								<div class="mdl-grid mdl-grid--no-spacing">
 								<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
                                     <label>Select Catalog </label>
-                                     <input list="solutions" type="text" ng-model="selectCatalog" class="mdl-textfield__input notification-search">
-                                     <datalist id="solutions">
+                                     <input list="solutions" type="text" ng-model="selectedCatalog" class="mdl-textfield__input notification-search">
+                                     <datalist id="solutions"> 
                                          <select class="select-control">
-                                             <option ng-repeat="catalog in catalogsList" value="{{catalog.name}}">{{solution.name}}</option>
+                                             <option ng-repeat="catalog in catalogsList">{{catalog.name}}</option>
                                          </select>
                                      </datalist>                           
                                  </div>
-                                 <!-- <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+                                 <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
                                     <label>Catalog(s) of published model</label>
                                      <input list="solutions" type="text" ng-model="selectCatalog" class="mdl-textfield__input notification-search">
                                      <datalist id="solutions">
                                          <select class="select-control">
-                                             <option ng-repeat="catalog in catalogsList" value="{{catalog.name}}">{{solution.name}}</option>
+                                             <option ng-repeat="catalog in catalogsList" value="{{catalog.catalogId}}">{{solution.name}}</option>
                                          </select>
                                      </datalist>                           
-                                 </div> -->
-                                 
+                                 </div>
+                                 </div>
 									<ul>
 										<li> 
 											<div class="imageplace">												
@@ -841,9 +841,7 @@ limitations under the License.
 															</span> <span
 																ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc"
 																class="red">Not Started</span>
-															<!-- <span class="green"
-                                                                                                >Completed on {{currentDate
-                                                                                                | date:'MM/dd/yyyy'}}</span> -->
+															
 														</h2>
 														<!-- <h1>{{solutionCompanyDesc}} ---- {{solutionCompanyDesc.length}}</h1> -->
 														<div
@@ -915,13 +913,7 @@ limitations under the License.
 																No description available.</div>
 														</div>
 														</p>
-														<!-- <div class="checkbox" ng-show="solutionCompanyDesc.length<1 || solutionCompanyDesc=='' 
-                                                                                          || solutionCompanyDesc==null" > 
-                                                                                          <label> <input type="checkbox"
-                                                                                                ng-model="company.step2" ng-click="skipStep()">
-                                                                                                Skip
-                                                                                          </label>
-                                                                                    </div> -->
+
 														<!-- update model description -->
 														<div class="popovers skippopover hide">
 															<md-toolbar>
@@ -972,13 +964,8 @@ limitations under the License.
 															</span> <span class="red"
 																ng-if="(!solution.modelTypeName || !solution.tookitTypeName)">Not
 																Started</span>
-															<!-- <span class="green">Completed
-                                                                                                on {{currentDate | date:'MM/dd/yyyy'}}</span> -->
-
 														</h2>
-														<!-- <p>Some information can be display related to this
-                                                                                          perticular task, such as how to complete this task what
-                                                                                          are data requried.</p> -->
+
 														<p class=" " ng-hide="showSolCat">
 
 															<label><strong>Model Category: </strong></label>
@@ -986,13 +973,7 @@ limitations under the License.
 																style="margin: 0px 5px;"><strong>
 																	Toolkit Type: </strong></label> {{solution.tookitTypeName}}
 														</p>
-														<!-- <div class="checkbox"
-                                                                                          ng-if="!solution.modelTypeName || !solution.tookitTypeName">
-                                                                                          <label> <input type="checkbox"
-                                                                                                ng-model="$parent.company.step3" ng-click="skipStep()">
-                                                                                                Skip
-                                                                                          </label>
-                                                                                    </div> -->
+
 														<!-- update model category -->
 														<div class="popovers skippopover hide">
 															<md-toolbar>
@@ -1074,13 +1055,6 @@ limitations under the License.
 														</div>
 														<!-- update model name end -->
 
-														<p>
-															<!-- <div class="checkbox">
-                                                                                          <label> <input type="checkbox"> Use the
-                                                                                                Category you have in Public Marketplace.
-                                                                                          </label>
-                                                                                    </div> -->
-														</p>
 													</div>
 												</div>
 											</article>
@@ -1118,11 +1092,6 @@ limitations under the License.
 															<div class="md-toolbar-tools">
 																<h2>Add Documents</h2>
 																<span flex="" class="flex"></span>
-																<!-- <button class="md-icon-button md-button md-ink-ripple"
-                                                                                                      type="button" ng-transclude="" ng-click="cancel()">
-                                                                                                      <i class="material-icons ng-scope">close</i>
-                                                                                                </button> -->
-
 																<md-button class="md-icon-button"
 																	ng-click="closeUploadPopup()">
 																<i class="material-icons" alt="Close" title="Close">close</i> </md-button>
@@ -1563,7 +1532,7 @@ limitations under the License.
 									</div>
 
 									<div class="">
-										<button ng-click="publishtoMarket('OR')"
+										<button ng-click="publishConfirmation()"
 											ng-disabled="activePublishBtn == false"
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 											Submit to Publication</button>
@@ -2431,6 +2400,31 @@ limitations under the License.
 			<md-button ng-click="deleteSolutions()"
 				class="mdl-button mdl-js-button btn-primary">
 			Confirm </md-button>
+		</div>
+		</md-dialog-actions> </md-dialog>
+	</div>
+<!-- Delete Confirmation ends -->
+
+<!-- Solution Publish Confirmation starts -->
+	<div class="md-dialog-container" id="confirmPublishModel"
+		style="height: 0;">
+		<md-dialog aria-label="Model Publish Confirmation"> <md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Model Publish Confirmation</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="closePoup()">
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar> <md-dialog-content>
+		<form ng-cloak>
+			<div class="md-dialog-content">
+				<p>Do you want to publish this model under '{{selectedCatalog}}' catalog?</p>											
+			</div>
+		</form>
+		</md-dialog-content> <md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">Cancel </md-button>
+			<md-button ng-click="publishtoMarket()" class="mdl-button mdl-js-button btn-primary">Confirm </md-button>
 		</div>
 		</md-dialog-actions> </md-dialog>
 	</div>
