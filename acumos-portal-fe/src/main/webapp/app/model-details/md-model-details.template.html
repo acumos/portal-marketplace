@@ -146,7 +146,12 @@ limitations under the License.
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
 						ui-sref="modelEdit({solutionId:solutionId, revisionId:revisionId})"
 						ng-disabled="editModel" alt="Manage My Model" title="Manage My Model">
-						<i class="material-icons">mode_edit</i> Manage My Model
+						 Manage My Model
+					</button>
+					<button
+						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-secondary createMicroservice"						
+						alt="Create Microservice" title="Create Microservice" ng-if="showMicroService" ng-click="showMicroservice()">
+						Create Microservice
 					</button>
 					</span>
 				</div>
@@ -314,10 +319,10 @@ limitations under the License.
 								<img ng-src="/api/solutions/{{solution.solutionId}}/picture" class="modelimg1" style="max-width: 400px; margin: 0 auto; display: block;"
 									onerror="this.onerror=null;this.src='images/default-model.png'"/>
 						</div>
-						<!-- <p>Parsey McParseface is a language parsing tool that is fantastic at tagging word meaning within sentences and forming a parse tree (in Tree or Conll format) for other NLP algorithms to use</p> -->
+						
 							<div ng-bind-html="solutionPublicDesc1" ng-show="showPBDescription"></div>
 							<div ng-bind-html="solutionCompanyDesc1" ng-show="showORDescription" ></div>
-
+							<h6 ng-if="dockerUrlOfModel" class="md-subhead lbl1"> My Image Model: {{dockerUrlOfModel}}</h6>
 					</div>
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
@@ -1275,3 +1280,35 @@ limitations under the License.
 		  </div>
 		    <!--deploy to Microsoft Azure dialog end -->
 	
+		<!--  Create Microservice dialog starts -->
+		<div class="md-dialog-container" id="createMicroservice" style="height: 0;">
+		<md-dialog aria-label="Create Microservice" class="ud-change-password">
+			<md-toolbar>
+		      <div class="md-toolbar-tools">
+				<h2>Create a Microservice</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click='closePoup()'>
+				<i class="material-icons">close</i> </md-button>
+				</div>
+			</md-toolbar>
+		 	<md-dialog-content class="createMicroserviceModel">		
+			 	<div class="md-dialog-content mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">			 	
+					<div class="select-control">
+						<label class="fedlbl4">Select Deployment Environment</label>
+						<md-select ng-model="devEnv">
+								<md-option value="1">X86</md-option>
+<!-- 								<md-option value="ARM">ARM</md-option>
+								<md-option value="ONAP">ONAP</md-option> -->
+						</md-select>
+					</div>
+			 	</div>		 
+		  	</md-dialog-content>		
+		
+			<md-dialog-actions>		  
+		   		<div class="dialog-footer-container1">	   
+					<button ng-click='closePoup()' class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+					<button ng-click="createMicroservice();closePoup();disableCreateButton=true;" class="mdl-button mdl-js-button btn-primary">Create</button>	        
+			</md-dialog-actions>
+		  </md-dialog>
+		  </div>
+		    <!-- Create Microservice dialog end -->

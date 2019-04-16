@@ -113,8 +113,13 @@ angular.module('AcumosApp')
         var urlUnreadNotification =  "/api/unreadnotifications/count";
         var urlOnBoardingHistoryTaskList =  "/api/onboardinghistory/getTasks";
         var urlOnBoardingHistoryStepResult =  "/api/onboardinghistory/getStepResult";
-        var urlPublisher =  "/api/solution";  
-	var urlgetMenuUrl = 'api/admin/getMenu';	      
+
+        var urlgetMenuUrl = 'api/admin/getMenu';	      
+        var urlPublisher =  "/api/solution";
+        var urlSearchSolutionsByName = '/api/onboardingDocker/dockerSearchSolutions';
+        var urlUpdateDockerImage = '/api/onboardingDocker/artifactsUrl';
+        var urlcreateMicroservice = '/api/microService/createmicroservice'
+
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -624,8 +629,21 @@ angular.module('AcumosApp')
         	return $http.post(urlOnBoardingHistoryStepResult + "/" + taskId);
         };
         
-	this.getMenu = function () {
+        this.getMenu = function () {
             return $http.get(urlgetMenuUrl);
         };   
+
+        this.searchSolutionsByName = function(request) {
+        	return $http.post(urlSearchSolutionsByName, request);
+        };
+        
+        this.updateDockerImage = function(request) {
+        	return $http.post(urlUpdateDockerImage, request);
+        };
+        
+        this.createMicroservice = function(request) {
+        	return $http.post(urlcreateMicroservice, request);
+        };
+
 
     }]);

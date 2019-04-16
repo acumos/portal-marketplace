@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -89,10 +90,7 @@ public class WebBasedOnboardingController extends AbstractController {
 
 		log.info("addToCatalog");
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
-		String uuid = UUID.randomUUID().toString();
-		
-		
-		
+		String uuid = UUID.randomUUID().toString();	
 		
 		final String requestId = MDC.get(ONAPLogConstants.MDCs.REQUEST_ID);
 
@@ -117,6 +115,7 @@ public class WebBasedOnboardingController extends AbstractController {
 				// completed.
 				// restPageReq.getBody() will get( modelType, modelToolkitType,
 				// name) which required to proceed
+				Map<String, Object> toReturn =null;
 				// String provider = request.getHeader("provider");
 				String access_token = authorization;
 				try {
@@ -127,13 +126,18 @@ public class WebBasedOnboardingController extends AbstractController {
 							MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
 							String modelName = null;
 							String dockerfileURI = null;
+							String deploymentEnv = null;
 							if (restPageReq.getBody() != null){
 								modelName = restPageReq.getBody().getName();
 								dockerfileURI = restPageReq.getBody().getDockerfileURI();
+								if(restPageReq.getBody().getDeploymentEnv() != null){
+									deploymentEnv = restPageReq.getBody().getDeploymentEnv();
+								}
 							}
 							
+							
 							return (HttpResponse) asyncService.callOnboarding(uuid, requestUser, solution, provider,
-									access_token, modelName ,dockerfileURI);
+									access_token, modelName, dockerfileURI, deploymentEnv);
 						}
 					});
 					executor.execute(futureTask_1);

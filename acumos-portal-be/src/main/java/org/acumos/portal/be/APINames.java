@@ -35,6 +35,11 @@ public class APINames {
 	public static final String LOGIN = "/login";
 	public static final String LOGOUT = "/logout";
 
+	//Pre-Dockerized model
+	public static final String DOCKER_SEARCH_SOLUTION = "/dockerSearchSolutions";
+	public static final String CREATE_DOCKER_SOLUTION = "/createDockerSolution";
+	public static final String ARTIFACTS_URL ="/artifactsUrl";
+	 
 	// User Service APIs
 	public static final String USERS = "/users";
 	public static final String ACCOUNT_SIGNUP = "/register";
@@ -61,6 +66,7 @@ public class APINames {
 	public static final String CHECK_API_KEY = "oauth";
 
 	// Solutions APIs for MarketPlace Catalog
+	public static final String CREATE_SOLUTION = "/createSolution";
 	public static final String SOLUTIONS = "/solutions";
 	public static final String SOLUTIONS_DETAILS = "/solutions/{solutionId}/{revisionId}";
 	public static final String PAGINATED_SOLUTIONS = "/paginatedSolutions";
@@ -246,6 +252,7 @@ public class APINames {
 
 	public static final String CONVERT_TO_ONAP = "/convertToOnap/{solutionId}/{revisionId}/{userId}/{modName}";
 	public static final String CHECK_ONAP_COMPATIBLE = "/checkOnapCompatible/{solutionId}/{revisionId}";
+	public static final String CREATE_MICROSERVICE="/createmicroservice";
 
 	public static final String BROKER = "/broker";
 

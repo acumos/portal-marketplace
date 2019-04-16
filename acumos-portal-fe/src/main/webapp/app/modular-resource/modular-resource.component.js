@@ -98,15 +98,18 @@ angular.module('modelResource')
 			$scope.model = {};
 			$scope.disableOnboardingButton = false;
 			
+			$scope.dockerBackScreen = true;
 			$scope.disableRefreshButton = true;
 			$scope.disableDockerRefreshButton = true;
 			
 			$scope.disableUploadLicense = false;
 			$scope.disableUploadCheckbox = false;
 			$scope.disableUploadDLCheckbox = false;
-			
+
+			if(angular.isDefined($rootScope.isMicroserviceEnabled) == false)
+				$rootScope.isMicroserviceEnabled = true;
 			$rootScope.progressBar = 0;
-			
+			$scope.devEnv = '1';
 			$scope.activeViewModel = false;
 			if(browserStorageService.getUserDetail()){
 				$scope.userLoggedIn = true;
@@ -354,12 +357,15 @@ angular.module('modelResource')
 										angular.element(angular.element(onboardingComponent + ' li')[counter+1]).addClass('green completed');
 										$scope.completedSteps[stepName] = stepName;
 
-										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) || ($rootScope.dockerURIonboarding && counter == 2) || ($rootScope.isOnnxOrPFAModel == true && counter == 2 ) ) && $scope.stepfailed == false ) {
+										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) || ($rootScope.dockerURIonboarding && counter == 2) || ($rootScope.isOnnxOrPFAModel == true && counter == 2 ) || ( counter == 4 && !$rootScope.isMicroserviceEnabled ) ) && $scope.stepfailed == false ) {
 											if($rootScope.isOnnxOrPFAModel){
 												counter = 10;
 												width = 85;
 											} else if($rootScope.dockerURIonboarding){
 												counter = counter + 2;
+												width = 85;
+											} else if(!$rootScope.isMicroserviceEnabled){
+												counter = 10;
 												width = 85;
 											} else {											
 												counter = counter + 2;
@@ -431,6 +437,7 @@ angular.module('modelResource')
                 $rootScope.trackId = false;
                 $scope.filename = '';
                 $scope.licenseFilename = '';
+                $scope.devEnv = '1';
                 angular.element(angular.element('li div')).removeClass('completed incomplet active');
                 angular.element(angular.element('li')).removeClass('green completed');
                 angular.element('.regular_onboarding .progress .progress-bar').css({ "width" : '0%'});
@@ -464,6 +471,7 @@ angular.module('modelResource')
 					dockerUrl = $scope.dockerURI;
 					solutionName = $scope.modelDockerURLName;
 					$rootScope.dockerURIonboarding = true;
+					$rootScope.isMicroserviceEnabled = false;
 					$scope.disableUploadDLCheckbox = true;
 				}
 				
@@ -485,6 +493,14 @@ angular.module('modelResource')
 							    "dockerfileURI" : dockerUrl
 							  }
 						}
+					}
+					
+					if($rootScope.isMicroserviceEnabled){
+						$scope.addToReqObj = { 
+							  "request_body": {
+								    "deploymentEnv" : $scope.devEnv
+								  }
+							}
 					}
 					
 					apiService
@@ -583,5 +599,99 @@ angular.module('modelResource')
 			   $scope.clearExistingDockerURLNotifications();
 		       dockerUrlForm.reset();
 		   }
+		   
+		  
+		   $scope.backToDocker = function(){
+			   $scope.dockerBackScreen = true;
+			   $scope.checkingSolution = false;
+			   $scope.availableSolution = false;
+			   $scope.searchModelName = '';
+			   $scope.notavailableSolution = false;
+			   $scope.createDockerRef = false;
+			   $scope.solutionList = [];
+			   $scope.artifactUrl = '';
+			   $scope.searchModel = '';	
+			   $scope.disableCreateDocker=false;
+		   }
+		   
+		   $scope.checkingSolution = false;
+		   $scope.checkModelName = function(modelName, searchType){
+			   
+			   if(modelName) {
+				  var request = {
+					   "request_body": {
+					     "activeType": "Y",
+					     "page": 0,
+					     "userId" : $scope.userId[1],
+					     "description" : searchType,
+					     "searchTerm": modelName,
+					     "size": 1000
+					   }
+					};
+				 
+				  $scope.checkingSolution=true;
+				  $scope.availableSolution=false;
+				  $scope.selectedSolutionId = '';
+	              apiService.searchSolutionsByName(request)
+	               .then(
+	                       function(response) {
+	                    	   $scope.checkingSolution = false;
+	                    	  
+	                           if(!response.data.response_body.content.length) {
+	                        	   $scope.availableSolution = true;
+	                        	   $scope.notavailableSolution = false;	                        	  
+	                           } else {
+	                        	   $scope.notavailableSolution = true;
+	                        	   $scope.availableSolution = false;
+	                        	   $scope.solutionList = response.data.response_body.content;
+	                        	   document.getElementById("modelList").click();
+	                           }
+	                });
+			   }
+			   
+			}
+		   
+		   $scope.$watchGroup(['solutionList', 'searchModel'], function() {
+		    	  
+		    	  if($scope.solutionList && $scope.searchModel){
+		    		  for(var i=0 ; i< $scope.solutionList.length; i++){
+		    			  if( $scope.solutionList[i].name == $scope.searchModel ) {
+		    				  $scope.selectedSolutionId = $scope.solutionList[i].solutionId;
+		    			  }
+		    		  }
+		    	  } else {
+		    		  $scope.selectedSolutionId = '';
+		    	  }
+		    });
+		   
+		   $scope.createDockerImageRef = function(isUpdate, modelname){
+			   $scope.createDockerRef = true;
+			   $scope.addToReqObj = { 
+						  "request_body": {
+							    "name": modelname,							   
+							    "dockerfileURI" : 'DockerModel'
+							  }
+						};
+			               
+               $scope.msg = "Generating Artifact Url, Please wait."; 
+               $scope.icon = '';
+               $scope.styleclass = 'c-warning';
+               $scope.showAlertMessage = true;
+               $timeout(function() {
+               	$scope.showAlertMessage = false;
+               }, 5000);
+               
+			   apiService.updateDockerImage($scope.addToReqObj)
+               .then(function(response) {
+                   $scope.artifactUrl = response.data.response_body;                    	 
+               });			   
+		   }
+		   
+		   $scope.copyText = function(id){
+			   var copyText = angular.element(id);
+			   copyText.select();
+			   document.execCommand("copy");
+		   }
+		   
 		}
 });
