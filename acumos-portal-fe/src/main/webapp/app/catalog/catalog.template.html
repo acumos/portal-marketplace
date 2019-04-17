@@ -2,7 +2,7 @@
 ===============LICENSE_START=======================================================
 Acumos Apache-2.0
 ===================================================================================
-Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+Copyright (C) 2019 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
 ===================================================================================
 This Acumos software file is distributed by AT&T and Tech Mahindra
 under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ===============LICENSE_END=========================================================
 -->
+
+<div class="posrel">
+	<alert-message ng-cloak msg="msg" icon="icon" styleclass="styleclass"
+		ng-show="showAlertMessage"></alert-message>
+</div>
 
 <div class="page-content">
 	<section class="pageheadsection">
@@ -33,59 +38,13 @@ limitations under the License.
 	</section>
 </div>
 <div class="catalog-page-wrapper">
-	<div ng-if="showCatalogSection">
-		<h4 class="gridlistheading">Add New Catalog</h4>
-		<div class="catalog-container1">
-			<div class="mdl-grid mdl-grid--no-spacing">
-				<div class="mdl-cell mdl-cell--8-col catalog-grid-cell1">
-					<md-input-container class="md-block"> <label>Catalog
-						Name</label> <input type="text" ng-model="catalogName" /> </md-input-container>
-				</div>
-				<div class="mdl-cell mdl-cell--4-col">
-					<div class="select-control catalog-select1">
-						<label>Select Access Level</label>
-						<md-select ng-model="accessLevel" placeholder="Access Level"
-							class="md-no-underline admin-ddl"> <md-option
-							value="{{type.value}}" ng-repeat='type in accessType'>{{type.name}}</md-option>
-						</md-select>
-					</div>
-				</div>
-			</div>
-			<br />
-			<div class="mdl-grid mdl-grid--no-spacing">
-				<div class="mdl-cell mdl-cell--12-col">
-					<md-input-container class="md-block"> <label>Add
-						Description</label> <textarea class="catalog-txtarea"
-						ng-model="description"></textarea> </md-input-container>
-				</div>
-			</div>
-			<br />
-			<div>
-				<md-checkbox ng-model="selfPublish" aria-label="Checkbox 1">Self
-				Publish?</md-checkbox>
-			</div>
-			<div>
-				<button class="mdl-button mdl-js-button btn-secondary" alt="Cancel"
-					title="Cancel" ng-click="clearCatalog()">Cancel</button>
-				<button class="mdl-button mdl-js-button btn-primary btn-gap"
-					alt="Add New Catalog" title="Add New Catalog"
-					ng_click="addCatalog()" ng-show="showAddCatalog">Add
-					Catalog</button>
-				<button class="mdl-button mdl-js-button btn-primary btn-gap"
-					alt="Add New Catalog" title="Add New Catalog"
-					ng_click="updateCatalog()" ng-show="!showAddCatalog">Update
-					Catalog</button>
-			</div>
-		</div>
-		<hr />
-	</div>
 	</br>
 	<div class="catalog-filter-container">
 		<label class="ct-lbl2"></label>
 		<div class="catalog-filter-inner-container">
 			<button class="mdl-button mdl-js-button btn-primary"
 				alt="Add New Catalog" title="Add New Catalog"
-				ng-click="ShowCatalog()">Add New Catalog</button>
+				ng-click="addCatalog()">Add New Catalog</button>
 			<div class="select-control catalog-select">
 				<md-select ng-model="catalogLevel" ng-change="search()" placeholder="All Catalog"
 					class="md-no-underline admin-ddl"> <md-option
@@ -132,21 +91,21 @@ limitations under the License.
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="Catalog in allCatalogList">
-							<td><span class="md-breadcrumb-item">{{Catalog.name}}</span></td>
-							<td><span class="md-breadcrumb-item">{{Catalog.publisher}}</span></td>
+						<tr ng-repeat="catalog in allCatalogList">
+							<td><span class="md-breadcrumb-item">{{catalog.name}}</span></td>
+							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>
 							<td><span class="md-breadcrumb-item"></span></td>
-							<td><span class="md-breadcrumb-item">{{Catalog.created | date :"MM/dd/yyyy" }}</span></td>
+							<td><span class="md-breadcrumb-item">{{catalog.created | date :"MM/dd/yyyy" }}</span></td>
 							<td><span class="md-breadcrumb-item">
-									{{Catalog.accessTypeCode == "PB" ? "Public" : "Restricred"}}</span></td>
-							<td><span class="md-breadcrumb-item">{{Catalog.solutionCount}}
+									{{catalog.accessTypeCode == "PB" ? "Public" : "Restricted"}}</span></td>
+							<td><span class="md-breadcrumb-item">{{catalog.solutionCount}}
 							</span></td>
 							<td>
-								<button ng-click="editCatalog(Catalog)"
+								<button ng-click="editCatalog(catalog)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-edit"></span>
 								</button>
-								<button ng-click="deleteCatalog(Catalog)"
+								<button ng-click="showDeleteDialog(catalog)"
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-delete"></span>
 								</button>

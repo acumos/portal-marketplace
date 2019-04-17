@@ -170,11 +170,15 @@ public class CatalogServiceImplTest {
 						+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
 						+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
 
-		RestPageResponse<MLPCatalog> response = catalogService.searchCatalogs(catalogRequest);
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+
+		RestPageResponse<MLCatalog> response = catalogService.searchCatalogs(catalogRequest);
 		assertValidRestPageResponse(response);
-		List<MLPCatalog> catalogs = response.getContent();
+		List<MLCatalog> catalogs = response.getContent();
 		assertEquals(catalogs.size(), 1);
-		MLPCatalog catalog = catalogs.get(0);
+		MLCatalog catalog = catalogs.get(0);
 		assertNotNull(catalog);
 	}
 

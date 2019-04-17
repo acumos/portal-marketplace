@@ -116,6 +116,7 @@ angular.module('AcumosApp')
         var urlPublisher =  "/api/solution";
         
         var urlAllCatalogsList =  "/api/catalogs"; 
+        var urlCatalogPath = "/api/catalog";
         var urlCatalogsList =  "/api/catalog/solution";
         var urlUnpublishCatalog = "/api/catalog";
         
@@ -626,6 +627,18 @@ angular.module('AcumosApp')
                 
         this.getCatalogs = function(request) {
         	return $http.post(urlAllCatalogsList, request);
+        };
+        
+        this.createCatalog = function(request) {
+        	return $http.post(urlCatalogPath, request);
+        };
+        
+        this.updateCatalog = function(request) {
+        	return $http.put(urlCatalogPath, request);
+        };
+        
+        this.deleteCatalog = function(catalogId) {
+        	return $http.delete(urlCatalogPath + "/" + catalogId);
         };
         
         this.getCatalogsForSolutions = function(solutionId) {

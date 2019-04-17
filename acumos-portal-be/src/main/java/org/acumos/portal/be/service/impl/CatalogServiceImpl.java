@@ -66,11 +66,24 @@ public class CatalogServiceImpl extends AbstractServiceImpl implements CatalogSe
 	}
 
 	@Override
-	public RestPageResponse<MLPCatalog> searchCatalogs(CatalogSearchRequest catalogRequest) {
+	public RestPageResponse<MLCatalog> searchCatalogs(CatalogSearchRequest catalogRequest) {
 		log.debug("searchCatalogs");
+		RestPageResponse<MLCatalog> out = null;
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		return dataServiceRestClient.searchCatalogs(catalogRequest.paramsMap(), catalogRequest.isOr(),
+		RestPageResponse<MLPCatalog> response = dataServiceRestClient.searchCatalogs(catalogRequest.paramsMap(), catalogRequest.isOr(),
 				catalogRequest.getPageRequest());
+		if (response != null) {
+			List<MLPCatalog> mlpCatalogs = response.getContent();
+			ArrayList<MLCatalog> mlCatalogs = new ArrayList<>();
+			MLCatalog mlCatalog;
+			for (MLPCatalog mlpCatalog : mlpCatalogs) {
+				mlCatalog = new MLCatalog(mlpCatalog);
+				mlCatalog.setSolutionCount(dataServiceRestClient.getCatalogSolutionCount(mlpCatalog.getCatalogId()));
+				mlCatalogs.add(mlCatalog);
+			}
+			out = PortalUtils.convertRestPageResponse(response, mlCatalogs);
+		}
+		return out;
 	}
 
 	@Override

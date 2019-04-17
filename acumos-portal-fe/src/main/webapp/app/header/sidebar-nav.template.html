@@ -37,11 +37,10 @@ limitations under the License.
 				<span class="headertxtspan">My Models</span>
 			</a>
 			
-			<a class="mdl-navigation__link" ng-class="{ active: isActive('/catalog') }" ui-sref="catalog" title="Catalogs"  ng-click="$root.parentActive = ''">
+			<a ng-if="$root.userRoleAdmin" class="mdl-navigation__link" ng-class="{ active: isActive('/catalog') }" ui-sref="catalog" title="Catalogs"  ng-click="$root.parentActive = ''">
 		    	<span class="icon-header icon-catalogs"></span>
-		    	<span class="headertxtspan">CATALOGS</span>
+		    	<span class="headertxtspan">Catalogs</span>
 		    </a>
-				
 				
 		    <a ng-if="$root.enableOnBoarding" class="mdl-navigation__link" ng-class="{ active: isActive('/modelerResource') }" ui-sref="modularResource" title="Modeler Resources"  ng-click="$root.parentActive = ''">
 		    	<span class="icon-header icon-onboarding-model"></span>

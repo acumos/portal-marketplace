@@ -92,11 +92,11 @@ public class CatalogServiceController extends AbstractController {
 	@ApiOperation(value = "Search catalogs via query", response = MLPCatalog.class, responseContainer = "List")
 	@RequestMapping(value = { APINames.SEARCH_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
-	public JsonResponse<RestPageResponse<MLPCatalog>> searchCatalogs(HttpServletRequest request,
+	public JsonResponse<RestPageResponse<MLCatalog>> searchCatalogs(HttpServletRequest request,
 			@RequestBody JsonRequest<CatalogSearchRequest> searchRequestJson, HttpServletResponse response) {
 		log.debug("searchCatalogs");
-		RestPageResponse<MLPCatalog> catalogs = null;
-		JsonResponse<RestPageResponse<MLPCatalog>> data = new JsonResponse<>();
+		RestPageResponse<MLCatalog> catalogs = null;
+		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
 		try {
 			catalogs = catalogService.searchCatalogs(searchRequestJson.getBody());
 			if (catalogs != null) {

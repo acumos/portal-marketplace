@@ -215,22 +215,26 @@ public class CatalogServiceControllerTest {
 								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
 								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
 								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+		
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<CatalogSearchRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
 
-		ResponseEntity<JsonResponse<RestPageResponse<MLPCatalog>>> respEntity = restTemplate.exchange(
+		ResponseEntity<JsonResponse<RestPageResponse<MLCatalog>>> respEntity = restTemplate.exchange(
 				"http://localhost:" + randomServerPort + APINames.SEARCH_CATALOGS, HttpMethod.POST, requestEntity,
-				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLPCatalog>>>() {
+				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
 				});
 
 		assertNotNull(respEntity);
 		assertEquals(HttpServletResponse.SC_OK, respEntity.getStatusCode().value());
-		RestPageResponse<MLPCatalog> restPageResponse = respEntity.getBody().getResponseBody();
+		RestPageResponse<MLCatalog> restPageResponse = respEntity.getBody().getResponseBody();
 		assertValidRestPageResponse(restPageResponse);
-		List<MLPCatalog> catalogs = restPageResponse.getContent();
+		List<MLCatalog> catalogs = restPageResponse.getContent();
 		assertEquals(catalogs.size(), 1);
-		MLPCatalog catalog = catalogs.get(0);
+		MLCatalog catalog = catalogs.get(0);
 		assertNotNull(catalog);
 	}
 
