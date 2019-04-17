@@ -616,22 +616,22 @@ limitations under the License.
 							<div class="mdl-tabs__panel company-market" id="company-market"
 								ng-show="tab=='company'" ng-class="{'isActive':tab=='company'}">
 								<div>
-								<div class="mdl-grid mdl-grid--no-spacing">
-								<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+								<div class="mdl-grid mdl-grid--no-spacing catalogList">
+								<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" >
                                     <label>Select Catalog </label>
-                                     <input list="solutions" type="text" ng-model="selectedCatalog" class="mdl-textfield__input notification-search">
-                                     <datalist id="solutions"> 
+                                     <input list="list1" type="text" ng-model="selectedCatalog" class="mdl-textfield__input notification-search">
+                                     <datalist id="list1"> 
                                          <select class="select-control">
-                                             <option ng-repeat="catalog in catalogsList">{{catalog.name}}</option>
+                                             <option ng-repeat="catalog in catalogsAvailable">{{catalog.name}}</option>
                                          </select>
                                      </datalist>                           
                                  </div>
-                                 <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+                                 <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="solutionCatalogsList.length > 0">
                                     <label>Catalog(s) of published model</label>
-                                     <input list="solutions" type="text" ng-model="selectCatalog" class="mdl-textfield__input notification-search">
-                                     <datalist id="solutions">
+                                     <input list="list2" type="text" ng-model="existingCatalog" class="mdl-textfield__input notification-search">
+                                     <datalist id="list2">
                                          <select class="select-control">
-                                             <option ng-repeat="catalog in catalogsList" value="{{catalog.catalogId}}">{{solution.name}}</option>
+                                             <option ng-repeat="catalog in solutionCatalogsList">{{catalog.name}}</option>
                                          </select>
                                      </datalist>                           
                                  </div>
@@ -691,6 +691,9 @@ limitations under the License.
 										<!-- company -->
 										<span>( {{statusCount}}/6 Completed )</span>
 										<div class="pull-right">
+											<button ng-click="publishConfirmation(false)" ng-disabled="!existingCatalogId"
+												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Unpublish" title="Unpublish">
+												Unpublish</button>	
 											<button ng-click="showPrerenderedDialog($event);publicPreview=false;"
 												class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary " alt="Preview Model" title="Preview Model">
 												Preview Model</button>
@@ -1532,10 +1535,14 @@ limitations under the License.
 									</div>
 
 									<div class="">
-										<button ng-click="publishConfirmation()"
-											ng-disabled="activePublishBtn == false"
+										<button ng-click="publishConfirmation(true)"
+											ng-disabled="activePublishBtn == false || !selectedCatalogId"
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 											Submit to Publication</button>
+										<button ng-click="publishConfirmation(false)"
+											ng-disabled="!existingCatalogId"
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Unpublish" title="Unpublish">
+											Unpublish</button>
 										<button
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary "
 											ng-click="showPrerenderedDialog($event);publicPreview=false;" alt="Preview Model" title="Preview Model">Preview
@@ -2428,4 +2435,27 @@ limitations under the License.
 		</div>
 		</md-dialog-actions> </md-dialog>
 	</div>
-<!-- Delete Confirmation ends -->
+<!-- Solution Publish Confirmation ends -->
+<!-- Solution Unpublish Confirmation starts -->
+	<div class="md-dialog-container" id="confirmUnpublishModel" style="height: 0;">
+		<md-dialog aria-label="Model Publish Confirmation"> <md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Model Unpublish Confirmation</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="closePoup()">
+			<i class="material-icons">close</i> </md-button>
+		</div>
+		</md-toolbar> <md-dialog-content>
+		<form ng-cloak>
+			<div class="md-dialog-content">
+				<p>Do you want to unpublish this model?</p>											
+			</div>
+		</form>
+		</md-dialog-content> <md-dialog-actions>
+		<div class="dialog-footer-container1">
+			<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary">Cancel </md-button>
+			<md-button ng-click="unpublish()" class="mdl-button mdl-js-button btn-primary">Confirm </md-button>
+		</div>
+		</md-dialog-actions> </md-dialog>
+	</div>
+<!-- Solution Unpublish Confirmation ends -->

@@ -62,11 +62,13 @@ limitations under the License.
 			<table
 				class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1 request-tbl">
 				<colgroup>
-					<col width="20%">
 					<col width="15%">
-					<col width="15%">
-					<col width="15%">
-					<col width="15%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
 					<col width="15%">
 					<col width="5%">
 				</colgroup>
@@ -102,7 +104,20 @@ limitations under the License.
 							ng-if='orderByField=="creationDate"'
 							ng-class="reverseSortPbReq?'ascending':'descending'"
 							class="gridcell-sort"></span></th>
-						<!-- <th>Subscriptions</th> -->
+						<th
+							ng-click="orderByField='catalogName'; reverseSortPbReq = !reverseSortPbReq">Catalog<span
+							ng-if='orderByField!="catalogName"'
+							class="gridcell-sort deactivate"></span><span
+							ng-if='orderByField=="catalogName"'
+							ng-class="reverseSortPbReq?'ascending':'descending'"
+							class="gridcell-sort"></span></th>
+						<th
+							ng-click="orderByField='catalogName'; reverseSortPbReq = !reverseSortPbReq">Access Level<span
+							ng-if='orderByField!="catalogName"'
+							class="gridcell-sort deactivate"></span><span
+							ng-if='orderByField=="catalogName"'
+							ng-class="reverseSortPbReq?'ascending':'descending'"
+							class="gridcell-sort"></span></th>
 						<th
 							ng-click="orderByField='revisionStatusName'; reverseSortPbReq = !reverseSortPbReq">Status<span
 							ng-if='orderByField!="revisionStatusName"'

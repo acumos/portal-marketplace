@@ -864,6 +864,7 @@ angular.module('manageModule')
 							if($scope.viewNoMLsolution == 'No More ML Solutions' && $scope.pageNumber != 0){return;}
 							$scope.MlSoltionCount = false;
 							
+							
 							dataObj = {
 									  "request_body": {
 										    "active": $scope.activeType,
@@ -879,6 +880,13 @@ angular.module('manageModule')
 										    }
 										  }
 										};
+							
+							if(type =='PR'){
+								dataObj.request_body.published = false;
+							}
+							if(type =='PB'){
+								dataObj.request_body.published = true;
+							}
 							if($scope.activeType == false){
 								delete(dataObj.request_body.accessTypeCodes);
 							}
