@@ -87,21 +87,22 @@ public class PublishSolutionServiceControllerTest {
 			JsonResponse<Object> value = new JsonResponse<>();
 			value.setResponseBody(mlsolution);
 			String accessType = "PB";
-			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn("Successfully published the solutions");
+			String catalogId = "1234-1234-1234-1234-1234";
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, catalogId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
-			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
+			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, catalogId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "OR";
-			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn("Successfully published the solutions");
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, catalogId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
-			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
+			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, catalogId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 			accessType = "PR";
-			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, trackingId)).thenReturn("Successfully published the solutions");
+			Mockito.when(publishSolutionService.publishSolution(solutionId, accessType , userId, revisionId, catalogId, trackingId)).thenReturn("Successfully published the solutions");
 			Mockito.when(catalogService.getSolution(mlsolution.getSolutionId())).thenReturn(mlsolution);
-			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, response);
+			value = publishController.publishSolution(request, solutionId, visibility, userId, revisionId, catalogId, response);
 			logger.info("Successfully published the solutions : ", value.getResponseBody());
 			Assert.assertNotNull(value);
 		} catch (Exception e) {
