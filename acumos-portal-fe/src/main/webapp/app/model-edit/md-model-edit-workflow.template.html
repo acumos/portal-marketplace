@@ -636,6 +636,107 @@ limitations under the License.
                                      </datalist>                           
                                  </div>
                                  </div>
+                                 <!-- Public Workflow -->
+									<div ng-if="selectedCatalogObj.accessTypeCode == 'PB'">
+										<ul>
+											<li>
+												<div class="imageplace"
+													ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
+													<span class="imagecontent model-documentation"
+														alt="Model Documentation" title="Model Documentation">
+													</span>
+												</div>
+												<div class="text">Model Documentation</div>
+											</li>
+											<li class="progress-status"
+												ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
+											</li>
+
+											<li md-labeled-by-tooltip="md-tooltip-25" aria-hidden="false">
+												<div class="imageplace"
+													ng-class="{'completed': publishRequest.requestStatusCode === 'AP' && version.accessTypeCode != 'OR', 'active': publishRequest.requestStatusCode === 'PE', 'incomplet' : publishRequest.requestStatusCode === 'DC'}">
+													<span class="imagecontent request-approval"
+														alt="Security Scan" title=" Request Approval "></span>
+												</div> <md-tooltip>{{publishRequest.comment}}</md-tooltip>
+												<div class="text">Request Approval</div>
+												<div class="publshbutton ">
+													<button ng-click="showWithdrawRequestModal();"
+														ng-if="publishRequest.requestStatusCode == 'PE'"
+														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish btn-request "
+														data-graded=",MaterialButton,MaterialRipple">
+														Withdraw Request<span class="mdl-button__ripple-container"><span
+															class="mdl-ripple"></span></span>
+													</button>
+												</div>
+											</li>
+											<li class="progress-status"
+												ng-class="{'completed': version.accessTypeCode=='PB'}">
+											</li>
+
+											<!-- Modal box for Withdraw publish request -->
+											<div class="md-dialog-container" id="withdrawRequestModal"
+												style="height: 0;">
+												<md-dialog aria-label="Withdraw Request" class="">
+												<form name='withdrawRequestForm' ng-cloak novalidate>
+													<md-toolbar>
+													<div class="md-toolbar-tools">
+														<h2>Withdraw Request</h2>
+														<span flex></span>
+														<md-button class="md-icon-button" ng-click='closePoup()'>
+														<i class="material-icons">close</i> </md-button>
+													</div>
+													</md-toolbar>
+													<md-dialog-content>
+													<div class="md-dialog-content">
+														<div layout="row">
+															<div flex="100">
+																<md-input-container class="md-block">
+																<p>Are you sure you want to withdraw your
+																	publication request?</p>
+																<br />
+																</md-input-container>
+															</div>
+														</div>
+													</div>
+													</md-dialog-content>
+													<md-dialog-actions>
+													<div class="dialog-footer-container1">
+														<div>
+															<button ng-click='closePoup()'
+																class="mdl-button mdl-js-button btn-secondary">Cancel</button>
+														</div>
+														<div>
+															<button ng-click="withdrawPublishRequest(); closePoup()"
+																class="mdl-button mdl-js-button btn-primary">Confirm</button>
+														</div>
+													</div>
+													</md-dialog-actions>
+												</form>
+												</md-dialog>
+											</div>
+											<!-- Modal box end -->
+											
+											<li>
+												<div class="imageplace"
+													ng-class="{'completed': version.accessTypeCode=='PB'}">
+													<span class="imagecontent yet-not-publish"
+														alt="Not yet published" title="Not yet published">
+													</span>
+												</div>
+												<div class="publshbutton hide">
+													<button ng-click="viewModel()"
+														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish ">
+														View Model</button>
+												</div> <md-tooltip>{{errorPM}}</md-tooltip>
+												<div class="text">Not yet published</div>
+												<div class="text-completed">Published to Public
+													Marketplace</div>
+											</li>
+										</ul>
+									</div>
+									<!-- End Public Workflow -->
+                                 <!-- Restricted Workflow -->
+                                 <div ng-if="selectedCatalogObj.accessTypeCode == 'RS'">
 									<ul>
 										<li> 
 											<div class="imageplace">												
@@ -678,6 +779,8 @@ limitations under the License.
 										<li  ng-hide = "tcShow"></li>	
 										
 									</ul>
+									</div>
+									<!-- End restricted workflow -->
 								</div>
 								<div class="progress">
 									<div class="progress-bar" style="width: 6%;"></div>
