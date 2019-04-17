@@ -29,7 +29,8 @@ angular.module('AcumosApp')
         var urlPortalSolutions = '/api/portal/solutions';
         var urlSearchSolutions = '/api/searchSolutionBykeyword';
         var urlUserSolutions = '/api/user/solutions';
-        var urlPublishSolution = '/api/catalog';
+        var urlPublishSolution = '/api/publish';
+        var urlUnpublishSolution = '/api/unpublish';
        	var urlSignUp = 'api/users/register';
         var urlSocialSignUp = 'api/oauth/login/register';
         var urlSignIn = 'api/auth/login';//'api/auth/jwtToken';
@@ -38,7 +39,6 @@ angular.module('AcumosApp')
         var urlCasSignIn = 'api/cas/serviceValidate';
         var urlChangePass = 'api/users/changePassword'
         var urlPutSolutions = '/api/solutions';
-        var urlPutPublishSolution = '/api/publish';
         var urlAddTag=  'api/addTag';
         var urlDeleteTag = 'api/dropTag';
         var urlGetAllTag = 'api/tags';
@@ -117,7 +117,6 @@ angular.module('AcumosApp')
         
         var urlAllCatalogsList =  "/api/catalogs"; 
         var urlCatalogsList =  "/api/catalog/solution";
-        var urlUnpublishCatalog = "/api/catalog";
         
 			
         /**************** ALL GET ******************/
@@ -288,8 +287,8 @@ angular.module('AcumosApp')
         }
         
         
-        this.publishSolution = function(catalogId, solutionId){
-        	return $http.post(urlPublishSolution + '/' + catalogId + '/solution/'+ solutionId);
+        this.publishSolution = function(solutionId, data){
+        	return $http.put(urlPublishSolution + '/' + solutionId + '?' + data);
         }
         
         this.updateAddTag = function(solutionid, tag){
@@ -632,8 +631,8 @@ angular.module('AcumosApp')
         	return $http.get(urlCatalogsList+'/'+solutionId);
         };
         
-        this.unpublishCatalog = function(catalogId,solutionId) {
-        	return $http.delete(urlUnpublishCatalog+'/'+catalogId+'/solution/'+solutionId);
+        this.unpublishSolution = function(solutionId, data){
+        	return $http.put(urlUnpublishSolution + '/' + solutionId + '?' + data);
         };
 
     }]);

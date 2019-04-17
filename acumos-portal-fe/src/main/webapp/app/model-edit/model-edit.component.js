@@ -1053,9 +1053,13 @@ angular
 						$scope.publishtoMarket = function() {
 							$scope.closeDialog();
 							if ($scope.solution.ownerId) {
-
-									apiService.publishSolution($scope.selectedCatalogId, $scope.solution.solutionId)
-											.then(
+									var data = $.param({
+										visibility : $scope.selectedCatalogObj.accessTypeCode,
+										userId : $scope.solution.ownerId,
+										revisionId : $scope.revisionId,
+										ctlg : $scope.selectedCatalogId
+									});
+									apiService.publishSolution($scope.solution.solutionId, data).then(
 													function(response) {
 														if( $scope.validationEnabled == true ){
 															$scope.getModelValidation(flow);
@@ -2633,17 +2637,28 @@ angular
 						}
 						return false;
 					}
-					
+
+		    		$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
 					$scope.$watch('selectedCatalog', function() {
-						if($scope.catalogsAvailable && $scope.selectedCatalog){
-				    		  for(var i=0 ; i< $scope.catalogsAvailable.length; i++){
-				    			  if( $scope.catalogsAvailable[i].name == $scope.selectedCatalog ) {
-				    				  $scope.selectedCatalogId = $scope.catalogsAvailable[i].catalogId;
-				    			  }
-				    		  }
-				    	  } else {
-				    		  $scope.selectedCatalogId = '';
-				    	  }
+							if ($scope.catalogsAvailable
+									&& $scope.selectedCatalog) {
+								for (var i = 0; i < $scope.catalogsAvailable.length; i++) {
+									if ($scope.catalogsAvailable[i].name == $scope.selectedCatalog) {
+										$scope.selectedCatalogObj = $scope.catalogsAvailable[i];
+										$scope.selectedCatalogId = $scope.selectedCatalogObj.catalogId;
+										break;
+									} else {
+										$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
+										$scope.selectedCatalogId = '';
+									}
+								}
+							} else {
+								$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
+								$scope.selectedCatalogId = '';
+							}
+							if ($scope.selectedCatalogId && $scope.selectedCatalogId != '') {
+								
+							}
 					});
 					
 					$scope.$watch('existingCatalog', function() {
@@ -2714,8 +2729,11 @@ angular
 				    
 				    $scope.unpublish = function(){
 				    	$scope.closeDialog();
-				    	apiService
-				        .unpublishCatalog($scope.existingCatalogId, $scope.solutionId)
+				    	var data = $.param({
+							userId : $scope.solution.ownerId,
+							ctlg : $scope.existingCatalogId
+						});
+				    	apiService.unpublishSolution($scope.solutionId, data)
 				        .then(function(response) {
 				        	if(response.status == 200){
 					        	$scope.msg = "Solution Unpublished Successfully";

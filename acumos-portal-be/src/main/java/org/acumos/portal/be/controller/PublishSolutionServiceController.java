@@ -113,16 +113,16 @@ public class PublishSolutionServiceController extends AbstractController {
 	@ApiOperation(value = "Unpublishes a given SolutionId for userId with selected visibility.", response = ResponseVO.class)
     @RequestMapping(value = {APINames.UNPUBLISH},method = RequestMethod.PUT, produces = APPLICATION_JSON)
     @ResponseBody
-    public JsonResponse<Object> unpublishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
+    public JsonResponse<Object> unpublishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("ctlg") String catalogId,
     		@RequestParam("userId") String userId, HttpServletResponse response) {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		
-		log.debug("unpublishSolution={}", solutionId, visibility);
+		log.debug("unpublishSolution={}", solutionId, catalogId);
 		 JsonResponse<Object> data = new JsonResponse<>();
 		try {
 			//TODO As of now it does not check if User Account already exists. Need to first check if the account exists in DB
-			publishSolutionService.unpublishSolution(solutionId, visibility, userId);
+			publishSolutionService.unpublishSolution(solutionId, catalogId, userId);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Solutions unpublished Successfully");
 		} catch (Exception e) {
