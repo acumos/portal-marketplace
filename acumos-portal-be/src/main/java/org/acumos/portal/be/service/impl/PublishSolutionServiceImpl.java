@@ -65,7 +65,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	}
 	
 	@Override
-	public String publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId) {
+	public String publishSolution(String solutionId, String accessType, String userId, String revisionId, String catalogId, UUID trackingId) {
 		log.debug("publishModelBySolution ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolution mlpSolution2 = null;
@@ -84,6 +84,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							MLPPublishRequest publishRequest = new MLPPublishRequest();
 							publishRequest.setSolutionId(solutionId);
 							publishRequest.setRevisionId(revisionId);
+							publishRequest.setCatalogId(catalogId);
 							publishRequest.setRequestUserId(userId);
 							//Get Status Code from CDS and then populate 
 							publishRequest.setStatusCode(CommonConstants.PUBLISH_REQUEST_PENDING);
@@ -95,12 +96,12 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							// Change the return type to send the message that request has been created 
 							publishStatus = "Solution "+mlpSolution2.getName()+" Pending for Publisher Approval";
 						} else {
-							updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
+							dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
 							publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 						}
 					}
 				} else {
-					updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
+					dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
 					publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 				}
 			}

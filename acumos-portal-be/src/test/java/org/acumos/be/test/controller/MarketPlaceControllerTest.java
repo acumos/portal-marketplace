@@ -447,6 +447,13 @@ public class MarketPlaceControllerTest {
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
 
+		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
+
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
 
@@ -532,6 +539,13 @@ public class MarketPlaceControllerTest {
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+
+		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
@@ -620,6 +634,13 @@ public class MarketPlaceControllerTest {
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+
+		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);

@@ -41,6 +41,7 @@ public class MLSolution {
 	private String ownerName;
 	private String metadata;
 	private boolean active;
+	private String catalogName;
 	private Instant created;
 	private Instant modified;
 	private String tookitType;
@@ -106,9 +107,7 @@ public class MLSolution {
 	/**
 	 * 
 	 */
-	public MLSolution() {
-		// TODO Auto-generated constructor stub
-	}
+	public MLSolution() {}
 
 	/**
 	 * @return the solutionId
@@ -192,6 +191,20 @@ public class MLSolution {
 	 */
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	/**
+	 * @return the catalog name
+	 */
+	public String getCatalogName() {
+		return catalogName;
+	}
+	
+	/**
+	 * @param catalogName the catalog name to set
+	 */
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
 	}
 
 	/**

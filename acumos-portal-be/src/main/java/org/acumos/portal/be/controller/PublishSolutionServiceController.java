@@ -73,7 +73,7 @@ public class PublishSolutionServiceController extends AbstractController {
 	@ApiOperation(value = "Publishes a given SolutionId for userId with selected visibility.", response = ResponseVO.class)
     @RequestMapping(value = {APINames.PUBLISH},method = RequestMethod.PUT, produces = APPLICATION_JSON)
     @ResponseBody
-    public JsonResponse<Object> publishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("visibility") String visibility,
+    public JsonResponse<Object> publishSolution(HttpServletRequest request, @PathVariable("solutionId") String solutionId, @RequestParam("ctlg") String catalogId, @RequestParam("visibility") String visibility,
 			@RequestParam("userId") String userId, @RequestParam("revisionId") String revisionId, HttpServletResponse response) {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
@@ -92,7 +92,7 @@ public class PublishSolutionServiceController extends AbstractController {
 				return data;
 			}
 			
-			String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, trackingId);
+			String publishStatus = publishSolutionService.publishSolution(solutionId, visibility, userId, revisionId, catalogId, trackingId);
 			// code to create notification
             MLPNotification notificationObj = new MLPNotification();
             notificationObj.setMsgSeverityCode(MSG_SEVERITY_ME);

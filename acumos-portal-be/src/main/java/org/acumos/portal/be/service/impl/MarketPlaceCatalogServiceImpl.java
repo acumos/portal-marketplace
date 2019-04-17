@@ -1198,6 +1198,16 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						revision.getRevisionId());
 				mlSolution.setCommentsCount(Count);
 			}
+			
+			List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(mlpSol.getSolutionId());
+			if (!PortalUtils.isEmptyList(catalogs)) {
+				for (MLPCatalog catalog : catalogs) {
+					if (catalog != null && !PortalUtils.isEmptyOrNullString(catalog.getName())) {
+						mlSolution.setCatalogName(catalog.getName());
+						break;
+					}
+				}
+			}
 
 			// get latest step Result for solution
 			Boolean onboardingStatusFailed = false;

@@ -210,7 +210,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		MLPublishRequest updatedPublishRequest = getPublishRequestDetails(updatedRequest);
 		//If request is approved then change the status of solution revision
 		if(isRequestApproved) {
-			publishSolutionService.updateSolution(updatedPublishRequest.getSolutionId(), updatedPublishRequest.getRevisionId(), CommonConstants.PUBLIC);
+			dataServiceRestClient.addSolutionToCatalog(updatedRequest.getSolutionId(), updatedRequest.getCatalogId());
 			generateNotification("Solution " + updatedPublishRequest.getSolutionName() + " Published Successfully", updatedPublishRequest.getRequestUserId());
 		} else {
 			generateNotification("Publish Solution " + updatedPublishRequest.getSolutionName() + " Declined by Publisher", updatedPublishRequest.getRequestUserId());

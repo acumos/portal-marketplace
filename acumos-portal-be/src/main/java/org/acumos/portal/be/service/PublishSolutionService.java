@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public interface PublishSolutionService {
 	
-	public String publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId);
+	public String publishSolution(String solutionId, String accessType, String userId, String revisionId, String catalogId, UUID trackingId);
 	
 	boolean unpublishSolution(String solutionId, String accessType, String userId);
 
