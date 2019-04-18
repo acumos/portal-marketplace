@@ -39,6 +39,10 @@ zuul:
       url: http://localhost:8007
       stripPrefix: false
       sensitiveHeaders:
+    workbench:
+      path: /workbench/**
+      url: http://localhost:9082
+      sensitiveHeaders:
 #    package:
 #      path: /package/**
 #      sensitiveHeaders:

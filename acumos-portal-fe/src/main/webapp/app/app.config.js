@@ -64,9 +64,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			component: 'manageModule',
 			
 		})
-		.state('designStudio', {
-			url: '/designStudio',
-			component: 'designStudio'
+		.state('acuCompose', {
+			url: '/acuCompose',
+			component: 'acuCompose'
 		})
 		.state('marketSolutions', {
 			url: '/marketSolutions?solutionId&revisionId&publishRequestId&requestUserId',
@@ -126,6 +126,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 		.state('onboardingHistory',{
 			url: '/onboardingHistory',
 			component: 'onboardingHistory'
+		})
+		.state('designStudio',{
+			url: '/designStudio',
+			component: 'designStudio'
 		})
 		;
 	

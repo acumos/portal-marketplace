@@ -25,6 +25,7 @@ angular.module('signInModal')
 						localStorage.setItem('userDetail', detail);
 					} else {
 						sessionStorage.setItem('userDetail', detail);
+						document.cookie = 'userDetail='+detail;
 					}
 				}
 				
@@ -33,6 +34,7 @@ angular.module('signInModal')
 						localStorage.setItem('userRole', role);
 					} else {
 						sessionStorage.setItem('userRole', role);
+						document.cookie = 'userRole='+role;
 					}
 				}
 				
@@ -41,6 +43,7 @@ angular.module('signInModal')
 						localStorage.setItem('auth_token', token);
 					} else {
 						sessionStorage.setItem('auth_token', token);
+						document.cookie = 'authToken='+token;
 					}
 				}
 				
@@ -154,9 +157,10 @@ angular.module('signInModal')
 	                                            
 	                                            $scope.userfirstname = productService.test.firstName;
 	                                            $scope.userid = productService.test.userId;
+	                                            $scope.loginName = productService.test.loginName;
 	                                            
 	                                            $scope.localStore = [];
-	                                            $scope.localStore.push($scope.userfirstname, $scope.userid);
+	                                            $scope.localStore.push($scope.userfirstname, $scope.userid, $scope.loginName);
 	                                            
 	                                            console.log("$scope.localStore: ",$scope.localStore);
 	                                            
@@ -193,6 +197,7 @@ angular.module('signInModal')
                                     	  $scope.signin = function() {
                                                 $scope.userData = {"request_body":{"username": $scope.modalData.name, "password": $scope.modalData.value}}
                                                 sessionStorage.setItem('rm', $scope.modalData.cb1 ? "remember" : "");
+                                                
                                                 $scope.login();
 
                                           };
