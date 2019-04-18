@@ -617,24 +617,22 @@ limitations under the License.
 								ng-show="tab=='company'" ng-class="{'isActive':tab=='company'}">
 								<div>
 								<div class="mdl-grid mdl-grid--no-spacing catalogList">
-								<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" >
+								<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">
                                     <label>Select Catalog </label>
-                                     <input list="list1" type="text" ng-model="selectedCatalog" class="mdl-textfield__input notification-search">
+                                     <input list="list1" type="text" ng-model="selectedCatalog" placeholder="Search" class="mdl-textfield__input notification-search">
                                      <datalist id="list1"> 
                                          <select class="select-control">
                                              <option ng-repeat="catalog in catalogsAvailable">{{catalog.name}}</option>
                                          </select>
                                      </datalist>                           
-                                 </div>
+                                 </div> 
                                  <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="solutionCatalogsList.length > 0">
-                                    <label>Catalog(s) of published model</label>
-                                     <input list="list2" type="text" ng-model="existingCatalog" class="mdl-textfield__input notification-search">
-                                     <datalist id="list2">
-                                         <select class="select-control">
-                                             <option ng-repeat="catalog in solutionCatalogsList">{{catalog.name}}</option>
-                                         </select>
-                                     </datalist>                           
-                                 </div>
+									    <label class="fedlbl4">Catalog(s) of published model</label>
+										<md-select ng-model="existingCatalogId"	placeholder="Select Catalog" ng-change="changeCatalog();">
+											<md-option ng-selected="true" value="">Select Category</md-option>
+											<md-option ng-repeat="catalog in solutionCatalogsList" value="{{catalog.catalogId}}">{{catalog.name}}</md-option>
+										</md-select>
+                                 	</div>
                                  </div>
                                  <!-- Public Workflow -->
 									<div ng-if="selectedCatalogObj.accessTypeCode == 'PB'">
@@ -1800,17 +1798,7 @@ limitations under the License.
 																			<div class="mdl-tabs__panel is-active"
 																				id="tab1-panel">
 																				<div class="md-intro-container">
-																					<h6 class="sectiontitle9">INTRODUCTION</h6>
-																					<button type="button"
-																						ng-if="version.accessTypeCode != 'PR'"
-																						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-company"
-																						ng-class="version.accessTypeCode == 'OR' ? 'btn-primary': 'btn-secondary'">Company
-																						Marketplace</button>
-																					<button type="button"
-																						ng-if="version.accessTypeCode != 'PR'"
-																						class="mdl-button mdl-js-button mdl-js-ripple-effect"
-																						ng-class="version.accessTypeCode == 'PB' ? 'btn-primary': 'btn-secondary'">Public
-																						Marketplace</button>
+																					<h6 class="sectiontitle9">INTRODUCTION</h6>	
 																				</div>
 
 																				<div class="description-img-container">

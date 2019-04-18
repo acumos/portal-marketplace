@@ -153,6 +153,7 @@ limitations under the License.
 							class="small">Revision ID: {{publishReq.revisionId}}</label></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.requestorName}}</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}" >{{publishReq.creationDate | date : "MM/dd/yyyy"}}</td>
+						<td></td><td></td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.revisionStatusName}}</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label
 							ng-class="{'text-green': publishReq.requestStatusName == 'Approved' , 
