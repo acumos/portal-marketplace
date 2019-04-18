@@ -59,6 +59,7 @@ public class Clients {
 
 	/**
 	 * Build a client for the given local uri
+	 * @return the gateway client
 	 */
 	public GatewayClient getGatewayClient() {
 		final String gatewayUrlKey = "gateway.url";

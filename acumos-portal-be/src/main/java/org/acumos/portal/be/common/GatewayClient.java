@@ -64,6 +64,9 @@ public class GatewayClient extends AbstractClient {
 	}
 
 	/**
+	 * @param peerId
+	 * 			peerId
+	 * @return the peer response
 	 */
 	public JsonResponse<MLPPeer> ping(String peerId) throws HttpStatusCodeException {
 
@@ -91,7 +94,8 @@ public class GatewayClient extends AbstractClient {
 	}
 
 	/**
-	 * 
+	 * @param peerId
+	 * 			peerId
 	 * @param jsonString
 	 *            JSON string for selector
 	 * @return List of MLPSolutions from Remote Acumos
@@ -144,8 +148,8 @@ public class GatewayClient extends AbstractClient {
 	
 	/**
 	 * 
-	 * @param jsonString
-	 *            JSON string for selector
+	 * @param peerId
+	 *           peerId
 	 * @return List of MLPSolutions from Remote Acumos
 	 * @throws HttpStatusCodeException
 	 *             Throws HttpStatusCodeException is remote acumos is not
@@ -182,6 +186,10 @@ public class GatewayClient extends AbstractClient {
 	}	
 	
 	/**
+	 * @param peerId
+	 * 			peerId
+	 * @param theSolutionId
+	 * 			the solution Id
 	 */
 	public JsonResponse<MLPSolution> getSolution(String peerId, String theSolutionId) throws HttpStatusCodeException {
 

@@ -301,7 +301,7 @@ limitations under the License.
 						<div class="mp-grid" ng-show="Viewtile">
 
 							<div class="alert c-info" ng-if="mlSolutionPrivate.length < 1">
-								<strong>No Result found</strong>
+								<strong>No results found</strong>
 							</div>
 
 							<div class="grid-item"
@@ -440,7 +440,7 @@ limitations under the License.
 						<div class="mp-grid-list" ng-show="!Viewtile">
 						
 						<div class="alert c-info" ng-if="mlSolutionPrivate.length < 1">
-								<strong>No Result found</strong>
+								<strong>No results found</strong>
 							</div>
 							
 							<div class="mp-grid-list-row posrel"
@@ -577,7 +577,7 @@ limitations under the License.
 
 						<div class="mp-grid" ng-show="Viewtile">
 							<div class="alert c-info" ng-if="mlSolutionPublic.length < 1">
-								<strong>No Result found</strong>
+								<strong>No results found</strong>
 							</div>
 
 							<div class="grid-item"
@@ -593,8 +593,10 @@ limitations under the License.
 									</div>
 									<div class="mpdetailscontainer">
 									<div class="tilecontainer1">
+										<label class="griditem-text2" style="color:orangered">{{publicSolution.catalogName | uppercase}}</label>
+										</div>
+									<div class="tilecontainer1">
 										<label class="griditem-title"><span class="griditem-title-text2">{{publicSolution.name}}</span>
-											<span class="text-xsmall link-orange">In Process</span>
 										</label>
 										<div>
 											<!-- Shared With/ Shared By Icon -->
@@ -665,7 +667,7 @@ limitations under the License.
 						<div class="mp-grid-list" ng-show="!Viewtile">
 						
 						<div class="alert c-info" ng-if="mlSolutionPublic.length < 1">
-								<strong>No Result found</strong>
+								<strong>No results found</strong>
 							</div>
 							<div class="mp-grid-list-row posrel"
 								ng-repeat="mlsolution in mlSolutionPublic">
@@ -686,8 +688,10 @@ limitations under the License.
 								</div>
 								<div class="mp-grid-list-details-cell">
 									<div class="listview-title-container">
-										<label class="griditem-title"><span class="griditem-title-text">{{mlsolution.name}}</span> <span
-										class="text-xsmall link-orange">In progress</span></label>
+										<label class="griditem-text2" style="color:orangered">{{mlsolution.catalogName | uppercase}}</label>
+										</div>
+									<div class="listview-title-container">
+										<label class="griditem-title"><span class="griditem-title-text">{{mlsolution.name}}</span></label>
 										<div>
 											<!-- Shared With/ Shared By Icon -->
 											<span class="md-share-with-me" title="Shared With Me" ng-show="mlsolution.ownerId != loginUserID"></span>
@@ -831,7 +835,7 @@ limitations under the License.
 							<!-- infinite-scroll='onLoad()' infinite-scroll-distance="2"> -->
 							<div class="mp-grid" ng-show="Viewtile">
 								<div class="alert c-info" ng-if="mlSolutionDelete.length < 1">
-									<strong>No Result found</strong>
+									<strong>No results found</strong>
 								</div>
 								<div class="grid-item"
 									ng-repeat="deletedSolution in mlSolutionDelete">
@@ -928,7 +932,7 @@ limitations under the License.
 							</div>
 							<div class="mp-grid-list" ng-show="!Viewtile">
 							<div class="alert c-info" ng-if="mlSolutionDelete.length < 1">
-									<strong>No Result found</strong>
+									<strong>No results found</strong>
 								</div>
 								
 								<div class="mp-grid-list-row posrel"

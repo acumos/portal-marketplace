@@ -174,7 +174,7 @@ limitations under the License.
 									<li>
 										<a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='company'}"
-										ng-click="workflowTitle = 'Publish to Marketplace'; tab = 'company'; workFLowValidation('Company')" alt="Publish to Marketplace" title="Publish to Marketplace">
+										ng-click="workflowTitle = 'Publish to Marketplace'; tab = 'publish'; workFLowValidation('pb')" alt="Publish to Marketplace" title="Publish to Marketplace">
 											<div class="managelefticon">
 												<i class="companyimg"></i>
 											</div>
@@ -614,7 +614,7 @@ limitations under the License.
 							<!--  Manage Authors end -->								
 							<!-- company start -->
 							<div class="mdl-tabs__panel company-market" id="company-market"
-								ng-show="tab=='company'" ng-class="{'isActive':tab=='company'}">
+								ng-show="tab=='publish'" ng-class="{'isActive':tab=='publish'}">
 								<div>
 								<div class="mdl-grid mdl-grid--no-spacing catalogList">
 								<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">

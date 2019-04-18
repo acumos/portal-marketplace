@@ -127,9 +127,7 @@ angular
 									.then(
 											function successCallback(response) {
 												$scope.allPublishRequest = response.data.response_body;
-													/*$scope.allPublishRequest.forEach(function(element) {
-													element.textDate = $filter('date')(element.creationDate, 'MM/dd/yyyy');
-												});*/
+												console.log($scope.allPublishRequest);
 												$scope.totalPages = response.data.totalPages;
 												$scope.totalElements = response.data.totalElements;
 												$scope.allPublishRequestLength = response.data.totalElements;

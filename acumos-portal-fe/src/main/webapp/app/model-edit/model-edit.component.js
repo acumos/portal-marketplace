@@ -1068,8 +1068,10 @@ angular
 									apiService.publishSolution($scope.solution.solutionId, data).then(
 													function(response) {
 														if( $scope.validationEnabled == true ){
-															$scope.getModelValidation(flow);
+															$scope.getModelValidation(data.visibility);
 														}
+														
+														console.log("response,",response);
 														
 														$scope.handleSuccess = true;
 														$timeout(function() {$scope.handleSuccess = false;}, 4500);
@@ -2007,7 +2009,7 @@ angular
 					$scope.getModelValidation = function(flow){
 
 						$scope.completedSteps = [];
-						if(flow == 'public'){
+						if(flow == 'PB'){
 							$scope.idTab = '#public-market';
 						} else {
 							$scope.idTab = '#company-market';
@@ -2269,9 +2271,9 @@ angular
 						angular.element('tags-input input')[1].setAttribute("maxlength", "32");
 	                	
 	                	var flowConfigKey = ""
-	                	if(flow == "Company"){
+	                	if(flow == "RS"){
 	                		flowConfigKey = "local_validation_workflow";
-	                	}else if(flow == "Public"){
+	                	}else if(flow == "PB"){
 	                		flowConfigKey = "public_validation_workflow";
 	                	}
 		                	 apiService
@@ -2484,6 +2486,7 @@ angular
 									if ($scope.catalogsAvailable[i].name == $scope.selectedCatalog) {
 										$scope.selectedCatalogObj = $scope.catalogsAvailable[i];
 										$scope.selectedCatalogId = $scope.selectedCatalogObj.catalogId;
+										$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
 										break;
 									} else {
 										$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
@@ -2565,14 +2568,30 @@ angular
 							ctlg : $scope.existingCatalogId
 						});
 				    	apiService.unpublishSolution($scope.solutionId, data)
-				        .then(function(response) {
-				        	if(response.status == 200){
-					        	$scope.msg = "Solution Unpublished Successfully";
-								$scope.icon = '';
-								$scope.styleclass = 'c-success';
-								$scope.getCatalogs();
-				        	}
-				         });
+					        .then(function(response) {
+					        	if(response.data.error_code == 100){
+					        		$scope.msg = "Solution unpublished successfully";
+						    		$scope.icon = '';
+						    		$scope.styleclass = 'c-success';									
+						    		$scope.showAlertMessage = true;
+						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+									$scope.getCatalogs();
+					        	} else {
+					        		$scope.msg = "Error occurred while unpublishing solution";
+					        		console.log("Error unpublishing solution,",response);
+						    		$scope.icon = '';
+						    		$scope.styleclass = 'c-error';									
+						    		$scope.showAlertMessage = true;
+						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+					        	}
+					         }, function(error) {
+					        		$scope.msg = "Error occurred while unpublishing solution";
+					        		console.log("Error unpublishing solution,",error);
+						    		$scope.icon = '';
+						    		$scope.styleclass = 'c-error';									
+						    		$scope.showAlertMessage = true;
+						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+					         });
 					}
 				    
 					}

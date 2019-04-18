@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.acumos.cds.CodeNameType;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPublishRequest;
@@ -148,6 +149,14 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 						}
 					}
 				}
+			}
+		}
+		
+		if (!PortalUtils.isEmptyOrNullString(publishRequest.getCatalogId())) {
+			MLPCatalog catalog = dataServiceRestClient.getCatalog(publishRequest.getCatalogId());
+			if (catalog != null) {
+				mlPublishRequest.setCatalogId(catalog.getCatalogId());
+				mlPublishRequest.setCatalogName(catalog.getName());
 			}
 		}
 		return mlPublishRequest;
