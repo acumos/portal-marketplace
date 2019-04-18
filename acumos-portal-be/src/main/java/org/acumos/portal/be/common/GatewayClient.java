@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.transport.ErrorTransport;
@@ -139,7 +140,47 @@ public class GatewayClient extends AbstractClient {
 		}
 		return response == null ? null : response.getBody();
 	}
+	
+	
+	/**
+	 * 
+	 * @param jsonString
+	 *            JSON string for selector
+	 * @return List of MLPSolutions from Remote Acumos
+	 * @throws HttpStatusCodeException
+	 *             Throws HttpStatusCodeException is remote acumos is not
+	 *             available
+	 */
+	public JsonResponse<List<MLPCatalog>> getCatalogs(String peerId)
+			throws HttpStatusCodeException {
 
+		Map<String, String> uriParams = new HashMap<String, String>();
+		uriParams.put("peerId", peerId);		
+		URI uri = FederationAPI.CATALOGS.buildUri(this.baseUrl, uriParams);
+		
+		log.info("Query for " + uri);
+		ResponseEntity<JsonResponse<List<MLPCatalog>>> response = null;
+		try {
+			response = restTemplate.exchange(uri, HttpMethod.GET, null,
+					new ParameterizedTypeReference<JsonResponse<List<MLPCatalog>>>() {
+					});
+
+			log.info("Response of Get Catalogs for Peer : " + JsonUtils.serializer().toString(response));
+
+		} catch (HttpStatusCodeException x) {
+			log.error(uri + " failed" + ((response == null) ? "" : (" " + response)), x);
+			ErrorTransport et = JsonUtils.serializer().fromJson(x.getResponseBodyAsString(),
+					new TypeReference<ErrorTransport>() {
+					});
+			throw new HttpClientErrorException(x.getStatusCode(), et.getError());
+		} catch (Throwable t) {
+			log.error(uri + " unexpected failure.", t);
+		} finally {
+			log.info(uri + " response " + response);
+		}
+		return response == null ? null : response.getBody();
+	}	
+	
 	/**
 	 */
 	public JsonResponse<MLPSolution> getSolution(String peerId, String theSolutionId) throws HttpStatusCodeException {

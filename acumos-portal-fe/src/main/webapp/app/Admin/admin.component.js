@@ -3101,6 +3101,56 @@ angular.module('admin').filter('abs', function() {
 						$scope.loadAllTags();									
 	                    
 	                    /* IOT changes end*/
+						
+					  /* Catalog changes */
+	                      $scope.catalogList = function() {
+	                    	  $scope.listCatalog= [{							                    		   
+	                    		  "Catalog_Id": "12345678-abcd-90ab-cdef-1234567890ab",
+	                    		  "Catalog_name": "Catalog_1"
+	                    		},
+	                    		{
+	                    		  "Catalog_Id": "33089eee-45ab-4c35-bedb-36d4e8c904f3",
+	                    		  "Catalog_name": "Catalog_2"
+		                    		}];
+	                    	  
+	  							/*
+	  							$scope.response_body = [];
+	  							apiService
+	  									.gatwayCatalog($scope.gatewayPeerID)
+	  									.then(
+	  											function successCallback(response) {
+	  												$scope.listCatalog = response.data.response_body.content;  												
+	  											},
+	  											function errorCallback(response) {  												
+	  											}); */ 
+	  						}
+	                      $scope.catalogList();
+	                      
+	                      $scope.getCatalogDetails = function(CatalogId){
+								$scope.allCatalogList = [];																														
+								apiService
+										.getCatalogDetails(CatalogId)
+										.then(
+												function successCallback(response) {
+													$scope.allCatalogList = response.data.response_body;													
+												},
+												function errorCallback(response) {													
+												});
+	                      }
+	                      
+	                      $scope.addSubscriptionCatalog = function(){	                    	  
+	                    	  alert($scope.CatalogValue);																																			
+								/* apiService
+										.addSubscription($scope.CatalogValue)
+										.then(
+												function successCallback(response) {
+													$scope.allCatalogList = response.data.response_body;													
+												},
+												function errorCallback(response) {													
+												}); */
+	                      }
+	                      
+	                  /* Catalog changes */
 	                    
 		}
 })

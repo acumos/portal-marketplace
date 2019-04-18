@@ -129,7 +129,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/catalog/{catalogId}").permitAll()
         .antMatchers(HttpMethod.GET, "/catalog/{catalogId}/solution/count").permitAll()
         .antMatchers(HttpMethod.GET, "/catalog/solution/{solutionId}").permitAll()
-        
+        .antMatchers(HttpMethod.POST, "/catalog").permitAll()
+        //.antMatchers(HttpMethod.POST, "/gateway/catalogs/{peerId}").permitAll()
         
         .anyRequest().authenticated();
     	

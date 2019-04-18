@@ -23,6 +23,7 @@
 package org.acumos.portal.be.controller;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPeer;
 import org.acumos.cds.domain.MLPPeerSubscription;
 import org.acumos.cds.domain.MLPSolution;
@@ -200,5 +202,38 @@ public class GatewayController extends AbstractController {
 		}
 		return data;
 	}
+	
+	@ApiOperation(value = "Get All the solutions according to the catagories or toolkit type selected", response = JsonResponse.class)
+	@RequestMapping(value = {"/catalogs"},method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<List<MLPCatalog>> getCatalogs(HttpServletRequest request, @PathVariable("peerId") String peerId, HttpServletResponse response) {
+		
+        peerId = SanitizeUtils.sanitize(peerId);
+		
+		JsonResponse<List<MLPCatalog>> data = new JsonResponse<>();
+		JsonResponse<List<MLPCatalog>> catalogs = null;
+		try {
+			if(peerId != null && peerId != "") {
+				GatewayClient gateway = clients.getGatewayClient();
+				catalogs = gateway.getCatalogs(peerId);				
+			}
+			if (catalogs == null){
+				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Cannot Establish Connection");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseBody(catalogs.getContent());
+			}
+		}catch(Exception e) {
+			data = new JsonResponse<>();
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+			response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+			data.setResponseCode(String.valueOf(HttpServletResponse.SC_BAD_GATEWAY));
+			data.setResponseDetail(e.getMessage());
+			log.error( "Failed to get Connection",e);
+		}
+		return data;
+		
+	}
+	
 
 }

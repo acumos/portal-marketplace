@@ -58,7 +58,7 @@ limitations under the License.
 					value="Restricted Peer">Restricted Peer</md-option> </md-select>
 			</div>
 			<div>
-				<input class="catalog-search-txtbox" type="text"
+				<input class="catalog-search-txtbox" type="text" ng-model="searchtxt.name"
 					placeholder="Search Catalog by name" />
 			</div>
 		</div>
@@ -91,7 +91,7 @@ limitations under the License.
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="catalog in allCatalogList">
+						<tr ng-repeat="catalog in allCatalogList | filter : searchtxt">
 							<td><span class="md-breadcrumb-item">{{catalog.name}}</span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>
 							<td><span class="md-breadcrumb-item"></span></td>
