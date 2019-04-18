@@ -2214,7 +2214,7 @@ limitations under the License.
 							<div>
 								<span class="fedlbl5">OR</span>
 							</div> -->
-							<div>
+							<div ng-if=false>
 								<div class="select-control admin-select">
 									<label class="fedlbl4">Category</label>
 									<md-select ng-model="categoryValue"
@@ -2227,7 +2227,7 @@ limitations under the License.
 								</div>
 
 							</div>
-							<div>
+							<div ng-if=false>
 								<div class="select-control admin-select">
 									<label class="fedlbl4">Toolkit type</label>
 									<md-select ng-model="toolKitTypeValue"
@@ -2240,7 +2240,7 @@ limitations under the License.
 									{{tool.name}}</md-option> </md-select>
 								</div>
 							</div>
-							<div>
+							<div ng-if=false>
 								<div class="select-control admin-select">
 									<label class="fedlbl4">Federate to</label>
 									<md-select ng-model="accessTypeCode"
@@ -2252,6 +2252,16 @@ limitations under the License.
 										{{accessType.access_type_name}} ('{{accessType.access_type_cd}}')</md-option> </md-select>
 								</div>
 							</div>
+							<div>
+								<div class="select-control admin-select">
+									<label class="fedlbl4">Select Catalog</label>
+									<md-select ng-model="CatalogValue" ng-change="getCatalogDetails(CatalogValue)"										
+										placeholder="Select Catalog"> <md-option
+										ng-selected="true" value=''>Select Catalog</md-option> <md-option
+										ng-repeat="cat in listCatalog" ng-value="cat.Catalog_Id">{{cat.Catalog_Id}}</md-option>
+									</md-select>
+								</div>
+							</div>							
 						</div>
 						
 						<div class="fedgridcontainer"
@@ -2361,7 +2371,7 @@ limitations under the License.
 							</div>
 						</div>
 
-						<div class="fedgridcontainer" ng-show="showSolutionTable">
+						<div class="fedgridcontainer" ng-show="showSolutionTable" ng-if=false>
 							<div>
 								<div class="fed-container1">
 									<div>
@@ -2418,6 +2428,29 @@ limitations under the License.
 							</div>
 						</div>
 
+						<div class="fedgridcontainer" >						
+							<table 
+								class="mdl-data-table mdl-js-data-table mdl-shadow--2dp tbl-notification-list">								
+								<thead>
+									<tr >
+										<th><label>CATALOG NAME</label></th>
+										<th><label>ACCESS TYPE</label></th>
+										<th><label>DESCRIPTION</label></th>
+										<th><label>TOTAL MODEL</label></th>
+									</tr>
+								</thead>
+								
+								<tbody >								
+									<tr>
+										<td><span class="md-breadcrumb-item">{{allCatalogList.name}}</span></td>
+										<td><span class="md-breadcrumb-item">
+												{{allCatalogList.accessTypeCode == "PB" ? "Public" : allCatalogList.accessTypeCode == "RS" ? "Restricted" : ""	}}</span></td>
+										<td><span class="md-breadcrumb-item">{{allCatalogList.description}}</span></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -2429,8 +2462,13 @@ limitations under the License.
 						class="mdl-button mdl-js-button btn-secondary">Cancel</button>
 				</div>
 				
-				<div>
+				<div ng-if=false>
 					<button ng-click='closePoup()'
+						class="mdl-button mdl-js-button btn-primary">Done</button>
+				</div>
+				
+				<div>
+					<button ng-click='addSubscriptionCatalog()'
 						class="mdl-button mdl-js-button btn-primary">Done</button>
 				</div>
 			</div>

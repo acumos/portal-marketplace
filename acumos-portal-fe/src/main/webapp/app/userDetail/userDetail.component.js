@@ -893,6 +893,76 @@ angular
                           }                                                  
                           
                           /**** Notification Preference End****/
+                          /*** catalog Management start**/
+                      	var user= JSON.parse(browserStorageService.getUserDetail());
+                      	if(user) $scope.loginUserID = user[1];
+                      	
+                          $scope.loadCatalog = function() {
+  							$scope.allCatalogList = [];  							
+  							$scope.pageNumber = 0;
+  							$scope.requestResultSize =1000;
+  							var reqObject = {
+  								"request_body" : {
+  									"fieldToDirectionMap" : {
+  										"created" : "DESC"
+  									},
+  									"page" : $scope.pageNumber,
+  									"size" : $scope.requestResultSize
+  								},
+  								"request_from" : "string",
+  								"request_id" : "string"
+  							};
+  							$scope.response_body = [];
+  							apiService
+  									.getCatalogsbyUser(reqObject, $scope.loginUserID)
+  									.then(
+  											function successCallback(response) {
+  												$scope.allCatalogList = response.data.response_body.content;  												
+  											},
+  											function errorCallback(response) {  												
+  											});
+  						}
+						if($scope.loginUserID)
+							$scope.loadCatalog(0); 
+						
+						$scope.favList = [];
+						
+						$scope.updateFavorite = function(favList,catalogId ) {
+							
+							 var idx = favList.indexOf(catalogId);
+						     if (idx > -1) {
+						    	 favList.splice(idx, 1);
+						    	 $scope.deleteFav(catalogId);
+						     }
+						     else {
+						       favList.push(catalogId);
+						       $scope.createFav(catalogId);
+						     }     
+							
+						}
+						
+						 $scope.createFav = function(catalogID) {  							  							  					
+  							apiService
+  									.createFav(catalogID, $scope.loginUserID)
+  									.then(
+  											function successCallback(response) {  												
+  											},
+  											function errorCallback(response) {  												
+  											});
+  						}
+						 
+					 $scope.deleteFav = function(catalogID) {  							  							  					
+  							apiService
+  									.deleteFav(catalogID, $scope.loginUserID)
+  									.then(
+  											function successCallback(response) {  												
+  											},
+  											function errorCallback(response) {  											
+  											});
+  						}	
+					 
+					
+                          /** catalog Management end **/
 
 					}
 				});

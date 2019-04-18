@@ -271,12 +271,12 @@ angular
                             {
 								if($scope.tagFilter.indexOf($scope.selected[i].tagName) == -1)
 +                                  $scope.tagFilter.push($scope.selected[i].tagName)
-                            }
-							
+                            }							
 							dataObj = {
 								"request_body" : {
 									"modelTypeCodes" : $scope.categoryFilter,
 									"active" : true,
+									"catalogIds" : $scope.catalogIds,
 									"accessTypeCodes": accessTypeFilter,
 									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
@@ -481,7 +481,15 @@ angular
 								$scope.mktPlaceStorage.sortBy = checkbox.value;
 								$scope.selectedAction = checkbox.name;
 							} else if (type == 'sortById')
-								$scope.sortById = checkbox.value;
+								$scope.sortById = checkbox.value;	
+							else if(type == 'SearchbyCatalog')
+								{
+									$scope.catalogIds = [];
+									if(checkbox.catalogId != undefined)
+										$scope.catalogIds.push(checkbox.catalogId);
+									else
+										$scope.catalogIds = null;
+								}
 							$scope.loadMore(0);
 
 						}
@@ -657,6 +665,50 @@ angular
 						};
 
 						$scope.imageUrls = {};
+						
+						/* Catalog Changes start */						
+                       $scope.loadCatalog = function() {
+  							$scope.allCatalogList = [];  							
+  							$scope.pageNumber = 0;
+  							$scope.requestResultSize =1000;
+  							var reqObject = {
+  								"request_body" : {
+  									"fieldToDirectionMap" : {
+  										"created" : "DESC"
+  									},
+  									"page" : $scope.pageNumber,
+  									"size" : $scope.requestResultSize
+  								},
+  								"request_from" : "string",
+  								"request_id" : "string"
+  							};
+  							$scope.response_body = [];
+  							apiService
+  									.getCatalogs(reqObject)
+  									.then(
+  											function successCallback(response) {
+  												$scope.allCatalogList = response.data.response_body.content;  												
+  											},
+  											function errorCallback(response) {
+  												
+  											});
+  						} 
+					/*	$scope.loadCatalog = function() {						
+							apiService
+								.userFavCatalogList($scope.loginUserID)
+								.then(
+										function successCallback(response) {
+											$scope.allCatalogList = response.data.response_body;  												
+										},
+										function errorCallback(response) {
+											
+										});
+						} */
+						
+						if($scope.loginUserID)
+							$scope.loadCatalog(0); 
+						
+						/* Catalog Changes end */
 					}
 
 				}).config([ '$compileProvider', function($compileProvider) {

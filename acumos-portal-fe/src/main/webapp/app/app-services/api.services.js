@@ -118,7 +118,8 @@ angular.module('AcumosApp')
         var urlAllCatalogsList =  "/api/catalogs"; 
         var urlCatalogPath = "/api/catalog";
         var urlCatalogsList =  "/api/catalog/solution";
-        
+        var urlSubscriptionPath = "api/";
+        var urlgatewayCatalogPath = "api/gateway/catalogs";
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -647,5 +648,31 @@ angular.module('AcumosApp')
         this.unpublishSolution = function(solutionId, data){
         	return $http.put(urlUnpublishSolution + '/' + solutionId + '?' + data);
         };
+        this.getCatalogDetails = function(catalogId) {
+        	return $http.get(urlCatalogPath + "/" + catalogId);
+        };
+        
+        this.getCatalogsbyUser = function(request, loginID) {
+        	return $http.post(urlAllCatalogsList + '?userId=' + loginID, request);
+        };
+        
+        this.deleteFav = function (catalogId, userId) {
+            return $http.delete(urlCatalogPath  + '/' + catalogId +'/'+ 'user/' + userId + '/favorite');
+        };
+        
+        this.createFav = function (catalogId, userId) {
+            return $http.post(urlCatalogPath  + '/' + catalogId +'/'+ 'user/' + userId + '/favorite');
+        };
+        
+        this.addSubscription = function (catalogId) {
+            return $http.post(urlSubscriptionPath  + '/' + catalogId );
+        };
+        this.gatewayListCatalog = function (peerID) {
+            return $http.post(urlgatewayCatalogPath  + '/' + peerID );
+        };
+        this.userFavCatalogList = function (userId) {
+        	return $http.get(urlCatalogPath + '/user/' + userId + '/favorite' );
+        };
+        
 
     }]);
