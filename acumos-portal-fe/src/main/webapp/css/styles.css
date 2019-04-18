@@ -2154,6 +2154,13 @@ label.model-name{color:#0366d6;}
 .ds-side-menu div .mdl-navigation__link.selected-item + .mdl-navigation__link {background: #fff; color: #671C9D;}
 .ds-side-menu div .mdl-navigation__link.selected-item + .mdl-navigation__link .headertxtspan {color: #671C9D;}
 
+.ds-home {text-align:center; display:flex; padding: 30px;}
+.ds-content-center {text-align: center;}
+.ds-grid-item {padding:20px;width:14%;min-width:0;}
+.ds-griditem-title {color:#671C9D;line-height:30px;float:none;font-weight:600;}
+.ds-griditem-span {padding-right:10px;padding-left:10px; text-align:center;}
+.ds-iframe {min-height: 800px; display:none;}
+.ds-disable-button {background-color: #d5d5d5 !important; border: 1px solid #d5d5d5 !important;}
 /*** DS menu style ends */
 
 .btn-secondary-small {background: #fff; color: #2B262D;border:1px solid #B1B1B1;font-size: 12px; padding: 0px 5px; height: 26px; line-height: 26px;}
