@@ -1323,7 +1323,7 @@ md-checkbox[disabled] {cursor:not-allowed !important;}
 .ad-lbl1 {font-size: 14px; font-weight:600; margin-right: 10px; }
 
 .fed-lbl1 { margin-bottom:0; font-weight:600; margin-right: 8px;}
-.fed-srch-container {display:flex; flex-wrap:nowrap;align-items: center;}
+.fed-srch-container {display:flex; flex-wrap:nowrap;align-items: center; margin-left:15px;}
 
 .fed-srch-container .mdl-textfield.admin-search-container {margin-right: 5px;}
 .admin-lbl-container-1 {display:flex; flex-wrap:nowrap;justify-content: flex-start;}
@@ -1374,6 +1374,9 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 .btn-fedgrid {font-size: 12px; color: #0366d6; font-weight: 600;margin-right: 8px; margin-left: 1px;}
 .filter-container div:last-child {display: flex;flex-wrap:nowrap;align-items:center; margin-right:0}
 .dialog-btn-container {background:#e5e5e5;}
+.filter-container.view-add-sub-popup{justify-content:space-between; padding:10px 0; align-items:flex-end;}
+.filter-container.view-add-sub-popup .select-control{padding:0;} 
+.filter-container.view-add-sub-popup .fed-container1 button{margin-right:0;}
 
 .admin-select {width: 170px;}
 .admin-select md-select {width: 100%; background: #fff; border: 1px solid #d5d5d5}
@@ -2223,9 +2226,9 @@ label.model-name{color:#0366d6;}
 .catalog-filter-inner-container > div:last-child {margin-left: 4px;}
 .catalog-filter-inner-container > button {margin-right: 5px;}
 .catalog-search-txtbox {border: 1px solid #d5d5d5; height: 33px;padding-left: 10px;border-radius: 2px;outline:none;-moz-appearance: none;-webkit-appearance: none;}
+.market-search-container{padding: 0 0px 0 5px;  height: 31px; font-size: 14px;}
 /*Catalog page style end*/
 
-.market-search-container{padding: 0 0px 0 5px;  height: 31px; font-size: 14px;}
 
 /*********** MEDIA QUERIES SECTION START************/
 

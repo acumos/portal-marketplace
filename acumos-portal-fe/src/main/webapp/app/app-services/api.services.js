@@ -118,7 +118,6 @@ angular.module('AcumosApp')
         var urlAllCatalogsList =  "/api/catalogs"; 
         var urlCatalogPath = "/api/catalog";
         var urlCatalogsList =  "/api/catalog/solution";
-        var urlSubscriptionPath = "api/";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
 			
         /**************** ALL GET ******************/
@@ -664,9 +663,6 @@ angular.module('AcumosApp')
             return $http.post(urlCatalogPath  + '/' + catalogId +'/'+ 'user/' + userId + '/favorite');
         };
         
-        this.addSubscription = function (catalogId) {
-            return $http.post(urlSubscriptionPath  + '/' + catalogId );
-        };
         this.gatewayListCatalog = function (peerID) {
             return $http.post(urlgatewayCatalogPath  + '/' + peerID );
         };

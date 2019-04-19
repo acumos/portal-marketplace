@@ -33,9 +33,9 @@ limitations under the License.
 									<div class="fed-srch-container">
 				                         <label class="fed-lbl1">Filter by catalog:</label>
 										<div class="select-control">
-											<md-select ng-model="SelectedCatalog" 
+											<md-select ng-model="SelectedCatalog"  
 												class="btn-sort bdr mdl-button md-no-underline"> 
-												<md-option ng-value="" ng-selected="true" ng-click="filterChange('','SearchbyCatalog');">select</md-option>
+												<md-option value='0' ng-selected="true" ng-click="filterChange('','SearchbyCatalog');">All Catalogs</md-option>																							
 												<md-option ng-repeat="catalog in allCatalogList" ng-value="catalog.catalogId"
 												ng-click="filterChange(catalog,'SearchbyCatalog');">{{catalog.name}}</md-option>
 											</md-select>

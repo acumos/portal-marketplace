@@ -204,7 +204,7 @@ public class GatewayController extends AbstractController {
 	}
 	
 	@ApiOperation(value = "Get All the solutions according to the catagories or toolkit type selected", response = JsonResponse.class)
-	@RequestMapping(value = {"/catalogs"},method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@RequestMapping(value = {"/catalogs/{peerId}"},method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@ResponseBody
 	public JsonResponse<List<MLPCatalog>> getCatalogs(HttpServletRequest request, @PathVariable("peerId") String peerId, HttpServletResponse response) {
 		
@@ -215,7 +215,7 @@ public class GatewayController extends AbstractController {
 		try {
 			if(peerId != null && peerId != "") {
 				GatewayClient gateway = clients.getGatewayClient();
-				catalogs = gateway.getCatalogs(peerId);				
+				catalogs = gateway.getCatalogs(peerId);					
 			}
 			if (catalogs == null){
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.OBJECT_NOT_FOUND, "Cannot Establish Connection");
@@ -231,9 +231,9 @@ public class GatewayController extends AbstractController {
 			data.setResponseDetail(e.getMessage());
 			log.error( "Failed to get Connection",e);
 		}
-		return data;
-		
+		return data;		
 	}
+
 	
 
 }
