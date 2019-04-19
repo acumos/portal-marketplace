@@ -138,8 +138,8 @@ angular.module('AcumosApp')
             return $http.get(rolesCount);
         };
         
-        this.getSolutionDescription = function(publicOrOrg, solutionId, revisionId){
-            return $http.get("/api/solution/revision/" + revisionId + '/' + publicOrOrg  + '/description' )
+        this.getSolutionDescription = function(catalogId, solutionId, revisionId){
+            return $http.get("/api/solution/revision/" + revisionId + '/' + catalogId  + '/description' )
         };
         
         this.getModelTypes = function () {

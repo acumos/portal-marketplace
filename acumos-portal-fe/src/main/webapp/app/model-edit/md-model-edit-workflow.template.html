@@ -181,11 +181,11 @@ limitations under the License.
 											<div class="managelefttext">
 												<article>Publish to Marketplace</article>
 
-												<ul class="green" ng-if="version.accessTypeCode=='OR'">
+												<ul class="green" ng-show="solutionCatalogsList.length > 0">
 													<li>Completed on {{version.modified |
 														date:'MM/dd/yyyy' }}</li>
 												</ul>
-												<ul class="red" ng-if="version.accessTypeCode!='OR'">
+												<ul class="red" ng-show="solutionCatalogsList.length == 0">
 													<li>Not Started</li>
 												</ul>
 											</div>
@@ -995,21 +995,15 @@ limitations under the License.
 															<!-- update model name end -->
 														</div>
 														<p></p>
-														<div ng-show="solutionPublicDesc!=null" class="checkbox"
-															ng-click="copyPublicToCompany()">
-															<label> <input type="checkbox"
-																ng-checked="showDCKEditor"> Use the Description
-																you have in Public Marketplace. 
-														</div>
+
 														<div class="timeline-version">
-															<label> Use the Description you have in Company
-																Marketplace for Other Revisions.</label>
+															<label> Use the Description you have in Other Revisions.</label>
 															<!--  <a>View more</a> -->
 															<select ng-model="fromRevisionId"
 																ng-options="v.version for v in versionList">
 																<option value="">-- Version --</option>
 															</select>
-															<md-button ng-click="copyFromOtherRevision('OR'); "
+															<md-button ng-click="copyFromOtherRevision(); "
 																ng-disabled="!isSolutionDescAvailableBtn"
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" alt="Copy" title="Copy">
 															Copy </md-button>
@@ -1291,20 +1285,19 @@ limitations under the License.
 														<!-- add cocument popover end -->
 														<div class="uploaded-file" ng-show="showSolutionDocs">
 															<md-chips ng-model="supportingDocs"
-																md-on-remove="removeDoc($chip.documentId, 'OR')"> <md-chip-template>
+																md-on-remove="removeDoc($chip.documentId)"> <md-chip-template>
 															<strong>{{$chip.name}}</strong> </md-chip-template> 
 															</md-chips>
 								
 														</div>
 														<div class="timeline-version">
-															<label> Use the Documents you have in Company
-																Marketplace for Other Revisions.</label>
-															<!--  <a>View more</a> -->
+															<label> Use the Documents you have for Other Revisions.</label>
+															
 															<select ng-model="sourceRevisionId" ng-change="changedDocVersion('OR', sourceRevisionId)"
 																ng-options="v.version for v in versionList">
 																<option value="">-- Version --</option>
 															</select>
-															<md-button ng-click="copyDocsFromOtherRevision('OR'); "
+															<md-button ng-click="copyDocsFromOtherRevision(); "
 																class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" 
 																ng-disabled="!isSolutionDocsAvailableBtn"
 																alt="Copy" title="Copy">
