@@ -986,6 +986,7 @@ angular.module('admin').filter('abs', function() {
                       //Subscription popup
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
+                      $scope.catalogList(val.peerId);
                 	  $scope.addedAllToSubs = false;
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
                 	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false'; $scope.allModelsTable = false;
@@ -1669,13 +1670,13 @@ angular.module('admin').filter('abs', function() {
                                         	  //angular.forEach($scope.mlsolutionCatTool,function(value, key) {
                                         	  var value = $scope.mlsolutionCatTool[0];
                                     		  cat="";toolKit ="";catToolkit="";
-                                    		  if(value.modelTypeCode){
+                                    		  /* if(value.modelTypeCode){
                                         		  cat = '"modelTypeCode":"' +value.modelTypeCode + '"'
                                         	  }
                                         	  if(value.toolkitTypeCode){
                                         		  toolKit = '"toolkitTypeCode":"' +value.toolkitTypeCode 
-                                        	  }
-                                        	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}';
+                                        	  } 
+                                        	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}'; */
                                         	  $scope.accessTypeCode;
        										addAllSolObj.push(
 	    		                        				 {
@@ -1683,10 +1684,11 @@ angular.module('admin').filter('abs', function() {
 		 	    		              					  "ownerId" : userId,
 		 	    		              					  /*"peerId" : $scope.peerIdForSubsList,*/
 		 	    		              					  "scopeType" : $scope.AccessValue || "FL",
-		 	    		              					  "tookitType" :value.tookitType,
-		 	    		              					  "modelType": value.modelType,
+		 	    		              					  //"tookitType" :value.tookitType,
+		 	    		              					  //"modelType": value.modelType,
 		 	    		              					  "refreshInterval": freqChangeValue,
-		 	    		              					  "selector": catToolkit
+		 	    		              					  "selector": catToolkit,
+		 	    		              					  "catalogId" : $scope.selectedCatalogId
 	    		                        				 }
        										) 
        										//});
@@ -3103,31 +3105,22 @@ angular.module('admin').filter('abs', function() {
 	                    /* IOT changes end*/
 						
 					  /* Catalog changes */
-	                      $scope.catalogList = function() {
-	                    	  $scope.listCatalog= [{							                    		   
-	                    		  "Catalog_Id": "12345678-abcd-90ab-cdef-1234567890ab",
-	                    		  "Catalog_name": "Catalog_1"
-	                    		},
-	                    		{
-	                    		  "Catalog_Id": "33089eee-45ab-4c35-bedb-36d4e8c904f3",
-	                    		  "Catalog_name": "Catalog_2"
-		                    		}];
-	                    	  
-	  							/*
-	  							$scope.response_body = [];
+	                      $scope.catalogList = function(peerID) {	                    	  	                    	                    	  	  								  				
 	  							apiService
-	  									.gatwayCatalog($scope.gatewayPeerID)
+	  									.gatewayListCatalog(peerID)
 	  									.then(
 	  											function successCallback(response) {
-	  												$scope.listCatalog = response.data.response_body.content;  												
+	  												$scope.listCatalog = response.data.response_body;
+	  												$scope.CatalogValue = "";
+	  												$scope.allCatalogList = [];
 	  											},
 	  											function errorCallback(response) {  												
-	  											}); */ 
+	  											});  
 	  						}
-	                      $scope.catalogList();
 	                      
 	                      $scope.getCatalogDetails = function(CatalogId){
-								$scope.allCatalogList = [];																														
+								$scope.allCatalogList = [];				
+								$scope.selectedCatalogId = CatalogId;
 								apiService
 										.getCatalogDetails(CatalogId)
 										.then(
@@ -3136,19 +3129,7 @@ angular.module('admin').filter('abs', function() {
 												},
 												function errorCallback(response) {													
 												});
-	                      }
-	                      
-	                      $scope.addSubscriptionCatalog = function(){	                    	  
-	                    	  alert($scope.CatalogValue);																																			
-								/* apiService
-										.addSubscription($scope.CatalogValue)
-										.then(
-												function successCallback(response) {
-													$scope.allCatalogList = response.data.response_body;													
-												},
-												function errorCallback(response) {													
-												}); */
-	                      }
+	                      }	                      
 	                      
 	                  /* Catalog changes */
 	                    

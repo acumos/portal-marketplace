@@ -294,6 +294,7 @@ public class AdminServiceImpl extends AbstractServiceImpl implements AdminServic
             sub.setSelector(sol.getSelector());
             sub.setPeerId(peerId);
             sub.setUserId(sol.getOwnerId());
+            //TODO set catalogId 
             if (sol.getRefreshInterval() != null){
                 sub.setRefreshInterval(sol.getRefreshInterval());
             }

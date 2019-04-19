@@ -32,6 +32,7 @@ angular
 
 						$scope.setPageStart = 0;
                         $scope.selectedPage = 0;
+                        $scope.SelectedCatalog = 0;                        
                         $scope.setStartCount = function(val){
                               if(val == "preBunch"){$scope.setPageStart = $scope.setPageStart-5}
                               if(val == "nextBunch"){$scope.setPageStart = $scope.setPageStart+5}

@@ -81,7 +81,8 @@ public class MLSolution {
 	private boolean pendingApproval;
 	private Instant lastDownload;
 	private boolean featured;
-
+	private String catalogId;
+	
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -573,4 +574,13 @@ public class MLSolution {
 		public void setFeatured(boolean featured) {
 			this.featured = featured;
 		}
+
+		public String getCatalogId() {
+			return catalogId;
+		}
+
+		public void setCatalogId(String catalogId) {
+			this.catalogId = catalogId;
+		}
+
 }

@@ -45,13 +45,13 @@ limitations under the License.
 			<button class="mdl-button mdl-js-button btn-primary"
 				alt="Add New Catalog" title="Add New Catalog"
 				ng-click="addCatalog()">Add New Catalog</button>
-			<div class="select-control catalog-select">
+			<div class="select-control catalog-select" ng-if=false>
 				<md-select ng-model="catalogLevel" ng-change="search()" placeholder="All Catalog"
 					class="md-no-underline admin-ddl"> <md-option
 					value="{{type.value}}" ng-repeat='type in CatalogType'>{{type.name}}</md-option>
 				</md-select>
 			</div>
-			<div class="select-control catalog-select">
+			<div class="select-control catalog-select" ng-if=false>
 				<md-select placeholder="Filter by Publisher" ng-model="roleValue">
 				<md-option value="Filter by Publisher">Filter by
 				Publisher</md-option> <md-option value="Public">Public</md-option> <md-option
