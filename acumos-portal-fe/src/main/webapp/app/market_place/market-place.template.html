@@ -25,11 +25,22 @@ limitations under the License.
 							<div class="mdl-cell mdl-cell--8-col mdl-cell--6-col-tablet mdl-cell--4-col-phone">
 								<div class="mp-header-btn-container">
 									<span class="headline mob-disblock">Marketplace</span>
-									<span class="mpheader-btn-container" ng-if="userLoggedIn==true">
+									<!-- <span class="mpheader-btn-container" ng-if="userLoggedIn==true">
 										<button class="btn-company" ng-click="accessFilter('all')" ng-class="accessType=='all'?'btn-primary':'btn-secondary'">ALL</button>										
 										<button class="btn-company" ng-click="accessFilter('OR')"  ng-class="accessType=='OR'?'btn-primary':'btn-secondary'">Company</button>
 										<button class="btn-company " ng-click="accessFilter('PB')" ng-class="accessType=='PB'?'btn-primary':'btn-secondary'">Public</button>										
-									</span>
+									</span> -->									
+									<div class="fed-srch-container">
+				                         <label class="fed-lbl1">Filter by catalog:</label>
+										<div class="select-control">
+											<md-select ng-model="SelectedCatalog"  
+												class="btn-sort bdr mdl-button md-no-underline"> 
+												<md-option value='0' ng-selected="true" ng-click="filterChange('','SearchbyCatalog');">All Catalogs</md-option>																							
+												<md-option ng-repeat="catalog in allCatalogList" ng-value="catalog.catalogId"
+												ng-click="filterChange(catalog,'SearchbyCatalog');">{{catalog.name}}</md-option>
+											</md-select>
+									</div>
+									</div>
 								</div>
 								<ul class="c-breadcrumb">
 									<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
@@ -127,40 +138,6 @@ limitations under the License.
 									
 									 </div>
 									 
-									<!--  <div class="marketplace-btn-container">
-										<button id="demo-menu-lower-right3"
-												class="mdl-button mdl-js-button btn-sort bdr">
-											<span class="hide-xs"><span class="txtspan1">Sort By ID</span> - All</span>
-											<span class="hide-sm hide-md hide-lg hide-xl"><i class="material-icons">sort</i></span>
-										  <i class="material-icons">keyboard_arrow_down</i>
-										</button>
-										<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect btn-sorlist2"
-											for="demo-menu-lower-right3">
-										  <li class="mdl-menu__item" ng-repeat="solution in mlsolutions"
-									              ng-click="filterChange(filterid,'sortById')">{{solution.solution}}</li>
-										</ul>
-									</div> -->
-									
-<!-- 									
-							          <md-select ng-model="selectedSolutionId" placeholder="Sort By - Id" class="btn-sort bdr mdl-button md-no-underline">
-							             <md-select-header class="demo-select-header">
-								            <input ng-model="searchTerm" type="search" >
-								        </md-select-header> 
-							            <md-option ng-repeat="(key, solution) in solutionIds | filter : searchTerm" ng-value="solution.solutionId" ng-click="searchChange(key)">
-							              {{solution.solutionId}}
-							            </md-option>
-							             <md-select-header class="demo-select-header">
-								           <a ng-click="viewAllSolutions()" > View All </a>
-								        </md-select-header>
-							          </md-select>
-
- -->									
-								<!-- 	<button ng-disabled="Viewtile" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true">
-                                            <i class="fa fa-th-large" aria-hidden="true"></i>
-                                   </button>
-                                   <button ng-disabled="!Viewtile" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = false">
-                                           <i class="material-icons">view_list</i>
-                                   </button> -->
                                    <div class="grid-view-btn-container">                                   
                                    <button ng-disabled="Viewtile" ng-class="{'gridlistview-btnactive':Viewtile}" class="gridlistview-btn mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="Viewtile = true" alt="Grid View" title="Grid View">
                                             <i ng-if="Viewtile">
@@ -216,7 +193,7 @@ limitations under the License.
 										
 										<div class="mp-grid"  ng-show="Viewtile">
 										  <div class="alert c-info" ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
-							                   <strong>No Result found</strong> 
+							                   <strong>No results found</strong> 
 						                   </div>
 										  <!--  <div infinite-scroll='loadMore()' infinite-scroll-distance="2"> -->
 											<div class="grid-item" ng-repeat="mlsolution in mlsolutions | unique:'solutionId' | filter:(!searchResults || '') && {active:true} as filtered">
@@ -235,7 +212,8 @@ limitations under the License.
 											        	</div> -->
 											         </div>					        		
 													<div class="mpdetailscontainer">
-													    <label class="griditem-title">{{mlsolution.name}} <!-- <span class="text-xsmall link-orange">In Process</span> --></label>
+													    <label class="griditem-text2" style="color:orangered">{{mlsolution.catalogName | uppercase}}</label>
+													    <label class="griditem-title">{{mlsolution.name}}</label>
 													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl"
 													    ng-bind=" ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span> | <span class="griditem-text2">  {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>
 													     <p class="disblock mp-para" ng-if="mlsolution.publisher">
@@ -279,7 +257,7 @@ limitations under the License.
 										</div>
 										<div class="mp-grid-list" ng-show="!Viewtile">
 											<div class="alert c-info" ng-if="mlsolutions.length < 1 || (allDeletedData && !searchResults)">
-											    <strong>No Result found</strong> 
+											    <strong>No results found</strong> 
 										    </div>
 											<div class="mp-grid-list-row" ng-repeat="mlsolution in mlsolutions | unique:'solutionId' | filter:(!searchResults || '') && {active:true}">
 												<div class="mp-grid-list-image-cell">
@@ -295,7 +273,8 @@ limitations under the License.
 														</div>
 												</div>
 												<div class="mp-grid-list-details-cell">
-														<label class="griditem-title"><span class="griditem-title-text">{{mlsolution.name}}</span> <span class="text-xsmall link-orange">In progress</span></label>
+														<div><label class="griditem-text2" style="color:orangered">{{mlsolution.catalogName | uppercase}}</label></div>
+													    <label class="griditem-title"><span class="griditem-title-text">{{mlsolution.name}}</span></label>
 															<div class="disblock detail-content">
 																<span class="griditem-text2" ng-bind="'by ' + ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span> | 
 																<span class="griditem-text2">on {{mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | 

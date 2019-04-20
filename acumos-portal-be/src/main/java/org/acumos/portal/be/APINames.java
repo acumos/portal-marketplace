@@ -106,6 +106,28 @@ public class APINames {
 	public static final String USER_ACCESS_SOLUTIONS = "userAccess/solution/{userId}";
 	public static final String GET_AVG_SOLUTION_RATING = "solution/avgRating/{solutionId}";
 
+	// Catalog APIs
+	public static final String GET_CATALOGS = "/catalogs";
+	public static final String SEARCH_CATALOGS = GET_CATALOGS + "/search";
+	public static final String CREATE_CATALOG = "/catalog";
+	public static final String GET_CATALOG = CREATE_CATALOG + "/{catalogId}";
+	public static final String UPDATE_CATALOG = CREATE_CATALOG;
+	public static final String DELETE_CATALOG = GET_CATALOG;
+	private static final String CATALOG_PEER_PATH = "/peer/{peerId}";
+	public static final String GET_PEER_CATALOG_ACCESS = CREATE_CATALOG + CATALOG_PEER_PATH + "/access";
+	public static final String ADD_PEER_CATALOG_ACCESS = GET_CATALOG + CATALOG_PEER_PATH;
+	public static final String DROP_PEER_CATALOG_ACCESS = ADD_PEER_CATALOG_ACCESS;
+	public static final String CATALOG_SOLUTION_COUNT = GET_CATALOG + "/solution/count";
+	public static final String SOLUTIONS_IN_CATALOGS = GET_CATALOGS + "/solutions";
+	private static final String CATALOG_SOLUTION_PATH = "/solution/{solutionId}";
+	public static final String GET_SOLUTION_CATALOGS = CREATE_CATALOG + CATALOG_SOLUTION_PATH;
+	public static final String ADD_CATALOG_SOLUTION = GET_CATALOG + CATALOG_SOLUTION_PATH;
+	public static final String DROP_CATALOG_SOLUTION = ADD_CATALOG_SOLUTION;
+	private static final String USER_FAVORITE_CATALOG_PATH = "/user/{userId}/favorite";
+	public static final String GET_USER_FAVORITE_CATALOGS = CREATE_CATALOG + USER_FAVORITE_CATALOG_PATH;
+	public static final String ADD_USER_FAVORITE_CATALOG = GET_CATALOG + USER_FAVORITE_CATALOG_PATH;
+	public static final String DROP_USER_FAVORITE_CATALOG = ADD_USER_FAVORITE_CATALOG;
+	
 	// Tags APIs for MarketPlace Catalog
 	public static final String TAGS = "/tags";
 	public static final String ADD_TAG = "/addTag/{solutionId}/tag/{tag}";

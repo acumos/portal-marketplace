@@ -287,7 +287,66 @@ limitations under the License.
 			class="mdl-button mdl-js-button btn-primary btn-gap"
 			ng-click="putNotificationPref()" alt="Save" title="Save">Save</button>
 	</div>
-	</md-content> </md-tab> </md-tabs>
+	</md-content> </md-tab> <md-tab label="Select Favorite Catalogs">
+	<md-content class="md-padding">
+	<div
+		class="mdl-cell--4-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
+		<label>Select Catalog </label> <input list="solutions" type="text"
+			ng-model="selectedCatalog"
+			class="mdl-textfield__input notification-search">
+		<datalist id="solutions">
+			<select class="select-control">
+				<option ng-repeat="catalog in allCatalogList">{{catalog.name}}</option>
+			</select>
+		</datalist>
+	</div>
+	<br/>
+	<div class="catalog-grid-wrapper">
+		<div class="catalog-grid-container">
+			<!-- Catalog grid item code -->
+			<div class="catalog-grid-item" ng-repeat="Catalog in allCatalogList | filter : selectedCatalog">
+				<div class="catalog-grid-top-section">
+					<img class="ct-img1" src="/images/catalog.jpg"> <span
+						class="ct-lbl1">New</span>
+				</div>
+				<div class="catalog-grid-bottom-section">
+					<div class="ct-item-row">
+						<div>
+							<label class="ct-lbl2">{{Catalog.name}}</label>
+							 <label class="ct-lbl3">Published by: {{Catalog.publisher}}</label> 
+							 <label class="ct-lbl3">{{Catalog.created | date :"MM/dd/yyyy" }}</label>
+						</div>
+						<span class="ct-info-container"><i
+							class="fa fa-info-circle" aria-hidden="true"></i></span>
+					</div>
+					<div class="ct-item-row">
+						<div>
+							<label class="ct-lbl2">Total Models - {{Catalog.solutionCount}}</label>
+						</div>						
+						<button
+							class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+							ng-disabled="!loginUserID"
+							ng-click="Catalog.favorite = !Catalog.favorite; updateFavorite(favList , Catalog.catalogId)"
+							alt="Favorite" title="Favorite">
+							<i class="material-icons"
+								ng-class="{'unselected-fav':!Catalog.favorite ,'selected-fav':Catalog.favorite}">favorite_border</i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<!-- Catalog grid item code -->			
+		</div>
+	</div>
+	<div>
+		<button class="mdl-button mdl-js-button btn-primary"
+			alt="Update Account" title="Update Account">Update Account</button>
+		<button class="mdl-button mdl-js-button btn-secondary btn-gap"
+			alt="Deactivate Account" title="Deactivate Account">Deactivate
+			Account</button>
+	</div>
+	</md-content> </md-tab>
+	
+	</md-tabs>
 </div>
 
 <!-- material popup for change password start-->

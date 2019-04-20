@@ -299,21 +299,20 @@ public class MarketPlaceControllerTest {
 
 	@Test
 	public void getDescriptionTest() {
-
-		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
 		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
-		String accessType = "PR";
+		String catalogId = "4321-4321-4321-4321-4321";
+		String ccdsRevCatDescrPath = String.format("/ccds/revision/%s/catalog/%s/descr", revisionId, catalogId);
 
-		stubFor(get(urlEqualTo("/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PR/descr"))
+		stubFor(get(urlEqualTo(ccdsRevCatDescrPath))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-						.withBody("{\r\n" + "\"accessTypeCode\": \"PR\"," + "\"created\": \"2018-09-10T16:00:39.629Z\","
+						.withBody("{\r\n" + "\"catalogId\": \"4321-4321-4321-4321-4321\"," + "\"created\": \"2018-09-10T16:00:39.629Z\","
 								+ "\"description\": \"TestDescription\","
 								+ "\"modified\": \"2018-09-10T16:00:39.629Z\","
 								+ "\"revisionId\": \"4f5079b9-49e8-48a3-8fcb-c006e96c4c10\"" + "}")));
 
 		ResponseEntity<JsonResponse<RevisionDescription>> descriptionResponse = restTemplate.exchange(
-				host + ":" + randomServerPort + "/solution/revision/" + revisionId + "/" + accessType + "/description",
+				host + ":" + randomServerPort + "/solution/revision/" + revisionId + "/" + catalogId + "/description",
 				HttpMethod.GET, null, new ParameterizedTypeReference<JsonResponse<RevisionDescription>>() {
 				});
 
@@ -328,15 +327,16 @@ public class MarketPlaceControllerTest {
 
 		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
 		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
-		String accessType = "PR";
+		String catalogId = "4321-4321-4321-4321-4321";
+		String ccdsRevCatDescrPath = String.format("/ccds/revision/%s/catalog/%s/descr", revisionId, catalogId);
 
-		stubFor(get(urlEqualTo("/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PR/descr"))
+		stubFor(get(urlEqualTo(ccdsRevCatDescrPath))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_BAD_REQUEST).withHeader("Content-Type",
 						MediaType.APPLICATION_JSON.toString())));
 
 		try {
 			ResponseEntity<JsonResponse<RevisionDescription>> descriptionResponse = restTemplate.exchange(
-					host + ":" + randomServerPort + "/solution/revision/" + revisionId + "/" + accessType
+					host + ":" + randomServerPort + "/solution/revision/" + revisionId + "/" + catalogId
 							+ "/description",
 					HttpMethod.GET, null, new ParameterizedTypeReference<JsonResponse<RevisionDescription>>() {
 					});
@@ -350,36 +350,30 @@ public class MarketPlaceControllerTest {
 
 		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
 		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
-		String accessType = "PR";
+		String catalogId = "4321-4321-4321-4321-4321";
+		String ccdsRevCatDescrPath = String.format("/ccds/revision/%s/catalog/%s/descr", revisionId, catalogId);
 		RevisionDescription newRevisionDescription = new RevisionDescription();
 		newRevisionDescription.setDescription("New Description");
 		JsonRequest<RevisionDescription> reqObj = new JsonRequest<>();
 		reqObj.setBody(newRevisionDescription);
 
-		stubFor(get(urlEqualTo("/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PR/descr"))
+		stubFor(get(urlEqualTo(ccdsRevCatDescrPath))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_BAD_REQUEST).withHeader("Content-Type",
 						MediaType.APPLICATION_JSON.toString())));
 
-		stubFor(post(urlEqualTo("/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PR/descr"))
+		stubFor(post(urlEqualTo(ccdsRevCatDescrPath))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-						.withBody("{\r\n" + "\"accessTypeCode\": \"PR\"," + "\"created\": \"2018-09-10T16:00:39.629Z\","
+						.withBody("{\r\n" + "\"catalogId\": \"4321-4321-4321-4321-4321\"," + "\"created\": \"2018-09-10T16:00:39.629Z\","
 								+ "\"description\": \"New Description\","
 								+ "\"modified\": \"2018-09-10T16:00:39.629Z\","
 								+ "\"revisionId\": \"4f5079b9-49e8-48a3-8fcb-c006e96c4c10\"" + "}")));
-
-		stubFor(get(urlEqualTo("/ccds/code/pair/ACCESS_TYPE")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody("[" + "  {" + "    \"code\": \"RS\"," + "    \"name\": \"Restricted\"" + "  }," + "  {"
-						+ "    \"code\": \"PR\"," + "    \"name\": \"Private\"" + "  }," + "  {"
-						+ "    \"code\": \"PB\"," + "    \"name\": \"Public\"" + "  }," + "  {"
-						+ "    \"code\": \"OR\"," + "    \"name\": \"Organization\"" + "  }" + "]")));
-
+		
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RevisionDescription>> requestEntity = new HttpEntity<>(reqObj, headers);
 
 		ResponseEntity<JsonResponse<RevisionDescription>> descriptionResponse = restTemplate.exchange(
-				host + ":" + randomServerPort + "/solution/revision/" + revisionId + "/" + accessType + "/description",
+				host + ":" + randomServerPort + "/solution/revision/" + revisionId + "/" + catalogId + "/description",
 				HttpMethod.POST, requestEntity, new ParameterizedTypeReference<JsonResponse<RevisionDescription>>() {
 				});
 
@@ -394,8 +388,8 @@ public class MarketPlaceControllerTest {
 
 		JsonRequest<RestPageRequestPortal> reqObj = new JsonRequest<>();
 		RestPageRequestPortal restpagerequestPortal = new RestPageRequestPortal();
-		restpagerequestPortal.setAccessTypeCodes(new String[] { "PB", "OR" });
 		restpagerequestPortal.setActive(true);
+		restpagerequestPortal.setPublished(true);
 		restpagerequestPortal.setSortBy("MR");
 		Map<String, String> fieldToDirectionMap = new HashMap<>();
 		RestPageRequest pageRequest = new RestPageRequest();
@@ -405,16 +399,9 @@ public class MarketPlaceControllerTest {
 		pageRequest.setFieldToDirectionMap(fieldToDirectionMap);
 		restpagerequestPortal.setPageRequest(pageRequest);
 		reqObj.setBody(restpagerequestPortal);
-
-		stubFor(get(urlEqualTo("/ccds/code/pair/ACCESS_TYPE")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody("[" + "  {" + "    \"code\": \"RS\"," + "    \"name\": \"Restricted\"" + "  }," + "  {"
-						+ "    \"code\": \"PR\"," + "    \"name\": \"Private\"" + "  }," + "  {"
-						+ "    \"code\": \"PB\"," + "    \"name\": \"Public\"" + "  }," + "  {"
-						+ "    \"code\": \"OR\"," + "    \"name\": \"Organization\"" + "  }" + "]")));
-
-		stubFor(get(
-				urlEqualTo("/ccds/solution/search/portal?atc=PB&atc=OR&active=true&page=0&size=9&sort=modified,DESC"))
+		
+		stubFor(get(urlEqualTo(
+				"/ccds/solution/search/portal/kwtag?active=true&page=0&size=9&sort=modified,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
@@ -433,7 +420,7 @@ public class MarketPlaceControllerTest {
 				.withBody(
 						"{\"created\":1535602889000,\"modified\":1536623387000,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"firstName\":\"Test\",\"middleName\":null,\"lastName\":\"User\",\"orgName\":null,\"email\":\"testUser@gmail.com\",\"loginName\":\"test\",\"loginHash\":null,\"loginPassExpire\":null,\"authToken\":\"\",\"active\":true,\"lastLogin\":1536623387000,\"loginFailCount\":null,\"loginFailDate\":null,\"picture\":null,\"apiToken\":\"30d19b719c1d44ae84d92dcc87f5a1ad\",\"verifyTokenHash\":null,\"verifyExpiration\":null,\"tags\":[]}")));
 
-		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user/access"))
+		stubFor(get(urlEqualTo("/ccds/access/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user"))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
 
@@ -466,6 +453,13 @@ public class MarketPlaceControllerTest {
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
 
+		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
+
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
 
@@ -486,8 +480,8 @@ public class MarketPlaceControllerTest {
 
 		JsonRequest<RestPageRequestPortal> reqObj = new JsonRequest<>();
 		RestPageRequestPortal restpagerequestPortal = new RestPageRequestPortal();
-		restpagerequestPortal.setAccessTypeCodes(new String[] { "PB", "OR" });
 		restpagerequestPortal.setActive(true);
+		restpagerequestPortal.setPublished(true);
 		restpagerequestPortal.setSortBy("MR");
 		restpagerequestPortal.setUserId("bc961e2a-9506-4cf5-bbdb-009558b79e29");
 		Map<String, String> fieldToDirectionMap = new HashMap<>();
@@ -498,16 +492,9 @@ public class MarketPlaceControllerTest {
 		pageRequest.setFieldToDirectionMap(fieldToDirectionMap);
 		restpagerequestPortal.setPageRequest(pageRequest);
 		reqObj.setBody(restpagerequestPortal);
-
-		stubFor(get(urlEqualTo("/ccds/code/pair/ACCESS_TYPE")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody("[" + "  {" + "    \"code\": \"RS\"," + "    \"name\": \"Restricted\"" + "  }," + "  {"
-						+ "    \"code\": \"PR\"," + "    \"name\": \"Private\"" + "  }," + "  {"
-						+ "    \"code\": \"PB\"," + "    \"name\": \"Public\"" + "  }," + "  {"
-						+ "    \"code\": \"OR\"," + "    \"name\": \"Organization\"" + "  }" + "]")));
-
+		
 		stubFor(get(urlEqualTo(
-				"/ccds/solution/search/user?atc=PB&atc=OR&active=true&user=bc961e2a-9506-4cf5-bbdb-009558b79e29&page=0&size=9&sort=modified,DESC"))
+				"/ccds/solution/search/user?active=true&publ=true&user=bc961e2a-9506-4cf5-bbdb-009558b79e29&page=0&size=9&sort=modified,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
@@ -526,7 +513,7 @@ public class MarketPlaceControllerTest {
 				.withBody(
 						"{\"created\":1535602889000,\"modified\":1536623387000,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"firstName\":\"Test\",\"middleName\":null,\"lastName\":\"User\",\"orgName\":null,\"email\":\"testUser@gmail.com\",\"loginName\":\"test\",\"loginHash\":null,\"loginPassExpire\":null,\"authToken\":\"\",\"active\":true,\"lastLogin\":1536623387000,\"loginFailCount\":null,\"loginFailDate\":null,\"picture\":null,\"apiToken\":\"30d19b719c1d44ae84d92dcc87f5a1ad\",\"verifyTokenHash\":null,\"verifyExpiration\":null,\"tags\":[]}")));
 
-		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user/access"))
+		stubFor(get(urlEqualTo("/ccds/access/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user"))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
 
@@ -558,6 +545,13 @@ public class MarketPlaceControllerTest {
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+
+		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
@@ -580,9 +574,9 @@ public class MarketPlaceControllerTest {
 
 		JsonRequest<RestPageRequestPortal> reqObj = new JsonRequest<>();
 		RestPageRequestPortal restpagerequestPortal = new RestPageRequestPortal();
-		restpagerequestPortal.setAccessTypeCodes(new String[] { "PB", "OR" });
 		restpagerequestPortal.setNameKeyword(new String[] { "Test"});
 		restpagerequestPortal.setActive(true);
+		restpagerequestPortal.setPublished(true);
 		restpagerequestPortal.setSortBy("MR");
 		restpagerequestPortal.setUserId("bc961e2a-9506-4cf5-bbdb-009558b79e29");
 		Map<String, String> fieldToDirectionMap = new HashMap<>();
@@ -593,16 +587,9 @@ public class MarketPlaceControllerTest {
 		pageRequest.setFieldToDirectionMap(fieldToDirectionMap);
 		restpagerequestPortal.setPageRequest(pageRequest);
 		reqObj.setBody(restpagerequestPortal);
-
-		stubFor(get(urlEqualTo("/ccds/code/pair/ACCESS_TYPE")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
-				.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
-				.withBody("[" + "  {" + "    \"code\": \"RS\"," + "    \"name\": \"Restricted\"" + "  }," + "  {"
-						+ "    \"code\": \"PR\"," + "    \"name\": \"Private\"" + "  }," + "  {"
-						+ "    \"code\": \"PB\"," + "    \"name\": \"Public\"" + "  }," + "  {"
-						+ "    \"code\": \"OR\"," + "    \"name\": \"Organization\"" + "  }" + "]")));
-
+		
 		stubFor(get(urlEqualTo(
-				"/ccds/solution/search/portal/kwtag?atc=PB&atc=OR&active=true&kw=Test&page=0&size=9&sort=modified,DESC"))
+				"/ccds/solution/search/portal/kwtag?active=true&kw=Test&page=0&size=9&sort=modified,DESC"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
@@ -621,7 +608,7 @@ public class MarketPlaceControllerTest {
 				.withBody(
 						"{\"created\":1535602889000,\"modified\":1536623387000,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"firstName\":\"Test\",\"middleName\":null,\"lastName\":\"User\",\"orgName\":null,\"email\":\"testUser@gmail.com\",\"loginName\":\"test\",\"loginHash\":null,\"loginPassExpire\":null,\"authToken\":\"\",\"active\":true,\"lastLogin\":1536623387000,\"loginFailCount\":null,\"loginFailDate\":null,\"picture\":null,\"apiToken\":\"30d19b719c1d44ae84d92dcc87f5a1ad\",\"verifyTokenHash\":null,\"verifyExpiration\":null,\"tags\":[]}")));
 
-		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user/access"))
+		stubFor(get(urlEqualTo("/ccds/access/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user"))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
 
@@ -654,6 +641,13 @@ public class MarketPlaceControllerTest {
 								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
 										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
 
+		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
+
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
 
@@ -675,7 +669,8 @@ public class MarketPlaceControllerTest {
 
 		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
 		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
-		String accessType = "PB";
+		String catalogId = "4321-4321-4321-4321-4321";
+		String ccdsRevCatDocPath = String.format("/ccds/revision/%s/catalog/%s/document", revisionId, catalogId);
 
 		Path tempFile = null;
 		try {
@@ -693,12 +688,12 @@ public class MarketPlaceControllerTest {
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-		stubFor(get(urlEqualTo("/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PB/document"))
+		stubFor(get(urlEqualTo(ccdsRevCatDocPath))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
 
 		stubFor(put(urlEqualTo("/repository/repo_acumos_model_maven/com/artifact/" + solutionId + "/" + revisionId + "/"
-				+ fileName + "/" + accessType + "/" + fileName + "-" + accessType + ".txt"))
+				+ fileName + "/" + catalogId + "/" + fileName + "-" + catalogId + ".txt"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)));
 
 		stubFor(post(urlEqualTo("/ccds/document")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
@@ -706,7 +701,7 @@ public class MarketPlaceControllerTest {
 						"{\"documentId\":\"787c9461-4288-4091-8d39-5ce1a4e04e34\",\"name\":\"upload-test-file4958107523126401268.txt\",\"version\":null,\"uri\":\"com/artifact/b7b9bb9c-980c-4a18-b7bf-545bbd9173ab/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/upload-test-file4958107523126401268/PB/upload-test-file4958107523126401268-PB.txt\",\"size\":32,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\"}")));
 
 		stubFor(post(urlEqualTo(
-				"/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PB/document/787c9461-4288-4091-8d39-5ce1a4e04e34"))
+				ccdsRevCatDocPath + "/787c9461-4288-4091-8d39-5ce1a4e04e34"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
 								MediaType.APPLICATION_JSON.toString())));
 
@@ -714,7 +709,7 @@ public class MarketPlaceControllerTest {
 		try {
 			documentResponse = restTemplate.exchange(
 					host + ":" + randomServerPort + "/solution/" + solutionId + "/revision/" + revisionId + "/"
-							+ accessType + "/document",
+							+ catalogId + "/document",
 					HttpMethod.POST, requestEntity, new ParameterizedTypeReference<JsonResponse<MLPDocument>>() {
 					});
 		} catch (HttpStatusCodeException e) {
@@ -732,7 +727,8 @@ public class MarketPlaceControllerTest {
 
 		String solutionId = "b7b9bb9c-980c-4a18-b7bf-545bbd9173ab";
 		String revisionId = "4f5079b9-49e8-48a3-8fcb-c006e96c4c10";
-		String accessType = "PB";
+		String catalogId = "4321-4321-4321-4321-4321";
+		String ccdsRevCatDocPath = String.format("/ccds/revision/%s/catalog/%s/document", revisionId, catalogId);
 
 		Path tempFile = null;
 		try {
@@ -750,12 +746,12 @@ public class MarketPlaceControllerTest {
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-		stubFor(get(urlEqualTo("/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PB/document"))
+		stubFor(get(urlEqualTo(ccdsRevCatDocPath))
 				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
 						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
 
 		stubFor(put(urlEqualTo("/repository/repo_acumos_model_maven/com/artifact/" + solutionId + "/" + revisionId + "/"
-				+ fileName + "/" + accessType + "/" + fileName + "-" + accessType + ".txt"))
+				+ fileName + "/" + catalogId + "/" + fileName + "-" + catalogId + ".txt"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)));
 
 		stubFor(post(urlEqualTo("/ccds/document")).willReturn(aResponse().withStatus(HttpStatus.SC_OK)
@@ -763,7 +759,7 @@ public class MarketPlaceControllerTest {
 						"{\"documentId\":\"787c9461-4288-4091-8d39-5ce1a4e04e34\",\"name\":\"upload-test-file4958107523126401268.txt\",\"version\":null,\"uri\":\"com/artifact/b7b9bb9c-980c-4a18-b7bf-545bbd9173ab/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/upload-test-file4958107523126401268/PB/upload-test-file4958107523126401268-PB.txt\",\"size\":32,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\"}")));
 
 		stubFor(post(urlEqualTo(
-				"/ccds/revision/4f5079b9-49e8-48a3-8fcb-c006e96c4c10/access/PB/document/787c9461-4288-4091-8d39-5ce1a4e04e34"))
+				ccdsRevCatDocPath + "/787c9461-4288-4091-8d39-5ce1a4e04e34"))
 						.willReturn(aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type",
 								MediaType.APPLICATION_JSON.toString())));
 	//  /solution/{solutionId}/revision/{revisionId}/{accessType}/document
@@ -771,7 +767,7 @@ public class MarketPlaceControllerTest {
 		try {
 			documentResponse = restTemplate.exchange(
 					host + ":" + randomServerPort + "/solution/" + solutionId + "/revision/" + revisionId + "/"
-							+ accessType + "/document",
+							+ catalogId + "/document",
 					HttpMethod.GET, null, new ParameterizedTypeReference<JsonResponse<List<MLPDocument>>>() {
 					});
 		} catch (HttpStatusCodeException e) {

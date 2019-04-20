@@ -21,7 +21,6 @@
 package org.acumos.portal.be.service.impl;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.acumos.portal.be.common.CommonConstants;
-import org.acumos.portal.be.service.AdminService;
 import org.acumos.portal.be.service.PublishSolutionService;
 import org.acumos.portal.be.util.PortalUtils;
 import org.slf4j.Logger;
@@ -37,15 +35,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPPublishRequest;
-import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
-import org.acumos.cds.domain.MLPUser;
-import org.acumos.cds.transport.AuthorTransport;
 import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.cds.transport.RestPageResponse;
 
@@ -56,16 +50,13 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	
 	@Autowired
 	private Environment env;
-	
-	@Autowired
-	private AdminService adminService;
 
 	public PublishSolutionServiceImpl() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	public String publishSolution(String solutionId, String accessType, String userId, String revisionId, UUID trackingId) {
+	public String publishSolution(String solutionId, String visibility, String userId, String revisionId, String catalogId, UUID trackingId) {
 		log.debug("publishModelBySolution ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPSolution mlpSolution2 = null;
@@ -80,10 +71,11 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 					if(mlpSolutionRevision != null) {
 						//Check if validation is required
 						//If the request is for public then only go for admin approval. Else publish the revision.
-						if(!PortalUtils.isEmptyOrNullString(accessType) && accessType.equalsIgnoreCase(CommonConstants.PUBLIC)) {
+						if(!PortalUtils.isEmptyOrNullString(visibility) && visibility.equalsIgnoreCase(CommonConstants.PUBLIC)) {
 							MLPPublishRequest publishRequest = new MLPPublishRequest();
 							publishRequest.setSolutionId(solutionId);
 							publishRequest.setRevisionId(revisionId);
+							publishRequest.setCatalogId(catalogId);
 							publishRequest.setRequestUserId(userId);
 							//Get Status Code from CDS and then populate 
 							publishRequest.setStatusCode(CommonConstants.PUBLISH_REQUEST_PENDING);
@@ -95,12 +87,12 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 							// Change the return type to send the message that request has been created 
 							publishStatus = "Solution "+mlpSolution2.getName()+" Pending for Publisher Approval";
 						} else {
-							updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
+							dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
 							publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 						}
 					}
 				} else {
-					updateSolution(mlpSolution2.getSolutionId(), revisionId, accessType);
+					dataServiceRestClient.addSolutionToCatalog(solutionId, catalogId);
 					publishStatus = "Solution "+mlpSolution2.getName()+" Published Successfully";
 				}
 			}
@@ -111,62 +103,14 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		return publishStatus;
 	}
 
-	@Override
-	public void updateSolution(String solutionId, String revisionId, String accessType) {
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
-		
-		if (mlpSolutionRevision != null) {
-			AuthorTransport[] authors = mlpSolutionRevision.getAuthors();
-			if (authors == null || authors.length == 0) {
-				//Fetch user using ownerId of revision
-				MLPUser owner = dataServiceRestClient.getUser(mlpSolutionRevision.getUserId());
-				if (owner != null) {
-					List<AuthorTransport> lst = new ArrayList<AuthorTransport>();
-					AuthorTransport ownerAT = new AuthorTransport();
-					//Fill user name into author and save to revision
-					ownerAT.setName(owner.getFirstName() + " " + owner.getLastName());
-					ownerAT.setContact(owner.getEmail());
-					lst.add(ownerAT);
-					AuthorTransport[] targetArray = lst.toArray(new AuthorTransport[lst.size()]);
-					mlpSolutionRevision.setAuthors(targetArray);
-				}
-			}
-		}
-		
-		mlpSolutionRevision.setPublisher(getSiteInstanceName());
-		mlpSolutionRevision.setAccessTypeCode(accessType);
-		dataServiceRestClient.updateSolutionRevision(mlpSolutionRevision);
-	}
 	
-	private String getSiteInstanceName() {
-		String siteInstanceName = null;
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			MLPSiteConfig siteConfig = adminService.getSiteConfig(CommonConstants.SITE_CONFIG);
-			String configStr = siteConfig.getConfigValue();
-
-			Map<String, Object> resp = mapper.readValue(configStr, Map.class);
-			List<Map<String, String>> fields = (List<Map<String, String>>) resp.get(CommonConstants.FIELDS);
-			for(Map<String, String> field : fields) {
-				if(field.get(CommonConstants.NAME).equals(CommonConstants.SITE_INSTANCE_NAME)) {
-					siteInstanceName = field.get(CommonConstants.DATA);
-				}
-			}
-
-		} catch (Exception e) {
-			log.error("getSiteInstanceName");
-			//Log error and do nothing. Return the null value in site name cannot be found
-		} 
-		return siteInstanceName;
-	}
+	
 	
 	@Override
-	public boolean unpublishSolution(String solutionId, String accessType, String userId) {
+	public boolean unpublishSolution(String solutionId, String catalogId, String userId) {
 		//TODO: Need to revisit the un-publish the solution revision. Currently this service is not being used in portal.
 		log.debug("unpublishModelBySolutionId ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		PortalRestClienttImpl portalRestClienttImpl = null;
 		MLPSolution mlpSolution = new MLPSolution();
 		/*mlpSolution.setAccessTypeCode(accessType);*/
 		mlpSolution.setSolutionId(solutionId);
@@ -180,9 +124,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 			//Unpublish the Solution
 			mlpSolution2 = dataServiceRestClient.getSolution(solutionId);
 			if(mlpSolution2 != null && mlpSolution2.getUserId().equalsIgnoreCase(userId)) {
-				portalRestClienttImpl = new PortalRestClienttImpl(env.getProperty("cdms.client.url"), env.getProperty("cdms.client.username"), env.getProperty("cdms.client.password"));
-				/*mlpSolution2.setAccessTypeCode(accessType);*/
-				portalRestClienttImpl.updateSolution(mlpSolution2);
+				dataServiceRestClient.dropSolutionFromCatalog(solutionId, catalogId);
 				unpublished = true;
 			}
 			
@@ -198,7 +140,6 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 	public boolean checkUniqueSolName(String solutionId) {
 		log.debug("checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = { CommonConstants.PUBLIC, CommonConstants.ORGANIZATION };
 
 		MLPSolution solution = dataServiceRestClient.getSolution(solutionId);
 		String[] name = { solution.getName() };
@@ -206,7 +147,7 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 		Map<String, String> queryParameters = new HashMap<>();
 		//Fetch the maximum possible records. Need an api that could return the exact match of names along with other nested filter criteria
 		RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true, null,
-				accessTypeCodes, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+				null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 		List<MLPSolution> searchSolList = searchSolResp.getContent();
 
 		//removing the same solutionId from the list

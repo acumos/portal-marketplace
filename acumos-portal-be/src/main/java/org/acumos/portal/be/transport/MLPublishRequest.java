@@ -39,6 +39,9 @@ public class MLPublishRequest{
 	private String requestStatusName;
 	private Instant creationDate;
 	private Instant lastModifiedDate;
+	private String catalogId;
+	private String catalogName;
+	
 	/**
 	 * @return the publishRequestId
 	 */
@@ -230,5 +233,29 @@ public class MLPublishRequest{
 	 */
 	public void setRequestStatusName(String requestStatusName) {
 		this.requestStatusName = requestStatusName;
+	}
+	/**
+	 * @return the catalogId
+	 */
+	public String getCatalogId() {
+		return catalogId;
+	}
+	/**
+	 * @param catalogId the catalogId to set
+	 */
+	public void setCatalogId(String catalogId) {
+		this.catalogId = catalogId;
+	}
+	/**
+	 * @return the catalogName
+	 */
+	public String getCatalogName() {
+		return catalogName;
+	}
+	/**
+	 * @param catalogName the catalogName to set
+	 */
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
 	}
 }

@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.acumos.cds.CodeNameType;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPublishRequest;
@@ -134,18 +135,6 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 			MLPSolutionRevision revision = dataServiceRestClient.getSolutionRevision(publishRequest.getSolutionId(),
 					publishRequest.getRevisionId());
 			mlPublishRequest.setRevisionName(revision.getVersion());
-			mlPublishRequest.setRevisionStatusCode(revision.getAccessTypeCode());
-			List<MLPCodeNamePair> accessTypeList = dataServiceRestClient.getCodeNamePairs(CodeNameType.ACCESS_TYPE);
-			if (accessTypeList.size() > 0) {
-				for (MLPCodeNamePair accessType : accessTypeList) {
-					if (accessType.getCode() != null) {
-						if (accessType.getCode().equalsIgnoreCase(revision.getAccessTypeCode())) {
-							mlPublishRequest.setRevisionStatusName(accessType.getName());
-							break;
-						}
-					}
-				}
-			}
 		}
 
 		if (!PortalUtils.isEmptyOrNullString(publishRequest.getStatusCode())) {
@@ -160,6 +149,14 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 						}
 					}
 				}
+			}
+		}
+		
+		if (!PortalUtils.isEmptyOrNullString(publishRequest.getCatalogId())) {
+			MLPCatalog catalog = dataServiceRestClient.getCatalog(publishRequest.getCatalogId());
+			if (catalog != null) {
+				mlPublishRequest.setCatalogId(catalog.getCatalogId());
+				mlPublishRequest.setCatalogName(catalog.getName());
 			}
 		}
 		return mlPublishRequest;
@@ -222,7 +219,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		MLPublishRequest updatedPublishRequest = getPublishRequestDetails(updatedRequest);
 		//If request is approved then change the status of solution revision
 		if(isRequestApproved) {
-			publishSolutionService.updateSolution(updatedPublishRequest.getSolutionId(), updatedPublishRequest.getRevisionId(), CommonConstants.PUBLIC);
+			dataServiceRestClient.addSolutionToCatalog(updatedRequest.getSolutionId(), updatedRequest.getCatalogId());
 			generateNotification("Solution " + updatedPublishRequest.getSolutionName() + " Published Successfully", updatedPublishRequest.getRequestUserId());
 		} else {
 			generateNotification("Publish Solution " + updatedPublishRequest.getSolutionName() + " Declined by Publisher", updatedPublishRequest.getRequestUserId());

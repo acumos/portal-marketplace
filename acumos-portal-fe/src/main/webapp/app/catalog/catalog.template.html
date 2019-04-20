@@ -1,0 +1,194 @@
+<!--  
+===============LICENSE_START=======================================================
+Acumos Apache-2.0
+===================================================================================
+Copyright (C) 2019 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+===================================================================================
+This Acumos software file is distributed by AT&T and Tech Mahindra
+under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+This file is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+===============LICENSE_END=========================================================
+-->
+
+<div class="posrel">
+	<alert-message ng-cloak msg="msg" icon="icon" styleclass="styleclass"
+		ng-show="showAlertMessage"></alert-message>
+</div>
+
+<div class="page-content">
+	<section class="pageheadsection">
+		<div class="mdl-grid mdl-grid--no-spacing">
+			<div
+				class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+				<span class="headline mob-disblock">Catalogs</span>
+				<ul class="c-breadcrumb">
+					<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+					<li>Catalogs</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+</div>
+<div class="catalog-page-wrapper">
+	</br>
+	<div class="catalog-filter-container">
+		<label class="ct-lbl2"></label>
+		<div class="catalog-filter-inner-container">
+			<button class="mdl-button mdl-js-button btn-primary"
+				alt="Add New Catalog" title="Add New Catalog"
+				ng-click="addCatalog()">Add New Catalog</button>
+			<div class="select-control catalog-select" ng-if=false>
+				<md-select ng-model="catalogLevel" ng-change="search()" placeholder="All Catalog"
+					class="md-no-underline admin-ddl"> <md-option
+					value="{{type.value}}" ng-repeat='type in CatalogType'>{{type.name}}</md-option>
+				</md-select>
+			</div>
+			<div class="select-control catalog-select" ng-if=false>
+				<md-select placeholder="Filter by Publisher" ng-model="roleValue">
+				<md-option value="Filter by Publisher">Filter by
+				Publisher</md-option> <md-option value="Public">Public</md-option> <md-option
+					value="Restricted Peer">Restricted Peer</md-option> </md-select>
+			</div>
+			<div>
+				<input class="catalog-search-txtbox" type="text" ng-model="searchtxt.name"
+					placeholder="Search Catalog by name" />
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="onboard-history">
+			<!-- table start -->
+			<div class="admin-grid-container">
+				<table
+					class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1"
+					style="table-layout: fixed;">
+					<colgroup>
+						<col width="20%">
+						<col width="20%">
+						<col width="15%">
+						<col width="12%">
+						<col width="11%">
+						<col width="12%">
+						<col width="10%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>CATALOG NAME</th>
+							<th>PUBLISHER NAME</th>
+							<th>INSTANT</th>
+							<th>CREATED DATE</th>
+							<th>ACCESS TYPE</th>
+							<th>TOTAL MODELS</th>
+							<th>ACTION</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="catalog in allCatalogList | filter : searchtxt">
+							<td><span class="md-breadcrumb-item">{{catalog.name}}</span></td>
+							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>
+							<td><span class="md-breadcrumb-item"></span></td>
+							<td><span class="md-breadcrumb-item">{{catalog.created | date :"MM/dd/yyyy" }}</span></td>
+							<td><span class="md-breadcrumb-item">
+									{{catalog.accessTypeCode == "PB" ? "Public" : "Restricted"}}</span></td>
+							<td><span class="md-breadcrumb-item">{{catalog.solutionCount}}
+							</span></td>
+							<td>
+								<button ng-click="editCatalog(catalog)"
+									class="mdl-button mdl-js-button mdl-button--icon">
+									<span class="gridicon-edit"></span>
+								</button>
+								<button ng-click="showDeleteDialog(catalog)"
+									class="mdl-button mdl-js-button mdl-button--icon">
+									<span class="gridicon-delete"></span>
+								</button>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- table end -->
+
+			<div class="pagination-wrapper" ng-if="allCatalogListLength > 0">
+				<div class="pagination-left-section">
+					<span>Showing </span>
+					<div class="select-control">
+						<md-select ng-model="requestResultSize" name="requestResultSize"
+							ng-change="filterChange('paginationSize',requestResultSize)">
+						<md-option ng-value="10" class="pagination-list-item">10</md-option>
+						<md-option ng-value="25" class="pagination-list-item">25</md-option>
+						<md-option ng-value="50" class="pagination-list-item">50</md-option>
+						<md-option ng-value="100" class="pagination-list-item">100</md-option>
+						</md-select>
+
+					</div>
+
+					<span class="page-stats"> Catalog's</span>
+
+				</div>
+				<div class="pagination-right-section">
+					<div class="count-btn-container">
+						<button class="mdl-button mdl-js-button btn-secondary"
+							ng-disabled="selectedPage==0 || SetDataLoaded"
+							ng-click="setStartCount('pre');loadCatalog(selectedPage)">Previous</button>
+					</div>
+					<div class="count-btn-container" ng-hide=" 0 >(setPageStart - 5)">
+						<button class="mdl-button mdl-js-button btn-secondary count-btn"
+							ng-click="setStartCount('preBunch');loadCatalog(setPageStart)"
+							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+					</div>
+					<div class="count-btn-container">
+						<button class="mdl-button mdl-js-button btn-secondary count-btn"
+							ng-class="{'selected-btn': setPageStart == selectedPage}"
+							ng-click="loadCatalog(setPageStart);">{{setPageStart+1}}</button>
+					</div>
+					<div class="count-btn-container"
+						ng-hide="totalPages<=(setPageStart+1)">
+						<button class="mdl-button mdl-js-button btn-secondary count-btn"
+							ng-class="{'selected-btn': setPageStart+1 == selectedPage}"
+							ng-click="loadCatalog(setPageStart+1);">{{setPageStart+2}}</button>
+					</div>
+					<div class="count-btn-container"
+						ng-hide="totalPages<=(setPageStart+2)">
+						<button class="mdl-button mdl-js-button btn-secondary count-btn"
+							ng-class="{'selected-btn': setPageStart+2 == selectedPage}"
+							ng-click="loadCatalog(setPageStart+2);">{{setPageStart+3}}</button>
+					</div>
+					<div class="count-btn-container"
+						ng-hide="totalPages<=(setPageStart+3)">
+						<button class="mdl-button mdl-js-button btn-secondary count-btn"
+							ng-class="{'selected-btn': setPageStart+3 == selectedPage}"
+							ng-click="loadCatalog(setPageStart+3);">{{setPageStart+4}}</button>
+					</div>
+					<div class="count-btn-container"
+						ng-hide="(totalPages)<=(setPageStart+4)">
+						<button class="mdl-button mdl-js-button btn-secondary count-btn"
+							ng-class="{'selected-btn': setPageStart+4 == selectedPage}"
+							ng-click="loadCatalog(setPageStart+4);">{{setPageStart+5}}</button>
+					</div>
+					<div class="count-btn-container"
+						ng-hide="(totalPages)<=(setPageStart + 5)">
+						<button class="mdl-button mdl-js-button btn-secondary count-btn"
+							ng-click="setStartCount('nextBunch');loadCatalog(setPageStart);"
+							ng-class="{disabledClick:SetDataLoaded==true}">...</button>
+					</div>
+					<div class="count-btn-container">
+						<button class="mdl-button mdl-js-button btn-secondary"
+							ng-click="setStartCount('next');loadCatalog(selectedPage);"
+							ng-disabled="totalPages == (selectedPage + 1) || SetDataLoaded">Next</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>

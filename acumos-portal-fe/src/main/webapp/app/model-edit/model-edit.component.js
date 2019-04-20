@@ -85,16 +85,12 @@ angular
 						$scope.revisionId = $stateParams.revisionId;
 						$scope.status;
 						$scope.activePublishBtn = false;
-						$scope.activePublishBtnPB = false;
 						$scope.showSolutionImage = false;
 						$scope.showSolutionDocs = false;
-						$scope.showPublicSolutionDocs = false;
-						$scope.supportingPublicDocs = [];
 						$scope.supportingDocs = [];
 						$scope.tags1 = [];
 						componentHandler.upgradeAllRegistered();
 						$scope.solutionCompanyDescStatus = false;
-						$scope.solutionPublicDescStatus = false;
 						$scope.icon = false;
 						$scope.modelDocumentation = false;
 						$scope.iconImages = ["CLI","curl", "dotnet","javascript", "java", "go",
@@ -288,7 +284,6 @@ angular
 							}
 						};
 
-						$scope.handleError = false;
 						$scope.handleSuccess = false;
 						$scope.tagUpdated = false; // check if tags updated
 						$scope.descUpdated = false; // for checking if sol desc
@@ -311,15 +306,7 @@ angular
 									.then(
 											function(response) {
 												$scope.allCategory = response.data.response_body;
-											},
-											function(error) {
-												$timeout(function() {
-													$scope.handleError = true;
-												}, 2000);
-												$scope.handleError = false;
-												$scope.status = 'Unable to load customer data: '
-														+ error.data.error;
-											});
+										});
 						}
 						$scope.loadCategory();
 
@@ -329,14 +316,6 @@ angular
 									.then(
 											function(response) {
 												$scope.alltoolkitType = response.data.response_body;
-											},
-											function(error) {
-												$timeout(function() {
-													$scope.handleError = true;
-												}, 2000);
-												$scope.handleError = false;
-												$scope.status = 'Unable to load customer data: '
-														+ error.data.error;
 											});
 						}
 						$scope.loadToolkitType();
@@ -368,8 +347,7 @@ angular
 						
 						$scope.getPublishRequestDetail = function(){
 							var searchPublishRequestUrl = "api/publish/request/search/revision/" + $scope.revisionId ;
-							$http(
-									{
+							$http({
 										method : 'GET',
 										url : searchPublishRequestUrl
 									})
@@ -393,10 +371,6 @@ angular
 									 function(response) {
 										 $scope.showSolutionImage = true;
 										 $scope.imgURLdefault = " ";
-									 },
-									 function(error) {
-										 $scope.status = 'Unable to load picture data: '
-												+ error.data.error;
 									 });
 						};
 						
@@ -430,9 +404,7 @@ angular
 													}
 													if ($scope.solution.revisions != null) {
 														var counter = 0;
-														var length = $scope.solution.revisions.length;
-														//**adding list of versions
-														
+														var length = $scope.solution.revisions.length;													
 														$scope.publisherList = [];
 														while(counter < length){
 															($scope.versionList).push(response.data.response_body.revisions[counter]);
@@ -471,59 +443,32 @@ angular
 													}
 													$scope.solutionEditorCompanyDesc = $scope.solution.description;
 													$scope.isModelActive = $scope.solution.active;
-													// $scope.solutionDesc =
-													// $scope.solution.description;
+
 													if ($scope.solution.solutionTagList) {
 														for (var i = 0; i < $scope.solution.solutionTagList.length; i++) {
-															$scope.tags1
-																	.push({
-																		text : $scope.solution.solutionTagList[i].tag
-																	});
+															$scope.tags1.push({text : $scope.solution.solutionTagList[i].tag});
 														}
 													} else if ($scope.solution.solutionTag) {
-														$scope.tags1
-																.push({
-																	text : $scope.solution.solutionTag
-																});
-
+														$scope.tags1.push({text : $scope.solution.solutionTag});
 													}
 													$scope.showSolutionDocs = false;
-													$scope.showPublicSolutionDocs = false;
-													$scope.supportingPublicDocs = [];
 													$scope.supportingDocs = [];
 													$scope.getArtifacts();
-													$scope.getUserImage();
-													//$scope.getModelValidation();
-													$scope.getSolCompanyDesc();
-													$scope.getSolPublicDesc();
-													$scope.getPublicSolutionDocuments();
-													$scope.getCompanySolutionDocuments();
+													$scope.getCatalogs();
+													$scope.getUserImage();													
+													
 													$scope.getAuthorList();
 													$scope.getPublishRequestDetail();
 													$scope.getSolutionPicture();
 													$scope.getPublisher();
 												} else {
-													// alert("Error Fetching
-													// Data");
-
 													$scope.msg = "Error Fetching Data ";
 													$scope.icon = 'report_problem';
 													$scope.styleclass = 'c-error';
 													$scope.showAlertMessage = true;
-													$timeout(
-															function() {
-																$scope.showAlertMessage = false;
-															}, 200);
+													$timeout(function() {$scope.showAlertMessage = false;}, 200);
 												}
 
-											},
-											function(error) {
-												$timeout(function() {
-													$scope.handleError = true;
-												}, 2000);
-												$scope.handleError = false;
-												$scope.status = 'Unable to load customer data: '
-														+ error.data.error;
 											});
 							$scope.publishalert = '';
 						}
@@ -532,61 +477,34 @@ angular
 						$scope.getProtoFile = function(){
 							 $scope.modelSignature = "";
 							 var url = 'api/getProtoFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
-								$http(
-										{
-											method : 'GET',
-											url : url
-										})
-										.then(
-												function successCallback(response) {
-													console.log(response);
-													$scope.modelSignature = response.data;
-												});
+								$http({method : 'GET',url : url})
+									.then(function successCallback(response) {
+										$scope.modelSignature = response.data;
+									});
 						}
 
 						$scope.getSolCompanyDesc = function() {
 							var req = {
 								method : 'GET',
-								url : '/api/solution/revision/' + $scope.revisionId  + "/OR/description"
+								url : '/api/solution/revision/' + $scope.revisionId  + '/' + $scope.selectedCatalogId  + "/description"
 							};
 							$http(req)
 									.success(
-											function(data, status, headers,
-													config) {
+											function(data) {
 												$scope.solutionCompanyDesc = data.response_body.description;
 												$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.response_body.description);
 												if($scope.solutionCompanyDesc){
 													$scope.solutionCompanyDescStatus = true;
 												}
-											}).error(
-											function(data, status, headers,
-													config) {
+											})
+									.error(
+											function(data) {
+												$scope.solutionCompanyDesc = "";
+												$scope.solutionCompanyDesc1 = "";
+												$scope.solutionCompanyDescStatus = false;
 											});
 						}
-						//$scope.getSolCompanyDesc();
-
-						$scope.getSolPublicDesc = function() {
-							var req = {
-								method : 'GET',
-								url : '/api/solution/revision/' + $scope.revisionId  + "/PB/description"
-							};
-							$http(req)
-									.success(
-											function(data, status, headers,
-													config) {
-												$scope.solutionPublicDesc = data.response_body.description;
-												$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.response_body.description);
-												if($scope.solutionPublicDesc){
-													$scope.solutionPublicDescStatus = true;
-												}
-											}).error(
-											function(data, status, headers,
-													config) {
-											});
-						}
-						//$scope.getSolPublicDesc();
-						
-						
+									
 						$scope.getAuthorList = function(tag,ev){
 							apiService.getAuthors($scope.solutionId, $scope.revisionId).then(function(response) {																						
 								for(var i = 0 ;i<response.data.response_body.length; i++)
@@ -630,17 +548,13 @@ angular
 									response.data.response_body[i][keyName] = keyVal;
 								}
 								$scope.AuthorsTag = response.data.response_body;
-					    		if($scope.deleteflag) 
-					    			{					    		    						    		  
+					    		if($scope.deleteflag){					    		    						    		  
 							    		$scope.msg = " Author deleted successfully";
 							    		$scope.icon = '';
 							    		$scope.styleclass = 'c-success';									
 							    		$scope.showAlertMessage = true;
 							    		$scope.cancelAuthor();
-							    		$timeout(
-							    		function() {
-							    			$scope.showAlertMessage = false;
-							    		}, 4000);
+							    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
 					    			}
 					    	},
 					    	function errorCallback(response) {
@@ -648,10 +562,7 @@ angular
 								$scope.icon = 'report_problem';
 								$scope.styleclass = 'c-error';
 								$scope.showAlertMessage = true;
-								$timeout(
-										function() {
-											$scope.showAlertMessage = false;
-										}, 8000);
+								$timeout(function() {$scope.showAlertMessage = false;}, 8000);
 					    	});
 					  
 					    	
@@ -688,27 +599,20 @@ angular
 									
 									if($scope.flag)
 							    		$scope.msg = " Author updated  successfully";
-							    		else
+							    	else
 							    		$scope.msg = " Author added successfully";
 							    		$scope.icon = '';
 							    		$scope.styleclass = 'c-success';									
 							    		$scope.showAlertMessage = true;
 							    		$scope.cancelAuthor();
-							    		$timeout(
-							    		function() {
-							    			$scope.showAlertMessage = false;
-							    		}, 4000);
+							    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
 						    	},
 						    	function errorCallback(response) {						    		
 						    		$scope.msg = "Error while adding Author :  " + response.data.response_detail;
 									$scope.icon = 'report_problem';
 									$scope.styleclass = 'c-error';
 									$scope.showAlertMessage = true;
-									$timeout(
-											function() {
-												$scope.showAlertMessage = false;
-											}, 8000);
-									
+									$timeout(function() {$scope.showAlertMessage = false;}, 8000);
 						    	});
 						    	}
 							}
@@ -743,10 +647,7 @@ angular
 								    		$scope.icon = '';
 								    		$scope.styleclass = 'c-success';									
 								    		$scope.showAlertMessage = true;
-								    		$timeout(
-												function() {
-													$scope.showAlertMessage = false;
-												}, 3000);
+								    		$timeout(function() {$scope.showAlertMessage = false;}, 3000);
 						    			}
 								    		
 						    	},
@@ -755,15 +656,11 @@ angular
 									$scope.icon = 'report_problem';
 									$scope.styleclass = 'c-error';
 									$scope.showAlertMessage = true;
-									$timeout(
-											function() {
-												$scope.showAlertMessage = false;
-											}, 8000);
+									$timeout(function() {$scope.showAlertMessage = false;}, 8000);
 						    		});
 						    	}
 				
-						  $scope.updateTag = function(tag)
-						  {
+						  $scope.updateTag = function(tag){
 							  $scope.selectedtagindex = $scope.AuthorsTag.indexOf(tag);							  
 							  $scope.flag = true;
 							  $scope.Author =[];
@@ -787,11 +684,10 @@ angular
 						    		$scope.removeauthor = [];						    		
 						    		$scope.removeauthor.name = $scope.updateName;
 						    		$scope.removeauthor.contact = $scope.updateCntInfo;
-						    		if(!$scope.isPresent)
-						    			{
+						    		if(!$scope.isPresent){
 						    			$scope.deleteAuthor();
 						    			$scope.getAuthorList();
-						    			}
+						    		}
 						    		$scope.setAuthor();						    								    	
 								};						    		
 						    }
@@ -808,61 +704,29 @@ angular
 						    	$scope.selectedtagindex = -1;
 						  }
 						  $scope.closeAuthorPoup = function(){
-				                	$mdDialog.hide();
-				              		$scope.result = true;
-				              		$scope.cancelAuthor();
-				              		return false;
-			                	}	
+			                	$mdDialog.hide();
+			              		$scope.result = true;
+			              		$scope.cancelAuthor();
+			              		return false;
+			              }	
 						  
 						$scope.updateSolution = function() {
 							if($scope.categoryname&&$scope.toolkitname)$scope.pToP = true;
 							$scope.solution.PrevSolname = $scope.solution.name;
 							$scope.solution.name = $scope.solutionName;							
 							$scope.solution.solutionId = $scope.popupSolutionId;
-							/*if ($scope.revisionsVersion) {
-								$scope.revisions.version = $scope.revisionsVersion;
-							}*/
+
 							if ($scope.activeFalse == false) {
 								$scope.solution.active = $scope.activeFalse;
 							}
 							var solution = {
-								"request_body" : {
-									//"accessType" : $scope.solution.accessType,
+								"request_body" : {									
 									"active" : $scope.solution.active,
-									"created" : $scope.solution.created,
-									// "description" :
-									// $scope.solution.description,
-									// "downloadCount": 0,
-									// "loginName": "string",
-									// "metadata": "string",
-									"modelType" : $scope.categoryname,
-									// "modified": "2017-08-11T14:04:53.784Z",
+									"created" : $scope.solution.created,									
+									"modelType" : $scope.categoryname,									
 									"name" : $scope.solution.name,
-									"ownerId" : $scope.solution.ownerId,
-									// "ownerName": "string",
-									// "pageNo": 0,
-									// "revisions": [
-									// {
-									// "created": "2017-08-11T14:04:53.784Z",
-									// "description": "string",
-									// "metadata": "string",
-									// "modified": "2017-08-11T14:04:53.784Z",
-									// "ownerId": "string",
-									// "revisionId": "string",
-									// "solutionId": "string",
-									// "version": "string"
-									// }
-									// ],
-									// "size": 0,
-									"solutionId" : $scope.solution.solutionId,
-									// "solutionRating": 0,
-									// "solutionTag": "string",
-									// "solutionTagList": [
-									// {
-									// "tag": "string"
-									// }
-									// ],
-									// "sortingOrder": "string",
+									"ownerId" : $scope.solution.ownerId,									
+									"solutionId" : $scope.solution.solutionId,									
 									"tookitType" : $scope.toolkitname
 								}
 							// ,
@@ -877,43 +741,18 @@ angular
 												$scope.status = response.status;
 												$scope.detail = response.data.response_detail;
 
-												/*
-												 * $timeout(function() {
-												 * alert("Updated: " +
-												 * $scope.detail); }, 10);
-												 */
-												/*
-												 * if($scope.solution.active ==
-												 * false){
-												 * $location.hash('manage-models');
-												 * $anchorScroll();
-												 * 
-												 * $scope.msg = "Solution
-												 * Deleted Successfully";
-												 * $scope.icon = '';
-												 * $scope.styleclass =
-												 * 'c-success';
-												 * $scope.showAlertMessage =
-												 * true; $timeout(function() {
-												 * $scope.showAlertMessage =
-												 * false; }, 3500); } else{
-												 */
 												$location.hash('manage-models');
 												$anchorScroll();
 
-												$scope.msg = "Updated: "
-														+ $scope.detail;
+												$scope.msg = "Updated: "+ $scope.detail;
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
 												$scope.showAlertMessage = true;
-												$timeout(
-														function() {
-															$scope.showAlertMessage = false;
+												$timeout(function() {$scope.showAlertMessage = false;
 															if($scope.solution.active == false){
 																$state.go('manageModule');
-															}
-														}, 3500);
-												/* } */
+															}}, 3500);
+												
 												$scope.tagUpdated = true;
 												$scope.loadData();
 												
@@ -927,15 +766,10 @@ angular
 												$scope.solutionName = $scope.solution.PrevSolname;
 												$scope.solution.name = $scope.solution.PrevSolname;
 												$scope.showAlertMessage = true;
-												$timeout(
-														function() {
-															$scope.showAlertMessage = false;
-														}, 2500);
-												$scope.handleError = false;
+												$timeout(function() {$scope.showAlertMessage = false;}, 2500);
 											});
 						}
 						
-						$scope.solutionPublicDescLength = false;
 						$scope.solutionCompanyDescLength = false;
 						$scope.checkCompDescrLength = function()
 						{
@@ -976,13 +810,12 @@ angular
 							};
 							var req = {
 								method : 'POST',
-								url : '/api/solution/revision/' + $scope.revisionId + "/OR/description",
+								url : '/api/solution/revision/' + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/description",
 								data : solution
 							};
 							$http(req)
 									.success(
-											function(data, status, headers,
-													config) {
+											function(data) {
 												$scope.solutionCompanyDesc = data.response_body.description;
 												$scope.solutionCompanyDescStatus = true;
 												$location.hash('manage-models');
@@ -993,87 +826,16 @@ angular
 												$scope.icon = '';
 												$scope.styleclass = 'c-success';
 												$scope.showAlertMessage = true;
-												$timeout(
-														function() {
+												$timeout(function() {
 															$scope.showAlertMessage = false;
 															if($scope.solution.active == false){
 																$state.go('manageModule');
-															}
-														}, 3500);
+															}}, 3500);
 											}).error(
-											function(data, status, headers,
-													config) {
-												 
+											function(data) {
 												$scope.solutionCompanyDesc = '';
+												$scope.solutionCompanyDescStatus = false;
 												$scope.solutionCompanyDescLength = false;
-											});
-						}
-						
-						$scope.checkPubDescrLength = function()
-						{
-							if($scope.solutionPublicDesc){
-								$scope.solutionPublicDescString = $scope.solutionPublicDesc ? String($scope.solutionPublicDesc).replace(/<[^>]+>/gm, '') : '';
-								
-								if($scope.solutionPublicDesc.indexOf('src="') > -1){
-								    var newPBValue = $scope.solutionPublicDesc.split('src="')[1].split('"')[0];
-								    $scope.solutionPublicDescLength = true;
-								}
-								else if($scope.solutionPublicDescString.replace(/\s/g, "") == "" ){
-									$scope.solutionPublicDescLength = false ;
-								}
-								else{
-									$scope.solutionPublicDescLength = true;																		
-								}
-							}else{
-								$scope.solutionPublicDescLength = false;								
-								
-							}
-						}
-
-						$scope.updatePublicDescription = function() {
-							
-
-							if($scope.solutionPublicDescLength = true){
-								$scope.showCKEditor = false
-							}else{
-								$scope.showCKEditor = true
-							} 
-							
-							var solution = {
-										"request_body": {
-										"description" : $scope.solutionPublicDesc
-									}
-							};
-							var req = {
-								method : 'POST',
-								url : '/api/solution/revision/' + $scope.revisionId + "/PB/description",
-								data : solution
-							};
-							$http(req)
-									.success(
-											function(data, status, headers,
-													config) {
-												$scope.solutionPublicDesc = data.response_body.description
-												$scope.solutionPublicDescStatus = true;
-												$location.hash('manage-models');
-												$anchorScroll();
-												$scope.getSolPublicDesc();
-												$scope.msg = "Updated: Solution Description";
-											$scope.icon = '';
-											$scope.styleclass = 'c-success';
-											$scope.showAlertMessage = true;
-											$timeout(
-													function() {
-														$scope.showAlertMessage = false;
-														if($scope.solution.active == false){
-															$state.go('manageModule');
-														}
-													}, 3500);
-											}).error(
-											function(data, status, headers,
-													config) {
-												$scope.solutionPublicDesc = '';
-												$scope.solutionPublicDescLength = false;
 											});
 						}
 
@@ -1086,20 +848,14 @@ angular
 							};
 							var req = {
 								method : 'POST',
-								url : '/api/solution/revision/' + $scope.revisionId + "/OR/description",
+								url : '/api/solution/revision/' + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/description",
 								data : solution
 							};
-							$http(req)
-									.success(
-											function(data, status, headers,
-													config) {
-												$scope.solutionCompanyDesc1 = data.response_body.description;
-												$scope.solutionCompanyDesc = data.response_body.description;
-												$scope.copiedCompanyDesc = true;
-											}).error(
-											function(data, status, headers,
-													config) {
-											});
+							$http(req).success(function(data) {
+								$scope.solutionCompanyDesc1 = data.response_body.description;
+								$scope.solutionCompanyDesc = data.response_body.description;
+								$scope.copiedCompanyDesc = true;
+							});
 
 						}
 						
@@ -1129,9 +885,9 @@ angular
 											});
 						}
 						
-						$scope.copyFromOtherRevision = function(publicOrOrg) {
+						$scope.copyFromOtherRevision = function() {
 							return apiService
-							.getSolutionDescription(publicOrOrg, $scope.solutionId, $scope.fromRevisionId.revisionId)
+							.getSolutionDescription($scope.selectedCatalogId, $scope.solutionId, $scope.fromRevisionId.revisionId)
 							.then(
 									function(response) {
 
@@ -1143,62 +899,19 @@ angular
 												};
 											var req = {
 													method : 'POST',
-													url : '/api/solution/revision/' + $scope.revisionId + '/' + publicOrOrg + '/description',
+													url : '/api/solution/revision/' + $scope.revisionId + '/' + $scope.selectedCatalogId + '/description',
 													data : copySolutionDesc
 												};
 											
 											$http(req)
 											.success(
-													function(data, status, headers,
-															config) {
-														if('OR' == publicOrOrg){
-															$scope.solutionCompanyDesc = data.response_body.description;
-															$scope.solutionCompanyDesc1 = data.response_body.description;
-														}
-														else {
-															$scope.solutionPublicDesc = data.response_body.description;
-															$scope.solutionPublicDesc1 = data.response_body.description;
-														}
-													}).error(
-													function(data, status, headers,
-															config) {
+													function(data) {
+														$scope.solutionCompanyDesc = data.response_body.description;
+														$scope.solutionCompanyDesc1 = data.response_body.description;
 													});
-											
-										} else {
-										}
-									},
-									function(error) {
-
-										$scope.status = error.data.error;
+										} 
 									});
 						}
-
-						$scope.copiedPublicDesc = false;
-						$scope.copyCompanyToPublic = function() {
-							var solution = {
-									"request_body": {
-										"description" : $scope.solutionCompanyDesc
-									}
-							};
-							var req = {
-								method : 'POST',
-								url : '/api/solution/revision/' + $scope.revisionId + "/PB/description",
-								data : solution
-							};
-							
-							$http(req)
-									.success(
-											function(data, status, headers,
-													config) {
-												$scope.solutionPublicDesc = data.response_body.description;
-												$scope.copiedPublicDesc = true;
-											}).error(
-											function(data, status, headers,
-													config) {
-											});
-						}
-						
-						
 
 						$scope.loadAllTags = function(query) {
 							$scope.getTags = {
@@ -1215,10 +928,6 @@ angular
 												$scope.status = response.data.response_detail;
 												$scope.allTags = response.data.response_body.tags;
 												return $scope.allTags;
-											},
-											function(error) {
-
-												$scope.status = error.data.error;
 											});
 						}
 						$scope.loadAllTags();
@@ -1256,7 +965,6 @@ angular
 							     var refreshTag = $scope.tags1;
 							     chkCount();
 							     
-							}, function(error) {
 							});
 						}
 						
@@ -1281,15 +989,12 @@ angular
 								$scope.createTagMethod = true;
 								$scope.addTag(addtag);
 
-							}, function(error) {
-								console.log("Tag Error: ",error)
 							});
 						
 						}					
 
 						$scope.tagRemoved = function(tag) {
 
-							console.log('Removed: ' + tag.text);
 							apiService.deleteTag($scope.solution.solutionId,
 									tag.text).then(function(response) {
 
@@ -1313,67 +1018,24 @@ angular
 							});
 						};
 
-						$scope.publishtoMarket = function(pub_value) {
-							var userId = sessionStorage.getItem("SessionName");
-							$scope.currentModelAccess = pub_value;
-							if (pub_value == 'OR') {
-								var flow= 'company';
-							} else if (pub_value == 'PB') {
-								var flow= 'public';
-							}
-
-							if ($scope.currentModelAccess == $scope.version.accessTypeCode) {
-								if ($scope.version.accessTypeCode == 'OR') {
-									$scope.accessName = 'Company/Organization';
-								} else if ($scope.version.accessTypeCode == 'PB') {
-									$scope.accessName = 'Public';
-								}
-
-								$location.hash('manage-models');
-								$anchorScroll();
-								$scope.msg = "Solution Already Published in "
-										+ $scope.accessName + " marketplace";
-								$scope.icon = 'report_problem';
-								$scope.styleclass = 'c-warning';
-								$scope.showAlertMessage = true;
-	
-								$timeout(function() {
-									$scope.showAlertMessage = false;
-								}, 2500);
-				
-								
-								if( $scope.validationEnabled == true ){
-									$scope.getModelValidation(flow);
-								}
-								 return;
-
-							}
-
+						$scope.publishtoMarket = function() {
+							$scope.closeDialog();
 							if ($scope.solution.ownerId) {
-								if ($scope.version.accessTypeCode == 'PR'
-										|| $scope.version.accessTypeCode == 'OR'  || $scope.version.accessTypeCode == 'PB') {
 									var data = $.param({
-										visibility : pub_value,
+										visibility : $scope.selectedCatalogObj.accessTypeCode,
 										userId : $scope.solution.ownerId,
-										revisionId : $scope.revisionId
+										revisionId : $scope.revisionId,
+										ctlg : $scope.selectedCatalogId
 									});
-									apiService
-											.updatePublishSolution(
-													$scope.solution.solutionId,
-													data)
-											.then(
+									apiService.publishSolution($scope.solution.solutionId, data).then(
 													function(response) {
 														if( $scope.validationEnabled == true ){
-															$scope.getModelValidation(flow);
+															$scope.getModelValidation(data.visibility);
 														}
 														
 														$scope.handleSuccess = true;
-														$timeout(
-																function() {
-																	$scope.handleSuccess = false;
-																}, 4500);
-														// scroll to top :
-														// scrolltotop
+														$timeout(function() {$scope.handleSuccess = false;}, 4500);
+
 														$scope.styleclass = 'c-error';
 														if(response.data.error_code == 500){
 															$scope.errorMsg = response.data.response_detail;
@@ -1381,14 +1043,15 @@ angular
 															$scope.icon = 'report_problem';
 															
 														}else if (response.data.error_code == 100){
-															
 															$scope.trackId = response.data.response_detail;
 															$scope.msg = "Solution Published Successfully";
 															$scope.icon = '';
 															$scope.styleclass = 'c-success';
 															$scope.modelDocumentation = true;
-															$scope.activePublishBtnPB = false;
+															$scope.activePublishBtn = false;
+															$scope.getCatalogs();
 														}else{
+															$scope.styleclass = 'c-error';
 															$scope.status = response.data.response_detail;
 															$scope.msg = "Unexpected Error Occured";
 															$scope.icon = 'report_problem';
@@ -1397,13 +1060,17 @@ angular
 														$location.hash('manage-models');
 														$anchorScroll();
 														$scope.showAlertMessage = true;
-														$timeout(
-																function() {
-																	$scope.showAlertMessage = false;
-																}, 2500);
+														$timeout(function() {$scope.showAlertMessage = false;}, 2500);
 														$scope.loadData();
-														
-
+													},
+													function(response) {
+														$location.hash('manage-models');
+														$scope.msg = response.data.response_detail;
+														$scope.icon = 'report_problem';
+														$scope.styleclass = 'c-error';
+														$anchorScroll();
+														$scope.showAlertMessage = true;
+														$timeout(function() {$scope.showAlertMessage = false;}, 2500);
 													},
 													function(error) {
 														if (error.data.error_code == "sv_error") {
@@ -1439,32 +1106,10 @@ angular
 																		$scope.showAlertMessage = false;
 																	}, 2500);
 														}
-													});
+													});				
 
-								} else {
-									$scope.handleError = true;
-									$timeout(function() {
-										$scope.handleError = false;
-									}, 4500);
-
-									$scope.status = 'This solution already published in the Market place';
-									$location.hash('manage-models');
-									$anchorScroll();
-									$scope.msg = "This solution already published in the Market place";
-									$scope.icon = 'info_outline';
-									$scope.styleclass = 'c-info';
-									$scope.showAlertMessage = true;
-									$timeout(function() {
-										$scope.showAlertMessage = false;
-									}, 3500);
-
-								}
-							} else {
-								$scope.handleError = true;
-								$timeout(function() {
-									$scope.handleError = false;
-								}, 4500);
-
+								} 							
+							 else {
 								$scope.status = 'Please sign in as owner  to publish solution';
 								$location.hash('manage-models');
 								$anchorScroll();
@@ -1472,14 +1117,8 @@ angular
 								$scope.icon = 'info_outline';
 								$scope.styleclass = 'c-info';
 								$scope.showAlertMessage = true;
-								$timeout(function() {
-									$scope.showAlertMessage = false;
-								}, 3500);
+								$timeout(function() {$scope.showAlertMessage = false;}, 3500);
 							}
-
-						}
-
-						$scope.deleteSolution = function() {
 
 						}
 
@@ -1488,18 +1127,9 @@ angular
 						$scope.getAllUsersList = function() {
 							return apiService
 									.getAllUsersLists()
-									.then(
-											function(response) {
-												$scope.allUserDetails = response.data.response_body;
-												/* return $scope.allUserDetails; */
-												/*Check functionality*/
-												/*return response.data.response_body
-														.map(function(item) {
-															return item.firstName;
-														});*/
-
-											}, function(error) {
-											});
+									.then(function(response) {
+										$scope.allUserDetails = response.data.response_body;
+									});
 
 						}
 						$scope.getAllUsersList();
@@ -1510,23 +1140,10 @@ angular
 									.then(
 											function(response) {
 												if (response.data.error_code == "500") {
-													console
-															.log("loadShareWithTeam Error: "
-																	+ response.data.response_detail);
 													$scope.sharedWith = '';
 												} else {
 													$scope.sharedWith = response.data.response_body.userList;
-													
 												}
-
-											},
-											function(error) {
-												$timeout(function() {
-													$scope.handleError = true;
-												}, 2000);
-												$scope.handleError = false;
-												$scope.status = 'Unable to load customer data: '
-														+ error.data.error;
 											});
 
 						}
@@ -1571,10 +1188,7 @@ angular
 													$scope.icon = 'info_outline';
 													$scope.styleclass = 'c-info';
 													$scope.showAlertMessage = true;
-													$timeout(
-															function() {
-																$scope.showAlertMessage = false;
-															}, 3500);
+													$timeout(function() {$scope.showAlertMessage = false;}, 3500);
 
 													$scope.asyncSelected = '';
 												} else {
@@ -1585,14 +1199,9 @@ angular
 													$scope.icon = '';
 													$scope.styleclass = 'c-success';
 													$scope.showAlertMessage = true;
-													$timeout(
-															function() {
-																$scope.showAlertMessage = false;
-															}, 2000);
+													$timeout(function() {$scope.showAlertMessage = false;}, 2000);
 												}
 												$scope.status = response.data.response_detail;
-											},
-											function(error) {
 											});
 						}
 
@@ -1629,28 +1238,24 @@ angular
 
 												$scope.status = response.data.response_detail;
 												if (response.data.error_code == "100") {
-                                                                                                  	$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
-						                              				$anchorScroll();
-                                                                                                        $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-author.";
-                                                                                                        $scope.icon = '';
-                                                                                                        $scope.styleclass = 'c-success';
-                                                                                                        $scope.showAlertMessage = true;
-                                                                                                        $timeout(function() {
-                                                                                                             $scope.showAlertMessage = false;
-                                                                                                         }, 3500);
-                                                                                                      	$scope.closeSharedWithPoup();
-                                                                                                      	$scope.getAllUsersList();
-													$scope.loadShareWithTeam();
+                                                    	$location.hash('manage-models');  // id of a container on the top of the page - where to scroll (top)
+						                              	$anchorScroll();
+                                                        $scope.msg = "User: "+ $scope.sharedWithUserName+ " removed successfully as a co-author.";
+                                                        $scope.icon = '';
+                                                        $scope.styleclass = 'c-success';
+                                                        $scope.showAlertMessage = true;
+                                                        $timeout(function() {$scope.showAlertMessage = false;}, 3500);
+                                                      	$scope.closeSharedWithPoup();
+                                                      	$scope.getAllUsersList();
+                                                      	$scope.loadShareWithTeam();
 													
 												} else {
-													alert("Unexpected error occured");
 													$scope.closeSharedWithPoup();
 												}
 
 											},
 											function(error) {
-                                                                                          	$scope.closeSharedWithPoup();
-                                                                                          	alert("Error "+ error.data.response_detail);
+                                                 $scope.closeSharedWithPoup();
 
 											});
 
@@ -1669,7 +1274,6 @@ angular
 											function(response) {
 												$scope.loadShareWithTeam();
 												$scope.allUserDetails = response.data.response_body;
-												console.log("allGroups: ",$scope.allGroups);
 												$scope.allGroups1 = $scope.allGroups;
 												
 												angular.forEach($scope.allUserDetails, function(item1, key1) {
@@ -1681,8 +1285,6 @@ angular
 													});
 												});
 												$scope.allUserDetails.map(function(item) {
-													//$scope.allGroups.push(item.firstName); // item.lastName
-													
 													$scope.allGroups.push({
 														firstName : item.firstName,
 														lastName : item.lastName,
@@ -1693,7 +1295,6 @@ angular
 													
 												});
 
-											}, function(error) {
 											});
 
 						}
@@ -1745,8 +1346,7 @@ angular
 							$scope.selectedGroups.map(function(item1) {
 								$scope.allUserDetails.map(function(item2) {
 									if (item1.userId == item2.userId) {
-										// $scope.selectedGroups =
-										// $scope.allUserDetails.userId
+										
 										$scope.selectedId.push(item2.userId);
 									}
 								})
@@ -1785,7 +1385,9 @@ angular
 	                                   $scope.showAlertMessage = false;
 	                               }, 2000);
 								return
-							} else{
+							}
+							
+							else{
 								apiService.insertMultipleShare($scope.solutionId,
 										$scope.reqSharedWith).then(
 										function(response) {
@@ -1801,8 +1403,7 @@ angular
 					                                   $scope.showAlertMessage = false;
 					                               }, 2000);
 												$scope.loadShareWithTeam();
-												// $scope.selectedGroups = ""
-												// $scope.searchText=undefined;
+												
 												clear();
 											}
 											console.log(response);
@@ -1830,11 +1431,9 @@ angular
 						}
 						
 						function clear() {
-						      /*self.selectedItem = null;
-						      self.searchText = "";*/
-						      //$scope.selectedGroups = '';
+						      
 							$scope.selectedGroups = [];
-						      //self.display = "";
+						     
 						    }
 						/** *chips ends** */
 						
@@ -1852,8 +1451,6 @@ angular
 								    $scope.userImage = data.response_body;
 								    $scope.showAltImage = false;
 								}
-							}).error(function(data, status, headers, config) {
-								
 							})
 						};
 						
@@ -1884,12 +1481,6 @@ angular
 													}
 												}
 
-											},
-											function errorCallback(response) {
-												alert("Error: "
-														+ response.status
-														+ "Detail: "
-														+ response.data.response_detail);
 											});
 
 						}
@@ -1955,11 +1546,6 @@ angular
 															})[0].click();
 													anchor.remove();
 												}
-											}).error(
-											function(data, status, headers,
-													config) {
-												alert("Error: " + status
-														+ "Detail: " + data);
 											});
 						}
 
@@ -2044,9 +1630,7 @@ angular
                             									$scope.icon = '';
                             									$scope.styleclass = 'c-success';
                             									$scope.showAlertMessage = true;
-                            									$timeout(function() {
-                            										$scope.showAlertMessage = false;
-                            									}, 5000);
+                            									$timeout(function() {$scope.showAlertMessage = false;}, 5000);
                                                             },
                                                             function(error) {
                                                             	console.warn("Error occured:", error);
@@ -2056,9 +1640,7 @@ angular
                             									$scope.icon = 'report_problem';
                             									$scope.styleclass = 'c-error';
                             									$scope.showAlertMessage = true;
-                            									$timeout(function() {
-                            										$scope.showAlertMessage = false;
-                            									}, 5000);
+                            									$timeout(function() {$scope.showAlertMessage = false;}, 5000);
 
                                                             });
                                                       
@@ -2114,9 +1696,7 @@ angular
                         									$scope.icon = 'report_problem';
                         									$scope.styleclass = 'c-error';
                         									$scope.showAlertMessage = true;
-                        									$timeout(function() {
-                        										$scope.showAlertMessage = false;
-                        									}, 5000);
+                        									$timeout(function() {$scope.showAlertMessage = false;}, 5000);
                                                       });
                                                 }
 
@@ -2232,10 +1812,6 @@ angular
 											function(response) {
 												$scope.getSolutionPicture();
 												$scope.updateSolutionPictureSources();
-											},
-											function(error) { 
-												$scope.status = 'Error updating picture data: '
-														+ error.data.error;
 											});
 				            }
 						}
@@ -2254,9 +1830,8 @@ angular
 
 							var file = $scope.solutionFile;
 
-							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + "/OR/document";
-							var promise = modelUploadService.uploadFileToUrl(
-									file, uploadUrl);
+							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/document";
+							var promise = modelUploadService.uploadFileToUrl(file, uploadUrl);
 
 							promise
 									.then(
@@ -2290,55 +1865,15 @@ angular
 							$scope.privatefilename = "";
 						}
 						
-						$scope.updatePublicSolutionFiles = function(uploadid) {
-							//$scope.solutionFile = angular.element(document.querySelector('#'+ uploadid))[0].files[0];
-							var file = $scope.solutionFile;
-							
-							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + "/PB/document";
-							var promise = modelUploadService.uploadFileToUrl(
-									file, uploadUrl);
-
-							promise
-									.then(
-											function(response) {
-												$scope.modelUploadErrorPublic = false;
-												$scope.supportingPublicDocs.push(response.response_body);
-												$scope.showPublicSolutionDocs = true;
-												$rootScope.progressBar = 0;
-												$scope.showFileUpload = !$scope.showFileUpload;
-											},
-											function(error) {
-												if (error.error_code == "sv_error") {
-													$mdDialog.show({
-														templateUrl : '../app/error-page/sv-modal.template.html',
-														clickOutsideToClose : true,
-														locals: { reasons: error.response_detail },
-														controller : function DialogController($scope, reasons) {
-															$scope.reasons = reasons;
-															$scope.closePoup = function(){
-																$mdDialog.hide();
-															}
-														}
-													});
-												} else {
-													$scope.modelUploadErrorPublic = true;
-													$scope.modelUploadErrorMsgPublic = error;
-												}
-												$rootScope.progressBar = 0;
-												$scope.showFileUpload = !$scope.showFileUpload;
-											});
-							$scope.publicfilename = "";
-						}
 						
 							$scope.getCompanySolutionDocuments = function(){
 		                       	 var getSolutionDocumentsReq = {
 											method : 'GET',
-											url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/OR/document"
+											url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/document"
 									};
 		                       	 $http(getSolutionDocumentsReq)
 										.success(
-												function(data, status, headers,
-														config) {
+												function(data) {
 													$scope.supportingDocs = [];
 													if(data.response_body.length > 0){
 														$scope.showSolutionDocs = true;
@@ -2352,126 +1887,37 @@ angular
 	                                                    $scope.supportingDocsExt = fileExtension;
                                                     });
 													
-												}).error(
-														function(data, status, headers,
-																config) {
-															return "No Contents Available"
-														});
+												});
 								}							
-								
-								$scope.getPublicSolutionDocuments = function(){
-			                       	 var getSolutionDocumentsReq = {
-												method : 'GET',
-												url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/PB/document"
-										};
-			                       	 $http(getSolutionDocumentsReq)
-											.success(
-													function(data, status, headers,
-															config) {
-														$scope.supportingPublicDocs = [];
-														if(data.response_body.length > 0){
-															$scope.showPublicSolutionDocs = true;
-														}
-														
-														$scope.supportingPublicDocs = data.response_body;
-														angular.forEach(data.response_body, function(value, key) {
-		                                                    var fileName = value.name;
-		                                                    var fileExtension = fileName.split('.').pop();
-		                                                    $scope.supportingPublicDocsExt = fileExtension;
-	                                                    });
-														
-													}).error(
-															function(data, status, headers,
-																	config) {
-																return "No Contents Available"
-															});
-									}
-									//$scope.getPublicSolutionDocuments();
-								
+															
 								$scope.removeDoc = function(doc, path){
 									$scope.mybody.addClass('waiting');
 									var removeSolutionDocumentsReq = {
 											method : 'DELETE',
-											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + path + "/document/" + doc
+											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + $scope.selectedCatalogId + "/document/" + doc
 									};
-		                       	 $http(removeSolutionDocumentsReq)
+		                       	 	$http(removeSolutionDocumentsReq)
 										.success(
-												function(data, status, headers,
-														config) {
+												function(data) {
 													$scope.mybody.removeClass('waiting');
-													console.log("Remove Solution Supporting Docs : " + angular.toJson(data.response_body))
-													$scope.supportingPulicDocs = [];
-													$scope.showPublicSolutionDocs = false;
-													
 													$scope.supportingDocs = [];
 													$scope.showSolutionDocs = false;
 													$scope.getCompanySolutionDocuments();
-													$scope.getPublicSolutionDocuments();
-													 
-												}).error(
-														function(data, status, headers,
-																config) {
-															$scope.mybody.removeClass('waiting');
-															$scope.getCompanySolutionDocuments();
-															$scope.getPublicSolutionDocuments();
-															return false;
-														});
+												});
 								}
 								
 								$scope.copyDocsFromOtherRevision = function(path){
 									var copySolutionDocumentsReq = {
 											method : 'GET',
-											url : '/api/solution/'+$scope.solutionId  + "/revision/" + $scope.revisionId +  "/" + path + "/copyDocuments/" + $scope.sourceRevisionId.revisionId
+											url : '/api/solution/' + $scope.solutionId  + "/revision/" + $scope.revisionId + "/" + $scope.selectedCatalogId + "/copyDocuments/" + $scope.sourceRevisionId.revisionId
 									};
 									$http(copySolutionDocumentsReq)
-									.success(
-											function(data, status, headers,
-													config) {
-												$scope.getPublicSolutionDocuments();
-												$scope.getCompanySolutionDocuments();
-											}).error(
-													function(data, status, headers,
-															config) {
-														return "No Contents Available"
-											});
+									.success(function(data) {
+										$scope.getCompanySolutionDocuments();
+									});
 								}
 								
-								
-								$scope.isSolutionDocsAvailableBtn = false; 				//disable copy docs button untill no doc present.
-								$scope.changedDocVersion = function(accessType, solDetail){
-									
-									$scope.pub = accessType;
-									$scope.revDetail = solDetail.revisionId;
-									$scope.solDetail = solDetail.solutionId
-									
-			                       	 var getSolutionDocumentsReq = {
-												method : 'GET',
-												url : '/api/solution/'+$scope.solDetail + "/revision/" + $scope.revDetail + "/" + $scope.pub + "/document"
-										};
-			                       	
-									$scope.mybody.addClass('waiting'); 
-			                       	 $http(getSolutionDocumentsReq)
-											.success(
-													function(data, status, headers,
-															config) {
-														$scope.mybody.removeClass('waiting');
-														if(data.response_body.length > 0){
-															$scope.isSolutionDocsAvailable = true;
-															$scope.isSolutionDocsAvailableBtn = true;
-														}
-														else{
-															$scope.isSolutionDocsAvailable = false;
-															$scope.isSolutionDocsAvailableBtn = false;
-														}
-														
-													}).error(
-															function(data, status, headers,
-																	config) {
-																$scope.mybody.removeClass('waiting');
-																$scope.isSolutionDocsAvailable = false;
-																$scope.isSolutionDocsAvailableBtn = false;
-															});
-								}
+								$scope.isSolutionDocsAvailableBtn = false;
 
 								
 						// FILTERS
@@ -2546,137 +1992,12 @@ angular
 
 						/** file uploading function ends ** */
 
-						var count = 1;
-						$scope.isBusy = false;
-						var check = 0;
-						var dataObj = {};
-						var toBeSearch = '';
-						$scope.mlsolutions = [];
-						$scope.pageNumber = 0;
-						$scope.modelCount = 0;
-						var duplicate = false;
-						$scope.loadMLSolution = function() {
-
-							if ($scope.isBusy)
-								return;
-							else
-								$scope.isBusy = true;
-							$scope.dataLoading = true;
-							toBeSearch = $scope.searchBox;
-							if ($scope.viewNoMLsolution == 'No More ML Solutions'
-									&& $scope.pageNumber != 0) {
-								return;
-							}
-							$scope.MlSoltionCount = false;
-							dataObj = {
-								"request_body" : {
-									"modelType" : $scope.categoryFilter,
-									"page" : $scope.pageNumber,
-									"searchTerm" : toBeSearch,
-									"sortingOrder" : "ASC",
-									"size" : 9
-								},
-								"request_from" : "string",
-								"request_id" : "string"
-							}
-							console.log(">>>>>", angular.toJson(dataObj));
-							apiService
-									.insertSolutionDetail(dataObj)
-									.then(
-											function(response) {
-												angular
-														.forEach(
-																response.data.response_body.content,
-																function(value,
-																		key) {
-																	if (response.data.response_body.content[key].active) {
-																		$scope.modelCount = $scope.modelCount + 1;
-																	}
-																});
-												$scope.isBusy = false;
-												$scope.MlSoltionCount = true;
-												if ($scope.pageNumber == 0) {
-													$scope.mlsolutions = response.data.response_body.content
-												}
-												if (response.data.response_body.content.length == 9) {
-													$scope.viewNoMLsolution = 'View More ML Solutions';
-												} else {
-													$scope.viewNoMLsolution = 'No More ML Solutions';
-												}
-												$scope.tags = response.data.response_body.allTagsSet;
-												$scope.dataLoading = false;
-												if (response.data.response_body.content.length >= 0) {
-													for (var i = 0; i < response.data.response_body.content.length; i++) {
-														duplicate = false;
-														angular
-																.forEach(
-																		$scope.mlsolutions,
-																		function(
-																				value,
-																				key) {
-																			if (value.solutionId === response.data.response_body.content[i].solutionId) {
-																				duplicate = true;
-																			}
-																		});
-														if (!duplicate) {
-															$scope.mlsolutions
-																	.push({
-																		solutionId : response.data.response_body.content[i].solutionId,
-																		solution_name : response.data.response_body.content[i].name,
-																		marketplace_sol_id : response.data.response_body.content[i].marketplace_sol_id,
-																		name : response.data.response_body.content[i].name,
-																		ownerId : response.data.response_body.content[i].ownerId,
-																		created : response.data.response_body.content[i].created,
-																		active : response.data.response_body.content[i].active,
-																		description : response.data.response_body.content[i].description,
-																		viewCount : response.data.response_body.content[i].viewCount,
-																		downloadCount : response.data.response_body.content[i].downloadCount,
-																		solutionRating : response.data.response_body.content[i].solutionRating,
-																		ownerName : response.data.response_body.content[i].ownerName
-																	});
-														}
-													}
-
-												}
-												if (response.data.response_body.content.length == 9) {
-													$scope.pageNumber += 1;
-												}
-												$scope.isBusy = false;
-												$scope.searchResults = false;
-												if (dataObj.request_body.searchTerm
-														&& dataObj.request_body.searchTerm !== ''
-														&& dataObj.request_body.searchTerm !== undefined) {
-													$scope.searchResults = true;
-												}
-												$scope.allDeletedData = true;
-												angular
-														.forEach(
-																$scope.mlsolutions,
-																function(value,
-																		key) {
-
-																	if (value.active === true) {
-																		$scope.allDeletedData = false;
-																	}
-
-																});
-											},
-											function(error) {
-												$scope.status = 'Unable to load data: '
-														+ error.data.error;
-												console.log($scope.status);
-											});
-							count += 9;
-
-						}
-						$scope.loadMLSolution();
-
 						
 					/******Model Validataion status*****/
 					$scope.getModelValidation = function(flow){
 
 						$scope.completedSteps = [];
-						if(flow == 'public'){
+						if(flow == 'PB'){
 							$scope.idTab = '#public-market';
 						} else {
 							$scope.idTab = '#company-market';
@@ -2756,14 +2077,7 @@ angular
 					
 					$scope.dropCallback = function(event, ui) {
 						$scope.previewImage = $scope.draggedTitle;
-						$scope.icon = true;
-						/*srcToFile($scope.draggedTitle, 'new.png', 'image/png')
-						.then(function(file){
-						    var fd = new FormData();
-						    fd.append('file1', file);
-						    $scope.solImage = file;
-						});*/
-					    //console.log('hey, you dumped me :-(' , $scope.iconFile);
+						$scope.icon = true;						
 					  };
 					  
 					$scope.startCallback = function(event, iconImage) {
@@ -2816,10 +2130,6 @@ angular
 						if($scope.supportingDocs.length > 0){
 							Orcount++;
 						}
-						if($scope.supportingPublicDocs.length > 0){
-							Pbcount++;
-							
-						}
 						
 						if($scope.tags1.length > 0){
 							count++;
@@ -2829,7 +2139,6 @@ angular
 						
 						if($scope.showSolutionImage && (  $scope.solImage || ($scope.imgURLdefault != 'images/default-model.png' && $scope.imgURLdefault != 'images/img-list-item.png'))){
 							count++;
-							console.log(">>>>>>> imgURLdefault: ",$scope.imgURLdefault)
 						}
 
 						if($scope.company){
@@ -2837,50 +2146,33 @@ angular
 								Orcount++;
 							}
 						}
-
-						if($scope.public){
-							if($scope.public.skipStep == true){
-								Pbcount++;
-							}
-						}
-						
 						
 						if($scope.solutionCompanyDesc)Orcount++;
-						if($scope.solutionPublicDesc)Pbcount++;
+
 						$scope.statusCount = count + Orcount;
-						$scope.pbstatusCount = count + Pbcount;
+
 						if($scope.statusCount > 5){
 							$scope.activePublishBtn = true;
 							$scope.modelDocumentation = true;
 						}	
-						if($scope.pbstatusCount > 5){
-							$scope.activePublishBtnPB = true;
-							$scope.modelDocumentation = true;
-						}
+
 					}
 					
 					$scope.$watch('solution.name', function() {chkCount();});
 					$scope.$watch('solutionCompanyDesc', function() {chkCount();});
-					$scope.$watch('solutionPublicDesc', function() {chkCount();});
 					$scope.$watch('solution.modelTypeName', function() {chkCount();});
 					$scope.$watch('solution.tookitTypeName', function() {chkCount();});
 					$scope.$watch('supportingDocs', function() {chkCount();});
-					$scope.$watch('supportingPublicDocs', function() {chkCount();});
 					$scope.$watch('tags1', function() {chkCount();});
-					//$scope.$watch('tags', function() {chkCount();});
-					$scope.$watch('solImage', function() {
-						chkCount();
-						});
-					$scope.$watch('imgURLdefault', function() {
-						chkCount();
-						});
+
+					$scope.$watch('solImage', function() {chkCount();});
+					$scope.$watch('imgURLdefault', function() {chkCount();});
 					
 					$scope.$watch('file', function() {chkCount();});
 					$scope.$watch('user', function() {chkCount();});
 					$scope.$watch('popupAddSubmit', function() {chkCount();});
 					$scope.$watch('solutionFile', function() {
 						if($scope.solutionFile) {
-							$scope.publicfilename = $scope.solutionFile.name;
 							$scope.privatefilename = $scope.solutionFile.name;
 						}
 					});
@@ -2894,15 +2186,7 @@ angular
 						}else{
 							//empty else required
 						} 
-						if($scope.public){
-							if($scope.public.skipStep == true){
-								$scope.public.step4 = true
-								chkCount();
-							}
-							
-						}else{ 
-							//empty else required
-						}
+						
 					}
 					
 	                function build_url(verb, params) {
@@ -2947,9 +2231,9 @@ angular
 						angular.element('tags-input input')[1].setAttribute("maxlength", "32");
 	                	
 	                	var flowConfigKey = ""
-	                	if(flow == "Company"){
+	                	if(flow == "RS"){
 	                		flowConfigKey = "local_validation_workflow";
-	                	}else if(flow == "Public"){
+	                	}else if(flow == "PB"){
 	                		flowConfigKey = "public_validation_workflow";
 	                	}
 		                	 apiService
@@ -2969,9 +2253,7 @@ angular
 		 	    		                        		$scope.scShow = false;
 		 	    		                        	 }
 		 	    		                          });
-		 	    					},
-		 	    					function(error) {console.log(error);
-		 	    			});
+		 	    					});
 	                	
 	                };
 	               
@@ -3014,7 +2296,6 @@ angular
 						} 
 						
 						$scope.privatefilename = '';
-						$scope.publicfilename = '';
 						$scope.solutionFile = '';					
 						$rootScope.progressBar = 0;
 						$scope.docerror = false;
@@ -3027,15 +2308,10 @@ angular
 					$scope.enableDeployToCloud = function(){
 				        apiService
 				        .getCloudEnabled()
-				        .then(
-				                function(response) {
+				        .then(function(response) {
 				                    if(response.status == 200){
 				                        $scope.checkDeployToCloudResponse = JSON.parse(response.data.response_body);
-				                        
 				                    }
-				                },
-				                function(error) {
-				                    console.log(error);
 				                });
 				    };
 				    $scope.enableDeployToCloud();
@@ -3062,9 +2338,7 @@ angular
 										function successCallback(response) {
 											$scope.publishRequest = response.data.response_body;
 											$mdDialog.cancel();
-										},function errorCallback(response) {
-											//Do nothing
-									});
+										});
 					}
 				    
 					//Delete Model
@@ -3129,12 +2403,144 @@ angular
 											$scope.icon = 'report_problem';
 											$scope.styleclass = 'c-warning';
 											$scope.showAlertMessage = true;
-											$timeout(
-													function() {
-														$scope.showAlertMessage = false;
-													}, 3500);
+											$timeout(function() {$scope.showAlertMessage = false;}, 3500);
 										}); 
-							}									    
+							}
+					
+					$scope.publishConfirmation = function(type){
+						if(type){
+			        	  $mdDialog.show({
+			        		  contentElement: '#confirmPublishModel',
+			        		  parent: angular.element(document.body),
+			        		  clickOutsideToClose: true
+			        	  });
+			        	 
+						} else {
+							$mdDialog.show({
+			        		  contentElement: '#confirmUnpublishModel',
+			        		  parent: angular.element(document.body),
+			        		  clickOutsideToClose: true
+							});
+						}
+						return false;
+					}
+
+		    		$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
+					$scope.$watch('selectedCatalog', function() {
+							if ($scope.catalogsAvailable
+									&& $scope.selectedCatalog) {
+								for (var i = 0; i < $scope.catalogsAvailable.length; i++) {
+									if ($scope.catalogsAvailable[i].name == $scope.selectedCatalog) {
+										$scope.selectedCatalogObj = $scope.catalogsAvailable[i];
+										$scope.selectedCatalogId = $scope.selectedCatalogObj.catalogId;
+										$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
+										break;
+									} else {
+										$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
+										$scope.selectedCatalogId = '';
+									}
+								}
+							} else {
+								$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
+								$scope.selectedCatalogId = '';
+							}
+							if ($scope.selectedCatalogId && $scope.selectedCatalogId != '') {
+								$scope.getSolCompanyDesc();
+								$scope.getCompanySolutionDocuments();
+								$scope.activePublishBtn = false;
+							}
+					});
+					
+					$scope.changeCatalog = function(){
+						if($scope.existingCatalogId){
+							$scope.selectedCatalogId = $scope.existingCatalogId; 
+							$scope.getSolCompanyDesc();
+							$scope.getCompanySolutionDocuments();
+						}
+					}
+					
+					$scope.getCatalogs = function(){
+						var solutionObj = {
+								"request_body" : {
+									 "fieldToDirectionMap": {},
+									    "page": 0,
+									    "size": 1000
+								}
+							}
+						
+				        apiService
+				        .getCatalogs(solutionObj)
+				        .then(
+				                function(response) {
+				                    if(response.status == 200){				                    	
+				                        $scope.catalogsList = response.data.response_body.content;
+				                        
+				                        apiService
+								        .getCatalogsForSolutions($scope.solutionId)
+								        .then(
+								                function(response) {
+								                    if(response.status == 200){
+								                    	$scope.catalogsAvailable = [];
+								                    	  $scope.solutionCatalogsList = response.data.response_body;
+								                    	  if($scope.solutionCatalogsList.length > 0){
+									                    	  for(var i=0; i<($scope.catalogsList).length; i++){
+									                    		  var catalogFound = false;
+									                    		 
+									                    		  for(var j=0; j<($scope.solutionCatalogsList).length; j++){
+										                    		  if($scope.catalogsList[i].catalogId == $scope.solutionCatalogsList[j].catalogId){
+										                    			  catalogFound = true;
+										                    		  }
+										                    	  }
+									                    		  if(!catalogFound)
+									                    			  ($scope.catalogsAvailable).push($scope.catalogsList[i]);
+									                    	  }
+									                    	  if($scope.catalogsAvailable){
+									                    		  $scope.getSolCompanyDesc();
+									                    		  $scope.getCompanySolutionDocuments();
+									                    	  }
+								                    	  } else {
+								                    		  $scope.catalogsAvailable = $scope.catalogsList;
+								                    	  }
+								                    }
+								                });
+				                    }
+				                });
+				    };
+				    
+				    $scope.unpublish = function(){
+				    	$scope.closeDialog();
+				    	var data = $.param({
+							userId : $scope.solution.ownerId,
+							ctlg : $scope.existingCatalogId
+						});
+				    	apiService.unpublishSolution($scope.solutionId, data)
+					        .then(function(response) {
+					        	if(response.data.error_code == 100){
+					        		$scope.msg = "Solution unpublished successfully";
+						    		$scope.icon = '';
+						    		$scope.styleclass = 'c-success';									
+						    		$scope.showAlertMessage = true;
+						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+						    		$scope.existingCatalogId = '';
+									$scope.getCatalogs();
+					        	} else {
+					        		$scope.msg = "Error occurred while unpublishing solution";
+					        		console.log("Error unpublishing solution,",response);
+						    		$scope.icon = '';
+						    		$scope.styleclass = 'c-error';									
+						    		$scope.showAlertMessage = true;
+						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+					        	}
+					         }, function(error) {
+					        		$scope.msg = "Error occurred while unpublishing solution";
+					        		console.log("Error unpublishing solution,",error);
+						    		$scope.icon = '';
+						    		$scope.styleclass = 'c-error';									
+						    		$scope.showAlertMessage = true;
+						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
+					         });
+					}
+				    
 					}
 
 				});

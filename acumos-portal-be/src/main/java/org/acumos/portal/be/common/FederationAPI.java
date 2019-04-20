@@ -33,6 +33,7 @@ public enum FederationAPI {
 	SOLUTIONS(Paths.SOLUTIONS, Queries.SOLUTIONS),
 	//SOLUTIONS(Paths.SOLUTIONS),
 	SOLUTION_DETAIL(Paths.SOLUTION_DETAILS),
+	CATALOGS(Paths.CATALOGS),
 	PING(Paths.PING);
 
 	private String path;
@@ -163,6 +164,7 @@ public enum FederationAPI {
 		public static final String SOLUTIONS = "/peer/{peerId}/solutions";
 		public static final String SOLUTION_DETAILS = "/peer/{peerId}/solutions/{solutionId}";
 		public static final String PING = "/peer/{peerId}/ping";
+		public static final String CATALOGS = "/peer/{peerId}/catalogs";
 	}	
 	
 	public static class QueryParameters {

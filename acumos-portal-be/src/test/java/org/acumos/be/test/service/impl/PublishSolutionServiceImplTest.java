@@ -48,10 +48,11 @@ public class PublishSolutionServiceImplTest {
 			String accessType = "PR";
 			String userId = "1810f833-8698-4233-add4-091e34b8703c";
 			String revisionId = "1810f833-8698-4233-add4-091e34b8703c";
+			String catalogId = "1234-1234-1234-1234-1234";
 			UUID trackingId = UUID.randomUUID();
 			
 			boolean flag = true;
-			Mockito.when(impl.publishSolution(solutionId, accessType, userId, revisionId, trackingId)).thenReturn("Solution Published Successfully");
+			Mockito.when(impl.publishSolution(solutionId, accessType, userId, revisionId, catalogId, trackingId)).thenReturn("Solution Published Successfully");
 			Assert.assertTrue(flag);
 			logger.info("Successfully publishSolution");
 		} catch (Exception e) {

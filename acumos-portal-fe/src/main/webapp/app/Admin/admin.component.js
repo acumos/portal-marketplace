@@ -986,6 +986,7 @@ angular.module('admin').filter('abs', function() {
                       //Subscription popup
                     //Open popup Add Peer
                       $scope.showPopupPeeR1 = function(ev,val){
+                      $scope.catalogList(val.peerId);
                 	  $scope.addedAllToSubs = false;
                 	  $scope.subscripDetails1 = false;$scope.mdPrimaryClass=false;$scope.modelIDValue='';
                 	  $scope.categoryValue = '';$scope.arrDetails='';$scope.allSubs = 'false'; $scope.allModelsTable = false;
@@ -1669,13 +1670,18 @@ angular.module('admin').filter('abs', function() {
                                         	  //angular.forEach($scope.mlsolutionCatTool,function(value, key) {
                                         	  var value = $scope.mlsolutionCatTool[0];
                                     		  cat="";toolKit ="";catToolkit="";
-                                    		  if(value.modelTypeCode){
+                                    		  /* if(value.modelTypeCode){
                                         		  cat = '"modelTypeCode":"' +value.modelTypeCode + '"'
                                         	  }
                                         	  if(value.toolkitTypeCode){
                                         		  toolKit = '"toolkitTypeCode":"' +value.toolkitTypeCode 
-                                        	  }
-                                        	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}';
+                                        	  } 
+                                        	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}'; */
+                                            if($scope.selectedCatalogId !== "undefined" || $scope.selectedCatalogId !== null) {
+                                                cat = '"catalogId":"' +scope.selectedCatalogId + '"'
+                                                catToolkit = '{' + cat  + '}';
+                                             }
+                                            
                                         	  $scope.accessTypeCode;
        										addAllSolObj.push(
 	    		                        				 {
@@ -1683,8 +1689,8 @@ angular.module('admin').filter('abs', function() {
 		 	    		              					  "ownerId" : userId,
 		 	    		              					  /*"peerId" : $scope.peerIdForSubsList,*/
 		 	    		              					  "scopeType" : $scope.AccessValue || "FL",
-		 	    		              					  "tookitType" :value.tookitType,
-		 	    		              					  "modelType": value.modelType,
+		 	    		              					  //"tookitType" :value.tookitType,
+		 	    		              					  //"modelType": value.modelType,
 		 	    		              					  "refreshInterval": freqChangeValue,
 		 	    		              					  "selector": catToolkit
 	    		                        				 }
@@ -3101,6 +3107,35 @@ angular.module('admin').filter('abs', function() {
 						$scope.loadAllTags();									
 	                    
 	                    /* IOT changes end*/
+						
+					  /* Catalog changes */
+	                      $scope.catalogList = function(peerID) {	                    	  	                    	                    	  	  								  				
+	  							apiService
+	  									.gatewayListCatalog(peerID)
+	  									.then(
+	  											function successCallback(response) {
+	  												$scope.listCatalog = response.data.response_body;
+	  												$scope.CatalogValue = "";
+	  												$scope.allCatalogList = [];
+	  											},
+	  											function errorCallback(response) {  												
+	  											});  
+	  						}
+	                      
+	                      $scope.getCatalogDetails = function(CatalogId){
+								$scope.allCatalogList = [];				
+								$scope.selectedCatalogId = CatalogId;
+								apiService
+										.getCatalogDetails(CatalogId)
+										.then(
+												function successCallback(response) {
+													$scope.allCatalogList = response.data.response_body;													
+												},
+												function errorCallback(response) {													
+												});
+	                      }	                      
+	                      
+	                  /* Catalog changes */
 	                    
 		}
 })

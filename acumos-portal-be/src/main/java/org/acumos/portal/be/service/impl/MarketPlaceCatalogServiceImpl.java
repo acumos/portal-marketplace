@@ -39,9 +39,10 @@ import java.util.stream.Collectors;
 import org.acumos.cds.CodeNameType;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPCodeNamePair;
 import org.acumos.cds.domain.MLPDocument;
-import org.acumos.cds.domain.MLPRevisionDescription;
+import org.acumos.cds.domain.MLPRevCatDescription;
 import org.acumos.cds.domain.MLPSiteConfig;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionFavorite;
@@ -270,34 +271,23 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					co_owners_Id = users.stream().map(User::getUserId).collect(Collectors.toList());
 				}
 				List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
-				List<MLPSolutionRevision> filterRevisionList = new ArrayList<>();
-				if (revisionList.size() > 0) {
+				if (!PortalUtils.isEmptyList(revisionList)) {
 					// filter the private versions if loggedIn User is not the
 					// owner of solution
-					List<String> accessCodes = new ArrayList<String>();
-					accessCodes.add(CommonConstants.PUBLIC);
+				
 					if (loginUserId != null) {
-						// if logged In user is owner/co-owner then add private
-						// revisions
+						// if logged In user is owner/co-owner then add private revisions
 						if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId)
 								|| userService.isPublisherRole(loginUserId)) {
-							accessCodes.add(CommonConstants.PRIVATE);
-							accessCodes.add(CommonConstants.ORGANIZATION);
+							mlSolution.setRevisions(revisionList);
 						} else {
+							List<MLPCatalog> catalogList = dataServiceRestClient.getSolutionCatalogs(solutionId);
 							// if user is logged in but he not the
-							// owner/co-owner then add Company revisions
-							accessCodes.add(CommonConstants.ORGANIZATION);
+							// owner/co-owner then only show if published to catalog
+							if (!PortalUtils.isEmptyList(catalogList)) {
+								mlSolution.setRevisions(revisionList);
+							}
 						}
-					}
-
-					filterRevisionList = revisionList.stream()
-							.filter(revision -> accessCodes.contains(revision.getAccessTypeCode()))
-							.collect(Collectors.toList());
-					if (filterRevisionList.size() > 0) {
-						mlSolution.setRevisions(filterRevisionList);
-						// Add the access Type code for the latest revision for
-						// the categorization while display
-						mlSolution.setAccessType(filterRevisionList.get(0).getAccessTypeCode());
 					}
 				}
 			}
@@ -384,12 +374,18 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				log.error("Could not fetch tag list for delete solution artifacts: " + e.getMessage());
 			} finally {
 				// start
+				List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(solutionId);
+				if (catalogs != null) {
+					for (MLPCatalog catalog : catalogs) {
+						dataServiceRestClient.dropSolutionFromCatalog(solutionId, catalog.getCatalogId());
+					}
+				}
 
 				if (revisionId != null) {
 					List<MLPArtifact> mlpArtifactsList = dataServiceRestClient.getSolutionRevisionArtifacts(solutionId,
 							revisionId);
 
-					MLPArtifact mlpArtifactClone = new MLPArtifact();
+					
 					for (MLPArtifact mlp : mlpArtifactsList) {
 						boolean deleteNexus = false;
 						// Delete the file from the Nexus
@@ -417,7 +413,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 						}
 
 						if (deleteNexus) {
-							String mlpArtifactTypeCode = mlp.getArtifactTypeCode();
+							
 							String artifactId = mlp.getArtifactId();
 							// Delete SolutionRevisionArtifact
 							dataServiceRestClient.dropSolutionRevisionArtifact(solutionId, revisionId, artifactId);
@@ -746,10 +742,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throws AcumosServiceException {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPSolution> content = new ArrayList<>();
+		
 		List<MLSolution> contentML = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(contentML);
-		RestPageResponseBE<MLPSolution> mlpSolutionsRest = new RestPageResponseBE<MLPSolution>(content);
+	
 		try {
 			if (!PortalUtils.isEmptyOrNullString(tag)) {
 				log.debug("getTagSearchedSolutions: searching Solutions with tags:", tag);
@@ -1022,10 +1018,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							// Lets loop through other solutions
 							userFirstName = user.getFirstName();
 							userLastName = user.getLastName();
-							if (!PortalUtils.isEmptyOrNullString(user.getFirstName())) {
+							if (!PortalUtils.isEmptyOrNullString(userFirstName)) {
 								userName = userFirstName;
-								if (!PortalUtils.isEmptyOrNullString(user.getLastName())) {
-									userName = userName + " " + user.getLastName();
+								if (!PortalUtils.isEmptyOrNullString(userLastName)) {
+									userName = userName + " " + userLastName;
 								}
 							}
 
@@ -1112,46 +1108,17 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		}
 		pageReqPortal.setTags(mergedTags.toArray(new String[mergedTags.size()]));
 
-		return findPortalSolutions(pageReqPortal);
-	}
-
-	@Override
-	public RestPageResponseBE<MLSolution> findPortalSolutions(RestPageRequestPortal pageReqPortal) {
-		log.debug("findPortalSolutions");
-		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutions(
-				pageReqPortal.getNameKeyword(), pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(),
-				pageReqPortal.getOwnerIds(), accessTypeCodes, pageReqPortal.getModelTypeCodes(),
-				pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
-
-		List<MLSolution> content = new ArrayList<>();
-		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
-
-		if (response.getContent() != null) {
-			mlSolutionsRest = fetchDetailsForSolutions(response.getContent(), pageReqPortal);
-			mlSolutionsRest.setPageCount(response.getTotalPages());
-			mlSolutionsRest.setTotalElements((int) response.getTotalElements());
-		}
-		return mlSolutionsRest;
+		return searchSolutionsByKeyword(pageReqPortal);
 	}
 
 	@Override
 	public RestPageResponseBE<MLSolution> searchSolutionsByKeyword(RestPageRequestPortal pageReqPortal) {
 		log.debug("findPortalSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
 
-		/*
-		 * RestPageResponse<MLPSolution> response =
-		 * dataServiceRestClient.findPortalSolutionsByKw(pageReqPortal.
-		 * getNameKeyword(), true, null, accessTypeCodes, null, null,
-		 * pageReqPortal.getPageRequest());
-		 */
-
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPortalSolutionsByKwAndTags(
-				pageReqPortal.getNameKeyword(), pageReqPortal.isActive(), pageReqPortal.getOwnerIds(), accessTypeCodes,
-				pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), null, null, pageReqPortal.getPageRequest());
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findPublishedSolutionsByKwAndTags(
+				pageReqPortal.getNameKeyword(), pageReqPortal.isActive(), pageReqPortal.getOwnerIds(),
+				pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(), null, pageReqPortal.getCatalogIds(), pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
 		RestPageResponseBE<MLSolution> mlSolutionsRest = new RestPageResponseBE<>(content);
@@ -1214,10 +1181,8 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 			// To categorize the solution on display fetch latest revision and
 			// add the access type code
-			MLPSolutionRevision revision = getLatestSolRevision(mlpSol.getSolutionId(),
-					pageReqPortal.getAccessTypeCodes());
+			MLPSolutionRevision revision = getLatestSolRevision(mlpSol.getSolutionId());
 			if (revision != null) {
-				mlSolution.setAccessType(revision.getAccessTypeCode());
 				mlSolution.setLatestRevisionId(revision.getRevisionId());
 				if (PortalUtils.isEmptyOrNullString(revision.getPublisher())) {
 					MLPSiteConfig siteConfig = adminService.getSiteConfig("site_config");
@@ -1239,6 +1204,16 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				long Count = dataServiceRestClient.getSolutionRevisionCommentCount(mlpSol.getSolutionId(),
 						revision.getRevisionId());
 				mlSolution.setCommentsCount(Count);
+			}
+			
+			List<MLPCatalog> catalogs = dataServiceRestClient.getSolutionCatalogs(mlpSol.getSolutionId());
+			if (!PortalUtils.isEmptyList(catalogs)) {
+				for (MLPCatalog catalog : catalogs) {
+					if (catalog != null && !PortalUtils.isEmptyOrNullString(catalog.getName())) {
+						mlSolution.setCatalogName(catalog.getName());
+						break;
+					}
+				}
 			}
 
 			// get latest step Result for solution
@@ -1290,10 +1265,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	public RestPageResponseBE<MLSolution> findUserSolutions(RestPageRequestPortal pageReqPortal) {
 		log.debug("findUserSolutions");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = pageReqPortal.getAccessTypeCodes();
-		RestPageResponse<MLPSolution> response = dataServiceRestClient.findUserSolutions(pageReqPortal.getNameKeyword(),
-				pageReqPortal.getDescriptionKeyword(), pageReqPortal.isActive(), pageReqPortal.getUserId(),
-				accessTypeCodes, pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(),
+		RestPageResponse<MLPSolution> response = dataServiceRestClient.findUserSolutions(pageReqPortal.isActive(),
+				pageReqPortal.isPublished(), pageReqPortal.getUserId(), pageReqPortal.getNameKeyword(),
+				pageReqPortal.getDescriptionKeyword(), pageReqPortal.getModelTypeCodes(), pageReqPortal.getTags(),
 				pageReqPortal.getPageRequest());
 
 		List<MLSolution> content = new ArrayList<>();
@@ -1308,15 +1282,9 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		return mlSolutionsRest;
 	}
 
-	private MLPSolutionRevision getLatestSolRevision(String solutionId, String[] accessTypeCode) {
+	private MLPSolutionRevision getLatestSolRevision(String solutionId) {
 		log.debug("getLatestSolRevision");
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-
-		// for inactive solutions no accessTypeCode is required
-		if (accessTypeCode == null) {
-			accessTypeCode = new String[] {};
-		}
-		List<String> category = Arrays.asList(accessTypeCode);
 
 		MLPSolutionRevision revision = null;
 		List<MLPSolutionRevision> revisions = dataServiceRestClient.getSolutionRevisions(solutionId);
@@ -1327,17 +1295,10 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					return m2.getCreated().compareTo(m1.getCreated());
 				}
 			});
-			// fetch the latest revision according to accessTypeCode
-			for (MLPSolutionRevision solutionRevision : revisions) {
-				if (category.contains(solutionRevision.getAccessTypeCode())) {
-					revision = solutionRevision;
-					break;
-				}
-			}
 		}
 		// for deleted solutions no access type code is required from the front
 		// end. So assign the latest version
-		if (revision == null && revisions != null && revisions.size() > 0) {
+		if (!PortalUtils.isEmptyList(revisions)) {
 			revision = revisions.get(0);
 		}
 		return revision;
@@ -1614,8 +1575,6 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	public boolean checkUniqueSolName(String solutionId, String solName) {
 		log.debug("checkUniqueSolName ={}", solutionId);
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String[] accessTypeCodes = {
-				CommonConstants.PUBLIC/* , CommonConstants.ORGANIZATION */ };
 
 		// Check only if user tries to change the name or publish the solution
 		// from private to public /org
@@ -1627,7 +1586,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			// Fetch the maximum possible records. Need an api that could return
 			// the exact match of names along with other nested filter criteria
 			RestPageResponse<MLPSolution> searchSolResp = dataServiceRestClient.findPortalSolutions(name, null, true,
-					null, accessTypeCodes, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
+					null, null, null, null, null, new RestPageRequest(0, 10000, queryParameters));
 			List<MLPSolution> searchSolList = searchSolResp.getContent();
 
 			// removing the same solutionId from the list
@@ -1649,7 +1608,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
-	public MLPDocument addRevisionDocument(String solutionId, String revisionId, String accessType, String userId,
+	public MLPDocument addRevisionDocument(String solutionId, String revisionId, String catalogId, String userId,
 			MultipartFile file) throws AcumosServiceException {
 
 		long size = file.getSize();
@@ -1661,7 +1620,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			throw new IllegalArgumentException("Incorrect file extension.");
 
 		// Check if docuemtn already exists with the same name
-		List<MLPDocument> documents = dataServiceRestClient.getSolutionRevisionDocuments(revisionId, accessType);
+		List<MLPDocument> documents = dataServiceRestClient.getRevisionCatalogDocuments(revisionId, catalogId);
 		for (MLPDocument doc : documents) {
 			if (doc.getName().equalsIgnoreCase(name)) {
 				log.error("Document Already exists with the same name.");
@@ -1677,7 +1636,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		MLPDocument document = null;
 		try {
 			try {
-				uploadInfo = nexusClient.uploadArtifact(getNexusGroupId(solutionId, revisionId), name, accessType,
+				uploadInfo = nexusClient.uploadArtifact(getNexusGroupId(solutionId, revisionId), name, catalogId,
 						extension, size, file.getInputStream());
 			} catch (ConnectionException | IOException | AuthenticationException | AuthorizationException
 					| TransferFailedException | ResourceDoesNotExistException e) {
@@ -1698,7 +1657,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 				document.setUserId(userId);
 				document = dataServiceRestClient.createDocument(document);
 
-				dataServiceRestClient.addSolutionRevisionDocument(revisionId, accessType, document.getDocumentId());
+				dataServiceRestClient.addRevisionCatalogDocument(revisionId, catalogId, document.getDocumentId());
 			} else {
 				log.error("Cannot upload the Document to the specified path");
 				throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION,
@@ -1712,7 +1671,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
-	public MLPDocument removeRevisionDocument(String solutionId, String revisionId, String accessType, String userId,
+	public MLPDocument removeRevisionDocument(String solutionId, String revisionId, String catalogId, String userId,
 			String documentId) throws AcumosServiceException {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
@@ -1731,7 +1690,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			try {
 				List<MLPDocument> filteredDocList = new ArrayList<MLPDocument>();
 				List<MLPDocument> revDocList = dataServiceRestClient
-						.getSolutionRevisionDocuments(revision.getRevisionId(), accessType);
+						.getRevisionCatalogDocuments(revision.getRevisionId(), catalogId);
 				if (!PortalUtils.isEmptyList(revDocList)) {
 					filteredDocList = revDocList.stream()
 							.filter(revDoc -> documentId.equalsIgnoreCase(revDoc.getDocumentId())
@@ -1764,7 +1723,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 
 		// Remove the mapping between revision and solution with the access type
 		// code
-		dataServiceRestClient.dropSolutionRevisionDocument(revisionId, accessType, documentId);
+		dataServiceRestClient.dropRevisionCatalogDocument(revisionId, catalogId, documentId);
 
 		// If not a shared doc then remove the document record from DB also.
 		if (!isSharedDoc) {
@@ -1784,32 +1743,32 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
-	public List<MLPDocument> getRevisionDocument(String solutionId, String revisionId, String accessType, String string)
+	public List<MLPDocument> getRevisionDocument(String solutionId, String revisionId, String catalogId, String string)
 			throws AcumosServiceException {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPDocument> documents = dataServiceRestClient.getSolutionRevisionDocuments(revisionId, accessType);
+		List<MLPDocument> documents = dataServiceRestClient.getRevisionCatalogDocuments(revisionId, catalogId);
 		return documents;
 	}
 
 	@Override
-	public List<MLPDocument> copyRevisionDocuments(String solutionId, String revisionId, String accessType,
+	public List<MLPDocument> copyRevisionDocuments(String solutionId, String revisionId, String catalogId,
 			String userId, String fromRevisionId) throws AcumosServiceException {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		List<MLPDocument> revDocList = dataServiceRestClient.getSolutionRevisionDocuments(fromRevisionId, accessType);
+		List<MLPDocument> revDocList = dataServiceRestClient.getRevisionCatalogDocuments(fromRevisionId, catalogId);
 
 		for (MLPDocument revDocument : revDocList) {
-			dataServiceRestClient.addSolutionRevisionDocument(revisionId, accessType, revDocument.getDocumentId());
+			dataServiceRestClient.addRevisionCatalogDocument(revisionId, catalogId, revDocument.getDocumentId());
 		}
 
 		return revDocList;
 	}
 
 	@Override
-	public RevisionDescription getRevisionDescription(String revisionId, String accessType)
+	public RevisionDescription getRevisionDescription(String revisionId, String catalogId)
 			throws AcumosServiceException {
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		MLPRevisionDescription description = dataServiceRestClient.getRevisionDescription(revisionId, accessType);
+		MLPRevCatDescription description = dataServiceRestClient.getRevCatDescription(revisionId, catalogId);
 
 		if (description == null) {
 			log.error("No description Found.");
@@ -1819,22 +1778,11 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 	}
 
 	@Override
-	public RevisionDescription addUpdateRevisionDescription(String revisionId, String accessType,
+	public RevisionDescription addUpdateRevisionDescription(String revisionId, String catalogId,
 			RevisionDescription description) throws AcumosServiceException {
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		String accessCode = null;
-		List<MLPCodeNamePair> codeNamePairList = dataServiceRestClient.getCodeNamePairs(CodeNameType.ACCESS_TYPE);
-		for (MLPCodeNamePair accessTypeCode : codeNamePairList) {
-			if (accessTypeCode.getCode().equals(accessType))
-				accessCode = accessTypeCode.getCode();
-		}
-
-		if (accessCode == null) {
-			log.error("Cannot Recognize the accessTypeCode");
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Invalid Access Type Code");
-		}
-
+		
 		if (PortalUtils.isEmptyOrNullString(description.getDescription())) {
 			log.error("Description is Empty");
 			throw new AcumosServiceException(AcumosServiceException.ErrorCode.IO_EXCEPTION, "Description is Empty");
@@ -1843,7 +1791,7 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 		Boolean isDescriptionExists = Boolean.FALSE;
 		RevisionDescription revisionDescription = null;
 		try {
-			revisionDescription = getRevisionDescription(revisionId, accessCode);
+			revisionDescription = getRevisionDescription(revisionId, catalogId);
 			if (revisionDescription != null)
 				isDescriptionExists = Boolean.TRUE;
 		} catch (Exception e) {
@@ -1851,17 +1799,17 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			// description
 		}
 
-		MLPRevisionDescription mlpRevDesc = new MLPRevisionDescription();
+		MLPRevCatDescription mlpRevDesc = new MLPRevCatDescription();
 		mlpRevDesc.setRevisionId(revisionId);
-		mlpRevDesc.setAccessTypeCode(accessCode);
+		mlpRevDesc.setCatalogId(catalogId);
 		if (isDescriptionExists) {
 			// Update the existing Description
 			mlpRevDesc.setDescription(description.getDescription());
-			dataServiceRestClient.updateRevisionDescription(mlpRevDesc);
+			dataServiceRestClient.updateRevCatDescription(mlpRevDesc);
 		} else {
 			// Create a new description in db
 			mlpRevDesc.setDescription(description.getDescription());
-			mlpRevDesc = dataServiceRestClient.createRevisionDescription(mlpRevDesc);
+			mlpRevDesc = dataServiceRestClient.createRevCatDescription(mlpRevDesc);
 		}
 
 		if (mlpRevDesc != null)
@@ -1894,17 +1842,11 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 			MLPSolution mlpSolution = dataServiceRestClient.getSolution(solutionId);
 			MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 			if (mlpSolution != null) {
+				boolean isPublished = !PortalUtils.isEmptyList(dataServiceRestClient.getSolutionCatalogs(solutionId));
 				if (mlpSolutionRevision != null) {
-					if (((loginUserId == null || loginUserId.length() == 0)
-							&& !CommonConstants.PRIVATE.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode()))
-							|| ((loginUserId != null && loginUserId.length() != 0)
-									&& (CommonConstants.PUBLIC.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())
-											|| CommonConstants.ORGANIZATION
-											.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())))
-							|| ((loginUserId != null && loginUserId.length() != 0) && (CommonConstants.PRIVATE
-									.equalsIgnoreCase(mlpSolutionRevision.getAccessTypeCode())
-									&& (loginUserId.equals(mlpSolution.getUserId()))))) {
-
+					if ((PortalUtils.isEmptyOrNullString(loginUserId) && isPublished)
+							|| (!PortalUtils.isEmptyOrNullString(loginUserId)
+									&& (isPublished || loginUserId.equals(mlpSolution.getUserId())))) {
 						mlSolution = PortalUtils.convertToMLSolution(mlpSolution);
 						List<MLPCodeNamePair> toolkitTypeList = dataServiceRestClient
 								.getCodeNamePairs(CodeNameType.TOOLKIT_TYPE);
@@ -1965,34 +1907,22 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							co_owners_Id = users.stream().map(User::getUserId).collect(Collectors.toList());
 						}
 						List<MLPSolutionRevision> revisionList = dataServiceRestClient.getSolutionRevisions(solutionId);
-						List<MLPSolutionRevision> filterRevisionList = new ArrayList<>();
-						if (revisionList.size() > 0) {
-							// filter the private versions if loggedIn User is
-							// not the owner of solution
-							List<String> accessCodes = new ArrayList<String>();
-							accessCodes.add(CommonConstants.PUBLIC);
+						if (!PortalUtils.isEmptyList(revisionList)) {
+							// filter the private versions if loggedIn User is not the
+							// owner of solution
 							if (loginUserId != null) {
-								// if logged In user is owner/co-owner then add
-								// private revisions
+								// if logged In user is owner/co-owner then show all revisions
 								if (loginUserId.equals(mlpSolution.getUserId()) || co_owners_Id.contains(loginUserId)
 										|| userService.isPublisherRole(loginUserId)) {
-									accessCodes.add(CommonConstants.PRIVATE);
-									accessCodes.add(CommonConstants.ORGANIZATION);
+									mlSolution.setRevisions(revisionList);
 								} else {
+									List<MLPCatalog> catalogList = dataServiceRestClient.getSolutionCatalogs(solutionId);
 									// if user is logged in but he not the
-									// owner/co-owner then add Company revisions
-									accessCodes.add(CommonConstants.ORGANIZATION);
+									// owner/co-owner then only show if published to catalog
+									if (!PortalUtils.isEmptyList(catalogList)) {
+										mlSolution.setRevisions(revisionList);
+									}
 								}
-							}
-
-							filterRevisionList = revisionList.stream()
-									.filter(revision -> accessCodes.contains(revision.getAccessTypeCode()))
-									.collect(Collectors.toList());
-							if (filterRevisionList.size() > 0) {
-								mlSolution.setRevisions(filterRevisionList);
-								// Add the access Type code for the latest
-								// revision for the categorization while display
-								mlSolution.setAccessType(filterRevisionList.get(0).getAccessTypeCode());
 							}
 						}
 					} else {

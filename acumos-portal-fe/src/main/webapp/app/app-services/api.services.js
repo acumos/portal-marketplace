@@ -30,6 +30,7 @@ angular.module('AcumosApp')
         var urlSearchSolutions = '/api/searchSolutionBykeyword';
         var urlUserSolutions = '/api/user/solutions';
         var urlPublishSolution = '/api/publish';
+        var urlUnpublishSolution = '/api/unpublish';
        	var urlSignUp = 'api/users/register';
         var urlSocialSignUp = 'api/oauth/login/register';
         var urlSignIn = 'api/auth/login';//'api/auth/jwtToken';
@@ -119,6 +120,11 @@ angular.module('AcumosApp')
         var urlSearchSolutionsByName = '/api/onboardingDocker/dockerSearchSolutions';
         var urlUpdateDockerImage = '/api/onboardingDocker/artifactsUrl';
         var urlcreateMicroservice = '/api/microService/createmicroservice'
+        
+        var urlAllCatalogsList =  "/api/catalogs"; 
+        var urlCatalogPath = "/api/catalog";
+        var urlCatalogsList =  "/api/catalog/solution";
+        var urlgatewayCatalogPath = "api/gateway/catalogs";
 
 			
         /**************** ALL GET ******************/
@@ -139,8 +145,8 @@ angular.module('AcumosApp')
             return $http.get(rolesCount);
         };
         
-        this.getSolutionDescription = function(publicOrOrg, solutionId, revisionId){
-            return $http.get("/api/solution/revision/" + revisionId + '/' + publicOrOrg  + '/description' )
+        this.getSolutionDescription = function(catalogId, solutionId, revisionId){
+            return $http.get("/api/solution/revision/" + revisionId + '/' + catalogId  + '/description' )
         };
         
         this.getModelTypes = function () {
@@ -293,7 +299,7 @@ angular.module('AcumosApp')
         }
         
         
-        this.updatePublishSolution = function(solutionId, data){
+        this.publishSolution = function(solutionId, data){
         	return $http.put(urlPublishSolution + '/' + solutionId + '?' + data);
         }
         
@@ -627,6 +633,52 @@ angular.module('AcumosApp')
         }; 
         this.onBoardingHistoryStepResult = function(taskId) {
         	return $http.post(urlOnBoardingHistoryStepResult + "/" + taskId);
+        };
+        
+        this.getCatalogs = function(request) {
+        	return $http.post(urlAllCatalogsList, request);
+        };
+        
+        this.createCatalog = function(request) {
+        	return $http.post(urlCatalogPath, request);
+        };
+        
+        this.updateCatalog = function(request) {
+        	return $http.put(urlCatalogPath, request);
+        };
+        
+        this.deleteCatalog = function(catalogId) {
+        	return $http.delete(urlCatalogPath + "/" + catalogId);
+        };
+        
+        this.getCatalogsForSolutions = function(solutionId) {
+        	return $http.get(urlCatalogsList+'/'+solutionId);
+        };
+        
+        this.unpublishSolution = function(solutionId, data){
+        	return $http.put(urlUnpublishSolution + '/' + solutionId + '?' + data);
+        };
+        this.getCatalogDetails = function(catalogId) {
+        	return $http.get(urlCatalogPath + "/" + catalogId);
+        };
+        
+        this.getCatalogsbyUser = function(request, loginID) {
+        	return $http.post(urlAllCatalogsList + '?userId=' + loginID, request);
+        };
+        
+        this.deleteFav = function (catalogId, userId) {
+            return $http.delete(urlCatalogPath  + '/' + catalogId +'/'+ 'user/' + userId + '/favorite');
+        };
+        
+        this.createFav = function (catalogId, userId) {
+            return $http.post(urlCatalogPath  + '/' + catalogId +'/'+ 'user/' + userId + '/favorite');
+        };
+        
+        this.gatewayListCatalog = function (peerID) {
+            return $http.post(urlgatewayCatalogPath  + '/' + peerID );
+        };
+        this.userFavCatalogList = function (userId) {
+        	return $http.get(urlCatalogPath + '/user/' + userId + '/favorite' );
         };
         
         this.getMenu = function () {

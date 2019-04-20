@@ -34,7 +34,7 @@ import java.util.Map;
 import org.acumos.cds.domain.MLPComment;
 import org.acumos.cds.domain.MLPNotification;
 import org.acumos.cds.domain.MLPPublishRequest;
-import org.acumos.cds.domain.MLPRevisionDescription;
+import org.acumos.cds.domain.MLPRevCatDescription;
 import org.acumos.cds.domain.MLPRole;
 import org.acumos.cds.domain.MLPRoleFunction;
 import org.acumos.cds.domain.MLPSiteConfig;
@@ -655,10 +655,10 @@ public class PortalUtils {
 		return mlComment;
 	}
 
-	public static RevisionDescription convertToRevisionDescription(MLPRevisionDescription mlpDescription) {
+	public static RevisionDescription convertToRevisionDescription(MLPRevCatDescription mlpDescription) {
 		RevisionDescription revisiondescription = new RevisionDescription();
 		revisiondescription.setRevisionId(mlpDescription.getRevisionId());
-		revisiondescription.setAccessTypeCode(mlpDescription.getAccessTypeCode());
+		revisiondescription.setCatalogId(mlpDescription.getCatalogId());
 		revisiondescription.setDescription(mlpDescription.getDescription());
 		return revisiondescription;
 	}
@@ -691,5 +691,9 @@ public class PortalUtils {
 			mlPublishRequest.setComment(publishRequest.getComment());
 		}
 		return mlPublishRequest;
+	}
+	
+	public static <T, E> RestPageResponse<E> convertRestPageResponse(RestPageResponse<T> first, List<E> content) {
+		return new RestPageResponse<>(content, first.getPageable(), first.getTotalElements());
 	}
 }

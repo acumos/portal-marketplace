@@ -41,7 +41,7 @@ public class MLSolution {
 	private String ownerName;
 	private String metadata;
 	private boolean active;
-	private String accessType;
+	private String catalogName;
 	private Instant created;
 	private Instant modified;
 	private String tookitType;
@@ -81,7 +81,8 @@ public class MLSolution {
 	private boolean pendingApproval;
 	private Instant lastDownload;
 	private boolean featured;
-
+	private String catalogId;
+	
 	/**
 	 * @return the onboardingStatusFailed
 	 */
@@ -107,9 +108,7 @@ public class MLSolution {
 	/**
 	 * 
 	 */
-	public MLSolution() {
-		// TODO Auto-generated constructor stub
-	}
+	public MLSolution() {}
 
 	/**
 	 * @return the solutionId
@@ -196,17 +195,17 @@ public class MLSolution {
 	}
 
 	/**
-	 * @return the accessType
+	 * @return the catalog name
 	 */
-	public String getAccessType() {
-		return accessType;
+	public String getCatalogName() {
+		return catalogName;
 	}
-
+	
 	/**
-	 * @param accessType the accessType to set
+	 * @param catalogName the catalog name to set
 	 */
-	public void setAccessType(String accessType) {
-		this.accessType = accessType;
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
 	}
 
 	/**
@@ -306,8 +305,6 @@ public class MLSolution {
 		builder.append(metadata);
 		builder.append(", active=");
 		builder.append(active);
-		builder.append(", accessType=");
-		builder.append(accessType);
 		builder.append(", created=");
 		builder.append(created);
 		builder.append(", modified=");
@@ -577,4 +574,13 @@ public class MLSolution {
 		public void setFeatured(boolean featured) {
 			this.featured = featured;
 		}
+
+		public String getCatalogId() {
+			return catalogId;
+		}
+
+		public void setCatalogId(String catalogId) {
+			this.catalogId = catalogId;
+		}
+
 }

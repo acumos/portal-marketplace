@@ -34,16 +34,17 @@ public class RestPageRequestPortalTest {
 		String[] descriptionKeyword = {"artificial inte"};
 		String authorKeyword = "23c7a5a3-aa43-4f79-9bf6-fa42a0bae527";
 		boolean active = true;
+		boolean published = true;
 		String[] modelTypeCodes = { "CL", "DS" };
-		String[] accessTypeCodes = { "PR", "PB" };
 		String[] validationStatusCodes = { "PS" };
 		String[] tags = { "tag1" };
 		RestPageRequest pageRequest = new RestPageRequest();
 		String sortBy = "MD";
 		String sortById = "5d33dee4-7833-413f-b56c-f90eaa0e2f09";
+		String[] catalogIds = { "1234", "4321" };
 
 		RestPageRequestPortal portal = new RestPageRequestPortal();
-		portal.setAccessTypeCodes(accessTypeCodes);
+		portal.setPublished(published);
 		portal.setNameKeyword(nameKeyword);
 		portal.setActive(active);
 		portal.setAuthorKeyword(authorKeyword);
@@ -54,20 +55,22 @@ public class RestPageRequestPortalTest {
 		portal.setTags(tags);
 		portal.setPageRequest(pageRequest);
 		portal.setValidationStatusCodes(validationStatusCodes);
+		portal.setCatalogIds(catalogIds);
 
 		Assert.assertNotNull(portal);
 		Assert.assertEquals(nameKeyword, portal.getNameKeyword());
 		Assert.assertEquals(descriptionKeyword, portal.getDescriptionKeyword());
 		Assert.assertEquals(authorKeyword, portal.getAuthorKeyword());
 		Assert.assertEquals(active, portal.isActive());
+		Assert.assertEquals(published, portal.isPublished());
 		Assert.assertNotNull(portal.getSortBy());
 		Assert.assertNotNull(portal.getSortById());
 		Assert.assertNotNull(portal.toString());
 		Assert.assertNotNull(portal.getModelTypeCodes());
-		Assert.assertNotNull(portal.getAccessTypeCodes());
 		Assert.assertNotNull(portal.getValidationStatusCodes());
 		Assert.assertNotNull(portal.getTags());
 		Assert.assertEquals(pageRequest, portal.getPageRequest());
+		Assert.assertEquals(catalogIds, portal.getCatalogIds());
 		
 	}
 }
