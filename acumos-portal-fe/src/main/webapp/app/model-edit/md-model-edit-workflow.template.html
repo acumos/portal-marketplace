@@ -617,23 +617,19 @@ limitations under the License.
 								ng-show="tab=='publish'" ng-class="{'isActive':tab=='publish'}">
 								<div>
 								<div class="mdl-grid mdl-grid--no-spacing catalogList">
-								<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">
-                                    <label>Select Catalog </label>
-                                     <input list="list1" type="text" ng-model="selectedCatalog" placeholder="Search" class="mdl-textfield__input notification-search">
-                                     <datalist id="list1"> 
-                                         <select class="select-control">
-                                             <option ng-repeat="catalog in catalogsAvailable">{{catalog.name}}</option>
-                                         </select>
-                                     </datalist>                           
-                                 </div> 
-                                 <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="solutionCatalogsList.length > 0">
+									<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">
+										 <label class="fedlbl4">Select Catalog</label>
+										 <md-select ng-model="selectedCatalogId" placeholder="Select Catalog" >
+	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog.catalogId, catalog.name);" value="{{catalog.catalogId}}">{{catalog.name}}</md-option>
+	                                     </md-select>                         
+	                                </div> 
+	                                <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="solutionCatalogsList.length > 0">
 									    <label class="fedlbl4">Catalog(s) of published model</label>
-										<md-select ng-model="existingCatalogId"	placeholder="Select Catalog" ng-change="changeCatalog();">
-											<md-option ng-selected="true" value="">Select Category</md-option>
+										<md-select ng-model="existingCatalogId"	placeholder="Select Catalog" ng-change="changeExistingCatalog();">
 											<md-option ng-repeat="catalog in solutionCatalogsList" value="{{catalog.catalogId}}">{{catalog.name}}</md-option>
 										</md-select>
                                  	</div>
-                                 </div>
+                                </div>
                                  <!-- Public Workflow -->
 									<div ng-if="selectedCatalogObj.accessTypeCode == 'PB'">
 										<ul>
