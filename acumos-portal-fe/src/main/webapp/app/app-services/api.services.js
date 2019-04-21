@@ -677,6 +677,7 @@ angular.module('AcumosApp')
         this.gatewayListCatalog = function (peerID) {
             return $http.post(urlgatewayCatalogPath  + '/' + peerID );
         };
+        
         this.userFavCatalogList = function (userId) {
         	return $http.get(urlCatalogPath + '/user/' + userId + '/favorite' );
         };
@@ -697,5 +698,8 @@ angular.module('AcumosApp')
         	return $http.post(urlcreateMicroservice, request);
         };
 
+        this.searchCatalogs = function (request) {
+        	return $http.post('api/catalogs/search', request );
+        };
 
     }]);

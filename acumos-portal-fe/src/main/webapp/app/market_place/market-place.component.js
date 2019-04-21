@@ -55,7 +55,37 @@ angular
                                     	$scope.selectedPage = $scope.selectedPage + 1;                                                
                                     }
                         }
-                        
+						/* Catalog Changes start */						
+	                       $scope.loadCatalog = function() {
+	  							$scope.allCatalogList = [];  							
+	  							$scope.pageNumber = 0;
+	  							$scope.requestResultSize =1000;
+	  							var reqObject = {
+	  								"request_body" : {
+	  								   "accessTypeCode": "PB",
+	  									"fieldToDirectionMap" : {
+	  										"created" : "DESC"
+	  									},
+	  									"page" : $scope.pageNumber,
+	  									"size" : $scope.requestResultSize
+	  								}
+	  							};
+	  							$scope.response_body = [];
+	  							
+	  							apiService
+	  									.searchCatalogs(reqObject)
+	  									.then(
+	  											function successCallback(response) {
+	  												$scope.allCatalogList = response.data.response_body.content;
+	  												$scope.catalogIds = [];
+	  												for(var i=0;i<$scope.allCatalogList.length;i++){
+	  													$scope.catalogIds.push($scope.allCatalogList[i].catalogId);
+	  												}
+	  												$scope.allCatalogIds = $scope.catalogIds;
+	  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
+	  											});
+	  						} 
+	                       $scope.loadCatalog();   
                         $scope.mktPlaceStorage = browserStorageService.getMktPlaceStorage() ?
 	                		browserStorageService.getMktPlaceStorage() : {
 	                			keyword: '',
@@ -188,32 +218,6 @@ angular
 						// var counter = 0;
 						$scope.dataLoading = false;
 
-						// filter functionality
-						$scope.actionFilter = function(action) {
-							
-						}
-						//Check for access type
-						var accessTypeFilter = ["PB"];
-						$scope.userLoggedIn = false;
-						$scope.accessType = 'PB';
-						if (JSON.parse(browserStorageService.getUserDetail())) {
-							$scope.accessType = $scope.mktPlaceStorage.accessType;
-							accessTypeFilter = ($scope.accessType == 'all') ? ["OR", "PB"] :
-								($scope.accessType == 'OR') ? ["OR"] : ["PB"];
-							$scope.userLoggedIn = true;
-						}
-						
-						
-						$scope.accessFilter = function(accessType){
-							$scope.setPageStart = 0;
-							$scope.selectedPage = 0;
-							accessTypeFilter = [];
-							if(accessType == 'all'){accessTypeFilter = ["OR", "PB"]}
-							else accessTypeFilter.push(accessType);
-							$scope.accessType = accessType;
-							$scope.mktPlaceStorage.accessType = $scope.accessType;
-							$scope.loadMore(0);
-						}
 						// check
 						var count = 1;
 						$scope.isBusy = false;
@@ -279,7 +283,7 @@ angular
 									"modelTypeCodes" : $scope.categoryFilter,
 									"active" : true,
 									"catalogIds" : $scope.catalogIds,
-									"accessTypeCodes": accessTypeFilter,
+									"accessTypeCodes": ["PB"],
 									"nameKeyword" :  toBeSearch,
 									"sortBy" : $scope.sortBy,
 									"tags" : $scope.tagFilter,
@@ -334,7 +338,6 @@ angular
 							}
 						}
 
-						$scope.loadMore($scope.mktPlaceStorage.pageNumber);
 						function getSolution(response) {
 							
 							$scope.isBusy = false;
@@ -450,7 +453,6 @@ angular
 										bool1 = true;
 										break;
 									}
-									;
 								}
 								if (bool1 == false) {
 									caegoryArr.push(checkbox);
@@ -484,16 +486,14 @@ angular
 								$scope.selectedAction = checkbox.name;
 							} else if (type == 'sortById')
 								$scope.sortById = checkbox.value;	
-							else if(type == 'SearchbyCatalog')
-								{
-									$scope.catalogIds = [];
-									if(checkbox.catalogId != undefined)
-										$scope.catalogIds.push(checkbox.catalogId);
-									else
-										$scope.catalogIds = null;
-								}
+							else if(type == 'SearchbyCatalog'){
+								$scope.catalogIds = [];
+								if(checkbox.catalogId != undefined)
+									$scope.catalogIds.push(checkbox.catalogId);
+								else
+									$scope.catalogIds = $scope.allCatalogIds;
+							}
 							$scope.loadMore(0);
-
 						}
 						
 						$scope.selectChip = function(index){
@@ -668,33 +668,6 @@ angular
 
 						$scope.imageUrls = {};
 						
-						/* Catalog Changes start */						
-                       $scope.loadCatalog = function() {
-  							$scope.allCatalogList = [];  							
-  							$scope.pageNumber = 0;
-  							$scope.requestResultSize =1000;
-  							var reqObject = {
-  								"request_body" : {
-  									"fieldToDirectionMap" : {
-  										"created" : "DESC"
-  									},
-  									"page" : $scope.pageNumber,
-  									"size" : $scope.requestResultSize
-  								},
-  								"request_from" : "string",
-  								"request_id" : "string"
-  							};
-  							$scope.response_body = [];
-  							apiService
-  									.getCatalogs(reqObject)
-  									.then(
-  											function successCallback(response) {
-  												$scope.allCatalogList = response.data.response_body.content;  												
-  											},
-  											function errorCallback(response) {
-  												
-  											});
-  						} 
 					/*	$scope.loadCatalog = function() {						
 							apiService
 								.userFavCatalogList($scope.loginUserID)
