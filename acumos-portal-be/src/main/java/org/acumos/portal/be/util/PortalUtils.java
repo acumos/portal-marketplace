@@ -65,6 +65,7 @@ import org.acumos.portal.be.transport.MLTask;
 import org.acumos.portal.be.transport.MLUserNotifPref;
 import org.acumos.portal.be.transport.OauthUser;
 import org.acumos.portal.be.transport.RevisionDescription;
+import org.acumos.portal.be.transport.RtuUser;
 import org.acumos.portal.be.transport.User;
 import org.acumos.portal.be.transport.UserMasterObject;
 import org.joda.time.DateTime;
@@ -133,6 +134,18 @@ public class PortalUtils {
 			user.setApiToken(null);
 		}
 		user.setTags(mlpUser.getTags());
+		return user;
+	}
+	
+	
+	public static RtuUser convertToRtuUser(MLPUser mlpUser, boolean isAssociatedWithRtu) {
+		RtuUser user = new RtuUser();
+		user.setFirstName(mlpUser.getFirstName());
+		user.setLastName(mlpUser.getLastName());
+		user.setEmailId(mlpUser.getEmail());
+		user.setActive(mlpUser.isActive());
+		user.setUserId(mlpUser.getUserId());
+		user.setAssociatedWithRtuFlag(isAssociatedWithRtu);
 		return user;
 	}
 

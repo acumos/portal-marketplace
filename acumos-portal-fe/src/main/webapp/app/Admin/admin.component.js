@@ -3136,6 +3136,133 @@ angular.module('admin').filter('abs', function() {
 	                      }	                      
 	                      
 	                  /* Catalog changes */
+	                  /* RTU changes start*/    
+	                      $scope.show=true;
+							$scope.click=function()
+							{
+								$scope.show=false;
+							}
+							
+							$scope.getSearch = function(){
+							 var rtuReferenceId=$scope.RTUId;
+							 var solName=$scope.solutionName;
+							 
+							 apiService.getRightToUse(rtuReferenceId,solName).then(function successCallback(response) {
+								 
+								 	$location.hash('manage-models');
+									$anchorScroll();
+									if(response.data.response_body.mlpSolutionAssociatedWithRtuId.length == 0)
+									{
+											$scope.msg = response.data.response_detail;
+											$scope.styleclass = 'c-error';
+											
+									}else
+										{$scope.msg = response.data.response_detail;
+										$scope.styleclass = 'c-success';
+										}
+				    				
+				    				$scope.showAlertMessage = true;
+				    				$scope.icon = '';
+							    	
+							    	$timeout(
+											function() {
+												$scope.showAlertMessage = false;
+											}, 3000);
+									$scope.users=response.data.response_body.rtuUsers;
+									$scope.users.forEach(function(user){
+										if(user.associatedWithRtuFlag == true){
+											$scope.roleArr.push(user.userId);
+										}
+									});
+									$scope.solutions=response.data.response_body.mlpSolutionAssociatedWithRtuId;
+									/*if($scope.solutions !== null)
+										$scope.rtuSolId = $scope.solutions[0].solutionId;*/
+									
+								
+										},
+										function errorCallback(response) {						    		
+					    		        $scope.modelname = "Error Fetching Model Name."
+					    		});
+							}
+							$scope.searchFlag = false;
+					
+							$scope.getSolution = function(){
+								 var rtuReferenceId=$scope.RTUId;
+								 var solName=$scope.solutionName;
+								 $scope.searchFlag = true;
+								 apiService.getRightToUse(rtuReferenceId,solName).then(function successCallback(response) {
+							
+										$scope.fetchedSolutionName=response.data.response_body.solutionsByName.content;
+										/*$scope.fetchedSolutionName.forEach(function(n){
+											$scope.solutions.forEach(function(sol){
+												if(n.name === sol.name && n.solutionId === sol.solutionId){
+													
+												}
+											})
+										})*/
+										/*if($scope.rtuSolId === null || $scope.rtuSolId === undefined){
+											if($scope.fetchedSolutionName !== null)
+												$scope.rtuSolId = $scope.fetchedSolutionName[0].solutionId;
+										}*/
+											},
+											function errorCallback(response) {						    		
+						    		        $scope.modelname = "Error Fetching Model Name."
+						    		});
+								}
+							//adding save rtuId method
+							
+							//$scope.uploadRtuSolId = null;
+							$scope.selectedRtu = function(){
+								$scope.uploadRtuSolId = $scope.rtuSolId;
+							}
+
+							$scope.updateRTU = function(){
+								/*$scope.selectBox;
+								$scope.filtertedUser;
+								$scope.roleArr;*/
+								
+													$http(
+															{
+																method : 'POST',
+																url : '/api/createRtuUser/'																	
+																		+$scope.RTUId+'/'
+																		+$scope.uploadRtuSolId,
+																data:{ "request_body": $scope.roleArr }
+																
+																		
+															})
+															.then(
+																	function successCallback(response) {
+																		
+																		$scope.uploadRtuSolId = null;																	 
+																		$location.hash('manage-models');
+																		$anchorScroll();
+																		if(response.data.status_code == 200)
+																			$scope.styleclass = 'c-success';
+																		else
+																			$scope.styleclass = 'c-error';
+																		$scope.msg = response.data.response_detail;
+													    				$scope.showAlertMessage = true;
+													    				$scope.icon = '';
+																    	
+																    	$timeout(
+																				function() {
+																					$scope.showAlertMessage = false;
+																				}, 3000);
+																		$scope.updateRTURes = response.data.response_body;
+																		
+																		
+																	},
+																	function errorCallback(response) {
+																		
+																		alert("Error: "
+																				+ response.status
+																				+ "Detail: "
+																				+ response.data.response_detail);
+																	});
+
+													}    
+	                  /* RTU changes end*/     
 	                    
 		}
 })

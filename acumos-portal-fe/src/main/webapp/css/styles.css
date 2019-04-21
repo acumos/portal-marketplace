@@ -1160,6 +1160,20 @@ a {text-decoration: none;}
 .admin-row2 > div:last-child {width: 45%;}
 .admin-row3 > div {width: 48.5%;}
 
+/*
+.admin-row4 {display: flex; flex-wrap:nowrap; justify-content:space-between;}
+.admin-row4 > div {width: 30%;}
+.admin-row4 > div:nth-child(2){width:6%;}
+.admin-row4 > div.goicon_width{width:68%;}
+ */
+.admin-row4 {display: flex; flex-wrap:nowrap;}
+.admin-row4 > div{width:33.33%; margin-left:2%;}
+.admin-row4 > div:nth-child(2){width:6%; padding-top:28px; margin-left:1%;}  
+.admin-row4 > div:nth-child(2)button{background-color: #efefef; border: 1px solid #d5d5d5; border-radius: 3px;margin-top: 27px; margin-left: -8px;
+    padding: 2px 4px} 
+.admin-row4 > div {width: 32%;} 
+.search-control-icon{width: 20px; height: 35px; background: url(../images/sidebar-icons/search_icon.png) no-repeat right center !important; position:absolute; right:10px;cursor:pointer; }
+
 .admin-text1 {font-size: 12px; line-height: 16px;}
 .dialog-btn-container {display: flex;flex-wrap:nowrap;align-items:center;justify-content: space-between; /* background:#f1f1f1; */ position:relative; margin: 24px -24px -24px -24px; padding: 20px;}
 .password-count { float: right; position: relative; bottom: 24px; right: 10px;}
@@ -1279,7 +1293,7 @@ md-radio-group.md-focused:not(:empty) .md-checked .md-container:before, md-check
 .mdl-tabs__tab .tab-user_management {width:28px; height:20px;background: url("../images/admin-dashboard/user_management.png") no-repeat center center; }
 .mdl-tabs__tab .tab-site_content {width:26px; height:20px;background: url("../images/admin-dashboard/site_content.png") no-repeat center center; }
 .mdl-tabs__tab .tab-site_configuration {width:22px; height:22px;background: url("../images/admin-dashboard/site_configuration.png") no-repeat center center; }
-.mdl-tabs__tab .tab-rtu_configuration {width:22px; height:22px;background: url("../images/admin-dashboard/site_configuration.png") no-repeat center center; }
+.mdl-tabs__tab .tab-rtu_configuration {width:26px; height:24px;background: url("../images/admin-dashboard/icon_RTU_inactive.png") no-repeat center center; }
 .mdl-tabs__tab .tab-federation {width:23px; height:15px;background: url("../images/admin-dashboard/federation.png") no-repeat center center; }
 .mdl-tabs__tab .tab-subscription_requests {width:22px; height:22px;background: url("../images/admin-dashboard/subscription_requests.png") no-repeat center center; }
 .mdl-tabs__tab .tab-validation {width:26px; height:29px;background: url("../images/admin-dashboard/validation.png") no-repeat center center; }
@@ -1288,10 +1302,14 @@ md-radio-group.md-focused:not(:empty) .md-checked .md-container:before, md-check
 .mdl-tabs__tab.is-active .tab-user_management {background: url("../images/admin-dashboard/user_management_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-site_content {background: url("../images/admin-dashboard/site_content_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-site_configuration {background: url("../images/admin-dashboard/site_configuration_selected.png") no-repeat center center; }
-.mdl-tabs__tab.is-active .tab-rtu_configuration {background: url("../images/admin-dashboard/site_configuration_selected.png") no-repeat center center; }
+.mdl-tabs__tab.is-active .tab-rtu_configuration {background: url("../images/admin-dashboard/icon_RTU_active.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-federation {background: url("../images/admin-dashboard/federation_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-subscription_requests {background: url("../images/admin-dashboard/subscription_requests_selected.png") no-repeat center center; }
 .mdl-tabs__tab.is-active .tab-validation {background: url("../images/admin-dashboard/validation_selected.png") no-repeat center center; }
+.selectModel {position:relative;}
+.select-modelname {width: 200px;padding: 0px;} 
+.selectModel input{font-size:14px; border: 1px solid #d5d5d5; padding-right:30px;padding-left: 10px;}
+.selectModel span.search-icon{width: 20px; height: 25px; background: url(../images/sidebar-icons/search_icon.png) no-repeat right center !important; position:absolute; right:10px;}
 
 md-switch .md-thumb {box-shadow: 0 0 3px 0 rgba(0,0,0,.3),0 0 1px 0 rgba(0,0,0,.22),0 2px 1px -1px rgba(0,0,0,.22);}
 md-switch.md-checked.md-warn .md-bar {background:rgba(0,153,3,0.35)}

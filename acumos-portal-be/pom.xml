@@ -63,6 +63,17 @@ limitations under the License.
 			<version>2.2.1</version>
 		</dependency>
 		<dependency>
+		    <groupId>org.acumos.security-verification.license-manager</groupId>
+		    <artifactId>license-manager-client-library</artifactId>
+		    <version>0.0.3</version>
+		    <exclusions>
+              <exclusion>
+                <groupId>com.google.collections</groupId>
+                <artifactId>google-collections</artifactId>
+               </exclusion>
+           </exclusions> 
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<!-- Spring chooses <version>${slf4j.version}</version> -->

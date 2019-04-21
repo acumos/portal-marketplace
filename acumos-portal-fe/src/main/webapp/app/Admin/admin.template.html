@@ -69,6 +69,11 @@ limitations under the License.
 								class="tab-icons tab-site_configuration"></span> <span>Site
 									Configuration</span>
 						</span>
+						</a> <a href="#tab8-panel" ng-click='menuName = "RTU Configuration"'
+							class="mdl-tabs__tab"> <span class="tab-box"> <span
+								class="tab-icons tab-rtu_configuration"></span> <span>RTU
+									Configuration</span>
+						</span>
 						</a> <a href="#tab5-panel" ng-click='menuName = "Federation"'
 							class="mdl-tabs__tab "> <span class="tab-box"> <span
 								class="tab-icons tab-federation"></span> <span>Federation</span>
@@ -808,6 +813,164 @@ limitations under the License.
 
 						</form>
 						<!-- Dymanic form END -->
+					</div>
+					<div class="mdl-tabs__panel" id="tab8-panel">
+						<div class="admin-tab-heading">
+							<span class="admin-title2">RTU Configuration</span>
+						</div>
+						<div class="admin-row4">
+							<div class="">
+								<md-input-container class="md-block">
+								<form name="RTUForm">
+									<label>RTU ID</label> <input type="text" ng-model='RTUId'
+										 required ng-blur="RTUIdVisited=true"
+										ng-focus="RTUIdVisited=false" name='RTUId' />
+									<div class="help-inline validation-msgs"
+										ng-class="{validationmsg:RTUForm.RTUId.$valid}">
+										<span
+											ng-show="( !!RTUForm.RTUId.$error.required && RTUForm.RTUId.$touched && RTUIdVisited)">RTU Id is Required.</span> 
+											
+									</div>
+								</form>
+								</md-input-container>
+							</div>
+							<div class="">
+								<button ng-click="click();getSearch()">
+									<i class="material-icons">keyboard_arrow_right</i>
+								</button>
+							</div>
+
+							<div class="" ng-hide="show">
+								<div class="select-control catalog-select1">
+									<label>Associated Model</label>
+									<md-select ng-model="uploadRtuSolId" placeholder=""> 
+									<md-option ng-if="searchFlag" value="{{solution.solutionId}}" ng-repeat='solution in fetchedSolutionName'>{{solution.name}}({{solution.solutionId}})
+									 </md-option>
+									 <md-option ng-if="!searchFlag"
+										value="{{user.solutionId}}" ng-repeat='user in solutions'>{{user.name}}({{user.solutionId}})</md-option> 
+									
+									 </md-select>
+								</div>
+							</div>
+
+							<div class="" ng-hide="show">
+
+								<!-- <div class="search-select selectModel">
+									<label>Search by Model name</label> 
+									<div> -->
+									<md-input-container class="md-block selectModel">
+							
+									<label>Search by Model name</label> <input list="solutions" type="text" ng-model='solutionName'
+										  name='RTUId' />
+										  <span class="search-icon" style="margin-top: 5px;" ng-click="getSolution('RTUId','solutionName')"></span>
+							
+							
+								</md-input-container>
+									<!-- <input list="solutions"
+										type="text" ng-model="solutionName">
+										<span class="search-icon" ng-click="getSolution('RTUId','solutionName')"></span>
+										
+									</div> -->
+									<!-- <div>
+									<select class="select-modelname" ng-model="selectSolution"
+										ng-show="fetchedSolutionName">
+										 <option ng-repeat="solution in fetchedSolutionName"  value="{{solution.solutionId}}">{{solution.name}}({{solution.solutionId}})</option>
+									</select>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div ng-hide="show">
+							<div class="fed-row1">
+								<div class="fedrow-cell1"></div>
+								<div class="fed-row2">
+									<div class="fed-srch-container">
+										<label class="fed-lbl1">Filter</label>
+										<div
+											class="mdl-textfield mdl-js-textfield admin-search-container">
+											<input class="mdl-textfield__input admin-search-control"
+												type="text" placeholder="" ng-model="searchLicenceUser">
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div ng-hide="show">
+								<div>
+									<table
+										class="mdl-data-table mdl-js-data-table mdl-shadow--2dp scroll-table">
+										<colgroup class="fullwidth">
+											<col width="7%">
+											<col>
+											<col>
+											<col>
+											<col width="25%">
+										</colgroup>
+										<thead ng-hide="hideLabel">
+											<tr>
+												<th>
+													<!-- <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+															  <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input">
+															  <span class="mdl-checkbox__label"></span>
+															</label> -->
+												</th>
+												<th
+													ng-click="orderByField='username'; reverseSort = !reverseSort">User
+													Name<span ng-if='orderByField!="username"'
+													class="gridcell-sort deactivate"></span><span
+													ng-if='orderByField=="username"'
+													ng-class="reverseSort?'ascending':'descending'"
+													class="gridcell-sort"></span>
+												</th>
+												<th
+													ng-click="orderByField='emailId'; reverseSort = !reverseSort">Email<span
+													ng-if='orderByField!="emailId"'
+													class="gridcell-sort deactivate"></span><span
+													ng-if='orderByField=="emailId"'
+													ng-class="reverseSort?'ascending':'descending'"
+													class="gridcell-sort"></span></th>
+
+											</tr>
+										</thead>
+										<!-- <tbody ng-repeat="val in ($parent.filtertedUser = (userDetails | filter: {username : searchUserDetails.username}))"> -->
+										<tbody
+											ng-repeat="val in (filtertedUser = (users | orderBy:['-associatedWithRtuFlag']:false | orderBy:orderByField:reverseSort | filter:searchLicenceUser))">
+											<tr>
+
+												<td><label
+													
+													for="checkbox{{$index}}"> <input type="checkbox"
+														id="checkbox{{$index}}" class="mdl-checkbox__input"
+														ng-click='roleCheckbox(selectBox[$index],val)'
+														ng-model='selectBox[$index]' ng-true-value="true"
+														ng-false-value="false"
+														ng-checked="val.associatedWithRtuFlag" /> 
+												</label></td>
+												<td class="mdl-data-table__cell--non-numeric">{{val.firstName}}
+													{{val.lastName}}</td>
+												<td>{{val.emailId}}</td>
+												<!-- <td>Administrator</td> -->
+
+											</tr>
+
+										</tbody>
+										<tbody ng-if="filtertedUser.length == 0">
+											<tr class="alert c-info text-center">
+												<td class="text-center" colspan="5"><strong>No
+														Result Found</strong></td>
+											</tr>
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+						<br /> <br />
+						<div>
+							<button class="mdl-button mdl-js-button btn-primary" ng-disabled="((!uploadRtuSolId)  || (!roleArr.length))"
+								ng-hide="show" ng-click="updateRTU()">Save</button>
+
+						</div>
 					</div>
 					<div class="mdl-tabs__panel" id="tab5-panel">
 						<div class="admin-tab-heading admin-box2">

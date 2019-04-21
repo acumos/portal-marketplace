@@ -25,6 +25,8 @@ import org.springframework.core.env.Environment;
 
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.licensemanager.client.LicenseCreator;
+import org.acumos.licensemanager.client.model.ILicenseCreator;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
 import org.acumos.portal.be.logging.ONAPLogConstants;
@@ -59,5 +61,11 @@ public abstract class AbstractServiceImpl {
 
 		NexusArtifactClient artifactClient = new NexusArtifactClient(repositoryLocation);
 		return artifactClient;
+	}
+	
+	public ILicenseCreator getLicenseClient(ICommonDataServiceRestClient ccdsClient) {
+		ILicenseCreator licenseClient = new LicenseCreator(ccdsClient);
+		
+		return licenseClient;
 	}
 }
