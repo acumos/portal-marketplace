@@ -125,7 +125,7 @@ angular.module('AcumosApp')
         var urlCatalogPath = "/api/catalog";
         var urlCatalogsList =  "/api/catalog/solution";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
-
+	var urlRightToUse="/api/rightToUse";
 			
         /**************** ALL GET ******************/
         this.getCloudEnabled = function () {
@@ -697,5 +697,16 @@ angular.module('AcumosApp')
         	return $http.post(urlcreateMicroservice, request);
         };
 
+        this.getRightToUse = function(RightToUse,SolutionName) {
+        	var rtuId = RightToUse;
+        	var solname = SolutionName;
+        	return $http.get(urlRightToUse, {
+        		headers: {
+        			  'rtuReferenceId': rtuId,
+        			  'solutionName' : solname
+        			}
+        	    }
+        	);
+        }; 
 
     }]);
