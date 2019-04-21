@@ -708,5 +708,9 @@ angular.module('AcumosApp')
         	    }
         	);
         }; 
+		
+		this.searchCatalogs = function (request) {
+        	return $http.post('api/catalogs/search', request );
+        };
 
     }]);
