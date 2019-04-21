@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b42ef327_efb68fff",
+        "filename": "acumos-portal-be/src/main/java/org/acumos/portal/be/service/impl/LicensingServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-04-21T12:56:30Z",
+      "side": 1,
+      "message": "Please make this configurable in next commits",
+      "revId": "7aff37273156a67a5b003acf0bad4e105ba29f75",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
