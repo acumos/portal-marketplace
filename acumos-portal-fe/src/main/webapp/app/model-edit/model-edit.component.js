@@ -93,6 +93,7 @@ angular
 						$scope.solutionCompanyDescStatus = false;
 						$scope.icon = false;
 						$scope.modelDocumentation = false;
+						$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
 						$scope.iconImages = ["CLI","curl", "dotnet","javascript", "java", "go",
 											"scala","ruby", "rust", 'REST API',"nodejs", "swift", 
 											"python", "R"];
@@ -260,13 +261,11 @@ angular
 								});
 						}
 						
-						
 						$scope.deleteComment = function(comment) {
 							apiService.deleteComment(comment.threadId,comment.commentId).then(function(response) {
 								$scope.getComment();
 							});
 						}
-						
 
 						$scope.solutionId = localStorage.getItem('solutionId');
 						$scope.currentDate = new Date();
@@ -456,7 +455,7 @@ angular
 													$scope.getArtifacts();
 													$scope.getCatalogs();
 													$scope.getUserImage();													
-													
+													$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
 													$scope.getAuthorList();
 													$scope.getPublishRequestDetail();
 													$scope.getSolutionPicture();
@@ -2425,33 +2424,17 @@ angular
 						return false;
 					}
 
-		    		$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
-					$scope.$watch('selectedCatalog', function() {
-							if ($scope.catalogsAvailable
-									&& $scope.selectedCatalog) {
-								for (var i = 0; i < $scope.catalogsAvailable.length; i++) {
-									if ($scope.catalogsAvailable[i].name == $scope.selectedCatalog) {
-										$scope.selectedCatalogObj = $scope.catalogsAvailable[i];
-										$scope.selectedCatalogId = $scope.selectedCatalogObj.catalogId;
-										$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
-										break;
-									} else {
-										$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
-										$scope.selectedCatalogId = '';
-									}
-								}
-							} else {
-								$scope.selectedCatalogObj = { "accessTypeCode" : 'PB' };
-								$scope.selectedCatalogId = '';
-							}
-							if ($scope.selectedCatalogId && $scope.selectedCatalogId != '') {
-								$scope.getSolCompanyDesc();
-								$scope.getCompanySolutionDocuments();
-								$scope.activePublishBtn = false;
-							}
-					});
-					
-					$scope.changeCatalog = function(){
+					$scope.changeSelectedCatalog = function(catalogId, catalogName){
+						if(catalogId){
+							$scope.selectedCatalogId = catalogId;
+							$scope.selectedCatalog=catalogName;
+							$scope.getSolCompanyDesc();
+							$scope.getCompanySolutionDocuments();
+							
+						}
+					}
+
+					$scope.changeExistingCatalog = function(){
 						if($scope.existingCatalogId){
 							$scope.selectedCatalogId = $scope.existingCatalogId; 
 							$scope.getSolCompanyDesc();
@@ -2462,7 +2445,7 @@ angular
 					$scope.getCatalogs = function(){
 						var solutionObj = {
 								"request_body" : {
-									 "fieldToDirectionMap": {},
+									 "fieldToDirectionMap": {"name" : "ASC"},
 									    "page": 0,
 									    "size": 1000
 								}
@@ -2497,9 +2480,11 @@ angular
 									                    	  if($scope.catalogsAvailable){
 									                    		  $scope.getSolCompanyDesc();
 									                    		  $scope.getCompanySolutionDocuments();
+									                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
 									                    	  }
 								                    	  } else {
 								                    		  $scope.catalogsAvailable = $scope.catalogsList;
+								                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
 								                    	  }
 								                    }
 								                });
