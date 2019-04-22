@@ -326,7 +326,7 @@ limitations under the License.
 						<button
 							class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
 							ng-disabled="!loginUserID"
-							ng-click="Catalog.favorite = !Catalog.favorite; updateFavorite(favList , Catalog.catalogId)"
+							ng-click="Catalog.favorite = !Catalog.favorite; updateFavorite(Catalog.catalogId, Catalog.favorite)"
 							alt="Favorite" title="Favorite">
 							<i class="material-icons"
 								ng-class="{'unselected-fav':!Catalog.favorite ,'selected-fav':Catalog.favorite}">favorite_border</i>
