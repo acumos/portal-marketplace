@@ -800,12 +800,16 @@ limitations under the License.
 										         </md-input-container>
 										      </div>
 										      <div class="align-btn" ng-hide="createDockerRef" ng-class="{'available-docker':availableSolution,'non-available-docker':notavailableSolution}">
-										         <button ng-class="{'checking-loader':checkingSolution}" ng-disabled="!searchModelName" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
-										         		<span ng-if="!checkingSolution && !notavailableSolution && !availableSolution"  alt="Check availability" title="Check availability" ng-click="checkModelName(searchModelName, 'exactSearch')">Check availability</span>
-										         		<span ng-if="checkingSolution && !notavailableSolution" alt="Check availability" title="Check availability">Checking</span>
+										         <button ng-disabled="!searchModelName"  ng-show="!(checkingSolution || availableSolution || notavailableSolution)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-click="checkModelName(searchModelName, 'exactSearch')">
+										         		<span ng-if="!checkingSolution && !notavailableSolution && !availableSolution"  alt="Check availability" title="Check availability">Check availability</span>
+										         </button>
+										         
+										          <button ng-class="{'checking-loader':checkingSolution}" ng-show="checkingSolution || availableSolution || notavailableSolution" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary">
+										         		<span ng-if="checkingSolution && !notavailableSolution" alt="Checking" title="Checking">Checking</span>
 										         		<span ng-if="notavailableSolution" alt="Not Available" title="Not Available">Not Available</span>
 										         		<span ng-if="availableSolution" alt="Available" title="Available">Available</span>
-										         </button>										        	         
+										         </button>
+										         										        	         
 										      </div>
 										       
 										   </div>
