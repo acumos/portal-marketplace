@@ -1678,7 +1678,7 @@ angular.module('admin').filter('abs', function() {
                                         	  } 
                                         	  if(cat&&toolKit) catToolkit = '{' + cat + ',' + toolKit + '"}'; */
                                             if($scope.selectedCatalogId !== "undefined" || $scope.selectedCatalogId !== null) {
-                                                cat = '"catalogId":"' +scope.selectedCatalogId + '"'
+                                                cat = '"catalogId":"' + $scope.selectedCatalogId + '"'
                                                 catToolkit = '{' + cat  + '}';
                                              }
                                             

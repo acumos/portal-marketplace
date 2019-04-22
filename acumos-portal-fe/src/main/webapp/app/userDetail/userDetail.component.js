@@ -927,18 +927,11 @@ angular
 						
 						$scope.favList = [];
 						
-						$scope.updateFavorite = function(favList,catalogId ) {
-							
-							 var idx = favList.indexOf(catalogId);
-						     if (idx > -1) {
-						    	 favList.splice(idx, 1);
-						    	 $scope.deleteFav(catalogId);
-						     }
-						     else {
-						       favList.push(catalogId);
-						       $scope.createFav(catalogId);
-						     }     
-							
+						$scope.updateFavorite = function(catalogId , flag ) {							
+							 if(flag)
+								 $scope.createFav(catalogId);
+							 else
+								 $scope.deleteFav(catalogId);									       						
 						}
 						
 						 $scope.createFav = function(catalogID) {  							  							  					
