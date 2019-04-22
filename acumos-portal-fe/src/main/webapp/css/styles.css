@@ -1168,6 +1168,10 @@ a {text-decoration: none;}
  */
 .admin-row4 {display: flex; flex-wrap:nowrap;}
 .admin-row4 > div{width:33.33%; margin-left:2%;}
+.admin-row4 > div:first-child{width:33.33%; margin-left:0;}
+.rtu-btn-container1 {margin-left:2px !important;}
+.rtu-btn-container1 > button {height: 35px; position: relative;top:-1px; border: 1px solid#d5d5d5;}
+.rtu-btn-container1 > button > .material-icons {position: relative;top:2px;}
 .admin-row4 > div:nth-child(2){width:6%; padding-top:28px; margin-left:1%;}  
 .admin-row4 > div:nth-child(2)button{background-color: #efefef; border: 1px solid #d5d5d5; border-radius: 3px;margin-top: 27px; margin-left: -8px;
     padding: 2px 4px} 
