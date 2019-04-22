@@ -400,7 +400,7 @@ limitations under the License.
 									<runCmd>chmod -R 777 /maven</runCmd>
 								</runCmds>
 								<cmd>
-									<shell><![CDATA[cd /maven; java -Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}]]></shell>
+									<shell><![CDATA[cd /maven; java $JAVA_OPTS -Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom -jar ${project.artifactId}-${project.version}.${project.packaging}]]></shell>
 								</cmd>
 							</build>
 						</image>
