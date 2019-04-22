@@ -21,6 +21,43 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.9  22nd April 2019 
+=================================
+
+* Portal provide DML script with basic web content for CDS install on empty DB	(ACUMOS-2420)
+* Portal deployment UI changes for Azure enhancements	(ACUMOS-2138)
+* Add Competition navigation element to the Acumos side nav bar	(ACUMOS-2605)
+* As a user I need to attach a model license when publishing from private to public 	(ACUMOS-2290)
+* As a user I need to attach a model license when publishing from private to company	(ACUMOS-2291)
+* As a user I need to attach a model license when publishing from company to public	(ACUMOS-2292)
+* Model License Viewing	(ACUMOS-2632)
+* FE changes for On-boarding process (desyncronised MS)	(ACUMOS-2467)
+* BE changes for On-Boarding process (desynchronised MS)	(ACUMOS-2469)
+* UX changes for On-boardign process (desyncronised MS)	(ACUMOS-2468)
+* portal code modification to take into account pre-dockerised model onboarding	(ACUMOS-2637)
+* Support Platform RTU/Entitlement 	(ACUMOS-2309)
+* Support User License RTU/Entitlement 	(ACUMOS-2105)
+* Catalog Management Admin Changes	(ACUMOS-2643)
+* Catalog Management  Workflow Changes	(ACUMOS-2642)
+* As a User , I want to have License Management Integrated with Portal UI	(ACUMOS-2010)
+* FE changes for On-Boarding process. (ONNX, PFA)	(ACUMOS-2351)
+* To assist with retiring the Hippo-CMS, provide document to help migrate CMS content over to CDS	(ACUMOS-2494)
+* BE changes for On-Boarding process (ONNX, PFA)	(ACUMOS-2354)
+* Portal Onboarding Changes	(ACUMOS-2090)
+* UX changes for On-Boarding process (ONNX, PFA)	(ACUMOS-2352)
+* Sensitization of pathVariables missing in MarketPlaceCatalogServiceController 	(ACUMOS-2708)
+* IST: Rating is not displaying till one decimal point	(ACUMOS-2612)
+* Retire Hippo-CMS	(ACUMOS-2418)
+* As a User , I want to  have security-verification performed in Portal Workflow	(ACUMOS-1378)
+* Portal backends run containerized process as unprivileged user	(ACUMOS-2778)
+* front end changes for pre-dockerized onboarding model	(ACUMOS-2671)
+* BE changes for on-boarding process for pre-dockerized model URI	(ACUMOS-2627)
+* Portal extend screens for user-selectable catalog	(ACUMOS-2286)
+* Portal federation peer subscription field does not show selector content	(ACUMOS-1744)
+* IST: Alignment is not proper for footer information	(ACUMOS-2681)
+
+
+
 Version 2.2.8  11th April 2019
 =================================
 
