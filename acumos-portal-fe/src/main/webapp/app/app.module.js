@@ -26,7 +26,7 @@ var app = angular.module('AcumosApp', ['ui.router','ngMaterial', 'ngMdIcons','sa
                                         'modelEdit','ngTagsInput','resetPswd','userDetail','forgotPswd', 'ngSanitize',
                                         'angularFileUpload', 'imageupload','angular-jwt', 'peerConfig', 'ngQuill',
                                         'marketFooter','notificationModule', 'termsCondition', 'ui.carousel','admin','403Error',
-                                        '404Error','ngDragDrop','naif.base64','confirmVerification', 'publishRequest','onboardingHistory','catalog'/*'socialLogin'*/]);
+                                        '404Error','ngDragDrop','naif.base64','confirmVerification', 'publishRequest','onboardingHistory','catalog','acuCompose'/*'socialLogin'*/]);
 
 /*app.config(function(socialProvider){
 	socialProvider.setGoogleKey("60271745908-m1laroii13m87c98o12n635cjj0ng516.apps.googleusercontent.com");

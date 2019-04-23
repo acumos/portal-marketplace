@@ -1,0 +1,1395 @@
+<!--  
+===============LICENSE_START=======================================================
+Acumos  Apache-2.0
+===================================================================================
+Copyright (C) 2017 AT&T Intellectual Property & Tech Mahindra. All rights reserved.
+===================================================================================
+This Acumos software file is distributed by AT&T and Tech Mahindra
+under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+ 
+     http://www.apache.org/licenses/LICENSE-2.0
+ 
+This file is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+===============LICENSE_END=========================================================
+-->
+
+<div class="ds-page-wrapper">
+		<section class="pageheadsection">						
+						<div class="mdl-grid mdl-grid--no-spacing">
+							<div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+								<span class="headline mob-disblock">Acu-Compose <sup class="ds-text2">BETA</sup></span>
+								<ul class="c-breadcrumb">
+									<li><a ui-sref="home" ng-click="$root.parentActive = ''">Home</a></li>
+									<li><a ui-sref="designStudio" ng-click="$root.parentActive = 'designStudio'">Design Studio</a>
+									<li>Acu-Compose</li>
+								</ul>
+							</div>							
+						</div>						
+					</section>
+
+	<div ng-show="is_ie" class="page-content">
+	 
+		<div class="error-wrapper" style="position:relative !important">
+			<div class="error-wrapper-inner text-center">
+				<div class="error-acumos-logo2-DS"></div>
+				<h1 class="error-heading1-DS">We will be back soon !</h1>
+				<p class="error-m-para2">
+					We&apos;re sorry. The Design Studio is not yet available for IE
+					Browsers. Please use Chrome, Firefox or Safari 
+					<span class="author">--- Acumos Developer Challenge Team</span>
+				</p>
+				<div class="error-acumos-maintenance-img-DS">
+					<img src="images/error-page/under_maintainance.png">
+				</div>
+				<div class="error-wrapper-inner-bottom-DS"></div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="!is_ie" class="page-content ds-outer-container">
+	<div class="a-overlay" id="loading">
+		<span class="a-overlay-inner-msg">Please wait...</span>
+	</div>
+			<div flex="20" class="bdr-right posrel ds-left-section" ng-class="left?'ds-left-width':''">
+			<div id="content-left">					
+				<div class="ds-section" id="top-content-left">
+					<div class="ds-section-heading">
+						<label>Marketplace</label>
+					</div>
+					<div class="ds-section-heading-container">					
+						
+					</div>
+					<div class="ds-contentsection-tab">
+							<md-tabs md-dynamic-height md-border-bottom class="ds-tab1" md-selected="1"> 
+							<md-tab label="Solutions"> 
+							<div class="ds-section-data-inner bdr-bottom">	
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="myFilter.solutionName" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search" title="Search"></span>
+									</button></md-icon> </md-input-container>						
+								
+							</div>
+						<md-content class=""
+							style="padding: 0px;padding-left: 5px;"> 
+						<div class="ds-section-data-inner2">
+							<ul class="ds-list3" ng-repeat="val in publicCS | orderBy:'solutionName' | filter:myFilter">
+								<li><span ng-click="loadSolution(val)" class="readSolutions" ng-class="{'ds-selected-model': val.solutionName+val.version === selectedIndex}">{{val.solutionName}} ({{val.version}})</label></span></li>
+							</ul>
+						</div>
+						</md-content> </md-tab>
+							<md-tab label="Models"> 
+							<div class="ds-section-data-inner bdr-bottom">	
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="modelFilter.solutionName" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search" title="Search"></span>
+									</button></md-icon> </md-input-container>						
+								
+							</div>
+								<md-content>
+									
+									<div class="ds-contentsection2 ds-new-container1">
+									
+									<div ng-repeat="category in categoryNames">
+									<div class="ds-treelist">
+										
+										<div ng-if="category.code!=='DT' && category.code!=='DS'">
+										<div class="fa fa-folder question ui-link" ng-click="expanded = !expanded" expand ng-class="expanded ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">{{category.name}}</span></div> 
+						                     <div ng-show="expanded">
+							                      <div ng-repeat="cat in palette.categories" ng-show="expanded">
+							                        <div ng-if="category.code==cat.key" class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+							                      	</div>
+							                    </div>
+						                    </div>
+						             </div> 
+						             </div>     
+						            </div>
+						            <div>
+									<div class="ds-treelist">
+										<div class="fa fa-folder question ui-link" ng-click="test = !test" expand ng-class="test ? 'fa fa-folder-open' : 'fa fa-folder'"><span class="dslist1">Other</span></div>
+						                     <div ng-show="test">
+							                      <div ng-repeat="cat in palette.categories">
+							                        <div ng-if='cat.key=="others"' class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | orderBy:'solutionName' | filter: modelFilter" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+							                      	</div>
+							                    </div>
+						                    </div>
+						             </div>      
+						            </div>
+								</div>
+									
+								</md-content> 
+							</md-tab> 
+							
+						</md-tabs>
+						</div>
+					
+				</div>
+				<div class="ds-hor-seperator" id="content-resizer-left"></div>
+				<div class="ds-section" id="bottom-content-left">
+							<div class="ds-section-heading">
+								<label>Data Transform Tools</label>
+								<span>
+									
+								</span>
+							</div>
+							<div class="ds-section-data">
+							<div class="ds-section-data-inner bdr-bottom">	
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="filterDT.solutionName" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search" title="Search"></span>
+									</button></md-icon> </md-input-container>						
+								
+							</div>
+							
+							<div class="ds-section-data-inner2">							
+								<div class="ds-list1">
+									
+							                      <div ng-repeat="cat in palette.categories">
+							                        <div ng-if='cat.key== "DT"' class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDT | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+							                      	</div>
+							                    </div>
+						                    
+								
+							</div>							
+							</div>
+							</div>
+							<div class="ds-hor-seperator2" id="content-resizer-left"></div>
+						</div>
+				<div class="ds-section">
+							<div class="ds-section-heading">
+								<label>Data Sources</label>
+								<span>
+									
+								</span>
+							</div>
+							<div class="ds-section-data">
+							<div class="ds-section-data-inner bdr-bottom">							
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="filterDS.solutionName" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search" title="Search"></span>
+									</button></md-icon> </md-input-container>	
+							</div>
+							<div class="ds-section-data-inner5">
+								<div class="ds-list1">
+									<div ng-repeat="cat in palette.categories">
+							        	<div ng-if='cat.key== "DS"' class="ds-treelist-childtree">
+								        	<div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in cat.values | filter:filterDS | orderBy:'solutionName'" ng-class="{'ds-selected-model': val.solutionName+val.version+val.solutionRevisionId.substring(0,4) === selectedIndex}" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-click="getProperties(val.solutionName,val.version,val.solutionRevisionId)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+							            </div>
+							        </div>
+							     </div>
+						      
+							</div>							
+							</div>							
+						</div>
+				<div class="left-drawer-handle" ng-click="left = !left"><span class="left-handle"><i class="material-icons">keyboard_arrow_left</i></span></div>
+				</div>
+			</div>
+			<div flex class="">
+				<div class="ds-container1">
+					<span>
+					<span class="ds-label-container1">
+							<label class="ds-label-title" ng-if="!solutionName">Untitled</label>
+							<label class="ds-label-title" ng-if="solutionName"><span ng-bind="solutionName"></span></label>
+							<button ng-if="solutionName" class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1 marginBottom"  ng-click="closeComSol()">
+									<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+							<button ng-if="!solutionName" class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1 marginBottom"  ng-click="closeComSol()" ng-disabled="saveState.noSaves" title="Close">
+									<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+					</span>
+					<button ng-click='newSolution("new");canvas=true' class="mdl-button mdl-js-button ds-btnnew" title="New">
+							<span class="addnew"></span> New
+						</button>
+					</span>
+					<div class="ds-btn-container">
+						<div class="probe-container">
+							<label>Probe:</label>
+							<input ng-model="myCheckbox" type="checkbox" name="probe" ng-change='setProbe(myCheckbox)' ng-disabled='checkboxDisable' ng-class="checkboxDisable?'inputCheckDisabled':''">
+						</div>
+						<button ng-click='showDeleteNodeLink()' id="deleteHide" class="mdl-button mdl-js-button text-small font-semi-bold btn-delete-toggle normaltext-transform bdr-right ds-btn1 btn-delete"><i class="ds-icon icon-delete-toggle" aria-hidden="true"></i>Delete</button>
+						<!-- <span class="btn-divider"> | </span> -->
+						<button ng-click='clearSolution()' class="mdl-button mdl-js-button text-small font-semi-bold bdr-right btn-clear-canvas normaltext-transform" ng-disabled="cleardis" title="Clear"><span class="ds-icon icon-clear-canvas"></span>Clear</button>
+						<button id="validateActive" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-validate" ng-disabled="validationState" ng-click="validateCompSolu()"  title="Validate"><span class="ds-icon icon-validate"></span>Validate</button>
+						<button class="mdl-button mdl-js-button bdr-right ds-btn1 btn-save" ng-disabled='saveState.noSaves'  ng-click="showPrerenderedDialog()"  title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+						<div class="">						 
+							<button type="button" id="demo-menu-lower-right4" ng-disabled="activeInactivedeploy"
+								class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-secondary ds-btn1 btn-deploy" title="Deploy">
+								<span class="ds-icon icon-deploy"></span> Deploy <i class="material-icons">keyboard_arrow_down</i>
+							</button>
+							<ul	class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect deploy-cloud-list"
+								for="demo-menu-lower-right4">
+								<li class="mdl-menu__item deploy-to-cloud" ng-repeat = "deployVal in checkDeployToCloudResponse track by $index" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
+                           		title="{{deployVal.cloudDisplayText}}"
+                           		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center !important; border-bottom: 1px solid #d5d5d5;"
+                           		ng-disabled="deployVal.cloudEnabled=='false'" ui-sref="modelEdit ({solutionId: solutionIdDeploy, revisionId: revisionId, deployStatus: true,deployValue: deployVal.cloudName})">
+                           		</li>
+								
+							</ul>
+							
+						</div> 
+						
+						<button ng-click="right = !right" class="mdl-button mdl-js-button bdr-right ds-btn1 btn-playlist" title="Collapse Right Panel"><span class="ds-icon icon-expand-drawer"></span></button>
+						<button ng-click="closeDrawer()" class="mdl-button mdl-js-button ds-btn1 btn-fullscreen" title="Full Screen"><span class="ds-icon icon-fullscreen"></span></button>
+					</div>
+				</div>
+				<div class="ds-outer-container2">
+					<div flex id="dsgridbg" class="ds-grid-bg">
+						<section droppable="true">
+      						<div id="canvas"></div>
+    					</section>
+						<div class="canvas-outer-container" ng-hide="canvas">
+							<div class="canvas-box">
+								<div class="canvas-image"></div>
+								<div class="canvas-text text-center">
+									
+									<h5>Drag &amp; Drop the models from the left panel onto the canvas to create a Composite Solution</h5>
+								</div>
+							
+							</div>
+						</div>
+						<div class="console-outer-container" ng-class="down?'console-container-hide':''">
+							<div class="ds-version-container">Composition Engine {{dsceVersion}}</div>
+							<div class="bottom-drawer-handle" ng-init="down='true'" ng-click="down = !down"><span class="bottom-handle"><i class="material-icons">keyboard_arrow_up</i></span></div>
+								<div class="ds-section" ng-hide="down">
+									<div class="ds-section-heading">
+										<label>Validation Console</label>
+										<span>									
+											<button
+												class="mdl-button mdl-js-button mdl-button--icon ds-btnclose1" ng-click="down = !down" title="Close">
+												<i class="fa fa-times" aria-hidden="true"></i>
+											</button>
+										</span>
+									</div>
+									<div class="console-section-data">
+										<div class="console-section-data-inner">
+										<span id="consoleMsg">{{console}}</span>										
+										</div>
+									</div>									
+								</div>
+							</div>	
+						
+					</div>
+					<div flex="25" class="ds-right-section bdr-left bdr-bottom posrel" ng-class="right?'ds-right-width':''">
+					<div id="content">
+						<div class="ds-section" id="top-content">
+						
+					<div class="ds-section-heading-container">					
+						
+					</div> 
+						<div class="ds-contentsection-tab1">
+							<md-tabs md-dynamic-height md-border-bottom class="ds-tab1" md-selected="tabChange"> 
+							<md-tab label="Properties"> 
+								<md-content class="">
+							<div class="ds-section-data ds-section-properties">							
+							<div class="ds-section-data-inner3" ng-show="solutionDetails" >							
+								<ul class="ds-list2 properties-list">
+									
+									<li>
+										<label class="disblock ds-label1">Node Name:</label>
+										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
+									</li>
+									<li>
+										<label class="disblock ds-label1">Node Type:</label>
+										<label class="disblock text-semi-bold">{{solutionDetails.solutionName}}</label>
+									</li>
+									<li>
+										<label class="disblock ds-label1">Author:</label>
+										<label class="disblock text-semi-bold">{{solutionDetails.author}}</label>
+									</li>
+									<li>
+										<label class="disblock ds-label1">Model Provider:</label>
+										<label class="disblock text-semi-bold">{{solutionDetails.onBoarder}}</label>
+									</li>
+									<li>
+										<div ng-switch on="solutionDetails.toolKit">
+											<div class="twoCases" ng-switch-when="null">
+												<label class="disblock ds-label1">Toolkit Type:</label>
+												<label class="disblock text-semi-bold">{{solutionDetails.toolKit}}</label>
+											</div>
+											<div class="twoCases" ng-switch-default>
+												<div ng-repeat="toolkitDet in toolKitTypes">
+            										<div ng-if="solutionDetails.toolKit === toolkitDet.code">
+              											<label class="disblock ds-label1">Toolkit Type:</label>
+														<label class="disblock text-semi-bold">{{toolkitDet.name}}</label>
+              										</div>
+            									</div>
+            								</div>
+            							</div>
+
+									</li>
+
+								</ul>
+							 <a ui-sref="marketSolutions({solutionId: solutionDetails.solutionId})" target="_blank">For more details...</a>
+							</div>
+							<div  class="disblock text-semi-bold" style="padding-left:1em;color:black" ng-show="showProperties">
+											message {{messageDet}} {
+											
+											<div ng-repeat="msg in messageUI" style="padding-left:3em">
+												{{msg}};
+											</div>
+											}
+											
+											
+								<div ng-show="complexType" >
+											
+											<div ng-repeat="cmplx in complexMapArrayUI">
+												message {{cmplx.messageName}} {
+												<div ng-repeat = "cmplxmsg in cmplx.message" style="padding-left:3em">
+												{{cmplxmsg}};
+												</div>
+												}
+											</div>
+											
+										</div>
+										</div>
+							<div class="ds-section-data-inner3" ng-show="showDataBroker">
+							
+								Source table and Target table are generated and extract the fields from uploaded data file
+								
+								<button ng-click='showMappingTable()' class="mdl-button mdl-js-button text-small font-semi-bold normaltext-transform" style="background: #E8E5EC;color:#671C9D">Mapping Table</button>
+							</div>
+							
+							<div class="ds-section-data-inner3" ng-show = "showCollator">
+								<ul class="ds-list2 properties-list">
+									<li>
+										<label class="disblock ds-label1">Node Name:</label>
+										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
+									</li>
+								</ul>
+								<label ng-if="!collateSelect">Note: Please select the Collator Scheme to add a link between Collator and other models.</label>
+								<br/>
+								<div class="ds-btncontainer1">
+									<button ng-click='showCollatorSelection()' class="mdl-button mdl-js-button text-small btn-primary">Collator Scheme Selector</button>
+									<button ng-click='showCollatorMap()' class="mdl-button mdl-js-button text-small btn-primary" ng-disabled="!enableCollateMap" >Collator Map</button>
+								</div>
+							</div>
+							
+							<div class="ds-section-data-inner3" ng-show = "showSplitter">
+								<ul class="ds-list2 properties-list">
+									<li>
+										<label class="disblock ds-label1">Node Name:</label>
+										<label class="text-semi-bold ds-label2">{{nodeNameUI || 'empty'}}</label>
+									</li>
+								</ul>
+								<label ng-if="!splitSelect">Note: Please select the Splitter Scheme to add a link between Splitter and other models.</label>
+								<br/>
+								<div class="ds-btncontainer1">
+									<button ng-click='showSplitterSelection()' class="mdl-button mdl-js-button text-small btn-primary">Splitter Scheme Selector</button>
+									<button ng-click='showSplitterMap()' class="mdl-button mdl-js-button text-small btn-primary" ng-disabled = "!enableSplitMap">Splitter Map</button>
+								</div>
+							</div>
+								
+							<div class="ds-section-data-inner3" ng-show="showLink" >
+								<ul class="ds-list2 properties-list">
+									
+									<li>
+										<label class="disblock ds-label1">Link Name:</label>
+										<label class="text-semi-bold ds-label2">{{linkDetails.orig.value.linkName || 'empty'}}</label>
+										<!-- <a href="#" editable-text="solutionDetails.solutionName">{{linkDetails.value.linkName || 'empty'}}</a> -->
+									</li>
+									<li>
+										<label class="disblock ds-label1">Source Node Name:</label>
+										<label class="disblock text-semi-bold">{{linkDetails.source.orig.value.name}}</label>
+									</li>
+									<li>
+										<label class="disblock ds-label1">Target Node Name:</label>
+										<label class="disblock text-semi-bold">{{linkDetails.target.orig.value.name}}</label>
+									</li>
+									
+								</ul>
+							</div>	
+							<div class="ds-section-data-inner3" ng-show="showDataMapper">
+                                                                          <div id="data-mapper"></div>
+                                                                        </div>					
+							</div>
+							</md-content> 
+							</md-tab>
+
+							<md-tab label="Matching Models" > 
+								<md-content class="" ng-if="clicked" style="padding:0px" >			
+								<div class="ds-section-data-inner bdr-bottom ds-section-matching-models">	
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input ng-model="filterMM.solutionName" type="text"> <md-icon
+											style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search"></span>
+									</button></md-icon> </md-input-container>						
+							</div>
+									<div class="ds-section-data-inner2">
+								<div class="ds-treelist">
+					                        <div class="ds-treelist-childtree">
+								                        <div class="fa fa-share-alt ds-list-icon2 ds-inner-link" ng-repeat = "val in matchModels | orderBy:'solutionName'| filter:filterMM" ng-attr-draggable="{{val.toolKit !== 'CP'}}" ng-mouseover="getProperties(val.solutionName)">{{val.solutionName}} ({{val.version}}) <div ng-if="val.solutionRevisionId" style="display: inline-block">[{{val.solutionRevisionId.substring(0,4)}}...]</div></div>
+							                      	</div>
+							                    </div>
+						                        </div>
+								</md-content>
+								</md-tab>
+
+								</md-tabs>							
+							</div>
+							<div class="ds-hor-seperator1" id="content-resizer"></div>
+						
+						<div class="ds-section" id="bottom-content">
+							<div class="ds-section-heading">
+								<label>My Solutions</label>
+								<span>
+									
+								</span>
+							</div>
+							<div class="ds-section-data">
+							<div class="ds-section-data-inner bdr-bottom">							
+								<md-input-container md-no-float class="md-block ds-search-input">
+										<input type="text" ng-model="searchSol.solutionName"> 
+										<md-icon style="display:inline-block;">
+										<button
+										class="mdl-button mdl-js-button mdl-button--icon ds-btnsearch1">
+										<span class="ds-icon icon-input-search" title="Search"></span>
+									</button></md-icon></md-input-container>
+							</div>
+						
+							<div class="ds-section-data-inner4 marginLeft">							
+								<ul class="ds-list3" ng-repeat="val in privateCS | filter:searchSol | orderBy:'solutionName'">
+									<li><span ng-click="loadSolution(val)" class="readSolutions" ng-class="{'ds-selected-model': val.solutionName+val.version === selectedIndex}">{{val.solutionName}} ({{val.version}})</label></span><button ng-click="showdeletePopup($event,val)" class="mdl-button mdl-js-button"><span class="ds-delete-icon" title="Delete"></span></button> </li>
+								</ul>
+							</div>							
+							</div>
+							
+						</div>
+						</div>
+						<div class="right-drawer-handle" ng-click="right = !right"><span class="right-handle"><i class="material-icons">keyboard_arrow_right</i></span></div>
+					</div>
+				</div>				
+			</div>			
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	
+<style>
+@import url('css/designStudio.css'); 
+</style>
+<!-- popup message -->
+<div class="md-dialog-container" id="myDialogPopup" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2 ng-bind="titlemsg"></h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p ng-bind-html="msg"></p>																
+									  </div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+										 <span></span>
+										 	<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-primary">
+									        Ok
+									      </md-button>	
+									      </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+ <!-- material popup start-->
+							<div class="md-dialog-container" id="myDialog" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak name ="signupSolution">
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Save Solution</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closeSavePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<div class="mdl-grid mdl-grid--no-spacing deploy-grid">
+										  <div class="mdl-cell mdl-cell--6-col">
+										  		 <md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Solution Name</label>												      
+												      <input ng-model="solutionName" type="text" required="" maxlength="16">
+												 </md-input-container>
+												
+										  </div>
+										 
+										  <div class="mdl-cell mdl-cell--6-col">
+											<md-input-container class="md-icon-float md-block">
+												<label>Version</label>												
+												 <input ng-model="solutionVersion" type="text" required="" maxlength="16">
+											</md-input-container>
+											
+										  </div>
+										</div>
+										<div><md-input-container class="md-icon-float md-block">
+												      <!-- Use floating label instead of placeholder -->
+												      <label>Description</label>												      
+												      
+												       <input ng-model="solutionDescription" type="text" id="address" maxlength="256" ng-disabled="true" style="background: #B3B3B3;">
+												 </md-input-container></div>	 								
+									  </div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeSavePoup()" class="mdl-button mdl-js-button btn-secondary">
+									        Close
+									      </md-button>
+										  <md-button ng-disabled="signupSolution.$invalid" ng-click='saveSolution()' class="mdl-button mdl-js-button btn-primary">
+									        Save
+									      </md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+<!-- material popup end -->	
+<!-- delete confirmation Modal box start -->
+							<div class="md-dialog-container" id="myDialogdelete" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Delete Confirmation</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p>Are you sure you want to delete the {{solutionToDelete.solutionName}}({{solutionVersion}}) solution?</p>
+							 								
+									  </div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="deleteSolution(solutionToDelete)" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+									        Confirm
+									      </md-button>
+									    </div>
+									 </md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+<!-- delete confirmation Modal box end -->
+
+<!-- delete confirmation Node or link box start -->
+							<div class="md-dialog-container" id="myDialogNodeLink" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Delete Selected</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p>Are you sure you want to delete the node/link?</p>										
+										 								
+									  </div>
+									</md-dialog-content>
+									<md-dialog-actions>
+											<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="deleteNodeEdge()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+									        Confirm
+									      </md-button>
+									    </div>									
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+<!-- delete confirmation Node or Link box end -->
+<!-- save confirmation Modal box start -->
+							<div class="md-dialog-container" id="myDialogSave" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  <form ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Save Solution</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									  <div class="md-dialog-content">
+										<p>Would you like to save current solution?</p>
+						 							
+									  </div>
+									</md-dialog-content>
+									<md-dialog-actions>
+											<div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+									      <span>
+									      <md-button ng-click="SaveSolutionFirst('no')" class="mdl-button mdl-js-button btn-primary" title="No">
+									        No
+									      </md-button>
+										  <md-button ng-click="SaveSolutionFirst('yes')" class="mdl-button mdl-js-button btn-primary" title="Yes">
+									        Yes
+									      </md-button>
+									      </span>
+									    </div>	
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+<!-- save confirmation Modal box end -->
+
+<!-- Saving old version popup confirmation Modal box start -->
+							<div class="md-dialog-container" id="myDialogOldSave" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+								  
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2></h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closePoup()">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+									<form ng-cloak>
+									  <div class="md-dialog-content">
+										<p>Do you want to update a previous version of this solution ?</p>
+																	
+									  </div>
+									  </form>
+									</md-dialog-content>
+									<md-dialog-actions>
+										 <div class="dialog-footer-container1">
+											<md-button ng-click="closePoup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+									        Cancel
+									      </md-button>
+										  <md-button ng-click="updateMySolution()" class="mdl-button mdl-js-button btn-primary" title="Confirm">
+									        Confirm
+									      </md-button>
+									    </div>									
+									</md-dialog-actions>
+								</md-dialog>
+							</div>
+<!-- Saving old version popup confirmation Modal box end -->
+
+<!-- Data Broker Modal box start -->
+					<div class="md-dialog-container" id="myDialogScript" style="height: 0;">
+						<md-dialog aria-label="Mango (Fruit)" class="ds-data-broker-dialog">
+							<ng-form name="databroker" ng-cloak>
+							<md-toolbar>
+							<div class="md-toolbar-tools">
+								<h2>Script</h2>
+								<span flex></span>
+								<md-button class="md-icon-button" ng-click="closePoupscript()">
+								<i class="material-icons">close</i> </md-button>
+							</div>
+							</md-toolbar>
+							<md-dialog-content>
+							
+							<div class="md-dialog-content" ng-model="dbValue">
+								<div class="ds-db-row1">
+									<div class="ds-db-row1-cell ds-db-row1-cell1">
+										<div class="select-control">
+										
+											<label>Data Broker Type <span class="dsreqfield">*</span></label>
+											<md-select ng-model="dbType" name="dbType" placeholder="Select Type" ng-blur="dbTypeVisited=true" ng-focus="dbTypeVisited=false" required ng-change="mapDBType(dbType)"> 
+												<md-option value="image">Image File</md-option> 
+												<md-option value="csv">CSV File</md-option> 
+												<md-option value="json">JSON File</md-option> 
+												<md-option value="sql">SQL Database</md-option> 
+											</md-select>
+											<div class="help-inline validation-msgs">
+												<span ng-class="{validationmsg:!databroker.dbType.$valid}"
+													ng-show="(databroker.dbType.$dirty && databroker.dbType.$error.required && databroker.fileUrl.$touched)">Please
+													Select Data Broker Type</span>
+											</div>
+										</div>
+									</div>
+									<div class="ds-db-row1-cell ds-db-row1-cell2">
+										<md-input-container class="md-block" id="fileURL">
+					
+										<label ng-if="dbType == 'sql'">JDBC URL <!-- <span class="dsreqfield">*</span> --></label>
+										<label ng-if="dbType !== 'sql'">File Path <!-- <span class="dsreqfield">*</span> --></label> 
+											<input type="text" ng-model="fileUrl" name="fileUrl"
+												
+												ng-pattern="/^[-a-zA-Z0-9@:%._\+~#=]{2,256}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/" ng-blur="changeRead()" ng-disabled="true" style="background: #B3B3B3;">
+											<span class="modal-note">For a single file specify the complete file path, for a directory which contains the set of files, specify the path up to the directory.</span>
+										<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.fileUrl.$valid}">
+											<span ng-show="!!databroker.fileUrl.$error.required && databroker.fileUrl.$touched ">Please enter File/JDBC URL</span> 
+											<span ng-show="!!databroker.fileUrl.$dirty && databroker.fileUrl.$error.pattern">Please enter valid url</span>
+										</div>
+					
+										</md-input-container>
+									</div>
+								</div>
+								<div class="ds-db-row2">
+									<md-input-container class="md-block" id="enterScript">
+									<label>Enter Script <!-- <span class="dsreqfield"></span> --></label> <textarea
+										rows="4" id="script" ng-model="scriptText" name="scriptText"
+										 ng-blur="changeRead()" ng-disabled="true" style="background: #B3B3B3;"></textarea> <span class="modal-note">Enter
+										multi-line commands for Data Broker or SQL Script (for a SQL Data
+										Broker), enter each command in a seperate line, with each line
+										ending in a semi colon character.</span>
+									<div class="help-inline validation-msgs"
+										ng-class="{validationmsg:!databroker.scriptText.$valid}">
+										<span
+											ng-show="!!databroker.scriptText.$error.required && databroker.scriptText.$dirty && databroker.scriptText.$touched ">Please
+											enter script</span>
+									</div>
+									</md-input-container>
+								</div>
+								<div class="ds-db-row3">
+									<div class="ds-db-row3-cell ds-db-row3-cell1" id="upload"
+										ng-show="(dbType == 'csv') || (dbType == 'json') || (dbType == 'sql')">
+										<label class="disblock">Upload Sample Data File <span
+											class="dsreqfield">*</span></label>
+											<input id="fileRead" type="file" ngf-select  ng-model="userImage" name="fileNew" class="mdl-textfield__input userprofiletxtbox uploadtxtbox"   
+             										accept=".{{dbType}}" file-reader="fileContent" ng-required="(dbType == 'csv') || (dbType == 'json') || (dbType == 'sql')" 
+             										ngf-model-invalid="errorFile" ng-change="checkFileName()"/>
+             										
+             										<span  ng-if="!userImage" ng-bind="userImageNew"></span>
+             										<!-- <span  ng-bind="errormsg"></span> -->
+										<div class="help-inline validation-msgs"
+										ng-class="validationmsg">
+										<span ng-if="!userImage && userImageNew">If you want to make changes to source table, Please re-upload the file</span> 
+										<span ng-if="enableScript">File is invalid. Upload a valid file with csv extensions</span>
+										<span ng-class="validationmsg" ng-bind="errormsg"></span> 
+									</div>
+					                     
+									</div>
+					
+									<div class="ds-db-row3-cell ds-db-row3-cell2" id="selectFirstRow"
+										ng-show="dbType == 'csv'">
+										<label class="disblock">Select <span class="dsreqfield">*</span></label>
+										<md-radio-group ng-model="firstRow" ng-required="dbType == 'csv'" ng-change="changeRead()"> <md-radio-button
+											class="md-primary" value="contains_field_names">First row contains
+										field names</md-radio-button> <md-radio-button value="contains_data">First row
+										contains Data </md-radio-button> </md-radio-group>
+									</div>
+									
+									<div class="ds-db-row3-cell ds-db-row3-cell2"
+										ng-show="dbType == 'sql'">
+										<md-input-container class="md-block" id="databaseName">
+											<label>Database Name <span class="dsreqfield"></span></label>
+											<input type="text" name="databaseName" ng-model="databaseName" ng-change="changeRead()" ng-required="dbType == 'sql'"> 
+											<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.databaseName.$valid}">
+												<span ng-show="!!databroker.databaseName.$error.required && databroker.databaseName.$dirty && databroker.databaseName.$touched ">Please enter the database name</span>
+											</div>
+										</md-input-container>
+									</div>
+									
+								</div>
+								<div class="ds-db-row4" ng-show="dbType == 'sql'">
+									<div class="ds-db-row4-cell ds-db-row4-cell1">
+										<div class="select-control">
+										
+											<label>Select JDBC Datasource Class Name <span class="dsreqfield">*</span></label>
+											<md-select class="md-no-asterisk" ng-model="jdbcDatasource" name="jdbcDatasource" placeholder="Select JDBC Class name" ng-change="changeRead()" ng-required="dbType == 'sql'"> 
+												<md-option value="com.mysql.jdbc.Driver">MySQL</md-option> 
+												
+											</md-select>
+											<div class="help-inline validation-msgs" ng-class="{validationmsg:!databroker.jdbcDatasource.$valid}">
+												<span ng-show="databroker.dbType.$dirty && databroker.dbType.$error.required">Please
+													Select JDBC Datasource Class name</span>
+											</div>
+										</div>
+									</div>
+							</div>
+							
+							</md-dialog-content>
+							<md-dialog-actions>
+							<div class="dialog-footer-container1">
+								<md-button ng-click="closePoupscript()"
+									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+								Cancel </md-button>
+								<md-button type="submit" ng-disabled="userImage ? (databroker.$invalid || (readSolution || enableScript)) : (databroker.$invalid || readSolution)"
+									ng-click="processData()" class="mdl-button mdl-js-button btn-primary"
+									title="Done"> Done </md-button>
+							</div>
+							</md-dialog-actions>
+						</ng-form>
+						</md-dialog>
+					</div>
+<!-- Data Broker Modal box end -->
+
+<!-- Mapping Modal box start -->
+							<div class="md-dialog-container" id="myDialogMapping" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-mapping-tables-dialog">
+								  <form name="sourceTargetTable" ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Mapping Tables</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closeMappingPopup()" title="Close">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="dsmt-container">
+												<div class="dsmt-cell dsmt-left-cell">
+														<div class="dsmt-chitable">
+														<table class="mdl-data-table mdl-js-data-table dsmt-tbl">															
+															  <thead>
+																<tr>
+																  <th></th>															
+																  <th>Column Name</th>
+																  <th>Column Type</th>
+																  <th>Map</th>
+																</tr>
+															  </thead>
+															  <tbody>
+																<tr ng-show="(dbType === 'csv' || dbType === 'sql') && !readSolution" ng-repeat="data in dataShow">
+																	<td>
+																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="" name="fieldName" ng-model="data" ng-blur= "mapFieldName($index)"> 
+																			
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-disabled="!checkfield" ng-model="fieldType" name="fieldType" placeholder="Select Type" ng-change="mapFieldType($index)">															
+																				<md-option value="int">int</md-option>
+																				<md-option value="string">string</md-option>
+																				<md-option value="float">float</md-option>
+																				<md-option value="boolean">boolean</md-option>
+																				<md-option value="long">long</md-option>
+																				<md-option value="double">double</md-option>
+																				<md-option value="byte">byte</md-option>
+																			</md-select>
+																		</div>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-disabled="!checkfield" ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																
+																<tr ng-show="dbType === 'image' && !readSolution" ng-repeat="data in dataImage">
+																	<td>
+																		<md-checkbox ng-model="checkfield" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="{{data.Fieldname}}"> 
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																	 <md-input-container class="md-block">
+																		<input type="text" required value="{{data.FieldType}}"> 
+																		</md-input-container>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-disabled="!checkfield" required ng-model="mapTag" name="mapTag" placeholder="Select Tag" ng-change="mappingTag($index)">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																
+																<tr ng-show="(dbType === 'csv' || dbType === 'sql') && readSolution" ng-repeat="data in readSourceTable">
+																	<td>
+																		<md-checkbox ng-if="data.input_field.checked === 'YES'" name="checkfield" ng-model="checkedRead" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
+																		</md-checkbox>
+																		<md-checkbox ng-if="data.input_field.checked !== 'YES'" name="checkfield" ng-model="uncheckedRead" aria-label="Checkbox 1" ng-blur="mapCheckField($index)">
+																			<!-- {{ data.cb1 }} -->
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="" name="fieldName" ng-model="data.input_field.name"> 	
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-disabled="data.input_field.checked !== 'YES'" ng-model="data.input_field.type" name="fieldType" placeholder="{{data.input_field.type}}">															
+																				<md-option value="int">int</md-option>
+																				<md-option value="string">string</md-option>
+																				<md-option value="float">float</md-option>
+																				<md-option value="boolean">boolean</md-option>
+																				<md-option value="long">long</md-option>
+																				<md-option value="double">double</md-option>
+																				<md-option value="byte">byte</md-option>
+																			</md-select>
+																		</div>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-disabled="data.input_field.checked !== 'YES'" ng-model="data.input_field.mapped_to_field" name="mapTag" placeholder="{{data.input_field.mapped_to_field}}">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																
+																<tr ng-show="dbType === 'image' && readSolution" ng-repeat="data in readSourceTable">
+																	<td>
+																		<md-checkbox ng-if="data.input_field.checked === 'YES'" ng-model="checkedRead" aria-label="Checkbox 1">
+																		</md-checkbox>
+																		<md-checkbox ng-if="data.input_field.checked !== 'YES'" ng-model="uncheckedRead" aria-label="Checkbox 1">
+																		</md-checkbox>
+																	</td>
+																	<td>
+																		<md-input-container class="md-block">																		
+																			<input type="text" required value="{{data.input_field.name}}"> 
+																		</md-input-container>
+																	</td>															
+																	 <td>
+																	 <md-input-container class="md-block">
+																		<input type="text" required value="{{data.input_field.type}}"> 
+																		</md-input-container>
+																	 </td>
+																	 <td>
+																		<div class="select-control">																	
+																			<md-select ng-model="data.input_field.mapped_to_field" name="mapTag" placeholder="Select Tag">
+																					<md-option value="{{target.tag}}" ng-repeat="target in targetMapTable">{{target.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																	 </td>																 
+																</tr>
+																															
+															  </tbody>
+															</table>
+													</div>
+												</div>
+												<div class="dsmt-cell dsmt-right-cell">
+													<div class="dsmt-chitable">
+													<table class="mdl-data-table mdl-js-data-table dsmt-tbl">																
+															  <thead>
+																<tr>																  												
+																  <th>Tag #</th>
+																  <th>Field Name</th>
+																  <th>Field Type</th>
+																  <th>Parent Type</th>	
+																  <th>Grand Parent Type</th>	
+																  <th>Great Grand Parent Type</th>																  
+																</tr>
+															  </thead>
+															  <tbody>
+																<tr ng-repeat="target in targetMapTable">
+																	<td>{{target.tag}}</td>
+																	<td>{{target.name}}</td>
+																	<td>{{target.type}}
+																		<p>[{{target.role}}]</p>
+																	</td>
+																	<td>{{target.parent}}
+																		<p ng-if='target.grandParent !== ""'>[{{target.parentRole}}]</p></td>
+																	<td>{{target.grandParent}}
+																		<p ng-if='target.greatGrandParent !== ""'>[{{target.grandParentRole}}]</p></td>
+																	<td>{{target.greatGrandParent}}</td>																	
+																</tr>
+																
+															</tbody>
+														</table>
+												</div>	
+											</div>
+																																				
+										</div>									
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeMappingPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="mappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="sourceTargetTable.$invalid || disableDone">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+						<!-- Mapping Modal box end -->
+						
+						<!-- Schema selection for Collator Start -->
+						<div class="md-dialog-container" id="myDialogCollatorSelector" style="height: 0;">
+						<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+							<ng-form name="collatorSelector" ng-cloak>
+							<md-toolbar>
+							<div class="md-toolbar-tools">
+								<h2>Collator Selection</h2>
+								<span flex></span>
+								<md-button class="md-icon-button" ng-click="closePopupCollatorSelector()">
+								<i class="material-icons">close</i> </md-button>
+							</div>
+							</md-toolbar>
+							<md-dialog-content>
+							
+							<div class="md-dialog-content" >
+								<div class="ds-db-row1">
+									
+									<div class="ds-db-row1-cell" id="selectCollateSchema">
+										<label class="disblock">Select the Collator Scheme: <span class="dsreqfield">*</span></label>
+										<md-radio-group name="collateScheme" ng-model="collateScheme" ng-change="changeReadCollate()" ng-disabled="collateSchemeChange"> 
+											<md-radio-button class="md-primary" value="Array-based">Array-Based Collation</md-radio-button>
+											<md-radio-button value="Parameter-based">Parameter-Based Collation</md-radio-button> 
+										</md-radio-group>
+										<div class="help-inline validation-msgs" ng-class="validationmsg">
+											<span ng-if="collateSchemeChange">Please delete the links/nodes connected to the Collator in order to change the scheme</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							</md-dialog-content>
+							<md-dialog-actions>
+							<div class="dialog-footer-container1">
+								<md-button ng-click="closePopupCollatorSelector()"
+									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+								Cancel </md-button>
+								<md-button type="submit" ng-disabled="readSolution ? readSolution : !enableCollateDone"
+									ng-click="processCollatorSelection()" class="mdl-button mdl-js-button btn-primary"
+									title="Done"> Done </md-button>
+							</div>
+							</md-dialog-actions>
+						</ng-form>
+						</md-dialog>
+					</div>
+			<!-- Schema selection for Collator end -->
+			
+			<!-- Schema selection for Splitter Start -->
+						<div class="md-dialog-container" id="myDialogSplitterSelector" style="height: 0;">
+						<md-dialog aria-label="Mango (Fruit)" class="cg-dialog-Deploy-to-cloud">
+							<ng-form name="splitterSelector" ng-cloak>
+							<md-toolbar>
+							<div class="md-toolbar-tools">
+								<h2>Splitter Selection</h2>
+								<span flex></span>
+								<md-button class="md-icon-button" ng-click="closePopupSplitterSelector()">
+								<i class="material-icons">close</i> </md-button>
+							</div>
+							</md-toolbar>
+							<md-dialog-content>
+							
+							<div class="md-dialog-content" >
+								<div class="ds-db-row1">
+									
+									<div class="ds-db-row1-cell" id="selectSplitterSchema">
+										<label class="disblock">Select the Splitter Scheme: <span class="dsreqfield">*</span></label>
+										<md-radio-group name="splitScheme" ng-model="splitScheme" ng-change="changeReadSplit()" ng-disabled="splitSchemeChange"> 
+											<md-radio-button class="md-primary" value="Copy-based">Copy-Based Splitting</md-radio-button>
+											<md-radio-button value="Parameter-based">Parameter-Based Splitting</md-radio-button> 
+										</md-radio-group>
+										<div class="help-inline validation-msgs" ng-class="validationmsg">
+											<span ng-if="splitSchemeChange">Please delete the links/nodes connected to the Splitter in order to change the scheme</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							</md-dialog-content>
+							<md-dialog-actions>
+							<div class="dialog-footer-container1">
+								<md-button ng-click="closePopupSplitterSelector()"
+									class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+								Cancel </md-button>
+								<md-button type="submit" ng-disabled="readSolution ? readSolution : !enableSplitDone"
+									ng-click="processSplitterSelection()" class="mdl-button mdl-js-button btn-primary"
+									title="Done"> Done </md-button>
+							</div>
+							</md-dialog-actions>
+						</ng-form>
+						</md-dialog>
+					</div>
+			<!-- Schema selection for Splitter end -->
+			
+			<!-- Mapping Table for Collator start -->
+						<div class="md-dialog-container" id="myDialogCollatorMap" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-mapping-tables-dialog">
+								  <form name="collateSourceTargetTable" ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Collator Mapping Table</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closeMappingPopup()" title="Close">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="dsmt-container">
+												<div class="dsmt-cell">
+													<div class="help-inline" ng-show="collateSourceMapTable.length < collateTargetMapTable.length">
+														<span style="color: #ff0000;">
+														*Source parameters should be greater than or equal to target parameters
+														</span>
+													</div>
+														<div class="dsmt-chitable">
+															<table class="mdl-data-table ds-table1" cellpadding="0" cellspacing="0" >
+																<thead>
+																	<tr>
+																		<th colspan="5"><span>Source Messages</span></th>
+																		<th colspan="2"><span>Mapping Area</span></th>
+																		<th colspan="4"><span>Target Message</span></th>
+																	</tr>
+																	<tr>
+																		<th><span>Data Source Name</span></th>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type Name</span></th>
+																		<th><span>Parameter Role</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Target Tag Mapping - Map a source field to target field</span></th>
+																		<th><span>Error Validator</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type</span></th>
+																		<th><span>Parameter Role</span></th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr ng-if="collateSourceMapTable.length >= collateTargetMapTable.length" ng-repeat="source in collateSourceMapTable">
+																		<td>{{source.modelName}}</td>
+																		<td>{{source.name}}</td>
+																		<td>{{source.type}}</td>
+																		<td>{{source.role}}</td>
+																		<td>{{source.tag}}</td>
+																		<td>
+																		<div ng-if="!readSolution" class="select-control">																	
+																			<md-select ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																			
+																		</div>
+																		<div ng-if="readSolution" class="select-control">																	
+																			<md-select ng-model="readCollateTagMap[$index]" name="collateMapTag" placeholder="{{readCollateTagMap[$index]}}" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if= "collateErrorMap.get($index) === 'True' || collateErrorMap.get($index) === 'true'"><i class="material-icons dsicon-true">done</i></label>
+																			<label ng-if="collateErrorMap.get($index) === 'False' || collateErrorMap.get($index) === 'false' || collateErrorMap.get($index) === undefined || collateErrorMap.get($index) === null"><i class="material-icons dsicon-false">close</i></label>
+																		</td>
+																		<td>{{collateTargetMapTable[$index].tag}}</td>
+																		<td>{{collateTargetMapTable[$index].name}}</td>
+																		<td>{{collateTargetMapTable[$index].type}}</td>
+																		<td>{{collateTargetMapTable[$index].role}}</td>
+																	</tr>
+																	<tr ng-if="collateSourceMapTable.length < collateTargetMapTable.length" ng-repeat="target in collateTargetMapTable">
+																		<td>{{collateSourceMapTable[$index].modelName}}</td>
+																		<td>{{collateSourceMapTable[$index].name}}</td>
+																		<td>{{collateSourceMapTable[$index].type}}</td>
+																		<td>{{collateSourceMapTable[$index].role}}</td>
+																		<td>{{collateSourceMapTable[$index].tag}}</td>
+																		<td>
+																		<div ng-if="!readSolution && collateSourceMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-disabled="collateSourceMapTable.length < collateTargetMapTable.length" ng-model="collateMapTag" name="collateMapTag" placeholder="Select Tag" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		<div ng-if="readSolution && collateSourceMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-model="readCollateTagMap[$index]" name="collateMapTag" placeholder="{{readCollateTagMap[$index]}}" ng-change="collateMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{targetMap.tag}}" ng-repeat="targetMap in collateTargetMapTable">{{targetMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="collateSourceMapTable[$index].tag && (collateErrorMap.get($index) === 'True' || collateErrorMap.get($index) === 'true')"><i class="material-icons dsicon-true">done</i></label>
+																		<label ng-if="collateSourceMapTable[$index].tag && (collateErrorMap.get($index) === 'False' || collateErrorMap.get($index) === 'false' || collateErrorMap.get($index) === undefined || collateErrorMap.get($index) === null)"><i class="material-icons dsicon-false">close</i></label>
+																		</td>
+																		<td>{{target.tag}}</td>
+																		<td>{{target.name}}</td>
+																		<td>{{target.type}}</td>
+																		<td>{{target.role}}</td>
+																	</tr>
+																</tbody>
+														
+															</table>
+														</div>	
+											</div>
+																																				
+										</div>									
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeMappingCollatorPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="collateMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="collateSourceTargetTable.$invalid || collateSourceMapTable.length < collateTargetMapTable.length">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+					<!-- Mapping Table for Collator end -->
+					
+					<!-- Mapping Table for Splitter start -->
+						<div class="md-dialog-container" id="myDialogSplitterMap" style="height:0;">
+							  <md-dialog aria-label="Mango (Fruit)" class="ds-mapping-tables-dialog">
+								  <form name="splitSourceTargetTable" ng-cloak>
+									<md-toolbar>
+									  <div class="md-toolbar-tools">
+										<h2>Splitter Mapping Table</h2>
+										<span flex></span>
+										<md-button class="md-icon-button" ng-click="closeMappingPopup()" title="Close">
+										  <i class="material-icons">close</i>
+										</md-button>
+									  </div>
+									</md-toolbar>
+									<md-dialog-content>
+										<div class="md-dialog-content">
+											<div class="dsmt-container">
+												<div class="dsmt-cell">
+														<div class="dsmt-chitable">
+															<table class="mdl-data-table ds-table1" cellpadding="0" cellspacing="0" >
+																<thead>
+																	<tr>
+																		<th colspan="4"><span>Source Message</span></th>
+																		<th colspan="2"><span>Mapping Area</span></th>
+																		<th colspan="5"><span>Target Messages</span></th>
+																	</tr>
+																	<tr>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type Name</span></th>
+																		<th><span>Parameter Role</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Source Tag Mapping - Copy a source field to target field</span></th>
+																		<th><span>Error Validator</span></th>
+																		<th><span>Parameter Tag #</span></th>
+																		<th><span>Parameter Name</span></th>
+																		<th><span>Parameter Type</span></th>
+																		<th><span>Parameter Role</span></th>
+																		<th><span>Target Model Name</span></th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr ng-if="splitSourceMapTable.length >= splitTargetMapTable.length" ng-repeat="source in splitSourceMapTable">
+																		<td>{{source.name}}</td>
+																		<td>{{source.type}}</td>
+																		<td>{{source.role}}</td>
+																		<td>{{source.tag}}</td>
+																		<td>
+																		<div ng-if="!readSolution && splitTargetMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		<div ng-if="readSolution && splitTargetMapTable[$index].tag" class="select-control">																	
+																			<md-select ng-model="readSplitTagMap[$index]" name="splitMapTag" placeholder="{{readSplitTagMap[$index]}}" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td>
+																		<label ng-if="splitTargetMapTable[$index].tag && (splitErrorMap.get($index) === 'True' || splitErrorMap.get($index) === 'true')"><i class="material-icons dsicon-true">done</i></label>
+																		<label ng-if="splitTargetMapTable[$index].tag && (splitErrorMap.get($index) === undefined || splitErrorMap.get($index) === 'false' || splitErrorMap.get($index) === 'False' || splitErrorMap.get($index) === null)"><i class="material-icons dsicon-false">close</i></label>
+																		</td>
+																		<td>{{splitTargetMapTable[$index].tag}}</td>
+																		<td>{{splitTargetMapTable[$index].name}}</td>
+																		<td>{{splitTargetMapTable[$index].type}}</td>
+																		<td>{{splitTargetMapTable[$index].role}}</td>
+																		<td>{{splitTargetMapTable[$index].modelName}}</td>
+																	</tr>
+																	<tr ng-if="splitSourceMapTable.length < splitTargetMapTable.length" ng-repeat="target in splitTargetMapTable">
+																		<td>{{splitSourceMapTable[$index].name}}</td>
+																		<td>{{splitSourceMapTable[$index].type}}</td>
+																		<td>{{splitSourceMapTable[$index].role}}</td>
+																		<td>{{splitSourceMapTable[$index].tag}}</td>
+																		<td>
+																		<div ng-if="!readSolution" class="select-control">																	
+																			<md-select ng-model="splitMapTag" name="splitMapTag" placeholder="Select Tag" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		<div ng-if="readSolution" class="select-control">																	
+																			<md-select ng-model="readSplitTagMap[$index]" name="splitMapTag" placeholder="{{readSplitTagMap[$index]}}" ng-change="splitMappingTag($index)">
+																					<md-option value="null">Select Tag</md-option>
+																					<md-option value="{{sourceMap.tag}}" ng-repeat="sourceMap in splitSourceMapTable">{{sourceMap.tag}}</md-option>	
+																			</md-select>
+																		</div>
+																		</td>
+																		<td><label ng-if="splitErrorMap.get($index) === 'True' || splitErrorMap.get($index) === 'true'"><i class="material-icons dsicon-true">done</i></label>
+																		 <label ng-if="splitErrorMap.get($index) === undefined || splitErrorMap.get($index) === 'False' || splitErrorMap.get($index) === 'false' || splitErrorMap.get($index) === null"><i class="material-icons dsicon-false">close</i></label>
+																		 </td>
+																		<td>{{target.tag}}</td>
+																		<td>{{target.name}}</td>
+																		<td>{{target.type}}</td>
+																		<td>{{target.role}}</td>
+																		<td>{{target.modelName}}</td>
+																	</tr>
+																</tbody>
+																
+															</table>
+														</div>	
+											</div>
+																																				
+										</div>									
+										</div>
+									</md-dialog-content>
+									<md-dialog-actions>
+										<div class="dialog-footer-container1">
+											<md-button ng-click="closeMappingSplitterPopup()" class="mdl-button mdl-js-button btn-secondary" title="Cancel">
+												Cancel
+											</md-button>
+											<md-button type="submit" ng-click="splitMappingsSave()" class="mdl-button mdl-js-button btn-primary" title="Confirm" ng-disabled="splitSourceTargetTable.$invalid">
+												Done
+											</md-button>
+									    </div>
+									</md-dialog-actions>
+								  </form>
+								</md-dialog>
+							</div>
+					<!-- Mapping Table for Splitter end -->
+</div>
+	
