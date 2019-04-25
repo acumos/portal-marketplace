@@ -130,7 +130,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 		.state('catalog',{
           url: '/catalog',
           component: 'catalog'
-         });
+         })
+         .state('acuCompose', {
+			url: '/acuCompose',
+			component: 'acuCompose'
+		});
 	
 		$authProvider.facebook({
 			 clientId: '1013632248810824',

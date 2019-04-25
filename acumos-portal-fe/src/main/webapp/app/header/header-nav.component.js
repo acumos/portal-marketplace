@@ -356,6 +356,14 @@ angular.module('headerNav')
 		
 		$scope.login();
 		
+		function deleteCookie(cname) {
+		    var cdate = new Date(); 
+		    cdate.setTime(cdate.getTime() - (1000*60*60*24)); 
+		    var expires = "expires=" + cdate.toGMTString(); 
+		    window.document.cookie = cname+"="+"; "+expires;
+		 
+		}
+		
 		$scope.logout = function() {
 		//$window.location.reload();
 //			sessionStorage.setItem("userDetail", "");
@@ -366,7 +374,9 @@ angular.module('headerNav')
 			localStorage.removeItem("solutionId");
 			browserStorageService.removeAuthToken();
 			browserStorageService.removeMktPlaceStorage();
-			
+			deleteCookie('userDetail');
+			deleteCookie('authToken');
+			deleteCookie('userRole');
 			$scope.successfulLoginSigninSignup = true;
 			$scope.successfulLogin = false;
 			$rootScope.successfulAdmin = false;
