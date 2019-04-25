@@ -110,6 +110,15 @@ limitations under the License.
 							ng-if='orderByField=="catalogName"'
 							ng-class="reverseSortPbReq?'ascending':'descending'"
 							class="gridcell-sort"></span></th>
+						
+						<th
+							ng-click="orderByField='accessType'; reverseSortPbReq = !reverseSortPbReq">Access Level<span
+							ng-if='orderByField!="accessType"'
+							class="gridcell-sort deactivate"></span><span
+							ng-if='orderByField=="accessType"'
+							ng-class="reverseSortPbReq?'ascending':'descending'"
+							class="gridcell-sort"></span></th>
+						
 						<th
 							ng-click="orderByField='requestStatusName'; reverseSortPbReq = !reverseSortPbReq">
 							Request Status <span ng-if='orderByField!="requestStatusName"'
@@ -139,6 +148,7 @@ limitations under the License.
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.requestorName}}</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}" >{{publishReq.creationDate | date : "MM/dd/yyyy"}}</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.catalogName}}</td>
+						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}">{{publishReq.accessType == 'PB' ? 'Public' : 'Restricted'}}</td>
 						<td ng-class="{'disabled': publishReq.requestStatusName !== 'Pending'}"><label
 							ng-class="{'text-green': publishReq.requestStatusName == 'Approved' , 
 							'text-red': publishReq.requestStatusName == 'Declined',

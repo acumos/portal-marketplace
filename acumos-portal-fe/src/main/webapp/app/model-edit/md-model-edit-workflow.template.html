@@ -127,11 +127,10 @@ limitations under the License.
 						<div class="mdl-cell workflow-left">
 							<div class="mdl-tabs__tab-bar">
 								<ul class="tabs-left">
-									<li><a href class="mdl-tabs__tab"
+									<li ng-show="!hideTabs"><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='onboard'}"
 										ng-click="workflowTitle = 'On-Boarding'; tab = 'onboard'" alt="On - Boarding" title="On - Boarding">
 											<div class="managelefticon">
-												<!-- <i><img src="/images/status.PNG" alt="" title=""></i> -->
 												<i class="launcherimg"></i>
 											</div>
 											<div class="managelefttext">
@@ -192,7 +191,7 @@ limitations under the License.
 										</a>
 									</li>
 
-									<li><a href class="mdl-tabs__tab"
+									<li ng-show="!hideTabs"><a href class="mdl-tabs__tab"
 										ng-class="{isActive:tab=='cloud'}"
 										ng-click="workflowTitle = 'Export/Deploy to Cloud'; tab = 'cloud'" alt="Export / Deploy to Cloud" title="Export / Deploy to Cloud">
 											<div class="managelefticon">
@@ -620,7 +619,7 @@ limitations under the License.
 									<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">
 										 <label class="fedlbl4">Select Catalog</label>
 										 <md-select ng-model="selectedCatalogId" placeholder="Select Catalog" >
-	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog.catalogId, catalog.name);" value="{{catalog.catalogId}}">{{catalog.name}}</md-option>
+	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog.catalogId, catalog.name);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
 	                                     </md-select>                         
 	                                </div> 
 	                                <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="solutionCatalogsList.length > 0">
@@ -635,7 +634,7 @@ limitations under the License.
 										<ul>
 											<li>
 												<div class="imageplace"
-													ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
+													ng-class="{'completed': (modelDocumentation == true || publishRequest.requestStatusCode === 'AP') && validationEnabled == true && publishRequest.catalogId == selectedCatalogId}">
 													<span class="imagecontent model-documentation"
 														alt="Model Documentation" title="Model Documentation">
 													</span>
@@ -643,19 +642,19 @@ limitations under the License.
 												<div class="text">Model Documentation</div>
 											</li>
 											<li class="progress-status"
-												ng-class="{'completed': (modelDocumentation == true || version.accessTypeCode=='OR' || version.accessTypeCode=='PB' ) && validationEnabled == true}">
+												ng-class="{'completed': (modelDocumentation == true || publishRequest.requestStatusCode === 'AP' ) && validationEnabled == true && publishRequest.catalogId == selectedCatalogId}">
 											</li>
 
 											<li md-labeled-by-tooltip="md-tooltip-25" aria-hidden="false">
 												<div class="imageplace"
-													ng-class="{'completed': publishRequest.requestStatusCode === 'AP' && version.accessTypeCode != 'OR', 'active': publishRequest.requestStatusCode === 'PE', 'incomplet' : publishRequest.requestStatusCode === 'DC'}">
+													ng-class="{'completed': publishRequest.requestStatusCode === 'AP' && publishRequest.catalogId == selectedCatalogId, 'active': publishRequest.requestStatusCode === 'PE' && publishRequest.catalogId == selectedCatalogId, 'incomplet' : publishRequest.requestStatusCode === 'DC' && publishRequest.catalogId == selectedCatalogId}">
 													<span class="imagecontent request-approval"
 														alt="Security Scan" title=" Request Approval "></span>
 												</div> <md-tooltip>{{publishRequest.comment}}</md-tooltip>
 												<div class="text">Request Approval</div>
 												<div class="publshbutton ">
 													<button ng-click="showWithdrawRequestModal();"
-														ng-if="publishRequest.requestStatusCode == 'PE'"
+														ng-if="publishRequest.requestStatusCode == 'PE' && publishRequest.catalogId == selectedCatalogId"
 														class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-publish btn-request "
 														data-graded=",MaterialButton,MaterialRipple">
 														Withdraw Request<span class="mdl-button__ripple-container"><span
@@ -664,7 +663,7 @@ limitations under the License.
 												</div>
 											</li>
 											<li class="progress-status"
-												ng-class="{'completed': version.accessTypeCode=='PB'}">
+												ng-class="{'completed': ( publishRequest.catalogId == selectedCatalogId && publishRequest.requestStatusCode === 'AP' )}">
 											</li>
 
 											<!-- Modal box for Withdraw publish request -->
@@ -712,7 +711,7 @@ limitations under the License.
 											
 											<li>
 												<div class="imageplace"
-													ng-class="{'completed': version.accessTypeCode=='PB'}">
+													ng-class="{'completed': ( publishRequest.catalogId == selectedCatalogId && publishRequest.requestStatusCode === 'AP' )}">
 													<span class="imagecontent yet-not-publish"
 														alt="Not yet published" title="Not yet published">
 													</span>
@@ -1819,11 +1818,9 @@ limitations under the License.
 																					</figure>
 																				</div>
 
-																				<div ng-if="publicPreview"
-																					ng-bind-html="solutionPublicDesc1"></div>
 																				<div ng-if="!publicPreview"
 																					ng-bind-html="solutionCompanyDesc1"></div>
-
+																				<h6 ng-if="dockerUrlOfModel" class="md-subhead lbl1"> My Image Model: {{dockerUrlOfModel}}</h6>
 
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab2-panel">

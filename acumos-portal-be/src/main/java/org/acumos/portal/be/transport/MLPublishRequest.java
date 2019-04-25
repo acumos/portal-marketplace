@@ -41,6 +41,7 @@ public class MLPublishRequest{
 	private Instant lastModifiedDate;
 	private String catalogId;
 	private String catalogName;
+	private String accessType;
 	
 	/**
 	 * @return the publishRequestId
@@ -257,5 +258,17 @@ public class MLPublishRequest{
 	 */
 	public void setCatalogName(String catalogName) {
 		this.catalogName = catalogName;
+	}
+	/**
+	 * @return the accessType
+	 */
+	public String getAccessType() {
+		return accessType;
+	}
+	/**
+	 * @param accessType the accessType to set
+	 */
+	public void setAccessType(String accessType) {
+		this.accessType = accessType;
 	}
 }

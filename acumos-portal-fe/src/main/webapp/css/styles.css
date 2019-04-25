@@ -441,7 +441,7 @@ z-index:2000;
 .griditem-title {font-size: 16px; font-weight: normal; color: #2e2f2f;margin-bottom:0;line-height: 21px;}
 .griditem-title span {margin-left: 8px;}
 .griditem-text2 {font-size: 11px; font-weight: normal; color: #2e2f2f;height: 15px;}
-
+.griditem-catalog-title {font-size: 16px; font-weight: 600; color: #2e2f2f;margin-bottom:0;line-height: 21px;}
 .griditem-title {max-width: 95%; text-overflow: ellipsis; overflow: hidden;white-space: nowrap;float:left;width:95%;}
 
 .mp-grid-head-buttons-container {display: flex;align-items:center;}

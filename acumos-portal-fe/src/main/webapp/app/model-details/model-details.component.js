@@ -1148,8 +1148,8 @@ angular
 														$scope.artifactName = response.data.response_body[x].name;
 														$scope.artifactVersion = response.data.response_body[x].version;
 														$scope.artifactUri = response.data.response_body[x].uri;
-														
-														if(response.data.response_body.length == 2){
+														// in case of license artifacts count will be 3
+														if($scope.artifactDownload.length == 2 || $scope.artifactDownload.length == 3){
 															$scope.dockerUrlOfModel = response.data.response_body[x].uri;
 														}
 														isDockerArtifactFound = true;

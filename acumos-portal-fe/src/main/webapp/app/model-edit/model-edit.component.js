@@ -76,10 +76,14 @@ angular
 							$stateParams, $sessionStorage, $localStorage,
 							$anchorScroll, $timeout, FileUploader, apiService,
 							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval, $sce, browserStorageService) {
-						if($stateParams.deployStatus == true){
-						$scope.workflowTitle='Export/Deploy to Cloud';$scope.tab='cloud'
+						$scope.hideTabs = $stateParams.deployStatus; 
+						if($stateParams.deployStatus){
+							$scope.workflowTitle='Share With Team';
+							$scope.tab='share';
+						} else {
+							$scope.workflowTitle='On-Boarding';
+							$scope.tab='onboard';
 						}
-						else {$scope.workflowTitle='On-Boarding';$scope.tab='onboard'}
 						if($stateParams.deployValue !== null)
 							$scope.checkboxExport = $stateParams.deployValue;
 						$scope.revisionId = $stateParams.revisionId;
@@ -307,7 +311,6 @@ angular
 												$scope.allCategory = response.data.response_body;
 										});
 						}
-						$scope.loadCategory();
 
 						$scope.loadToolkitType = function() {
 							apiService
@@ -317,7 +320,6 @@ angular
 												$scope.alltoolkitType = response.data.response_body;
 											});
 						}
-						$scope.loadToolkitType();
 
 						$scope.showVersion = function() {
 							if(angular.element('.md-version-ddl1').css('display') == 'none'){
@@ -437,6 +439,7 @@ angular
 															$scope.solution.created = $scope.version.modified;
 														}
 														
+														$scope.getArtifacts();
 														$scope.getComment();
 														$scope.getProtoFile();
 													}
@@ -452,7 +455,7 @@ angular
 													}
 													$scope.showSolutionDocs = false;
 													$scope.supportingDocs = [];
-													$scope.getArtifacts();
+													
 													$scope.getCatalogs();
 													$scope.getUserImage();													
 													$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
@@ -472,7 +475,9 @@ angular
 							$scope.publishalert = '';
 						}
 						$scope.loadData();
-
+						$scope.loadCategory();
+						$scope.loadToolkitType();
+						
 						$scope.getProtoFile = function(){
 							 $scope.modelSignature = "";
 							 var url = 'api/getProtoFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
@@ -1457,7 +1462,7 @@ angular
 
 						/** ****** Export to local *** */
 						$scope.getArtifacts = function() {
-
+							$scope.dockerUrlOfModel = '';
 							$http(
 									{
 										method : 'GET',
@@ -1476,7 +1481,7 @@ angular
 														$scope.artifactDesc = response.data.response_body[x].description;
 														$scope.artifactName = response.data.response_body[x].name;
 														$scope.artifactVersion = response.data.response_body[x].version;
-														$scope.artifactUri = response.data.response_body[x].uri;
+														$scope.artifactUri = response.data.response_body[x].uri;													
 													}
 												}
 
@@ -2428,6 +2433,9 @@ angular
 						if(catalogId){
 							$scope.selectedCatalogId = catalogId;
 							$scope.selectedCatalog=catalogName;
+							$scope.company = {};
+							$scope.showSolutionDocs = false;
+							$scope.company.skipStep = false;
 							$scope.getSolCompanyDesc();
 							$scope.getCompanySolutionDocuments();
 							
@@ -2438,6 +2446,7 @@ angular
 						if($scope.existingCatalogId){
 							$scope.selectedCatalogId = $scope.existingCatalogId; 
 							$scope.getSolCompanyDesc();
+							$scope.showSolutionDocs = false;
 							$scope.getCompanySolutionDocuments();
 						}
 					}
@@ -2478,13 +2487,15 @@ angular
 									                    			  ($scope.catalogsAvailable).push($scope.catalogsList[i]);
 									                    	  }
 									                    	  if($scope.catalogsAvailable){
+									                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
+									                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
 									                    		  $scope.getSolCompanyDesc();
 									                    		  $scope.getCompanySolutionDocuments();
-									                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
 									                    	  }
 								                    	  } else {
 								                    		  $scope.catalogsAvailable = $scope.catalogsList;
 								                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
+								                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
 								                    	  }
 								                    }
 								                });

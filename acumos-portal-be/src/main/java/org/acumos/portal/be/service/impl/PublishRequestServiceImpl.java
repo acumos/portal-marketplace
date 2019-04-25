@@ -157,6 +157,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 			if (catalog != null) {
 				mlPublishRequest.setCatalogId(catalog.getCatalogId());
 				mlPublishRequest.setCatalogName(catalog.getName());
+				mlPublishRequest.setAccessType(catalog.getAccessTypeCode());
 			}
 		}
 		return mlPublishRequest;

@@ -80,9 +80,9 @@ limitations under the License.
 						ng-click="$root.showAdvancedLogin()" ng-if="!loginUserID" alt="Sign In To Download" title="Sign In To Download">Sign
 						In To Download</button>
 				
-				<div class="select-control dcl-list" ng-show="solution.active == true && loginUserID  && !audit" ng-cloak>
+				<div class="select-control dcl-list" ng-show="solution.active == true && loginUserID  && !audit && artifactDownload" ng-cloak>
                     <!-- Through Properties File -->
-                    <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list">
+                    <md-select ng-model="exportTo" placeholder="Deploy To Cloud" class="dc-cloud-list" ng-hide="dockerUrlOfModel">
                           <md-option ng-repeat = "deployVal in checkDeployToCloudResponse track by $index"
                               	ng-click="$root.showPrerenderedDialog($event, '#myDialog');clearForm()"
                            		class="opacityZero deploy-to-cloud" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
@@ -137,7 +137,7 @@ limitations under the License.
 						date:'MM/dd/yyyy'}} </span><span ng-if="!audit">|
 					<button
 						class="mdl-button mdl-js-button mdl-js-ripple-effect btn-md-edit"
-						ui-sref="modelEdit({solutionId:solutionId, revisionId:revisionId})"
+						ui-sref="modelEdit({solutionId:solutionId, revisionId:revisionId, deployStatus:(dockerUrlOfModel.length)})"
 						ng-disabled="editModel" alt="Manage My Model" title="Manage My Model">
 						 Manage My Model
 					</button>
