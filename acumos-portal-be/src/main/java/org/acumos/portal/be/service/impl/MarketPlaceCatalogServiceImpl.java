@@ -1171,6 +1171,8 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 					users = new ArrayList<>();
 					for (MLPUser mlpusers : mlpUsersList) {
 						User user = PortalUtils.convertToMLPuser(mlpusers);
+						user.setJwttoken(null);
+						user.setPassword(null);						
 						users.add(user);
 					}
 				}
