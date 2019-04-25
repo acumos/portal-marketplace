@@ -192,7 +192,7 @@ ul.social-icons li:last-child{margin-right: 0px;}
 ul.social-icons li i{font-size:15px; line-height: 32px; margin-right:0;}
 .home-footer .material-icons{font-size:18px; float: left; padding-top: 3px;}
 .contact-info li{margin-bottom: 5px;}
-.contact-info li p{word-break: break-all;}
+.contact-info li p{ word-wrap: break-word;}
 .contact-info .fa{font-size:18px;}
 .footer-home-icon::before{content: url("../images/footer_home_icon.png"); float:left; padding:2px 10px 0px 0;}
 .explore .mdl-grid:last-child{margin: 0 0px 14px 0;}
