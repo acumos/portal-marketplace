@@ -23,7 +23,7 @@ limitations under the License.
 	<md-dialog aria-label="Catalog Delete Modal" style="width:600px;">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
-				<h2>Delete Catalog "{{catalog.name}}"</h2>
+				<h2>Delete Confirmation "{{catalog.name}}"</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click='closePoup()'>
 				<i class="material-icons">close</i> </md-button>
@@ -41,7 +41,7 @@ limitations under the License.
 					title="Cancel" ng-click="closePoup()">Cancel</button>
 				<button class="mdl-button mdl-js-button btn-primary btn-gap"
 					alt="Delete" title="Delete"
-					ng_click="parent.deleteCatalog(catalog)">Delete</button>
+					ng_click="parent.deleteCatalog(catalog)">Confirm</button>
 			</div>
 		</md-dialog-actions>
 	</md-dialog>
