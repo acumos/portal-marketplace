@@ -21,6 +21,23 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.10  26th April 2019 
+=================================
+
+* IST: Catalog Publish Unpublish Issue	ACUMOS-2803
+* IST: Alignment is not proper for footer information	ACUMOS-2681
+* IST: RTU Issues	ACUMOS-2807
+* BE changes for on-boarding process for pre-dockerized model URI	ACUMOS-2627
+* IST | Sorting is incorrect for notifications in Manage Notifications	ACUMOS-2565
+* PortalUtil Null pointer exception in convertToMLSolution method	ACUMOS-2679
+* IST | View on-boarding history | Model name and step code are overlapping	ACUMOS-2658
+* IST | View on-boarding history | Pop-up showing hard coded name on-click on View results	ACUMOS-2657
+* IST | View on-boarding history | on-boarding model link on view on-boaring history page is in-active	ACUMOS-2656
+* IST | On-boarding History | While on-boarding is in-progress , View Result tab is actively visible	ACUMOS-2655
+* IST | Nomenclature for the fields are not as per the VD or wireframe	ACUMOS-2654
+* IST | On-boarding history| Search functionality is not working for Date & Time, Status column	ACUMOS-2653
+
+
 Version 2.2.9  22nd April 2019 
 =================================
 
