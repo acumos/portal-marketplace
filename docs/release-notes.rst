@@ -24,6 +24,8 @@ Portal Marketplace Release Notes
 Version 2.2.10  26th April 2019 
 =================================
 
+* IST | Alignment issue for Property section	ACUMOS-2538
+* In DS UI, for Deploy Model button functionality include new parameter RevisionId while invoking Portal API deploy model	ACUMOS-2710
 * IST: Catalog Publish Unpublish Issue	ACUMOS-2803
 * IST: Alignment is not proper for footer information	ACUMOS-2681
 * IST: RTU Issues	ACUMOS-2807
