@@ -71,6 +71,8 @@ angular.module('catalog')
 				$scope.accessType = [{'name':'Public','value':'PB'},{'name':'Restricted','value':'RS'}]
 				$scope.CatalogType = [{'name':'All Catalog','value':'all'},{'name':'My Catalog','value':'self'}]
 				
+				$scope.orderByField = 'created'; $scope.reverseSortcatalog = true;
+				
 				$scope.loadCatalog = function(pageNumber, filterValue) {							
 					$scope.allCatalogList = [];													
 					$scope.SetDataLoaded = true;
@@ -79,7 +81,7 @@ angular.module('catalog')
 					$scope.selectedPage = pageNumber;							
 					var reqObject = {											  							
 						"request_body": {
-							"fieldToDirectionMap": {"created":"DESC"},
+							"fieldToDirectionMap": {"created":"ASC"},
 					        "page": pageNumber,
 					        "size": $scope.requestResultSize
 						  }
@@ -228,6 +230,26 @@ angular.module('catalog')
 							}
 						}
 					});
+				}
+	            $scope.showViewDetailsPopup = function(ev,catalog){
+	            	
+	            	$scope.mdDescription = catalog.description;
+	            	$scope.mdname = catalog.name;
+	            	$scope.mdpublisher = catalog.publisher;
+	            	$scope.mdsolutionCount = catalog.solutionCount;
+	            	$scope.mdaccessTypeCode = catalog.accessTypeCode;
+	            	$scope.mdselfPublish = catalog.selfPublish;
+	            	
+	            	$mdDialog.show({
+	          		  contentElement: '#mdlViewDetails',
+	          		  parent: angular.element(document.body),
+	          		  targetEvent: ev,
+	          		  clickOutsideToClose: true
+	          	  });
+	            }
+	            
+	            $scope.mdClosePoup = function(){
+					$mdDialog.hide();
 				}
 				
 				/*$scope.search = function(pageNumber, filterValue)
