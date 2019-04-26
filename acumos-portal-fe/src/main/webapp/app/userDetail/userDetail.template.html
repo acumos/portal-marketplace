@@ -306,18 +306,19 @@ limitations under the License.
 			<!-- Catalog grid item code -->
 			<div class="catalog-grid-item" ng-repeat="Catalog in allCatalogList | filter : selectedCatalog">
 				<div class="catalog-grid-top-section">
-					<img class="ct-img1" src="/images/catalog.jpg"> <span
-						class="ct-lbl1">New</span>
+					<img class="ct-img1" ng-src='/images/catalog.jpg'>
 				</div>
 				<div class="catalog-grid-bottom-section">
-					<div class="ct-item-row">
-						<div>
+					<div class="ct-item-row" >
+						<div class="posrel">
 							<label class="ct-lbl2">{{Catalog.name}}</label>
 							 <label class="ct-lbl3">Published by: {{Catalog.publisher}}</label> 
 							 <label class="ct-lbl3">{{Catalog.created | date :"MM/dd/yyyy" }}</label>
-						</div>
-						<span class="ct-info-container"><i
-							class="fa fa-info-circle" aria-hidden="true"></i></span>
+							  
+							  </div>
+							  <span class="ct-lbl1" ng-show ="{{$index == 0}}">New</span>
+							  
+						</div>						
 					</div>
 					<div class="ct-item-row">
 						<div>
@@ -336,13 +337,6 @@ limitations under the License.
 			</div>
 			<!-- Catalog grid item code -->			
 		</div>
-	</div>
-	<div>
-		<button class="mdl-button mdl-js-button btn-primary"
-			alt="Update Account" title="Update Account">Update Account</button>
-		<button class="mdl-button mdl-js-button btn-secondary btn-gap"
-			alt="Deactivate Account" title="Deactivate Account">Deactivate
-			Account</button>
 	</div>
 	</md-content> </md-tab>
 	

@@ -71,47 +71,79 @@ limitations under the License.
 					class="mdl-data-table mdl-js-data-table mdl-shadow--2dp admin-tbl1"
 					style="table-layout: fixed;">
 					<colgroup>
-						<col width="20%">
-						<col width="20%">
+						<col width="25%">
+						<col width="20%">						
+						<col width="14%">
+						<col width="16%">
 						<col width="15%">
-						<col width="12%">
-						<col width="11%">
-						<col width="12%">
 						<col width="10%">
 					</colgroup>
 					<thead>
 						<tr>
-							<th>CATALOG NAME</th>
-							<th>PUBLISHER NAME</th>
-							<th>INSTANT</th>
-							<th>CREATED DATE</th>
-							<th>ACCESS TYPE</th>
-							<th>TOTAL MODELS</th>
+							<th
+								ng-click="orderByField='name'; reverseSortcatalog = !reverseSortcatalog">CATALOG
+								NAME <span ng-if='orderByField!="name"'
+								class="gridcell-sort deactivate"></span><span
+								ng-if='orderByField=="name"'
+								ng-class="reverseSortcatalog?'ascending':'descending'"
+								class="gridcell-sort"></span>
+							</th>																							
+							<th
+								ng-click="orderByField='publisher'; reverseSortcatalog = !reverseSortcatalog">PUBLISHER
+								NAME <span ng-if='orderByField!="publisher"'
+								class="gridcell-sort deactivate"></span><span
+								ng-if='orderByField=="publisher"'
+								ng-class="reverseSortcatalog?'ascending':'descending'"
+								class="gridcell-sort"></span>
+							</th>														
+							<th
+								ng-click="orderByField='created'; reverseSortcatalog = !reverseSortcatalog">CREATED
+								DATE <span ng-if='orderByField!="created"'
+								class="gridcell-sort deactivate"></span><span
+								ng-if='orderByField=="created"'
+								ng-class="reverseSortcatalog?'ascending':'descending'"
+								class="gridcell-sort"></span>
+							</th>
+							<th
+								ng-click="orderByField='accessTypeCode'; reverseSortcatalog = !reverseSortcatalog">ACCESS
+								TYPE <span ng-if='orderByField!="accessTypeCode"'
+								class="gridcell-sort deactivate"></span><span
+								ng-if='orderByField=="accessTypeCode"'
+								ng-class="reverseSortcatalog?'ascending':'descending'"
+								class="gridcell-sort"></span>
+							</th>
+							<th
+								ng-click="orderByField='solutionCount'; reverseSortcatalog = !reverseSortcatalog">TOTAL
+								MODELS <span ng-if='orderByField!="solutionCount"'
+								class="gridcell-sort deactivate"></span><span
+								ng-if='orderByField=="solutionCount"'
+								ng-class="reverseSortcatalog?'ascending':'descending'"
+								class="gridcell-sort"></span>
+							</th>
 							<th>ACTION</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="catalog in allCatalogList | filter : searchtxt">
-							<td><span class="md-breadcrumb-item">{{catalog.name}}</span></td>
-							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>
-							<td><span class="md-breadcrumb-item"></span></td>
+						<tr ng-repeat="catalog in allCatalogList | orderBy:orderByFieldFed:reverseSortcatalog | filter : searchtxt">
+							<td><span class="md-breadcrumb-item"> <a ng-click="showViewDetailsPopup(this,catalog)"> {{catalog.name}}</a> </span></td>
+							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>							
 							<td><span class="md-breadcrumb-item">{{catalog.created | date :"MM/dd/yyyy" }}</span></td>
 							<td><span class="md-breadcrumb-item">
 									{{catalog.accessTypeCode == "PB" ? "Public" : "Restricted"}}</span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.solutionCount}}
 							</span></td>
 							<td>
-								<button ng-click="editCatalog(catalog)"
+								<button ng-click="editCatalog(catalog)" 
 									class="mdl-button mdl-js-button mdl-button--icon">
 									<span class="gridicon-edit"></span>
 								</button>
-								<button ng-click="showDeleteDialog(catalog)"
+								<button ng-click="showDeleteDialog(catalog)" ng-disabled ="catalog.solutionCount > 0"
 									class="mdl-button mdl-js-button mdl-button--icon">
-									<span class="gridicon-delete"></span>
+									<span class="gridicon-delete" ng-class="catalog.solutionCount > 0 ? 'disabled' : '' "></span>
 								</button>
 							</td>
 
-						</tr>
+						</tr>						
 					</tbody>
 				</table>
 			</div>
@@ -190,5 +222,55 @@ limitations under the License.
 
 		</div>
 	</div>
+	
+	<!-- Modal box start -->
+		<div class="md-dialog-container" id="mdlViewDetails" style="height:0;" >
+			<md-dialog aria-label="" class="view-catalog-dialog">
+				<md-toolbar>
+					<div class="md-toolbar-tools">
+						<h2>View Catalog</h2>
+						<span flex></span>
+						<md-button class="md-icon-button" ng-click="mdClosePoup()">
+							<i class="material-icons">close</i>
+						</md-button>
+					</div>
+				</md-toolbar>
+				<md-dialog-content>
+					<div class="md-dialog-content">
+						<div class="catalog-title-container">
+							<label class="catalog-title-heading">Catalog Name: {{mdname}}</label>
+						</div>
+						<p class="catalog-para">{{mdDescription}} </p>
+						<div class="catalog-details">
+							<div>
+								<label><span class="font600">Publisher Name: </span>{{mdpublisher}}</label>
+							</div>							
+							<div>
+								<label><span class="font600">Access Type:  </span>{{accessTypeCode == "PB" ? "Public" : "Restricted"}}</label>
+							</div>
+							<div>
+								<label><span class="font600">Total Models:  </span>{{mdsolutionCount}}</label>
+							</div>
+							<div>
+								<label><span class="font600">Self Publish:  </span>{{selfPublish == true ? "Yes" : "No"}}</label>
+							</div>
+						</div>
+						<div class="catalog-details2" ng-if=false>
+								<label class="font600">Federated Catalog: </label>
+								<label>Cataog ABC <span class="catalog-small-text">(Lavinia Anderson)</span>, </label>
+								<label>Cataog EFG <span class="catalog-small-text">(Aubrey Hermiston)</span>, </label>
+								<label>Cataog XYZ <span class="catalog-small-text">(Price Yost)</span>, </label>																
+						</div>
+					</div>
+				</md-dialog-content>
+				<md-dialog-actions>
+					<div class="dialog-footer-container1">
+						<span></span>
+						<md-button  class="mdl-button mdl-js-button btn-primary" ng-click="mdClosePoup()">Ok</md-button>
+					</div>
+				</md-dialog-actions>
+			</md-dialog>
+		</div>
+		<!-- Modal box end -->
 
 </div>

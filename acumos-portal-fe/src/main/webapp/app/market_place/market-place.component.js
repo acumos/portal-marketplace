@@ -55,31 +55,52 @@ angular
                                     	$scope.selectedPage = $scope.selectedPage + 1;                                                
                                     }
                         }
+						if (JSON.parse(browserStorageService.getUserDetail())) {
+							$scope.userDetails = JSON.parse(browserStorageService
+									.getUserDetail());
+							$scope.userDetails.userName = $scope.userDetails[0];
+							$scope.loginUserID = $scope.userDetails[1];
+						}
+						
 						/* Catalog Changes start */						
 	                       $scope.loadCatalog = function() {
 	  							$scope.allCatalogList = [];  							
 	  							$scope.pageNumber = 0;
 	  							$scope.requestResultSize =1000;
+	  							
 	  							var reqObject = {
-	  								"request_body" : {
-	  								   "accessTypeCode": "PB",
-	  									"fieldToDirectionMap" : {
-	  										"created" : "DESC"
-	  									},
-	  									"page" : $scope.pageNumber,
-	  									"size" : $scope.requestResultSize
-	  								}
-	  							};
+	  	  								"request_body" : {
+	  	  									"fieldToDirectionMap" : {
+	  	  										"created" : "DESC"
+	  	  									},
+	  	  									"page" : $scope.pageNumber,
+	  	  									"size" : $scope.requestResultSize
+	  	  								},
+	  	  								"request_from" : "string",
+	  	  								"request_id" : "string"
+	  	  							};
+	  							
 	  							$scope.response_body = [];
 	  							
 	  							apiService
-	  									.searchCatalogs(reqObject)
+	  							.getCatalogsbyUser(reqObject, $scope.loginUserID)
 	  									.then(
 	  											function successCallback(response) {
-	  												$scope.allCatalogList = response.data.response_body.content;
+	  												$scope.CatalogList = response.data.response_body.content;
+	  												$scope.allCatalogList = [];
 	  												$scope.catalogIds = [];
-	  												for(var i=0;i<$scope.allCatalogList.length;i++){
-	  													$scope.catalogIds.push($scope.allCatalogList[i].catalogId);
+	  												for(var i=0;i<$scope.CatalogList.length;i++){
+	  													if($scope.loginUserID == undefined || $scope.loginUserID == null || $scope.loginUserID == '')
+	  														{
+		  														$scope.catalogIds.push($scope.CatalogList[i].catalogId);	  															
+	  															$scope.allCatalogList.push({"name": $scope.CatalogList[i].name, "catalogId": $scope.CatalogList[i].catalogId});  																
+	  														}
+	  													if($scope.CatalogList[i].favorite == true && $scope.loginUserID != undefined)
+	  														{
+	  															$scope.catalogIds.push($scope.CatalogList[i].catalogId);	  															
+	  															$scope.allCatalogList.push({"name": $scope.CatalogList[i].name, "catalogId": $scope.CatalogList[i].catalogId});
+	  														}
+	  														  														  												
 	  												}
 	  												$scope.allCatalogIds = $scope.catalogIds;
 	  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
@@ -196,12 +217,7 @@ angular
 						$scope.pageNumber = 0;
 						
 
-						if (JSON.parse(browserStorageService.getUserDetail())) {
-							$scope.userDetails = JSON.parse(browserStorageService
-									.getUserDetail());
-							$scope.userDetails.userName = $scope.userDetails[0];
-							$scope.loginUserID = $scope.userDetails[1];
-						}
+
 						$scope.getModel = function(id) {
 							console.log(id);
 							window.location.href = "#/models/" + id;
