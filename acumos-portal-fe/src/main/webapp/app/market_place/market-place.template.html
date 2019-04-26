@@ -204,7 +204,8 @@ limitations under the License.
 											        	</div> -->
 											         </div>					        		
 													<div class="mpdetailscontainer">
-													    <label class="griditem-catalog-title">{{mlsolution.catalogName}}</label>
+													    <label class="griditem-catalog-title"  ng-if='SelectedCatalog==0'>{{mlsolution.catalogName}}</label>
+                                                          <label class="griditem-catalog-title"  ng-if='SelectedCatalog!=0'>{{namecatalog}}</label>
 													    <label class="griditem-title">{{mlsolution.name}}</label>
 													    <label class="grid-item-text-container"><span class="griditem-text2 grid-item-lbl"
 													    ng-bind=" ((mlsolution.authors.length > 0) ? mlsolution.authors[0].name : mlsolution.ownerName)"></span> | <span class="griditem-text2">  {{ mlsolution.modified || mlsolution.created | date:"MM/dd/yyyy"}}</span> | <span class="text-xsmall link-orange" ng-if="mlsolution.active != ''">New</span></label>

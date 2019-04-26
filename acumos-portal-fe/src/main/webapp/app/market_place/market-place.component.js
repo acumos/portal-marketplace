@@ -504,8 +504,10 @@ angular
 								$scope.sortById = checkbox.value;	
 							else if(type == 'SearchbyCatalog'){
 								$scope.catalogIds = [];
-								if(checkbox.catalogId != undefined)
+								if(checkbox.catalogId != undefined){
 									$scope.catalogIds.push(checkbox.catalogId);
+								$scope.namecatalog = checkbox.name;
+								}
 								else
 									$scope.catalogIds = $scope.allCatalogIds;
 							}
