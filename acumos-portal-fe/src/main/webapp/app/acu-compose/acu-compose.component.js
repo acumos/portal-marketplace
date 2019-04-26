@@ -3560,27 +3560,24 @@ function ACController($scope,$http,$filter,$q,$window,$rootScope,$mdDialog ,$sta
         var tempArr = 'PB', url = '';
         $scope.publicCS = [];
         $scope.privateCS = [];
-        angular.forEach(tempArr, function(value, key) {
-            url = build_url(options.getCompositeSolutions, {
-                userId: get_userId(),
-                visibilityLevel : tempArr
-            });
-            $http.get(url)
-                .success(function(data) {
-                	angular.forEach(data.items, function(value,key){
-                		if(value.visibilityLevel === 'PB'){
-                			$scope.publicCS.push(value);
-                		} else if(value.visibilityLevel === 'PR'){
-                			$scope.privateCS.push(value);
-                		}
-                	});
-                })
-                .error(function(response){
-                	$scope.publicCS = [];
-                	$scope.privateCS = [];
-                });
+        url = build_url(options.getCompositeSolutions, {
+            userId: get_userId(),
+            visibilityLevel : tempArr
         });
-
+        $http.get(url)
+            .success(function(data) {
+            	angular.forEach(data.items, function(value,key){
+            		if(value.visibilityLevel === 'PB'){
+            			$scope.publicCS.push(value);
+            		} else if(value.visibilityLevel === 'PR'){
+            			$scope.privateCS.push(value);
+            		}
+            	});
+            })
+            .error(function(response){
+            	$scope.publicCS = [];
+            	$scope.privateCS = [];
+            });
     }
     solutionPrPB();
     $scope.setProbe = function(setProbeStatus){
