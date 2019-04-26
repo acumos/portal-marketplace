@@ -23,6 +23,7 @@ angular.module('signInModal')
 				this.setUserDetail = function(detail) {
 					if (sessionStorage.getItem('rm')) {
 						localStorage.setItem('userDetail', detail);
+						document.cookie = 'userDetail='+detail;
 					} else {
 						sessionStorage.setItem('userDetail', detail);
 						document.cookie = 'userDetail='+detail;
@@ -32,6 +33,7 @@ angular.module('signInModal')
 				this.setUserRole = function(role) {
 					if (sessionStorage.getItem('rm')) {
 						localStorage.setItem('userRole', role);
+						document.cookie = 'userRole='+role;
 					} else {
 						sessionStorage.setItem('userRole', role);
 						document.cookie = 'userRole='+role;
@@ -41,6 +43,7 @@ angular.module('signInModal')
 				this.setAuthToken = function(token) {
 					if (sessionStorage.getItem('rm')) {
 						localStorage.setItem('auth_token', token);
+						document.cookie = 'authToken= Bearer '+token;
 					} else {
 						sessionStorage.setItem('auth_token', token);
 						document.cookie = 'authToken= Bearer '+token;
