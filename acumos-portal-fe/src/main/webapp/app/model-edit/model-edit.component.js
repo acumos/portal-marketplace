@@ -343,7 +343,6 @@ angular
 							angular.element('.md-version-ddl1').hide();
 							$scope.completedOnDate = modifiedDate;
 							$scope.loadData();
-							$scope.getProtoFile();
 						}
 						
 						$scope.getPublishRequestDetail = function(){
@@ -442,6 +441,7 @@ angular
 														$scope.getArtifacts();
 														$scope.getComment();
 														$scope.getProtoFile();
+														$scope.getLicenseFile();
 													}
 													$scope.solutionEditorCompanyDesc = $scope.solution.description;
 													$scope.isModelActive = $scope.solution.active;
@@ -2504,6 +2504,7 @@ angular
 				    };
 				    
 				    $scope.unpublish = function(){
+				    	$scope.disableSelectedCatalogIds = true;
 				    	$scope.closeDialog();
 				    	var data = $.param({
 							userId : $scope.solution.ownerId,
@@ -2511,6 +2512,7 @@ angular
 						});
 				    	apiService.unpublishSolution($scope.solutionId, data)
 					        .then(function(response) {
+					        	$scope.disableSelectedCatalogIds = false;
 					        	if(response.data.error_code == 100){
 					        		$scope.msg = "Solution unpublished successfully";
 						    		$scope.icon = '';
@@ -2536,6 +2538,23 @@ angular
 						    		$timeout(function() {$scope.showAlertMessage = false;}, 4000);
 					         });
 					}
+				    
+				    $scope.getLicenseFile = function() {
+						$scope.modelLicense = "";
+						$scope.modelLicenseError = "";
+						var url = 'api/getLicenseFile?solutionId='+$scope.solution.solutionId+'&version='+$scope.versionId;
+						$http({
+								method : 'GET',
+								url : url
+						}).then(function successCallback(response) {
+							console.log(response);
+							if (response.data) {
+								$scope.modelLicense = response.data;
+							} else {
+								$scope.modelLicenseError = "No license found";
+							}		
+						});
+				 	}
 				    
 					}
 
