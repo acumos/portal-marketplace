@@ -618,7 +618,7 @@ limitations under the License.
 								<div class="mdl-grid mdl-grid--no-spacing catalogList">
 									<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">
 										 <label class="fedlbl4">Select Catalog</label>
-										 <md-select ng-model="selectedCatalogId" placeholder="Select Catalog" >
+										 <md-select ng-model="selectedCatalogId" placeholder="Select Catalog" ng-disabled="disableSelectedCatalogIds">
 	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog.catalogId, catalog.name);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
 	                                     </md-select>                         
 	                                </div> 
@@ -1774,6 +1774,11 @@ limitations under the License.
 																					class="tab-box"> <span
 																						class="tab-icons tab-description"></span> <span>Description</span>
 																				</span>
+																				</a><a href="#tab7-panel" class="mdl-tabs__tab" alt="Licenses" title="Licenses">
+																					<span class="tab-box"> 
+																						<span class="tab-icons fas fa-certificate"></span>
+																						<span>Licenses</span>
+																					</span>
 																				</a> <a href="#tab2-panel" class="mdl-tabs__tab" alt="Signatures" title="Signatures"> <span
 																					class="tab-box"> <span
 																						class="tab-icons tab-signatures"></span> <span>Signatures</span>
@@ -1822,6 +1827,11 @@ limitations under the License.
 																					ng-bind-html="solutionCompanyDesc1"></div>
 																				<h6 ng-if="dockerUrlOfModel" class="md-subhead lbl1"> My Image Model: {{dockerUrlOfModel}}</h6>
 
+																			</div>
+																			<div class="mdl-tabs__panel" id="tab7-panel">
+																				<h6 class="sectiontitle6">LICENSES</h6>
+																				<div ng-show= "modelLicense"><pre class="license-pre">{{modelLicense | json}}</pre></div>
+																				<div ng-show="modelLicenseError">{{modelLicenseError}}</div>
 																			</div>
 																			<div class="mdl-tabs__panel" id="tab2-panel">
 																				<h6 class="sectiontitle6">SIGNATURE</h6>
