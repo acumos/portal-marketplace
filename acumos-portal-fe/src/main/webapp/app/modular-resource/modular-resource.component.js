@@ -358,10 +358,7 @@ angular.module('modelResource')
 										$scope.completedSteps[stepName] = stepName;
 
 										if( ( ( (counter === 8 && $scope.onap == false ) || (counter === 8 && $scope.onap == true) ) || ($rootScope.dockerURIonboarding && counter == 2) || ($rootScope.isOnnxOrPFAModel == true && counter == 2 ) || ( counter == 4 && !$rootScope.isMicroserviceEnabled ) ) && $scope.stepfailed == false ) {
-											if($rootScope.isOnnxOrPFAModel){
-												counter = 10;
-												width = 85;
-											} else if($rootScope.dockerURIonboarding){
+											if($rootScope.isOnnxOrPFAModel || $rootScope.dockerURIonboarding){
 												counter = counter + 2;
 												width = 85;
 											} else if(!$rootScope.isMicroserviceEnabled){
