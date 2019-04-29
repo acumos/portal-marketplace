@@ -2363,7 +2363,8 @@ angular
 								$scope.solution.active = $scope.activeFalse;
 							}
 							var revisionId = null;
-							if($scope.version.accessTypeCode == 'PR')
+							//if($scope.version.accessTypeCode == 'PR')
+							if($scope.solution.catalogName == null)
 								revisionId = $scope.revisionId;
 							var solution = {
 								"request_body" : {
