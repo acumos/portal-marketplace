@@ -2063,13 +2063,6 @@ limitations under the License.
 					<div flex="10" class="fed-container2">
 						<a class="mdl-button mdl-js-button btn-secondary btn-fed1"
 							ng-click="verifyUrl(apiUrlPop)">Verify</a>
-						<!-- <a flex
-							class="mdl-button mdl-js-button btn-secondary btn-fed1 red-btn"
-							ng-click="verifyUrl(apiUrlPop)" ng-show="!verified&&!verify">Not
-							Verified</a> 
-							<a flex
-							class="mdl-button mdl-js-button btn-secondary btn-fed1 green-btn"
-							ng-click="verifyUrl(apiUrlPop)" ng-show="verified&&!verify">Verified</a> -->
 					</div>
 				</div>
 				<div layout="row">
@@ -2079,8 +2072,10 @@ limitations under the License.
 						<textarea ng-model="descriptionPop" rows="2"></textarea> </md-input-container>
 					</div>
 					<div class="fed-err-msg" ng-if="!verified&&!verify">
-						<!-- <span class="disblock text-red text-xsmall">Error-01-Host unreachable:Network error Please check your URL.</span> -->
-						<span class="disblock text-red text-xsmall" ng-bind="errorMessage"></span>
+						<label class="a-tooltip" style="width:450px;">
+							<span class="disblock text-red text-xsmall a-tooltipval" style="max-width: 450px; width: max-content;" ng-bind="errorMessage"></span>
+							<span class="a-tooltiptext" style="max-width: 450px; width: max-content; left:25%; text-align: justify;">{{errorMessage}}</span>
+						</label>
 					</div>
 					<div class="fed-err-msg" ng-if="verified&&!verify">
 						<span class="disblock text-green text-xsmall">Connection
