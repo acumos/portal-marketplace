@@ -185,7 +185,7 @@ public class AsyncServicesImpl extends AbstractServiceImpl implements AsyncServi
 					if (file.isFile() && file.getName().contains(".proto")) {
 						schemaFile = new File(file.getAbsolutePath());
 					}
-					if (file.isFile() && file.getName().contains(".json")) {
+					if (file.isFile() && !file.getName().contains("license.json") && file.getName().contains(".json")) {
 						metadataFile = new File(file.getAbsolutePath());
 					}
 					if (file.isFile() && file.getName().contains(".onnx")) {
