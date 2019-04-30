@@ -483,7 +483,7 @@ angular
                 	var regEx = /[^0-9A-Za-z]/;
                 	var fileInputName = scope.file.name.substr(0, scope.file.name.indexOf('.'));
                 	scope.filename = scope.fileinput.name;
-                	if( regEx.test(fileInputName)) //scope.fileinput.name.split(" ").length-1 > 0
+                	if( regEx.test(fileInputName) && !scope.validFormats.includes(scope.fileType) ) 
             		{
 	            		if( scope.validfilename != null ){
 	            			scope.validfilename = true;

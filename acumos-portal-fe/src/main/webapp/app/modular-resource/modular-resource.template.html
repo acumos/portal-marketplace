@@ -328,7 +328,7 @@ limitations under the License.
 																						</div>
 																					</div>
 																					<div class="input-upload-button">
-																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" ng-cloak ng-disabled="!file || uploadingFile || fileSubmit" ng-click="fileUpload(false);" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
+																						<button class="mdl-button mdl-js-button btn-secondary md-ink-ripple" ng-cloak ng-disabled="((!file || uploadingFile || fileSubmit) || disableOnboardingButton==true)" ng-click="fileUpload(false);" title="Upload" alt="Upload" data-upgraded=",MaterialButton">
 																						 	<span> Upload </span>
 																						</button>
 																					</div>
