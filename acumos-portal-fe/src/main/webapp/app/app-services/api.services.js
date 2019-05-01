@@ -27,6 +27,7 @@ angular.module('AcumosApp')
         var urlToolkitTypes = '/api/filter/toolkitType';  
         var urlSolutions = '/api/solutions';
         var urlPortalSolutions = '/api/portal/solutions';
+        var urlPublicPortalSolutions = '/api/portal/solutions/public';
         var urlSearchSolutions = '/api/searchSolutionBykeyword';
         var urlUserSolutions = '/api/user/solutions';
         var urlPublishSolution = '/api/publish';
@@ -121,7 +122,8 @@ angular.module('AcumosApp')
         var urlUpdateDockerImage = '/api/onboardingDocker/artifactsUrl';
         var urlcreateMicroservice = '/api/microService/createmicroservice'
         
-        var urlAllCatalogsList =  "/api/catalogs"; 
+        var urlAllCatalogsList =  "/api/catalogs";
+        var urlPublicCatalogsList =  "/api/catalogs/public"; 
         var urlCatalogPath = "/api/catalog";
         var urlCatalogsList =  "/api/catalog/solution";
         var urlgatewayCatalogPath = "api/gateway/catalogs";
@@ -401,6 +403,10 @@ angular.module('AcumosApp')
             return $http.post(urlPortalSolutions, solutionDetails);
         };
         
+        this.insertPublicSolutionDetail = function (solutionDetails) {
+            return $http.post(urlPublicPortalSolutions, solutionDetails);
+        };
+        
         this.insertSearchSolutionDetail = function (solutionDetails) {
             return $http.post(urlSearchSolutions, solutionDetails);
         };
@@ -637,6 +643,10 @@ angular.module('AcumosApp')
         
         this.getCatalogs = function(request) {
         	return $http.post(urlAllCatalogsList, request);
+        };
+        
+        this.getPublicCatalogs = function(request) {
+        	return $http.post(urlPublicCatalogsList, request);
         };
         
         this.createCatalog = function(request) {

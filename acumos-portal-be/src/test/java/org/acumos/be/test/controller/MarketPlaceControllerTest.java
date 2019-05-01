@@ -34,7 +34,6 @@ import org.acumos.cds.transport.RestPageRequest;
 import org.acumos.portal.be.common.ConfigConstants;
 import org.acumos.portal.be.common.JsonRequest;
 import org.acumos.portal.be.common.JsonResponse;
-import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.transport.Author;
 import org.acumos.portal.be.transport.MLSolution;
@@ -77,6 +76,7 @@ import static org.junit.Assert.assertNotNull;
 		ConfigConstants.portal_feature_email + "=true",
 		ConfigConstants.portal_feature_email_from + "=support@acumos.org",
 		ConfigConstants.portal_feature_email_service + "=smtp", ConfigConstants.spring_mail_host + "=localhost",
+		ConfigConstants.portal_feature_catalog_pagesize + "=1000",
 		ConfigConstants.spring_mail_port + "=10000", ConfigConstants.spring_mail_username + "=Test@test.com",
 		ConfigConstants.spring_mail_password + "=Test", ConfigConstants.spring_mail_smtp_starttls_enable + "=true",
 		ConfigConstants.spring_mail_smtp_auth + "=false", ConfigConstants.spring_mail_debug + "=true",
@@ -472,7 +472,115 @@ public class MarketPlaceControllerTest {
 		assertEquals(HttpServletResponse.SC_OK, solutionResponse.getStatusCode().value());
 		List<MLSolution> mlSolutionList = solutionResponse.getBody().getResponseBody().getContent();
 		assertEquals("f226cc60-c2ec-4c2b-b05c-4a521f77e077", mlSolutionList.get(0).getSolutionId());
+	}
 
+	@Test
+	public void findPublicPortalSolutionTest() {
+
+		JsonRequest<RestPageRequestPortal> reqObj = new JsonRequest<>();
+		RestPageRequestPortal restpagerequestPortal = new RestPageRequestPortal();
+		restpagerequestPortal.setActive(true);
+		restpagerequestPortal.setPublished(true);
+		restpagerequestPortal.setSortBy("MR");
+		Map<String, String> fieldToDirectionMap = new HashMap<>();
+		RestPageRequest pageRequest = new RestPageRequest();
+		pageRequest.setSize(9);
+		pageRequest.setPage(0);
+		fieldToDirectionMap.put("modified", "DESC");
+		pageRequest.setFieldToDirectionMap(fieldToDirectionMap);
+		restpagerequestPortal.setPageRequest(pageRequest);
+		reqObj.setBody(restpagerequestPortal);
+		
+		stubFor(get(urlEqualTo(
+				"/ccds/solution/search/portal/kwtag?ctlg=12345678-abcd-90ab-cdef-1234567890ab&active=true&page=0&size=9&sort=modified,DESC"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}],\"last\":true,\"totalPages\":1,\"totalElements\":1,\"size\":9,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"modified\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"{\"created\":1535603044000,\"modified\":1536350829000,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"name\":\"TestSolution\",\"metadata\":null,\"active\":true,\"modelTypeCode\":\"CL\",\"toolkitTypeCode\":\"TF\",\"origin\":null,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null,\"tags\":[{\"tag\":\"Test\"}],\"viewCount\":12,\"downloadCount\":0,\"lastDownload\":1536364233000,\"ratingCount\":0,\"ratingAverageTenths\":0,\"featured\":false}")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/tag")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody("[{\"tag\":\"Test\"}]")));
+
+		stubFor(get(urlEqualTo("/ccds/user/bc961e2a-9506-4cf5-bbdb-009558b79e29")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"{\"created\":1535602889000,\"modified\":1536623387000,\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"firstName\":\"Test\",\"middleName\":null,\"lastName\":\"User\",\"orgName\":null,\"email\":\"testUser@gmail.com\",\"loginName\":\"test\",\"loginHash\":null,\"loginPassExpire\":null,\"authToken\":\"\",\"active\":true,\"lastLogin\":1536623387000,\"loginFailCount\":null,\"loginFailDate\":null,\"picture\":null,\"apiToken\":\"30d19b719c1d44ae84d92dcc87f5a1ad\",\"verifyTokenHash\":null,\"verifyExpiration\":null,\"tags\":[]}")));
+
+		stubFor(get(urlEqualTo("/ccds/access/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/user"))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody("[]")));
+
+		stubFor(get(urlEqualTo("/ccds/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/revision")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+				.withBody(
+						"[{\"created\":1535603252000,\"modified\":1536354698000,\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"version\":\"2\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"OR\",\"validationStatusCode\":\"PS\",\"authors\":[],\"publisher\":\"Acumos\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null},{\"created\":1535603044000,\"modified\":1535603044000,\"revisionId\":\"f6b577a1-1849-4965-b77e-2ea11ab0b327\",\"version\":\"1\",\"description\":null,\"metadata\":null,\"origin\":null,\"accessTypeCode\":\"PB\",\"validationStatusCode\":\"IP\",\"authors\":[],\"publisher\":null,\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"sourceId\":null}]")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/thread/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077/revision/02c5f263-c612-4bd2-abaa-d12ccc0d2476/comment/count"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString())
+								.withBody("{\"count\":0}")));
+		
+		stubFor(get(urlEqualTo(
+				"/ccds/task/search?solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&page=0&size=1&sort=created,DESC"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[{\"taskId\":5,\"trackingId\":\"fd1ea3aa-5a91-454a-9f8b-87c674e25417\",\"taskCode\":\"OB\",\"solutionId\":\"f226cc60-c2ec-4c2b-b05c-4a521f77e077\",\"revisionId\":\"02c5f263-c612-4bd2-abaa-d12ccc0d2476\",\"userId\":\"bc961e2a-9506-4cf5-bbdb-009558b79e29\",\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"created\":1535603254000,\"modified\":1535603254000}],\"last\":false,\"totalPages\":30,\"totalElements\":30,\"size\":1,\"number\":0,\"sort\":[{\"direction\":\"DESC\",\"property\":\"startDate\",\"ignoreCase\":false,\"nullHandling\":\"NATIVE\",\"ascending\":false,\"descending\":true}],\"numberOfElements\":1,\"first\":true}")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/task/5/stepresult"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"[{\"stepResultId\":28,\"taskId\":5,\"name\":\"AddDockerImage\",\"statusCode\":\"SU\",\"result\":\"Add Artifact - image for solution - f226cc60-c2ec-4c2b-b05c-4a521f77e077 Successful\",\"startDate\":1535603254000,\"endDate\":1535603254000}]")));
+
+		stubFor(get(urlEqualTo(
+				"/ccds/pubreq/search?revisionId=02c5f263-c612-4bd2-abaa-d12ccc0d2476&solutionId=f226cc60-c2ec-4c2b-b05c-4a521f77e077&_j=a&statusCode=PE&page=0&size=1"))
+						.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+								.withHeader("Content-Type", MediaType.APPLICATION_JSON.toString()).withBody(
+										"{\"content\":[],\"last\":true,\"totalPages\":0,\"totalElements\":0,\"size\":1,\"number\":0,\"sort\":null,\"numberOfElements\":0,\"first\":true}")));
+
+		stubFor(get(urlEqualTo("/ccds/catalog/solution/f226cc60-c2ec-4c2b-b05c-4a521f77e077")).willReturn(aResponse()
+				.withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.withBody("[{\"created\": \"2019-04-05T20:47:03Z\"," + "\"modified\": \"2019-04-05T20:47:03Z\","
+						+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\"," + "\"accessTypeCode\": \"PB\","
+						+ "\"selfPublish\": false," + "\"name\": \"Test catalog\"," + "\"publisher\": \"Acumos\","
+						+ "\"description\": null," + "\"origin\": null," + "\"url\": \"http://localhost\"}]")));
+
+		stubFor(get(urlEqualTo("/ccds/catalog/search?accessTypeCode=PB&_j=a&page=0&size=1000")).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
+								+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
+								+ "\"created\": \"2018-12-16T12:34:56.789Z\","
+								+ "\"description\": \"A catalog of test models\","
+								+ "\"modified\": \"2018-12-16T12:34:56.789Z\"," + "\"name\": \"Test Catalog\","
+								+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
+								+ "\"url\": \"http://test.company.com/api\"}]," + "\"last\":true," + "\"totalPages\":1,"
+								+ "\"totalElements\":1," + "\"size\":9," + "\"number\":0,"
+								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+
+		stubFor(get(urlEqualTo("/ccds/catalog/12345678-abcd-90ab-cdef-1234567890ab/solution/count"))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("1")));
+		
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<RestPageRequestPortal>> requestEntity = new HttpEntity<>(reqObj, headers);
+
+		ResponseEntity<JsonResponse<RestPageResponseBE<MLSolution>>> solutionResponse = restTemplate.exchange(
+				host + ":" + randomServerPort + "/portal/solutions/public", HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<RestPageResponseBE<MLSolution>>>() {
+				});
+
+		assertNotNull(solutionResponse);
+		assertEquals(HttpServletResponse.SC_OK, solutionResponse.getStatusCode().value());
+		List<MLSolution> mlSolutionList = solutionResponse.getBody().getResponseBody().getContent();
+		assertEquals("f226cc60-c2ec-4c2b-b05c-4a521f77e077", mlSolutionList.get(0).getSolutionId());
 	}
 
 	@Test

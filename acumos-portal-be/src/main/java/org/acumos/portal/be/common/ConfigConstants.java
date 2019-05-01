@@ -41,5 +41,6 @@ public class ConfigConstants {
 	public static final String portal_feature_verifyAccount = "portal.feature.verifyAccount";
 	public static final String portal_feature_verifyToken_Exp_Time = "portal.feature.verifyToken.exp_time";
 	public static final String portal_feature_sv_enabled = "portal.feature.sv.enabled";
+	public static final String portal_feature_catalog_pagesize = "portal.feature.catalog.pagesize";
 
 }

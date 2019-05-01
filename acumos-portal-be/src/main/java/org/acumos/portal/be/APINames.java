@@ -102,12 +102,14 @@ public class APINames {
 	public static final String SOLUTIONS_COUNT = "/solutions/count/{userId}";
 	public static final String GET_SOLUTION_RATING_USER = "/solutions/ratings/{solutionId}/user/{userId}";
 	public static final String PORTAL_SOLUTIONS = "/portal/solutions";
+	public static final String PORTAL_SOLUTIONS_PUBLIC = PORTAL_SOLUTIONS + "/public";
 	public static final String USER_SOLUTIONS = "/user/solutions";
 	public static final String USER_ACCESS_SOLUTIONS = "userAccess/solution/{userId}";
 	public static final String GET_AVG_SOLUTION_RATING = "solution/avgRating/{solutionId}";
 
 	// Catalog APIs
 	public static final String GET_CATALOGS = "/catalogs";
+	public static final String GET_PUBLIC_CATALOGS = GET_CATALOGS + "/public";
 	public static final String SEARCH_CATALOGS = GET_CATALOGS + "/search";
 	public static final String CREATE_CATALOG = "/catalog";
 	public static final String GET_CATALOG = CREATE_CATALOG + "/{catalogId}";

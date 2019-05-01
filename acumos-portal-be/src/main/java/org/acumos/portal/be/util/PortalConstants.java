@@ -25,4 +25,6 @@ public class PortalConstants {
 	public static final String CAROUSEL_CONFIG_KEY = "carousel_config";
 	public static final String TAG_NAME = "tagName";
 	public static final String PUBLISH_SELF_REQ_ENABLED_PROPERTY = "portal.feature.publishSelfRequestEnabled";
+	public static final int DEFAULT_CATALOG_PAGE_SIZE = 1000;
+    public static final String PUBLIC_CATALOG = "PB";
 }

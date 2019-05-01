@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,17 +53,21 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.common.RestPageRequestBE;
 import org.acumos.portal.be.common.RestPageResponseBE;
 import org.acumos.portal.be.common.exception.AcumosServiceException;
+import org.acumos.portal.be.service.CatalogService;
 import org.acumos.portal.be.service.MarketPlaceCatalogService;
 import org.acumos.portal.be.service.NotificationService;
 import org.acumos.portal.be.service.PushAndPullSolutionService;
 import org.acumos.portal.be.service.UserService;
 import org.acumos.portal.be.transport.Author;
+import org.acumos.portal.be.transport.CatalogSearchRequest;
+import org.acumos.portal.be.transport.MLCatalog;
 import org.acumos.portal.be.transport.MLSolution;
 import org.acumos.portal.be.transport.MLSolutionRating;
 import org.acumos.portal.be.transport.MLSolutionWeb;
 import org.acumos.portal.be.transport.RestPageRequestPortal;
 import org.acumos.portal.be.transport.RevisionDescription;
 import org.acumos.portal.be.transport.User;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.PortalUtils;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.acumos.securityverification.domain.Workflow;
@@ -94,7 +99,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
-	private MarketPlaceCatalogService catalogService;
+	private MarketPlaceCatalogService marketPlaceService;
+	
+	@Autowired
+	private CatalogService catalogService;
 
 	@Autowired
 	private NotificationService notificationService;
@@ -130,7 +138,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			solutionDetail = catalogService.getSolution(solutionId, revisionId,
+			solutionDetail = marketPlaceService.getSolution(solutionId, revisionId,
 					(String) request.getAttribute("loginUserId"));
 			if (solutionDetail != null) {
 				data.setResponseBody(solutionDetail);
@@ -162,7 +170,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		List<MLSolution> mlSolutions = null;
 		JsonResponse<List<MLSolution>> data = new JsonResponse<>();
 		try {
-			mlSolutions = catalogService.getSearchSolution(search);
+			mlSolutions = marketPlaceService.getSearchSolution(search);
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -193,7 +201,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			Integer page = mlSolution.getBody().getPageNo();
 			Integer size = mlSolution.getBody().getSize();
 			String sortingOrder = mlSolution.getBody().getSortingOrder();
-			paginatedSolution = catalogService.getAllPaginatedSolutions(page, size, sortingOrder);
+			paginatedSolution = marketPlaceService.getAllPaginatedSolutions(page, size, sortingOrder);
 			if (paginatedSolution != null) {
 				data.setResponseBody(paginatedSolution);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -224,14 +232,14 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 				// Check for the unique name in the market place before
 				// publishing.
-				if (!catalogService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
+				if (!marketPlaceService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 					data.setResponseDetail("Model name is not unique. Please update model name before publishing");
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					return data;
 				}
 
-				catalogService.updateSolution(mlSolution.getBody(), solutionId);
+				marketPlaceService.updateSolution(mlSolution.getBody(), solutionId);
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions updated Successfully");
@@ -264,14 +272,14 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 				// Check for the unique name in the market place before
 				// publishing.
-				if (!catalogService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
+				if (!marketPlaceService.checkUniqueSolName(solutionId, mlSolution.getBody().getName())) {
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE);
 					data.setResponseDetail("Model name is not unique. Please update model name before publishing");
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					return data;
 				}
 
-				catalogService.deleteSolutionArtifacts(mlSolution.getBody(), solutionId, revisionId);
+				marketPlaceService.deleteSolutionArtifacts(mlSolution.getBody(), solutionId, revisionId);
 				data.setResponseBody(solutionDetail);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions updated Successfully");
@@ -312,7 +320,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<List<MLPSolutionRevision>> data = new JsonResponse<List<MLPSolutionRevision>>();
 		List<MLPSolutionRevision> peerCatalogSolutionRevisions = null;
 		try {
-			peerCatalogSolutionRevisions = catalogService.getSolutionRevision(solutionId);
+			peerCatalogSolutionRevisions = marketPlaceService.getSolutionRevision(solutionId);
 			if (peerCatalogSolutionRevisions != null) {
 				data.setResponseBody(peerCatalogSolutionRevisions);
 				data.setResponseCode(String.valueOf(HttpServletResponse.SC_OK));
@@ -356,7 +364,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<List<MLPArtifact>> data = new JsonResponse<List<MLPArtifact>>();
 		List<MLPArtifact> peerSolutionArtifacts = null;
 		try {
-			peerSolutionArtifacts = catalogService.getSolutionArtifacts(solutionId, revisionId);
+			peerSolutionArtifacts = marketPlaceService.getSolutionArtifacts(solutionId, revisionId);
 			if (peerSolutionArtifacts != null) {
 				data.setResponseBody(peerSolutionArtifacts);
 				data.setResponseCode(String.valueOf(HttpServletResponse.SC_OK));
@@ -390,7 +398,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(tag)) {
-				catalogService.addSolutionTag(solutionId, tag);
+				marketPlaceService.addSolutionTag(solutionId, tag);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions updated Successfully");
 				response.setStatus(HttpServletResponse.SC_OK);
@@ -419,7 +427,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(tag)) {
-				catalogService.dropSolutionTag(solutionId, tag);
+				marketPlaceService.dropSolutionTag(solutionId, tag);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 				data.setResponseDetail("Solutions updated Successfully");
 				response.setStatus(HttpServletResponse.SC_OK);
@@ -448,7 +456,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		List<String> mlTagsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
-			mlTagsList = catalogService.getTags(restPageReq);
+			mlTagsList = marketPlaceService.getTags(restPageReq);
 			if (mlTagsList != null) {
 				List test = new ArrayList<>();
 				RestPageResponseBE responseBody = new RestPageResponseBE<>(test);
@@ -479,7 +487,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		userId = SanitizeUtils.sanitize(userId);
 		try {
-			List<Map<String, String>> prefTagsList = catalogService.getPreferredTagsList(restPageReq, userId);
+			List<Map<String, String>> prefTagsList = marketPlaceService.getPreferredTagsList(restPageReq, userId);
 			if (mlTagsList != null) {
 				List content = new ArrayList<>();
 				RestPageResponseBE responseBody = new RestPageResponseBE<>(content);
@@ -509,7 +517,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			List<String> tagList = tagListReq.getBody().getTagList();
 			List<String> dropTagList = tagListReq.getBody().getDropTagList();
-			catalogService.createUserTag(userId, tagList, dropTagList);
+			marketPlaceService.createUserTag(userId, tagList, dropTagList);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("User Tags created Successfully");
 			log.debug("createUserTag :  ");
@@ -532,7 +540,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		try {
-			mlSolutions = catalogService.getTagBasedSolutions(tags, restPageReq);
+			mlSolutions = marketPlaceService.getTagBasedSolutions(tags, restPageReq);
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -559,7 +567,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId)) {
-				userList = catalogService.getSolutionUserAccess(solutionId);
+				userList = marketPlaceService.getSolutionUserAccess(solutionId);
 				if (userList != null) {
 					List test = new ArrayList<>();
 					RestPageResponseBE responseBody = new RestPageResponseBE<>(test);
@@ -604,7 +612,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			if (workflow.isWorkflowAllowed()) {
 				List<String> userIdList = userId.getBody();
 				if (!PortalUtils.isEmptyOrNullString(solutionId)) {
-					userList = catalogService.getSolutionUserAccess(solutionId);
+					userList = marketPlaceService.getSolutionUserAccess(solutionId);
 					if (userList != null) {
 						for (User user : userList) {
 							if (user.getUserId().equals(userId)) {
@@ -616,13 +624,13 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				}
 	
 				if (!exist) {
-					catalogService.addSolutionUserAccess(solutionId, userIdList);
+					marketPlaceService.addSolutionUserAccess(solutionId, userIdList);
 	
 					// code to create notification
 					for (String userID : userIdList) {
 						MLPNotification notification = new MLPNotification();
 						String notifMsg = null;
-						MLSolution solutionDetail = catalogService.getSolution(solutionId);
+						MLSolution solutionDetail = marketPlaceService.getSolution(solutionId);
 						MLPUser mlpUser = userService.findUserByUserId(userID);
 						notifMsg = solutionDetail.getName() + " shared with " + mlpUser.getLoginName();
 						notification.setMessage(notifMsg);
@@ -666,11 +674,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<User> data = new JsonResponse<>();
 		try {
 			if (!PortalUtils.isEmptyOrNullString(solutionId) && !PortalUtils.isEmptyOrNullString(userId)) {
-				catalogService.dropSolutionUserAccess(solutionId, userId);
+				marketPlaceService.dropSolutionUserAccess(solutionId, userId);
 				// code to create notification
 				MLPNotification notification = new MLPNotification();
 				String notificationMsg = null;
-				MLSolution solutionDetail = catalogService.getSolution(solutionId);
+				MLSolution solutionDetail = marketPlaceService.getSolution(solutionId);
 				MLPUser user = userService.findUserByUserId(userId);
 				notificationMsg = solutionDetail.getName() + " unshared with " + user.getLoginName();
 				notification.setMessage(notificationMsg);
@@ -705,9 +713,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			catalogService.incrementSolutionViewCount(solutionId);
+			marketPlaceService.incrementSolutionViewCount(solutionId);
 			// code to create notification
-			MLSolution solution = catalogService.getSolution(solutionId);
+			MLSolution solution = marketPlaceService.getSolution(solutionId);
 			int viewCount = solution.getViewCount();
 			if (viewCount != 0 && viewCount % 10 == 0) {
 				MLPNotification notification = new MLPNotification();
@@ -737,11 +745,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			@RequestBody JsonRequest<MLPSolutionRating> mlpSolutionRating, HttpServletResponse response) {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			catalogService.createSolutionrating(mlpSolutionRating.getBody());
+			marketPlaceService.createSolutionrating(mlpSolutionRating.getBody());
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String notificationMsg = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId());
+			MLSolution solution = marketPlaceService.getSolution(mlpSolutionRating.getBody().getSolutionId());
 			notificationMsg = "Ratings updated for " + solution.getName();
 			notification.setMessage(notificationMsg);
 			notification.setTitle(notificationMsg);
@@ -766,11 +774,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			@RequestBody JsonRequest<MLPSolutionRating> mlpSolutionRating, HttpServletResponse response) {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			catalogService.updateSolutionRating(mlpSolutionRating.getBody());
+			marketPlaceService.updateSolutionRating(mlpSolutionRating.getBody());
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String notificationMsg = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionRating.getBody().getSolutionId());
+			MLSolution solution = marketPlaceService.getSolution(mlpSolutionRating.getBody().getSolutionId());
 			notificationMsg = "Ratings updated for " + solution.getName();
 			notification.setMessage(notificationMsg);
 			notification.setTitle(notificationMsg);
@@ -802,7 +810,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		try {
 			if (!PortalUtils.isEmptyOrNullString(userId)) {
 				RestPageRequest restPageReq = new RestPageRequest();
-				modelList = catalogService.getMySharedModels(userId, restPageReq);
+				modelList = marketPlaceService.getMySharedModels(userId, restPageReq);
 				if (modelList != null) {
 					data.setResponseBody(modelList);
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -833,11 +841,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			@RequestBody JsonRequest<MLPSolutionFavorite> mlpSolutionFavorite, HttpServletResponse response) {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			catalogService.createSolutionFavorite(mlpSolutionFavorite.getBody());
+			marketPlaceService.createSolutionFavorite(mlpSolutionFavorite.getBody());
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String favorite = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
+			MLSolution solution = marketPlaceService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
 			favorite = "Favorite created for " + solution.getName();
 			notification.setMessage(favorite);
 			notification.setTitle(favorite);
@@ -862,11 +870,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			@RequestBody JsonRequest<MLPSolutionFavorite> mlpSolutionFavorite, HttpServletResponse response) {
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
-			catalogService.deleteSolutionFavorite(mlpSolutionFavorite.getBody());
+			marketPlaceService.deleteSolutionFavorite(mlpSolutionFavorite.getBody());
 			// code to create notification
 			MLPNotification notification = new MLPNotification();
 			String favorite = null;
-			MLSolution solution = catalogService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
+			MLSolution solution = marketPlaceService.getSolution(mlpSolutionFavorite.getBody().getSolutionId());
 			favorite = "Favorite deleted for " + solution.getName();
 			notification.setMessage(favorite);
 			notification.setTitle(favorite);
@@ -896,7 +904,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<List<MLSolution>> data = new JsonResponse<>();
 		try {
 			RestPageRequest restPageReq = new RestPageRequest();
-			List<MLSolution> mlSolutionList = catalogService.getFavoriteSolutions(userId, restPageReq);
+			List<MLSolution> mlSolutionList = marketPlaceService.getFavoriteSolutions(userId, restPageReq);
 			if (mlSolutionList != null) {
 				data.setResponseBody(mlSolutionList);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -923,7 +931,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		try {
-			mlSolutions = catalogService.getRelatedMySolutions(restPageReq);
+			mlSolutions = marketPlaceService.getRelatedMySolutions(restPageReq);
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -985,7 +993,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<RestPageResponse<MLSolutionRating>> data = new JsonResponse<>();
 		try {
 			RestPageRequest restpageRequest = pageRequest.getBody();
-			mlpSolutionRating = catalogService.getSolutionRating(solutionId, restpageRequest);
+			mlpSolutionRating = marketPlaceService.getSolutionRating(solutionId, restpageRequest);
 			MLPUser mlpUser = null;
 			for (MLPSolutionRating rating : mlpSolutionRating.getContent()) {
 				mlpUser = userService.findUserByUserId(rating.getUserId());
@@ -1019,7 +1027,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			HttpServletResponse response) {
 		JsonResponse<MLPTag> data = new JsonResponse<>();
 		try {
-			MLPTag tag = catalogService.createTag(mlpTag.getBody());
+			MLPTag tag = marketPlaceService.createTag(mlpTag.getBody());
 			data.setResponseBody(tag);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Tags created Successfully");
@@ -1045,7 +1053,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		JsonResponse<MLPSolutionRating> data = new JsonResponse<>();
 		try {
-			MLPSolutionRating mlSolutionRating = catalogService.getUserRatings(solutionId, userId);
+			MLPSolutionRating mlSolutionRating = marketPlaceService.getUserRatings(solutionId, userId);
 			if (mlSolutionRating != null) {
 				data.setResponseBody(mlSolutionRating);
 				data.setStatusCode(200);
@@ -1078,7 +1086,45 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		}
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
-			mlSolutions = catalogService.findPortalSolutions(restPageReqPortal.getBody(), prefTags);
+			mlSolutions = marketPlaceService.findPortalSolutions(restPageReqPortal.getBody(), prefTags);
+			if (mlSolutions != null) {
+				data.setResponseBody(mlSolutions);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Solutions fetched Successfully");
+				log.debug("findPortalSolutions: size is {} ", mlSolutions.getSize());
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail(e.getMessage());
+			log.error("Exception Occurred Fetching Solutions", e);
+		}
+		return data;
+	}
+
+	@ApiOperation(value = "findPublicPortalSolutions", response = MLSolution.class, responseContainer = "List")
+	@RequestMapping(value = { APINames.PORTAL_SOLUTIONS_PUBLIC }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponseBE<MLSolution>> findPublicPortalSolutions(HttpServletRequest request,
+			@RequestBody JsonRequest<RestPageRequestPortal> restPageReqPortal, HttpServletResponse response) {
+		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
+		RestPageResponseBE<MLSolution> mlSolutions = null;
+
+		try {
+			if (restPageReqPortal.getBody().getCatalogIds() == null || restPageReqPortal.getBody().getCatalogIds().length == 0) {
+				String catalog_pagesize = env.getProperty("portal.feature.catalog.pagesize");
+				Integer catalogPageSize = (catalog_pagesize != null) ? Integer.valueOf(catalog_pagesize)
+						: PortalConstants.DEFAULT_CATALOG_PAGE_SIZE;
+				CatalogSearchRequest catalogSearchRequest = new CatalogSearchRequest();
+				catalogSearchRequest.setAccessTypeCode(PortalConstants.PUBLIC_CATALOG);
+				catalogSearchRequest.setPageRequest(new RestPageRequest(0, catalogPageSize));
+				RestPageResponse<MLCatalog> catalogs = catalogService.searchCatalogs(catalogSearchRequest);
+				List<String> publicCatalogIds = catalogs.getContent().stream()
+						.filter(elt -> elt != null)
+						.map(elt -> elt.getCatalogId())
+						.collect(Collectors.toList());
+				restPageReqPortal.getBody().setCatalogIds(publicCatalogIds.toArray(new String[0]));
+			}
+			mlSolutions = marketPlaceService.findPortalSolutions(restPageReqPortal.getBody(), null);
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1102,7 +1148,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
-			mlSolutions = catalogService.searchSolutionsByKeyword(restPageReqPortal.getBody());
+			mlSolutions = marketPlaceService.searchSolutionsByKeyword(restPageReqPortal.getBody());
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1126,7 +1172,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<RestPageResponseBE<MLSolution>> data = new JsonResponse<>();
 		RestPageResponseBE<MLSolution> mlSolutions = null;
 		try {
-			mlSolutions = catalogService.findUserSolutions(restPageReqPortal.getBody());
+			mlSolutions = marketPlaceService.findUserSolutions(restPageReqPortal.getBody());
 			if (mlSolutions != null) {
 				data.setResponseBody(mlSolutions);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1153,7 +1199,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		RestPageResponse<MLPSolution> mlSolutions = null;
 		JsonResponse<RestPageResponse<MLPSolution>> data = new JsonResponse<>();
 		if (userId != null && pageRequest != null) {
-			mlSolutions = catalogService.getUserAccessSolutions(userId, pageRequest.getBody());
+			mlSolutions = marketPlaceService.getUserAccessSolutions(userId, pageRequest.getBody());
 		}
 		if (mlSolutions != null) {
 			data.setResponseBody(mlSolutions);
@@ -1178,7 +1224,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
 		try {
-			MLSolutionWeb mlSolutionWeb = catalogService.getSolutionWebMetadata(solutionId);
+			MLSolutionWeb mlSolutionWeb = marketPlaceService.getSolutionWebMetadata(solutionId);
 			if (mlSolutionWeb != null) {
 				data.setResponseBody(mlSolutionWeb);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1216,7 +1262,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		String result = "";
 		try {
-			result = catalogService.getProtoUrl(solutionId, version, "MI", "proto");
+			result = marketPlaceService.getProtoUrl(solutionId, version, "MI", "proto");
 
 		} catch (Exception e) {
 			log.error("Exception in fetchProtoFile() ", e);
@@ -1244,7 +1290,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		String result = "";
 		try {
-			result = catalogService.getLicenseUrl(solutionId, version, "LG", "license");
+			result = marketPlaceService.getLicenseUrl(solutionId, version, "LG", "license");
 
 		} catch (Exception e) {
 			log.error("Exception in fetchLicenseFile() ", e);
@@ -1281,7 +1327,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		try {
-			List<Author> authors = catalogService.getSolutionRevisionAuthors(solutionId, revisionId);
+			List<Author> authors = marketPlaceService.getSolutionRevisionAuthors(solutionId, revisionId);
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Author fetched Successfully");
@@ -1307,7 +1353,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		try {
-			List<Author> authors = catalogService.addSolutionRevisionAuthors(solutionId, revisionId,
+			List<Author> authors = marketPlaceService.addSolutionRevisionAuthors(solutionId, revisionId,
 					authorReq.getBody());
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1339,7 +1385,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		JsonResponse<List<Author>> data = new JsonResponse<>();
 		try {
-			List<Author> authors = catalogService.removeSolutionRevisionAuthors(solutionId, revisionId,
+			List<Author> authors = marketPlaceService.removeSolutionRevisionAuthors(solutionId, revisionId,
 					authorReq.getBody());
 			data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1366,7 +1412,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		try {
-			String publisher = catalogService.getSolutionRevisionPublisher(solutionId, revisionId);
+			String publisher = marketPlaceService.getSolutionRevisionPublisher(solutionId, revisionId);
 			data.setResponseBody(publisher);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Get Publisher Successfully");
@@ -1397,7 +1443,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		revisionId = SanitizeUtils.sanitize(revisionId);
 
 		try {
-			catalogService.addSolutionRevisionPublisher(solutionId, revisionId, publisher);
+			marketPlaceService.addSolutionRevisionPublisher(solutionId, revisionId, publisher);
 			// data.setResponseBody(authors);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Publisher added Successfully");
@@ -1436,7 +1482,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				double maxFileSizeByKB = Double.valueOf(env.getProperty("document.size").toString());
 				long fileSizeByKB = file.getBytes().length;
 				if (fileSizeByKB <= maxFileSizeByKB) {
-					MLPDocument document = catalogService.addRevisionDocument(solutionId, revisionId, catalogId, userId,
+					MLPDocument document = marketPlaceService.addRevisionDocument(solutionId, revisionId, catalogId, userId,
 							file);
 					data.setResponseBody(document);
 					data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1480,7 +1526,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<MLPDocument> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			MLPDocument document = catalogService.removeRevisionDocument(solutionId, revisionId, catalogId, userId,
+			MLPDocument document = marketPlaceService.removeRevisionDocument(solutionId, revisionId, catalogId, userId,
 					documentId);
 			data.setResponseBody(document);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1510,7 +1556,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			List<MLPDocument> documents = catalogService.getRevisionDocument(solutionId, revisionId, catalogId,
+			List<MLPDocument> documents = marketPlaceService.getRevisionDocument(solutionId, revisionId, catalogId,
 					userId);
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1541,7 +1587,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<List<MLPDocument>> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			List<MLPDocument> documents = catalogService.copyRevisionDocuments(solutionId, revisionId, catalogId,
+			List<MLPDocument> documents = marketPlaceService.copyRevisionDocuments(solutionId, revisionId, catalogId,
 					userId, fromRevisionId);
 			data.setResponseBody(documents);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
@@ -1569,7 +1615,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		JsonResponse<RevisionDescription> data = new JsonResponse<>();
 		String userId = (String) request.getAttribute("loginUserId");
 		try {
-			RevisionDescription description = catalogService.getRevisionDescription(revisionId, catalogId);
+			RevisionDescription description = marketPlaceService.getRevisionDescription(revisionId, catalogId);
 			data.setResponseBody(description);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Description Fetched Successfully");
@@ -1598,7 +1644,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 		String userId = (String) request.getAttribute("loginUserId");
 		RevisionDescription description = revisionDescription.getBody();
 		try {
-			description = catalogService.addUpdateRevisionDescription(revisionId, catalogId, description);
+			description = marketPlaceService.addUpdateRevisionDescription(revisionId, catalogId, description);
 			data.setResponseBody(description);
 			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
 			data.setResponseDetail("Description Fetched Successfully");
@@ -1628,7 +1674,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				log.error(errMsg);
 				throw new AcumosServiceException(errMsg);
 			} else {
-				byte[] picture = catalogService.getSolutionPicture(solutionId);
+				byte[] picture = marketPlaceService.getSolutionPicture(solutionId);
 				if (picture != null) {
 					responseVO = ResponseEntity.ok().cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
 							.body(picture);
@@ -1659,7 +1705,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				log.error("Bad request: solutionId empty");
 			}
 			if (solutionId != null) {
-				catalogService.updateSolutionPicture(solutionId, file.getBytes());
+				marketPlaceService.updateSolutionPicture(solutionId, file.getBytes());
 			}
 			responseVO.setStatus(true);
 			responseVO.setResponseDetail("Success");

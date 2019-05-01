@@ -92,6 +92,7 @@ public class CatalogServiceControllerTest {
 	private static final String CCDS_CATALOG_PATH = CCDS_PATH + CATALOG_PATH;
 	private static final String PAGE_REQUEST_PARAMS = "page=0&size=9&sort=modified,DESC";
 	private static final String SEARCH_PATH = CCDS_CATALOG_PATH + "/search?selfPublish=false&_j=a&" + PAGE_REQUEST_PARAMS;
+	private static final String PUBLIC_SEARCH_PATH = CCDS_CATALOG_PATH + "/search?accessTypeCode=PB&_j=a&" + PAGE_REQUEST_PARAMS;
 	private static final String CATALOG_ID_PATH = CCDS_CATALOG_PATH + VARIABLE;
 	private static final String PEER_ACCESS_PATH = CCDS_PATH + "/access/peer" + VARIABLE + CATALOG_PATH;
 	private static final String ADD_DROP_PEER_ACCESS_PATH = PEER_ACCESS_PATH + VARIABLE;
@@ -191,6 +192,48 @@ public class CatalogServiceControllerTest {
 		MLCatalog catalog = catalogs.get(0);
 		assertNotNull(catalog);
 		assertTrue(catalog.isFavorite());
+	}
+	
+	@Test
+	public void getPublicCatalogsTest() {
+		JsonRequest<RestPageRequest> requestJson = new JsonRequest<>();
+		requestJson.setBody(getTestRestPageRequest());
+
+		stubFor(get(urlEqualTo(PUBLIC_SEARCH_PATH)).willReturn(
+				aResponse().withStatus(HttpStatus.SC_OK).withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+						.withBody("{\"content\":[" + "{\"accessTypeCode\": \"PB\","
+								+ "\"catalogId\": \"12345678-abcd-90ab-cdef-1234567890ab\","
+								+ "\"created\": \"2018-12-16T12:34:56.789Z\","
+								+ "\"description\": \"A catalog of test models\","
+								+ "\"modified\": \"2018-12-16T12:34:56.789Z\"," + "\"name\": \"Test Catalog\","
+								+ "\"origin\": \"http://test.acumos.org/api\"," + "\"publisher\": \"Acumos\","
+								+ "\"url\": \"http://test.company.com/api\"}]," + "\"last\":true," + "\"totalPages\":1,"
+								+ "\"totalElements\":1," + "\"size\":9," + "\"number\":0,"
+								+ "\"sort\":[{\"direction\":\"DESC\"," + "\"property\":\"modified\","
+								+ "\"ignoreCase\":false," + "\"nullHandling\":\"NATIVE\"," + "\"ascending\":false,"
+								+ "\"descending\":true}]," + "\"numberOfElements\":1," + "\"first\":true}")));
+
+		stubFor(get(urlEqualTo(String.format(CATALOG_SOLUTION_COUNT_PATH, "12345678-abcd-90ab-cdef-1234567890ab")))
+				.willReturn(aResponse().withStatus(HttpStatus.SC_OK)
+						.withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE).withBody("5")));
+		
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<JsonRequest<RestPageRequest>> requestEntity = new HttpEntity<>(requestJson, headers);
+
+		ResponseEntity<JsonResponse<RestPageResponse<MLCatalog>>> respEntity = restTemplate.exchange(
+				"http://localhost:" + randomServerPort + APINames.GET_PUBLIC_CATALOGS, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<JsonResponse<RestPageResponse<MLCatalog>>>() {
+				});
+
+		assertNotNull(respEntity);
+		assertEquals(HttpServletResponse.SC_OK, respEntity.getStatusCode().value());
+		RestPageResponse<MLCatalog> restPageResponse = respEntity.getBody().getResponseBody();
+		assertValidRestPageResponse(restPageResponse);
+		List<MLCatalog> catalogs = restPageResponse.getContent();
+		assertEquals(catalogs.size(), 1);
+		MLCatalog catalog = catalogs.get(0);
+		assertNotNull(catalog);
+		assertFalse(catalog.isFavorite());
 	}
 
 	@Test

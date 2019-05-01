@@ -263,28 +263,54 @@ angular
 		                        	 $state.go(path);
 		                         };*/
 		                         
-		                         apiService
-									.insertSolutionDetail(dataObj)
-									.then(
-											function(response) {
-												$scope.homeSolutions.slides = response.data.response_body.content;
+		                         if ($scope.loginUserID != undefined && $scope.loginUserID != null && $scope.loginUserID != "") {
+		                        	 apiService
+										.insertSolutionDetail(dataObj)
+										.then(
+												function(response) {
+													$scope.homeSolutions.slides = response.data.response_body.content;
 
-												angular.forEach($scope.homeSolutions.slides,function( value, key) {
-													if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
-													{
-														var starPercentage = (value.solutionRatingAvg / 5) * 100;
-														const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
-														$scope.startRatingWidth =   starPercentageRounded + "%"  	;
-														
-													}
-													 value.solutionRatingAvg = $scope.startRatingWidth;
+													angular.forEach($scope.homeSolutions.slides,function( value, key) {
+														if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
+														{
+															var starPercentage = (value.solutionRatingAvg / 5) * 100;
+															const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
+															$scope.startRatingWidth =   starPercentageRounded + "%"  	;
+															
+														}
+														 value.solutionRatingAvg = $scope.startRatingWidth;
+													});
+												},
+												function(error) {
+													$scope.status = 'Unable to load data: '
+															+ error.data.error;
+													
 												});
-											},
-											function(error) {
-												$scope.status = 'Unable to load data: '
-														+ error.data.error;
-												
-											});
+		                         } else {
+		                        	 apiService
+										.insertPublicSolutionDetail(dataObj)
+										.then(
+												function(response) {
+													$scope.homeSolutions.slides = response.data.response_body.content;
+
+													angular.forEach($scope.homeSolutions.slides,function( value, key) {
+														if(value.solutionRatingAvg != null || value.solutionRatingAvg != undefined)
+														{
+															var starPercentage = (value.solutionRatingAvg / 5) * 100;
+															const starPercentageRounded = ($window.Math.round(starPercentage / 10) * 10);	
+															$scope.startRatingWidth =   starPercentageRounded + "%"  	;
+															
+														}
+														 value.solutionRatingAvg = $scope.startRatingWidth;
+													});
+												},
+												function(error) {
+													$scope.status = 'Unable to load data: '
+															+ error.data.error;
+													
+												});
+		                         }
+		                         
 		                         
 			 						
 		                         $scope.onClickModel = function(id, ownerId){

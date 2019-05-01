@@ -82,29 +82,45 @@ angular
 	  							
 	  							$scope.response_body = [];
 	  							
-	  							apiService
-	  							.getCatalogsbyUser(reqObject, $scope.loginUserID)
-	  									.then(
-	  											function successCallback(response) {
-	  												$scope.CatalogList = response.data.response_body.content;
-	  												$scope.allCatalogList = [];
-	  												$scope.catalogIds = [];
-	  												for(var i=0;i<$scope.CatalogList.length;i++){
-	  													if($scope.loginUserID == undefined || $scope.loginUserID == null || $scope.loginUserID == '')
-	  														{
-		  														$scope.catalogIds.push($scope.CatalogList[i].catalogId);	  															
-	  															$scope.allCatalogList.push({"name": $scope.CatalogList[i].name, "catalogId": $scope.CatalogList[i].catalogId});  																
-	  														}
-	  													if($scope.CatalogList[i].favorite == true && $scope.loginUserID != undefined)
-	  														{
-	  															$scope.catalogIds.push($scope.CatalogList[i].catalogId);	  															
-	  															$scope.allCatalogList.push({"name": $scope.CatalogList[i].name, "catalogId": $scope.CatalogList[i].catalogId});
-	  														}
-	  														  														  												
-	  												}
-	  												$scope.allCatalogIds = $scope.catalogIds;
-	  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
-	  											});
+	  							if ($scope.loginUserID != undefined && $scope.loginUserID != null && $scope.loginUserID != "") {
+	  								apiService
+		  							.getCatalogsbyUser(reqObject, $scope.loginUserID)
+		  									.then(
+		  											function successCallback(response) {
+		  												$scope.CatalogList = response.data.response_body.content;
+		  												$scope.allCatalogList = [];
+		  												$scope.catalogIds = [];
+		  												var favoriteCatalogs = $scope.CatalogList.filter(function(item) {
+		  													return item.favorite;
+		  												});
+		  												var catalogsToMap = (favoriteCatalogs.length > 0) ? favoriteCatalogs : $scope.CatalogList;
+		  												
+		  												$scope.catalogIds = catalogsToMap.map(function(item) {
+	  														return item.catalogId;
+	  													});
+	  													$scope.allCatalogList = catalogsToMap.map(function(item) {
+	  														return {"name": item.name, "catalogId": item.catalogId};
+	  													});
+	  													
+		  												$scope.allCatalogIds = $scope.catalogIds;
+		  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
+		  											});
+	  							} else {
+	  								apiService
+		  							.getPublicCatalogs(reqObject)
+		  									.then(
+		  											function successCallback(response) {
+		  												$scope.CatalogList = response.data.response_body.content;
+		  												$scope.allCatalogList = [];
+		  												$scope.catalogIds = [];
+		  												for(var i=0;i<$scope.CatalogList.length;i++){
+		  													$scope.catalogIds.push($scope.CatalogList[i].catalogId);	  															
+		  													$scope.allCatalogList.push({"name": $scope.CatalogList[i].name, "catalogId": $scope.CatalogList[i].catalogId});
+		  												}
+		  												$scope.allCatalogIds = $scope.catalogIds;
+		  												$scope.loadMore($scope.mktPlaceStorage.pageNumber);
+		  											});
+	  							}
 	  						} 
 	                       $scope.loadCatalog();   
                         $scope.mktPlaceStorage = browserStorageService.getMktPlaceStorage() ?
@@ -311,8 +327,25 @@ angular
 									}
 								}
 							}
-
-							if($rootScope.valueToSearch !== undefined
+							if ($scope.loginUserID == undefined || $scope.loginUserID == null || $scope.loginUserID == "") {
+								apiService.insertPublicSolutionDetail(dataObj).then(
+										function(response) {
+											$scope.totalPages = response.data.response_body.pageCount;
+											$scope.totalElements = response.data.response_body.totalElements;
+											$rootScope.relatedModelType = '';										
+											getSolution(response);
+											$scope.loadpage = $scope.selectedPage;
+											$scope.startPageSize = $scope.loadpage * $scope.solutionSize + 1; 
+											$scope.endPageSize = (($scope.loadpage + 1) * $scope.solutionSize) < $scope.totalElements ? (($scope.loadpage + 1) * $scope.solutionSize) : $scope.totalElements;
+											$scope.SetDataLoaded = false;
+											$rootScope.setLoader = false;										
+										},
+										function(error) {
+											$scope.SetDataLoaded = false;
+											$rootScope.setLoader = false;
+											console.log(error);
+										});
+							} else if($rootScope.valueToSearch !== undefined
 									&& $rootScope.valueToSearch !== null && $rootScope.valueToSearch !== ''){
 								apiService.insertSearchSolutionDetail(dataObj).then(
 										function(response) {

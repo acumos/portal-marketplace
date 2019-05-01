@@ -37,6 +37,7 @@ import org.acumos.portal.be.common.JsonResponse;
 import org.acumos.portal.be.service.CatalogService;
 import org.acumos.portal.be.transport.CatalogSearchRequest;
 import org.acumos.portal.be.transport.MLCatalog;
+import org.acumos.portal.be.util.PortalConstants;
 import org.acumos.portal.be.util.SanitizeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,38 @@ public class CatalogServiceController extends AbstractController {
 		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
 		try {
 			catalogs = catalogService.getCatalogs(userId, pageRequestJson.getBody());
+			if (catalogs != null) {
+				data.setResponseBody(catalogs);
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+				data.setResponseDetail("Catalog list fetched successfully");
+			} else {
+				data.setErrorCode(JSONTags.TAG_ERROR_CODE_FAILURE);
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				data.setResponseDetail("Error occured while fetching catalogs");
+				log.error("Error Occurred in Fetching Catalogs");
+			}
+		} catch (Exception e) {
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_EXCEPTION);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			data.setResponseDetail("Exception Occurred Fetching Catalogs");
+			log.error("Exception Occurred Fetching Catalogs", e);
+		}
+		return data;
+	}
+	
+	@ApiOperation(value = "Fetches public catalogs, optionally sorted", response = MLPCatalog.class, responseContainer = "List")
+	@RequestMapping(value = { APINames.GET_PUBLIC_CATALOGS }, method = RequestMethod.POST, produces = APPLICATION_JSON)
+	@ResponseBody
+	public JsonResponse<RestPageResponse<MLCatalog>> getPublicCatalogs(HttpServletRequest request,
+			@RequestBody JsonRequest<RestPageRequest> pageRequestJson, HttpServletResponse response) {
+		log.debug("getPublicCatalogs");
+		RestPageResponse<MLCatalog> catalogs = null;
+		JsonResponse<RestPageResponse<MLCatalog>> data = new JsonResponse<>();
+		try {
+			CatalogSearchRequest catalogSearchRequest = new CatalogSearchRequest();
+			catalogSearchRequest.setAccessTypeCode(PortalConstants.PUBLIC_CATALOG);
+			catalogSearchRequest.setPageRequest(pageRequestJson.getBody());
+			catalogs = catalogService.searchCatalogs(catalogSearchRequest);
 			if (catalogs != null) {
 				data.setResponseBody(catalogs);
 				data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
