@@ -221,10 +221,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<MLSolution> updateSolutionDetails(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("solutionId") String solutionId, @RequestBody JsonRequest<MLSolution> mlSolution) {
-		log.debug("updateSolutionDetails={}", solutionId);
-
+		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
+		log.debug("updateSolutionDetails={}", solutionId);
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -261,10 +261,11 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<MLSolution> deleteSolutionArtifacts(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId,
 			@RequestBody JsonRequest<MLSolution> mlSolution) {
-		log.debug("deleteSolutionArtifacts={}", solutionId, revisionId);
-
+		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
+		
+		log.debug("deleteSolutionArtifacts={}", solutionId, revisionId);
 		MLSolution solutionDetail = null;
 		JsonResponse<MLSolution> data = new JsonResponse<>();
 		try {
@@ -482,10 +483,12 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> getPreferredTagsList(@RequestBody JsonRequest<RestPageRequest> restPageReq,
 			@PathVariable("userId") String userId) {
+
+		userId = SanitizeUtils.sanitize(userId);
+		
 		log.debug("getPreferredTagsList");
 		List<String> mlTagsList = new ArrayList<>();
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
-		userId = SanitizeUtils.sanitize(userId);
 		try {
 			List<Map<String, String>> prefTagsList = marketPlaceService.getPreferredTagsList(restPageReq, userId);
 			if (mlTagsList != null) {
@@ -513,6 +516,9 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@ResponseBody
 	public JsonResponse<RestPageResponseBE> createUserTag(@PathVariable("userId") String userId,
 			@RequestBody JsonRequest<RestPageRequestBE> tagListReq) {
+		
+		userId = SanitizeUtils.sanitize(userId);
+		
 		JsonResponse<RestPageResponseBE> data = new JsonResponse<>();
 		try {
 			List<String> tagList = tagListReq.getBody().getTagList();
@@ -1663,10 +1669,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 			APINames.SOLUTIONS_PICTURE }, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
 	public ResponseEntity<byte[]> getSolutionImage(@PathVariable("solutionId") String solutionId) {
-		log.debug("getSolutionImage={}", solutionId);
-
+		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
+		log.debug("getSolutionImage={}", solutionId);
 		ResponseEntity<byte[]> responseVO = null;
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
@@ -1695,10 +1701,10 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	public JsonResponse<Boolean> updateSolutionImage(HttpServletRequest request,
 			@RequestParam("file") MultipartFile file, @PathVariable("solutionId") String solutionId,
 			HttpServletResponse response) {
-		log.debug("updateSolutionImage={}");
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
+		log.debug("updateSolutionImage={}");
 		JsonResponse<Boolean> responseVO = new JsonResponse<>();
 		try {
 			if (PortalUtils.isEmptyOrNullString(solutionId)) {
@@ -1728,6 +1734,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 
 		solutionId = SanitizeUtils.sanitize(solutionId);
 		revisionId = SanitizeUtils.sanitize(revisionId);
+		workflowId = SanitizeUtils.sanitize(workflowId);
 		
 		JsonResponse<Workflow> data = new JsonResponse<>();
 		workflowId = (workflowId.equalsIgnoreCase("deploy")) ? SVConstants.DEPLOY : SVConstants.DOWNLOAD;
