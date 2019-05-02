@@ -81,7 +81,7 @@ limitations under the License.
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchData" >						
+				<tr ng-repeat="Task in allOnBoardingHistoryTaskList | filter : searchOnHistoryList" >						
 					<td><span class="md-breadcrumb-item">{{Task.modelName}}</span></td>
 					<td>{{Task.taskCode}}</td>			
 					<td><span class="md-breadcrumb-item"> {{Task.solutionId}}</span></td>
