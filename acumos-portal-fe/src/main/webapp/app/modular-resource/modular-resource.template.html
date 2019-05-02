@@ -793,10 +793,10 @@ limitations under the License.
 											</div>
 											<div class="dc-row">
 										      <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
-										         <md-input-container ng-class="{'available-docker':(availableSolution && (disableCreateDocker == true)),'non-available-docker':notavailableSolution}" class="md-block">
-										            <label for="" class="md-required">Model Name</label> 
-										            <input type="text" class="md-input" ng-model="searchModelName" ng-disabled="createDockerRef">
-										            <div ng-if="notavailableSolution" class="help-inline validation-msgs validationmsg"><span>Model name already taken, Please use different model name.</span></div>
+										         <md-input-container ng-class="{'available-docker':availableSolution && !createDockerRef ,'non-available-docker':notavailableSolution && !createDockerRef}" class="md-block">
+										            <label><span class="reqfield">* </span>Model Name</label> 
+										            <input type="text" class="md-input" ng-model="searchModelName" ng-disabled="createDockerRef" ng-class="{'disable-input':checkingSolution || createDockerRef}">
+										            <div ng-if="notavailableSolution" class="help-inline validation-msgs validationmsg"><span>Model name already taken, please use different model name.</span></div>
 										         </md-input-container>
 										      </div>
 										      <div class="align-btn" ng-hide="createDockerRef" ng-class="{'available-docker':availableSolution,'non-available-docker':notavailableSolution}">
@@ -815,13 +815,13 @@ limitations under the License.
 										   </div>
 										   
 										   <div class="dc-row" ng-if="availableSolution && ((artifactUrl + '').length == 0)">
-											   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled="disableCreateDocker" ng-click="createDockerImageRef(false, searchModelName);disableCreateDocker=true;">Create Docker Image Reference</button>
+											   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary" ng-disabled="disableCreateDocker" ng-click="disableCreateDocker=true;createDockerImageRef(false, searchModelName);">Create Docker Image Reference</button>
 											</div>
 											<div class="dc-row update-docker" ng-if="artifactUrl">
 											     <div class="mdl-cell--10-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 											        <md-input-container class="md-block">
-											           <label for="" class="md-required">My Image Model</label> 
-											           <input type="text" class="md-input" name="artifactUrl" ng-model="artifactUrl" id="artifactUrl1">
+											           <label for="artifactUrl">My Image Model</label> 
+											           <input type="text" class="md-input" name="artifactUrl" ng-model="artifactUrl" id="artifactUrl1" ng-class="{'disable-input':artifactUrl}">
 											           <div class="notetext">Note: Please log in the Acumos docker registry and tag docker image with the image model</div>
 											        </md-input-container>
 											     </div>
@@ -841,7 +841,7 @@ limitations under the License.
 										   	   <div class="mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--4-col-phone">
 										   	   		<label>Select Model	</label>
 													<div class="search-select">
-														<input name="modelList" id="modelList" list="solutions" type="text" ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" class="mdl-textfield__input onboard-new-docker">
+														<input name="modelList" id="modelList" list="solutions" type="text" ng-class="{'disable-input':artifactUrl}" ng-disabled="artifactUrl" placeholder="Search By Model Name" ng-model="searchModel" class="mdl-textfield__input onboard-new-docker">
 														<span class="search-icon" ng-click="checkModelName(searchModel, 'relatedSearch')"></span>
 													</div>
 													<datalist id="solutions">
