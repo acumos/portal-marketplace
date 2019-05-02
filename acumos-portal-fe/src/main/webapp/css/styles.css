@@ -1423,6 +1423,8 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 
 .admin-change-role-ddl {max-width: 170px !important;min-width: 150px !important;}
 .tbl-overflowscroll {overflow-x: scroll !important;}
+.disablecursor {cursor: not-allowed;}
+.disablecursor  a{pointer-events: none; color: #CCC}
 /*************Admin User page style End ***************/
 
 /**** Preview box style start ******/

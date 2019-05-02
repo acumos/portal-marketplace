@@ -3148,6 +3148,8 @@ angular.module('admin').filter('abs', function () {
 
             /* Catalog changes */
             $scope.catalogList = function (peerID) {
+            	$scope.listCatalog = "";
+            	$scope.catalogError = false;
                 apiService
                     .gatewayListCatalog(peerID)
                     .then(
@@ -3155,8 +3157,15 @@ angular.module('admin').filter('abs', function () {
                             $scope.listCatalog = response.data.response_body;
                             $scope.CatalogValue = "";
                             $scope.allCatalogList = [];
+                            if($scope.listCatalog.length < 1){
+                            	$scope.catalogError = true;
+                            }
                         },
-                        function errorCallback(response) {
+                        function errorCallback(error) {
+                        	$scope.CatalogValue = "";
+                            $scope.allCatalogList = [];
+                            $scope.listCatalog = "";
+                            $scope.catalogError = true;
                         });
             }
 
