@@ -240,7 +240,7 @@ limitations under the License.
 								<li class="mdl-menu__item deploy-to-cloud" ng-repeat = "deployVal in checkDeployToCloudResponse track by $index" value="{{deployVal.cloudName}}" alt="{{deployVal.cloudDisplayText}}"
                            		title="{{deployVal.cloudDisplayText}}"
                            		style="background:#fff url({{deployVal.imageUrl}}) no-repeat 10px center !important; border-bottom: 1px solid #d5d5d5;"
-                           		ng-disabled="deployVal.cloudEnabled=='false'" ui-sref="modelEdit ({solutionId: solutionIdDeploy, revisionId: revisionId, deployStatus: true,deployValue: deployVal.cloudName})">
+                           		ng-disabled="deployVal.cloudEnabled=='false'" ui-sref="modelEdit ({solutionId: solutionIdDeploy, revisionId: revisionId, deployFromDS: true,deployValue: deployVal.cloudName})">
                            		</li>
 								
 							</ul>

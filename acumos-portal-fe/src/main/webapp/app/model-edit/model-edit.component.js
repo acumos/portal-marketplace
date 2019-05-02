@@ -77,7 +77,10 @@ angular
 							$anchorScroll, $timeout, FileUploader, apiService,
 							$mdDialog, $filter, modelUploadService, $parse, $document, $mdToast, $state, $interval, $sce, browserStorageService) {
 						$scope.hideTabs = $stateParams.deployStatus; 
-						if($stateParams.deployStatus){
+						if($stateParams.deployFromDS){
+							$scope.workflowTitle='Export/Deploy to Cloud';
+							$scope.tab='cloud';
+						} else if($stateParams.deployStatus){
 							$scope.workflowTitle='Share With Team';
 							$scope.tab='share';
 						} else {

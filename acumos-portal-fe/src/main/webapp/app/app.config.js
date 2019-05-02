@@ -85,7 +85,8 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
 			params: {solutionId: null,
 				revisionId: null,
 				deployStatus:null,
-				deployValue:null}
+				deployValue:null,
+				deployFromDS: null}
          })
 		.state('modularResource', {
 			url: '/modelerResource?ONAP=?solutionId=?revisionId=?',
