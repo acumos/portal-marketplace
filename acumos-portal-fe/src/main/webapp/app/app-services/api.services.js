@@ -723,4 +723,7 @@ angular.module('AcumosApp')
         	return $http.post('api/catalogs/search', request );
         };
 
+		this.searchPublishRequestWithCatalogIds = function (revisionId,catalogId) {
+        	return $http.get('api/publish/request/search/revision/'+revisionId+'/'+catalogId );
+        };
     }]);

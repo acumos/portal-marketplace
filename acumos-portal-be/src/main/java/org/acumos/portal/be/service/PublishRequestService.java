@@ -36,6 +36,8 @@ public interface PublishRequestService {
 	MLPublishRequest updatePublishRequest(MLPublishRequest publishRequest) throws AcumosServiceException;
 
 	MLPublishRequest searchPublishRequestByRevId(String revisionId);
+	
+	MLPublishRequest searchPublishRequestByRevAndCatId(String revisionId, String catalogId);
 
 	MLPublishRequest withdrawPublishRequest(long publishRequestId, String loginUserId) throws AcumosServiceException;
 

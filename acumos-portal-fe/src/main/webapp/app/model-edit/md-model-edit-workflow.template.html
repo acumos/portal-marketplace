@@ -172,7 +172,7 @@ limitations under the License.
 									</a></li>
 									<li>
 										<a href class="mdl-tabs__tab"
-										ng-class="{isActive:tab=='company'}"
+										ng-class="{isActive:tab=='publish'}"
 										ng-click="workflowTitle = 'Publish to Marketplace'; tab = 'publish'; workFLowValidation('pb')" alt="Publish to Marketplace" title="Publish to Marketplace">
 											<div class="managelefticon">
 												<i class="companyimg"></i>
@@ -413,8 +413,6 @@ limitations under the License.
 											</md-input-container>
 										</div>
 										<div>
-
-                                             </md-input-container> -->
 											<md-input-container><label class="md-required">Find a user to Share with</label></md-input-container>
 											<md-content class="autocomplete"> 
 											<md-chips
@@ -439,7 +437,6 @@ limitations under the License.
 											</md-chips>
 											<h2>{{selectedGroups[$index].firstName}}</h2>
 											</md-content>
-
 
 										</div>
 										<div
@@ -546,8 +543,6 @@ limitations under the License.
 									</md-dialog-actions> </md-dialog>
 								</div>
 
-
-
 								<div>
 									<p class="informationtext">
 									Please add additional names of one or more author of this
@@ -615,14 +610,14 @@ limitations under the License.
 							<div class="mdl-tabs__panel company-market" id="company-market"
 								ng-show="tab=='publish'" ng-class="{'isActive':tab=='publish'}">
 								<div>
-								<div class="mdl-grid mdl-grid--no-spacing catalogList">
-									<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">
+								<div class="mdl-grid mdl-grid--no-spacing catalogList admin-row3">
+									<div ng-show="catalogsAvailable.length > 0">
 										 <label class="fedlbl4">Select Catalog</label>
 										 <md-select ng-model="selectedCatalogId" placeholder="Select Catalog" ng-disabled="disableSelectedCatalogIds">
 	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog.catalogId, catalog.name);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
 	                                     </md-select>                         
 	                                </div> 
-	                                <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="solutionCatalogsList.length > 0">
+	                                <div ng-show="solutionCatalogsList.length > 0">
 									    <label class="fedlbl4">Catalog(s) of published model</label>
 										<md-select ng-model="existingCatalogId"	placeholder="Select Catalog" ng-change="changeExistingCatalog();">
 											<md-option ng-repeat="catalog in solutionCatalogsList" value="{{catalog.catalogId}}">{{catalog.name}}</md-option>
@@ -722,8 +717,7 @@ limitations under the License.
 														View Model</button>
 												</div> <md-tooltip>{{errorPM}}</md-tooltip>
 												<div class="text">Not yet published</div>
-												<div class="text-completed">Published to Public
-													Marketplace</div>
+												<div class="text-completed">Successfully Published</div>
 											</li>
 										</ul>
 									</div>
@@ -1644,9 +1638,9 @@ limitations under the License.
 										</article>
 									</div>
 
-									<div class="">
+									<div>
 										<button ng-click="publishConfirmation(true)"
-											ng-disabled="activePublishBtn == false || !selectedCatalogId"
+											ng-disabled="activePublishBtn == false || !selectedCatalogId || existingCatalogId"
 											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-primary " alt="Submit to Publication" title="Submit to Publication">
 											Submit to Publication</button>
 										<button ng-click="publishConfirmation(false)"
@@ -1658,11 +1652,8 @@ limitations under the License.
 											ng-click="showPrerenderedDialog($event);publicPreview=false;" alt="Preview Model" title="Preview Model">Preview
 											Model</button>
  
-										<!-- preview in Modal box start -->
-
-
 									</div>
-
+									<!-- preview in Modal box start -->
 									<div class="md-dialog-container " id="myDialog"
 										style="height: 0;">
 										<md-dialog aria-label="MarketPlace" class="preview fullwidth">

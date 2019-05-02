@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.acumos.cds.CodeNameType;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -61,7 +62,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Service
 public class PublishRequestServiceImpl extends AbstractServiceImpl implements PublishRequestService {
 
-	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());	
+	private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Autowired
 	UserService userService;
@@ -71,10 +72,10 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 
 	@Autowired
 	private MarketPlaceCatalogService catalogService;
-	
+
 	@Autowired
 	private NotificationService notificationService;
-	
+
 	private static final String MSG_SEVERITY_ME = "ME";
 
 	@Override
@@ -100,12 +101,14 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 
 		Map<String, String> queryParameters = new HashMap<>();
 		queryParameters.put("created", "DESC");
-		//Fetch latest publish request for the revision
-		RestPageResponse<MLPPublishRequest> pbRequestResponse =  dataServiceRestClient.searchPublishRequests(searchCriteria, false, new RestPageRequest(0, 1, queryParameters));
+		// Fetch latest publish request for the revision
+		RestPageResponse<MLPPublishRequest> pbRequestResponse = dataServiceRestClient
+				.searchPublishRequests(searchCriteria, false, new RestPageRequest(0, 1, queryParameters));
 		List<MLPPublishRequest> publishRequestList = pbRequestResponse.getContent();
-		if(publishRequestList.size() > 0)
+		if (publishRequestList.size() > 0)
 			return getPublishRequestDetails(publishRequestList.get(0));
-		else return null;
+		else
+			return null;
 	}
 
 	private MLPublishRequest getPublishRequestDetails(MLPPublishRequest publishRequest) {
@@ -119,15 +122,17 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 			}
 		}
 
-		// Get Requested solutionId and populate the publish request transport object
+		// Get Requested solutionId and populate the publish request transport
+		// object
 		if (!PortalUtils.isEmptyOrNullString(publishRequest.getSolutionId())) {
 			try {
 				MLSolution solutionDetail = catalogService.getSolution(publishRequest.getSolutionId());
 				mlPublishRequest.setSolutionName(solutionDetail.getName());
 			} catch (AcumosServiceException e) {
-				// Log the error and do nothing. Continue populating the remaining fields
-				log.error("Error in fetching the solution details for request "
-						+ publishRequest.getRequestId() + " and Solution Id " + publishRequest.getSolutionId());
+				// Log the error and do nothing. Continue populating the
+				// remaining fields
+				log.error("Error in fetching the solution details for request " + publishRequest.getRequestId()
+						+ " and Solution Id " + publishRequest.getSolutionId());
 			}
 		}
 
@@ -151,7 +156,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 				}
 			}
 		}
-		
+
 		if (!PortalUtils.isEmptyOrNullString(publishRequest.getCatalogId())) {
 			MLPCatalog catalog = dataServiceRestClient.getCatalog(publishRequest.getCatalogId());
 			if (catalog != null) {
@@ -169,17 +174,19 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		PagableResponse<List<MLPublishRequest>> response = new PagableResponse<>();
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
-		RestPageResponse<MLPPublishRequest> mlpPublishRequestResponse = dataServiceRestClient.getPublishRequests(requestObj);
+		RestPageResponse<MLPPublishRequest> mlpPublishRequestResponse = dataServiceRestClient
+				.getPublishRequests(requestObj);
 		List<MLPublishRequest> publishrequestList = new ArrayList<>();
-		if(mlpPublishRequestResponse !=null) {
+		if (mlpPublishRequestResponse != null) {
 			List<MLPPublishRequest> mlpPublishRequestList = mlpPublishRequestResponse.getContent();
-			for(MLPPublishRequest mlpPublishRequest : mlpPublishRequestList) {
+			for (MLPPublishRequest mlpPublishRequest : mlpPublishRequestList) {
 				MLPSolution solutionDetail = dataServiceRestClient.getSolution(mlpPublishRequest.getSolutionId());
-				if(solutionDetail != null && solutionDetail.isActive()){
+				if (solutionDetail != null && solutionDetail.isActive()) {
 					MLPublishRequest mlPublishRequest = getPublishRequestDetails(mlpPublishRequest);
 					publishrequestList.add(mlPublishRequest);
 				} else {
-					log.debug("getAllPublishRequest : Solution is not active, SolutionId : " +mlpPublishRequest.getSolutionId());
+					log.debug("getAllPublishRequest : Solution is not active, SolutionId : "
+							+ mlpPublishRequest.getSolutionId());
 				}
 			}
 		}
@@ -197,7 +204,7 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPPublishRequest oldRequest = dataServiceRestClient.getPublishRequest(publishRequest.getPublishRequestId());
 		boolean isRequestApproved = false;
-		
+
 		oldRequest.setComment(publishRequest.getComment());
 		oldRequest.setReviewUserId(publishRequest.getApproverId());
 		oldRequest.setStatusCode(publishRequest.getRequestStatusCode());
@@ -205,25 +212,31 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 
 		try {
 			dataServiceRestClient.updatePublishRequest(oldRequest);
-			//Update Request returns VOID hence again fetch the publish request to check the status
+			// Update Request returns VOID hence again fetch the publish request
+			// to check the status
 			updatedRequest = dataServiceRestClient.getPublishRequest(publishRequest.getPublishRequestId());
-			if(updatedRequest.getStatusCode().equalsIgnoreCase(CommonConstants.PUBLISH_REQUEST_APPROVED)) {
+			if (updatedRequest.getStatusCode().equalsIgnoreCase(CommonConstants.PUBLISH_REQUEST_APPROVED)) {
 				isRequestApproved = true;
 			}
-			
-		} catch(HttpStatusCodeException e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "Error occured while updating the request");
+
+		} catch (HttpStatusCodeException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
+					"Error occured while updating the request");
 		} catch (Exception e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "Error occured while updating the request");
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
+					"Error occured while updating the request");
 		}
 
 		MLPublishRequest updatedPublishRequest = getPublishRequestDetails(updatedRequest);
-		//If request is approved then change the status of solution revision
-		if(isRequestApproved) {
+		// If request is approved then change the status of solution revision
+		if (isRequestApproved) {
 			dataServiceRestClient.addSolutionToCatalog(updatedRequest.getSolutionId(), updatedRequest.getCatalogId());
-			generateNotification("Solution " + updatedPublishRequest.getSolutionName() + " Published Successfully", updatedPublishRequest.getRequestUserId());
+			generateNotification("Solution " + updatedPublishRequest.getSolutionName() + " Published Successfully",
+					updatedPublishRequest.getRequestUserId());
 		} else {
-			generateNotification("Publish Solution " + updatedPublishRequest.getSolutionName() + " Declined by Publisher", updatedPublishRequest.getRequestUserId());
+			generateNotification(
+					"Publish Solution " + updatedPublishRequest.getSolutionName() + " Declined by Publisher",
+					updatedPublishRequest.getRequestUserId());
 		}
 
 		return updatedPublishRequest;
@@ -239,24 +252,54 @@ public class PublishRequestServiceImpl extends AbstractServiceImpl implements Pu
 	}
 
 	@Override
-	public MLPublishRequest withdrawPublishRequest(long publishRequestId, String loginUserId) throws AcumosServiceException {
+	public MLPublishRequest withdrawPublishRequest(long publishRequestId, String loginUserId)
+			throws AcumosServiceException {
 		log.debug("withdrawPublishRequest");
 
 		ICommonDataServiceRestClient dataServiceRestClient = getClient();
 		MLPPublishRequest oldRequest = dataServiceRestClient.getPublishRequest(publishRequestId);
-		if(!oldRequest.getRequestUserId().equalsIgnoreCase(loginUserId)) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "Access declined to withdraw publish request");
+		if (!oldRequest.getRequestUserId().equalsIgnoreCase(loginUserId)) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
+					"Access declined to withdraw publish request");
 		}
 		oldRequest.setStatusCode(CommonConstants.PUBLISH_REQUEST_WITHDRAW);
 		try {
 			dataServiceRestClient.updatePublishRequest(oldRequest);
-		} catch(HttpStatusCodeException e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "Error occured while updating the request");
+		} catch (HttpStatusCodeException e) {
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
+					"Error occured while updating the request");
 		} catch (Exception e) {
-			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR, "Error occured while updating the request");
+			throw new AcumosServiceException(AcumosServiceException.ErrorCode.INTERNAL_SERVER_ERROR,
+					"Error occured while updating the request");
 		}
 
 		return getPublishRequestDetails(oldRequest);
+	}
+
+	@Override
+	public MLPublishRequest searchPublishRequestByRevAndCatId(String revisionId, String catalogId) {
+		log.debug("searchPublishRequestByRevAndCatId");
+
+		ICommonDataServiceRestClient dataServiceRestClient = getClient();
+
+		Map<String, Object> searchCriteria = new HashMap<String, Object>();
+		searchCriteria.put("revisionId", revisionId);
+
+		Map<String, String> queryParameters = new HashMap<>();
+		queryParameters.put("created", "DESC");
+		// Fetch publish request for the requested revision
+		RestPageResponse<MLPPublishRequest> pbRequestResponse = dataServiceRestClient
+				.searchPublishRequests(searchCriteria, false, new RestPageRequest(0, 10000, queryParameters));
+		List<MLPPublishRequest> publishRequestList = pbRequestResponse.getContent();
+
+		// filter the list for exact match with the requested catalogId
+		List<MLPPublishRequest> filteredReqList = publishRequestList.stream()
+				.filter(searchReq -> searchReq.getCatalogId().equalsIgnoreCase(catalogId)).collect(Collectors.toList());
+
+		if (filteredReqList.size() > 0)
+			return getPublishRequestDetails(filteredReqList.get(0));
+		else
+			return null;
 	}
 
 }

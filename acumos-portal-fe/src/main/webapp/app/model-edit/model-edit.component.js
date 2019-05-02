@@ -346,17 +346,11 @@ angular
 						}
 						
 						$scope.getPublishRequestDetail = function(){
-							var searchPublishRequestUrl = "api/publish/request/search/revision/" + $scope.revisionId ;
-							$http({
-										method : 'GET',
-										url : searchPublishRequestUrl
-									})
-									.then(
-											function successCallback(response) {
+
+							apiService.searchPublishRequestWithCatalogIds($scope.revisionId, $scope.selectedCatalogId)
+									.then(function successCallback(response) {
 												$scope.publishRequest = response.data.response_body;
-											},function errorCallback(response) {
-												//Do nothing
-										});
+							});
 						}
 						
 						$scope.updateSolutionPictureSources = function() {
@@ -460,7 +454,6 @@ angular
 													$scope.getUserImage();													
 													$scope.workFLowValidation($scope.selectedCatalogObj.accessTypeCode);
 													$scope.getAuthorList();
-													$scope.getPublishRequestDetail();
 													$scope.getSolutionPicture();
 													$scope.getPublisher();
 												} else {
@@ -800,47 +793,58 @@ angular
 						
 						$scope.updateCompanyDescription = function() {
 							
-							
-							if($scope.solutionCompanyDescLength = true){
-								$scope.showDCKEditor = false
-							}else{
-								$scope.showDCKEditor = true
-							} 
-							
-							var solution = {
-									"request_body": {
-										"description" : $scope.solutionCompanyDesc
-									}
-							};
-							var req = {
-								method : 'POST',
-								url : '/api/solution/revision/' + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/description",
-								data : solution
-							};
-							$http(req)
-									.success(
-											function(data) {
-												$scope.solutionCompanyDesc = data.response_body.description;
-												$scope.solutionCompanyDescStatus = true;
-												$location.hash('manage-models');
-												$anchorScroll();
-												$scope.getSolCompanyDesc();
-												
-												$scope.msg = "Updated: Solution Description";
-												$scope.icon = '';
-												$scope.styleclass = 'c-success';
-												$scope.showAlertMessage = true;
-												$timeout(function() {
-															$scope.showAlertMessage = false;
-															if($scope.solution.active == false){
-																$state.go('manageModule');
-															}}, 3500);
-											}).error(
-											function(data) {
-												$scope.solutionCompanyDesc = '';
-												$scope.solutionCompanyDescStatus = false;
-												$scope.solutionCompanyDescLength = false;
-											});
+							if($scope.selectedCatalogId){
+								if($scope.solutionCompanyDescLength = true){
+									$scope.showDCKEditor = false
+								}else{
+									$scope.showDCKEditor = true
+								} 
+								
+								var solution = {
+										"request_body": {
+											"description" : $scope.solutionCompanyDesc
+										}
+								};
+								var req = {
+									method : 'POST',
+									url : '/api/solution/revision/' + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/description",
+									data : solution
+								};
+								$http(req)
+										.success(
+												function(data) {
+													$scope.solutionCompanyDesc = data.response_body.description;
+													$scope.solutionCompanyDescStatus = true;
+													$location.hash('manage-models');
+													$anchorScroll();
+													$scope.getSolCompanyDesc();
+													
+													$scope.msg = "Updated: Solution Description";
+													$scope.icon = '';
+													$scope.styleclass = 'c-success';
+													$scope.showAlertMessage = true;
+													$timeout(function() {
+																$scope.showAlertMessage = false;
+																if($scope.solution.active == false){
+																	$state.go('manageModule');
+																}}, 3500);
+												}).error(
+												function(data) {
+													$scope.solutionCompanyDesc = '';
+													$scope.solutionCompanyDescStatus = false;
+													$scope.solutionCompanyDescLength = false;
+												});
+							} else {
+								$location.hash('manage-models');
+								$anchorScroll();				
+								$scope.msg = "Please select a catalog.";
+								$scope.styleclass = 'c-error';
+								$scope.icon = 'report_problem';
+								$scope.showAlertMessage = true;
+								$timeout(function() {$scope.showAlertMessage = false;}, 3000);
+								$scope.solutionCompanyDesc = '';
+								$scope.showDCKEditor = !$scope.showDCKEditor;
+							}
 						}
 
 						$scope.copiedCompanyDesc = false;
@@ -1831,42 +1835,53 @@ angular
 						
 						/** ***** File upload****** */
 						$scope.updateSolutionFiles = function(uploadid) {
-
-							var file = $scope.solutionFile;
-
-							var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/document";
-							var promise = modelUploadService.uploadFileToUrl(file, uploadUrl);
-
-							promise
-									.then(
-											function(response) {
-												$scope.modelUploadError = false;
-												$scope.supportingDocs.push(response.response_body);
-												$scope.showSolutionDocs = true;
-												$scope.showFileUpload = !$scope.showFileUpload;
-												$rootScope.progressBar = 0;
-											},
-											function(error) {
-												if (error.error_code == "sv_error") {
-													$mdDialog.show({
-														templateUrl : '../app/error-page/sv-modal.template.html',
-														clickOutsideToClose : true,
-														locals: { reasons: error.response_detail },
-														controller : function DialogController($scope, reasons) {
-															$scope.reasons = reasons;
-															$scope.closePoup = function(){
-																$mdDialog.hide();
+							if($scope.selectedCatalogId){
+								var file = $scope.solutionFile;
+	
+								var uploadUrl = "/api/solution/" + $scope.solution.solutionId + "/revision/" + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/document";
+								var promise = modelUploadService.uploadFileToUrl(file, uploadUrl);
+	
+								promise
+										.then(
+												function(response) {
+													$scope.modelUploadError = false;
+													$scope.supportingDocs.push(response.response_body);
+													$scope.showSolutionDocs = true;
+													$scope.showFileUpload = !$scope.showFileUpload;
+													$rootScope.progressBar = 0;
+												},
+												function(error) {
+													if (error.error_code == "sv_error") {
+														$mdDialog.show({
+															templateUrl : '../app/error-page/sv-modal.template.html',
+															clickOutsideToClose : true,
+															locals: { reasons: error.response_detail },
+															controller : function DialogController($scope, reasons) {
+																$scope.reasons = reasons;
+																$scope.closePoup = function(){
+																	$mdDialog.hide();
+																}
 															}
-														}
-													});
-												} else {
-													$scope.modelUploadError = true;
-													$scope.modelUploadErrorMsg = error;
-												}
-												$rootScope.progressBar = 0;
-												$scope.showFileUpload = !$scope.showFileUpload;
-											});
-							$scope.privatefilename = "";
+														});
+													} else {
+														$scope.modelUploadError = true;
+														$scope.modelUploadErrorMsg = error;
+													}
+													$rootScope.progressBar = 0;
+													$scope.showFileUpload = !$scope.showFileUpload;
+												});
+								$scope.privatefilename = "";
+								
+							} else {
+									$location.hash('manage-models');
+									$anchorScroll();				
+									$scope.msg = "Please select a catalog.";
+									$scope.styleclass = 'c-error';
+									$scope.icon = 'report_problem';
+									$scope.showAlertMessage = true;
+									$timeout(function() {$scope.showAlertMessage = false;}, 3000);
+									$scope.showFileUpload = !$scope.showFileUpload;
+								}
 						}
 						
 						
@@ -2435,11 +2450,15 @@ angular
 							$scope.selectedCatalogId = catalogId;
 							$scope.selectedCatalog=catalogName;
 							$scope.company = {};
+							$scope.existingCatalogId = '';
 							$scope.showSolutionDocs = false;
+							$scope.company.step4 = false;
+							$scope.activePublishBtn = false;
+							chkCount();
 							$scope.company.skipStep = false;
 							$scope.getSolCompanyDesc();
 							$scope.getCompanySolutionDocuments();
-							
+							$scope.getPublishRequestDetail();							
 						}
 					}
 
@@ -2449,6 +2468,7 @@ angular
 							$scope.getSolCompanyDesc();
 							$scope.showSolutionDocs = false;
 							$scope.getCompanySolutionDocuments();
+							$scope.getPublishRequestDetail();
 						}
 					}
 					
