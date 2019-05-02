@@ -91,6 +91,30 @@ public class PublishRequestController extends AbstractController {
 		return data;
 	}
 	
+	@ApiOperation(value = "Get Latest publish requests for the revision Id and catalog Id.", response = JsonResponse.class)
+    @RequestMapping(value = {"/search/revision/{revisionId}/{catalogId}"},method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ResponseBody
+    public JsonResponse<MLPublishRequest> searchPublishRequestByRevCatId(HttpServletRequest request, @PathVariable String revisionId,@PathVariable String catalogId, HttpServletResponse response) {
+		
+		revisionId = SanitizeUtils.sanitize(revisionId);
+		catalogId= SanitizeUtils.sanitize(catalogId);
+		JsonResponse<MLPublishRequest> data = new JsonResponse<>();
+		try {
+			MLPublishRequest mlPublishRequest = publishRequestService.searchPublishRequestByRevAndCatId(revisionId,catalogId);
+			data.setResponseBody(mlPublishRequest);
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE_SUCCESS);
+			data.setResponseDetail("Publish Request fetched Successfully.");
+			log.debug("searchPublishRequestByRevCatId: size is {} ", mlPublishRequest);
+		} catch (Exception e) {
+			e.printStackTrace();
+			data.setErrorCode(JSONTags.TAG_ERROR_CODE);
+			data.setResponseDetail("Exception occured while fetching the request");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			log.error("Exception Occurred Fetching Publish Request", e);
+		}
+		return data;
+	}
+	
 	@ApiOperation(value = "Get paginated publish requests.", response = ResponseVO.class, responseContainer = "List")
     @RequestMapping(value = {""},method = RequestMethod.POST, produces = APPLICATION_JSON)
 	@PreAuthorize("hasAuthority(T(org.acumos.portal.be.security.RoleAuthorityConstants).PUBLISHER)")

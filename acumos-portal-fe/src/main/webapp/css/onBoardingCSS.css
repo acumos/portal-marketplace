@@ -627,9 +627,11 @@ md-tabs-canvas md-tab-item.md-tab.md-ink-ripple.md-active{  color: rgb(104, 29, 
 .new-docker h5{padding-bottom:17px;}
 .new-docker button{position:absolute; right:0; top:6px;}
 #blacktext{color:black;}
+.disable-input{background:gainsboro !important;}
 .align-btn{display:flex; fles-wrap:nowrap; align-items:flex-start; margin-top:30px;}
-.checking-loader{background-image:url(../images/checking-loader.gif); background-repeat:no-repeat;height:16px; width:110px; padding:0 22px 0 0; background-position:0 7px;}   
+.checking-loader{background-image:url(../images/checking-loader.gif); background-repeat:no-repeat;height:16px; width:140px; background-position:10px 7px;}   
 .available-docker input{color:#009900;border-color:#009900;}
+.onboard-new-docker .search-select span.search-icon{right:42px;}
 .available-docker .btn-primary{color:#009900; border-color:#009900; background-color: #fff;}
 .available-docker .btn-primary:hover{background-color:#FFF !important;}
 .non-available-docker input{border-color:#FF2527;color:#FF2527;}
