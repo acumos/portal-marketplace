@@ -2433,16 +2433,16 @@ angular
 						return false;
 					}
 
-					$scope.changeSelectedCatalog = function(catalogId, catalogName){
-						if(catalogId){
-							$scope.selectedCatalogId = catalogId;
-							$scope.selectedCatalog=catalogName;
+					$scope.changeSelectedCatalog = function(catalog){
+						if(catalog.catalogId){
+							$scope.selectedCatalogId = catalog.catalogId;
+							$scope.selectedCatalog=catalog.name;
+							$scope.selectedCatalogObj=catalog;
 							$scope.company = {};
 							$scope.showSolutionDocs = false;
 							$scope.company.skipStep = false;
 							$scope.getSolCompanyDesc();
 							$scope.getCompanySolutionDocuments();
-							
 						}
 					}
 

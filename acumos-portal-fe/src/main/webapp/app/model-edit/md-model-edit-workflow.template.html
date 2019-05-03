@@ -616,13 +616,15 @@ limitations under the License.
 								ng-show="tab=='publish'" ng-class="{'isActive':tab=='publish'}">
 								<div>
 								<div class="mdl-grid mdl-grid--no-spacing catalogList">
-									<div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="catalogsAvailable.length > 0">
+									<div class="mdl-cell--10-col mdl-cell--9-col-tablet mdl-cell--8-col-phone" ng-show="catalogsAvailable.length > 0">
 										 <label class="fedlbl4">Select Catalog</label>
 										 <md-select ng-model="selectedCatalogId" placeholder="Select Catalog" ng-disabled="disableSelectedCatalogIds">
-	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog.catalogId, catalog.name);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
-	                                     </md-select>                         
-	                                </div> 
-	                                <div class="mdl-cell--6-col mdl-cell--5-col-tablet mdl-cell--4-col-phone" ng-show="solutionCatalogsList.length > 0">
+	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
+	                                     </md-select>                    
+	                                </div>
+                                </div>
+                                <div class="mdl-grid mdl-grid--no-spacing catalogList" ng-show="solutionCatalogsList.length > 0">
+	                                <div class="mdl-cell--10-col mdl-cell--9-col-tablet mdl-cell--8-col-phone">
 									    <label class="fedlbl4">Catalog(s) of published model</label>
 										<md-select ng-model="existingCatalogId"	placeholder="Select Catalog" ng-change="changeExistingCatalog();">
 											<md-option ng-repeat="catalog in solutionCatalogsList" value="{{catalog.catalogId}}">{{catalog.name}}</md-option>
