@@ -397,6 +397,15 @@ public class MarketPlaceCatalogServiceImpl extends AbstractServiceImpl implement
 							DeleteImageCommand deleteImg = new DeleteImageCommand(mlp.getUri());
 							deleteImg.setClient(dockerClient);
 							deleteImg.execute();
+							String nexusUrl = env.getProperty("nexus.url");
+							String nexusUserName = env.getProperty("nexus.username");
+							String nexusPd = env.getProperty("nexus.password");
+							log.info("nexusUrl ----->>" + nexusUrl);
+							log.info("nexusUserName ----->>" + nexusUserName);
+							log.info("nexusPd ----->>" + nexusPd);
+							NexusArtifactClient nexusArtifactClient = nexusArtifactClient(nexusUrl, nexusUserName,
+									nexusPd);
+							nexusArtifactClient.deleteArtifact(mlp.getUri());
 							deleteNexus = true;
 						} else {
 							// Delete the file from the Nexus
