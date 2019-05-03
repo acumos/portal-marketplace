@@ -315,10 +315,14 @@ limitations under the License.
 							 <label class="ct-lbl3">Published by: {{Catalog.publisher}}</label> 
 							 <label class="ct-lbl3">{{Catalog.created | date :"MM/dd/yyyy" }}</label>
 							  
-							  </div>
-							  <span class="ct-lbl1" ng-show ="{{$index == 0}}">New</span>
+						</div>
+							  <span class="ct-lbl1" ng-show ="{{$index == 0}}">New</span>							  							 															
+ 							  <span class="ct-info-container a-tooltip" ><span class="catalog-icon-info a-tooltipval" ></span><span class="a-tooltiptext">{{Catalog.description}}</span></span>
 							  
-						</div>						
+						</div>	
+						
+						  
+															
 					</div>
 					<div class="ct-item-row">
 						<div>

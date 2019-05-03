@@ -65,13 +65,13 @@ angular.module('catalog')
 	            	$scope.allCatalogListLength = 0;
 	            	$scope.requestResultSize = size;
 	            	$scope.loadCatalog(0);
-	            }
-	            
+	            }	            
 	            // Access Type
 				$scope.accessType = [{'name':'Public','value':'PB'},{'name':'Restricted','value':'RS'}]
-				$scope.CatalogType = [{'name':'All Catalog','value':'all'},{'name':'My Catalog','value':'self'}]
-				
+				$scope.CatalogType = [{'name':'All Catalog','value':'all'},{'name':'My Catalog','value':'self'}]				
 				$scope.orderByField = 'created'; $scope.reverseSortcatalog = true;
+				
+				
 				
 				$scope.loadCatalog = function(pageNumber, filterValue) {							
 					$scope.allCatalogList = [];													
@@ -146,7 +146,7 @@ angular.module('catalog')
 				}
 				
 				$scope.isValidCatalog = function(catalog) {
-					return (catalog.name && catalog.accessTypeCode && catalog.description);
+					return (catalog.name && catalog.accessTypeCode != 0 && catalog.description);
 				}
 				
 				$scope.openCatalogDialog = function() {
@@ -163,7 +163,7 @@ angular.module('catalog')
 					});
 				}
 				
-				$scope.addCatalog = function() {
+				$scope.addCatalog = function() {									
 					$scope.clearCatalog();
 					$scope.isEdit = false;
 					$scope.openCatalogDialog();
