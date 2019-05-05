@@ -30,14 +30,7 @@ angular
 					controller : function($scope, $location, $http, $rootScope,
 							$stateParams, $sessionStorage, $localStorage,
 							$mdDialog, $state, $window, apiService, $anchorScroll, $timeout, $document, $sce, browserStorageService) {
-						
-						$scope.orgVar = "OR";
-						$scope.pubVar = "PB";
-						$scope.priVar = "PR";
-						$scope.showORDescription = false;
-						$scope.showPBDescription = false;
-						$scope.showORDocs = false;
-						$scope.showPBDocs = false;
+
 						$rootScope.isONAPCompatible = false;
 						$scope.version;
 						$scope.showMicroService = false;
@@ -462,19 +455,7 @@ angular
 												}
 												$scope.getComment();
 												$scope.getArtifacts();
-												//if solution PR then get public description by default.
-												if($scope.version.accessTypeCode == $scope.priVar){
-													$scope.getSolPublicDesc();
-												}
-												else{
-													$scope.getSolCompanyDesc();
-													$scope.getSolPublicDesc();
-												}
-												if(!$scope.solutionPublicDesc){
-													$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
-												}
-												 
-												$scope.getPublicSolutionDocuments($scope.version.accessTypeCode);
+												
 											}
 
 											if (JSON.parse(browserStorageService
@@ -506,15 +487,6 @@ angular
 												}
 												donwloadPopupValue();
 											}
-											
-											//if solution PR then get public description by default.
-											/*if($scope.solution.accessType == $scope.priVar){
-												$scope.getSolPublicDesc();
-											}
-											else{
-												$scope.getSolCompanyDesc();
-												$scope.getSolPublicDesc();
-											}*/
 											
 											$scope.checkOnapCompatibility();
 											
@@ -582,8 +554,37 @@ angular
 							}		
 						});
 				 	}
-						$scope.totalCommentCount = 0;
-						$scope.postComment = function() {
+					
+					$scope.getCatalogsList = function(){
+	                    apiService
+				        .getCatalogsForSolutions($scope.solutionId)
+				        .then(function(response) {
+				                    if(response.status == 200){
+				                    	  $scope.solutionCatalogsList = response.data.response_body;
+				                    	  if($scope.solutionCatalogsList && $scope.solutionCatalogsList.length > 0){
+					                    	  $scope.selectedCatalogId = $scope.solutionCatalogsList[0].catalogId;
+						  					  $scope.catalogName = $scope.solutionCatalogsList[0].name;
+						  					  $scope.getSolutionDocuments();
+						  					  $scope.getSolutionDescription();
+				                    	  }
+				                    }
+				         });
+					 }
+					
+					$scope.changeSelectedCatalogId = function(catalogId, catalogName){
+						$scope.selectedCatalogId = catalogId;
+						$scope.catalogName = catalogName;
+						$scope.documents = [];
+						$scope.solutionDescription = "";
+						$scope.getSolutionDocuments();
+						$scope.getSolutionDescription();
+						
+					}
+						 
+					$scope.getCatalogsList();
+					
+					$scope.totalCommentCount = 0;
+					$scope.postComment = function() {
 							if (browserStorageService.getUserDetail()) {
 								$scope.loginUserID = JSON.parse(browserStorageService
 										.getUserDetail())[1];
@@ -614,6 +615,25 @@ angular
 									});
 								});
 						}
+						
+						$scope.getSolutionDocuments = function(){
+	                       	 var getSolutionDocumentsReq = {
+										method : 'GET',
+										url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + '/' + $scope.selectedCatalogId  + "/document"
+								};
+	                       	 $http(getSolutionDocumentsReq)
+									.success(
+											function(data) {
+												$scope.supportingDocs = data.response_body;
+												$scope.documents = [];
+												var fileName="";var fileExtension = '';
+												angular.forEach($scope.supportingDocs, function(value, key) {
+													fileName = value.name;
+													fileExtension = fileName.split('.').pop();
+													$scope.documents.push({"name":value.name,"ext":fileExtension,"documentId":value.documentId});
+												});
+											});
+							}
 						
 						$scope.newcomment = {};
 						$scope.postReply = function(key, comment){
@@ -762,9 +782,6 @@ angular
 							});
 						}
 
-						if(!$scope.solutionPublicDesc){
-							$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
-						}
 						var session = sessionStorage.getItem("SessionName")
 						if (session) {
 							console.log(session);
@@ -939,34 +956,28 @@ angular
 						});
 						
 						$scope.showVersion = function() {
-							if(angular.element('.md-version-ddl1').css('display') == 'none'){
-								angular.element('.md-version-ddl1').show();
+							if(angular.element('.version-list').css('display') == 'none'){
+								angular.element('.version-list').show();
 							} else {
-								angular.element('.md-version-ddl1').hide();
+								angular.element('.version-list').hide();
 							}	
 						}
 						
+						$scope.showCatalog = function() {
+							if(angular.element('.catalog-list').css('display') == 'none'){
+								angular.element('.catalog-list').show();
+							} else {
+								angular.element('.catalog-list').hide();
+							}	
+						}
 						$scope.loadVersionDetails = function(solutionId, revisionId, versionId){
 							$scope.version = $scope.versionList.filter(function (versions) { return versions.revisionId == revisionId;})[0];
 							$scope.solution.solutionId = solutionId; 
 							$scope.revisionId = $scope.version.revisionId;
 							$stateParams.revisionId = $scope.version.revisionId;
 							$scope.versionId = versionId;
-							angular.element('.md-version-ddl1').hide();
+							angular.element('.version-list').hide();
 							donwloadPopupValue();
-							//if solution PR then get public description by default.
-							if($scope.version.accessTypeCode == $scope.priVar){
-								$scope.getSolPublicDesc();
-							}
-							else{
-								$scope.getSolCompanyDesc();
-								$scope.getSolPublicDesc();
-							}
-							if(!$scope.solutionPublicDesc){
-								$scope.solutionPublicDesc = $scope.solutionCompanyDesc;
-							}
-							 
-							$scope.getPublicSolutionDocuments($scope.version.accessTypeCode);
 							$scope.getArtifacts();
 							$scope.checkOnapCompatibility();
 							$scope.getProtoFile();
@@ -976,63 +987,23 @@ angular
 						
 						/***************** get solution descriptions ***********************/
 						
-						$scope.getSolCompanyDesc = function() {
+						$scope.getSolutionDescription = function() {
 							
 							var req = {
-								method : 'GET',
-								url : '/api/solution/revision/' + $scope.revisionId  + "/OR/description"
-							};
-							$scope.solutionCompanyDesc1 = "";
-							$http(req)
-								.success(
-									function(data, status, headers, config) {
-										$scope.solutionCompanyDesc1 = $sce.trustAsHtml(data.response_body.description);
-										
-										if($scope.version.accessTypeCode == $scope.pubVar || $scope.audit){
-											$scope.showPBDescription = true;
-											$scope.showORDescription = false;
-										}else{
-											$scope.showORDescription = true;
-											$scope.showPBDescription = false;
-										}})
-								.error(
-									function(error) {
-										console.log("Error fetching model company description:",error);
-									});
+									method : 'GET',
+									url : '/api/solution/revision/' + $scope.revisionId  + '/' + $scope.selectedCatalogId  + "/description"
+								};
+								$http(req)
+										.success(
+												function(data) {
+													$scope.solutionDescription = $sce.trustAsHtml(data.response_body.description);
+												})
+										.error(
+												function(data) {
+													$scope.solutionDescription = "";
+												});
 						}
 						
-						$scope.getSolPublicDesc = function() {
-							var req = {
-								method : 'GET',
-								url : '/api/solution/revision/' + $scope.revisionId  + "/PB/description"
-							};
-							$scope.solutionPublicDesc1 = "";
-							$http(req)
-								.success(
-									function(data, status, headers, config) {
-										if (data.response_body.description == "" || data.response_body.description == null || data.response_body.description == undefined){
-											$scope.getSolCompanyDesc();
-										}else{
-											$scope.solutionPublicDesc1 = $sce.trustAsHtml(data.response_body.description);
-											
-											if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
-												$scope.showORDescription = true;
-												$scope.showPBDescription = false;
-												
-											}else{
-												$scope.showPBDescription = true;
-												$scope.showORDescription = false;
-											}
-										}})
-								.error(
-									function(error) {
-										console.log("Error fetching model public description:",error);
-										$scope.getSolCompanyDesc();
-									});
-						}
-						$scope.getSolPublicDesc();
-						
-							
 							/**********************************END*****************************/
 						
 						
@@ -1394,110 +1365,9 @@ angular
 							}
 						}
 
-						$scope.imgURLnull = "images/vmpredict2.png";
-						$scope.imgURLcommercial = "images/commercial_pixelate.jpg";
-						$scope.imgURLemotion ="images/emotion_classifier.png";
-						$scope.imgURLthreat ="images/threat_analytics.png";
-						$scope.imgURLvideo ="images/video_analytics.png";
-						$scope.imgURLChat = "images/ChatBot.png";
-						$scope.imgURLSensitive = "images/Sensitive.png";
 						$scope.imgURLdefault ="images/default-model.png";
-						
-							$scope.getPublicSolutionDocuments = function(type){
-								var accessType;
-								$scope.noDocs = false;
-								if( type == $scope.priVar){
-									accessType = 'PB';
-									$scope.getPBSolutionDocs(accessType);
-								}else{
-									$scope.getORSolutionDocs('OR');
-									$scope.getPBSolutionDocs('PB');
-								} 
-		                        
-							}
+
 							
-								//get both PB and OR solution documents. Toggle docs on click of tabs on top
-								$scope.getPBSolutionDocs = function(accessType){
-									 var accessType = accessType;
-									 //'/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/PB/document"
-									 var getSolutionDocumentsReq = {
-												method : 'GET',
-												url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/" + accessType + "/document"
-										};
-			                       	 $http(getSolutionDocumentsReq)
-											.success(
-													function(data, status, headers,
-															config) {
-														 if(data.response_body.length < 1){
-															 $scope.getORSolutionDocs('OR'); 
-															 if($scope.version.accessTypeCode == $scope.orgVar  && !$scope.audit){
-																 $scope.showORDocs = true;
-															 }else if($scope.version.accessTypeCode == $scope.pubVar  || $scope.audit){
-																 $scope.showPBDocs = true;
-															 }else {
-																 $scope.showORDocs = true;
-																 $scope.showPBDocs = false;
-															 }
-														 }else{
-															 if($scope.version.accessTypeCode == $scope.orgVar && !$scope.audit){
-																 $scope.showORDocs = true;
-															 }else if($scope.solution.accessType == $scope.pubVar || $scope.audit){
-																 $scope.showPBDocs = true;
-															 }else{
-																 $scope.showORDocs = false;
-																 $scope.showPBDocs = true;
-															 }
-															 
-															 $scope.supportingDocsPB = [];
-																console.log(" Get Asset File name : " + data.response_body);
-																var fileName="";var fileExtension = '';
-				                                                angular.forEach(data.response_body, function(value, key) {
-				                                                    fileName = value.name;
-				                                                    fileExtension = fileName.split('.').pop();
-				                                                    $scope.supportingDocsPB.push({"name":value.name,"ext":fileExtension,"documentId":value.documentId});
-			                                                    });
-														 }
-													}).error(
-															function(data, status, headers,
-																	config) {
-																$scope.supportingDocsPB = [];
-																return "No Contents Available"
-													});
-								}
-								
-								$scope.getORSolutionDocs = function(accessType){
-									 var accessType = accessType;
-									 var getSolutionDocumentsReq = {
-												method : 'GET',
-												url : '/api/solution/'+$scope.solutionId + "/revision/" + $scope.revisionId + "/" + accessType + "/document"
-										};
-			                       	 $http(getSolutionDocumentsReq)
-											.success(
-													function(data, status, headers,
-															config) {
-														if(data.response_body.length < 1){
-															$scope.noDocs = true;
-														}else{
-															$scope.supportingDocsOR = [];
-															console.log(" Get Asset File name : " + data.response_body);
-															var fileName="";var fileExtension = '';
-			                                                angular.forEach(data.response_body, function(value, key) {
-			                                                    fileName = value.name;
-			                                                    fileExtension = fileName.split('.').pop();
-			                                                    $scope.supportingDocsOR.push({"name":value.name,"ext":fileExtension,"documentId":value.documentId});
-		                                                    });
-														}
-														
-		                                                
-													}).error(
-															function(data, status, headers,
-																	config) {
-																$scope.supportingDocsOR = [];
-																return "No Contents Available"
-													});
-								}
-							
-								
 								$scope.onClickModel = function(id, ownerId){
 									$scope.updateViewCount = function(){
 										$scope.solutionId = id;
