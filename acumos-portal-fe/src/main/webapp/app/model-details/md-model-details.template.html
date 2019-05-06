@@ -330,6 +330,10 @@ limitations under the License.
 					<div class="mdl-tabs__panel" id="tab2-panel">
 						<h6 class="sectiontitle6">SIGNATURE</h6>
 						<div ng-show= "modelSignature"><pre>{{modelSignature}}</pre></div>
+                            <div class="alert c-info" ng-if="!modelSignature">
+                                <strong>No signature available</strong>
+                            </div>
+						
 
 					</div>
 					<div class="mdl-tabs__panel" id="tab3-panel">
