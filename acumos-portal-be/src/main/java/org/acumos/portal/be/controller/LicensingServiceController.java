@@ -197,7 +197,7 @@ public class LicensingServiceController extends AbstractController{
 				if(responseBody != null) {
 					responseVO.setContent(responseBody );
 					responseVO.setStatus(true);
-					responseVO.setResponseDetail("Success");
+					responseVO.setResponseDetail("Saved successfully");
 					responseVO.setStatusCode(HttpServletResponse.SC_OK);
 				}else {
 					responseVO.setStatus(false);
