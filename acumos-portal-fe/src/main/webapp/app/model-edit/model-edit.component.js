@@ -2253,9 +2253,9 @@ angular
 						angular.element('tags-input input')[1].setAttribute("maxlength", "32");
 	                	
 	                	var flowConfigKey = ""
-	                	if(flow == "RS"){
+	                	if(flow.toUppercase() == "RS"){
 	                		flowConfigKey = "local_validation_workflow";
-	                	}else if(flow == "PB"){
+	                	}else if(flow.toUppercase() == "PB"){
 	                		flowConfigKey = "public_validation_workflow";
 	                	}
 		                	 apiService
@@ -2448,10 +2448,11 @@ angular
 						return false;
 					}
 
-					$scope.changeSelectedCatalog = function(catalogId, catalogName){
-						if(catalogId){
-							$scope.selectedCatalogId = catalogId;
-							$scope.selectedCatalog=catalogName;
+					$scope.changeSelectedCatalog = function(catalog){
+						if(catalog && catalog.catalogId){
+							$scope.selectedCatalogId = catalog.catalogId;
+							$scope.selectedCatalog=catalog.name;
+							$scope.selectedCatalogObj=catalog;
 							$scope.company = {};
 							$scope.existingCatalogId = '';
 							$scope.showSolutionDocs = false;
@@ -2513,6 +2514,7 @@ angular
 									                    	  if($scope.catalogsAvailable){
 									                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
 									                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
+									                    		  $scope.selectedCatalogObj = $scope.catalogsAvailable[0];
 									                    		  $scope.getSolCompanyDesc();
 									                    		  $scope.getCompanySolutionDocuments();
 									                    	  }
@@ -2520,6 +2522,9 @@ angular
 								                    		  $scope.catalogsAvailable = $scope.catalogsList;
 								                    		  $scope.selectedCatalogId = $scope.catalogsAvailable[0].catalogId;
 								                    		  $scope.selectedCatalog = $scope.catalogsAvailable[0].name;
+								                    		  $scope.selectedCatalogObj = $scope.catalogsAvailable[0];
+								                    		  $scope.getSolCompanyDesc();
+								                    		  $scope.getCompanySolutionDocuments();
 								                    	  }
 								                    }
 								                });
