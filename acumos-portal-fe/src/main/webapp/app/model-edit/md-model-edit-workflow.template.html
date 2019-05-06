@@ -614,7 +614,7 @@ limitations under the License.
 									<div ng-show="catalogsAvailable.length > 0">
 										 <label class="fedlbl4">Select Catalog</label>
 										 <md-select ng-model="selectedCatalogId" placeholder="Select Catalog" ng-disabled="disableSelectedCatalogIds">
-	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog.catalogId, catalog.name);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
+	                                          <md-option ng-repeat="catalog in catalogsAvailable" ng-click="changeSelectedCatalog(catalog);" value="{{catalog.catalogId}}">{{catalog.name}} ({{catalog.accessTypeCode == 'PB' ? 'Public' : 'Restricted'}})</md-option>
 	                                     </md-select>                         
 	                                </div> 
 	                                <div ng-show="solutionCatalogsList.length > 0">
@@ -921,9 +921,9 @@ limitations under the License.
 														ng-if="solutionCompanyDescStatus && !showDCKEditor || copiedCompanyDesc">
 														<span class="entypo-feather fa fa-check"></span>
 													</div>
-													<div class="timeline-label">
+													<div class="timeline-label" ng-style="(selectedCatalogId == undefined) ? {'pointer-events': 'none'} : {}">
 														<h2>
-															<a
+															<a ng-style="(selectedCatalogId == undefined) ? {'color':'gray'} : {}"
 																ng-click="showDCKEditor = !showDCKEditor; copiedCompanyDesc = false;
 																closeOtherPopovers( 'showDCKEditor', showDCKEditor );previousValueCompany=solutionCompanyDesc;">Model
 																Description </a> |
@@ -932,8 +932,10 @@ limitations under the License.
 																ng-if="solutionCompanyDescStatus || copiedCompanyDesc">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
 															</span> <span
-																ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc"
-																class="red">Not Started</span>
+																ng-if="!solutionCompanyDescStatus && !copiedCompanyDesc && selectedCatalogId != undefined"
+																class="red">Not Started</span> <span
+																ng-if="selectedCatalogId == undefined"
+																class="red">Select a Catalog</span>
 															
 														</h2>
 														<!-- <h1>{{solutionCompanyDesc}} ---- {{solutionCompanyDesc.length}}</h1> -->
@@ -988,7 +990,7 @@ limitations under the License.
 														<div class="timeline-version">
 															<label> Use the Description you have in Other Revisions.</label>
 															<!--  <a>View more</a> -->
-															<select ng-model="fromRevisionId"
+															<select ng-disabled="selectedCatalogId==undefined" ng-model="fromRevisionId"
 																ng-options="v.version for v in versionList">
 																<option value="">-- Version --</option>
 															</select>
@@ -1157,17 +1159,20 @@ limitations under the License.
 															<span class="entypo-feather fa fa-check"></span>
 														</div>
 													</div>
-													<div class="timeline-label">
+													<div class="timeline-label" ng-style="(selectedCatalogId == undefined) ? {'pointer-events': 'none'} : {}">
 														<h2>
-															<a ng-click="showFileUpload = !showFileUpload;solutionFile = ''; modelUploadError=false;closeOtherPopovers( 'showFileUpload', showFileUpload )"
+															<a ng-style="(selectedCatalogId == undefined) ? {'color':'gray'} : {}"
+																ng-click="showFileUpload = !showFileUpload;solutionFile = ''; modelUploadError=false;closeOtherPopovers( 'showFileUpload', showFileUpload )"
 																ng-class="{'disabled-title': company.step4}">Model
 																Documents</a> | <span class="green"
 																ng-show="showSolutionDocs && !company.step4">
 																Completed on {{solution.modified | date:'MM/dd/yyyy' }}
-															</span> <span ng-show="!showSolutionDocs && !company.step4"
+															</span> <span ng-show="!showSolutionDocs && !company.step4 && selectedCatalogId != undefined"
 																class="red">Not Started</span> <span class="green"
 																ng-if="company.step4">Completed on {{currentDate
-																| date:'MM/dd/yyyy'}}</span>
+																| date:'MM/dd/yyyy'}}</span> <span
+																ng-if="selectedCatalogId == undefined"
+																class="red">Select a Catalog</span>
 														</h2>
 														<p ng-hide="showFileUpload">Add documents (such as a
 															README file) to give more details and show how to use
@@ -1282,7 +1287,7 @@ limitations under the License.
 														<div class="timeline-version">
 															<label> Use the Documents you have for Other Revisions.</label>
 															
-															<select ng-model="sourceRevisionId" ng-change="changedDocVersion('OR', sourceRevisionId)"
+															<select ng-disabled="selectedCatalogId==undefined" ng-model="sourceRevisionId" ng-change="changedDocVersion('OR', sourceRevisionId)"
 																ng-options="v.version for v in versionList">
 																<option value="">-- Version --</option>
 															</select>
@@ -1296,7 +1301,7 @@ limitations under the License.
 														</div>
 														<div class="checkbox" ng-if="!showSolutionDocs">
 															<label> <input type="checkbox"
-																ng-disabled="company.close == true"
+																ng-disabled="company.close == true || selectedCatalogId==undefined"
 																ng-model="$parent.company.skipStep"> Skip
 															</label>
 														</div>
