@@ -21,6 +21,27 @@
 Portal Marketplace Release Notes
 ================================
 
+Version 2.2.11  06th May 2019 
+=================================
+* IST | On-boarding history| Search functionality is not working for Date & Time, Status column	ACUMOS-2653
+* <IST><Portal Marketplace> Progress tracker not displayed properly on selecting/deselecting 'Create Microservice' checkbox	ACUMOS-2799
+* IST: ONBOARD DOCKERIZED MODEL Issues	ACUMOS-2810
+* IST2: Not able to add description during the publishing of the model	ACUMOS-2821
+* Resolve few Medium Issues from Sprint5	ACUMOS-2788
+* Technical Dept  on Minor issues from Latest code drop	ACUMOS-2812
+* Portal marketplace catalog drop-down contents for authenticated user	ACUMOS-2808
+* Upgrade to CDS 2.2.2 in Portal	ACUMOS-2829
+* Top Carousel - Default Image size is showing as thumbnail on home page	ACUMOS-2529
+* IST | While deploying composite solution to azure, on click 'Deploy' button nothing happens if user navigates from design studio screen  	ACUMOS-2689
+* Portal allows unauthenticated users to fetch OR (company) models and shows JWT values	ACUMOS-2757
+* IST: Fedration: Error message going out of the box.	ACUMOS-2813
+* IST:  Adding documents and images during publishing does not allow "_" or spaces	ACUMOS-2806
+* IST: Upload button is enable while onboarding is in process.	ACUMOS-2801
+* IST: On mouse hover a white strip is displaying on  RTU Icon	ACUMOS-2814
+* On Boarding is failing when on-boarding with license.json	ACUMOS-2809
+* Portal on deploy must first show policy dialog, THEN details dialog	ACUMOS-2617
+
+
 Version 2.2.10  26th April 2019 
 =================================
 
