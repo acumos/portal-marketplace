@@ -37,6 +37,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import org.acumos.cds.client.ICommonDataServiceRestClient;
+import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.cds.domain.MLPPublishRequest;
 import org.acumos.cds.domain.MLPSolution;
 import org.acumos.cds.domain.MLPSolutionRevision;
@@ -70,8 +71,9 @@ public class PublishSolutionServiceImpl extends AbstractServiceImpl implements P
 					MLPSolutionRevision mlpSolutionRevision = dataServiceRestClient.getSolutionRevision(solutionId, revisionId);
 					if(mlpSolutionRevision != null) {
 						//Check if validation is required
+						MLPCatalog catalog = dataServiceRestClient.getCatalog(catalogId);
 						//If the request is for public then only go for admin approval. Else publish the revision.
-						if(!PortalUtils.isEmptyOrNullString(visibility) && visibility.equalsIgnoreCase(CommonConstants.PUBLIC)) {
+						if(!PortalUtils.isEmptyOrNullString(visibility) && visibility.equalsIgnoreCase(CommonConstants.PUBLIC) && (!catalog.isSelfPublish())) {
 							MLPPublishRequest publishRequest = new MLPPublishRequest();
 							publishRequest.setSolutionId(solutionId);
 							publishRequest.setRevisionId(revisionId);
