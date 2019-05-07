@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -78,12 +80,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -1668,7 +1672,7 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 	@RequestMapping(value = {
 			APINames.SOLUTIONS_PICTURE }, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public ResponseEntity<byte[]> getSolutionImage(@PathVariable("solutionId") String solutionId) {
+	public ResponseEntity<byte[]> getSolutionImage(@PathVariable("solutionId") String solutionId, @RequestHeader(value="If-Modified-Since", required=false) String ifModifiedSince) {
 		
 		solutionId = SanitizeUtils.sanitize(solutionId);
 
@@ -1680,12 +1684,18 @@ public class MarketPlaceCatalogServiceController extends AbstractController {
 				log.error(errMsg);
 				throw new AcumosServiceException(errMsg);
 			} else {
-				byte[] picture = marketPlaceService.getSolutionPicture(solutionId);
-				if (picture != null) {
-					responseVO = ResponseEntity.ok().cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
-							.body(picture);
+				Instant lastModified = marketPlaceService.getSolution(solutionId).getModified();
+				if (!PortalUtils.isEmptyOrNullString(ifModifiedSince) && Instant
+						.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(ifModifiedSince)).equals(lastModified)) {
+					responseVO = ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
 				} else {
-					responseVO = ResponseEntity.notFound().build();
+					byte[] picture = marketPlaceService.getSolutionPicture(solutionId);
+					if (picture != null) {
+						responseVO = ResponseEntity.ok().cacheControl(CacheControl.maxAge(8, TimeUnit.HOURS).cachePublic()).lastModified(lastModified.toEpochMilli())
+								.body(picture);
+					} else {
+						responseVO = ResponseEntity.notFound().build();
+					}
 				}
 			}
 		} catch (Exception e) {
