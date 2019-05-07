@@ -72,11 +72,12 @@ limitations under the License.
 					style="table-layout: fixed;">
 					<colgroup>
 						<col width="25%">
-						<col width="20%">						
-						<col width="14%">
-						<col width="16%">
-						<col width="15%">
-						<col width="10%">
+						<col width="20%">
+						<col width="12%">
+						<col width="12%">
+						<col width="12%">
+						<col width="11%">
+						<col width="6%">
 					</colgroup>
 					<thead>
 						<tr>
@@ -95,7 +96,15 @@ limitations under the License.
 								ng-if='orderByField=="publisher"'
 								ng-class="reverseSortcatalog?'ascending':'descending'"
 								class="gridcell-sort"></span>
-							</th>														
+							</th>	
+							<th
+								ng-click="orderByField='selfPublish'; reverseSortcatalog = !reverseSortcatalog">SELF-PUBLISH <span 
+								ng-if='orderByField!="selfPublish"'
+								class="gridcell-sort deactivate"></span><span
+								ng-if='orderByField=="selfPublish"'
+								ng-class="reverseSortcatalog?'ascending':'descending'"
+								class="gridcell-sort"></span>
+							</th>													
 							<th
 								ng-click="orderByField='created'; reverseSortcatalog = !reverseSortcatalog">CREATED
 								DATE <span ng-if='orderByField!="created"'
@@ -127,6 +136,7 @@ limitations under the License.
 						<tr ng-repeat="catalog in (SearchData = (allCatalogList | orderBy:orderByFieldFed:reverseSortcatalog | filter : searchtxt))">							
 							<td><span class="md-breadcrumb-item"> <a ng-click="showViewDetailsPopup(this,catalog)"> {{catalog.name}}</a> </span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.publisher}}</span></td>							
+							<td><span class="md-breadcrumb-item">{{(catalog.selfPublish) ? "Yes" : "No"}}</span></td>
 							<td><span class="md-breadcrumb-item">{{catalog.created | date :"MM/dd/yyyy" }}</span></td>
 							<td><span class="md-breadcrumb-item">
 									{{catalog.accessTypeCode == "PB" ? "Public" : "Restricted"}}</span></td>
@@ -147,7 +157,7 @@ limitations under the License.
 					</tbody>
 					<tbody ng-if="SearchData.length == 0">
 								<tr class="alert c-info text-center">
-									<td class="text-center" colspan="6"><strong>No
+									<td class="text-center" colspan="7"><strong>No
 											Result Found</strong></td>
 								</tr>
 				   </tbody>
