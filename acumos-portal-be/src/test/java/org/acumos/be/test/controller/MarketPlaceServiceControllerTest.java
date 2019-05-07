@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,8 +135,9 @@ public class MarketPlaceServiceControllerTest {
 
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
+			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
 			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(picture);
-			value = marketPlaceController.getSolutionImage(solutionId);
+			value = marketPlaceController.getSolutionImage(solutionId, null);
 			Assert.assertNotNull(value);
 			logger.info("Solution Image : " + new String(value.getBody()));
 			Assert.assertEquals(picString, new String(value.getBody()));
@@ -153,11 +155,34 @@ public class MarketPlaceServiceControllerTest {
 
 			String solutionId = mlsolution.getSolutionId();
 			Assert.assertNotNull(solutionId);
+			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
 			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(null);
-			value = marketPlaceController.getSolutionImage(solutionId);
+			value = marketPlaceController.getSolutionImage(solutionId, null);
 			Assert.assertNotNull(value);
 			logger.info("Solution Image : " + value.getStatusCode());
 			Assert.assertEquals(HttpStatus.NOT_FOUND, value.getStatusCode());
+		} catch (Exception e) {
+			logger.error("Failed to execute getSolutionImage404 testcase", e);
+		}
+	}
+	
+	@Test
+	public void getSolutionImage304Test() {
+		try {
+			MLSolution mlsolution = getMLSolution();
+			Assert.assertNotNull(mlsolution);
+			ResponseEntity<byte[]> value = null;
+
+			String solutionId = mlsolution.getSolutionId();
+			Assert.assertNotNull(solutionId);
+			
+			String ifModifiedSince = DateTimeFormatter.RFC_1123_DATE_TIME.format(mlsolution.getModified());
+			Mockito.when(service.getSolution(solutionId)).thenReturn(mlsolution);
+			Mockito.when(service.getSolutionPicture(solutionId)).thenReturn(null);
+			value = marketPlaceController.getSolutionImage(solutionId, ifModifiedSince);
+			Assert.assertNotNull(value);
+			logger.info("Solution Image : " + value.getStatusCode());
+			Assert.assertEquals(HttpStatus.NOT_MODIFIED, value.getStatusCode());
 		} catch (Exception e) {
 			logger.error("Failed to execute getSolutionImage404 testcase", e);
 		}
@@ -937,6 +962,7 @@ public class MarketPlaceServiceControllerTest {
 		mlsolution.setActive(true);
 		mlsolution.setModelType("CL");
 		mlsolution.setTookitType("DS");
+		mlsolution.setModified(Instant.now());
 		return mlsolution;
 	}
 
