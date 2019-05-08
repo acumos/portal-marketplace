@@ -109,6 +109,7 @@ angular.module('AcumosApp')
         var urlPublishOwnRequestsEnabled = "api/users/publishOwnRequestsEnabled";
         var urlJupyterUrl = 'api/users/jupyterUrl';
        
+        var urlGlobalDiscoverAcumos='api/site/content/global/discoverAcumos';
         var urlOnboardingOverviewUrl = '/api/site/content/global/onboarding/overview';
         var urlCobrandLogoUrl = "/api/site/content/global/coBrandLogo";
         var urlCarouselPictureUrl = "/api/site/content/carouselImages";
@@ -609,6 +610,9 @@ angular.module('AcumosApp')
         
         this.getOnboardingOverview = function() {
         	return $http.get(urlOnboardingOverviewUrl);
+        }
+        this.getGlobalDiscoverAcumos = function(){
+        	return $http.get(urlGlobalDiscoverAcumos);
         }
         
         this.getCobrandLogo = function() {

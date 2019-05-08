@@ -140,7 +140,8 @@ limitations under the License.
 					<div class="discover-icon">
 						<img src="images/discover_marketplace_icon.png" alt="Marketplace" title="Marketplace"/>
 					</div>
-					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentMarketPlace('marketplace')" ng-bind-html="marketplace">
+					<div class="discover-description"  ng-bind-html="daMarketPlace">
+					<!-- <div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentMarketPlace('marketplace')" ng-bind-html="marketplace">-->
 						<!-- <h5>Marketplace</h5>
 						<p>
 							{{$root.siteInstanceName}} is the go-to site for data-powered decision making. With an intuitive easy-to-search, easy-to-use catalog, Acumos brings Al to the mainstream.
@@ -153,7 +154,7 @@ limitations under the License.
 					<div class="discover-icon">
 						<img src="images/discover_design_studio_icon.png" alt="Design Studio" title="Design Studio"/>
 					</div>
-					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentDesignStudio('design-studio')" ng-bind-html="designstudion">
+					<div class="discover-description"  data-ng-init="daDesignStudio" ng-bind-html="daDesignStudio">
 						<!-- <h5>Design Studio</h5> 
 						<p>Models-as-microservices allow components to be chained to handle sophisticated problems.</p> -->
 					</div>
@@ -163,7 +164,7 @@ limitations under the License.
 					<div class="discover-icon">
 						<img src="images/discover_design_sdn.png" alt="SDN & ONAP" title="SDN & ONAP"/>
 					</div>
-					<div class="discover-description" data-ng-init="getCmsHomeScreenDiscoverContentSDNONAP('sdn--onap')" ng-bind-html="sdnonap">
+					<div class="discover-description" data-ng-init="daSdnOnap" ng-bind-html="daSdnOnap">
 						<!-- <h5>SDN & ONAP</h5> 
 						<p>Many Marketplace solutions originated in the ONAP SDN community and are configured to be directly deployed to SDC.</p> -->
 					</div>
@@ -172,7 +173,7 @@ limitations under the License.
 					<div class="discover-icon">
 						<img src="images/discover_community_icon.png" alt="Team Up" title="Team Up"/>
 					</div>
-					<div class="discover-description" data-ng-init="getCmsHomeScreenDiscoverContentTeamUP('team-up')" ng-bind-html="teamup">
+					<div class="discover-description" data-ng-init="daTeamUp" ng-bind-html="daTeamUp">
 						<!-- <h5>Team Up!</h5>
 						<p>Share, download & collaborate in an open source ecosystem of people, solutions and ideas.</p> -->
 						
@@ -183,7 +184,7 @@ limitations under the License.
 					<div class="discover-icon">
 						<img src="images/discover_onboarding_icon.png" alt="Onboard" title="Onboard" />
 					</div>
-					<div class="discover-description"  data-ng-init="getCmsHomeScreenDiscoverContentOnboard('onboarding-with-toolkit')" ng-bind-html="onboard"></div>
+					<div class="discover-description"  data-ng-init="daPreferredToolkit" ng-bind-html="daPreferredToolkit"></div>
 				</div>
 				<div class="clearfix"></div>
 			</div>
