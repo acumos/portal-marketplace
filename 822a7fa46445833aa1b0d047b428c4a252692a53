@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14ebac99_60b4c31e",
+        "filename": "schedule-maintenance/schedule-maintenance.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 220
+      },
+      "writtenOn": "2019-05-08T10:58:52Z",
+      "side": 1,
+      "message": "we need to change the wording.. it is not grammatically correct",
+      "range": {
+        "startLine": 44,
+        "startChar": 28,
+        "endLine": 45,
+        "endChar": 80
+      },
+      "revId": "822a7fa46445833aa1b0d047b428c4a252692a53",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    }
+  ]
+}
