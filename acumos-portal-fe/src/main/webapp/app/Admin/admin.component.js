@@ -1988,6 +1988,10 @@ angular.module('admin').filter('abs', function () {
                     }
                 }
             }
+            
+            $scope.deleteLogoImg = function () {
+               	$rootScope.coBrandingImage = null;
+            }
 
             //Search Data 
             $scope.searchData = function (searchValue) {
