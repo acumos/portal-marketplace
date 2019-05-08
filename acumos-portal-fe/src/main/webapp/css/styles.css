@@ -329,8 +329,6 @@ md-input-container.md-default-theme:not(.md-input-focused):not(.md-input-invalid
 .select-control label {width:100%; display: block;}
 .select-control md-select {width: 100%; margin:0;background: #fff; border: 1px solid #d5d5d5; padding-left: 5px;display: block;}
 .select-control md-select md-select-value {border: none;}
-.model-box-dropdown-height{height:35px;}
-.model-box-dropdown-error-msg{padding-left:6px;}
 /*********** form elements style end  ************/
 
 /********Modal Box Style starts***********/
@@ -879,6 +877,7 @@ hr.hor-seperator {border:none; border-bottom: 1px solid #DEDEDE;}
 .btn-grid-action {color: #0366d6;padding:0; min-width:10px;}
 .btn-grid-action i {font-size:14px !important;}
 .btn-grid-action:hover {background: none;color: #0366d6;}
+.model-details-tabwrapper > .mdl-tabs__panel{min-height:380px;}
 
 a.mdl-tabs__tab.tab5-panel {height:1px;}
 .model-details-tabwrapper .mdl-data-table.md-tbl1 tbody tr td:first-child {max-width: 350px; text-overflow: ellipsis; overflow: hidden;}
@@ -1425,8 +1424,6 @@ table tbody tr td a[title^="Remove as Self "],table tbody tr td a[title^="Mark a
 
 .admin-change-role-ddl {max-width: 170px !important;min-width: 150px !important;}
 .tbl-overflowscroll {overflow-x: scroll !important;}
-.disablecursor {cursor: not-allowed;}
-.disablecursor  a{pointer-events: none; color: #CCC}
 /*************Admin User page style End ***************/
 
 /**** Preview box style start ******/
@@ -2182,6 +2179,7 @@ label.model-name{color:#0366d6;}
 .request-approval{background-image: url(../images/dashboard/request_approval.png); background-repeat: no-repeat; background-position: center;}
 .completed .request-approval{background-image: url(../images/dashboard/request_approval_selected.png); background-repeat: no-repeat; background-position: center;}
 .btn-request{padding: 0 4px;}
+
 /****** publish request ends *******/
 
 /*** DS menu style starts */
@@ -2235,12 +2233,9 @@ label.model-name{color:#0366d6;}
 .catalog-grid-item:hover { box-shadow: 0 5px 10px rgba(0,0,0,0.15);transform:scale(1.02);transition: all 0.2s ease-in-out;position:relavtive;z-index:2000;}
 .catalog-grid-top-section {position:relative;}
 .catalog-grid-bottom-section {padding: 5px 8px;}
-.ct-item-row {display:flex; flex-direction: row; justify-content: space-between;margin-bottom: 15px; position:relative;}
-.ct-item-row .ct-lbl1{position:absolute; right:0;}
+.ct-item-row {display:flex; flex-direction: row; justify-content: space-between;margin-bottom: 15px; }
 .ct-item-row:last-child {margin-bottom: 5px;}
-.catalog-grid-item > div.ct-item-row{padding:5px 0px 0px 8px;}
-.catalog-grid-item .ct-info-container{width:27px;}
-.catalog-grid-item .ct-info-container.a-tooltip .a-tooltiptext{margin-left:-110px !important;}
+.catalog-grid-item > div.ct-item-row{padding:5px 8px;}
 
 .ct-lbl1 {padding: 0;color: #f86234;font-size: 10px; font-weight: 600;}
 .ct-lbl2 {font-size: 14px; display:block; margin-bottom: 2px; line-height: 1.2em;font-weight:600;}
