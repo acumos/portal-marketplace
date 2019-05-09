@@ -904,7 +904,7 @@ angular
   							var reqObject = {
   								"request_body" : {
   									"fieldToDirectionMap" : {
-  										"created" : "ASC"
+  										"created" : "DESC"
   									},
   									"page" : $scope.pageNumber,
   									"size" : $scope.requestResultSize
